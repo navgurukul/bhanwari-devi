@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import useStyles from "./styles";
+import useStyles from "../styles";
 
 function Login() {
   const classes = useStyles();
