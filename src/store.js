@@ -1,9 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 // import { routerMiddleware } from 'connected-react-router'
+import { getUserInitialState, userStateMiddleware } from './services/storage'
 
-import allSaga from './allSaga'
-import allReducer from './allReducer'
+import rootSaga from './rootSaga'
+import rootReducer from './rootReducer'
 // import UserStorage from './middlewares/UserStorage'
 
 const composeEnhanced =
@@ -15,17 +16,17 @@ const composeEnhanced =
 const initialStore =  () => {
   const sagaMiddleware = createSagaMiddleware()
   const store = createStore(
-    allReducer,
-    // UserStorage.initialState(),
+    rootReducer,
+    getUserInitialState(),
     composeEnhanced(
       applyMiddleware(
         sagaMiddleware,
-        // UserStorage.middleware(),
+        userStateMiddleware,
         // routerMiddleware(history)
       )
     )
   )
-  sagaMiddleware.run(allSaga)
+  sagaMiddleware.run(rootSaga)
   return store
 }
 

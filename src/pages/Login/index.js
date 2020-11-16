@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import LockOpenTwoToneIcon from "@material-ui/icons/LockOpenTwoTone";
+import GoogleLogin from 'react-google-login';
 import {
   Button,
   Card,
@@ -9,9 +11,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import useStyles from "../styles";
+import { actions as userActions } from '../../components/User/redux/action'
+
 
 function Login() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { loading } = useSelector(({User}) => User)
   const [isLogin, setLoginType] = useState(false);
   let message = (
     <span>
@@ -26,6 +32,27 @@ function Login() {
       </span>
     );
   }
+
+  function onSignIn(googleUser) {
+    console.log('google user', googleUser)
+    let profile = googleUser.getBasicProfile();
+    let { id_token: idToken } = googleUser.getAuthResponse()
+    console.log('Idtoken', idToken)
+    const googleData = {
+      id: profile.getId(),
+      name: profile.getName(),
+      imageUrl: profile.getImageUrl(),
+      email: profile.getEmail(),
+      idToken
+    }
+    // let's send the data to our backend.
+    dispatch(userActions.onUserSignin(googleData))
+  }
+
+  const onGoogleLoginFail = (errorResponse) => {
+    console.log('onGooog', errorResponse)
+  }
+
   return (
     <Grid container className={classes.root}>
       <Grid item>
@@ -35,9 +62,16 @@ function Login() {
           </CardContent>
           <CardActions className={classes.cardContent}>
             <Button className={classes.button}>
-              <Typography variant="button" className={classes.loginText}>
-                {isLogin ? "Login" : "Let's get started"}
-              </Typography>
+            {loading
+              ? 'Sending data to backend'
+              : <GoogleLogin
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                    buttonText="Login"
+                    onSuccess={onSignIn}
+                    onFailure={onGoogleLoginFail}
+                    cookiePolicy={'single_host_origin'}
+                  />
+            }
             </Button>
             <Typography className={classes.swap}>{message}</Typography>
           </CardActions>
