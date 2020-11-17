@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import LockOpenTwoToneIcon from "@material-ui/icons/LockOpenTwoTone";
 import GoogleLogin from 'react-google-login';
@@ -8,30 +8,32 @@ import {
   CardActions,
   CardContent,
   Grid,
-  Typography,
+  // Typography,
 } from "@material-ui/core";
 import useStyles from "../styles";
 import { actions as userActions } from '../../components/User/redux/action'
+import { PATHS } from '../../constant'
 
-
-function Login() {
+function Login(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { loading } = useSelector(({User}) => User)
-  const [isLogin, setLoginType] = useState(false);
-  let message = (
-    <span>
-      Already have an account?{" "}
-      <u onClick={() => setLoginType(true)}>Login here</u>
-    </span>
-  );
-  if (isLogin) {
-    message = (
-      <span>
-        New to Meraki? <u onClick={() => setLoginType(false)}>Sign Up here</u>
-      </span>
-    );
-  }
+  const { loading, data: { isAuthenticated } } = useSelector(({User}) => User)
+  if(isAuthenticated) window.location.assign(PATHS.ADD_CLASS)
+  // const [isLogin, setLoginType] = useState(false);
+  // console.log('setting datea')
+  // let message = (
+  //   <span>
+  //     Already have an account?{" "}
+  //     <u onClick={() => setLoginType(true)}>Login here</u>
+  //   </span>
+  // );
+  // if (isLogin) {
+  //   message = (
+  //     <span>
+  //       New to Meraki? <u onClick={() => setLoginType(false)}>Sign Up here</u>
+  //     </span>
+  //   );
+  // }
 
   function onSignIn(googleUser) {
     console.log('google user', googleUser)
@@ -73,7 +75,7 @@ function Login() {
                   />
             }
             </Button>
-            <Typography className={classes.swap}>{message}</Typography>
+            {/* <Typography className={classes.swap}>{message}</Typography> */}
           </CardActions>
         </Card>
       </Grid>
