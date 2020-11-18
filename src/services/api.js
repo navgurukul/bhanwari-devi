@@ -21,7 +21,7 @@ export const HeaderFactory = (tokens) => {
   }
   const customHeaders = {
     'Content-Type': 'application/json',
-    // 'x-api-key': process.env.REACT_APP_ONBOARDING_API_KEY
+    // 'x-api-key': process.env.REACT_APP_TEST_API_KEY
   }
   const idToken = get(tokens, 'idToken.jwtToken')
   if(idToken) {
