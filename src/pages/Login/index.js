@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import LockOpenTwoToneIcon from "@material-ui/icons/LockOpenTwoTone";
 import GoogleLogin from 'react-google-login';
 import {
@@ -17,7 +17,9 @@ import { PATHS } from '../../constant'
 function Login(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { loading, data: { isAuthenticated } } = useSelector(({User}) => User)
+  const { loading, data } = useSelector(({User}) => User)
+  const isAuthenticated = data && data.isAuthenticated
+  //TODO: if authenticated redirect to home page
   if(isAuthenticated) window.location.assign(PATHS.ADD_CLASS)
   // const [isLogin, setLoginType] = useState(false);
   // console.log('setting datea')
@@ -36,10 +38,8 @@ function Login(props) {
   // }
 
   function onSignIn(googleUser) {
-    console.log('google user', googleUser)
     let profile = googleUser.getBasicProfile();
     let { id_token: idToken } = googleUser.getAuthResponse()
-    console.log('Idtoken', idToken)
     const googleData = {
       id: profile.getId(),
       name: profile.getName(),

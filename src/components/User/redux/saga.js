@@ -7,9 +7,7 @@ import { sendGoogleUserData } from './api'
  * @param {object} payload
 */
 function* handleGoogleUserData({ data }) {
-  console.log('data', data)
   const res = yield call( sendGoogleUserData, data)
-  console.log('res', res)
   if(res.status === 200) {
     const mappedUserData = {...res.data, isAuthenticated: true}
     yield put(actions.onUserSigninResolved(mappedUserData))

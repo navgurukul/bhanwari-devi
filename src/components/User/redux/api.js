@@ -10,7 +10,6 @@ import { METHODS, HeaderFactory } from '../../../services/api'
  * @returns {Promise}
  */
 export const sendGoogleUserData = (userData, tokens) => {
-  console.log('data before api call', userData)
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/users/auth/google`,
     method: METHODS.POST,
