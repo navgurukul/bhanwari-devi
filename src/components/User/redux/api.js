@@ -2,9 +2,9 @@ import axios from 'axios'
 import { METHODS, HeaderFactory } from '../../../services/api'
 
 /**
- * get store list for a chain or restaurant
+ * Sends google id-token to meraki back-end to register the user.
  *
- * @param {number} restaurantId
+ * @param {userData} mapped information for google user after signin with google
  * @param {object} opts
  *
  * @returns {Promise}
