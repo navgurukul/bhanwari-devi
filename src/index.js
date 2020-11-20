@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import initialStore from './store.js'
 
@@ -16,9 +17,11 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={initialStore()}>
-      <App />
-    </Provider>
+      <Provider store={initialStore()}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+      </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

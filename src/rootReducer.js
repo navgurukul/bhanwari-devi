@@ -5,6 +5,7 @@ import { createBrowserHistory } from 'history'
 import { types as appTypes } from './components/App/action'
 
 import AddClass from './components/AddClass/redux/reducer'
+import User from './components/User/redux/reducer'
 
 // import User from './User'
 // import Notifications from './Notifications'
@@ -12,7 +13,7 @@ import AddClass from './components/AddClass/redux/reducer'
 export const history = createBrowserHistory()
 
 const appReducer = combineReducers({
-  // User,
+  User,
   // Notifications,
   AddClass,
   router: connectRouter(history),
