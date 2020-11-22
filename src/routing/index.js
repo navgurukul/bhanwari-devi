@@ -6,7 +6,7 @@ import { PrivateRoute } from './Routes'
 import { PATHS } from '../constant'
 
 import Login from '../pages/Login'
-import AddClass from '../pages/AddClass'
+import CreateClass from '../pages/CreateClass'
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -27,8 +27,8 @@ const Routing = () => {
       />*/}
       <PrivateRoute
         exact
-        path={ PATHS.ADD_CLASS}
-        component={ AddClass }
+        path={ PATHS.CLASS}
+        component={ CreateClass }
       /> 
     </>
   )

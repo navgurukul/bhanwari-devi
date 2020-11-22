@@ -4,15 +4,15 @@ import { types, actions } from './action'
 
 
 /**
- * Handles adding a new class.
+ * Handles creating a new class.
  * @param {object} payload
 */
-function* handleAddClass({ data }) {
-  yield put(actions.getAddClassResolved('Adding data with saga'))
+function* handleCreateClass({ data }) {
+  yield put(actions.getCreateClassResolved('Adding data with saga'))
   
 }
 
 
 export default function* () {
-  yield takeLatest(types.GET_ADD_CLASS_INTENT, handleAddClass)
+  yield takeLatest(types.GET_CREATE_CLASS_INTENT, handleCreateClass)
 }

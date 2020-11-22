@@ -26,6 +26,8 @@ export const authorizedRequest = function* (fn, data, retryOnFail = true) {
   }
   try {
     let response = yield call(fn, data, token)
+    // TODO: check if token needs to be refreshed by checking some particular code.
+    // response = yield refreshToken(fn, data, token)
     if (httpStatuses.SUCCESS.includes(response.status)) {
       return response
     } else if (httpStatuses.OPERATION_FAILED.includes(response.status)){
