@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 /**
  * Common HTTP Methods used
  */
@@ -14,18 +13,15 @@ export const METHODS = {
  * Generate the headers needed for the requests
  * @param {String} token - Token used on Authentication
  */
-export const HeaderFactory = (tokens) => {
+export const HeaderFactory = (token) => {
   const headers = new Headers()
-  if (!tokens) {
+  if (!token) {
     return headers
   }
   const customHeaders = {
     'Content-Type': 'application/json',
+    'Authorization': token,
     // 'x-api-key': process.env.REACT_APP_TEST_API_KEY
-  }
-  const idToken = get(tokens, 'idToken.jwtToken')
-  if(idToken) {
-    customHeaders['Authorization'] = `Bearer ${idToken}`
   }
   return customHeaders
 }

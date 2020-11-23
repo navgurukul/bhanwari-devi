@@ -1,11 +1,18 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 
 import InputField from '../common/FormComponent/InputField'
 
 import { CLASS_FORM_FIELDS } from './constant'
+import { actions } from './redux/action'
 import './styles.scss'
 
-
+const CREATE_CLASS_ROLES = new Set([ 
+  'classAdmin',
+  'admissionIncharge',
+  'facha',
+  'dumbeldore'
+])
 
 const SelectOptions = () => {
   // link for select box documentation. 
@@ -32,22 +39,34 @@ const SelectOptions = () => {
 
 
 function Class() {
+  const dispatch = useDispatch();
+  const { loading } = useSelector(({Class}) => Class)
+  const { user : { rolesList = [] } } = useSelector(({User}) => User.data)
+  // TODO: move access management in routing.
+  const doesHaveCreateClassAccess = rolesList.find((role) => CREATE_CLASS_ROLES.has(role))
+  if(!doesHaveCreateClassAccess){
+    return <div> Does not have permission to create classes.</div>
+  }
 
   const onFormSubmit = (event) => {
     event && event.preventDefault()
     const formData = new FormData(event.target);
     const payload = {}
-    for (let [fieldName, value] of formData.entries()) { 
-      payload[fieldName] = value
+    for (let [fieldName, value] of formData.entries()) {
+      // Only going to take the field in payload if the 
+      // input field is not empty.
+      if(value) {
+        payload[fieldName] = value
+      }
     }
     const classStartTime = new Date(payload['start_time']).getTime()
     const classEndTime = new Date(payload['end_time']).getTime()
     if(classStartTime > classEndTime) {
-      alert('Please select class end date after the class start date.')
+      alert('Class end date must be later than class start date.')
       // Making the class end time field focused, so user can edit it.
       return document.getElementById('end_time').focus()
     }
-    console.log('payload', payload)
+    dispatch(actions.createClass(payload))
   }
 
   return (
@@ -55,7 +74,9 @@ function Class() {
       <h2 className='title'> Create A Class </h2>
       <form className='form' onSubmit={onFormSubmit}>
         {CLASS_FORM_FIELDS.map((field, index) => <InputField {...field} key={index}/> )}
-        <button type='submit' className='submit'>CREATE CLASS </button>
+        <button type='submit' className='submit' disabled={loading}>
+          { loading ? '...' : 'CREATE CLASS' } 
+        </button>
       </form>
       <SelectOptions />
     </div>

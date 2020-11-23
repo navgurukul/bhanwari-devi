@@ -5,19 +5,19 @@ export const types = {
 }
 
 export const actions = {
-  getCreateClass(data) {
+  createClass(data) {
     return {
       type: types.GET_CREATE_CLASS_INTENT,
       data,
     }
   },
-  getCreateClassResolved(data) {
+  createClassResolved(data) {
     return {
       type: types.GET_CREATE_CLASS_INTENT_RESOLVED,
       data,
     }
   },
-  getCreateClassRejected(error) {
+  createClassRejected(error) {
     return {
       type: types.GET_CREATE_CLASS_INTENT_REJECTED,
       error,

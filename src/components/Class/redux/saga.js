@@ -1,6 +1,7 @@
-import { takeLatest, put } from 'redux-saga/effects'
+import { takeLatest, put, call} from 'redux-saga/effects'
 import { types, actions } from './action'
-// import { authorizedRequest } from './Auth'
+import { authorizeRequest, httpStatuses } from '../../../services/auth'
+import { createClass } from './api'
 
 
 /**
@@ -8,8 +9,14 @@ import { types, actions } from './action'
  * @param {object} payload
 */
 function* handleCreateClass({ data }) {
-  yield put(actions.getCreateClassResolved('Adding data with saga'))
-  
+  const classCreateResponse = yield call(authorizeRequest, createClass, data)
+  if(classCreateResponse && httpStatuses.SUCCESS.includes(classCreateResponse.status)){
+    yield put(actions.createClassResolved(classCreateResponse.data))
+    alert('You successfully created a class.')
+  } else {
+    yield put(actions.createClassRejected(classCreateResponse))
+    alert(`Something went wrong with error status: ${classCreateResponse.status} ${classCreateResponse.message}`)
+  }
 }
 
 

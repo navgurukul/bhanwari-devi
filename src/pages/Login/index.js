@@ -52,7 +52,7 @@ function Login(props) {
   }
 
   const onGoogleLoginFail = (errorResponse) => {
-    console.log('onGooog', errorResponse)
+    console.log('onGoogle login fail', errorResponse)
   }
 
   return (
