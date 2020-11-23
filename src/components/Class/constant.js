@@ -34,6 +34,7 @@ export const CLASS_FORM_FIELDS = [
   {
     //"end_time": "2020-11-22",
     name: 'end_time',
+    id: 'end_time',
     label: 'End Date*',
     type: 'date',
     inputClassName: 'small-text',

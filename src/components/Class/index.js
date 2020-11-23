@@ -36,11 +36,18 @@ function Class() {
   const onFormSubmit = (event) => {
     event && event.preventDefault()
     const formData = new FormData(event.target);
-    const payLoad = {}
+    const payload = {}
     for (let [fieldName, value] of formData.entries()) { 
-      payLoad[fieldName] = value
-     }
-    console.log('payload', payLoad)
+      payload[fieldName] = value
+    }
+    const classStartTime = new Date(payload['start_time']).getTime()
+    const classEndTime = new Date(payload['end_time']).getTime()
+    if(classStartTime > classEndTime) {
+      alert('Please select class end date after the class start date.')
+      // Making the class end time field focused, so user can edit it.
+      return document.getElementById('end_time').focus()
+    }
+    console.log('payload', payload)
   }
 
   return (
