@@ -12,6 +12,7 @@
     "axios": "^0.21.0",
     "connected-react-router": "^6.8.0",
     "history": "^5.0.0",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.22",

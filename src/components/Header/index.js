@@ -1,18 +1,57 @@
 import React from "react";
-import Login from '../../pages/Login';
-import { Helmet } from "react-helmet";
+import { useSelector, useDispatch } from 'react-redux';
 
+import { PATHS } from '../../constant'
+import { actions as userActions } from '../User/redux/action'
+
+import './styles.scss'
+
+
+const AuthenticatedHeaderOption = () => {
+  const dispatch = useDispatch()
+  return (
+    <>
+      <a
+        className='link'
+        href={PATHS.CLASS}
+        >
+        Classes
+      </a>
+      <div
+        className='logout'
+        onClick={ () => dispatch(userActions.logout())
+        }>
+        Logout
+      </div>
+    </>
+  )
+}
+
+
+const PublicMenuOption = () => {
+  return (
+    <a
+      className='login'
+      href={PATHS.LOGIN}
+      >
+      Login/Signup
+    </a>
+  )
+}
 
 
 function Header() {
+  const { data } = useSelector(({User}) => User)
+  const isAuthenticated = data && data.isAuthenticated
+
   return (
-    <div>
-      <Helmet>
-        {/* // Add script tags or any meta tag here. below commented lines are just an example on how to do it.   */}
-        {/* <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <meta name="google-signin-client_id" content={process.env.REACT_APP_GOOGLE_CLIENT_ID}></meta> */}
-      </Helmet>
-      <Login />
+    <div className='ng-header'>
+      <div className='option'>
+        { isAuthenticated
+          ? <AuthenticatedHeaderOption />
+          : <PublicMenuOption />
+        }
+      </div>
     </div>
   );
 }

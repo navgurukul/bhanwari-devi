@@ -1,0 +1,57 @@
+.ng-header {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: flex-end;
+
+  .option {
+    padding: 16px 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .link {
+    width: 128px;
+    height: 42px;
+    color: #83B344;
+    border-radius: 16px;
+    font-size: 18px;
+    line-height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .logout {
+    width: 108px;
+    height: 42px;
+    background-color: #D55F31;
+    color: #ffffff;
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .login {
+    width: 148px;
+    height: 42px;
+    background-color: #83B344;
+    color: #ffffff;
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
