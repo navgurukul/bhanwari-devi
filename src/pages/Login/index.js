@@ -13,7 +13,9 @@ function Login(props) {
   const isAuthenticated = data && data.isAuthenticated
   //TODO: if authenticated, redirect to home page
   // right now it goes to classes page.
-  if(isAuthenticated) return window.location.assign(PATHS.CLASS)
+  if(isAuthenticated) {
+    return window.location = PATHS.CLASS
+  }
 
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
