@@ -1,4 +1,11 @@
 
+export const TIME_CONSTANT = {
+  CLASS_START_DATE: 'start_time',
+  CLASS_END_DATE: 'end_time',
+  CLASS_START_TIME: 'class_start_time',
+  CLASS_END_TIME: 'class_end_time',
+}
+
 export const CLASS_FORM_FIELDS = [
   {
     id: 'title',
@@ -25,35 +32,27 @@ export const CLASS_FORM_FIELDS = [
   },
   {
     // "start_time": "2020-11-22",
-    name: 'start_time',
-    label: 'start Date*',
+    name: TIME_CONSTANT.CLASS_START_DATE,
+    label: 'Start Date*',
     type: 'date',
     inputClassName: 'small-text',
     required: true,
   },
   {
-    //"end_time": "2020-11-22",
-    name: 'end_time',
-    id: 'end_time',
-    label: 'End Date*',
-    type: 'date',
+    name: TIME_CONSTANT.CLASS_START_TIME,
+    id: TIME_CONSTANT.CLASS_START_TIME,
+    label: 'Start Time*',
+    type: 'time',
     inputClassName: 'small-text',
     required: true,
   },
   {
-    name: 'video_id',
-    label: 'Youtube Video Id',
-  },
-
-  {
-    name: 'exercise_id',
-    label: 'Exercise Id',
+    name: TIME_CONSTANT.CLASS_END_TIME,
+    id: TIME_CONSTANT.CLASS_END_TIME,
+    label: 'End Time*',
+    type: 'time',
     inputClassName: 'small-text',
-  },
-  {
-    name: 'course_id',
-    label: 'Course Id',
-    inputClassName: 'small-text',
+    required: true,
   },
   {
     name: 'category_id',
@@ -79,4 +78,18 @@ export const CLASS_FORM_FIELDS = [
     inputClassName: 'small-text',
     required: true,
   },  
+  {
+    name: 'video_id',
+    label: 'Youtube Video Id',
+  },
+  {
+    name: 'exercise_id',
+    label: 'Exercise Id',
+    inputClassName: 'small-text',
+  },
+  {
+    name: 'course_id',
+    label: 'Course Id',
+    inputClassName: 'small-text',
+  },
 ]
