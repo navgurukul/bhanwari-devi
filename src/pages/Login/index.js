@@ -14,7 +14,7 @@ function Login(props) {
   //TODO: if authenticated, redirect to home page
   // right now it goes to classes page.
   if(isAuthenticated) {
-    return window.location = PATHS.CLASS
+    return window.location.pathname = PATHS.CLASS
   }
 
   function onSignIn(googleUser) {
