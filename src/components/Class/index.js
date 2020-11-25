@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 
 import InputField from '../common/FormComponent/InputField'
 
-import { CLASS_FORM_FIELDS } from './constant'
+import { TIME_CONSTANT, CLASS_FORM_FIELDS } from './constant'
 import { actions } from './redux/action'
 import './styles.scss'
 
@@ -15,8 +16,6 @@ const CREATE_CLASS_ROLES = new Set([
 ])
 
 const SelectOptions = () => {
-  // link for select box documentation. 
-  // https://stackoverflow.com/questions/5650457/html-select-form-with-option-to-enter-custom-value
   return (
     <>
     {/* Select box data items. HTML 5 way to render select box */}
@@ -48,25 +47,34 @@ function Class() {
     return <div> Does not have permission to create classes.</div>
   }
 
+  const handleTimeValicationAndCreateClass = (payload) => {
+    const classStartTime = moment(`${payload[TIME_CONSTANT.CLASS_START_DATE]} ${payload[TIME_CONSTANT.CLASS_START_TIME]}`)
+    const classEndTime = moment(`${payload[TIME_CONSTANT.CLASS_START_DATE]} ${payload[TIME_CONSTANT.CLASS_END_TIME]}`)
+    if(classStartTime.valueOf() > classEndTime.valueOf()) {
+      alert('Class end time must be later than class start time.')
+      // Making the class end time field focused, so user can edit it.
+      return document.getElementById(TIME_CONSTANT.CLASS_END_TIME).focus()
+    }
+    // remove the unnecessary time fields and add date parameter
+    delete payload[TIME_CONSTANT.CLASS_END_TIME]
+    delete payload[TIME_CONSTANT.CLASS_START_TIME]
+    payload[TIME_CONSTANT.CLASS_START_DATE] = `${moment(classStartTime).format("YYYY-MM-DDTHH:mm:ss")}Z`
+    payload[TIME_CONSTANT.CLASS_END_DATE] = `${moment(classEndTime).format("YYYY-MM-DDTHH:mm:ss")}Z`
+    dispatch(actions.createClass(payload))
+  }
+
   const onFormSubmit = (event) => {
     event && event.preventDefault()
     const formData = new FormData(event.target);
-    const payload = {}
+    const formFields = {}
     for (let [fieldName, value] of formData.entries()) {
       // Only going to take the field in payload if the 
       // input field is not empty.
       if(value) {
-        payload[fieldName] = value
+        formFields[fieldName] = value
       }
     }
-    const classStartTime = new Date(payload['start_time']).getTime()
-    const classEndTime = new Date(payload['end_time']).getTime()
-    if(classStartTime > classEndTime) {
-      alert('Class end date must be later than class start date.')
-      // Making the class end time field focused, so user can edit it.
-      return document.getElementById('end_time').focus()
-    }
-    dispatch(actions.createClass(payload))
+    handleTimeValicationAndCreateClass(formFields)
   }
 
   return (
