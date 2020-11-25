@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router'
 import GoogleLogin from 'react-google-login';
 import { actions as userActions } from '../../components/User/redux/action'
 import { PATHS } from '../../constant'
@@ -11,11 +12,6 @@ function Login(props) {
   const dispatch = useDispatch();
   const { loading, data } = useSelector(({User}) => User)
   const isAuthenticated = data && data.isAuthenticated
-  //TODO: if authenticated, redirect to home page
-  // right now it goes to classes page.
-  if(isAuthenticated) {
-    return window.location.pathname = PATHS.CLASS
-  }
 
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
@@ -34,7 +30,9 @@ function Login(props) {
   const onGoogleLoginFail = (errorResponse) => {
     console.log('onGoogle login fail', errorResponse)
   }
-
+  if(isAuthenticated) {
+    return <Redirect to={PATHS.CLASS} />
+  }
   return (
     <div className='ng-login'>
       <div className='logo' />

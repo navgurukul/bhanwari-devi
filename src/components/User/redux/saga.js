@@ -13,7 +13,6 @@ function* handleGoogleUserData({ data }) {
   if(res.status === 200) {
     const mappedUserData = {...res.data, isAuthenticated: true}
     yield put(actions.onUserSigninResolved(mappedUserData))
-    yield window.location.pathname = PATHS.CLASS
   } else {
     yield put(actions.onUserSigninRejected(res))
   } 
