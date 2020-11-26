@@ -1,6 +1,7 @@
 import { takeLatest, put, call} from 'redux-saga/effects'
 import { types, actions } from './action'
 import { authorizeRequest, httpStatuses } from '../../../services/auth'
+import { mapCourses } from './service.js'
 import { getCourses } from './api'
 
 
@@ -11,8 +12,8 @@ import { getCourses } from './api'
 function* handleGetCourses({ data }) {
   const coursesResponse = yield call(authorizeRequest, getCourses, data)
   if(coursesResponse && httpStatuses.SUCCESS.includes(coursesResponse.status)){
-    yield put(actions.getCoursesResolved(coursesResponse.data))
-    alert('You successfully created a class.')
+    const mappedCourses = mapCourses(coursesResponse.data.allCourses)
+    yield put(actions.getCoursesResolved(mappedCourses))
   } else {
     yield put(actions.getCoursesRejected(coursesResponse))
     alert(`Something went wrong with error status: ${coursesResponse.status} ${coursesResponse.message}`)
