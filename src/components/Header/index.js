@@ -13,6 +13,12 @@ const AuthenticatedHeaderOption = () => {
     <>
       <a
         className='link'
+        href={PATHS.COURSE}
+        >
+        Courses
+      </a>
+      <a
+        className='link'
         href={PATHS.CLASS}
         >
         Classes

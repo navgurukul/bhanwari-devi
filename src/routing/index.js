@@ -7,6 +7,7 @@ import { PATHS } from '../constant'
 
 import Login from '../pages/Login'
 import CreateClass from '../pages/CreateClass'
+import Course from '../pages/Course'
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -29,6 +30,11 @@ const Routing = () => {
         exact
         path={ PATHS.CLASS}
         component={ CreateClass }
+      /> 
+      <PrivateRoute
+        exact
+        path={ PATHS.COURSE}
+        component={ Course }
       /> 
     </>
   )

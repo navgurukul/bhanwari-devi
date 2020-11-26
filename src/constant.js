@@ -1,7 +1,8 @@
 export const AUTH_KEY = '__AUTH__'
 
 export const PATHS = {
-  HOME_PATH: '/',
+  HOME_PATH: '/login',
   LOGIN: '/login',
-  CLASS: '/class'
+  CLASS: '/class',
+  COURSE: '/course'
 }
