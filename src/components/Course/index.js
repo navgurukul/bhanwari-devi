@@ -6,7 +6,6 @@ import CourseCard  from './CourseCard'
 import './styles.scss'
 
 
-
 function Course() {
   const dispatch = useDispatch()
   const { loading, data  } = useSelector(({ Course }) => Course)
