@@ -1,7 +1,7 @@
 import { takeLatest, put, call} from 'redux-saga/effects'
 import { types, actions } from './action'
 import { authorizeRequest, httpStatuses } from '../../../services/auth'
-import { mapCourses } from './service.js'
+import { mapCourses } from './util.js'
 import { getCourses } from './api'
 
 
@@ -12,7 +12,7 @@ import { getCourses } from './api'
 function* handleGetCourses({ data }) {
   const coursesResponse = yield call(authorizeRequest, getCourses, data)
   if(coursesResponse && httpStatuses.SUCCESS.includes(coursesResponse.status)){
-    const mappedCourses = mapCourses(coursesResponse.data.allCourses)
+    const mappedCourses = mapCourses(coursesResponse.data)
     yield put(actions.getCoursesResolved(mappedCourses))
   } else {
     yield put(actions.getCoursesRejected(coursesResponse))

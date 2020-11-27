@@ -1,0 +1,12 @@
+.ng-course-list {
+  width: 80%;
+  margin-bottom: 36px;
+
+  >.cards {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}

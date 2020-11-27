@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import get from 'lodash/get'
 
 import { actions as courseActions } from './redux/action'
-import CourseCard  from './CourseCard'
+import CourseList  from './CourseList'
+import Loader from '../common/Loader'
 import './styles.scss'
 
 
@@ -15,15 +17,19 @@ function Course() {
   }, [dispatch])
 
   if(loading) {
-    return <div>...</div>
+    return <Loader pageLoader={true} />
   }
 
   return (
     <div className='ng-course'>
-      <h2>Aap yeh courses mein enroll kar skte hai</h2>
-      <div className='cards'>
-        { Boolean(data) && data.map(course => <CourseCard course={course}/>) }
-      </div>
+      <CourseList
+        list = {get(data, 'enrolledCourses')}
+        title = 'Enrolled Courses(Aap yeh courses mein enrolled hai)'
+      />
+      <CourseList
+        list = {get(data, 'allCourses')}
+        title = 'All Courses(Aap yeh courses mein enroll kar skte hai)'
+      />
     </div>
   )
 }
