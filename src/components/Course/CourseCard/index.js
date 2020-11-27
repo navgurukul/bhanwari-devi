@@ -5,7 +5,6 @@ import { PATHS } from '../../../constant.js'
 import './styles.scss'
 
 
-
 function CourseCard(props) {
   const { course } = props
 
