@@ -6,6 +6,7 @@ import InputField from '../common/FormComponent/InputField'
 
 import { TIME_CONSTANT, CLASS_FORM_FIELDS } from './constant'
 import { actions } from './redux/action'
+import Loader from '../common/Loader'
 import './styles.scss'
 
 const CREATE_CLASS_ROLES = new Set([ 
@@ -79,6 +80,7 @@ function Class() {
 
   return (
     <div className='ng-create-class'>
+      { loading && <Loader pageLoader={true} /> }
       <h2 className='title'> Create A Class </h2>
       <form className='form' onSubmit={onFormSubmit}>
         {CLASS_FORM_FIELDS.map((field, index) => <InputField {...field} key={index}/> )}

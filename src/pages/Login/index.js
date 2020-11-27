@@ -30,9 +30,11 @@ function Login(props) {
   const onGoogleLoginFail = (errorResponse) => {
     console.log('onGoogle login fail', errorResponse)
   }
+
   if(isAuthenticated) {
-    return <Redirect to={PATHS.CLASS} />
+    return <Redirect to={PATHS.COURSE} />
   }
+
   return (
     <div className='ng-login'>
       <div className='logo' />

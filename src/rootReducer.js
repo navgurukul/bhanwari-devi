@@ -2,12 +2,11 @@ import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
 
-import { types as appTypes } from './components/App/action'
-
-import Class from './components/Class/redux/reducer'
+import { types as appTypes } from './components/App/redux/action'
 import User from './components/User/redux/reducer'
+import Class from './components/Class/redux/reducer'
+import Course from './components/Course/redux/reducer'
 
-// import User from './User'
 // import Notifications from './Notifications'
 
 export const history = createBrowserHistory()
@@ -16,6 +15,7 @@ const appReducer = combineReducers({
   User,
   // Notifications,
   Class,
+  Course,
   router: connectRouter(history),
 })
 

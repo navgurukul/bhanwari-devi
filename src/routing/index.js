@@ -7,12 +7,19 @@ import { PATHS } from '../constant'
 
 import Login from '../pages/Login'
 import CreateClass from '../pages/CreateClass'
+import Course from '../pages/Course'
 // import Classes from '../pages/classes'
 
 const Routing = () => {
   return (
     <>
       {/* Public routes */}
+      {/* Route home page to login in  */}
+      <Route
+        exact
+        path={ PATHS.HOME_PATH }
+        component={ Course }
+      />
       <Route
         exact
         path={ PATHS.LOGIN }
@@ -29,6 +36,11 @@ const Routing = () => {
         exact
         path={ PATHS.CLASS}
         component={ CreateClass }
+      /> 
+      <PrivateRoute
+        exact
+        path={ PATHS.COURSE}
+        component={ Course }
       /> 
     </>
   )
