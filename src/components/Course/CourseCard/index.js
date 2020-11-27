@@ -12,7 +12,7 @@ function CourseCard(props) {
   return (
     <a className='ng-course-card' href={`${PATHS.COURSE}/${course.id}`}>
       <img src={course.logo} alt={course.name} className='logo'/>
-      <div className='description'>{course.description}</div>
+      <div className='title'>{course.name}</div>
     </a>
   )
 }

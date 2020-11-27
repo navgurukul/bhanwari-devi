@@ -32,7 +32,7 @@ function Login(props) {
   }
 
   if(isAuthenticated) {
-    return <Redirect to={PATHS.CLASS} />
+    return <Redirect to={PATHS.COURSE} />
   }
 
   return (

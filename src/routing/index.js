@@ -14,6 +14,12 @@ const Routing = () => {
   return (
     <>
       {/* Public routes */}
+      {/* Route home page to login in  */}
+      <Route
+        exact
+        path={ PATHS.HOME_PATH }
+        component={ Course }
+      />
       <Route
         exact
         path={ PATHS.LOGIN }
