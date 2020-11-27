@@ -11,7 +11,7 @@ const CourseList = ({list, title}) => {
       <div className='ng-course-list'>
         <h2>{title}</h2>
         <div className='cards'>
-          { list.map(course => <CourseCard course={course}/>) }
+          { list.map((course, index) => <CourseCard course={course} key={index}/>) }
         </div>
       </div>
     )

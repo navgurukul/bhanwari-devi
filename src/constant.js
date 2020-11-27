@@ -4,5 +4,6 @@ export const PATHS = {
   HOME_PATH: '/',
   LOGIN: '/login',
   CLASS: '/class',
-  COURSE: '/course'
+  COURSE: '/course',
+  COURSE_CONTENT: '/course/:courseId'
 }

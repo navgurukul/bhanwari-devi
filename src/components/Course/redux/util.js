@@ -22,3 +22,7 @@ export const mapCourses = (courses) => {
     allCourses
   }
 } 
+
+export const mapCourseContent = (courseContent) => {
+  return courseContent
+}

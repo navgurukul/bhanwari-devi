@@ -8,6 +8,7 @@ import { PATHS } from '../constant'
 import Login from '../pages/Login'
 import CreateClass from '../pages/CreateClass'
 import Course from '../pages/Course'
+import CourseContent from '../pages/CourseContent'
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -41,6 +42,11 @@ const Routing = () => {
         exact
         path={ PATHS.COURSE}
         component={ Course }
+      /> 
+      <PrivateRoute
+        exact
+        path={ PATHS.COURSE_CONTENT}
+        component={ CourseContent }
       /> 
     </>
   )
