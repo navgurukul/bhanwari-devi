@@ -5,8 +5,11 @@ export const types = {
 
   GET_COURSE_CONTENT_INTENT: 'GET_COURSE_CONTENT_INTENT',
   GET_COURSE_CONTENT_INTENT_RESOLVED: 'GET_COURSE_CONTENT_INTENT_RESOLVED',
-  GET_COURSE_CONTENT_INTENT_REJECTED: 'GET_COURSE_CONTENT_INTENT_REJECTED'
+  GET_COURSE_CONTENT_INTENT_REJECTED: 'GET_COURSE_CONTENT_INTENT_REJECTED',
 
+  GET_EXERCISE_CONTENT_INTENT: 'GET_EXERCISE_CONTENT_INTENT',
+  GET_EXERCISE_CONTENT_INTENT_RESOLVED: 'GET_EXERCISE_CONTENT_INTENT_RESOLVED',
+  GET_EXERCISE_CONTENT_INTENT_REJECTED: 'GET_EXERCISE_CONTENT_INTENT_REJECTED'
 }
 
 export const actions = {
@@ -47,4 +50,24 @@ export const actions = {
       error,
     }
   },
+
+  getExerciseContent(data) {
+    return {
+      type: types.GET_EXERCISE_CONTENT_INTENT,
+      data,
+    }
+  },
+  getExerciseContentResolved(data) {
+    return {
+      type: types.GET_EXERCISE_CONTENT_INTENT_RESOLVED,
+      data,
+    }
+  },
+  getExerciseContentRejected(error) {
+    return {
+      type: types.GET_EXERCISE_CONTENT_INTENT_REJECTED,
+      error,
+    }
+  },
+
 }

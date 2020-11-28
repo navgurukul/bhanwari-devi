@@ -17,8 +17,9 @@ export const getCourses = (data, token) => {
   })
 }
 
+
 /**
- * end-point to get all the courses
+ * end-point to get content of a course
  *
  * @param {data} object payload
  * @param {String} data.courseId
@@ -27,10 +28,28 @@ export const getCourses = (data, token) => {
  * @returns {Promise}
  */
 export const getCourseContent = (data, token) => {
-  console.log('data', data)
   const { courseId } = data
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+    method: METHODS.GET,
+    headers: HeaderFactory(token),
+  })
+}
+
+
+/**
+ * end-point to get content of a exercise
+ *
+ * @param {data} object payload
+ * @param {String} data.slug
+ * @param {object} opts
+ *
+ * @returns {Promise}
+ */
+export const getExerciseContent = (data, token) => {
+  const { slug } = data
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/exercises/getBySlug?slug=${slug}`,
     method: METHODS.GET,
     headers: HeaderFactory(token),
   })

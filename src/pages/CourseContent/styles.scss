@@ -1,0 +1,17 @@
+.ng-course-content {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+
+  >.content {
+    width: 100%
+  }
+
+  >.content >.arrow-row {
+    padding: 32px 32px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+  }
+}

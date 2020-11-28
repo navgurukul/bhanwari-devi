@@ -1,8 +1,8 @@
 import { takeLatest, put, call} from 'redux-saga/effects'
 import { types, actions } from './action'
 import { authorizeRequest, httpStatuses } from '../../../services/auth'
-import { mapCourses, mapCourseContent } from './util.js'
-import { getCourses, getCourseContent } from './api'
+import { mapCourses, mapCourseContent, mapExerciseContent } from './util.js'
+import { getCourses, getCourseContent, getExerciseContent } from './api'
 
 
 /**
@@ -35,8 +35,24 @@ function* handleGetCourseContent({ data }) {
   }
 }
 
+/**
+ * Handle getting exercise
+ * @param {object} payload
+*/
+function* handleGetExerciseContent({ data }) {
+  const exerciseResponse = yield call(authorizeRequest, getExerciseContent, data)
+  if(exerciseResponse && httpStatuses.SUCCESS.includes(exerciseResponse.status)){
+    const mappedCourseContent = mapExerciseContent(exerciseResponse.data)
+    yield put(actions.getExerciseContentResolved(mappedCourseContent))
+  } else {
+    yield put(actions.getExerciseContentRejected(exerciseResponse))
+    alert(`Something went wrong with error status: ${exerciseResponse.status} ${exerciseResponse.message}`)
+  }
+}
+
 
 export default function* () {
   yield takeLatest(types.GET_COURSES_INTENT, handleGetCourses)
   yield takeLatest(types.GET_COURSE_CONTENT_INTENT, handleGetCourseContent)
+  yield takeLatest(types.GET_EXERCISE_CONTENT_INTENT, handleGetExerciseContent)
 }
