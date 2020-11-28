@@ -35,22 +35,3 @@ export const getCourseContent = (data, token) => {
     headers: HeaderFactory(token),
   })
 }
-
-
-/**
- * end-point to get content of a exercise
- *
- * @param {data} object payload
- * @param {String} data.slug
- * @param {object} opts
- *
- * @returns {Promise}
- */
-export const getExerciseContent = (data, token) => {
-  const { slug } = data
-  return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/exercises/getBySlug?slug=${slug}`,
-    method: METHODS.GET,
-    headers: HeaderFactory(token),
-  })
-}

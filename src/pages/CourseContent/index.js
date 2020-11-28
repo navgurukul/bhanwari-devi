@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import ReactMarkdown from 'react-markdown'
 import get from 'lodash/get'
 
 import { actions as courseActions } from '../../components/Course/redux/action'
-import ExerciseContent from '../../components/Course/Content/ExerciseContent'
 import ExerciseList from '../../components/Course/Content/ExerciseList'
 import Loader from '../../components/common/Loader'
 import Arrow from '../../components/common/Arrow'
@@ -20,19 +20,16 @@ function CourseContent(props) {
     dispatch(courseActions.getCourseContent({courseId: courseId}))
   }, [dispatch, courseId])
 
-  const handleExerciseChange = useCallback(
-    (exercise, index) => {
+  const handleExerciseChange = useCallback((exercise, index) => {
       setSelectedExercise({ exercise, selectedIndex: index })
-      dispatch(courseActions.getExerciseContent({slug: exercise.slug}))
-    }, [dispatch]
-  )
+    }, [])
 
   useEffect(() => {
     const firstExercise = get(data, 'exerciseList[0]')
     if(firstExercise) {
-      handleExerciseChange(firstExercise, 0)
+      setSelectedExercise({ exercise: firstExercise, selectedIndex: 0 })
     }
-  }, [dispatch, data, handleExerciseChange])
+  }, [dispatch, data])
 
   const isFirstExerciseSelected = get(selectedExercise, 'selectedIndex') === 0
   const isLastExerciseSelected = get(selectedExercise, 'selectedIndex') === (get(data, `exerciseList.length`) - 1)
@@ -55,10 +52,17 @@ function CourseContent(props) {
     return <Loader pageLoader={true} />
   }
 
+  const markDownContent = get(selectedExercise, 'exercise.markDownContent[0]')
   return (
     <div className='ng-course-content'>
       <div className='content'>
-        <ExerciseContent />
+        <ReactMarkdown className="markdown" source={markDownContent}/>
+        <a  
+          href={`${get(selectedExercise, 'exercise.githubLink')}`}
+          target = "_blank" rel = "noopener noreferrer"
+          className='github-link'>
+            Edit on Github
+        </a>
         <div className='arrow-row'>
          {!isFirstExerciseSelected ? <Arrow left onClick={handleBackClick}/> : <div />}
          {!isLastExerciseSelected ? <Arrow onClick={handleForwardClick}/> : <div/>}

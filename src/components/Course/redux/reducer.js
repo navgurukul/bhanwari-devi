@@ -71,36 +71,6 @@ export default (state = initialState, action) => {
         }
       }
 
-    case types.GET_EXERCISE_CONTENT_INTENT:
-      return {
-        ...state,
-        exerciseContent: {
-          loading: true,
-          error: false,
-          data: null,
-        }
-      }
-    
-    case types.GET_EXERCISE_CONTENT_INTENT_RESOLVED:
-      return {
-        ...state,
-        exerciseContent: {
-          loading: false,
-          error: false,
-          data: action.data,
-        }
-      }
-
-    case types.GET_EXERCISE_CONTENT_INTENT_REJECTED:
-      return {
-        ...state,
-        exerciseContent: {
-          loading: false,
-          error: action.error,
-          data: null,
-        }
-      }
-
     default:
       return state
   }
