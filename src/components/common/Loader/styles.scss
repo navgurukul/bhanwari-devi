@@ -12,8 +12,11 @@
 }
 
 .loader {
-  margin-left: 48%;
-  margin-top: 48%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .idsEllipsis {

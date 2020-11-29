@@ -1,13 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import ReactMarkdown from 'react-markdown'
 import get from 'lodash/get'
 
 import { actions as courseActions } from '../../components/Course/redux/action'
 import ExerciseList from '../../components/Course/Content/ExerciseList'
+import ExerciseContent from '../../components/Course/Content/ExerciseContent'
 import Loader from '../../components/common/Loader'
 import Arrow from '../../components/common/Arrow'
 import './styles.scss'
+
+const EditOnGithub = (props) => {
+  return (
+    <a  
+      href={props.link}
+      target = "_blank" rel = "noopener noreferrer"
+      className='github-link'>
+        Edit on Github
+    </a>
+  )
+}
 
 function CourseContent(props) {
   const dispatch = useDispatch()
@@ -52,17 +63,11 @@ function CourseContent(props) {
     return <Loader pageLoader={true} />
   }
 
-  const markDownContent = get(selectedExercise, 'exercise.markDownContent[0]')
   return (
     <div className='ng-course-content'>
       <div className='content'>
-        <ReactMarkdown className="markdown" source={markDownContent}/>
-        <a  
-          href={`${get(selectedExercise, 'exercise.githubLink')}`}
-          target = "_blank" rel = "noopener noreferrer"
-          className='github-link'>
-            Edit on Github
-        </a>
+        <ExerciseContent content={get(selectedExercise, 'exercise.content')}/>
+        <EditOnGithub link={`${get(selectedExercise, 'exercise.githubLink')}`} />
         <div className='arrow-row'>
          {!isFirstExerciseSelected ? <Arrow left onClick={handleBackClick}/> : <div />}
          {!isLastExerciseSelected ? <Arrow onClick={handleForwardClick}/> : <div/>}

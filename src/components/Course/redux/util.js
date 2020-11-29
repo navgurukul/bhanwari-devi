@@ -27,7 +27,7 @@ export const mapCourses = (courses) => {
 
 /**
  * 
- * @param {*} contentResponse 
+ * @param {Object} contentResponse 
  * @param {Object} contentResponse.course.exercises[0] Map exercises in course content
  * typical exercise object from backend.
  * {
@@ -47,16 +47,15 @@ export const mapCourses = (courses) => {
 export const mapCourseContent = (contentResponse) => {
   const { exercises = [] } = get(contentResponse, 'course', {})
   const exerciseList = exercises.map((exercise) => {
-    // TODO: Check if we can get the markdown content as a string from backend.
-    const markDownContent = exercise.content.filter((content) => content.type === 'markdown')
     return {
-      markDownContent,
+      content: exercise.content,
       githubLink: exercise.github_link,
       id: exercise.id,
       name: exercise.name,
       slug: exercise.slug,
     }
-  } )
+  })
+
   return {
     exerciseList
   }

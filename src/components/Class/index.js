@@ -80,12 +80,11 @@ function Class() {
 
   return (
     <div className='ng-create-class'>
-      { loading && <Loader pageLoader={true} /> }
       <h2 className='title'> Create A Class </h2>
       <form className='form' onSubmit={onFormSubmit}>
         {CLASS_FORM_FIELDS.map((field, index) => <InputField {...field} key={index}/> )}
         <button type='submit' className='submit' disabled={loading}>
-          { loading ? '...' : 'CREATE CLASS' } 
+          { loading ? <Loader /> : 'CREATE CLASS' } 
         </button>
       </form>
       <SelectOptions />

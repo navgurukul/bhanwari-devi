@@ -10,6 +10,9 @@ function ExerciseList(props) {
 
   return (
     <div className='ng-exercise-list'>
+      {/* <div className='enroll'>
+        ENROLL IN COURSE
+      </div> */}
       { list.map((exercise, index) => {
         return (
           <Exercise

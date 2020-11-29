@@ -17,7 +17,12 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-top: -20px;
+
+    >.selected {
+      fill: #f05f40
+    }
   }
+
 
   >.title {
     width: 70%;
