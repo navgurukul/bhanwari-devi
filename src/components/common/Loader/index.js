@@ -5,7 +5,7 @@ import './styles.scss'
 
 const Loader = ({className = '', pageLoader = false}) => {
   return (
-    <div className={`${className} ${pageLoader ? 'ng-page-loader' : ''}`}>
+    <div className={`${className} ${pageLoader ? 'ng-page-loader' : 'loader'}`}>
       <div className='idsEllipsis'>
         <div/>
         <div/>
