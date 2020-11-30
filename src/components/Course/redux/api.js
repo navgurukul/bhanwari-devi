@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { METHODS, HeaderFactory } from '../../../services/api'
+import { METHODS } from '../../../services/api'
 
 /**
  * end-point to get all the courses
@@ -13,7 +13,7 @@ export const getCourses = (data, token) => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
     method: METHODS.GET,
-    headers: HeaderFactory(token),
+    // headers: HeaderFactory(token),
   })
 }
 
@@ -32,6 +32,6 @@ export const getCourseContent = (data, token) => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
     method: METHODS.GET,
-    headers: HeaderFactory(token),
+    // headers: HeaderFactory(token),
   })
 }

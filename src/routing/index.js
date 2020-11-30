@@ -23,10 +23,19 @@ const Routing = () => {
       />
       <Route
         exact
+        path={ PATHS.COURSE}
+        component={ Course }
+      /> 
+      <Route
+        exact
+        path={ PATHS.COURSE_CONTENT}
+        component={ CourseContent }
+      /> 
+      <Route
+        exact
         path={ PATHS.LOGIN }
         component={ Login }
       />
-
       {/* Private routes */}
       {/* <PrivateRoute
         exact
@@ -37,16 +46,6 @@ const Routing = () => {
         exact
         path={ PATHS.CLASS}
         component={ CreateClass }
-      /> 
-      <PrivateRoute
-        exact
-        path={ PATHS.COURSE}
-        component={ Course }
-      /> 
-      <PrivateRoute
-        exact
-        path={ PATHS.COURSE_CONTENT}
-        component={ CourseContent }
       /> 
     </>
   )

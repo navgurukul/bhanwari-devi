@@ -6,8 +6,7 @@ import './styles.scss'
 
 
 function ExerciseList(props) {
-  const { list = [], selectedExercise = {}, onClick } = props
-
+  const { list = [], selectedIndex = null, subSelectedIndex = null, onClick } = props
   return (
     <div className='ng-exercise-list'>
       {/* <div className='enroll'>
@@ -17,10 +16,11 @@ function ExerciseList(props) {
         return (
           <Exercise
             exercise={exercise}
-            selected={selectedExercise.slug === exercise.slug}
-            key={index}
+            selectedIndex={selectedIndex}
+            subSelectedIndex = {subSelectedIndex}
             index={index}
-            onClick={onClick}/>
+            onClick={onClick}
+          />
         )}
       ) }
     </div>
@@ -29,8 +29,7 @@ function ExerciseList(props) {
 
 ExerciseList.propTypes = {
   list: PropTypes.array.isRequired,
-  // selectedSlug is the slug of selected exercise
-  selectedSlug: PropTypes.any,
+  selectedIndex: PropTypes.any,
   onClick: PropTypes.func.isRequired,
 }
 

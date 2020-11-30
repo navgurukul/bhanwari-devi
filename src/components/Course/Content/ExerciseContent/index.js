@@ -14,7 +14,7 @@ const RenderContent = ({data}) => {
   } else if( data.type === 'python') {
     return <code className='language-python code-block' > {get(data, 'value.code')} </code>
   }else if(data.type === 'image') {
-    return <img src={get(data, 'value.url')} alt='content'/>
+    return <img className='image' src={get(data, 'value.url')} alt='content'/>
   }else if(data.type === 'video') {
     return <YouTube videoId={data.value}  />
   } 

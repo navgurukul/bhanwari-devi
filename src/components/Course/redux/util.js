@@ -1,16 +1,18 @@
 import get from 'lodash/get'
 
 export const mapCourses = (courses) => {
-  const enrolledCourses = courses.enrolledCourses.map((course) => {
-    return {
-      id: course.id,
-      name: course.name,
-      logo: course.logo,
-      description: course.short_description,
-    }
-  })
+  // TODO: handle later when we provide functionality of enrolling courses.
+  // const {enrolledCourses = [], allCourses = []} = courses
+  // const mappedEnrolledCourses = enrolledCourses.map((course) => {
+  //   return {
+  //     id: course.id,
+  //     name: course.name,
+  //     logo: course.logo,
+  //     description: course.short_description,
+  //   }
+  // })
 
-  const allCourses  = courses.allCourses.map((course) => {
+  const mappedAllCourses  = courses.map((course) => {
     return {
       id: course.id,
       name: course.name,
@@ -20,8 +22,8 @@ export const mapCourses = (courses) => {
   })
 
   return {
-    enrolledCourses,
-    allCourses
+    // enrolledCourses: mappedEnrolledCourses,
+    allCourses: mappedAllCourses
   }
 } 
 
@@ -46,13 +48,17 @@ export const mapCourses = (courses) => {
  */
 export const mapCourseContent = (contentResponse) => {
   const { exercises = [] } = get(contentResponse, 'course', {})
-  const exerciseList = exercises.map((exercise) => {
+  const exerciseList = exercises.map((exercise, index) => {
+    if(index === 3) {
+      exercise.childExercises = [{...exercises[1], slug:'weird'}, { ...exercises[2], slug: 'total-weird'}]
+    }
     return {
       content: exercise.content,
       githubLink: exercise.github_link,
       id: exercise.id,
       name: exercise.name,
       slug: exercise.slug,
+      childExercises: exercise.childExercises,
     }
   })
 

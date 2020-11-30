@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import CollapseArrow from './CollapseArrow'
 import './styles.scss'
 
 
+//TODO: move to independent file
 const ExerciseLogo = ({selected}) => {
   return (
     <div className='logo' >
@@ -17,20 +19,74 @@ const ExerciseLogo = ({selected}) => {
   )
 }
 
+const SubExerciseLogo = ({selected}) => {
+  return (
+    <div className='logo child-exercise-logo' >
+      <svg className={selected && 'selected'} focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+        <g>
+          <path d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10zM12 13L3.74 7.84 12 3l8.26 4.84L12 13z">
+          </path>
+        </g>
+      </svg>
+    </div>
+  )
+}
+
+//TODO: move to independent file
+const ExerciseTitle = (props) => {
+  const { isChildExercise, selected, exercise } = props
+
+  return (
+    <div className={`content ${isChildExercise && 'child-exercise'}`} onClick={props.onClick}>
+      {isChildExercise ? <SubExerciseLogo selected={selected}/> : <ExerciseLogo selected={selected} /> }
+      <div className='title'>{exercise.name}</div>
+    </div>
+  )
+}
+
 
 function Exercise(props) {
-  const { exercise, selected, index, onClick } = props
+  const { exercise, selectedIndex, subSelectedIndex, index, onClick } = props
+  // if(exercise.childExercises) {
+  //    console.log(selectedIndex, index)
+  //    console.log(typeof selectedIndex, typeof index)
+  // }
+  const selected = selectedIndex === index
+  const [ showChildExercise, setShowChildExercise ] = useState(selected)
+  const haveChildExercises = Boolean(exercise.childExercises)
 
-  const handleExerciseClick = () => {
+  const handleExerciseClick = (selectedExercise, index, subIndex) => {
     if(onClick) {
-      onClick(exercise, index)
+      onClick(selectedExercise, index, subIndex)
+    }
+  } 
+
+  const handleMainExerciseClick = () => {
+    handleExerciseClick(exercise, index)
+    if(haveChildExercises) {
+      setShowChildExercise(!showChildExercise)
     }
   }
 
+  const containerClasses = (selected && !haveChildExercises) ? 'ng-exercise-selected' : ''
   return (
-    <div className={`ng-exercise ${selected && 'ng-exercise-selected'}`} onClick={handleExerciseClick}>
-      <ExerciseLogo selected={selected} />
-      <div className='title'>{exercise.name}</div>
+    <div className={`ng-exercise  ${containerClasses} ${showChildExercise && 'ng-exercise-child'}`} key={index}>
+      <ExerciseTitle selected={selected} exercise={exercise} onClick={handleMainExerciseClick} />
+      <CollapseArrow
+        haveChildExercises={haveChildExercises}
+        onClick={() => setShowChildExercise(!showChildExercise)}
+        showChildExercise={showChildExercise}
+      />
+      {showChildExercise && exercise.childExercises.map((childExercise, subIndex) =>{
+        return (
+          <ExerciseTitle
+            isChildExercise= {haveChildExercises}
+            exercise={childExercise}
+            selected={subIndex === subSelectedIndex}
+            onClick={() => handleExerciseClick(childExercise, index, subIndex)}
+          />
+        )
+      }) }
     </div>
   )
 }
