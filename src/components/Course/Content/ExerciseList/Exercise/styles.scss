@@ -1,16 +1,28 @@
 .ng-exercise {
+  position: relative;
   width: 300px;
   padding: 8px;
   background: #FFFFFF;
   text-decoration: none;
   display: flex;
-  align-items: center;
-  // border: solid 1px;
+  flex-direction: column;
+  justify-content: center;
   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
   align-self: center;
+  cursor: pointer;
 
+  .content {
+    display: flex;
+    align-items: center;
+    padding-right: 36px;
+  }
 
-  >.logo {
+  .child-exercise {
+    padding-top: 16px;
+    padding-left: 32px;
+  }
+
+  .logo {
     width: 34px;
     height: 34px;
     padding-top: 24px;
@@ -23,6 +35,11 @@
     }
   }
 
+  .child-exercise-logo {
+    width: 24px;
+    height: 24px;
+  }
+
 
   >.title {
     width: 70%;
@@ -33,4 +50,10 @@
 .ng-exercise-selected {
   width: 316px;
   color: #D55F31;
+}
+
+.ng-exercise-child {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
 }

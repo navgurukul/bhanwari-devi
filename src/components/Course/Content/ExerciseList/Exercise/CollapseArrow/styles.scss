@@ -1,0 +1,11 @@
+.ng-collapse-arrow {
+  position: absolute;
+  top: 4px;
+  right: 12px;
+
+  > span {
+    font-size: 32px;
+    width: 32px;
+    height: 12px;
+  }
+}

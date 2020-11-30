@@ -9,11 +9,6 @@ const initialState = {
     error: false,
     data: null,
   },
-  exerciseContent: {
-    loading: false,
-    error: false,
-    data: null,
-  }
 }
 
 export default (state = initialState, action) => {
