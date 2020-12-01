@@ -53,7 +53,7 @@ export const mapCourseContent = (contentResponse) => {
     if(exercise.childExercises) {
       childExercises = exercise.childExercises.map((childExercise) => {
         if((typeof childExercise.content) === 'string') {
-          childExercise.contnet = [{type: 'markdown', value: exercise.content}]
+          childExercise.content = [{type: 'markdown', value: exercise.content}]
         }
         return {
           content: childExercise.content,
