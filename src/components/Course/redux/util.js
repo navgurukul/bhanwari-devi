@@ -52,6 +52,9 @@ export const mapCourseContent = (contentResponse) => {
     let childExercises = null
     if(exercise.childExercises) {
       childExercises = exercise.childExercises.map((childExercise) => {
+        if((typeof childExercise.content) === 'string') {
+          childExercise.contnet = [{type: 'markdown', value: exercise.content}]
+        }
         return {
           content: childExercise.content,
           githubLink: childExercise.github_link,
@@ -60,6 +63,9 @@ export const mapCourseContent = (contentResponse) => {
           slug: childExercise.slug,
         }
       })
+    }
+    if((typeof exercise.content) === 'string') {
+      exercise.content = [{type: 'markdown', value: exercise.content}]
     }
     return {
       content: exercise.content,
