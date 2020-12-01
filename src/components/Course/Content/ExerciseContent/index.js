@@ -37,7 +37,7 @@ function ExerciseContent(props) {
 }
 
 ExerciseContent.propTypes = {
-  content: PropTypes.array.isRequired,
+  content: PropTypes.array,
 }
 
 export default ExerciseContent;

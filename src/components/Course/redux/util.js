@@ -49,8 +49,17 @@ export const mapCourses = (courses) => {
 export const mapCourseContent = (contentResponse) => {
   const { exercises = [] } = get(contentResponse, 'course', {})
   const exerciseList = exercises.map((exercise, index) => {
-    if(index === 3) {
-      exercise.childExercises = [{...exercises[1], slug:'weird'}, { ...exercises[2], slug: 'total-weird'}]
+    let childExercises = null
+    if(exercise.childExercises) {
+      childExercises = exercise.childExercises.map((childExercise) => {
+        return {
+          content: childExercise.content,
+          githubLink: childExercise.github_link,
+          id: childExercise.id,
+          name: childExercise.name,
+          slug: childExercise.slug,
+        }
+      })
     }
     return {
       content: exercise.content,
@@ -58,7 +67,7 @@ export const mapCourseContent = (contentResponse) => {
       id: exercise.id,
       name: exercise.name,
       slug: exercise.slug,
-      childExercises: exercise.childExercises,
+      childExercises: childExercises,
     }
   })
 
