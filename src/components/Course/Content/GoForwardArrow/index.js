@@ -44,6 +44,4 @@ const GoBackArrow  = (props) => {
 }
 
 export default GoBackArrow
-
-
          
