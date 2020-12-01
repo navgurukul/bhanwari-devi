@@ -5,7 +5,7 @@ git checkout gh-pages
 git reset --hard origin/dev
 
 echo 'REACT_APP_GOOGLE_CLIENT_ID = "34917283366-b806koktimo2pod1cjas8kn2lcpn7bse.apps.googleusercontent.com"
-REACT_APP_MERAKI_URL = "http://merakilearn.org/api"' > .env
+REACT_APP_MERAKI_URL = "https://merakilearn.org/api"' > .env
 
 npm run build
 
