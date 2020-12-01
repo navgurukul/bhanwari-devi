@@ -1,4 +1,7 @@
 
+@import '../../../../sass/colors.scss';
+@import '../../../../sass/mixins.scss';
+
 .ng-input-field {
   display: flex;
   flex-direction: column;
@@ -13,6 +16,9 @@
     height: 96px;
     padding-left: 8px;
     padding-top: 8px;
+    @include breakpoint-mobile {
+      width: 100%;
+    }
 
     //TODO: move the color in the root colors.scss file.
     background: #FFFFFF;
@@ -31,6 +37,9 @@
     width: 628px;
     height: 48px;
     padding-left: 8px;
+    @include breakpoint-mobile {
+      width: 100%;
+    }
 
     //TODO: move the color in the root colors.scss file.
     background: #FFFFFF;

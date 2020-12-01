@@ -1,6 +1,12 @@
+@import '../../../../sass/colors.scss';
+@import '../../../../sass/mixins';
+
 .ng-exercise-list {
   display: flex;
   flex-direction: column;
+  @include breakpoint-mobile {
+    display: none;
+  }
 
   >.enroll {
     width: 348px;

@@ -1,9 +1,19 @@
+@import '../../sass/colors.scss';
+@import '../../sass/mixins.scss';
+
 .ng-course-content {
   width: 80%;
   margin: auto;
   display: flex;
   justify-content: space-between;
   margin-bottom: 200px;
+  @include breakpoint-mobile {
+    width: 100%;
+  }
+
+  h2 {
+    text-align: center;
+  }
 
   >.content {
     position: -webkit-sticky; /* Safari */
@@ -24,6 +34,9 @@
     font-family: Ubuntu;
     box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
     margin-bottom: 32px;
+    @include breakpoint-mobile {
+      width: 100%;
+    }  
   }
 
   >.content >.github-link {

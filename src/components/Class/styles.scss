@@ -1,3 +1,6 @@
+@import '../../sass/colors.scss';
+@import '../../sass/mixins.scss';
+
 .ng-create-class {
   margin: auto;
   margin-top: 80px;
@@ -9,6 +12,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  @include breakpoint-mobile {
+    width: 90%;
+  }
 
   //TODO: move the colors to color file.
   background: #FFFFFF;
@@ -26,6 +32,9 @@
     padding: 48px;
     display: flex;
     flex-direction: column;
+    @include breakpoint-mobile {
+      width: 90%;
+    }
   }
 
   .form .small-text {
