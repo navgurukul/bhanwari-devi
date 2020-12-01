@@ -9,6 +9,12 @@ const initialState = {
     error: false,
     data: null,
   },
+  selectedExercise: {
+    exercise: null,
+    parentExercise: null, // reference to parent exercise in the list
+    index: null, // reference to main exercise in the course exercise list
+    subExerciseIndex: null, // reference to child exercise of an exercise
+  }
 }
 
 export default (state = initialState, action) => {
@@ -64,6 +70,12 @@ export default (state = initialState, action) => {
           error: action.error,
           data: null,
         }
+      }
+    
+    case types.UPDATE_SELECTED_EXERCISE:
+      return {
+        ...state,
+        selectedExercise: action.data
       }
 
     default:

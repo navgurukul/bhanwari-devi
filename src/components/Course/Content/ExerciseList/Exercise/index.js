@@ -32,7 +32,7 @@ const SubExerciseLogo = ({selected}) => {
   )
 }
 
-//TODO: move to independent file
+//TODO: move to independent component file
 const ExerciseTitle = (props) => {
   const { isChildExercise, selected, exercise } = props
 
@@ -46,23 +46,19 @@ const ExerciseTitle = (props) => {
 
 
 function Exercise(props) {
-  const { exercise, selectedIndex, subSelectedIndex, index, onClick } = props
-  // if(exercise.childExercises) {
-  //    console.log(selectedIndex, index)
-  //    console.log(typeof selectedIndex, typeof index)
-  // }
-  const selected = selectedIndex === index
+  const { exercise, selectedExercise, index, onClick } = props
+  const selected = selectedExercise.index === index
   const [ showChildExercise, setShowChildExercise ] = useState(selected)
   const haveChildExercises = Boolean(exercise.childExercises)
 
-  const handleExerciseClick = (selectedExercise, index, subIndex) => {
+  const handleExerciseClick = (index, subExerciseIndex) => {
     if(onClick) {
-      onClick(selectedExercise, index, subIndex)
+      onClick({index, subExerciseIndex: subExerciseIndex})
     }
   } 
 
   const handleMainExerciseClick = () => {
-    handleExerciseClick(exercise, index)
+    handleExerciseClick(index)
     if(haveChildExercises) {
       setShowChildExercise(!showChildExercise)
     }
@@ -77,13 +73,13 @@ function Exercise(props) {
         onClick={() => setShowChildExercise(!showChildExercise)}
         showChildExercise={showChildExercise}
       />
-      {showChildExercise && exercise.childExercises.map((childExercise, subIndex) =>{
+      {showChildExercise && exercise.childExercises.map((childExercise, subExerciseIndex) =>{
         return (
           <ExerciseTitle
             isChildExercise= {haveChildExercises}
             exercise={childExercise}
-            selected={subIndex === subSelectedIndex}
-            onClick={() => handleExerciseClick(childExercise, index, subIndex)}
+            selected={subExerciseIndex === selectedExercise.subExerciseIndex}
+            onClick={() => handleExerciseClick(index, subExerciseIndex)}
           />
         )
       }) }
