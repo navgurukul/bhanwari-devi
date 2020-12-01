@@ -8,7 +8,7 @@ const Arrow = (props) => {
 
   return (
     <div
-      class= {`ng-arrow ${className} ${left && 'ng-left'}`}
+      className= {`ng-arrow ${className} ${left && 'ng-left'}`}
       onClick={onClick}
     />
   )

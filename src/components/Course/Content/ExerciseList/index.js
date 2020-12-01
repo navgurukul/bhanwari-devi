@@ -40,6 +40,7 @@ function ExerciseList(props) {
             index={index}
             selectedExercise={selectedExercise}
             onClick={handleExerciseChange}
+            key={index}
           />
         )}
       ) }
@@ -48,7 +49,7 @@ function ExerciseList(props) {
 }
 
 ExerciseList.propTypes = {
-  list: PropTypes.array.isRequired,
+  list: PropTypes.array,
 }
 
 export default ExerciseList;
