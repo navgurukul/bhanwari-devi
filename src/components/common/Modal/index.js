@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import './styles.scss'
 
-const StatelessModal = props => {
+const Modal = props => {
   const modalRef = useRef(null)
   const onClose = props.onClose
 
@@ -40,7 +40,7 @@ const StatelessModal = props => {
   )
 }
 
-StatelessModal.propTypes = {
+Modal.propTypes = {
   children: PropTypes.any,
   className: PropTypes.string,
   backGroundClassName: PropTypes.string,
@@ -48,10 +48,10 @@ StatelessModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-StatelessModal.defaultProps = {
+Modal.defaultProps = {
   className: '',
   backGroundClassName: '',
   closeStyle: '',
 }
 
-export default StatelessModal
+export default Modal
