@@ -22,9 +22,9 @@ const RenderContent = ({data}) => {
   }else if( data.type === 'image') {
     return <img className='image' src={get(data, 'value.url')} alt='content'/>
   }else if( data.type === 'video') {
-    return <YouTube videoId={data.value}  />
+    return <YouTube className={'youtube-video'}  videoId={data.value}  />
   } else if( data.type === 'youtube') {
-    return <YouTube videoId={data.value}  />
+    return <YouTube className={'youtube-video'} videoId={data.value}  />
   } 
   return '' 
 }
