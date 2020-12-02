@@ -3,14 +3,11 @@ import PropTypes from 'prop-types'
 
 import './styles.scss'
 
-const targetExceptions = [/^pac-/]
-
 const StatelessModal = props => {
   const modalRef = useRef(null)
   const onClose = props.onClose
 
   const handleClose = () => {
-    console.log('handling onClose')
     if (onClose) {
       onClose()
     }
@@ -48,7 +45,7 @@ StatelessModal.propTypes = {
   className: PropTypes.string,
   backGroundClassName: PropTypes.string,
   closeStyle: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func.isRequired,
 }
 
 StatelessModal.defaultProps = {
