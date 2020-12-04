@@ -5,5 +5,8 @@ export const PATHS = {
   LOGIN: '/login',
   CLASS: '/class',
   COURSE: '/course',
-  COURSE_CONTENT: '/course/:courseId'
+  COURSE_CONTENT: '/course/:courseId',
+  CLASSLIST:'/classList'
+
 }
+ 

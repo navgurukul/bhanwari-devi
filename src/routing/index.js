@@ -4,11 +4,11 @@ import { Route } from 'react-router-dom'
 import { PrivateRoute } from './Routes'
 // import { userRoles } from '../services/auth'
 import { PATHS } from '../constant'
-
 import Login from '../pages/Login'
 import CreateClass from '../pages/CreateClass'
 import Course from '../pages/Course'
 import CourseContent from '../pages/CourseContent'
+import ClassesList from '../components/Class/ClassesList'
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -47,6 +47,13 @@ const Routing = () => {
         path={ PATHS.CLASS}
         component={ CreateClass }
       /> 
+
+      <PrivateRoute
+        exact
+        path={PATHS.CLASSLIST}
+        component={ClassesList}
+      /> 
+      
     </>
   )
 }
