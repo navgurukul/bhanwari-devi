@@ -1,0 +1,41 @@
+@import '../../../sass/colors.scss';
+@import '../../../sass/mixins.scss';
+
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  backdrop-filter: blur(3px);
+  overflow-y: auto;
+  background-color: rgba(22, 37, 51, 0.75);
+
+  .modal {
+    position: relative;
+    z-index: 110;
+    width: 700px;
+    background-color: #fff;
+    border: 1px solid #f6f9fb;
+    border-radius: 8px;
+    margin: 50px auto;
+    margin-bottom: 150px;
+    @include breakpoint-tablet {
+      width: 95%;
+    }
+
+    .close {
+      position: absolute;
+      right: 38px;
+      top: 20px;
+      font-size: 32px;
+      opacity: 0.6;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
