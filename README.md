@@ -4,7 +4,7 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 
 ## Motivation
 
-It's okay to break stuff on dev. Even it's ok to break stuff on production( if the reviewer is not able to catch the bug.:P) Kudos to you. We believe same time we should be able to send a fix as soon as we can. Or send it before even someone figures out the bug(probably testing your feature, and catching it before anyone else). Everything aside, Just don't shy away in sending a PR. We all are learning and trying to do better here. 
+It's okay to break stuff on dev. Even it's ok to break stuff on production( Reviewers also have equal responsibility that they couldn't catch the bug.:P) Kudos to you. We believe same time taking onwnership and sending a fix as soon as we can. Or send it before even someone figures out the bug(probably testing your feature, and catching it before anyone else). Everything aside, Just don't shy away in sending a PR. We all are learning and trying to do better here. 
 
 ## Let's code together and build something beautiful
 <img src='https://www.netclipart.com/pp/f/239-2392873_children-different-race.png'>
@@ -15,7 +15,8 @@ The philosophy of the code strucutre is keeping things as small as they can be. 
 <br/>
 For example, we have component called `Course` all the api, redux, redux-saga, and constant should stay inside this component directory. So if someone wants to build a feature in the course section or course related feature, he/she/they don't need to go outside this componenent directory. and their cognitive load doesn't need to worry about other parts of the application. We have a `redux` folder in root components which takes care of the component related api calls, redux state, and redux-saga handlers. 
 <br/>
-Note: if you are using some constant that might be needed in other components(i.e. url paths), then you have to put that kind of information in the src/constant.js file. And if some utility function which is related with common ideas(i.e time, date, string related functions), we should also put them into root `service` section. 
+Note: if you are using some constant that might be needed in other components(i.e. url paths), then you have to put that kind of information in the `src/constant`.js file. And if some utility function which is related with common ideas(i.e time, date, string related functions), we should also put them into root `src/service` directory.
+
 
 - Containers/page
   - The main container of every page(basically a different url route.)
@@ -173,3 +174,44 @@ To run production build in the local environment please run following code after
 ```
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### Let's see the file structure now. 
+## Please don't get confused and run away. I know it's a bit long.But It's detailed, and look closely it's actually simple and not that complex.:P
+### ![Gif](https://media.giphy.com/media/UB2GxvYsswbBu/giphy.gif) <br/>
+### The file structure looks something like this.
+    ├── src                     # Source files
+        ├──asset                # assets that belongs commonly in all components.
+        ├──components           # Components and their child components. 
+           ├──Course            # Course component and it's child components
+              ├──CreateCourse   # Child Component
+                 ├──CourseForm  
+                 ├──index.js
+                 ├──styles.scss
+              ├──CourseList
+              ├──redux          # all the redux and api related things to Course, we will do under redux directory.
+                ├──action.js    # We will define redux actions here
+                ├──api.js       # All the course related APIs(axios requests) will happen here
+                ├──reducer.js   # All the course related state management will happen here
+                ├──saga.js      # All the middlewares for redux state management or api calls we will put here
+                ├──util.js      # Mapper functions or any utility function for data manipulation
+              ├──index.js
+              ├──styles.scss
+              ├──constants.js
+           ├──common           # All the common components which might be used anywhere in the app.
+              ├──Notification
+                 ├──index.js
+                 ├──styles.scss
+              ├──Spinner
+                 ├──index.js
+                 ├──styles.scss
+          ├──pages            # root level containers for each page(different url rotue)
+            ├──CourseList     # these are basically wrappers, they should't me more than 30-40 lines.
+               ├──index.js
+               ├──styles.scss
+          ├──routing         # Creating public and private routes for different pages.
+          ├──services        # Tools and utilities for date, time, string and numbmers
+          ├──sass            # app color css reference and mixins.
+    ├──.env.development         # development variables.
+    ├──package.json
+    ├──package-lock.json
+    └── README.md
