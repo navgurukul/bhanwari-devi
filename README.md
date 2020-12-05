@@ -6,6 +6,8 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 
 It's okay to break stuff on dev. Even it's ok to break stuff on production( if the reviewer is not able to catch the bug.:P) Kudos to you. We believe same time we should be able to send a fix as soon as we can. Or send it before even someone figures out the bug(probably testing your feature, and catching it before anyone else). Everything aside, Just don't shy away in sending a PR. We all are learning and trying to do better here. 
 
+## Team or Some good vibe/funny picture
+
 
 ## Code Strucutre
 The philosophy of the code strucutre is that if you have some work in the village then you should find everything in that village which helps you to do complete the work. And you don't need to visit the complex city life to get your work done. let's face it, it's tiring and a bit complex. Here we want that root component contains everything and you should stay inside that component as much as you can and you don't need to worry about what's happening in other part of application. 
@@ -21,19 +23,120 @@ Note: if you are using some constant that might be needed in other components(i.
   - redux(Root level component will have all the redux realted things of this component.)
   -Child1Component
   -Child2Component
-  - constant.js( Constants which are related with this component and child component)
+  -..otherChildComponents
+  - constant.js( Constants which are related with this component or to child component)
   - index.js
   - styles.scss
 
-## How to do an API call and manage state
- The whole point of using redux and redux saga is that we can have a structure around managing the state of the application. Sorry if you are not new to redux and redux saga. it's not that complex. Sure there is so much information about these things on the internet. But you just need to have a basic idea to use it. or we are here to help you if you don't understand something. We will walk you thought it, or we can also help you to create your first api call through redux and redux saga. Just ask one of us, and we are more than happy to help you. 
+## Important parts of code base
+### How to do an API call and manage state
+ The whole point of using redux and redux saga is that we can have a structure around managing the state of the application. If you are not new to redux and redux saga, Don't be afraid, it's not that complex. Sure, there is so much information about out there on redux and redux saga. But you just need to have a basic idea to use it. or we are here to help you if you don't understand something. We will walk you thought it, or we can also help you to create your first api call through redux and redux saga. Just ask one of us, and we are more than happy to help you. 
 
  So let's learn something about how we use redux and redux-saga in our code. There are basically 4 things.
  - Actions
  - Redux State
  - Redux middlewars(aka redux-saga)
  - API calls
-## Available Scripts
+
+TODO: add a visual image how the above things interact with each other.
+
+So if you want to do a API call, the idea would be :-> <br/> <br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;`Create actions` </br>
+### &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#8595;
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Create redux state` </br>
+### &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8595;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;`Create the API function`</br>
+### &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8595;
+&nbsp; &nbsp; &nbsp; &nbsp;`create middlewares(saga)`</br> </br>
+
+### Create actions
+Actions is just a fancy of saying and hadling API request, What kind of action(redux action) we should dispatch on `when we call the api`, `what to do on successful api call`, and `what action to dispatch when api fails or it's not a successful operation`
+To do a API call, first we define `actions`. And we define it in the `src/components/componentName/redux/action.js` file. Let's take an example of getting user information. and How we can define actions for that. 
+the actions would look like something below. 
+```
+export const types = {
+  GET_USER_INTENT: 'GET_USER_INTENT',
+  GET_USER_INTENT_RESOLVED: 'GET_USER_INTENT_RESOLVED',
+  GET_USER_INTENT_REJECTED: 'GET_USER_INTENT_REJECTED',
+}
+
+export const actions = {
+  getUser(data) {
+    return {
+      type: types.GET_USER_INTENT,
+      data,
+    }
+  },
+  getUserResolved(data) {
+    return {
+      type: types.GET_USER_INTENT_RESOLVED,
+      data,
+    }
+  },
+  getUserRejected(error) {
+    return {
+      type: types.GET_USER_INTENT_REJECTED,
+      error,
+    }
+  },
+}
+
+```
+
+### Create redux state 
+For state related things, we create and manage staete in `src/components/componentName/redux/reducer.js`. The code looks like this. 
+```
+import { types } from './action'
+
+const initialState = {
+  loading: false,
+  error: false,
+  data: null,
+}
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case types.GET_USER_INTENT:
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        data: null,
+      }
+    case types.GET_USER_INTENT_RESOLVED:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: action.data, // mapped user data.
+      }
+
+    case types.GET_USER_INTENT_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error, // keeping reference of the error.
+        data: null,
+      }
+
+    default:
+      return state
+  }
+}
+
+```
+
+### Create the API function
+
+### Redux middlewars(aka redux-saga) 
+Middlewares are so useful, when we talk about handling async/api calls. 
+It makes handling redux state easy and intutive. In start it might look a bit cumbersome or long. But after creating two or three api calls, you will get a hang of it.
+
+### In case of doubt
+
+If you still have some doubt or suggestions, about how things works in this repo. Please feel free to contact Vikash, Saquib or Komal. We are more than happy to get on a call and make things more clear to you. afterall, you are trying to build things together with us.
+
+## Scripts that makes our day-to-day life easy.
 
 In the project directory, you can run:
 
