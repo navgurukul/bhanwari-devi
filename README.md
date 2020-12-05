@@ -6,7 +6,8 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 
 It's okay to break stuff on dev. Even it's ok to break stuff on production( if the reviewer is not able to catch the bug.:P) Kudos to you. We believe same time we should be able to send a fix as soon as we can. Or send it before even someone figures out the bug(probably testing your feature, and catching it before anyone else). Everything aside, Just don't shy away in sending a PR. We all are learning and trying to do better here. 
 
-## Team or Some good vibe/funny picture
+## Let's code together and build something beautiful
+<img src='https://www.netclipart.com/pp/f/239-2392873_children-different-race.png'>
 
 
 ## Code Strucutre
@@ -42,17 +43,18 @@ TODO: add a visual image how the above things interact with each other.
 
 So if you want to do a API call, the idea would be :-> <br/> <br/>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;`Create actions` </br>
-### &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#8595;
+### &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8595;
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Create redux state` </br>
 ### &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8595;
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;`Create the API function`</br>
 ### &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8595;
-&nbsp; &nbsp; &nbsp; &nbsp;`create middlewares(saga)`</br> </br>
+&nbsp; &nbsp; &nbsp; &nbsp;`Create middlewares(saga)`</br> </br>
 
 ### Create actions
 Actions is just a fancy of saying and hadling API request, What kind of action(redux action) we should dispatch on `when we call the api`, `what to do on successful api call`, and `what action to dispatch when api fails or it's not a successful operation`
 To do a API call, first we define `actions`. And we define it in the `src/components/componentName/redux/action.js` file. Let's take an example of getting user information. and How we can define actions for that. 
 the actions would look like something below. 
+
 ```
 export const types = {
   GET_USER_INTENT: 'GET_USER_INTENT',
@@ -85,6 +87,7 @@ export const actions = {
 
 ### Create redux state 
 For state related things, we create and manage staete in `src/components/componentName/redux/reducer.js`. The code looks like this. 
+
 ```
 import { types } from './action'
 
