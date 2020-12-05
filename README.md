@@ -11,7 +11,7 @@ It's okay to break stuff on dev. Even it's ok to break stuff on production( if t
 
 
 ## Code Strucutre
-The philosophy of the code strucutre is that if you have some work in the village then you should find everything in that village which helps you to do complete the work. And you don't need to visit the complex city life to get your work done. let's face it, it's tiring and a bit complex. Here we want that root component contains everything and you should stay inside that component as much as you can and you don't need to worry about what's happening in other part of application. 
+The philosophy of the code strucutre is keeping things as small as they can be. We love Minions. Who doesn't. Keeping functions small, components small, and files small. And also you should be able to work under component directory. What we mean by that, you should't go out of the corresponding main component to do anythings unless you are making some utility function or css which might be useful through out the app. It's like if you have some work in the village then you should find everything in that village, which helps you to do complete the work. And you don't need to visit the complex city area to get your work done. All tools should be available near the work area(redux actions, state, api calls and constant file). let's face it, it's tiring and a bit complex when we have to travel far away directories. Here we want that root component contains everything realted with that component and you should stay inside that component as much as you can and you don't need to worry about what's happening in other parts of the application.( less conflict when working in parallel with other developers) 
 
 For example, we have component called `Course` all the api, redux, redux-saga, and constant should stay inside this component directory. So if someone wants to build a feature in the course section or course related feature, he/she/they don't need to go outside this componenent directory. and their cognitive load doesn't need to worry about other parts of the application. We have a `redux` folder in root components which takes care of the component related api calls, redux state, and redux-saga handlers. 
 
@@ -29,7 +29,9 @@ Note: if you are using some constant that might be needed in other components(i.
   - index.js
   - styles.scss
 
-## Important parts of code base
+## Understanding few parts of the code base
+<img src='https://learningandcreativity.com/wp-content/uploads/2013/10/3-Idiots-movie-still-2.jpg'>
+
 ### How to do an API call and manage state
  The whole point of using redux and redux saga is that we can have a structure around managing the state of the application. If you are not new to redux and redux saga, Don't be afraid, it's not that complex. Sure, there is so much information about out there on redux and redux saga. But you just need to have a basic idea to use it. or we are here to help you if you don't understand something. We will walk you thought it, or we can also help you to create your first api call through redux and redux saga. Just ask one of us, and we are more than happy to help you. 
 
