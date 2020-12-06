@@ -89,7 +89,7 @@ export const actions = {
 ```
 
 ### Create redux state 
-For state related things, we create and manage staete in `src/components/componentName/redux/reducer.js`. The code looks like this. 
+For state related things, we create and manage state in `src/components/componentName/redux/reducer.js`. The code looks like this. 
 
 ```
 import { types } from './action'
@@ -121,7 +121,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.error, // keeping reference of the error.
+        error: action.error, // keeping reference of the error, When API call fails.
         data: null,
       }
 
@@ -132,11 +132,69 @@ export default (state = initialState, action) => {
 
 ```
 
-### Create the API function
+### Create API functions
+
+To create API calss in the backend, we create API calls here. Mostly we do with `axios` in `src/components/componentName/redux/api.js`. The API call looks like this.
+
+```
+import axios from 'axios'
+import { METHODS, HeaderFactory } from '../../../services/api'
+
+/**
+ * gets user data from the server.
+ *
+ * @param {opts} 
+ * @param {object} opts
+ * @returns {Promise}
+ */
+export const getUserData = (opts, tokens) => {
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/users/${opts.userId}`,
+    method: METHODS.GET,
+    headers: HeaderFactory(tokens),
+    data: {
+      "idToken": opts.idToken,
+      "mode": "web",
+    }
+  })
+}
+```
 
 ### Redux middlewars(aka redux-saga) 
-Middlewares are so useful, when we talk about handling async/api calls. 
-It makes handling redux state easy and intutive. In start it might look a bit cumbersome or long. But after creating two or three api calls, you will get a hang of it.
+Middlewares are so useful, when we talk about handling async/api calls. We put saga middlewares in `src/components/componentName/redux/saga.js` file.
+It makes handling redux state easy and intutive. In start it might look a bit cumbersome or long. But after creating two or three api calls, you will get a hang of it. This is how we handle getting user data in through redux saga middleware. 
+
+```
+import { takeLatest, put, call } from 'redux-saga/effects'
+
+import { types, actions } from './action'
+import { authorizeRequest, httpStatuses } from '../../../services/auth'
+import { getUserData } from './api'
+
+/**
+ * This handles gets user data from the server
+ * @param {object} data user information
+ * @param {object} data.userId user id which will be used to get user information
+*/
+function* handleGetUserData({ data }) {
+  const res = yield call( authorizeRequest,getUserData, data)
+  if(httpStatuses.SUCCESS.includes(res.status)) {
+    // if the api call was succesful, let's change the status according // to that. also setting `loading` as false. 
+    yield put(actions.getUserResolved(res.data))
+  } else {
+    // if the api call wasn't successful, let's set the error in redux /// for refernce.also setting `loading` as false. 
+    yield put(actions.getUserRejected(res))
+  } 
+}
+
+export default function* () {
+  // This action `types.GET_USER_INTENT` is also handled in the redux
+  // it sets `loading` as true. so we can show some loader when api call
+  // is happening.
+  yield takeLatest(types.GET_USER_INTENT, handleGetUserData)
+}
+
+```
 
 ### In case of doubt
 
@@ -175,15 +233,18 @@ To run production build in the local environment please run following code after
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Let's see the file structure now. 
-## Please don't get confused and run away. I know it's a bit long.But It's detailed, and look closely it's actually simple and not that complex.:P
+## Let's see the file structure now. 
+### Please don't get confused and run away. I know it's a bit long.But It's detailed, and look closely it's actually simple and not that complex.:P
 ### ![Gif](https://media.giphy.com/media/UB2GxvYsswbBu/giphy.gif) <br/>
 ### The file structure looks something like this.
     ├── src                     # Source files
         ├──asset                # assets that belongs commonly in all components.
         ├──components           # Components and their child components. 
            ├──Course            # Course component and it's child components
-              ├──CreateCourse   # Child Component
+              ├──index.js
+              ├──styles.scss
+              ├──constants.js
+              ├──CreateCourse   #Course realted child component
                  ├──CourseForm  
                  ├──index.js
                  ├──styles.scss
@@ -194,9 +255,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
                 ├──reducer.js   # All the course related state management will happen here
                 ├──saga.js      # All the middlewares for redux state management or api calls we will put here
                 ├──util.js      # Mapper functions or any utility function for data manipulation
-              ├──index.js
-              ├──styles.scss
-              ├──constants.js
            ├──common           # All the common components which might be used anywhere in the app.
               ├──Notification
                  ├──index.js
