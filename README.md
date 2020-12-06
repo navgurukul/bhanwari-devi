@@ -12,9 +12,9 @@ It's okay to break stuff on dev. Even it's ok to break stuff on production( Revi
 
 ## Code Strucutre
 The philosophy of the code strucutre is keeping things as small as they can be. We love Minions. Who doesn't. Keeping functions small, components small, and files small. And also you should be able to work under component directory. What we mean by that, you should't go out of the corresponding main component to do anythings unless you are making some utility function or css which might be useful through out the app. It's like if you have some work in the village then you should find everything in that village, which helps you to do complete the work. And you don't need to visit the complex city area to get your work done. All tools should be available near the work area(redux actions, state, api calls and constant file). let's face it, it's tiring and a bit complex when we have to travel far away directories. Here we want that root component contains everything realted with that component and you should stay inside that component as much as you can and you don't need to worry about what's happening in other parts of the application.( less conflict when working in parallel with other developers) 
-<br/>
+<br/><br/>
 For example, we have component called `Course` all the api, redux, redux-saga, and constant should stay inside this component directory. So if someone wants to build a feature in the course section or course related feature, he/she/they don't need to go outside this componenent directory. and their cognitive load doesn't need to worry about other parts of the application. We have a `redux` folder in root components which takes care of the component related api calls, redux state, and redux-saga handlers. 
-<br/>
+<br/><br/>
 Note: if you are using some constant that might be needed in other components(i.e. url paths), then you have to put that kind of information in the `src/constant`.js file. And if some utility function which is related with common ideas(i.e time, date, string related functions), we should also put them into root `src/service` directory.
 
 
