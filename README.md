@@ -6,7 +6,8 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 
 It's okay to break stuff on dev. Even it's ok to break stuff on production( Reviewers also have equal responsibility that they couldn't catch the bug.:P) Kudos to you. We believe same time taking onwnership and sending a fix as soon as we can. Or send it before even someone figures out the bug(probably testing your feature, and catching it before anyone else). Everything aside, Just don't shy away in sending a PR. We all are learning and trying to do better here. 
 
-## Let's code together and build something beautiful
+## Let's code and build something beautiful together
+*We welcome everyone.:P*
 <img src='https://www.netclipart.com/pp/f/239-2392873_children-different-race.png'>
 
 
