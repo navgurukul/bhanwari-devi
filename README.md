@@ -262,7 +262,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
               ├──Spinner
                  ├──index.js
                  ├──styles.scss
-          ├──pages              # root level containers for each page(different url rotue)
+          ├──pages              # root level containers for each page(Individual component wrapper for different url rotue)
             ├──CourseList       # these are basically wrappers, they should't me more than 30-40 lines.
                ├──index.js
                ├──styles.scss
