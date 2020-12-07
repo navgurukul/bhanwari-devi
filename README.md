@@ -4,14 +4,14 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 
 
 ## Let's code and build something beautiful together
-*We welcome everyone. :D<*
+*We welcome everyone. 🤗*
 ![Working Together](https://www.netclipart.com/pp/f/239-2392873_children-different-race.png)
 
 
 ## Development Ethos
 - *It's OK to break stuff on development. Take the ownership and send the fix.*
 - *Help other people while reviewing the PR. and Be respectful if somebody needs to improve something on their code. The goal is to work together and have some fun.*
-- *If you can, use a ton of emojis while reviewing the PR or replying to comments in the PR. ;)*
+- *If you can, use a ton of emojis while reviewing the PR or replying to comments in the PR. 😉*
 - *Don't shy away from sending a PR, we are more than happy to help you out in the process.*
 
 ## Code Strucutre
