@@ -5,7 +5,7 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 
 ## Let's code and build something beautiful together
 *We welcome everyone. :D<*
-<img src='https://www.netclipart.com/pp/f/239-2392873_children-different-race.png'>
+![Working Together](https://www.netclipart.com/pp/f/239-2392873_children-different-race.png)
 
 
 ## Development Ethos
