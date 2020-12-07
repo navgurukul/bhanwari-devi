@@ -24,11 +24,11 @@ function Course() {
     <div className='ng-course'>
       <CourseList
         list = {get(data, 'enrolledCourses')}
-        title = 'Enrolled Courses(Aap yeh courses mein enrolled hai)'
+        title = 'Aap in courses mein enrolled hai'
       />
       <CourseList
         list = {get(data, 'allCourses')}
-        title = 'All Courses(Aap yeh courses mein enroll kar skte hai)'
+        title = 'Aap yeh courses mein enroll kar skte hai'
       />
     </div>
   )
