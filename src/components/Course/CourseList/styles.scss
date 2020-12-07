@@ -1,3 +1,6 @@
+@import '../../../sass/colors.scss';
+@import '../../../sass/mixins';
+
 .ng-course-list {
   width: 80%;
   margin-bottom: 36px;
@@ -8,5 +11,9 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    @include breakpoint-mobile {
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
