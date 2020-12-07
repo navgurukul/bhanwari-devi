@@ -6,7 +6,8 @@ export const PATHS = {
   CLASS: '/class',
   COURSE: '/course',
   COURSE_CONTENT: '/course/:courseId',
-  CLASSLIST:'/classList'
+  CLASSLIST:'/classList',
+  MODAL :'/Modal'
 
 }
  

@@ -44,7 +44,7 @@ function Class() {
   const { user : { rolesList = [] } } = useSelector(({User}) => User.data)
   // TODO: move access management in routing.
   const doesHaveCreateClassAccess = rolesList.find((role) => CREATE_CLASS_ROLES.has(role))
-  if(!doesHaveCreateClassAccess){
+  if(doesHaveCreateClassAccess){
     return <div> Does not have permission to create classes.</div>
   }
 

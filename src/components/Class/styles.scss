@@ -13,7 +13,9 @@
   flex-direction: column;
   align-items: center;
   @include breakpoint-mobile {
-    width: 90%;
+    width: 100%;
+   
+    
   }
 
   //TODO: move the colors to color file.

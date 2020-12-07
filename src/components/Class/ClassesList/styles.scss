@@ -1,6 +1,22 @@
 
   
 
+.createClassButton{
+	background: #83B344;
+	margin-left: 17%;
+	width: 10%;
+	height: 40px;
+	border-radius: 15px;
+	color: white;
+	font-size: 17px;
+	font-weight:'bold';
+	border: none ;
+}
+
+
+
+//  style={{marginLeft:'17%',backgroundColor:'#83B344',width:'10%',height:'40px',borderRadius:'15px',color:'white',fontSize:'17px',fontWeight:'Bold',border:'none'}}
+
 table { 
 	// width: 750px; 
 	border-collapse: collapse; 
@@ -74,6 +90,21 @@ only screen and (max-width: 760px),
 		/* Label the data */
 		content: attr(data-column);
 		font-weight: bold;
+	}
+
+
+
+.createClassButton{
+	background: #83B344;
+	// margin-left: 17%;
+	width: 50%;
+	height: 40px;
+	border-radius: 15px;
+	color: white;
+	font-size: 17px;
+	font-weight:'bold';
+	border: none ;
+		
 	}
 
 }

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
+
 import './styles.scss'
 
 const Modal = props => {
@@ -21,6 +22,7 @@ const Modal = props => {
         if (onClose) {
           onClose()
         }
+        
       }
     }
 
@@ -32,8 +34,8 @@ const Modal = props => {
 
   return (
     <div  className={ `modalBackground ${props.backGroundClassName}` }>
-      <div id='main-modal' className={ `modal ${props.className}` } ref={ modalRef }>
-        <i className={ `zmdi zmdi-close close ${props.closeStyle}` } onClick={ handleClose }></i>
+      <div id='main-modal' className={ `modal ${props.className}` } ref={ modalRef}>
+      <i className={ `zmdi zmdi-close close ${props.closeStyle}` } onClick={ handleClose }></i>
         { props.children }
       </div>
     </div>

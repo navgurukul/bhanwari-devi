@@ -9,6 +9,7 @@ import CreateClass from '../pages/CreateClass'
 import Course from '../pages/Course'
 import CourseContent from '../pages/CourseContent'
 import ClassesList from '../components/Class/ClassesList'
+import Modal from '../components/common/Modal'
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -52,6 +53,12 @@ const Routing = () => {
         exact
         path={PATHS.CLASSLIST}
         component={ClassesList}
+      /> 
+
+      <PrivateRoute
+        exact
+        path={PATHS.MODAL}
+        component={Modal}
       /> 
       
     </>
