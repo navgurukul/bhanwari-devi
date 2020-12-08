@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { PATHS } from '../../../constant.js'
+import { COURSE_CARD_COLORS } from '../constant'
 import './styles.scss'
 
-import { COURSE_CARD_COLORS } from '../constant'
+
 function CourseCard(props) {
   const { course, index } = props
 
