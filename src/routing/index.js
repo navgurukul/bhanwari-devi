@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Route } from 'react-router-dom'
 import { PrivateRoute } from './Routes'
 // import { userRoles } from '../services/auth'
@@ -9,7 +8,7 @@ import CreateClass from '../pages/CreateClass'
 import Course from '../pages/Course'
 import CourseContent from '../pages/CourseContent'
 import ClassesList from '../components/Class/ClassesList'
-import Modal from '../components/common/Modal'
+
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -55,13 +54,7 @@ const Routing = () => {
         component={ClassesList}
       /> 
 
-      <PrivateRoute
-        exact
-        path={PATHS.MODAL}
-        component={Modal}
-      /> 
-      
-    </>
+     </>
   )
 }
 

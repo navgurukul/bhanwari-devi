@@ -1,20 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-
 import InputField from '../common/FormComponent/InputField'
-
 import { TIME_CONSTANT, CLASS_FORM_FIELDS } from './constant'
 import { actions } from './redux/action'
 import Loader from '../common/Loader'
 import './styles.scss'
-
-const CREATE_CLASS_ROLES = new Set([ 
-  'classAdmin',
-  'admissionIncharge',
-  'facha',
-  'dumbeldore'
-])
 
 const SelectOptions = () => {
   return (
@@ -36,18 +27,9 @@ const SelectOptions = () => {
     </>
   )
 }
-
-
 function Class() {
   const dispatch = useDispatch();
   const { loading } = useSelector(({Class}) => Class)
-  const { user : { rolesList = [] } } = useSelector(({User}) => User.data)
-  // TODO: move access management in routing.
-  const doesHaveCreateClassAccess = rolesList.find((role) => CREATE_CLASS_ROLES.has(role))
-  if(doesHaveCreateClassAccess){
-    return <div> Does not have permission to create classes.</div>
-  }
-
   const handleTimeValicationAndCreateClass = (payload) => {
     const classStartTime = moment(`${payload[TIME_CONSTANT.CLASS_START_DATE]} ${payload[TIME_CONSTANT.CLASS_START_TIME]}`)
     const classEndTime = moment(`${payload[TIME_CONSTANT.CLASS_START_DATE]} ${payload[TIME_CONSTANT.CLASS_END_TIME]}`)
@@ -63,7 +45,6 @@ function Class() {
     payload[TIME_CONSTANT.CLASS_END_DATE] = `${moment(classEndTime).format("YYYY-MM-DDTHH:mm:ss")}Z`
     dispatch(actions.createClass(payload))
   }
-
   const onFormSubmit = (event) => {
     event && event.preventDefault()
     const formData = new FormData(event.target);
@@ -77,7 +58,6 @@ function Class() {
     }
     handleTimeValicationAndCreateClass(formFields)
   }
-
   return (
     <div className='ng-create-class'>
       <h2 className='title'> Create A Class </h2>
@@ -91,6 +71,4 @@ function Class() {
     </div>
   )
 }
-
-
 export default Class;

@@ -16,7 +16,7 @@ function CreateClass() {
   return (
     <div>
        <button
-       className="createClassButton"
+       className="create-class-button"
        onClick={handleClickOpen}
       >
       CREATE A CLASS

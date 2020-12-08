@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Axios from "axios";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { actions as classActions } from '../redux/action'
+import Loader from '../../common/Loader'
+
 import "./styles.scss";
-
 function ClassList() {
-  const [allClass, setAllClass] = useState([]);
-
+  const dispatch = useDispatch()
+  const { loading, data = []  } = useSelector(({ Class }) => Class.allClasses)
   const convertTime = (timeString) => {
     var hourEnd = timeString.indexOf(":");
     var H = +timeString.substr(0, hourEnd);
@@ -13,17 +15,12 @@ function ClassList() {
     timeString = h + timeString.substr(hourEnd, 3) + ampm;
     return timeString;
   };
-
   useEffect((e) => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE5NiIsImVtYWlsIjoiaWFtc2FxdWlibmFzaW1AZ21haWwuY29tIiwiaWF0IjoxNjAwNTM1MzMxLCJleHAiOjE2MzIwOTI5MzF9.vuSZRabkDGa5kdx51D7K9R7lzZL3sElBUTnHs2x-GDY";
-    Axios.get("http://dev-api.navgurukul.org/classes/all", {
-      headers: { Authorization: `Bearer ${token}` },
-    }).then((res) => {
-      setAllClass(res.data);
-    });
-  }, []);
-
+    dispatch(classActions.getClasses())
+  }, [dispatch]);
+  if(loading) {
+    return <Loader pageLoader={true} />
+  }
   return (
     <>
       <table>
@@ -39,7 +36,7 @@ function ClassList() {
             <th>End Time</th>
           </tr>
         </thead>
-        {allClass.map((item, index) => {
+        {data && data.map((item, index) => {
           return (
             <tr>
               <td data-column="Facilitator Name"> {item.facilitator.name}</td>
@@ -61,5 +58,4 @@ function ClassList() {
     </>
   );
 }
-
 export default ClassList;
