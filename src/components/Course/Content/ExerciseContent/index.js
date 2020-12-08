@@ -18,7 +18,7 @@ const RenderContent = ({data}) => {
   if(data.type === 'markdown') {
     return <ReactMarkdown source={data.value} escapeHtml={false}  astPlugins={[parseHtml]}/>
   } else if( data.type === 'python') {
-    return <code className='language-python code-block' > {get(data, 'value.code')} </code>
+    return <code className='language-python code-block' > <br/>{get(data, 'value.code')} <br/></code>
   }else if( data.type === 'bash') {
     return <code className='language-bash code-block' > {get(data, 'value.code')} </code>
   }else if( data.type === 'image') {
