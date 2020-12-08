@@ -60,6 +60,7 @@ function Header() {
 
   return (
     <div className='ng-header'>
+      <div className='logo' />
       <div className='option'>
         { isAuthenticated
           ? <AuthenticatedHeaderOption />

@@ -1,6 +1,21 @@
+@import '../../../sass/colors.scss';
+@import '../../../sass/mixins';
+
 .ng-course-list {
-  width: 80%;
   margin-bottom: 36px;
+
+  > h2 {
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 26px;
+    margin: 0px;
+    margin-left: 32px;
+    @include breakpoint-mobile {
+      margin-left: 0px;
+    }
+  }
 
   >.cards {
     width: 100%;
@@ -8,5 +23,9 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    @include breakpoint-mobile {
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

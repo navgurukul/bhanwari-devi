@@ -2,33 +2,67 @@
 @import '../../../sass/mixins';
 
 .ng-course-card {
-  width: 300px;
-  height: 90px;
+  width: 274px;
+  height: 300px;
   background: #FFFFFF;
-  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  box-shadow: 0px 12px 18px rgba(41, 94, 255, 0.05);
+  border-radius: 18px;
   text-decoration: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 8px;
   margin-bottom: 16px;
-  margin-left: 16px;
+  margin-left: 32px;
   overflow: hidden;
   @include breakpoint-mobile {
     margin-left: 0px;
   }
 
-  >.logo {
-    width: 34px;
-    height: 34px;
+  .upper-section {
+    width: 100%;
+    height: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .upper-section >.logo {
+    width: 100px;
+    height: 100px;
     padding-top: 24px;
     margin-left: 10px;
     margin-right: 10px;
     margin-top: -20px;
+    background-size: contain;
+    // text-indent: -10000px
+    
+    // placeholder in case image loads to fail
+    &:before {
+      content: ' ';
+      display: block;
+      position: absolute;
+      height: 100px;
+      width: 100px;
+      background-image: url('../../../asset/placeholder.png');
+      background-size: contain;
+    }
   }
 
-  >.title {
-    width: 70%;
+  .bottom-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+  }
+  .bottom-section >.title {
+    width: 90%;
     margin-left: 8px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 26px;
+    color: #191B26;
   }
 }
