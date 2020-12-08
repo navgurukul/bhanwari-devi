@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { METHODS, HeaderFactory } from '../../../services/api'
+
+
 /**
  * end-point to get all the classes
  *
@@ -15,6 +17,8 @@ export const getAllClasses = (classData, token) => {
     headers: HeaderFactory(token),
   })
 }
+
+
 /**
  * end-point to create a class.
  *

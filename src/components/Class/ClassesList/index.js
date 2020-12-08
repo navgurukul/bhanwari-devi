@@ -4,9 +4,12 @@ import { actions as classActions } from '../redux/action'
 import Loader from '../../common/Loader'
 
 import "./styles.scss";
+
+
 function ClassList() {
   const dispatch = useDispatch()
   const { loading, data = []  } = useSelector(({ Class }) => Class.allClasses)
+
   const convertTime = (timeString) => {
     var hourEnd = timeString.indexOf(":");
     var H = +timeString.substr(0, hourEnd);
@@ -15,12 +18,15 @@ function ClassList() {
     timeString = h + timeString.substr(hourEnd, 3) + ampm;
     return timeString;
   };
+
   useEffect((e) => {
     dispatch(classActions.getClasses())
   }, [dispatch]);
+
   if(loading) {
     return <Loader pageLoader={true} />
   }
+
   return (
     <>
       <table>
