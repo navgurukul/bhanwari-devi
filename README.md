@@ -15,20 +15,71 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 - *Don't shy away from sending a PR, we are more than happy to help you out in the process.*
 
 ## Code Strucutre
-The philosophy of the code strucutre is keeping things as small as they can be. We love Minions. Who doesn't. Keeping functions small, components small, and files small. And also you should be able to work under component directory. What we mean by that, you should't go out of the corresponding main component to do anythings unless you are making some utility function or css which might be useful through out the app. It's like if you have some work in the village then you should find everything in that village, which helps you to do complete the work. And you don't need to visit the complex city area to get your work done. All tools should be available near the work area(redux actions, state, api calls and constant file). let's face it, it's tiring and a bit complex when we have to travel far away directories. Here we want that root component contains everything realted with that component and you should stay inside that component as much as you can and you don't need to worry about what's happening in other parts of the application.( less conflict when working in parallel with other developers) 
+- *The philosophy of the code strucutre is keeping things as small as they can be. We love Minions. Who doesn't :P. Keeping functions small, components small, and files small. Basically keepings everything as small as they can be.*
+
+
+### Let's see the file structure now. 
+### The file structure looks something like this.
+    ├── src                     # Source files
+        ├──asset                # assets that belongs commonly in all components.
+        ├──components           # Components and their child components. 
+           ├──Course            # Course component and it's child components
+              ├──index.js
+              ├──styles.scss
+              ├──constants.js
+              ├──CreateCourse   #Course realted child component
+                 ├──CourseForm  
+                 ├──index.js
+                 ├──styles.scss
+              ├──CourseList
+              ├──redux          # all the redux and api related things to Course, we will do under redux directory.
+                ├──action.js    # We will define redux actions here
+                ├──api.js       # All the course related APIs(axios requests) will happen here
+                ├──reducer.js   # All the course related state management will happen here
+                ├──saga.js      # All the middlewares for redux state management or api calls we will put here
+                ├──util.js      # Mapper functions or any utility function for data manipulation
+           ├──common            # All the common components which might be used anywhere in the app.
+              ├──Notification
+                 ├──index.js
+                 ├──styles.scss
+              ├──Spinner
+                 ├──index.js
+                 ├──styles.scss
+          ├──pages              # root level containers for each page(Individual component wrapper for different url rotue)
+            ├──CourseList       # these are basically wrappers, they should't me more than 30-40 lines.
+               ├──index.js
+               ├──styles.scss
+          ├──routing           # Creating public and private routes for different pages.
+          ├──services          # Tools and utilities for date, time, string and numbmers
+          ├──sass              # app color css reference and mixins.
+    ├──docs                    # Some documentation about code and other things.
+    ├──.env.development        # development environment variables.
+    ├──package.json
+    ├──package-lock.json
+    └── README.md
+
+### Please don't get confused and run away. We know the above structure was a bit long. But You have to agree that It was detailed, and if look closely it's actually simple and not that complex.:P
+### ![Gif](https://media.giphy.com/media/UB2GxvYsswbBu/giphy.gif) <br/>
 <br/><br/>
-For example, we have component called `Course` all the api, redux, redux-saga, and constant should stay inside this component directory. So if someone wants to build a feature in the course section or course related feature, he/she/they don't need to go outside this componenent directory. and their cognitive load doesn't need to worry about other parts of the application. We have a `redux` folder in root components which takes care of the component related api calls, redux state, and redux-saga handlers. 
-<br/><br/>
+For example, we have component called `Course`. All the api, redux, redux-saga, and constant which are directly related with courses should stay inside this component directory. So anyone works with course related stuff, they always stay inside the `course` main component. Basically in the below file strucuture. </br>
+```
+ ├──components           
+    ├──Course            
+      ├──index.js
+      ├──styles.scss
+      ├──constants.js
+      ├──ChildComponent
+      ├──CourseList
+      ├──redux          
+        ├──action.js    
+        ├──api.js       
+        ├──reducer.js   
+        ├──saga.js      
+        ├──util.js
+      ├──AnotherChildComponent
+```
+
 Note: Global constants will go in global `src/constant.js` file.
-  
-- Component(It could be root component which has all the child component which belongs to this component. i.e see `Course` component)
-  - redux(Root level component will have all the redux realted things of this component.)
-  -Child1Component
-  -Child2Component
-  -..otherChildComponents
-  - constant.js( Constants which are related with this component or to child component)
-  - index.js
-  - styles.scss
 
 ## Understanding few parts of the code base
 <img src='https://learningandcreativity.com/wp-content/uploads/2013/10/3-Idiots-movie-still-2.jpg'>
@@ -232,45 +283,3 @@ To run production build in the local environment please run following code after
 ```
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-## Let's see the file structure now. 
-### Please don't get confused and run away. I know it's a bit long.But It's detailed, and look closely it's actually simple and not that complex.:P
-### ![Gif](https://media.giphy.com/media/UB2GxvYsswbBu/giphy.gif) <br/>
-### The file structure looks something like this.
-    ├── src                     # Source files
-        ├──asset                # assets that belongs commonly in all components.
-        ├──components           # Components and their child components. 
-           ├──Course            # Course component and it's child components
-              ├──index.js
-              ├──styles.scss
-              ├──constants.js
-              ├──CreateCourse   #Course realted child component
-                 ├──CourseForm  
-                 ├──index.js
-                 ├──styles.scss
-              ├──CourseList
-              ├──redux          # all the redux and api related things to Course, we will do under redux directory.
-                ├──action.js    # We will define redux actions here
-                ├──api.js       # All the course related APIs(axios requests) will happen here
-                ├──reducer.js   # All the course related state management will happen here
-                ├──saga.js      # All the middlewares for redux state management or api calls we will put here
-                ├──util.js      # Mapper functions or any utility function for data manipulation
-           ├──common            # All the common components which might be used anywhere in the app.
-              ├──Notification
-                 ├──index.js
-                 ├──styles.scss
-              ├──Spinner
-                 ├──index.js
-                 ├──styles.scss
-          ├──pages              # root level containers for each page(Individual component wrapper for different url rotue)
-            ├──CourseList       # these are basically wrappers, they should't me more than 30-40 lines.
-               ├──index.js
-               ├──styles.scss
-          ├──routing           # Creating public and private routes for different pages.
-          ├──services          # Tools and utilities for date, time, string and numbmers
-          ├──sass              # app color css reference and mixins.
-    ├──docs                    # Some documentation about code and other things.
-    ├──.env.development        # development environment variables.
-    ├──package.json
-    ├──package-lock.json
-    └── README.md
