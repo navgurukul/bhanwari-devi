@@ -15,7 +15,7 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
 - *Don't shy away from sending a PR, we are more than happy to help you out in the process.*
 
 ## Code Strucutre
-- *The philosophy of the code strucutre is keeping things as small as they can be. We love Minions. Who doesn't :P. Keeping functions small, components small, and files small. Basically keepings everything as small as they can be.*
+- *The philosophy of the code strucutre is keeping things as small as they can be. We love Minions. Who doesn't :P. Keeping functions small, components small, and files small. Basically keeping everything as small as they can be.*
 
 
 ### Let's see the file structure now. 
@@ -58,7 +58,7 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
     ├──package-lock.json
     └── README.md
 
-### Please don't get confused and run away. We know the above structure was a bit long. But You have to agree that It was detailed, and if look closely it's actually simple and not that complex.:P
+### Please don't get confuse and run away. We know the above structure was a bit long. But You have to agree that It was detailed, and if look closely it's actually simple and not that complex.:P
 ### ![Gif](https://media.giphy.com/media/UB2GxvYsswbBu/giphy.gif) <br/>
 <br/><br/>
 For example, we have component called `Course`. All the api, redux, redux-saga, and constant which are directly related with courses should stay inside this component directory. So anyone works with course related stuff, they always stay inside the `course` main component. Basically in the below file strucuture. </br>
@@ -84,14 +84,23 @@ Note: Global constants will go in global `src/constant.js` file.
 ## Understanding few parts of the code base
 <img src='https://learningandcreativity.com/wp-content/uploads/2013/10/3-Idiots-movie-still-2.jpg'>
 
-### How to do an API call and manage state
- The whole point of using redux and redux saga is that we can have a structure around managing the state of the application. If you are not new to redux and redux saga, Don't be afraid, it's not that complex. Sure, there is so much information about out there on redux and redux saga. But you just need to have a basic idea to use it. or we are here to help you if you don't understand something. We will walk you thought it, or we can also help you to create your first api call through redux and redux saga. Just ask one of us, and we are more than happy to help you. 
+## Tech Stack 
+- React
+- Redux( if you are new to redux, you can learn a bit about it here |>  https://redux.js.org/introduction/core-concepts)
+- Redux-saga ( we love redux-saga, know nothing, don't worrry. You can get to know a bit about it here. |> https://flaviocopes.com/redux-saga/)
 
- So let's learn something about how we use redux and redux-saga in our code. There are basically 4 things.
+Note: We can walk you through how we use redux and redux-saga. Please get in touch, we can give you short intro to redux and redux-saga. 
+
+
+### How to do an API call and manage state
+- *The whole point of using redux is to reduce application state mangagement*
+- *By using redux-saga we move away the complexity of API handling in a specific file(i.e `saga.js` in each main component)*
+
+#### There are four things which we need to keep in mind when we want to create an API endpoint.
  - Actions
  - Redux State
- - Redux middlewars(aka redux-saga)
  - API calls
+ - Redux middlewars(aka redux-saga)
 
 TODO: add a visual image how the above things interact with each other.
 
