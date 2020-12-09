@@ -1,6 +1,6 @@
 ## Bhanwari Devi
 
-Bhanwari Devi is an inspiring human being for us. She has faught like hell for her rights and social injustice. We have decided to give her name to this project.  Read more about her [here](https://medium.com/@dalithistorynow/dalit-history-month-2019-celebrating-bhanwari-devi-c4bd47d7126e).
+Bhanwari Devi is an oppressed-caste woman who dared to fight against the feudal, casteist and patriarchal structures of rural Rajasthan. We have given project name as a respect to her from our team.  Read more about her [here](https://medium.com/@dalithistorynow/dalit-history-month-2019-celebrating-bhanwari-devi-c4bd47d7126e).
 
 
 ## Let's code and build something beautiful together
@@ -87,19 +87,19 @@ Note: Global constants will go in global `src/constant.js` file.
 ### Tech Stack 
 - React
 - Redux( if you are new to redux, you can learn a bit about it here |>  https://redux.js.org/introduction/core-concepts)
-- Redux-saga ( we love redux-saga, know nothing, don't worrry. You can get to know a bit about it here. |> https://flaviocopes.com/redux-saga/)
+- Redux-saga ( we love redux-saga, Don't know about Redux-saga, don't worrry. You can get to know a bit about it here. |> https://flaviocopes.com/redux-saga/)
 
 Note: We can walk you through how we use redux and redux-saga. Please get in touch, we can give you short intro to redux and redux-saga. 
 
 
 ### How to do an API call and manage state
-- *The whole point of using redux is to reduce application state mangagement*
-- *By using redux-saga we move away the complexity of API handling in a specific file(i.e `saga.js` in each main component)*
+- *The whole point of using redux is to handle application state mangagement in much easier way. New to redux[Learn here](https://redux.js.org/introduction/core-concepts)* 
+- *By using redux-saga we move away the complexity of doing a api call and handing the response in a specific file(i.e `saga.js` ) away from the UI logic. New to redux, [Start from here to learn it](https://flaviocopes.com/redux-saga/)*
 
-#### There are four things which we need to keep in mind when we want to create an API endpoint.
+#### There are four things which we need to keep in mind when we want to create an API call.
  - Actions
  - Redux State
- - API calls
+ - API calls with axios
  - Redux middlewars(aka redux-saga)
 
 TODO: add a visual image how the above things interact with each other.
@@ -113,7 +113,7 @@ So if you want to do a API call, the idea would be :-> <br/> <br/>
 ### &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8595;
 &nbsp; &nbsp; &nbsp; &nbsp;`Create middlewares(saga)`</br> </br>
 
-### Create actions
+### Create redux actions
 Actions is just a fancy of saying and hadling API request, What kind of action(redux action) we should dispatch on `when we call the api`, `what to do on successful api call`, and `what action to dispatch when api fails or it's not a successful operation`
 To do a API call, first we define `actions`. And we define it in the `src/components/componentName/redux/action.js` file. Let's take an example of getting user information. and How we can define actions for that. 
 the actions would look like something below. 
@@ -148,7 +148,7 @@ export const actions = {
 
 ```
 
-### Create redux state 
+### Create redux state(aka reducer) 
 For state related things, we create and manage state in `src/components/componentName/redux/reducer.js`. The code looks like this. 
 
 ```
@@ -211,11 +211,7 @@ export const getUserData = (opts, tokens) => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/users/${opts.userId}`,
     method: METHODS.GET,
-    headers: HeaderFactory(tokens),
-    data: {
-      "idToken": opts.idToken,
-      "mode": "web",
-    }
+    headers: HeaderFactory(tokens)
   })
 }
 ```
@@ -256,9 +252,18 @@ export default function* () {
 
 ```
 
+### How we do Styling/CSS
+Note: To be updated later.
+![CSS MEME](https://i.imgur.com/YkuovuP.png)
+
 ### In case of doubt
 
 If you still have some doubt or suggestions, about how things works in this repo. Please feel free to contact Vikash, Saquib or Komal. We are more than happy to get on a call and make things more clear to you. afterall, you are trying to build things with us.
+
+
+### Environment variables
+- *for development you need some dev variables to set in the `.env.development` file in root folder. If you don't have it. then please create it. and Get in touch with us to get the dev variables.*
+
 
 ## Scripts that makes our day-to-day life easy.
 
