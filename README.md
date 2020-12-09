@@ -124,21 +124,21 @@ You can think of this flow, when you are implementing a API call.:-> <br/> <br/>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`Create middlewares(saga)`</br> </br>
 
 ### Create redux actions
-<p>
+
 Actions are a way to tell redux what state to update on what event. Basically they have a structure, Something like below.👇
 
 ```
 
  { type: 'INCREASE_COUNT', data: 5}
 
-This above object will passed to redux through some function/API(aka Disptacher), and Intuitive behaviour that it updates teh `counter` in redux by 5.
+This above object will passed to redux through some function/API(aka Disptacher), 
+and the intuitive behaviour of this `action` should be that it increments `counter` variable in redux by 5.
 
  ```
  When we do a API call, there are generally three kind of actions that we deal with. 
  - *What to do when we call the API endpoint.*
  - *What to do when we get a successful response from the API endpoint.*
  - *What to do when we get a unsuccessful response from the API endpoint.*
-</p>
 We define actions to corresponding main component redux directory. The file path looks something like this `src/components/componentName/redux/action.js` file. Let's take an example of getting user information. and How we can define actions for getting user's information. 
 the actions should look like this.👇
 
