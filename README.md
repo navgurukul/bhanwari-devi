@@ -58,10 +58,10 @@ Bhanwari Devi is an inspiring human being for us. She has faught like hell for h
     ├──package-lock.json
     └── README.md
 
-### Please don't get confuse and run away. We know the above structure was a bit long. But You have to agree that It was detailed, and if look closely it's actually simple and not that complex.:P
+### Please don't get confuse and run away. We know the above structure was a bit long. But You have to agree that It was detailed, and if you look closely it's actually simple.:P
 ### ![Gif](https://media.giphy.com/media/UB2GxvYsswbBu/giphy.gif) <br/>
 <br/><br/>
-For example, we have component called `Course`. All the api, redux, redux-saga, and constant which are directly related with courses should stay inside this component directory. So anyone works with course related stuff, they always stay inside the `course` main component. Basically in the below file strucuture. </br>
+For example, we have component directory called `Course`. All the api, redux, redux-saga, and constant which are directly related with course entity will go inside `Course` component directory. So if anyone works with course related stuff, We want them to always stay inside the `Course` directory. Basically in the below file strucuture. </br>
 ```
  ├──components           
     ├──Course            
@@ -84,7 +84,7 @@ Note: Global constants will go in global `src/constant.js` file.
 ## Understanding few parts of the code base
 <img src='https://learningandcreativity.com/wp-content/uploads/2013/10/3-Idiots-movie-still-2.jpg'>
 
-## Tech Stack 
+### Tech Stack 
 - React
 - Redux( if you are new to redux, you can learn a bit about it here |>  https://redux.js.org/introduction/core-concepts)
 - Redux-saga ( we love redux-saga, know nothing, don't worrry. You can get to know a bit about it here. |> https://flaviocopes.com/redux-saga/)
@@ -258,7 +258,7 @@ export default function* () {
 
 ### In case of doubt
 
-If you still have some doubt or suggestions, about how things works in this repo. Please feel free to contact Vikash, Saquib or Komal. We are more than happy to get on a call and make things more clear to you. afterall, you are trying to build things together with us.
+If you still have some doubt or suggestions, about how things works in this repo. Please feel free to contact Vikash, Saquib or Komal. We are more than happy to get on a call and make things more clear to you. afterall, you are trying to build things with us.
 
 ## Scripts that makes our day-to-day life easy.
 
