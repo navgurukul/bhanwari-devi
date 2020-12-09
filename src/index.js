@@ -1,9 +1,9 @@
+  
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import initialStore from "./store.js";
-
 import "./index.css";
 import App from "./components/App/index.js";
 import * as serviceWorker from "./serviceWorker";
