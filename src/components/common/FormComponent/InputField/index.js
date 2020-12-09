@@ -1,34 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import './styles.scss';
+import "./styles.scss";
 
 const InputField = (props) => {
   const {
-    type='input',
-    className='',
-    label='',
-    labelClassName='',
-    inputClassName='',
+    type = "input",
+    className = "",
+    label = "",
+    labelClassName = "",
+    inputClassName = "",
     ...rest
-  } = props
+  } = props;
 
-  if(type === 'textarea') {
+  if (type === "textarea") {
     return (
-      <div className={ `ng-input-field ${className}`}>
+      <div className={`ng-input-field ${className}`}>
         <label className={`label ${labelClassName}`}>{label}</label>
         <textarea className={`textarea-field ${inputClassName}`} {...rest} />
       </div>
-    ) 
+    );
   }
 
   return (
-    <div className={ `ng-input-field ${className}`}>
+    <div className={`ng-input-field ${className}`}>
       <label className={`label ${labelClassName}`}>{label}</label>
-      <input type={type} className={`input-field ${inputClassName}`} {...rest} />
+      <input
+        type={type}
+        className={`input-field ${inputClassName}`}
+        {...rest}
+      />
     </div>
-  )
-}
+  );
+};
 
 InputField.propTypes = {
   type: PropTypes.string,
@@ -36,6 +40,6 @@ InputField.propTypes = {
   label: PropTypes.string,
   inputClassName: PropTypes.string,
   labelClassName: PropTypes.string,
-}
+};
 
-export default InputField
+export default InputField;

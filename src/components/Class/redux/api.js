@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { METHODS, HeaderFactory } from '../../../services/api'
+import axios from "axios";
+import { METHODS, HeaderFactory } from "../../../services/api";
 
 
 /**
@@ -35,7 +35,7 @@ export const createClass = (classData, token) => {
     method: METHODS.POST,
     headers: HeaderFactory(token),
     data: {
-      ...classData
-    }
-  })
-}
+      ...classData,
+    },
+  });
+};

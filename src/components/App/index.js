@@ -1,8 +1,9 @@
 import React from "react";
 
-import Routing from '../../routing'
-import Header from '../Header'
+import Routing from "../../routing";
+import Header from "../Header";
 
+import "./styles.scss";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Header />
       <Routing />
     </>
-  )
+  );
 }
 
 export default App;
