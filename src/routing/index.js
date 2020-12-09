@@ -1,3 +1,4 @@
+  
 import React from "react";
 import { Route } from "react-router-dom";
 import { PrivateRoute } from "./Routes";
@@ -7,7 +8,7 @@ import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
 import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
-import ClassList from "../components/Class/ClassList";
+
 
 // import Classes from '../pages/classes'
 
@@ -27,8 +28,6 @@ const Routing = () => {
         component={ Class }
       />*/}
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
-
-      <PrivateRoute exact path={PATHS.CLASSLIST} component={ClassList} />
     </>
   );
 };

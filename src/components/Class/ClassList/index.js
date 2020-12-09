@@ -1,9 +1,13 @@
+  
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+
 import { actions as classActions } from '../redux/action'
 import Loader from '../../common/Loader'
 import "./styles.scss";
+
+
 function ClassList() {
   const dispatch = useDispatch()
   const { loading, data = []  } = useSelector(({ Class }) => Class.allClasses)
