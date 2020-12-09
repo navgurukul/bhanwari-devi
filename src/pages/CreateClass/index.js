@@ -1,11 +1,9 @@
 import React from "react";
 
-import CreateClassComponent from '../../components/Class'
+import CreateClassComponent from "../../components/Class";
 
 function CreateClass() {
-  return (
-   <CreateClassComponent />
-  )
+  return <CreateClassComponent />;
 }
 
 export default CreateClass;

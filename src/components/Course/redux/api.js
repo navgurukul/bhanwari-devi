@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { METHODS } from '../../../services/api'
+import axios from "axios";
+import { METHODS } from "../../../services/api";
 
 /**
  * end-point to get all the courses
@@ -14,9 +14,8 @@ export const getCourses = (data, token) => {
     url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
     method: METHODS.GET,
     // headers: HeaderFactory(token),
-  })
-}
-
+  });
+};
 
 /**
  * end-point to get content of a course
@@ -28,10 +27,10 @@ export const getCourses = (data, token) => {
  * @returns {Promise}
  */
 export const getCourseContent = (data, token) => {
-  const { courseId } = data
+  const { courseId } = data;
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
     method: METHODS.GET,
     // headers: HeaderFactory(token),
-  })
-}
+  });
+};
