@@ -1,32 +1,18 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { actions as classActions } from '../redux/action'
 import Loader from '../../common/Loader'
-
 import "./styles.scss";
-
-
 function ClassList() {
   const dispatch = useDispatch()
   const { loading, data = []  } = useSelector(({ Class }) => Class.allClasses)
-
-  const convertTime = (timeString) => {
-    var hourEnd = timeString.indexOf(":");
-    var H = +timeString.substr(0, hourEnd);
-    var h = H % 12 || 12;
-    var ampm = H < 12 ? "AM" : "PM";
-    timeString = h + timeString.substr(hourEnd, 3) + ampm;
-    return timeString;
-  };
-
   useEffect((e) => {
     dispatch(classActions.getClasses())
   }, [dispatch]);
-
   if(loading) {
     return <Loader pageLoader={true} />
   }
-
   return (
     <>
       <table>
@@ -43,19 +29,21 @@ function ClassList() {
           </tr>
         </thead>
         {data && data.map((item, index) => {
+          const classStartTime = item.start_time && item.start_time.replace('Z', '')
+          const classEndTime = item.end_time && item.end_time.replace('Z', '')
           return (
-            <tr>
+            <tr key={index}>
               <td data-column="Facilitator Name"> {item.facilitator.name}</td>
               <td data-column="Title">{item.title}</td>
               <td data-column="Description">{item.description}</td>
               <td data-column="Language">{item.lang}</td>
               <td data-column="Class type">{item.type}</td>
-              <td data-column="Date">{item.start_time.split("T")[0]}</td>
+              <td data-column="Date">{moment(classStartTime).format('DD-MM-YYYY')}</td>
               <td data-column="End Time">
-                {convertTime(item.start_time.split("T")[1])}
+                {moment(classStartTime).format('hh:mm a')}
               </td>
               <td data-column="End Time">
-                {convertTime(item.end_time.split("T")[1])}
+                {moment(classEndTime).format('hh:mm a')}
               </td>
             </tr>
           );

@@ -7,7 +7,7 @@ import Login from '../pages/Login'
 import CreateClass from '../pages/CreateClass'
 import Course from '../pages/Course'
 import CourseContent from '../pages/CourseContent'
-import ClassesList from '../components/Class/ClassesList'
+import ClassList from '../components/Class/ClassList'
 
 // import Classes from '../pages/classes'
 
@@ -51,7 +51,7 @@ const Routing = () => {
       <PrivateRoute
         exact
         path={PATHS.CLASSLIST}
-        component={ClassesList}
+        component={ClassList}
       /> 
 
      </>

@@ -23,7 +23,8 @@ function* handleCreateClass({ data }) {
 function* handleGetClasses({ data }) {
   const classesResponse = yield call(authorizeRequest, getAllClasses, data)
   if(classesResponse && httpStatuses.SUCCESS.includes(classesResponse.status)){
-    yield put(actions.getClassesResolved(classesResponse.data))
+    console.log(classesResponse)
+    yield put(actions.getClassesResolved(classesResponse.data.classes))
   } else {
     yield put(actions.getClassesRejected(classesResponse))
   }

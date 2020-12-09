@@ -1,15 +1,15 @@
 import React from "react";
 import CreateClassComponent from '../../components/Class'
-import ClassesList from '../../components/Class/ClassesList'
+import ClassesList from '../../components/Class/ClassList'
 import Modal from '../../components/common/Modal'
-import "../../components/Class/ClassesList/styles.scss"
+import "../../components/Class/ClassList/styles.scss"
 
 
-function CreateClass() {
-  const [open, setOpen] = React.useState(false);
+function ToggleClassFormModal() {
+  const [showModel, setShowModel] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(!open);
+    setShowModel(!showModel);
   };
 
  
@@ -22,7 +22,7 @@ function CreateClass() {
       CREATE A CLASS
       </button>
     <ClassesList/>
-    {open ? (
+    {showModel ? (
       <Modal onClose = {() => handleClickOpen()}>
         <CreateClassComponent />
         </Modal>
@@ -35,4 +35,4 @@ function CreateClass() {
   )
 }
 
-export default CreateClass;
+export default ToggleClassFormModal;
