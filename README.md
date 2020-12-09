@@ -131,7 +131,7 @@ Actions are a way to tell redux what state to update on what event. Basically th
 
  { type: 'INCREASE_COUNT', data: 5}
 
-This above object will passed to redux with some function/API(aka Disptacher), and Intuitive behaviour that it updates teh `counter` in redux by 5.
+This above object will passed to redux through some function/API(aka Disptacher), and Intuitive behaviour that it updates teh `counter` in redux by 5.
 
  ```
  When we do a API call, there are generally three kind of actions that we deal with. 
@@ -141,6 +141,7 @@ This above object will passed to redux with some function/API(aka Disptacher), a
 </p>
 We define actions to corresponding main component redux directory. The file path looks something like this `src/components/componentName/redux/action.js` file. Let's take an example of getting user information. and How we can define actions for getting user's information. 
 the actions should look like this.👇
+
 
 ```
 export const types = {
