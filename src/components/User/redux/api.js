@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { METHODS, HeaderFactory } from '../../../services/api'
+import axios from "axios";
+import { METHODS, HeaderFactory } from "../../../services/api";
 
 /**
  * Sends google id-token to meraki back-end to register the user.
@@ -15,8 +15,8 @@ export const sendGoogleUserData = (userData, tokens) => {
     method: METHODS.POST,
     headers: HeaderFactory(tokens),
     data: {
-      "idToken": userData.idToken,
-      "mode": "web",
-    }
-  })
-}
+      idToken: userData.idToken,
+      mode: "web",
+    },
+  });
+};

@@ -1,15 +1,10 @@
-import { fork, all } from 'redux-saga/effects'
+import { fork, all } from "redux-saga/effects";
 
-import User from './components/User/redux/saga'
-import Class from './components/Class/redux/saga'
-import Course from './components/Course/redux/saga'
+import User from "./components/User/redux/saga";
+import Class from "./components/Class/redux/saga";
+import Course from "./components/Course/redux/saga";
 // import Notifications from './Notifications'
 
-
-export default function*() {
-  yield all([
-    fork(User),
-    fork(Class),
-    fork(Course),
-  ])
+export default function* () {
+  yield all([fork(User), fork(Class), fork(Course)]);
 }

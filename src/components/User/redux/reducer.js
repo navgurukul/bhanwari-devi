@@ -1,10 +1,10 @@
-import { types } from './action'
+import { types } from "./action";
 
 const initialState = {
   loading: false,
   error: false,
   data: null,
-}
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -14,14 +14,14 @@ export default (state = initialState, action) => {
         loading: true,
         error: false,
         data: null,
-      }
+      };
     case types.ON_USER_SIGN_INTENT_RESOLVED:
       return {
         ...state,
         loading: false,
         error: false,
         data: action.data,
-      }
+      };
 
     case types.ON_USER_SIGN_INTENT_REJECTED:
       return {
@@ -29,9 +29,9 @@ export default (state = initialState, action) => {
         loading: false,
         error: action.error,
         data: null,
-      }
+      };
 
     default:
-      return state
+      return state;
   }
-}
+};

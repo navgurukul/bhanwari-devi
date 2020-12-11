@@ -1,4 +1,4 @@
-import get from 'lodash/get'
+import get from "lodash/get";
 
 export const mapCourses = (courses) => {
   // TODO: handle later when we provide functionality of enrolling courses.
@@ -12,24 +12,24 @@ export const mapCourses = (courses) => {
   //   }
   // })
 
-  const mappedAllCourses  = courses.map((course) => {
+  const mappedAllCourses = courses.map((course) => {
     return {
       id: course.id,
       name: course.name,
       logo: course.logo,
       description: course.short_description,
-    }
-  })
+    };
+  });
 
   return {
     // enrolledCourses: mappedEnrolledCourses,
-    allCourses: mappedAllCourses
-  }
-} 
+    allCourses: mappedAllCourses,
+  };
+};
 
 /**
- * 
- * @param {Object} contentResponse 
+ *
+ * @param {Object} contentResponse
  * @param {Object} contentResponse.course.exercises[0] Map exercises in course content
  * typical exercise object from backend.
  * {
@@ -47,13 +47,15 @@ export const mapCourses = (courses) => {
  * }
  */
 export const mapCourseContent = (contentResponse) => {
-  const { exercises = [] } = get(contentResponse, 'course', {})
+  const { exercises = [] } = get(contentResponse, "course", {});
   const exerciseList = exercises.map((exercise, index) => {
-    let childExercises = null
-    if(exercise.childExercises) {
+    let childExercises = null;
+    if (exercise.childExercises) {
       childExercises = exercise.childExercises.map((childExercise) => {
-        if((typeof childExercise.content) === 'string') {
-          childExercise.content = [{type: 'markdown', value: exercise.content}]
+        if (typeof childExercise.content === "string") {
+          childExercise.content = [
+            { type: "markdown", value: exercise.content },
+          ];
         }
         return {
           content: childExercise.content,
@@ -61,11 +63,11 @@ export const mapCourseContent = (contentResponse) => {
           id: childExercise.id,
           name: childExercise.name,
           slug: childExercise.slug,
-        }
-      })
+        };
+      });
     }
-    if((typeof exercise.content) === 'string') {
-      exercise.content = [{type: 'markdown', value: exercise.content}]
+    if (typeof exercise.content === "string") {
+      exercise.content = [{ type: "markdown", value: exercise.content }];
     }
     return {
       content: exercise.content,
@@ -74,10 +76,10 @@ export const mapCourseContent = (contentResponse) => {
       name: exercise.name,
       slug: exercise.slug,
       childExercises: childExercises,
-    }
-  })
+    };
+  });
 
   return {
-    exerciseList
-  }
-}
+    exerciseList,
+  };
+};

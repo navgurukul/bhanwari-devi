@@ -1,4 +1,4 @@
-import { types } from './action'
+import { types } from "./action";
 
 const initialState = {
   loading: false,
@@ -14,8 +14,8 @@ const initialState = {
     parentExercise: null, // reference to parent exercise in the list
     index: null, // reference to main exercise in the course exercise list
     subExerciseIndex: null, // reference to child exercise of an exercise
-  }
-}
+  },
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -25,14 +25,14 @@ export default (state = initialState, action) => {
         loading: true,
         error: false,
         data: null,
-      }
+      };
     case types.GET_COURSES_INTENT_RESOLVED:
       return {
         ...state,
         loading: false,
         error: false,
         data: action.data,
-      }
+      };
 
     case types.GET_COURSES_INTENT_REJECTED:
       return {
@@ -40,8 +40,8 @@ export default (state = initialState, action) => {
         loading: false,
         error: action.error,
         data: null,
-      }
-    
+      };
+
     case types.GET_COURSE_CONTENT_INTENT:
       return {
         ...state,
@@ -49,9 +49,9 @@ export default (state = initialState, action) => {
           loading: true,
           error: false,
           data: null,
-        }
-      }
-    
+        },
+      };
+
     case types.GET_COURSE_CONTENT_INTENT_RESOLVED:
       return {
         ...state,
@@ -59,8 +59,8 @@ export default (state = initialState, action) => {
           loading: false,
           error: false,
           data: action.data,
-        }
-      }
+        },
+      };
 
     case types.GET_COURSE_CONTENT_INTENT_REJECTED:
       return {
@@ -69,16 +69,16 @@ export default (state = initialState, action) => {
           loading: false,
           error: action.error,
           data: null,
-        }
-      }
-    
+        },
+      };
+
     case types.UPDATE_SELECTED_EXERCISE:
       return {
         ...state,
-        selectedExercise: action.data
-      }
+        selectedExercise: action.data,
+      };
 
     default:
-      return state
+      return state;
   }
-}
+};
