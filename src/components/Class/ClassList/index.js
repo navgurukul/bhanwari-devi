@@ -10,16 +10,20 @@ import "./styles.scss";
 
 function ClassList() {
   const dispatch = useDispatch()
-  const { loading, data = []  } = useSelector(({ Class }) => Class.allClasses)
+  
+  const { loading, data = []  } = useSelector(({ Class}) => Class.allClasses)
+ 
   useEffect((e) => {
     dispatch(classActions.getClasses())
   }, [dispatch]);
+  
   if(loading) {
     return <Loader pageLoader={true} />
   }
+  
   return (
     <>
-      <table>
+     <table>
         <thead>
           <tr>
             <th>Facilitator Name</th>
@@ -32,7 +36,8 @@ function ClassList() {
             <th>End Time</th>
           </tr>
         </thead>
-        {data && data.map((item, index) => {
+        
+        {data && data.length === 0 ? data.map((item, index) => {
           const classStartTime = item.start_time && item.start_time.replace('Z', '')
           const classEndTime = item.end_time && item.end_time.replace('Z', '')
           return (
@@ -51,8 +56,11 @@ function ClassList() {
               </td>
             </tr>
           );
-        })}
+        }):<div className="message">
+          <h2>No Classes Today</h2>
+          </div>}
       </table>
+   
     </>
   );
 }

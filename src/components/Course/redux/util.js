@@ -21,6 +21,7 @@ export const mapCourses = (courses) => {
     };
   });
 
+ 
   return {
     // enrolledCourses: mappedEnrolledCourses,
     allCourses: mappedAllCourses,
@@ -83,3 +84,4 @@ export const mapCourseContent = (contentResponse) => {
     exerciseList,
   };
 };
+

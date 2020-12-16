@@ -9,13 +9,22 @@ import { METHODS } from "../../../services/api";
  *
  * @returns {Promise}
  */
-export const getCourses = (data, token) => {
-  return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
+export const getCourses = (options = {}, token) => {
+  const { search } = options
+  const queryParameters = []
+  if(search) {
+    queryParameters.push(`search=${search}`)
+  }
+// console.log(data,'komal')
+return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/courses?${queryParameters.join('&')}`,
     method: METHODS.GET,
     // headers: HeaderFactory(token),
   });
+ 
 };
+
+
 
 /**
  * end-point to get content of a course
@@ -34,3 +43,4 @@ export const getCourseContent = (data, token) => {
     // headers: HeaderFactory(token),
   });
 };
+
