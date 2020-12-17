@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import get from "lodash/get";
 
@@ -10,10 +10,12 @@ import "./styles.scss";
 function Course() {
   const dispatch = useDispatch();
   const { loading, data } = useSelector(({ Course }) => Course);
-
+  
   useEffect(() => {
     dispatch(courseActions.getCourses());
   }, [dispatch]);
+
+
 
   if (loading) {
     return <Loader pageLoader={true} />;

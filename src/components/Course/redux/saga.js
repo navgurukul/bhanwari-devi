@@ -10,9 +10,11 @@ import { getCourses, getCourseContent } from "./api";
  */
 function* handleGetCourses({ data }) {
   const coursesResponse = yield call(getCourses, data);
+  console.log(coursesResponse,'data')
   if (
     coursesResponse &&
     httpStatuses.SUCCESS.includes(coursesResponse.status)
+    
   ) {
     const mappedCourses = mapCourses(coursesResponse.data);
     yield put(actions.getCoursesResolved(mappedCourses));
