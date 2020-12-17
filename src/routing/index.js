@@ -10,7 +10,6 @@ import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 
 
-
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -29,7 +28,6 @@ const Routing = () => {
         component={ Class }
       />*/}
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
-      
     </>
   );
 };

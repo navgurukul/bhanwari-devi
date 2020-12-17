@@ -12,7 +12,7 @@ function CourseCard(props) {
   return (
     <a
       className="ng-course-card"
-      href={`${PATHS.COURSE}/${course.id}?name=${course.name}`}
+      href={`${PATHS.COURSE}/${course.id}`}
       key={index}
     >
       <div
