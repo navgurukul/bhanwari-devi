@@ -24,7 +24,6 @@ const EditOnGithub = (props) => {
 };
 
 function CourseContent(props) {
-  // console.log(props,"prosp")
   const dispatch = useDispatch();
   const {
     courseContent: { loading, data },
@@ -34,8 +33,8 @@ function CourseContent(props) {
   // get the course id, and pass it in the component.
   const courseName = get(props, "location.search");
   const params = new URLSearchParams(courseName);
-  const courseTitle = params.get("name"); 
-  // console.log(courseTitle,'llll' );
+  const courseTitle = params.get("name");
+
   const courseId = get(props, "match.params.courseId");
 
   useEffect(() => {
@@ -57,7 +56,7 @@ function CourseContent(props) {
   return (
     <div className="ng-course-content">
       <div className="content">
-      <h1>{courseTitle}</h1>
+        <h1>{courseTitle}</h1>
         <h2>{get(selectedExercise, "exercise.name")}</h2>
         <ExerciseContent content={get(selectedExercise, "exercise.content")} />
         <EditOnGithub

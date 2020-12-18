@@ -22,7 +22,7 @@ function ClassList() {
   }
   
   return (
-    <>
+    <React.Fragment>
      <table>
         <thead>
           <tr>
@@ -37,7 +37,7 @@ function ClassList() {
           </tr>
         </thead>
         
-        {data && data.length === 0 ? data.map((item, index) => {
+        {data && data.length > 0 ? data.map((item, index) => {
           const classStartTime = item.start_time && item.start_time.replace('Z', '')
           const classEndTime = item.end_time && item.end_time.replace('Z', '')
           return (
@@ -61,7 +61,7 @@ function ClassList() {
           </div>}
       </table>
    
-    </>
+      </React.Fragment>
   );
 }
 export default ClassList;
