@@ -12,6 +12,14 @@ import GoBackArrow from "../../components/Course/Content/GoBackArrow";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
 
+const getExerciseIdFromUrl = () => {
+  let exerciseId;
+  if (window.location.href.includes('exercise')) {
+    exerciseId = window.location.href.split('/').pop();
+  }
+  return exerciseId;
+}
+
 function CourseContent(props) {
   const history = useHistory();
   let { url, path } = useRouteMatch();
@@ -28,8 +36,34 @@ function CourseContent(props) {
     dispatch(courseActions.getCourseContent({ courseId: courseId }));
   }, [dispatch, courseId]);
 
-  
+  useEffect(() => {
+    let defaultExercise, defaultExerciseIndex;
+    let exerciseIdFromParams = getExerciseIdFromUrl();
+    const firstExercise = get(data, 'exerciseList[0]');
 
+    // exercises loaded
+    if (firstExercise) {
+        if (exerciseIdFromParams) {
+            const exerciseFromParams = data.exerciseList.find((exercise) => {
+                return exercise.id === exerciseIdFromParams;
+            });
+            if (exerciseFromParams) {
+                defaultExercise = exerciseFromParams;
+                defaultExerciseIndex = data.exerciseList.findIndex((exercise) => {
+                    return exercise.id === exerciseIdFromParams;
+                });
+            }
+        }
+
+        // exerciseId not params or exerciseId in params not there in exercise list (eg: invalid exercise id in url)
+        if (!defaultExercise) {
+            defaultExercise = firstExercise;
+            defaultExerciseIndex = 0;
+        }
+        const selectedExerciseInfo = { exercise: defaultExercise, index: defaultExerciseIndex };
+        dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
+    }
+  }, [dispatch, data]);
 
 
   useEffect(() => {
