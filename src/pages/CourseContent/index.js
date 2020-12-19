@@ -43,6 +43,9 @@ function CourseContent(props) {
 
     // exercises loaded
     if (firstExercise) {
+
+        // set default exercise as per the exercise id present in the url
+        // TBD: Ideally, when navigating to a course content page, the first exercise should be pre-computed and the url should be course/:courseId/exercise/:exerciseId so we can always use the exerciseId from the params to set the default exercise.
         if (exerciseIdFromParams) {
             const exerciseFromParams = data.exerciseList.find((exercise) => {
                 return exercise.id === exerciseIdFromParams;
@@ -55,7 +58,7 @@ function CourseContent(props) {
             }
         }
 
-        // exerciseId not params or exerciseId in params not there in exercise list (eg: invalid exercise id in url)
+        // exerciseId not in params or exerciseId in params not there in exercise list (eg: invalid exercise id in url)
         if (!defaultExercise) {
             defaultExercise = firstExercise;
             defaultExerciseIndex = 0;
