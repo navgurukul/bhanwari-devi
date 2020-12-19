@@ -5,13 +5,14 @@ import CourseCard from "../CourseCard";
 import "./styles.scss";
 
 const CourseList = ({ list, title }) => {
-  if (list && list.length) {
+ 
+  if (list && list.length ) {
     return (
       <div className="ng-course-list">
         <h2>{title}</h2>
         <div className="cards">
           {list.map((course, index) => (
-            <CourseCard course={course} index={index} />
+            <CourseCard course={course} index={index}  />
           ))}
         </div>
       </div>

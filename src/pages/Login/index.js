@@ -33,7 +33,7 @@ function Login(props) {
   if (isAuthenticated) {
     return <Redirect to={PATHS.COURSE} />;
   }
-
+ 
   return (
     <div className="ng-login">
       <div className="logo" />

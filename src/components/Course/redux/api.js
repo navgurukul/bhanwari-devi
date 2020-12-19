@@ -10,12 +10,16 @@ import { METHODS } from "../../../services/api";
  * @returns {Promise}
  */
 export const getCourses = (data, token) => {
+ 
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
     method: METHODS.GET,
     // headers: HeaderFactory(token),
   });
+  
 };
+
+
 
 /**
  * end-point to get content of a course
@@ -34,3 +38,4 @@ export const getCourseContent = (data, token) => {
     // headers: HeaderFactory(token),
   });
 };
+
