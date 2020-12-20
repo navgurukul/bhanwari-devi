@@ -37,32 +37,25 @@ function CourseContent(props) {
   }, [dispatch, courseId]);
 
   useEffect(() => {
-    let defaultExercise, defaultExerciseIndex;
     let exerciseIdFromParams = getExerciseIdFromUrl();
     const firstExercise = get(data, 'exerciseList[0]');
+    let defaultExercise = firstExercise, defaultExerciseIndex = 0;
 
     // exercises loaded
     if (firstExercise) {
 
-        // set default exercise as per the exercise id present in the url
+        // set default exercise if the exercise id present in the url and is valid
         // TBD: Ideally, when navigating to a course content page, the first exercise should be pre-computed and the url should be course/:courseId/exercise/:exerciseId so we can always use the exerciseId from the params to set the default exercise.
         if (exerciseIdFromParams) {
-            const exerciseFromParams = data.exerciseList.find((exercise) => {
+            const exerciseFromParamsIndex = data.exerciseList.findIndex((exercise) => {
                 return exercise.id === exerciseIdFromParams;
             });
-            if (exerciseFromParams) {
-                defaultExercise = exerciseFromParams;
-                defaultExerciseIndex = data.exerciseList.findIndex((exercise) => {
-                    return exercise.id === exerciseIdFromParams;
-                });
+            if (exerciseFromParamsIndex !== -1) {
+                defaultExercise = data.exerciseList[exerciseFromParamsIndex];
+                defaultExerciseIndex = exerciseFromParamsIndex;
             }
         }
 
-        // exerciseId not in params or exerciseId in params not there in exercise list (eg: invalid exercise id in url)
-        if (!defaultExercise) {
-            defaultExercise = firstExercise;
-            defaultExerciseIndex = 0;
-        }
         const selectedExerciseInfo = { exercise: defaultExercise, index: defaultExerciseIndex };
         dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
     }
