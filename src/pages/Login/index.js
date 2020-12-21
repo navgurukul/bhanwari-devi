@@ -22,22 +22,19 @@ function Login(props) {
       email: profile.getEmail(),
       idToken,
     };
-  
+
     // let's send the data to our backend.
     dispatch(userActions.onUserSignin(googleData));
-   
-
   }
 
   const onGoogleLoginFail = (errorResponse) => {
-    console.log("komabhatt")
     console.log("onGoogle login fail", errorResponse);
   };
 
   if (isAuthenticated) {
     return <Redirect to={PATHS.COURSE} />;
   }
- 
+
   return (
     <div className="ng-login">
       <div className="logo" />
