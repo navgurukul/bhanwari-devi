@@ -38,7 +38,7 @@ function Course() {
         <input
           type="text"
           className="search-term"
-          placeholder="What are you looking for?"
+          placeholder="Search for a course"
           onChange={handleChange}
           value={search}
         />

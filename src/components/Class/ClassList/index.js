@@ -65,7 +65,7 @@ function ClassList() {
             );
           })
         ) : (
-          <div className="msg">
+          <div className="message">
             <h2>No Classes Today</h2>
           </div>
         )}

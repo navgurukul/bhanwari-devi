@@ -57,7 +57,7 @@ function CourseContent(props) {
     <div className="ng-course-content">
       <div className="content">
         <h1>{courseTitle}</h1>
-        <h2>{get(selectedExercise, "exercise.name")}</h2>
+        <h2>{get(selectedExercise,"exercise.name")}</h2>
         <ExerciseContent content={get(selectedExercise, "exercise.content")} />
         <EditOnGithub
           link={`${get(selectedExercise, "exercise.githubLink")}`}

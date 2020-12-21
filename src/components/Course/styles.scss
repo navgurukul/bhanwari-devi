@@ -25,7 +25,7 @@
 
 .search-term {
   width: 100%;
-  border: 3px solid #d55f31;
+  border: 3px solid #83B344;
   border-right: none;
   padding: 5px;
   height: 40px;
@@ -38,7 +38,7 @@
   }
 }
 
-.searchTerm:focus {
+.search-term:focus {
   color: black;
   font-size: 18px;
 }
@@ -47,8 +47,8 @@
   width: 70px;
   font-size: 25px;
   height: 56px;
-  border: 1px solid #d55f31;
-  background: #d55f31;
+  border: 1px solid #83B344;
+  background: #83B344;
   color: #fff;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
