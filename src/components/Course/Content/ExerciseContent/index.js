@@ -53,7 +53,7 @@ const RenderContent = ({ data }) => {
 function ExerciseContent(props) {
   const { content = [] } = props;
 
-  if (!Boolean(content)) {
+  if (!content) {
     return "";
   }
 
