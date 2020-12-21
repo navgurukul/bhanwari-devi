@@ -74,7 +74,7 @@ function CourseContent(props) {
     if (exerciseId) {
       history.push(`${url}/exercise/${exerciseId}`);
     }
-  }, [selectedExercise]);
+  }, [selectedExercise, history, url])
 
   if (loading) {
     return <Loader pageLoader={true} />;
