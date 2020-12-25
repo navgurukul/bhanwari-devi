@@ -8,6 +8,7 @@ import Exercise from "./Exercise";
 import "./styles.scss";
 
 function ExerciseList(props) {
+  console.log(b);
   const { list = [] } = props;
   const dispatch = useDispatch();
   const {
