@@ -1,12 +1,12 @@
-@import '../../../../sass/colors.scss';
-@import '../../../../sass/mixins.scss';
+@import "../../../../sass/colors.scss";
+@import "../../../../sass/mixins.scss";
 
 .ng-exercise-content {
   width: 80%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  
+
   .code-block {
     width: 100%;
     margin-top: 16px;
@@ -19,7 +19,7 @@
     background: #ffffff;
     white-space: break-spaces;
   }
-  
+
   .image {
     width: 100%;
   }

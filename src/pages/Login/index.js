@@ -7,7 +7,7 @@ import { PATHS } from "../../constant";
 
 import "./styles.scss";
 
-function Login(props) {
+function Login() {
   const dispatch = useDispatch();
   const { loading, data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
