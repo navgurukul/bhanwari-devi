@@ -8,6 +8,7 @@ import Arrow from "../../../common/Arrow";
 
 const GoBackArrow = () => {
   const dispatch = useDispatch();
+  console.log("hello");
   const {
     courseContent: { data },
     selectedExercise,
