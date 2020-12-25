@@ -28,6 +28,7 @@ function Login() {
   }
 
   const onGoogleLoginFail = (errorResponse) => {
+    // eslint-disable-next-line no-console
     console.log("onGoogle login fail", errorResponse);
   };
 

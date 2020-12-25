@@ -27,7 +27,6 @@ const GoBackArrow = () => {
     if (isFirstChildSelected) {
       // selecting the parent exercise
       const selectedMainExercise = { exercise: parentExercise, index };
-      console.log("first child select", selectedMainExercise);
       dispatch(courseActions.updateSelectedExercise(selectedMainExercise));
     } else if (subExerciseIndex) {
       const mainExercise = get(data, `exerciseList[${index}]`);

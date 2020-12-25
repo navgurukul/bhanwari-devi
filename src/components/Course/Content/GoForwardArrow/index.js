@@ -8,7 +8,6 @@ import Arrow from "../../../common/Arrow";
 
 const GoBackArrow = () => {
   const dispatch = useDispatch();
-  console.log("hello");
   const {
     courseContent: { data },
     selectedExercise,
@@ -16,6 +15,7 @@ const GoBackArrow = () => {
   // comparision with 0 to check whether first sub exercise has been selected or not.
   const isLastExerciseSelected =
     get(selectedExercise, "index") === get(data, `exerciseList.length`) - 1;
+
   const hasSubExercises =
     get(selectedExercise, "parentExercise.childExercises.length") ||
     get(selectedExercise, "exercise.childExercises.length");
