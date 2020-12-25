@@ -40,13 +40,12 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write",
-      "./node_modules/.bin/eslint — fix”, “git add"
+      "prettier --write"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged; ./node_modules/.bin/eslint . --ext .js"
     }
   },
   "browserslist": {

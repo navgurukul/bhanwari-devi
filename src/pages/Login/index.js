@@ -22,6 +22,7 @@ function Login() {
       email: profile.getEmail(),
       idToken,
     };
+
     // let's send the data to our backend.
     dispatch(userActions.onUserSignin(googleData));
   }

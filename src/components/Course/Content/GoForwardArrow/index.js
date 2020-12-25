@@ -6,7 +6,7 @@ import get from "lodash/get";
 import { actions as courseActions } from "../../redux/action";
 import Arrow from "../../../common/Arrow";
 
-const GoBackArrow = (props) => {
+const GoBackArrow = () => {
   const dispatch = useDispatch();
   const {
     courseContent: { data },

@@ -8,16 +8,16 @@ import "./styles.scss";
 
 function ClassList() {
   const dispatch = useDispatch();
+
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
-  useEffect(
-    (e) => {
-      dispatch(classActions.getClasses());
-    },
-    [dispatch]
-  );
+
+  useEffect(() => {
+    dispatch(classActions.getClasses());
+  }, [dispatch]);
   if (loading) {
     return <Loader pageLoader={true} />;
   }
+
   return (
     <>
       <table>
@@ -33,7 +33,8 @@ function ClassList() {
             <th>End Time</th>
           </tr>
         </thead>
-        {data &&
+
+        {data && data.length > 0 ? (
           data.map((item, index) => {
             const classStartTime =
               item.start_time && item.start_time.replace("Z", "");
@@ -57,7 +58,12 @@ function ClassList() {
                 </td>
               </tr>
             );
-          })}
+          })
+        ) : (
+          <div className="message">
+            <h2>No Classes Today</h2>
+          </div>
+        )}
       </table>
     </>
   );

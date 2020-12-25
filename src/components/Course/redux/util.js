@@ -48,7 +48,7 @@ export const mapCourses = (courses) => {
  */
 export const mapCourseContent = (contentResponse) => {
   const { exercises = [] } = get(contentResponse, "course", {});
-  const exerciseList = exercises.map((exercise, index) => {
+  const exerciseList = exercises.map((exercise) => {
     let childExercises = null;
     if (exercise.childExercises) {
       childExercises = exercise.childExercises.map((childExercise) => {

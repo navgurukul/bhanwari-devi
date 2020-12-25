@@ -6,4 +6,5 @@ export const PATHS = {
   CLASS: "/class",
   COURSE: "/course",
   COURSE_CONTENT: "/course/:courseId",
+  EXERCISE: "/exercise/:exerciseId",
 };

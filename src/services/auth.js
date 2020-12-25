@@ -10,7 +10,7 @@ export const httpStatuses = {
   SUCCESS: [200, 201, 202],
 };
 
-export const authorizeRequest = function* (fn, data, tryAfterRefresh = false) {
+export const authorizeRequest = function* (fn, data) {
   let token;
   try {
     token = yield select(({ User }) => User.data.token);
