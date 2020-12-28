@@ -6,7 +6,7 @@ import get from "lodash/get";
 import { actions as courseActions } from "../../redux/action";
 import Arrow from "../../../common/Arrow";
 
-const GoBackArrow = (props) => {
+const GoBackArrow = () => {
   const dispatch = useDispatch();
   const {
     courseContent: { data },
@@ -15,6 +15,7 @@ const GoBackArrow = (props) => {
   // comparision with 0 to check whether first sub exercise has been selected or not.
   const isLastExerciseSelected =
     get(selectedExercise, "index") === get(data, `exerciseList.length`) - 1;
+
   const hasSubExercises =
     get(selectedExercise, "parentExercise.childExercises.length") ||
     get(selectedExercise, "exercise.childExercises.length");

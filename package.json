@@ -12,8 +12,11 @@
     "axios": "^0.21.0",
     "connected-react-router": "^6.8.0",
     "history": "^5.0.0",
+    "husky": "^4.3.6",
+    "lint-staged": "^10.5.3",
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",
+    "prettier": "^2.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.22",
@@ -32,8 +35,15 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged; ./node_modules/.bin/eslint . --ext .js"
+    }
   },
   "browserslist": {
     "production": [

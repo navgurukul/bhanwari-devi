@@ -1,7 +1,6 @@
 import axios from "axios";
 import { METHODS, HeaderFactory } from "../../../services/api";
 
-
 /**
  * end-point to get all the classes
  *
@@ -15,11 +14,8 @@ export const getAllClasses = (classData, token) => {
     url: `${process.env.REACT_APP_MERAKI_URL}/classes/upcoming`,
     method: METHODS.GET,
     headers: HeaderFactory(token),
-  })
-}
- 
-
-
+  });
+};
 
 /**
  * end-point to create a class.

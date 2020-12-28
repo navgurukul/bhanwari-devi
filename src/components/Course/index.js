@@ -4,7 +4,7 @@ import get from "lodash/get";
 
 import { actions as courseActions } from "./redux/action";
 import CourseList from "./CourseList";
-import SearchBox from "../common/SearchBox"
+import SearchBox from "../common/SearchBox";
 import Loader from "../common/Loader";
 import "./styles.scss";
 
@@ -35,10 +35,7 @@ function Course() {
 
   return (
     <div>
-      <SearchBox
-        onChange={handleSearchChange}
-        value={search}
-      />
+      <SearchBox onChange={handleSearchChange} value={search} />
       {search.length > 0 ? (
         <h1 className="ng-course">
           <CourseList

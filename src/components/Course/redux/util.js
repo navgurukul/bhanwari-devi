@@ -21,7 +21,6 @@ export const mapCourses = (courses) => {
     };
   });
 
- 
   return {
     // enrolledCourses: mappedEnrolledCourses,
     allCourses: mappedAllCourses,
@@ -49,7 +48,7 @@ export const mapCourses = (courses) => {
  */
 export const mapCourseContent = (contentResponse) => {
   const { exercises = [] } = get(contentResponse, "course", {});
-  const exerciseList = exercises.map((exercise, index) => {
+  const exerciseList = exercises.map((exercise) => {
     let childExercises = null;
     if (exercise.childExercises) {
       childExercises = exercise.childExercises.map((childExercise) => {
@@ -84,4 +83,3 @@ export const mapCourseContent = (contentResponse) => {
     exerciseList,
   };
 };
-

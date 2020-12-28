@@ -13,7 +13,6 @@ function* handleGetCourses({ data }) {
   if (
     coursesResponse &&
     httpStatuses.SUCCESS.includes(coursesResponse.status)
-    
   ) {
     const mappedCourses = mapCourses(coursesResponse.data);
     yield put(actions.getCoursesResolved(mappedCourses));
