@@ -10,12 +10,12 @@
   align-items: center;
 
   //TODO: move the colors to color file.
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.4);
   border-radius: 10px;
 
   .logo {
-    background-image: url('../../asset/meraki.png');
+    background-image: url("../../asset/meraki.png");
     width: 68px;
     height: 68px;
     background-size: contain;

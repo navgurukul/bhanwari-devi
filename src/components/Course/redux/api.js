@@ -9,17 +9,13 @@ import { METHODS } from "../../../services/api";
  *
  * @returns {Promise}
  */
-export const getCourses = (data, token) => {
- 
+export const getCourses = () => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
     method: METHODS.GET,
     // headers: HeaderFactory(token),
   });
-  
 };
-
-
 
 /**
  * end-point to get content of a course
@@ -30,7 +26,7 @@ export const getCourses = (data, token) => {
  *
  * @returns {Promise}
  */
-export const getCourseContent = (data, token) => {
+export const getCourseContent = (data) => {
   const { courseId } = data;
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
@@ -38,4 +34,3 @@ export const getCourseContent = (data, token) => {
     // headers: HeaderFactory(token),
   });
 };
-

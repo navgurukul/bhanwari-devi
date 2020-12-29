@@ -1,4 +1,3 @@
-
 @import "../../../sass/colors.scss";
 @import "../../../sass/mixins.scss";
 
@@ -16,9 +15,9 @@
     margin: 0 auto;
   }
 
-  >input {
+  > input {
     width: 100%;
-    border: 3px solid #83B344;
+    border: 3px solid #83b344;
     border-right: none;
     padding: 5px;
     height: 40px;
@@ -30,22 +29,20 @@
       font-size: 17px;
     }
   }
-  
-  >input:focus {
+
+  > input:focus {
     color: black;
     font-size: 18px;
   }
-  
-  >button {
+
+  > button {
     width: 70px;
     font-size: 25px;
     height: 56px;
-    border: 1px solid #83B344;
-    background: #83B344;
+    border: 1px solid #83b344;
+    background: #83b344;
     color: #fff;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
   }
-  
 }
-

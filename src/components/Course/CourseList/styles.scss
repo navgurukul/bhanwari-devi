@@ -1,5 +1,5 @@
-@import '../../../sass/colors.scss';
-@import '../../../sass/mixins';
+@import "../../../sass/colors.scss";
+@import "../../../sass/mixins";
 
 .ng-course-list {
   margin-bottom: 36px;
@@ -17,7 +17,7 @@
     }
   }
 
-  >.cards {
+  > .cards {
     width: 100%;
     margin: auto;
     display: flex;
