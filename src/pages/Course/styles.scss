@@ -1,12 +1,12 @@
-@import '../../sass/colors.scss';
-@import '../../sass/mixins.scss';
+@import "../../sass/colors.scss";
+@import "../../sass/mixins.scss";
 
 .ng-course-container {
   padding-top: 70px;
   width: 80%;
   margin: auto;
   @include breakpoint-mobile {
-    padding-top: 24px;
+    padding-top: 70px;
   }
 
   > h2 {

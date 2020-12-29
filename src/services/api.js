@@ -31,7 +31,6 @@ export const HeaderFactory = (token) => {
  * @param {Error} error - Fetch Error
  */
 export function* ErrorHandler(error) {
-  console.error(error);
   const genericResponse = { message: "Something Went Wrong, try again later" };
   if (error && error.json) {
     try {

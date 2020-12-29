@@ -1,8 +1,11 @@
+@import "../../sass/colors.scss";
+@import "../../sass/mixins.scss";
+
 .ng-course {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #F6F8FA;
+  background-color: #f6f8fa;
 
   h2 {
     margin-bottom: 32px;

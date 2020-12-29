@@ -42,7 +42,9 @@ function Header() {
 
   return (
     <div className="ng-header">
-      <div className="logo" />
+      <a href="/">
+        <div className="logo" />
+      </a>
       <div className="option">
         {isAuthenticated ? <AuthenticatedHeaderOption /> : <PublicMenuOption />}
       </div>

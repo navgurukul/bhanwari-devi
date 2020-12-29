@@ -22,7 +22,7 @@ const SelectOptions = () => {
         <option value="doubt_class">Doubt Class</option>
       </datalist>
       <datalist id="category">
-        <option value="1">Programming</option>
+        <option value="3">Programming</option>
       </datalist>
     </>
   );

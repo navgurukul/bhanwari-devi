@@ -6,7 +6,7 @@ import get from "lodash/get";
 import { actions as courseActions } from "../../redux/action";
 import Arrow from "../../../common/Arrow";
 
-const GoBackArrow = (props) => {
+const GoBackArrow = () => {
   const dispatch = useDispatch();
   const {
     courseContent: { data },
@@ -27,7 +27,6 @@ const GoBackArrow = (props) => {
     if (isFirstChildSelected) {
       // selecting the parent exercise
       const selectedMainExercise = { exercise: parentExercise, index };
-      console.log("first child select", selectedMainExercise);
       dispatch(courseActions.updateSelectedExercise(selectedMainExercise));
     } else if (subExerciseIndex) {
       const mainExercise = get(data, `exerciseList[${index}]`);

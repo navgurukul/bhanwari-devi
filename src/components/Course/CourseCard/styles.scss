@@ -1,10 +1,10 @@
-@import '../../../sass/colors.scss';
-@import '../../../sass/mixins';
+@import "../../../sass/colors.scss";
+@import "../../../sass/mixins";
 
 .ng-course-card {
   width: 274px;
   height: 300px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 12px 18px rgba(41, 94, 255, 0.05);
   border-radius: 18px;
   text-decoration: none;
@@ -26,7 +26,7 @@
     align-items: center;
   }
 
-  .upper-section >.logo {
+  .upper-section > .logo {
     width: 100px;
     height: 100px;
     padding-top: 24px;
@@ -35,15 +35,15 @@
     margin-top: -20px;
     background-size: contain;
     // text-indent: -10000px
-    
+
     // placeholder in case image loads to fail
     &:before {
-      content: ' ';
+      content: " ";
       display: block;
       position: absolute;
       height: 100px;
       width: 100px;
-      background-image: url('../../../asset/placeholder.png');
+      background-image: url("../../../asset/placeholder.png");
       background-size: contain;
     }
   }
@@ -55,7 +55,7 @@
     flex-grow: 1;
     width: 100%;
   }
-  .bottom-section >.title {
+  .bottom-section > .title {
     width: 90%;
     margin-left: 8px;
     font-family: Rubik;
@@ -63,6 +63,6 @@
     font-weight: 500;
     font-size: 20px;
     line-height: 26px;
-    color: #191B26;
+    color: #191b26;
   }
 }

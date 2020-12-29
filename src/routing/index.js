@@ -1,4 +1,3 @@
-  
 import React from "react";
 import { Route } from "react-router-dom";
 import { PrivateRoute } from "./Routes";
@@ -9,7 +8,6 @@ import CreateClass from "../pages/CreateClass";
 import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 
-
 // import Classes from '../pages/classes'
 
 const Routing = () => {
@@ -19,7 +17,7 @@ const Routing = () => {
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Course} />
       <Route exact path={PATHS.COURSE} component={Course} />
-      <Route exact path={PATHS.COURSE_CONTENT} component={CourseContent} />
+      <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
       {/* Private routes */}
       {/* <PrivateRoute

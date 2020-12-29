@@ -1,5 +1,5 @@
-@import '../../sass/colors.scss';
-@import '../../sass/mixins.scss';
+@import "../../sass/colors.scss";
+@import "../../sass/mixins.scss";
 
 .ng-header {
   width: 100%;
@@ -12,7 +12,7 @@
   }
 
   .logo {
-    background-image: url('../../asset/meraki.png');
+    background-image: url("../../asset/meraki.png");
     width: 58px;
     height: 70px;
     background-size: contain;
@@ -20,7 +20,7 @@
     background-repeat: no-repeat;
     margin-left: 32px;
     @include breakpoint-mobile {
-      margin-left: 16px
+      margin-left: 16px;
     }
   }
 
@@ -30,14 +30,14 @@
     display: flex;
     justify-content: flex-end;
     @include breakpoint-mobile {
-      padding-right: 16px
+      padding-right: 16px;
     }
   }
 
   .link {
     height: 42px;
     margin-right: 16px;
-    color: #83B344;
+    color: #83b344;
     border-radius: 16px;
     font-size: 18px;
     line-height: 16px;
@@ -51,7 +51,7 @@
   .logout {
     width: 108px;
     height: 42px;
-    background-color: #D55F31;
+    background-color: #d55f31;
     color: #ffffff;
     border-radius: 16px;
     font-weight: bold;
@@ -66,7 +66,7 @@
   .login {
     width: 148px;
     height: 42px;
-    background-color: #83B344;
+    background-color: #83b344;
     color: #ffffff;
     border-radius: 16px;
     font-weight: bold;

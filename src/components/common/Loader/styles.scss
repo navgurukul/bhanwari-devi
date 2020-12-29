@@ -1,4 +1,3 @@
-
 .ng-page-loader {
   position: fixed;
   width: 100%;
@@ -22,7 +21,7 @@
 .idsEllipsis {
   display: inline-block;
   position: relative;
-  width: 70px
+  width: 70px;
 }
 
 .idsEllipsis div {
@@ -31,7 +30,7 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #A1C77A;
+  background: #a1c77a;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .idsEllipsis div:nth-child(1) {
