@@ -11,12 +11,24 @@ function ClassList() {
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
 
-  useEffect(() => {
-    dispatch(classActions.getClasses());
-  }, [dispatch]);
+  useEffect(
+    (e) => {
+      dispatch(classActions.getClasses());
+    },
+    [dispatch]
+  );
+
   if (loading) {
     return <Loader pageLoader={true} />;
   }
+  const obj = {
+    hi: "Hindi",
+    te: "Telugu",
+    en: "English",
+    ta: "Tamil",
+    doubt_class: "Doubt Class",
+    workshop: "Workshop",
+  };
 
   return (
     <>
@@ -45,8 +57,8 @@ function ClassList() {
                 <td data-column="Facilitator Name"> {item.facilitator.name}</td>
                 <td data-column="Title">{item.title}</td>
                 <td data-column="Description">{item.description}</td>
-                <td data-column="Language">{item.lang}</td>
-                <td data-column="Class type">{item.type}</td>
+                <td data-column="Language">{obj[item.lang]}</td>
+                <td data-column="Class type">{obj[item.type]}</td>
                 <td data-column="Date">
                   {moment(classStartTime).format("DD-MM-YYYY")}
                 </td>

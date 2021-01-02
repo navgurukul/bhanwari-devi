@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+
 import InputField from "../common/FormComponent/InputField";
 import { TIME_CONSTANT, CLASS_FORM_FIELDS } from "./constant";
 import { actions } from "./redux/action";
@@ -12,14 +13,14 @@ const SelectOptions = () => {
     <>
       {/* Select box data items. HTML 5 way to render select box */}
       <datalist id="language">
-        <option value="en">English</option>
-        <option value="hi">Hindi</option>
-        <option value="te">Telugu</option>
-        <option value="ta">Tamil</option>
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Telugu">Telugu</option>
+        <option value="Tamil">Tamil</option>
       </datalist>
       <datalist id="type">
         <option value="workshop">Workshop</option>
-        <option value="doubt_class">Doubt Class</option>
+        <option value="Doubt Class">Doubt Class</option>
       </datalist>
       <datalist id="category">
         <option value="3">Programming</option>
@@ -62,13 +63,27 @@ function Class() {
     event && event.preventDefault();
     const formData = new FormData(event.target);
     const formFields = {};
+
+    const obj = {
+      Hindi: "hi",
+      Telugu: "te",
+      English: "en",
+      Tamil: "ta",
+      "Doubt Class": "doubt_class",
+    };
     for (let [fieldName, value] of formData.entries()) {
       // Only going to take the field in payload if the
       // input field is not empty.
+
       if (value) {
-        formFields[fieldName] = value;
+        if (obj[value]) {
+          formFields[fieldName] = obj[value];
+        } else {
+          formFields[fieldName] = value;
+        }
       }
     }
+
     handleTimeValicationAndCreateClass(formFields);
   };
 
