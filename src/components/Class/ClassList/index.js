@@ -11,12 +11,9 @@ function ClassList() {
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
 
-  useEffect(
-    (e) => {
-      dispatch(classActions.getClasses());
-    },
-    [dispatch]
-  );
+  useEffect(() => {
+    dispatch(classActions.getClasses());
+  }, [dispatch]);
 
   if (loading) {
     return <Loader pageLoader={true} />;
