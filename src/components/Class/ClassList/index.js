@@ -29,20 +29,7 @@ function ClassList() {
 
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            <th>Facilitator Name</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Language</th>
-            <th>Class type</th>
-            <th>Date</th>
-            <th> Start Time </th>
-            <th>End Time</th>
-          </tr>
-        </thead>
-
+      <div className="ng-upcoming-class">
         {data && data.length > 0 ? (
           data.map((item, index) => {
             const classStartTime =
@@ -50,22 +37,24 @@ function ClassList() {
             const classEndTime =
               item.end_time && item.end_time.replace("Z", "");
             return (
-              <tr key={index}>
-                <td data-column="Facilitator Name"> {item.facilitator.name}</td>
-                <td data-column="Title">{item.title}</td>
-                <td data-column="Description">{item.description}</td>
-                <td data-column="Language">{obj[item.lang]}</td>
-                <td data-column="Class type">{obj[item.type]}</td>
-                <td data-column="Date">
-                  {moment(classStartTime).format("DD-MM-YYYY")}
-                </td>
-                <td data-column="End Time">
-                  {moment(classStartTime).format("hh:mm a")}
-                </td>
-                <td data-column="End Time">
-                  {moment(classEndTime).format("hh:mm a")}
-                </td>
-              </tr>
+              <div key={index} className="class-cards">
+                <div className="card-content">
+                  <div className="card-heading">
+                    <div className="title">{item.title}</div>
+                    <div className="class-type">{obj[item.type]}</div>
+                  </div>
+                  <div className="class-details">
+                    <p>Facilitator Name : {item.facilitator.name} </p>
+                    <p>Language : {obj[item.lang]} </p>
+                    <p>Date : {moment(classStartTime).format("DD-MM-YYYY")} </p>
+                    <p>
+                      {" "}
+                      Time : {moment(classStartTime).format("hh:mm a")} -{" "}
+                      {moment(classEndTime).format("hh:mm a")}
+                    </p>
+                  </div>
+                </div>
+              </div>
             );
           })
         ) : (
@@ -73,7 +62,7 @@ function ClassList() {
             <h2>No Classes Today</h2>
           </div>
         )}
-      </table>
+      </div>
     </>
   );
 }
