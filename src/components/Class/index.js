@@ -10,7 +10,7 @@ import "./styles.scss";
 
 const SelectOptions = () => {
   return (
-    <>
+    <div>
       {/* Select box data items. HTML 5 way to render select box */}
       <datalist id="language">
         <option value="English">English</option>
@@ -25,9 +25,10 @@ const SelectOptions = () => {
       <datalist id="category">
         <option value="3">Programming</option>
       </datalist>
-    </>
+    </div>
   );
 };
+
 function Class() {
   const dispatch = useDispatch();
   const { loading } = useSelector(({ Class }) => Class);
@@ -64,7 +65,7 @@ function Class() {
     const formData = new FormData(event.target);
     const formFields = {};
 
-    const obj = {
+    const languageMap = {
       Hindi: "hi",
       Telugu: "te",
       English: "en",
@@ -76,8 +77,8 @@ function Class() {
       // input field is not empty.
 
       if (value) {
-        if (obj[value]) {
-          formFields[fieldName] = obj[value];
+        if (languageMap[value]) {
+          formFields[fieldName] = languageMap[value];
         } else {
           formFields[fieldName] = value;
         }
