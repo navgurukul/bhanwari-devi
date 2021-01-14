@@ -20,13 +20,13 @@ function ClassCard(props) {
 
   return (
     <div>
-      <div key={index} className="class-cards">
+      <div key={index} className="class-card">
         <div className="card-content">
           <div className="card-heading">
             <div className="title">{item.title}</div>
             <div className="class-type">{languageMap[item.type]}</div>
           </div>
-          <div className="class-details">
+          <div className="class-detail">
             <p>Facilitator Name : {item.facilitator.name} </p>
             <p>Language : {languageMap[item.lang]} </p>
             <p>Date : {moment(classStartTime).format("DD-MM-YYYY")} </p>

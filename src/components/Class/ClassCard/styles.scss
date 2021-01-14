@@ -1,4 +1,4 @@
-.class-cards {
+.class-card {
   width: 380px;
   background: linear-gradient(to bottom left, #83b344 20%, #ffc39e 100%);
   height: auto;
@@ -8,39 +8,31 @@
   flex-direction: column;
   margin-bottom: 25px;
   margin-left: 32px;
-}
 
-.card-content {
-  padding: 25px;
-  font-family: "Times New Roman", Times, serif;
-  text-transform: capitalize;
-}
+  > .card-content {
+    padding: 25px;
+    font-family: "Times New Roman", Times, serif;
+    text-transform: capitalize;
+  }
 
-.card_title {
-  color: #ffffff;
+  .card-heading {
+    display: flex;
+    color: #191b26;
 
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin: 0px;
-}
+    > .title {
+      flex: 1;
+      font-weight: 600;
+      font-size: 30px;
+    }
 
-.card-heading {
-  display: flex;
-  color: #191b26;
-}
+    > .class-type {
+      margin-top: 8px;
+      font-weight: 600;
+    }
+  }
 
-.title {
-  flex: 1;
-  font-weight: 600;
-  font-size: 28px;
-}
-
-.class-type {
-  margin-top: 8px;
-  font-weight: 600;
-}
-
-.class-details {
-  margin-top: 34px;
-  font-size: 17px;
+  .class-detail {
+    margin-top: 34px;
+    font-size: 17px;
+  }
 }
