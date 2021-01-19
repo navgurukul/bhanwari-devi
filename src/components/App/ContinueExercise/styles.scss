@@ -1,0 +1,21 @@
+.stored-exercise-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 10px;
+  position: absolute;
+  background: #ffffff;
+  bottom: 40px;
+  right: 10px;
+}
+
+.container {
+  padding: 25px 16px;
+  text-decoration: none;
+
+  > a {
+    text-decoration: none;
+    color: green;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
