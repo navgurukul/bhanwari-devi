@@ -6,6 +6,8 @@
   background: #ffffff;
   bottom: 40px;
   right: 10px;
+  position: fixed;
+  text-transform: capitalize;
 }
 
 .container {
@@ -17,5 +19,17 @@
     color: green;
     font-size: 18px;
     font-weight: 600;
+  }
+}
+
+.close {
+  position: absolute;
+  right: 14px;
+  top: 5px;
+  font-size: 25px;
+  opacity: 0.6;
+
+  &:hover {
+    cursor: pointer;
   }
 }

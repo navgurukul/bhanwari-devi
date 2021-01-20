@@ -38,13 +38,14 @@ function CourseContent(props) {
       "last-exercise",
       `${url}/exercise/${exerciseId}`
     );
+    const exercise = get(selectedExercise, "exercise.name");
+    window.localStorage.setItem("exerciseName", exercise);
   }, [selectedExercise]);
 
   // get the course id, and pass it in the component.
   const courseName = get(props, "location.search");
   const params = new URLSearchParams(courseName);
   const courseTitle = params.get("name");
-
   const courseId = get(props, "match.params.courseId");
 
   useEffect(() => {
@@ -77,6 +78,7 @@ function CourseContent(props) {
         exercise: defaultExercise,
         index: defaultExerciseIndex,
       };
+
       dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
     }
   }, [dispatch, data]);
