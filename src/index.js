@@ -5,7 +5,9 @@ import { Provider } from "react-redux";
 import initialStore from "./store.js";
 import "./index.css";
 import App from "./components/App/index.js";
+import { DeviceProvider } from "./common/context";
 import * as serviceWorker from "./serviceWorker";
+import { getIsMobile } from "./common/utils";
 
 // To learn redux and redux saga
 // https://www.codementor.io/@rajjeet/step-by-step-how-to-add-redux-saga-to-a-react-redux-app-11xqieyj67
@@ -15,7 +17,13 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={initialStore()}>
       <BrowserRouter>
-        <App />
+        <DeviceProvider.Provider
+          value={{
+            isMobile: getIsMobile(),
+          }}
+        >
+          <App />
+        </DeviceProvider.Provider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

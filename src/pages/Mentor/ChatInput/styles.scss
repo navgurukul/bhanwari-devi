@@ -1,0 +1,30 @@
+.chat-input-container {
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+  padding: 16px 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 16px;
+  }
+}
+
+.chat-input {
+  flex: 1;
+  border: 1px solid #f5f5f5;
+  padding: 20px 72px 20px 12px;
+  font-size: 16px;
+}
+
+.chat-input-icon {
+  position: absolute;
+  right: 60px;
+  font-size: 36px;
+  color: #727272;
+  cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    right: 30px;
+  }
+}

@@ -23,6 +23,7 @@ const getExerciseIdFromUrl = () => {
 function CourseContent(props) {
   const history = useHistory();
   let { url, path } = useRouteMatch();
+
   const dispatch = useDispatch();
   const {
     courseContent: { loading, data },

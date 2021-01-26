@@ -1,0 +1,20 @@
+.chat-message {
+  padding: 16px;
+  margin: 12px 0;
+  display: inline-flex;
+  border-radius: 12px;
+  border-bottom-left-radius: 0;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  font-weight: 500;
+
+  &-other {
+    align-self: flex-start;
+    background-color: #f6f8fa;
+  }
+
+  &-self {
+    align-self: flex-end;
+    background-color: #2971ff;
+    color: #fff;
+  }
+}
