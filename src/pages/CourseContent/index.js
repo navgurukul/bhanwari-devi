@@ -35,7 +35,7 @@ function CourseContent(props) {
     const exerciseId = get(selectedExercise, "exercise.id");
     let url = window.location.href;
     window.localStorage.setItem(
-      "last-exercise",
+      "lastExerciseUrl",
       `${url}/exercise/${exerciseId}`
     );
     const exercise = get(selectedExercise, "exercise.name");
