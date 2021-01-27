@@ -55,8 +55,16 @@
 
   > .content > .arrow-row {
     padding: 32px 32px;
-    width: 80%;
+    // width: 80%;
+    position: absolute;
+    top: 173px;
+    width: 40%;
     display: flex;
     justify-content: space-between;
+    @include breakpoint-mobile {
+      width: 80%;
+      top: 142px;
+      position: absolute;
+    }
   }
 }
