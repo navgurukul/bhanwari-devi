@@ -7,7 +7,14 @@ export default ({ messages }) => {
     <div className="messages">
       {messages &&
         messages.map((message, index) => {
-          return <Message key={message + index} message={message.text} />;
+          return (
+            <Message
+              key={message.id + index}
+              message={message.text}
+              type={message.type}
+              isSelf={index % 2 === 0}
+            />
+          );
         })}
     </div>
   );

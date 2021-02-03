@@ -6,6 +6,8 @@
   border-bottom-left-radius: 0;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   font-weight: 500;
+  padding-right: 48px;
+  position: relative;
 
   &-other {
     align-self: flex-start;
@@ -16,5 +18,25 @@
     align-self: flex-end;
     background-color: #2971ff;
     color: #fff;
+  }
+
+  &-action {
+    background-color: transparent;
+    color: #626667;
+    font-style: italic;
+    align-self: center;
+    box-shadow: none;
+  }
+
+  .actions-dropdown-trigger {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-right: 16px;
   }
 }

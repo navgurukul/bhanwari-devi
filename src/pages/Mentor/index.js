@@ -27,7 +27,15 @@ const Mentor = () => {
   const [selectedRoomId, setSelectedRoomId] = useState(
     isMobile ? null : rooms[0].id
   );
-  const [roomMessages, setRoomMessage] = useState({});
+  const [roomMessages, setRoomMessage] = useState({
+    [rooms[0].id]: [
+      {
+        text: "Someone has left the chat",
+        time: Date.now(),
+        type: "action",
+      },
+    ],
+  });
 
   function onSendMessage(message, roomId) {
     const messageObj = {
