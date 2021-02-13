@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import axios from "axios";
 import { DeviceProvider } from "../../common/context";
 import { useSelector } from "react-redux";
 import * as sdk from "matrix-js-sdk";
@@ -56,23 +57,34 @@ const Mentor = () => {
       userId: chat_id,
       accessToken: chat_password,
     });
-    client.startClient({ initialSyncLimit: 10 });
+    client
+      .login("m.login.password", { user: chat_id, password: chat_password })
+      .then((response) => {
+        client.startClient({ initialSyncLimit: 10 });
 
-    const rooms = client.getRooms();
-    client.on("sync", (state, prevState, data) => {
-      console.log(state, prevState, data);
-    });
+        client.on("RoomMember.membership", function (event, member) {
+          console.log(event, member);
+          if (member.membership === "invite" && member.userId === chat_id) {
+            client.joinRoom(member.roomId).then(function () {
+              console.log("Auto-joined %s", member.roomId);
+            });
+          }
+        });
+      });
 
-    client.on("Room", () => {
-      console.log("Room event");
-    });
+    // client.on("Room", () => {
+    //   console.log("Room event");
+    // });
 
-    client.on("RoomMember.membership", (event, member) => {
-      console.log(event, member);
-    });
-    client.on("Room.timeline", (event, room, timeline) => {
-      console.log(event, room, timeline);
-    });
+    // client.on("RoomMember.membership", (event, member) => {
+    //   console.log(event, member);
+    // });
+    // client.on("Room.timeline", (event, room, timeline) => {
+    //   console.log(timeline);
+    //   if (event.getType() === "m.room.message") {
+    //     console.log(event.getSender(), event.getContent().body, event);
+    //   }
+    // });
   }, [chat_id, chat_password]);
 
   return (
