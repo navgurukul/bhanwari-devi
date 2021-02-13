@@ -10,33 +10,39 @@ import FloatingIcon from "../../components/common/FloatingIcon";
 import "./styles.scss";
 let client;
 
-const rooms = [
-  {
-    id: "room-1",
-    name: "English-3",
-  },
-  {
-    id: "room-2",
-    name: "Meraki",
-  },
-];
+// const rooms = [
+//   {
+//     id: "room-1",
+//     name: "English-3",
+//   },
+//   {
+//     id: "room-2",
+//     name: "Meraki",
+//   },
+// ];
 
 const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
   const { isMobile } = useContext(DeviceProvider);
   const { chat_id, chat_password } = data.user;
-  const [selectedRoomId, setSelectedRoomId] = useState(
-    isMobile ? null : rooms[0].id
-  );
+  const [rooms, setRooms] = useState([]);
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [roomMessages, setRoomMessage] = useState({
-    [rooms[0].id]: [
-      {
-        text: "Someone has left the chat",
-        time: Date.now(),
-        type: "action",
-      },
-    ],
+    // [rooms[0].id]: [
+    //   {
+    //     text: "Someone has left the chat",
+    //     time: Date.now(),
+    //     type: "action",
+    //   },
+    // ],
   });
+
+  function getMessagesFromTimeline(roomId) {
+    const timeline = rooms.find((room) => room.roomId === roomId).timeline;
+    return timeline.filter((timelineEvent) => {
+      return timelineEvent.event.type === "m.room.message";
+    });
+  }
 
   function onSendMessage(message, roomId) {
     const messageObj = {
@@ -52,6 +58,15 @@ const Mentor = () => {
   }
 
   useEffect(() => {
+    if (selectedRoomId) {
+      const messages = getMessagesFromTimeline(selectedRoomId);
+      setRoomMessage({
+        [selectedRoomId]: messages,
+      });
+    }
+  }, [selectedRoomId]);
+
+  useEffect(() => {
     client = sdk.createClient({
       baseUrl: "https://m.navgurukul.org",
       userId: chat_id,
@@ -59,18 +74,25 @@ const Mentor = () => {
     });
     client
       .login("m.login.password", { user: chat_id, password: chat_password })
-      .then((response) => {
-        client.startClient({ initialSyncLimit: 10 });
-
-        client.on("RoomMember.membership", function (event, member) {
-          console.log(event, member);
-          if (member.membership === "invite" && member.userId === chat_id) {
-            client.joinRoom(member.roomId).then(function () {
-              console.log("Auto-joined %s", member.roomId);
-            });
-          }
-        });
+      .then(() => {
+        client.startClient();
+        // client.on("RoomMember.membership", function (event, member) {
+        //   console.log(member);
+        //   if (member.membership === "invite" && member.userId === chat_id) {
+        //     client.joinRoom(member.roomId).then(function () {
+        //       console.log("Auto-joined %s", member.roomId);
+        //     });
+        //   }
+        // });
       });
+
+    client.once("sync", (state) => {
+      if (state === "PREPARED") {
+        let initialRooms = client.getRooms();
+        setRooms(client.getRooms());
+        setSelectedRoomId(initialRooms[0].roomId);
+      }
+    });
 
     // client.on("Room", () => {
     //   console.log("Room event");
@@ -95,7 +117,7 @@ const Mentor = () => {
             {rooms.map((room) => {
               return (
                 <RoomNav
-                  key={room.id}
+                  key={room.roomId}
                   isSelected={room.id === selectedRoomId}
                   name={room.name}
                   onSelect={() => setSelectedRoomId(room.id)}

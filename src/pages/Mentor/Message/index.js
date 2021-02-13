@@ -12,26 +12,60 @@ const getMessageClass = (type, isSelf) => {
   return messageClass;
 };
 
-export default ({ message, type, isSelf }) => {
+export default ({ message, isSelf }) => {
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
   const handleMouseOver = () => {
-    if (type !== "action") {
-      setMessageActionsMenu(true);
+    // if (type !== "action") {
+    //   setMessageActionsMenu(true);
+    // }
+  };
+
+  const formatMessage = (message) => {
+    switch (message.event.content.type) {
+      case "org.matrix.buttons":
+        return {
+          value: message.event.content.label,
+          isHtml: true,
+          options: message.event.content.options,
+        };
     }
   };
 
+  const renderOptions = (options) => {
+    return options.map((option) => {
+      return (
+        <button className="option-button" key={option.value}>
+          {option.label}
+        </button>
+      );
+    });
+  };
+
+  const formattedMessage = formatMessage(message);
+
   return (
-    <div
-      onMouseOver={handleMouseOver}
-      className={getMessageClass(type, isSelf)}
-      onMouseLeave={() => {
-        setMessageActionsMenu(false);
-      }}
-    >
-      {message}
-      {isMessageActionsMenuOpen && (
-        <i className="fa fa-chevron-down actions-dropdown-trigger" />
-      )}
-    </div>
+    <>
+      {formattedMessage.options && renderOptions(formattedMessage.options)}
+      <div
+        onMouseOver={handleMouseOver}
+        className={getMessageClass("", isSelf)}
+        onMouseLeave={() => {
+          setMessageActionsMenu(false);
+        }}
+      >
+        {formattedMessage.isHtml ? (
+          <span
+            dangerouslySetInnerHTML={{
+              __html: formattedMessage.value,
+            }}
+          ></span>
+        ) : (
+          formattedMessage.value
+        )}
+        {isMessageActionsMenuOpen && (
+          <i className="fa fa-chevron-down actions-dropdown-trigger" />
+        )}
+      </div>
+    </>
   );
 };

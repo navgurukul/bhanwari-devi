@@ -40,3 +40,22 @@
     padding-right: 16px;
   }
 }
+
+.option-button {
+  background-color: #d63447;
+  border-radius: 4px;
+  color: #fff;
+  padding: 16px;
+  align-self: flex-end;
+  font-weight: bold;
+  font-size: 16px;
+  border: 0;
+  margin-bottom: 8px;
+  cursor: pointer;
+  min-width: 200px;
+  transition: background-color 0.2s linear;
+
+  &:hover {
+    background-color: darken(#d63447, 10%);
+  }
+}

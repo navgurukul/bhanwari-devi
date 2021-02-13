@@ -6,13 +6,12 @@ export default ({ messages }) => {
   return (
     <div className="messages">
       {messages &&
-        messages.map((message, index) => {
+        messages.map((message) => {
           return (
             <Message
-              key={message.id + index}
-              message={message.text}
-              type={message.type}
-              isSelf={index % 2 === 0}
+              key={message.event.event_id}
+              message={message}
+              isSelf={true}
             />
           );
         })}
