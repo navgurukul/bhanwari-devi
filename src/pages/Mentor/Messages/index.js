@@ -5,16 +5,18 @@ import "./styles.scss";
 export default ({ messages }) => {
   return (
     <div className="messages">
-      {messages &&
-        messages.map((message) => {
-          return (
-            <Message
-              key={message.event.event_id}
-              message={message}
-              isSelf={true}
-            />
-          );
-        })}
+      <div className="messages-content">
+        {messages &&
+          messages.map((message) => {
+            return (
+              <Message
+                key={message.event.event_id}
+                message={message}
+                isSelf={true}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 };

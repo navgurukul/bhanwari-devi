@@ -21,12 +21,18 @@ export default ({ message, isSelf }) => {
   };
 
   const formatMessage = (message) => {
-    switch (message.event.content.type) {
-      case "org.matrix.buttons":
+    switch (message.event.content.msgtype) {
+      case "org.matrix.options":
         return {
           value: message.event.content.label,
           isHtml: true,
           options: message.event.content.options,
+        };
+
+      case "m.text":
+        return {
+          value: message.event.content.body,
+          isHtml: false,
         };
     }
   };
@@ -45,7 +51,6 @@ export default ({ message, isSelf }) => {
 
   return (
     <>
-      {formattedMessage.options && renderOptions(formattedMessage.options)}
       <div
         onMouseOver={handleMouseOver}
         className={getMessageClass("", isSelf)}
@@ -66,6 +71,7 @@ export default ({ message, isSelf }) => {
           <i className="fa fa-chevron-down actions-dropdown-trigger" />
         )}
       </div>
+      {formattedMessage.options && renderOptions(formattedMessage.options)}
     </>
   );
 };

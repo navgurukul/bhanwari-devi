@@ -13,3 +13,8 @@
     padding: 0 16px;
   }
 }
+
+.messages-content {
+  display: flex;
+  flex-direction: column;
+}

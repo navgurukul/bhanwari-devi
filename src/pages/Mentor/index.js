@@ -27,15 +27,7 @@ const Mentor = () => {
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
-  const [roomMessages, setRoomMessage] = useState({
-    // [rooms[0].id]: [
-    //   {
-    //     text: "Someone has left the chat",
-    //     time: Date.now(),
-    //     type: "action",
-    //   },
-    // ],
-  });
+  const [roomMessages, setRoomMessage] = useState({});
 
   function getMessagesFromTimeline(roomId) {
     const timeline = rooms.find((room) => room.roomId === roomId).timeline;
@@ -46,23 +38,40 @@ const Mentor = () => {
 
   function onSendMessage(message, roomId) {
     const messageObj = {
-      text: message,
-      time: Date.now(),
+      body: message,
+      msgtype: "m.text",
     };
-    setRoomMessage({
-      ...roomMessages,
-      [roomId]: roomMessages[roomId]
-        ? [messageObj].concat(roomMessages[roomId])
-        : [messageObj],
-    });
+
+    client.sendEvent(roomId, "m.room.message", messageObj);
+    // setRoomMessage({
+    //   ...roomMessages,
+    //   [roomId]: roomMessages[roomId]
+    //     ? [messageObj].concat(roomMessages[roomId])
+    //     : [messageObj],
+    // });
+  }
+
+  function addMessageFromMessageEvent(messageEvent) {
+    const newMessages = roomMessages[messageEvent.event.room_id] || [];
+    const doesMessageEventExist = !!newMessages.find(
+      (message) => message.event.event_id === messageEvent.event.event_id
+    );
+    if (!doesMessageEventExist) {
+      setRoomMessage((roomMessages) => {
+        return {
+          ...roomMessages,
+          [messageEvent.event.room_id]: (
+            roomMessages[messageEvent.event.room_id] || []
+          ).concat(messageEvent),
+        };
+      });
+    }
   }
 
   useEffect(() => {
     if (selectedRoomId) {
       const messages = getMessagesFromTimeline(selectedRoomId);
-      setRoomMessage({
-        [selectedRoomId]: messages,
-      });
+      messages.forEach(addMessageFromMessageEvent);
     }
   }, [selectedRoomId]);
 
@@ -76,12 +85,16 @@ const Mentor = () => {
       .login("m.login.password", { user: chat_id, password: chat_password })
       .then(() => {
         client.startClient();
-        // client.on("RoomMember.membership", function (event, member) {
-        //   console.log(member);
-        //   if (member.membership === "invite" && member.userId === chat_id) {
-        //     client.joinRoom(member.roomId).then(function () {
-        //       console.log("Auto-joined %s", member.roomId);
-        //     });
+        client.on("Room.timeline", function (event) {
+          if (event.getType() === "m.room.message") {
+            addMessageFromMessageEvent(event);
+          }
+        });
+
+        // client.on("event", function (event) {
+        //   switch (event.getType()) {
+        //     case "m.room.message":
+        //       console.log(event);
         //   }
         // });
       });
