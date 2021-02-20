@@ -25,14 +25,14 @@ const AuthenticatedHeaderOption = () => {
 
 const PublicMenuOption = () => {
   return (
-    <>
+    <div>
       <a className="link" href={PATHS.COURSE}>
         Courses
       </a>
       <a className="login" href={PATHS.LOGIN}>
         Login/Signup
       </a>
-    </>
+    </div>
   );
 };
 

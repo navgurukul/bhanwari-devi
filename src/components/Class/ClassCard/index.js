@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
+import axios from "axios";
 
 import "./styles.scss";
 
 function ClassCard(props) {
   const { item, index } = props;
+  const Id = item.id;
+
+  const [addClass, setAddClass] = useState({
+    user_id: "",
+    class_id: "",
+    registered_at: new Date(),
+  });
+
+  const handleSubmit = () => {
+    axios
+      .post(
+        `http://dev-api.navgurukul.org/apiDocs/classes/${Id}/register`,
+        addClass,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "token",
+          },
+        }
+      )
+      .then((response) => {
+        setAddClass(response.data);
+        // console.log(response);
+      });
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+  };
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
@@ -28,14 +57,25 @@ function ClassCard(props) {
           </div>
           <div className="class-detail">
             <p>Facilitator Name : {item.facilitator.name} </p>
-            <p>Language : {languageMap[item.lang]} </p>
+            <p>id:{item.id}</p>
+            <p>Language:{languageMap[item.lang]} </p>
             <p>Date : {moment(classStartTime).format("DD-MM-YYYY")} </p>
             <p>
               {" "}
-              Time : {moment(classStartTime).format("hh:mm a")} -{" "}
+              Time :{moment(classStartTime).format("hh:mm a")}-{" "}
               {moment(classEndTime).format("hh:mm a")}
             </p>
           </div>
+        </div>
+        <div className="feature-card-footer">
+          <button
+            type="submit"
+            className="button button3"
+            onClick={handleSubmit}
+          >
+            {" "}
+            Enroll To Class
+          </button>
         </div>
       </div>
     </div>

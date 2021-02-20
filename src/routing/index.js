@@ -12,13 +12,14 @@ import CourseContent from "../pages/CourseContent";
 
 const Routing = () => {
   return (
-    <>
+    <div>
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Course} />
       <Route exact path={PATHS.COURSE} component={Course} />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
+
       {/* Private routes */}
       {/* <PrivateRoute
         exact
@@ -26,7 +27,7 @@ const Routing = () => {
         component={ Class }
       />*/}
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
-    </>
+    </div>
   );
 };
 
