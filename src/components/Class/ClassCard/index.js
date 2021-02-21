@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
 
@@ -6,28 +7,23 @@ import "./styles.scss";
 
 function ClassCard(props) {
   const { item, index } = props;
+  const user = useSelector(({ User }) => User);
   const Id = item.id;
-
-  const [addClass, setAddClass] = useState({
-    user_id: "",
-    class_id: "",
-    registered_at: new Date(),
-  });
 
   const handleSubmit = () => {
     axios
       .post(
         `http://dev-api.navgurukul.org/apiDocs/classes/${Id}/register`,
-        addClass,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "token",
+            Authorization: user.data.token,
           },
         }
       )
-      .then((response) => {
-        setAddClass(response.data);
+      .then(() => {
+        //setAddClass(response.data);
         // console.log(response);
       });
     // .catch((error) => {
