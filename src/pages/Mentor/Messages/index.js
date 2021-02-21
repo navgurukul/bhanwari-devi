@@ -3,6 +3,7 @@ import Message from "../Message";
 import "./styles.scss";
 
 export default ({ messages }) => {
+  console.log(messages);
   return (
     <div className="messages">
       <div className="messages-content">

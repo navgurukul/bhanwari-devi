@@ -10,17 +10,6 @@ import FloatingIcon from "../../components/common/FloatingIcon";
 import "./styles.scss";
 let client;
 
-// const rooms = [
-//   {
-//     id: "room-1",
-//     name: "English-3",
-//   },
-//   {
-//     id: "room-2",
-//     name: "Meraki",
-//   },
-// ];
-
 const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
   const { isMobile } = useContext(DeviceProvider);
@@ -43,12 +32,6 @@ const Mentor = () => {
     };
 
     client.sendEvent(roomId, "m.room.message", messageObj);
-    // setRoomMessage({
-    //   ...roomMessages,
-    //   [roomId]: roomMessages[roomId]
-    //     ? [messageObj].concat(roomMessages[roomId])
-    //     : [messageObj],
-    // });
   }
 
   function addMessageFromMessageEvent(messageEvent) {
@@ -90,36 +73,15 @@ const Mentor = () => {
             addMessageFromMessageEvent(event);
           }
         });
-
-        // client.on("event", function (event) {
-        //   switch (event.getType()) {
-        //     case "m.room.message":
-        //       console.log(event);
-        //   }
-        // });
       });
 
     client.once("sync", (state) => {
       if (state === "PREPARED") {
         let initialRooms = client.getRooms();
         setRooms(client.getRooms());
-        setSelectedRoomId(initialRooms[0].roomId);
+        setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
       }
     });
-
-    // client.on("Room", () => {
-    //   console.log("Room event");
-    // });
-
-    // client.on("RoomMember.membership", (event, member) => {
-    //   console.log(event, member);
-    // });
-    // client.on("Room.timeline", (event, room, timeline) => {
-    //   console.log(timeline);
-    //   if (event.getType() === "m.room.message") {
-    //     console.log(event.getSender(), event.getContent().body, event);
-    //   }
-    // });
   }, [chat_id, chat_password]);
 
   return (
@@ -133,7 +95,7 @@ const Mentor = () => {
                   key={room.roomId}
                   isSelected={room.id === selectedRoomId}
                   name={room.name}
-                  onSelect={() => setSelectedRoomId(room.id)}
+                  onSelect={() => setSelectedRoomId(room.roomId)}
                   lastMessage={
                     roomMessages[room.id] ? roomMessages[room.id][0] : null
                   }
