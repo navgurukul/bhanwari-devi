@@ -15,23 +15,21 @@ const getMessageClass = (type, isSelf) => {
 export default ({ message, isSelf }) => {
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
   const handleMouseOver = () => {
-    // if (type !== "action") {
-    //   setMessageActionsMenu(true);
-    // }
+    setMessageActionsMenu(true);
   };
 
   const formatMessage = (message) => {
-    switch (message.event.content.msgtype) {
+    switch (message.content.msgtype) {
       case "org.matrix.options":
         return {
-          value: message.event.content.label,
+          value: message.content.label,
           isHtml: true,
-          options: message.event.content.options,
+          options: message.content.options,
         };
 
       case "m.text":
         return {
-          value: message.event.content.body,
+          value: message.content.body,
           isHtml: false,
         };
     }
