@@ -8,17 +8,13 @@ export const fetchMessages = async (params) => {
     roomId,
     accessToken,
     fromSyncToken,
-    toSyncToken,
     limit = 10,
     direction = "b",
   } = params;
 
   let baseMessagesUrl = `${baseUrl}/rooms/${roomId}/messages?access_token=${accessToken}&limit=${limit}&dir=${direction}`;
   if (fromSyncToken) {
-    baseMessagesUrl += `&fromSyncToken=${fromSyncToken}`;
-  }
-  if (toSyncToken) {
-    baseMessagesUrl += `&toSyncToken=${toSyncToken}`;
+    baseMessagesUrl += `&from=${fromSyncToken}`;
   }
 
   const response = await axios.get(baseMessagesUrl);
@@ -27,4 +23,10 @@ export const fetchMessages = async (params) => {
     startToken: response.data.start,
     data: response.data.chunk.reverse(),
   };
+};
+
+export const redactEvent = async (params) => {
+  const { roomId, eventId, accessToken, trxnId = null } = params;
+  const baseRedactEventUrl = `${baseUrl}/rooms/${roomId}/redact/${eventId}/${trxnId}?access_token=${accessToken}`;
+  return await axios.put(baseRedactEventUrl);
 };
