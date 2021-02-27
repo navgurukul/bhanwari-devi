@@ -12,10 +12,10 @@ import Loader from "../../components/common/Loader";
 import "./styles.scss";
 
 let PAGINATION_THRESHOLD = 150;
-let client;
 
 const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
+  const [client, setClient] = useState(null);
   const { isMobile } = useContext(DeviceProvider);
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
@@ -28,22 +28,26 @@ const Mentor = () => {
   const [isInitializingClient, setInitializaingClient] = useState(true);
   const [roomMessages, setRoomMessage] = useState({});
 
-  function onSendMessage(message, roomId) {
+  const onSendMessage = (message, roomId) => {
     const messageObj = {
       body: message,
       msgtype: "m.text",
     };
 
     client.sendEvent(roomId, "m.room.message", messageObj);
-  }
+  };
 
-  function addMessageFromMessageEvent(messageEvent) {
+  const addMessageFromMessageEvent = (messageEvent) => {
     setRoomMessage((roomMessages) => {
       const existingMessages = roomMessages[selectedRoomId] || [];
       const doesMessageEventExist = !!existingMessages.find(
         (message) => message.event_id === messageEvent.event_id
       );
       if (!doesMessageEventExist) {
+        // new message
+        if (!messageEvent.age && !messageEvent.unsigned) {
+          messageEvent.age = 0;
+        }
         const newMessages = _.sortBy([messageEvent].concat(existingMessages), [
           (message) => (message.unsigned ? message.unsigned.age : message.age),
         ]).reverse();
@@ -55,39 +59,50 @@ const Mentor = () => {
         return roomMessages;
       }
     });
-  }
+  };
 
   useEffect(() => {
-    client = sdk.createClient({
-      baseUrl: MATRIX_DOMAIN,
-      userId: chat_id,
-      accessToken: chat_password,
-    });
-    client
-      .login("m.login.password", { user: chat_id, password: chat_password })
-      .then((response) => {
-        setAccessToken(response.access_token);
-        client.startClient();
-        client.on("Room.timeline", function (event) {
-          if (event.getType() === "m.room.message") {
-            console.log(event.event);
-            addMessageFromMessageEvent(event.event);
-          }
+    if (client) {
+      client
+        .login("m.login.password", { user: chat_id, password: chat_password })
+        .then((response) => {
+          setAccessToken(response.access_token);
+          client.startClient();
         });
-      });
 
-    client.once("sync", (state, what, tokenDetails) => {
-      if (state === "PREPARED") {
-        let initialRooms = client.getRooms();
-        setSyncToken({
-          fromSyncToken: tokenDetails.nextSyncToken,
-          toSyncToken: "",
-        });
-        setRooms(client.getRooms());
-        setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
-        setInitializaingClient(false);
-      }
-    });
+      client.once("sync", (state, what, tokenDetails) => {
+        if (state === "PREPARED") {
+          let initialRooms = client.getRooms();
+          setSyncToken({
+            fromSyncToken: tokenDetails.nextSyncToken,
+            toSyncToken: "",
+          });
+          setRooms(client.getRooms());
+          setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
+          setInitializaingClient(false);
+        }
+      });
+    }
+  }, [client]);
+
+  useEffect(() => {
+    if (client && selectedRoomId) {
+      client.on("Room.timeline", (event) => {
+        if (event.getType() === "m.room.message") {
+          addMessageFromMessageEvent(event.event);
+        }
+      });
+    }
+  }, [client, selectedRoomId]);
+
+  useEffect(() => {
+    setClient(
+      sdk.createClient({
+        baseUrl: MATRIX_DOMAIN,
+        userId: chat_id,
+        accessToken: chat_password,
+      })
+    );
   }, [chat_id, chat_password]);
 
   const handleScroll = useCallback(
