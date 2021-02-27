@@ -8,6 +8,7 @@ import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 import { MATRIX_DOMAIN, fetchMessages, redactEvent } from "./utils";
 import FloatingIcon from "../../components/common/FloatingIcon";
+import Loader from "../../components/common/Loader";
 import "./styles.scss";
 
 let PAGINATION_THRESHOLD = 150;
@@ -18,13 +19,13 @@ const Mentor = () => {
   const { isMobile } = useContext(DeviceProvider);
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [accessToken, setAccessToken] = useState("");
   const [syncToken, setSyncToken] = useState({
     fromSyncToken: "",
     toSyncToken: "",
   });
+  const [isInitializingClient, setInitializaingClient] = useState(true);
   const [roomMessages, setRoomMessage] = useState({});
 
   function onSendMessage(message, roomId) {
@@ -71,6 +72,7 @@ const Mentor = () => {
         });
         setRooms(client.getRooms());
         setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
+        setInitializaingClient(false);
       }
     });
   }, [chat_id, chat_password]);
@@ -78,14 +80,13 @@ const Mentor = () => {
   const handleScroll = useCallback(
     _.throttle((element) => {
       if (
-        !isLoading &&
         element.scrollHeight + element.scrollTop <
-          element.clientHeight + PAGINATION_THRESHOLD
+        element.clientHeight + PAGINATION_THRESHOLD
       ) {
         getMessages();
       }
     }, 500),
-    [accessToken, selectedRoomId, syncToken, isLoading]
+    [accessToken, selectedRoomId, syncToken]
   );
 
   const deleteMessage = async (eventId) => {
@@ -97,17 +98,15 @@ const Mentor = () => {
   };
 
   const getMessages = async () => {
-    setIsLoading(true);
     let messagesResponse = await fetchMessages({
       roomId: selectedRoomId,
       accessToken,
       fromSyncToken: syncToken.fromSyncToken,
-      limit: 10,
+      limit: 15,
     });
     setSyncToken({
       fromSyncToken: messagesResponse.endToken,
     });
-    setIsLoading(false);
     const textMessages = messagesResponse.data.filter(
       (message) => message.type === "m.room.message" && message.content.msgtype
     );
@@ -120,9 +119,9 @@ const Mentor = () => {
     }
   }, [selectedRoomId, accessToken]);
 
-  return (
-    <div className="chat-container">
-      {!(isMobile && selectedRoomId) && (
+  const renderRooms = () => {
+    return (
+      !(isMobile && selectedRoomId) && (
         <nav role="navigation">
           <ul className="rooms-navs-container">
             {rooms.map((room) => {
@@ -140,28 +139,49 @@ const Mentor = () => {
             })}
           </ul>
         </nav>
-      )}
-      <div className="room-chat">
-        <Messages
-          messages={roomMessages[selectedRoomId]}
-          selfChatId={chat_id}
-          onScroll={(e) => {
-            handleScroll(e.target);
-          }}
-        />
-        <ChatInput onNewMessage={onSendMessage} roomId={selectedRoomId} />
-      </div>
-      {isMobile && selectedRoomId && (
-        <FloatingIcon
-          onClick={() => {
-            setSelectedRoomId(null);
-          }}
-          icon={<i className="fa fa-chevron-left" />}
-          styles={{
-            top: 16,
-            left: 16,
-          }}
-        />
+      )
+    );
+  };
+
+  const renderChat = () => {
+    return (
+      <>
+        <div className="room-chat">
+          <Messages
+            messages={roomMessages[selectedRoomId]}
+            selfChatId={chat_id}
+            onScroll={(e) => {
+              handleScroll(e.target);
+            }}
+          />
+          <ChatInput onNewMessage={onSendMessage} roomId={selectedRoomId} />
+        </div>
+        {isMobile && selectedRoomId && (
+          <FloatingIcon
+            onClick={() => {
+              setSelectedRoomId(null);
+            }}
+            icon={<i className="fa fa-chevron-left" />}
+            styles={{
+              top: 16,
+              left: 16,
+            }}
+          />
+        )}
+        ;
+      </>
+    );
+  };
+
+  return (
+    <div className="chat-container">
+      {isInitializingClient ? (
+        <Loader />
+      ) : (
+        <>
+          {renderRooms()}
+          {renderChat()}
+        </>
       )}
     </div>
   );
