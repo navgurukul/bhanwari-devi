@@ -37,17 +37,24 @@ const Mentor = () => {
     client.sendEvent(roomId, "m.room.message", messageObj);
   }
 
-  function addBulkMessages(messages) {
-    if (messages.length > 0) {
-      setRoomMessage((roomMessages) => {
+  function addMessageFromMessageEvent(messageEvent) {
+    setRoomMessage((roomMessages) => {
+      const existingMessages = roomMessages[selectedRoomId] || [];
+      const doesMessageEventExist = !!existingMessages.find(
+        (message) => message.event_id === messageEvent.event_id
+      );
+      if (!doesMessageEventExist) {
+        const newMessages = _.sortBy([messageEvent].concat(existingMessages), [
+          (message) => (message.unsigned ? message.unsigned.age : message.age),
+        ]).reverse();
         return {
           ...roomMessages,
-          [messages[0].room_id]: messages.concat(
-            roomMessages[messages[0].room_id] || []
-          ),
+          [messageEvent.room_id]: newMessages,
         };
-      });
-    }
+      } else {
+        return roomMessages;
+      }
+    });
   }
 
   useEffect(() => {
@@ -61,6 +68,12 @@ const Mentor = () => {
       .then((response) => {
         setAccessToken(response.access_token);
         client.startClient();
+        client.on("Room.timeline", function (event) {
+          if (event.getType() === "m.room.message") {
+            console.log(event.event);
+            addMessageFromMessageEvent(event.event);
+          }
+        });
       });
 
     client.once("sync", (state, what, tokenDetails) => {
@@ -110,7 +123,7 @@ const Mentor = () => {
     const textMessages = messagesResponse.data.filter(
       (message) => message.type === "m.room.message" && message.content.msgtype
     );
-    addBulkMessages(textMessages);
+    textMessages.forEach(addMessageFromMessageEvent);
   };
 
   useEffect(() => {
