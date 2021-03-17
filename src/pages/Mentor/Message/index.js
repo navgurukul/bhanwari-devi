@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { format } from "date-fns";
+import Avatar from "../../../components/common/Avatar";
 import "./styles.scss";
 
 const getMessageClass = (type, isSelf) => {
@@ -12,7 +14,9 @@ const getMessageClass = (type, isSelf) => {
   return messageClass;
 };
 
-export default ({ message, isSelf }) => {
+const nowDate = Date.now();
+
+export default ({ message, isSelf, senderName, onSendMessage }) => {
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
@@ -22,13 +26,16 @@ export default ({ message, isSelf }) => {
     switch (message.content.msgtype) {
       case "org.matrix.options":
         return {
+          ...message,
           value: message.content.label,
           isHtml: true,
           options: message.content.options,
         };
 
+      case "text":
       case "m.text":
         return {
+          ...message,
           value: message.content.body,
           isHtml: false,
         };
@@ -38,7 +45,13 @@ export default ({ message, isSelf }) => {
   const renderOptions = (options) => {
     return options.map((option) => {
       return (
-        <button className="option-button" key={option.value}>
+        <button
+          className="option-button"
+          key={option.value}
+          onClick={() => {
+            onSendMessage(option.value);
+          }}
+        >
           {option.label}
         </button>
       );
@@ -46,30 +59,55 @@ export default ({ message, isSelf }) => {
   };
 
   const formattedMessage = formatMessage(message);
-
   return (
-    <>
-      <div
-        onMouseOver={handleMouseOver}
-        className={getMessageClass("", isSelf)}
-        onMouseLeave={() => {
-          setMessageActionsMenu(false);
-        }}
-      >
-        {formattedMessage.isHtml ? (
-          <span
-            dangerouslySetInnerHTML={{
-              __html: formattedMessage.value,
-            }}
-          ></span>
-        ) : (
-          formattedMessage.value
-        )}
-        {isMessageActionsMenuOpen && (
-          <i className="fa fa-chevron-down actions-dropdown-trigger" />
-        )}
+    <div
+      className={`chat-message-container ${
+        isSelf ? "chat-message-container-self" : "chat-message-container-other"
+      }`}
+    >
+      {!isSelf && senderName && (
+        <Avatar name={senderName} style={{ marginRight: 12 }} />
+      )}
+      <div>
+        <div
+          className={`message-header ${isSelf ? "" : "message-header-other"}`}
+        >
+          <div className="message-time">
+            {format(new Date(nowDate - formattedMessage.age), "hh:mm aaa")}
+          </div>
+          <div
+            className={`chat-message-sender ${
+              isSelf ? "chat-message-sender-self" : ""
+            }`}
+          >
+            {senderName}
+          </div>
+        </div>
+        <div
+          onMouseOver={handleMouseOver}
+          className={getMessageClass("", isSelf)}
+          onMouseLeave={() => {
+            setMessageActionsMenu(false);
+          }}
+        >
+          {formattedMessage.isHtml ? (
+            <span
+              dangerouslySetInnerHTML={{
+                __html: formattedMessage.value,
+              }}
+            ></span>
+          ) : (
+            formattedMessage.value
+          )}
+          {isMessageActionsMenuOpen && (
+            <i className="fa fa-chevron-down actions-dropdown-trigger" />
+          )}
+        </div>
+        {formattedMessage.options && renderOptions(formattedMessage.options)}
       </div>
-      {formattedMessage.options && renderOptions(formattedMessage.options)}
-    </>
+      {isSelf && senderName && (
+        <Avatar name={senderName} style={{ marginLeft: 12 }} />
+      )}
+    </div>
   );
 };

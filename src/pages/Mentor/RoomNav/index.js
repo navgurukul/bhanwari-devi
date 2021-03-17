@@ -28,7 +28,7 @@ export default ({ name, lastMessage, onSelect, isSelected }) => {
       </div>
       <div className="date-new-messages">
         {lastMessage && (
-          <div>{format(new Date(lastMessage.time), "dd LLL")}</div>
+          <div>{format(new Date(lastMessage.age), "dd LLL")}</div>
         )}
         <div></div>
       </div>

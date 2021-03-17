@@ -6,7 +6,7 @@ import * as sdk from "matrix-js-sdk";
 import RoomNav from "./RoomNav";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
-import { MATRIX_DOMAIN, fetchMessages, redactEvent } from "./utils";
+import { MATRIX_DOMAIN, fetchMessages, redactEvent, getMembers } from "./utils";
 import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
@@ -20,6 +20,7 @@ const Mentor = () => {
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
+  const [members, setMembers] = useState({});
   const [accessToken, setAccessToken] = useState("");
   const [syncToken, setSyncToken] = useState({
     fromSyncToken: "",
@@ -39,18 +40,38 @@ const Mentor = () => {
 
   const addMessageFromMessageEvent = (messageEvent) => {
     setRoomMessage((roomMessages) => {
-      const existingMessages = roomMessages[selectedRoomId] || [];
+      const existingMessages = roomMessages[messageEvent.room_id] || [];
       const doesMessageEventExist = !!existingMessages.find(
         (message) => message.event_id === messageEvent.event_id
       );
       if (!doesMessageEventExist) {
         // new message
+        let localMessages = [];
+        let nonLocalMessages = [];
+
         if (!messageEvent.age && !messageEvent.unsigned) {
           messageEvent.age = 0;
+          localMessages.push(messageEvent);
+        } else {
+          nonLocalMessages.push(messageEvent);
         }
-        const newMessages = _.sortBy([messageEvent].concat(existingMessages), [
-          (message) => (message.unsigned ? message.unsigned.age : message.age),
-        ]).reverse();
+
+        existingMessages.reverse().forEach((message) => {
+          if (message.age === 0) {
+            localMessages.push(message);
+          } else {
+            nonLocalMessages.push(message);
+          }
+        });
+
+        const newMessages = localMessages
+          .concat(
+            _.sortBy(nonLocalMessages, [
+              (message) =>
+                message.unsigned ? message.unsigned.age : message.age,
+            ])
+          )
+          .reverse();
         return {
           ...roomMessages,
           [messageEvent.room_id]: newMessages,
@@ -70,13 +91,9 @@ const Mentor = () => {
           client.startClient();
         });
 
-      client.once("sync", (state, what, tokenDetails) => {
+      client.once("sync", (state) => {
         if (state === "PREPARED") {
           let initialRooms = client.getRooms();
-          setSyncToken({
-            fromSyncToken: tokenDetails.nextSyncToken,
-            toSyncToken: "",
-          });
           setRooms(client.getRooms());
           setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
           setInitializaingClient(false);
@@ -117,6 +134,20 @@ const Mentor = () => {
     [accessToken, selectedRoomId, syncToken]
   );
 
+  const getSelectedRoomMembers = async () => {
+    const roomMembers = await getMembers(accessToken, selectedRoomId);
+    setMembers({
+      ...members,
+      [selectedRoomId]: roomMembers || [],
+    });
+  };
+
+  useEffect(() => {
+    if (accessToken && selectedRoomId) {
+      getSelectedRoomMembers();
+    }
+  }, [accessToken, selectedRoomId]);
+
   const deleteMessage = async (eventId) => {
     redactEvent({
       roomId: selectedRoomId,
@@ -126,14 +157,22 @@ const Mentor = () => {
   };
 
   const getMessages = async () => {
-    let messagesResponse = await fetchMessages({
+    let getMessagesPayload = {
       roomId: selectedRoomId,
       accessToken,
-      fromSyncToken: syncToken.fromSyncToken,
       limit: 15,
-    });
+    };
+
+    if (syncToken.fromSyncToken[selectedRoomId]) {
+      getMessagesPayload.fromSyncToken =
+        syncToken.fromSyncToken[selectedRoomId];
+    }
+    let messagesResponse = await fetchMessages(getMessagesPayload);
     setSyncToken({
-      fromSyncToken: messagesResponse.endToken,
+      fromSyncToken: {
+        ...syncToken.fromSyncToken,
+        [selectedRoomId]: messagesResponse.endToken,
+      },
     });
     const textMessages = messagesResponse.data.filter(
       (message) => message.type === "m.room.message" && message.content.msgtype
@@ -156,11 +195,13 @@ const Mentor = () => {
               return (
                 <RoomNav
                   key={room.roomId}
-                  isSelected={room.id === selectedRoomId}
+                  isSelected={room.roomId === selectedRoomId}
                   name={room.name}
                   onSelect={() => setSelectedRoomId(room.roomId)}
                   lastMessage={
-                    roomMessages[room.id] ? roomMessages[room.id][0] : null
+                    roomMessages[room.roomId]
+                      ? roomMessages[room.roomId][0]
+                      : null
                   }
                 />
               );
@@ -180,6 +221,10 @@ const Mentor = () => {
             selfChatId={chat_id}
             onScroll={(e) => {
               handleScroll(e.target);
+            }}
+            members={members[selectedRoomId] || []}
+            onSendMessage={(value) => {
+              onSendMessage(value, selectedRoomId);
             }}
           />
           <ChatInput onNewMessage={onSendMessage} roomId={selectedRoomId} />

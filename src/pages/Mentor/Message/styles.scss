@@ -1,7 +1,5 @@
 .chat-message {
   padding: 16px;
-  margin: 12px 0;
-  display: inline-flex;
   border-radius: 12px;
   border-bottom-left-radius: 0;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -44,6 +42,7 @@
 .option-button {
   background-color: #d63447;
   border-radius: 4px;
+  display: block;
   align-self: flex-start;
   color: #fff;
   padding: 0 16px;
@@ -51,7 +50,7 @@
   font-weight: bold;
   font-size: 16px;
   border: 0;
-  margin-bottom: 8px;
+  margin-top: 12px;
   cursor: pointer;
   min-width: 200px;
   transition: background-color 0.2s linear;
@@ -62,5 +61,47 @@
 
   &-self {
     align-self: flex-start;
+  }
+}
+
+.chat-message-container {
+  display: flex;
+  margin: 12px 0;
+
+  &-other {
+    align-self: flex-start;
+  }
+
+  &-self {
+    align-self: flex-end;
+  }
+}
+
+.chat-message-sender {
+  font-size: 13px;
+  color: gray;
+
+  &-self {
+    text-align: right;
+  }
+}
+
+.message-header {
+  display: flex;
+  margin-bottom: 8px;
+  justify-content: flex-end;
+
+  &-other {
+    justify-content: flex-start;
+  }
+}
+
+.message-time {
+  margin-right: 16px;
+  color: gray;
+  font-size: 13px;
+
+  &-other {
+    margin-left: 16px;
   }
 }

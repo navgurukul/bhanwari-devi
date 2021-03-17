@@ -3,6 +3,13 @@ export const MATRIX_DOMAIN = "https://m.navgurukul.org";
 
 const baseUrl = `${MATRIX_DOMAIN}/_matrix/client/r0`;
 
+export const getMembers = async (accessToken, roomId) => {
+  const getMembersResponse = await axios.get(
+    `${baseUrl}/rooms/${roomId}/members?access_token=${accessToken}`
+  );
+  return getMembersResponse.data.chunk;
+};
+
 export const fetchMessages = async (params) => {
   const {
     roomId,

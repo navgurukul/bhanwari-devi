@@ -25,8 +25,17 @@ function getColor() {
   return colors[getRandomInt(0, 10)];
 }
 
-export default ({ url, name }) => {
-  let avatarColor = useMemo(() => getColor(), [name]);
+// in memory cache for name, color mapping
+const nameColorMap = {};
+
+export default ({ url, name, style = {} }) => {
+  let avatarColor;
+  if (!nameColorMap[name]) {
+    avatarColor = useMemo(() => getColor(), [name]);
+    nameColorMap[name] = avatarColor;
+  } else {
+    avatarColor = nameColorMap[name];
+  }
 
   const renderContent = () => {
     if (!url) {
@@ -38,5 +47,9 @@ export default ({ url, name }) => {
     }
     return <img src={url} />;
   };
-  return <div className="avatar-container">{renderContent()}</div>;
+  return (
+    <div className="avatar-container" style={style}>
+      {renderContent()}
+    </div>
+  );
 };
