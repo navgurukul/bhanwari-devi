@@ -1,0 +1,24 @@
+import React from "react";
+import "./style.scss";
+
+export default ({ isOpen, className, options = [] }) => {
+  if (isOpen) {
+    return (
+      <div className={`dropdown ${className ? className : ""}`}>
+        {options.map((option) => {
+          console.log(option.onClick);
+          return (
+            <button
+              className="dropdown-button"
+              key={option.value}
+              onClick={option.onClick}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+  return null;
+};

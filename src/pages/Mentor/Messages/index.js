@@ -2,7 +2,14 @@ import React from "react";
 import Message from "../Message";
 import "./styles.scss";
 
-export default ({ messages, selfChatId, onScroll, members, onSendMessage }) => {
+export default ({
+  messages,
+  selfChatId,
+  onScroll,
+  members,
+  onSendMessage,
+  deleteMessage,
+}) => {
   return (
     <div className="messages" onScroll={onScroll}>
       <div className="messages-content">
@@ -17,6 +24,7 @@ export default ({ messages, selfChatId, onScroll, members, onSendMessage }) => {
               return (
                 <Message
                   key={message.event_id}
+                  deleteMessage={deleteMessage}
                   onSendMessage={onSendMessage}
                   senderName={
                     member

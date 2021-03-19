@@ -38,6 +38,19 @@ const Mentor = () => {
     client.sendEvent(roomId, "m.room.message", messageObj);
   };
 
+  const removeMessageEvent = (eventId) => {
+    setRoomMessage((roomMessages) => {
+      let newMessages = roomMessages[selectedRoomId].filter((messageEvent) => {
+        return messageEvent.event_id !== eventId;
+      });
+
+      return {
+        ...roomMessages,
+        [selectedRoomId]: newMessages,
+      };
+    });
+  };
+
   const addMessageFromMessageEvent = (messageEvent) => {
     setRoomMessage((roomMessages) => {
       const existingMessages = roomMessages[messageEvent.room_id] || [];
@@ -97,6 +110,29 @@ const Mentor = () => {
           setRooms(client.getRooms());
           setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
           setInitializaingClient(false);
+
+          client.on("event", (event) => {
+            if (event.event) {
+              switch (event.event.type) {
+                case "m.room.name":
+                  setRooms((rooms) => {
+                    const doesRoomExist = !!rooms.find((room) => {
+                      return room.roomId === event.event.room_id;
+                    });
+                    if (!doesRoomExist) {
+                      return rooms.concat([
+                        {
+                          name: event.event.content.name,
+                          roomId: event.event.room_id,
+                        },
+                      ]);
+                    }
+                    return rooms;
+                  });
+                  break;
+              }
+            }
+          });
         }
       });
     }
@@ -149,11 +185,15 @@ const Mentor = () => {
   }, [accessToken, selectedRoomId]);
 
   const deleteMessage = async (eventId) => {
-    redactEvent({
+    const redactedEventResponse = await redactEvent({
       roomId: selectedRoomId,
       eventId,
       accessToken,
+      reason: "user deleted message",
     });
+    if (redactedEventResponse && redactedEventResponse.data) {
+      removeMessageEvent(eventId);
+    }
   };
 
   const getMessages = async () => {
@@ -222,6 +262,7 @@ const Mentor = () => {
             onScroll={(e) => {
               handleScroll(e.target);
             }}
+            deleteMessage={deleteMessage}
             members={members[selectedRoomId] || []}
             onSendMessage={(value) => {
               onSendMessage(value, selectedRoomId);
@@ -241,7 +282,6 @@ const Mentor = () => {
             }}
           />
         )}
-        ;
       </>
     );
   };

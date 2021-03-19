@@ -33,7 +33,9 @@ export const fetchMessages = async (params) => {
 };
 
 export const redactEvent = async (params) => {
-  const { roomId, eventId, accessToken, trxnId = null } = params;
+  const { roomId, eventId, accessToken, trxnId = null, reason = "" } = params;
   const baseRedactEventUrl = `${baseUrl}/rooms/${roomId}/redact/${eventId}/${trxnId}?access_token=${accessToken}`;
-  return await axios.put(baseRedactEventUrl);
+  return await axios.put(baseRedactEventUrl, {
+    reason,
+  });
 };

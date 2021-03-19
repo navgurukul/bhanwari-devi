@@ -26,10 +26,18 @@
     box-shadow: none;
   }
 
-  .actions-dropdown-trigger {
+  .actions-dropdown-trigger-container {
     position: absolute;
     top: 8px;
     right: 12px;
+  }
+
+  .actions-dropdown-trigger {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
     font-size: 18px;
     cursor: pointer;
   }

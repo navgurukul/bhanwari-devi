@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
 import Avatar from "../../../components/common/Avatar";
+import Dropdown from "../../../components/common/Dropdown";
 import "./styles.scss";
 
 const getMessageClass = (type, isSelf) => {
@@ -16,8 +17,18 @@ const getMessageClass = (type, isSelf) => {
 
 const nowDate = Date.now();
 
-export default ({ message, isSelf, senderName, onSendMessage }) => {
+export default ({
+  message,
+  isSelf,
+  senderName,
+  onSendMessage,
+  deleteMessage,
+}) => {
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
+  const [
+    isMessageActionsDropdownOpen,
+    setIsMessageActionsDropdownOpen,
+  ] = useState(false);
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
@@ -59,6 +70,17 @@ export default ({ message, isSelf, senderName, onSendMessage }) => {
   };
 
   const formattedMessage = formatMessage(message);
+  let messageActions = [];
+  if (isSelf) {
+    messageActions.push({
+      label: "Delete message",
+      value: "delete",
+      onClick: () => {
+        deleteMessage(message.event_id);
+      },
+    });
+  }
+
   return (
     <div
       className={`chat-message-container ${
@@ -73,7 +95,15 @@ export default ({ message, isSelf, senderName, onSendMessage }) => {
           className={`message-header ${isSelf ? "" : "message-header-other"}`}
         >
           <div className="message-time">
-            {format(new Date(nowDate - formattedMessage.age), "hh:mm aaa")}
+            {format(
+              new Date(
+                nowDate -
+                  (formattedMessage.age || formattedMessage.unsigned
+                    ? formattedMessage.unsigned.age
+                    : 0)
+              ),
+              "hh:mm aaa"
+            )}
           </div>
           <div
             className={`chat-message-sender ${
@@ -88,6 +118,7 @@ export default ({ message, isSelf, senderName, onSendMessage }) => {
           className={getMessageClass("", isSelf)}
           onMouseLeave={() => {
             setMessageActionsMenu(false);
+            setIsMessageActionsDropdownOpen(false);
           }}
         >
           {formattedMessage.isHtml ? (
@@ -99,8 +130,23 @@ export default ({ message, isSelf, senderName, onSendMessage }) => {
           ) : (
             formattedMessage.value
           )}
-          {isMessageActionsMenuOpen && (
-            <i className="fa fa-chevron-down actions-dropdown-trigger" />
+          {isMessageActionsMenuOpen && messageActions.length > 0 && (
+            <div className="actions-dropdown-trigger-container">
+              <button
+                className="actions-dropdown-trigger"
+                onClick={() => {
+                  setIsMessageActionsDropdownOpen(
+                    !isMessageActionsDropdownOpen
+                  );
+                }}
+              >
+                <i className="fa fa-chevron-down" />
+              </button>
+              <Dropdown
+                isOpen={isMessageActionsDropdownOpen}
+                options={messageActions}
+              />
+            </div>
           )}
         </div>
         {formattedMessage.options && renderOptions(formattedMessage.options)}
