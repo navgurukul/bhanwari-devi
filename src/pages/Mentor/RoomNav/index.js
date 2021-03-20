@@ -1,14 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "../../../components/common/Avatar";
+import Dropdown from "../../../components/common/Dropdown";
 import format from "date-fns/format";
+import { leaveRoom } from "../utils";
 import "./styles.scss";
 
-export default ({ name, lastMessage, onSelect, isSelected }) => {
+export default ({
+  name,
+  lastMessage,
+  onSelect,
+  isSelected,
+  roomId,
+  accessToken,
+}) => {
+  const [
+    isMessageActionsDropdownOpen,
+    setIsMessageActionsDropdownOpen,
+  ] = useState(false);
   const subtitle = lastMessage ? lastMessage.text : "";
 
   const renderSubtitle = () => {
     return subtitle.length > 30 ? subtitle.slice(0, 27) + "..." : subtitle;
   };
+
+  const roomActions = [
+    {
+      label: "Leave room",
+      value: "leave room",
+      onClick: () => {
+        leaveRoom({
+          roomId,
+          accessToken,
+        });
+      },
+    },
+  ];
 
   return (
     <li
@@ -26,11 +52,25 @@ export default ({ name, lastMessage, onSelect, isSelected }) => {
           )}
         </div>
       </div>
-      <div className="date-new-messages">
-        {lastMessage && (
+      <div className="room-info-actions">
+        {lastMessage && lastMessage.age && (
           <div>{format(new Date(lastMessage.age), "dd LLL")}</div>
         )}
-        <div></div>
+        <div
+          className="menu-ellipsis"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMessageActionsDropdownOpen(!isMessageActionsDropdownOpen);
+          }}
+        >
+          <div className="menu-ellipsis-dot">•</div>
+          <div className="menu-ellipsis-dot">•</div>
+          <div className="menu-ellipsis-dot">•</div>
+          <Dropdown
+            isOpen={isMessageActionsDropdownOpen}
+            options={roomActions}
+          />
+        </div>
       </div>
     </li>
   );

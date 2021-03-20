@@ -27,12 +27,25 @@
   }
 
   .empty-char {
-    color: #fff;
+    color: transparent;
   }
 
-  .date-new-messages {
+  .room-info-actions {
     flex: 1;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
     font-size: 12px;
+  }
+
+  .menu-ellipsis-dot {
+    line-height: 0.5;
+  }
+
+  .menu-ellipsis {
+    position: relative;
+    background: transparent;
+    border: 0;
+    margin-left: 12px;
+    cursor: pointer;
   }
 }

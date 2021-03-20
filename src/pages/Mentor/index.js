@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
 import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
 import { useSelector } from "react-redux";
@@ -16,10 +22,13 @@ let PAGINATION_THRESHOLD = 150;
 const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
   const [client, setClient] = useState(null);
+  const isClientInitialised = useRef(false);
+  const isLoggedIn = useRef(false);
   const { isMobile } = useContext(DeviceProvider);
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
+  const [roomNamesMap, setRoomNamesMap] = useState({});
   const [members, setMembers] = useState({});
   const [accessToken, setAccessToken] = useState("");
   const [syncToken, setSyncToken] = useState({
@@ -58,33 +67,9 @@ const Mentor = () => {
         (message) => message.event_id === messageEvent.event_id
       );
       if (!doesMessageEventExist) {
-        // new message
-        let localMessages = [];
-        let nonLocalMessages = [];
-
-        if (!messageEvent.age && !messageEvent.unsigned) {
-          messageEvent.age = 0;
-          localMessages.push(messageEvent);
-        } else {
-          nonLocalMessages.push(messageEvent);
-        }
-
-        existingMessages.reverse().forEach((message) => {
-          if (message.age === 0) {
-            localMessages.push(message);
-          } else {
-            nonLocalMessages.push(message);
-          }
-        });
-
-        const newMessages = localMessages
-          .concat(
-            _.sortBy(nonLocalMessages, [
-              (message) =>
-                message.unsigned ? message.unsigned.age : message.age,
-            ])
-          )
-          .reverse();
+        const newMessages = _.sortBy(existingMessages.concat(messageEvent), [
+          (message) => (message.unsigned ? message.unsigned.age : message.age),
+        ]).reverse();
         return {
           ...roomMessages,
           [messageEvent.room_id]: newMessages,
@@ -95,6 +80,93 @@ const Mentor = () => {
     });
   };
 
+  const addRoomName = (roomId, roomName) => {
+    if (!roomNamesMap[roomId]) {
+      setRoomNamesMap((existingRoomNames) => {
+        return {
+          ...existingRoomNames,
+          [roomId]: roomName,
+        };
+      });
+    }
+  };
+
+  const handleMatrixEvent = (event) => {
+    if (event.event) {
+      switch (event.getType()) {
+        case "m.room.name":
+          addRoomName(event.event.room_id, event.event.content.name);
+          break;
+
+        case "m.room.message":
+          addMessageFromMessageEvent(event.event);
+          break;
+
+        case "m.room.member":
+          if (event.event.content.membership === "leave") {
+            if (event.event.sender.includes(chat_id)) {
+              setRooms((rooms) => {
+                return rooms.filter(
+                  (room) => room.roomId !== event.event.room_id
+                );
+              });
+            }
+          }
+          if (event.event.content.membership === "join") {
+            if (event.event.sender.includes(chat_id)) {
+              setRooms((rooms) => {
+                const doesRoomExist = !!rooms.find((room) => {
+                  return room.roomId === event.event.room_id;
+                });
+                if (!doesRoomExist) {
+                  return rooms.concat([
+                    {
+                      name:
+                        event.event.content.name ||
+                        roomNamesMap[event.event.room_id] ||
+                        "",
+                      roomId: event.event.room_id,
+                    },
+                  ]);
+                }
+                return rooms;
+              });
+            }
+          }
+          break;
+      }
+    }
+  };
+
+  const clientSync = (state) => {
+    if (state === "PREPARED") {
+      let initialRooms = client.getRooms();
+      setRooms(() => {
+        const clientRooms = client.getRooms() || [];
+        clientRooms.forEach((room) => addRoomName(room.roomId, room.name));
+        setRooms(clientRooms);
+      });
+      setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
+      setInitializaingClient(false);
+
+      client.on("event", handleMatrixEvent);
+    }
+  };
+
+  useEffect(() => {
+    const roomWithoutName = rooms.find((room) => !room.name);
+    if (!!roomWithoutName && roomNamesMap[roomWithoutName.roomId]) {
+      setRooms((existingRooms) => {
+        return existingRooms.map((room) => {
+          if (!room.name) {
+            room.name = roomNamesMap[room.roomId] || "";
+          }
+          return room;
+        });
+      });
+    }
+  }, [rooms, roomNamesMap]);
+
   useEffect(() => {
     if (client) {
       client
@@ -104,49 +176,11 @@ const Mentor = () => {
           client.startClient();
         });
 
-      client.once("sync", (state) => {
-        if (state === "PREPARED") {
-          let initialRooms = client.getRooms();
-          setRooms(client.getRooms());
-          setSelectedRoomId(isMobile ? null : initialRooms[0].roomId);
-          setInitializaingClient(false);
-
-          client.on("event", (event) => {
-            if (event.event) {
-              switch (event.event.type) {
-                case "m.room.name":
-                  setRooms((rooms) => {
-                    const doesRoomExist = !!rooms.find((room) => {
-                      return room.roomId === event.event.room_id;
-                    });
-                    if (!doesRoomExist) {
-                      return rooms.concat([
-                        {
-                          name: event.event.content.name,
-                          roomId: event.event.room_id,
-                        },
-                      ]);
-                    }
-                    return rooms;
-                  });
-                  break;
-              }
-            }
-          });
-        }
-      });
+      client.once("sync", clientSync);
     }
-  }, [client]);
+  }, [client, roomNamesMap]);
 
-  useEffect(() => {
-    if (client && selectedRoomId) {
-      client.on("Room.timeline", (event) => {
-        if (event.getType() === "m.room.message") {
-          addMessageFromMessageEvent(event.event);
-        }
-      });
-    }
-  }, [client, selectedRoomId]);
+  //console.log(roomNamesMap);
 
   useEffect(() => {
     setClient(
@@ -200,7 +234,7 @@ const Mentor = () => {
     let getMessagesPayload = {
       roomId: selectedRoomId,
       accessToken,
-      limit: 15,
+      limit: 50,
     };
 
     if (syncToken.fromSyncToken[selectedRoomId]) {
@@ -235,6 +269,8 @@ const Mentor = () => {
               return (
                 <RoomNav
                   key={room.roomId}
+                  roomId={room.roomId}
+                  accessToken={accessToken}
                   isSelected={room.roomId === selectedRoomId}
                   name={room.name}
                   onSelect={() => setSelectedRoomId(room.roomId)}

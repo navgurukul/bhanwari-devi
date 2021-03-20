@@ -39,3 +39,9 @@ export const redactEvent = async (params) => {
     reason,
   });
 };
+
+export const leaveRoom = async (params) => {
+  const { roomId, accessToken } = params;
+  const leaveRoomUrl = `${baseUrl}/rooms/${roomId}/leave?access_token=${accessToken}`;
+  return await axios.post(leaveRoomUrl);
+};
