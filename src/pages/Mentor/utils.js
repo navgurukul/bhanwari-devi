@@ -19,7 +19,11 @@ export const fetchMessages = async (params) => {
     direction = "b",
   } = params;
 
-  let baseMessagesUrl = `${baseUrl}/rooms/${roomId}/messages?access_token=${accessToken}&limit=${limit}&dir=${direction}`;
+  const filters = JSON.stringify({
+    types: ["m.room.message"],
+  });
+
+  let baseMessagesUrl = `${baseUrl}/rooms/${roomId}/messages?access_token=${accessToken}&limit=${limit}&dir=${direction}&filter=${filters}`;
   if (fromSyncToken) {
     baseMessagesUrl += `&from=${fromSyncToken}`;
   }

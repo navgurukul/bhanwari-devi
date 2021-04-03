@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-  useRef,
-} from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
 import { useSelector } from "react-redux";
@@ -22,8 +16,6 @@ let PAGINATION_THRESHOLD = 150;
 const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
   const [client, setClient] = useState(null);
-  const isClientInitialised = useRef(false);
-  const isLoggedIn = useRef(false);
   const { isMobile } = useContext(DeviceProvider);
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
@@ -63,13 +55,15 @@ const Mentor = () => {
   const addMessageFromMessageEvent = (messageEvent) => {
     setRoomMessage((roomMessages) => {
       const existingMessages = roomMessages[messageEvent.room_id] || [];
-      const doesMessageEventExist = !!existingMessages.find(
-        (message) => message.event_id === messageEvent.event_id
+      const doesMessageEventExist = Boolean(
+        existingMessages.find(
+          (message) => message.event_id === messageEvent.event_id
+        )
       );
       if (!doesMessageEventExist) {
         const newMessages = _.sortBy(existingMessages.concat(messageEvent), [
-          (message) => (message.unsigned ? message.unsigned.age : message.age),
-        ]).reverse();
+          (message) => message.origin_server_ts,
+        ]);
         return {
           ...roomMessages,
           [messageEvent.room_id]: newMessages,
@@ -234,7 +228,7 @@ const Mentor = () => {
     let getMessagesPayload = {
       roomId: selectedRoomId,
       accessToken,
-      limit: 50,
+      limit: 15,
     };
 
     if (syncToken.fromSyncToken[selectedRoomId]) {

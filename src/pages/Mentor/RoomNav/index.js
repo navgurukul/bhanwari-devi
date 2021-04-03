@@ -53,8 +53,8 @@ export default ({
         </div>
       </div>
       <div className="room-info-actions">
-        {lastMessage && lastMessage.age && (
-          <div>{format(new Date(lastMessage.age), "dd LLL")}</div>
+        {lastMessage && lastMessage.origin_server_ts && (
+          <div>{format(new Date(lastMessage.origin_server_ts), "dd LLL")}</div>
         )}
         <div
           className="menu-ellipsis"

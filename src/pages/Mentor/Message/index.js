@@ -95,15 +95,7 @@ export default ({
           className={`message-header ${isSelf ? "" : "message-header-other"}`}
         >
           <div className="message-time">
-            {format(
-              new Date(
-                nowDate -
-                  (formattedMessage.age || formattedMessage.unsigned
-                    ? formattedMessage.unsigned.age
-                    : 0)
-              ),
-              "hh:mm aaa"
-            )}
+            {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
           </div>
           <div
             className={`chat-message-sender ${

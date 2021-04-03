@@ -36,16 +36,17 @@
     justify-content: flex-end;
     font-size: 12px;
   }
+}
 
-  .menu-ellipsis-dot {
-    line-height: 0.5;
-  }
+.menu-ellipsis-dot {
+  line-height: 0.5;
+  cursor: pointer;
+}
 
-  .menu-ellipsis {
-    position: relative;
-    background: transparent;
-    border: 0;
-    margin-left: 12px;
-    cursor: pointer;
-  }
+.menu-ellipsis {
+  position: relative;
+  background: transparent;
+  border: 0;
+  margin-left: 12px;
+  cursor: pointer;
 }
