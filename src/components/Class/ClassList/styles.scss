@@ -1,6 +1,9 @@
+@import "../../../sass/colors.scss";
+@import "../../../sass/mixins.scss";
+
 .create-class-button {
   background: #83b344;
-  margin-left: 17%;
+  margin-left: 4%;
   width: 15%;
   height: 40px;
   border-radius: 15px;
@@ -8,92 +11,21 @@
   font-size: 17px;
   font-weight: "bold";
   border: none;
+  cursor: pointer;
+  @include breakpoint-mobile {
+    width: 60%;
+    margin-left: 15%;
+  }
 }
-
-table {
-  border-collapse: collapse;
-  margin: 70px auto;
-  box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
-}
-
-th {
-  background: #83b344;
-  color: white;
-  font-weight: bold;
-}
-
-td,
-th {
-  padding: 20px;
-  border: 1px solid #ccc;
-  text-align: center;
-  font-size: 19px;
-  font-family: "Times New Roman", Times, serif;
-}
-
-.message {
-  font-family: "Times New Roman", Times, serif;
-}
-
-@media only screen and (max-width: 760px),
-  (min-device-width: 768px) and (max-device-width: 1024px) {
-  table {
-    width: 100%;
-  }
-
-  /* Force table to not be like tables anymore */
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  /* Hide table headers (but not display: none;, for accessibility) */
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  tr {
-    border: 3px solid #ccc;
-  }
-
-  td {
-    /* Behave  like a "row" */
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  td:before {
-    /* Now like a table header */
-    position: absolute;
-    border-collapse: collapse;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    background-color: #83b344;
-    color: white;
-    padding: 10px;
-    /* Label the data */
-    content: attr(data-column);
-    font-weight: bold;
-  }
-
-  .create-class-button {
-    background: #83b344;
-    width: 55%;
-    height: 40px;
-    border-radius: 15px;
-    color: white;
-    font-size: 17px;
-    font-weight: "bold";
-    border: none;
+.ng-upcoming-class {
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  @include breakpoint-mobile {
+    justify-content: center;
+    margin: 20px 0px;
   }
 }

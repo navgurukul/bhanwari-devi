@@ -59,6 +59,7 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "category",
     inputClassName: "small-text",
+    onKeyDown: e => e.preventDefault(),
     required: true,
   },
   {
@@ -67,6 +68,7 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "language",
     inputClassName: "small-text",
+    onKeyDown: e => e.preventDefault(),
     required: true,
   },
   {
@@ -75,6 +77,7 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "type",
     inputClassName: "small-text",
+    onKeyDown: e => e.preventDefault(),
     required: true,
   },
   {
