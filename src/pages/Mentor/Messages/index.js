@@ -9,6 +9,7 @@ export default ({
   members,
   onSendMessage,
   deleteMessage,
+  activateReplyToMessageState,
 }) => {
   return (
     <div className="messages" onScroll={onScroll}>
@@ -26,6 +27,7 @@ export default ({
                   key={message.event_id}
                   deleteMessage={deleteMessage}
                   onSendMessage={onSendMessage}
+                  activateReplyToMessageState={activateReplyToMessageState}
                   senderName={
                     member
                       ? (member.content && member.content.displayname) ||

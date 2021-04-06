@@ -23,6 +23,7 @@ const Mentor = () => {
   const [roomNamesMap, setRoomNamesMap] = useState({});
   const [members, setMembers] = useState({});
   const [accessToken, setAccessToken] = useState("");
+  const [replyMessage, setReplyMessage] = useState(null);
   const [syncToken, setSyncToken] = useState({
     fromSyncToken: "",
     toSyncToken: "",
@@ -224,6 +225,13 @@ const Mentor = () => {
     }
   };
 
+  const activateReplyToMessageState = (messageEventId) => {
+    const message = roomMessages[selectedRoomId].find(
+      (message) => message.event_id === messageEventId
+    );
+    setReplyMessage(message);
+  };
+
   const getMessages = async () => {
     let getMessagesPayload = {
       roomId: selectedRoomId,
@@ -294,11 +302,18 @@ const Mentor = () => {
             }}
             deleteMessage={deleteMessage}
             members={members[selectedRoomId] || []}
+            activateReplyToMessageState={activateReplyToMessageState}
             onSendMessage={(value) => {
               onSendMessage(value, selectedRoomId);
             }}
           />
-          <ChatInput onNewMessage={onSendMessage} roomId={selectedRoomId} />
+          <ChatInput
+            replyMessage={replyMessage}
+            onNewMessage={onSendMessage}
+            activateReplyToMessageState={activateReplyToMessageState}
+            roomId={selectedRoomId}
+            members={members[selectedRoomId] || []}
+          />
         </div>
         {isMobile && selectedRoomId && (
           <FloatingIcon

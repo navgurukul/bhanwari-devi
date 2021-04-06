@@ -6,7 +6,6 @@ export default ({ isOpen, className, options = [] }) => {
     return (
       <div className={`dropdown ${className ? className : ""}`}>
         {options.map((option) => {
-          console.log(option.onClick);
           return (
             <button
               className="dropdown-button"

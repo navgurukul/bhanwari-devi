@@ -15,14 +15,13 @@ const getMessageClass = (type, isSelf) => {
   return messageClass;
 };
 
-const nowDate = Date.now();
-
 export default ({
   message,
   isSelf,
   senderName,
   onSendMessage,
   deleteMessage,
+  activateReplyToMessageState,
 }) => {
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
   const [
@@ -77,6 +76,16 @@ export default ({
       value: "delete",
       onClick: () => {
         deleteMessage(message.event_id);
+      },
+    });
+  }
+
+  if (formattedMessage.content.msgtype === "m.text") {
+    messageActions.push({
+      label: "Reply",
+      value: "reply",
+      onClick: () => {
+        activateReplyToMessageState(formattedMessage.event_id);
       },
     });
   }
