@@ -1,6 +1,6 @@
 .class-card {
   width: 380px;
-  background: linear-gradient(to bottom left, #83b344 20%, #ffc39e 100%);
+  background: rgba(255, 220, 220, 0.4);
   height: auto;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 15px;
@@ -28,6 +28,7 @@
     > .class-type {
       margin-top: 8px;
       font-weight: 600;
+      color: #d55f31;
     }
   }
 

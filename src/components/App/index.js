@@ -2,7 +2,6 @@ import React from "react";
 
 import Routing from "../../routing";
 import Header from "../Header";
-import ContinueExercise from "./ContinueExercise/index";
 
 import "./styles.scss";
 
@@ -11,7 +10,6 @@ function App() {
     <div>
       <Header />
       <Routing />
-      <ContinueExercise />
     </div>
   );
 }
