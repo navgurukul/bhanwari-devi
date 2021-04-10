@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
+import { getMemberName } from "../utils";
 import "./styles.scss";
 
 export default ({
@@ -10,6 +11,13 @@ export default ({
   activateReplyToMessageState,
 }) => {
   const [value, onChange] = useState("");
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (replyMessage) {
+      inputRef.current.focus();
+    }
+  }, [replyMessage]);
 
   const sendMessage = () => {
     if (value) {
@@ -30,10 +38,7 @@ export default ({
     let member = members.find(
       (member) => member.sender === replyMessage.sender
     );
-    replyMessageSenderName = member
-      ? (member.content && member.content.displayname) ||
-        (member.prev_content && member.prev_content.displayname)
-      : "";
+    replyMessageSenderName = getMemberName(member);
   }
 
   return (
@@ -64,6 +69,7 @@ export default ({
       <div className="chat-input-container">
         <input
           type="text"
+          ref={inputRef}
           className="chat-input"
           placeholder="Enter a message..."
           value={value}

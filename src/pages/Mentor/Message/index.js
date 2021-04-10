@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
+import _ from "lodash";
 import Avatar from "../../../components/common/Avatar";
 import Dropdown from "../../../components/common/Dropdown";
 import "./styles.scss";
+import { getMemberName } from "../utils";
 
 const getMessageClass = (type, isSelf) => {
   let messageClass = "chat-message";
@@ -22,6 +24,7 @@ export default ({
   onSendMessage,
   deleteMessage,
   activateReplyToMessageState,
+  members,
 }) => {
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
   const [
@@ -90,6 +93,11 @@ export default ({
     });
   }
 
+  const replyToMessage = _.get(
+    formattedMessage,
+    "content['m.relates_to']['m.in_reply_to']"
+  );
+
   return (
     <div
       className={`chat-message-container ${
@@ -122,6 +130,36 @@ export default ({
             setIsMessageActionsDropdownOpen(false);
           }}
         >
+          {replyToMessage && (
+            <div className="reply-to-container">
+              <div className="reply-to-header">
+                <div>in reply to</div>
+                <div className="reply-sender">
+                  <Avatar
+                    name={getMemberName(
+                      members.find(
+                        (member) => member.sender === replyToMessage.sender
+                      )
+                    )}
+                    style={{
+                      marginRight: 8,
+                      width: 16,
+                      height: 16,
+                      fontSize: 12,
+                    }}
+                  />
+                  <div>
+                    {getMemberName(
+                      members.find(
+                        (member) => member.sender === replyToMessage.sender
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div>{replyToMessage.body}</div>
+            </div>
+          )}
           {formattedMessage.isHtml ? (
             <span
               dangerouslySetInnerHTML={{

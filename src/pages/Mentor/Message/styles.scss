@@ -14,8 +14,7 @@
 
   &-self {
     align-self: flex-end;
-    background-color: #2971ff;
-    color: #fff;
+    background-color: #e8e8e8;
   }
 
   &-action {
@@ -24,6 +23,18 @@
     font-style: italic;
     align-self: center;
     box-shadow: none;
+  }
+
+  .reply-to-header {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  .reply-to-container {
+    border-left: 3px solid #b8bcbd;
+    padding-left: 10px;
+    margin-bottom: 10px;
   }
 
   .actions-dropdown-trigger-container {

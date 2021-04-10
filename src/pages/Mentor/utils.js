@@ -10,6 +10,13 @@ export const getMembers = async (accessToken, roomId) => {
   return getMembersResponse.data.chunk;
 };
 
+export const getMemberName = (member) => {
+  return member
+    ? (member.content && member.content.displayname) ||
+        (member.prev_content && member.prev_content.displayname)
+    : "";
+};
+
 export const fetchMessages = async (params) => {
   const {
     roomId,

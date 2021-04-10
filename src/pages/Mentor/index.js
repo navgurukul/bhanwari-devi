@@ -37,6 +37,18 @@ const Mentor = () => {
       msgtype: "m.text",
     };
 
+    if (replyMessage) {
+      messageObj["m.relates_to"] = {
+        ["m.in_reply_to"]: {
+          event_id: replyMessage.event_id,
+          body: replyMessage.content.body,
+          sender: replyMessage.sender,
+        },
+      };
+
+      setReplyMessage(null);
+    }
+
     client.sendEvent(roomId, "m.room.message", messageObj);
   };
 

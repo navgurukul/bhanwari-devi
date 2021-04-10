@@ -2,8 +2,8 @@
   border-radius: 50%;
   width: 32px;
   height: 32px;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 24px;
+  min-height: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,4 +18,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.reply-sender {
+  display: flex;
+  background-color: #d4d3d3;
+  border-radius: 24px;
+  padding: 6px 12px;
+  align-items: center;
+  margin-left: 8px;
 }

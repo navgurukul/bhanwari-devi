@@ -1,5 +1,6 @@
 import React from "react";
 import Message from "../Message";
+import { getMemberName } from "../utils";
 import "./styles.scss";
 
 export default ({
@@ -26,14 +27,10 @@ export default ({
                 <Message
                   key={message.event_id}
                   deleteMessage={deleteMessage}
+                  members={members}
                   onSendMessage={onSendMessage}
                   activateReplyToMessageState={activateReplyToMessageState}
-                  senderName={
-                    member
-                      ? (member.content && member.content.displayname) ||
-                        (member.prev_content && member.prev_content.displayname)
-                      : ""
-                  }
+                  senderName={getMemberName(member)}
                   message={message}
                   isSelf={message.sender.indexOf(selfChatId) > -1}
                 />

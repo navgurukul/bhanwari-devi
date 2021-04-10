@@ -26,12 +26,19 @@ export const getAllClasses = (classData, token) => {
  * @returns {Promise}
  */
 export const createClass = (classData, token) => {
-  return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
-    method: METHODS.POST,
-    headers: HeaderFactory(token),
-    data: {
-      ...classData,
-    },
-  });
+  return axios
+    .post(`${process.env.REACT_APP_MERAKI_URL}/classes`, classData, {
+      headers: HeaderFactory(token),
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  // return axios({
+  //   url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
+  //   method: METHODS.POST,
+  //   headers: HeaderFactory(token),
+  //   data: {
+  //     ...classData,
+  //   },
+  // });
 };
