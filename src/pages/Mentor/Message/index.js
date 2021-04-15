@@ -91,6 +91,15 @@ export default ({
         activateReplyToMessageState(formattedMessage.event_id);
       },
     });
+
+    // if (!isSelf) {
+    //   messageActions.push({
+    //     label: "Report message",
+    //     value: "report",
+    //     className: "danger-option",
+    //     onClick: () => {},
+    //   });
+    // }
   }
 
   const replyToMessage = _.get(

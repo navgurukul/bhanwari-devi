@@ -8,7 +8,9 @@ export default ({ isOpen, className, options = [] }) => {
         {options.map((option) => {
           return (
             <button
-              className="dropdown-button"
+              className={`dropdown-button ${
+                option.className ? option.className : ""
+              }`}
               key={option.value}
               onClick={option.onClick}
             >
