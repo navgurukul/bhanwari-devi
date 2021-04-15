@@ -43,7 +43,7 @@ const SelectOptions = () => {
       <datalist id="Course">
         {allCourse.map((item, index) => {
           // console.log(allCourse,'lll')
-          return <option key={index} value={item.id} />;
+          return <option key={index} data-value={item.id} value={item.name} />;
         })}
       </datalist>
     </div>
@@ -98,6 +98,16 @@ function Class() {
       // Only going to take the field in payload if the
       // input field is not empty.
 
+      // tbd: hack to fix bug, replace appropriate datalist with select later
+      if (fieldName === "course_id" && value) {
+        let courseElement = document.getElementById("Course");
+        let selectedOptionElement = courseElement.querySelector(
+          'option[value="' + value + '"]'
+        );
+        if (selectedOptionElement) {
+          value = selectedOptionElement.dataset.value;
+        }
+      }
       if (value) {
         if (languageMap[value]) {
           formFields[fieldName] = languageMap[value];
