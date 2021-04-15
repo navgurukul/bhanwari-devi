@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+import axios from "axios";
 
 import InputField from "../common/FormComponent/InputField";
 import { TIME_CONSTANT, CLASS_FORM_FIELDS } from "./constant";
 import { actions } from "./redux/action";
 import Loader from "../common/Loader";
+
 import "./styles.scss";
 
 const SelectOptions = () => {
+  const user = useSelector(({ User }) => User);
+  const [allCourse, setAllCourse] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://dev-api.navgurukul.org/apiDocs/courses", {
+        headers: { Authorization: user.data.token },
+      })
+      .then((res) => {
+        setAllCourse(res.data.allCourses);
+      });
+  }, []);
+
   return (
     <div>
       {/* Select box data items. HTML 5 way to render select box */}
@@ -24,6 +39,12 @@ const SelectOptions = () => {
       </datalist>
       <datalist id="category">
         <option value="3">Programming</option>
+      </datalist>
+      <datalist id="Course">
+        {allCourse.map((item, index) => {
+          // console.log(allCourse,'lll')
+          return <option key={index} value={item.id} />;
+        })}
       </datalist>
     </div>
   );
@@ -72,6 +93,7 @@ function Class() {
       Tamil: "ta",
       "Doubt Class": "doubt_class",
     };
+
     for (let [fieldName, value] of formData.entries()) {
       // Only going to take the field in payload if the
       // input field is not empty.
