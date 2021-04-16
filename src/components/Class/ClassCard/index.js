@@ -4,6 +4,10 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../../services/api";
 import "./styles.scss";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 function ClassCard(props) {
   const user = useSelector(({ User }) => User);
@@ -28,6 +32,13 @@ function ClassCard(props) {
   });
 
   const deleteHandler = (id) => {
+    const notify = () => {
+      toast.success("deleted the class successfully", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+      });
+    };
+
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${id}`,
@@ -35,6 +46,8 @@ function ClassCard(props) {
         accept: "application/json",
         Authorization: user.data.token,
       },
+    }).then(() => {
+      notify();
     });
   };
 

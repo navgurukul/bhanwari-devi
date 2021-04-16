@@ -85,7 +85,7 @@ export const CLASS_FORM_FIELDS = [
     label: "Course",
     list: "Course",
     type: "text",
-    // inputClassName: "small-text",
+    onKeyDown: (e) => e.preventDefault(),
   },
   {
     name: "video_id",

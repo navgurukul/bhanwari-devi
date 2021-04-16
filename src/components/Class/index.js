@@ -42,7 +42,6 @@ const SelectOptions = () => {
       </datalist>
       <datalist id="Course">
         {allCourse.map((item, index) => {
-          // console.log(allCourse,'lll')
           return <option key={index} data-value={item.id} value={item.name} />;
         })}
       </datalist>
