@@ -59,6 +59,7 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "category",
     inputClassName: "small-text",
+    onKeyDown: (e) => e.preventDefault(),
     required: true,
   },
   {
@@ -67,6 +68,7 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "language",
     inputClassName: "small-text",
+    onKeyDown: (e) => e.preventDefault(),
     required: true,
   },
   {
@@ -75,7 +77,15 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "type",
     inputClassName: "small-text",
+    onKeyDown: (e) => e.preventDefault(),
     required: true,
+  },
+  {
+    name: "course_id",
+    label: "Course",
+    list: "Course",
+    type: "text",
+    // inputClassName: "small-text",
   },
   {
     name: "video_id",
@@ -86,11 +96,7 @@ export const CLASS_FORM_FIELDS = [
     label: "Exercise Id",
     inputClassName: "small-text",
   },
-  {
-    name: "course_id",
-    label: "Course Id",
-    inputClassName: "small-text",
-  },
+
   {
     name: "material_link",
     label: "Material Link",

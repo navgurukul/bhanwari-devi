@@ -7,10 +7,10 @@ import "./styles.scss";
 
 function App() {
   return (
-    <>
+    <div>
       <Header />
       <Routing />
-    </>
+    </div>
   );
 }
 

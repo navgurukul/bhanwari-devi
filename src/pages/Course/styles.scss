@@ -5,8 +5,10 @@
   padding-top: 70px;
   width: 80%;
   margin: auto;
+  width: 1234px;
   @include breakpoint-mobile {
     padding-top: 70px;
+    width: 50%;
   }
 
   > h2 {
