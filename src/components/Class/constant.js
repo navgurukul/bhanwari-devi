@@ -21,13 +21,11 @@ export const CLASS_FORM_FIELDS = [
   {
     name: "facilitator_name",
     label: "Facilator Name*",
-    required: true,
   },
   {
     name: "facilitator_email",
     label: "Facilator Email*",
     type: "email",
-    required: true,
   },
   {
     // "start_time": "2020-11-22",

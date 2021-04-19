@@ -61,12 +61,12 @@ function ClassCard(props) {
         <div className="class-detail">
           <p>Facilitator Name : {item.facilitator.name} </p>
           <p>Language : {languageMap[item.lang]} </p>
-          <p>Date : {moment(classStartTime).format("DD-MM-YYYY")} </p>
+          <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
           <p>
-            Time : {moment(classStartTime).format("hh:mm a")} -{" "}
+            Time:{moment(classStartTime).format("hh:mm a")} -{" "}
             {moment(classEndTime).format("hh:mm a")}
           </p>
-          {item.facilitator.email === user.data.user.email || flag ? (
+          {item.facilitator_id == user.data.user.id || flag ? (
             <button
               className="delete-button"
               onClick={() => deleteHandler(item.id)}
