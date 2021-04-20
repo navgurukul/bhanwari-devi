@@ -28,7 +28,9 @@ function ClassCard(props) {
   const rolesList = user.data.user.rolesList;
   let flag = false;
   rolesList.map((role) => {
-    role === "admin" || role === "dumbeldore" ? (flag = true) : (flag = false);
+    role === "classAdmin" || role === "dumbeldore"
+      ? (flag = true)
+      : (flag = false);
   });
 
   const deleteHandler = (id) => {
