@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import axios from "axios";
-
+import { METHODS } from "../../services/api";
 import InputField from "../common/FormComponent/InputField";
 import { TIME_CONSTANT, CLASS_FORM_FIELDS } from "./constant";
 import { actions } from "./redux/action";
@@ -15,13 +15,16 @@ const SelectOptions = () => {
   const [allCourse, setAllCourse] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://dev-api.navgurukul.org/apiDocs/courses", {
-        headers: { Authorization: user.data.token },
-      })
-      .then((res) => {
-        setAllCourse(res.data.allCourses);
-      });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/courses`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setAllCourse(res.data.allCourses);
+    });
   }, []);
 
   return (
@@ -51,6 +54,8 @@ const SelectOptions = () => {
 
 function Class() {
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
+  const rolesList = user.data.user.rolesList;
   const { loading } = useSelector(({ Class }) => Class);
   const handleTimeValicationAndCreateClass = (payload) => {
     const classStartTime = moment(
@@ -115,17 +120,32 @@ function Class() {
         }
       }
     }
-
     handleTimeValicationAndCreateClass(formFields);
   };
 
+  const renderClassFields = () => {
+    return CLASS_FORM_FIELDS.filter((field) => {
+      if (
+        rolesList.includes("classAdmin") ||
+        rolesList.includes("dumbeldore")
+      ) {
+        return true;
+      }
+
+      if (
+        field.name === "facilitator_email" ||
+        field.name === "facilitator_name"
+      ) {
+        return false;
+      }
+      return true;
+    }).map((field, index) => <InputField {...field} key={index} />);
+  };
   return (
     <div className="ng-create-class">
-      <h2 className="title"> Create A Class </h2>
+      <h2 className="title">Create A Class </h2>
       <form className="form" onSubmit={onFormSubmit}>
-        {CLASS_FORM_FIELDS.map((field, index) => (
-          <InputField {...field} key={index} />
-        ))}
+        {renderClassFields()}
         <button type="submit" className="submit" disabled={loading}>
           {loading ? <Loader /> : "CREATE CLASS"}
         </button>

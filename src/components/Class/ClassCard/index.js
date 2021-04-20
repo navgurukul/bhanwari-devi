@@ -33,12 +33,11 @@ function ClassCard(props) {
 
   const deleteHandler = (id) => {
     const notify = () => {
-      toast.success("deleted the class successfully", {
+      toast.success(" Deleted the class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 5000,
       });
     };
-
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${id}`,
