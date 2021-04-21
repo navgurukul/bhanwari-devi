@@ -120,6 +120,7 @@ function Class() {
         }
       }
     }
+
     handleTimeValicationAndCreateClass(formFields);
   };
 

@@ -11,6 +11,7 @@ toast.configure();
 
 function ClassCard(props) {
   const user = useSelector(({ User }) => User);
+
   const { item, index } = props;
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
