@@ -21,13 +21,11 @@ export const CLASS_FORM_FIELDS = [
   {
     name: "facilitator_name",
     label: "Facilator Name*",
-    required: true,
   },
   {
     name: "facilitator_email",
     label: "Facilator Email*",
     type: "email",
-    required: true,
   },
   {
     // "start_time": "2020-11-22",
@@ -59,6 +57,7 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "category",
     inputClassName: "small-text",
+    onKeyDown: (e) => e.preventDefault(),
     required: true,
   },
   {
@@ -67,6 +66,7 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "language",
     inputClassName: "small-text",
+    onKeyDown: (e) => e.preventDefault(),
     required: true,
   },
   {
@@ -75,7 +75,15 @@ export const CLASS_FORM_FIELDS = [
     type: "text",
     list: "type",
     inputClassName: "small-text",
+    onKeyDown: (e) => e.preventDefault(),
     required: true,
+  },
+  {
+    name: "course_id",
+    label: "Course",
+    list: "Course",
+    type: "text",
+    onKeyDown: (e) => e.preventDefault(),
   },
   {
     name: "video_id",
@@ -86,11 +94,7 @@ export const CLASS_FORM_FIELDS = [
     label: "Exercise Id",
     inputClassName: "small-text",
   },
-  {
-    name: "course_id",
-    label: "Course Id",
-    inputClassName: "small-text",
-  },
+
   {
     name: "material_link",
     label: "Material Link",

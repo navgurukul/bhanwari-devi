@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 import InputField from "../common/FormComponent/InputField";
 import { TIME_CONSTANT, CLASS_FORM_FIELDS } from "./constant";
 import { actions } from "./redux/action";
 import Loader from "../common/Loader";
+
 import "./styles.scss";
 
 const SelectOptions = () => {
+  const user = useSelector(({ User }) => User);
+  const [allCourse, setAllCourse] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/courses`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setAllCourse(res.data.allCourses);
+    });
+  }, []);
+
   return (
-    <>
+    <div>
       {/* Select box data items. HTML 5 way to render select box */}
       <datalist id="language">
-        <option value="en">English</option>
-        <option value="hi">Hindi</option>
-        <option value="te">Telugu</option>
-        <option value="ta">Tamil</option>
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Telugu">Telugu</option>
+        <option value="Tamil">Tamil</option>
       </datalist>
       <datalist id="type">
         <option value="workshop">Workshop</option>
-        <option value="doubt_class">Doubt Class</option>
+        <option value="Doubt Class">Doubt Class</option>
       </datalist>
       <datalist id="category">
         <option value="3">Programming</option>
       </datalist>
-    </>
+      <datalist id="Course">
+        {allCourse.map((item, index) => {
+          return <option key={index} data-value={item.id} value={item.name} />;
+        })}
+      </datalist>
+    </div>
   );
 };
+
 function Class() {
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
+  const rolesList = user.data.user.rolesList;
   const { loading } = useSelector(({ Class }) => Class);
   const handleTimeValicationAndCreateClass = (payload) => {
     const classStartTime = moment(
@@ -62,23 +89,64 @@ function Class() {
     event && event.preventDefault();
     const formData = new FormData(event.target);
     const formFields = {};
+
+    const languageMap = {
+      Hindi: "hi",
+      Telugu: "te",
+      English: "en",
+      Tamil: "ta",
+      "Doubt Class": "doubt_class",
+    };
+
     for (let [fieldName, value] of formData.entries()) {
       // Only going to take the field in payload if the
       // input field is not empty.
+
+      // tbd: hack to fix bug, replace appropriate datalist with select later
+      if (fieldName === "course_id" && value) {
+        let courseElement = document.getElementById("Course");
+        let selectedOptionElement = courseElement.querySelector(
+          'option[value="' + value + '"]'
+        );
+        if (selectedOptionElement) {
+          value = selectedOptionElement.dataset.value;
+        }
+      }
       if (value) {
-        formFields[fieldName] = value;
+        if (languageMap[value]) {
+          formFields[fieldName] = languageMap[value];
+        } else {
+          formFields[fieldName] = value;
+        }
       }
     }
+
     handleTimeValicationAndCreateClass(formFields);
   };
 
+  const renderClassFields = () => {
+    return CLASS_FORM_FIELDS.filter((field) => {
+      if (
+        rolesList.indexOf("classAdmin") > -1 ||
+        rolesList.indexOf("dumbeldore") > -1
+      ) {
+        return true;
+      }
+
+      if (
+        field.name === "facilitator_email" ||
+        field.name === "facilitator_name"
+      ) {
+        return false;
+      }
+      return true;
+    }).map((field, index) => <InputField {...field} key={index} />);
+  };
   return (
     <div className="ng-create-class">
-      <h2 className="title"> Create A Class </h2>
+      <h2 className="title">Create A Class </h2>
       <form className="form" onSubmit={onFormSubmit}>
-        {CLASS_FORM_FIELDS.map((field, index) => (
-          <InputField {...field} key={index} />
-        ))}
+        {renderClassFields()}
         <button type="submit" className="submit" disabled={loading}>
           {loading ? <Loader /> : "CREATE CLASS"}
         </button>
