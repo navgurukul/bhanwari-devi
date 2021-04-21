@@ -9,7 +9,7 @@ REACT_APP_MERAKI_URL = "https://api.merakilearn.org"' > .env
 
 npm run build
 
-cp -r build/ .
+cp -r build/* .
 
 echo 'merakilearn.org' > CNAME
 
