@@ -126,8 +126,8 @@ function Class() {
   const renderClassFields = () => {
     return CLASS_FORM_FIELDS.filter((field) => {
       if (
-        rolesList.includes("classAdmin") ||
-        rolesList.includes("dumbeldore")
+        rolesList.indexOf("classAdmin") > -1 ||
+        rolesList.indexOf("dumbeldore") > -1
       ) {
         return true;
       }
