@@ -2,7 +2,7 @@
 
 repo_uri="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 remote_name="origin"
-main_branch="master"
+main_branch="main"
 gh_pages_branch="gh-pages"
 
 git config user.name "$GITHUB_ACTOR"
@@ -15,7 +15,7 @@ npm run build
 
 git checkout "$gh_pages_branch"
 
-# Remove all exisiting files and the static folder
+# Remove all existing files and the static folder
 rm *
 rm -r static
 
