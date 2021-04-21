@@ -6,6 +6,7 @@ import "../../components/Class/ClassList/styles.scss";
 
 function ToggleClassFormModal() {
   const [showModel, setShowModel] = React.useState(false);
+
   const handleClickOpen = () => {
     setShowModel(!showModel);
   };
