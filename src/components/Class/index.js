@@ -11,8 +11,21 @@ import "./styles.scss";
 
 function Class() {
   const dispatch = useDispatch();
-  const { loading } = useSelector(({ Class }) => Class);
   const user = useSelector(({ User }) => User);
+  const [classDate, onClassDateChange] = useState(
+    moment().format("YYYY-MM-DD")
+  );
+  const [facilitatorName, setFacilitatorName] = useState(user.data.user.name);
+  const [facilitatorEmail, setFacilitatorEmail] = useState(
+    user.data.user.email
+  );
+  const { loading } = useSelector(({ Class }) => Class);
+  const rolesList = user.data.user.rolesList;
+
+  const canSpecifyFacilitator =
+    rolesList.indexOf("classAdmin") > -1 ||
+    rolesList.indexOf("dumbeldore") > -1;
+
   const [allCourse, setAllCourse] = useState([]);
 
   useEffect(() => {
@@ -89,29 +102,39 @@ function Class() {
           required
           aria-required
         />
-        <label htmlFor="facilitator_name">Facilitator Name</label>
-        <input
-          className="input-field"
-          type="text"
-          name="facilitator_name"
-          id="facilitator_name"
-          required
-          aria-required
-        />
-        <label htmlFor="facilitator_email">Facilitator Email</label>
-        <input
-          className="input-field"
-          type="email"
-          name="facilitator_email"
-          id="facilitator_email"
-          required
-          aria-required
-        />
+        {canSpecifyFacilitator && (
+          <>
+            <label htmlFor="facilitator_name">Facilitator Name</label>
+            <input
+              className="input-field"
+              value={facilitatorName}
+              onChange={setFacilitatorName}
+              type="text"
+              name="facilitator_name"
+              id="facilitator_name"
+              required
+              aria-required
+            />
+            <label htmlFor="facilitator_email">Facilitator Email</label>
+            <input
+              className="input-field"
+              value={facilitatorEmail}
+              onChange={setFacilitatorEmail}
+              type="email"
+              name="facilitator_email"
+              id="facilitator_email"
+              required
+              aria-required
+            />
+          </>
+        )}
         <label htmlFor="start_time">Date</label>
         <input
           className="input-field input-field--short"
           type="date"
           name="start_time"
+          value={classDate}
+          onChange={onClassDateChange}
           id="start_time"
           required
           aria-required
