@@ -110,6 +110,8 @@ function Class() {
               type="text"
               name="facilitator_name"
               id="facilitator_name"
+              required
+              aria-required
             />
             <label htmlFor="facilitator_email">Facilitator Email</label>
             <input
@@ -117,6 +119,8 @@ function Class() {
               type="email"
               name="facilitator_email"
               id="facilitator_email"
+              required
+              aria-required
             />
           </>
         )}
