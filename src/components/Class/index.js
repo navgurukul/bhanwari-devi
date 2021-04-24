@@ -6,6 +6,7 @@ import axios from "axios";
 import { TIME_CONSTANT } from "./constant";
 import { actions } from "./redux/action";
 import Loader from "../common/Loader";
+import { METHODS } from "../../services/api";
 
 import "./styles.scss";
 
@@ -29,13 +30,16 @@ function Class() {
   const [allCourse, setAllCourse] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://dev-api.navgurukul.org/apiDocs/courses", {
-        headers: { Authorization: user.data.token },
-      })
-      .then((res) => {
-        setAllCourse(res.data.allCourses);
-      });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/courses`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setAllCourse(res.data.allCourses);
+    });
   }, []);
 
   const handleTimeValidationAndCreateClass = (payload) => {
@@ -179,7 +183,7 @@ function Class() {
           aria-required
         >
           <option value="workshop">Workshop</option>
-          <option value="Doubt Class">Doubt Class</option>
+          <option value="doubt_class">Doubt Class</option>
         </select>
         <label htmlFor="course_id">Select Course</label>
         <select className="create-class-select" name="course_id" id="course_id">
