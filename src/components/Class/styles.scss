@@ -12,6 +12,10 @@
     width: 100%;
   }
 
+  label {
+    font-weight: bold;
+  }
+
   //TODO: move the colors to color file.
   background: #ffffff;
   box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.4);
@@ -58,17 +62,71 @@
   }
 
   .submit:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     background-color: rgb(10, 122, 25);
   }
 
   .submit:active {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     background-color: rgb(10, 122, 25);
-    outline: none;
   }
+}
+
+.input-field {
+  width: 628px;
+  height: 48px;
+  padding-left: 8px;
+  margin: 8px 0 24px 0;
+  font-size: 16px;
+
+  @include breakpoint-mobile {
+    width: 100%;
+  }
+
+  &--short {
+    width: 180px;
+  }
+
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  &:focus {
+    outline: none !important;
+    border: 1px solid #3cb728;
+    box-shadow: 0 0 4px #3cb728;
+  }
+}
+
+.textarea-field {
+  width: 628px;
+  padding-left: 8px;
+  padding-top: 8px;
+  font-size: 16px;
+  margin: 8px 0 24px 0;
+  resize: none;
+
+  @include breakpoint-mobile {
+    width: 100%;
+  }
+
+  //TODO: move the color in the root colors.scss file.
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  &:focus {
+    outline: none !important;
+    border: 1px solid #3cb728;
+    box-shadow: 0 0 4px #3cb728;
+  }
+}
+
+.create-class-select {
+  padding: 12px 8px;
+  font-size: 16px;
+  margin: 8px 0 24px 0;
+  border-radius: 8px;
 }
