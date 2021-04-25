@@ -82,7 +82,7 @@ function Class() {
 
   return (
     <div className="ng-create-class">
-      <h2 className="title"> Create A Class </h2>
+      <h2 className="title">Create A Class </h2>
       <form className="form" onSubmit={onFormSubmit}>
         <label htmlFor="title">Title</label>
         <input
