@@ -74,7 +74,7 @@ function Class() {
     };
 
     for (let [fieldName, value] of formData.entries()) {
-      formFields[fieldName] = value;
+      if (value) formFields[fieldName] = value;
     }
 
     handleTimeValidationAndCreateClass(formFields);
@@ -164,7 +164,9 @@ function Class() {
           aria-required
         >
           <option value="en">English</option>
-          <option value="hi">Hindi</option>
+          <option value="hi" selected>
+            Hindi
+          </option>
           <option value="te">Telugu</option>
           <option value="ta">Tamil</option>
         </select>
@@ -177,10 +179,13 @@ function Class() {
           aria-required
         >
           <option value="workshop">Workshop</option>
-          <option value="doubt_class">Doubt Class</option>
+          <option value="doubt_class" selected>
+            Doubt Class
+          </option>
         </select>
         <label htmlFor="course_id">Select Course</label>
         <select className="create-class-select" name="course_id" id="course_id">
+          <option value="">Select a course from options below</option>
           {allCourse.map((item, index) => {
             return (
               <option key={index} value={item.id}>
