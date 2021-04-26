@@ -29,6 +29,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
       run: npm install
+    - name: Building
+      run: CI=false npm run build
     - name: Deploying
       run: |
         bash ./main.sh 2>> /tmp/build_err

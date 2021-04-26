@@ -8,11 +8,6 @@ gh_pages_branch="gh-pages"
 git config user.name "$GITHUB_ACTOR"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
-git checkout "$main_branch"
-
-# Create build
-npm run build
-
 git checkout "$gh_pages_branch"
 
 # Remove all existing files and the static folder
@@ -31,8 +26,11 @@ if git status | grep 'new file\|modified'
 then
     set -e
     git commit -am "data updated on - $(date)"
+    echo 'Git commit done'
     git remote set-url "$remote_name" "$repo_uri" # includes access token
+    echo 'Git remote set'
     git push --force-with-lease "$remote_name" "$gh_pages_branch"
+    echo 'Gh-pages updated'
 else
     set -e
     echo "No changes since last run"
