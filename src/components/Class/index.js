@@ -185,7 +185,9 @@ function Class() {
         </select>
         <label htmlFor="course_id">Select Course</label>
         <select className="create-class-select" name="course_id" id="course_id">
-          <option value="">Select a course from options below</option>
+          <option value="" disabled selected>
+            Select a course from options below
+          </option>
           {allCourse.map((item, index) => {
             return (
               <option key={index} value={item.id}>
