@@ -2,17 +2,17 @@ import get from "lodash/get";
 
 export const mapCourses = (courses) => {
   // TODO: handle later when we provide functionality of enrolling courses.
-  // const {enrolledCourses = [], allCourses = []} = courses
-  // const mappedEnrolledCourses = enrolledCourses.map((course) => {
-  //   return {
-  //     id: course.id,
-  //     name: course.name,
-  //     logo: course.logo,
-  //     description: course.short_description,
-  //   }
-  // })
+  const { enrolledCourses, availableCourses } = courses;
+  const mappedEnrolledCourses = enrolledCourses.map((course) => {
+    return {
+      id: course.id,
+      name: course.name,
+      logo: course.logo,
+      description: course.short_description,
+    };
+  });
 
-  const mappedAllCourses = courses.map((course) => {
+  const mappedAllCourses = availableCourses.map((course) => {
     return {
       id: course.id,
       name: course.name,
@@ -22,7 +22,7 @@ export const mapCourses = (courses) => {
   });
 
   return {
-    // enrolledCourses: mappedEnrolledCourses,
+    enrolledCourses: mappedEnrolledCourses,
     allCourses: mappedAllCourses,
   };
 };
