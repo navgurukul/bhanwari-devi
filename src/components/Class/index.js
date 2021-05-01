@@ -28,13 +28,13 @@ function Class() {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/courses`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/pathways/courses`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setAllCourse(res.data.allCourses);
+      setAllCourse(res.data.courses);
     });
   }, []);
 

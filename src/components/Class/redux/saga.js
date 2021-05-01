@@ -2,6 +2,7 @@ import { takeLatest, put, call } from "redux-saga/effects";
 import { types, actions } from "./action";
 import { authorizeRequest, httpStatuses } from "../../../services/auth";
 import { getAllClasses, createClass } from "./api";
+import { toast } from "react-toastify";
 /**
  * Handles creating a new class.
  * @param {object} payload
@@ -13,7 +14,9 @@ function* handleCreateClass({ data }) {
     httpStatuses.SUCCESS.includes(classCreateResponse.status)
   ) {
     yield put(actions.createClassResolved(classCreateResponse.data));
-    alert("You successfully created a class.");
+    toast.success("You successfully created a class.", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
   } else {
     yield put(actions.createClassRejected(classCreateResponse));
     alert(
