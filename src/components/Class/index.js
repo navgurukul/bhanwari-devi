@@ -103,7 +103,7 @@ function Class() {
           aria-required
         />
         {canSpecifyFacilitator && (
-          <>
+          <div>
             <label htmlFor="facilitator_name">Facilitator Name</label>
             <input
               className="input-field"
@@ -122,7 +122,7 @@ function Class() {
               required
               aria-required
             />
-          </>
+          </div>
         )}
         <label htmlFor="start_time">Date</label>
         <input
@@ -185,7 +185,9 @@ function Class() {
         </select>
         <label htmlFor="course_id">Select Course</label>
         <select className="create-class-select" name="course_id" id="course_id">
-          <option value="">Select a course from options below</option>
+          <option value="" disabled selected>
+            Select a course from options below
+          </option>
           {allCourse.map((item, index) => {
             return (
               <option key={index} value={item.id}>
