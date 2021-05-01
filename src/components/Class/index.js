@@ -103,7 +103,7 @@ function Class() {
           aria-required
         />
         {canSpecifyFacilitator && (
-          <div>
+          <>
             <label htmlFor="facilitator_name">Facilitator Name</label>
             <input
               className="input-field"
@@ -122,7 +122,7 @@ function Class() {
               required
               aria-required
             />
-          </div>
+          </>
         )}
         <label htmlFor="start_time">Date</label>
         <input
