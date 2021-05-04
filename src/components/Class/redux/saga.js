@@ -19,8 +19,11 @@ function* handleCreateClass({ data }) {
     });
   } else {
     yield put(actions.createClassRejected(classCreateResponse));
-    alert(
-      `Something went wrong with error status: ${classCreateResponse.status} ${classCreateResponse.message}`
+    toast.error(
+      `Something went wrong with error status: ${classCreateResponse.status} ${classCreateResponse.data.message}`,
+      {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      }
     );
   }
 }
