@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { TIME_CONSTANT } from "./constant";
 import { actions } from "./redux/action";
@@ -49,21 +50,25 @@ function Class() {
         payload[TIME_CONSTANT.CLASS_END_TIME]
       }`
     );
-    if (classStartTime.valueOf() > classEndTime.valueOf()) {
-      alert("Class end time must be later than class start time.");
+    if (classStartTime.valueOf() >= classEndTime.valueOf()) {
+      toast.error("Class end time must be later than class start time.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       // Making the class end time field focused, so user can edit it.
       return document.getElementById(TIME_CONSTANT.CLASS_END_TIME).focus();
     }
     // remove the unnecessary time fields and add date parameter
-    delete payload[TIME_CONSTANT.CLASS_END_TIME];
-    delete payload[TIME_CONSTANT.CLASS_START_TIME];
-    payload[TIME_CONSTANT.CLASS_START_DATE] = `${moment(classStartTime).format(
-      "YYYY-MM-DDTHH:mm:ss"
-    )}Z`;
-    payload[TIME_CONSTANT.CLASS_END_DATE] = `${moment(classEndTime).format(
-      "YYYY-MM-DDTHH:mm:ss"
-    )}Z`;
-    dispatch(actions.createClass(payload));
+    else {
+      delete payload[TIME_CONSTANT.CLASS_END_TIME];
+      delete payload[TIME_CONSTANT.CLASS_START_TIME];
+      payload[TIME_CONSTANT.CLASS_START_DATE] = `${moment(
+        classStartTime
+      ).format("YYYY-MM-DDTHH:mm:ss")}Z`;
+      payload[TIME_CONSTANT.CLASS_END_DATE] = `${moment(classEndTime).format(
+        "YYYY-MM-DDTHH:mm:ss"
+      )}Z`;
+      dispatch(actions.createClass(payload));
+    }
   };
 
   const onFormSubmit = (event) => {
@@ -79,6 +84,18 @@ function Class() {
 
     handleTimeValidationAndCreateClass(formFields);
   };
+  // disable the past dates
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1;
+  let yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  today = `${yyyy}-${mm}-${dd}`;
 
   return (
     <div className="ng-create-class">
@@ -119,6 +136,7 @@ function Class() {
               type="email"
               name="facilitator_email"
               id="facilitator_email"
+              pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
               required
               aria-required
             />
@@ -134,6 +152,7 @@ function Class() {
             onClassDateChange(e.target.value);
           }}
           id="start_time"
+          min={today}
           required
           aria-required
         />
