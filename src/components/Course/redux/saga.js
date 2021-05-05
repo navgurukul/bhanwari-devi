@@ -38,7 +38,6 @@ function* handleGetCourseContent({ data }) {
     yield put(actions.getCourseContentResolved(mappedCourseContent));
   } else {
     yield put(actions.getCourseContentRejected(contentResponse));
-    console.log(contentResponse, "komal2");
     alert(
       `Something went wrong with error status: ${contentResponse.status} ${contentResponse.message}`
     );
