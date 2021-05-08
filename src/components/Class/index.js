@@ -124,9 +124,18 @@ function Class() {
               type="email"
               name="facilitator_email"
               id="facilitator_email"
-              pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
               required
               aria-required
+              onChange={(e) => {
+                let pattern =
+                  "[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}";
+                let isNull = e.target.value.match(pattern);
+                return isNull === null
+                  ? e.target.setCustomValidity(
+                      "Email format incorrect, please provide correct email"
+                    )
+                  : e.target.setCustomValidity("");
+              }}
             />
           </>
         )}
@@ -140,7 +149,7 @@ function Class() {
             onClassDateChange(e.target.value);
           }}
           id="start_time"
-          min={classDate}
+          min={moment().format("YYYY-MM-DD")}
           required
           aria-required
         />

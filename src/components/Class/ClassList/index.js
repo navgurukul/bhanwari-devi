@@ -31,7 +31,7 @@ function ClassList() {
           data.map((item, index) => {
             return deleteItems.includes(item.id) ? null : (
               <ClassCard
-                item={item}
+                item={item.class}
                 key={index}
                 handleDeleteData={deleteData}
               />
