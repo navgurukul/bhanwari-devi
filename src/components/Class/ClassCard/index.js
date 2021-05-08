@@ -12,7 +12,7 @@ toast.configure();
 function ClassCard(props) {
   const user = useSelector(({ User }) => User);
 
-  const { item, index } = props;
+  const { item, index, handleDeleteData } = props;
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
@@ -49,10 +49,10 @@ function ClassCard(props) {
         Authorization: user.data.token,
       },
     }).then(() => {
+      handleDeleteData(id);
       notify();
     });
   };
-
   return (
     <div key={index} className="class-card">
       <div className="card-content">

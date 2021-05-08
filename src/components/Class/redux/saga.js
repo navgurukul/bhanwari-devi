@@ -37,7 +37,7 @@ function* handleGetClasses({ data }) {
     classesResponse &&
     httpStatuses.SUCCESS.includes(classesResponse.status)
   ) {
-    yield put(actions.getClassesResolved(classesResponse.data.classes));
+    yield put(actions.getClassesResolved(classesResponse.data));
   } else {
     yield put(actions.getClassesRejected(classesResponse));
   }

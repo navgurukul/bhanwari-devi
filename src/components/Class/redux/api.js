@@ -11,7 +11,7 @@ import { METHODS, HeaderFactory } from "../../../services/api";
  */
 export const getAllClasses = (classData, token) => {
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes/upcoming`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
     method: METHODS.GET,
     headers: HeaderFactory(token),
   });
