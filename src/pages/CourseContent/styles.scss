@@ -7,6 +7,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 200px;
+
   @include breakpoint-mobile {
     width: 100%;
   }
@@ -17,7 +18,7 @@
 
   > .content {
     margin-right: 24px;
-    padding: 24px 0px;
+    padding: 27px;
     min-height: 100vh;
     width: 100%;
     height: fit-content;

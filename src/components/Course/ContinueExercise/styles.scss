@@ -1,0 +1,23 @@
+@import "../../../sass/mixins";
+
+.stored-exercise {
+  padding: 2px;
+  margin-left: 30px;
+  line-height: 26px;
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 300;
+  @include breakpoint-mobile {
+    margin-left: 0px;
+    line-height: 26px;
+  }
+
+  .exercise-url {
+    text-decoration: none;
+    color: green;
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+}
