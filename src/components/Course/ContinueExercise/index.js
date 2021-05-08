@@ -5,7 +5,7 @@ let storedExerciseUrl = window.localStorage.getItem("lastExerciseUrl");
 const storedExerciseName = window.localStorage.getItem("exerciseName");
 
 function ContinueExercise() {
-  if (!storedExerciseUrl && storedExerciseName) return null;
+  if (!(storedExerciseUrl && storedExerciseName)) return null;
 
   return (
     <div className="stored-exercise">
