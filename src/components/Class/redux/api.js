@@ -10,10 +10,11 @@ import { METHODS, HeaderFactory } from "../../../services/api";
  * @returns {Promise}
  */
 export const getAllClasses = (classData, token) => {
+  const platform = { platform: "web" };
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes/upcoming`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
     method: METHODS.GET,
-    headers: HeaderFactory(token),
+    headers: HeaderFactory(token, platform),
   });
 };
 

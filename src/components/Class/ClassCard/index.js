@@ -6,10 +6,13 @@ import { METHODS } from "../../../services/api";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Modal from "../../common/Modal";
 
 toast.configure();
 
 function ClassCard(props) {
+  const [showModel, setShowModel] = React.useState(false);
+  const [enrollClassId, setenrollClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
 
   const { item, index } = props;
@@ -26,6 +29,15 @@ function ClassCard(props) {
     workshop: "Workshop",
   };
 
+  const handleClose = () => {
+    setShowModel(false);
+  };
+
+  const handleClickOpen = (id) => {
+    setenrollClassId(id);
+    setShowModel(!showModel);
+  };
+
   const rolesList = user.data.user.rolesList;
   let flag = false;
   rolesList.map((role) => {
@@ -40,7 +52,9 @@ function ClassCard(props) {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 5000,
       });
+      props.deleteItemIDFunction(id);
     };
+    setShowModel(!showModel);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${id}`,
@@ -52,7 +66,6 @@ function ClassCard(props) {
       notify();
     });
   };
-
   return (
     <div key={index} className="class-card">
       <div className="card-content">
@@ -68,15 +81,39 @@ function ClassCard(props) {
             Time:{moment(classStartTime).format("hh:mm a")} -{" "}
             {moment(classEndTime).format("hh:mm a")}
           </p>
-          {item.facilitator_id == user.data.user.id || flag ? (
-            <button
-              className="delete-button"
-              onClick={() => deleteHandler(item.id)}
-            >
-              Delete
-            </button>
-          ) : null}
         </div>
+        {item.facilitator.email === user.data.user.email || flag ? (
+          <button
+            className="delete-button"
+            onClick={() => {
+              handleClickOpen(item.id);
+            }}
+          >
+            Delete
+          </button>
+        ) : null}
+
+        {showModel ? (
+          <Modal
+            onClose={() => handleClickOpen()}
+            className="confirmation-massage"
+          >
+            <h2>Are you sure you want to delete this class?</h2>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return deleteHandler(enrollClassId);
+                }}
+                className="delete-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleClose} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
+        ) : null}
       </div>
     </div>
   );

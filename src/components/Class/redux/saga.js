@@ -23,7 +23,9 @@ function* handleCreateClass({ data }) {
       `Something went wrong with error status: ${classCreateResponse.status} ${classCreateResponse.message}`
     );
   }
+  // window.location.reload();
 }
+
 /**
  * Handles getting all the classes
  * @param {object} payload
@@ -34,7 +36,7 @@ function* handleGetClasses({ data }) {
     classesResponse &&
     httpStatuses.SUCCESS.includes(classesResponse.status)
   ) {
-    yield put(actions.getClassesResolved(classesResponse.data.classes));
+    yield put(actions.getClassesResolved(classesResponse.data));
   } else {
     yield put(actions.getClassesRejected(classesResponse));
   }
