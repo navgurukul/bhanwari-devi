@@ -1,40 +1,64 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+import _ from "lodash";
+import { toast } from "react-toastify";
 import axios from "axios";
 
-import { TIME_CONSTANT } from "./constant";
+import { TIME_CONSTANT, CLASS_FIELDS } from "./constant";
 import { actions } from "./redux/action";
 import Loader from "../common/Loader";
 import Form from "../common/form";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
 
-const TITLE = "title";
-const DESCRIPTION = "description";
-const FACILITATOR_NAME = "facilitator_name";
-const FACILITATOR_EMAIL = "facilitator_email";
-const START_TIME = "start_time";
-const CLASS_START_TIME = "class_start_time";
-const CLASS_END_TIME = "class_end_time";
-const LANG = "lang";
-const TYPE = "type";
-const COURSE_ID = "course_id";
+const {
+  TITLE,
+  DESCRIPTION,
+  FACILITATOR_EMAIL,
+  FACILITATOR_NAME,
+  START_TIME,
+  CLASS_START_TIME,
+  CLASS_END_TIME,
+  LANG,
+  TYPE,
+  COURSE_ID,
+} = CLASS_FIELDS;
 
-function Class() {
+function Class({ classToEdit, toggleModalOpen }) {
   const dispatch = useDispatch();
+  const isEditMode = !_.isEmpty(classToEdit);
+
+  const {
+    title,
+    description,
+    facilitator,
+    lang,
+    type,
+    start_time,
+    end_time,
+    course_id,
+  } = classToEdit;
+
   const initialFormState = useRef({
-    [TITLE]: "",
-    [DESCRIPTION]: "",
-    [FACILITATOR_NAME]: "",
-    [FACILITATOR_EMAIL]: "",
-    [START_TIME]: moment().format("YYYY-MM-DD"),
-    [CLASS_START_TIME]: "",
-    [CLASS_END_TIME]: "",
-    [LANG]: "hi",
-    [TYPE]: "doubt_class",
-    [COURSE_ID]: "",
+    [TITLE]: title || "",
+    [DESCRIPTION]: description || "",
+    [FACILITATOR_NAME]: facilitator ? facilitator.name : "",
+    [FACILITATOR_EMAIL]: facilitator ? facilitator.email : "",
+    [START_TIME]: start_time
+      ? moment.utc(start_time).format("YYYY-MM-DD")
+      : moment().format("YYYY-MM-DD"),
+    [CLASS_START_TIME]: start_time
+      ? moment.utc(start_time).format("kk:mm")
+      : moment().format("kk:mm"),
+    [CLASS_END_TIME]: end_time
+      ? moment.utc(end_time).format("kk:mm")
+      : moment().add(15, "minute").format("kk:mm"),
+    [LANG]: lang || "hi",
+    [TYPE]: type || "doubt_class",
+    [COURSE_ID]: course_id || "",
   });
+
   const user = useSelector(({ User }) => User);
   const { loading } = useSelector(({ Class }) => Class);
   const rolesList = user.data.user.rolesList;
@@ -44,6 +68,23 @@ function Class() {
     rolesList.indexOf("dumbeldore") > -1;
 
   const [allCourse, setAllCourse] = useState([]);
+
+  const editClass = (payload) => {
+    return axios({
+      method: METHODS.PUT,
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${classToEdit.id}`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: payload,
+    }).then(() => {
+      toast.success("Updated class details!", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 500,
+      });
+    });
+  };
 
   useEffect(() => {
     axios({
@@ -83,7 +124,13 @@ function Class() {
     payload[TIME_CONSTANT.CLASS_END_DATE] = `${moment(classEndTime).format(
       "YYYY-MM-DDTHH:mm:ss"
     )}Z`;
-    dispatch(actions.createClass(payload));
+
+    if (!isEditMode) {
+      dispatch(actions.createClass(payload));
+    } else {
+      editClass(payload);
+    }
+    toggleModalOpen();
   };
 
   const onFormSubmit = (event) => {
@@ -102,7 +149,9 @@ function Class() {
 
   return (
     <div className="ng-create-class">
-      <h2 className="title">Create A Class </h2>
+      <h2 className="title">
+        {isEditMode ? "Update class" : "Create a class"}
+      </h2>
       <Form
         className="form"
         onSubmit={onFormSubmit}
@@ -260,7 +309,13 @@ function Class() {
                 })}
               </select>
               <button type="submit" className="submit" disabled={loading}>
-                {loading ? <Loader /> : "CREATE CLASS"}
+                {loading ? (
+                  <Loader />
+                ) : isEditMode ? (
+                  "UPDATE CLASS"
+                ) : (
+                  "CREATE CLASS"
+                )}
               </button>
             </>
           );

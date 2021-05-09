@@ -48,3 +48,18 @@
   cursor: pointer;
   border: none;
 }
+
+.class-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.class-card-edit {
+  margin-left: 16px;
+  cursor: pointer;
+}
+
+.class-card-action-icon {
+  cursor: pointer;
+}

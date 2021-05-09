@@ -69,12 +69,18 @@ function ClassCard(props) {
             {moment(classEndTime).format("hh:mm a")}
           </p>
           {item.facilitator_id == user.data.user.id || flag ? (
-            <button
-              className="delete-button"
-              onClick={() => deleteHandler(item.id)}
-            >
-              Delete
-            </button>
+            <div className="class-card-actions">
+              <i
+                className="class-card-action-icon fa fa-trash"
+                onClick={() => deleteHandler(item.id)}
+              />
+              <i
+                className="class-card-action-icon class-card-edit fa fa-edit"
+                onClick={() => {
+                  props.editClass(item.id);
+                }}
+              />
+            </div>
           ) : null}
         </div>
       </div>

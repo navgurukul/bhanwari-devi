@@ -6,7 +6,7 @@ import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 
-function ClassList() {
+function ClassList({ editClass }) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
@@ -24,7 +24,7 @@ function ClassList() {
       <div className="ng-upcoming-class">
         {data && data.length > 0 ? (
           data.map((item, index) => {
-            return <ClassCard item={item} key={index} />;
+            return <ClassCard editClass={editClass} item={item} key={index} />;
           })
         ) : (
           <div className="message">
