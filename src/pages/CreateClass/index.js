@@ -25,7 +25,7 @@ function ToggleClassFormModal() {
       <button className="create-class-button" onClick={toggleModalOpen}>
         CREATE A CLASS
       </button>
-      <ClassesList editClass={editClass} />
+      <ClassesList editClass={editClass} isShow={showModal} />
       {showModal ? (
         <Modal onClose={toggleModalOpen}>
           <CreateClassComponent

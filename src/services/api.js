@@ -13,7 +13,7 @@ export const METHODS = {
  * Generate the headers needed for the requests
  * @param {String} token - Token used on Authentication
  */
-export const HeaderFactory = (token) => {
+export const HeaderFactory = (token, platform = null) => {
   const headers = new Headers();
   if (!token) {
     return headers;
@@ -23,6 +23,9 @@ export const HeaderFactory = (token) => {
     Authorization: token,
     // 'x-api-key': process.env.REACT_APP_TEST_API_KEY
   };
+  if (platform) {
+    return { ...customHeaders, ...platform };
+  }
   return customHeaders;
 };
 
