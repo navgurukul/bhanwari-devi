@@ -26,7 +26,9 @@ function* handleCreateClass({ data }) {
       }
     );
   }
+  // window.location.reload();
 }
+
 /**
  * Handles getting all the classes
  * @param {object} payload

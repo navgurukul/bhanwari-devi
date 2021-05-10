@@ -6,10 +6,11 @@ import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 
-function ClassList() {
+function ClassList(props) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
+
   const [deleteItems, setdeleteItems] = useState([]);
 
   const deleteData = (id) => {
@@ -18,7 +19,7 @@ function ClassList() {
 
   useEffect(() => {
     dispatch(classActions.getClasses());
-  }, [dispatch]);
+  }, [dispatch, props.isShow]);
 
   if (loading) {
     return <Loader pageLoader={true} />;
@@ -31,7 +32,7 @@ function ClassList() {
           data.map((item, index) => {
             return deleteItems.includes(item.id) ? null : (
               <ClassCard
-                item={item.class}
+                item={item}
                 key={index}
                 handleDeleteData={deleteData}
               />
