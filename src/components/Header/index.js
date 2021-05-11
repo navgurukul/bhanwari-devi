@@ -10,6 +10,11 @@ const AuthenticatedHeaderOption = () => {
   const dispatch = useDispatch();
   return (
     <>
+      {flag ? (
+        <a className="link" href={PATHS.USER}>
+          User
+        </a>
+      ) : null}
       <a className="link" href={PATHS.COURSE}>
         Courses
       </a>
@@ -36,9 +41,20 @@ const PublicMenuOption = () => {
   );
 };
 
+let flag = false;
+
 function Header() {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
+  const rolesList = data && data.user.rolesList;
+
+  if (rolesList != null) {
+    rolesList.map((role) => {
+      role === "classAdmin" || role === "dumbeldore"
+        ? (flag = true)
+        : (flag = false);
+    });
+  }
 
   return (
     <div className="ng-header">
