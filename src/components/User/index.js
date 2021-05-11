@@ -12,11 +12,12 @@ function User() {
     email: "",
     roomId: "",
   });
+  const lang = { en: "English", hi: "Hindi" };
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/chat/rooms`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/chat/rooms`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -32,14 +33,24 @@ function User() {
 
   const submitHandler = () => {
     const notify = () => {
-      toast.success(`Added ${values.email} to the class successfully!`, {
+      const roomAlias = allClasses.filter((c) => {
+        return c.room_id === values.roomId;
+      });
+      const className =
+        lang[roomAlias[0].room_alias.split("meraki")[1].substr(0, 2)] +
+        " Class - " +
+        roomAlias[0].room_alias
+          .split(":navgurukul.org")[0]
+          .split("meraki")[1]
+          .split("class")[1];
+      toast.success(`Added ${values.email} to ${className} successfully!`, {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 5000,
       });
     };
     return axios({
       method: METHODS.POST,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/chat/addUser/${values.roomId}?email=${values.email}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/chat/addUser/${values.roomId}?email=${values.email}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -78,11 +89,13 @@ function User() {
           Select a Class from options below
         </option>
         {allClasses.map((item, index) => {
-          const lang = { en: "English", hi: "Hindi" };
           const className =
             lang[item.room_alias.split("meraki")[1].substr(0, 2)] +
-            " " +
-            item.room_alias.split("meraki")[1].substr(2, 6);
+            " Class - " +
+            item.room_alias
+              .split(":navgurukul.org")[0]
+              .split("meraki")[1]
+              .split("class")[1];
           return (
             <option key={index} value={item.room_id}>
               {className}
