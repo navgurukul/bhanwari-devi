@@ -19,7 +19,7 @@ function* handleGetCourses({ data }) {
   } else {
     yield put(actions.getCoursesRejected(coursesResponse));
     alert(
-      `Something went wrong with error status: ${coursesResponse.status} ${coursesResponse.message}`
+      `Something went wrong with error status: ${coursesResponse.status} ${coursesResponse.data.message}`
     );
   }
 }

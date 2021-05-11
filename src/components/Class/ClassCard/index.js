@@ -15,7 +15,7 @@ function ClassCard(props) {
   const [enrollClassId, setenrollClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
 
-  const { item, index } = props;
+  const { item, index, handleDeleteData } = props;
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
@@ -52,7 +52,6 @@ function ClassCard(props) {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 5000,
       });
-      props.deleteItemIDFunction(id);
     };
     setShowModel(!showModel);
     return axios({
@@ -64,6 +63,7 @@ function ClassCard(props) {
       },
     }).then(() => {
       notify();
+      handleDeleteData(id);
     });
   };
   return (
