@@ -8,7 +8,10 @@ import { toast } from "react-toastify";
 function User() {
   const user = useSelector(({ User }) => User);
   const [allClasses, setAllClasses] = useState([]);
-  const [email, setEmail] = useState("");
+  const [values, setValues] = useState({
+    email: "",
+    roomId: "",
+  });
 
   useEffect(() => {
     axios({
@@ -24,19 +27,19 @@ function User() {
   }, []);
 
   const changeHandler = (e) => {
-    setEmail(e.target.value);
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const submitHandler = () => {
     const notify = () => {
-      toast.success("Added the class successfully", {
+      toast.success(`Added ${values.email} to the class successfully!`, {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 5000,
       });
     };
     return axios({
       method: METHODS.POST,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/chat/addUser/!UmEfYGiLDzWGnjUZyt%3Anavgurukul.org?email=${email}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/chat/addUser/${values.roomId}?email=${values.email}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -53,10 +56,10 @@ function User() {
       </label>
       <input
         type="text"
-        value={email}
+        value={values.email}
         onChange={changeHandler}
-        //   name="title"
-        //   id="title"
+        name="email"
+        id="email"
         className="inputField"
         required
         aria-required
@@ -64,7 +67,13 @@ function User() {
       <label htmlFor="room" className="label">
         Select Class
       </label>
-      <select className="inputField" name="course_id" id="course_id">
+      <select
+        className="inputField"
+        onChange={changeHandler}
+        value={values.roomId}
+        id="item.room_id"
+        name="roomId"
+      >
         <option value="" disabled selected>
           Select a Class from options below
         </option>
@@ -75,7 +84,7 @@ function User() {
             " " +
             item.room_alias.split("meraki")[1].substr(2, 6);
           return (
-            <option key={index} value={item.id}>
+            <option key={index} value={item.room_id}>
               {className}
             </option>
           );
