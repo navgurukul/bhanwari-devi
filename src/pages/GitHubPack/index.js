@@ -11,20 +11,18 @@ function GitHubStudyPack(props) {
   const [urlLink, setUrlLink] = useState("#");
 
   useEffect(() => {
-    if (user.email.includes("navgurukul")) {
-      axios({
-        method: METHODS.GET,
-        urlLink: `${process.env.REACT_APP_SARAL_URL}/${user.email}`,
-      }).then((data) => {
-        setUrlLink(data.data.urlLink);
-      });
-    }
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_SARAL_URL}/${user.email}`,
+    }).then((data) => {
+      setUrlLink(data.data.url);
+    });
   }, []);
 
   const handleClick = () => {
     if (urlLink === "#") {
       toast.error(
-        `${user.name}, Please use Navgurukul email id to access Git Pack.`,
+        `${user.name}, Your email-id don't have access to Github Study Pack`,
         {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 5000,
