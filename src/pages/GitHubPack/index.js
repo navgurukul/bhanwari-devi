@@ -4,7 +4,6 @@ import { METHODS } from "../../services/api";
 
 function GitHubStudyPack(props) {
   const [urlLink, setUrlLink] = useState("#");
-
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -13,7 +12,7 @@ function GitHubStudyPack(props) {
       setUrlLink(data.data.url);
     });
   }, []);
-  return (
+  return props.userEmail.split("@")[1] === "navgurukul.org" ? (
     <a
       className={props.sty}
       href={urlLink}
@@ -22,7 +21,7 @@ function GitHubStudyPack(props) {
     >
       Github Study Pack
     </a>
-  );
+  ) : null;
 }
 
 export default GitHubStudyPack;
