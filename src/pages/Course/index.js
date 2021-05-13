@@ -11,8 +11,12 @@ function Course() {
   return (
     <div className="ng-course-container">
       <h2>Hello, There</h2>
+      <h3 className="github-pack">
+        {" "}
+        {user ? <GithubPack userEmail={user.email} /> : null}
+      </h3>
       <ContinueExercise />
-      {user ? <GithubPack userEmail={user.email} /> : null}
+
       <CourseComponent />
     </div>
   );
