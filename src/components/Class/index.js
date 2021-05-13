@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 import { TIME_CONSTANT } from "./constant";
-import { actions } from "./redux/action";
 import Loader from "../common/Loader";
 import { METHODS } from "../../services/api";
 
 import "./styles.scss";
 
 function Class() {
-  const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const [classDate, onClassDateChange] = useState(
     moment().format("YYYY-MM-DD")
   );
-  const { loading } = useSelector(({ Class }) => Class);
+  const [loading, setLoading] = useState(false);
   const rolesList = user.data.user.rolesList;
 
   const canSpecifyFacilitator =
@@ -67,10 +65,29 @@ function Class() {
       payload[TIME_CONSTANT.CLASS_END_DATE] = `${moment(classEndTime).format(
         "YYYY-MM-DDTHH:mm:ss"
       )}Z`;
-      dispatch(actions.createClass(payload));
+      createClass(payload);
     }
   };
 
+  const createClass = (payload) => {
+    setLoading(true);
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
+      method: METHODS.POST,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        ...payload,
+      },
+    }).then(() => {
+      toast.success("You successfully created a class.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      setLoading(false);
+    });
+  };
   const onFormSubmit = (event) => {
     event && event.preventDefault();
     const formData = new FormData(event.target);
