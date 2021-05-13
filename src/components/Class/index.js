@@ -81,12 +81,23 @@ function Class() {
       data: {
         ...payload,
       },
-    }).then(() => {
-      toast.success("You successfully created a class.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-      setLoading(false);
-    });
+    }).then(
+      () => {
+        toast.success("You successfully created a class.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        setLoading(false);
+      },
+      (error) => {
+        toast.error(
+          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          }
+        );
+        setLoading(false);
+      }
+    );
   };
   const onFormSubmit = (event) => {
     event && event.preventDefault();
