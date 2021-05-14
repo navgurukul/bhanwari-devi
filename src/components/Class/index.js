@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 import { TIME_CONSTANT, CLASS_FIELDS } from "./constant";
-import { actions } from "./redux/action";
 import Loader from "../common/Loader";
 import Form from "../common/form";
 import { METHODS } from "../../services/api";
@@ -26,8 +25,8 @@ const {
 } = CLASS_FIELDS;
 
 function Class({ classToEdit, toggleModalOpen }) {
-  const dispatch = useDispatch();
   const isEditMode = !_.isEmpty(classToEdit);
+  const [loading, setLoading] = useState(false);
 
   const {
     title,
@@ -60,7 +59,6 @@ function Class({ classToEdit, toggleModalOpen }) {
   });
 
   const user = useSelector(({ User }) => User);
-  const { loading } = useSelector(({ Class }) => Class);
   const rolesList = user.data.user.rolesList;
 
   const canSpecifyFacilitator =
@@ -128,13 +126,43 @@ function Class({ classToEdit, toggleModalOpen }) {
     )}Z`;
 
     if (!isEditMode) {
-      dispatch(actions.createClass(payload));
+      createClass(payload);
     } else {
       editClass(payload);
     }
     toggleModalOpen();
   };
 
+  const createClass = (payload) => {
+    setLoading(true);
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
+      method: METHODS.POST,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        ...payload,
+      },
+    }).then(
+      () => {
+        toast.success("You successfully created a class.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        setLoading(false);
+      },
+      (error) => {
+        toast.error(
+          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          }
+        );
+        setLoading(false);
+      }
+    );
+  };
   const onFormSubmit = (event) => {
     event && event.preventDefault();
     const formData = new FormData(event.target);
@@ -200,8 +228,6 @@ function Class({ classToEdit, toggleModalOpen }) {
                       setFormField(e.target.value, FACILITATOR_NAME);
                     }}
                     id="facilitator_name"
-                    required
-                    aria-required
                   />
                   <label htmlFor="facilitator_email">Facilitator Email</label>
                   <input
@@ -213,8 +239,6 @@ function Class({ classToEdit, toggleModalOpen }) {
                     }}
                     name={FACILITATOR_EMAIL}
                     id="facilitator_email"
-                    required
-                    aria-required
                   />
                 </>
               )}
