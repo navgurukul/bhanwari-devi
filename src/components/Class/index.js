@@ -110,8 +110,10 @@ function Class({ classToEdit, toggleModalOpen }) {
         payload[TIME_CONSTANT.CLASS_END_TIME]
       }`
     );
-    if (classStartTime.valueOf() > classEndTime.valueOf()) {
-      alert("Class end time must be later than class start time.");
+    if (classStartTime.valueOf() >= classEndTime.valueOf()) {
+      toast.error("Class end time must be later than class start time.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       // Making the class end time field focused, so user can edit it.
       return document.getElementById(TIME_CONSTANT.CLASS_END_TIME).focus();
     }
