@@ -12,7 +12,6 @@ toast.configure();
 
 function ClassCard(props) {
   const [showModel, setShowModel] = React.useState(false);
-  const [enrollClassId, setenrollClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
 
   const { item, index } = props;
@@ -33,8 +32,7 @@ function ClassCard(props) {
     setShowModel(false);
   };
 
-  const handleClickOpen = (id) => {
-    setenrollClassId(id);
+  const handleClickOpen = () => {
     setShowModel(!showModel);
   };
 
@@ -85,7 +83,7 @@ function ClassCard(props) {
             <div className="class-card-actions">
               <i
                 className="class-card-action-icon fa fa-trash"
-                onClick={() => deleteHandler(item.id)}
+                onClick={handleClickOpen}
               />
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
@@ -98,15 +96,12 @@ function ClassCard(props) {
         </div>
 
         {showModel ? (
-          <Modal
-            onClose={() => handleClickOpen()}
-            className="confirmation-massage"
-          >
+          <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
             <div className="wrap">
               <button
                 onClick={() => {
-                  return deleteHandler(enrollClassId);
+                  return deleteHandler(item.id);
                 }}
                 className="delete-btn"
               >
