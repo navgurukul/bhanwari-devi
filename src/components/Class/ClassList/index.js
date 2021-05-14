@@ -6,7 +6,7 @@ import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 
-function ClassList(props) {
+function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
@@ -19,7 +19,7 @@ function ClassList(props) {
 
   useEffect(() => {
     dispatch(classActions.getClasses());
-  }, [dispatch, props.isShow]);
+  }, [dispatch, isShow]);
 
   if (loading) {
     return <Loader pageLoader={true} />;
@@ -34,6 +34,7 @@ function ClassList(props) {
               <ClassCard
                 item={item}
                 key={index}
+                editClass={editClass}
                 handleDeleteData={deleteData}
               />
             );
