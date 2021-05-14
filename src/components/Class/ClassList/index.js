@@ -10,31 +10,36 @@ function ClassList(props) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
-  const [deleteItemID, setdeleteItemID] = useState(0);
+  const [deleteItems, setdeleteItems] = useState([]);
+
+  const deleteData = (id) => {
+    setdeleteItems((prevData) => [...prevData, id]);
+  };
 
   useEffect(() => {
     dispatch(classActions.getClasses());
-  }, [dispatch, props.isShow, deleteItemID]);
+  }, [dispatch, props.isShow]);
 
   if (loading) {
     return <Loader pageLoader={true} />;
   }
-  const isId = (id) => {
-    setdeleteItemID(id);
-  };
 
   return (
     <div>
       <div className="ng-upcoming-class">
         {data && data.length > 0 ? (
           data.map((item, index) => {
-            return (
-              <ClassCard item={item} key={index} deleteItemIDFunction={isId} />
+            return deleteItems.includes(item.id) ? null : (
+              <ClassCard
+                item={item}
+                key={index}
+                handleDeleteData={deleteData}
+              />
             );
           })
         ) : (
           <div className="message">
-            <h2>No Classes Today</h2>
+            <h2>No Classes Today....</h2>
           </div>
         )}
       </div>

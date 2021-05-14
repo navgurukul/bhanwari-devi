@@ -28,7 +28,7 @@ function Class() {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/pathways/courses`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/courses`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
