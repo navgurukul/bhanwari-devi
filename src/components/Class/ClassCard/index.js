@@ -10,7 +10,12 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard(props) {
+function ClassCard({
+  item,
+  handleDeleteData,
+  handleEnrolledData,
+  handleDropOutData,
+}) {
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
@@ -18,7 +23,6 @@ function ClassCard(props) {
   const [unEnrollClassId, setUnEnrollClassId] = React.useState(0);
   const [deleteClassId, setdeleteClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
-  const { item, handleDeleteData } = props;
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
 
@@ -106,9 +110,20 @@ function ClassCard(props) {
           },
         }
       )
-      .then(() => {
-        notify();
-      });
+      .then(
+        () => {
+          notify();
+          handleEnrolledData(Id);
+        },
+        (error) => {
+          toast.error(
+            `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+            {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            }
+          );
+        }
+      );
   };
 
   // API CALL FOR DROP OUT
@@ -127,9 +142,21 @@ function ClassCard(props) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then(() => {
-      notify();
-    });
+    }).then(
+      () => {
+        notify();
+        handleDropOutData(Id);
+      },
+      (error) => {
+        toast.error(
+          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 5000,
+          }
+        );
+      }
+    );
   };
   return (
     <div className="class-card ">
