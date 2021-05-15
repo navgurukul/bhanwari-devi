@@ -171,6 +171,14 @@
   z-index: 100;
   backdrop-filter: blur(3px);
   overflow-y: auto;
+  @include breakpoint-mobile {
+    width: 360px !important;
+  }
+  .close {
+    @include breakpoint-mobile {
+      display: none;
+    }
+  }
 
   > h2 {
     text-align: center;

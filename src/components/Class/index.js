@@ -188,6 +188,7 @@ function Class() {
           <option value="" disabled selected>
             Select a course from options below
           </option>
+          <option value="">Other</option>
           {allCourse.map((item, index) => {
             return (
               <option key={index} value={item.id}>
