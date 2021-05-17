@@ -17,22 +17,3 @@ export const getAllClasses = (classData, token) => {
     headers: HeaderFactory(token, platform),
   });
 };
-
-/**
- * end-point to create a class.
- *
- * @param {classData} object payload to create a class.
- * @param {object} opts
- *
- * @returns {Promise}
- */
-export const createClass = (classData, token) => {
-  return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
-    method: METHODS.POST,
-    headers: HeaderFactory(token),
-    data: {
-      ...classData,
-    },
-  });
-};

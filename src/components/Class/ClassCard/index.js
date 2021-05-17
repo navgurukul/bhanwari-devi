@@ -15,6 +15,8 @@ function ClassCard({
   handleDeleteData,
   handleEnrolledData,
   handleDropOutData,
+  editClass,
+  index,
 }) {
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
@@ -23,6 +25,7 @@ function ClassCard({
   const [unEnrollClassId, setUnEnrollClassId] = React.useState(0);
   const [deleteClassId, setdeleteClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
+
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
 
@@ -41,6 +44,7 @@ function ClassCard({
 
   const handleClickOpen = (id) => {
     setdeleteClassId(id);
+
     setShowModel(!showModel);
   };
 
@@ -200,19 +204,23 @@ function ClassCard({
               Drop out
             </button>
           )}
-
-          {item.facilitator.email === user.data.user.email || flag ? (
-            <i
-              className="class-card-action-icon fa fa-trash"
-              onClick={() => handleClickOpen(item.id)}
-            />
+          {item.facilitator.email == user.data.user.email || flag ? (
+            <div className="class-card-actions">
+              <i
+                className="class-card-action-icon fa fa-trash"
+                onClick={() => handleClickOpen(item.id)}
+              />
+              <i
+                className="class-card-action-icon class-card-edit fa fa-edit"
+                onClick={() => {
+                  editClass(item.id);
+                }}
+              />
+            </div>
           ) : null}
         </div>
         {showModel ? (
-          <Modal
-            onClose={() => handleClickOpen()}
-            className="confirmation-massage"
-          >
+          <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
             <div className="wrap">
               <button
