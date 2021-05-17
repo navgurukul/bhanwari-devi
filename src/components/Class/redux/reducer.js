@@ -38,6 +38,15 @@ export default (state = initialState, action) => {
           data: null,
         },
       };
+    case types.GET_DELETE_CLASSES:
+      return {
+        ...state,
+        allClasses: {
+          loading: false,
+          error: false,
+          data: action.data,
+        },
+      };
     default:
       return state;
   }

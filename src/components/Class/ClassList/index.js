@@ -10,7 +10,6 @@ function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
-  const [deleteItems, setdeleteItems] = useState([]);
   const [enrolledItems, setenrolledItems] = useState([]);
   const [dropOutItems, setdropOutItems] = useState([]);
 
@@ -32,11 +31,6 @@ function ClassList({ editClass, isShow }) {
     setenrolledItems((prevData) => [...prevData, id]);
   };
 
-  // LIST OF DELETE CLASSES
-  const deleteData = (id) => {
-    setdeleteItems((prevData) => [...prevData, id]);
-  };
-
   useEffect(() => {
     dispatch(classActions.getClasses());
   }, [dispatch, isShow]);
@@ -55,11 +49,10 @@ function ClassList({ editClass, isShow }) {
             } else if (dropOutItems.indexOf(item.id) > -1) {
               item.enrolled = false;
             }
-            return deleteItems.indexOf(item.id) > -1 ? null : (
+            return (
               <ClassCard
                 item={item}
                 key={index}
-                handleDeleteData={deleteData}
                 handleEnrolledData={enrolledData}
                 handleDropOutData={dropOutData}
                 editClass={editClass}
@@ -71,11 +64,6 @@ function ClassList({ editClass, isShow }) {
             <h2>No Classes Today....</h2>
           </div>
         )}
-        {data && data.length && data.length === deleteItems.length ? (
-          <div className="message">
-            <h2>No Classes Today....</h2>
-          </div>
-        ) : null}
       </div>
     </div>
   );

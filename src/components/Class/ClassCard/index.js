@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+
 import { METHODS } from "../../../services/api";
+import { actions as classActions } from "../redux/action";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,14 +12,8 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({
-  item,
-  handleDeleteData,
-  handleEnrolledData,
-  handleDropOutData,
-  editClass,
-  index,
-}) {
+function ClassCard({ item, handleEnrolledData, handleDropOutData, editClass }) {
+  const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
@@ -25,6 +21,7 @@ function ClassCard({
   const [unEnrollClassId, setUnEnrollClassId] = React.useState(0);
   const [deleteClassId, setdeleteClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
+  const { data = [] } = useSelector(({ Class }) => Class.allClasses);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
@@ -88,10 +85,20 @@ function ClassCard({
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then(() => {
-      notify();
-      handleDeleteData(id);
-    });
+    }).then(
+      () => {
+        notify();
+        dispatch(classActions.deleteClass(data, id));
+      },
+      (error) => {
+        toast.error(
+          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          }
+        );
+      }
+    );
   };
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
