@@ -44,7 +44,9 @@ export default (state = initialState, action) => {
         allClasses: {
           loading: false,
           error: false,
-          data: action.data,
+          data: state.allClasses.data.filter((item) => {
+            return item.id !== action.id;
+          }),
         },
       };
     case types.GET_UPDATED_ENROLLED_CLASSES:

@@ -26,12 +26,10 @@ export const actions = {
       error,
     };
   },
-  deleteClass(data, id) {
-    data = [...data];
-    data = data.filter((item) => item.id !== id);
+  deleteClass(id) {
     return {
       type: types.GET_DELETE_CLASSES,
-      data,
+      id,
     };
   },
   enrolledClass(data, index) {

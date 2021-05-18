@@ -80,7 +80,7 @@ function ClassCard({ item, index, editClass }) {
       },
     }).then(() => {
       notify();
-      dispatch(classActions.deleteClass(data, id));
+      dispatch(classActions.deleteClass(id));
     });
   };
   // API CALL FOR enroll class
@@ -131,6 +131,7 @@ function ClassCard({ item, index, editClass }) {
       dispatch(classActions.dropOutClass(data, index));
     });
   };
+  console.log(data, "data");
   return (
     <div className="class-card ">
       <div className="class-details">
