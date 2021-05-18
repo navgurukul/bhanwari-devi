@@ -1,11 +1,5 @@
 @import "../../../sass/colors.scss";
 @import "../../../sass/mixins.scss";
-* {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 .class-card {
   width: 380px;
@@ -39,7 +33,7 @@
   font-weight: 500;
   margin-top: 10px;
   font-size: 18px;
-  margin-bottom: 18px;
+
   color: #191b26;
 }
 
@@ -50,16 +44,19 @@
   font-style: normal;
   font-size: 19px;
   font-weight: 300;
+  line-height: 15px;
 }
 
 .bottom-details {
   padding-top: 15px;
+  display: flex;
 }
 
 .class-card-action-icon {
-  float: right;
   padding-top: 8px;
   cursor: pointer;
+  font-size: 25px;
+  color: grey;
 }
 
 .check-icon {
@@ -71,11 +68,6 @@
   width: 100px;
   padding: 2px;
   background-color: white;
-}
-
-.class-card-action-icon {
-  font-size: 25px;
-  color: grey;
 }
 
 .class-enroll {
@@ -97,6 +89,20 @@
   height: 40px;
   cursor: pointer;
   border: none;
+}
+
+.class-card-actions {
+  position: relative;
+  left: 110px;
+  @include breakpoint-mobile {
+    left: 75px;
+  }
+}
+
+.class-card-edit {
+  justify-content: space-around;
+  margin-left: 16px;
+  cursor: pointer;
 }
 
 .confirmation-massage {

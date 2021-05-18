@@ -11,6 +11,7 @@ import Modal from "../../common/Modal";
 toast.configure();
 
 function ClassCard({
+  editClass,
   item,
   handleDeleteData,
   handleEnrolledData,
@@ -19,10 +20,9 @@ function ClassCard({
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
-  const [enrollClassId, setenrollClassId] = React.useState(0);
-  const [unEnrollClassId, setUnEnrollClassId] = React.useState(0);
-  const [deleteClassId, setdeleteClassId] = React.useState(0);
+
   const user = useSelector(({ User }) => User);
+
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
 
@@ -39,24 +39,21 @@ function ClassCard({
     setShowModel(false);
   };
 
-  const handleClickOpen = (id) => {
-    setdeleteClassId(id);
+  const handleClickOpen = () => {
     setShowModel(!showModel);
   };
 
   const handleCloseEnroll = () => {
     setEnrollShowModel(false);
   };
-  const handleClickOpenEnroll = (id) => {
-    setenrollClassId(id);
+  const handleClickOpenEnroll = () => {
     setEnrollShowModel(!enrollShowModel);
   };
 
   const handleCloseUnenroll = () => {
     setunenrollShowModel(false);
   };
-  const handleClickOpenUnenroll = (id) => {
-    setUnEnrollClassId(id);
+  const handleClickOpenUnenroll = () => {
     setunenrollShowModel(!unenrollShowModel);
   };
 
@@ -110,20 +107,10 @@ function ClassCard({
           },
         }
       )
-      .then(
-        () => {
-          notify();
-          handleEnrolledData(Id);
-        },
-        (error) => {
-          toast.error(
-            `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-            {
-              position: toast.POSITION.BOTTOM_RIGHT,
-            }
-          );
-        }
-      );
+      .then(() => {
+        notify();
+        handleEnrolledData(Id);
+      });
   };
 
   // API CALL FOR DROP OUT
@@ -142,28 +129,17 @@ function ClassCard({
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then(
-      () => {
-        notify();
-        handleDropOutData(Id);
-      },
-      (error) => {
-        toast.error(
-          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-          {
-            position: toast.POSITION.BOTTOM_RIGHT,
-            autoClose: 5000,
-          }
-        );
-      }
-    );
+    }).then(() => {
+      notify();
+      handleDropOutData(Id);
+    });
   };
   return (
     <div className="class-card ">
       <div className="class-details">
         <span className="class-type">
           {languageMap[item.type]}
-          {item.enrolled == true ? (
+          {item.enrolled === true ? (
             <i className="check-icon check-icon fa fa-check-circle">
               {" "}
               Enrolled
@@ -183,9 +159,7 @@ function ClassCard({
             <button
               type="submit"
               className="class-enroll"
-              onClick={() => {
-                handleClickOpenEnroll(item.id);
-              }}
+              onClick={handleClickOpenEnroll}
             >
               Enroll to class
             </button>
@@ -193,31 +167,35 @@ function ClassCard({
             <button
               type="submit"
               className="class-drop-out"
-              onClick={() => {
-                handleClickOpenUnenroll(item.id);
-              }}
+              onClick={handleClickOpenUnenroll}
             >
               Drop out
             </button>
           )}
 
           {item.facilitator.email === user.data.user.email || flag ? (
-            <i
-              className="class-card-action-icon fa fa-trash"
-              onClick={() => handleClickOpen(item.id)}
-            />
+            <div className="class-card-actions">
+              <i
+                className="class-card-action-icon fa fa-trash"
+                onClick={handleClickOpen}
+              />
+
+              <i
+                className="class-card-action-icon class-card-edit fa fa-edit"
+                onClick={() => {
+                  editClass(item.id);
+                }}
+              />
+            </div>
           ) : null}
         </div>
         {showModel ? (
-          <Modal
-            onClose={() => handleClickOpen()}
-            className="confirmation-massage"
-          >
+          <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
             <div className="wrap">
               <button
                 onClick={() => {
-                  return deleteHandler(deleteClassId);
+                  deleteHandler(item.id);
                 }}
                 className="delete-btn"
               >
@@ -238,7 +216,7 @@ function ClassCard({
             <div className="wrap">
               <button
                 onClick={() => {
-                  return handleSubmit(enrollClassId);
+                  handleSubmit(item.id);
                 }}
                 className="enroll-btn"
               >
@@ -259,7 +237,7 @@ function ClassCard({
             <div className="wrap">
               <button
                 onClick={() => {
-                  return handleDelete(unEnrollClassId);
+                  handleDelete(item.id);
                 }}
                 className="delete-btn"
               >
