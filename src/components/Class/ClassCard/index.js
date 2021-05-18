@@ -12,12 +12,11 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({ item, handleEnrolledData, handleDropOutData, editClass }) {
+function ClassCard({ item, index, handleDropOutData, editClass }) {
   const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
-  const [enrollClassId, setenrollClassId] = React.useState(0);
   const [unEnrollClassId, setUnEnrollClassId] = React.useState(0);
   const [deleteClassId, setdeleteClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
@@ -48,8 +47,7 @@ function ClassCard({ item, handleEnrolledData, handleDropOutData, editClass }) {
   const handleCloseEnroll = () => {
     setEnrollShowModel(false);
   };
-  const handleClickOpenEnroll = (id) => {
-    setenrollClassId(id);
+  const handleClickOpenEnroll = () => {
     setEnrollShowModel(!enrollShowModel);
   };
 
@@ -101,7 +99,7 @@ function ClassCard({ item, handleEnrolledData, handleDropOutData, editClass }) {
     );
   };
   // API CALL FOR enroll class
-  const handleSubmit = (Id) => {
+  const handleSubmit = (Id, index) => {
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -121,20 +119,10 @@ function ClassCard({ item, handleEnrolledData, handleDropOutData, editClass }) {
           },
         }
       )
-      .then(
-        () => {
-          notify();
-          handleEnrolledData(Id);
-        },
-        (error) => {
-          toast.error(
-            `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-            {
-              position: toast.POSITION.BOTTOM_RIGHT,
-            }
-          );
-        }
-      );
+      .then(() => {
+        notify();
+        dispatch(classActions.enrolledClass(data, index));
+      });
   };
 
   // API CALL FOR DROP OUT
@@ -253,7 +241,7 @@ function ClassCard({ item, handleEnrolledData, handleDropOutData, editClass }) {
             <div className="wrap">
               <button
                 onClick={() => {
-                  return handleSubmit(enrollClassId);
+                  return handleSubmit(item.id, index);
                 }}
                 className="enroll-btn"
               >

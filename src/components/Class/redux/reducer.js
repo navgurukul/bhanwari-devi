@@ -47,6 +47,15 @@ export default (state = initialState, action) => {
           data: action.data,
         },
       };
+    case types.GET_UPDATED_ENROLLED_CLASSES:
+      return {
+        ...state,
+        allClasses: {
+          loading: false,
+          error: false,
+          data: action.data,
+        },
+      };
     default:
       return state;
   }

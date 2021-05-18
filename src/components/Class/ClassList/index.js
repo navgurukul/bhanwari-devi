@@ -26,11 +26,6 @@ function ClassList({ editClass, isShow }) {
     }
   };
 
-  // LIST OF ENROLL CLASSES
-  const enrolledData = (id) => {
-    setenrolledItems((prevData) => [...prevData, id]);
-  };
-
   useEffect(() => {
     dispatch(classActions.getClasses());
   }, [dispatch, isShow]);
@@ -53,7 +48,7 @@ function ClassList({ editClass, isShow }) {
               <ClassCard
                 item={item}
                 key={index}
-                handleEnrolledData={enrolledData}
+                index={index}
                 handleDropOutData={dropOutData}
                 editClass={editClass}
               />
