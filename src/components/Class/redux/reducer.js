@@ -38,6 +38,45 @@ export default (state = initialState, action) => {
           data: null,
         },
       };
+    case types.GET_DELETE_CLASSES:
+      return {
+        ...state,
+        allClasses: {
+          loading: false,
+          error: false,
+          data: state.allClasses.data.filter((item) => {
+            return item.id !== action.id;
+          }),
+        },
+      };
+    case types.GET_UPDATED_ENROLLED_CLASSES:
+      return {
+        ...state,
+        allClasses: {
+          loading: false,
+          error: false,
+          data: state.allClasses.data.map((item) => {
+            if (item.id === action.id) {
+              item.enrolled = true;
+            }
+            return item;
+          }),
+        },
+      };
+    case types.GET_UPDATED_DROP_OUT_CLASSES:
+      return {
+        ...state,
+        allClasses: {
+          loading: false,
+          error: false,
+          data: state.allClasses.data.map((item) => {
+            if (item.id === action.id) {
+              item.enrolled = false;
+            }
+            return item;
+          }),
+        },
+      };
     default:
       return state;
   }

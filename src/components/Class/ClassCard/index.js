@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+
 import { METHODS } from "../../../services/api";
+import { actions as classActions } from "../redux/action";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,17 +12,11 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({
-  editClass,
-  item,
-  handleDeleteData,
-  handleEnrolledData,
-  handleDropOutData,
-}) {
+function ClassCard({ item, editClass }) {
+  const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
-
   const user = useSelector(({ User }) => User);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
@@ -83,7 +79,7 @@ function ClassCard({
       },
     }).then(() => {
       notify();
-      handleDeleteData(id);
+      dispatch(classActions.deleteClass(id));
     });
   };
   // API CALL FOR enroll class
@@ -109,12 +105,12 @@ function ClassCard({
       )
       .then(() => {
         notify();
-        handleEnrolledData(Id);
+        dispatch(classActions.enrolledClass(Id));
       });
   };
 
   // API CALL FOR DROP OUT
-  const handleDelete = (Id) => {
+  const handleDropOut = (Id) => {
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -131,7 +127,7 @@ function ClassCard({
       },
     }).then(() => {
       notify();
-      handleDropOutData(Id);
+      dispatch(classActions.dropOutClass(Id));
     });
   };
   return (
@@ -139,7 +135,7 @@ function ClassCard({
       <div className="class-details">
         <span className="class-type">
           {languageMap[item.type]}
-          {item.enrolled === true ? (
+          {item.enrolled == true ? (
             <i className="check-icon check-icon fa fa-check-circle">
               {" "}
               Enrolled
@@ -159,7 +155,9 @@ function ClassCard({
             <button
               type="submit"
               className="class-enroll"
-              onClick={handleClickOpenEnroll}
+              onClick={() => {
+                handleClickOpenEnroll(item.id);
+              }}
             >
               Enroll to class
             </button>
@@ -167,19 +165,19 @@ function ClassCard({
             <button
               type="submit"
               className="class-drop-out"
-              onClick={handleClickOpenUnenroll}
+              onClick={() => {
+                handleClickOpenUnenroll(item.id);
+              }}
             >
               Drop out
             </button>
           )}
-
-          {item.facilitator.email === user.data.user.email || flag ? (
+          {item.facilitator.email == user.data.user.email || flag ? (
             <div className="class-card-actions">
               <i
                 className="class-card-action-icon fa fa-trash"
-                onClick={handleClickOpen}
+                onClick={() => handleClickOpen(item.id)}
               />
-
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
@@ -195,7 +193,7 @@ function ClassCard({
             <div className="wrap">
               <button
                 onClick={() => {
-                  deleteHandler(item.id);
+                  return deleteHandler(item.id);
                 }}
                 className="delete-btn"
               >
@@ -216,7 +214,7 @@ function ClassCard({
             <div className="wrap">
               <button
                 onClick={() => {
-                  handleSubmit(item.id);
+                  return handleSubmit(item.id);
                 }}
                 className="enroll-btn"
               >
@@ -237,7 +235,7 @@ function ClassCard({
             <div className="wrap">
               <button
                 onClick={() => {
-                  handleDelete(item.id);
+                  return handleDropOut(item.id);
                 }}
                 className="delete-btn"
               >

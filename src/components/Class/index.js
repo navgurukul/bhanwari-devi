@@ -24,7 +24,7 @@ const {
   COURSE_ID,
 } = CLASS_FIELDS;
 
-function Class({ classToEdit, toggleModalOpen }) {
+function Class({ classToEdit }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
 
@@ -68,6 +68,7 @@ function Class({ classToEdit, toggleModalOpen }) {
   const [allCourse, setAllCourse] = useState([]);
 
   const editClass = (payload) => {
+    setLoading(true);
     return axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${classToEdit.id}`,
@@ -76,12 +77,24 @@ function Class({ classToEdit, toggleModalOpen }) {
         Authorization: user.data.token,
       },
       data: payload,
-    }).then(() => {
-      toast.success("Updated class details!", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 500,
-      });
-    });
+    }).then(
+      () => {
+        toast.success("Updated class details!", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+        });
+        setLoading(false);
+      },
+      (error) => {
+        toast.error(
+          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          }
+        );
+        setLoading(false);
+      }
+    );
   };
 
   useEffect(() => {
@@ -130,7 +143,6 @@ function Class({ classToEdit, toggleModalOpen }) {
     } else {
       editClass(payload);
     }
-    toggleModalOpen();
   };
 
   const createClass = (payload) => {
