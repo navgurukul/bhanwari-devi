@@ -110,7 +110,7 @@ function ClassCard({ item, editClass }) {
   };
 
   // API CALL FOR DROP OUT
-  const handleDelete = (Id) => {
+  const handleDropOut = (Id) => {
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -235,7 +235,7 @@ function ClassCard({ item, editClass }) {
             <div className="wrap">
               <button
                 onClick={() => {
-                  return handleDelete(item.id);
+                  return handleDropOut(item.id);
                 }}
                 className="delete-btn"
               >
