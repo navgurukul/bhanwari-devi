@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { actions as classActions } from "../redux/action";
@@ -12,7 +12,9 @@ function ClassList({ editClass, isShow }) {
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
 
   useEffect(() => {
-    dispatch(classActions.getClasses());
+    if (isShow === false) {
+      dispatch(classActions.getClasses());
+    }
   }, [dispatch, isShow]);
 
   if (loading) {
