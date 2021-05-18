@@ -42,4 +42,12 @@ export const actions = {
       data,
     };
   },
+  dropOutClass(data, index) {
+    let item = [...data][index];
+    item.enrolled = false;
+    return {
+      type: types.GET_UPDATED_DROP_OUT_CLASSES,
+      data,
+    };
+  },
 };

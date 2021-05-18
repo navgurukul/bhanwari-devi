@@ -10,21 +10,6 @@ function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
-  const [enrolledItems, setenrolledItems] = useState([]);
-  const [dropOutItems, setdropOutItems] = useState([]);
-
-  // LIST OF DROP OUT CLASSES
-  const dropOutData = (id) => {
-    var array = [...enrolledItems];
-    var index = array.indexOf(id);
-    if (index !== -1) {
-      array.splice(index, 1);
-      setenrolledItems(array);
-      setdropOutItems((prevData) => [...prevData, id]);
-    } else {
-      setdropOutItems((prevData) => [...prevData, id]);
-    }
-  };
 
   useEffect(() => {
     dispatch(classActions.getClasses());
@@ -39,17 +24,11 @@ function ClassList({ editClass, isShow }) {
       <div className="ng-upcoming-class">
         {data && data.length > 0 ? (
           data.map((item, index) => {
-            if (enrolledItems.indexOf(item.id) > -1) {
-              item.enrolled = true;
-            } else if (dropOutItems.indexOf(item.id) > -1) {
-              item.enrolled = false;
-            }
             return (
               <ClassCard
                 item={item}
                 key={index}
                 index={index}
-                handleDropOutData={dropOutData}
                 editClass={editClass}
               />
             );

@@ -12,13 +12,11 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({ item, index, handleDropOutData, editClass }) {
+function ClassCard({ item, index, editClass }) {
   const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
-  const [unEnrollClassId, setUnEnrollClassId] = React.useState(0);
-  const [deleteClassId, setdeleteClassId] = React.useState(0);
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
 
@@ -38,9 +36,7 @@ function ClassCard({ item, index, handleDropOutData, editClass }) {
     setShowModel(false);
   };
 
-  const handleClickOpen = (id) => {
-    setdeleteClassId(id);
-
+  const handleClickOpen = () => {
     setShowModel(!showModel);
   };
 
@@ -54,8 +50,7 @@ function ClassCard({ item, index, handleDropOutData, editClass }) {
   const handleCloseUnenroll = () => {
     setunenrollShowModel(false);
   };
-  const handleClickOpenUnenroll = (id) => {
-    setUnEnrollClassId(id);
+  const handleClickOpenUnenroll = () => {
     setunenrollShowModel(!unenrollShowModel);
   };
 
@@ -83,20 +78,10 @@ function ClassCard({ item, index, handleDropOutData, editClass }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then(
-      () => {
-        notify();
-        dispatch(classActions.deleteClass(data, id));
-      },
-      (error) => {
-        toast.error(
-          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-          {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          }
-        );
-      }
-    );
+    }).then(() => {
+      notify();
+      dispatch(classActions.deleteClass(data, id));
+    });
   };
   // API CALL FOR enroll class
   const handleSubmit = (Id, index) => {
@@ -126,7 +111,7 @@ function ClassCard({ item, index, handleDropOutData, editClass }) {
   };
 
   // API CALL FOR DROP OUT
-  const handleDelete = (Id) => {
+  const handleDelete = (Id, index) => {
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -141,21 +126,10 @@ function ClassCard({ item, index, handleDropOutData, editClass }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then(
-      () => {
-        notify();
-        handleDropOutData(Id);
-      },
-      (error) => {
-        toast.error(
-          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-          {
-            position: toast.POSITION.BOTTOM_RIGHT,
-            autoClose: 5000,
-          }
-        );
-      }
-    );
+    }).then(() => {
+      notify();
+      dispatch(classActions.dropOutClass(data, index));
+    });
   };
   return (
     <div className="class-card ">
@@ -220,7 +194,7 @@ function ClassCard({ item, index, handleDropOutData, editClass }) {
             <div className="wrap">
               <button
                 onClick={() => {
-                  return deleteHandler(deleteClassId);
+                  return deleteHandler(item.id);
                 }}
                 className="delete-btn"
               >
@@ -262,7 +236,7 @@ function ClassCard({ item, index, handleDropOutData, editClass }) {
             <div className="wrap">
               <button
                 onClick={() => {
-                  return handleDelete(unEnrollClassId);
+                  return handleDelete(item.id, index);
                 }}
                 className="delete-btn"
               >
