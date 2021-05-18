@@ -12,13 +12,12 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({ item, index, editClass }) {
+function ClassCard({ item, editClass }) {
   const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
   const user = useSelector(({ User }) => User);
-  const { data = [] } = useSelector(({ Class }) => Class.allClasses);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
@@ -84,7 +83,7 @@ function ClassCard({ item, index, editClass }) {
     });
   };
   // API CALL FOR enroll class
-  const handleSubmit = (Id, index) => {
+  const handleSubmit = (Id) => {
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -106,12 +105,12 @@ function ClassCard({ item, index, editClass }) {
       )
       .then(() => {
         notify();
-        dispatch(classActions.enrolledClass(data, index));
+        dispatch(classActions.enrolledClass(Id));
       });
   };
 
   // API CALL FOR DROP OUT
-  const handleDelete = (Id, index) => {
+  const handleDelete = (Id) => {
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -128,10 +127,9 @@ function ClassCard({ item, index, editClass }) {
       },
     }).then(() => {
       notify();
-      dispatch(classActions.dropOutClass(data, index));
+      dispatch(classActions.dropOutClass(Id));
     });
   };
-  console.log(data, "data");
   return (
     <div className="class-card ">
       <div className="class-details">
@@ -216,7 +214,7 @@ function ClassCard({ item, index, editClass }) {
             <div className="wrap">
               <button
                 onClick={() => {
-                  return handleSubmit(item.id, index);
+                  return handleSubmit(item.id);
                 }}
                 className="enroll-btn"
               >
@@ -237,7 +235,7 @@ function ClassCard({ item, index, editClass }) {
             <div className="wrap">
               <button
                 onClick={() => {
-                  return handleDelete(item.id, index);
+                  return handleDelete(item.id);
                 }}
                 className="delete-btn"
               >

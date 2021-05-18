@@ -32,20 +32,16 @@ export const actions = {
       id,
     };
   },
-  enrolledClass(data, index) {
-    let item = [...data][index];
-    item.enrolled = true;
+  enrolledClass(id) {
     return {
       type: types.GET_UPDATED_ENROLLED_CLASSES,
-      data,
+      id,
     };
   },
-  dropOutClass(data, index) {
-    let item = [...data][index];
-    item.enrolled = false;
+  dropOutClass(id) {
     return {
       type: types.GET_UPDATED_DROP_OUT_CLASSES,
-      data,
+      id,
     };
   },
 };

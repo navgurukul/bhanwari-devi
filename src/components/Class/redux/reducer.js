@@ -55,7 +55,12 @@ export default (state = initialState, action) => {
         allClasses: {
           loading: false,
           error: false,
-          data: action.data,
+          data: state.allClasses.data.map((item) => {
+            if (item.id === action.id) {
+              item.enrolled = true;
+            }
+            return item;
+          }),
         },
       };
     case types.GET_UPDATED_DROP_OUT_CLASSES:
@@ -64,7 +69,12 @@ export default (state = initialState, action) => {
         allClasses: {
           loading: false,
           error: false,
-          data: action.data,
+          data: state.allClasses.data.map((item) => {
+            if (item.id === action.id) {
+              item.enrolled = false;
+            }
+            return item;
+          }),
         },
       };
     default:
