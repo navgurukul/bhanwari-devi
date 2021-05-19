@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+
 import { METHODS } from "../../../services/api";
+import { actions as classActions } from "../redux/action";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,11 +12,12 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard(props) {
+function ClassCard({ item, editClass }) {
+  const dispatch = useDispatch();
+  const [enrollShowModel, setEnrollShowModel] = React.useState(false);
+  const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
   const user = useSelector(({ User }) => User);
-
-  const { item, index, handleDeleteData } = props;
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
@@ -36,6 +39,20 @@ function ClassCard(props) {
     setShowModel(!showModel);
   };
 
+  const handleCloseEnroll = () => {
+    setEnrollShowModel(false);
+  };
+  const handleClickOpenEnroll = () => {
+    setEnrollShowModel(!enrollShowModel);
+  };
+
+  const handleCloseUnenroll = () => {
+    setunenrollShowModel(false);
+  };
+  const handleClickOpenUnenroll = () => {
+    setunenrollShowModel(!unenrollShowModel);
+  };
+
   const rolesList = user.data.user.rolesList;
   let flag = false;
   rolesList.map((role) => {
@@ -44,6 +61,7 @@ function ClassCard(props) {
       : (flag = false);
   });
 
+  // API CALL FOR DELETE CLASS
   const deleteHandler = (id) => {
     const notify = () => {
       toast.success(" Deleted the class successfully", {
@@ -54,47 +72,121 @@ function ClassCard(props) {
     setShowModel(!showModel);
     return axios({
       method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${id}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${id}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then(() => {
       notify();
-      handleDeleteData(id);
+      dispatch(classActions.deleteClass(id));
+    });
+  };
+  // API CALL FOR enroll class
+  const handleSubmit = (Id) => {
+    const notify = () => {
+      toast.success("You have been enrolled to class successfully", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+      });
+    };
+    setEnrollShowModel(!enrollShowModel);
+    axios
+
+      .post(
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user.data.token,
+          },
+        }
+      )
+      .then(() => {
+        notify();
+        dispatch(classActions.enrolledClass(Id));
+      });
+  };
+
+  // API CALL FOR DROP OUT
+  const handleDropOut = (Id) => {
+    const notify = () => {
+      toast.success("You have been dropped out of class successfully", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+      });
+    };
+    setunenrollShowModel(!unenrollShowModel);
+    return axios({
+      method: METHODS.DELETE,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then(() => {
+      notify();
+      dispatch(classActions.dropOutClass(Id));
     });
   };
   return (
-    <div key={index} className="class-card">
-      <div className="card-content">
-        <div className="card-heading">
-          <div className="title">{item.title}</div>
-          <div className="class-type">{languageMap[item.type]}</div>
-        </div>
-        <div className="class-detail">
-          <p>Facilitator Name : {item.facilitator.name} </p>
-          <p>Language : {languageMap[item.lang]} </p>
-          <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
-          <p>
-            Time:{moment(classStartTime).format("hh:mm a")} -{" "}
-            {moment(classEndTime).format("hh:mm a")}
-          </p>
+    <div className="class-card ">
+      <div className="class-details">
+        <span className="class-type">
+          {languageMap[item.type]}
+          {item.enrolled == true ? (
+            <i className="check-icon check-icon fa fa-check-circle">
+              {" "}
+              Enrolled
+            </i>
+          ) : null}
+        </span>
+        <h4>{item.title}</h4>
+        <p>Facilitator Name : {item.facilitator.name} </p>
+        <p>Language : {languageMap[item.lang]} </p>
+        <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
+        <p>
+          Time:{moment(classStartTime).format("hh:mm a")} -{" "}
+          {moment(classEndTime).format("hh:mm a")}
+        </p>
+        <div className="bottom-details">
+          {!item.enrolled ? (
+            <button
+              type="submit"
+              className="class-enroll"
+              onClick={() => {
+                handleClickOpenEnroll(item.id);
+              }}
+            >
+              Enroll to class
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="class-drop-out"
+              onClick={() => {
+                handleClickOpenUnenroll(item.id);
+              }}
+            >
+              Drop out
+            </button>
+          )}
           {item.facilitator.email == user.data.user.email || flag ? (
             <div className="class-card-actions">
               <i
                 className="class-card-action-icon fa fa-trash"
-                onClick={handleClickOpen}
+                onClick={() => handleClickOpen(item.id)}
               />
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  props.editClass(item.id);
+                  editClass(item.id);
                 }}
               />
             </div>
           ) : null}
         </div>
-
         {showModel ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
@@ -108,6 +200,48 @@ function ClassCard(props) {
                 Yes
               </button>
               <button onClick={handleClose} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
+        ) : null}
+        {enrollShowModel ? (
+          <Modal
+            onClose={() => handleCloseEnroll()}
+            className="confirmation_massage-for-enroll"
+          >
+            <h2>Are you sure you do you want to enroll?</h2>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return handleSubmit(item.id);
+                }}
+                className="enroll-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseEnroll} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
+        ) : null}
+        {unenrollShowModel ? (
+          <Modal
+            onClose={() => handleCloseUnenroll()}
+            className="confirmation_massage-for-enroll"
+          >
+            <h2> Are you sure you do you want to drop out</h2>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return handleDropOut(item.id);
+                }}
+                className="delete-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseUnenroll} className="cancel-btn">
                 Cancel
               </button>
             </div>

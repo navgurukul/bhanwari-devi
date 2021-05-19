@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { actions as classActions } from "../redux/action";
@@ -11,14 +11,10 @@ function ClassList({ editClass, isShow }) {
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
 
-  const [deleteItems, setdeleteItems] = useState([]);
-
-  const deleteData = (id) => {
-    setdeleteItems((prevData) => [...prevData, id]);
-  };
-
   useEffect(() => {
-    dispatch(classActions.getClasses());
+    if (isShow === false) {
+      dispatch(classActions.getClasses());
+    }
   }, [dispatch, isShow]);
 
   if (loading) {
@@ -30,18 +26,18 @@ function ClassList({ editClass, isShow }) {
       <div className="ng-upcoming-class">
         {data && data.length > 0 ? (
           data.map((item, index) => {
-            return deleteItems.includes(item.id) ? null : (
+            return (
               <ClassCard
                 item={item}
                 key={index}
+                index={index}
                 editClass={editClass}
-                handleDeleteData={deleteData}
               />
             );
           })
         ) : (
           <div className="message">
-            <h2>No Classes Today</h2>
+            <h2>No Classes Today....</h2>
           </div>
         )}
       </div>
