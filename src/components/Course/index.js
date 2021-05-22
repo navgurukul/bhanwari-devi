@@ -51,7 +51,7 @@ function Course() {
           />
           <CourseList
             list={get(data, "allCourses")}
-            title="Aap yeh courses mein enroll kar skte hai"
+            title="Aap yeh courses mein enroll kar sakte hai"
           />
         </h1>
       )}

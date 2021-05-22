@@ -10,35 +10,10 @@ import { METHODS, HeaderFactory } from "../../../services/api";
  * @returns {Promise}
  */
 export const getAllClasses = (classData, token) => {
+  const platform = { platform: "web" };
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes/upcoming`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
     method: METHODS.GET,
-    headers: HeaderFactory(token),
+    headers: HeaderFactory(token, platform),
   });
-};
-
-/**
- * end-point to create a class.
- *
- * @param {classData} object payload to create a class.
- * @param {object} opts
- *
- * @returns {Promise}
- */
-export const createClass = (classData, token) => {
-  return axios
-    .post(`${process.env.REACT_APP_MERAKI_URL}/classes`, classData, {
-      headers: HeaderFactory(token),
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  // return axios({
-  //   url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
-  //   method: METHODS.POST,
-  //   headers: HeaderFactory(token),
-  //   data: {
-  //     ...classData,
-  //   },
-  // });
 };

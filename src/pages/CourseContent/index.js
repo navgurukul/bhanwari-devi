@@ -14,6 +14,7 @@ import "./styles.scss";
 
 const getExerciseIdFromUrl = () => {
   let exerciseId;
+
   if (window.location.href.includes("exercise")) {
     exerciseId = window.location.href.split("/").pop();
   }
@@ -29,11 +30,22 @@ function CourseContent(props) {
     courseContent: { loading, data },
     selectedExercise,
   } = useSelector(({ Course }) => Course);
+
+  useEffect(() => {
+    const exerciseId = get(selectedExercise, "exercise.id");
+    let url = window.location.href;
+    window.localStorage.setItem(
+      "lastExerciseUrl",
+      `${url}/exercise/${exerciseId}`
+    );
+    const exercise = get(selectedExercise, "exercise.name");
+    window.localStorage.setItem("exerciseName", exercise);
+  }, [selectedExercise]);
+
   // get the course id, and pass it in the component.
   const courseName = get(props, "location.search");
   const params = new URLSearchParams(courseName);
   const courseTitle = params.get("name");
-
   const courseId = get(props, "match.params.courseId");
 
   useEffect(() => {
@@ -66,6 +78,7 @@ function CourseContent(props) {
         exercise: defaultExercise,
         index: defaultExerciseIndex,
       };
+
       dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
     }
   }, [dispatch, data]);

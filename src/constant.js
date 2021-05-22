@@ -8,4 +8,5 @@ export const PATHS = {
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   MENTOR: "/mentor",
+  USER: "/user",
 };

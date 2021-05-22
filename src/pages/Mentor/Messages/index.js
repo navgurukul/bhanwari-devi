@@ -1,6 +1,7 @@
 import React from "react";
 import Message from "../Message";
-import { getMemberName } from "../utils";
+import format from "date-fns/format";
+import { getMemberName, getAreDatesOnDifferentDays } from "../utils";
 import "./styles.scss";
 
 export default ({
@@ -18,22 +19,38 @@ export default ({
         {messages &&
           messages
             .filter((message) => message.type === "m.room.message")
-            .map((message) => {
+            .map((message, index) => {
+              let shouldDisplayDayMarker = false;
+              if (messages[index - 1]) {
+                shouldDisplayDayMarker = getAreDatesOnDifferentDays(
+                  messages[index - 1].origin_server_ts,
+                  message.origin_server_ts
+                );
+              } else {
+                shouldDisplayDayMarker = true;
+              }
               const member = members.find(
                 (member) => member.sender === message.sender
               );
 
               return (
-                <Message
-                  key={message.event_id}
-                  deleteMessage={deleteMessage}
-                  members={members}
-                  onSendMessage={onSendMessage}
-                  activateReplyToMessageState={activateReplyToMessageState}
-                  senderName={getMemberName(member)}
-                  message={message}
-                  isSelf={message.sender.indexOf(selfChatId) > -1}
-                />
+                <>
+                  {shouldDisplayDayMarker && (
+                    <div className="messages-day-marker">
+                      {format(new Date(message.origin_server_ts), "do MMM")}
+                    </div>
+                  )}
+                  <Message
+                    key={message.event_id}
+                    deleteMessage={deleteMessage}
+                    members={members}
+                    onSendMessage={onSendMessage}
+                    activateReplyToMessageState={activateReplyToMessageState}
+                    senderName={getMemberName(member)}
+                    message={message}
+                    isSelf={message.sender.indexOf(selfChatId) > -1}
+                  />
+                </>
               );
             })}
       </div>

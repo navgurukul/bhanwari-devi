@@ -18,3 +18,14 @@
   display: flex;
   flex-direction: column;
 }
+
+.messages-day-marker {
+  background-color: rgba(163, 163, 163, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  margin: 12px 0;
+  color: #5e95ff;
+  align-self: center;
+  border-radius: 4px;
+  padding: 8px;
+}

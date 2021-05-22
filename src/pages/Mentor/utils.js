@@ -17,6 +17,31 @@ export const getMemberName = (member) => {
     : "";
 };
 
+export const getAreDatesOnDifferentDays = (firstDateTs, secondDateTs) => {
+  let areDatesOnDifferentDay = false;
+  const previousMessageDate = new Date(firstDateTs);
+  const currentMessageDate = new Date(secondDateTs);
+  const previousMessageDay = previousMessageDate.getDate();
+  const currentMessageDay = currentMessageDate.getDate();
+
+  if (currentMessageDay !== previousMessageDay) {
+    areDatesOnDifferentDay = true;
+  } else {
+    const previousMessageMonth = previousMessageDate.getMonth();
+    const currentMessageMonth = currentMessageDate.getMonth();
+    if (previousMessageMonth !== currentMessageMonth) {
+      areDatesOnDifferentDay = true;
+    } else {
+      const previousMessageYear = previousMessageDate.getFullYear();
+      const currentMessageYear = currentMessageDate.getFullYear();
+      if (previousMessageYear !== currentMessageYear) {
+        areDatesOnDifferentDay = true;
+      }
+    }
+  }
+  return areDatesOnDifferentDay;
+};
+
 export const fetchMessages = async (params) => {
   const {
     roomId,

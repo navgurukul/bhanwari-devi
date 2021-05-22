@@ -8,6 +8,7 @@ import CreateClass from "../pages/CreateClass";
 import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
+import User from "../components/User";
 
 // import Classes from '../pages/classes'
 
@@ -28,6 +29,7 @@ const Routing = () => {
         component={ Class }
       />*/}
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
+      <PrivateRoute exact path={PATHS.USER} component={User} />
     </>
   );
 };
