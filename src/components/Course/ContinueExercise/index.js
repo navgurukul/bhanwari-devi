@@ -5,18 +5,18 @@ let storedExerciseUrl = window.localStorage.getItem("lastExerciseUrl");
 const storedExerciseName = window.localStorage.getItem("exerciseName");
 
 function ContinueExercise() {
-  if (!(storedExerciseUrl && storedExerciseName)) return null;
-
-  return (
+  return storedExerciseUrl && storedExerciseName ? (
     <div className="stored-exercise">
-      Continue where you left off..
       <span>
+        Continue where you left off..
         <a className="exercise-url" href={storedExerciseUrl}>
           {storedExerciseName}
         </a>
       </span>
     </div>
-  );
+  ) : null;
 }
+
+// }
 
 export default ContinueExercise;

@@ -6,6 +6,8 @@
   line-height: 26px;
   font-family: Rubik, sans-serif;
   font-style: normal;
+  display: flex;
+  justify-content: space-between;
   font-size: 18px;
   font-weight: 300;
   @include breakpoint-mobile {

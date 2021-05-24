@@ -26,6 +26,16 @@
   }
 
   @include breakpoint-mobile {
-    margin-top: 24px;
+    margin-top: 65px;
+  }
+}
+
+.github-pack {
+  position: absolute;
+  right: 330px;
+  top: 163px;
+  @include breakpoint-mobile {
+    text-align: center;
+    right: 110px;
   }
 }
