@@ -5,7 +5,7 @@ function PrivacyPolicy() {
   return (
     <div className="privacy-policy-container">
       <div className="policy-section">
-        <h2 className="title">Privacy Policy</h2>
+        <h2 className="policy-title">Privacy Policy</h2>
         <div className="privacy-details">
           <p>
             NavGurukul Foundation for Social Welfare built the Meraki app as an

@@ -1,0 +1,22 @@
+.ng-footer {
+  width: 100%;
+  position: sticky;
+  background-color: #83b344;
+  color: white;
+  text-align: center;
+}
+
+.footer {
+  padding: 12px;
+
+  > .footer-link {
+    font-family: Rubik;
+    font-style: normal;
+    font-size: 19px;
+    line-height: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    font-weight: 300;
+  }
+}
