@@ -9,6 +9,7 @@ import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 import User from "../components/User";
 import PrivacyPolicy from "../components/PrivacyPolicy";
+import Pathways from "../pages/Pathways";
 
 // import Classes from '../pages/classes'
 
@@ -22,6 +23,7 @@ const Routing = () => {
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
+      <Route exact path={PATHS.PATHWAYS} component={Pathways} />
       {/* Private routes */}
       {/* <PrivateRoute
         exact

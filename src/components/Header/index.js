@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { PATHS } from "../../constant";
@@ -18,6 +19,9 @@ const AuthenticatedHeaderOption = () => {
       <a className="link" href={PATHS.COURSE}>
         Courses
       </a>
+      <Link className="link" to={{ pathname: PATHS.PATHWAYS }}>
+        Pathways
+      </Link>
       <a className="link" href={PATHS.CLASS}>
         Classes
       </a>
@@ -37,6 +41,9 @@ const PublicMenuOption = () => {
       <a className="link" href={PATHS.COURSE}>
         Courses
       </a>
+      <Link className="link" to={{ pathname: PATHS.PATHWAYS }}>
+        Pathways
+      </Link>
       <a className="login" href={PATHS.LOGIN}>
         Login/Signup
       </a>
