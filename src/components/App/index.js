@@ -8,9 +8,12 @@ import "./styles.scss";
 
 function App() {
   return (
-    <div>
+    <div className="layout">
       <Header />
-      <Routing />
+      <div className="content">
+        {" "}
+        <Routing />{" "}
+      </div>
       <Footer />
     </div>
   );
