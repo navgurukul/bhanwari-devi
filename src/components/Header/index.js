@@ -21,9 +21,6 @@ const AuthenticatedHeaderOption = () => {
       <a className="link" href={PATHS.CLASS}>
         Classes
       </a>
-      <a className="link" href={PATHS.PRIVACY_POLICY}>
-        Privacy
-      </a>
       <div className="logout" onClick={() => dispatch(userActions.logout())}>
         Logout
       </div>
