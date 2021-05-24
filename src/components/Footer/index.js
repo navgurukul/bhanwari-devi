@@ -7,7 +7,7 @@ function Footer() {
     <div className="ng-footer">
       <div className="footer">
         <a className="footer-link" href={PATHS.PRIVACY_POLICY}>
-          Privacy policy
+          Privacy Policy
         </a>
       </div>
     </div>
