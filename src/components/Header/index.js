@@ -21,6 +21,9 @@ const AuthenticatedHeaderOption = () => {
       <a className="link" href={PATHS.CLASS}>
         Classes
       </a>
+      <a className="link" href={PATHS.PARTNERS}>
+        Dashboard
+      </a>
       <div className="logout" onClick={() => dispatch(userActions.logout())}>
         Logout
       </div>
