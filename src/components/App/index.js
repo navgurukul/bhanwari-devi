@@ -1,16 +1,20 @@
 import React from "react";
 
 import Routing from "../../routing";
-import "./styles.scss";
-
 import Header from "../Header";
+import Footer from "../Footer";
+
+import "./styles.scss";
 
 function App() {
   return (
-    <div>
+    <div className="layout">
       <Header />
-
-      <Routing />
+      <div className="content">
+        {" "}
+        <Routing />{" "}
+      </div>
+      <Footer />
     </div>
   );
 }

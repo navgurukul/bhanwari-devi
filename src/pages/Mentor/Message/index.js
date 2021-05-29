@@ -83,7 +83,7 @@ export default ({
     });
   }
 
-  if (formattedMessage.content.msgtype === "m.text") {
+  if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
     messageActions.push({
       label: "Reply",
       value: "reply",
