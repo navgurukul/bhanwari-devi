@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
 import { useSelector } from "react-redux";
@@ -199,7 +199,7 @@ const Mentor = () => {
     );
   }, [chat_id, chat_password]);
 
-  const handleScroll = useCallback(
+  const handleScroll = useRef(
     _.debounce((element) => {
       if (
         element.scrollHeight + element.scrollTop <
@@ -207,8 +207,7 @@ const Mentor = () => {
       ) {
         getMessages();
       }
-    }, 1000),
-    [accessToken, selectedRoomId, syncToken]
+    }, 700)
   );
 
   const getSelectedRoomMembers = async () => {
@@ -310,7 +309,7 @@ const Mentor = () => {
             messages={roomMessages[selectedRoomId]}
             selfChatId={chat_id}
             onScroll={(e) => {
-              handleScroll(e.target);
+              handleScroll.current(e.target);
             }}
             deleteMessage={deleteMessage}
             members={members[selectedRoomId] || []}
