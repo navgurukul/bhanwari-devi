@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
 import { useSelector } from "react-redux";
@@ -187,8 +188,6 @@ const Mentor = () => {
     }
   }, [client, roomNamesMap]);
 
-  //console.log(roomNamesMap);
-
   useEffect(() => {
     setClient(
       sdk.createClient({
@@ -199,16 +198,14 @@ const Mentor = () => {
     );
   }, [chat_id, chat_password]);
 
-  const handleScroll = useRef(
-    _.debounce((element) => {
-      if (
-        element.scrollHeight + element.scrollTop <
-        element.clientHeight + PAGINATION_THRESHOLD
-      ) {
-        getMessages();
-      }
-    }, 700)
-  );
+  const handleScroll = useDebouncedCallback((element) => {
+    if (
+      element.scrollHeight + element.scrollTop <
+      element.clientHeight + PAGINATION_THRESHOLD
+    ) {
+      getMessages();
+    }
+  }, 1000);
 
   const getSelectedRoomMembers = async () => {
     const roomMembers = await getMembers(accessToken, selectedRoomId);
@@ -309,7 +306,7 @@ const Mentor = () => {
             messages={roomMessages[selectedRoomId]}
             selfChatId={chat_id}
             onScroll={(e) => {
-              handleScroll.current(e.target);
+              handleScroll(e.target);
             }}
             deleteMessage={deleteMessage}
             members={members[selectedRoomId] || []}
