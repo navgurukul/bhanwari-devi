@@ -200,14 +200,14 @@ const Mentor = () => {
   }, [chat_id, chat_password]);
 
   const handleScroll = useCallback(
-    _.throttle((element) => {
+    _.debounce((element) => {
       if (
         element.scrollHeight + element.scrollTop <
         element.clientHeight + PAGINATION_THRESHOLD
       ) {
         getMessages();
       }
-    }, 500),
+    }, 1000),
     [accessToken, selectedRoomId, syncToken]
   );
 
