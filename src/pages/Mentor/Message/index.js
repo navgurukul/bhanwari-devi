@@ -72,136 +72,142 @@ export default ({
   };
 
   const formattedMessage = formatMessage(message);
-  let messageActions = [];
-  if (isSelf) {
-    messageActions.push({
-      label: "Delete message",
-      value: "delete",
-      onClick: () => {
-        deleteMessage(message.event_id);
-      },
-    });
-  }
 
-  if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
-    messageActions.push({
-      label: "Reply",
-      value: "reply",
-      onClick: () => {
-        activateReplyToMessageState(formattedMessage.event_id);
-      },
-    });
+  if (formattedMessage) {
+    let messageActions = [];
+    if (isSelf) {
+      messageActions.push({
+        label: "Delete message",
+        value: "delete",
+        onClick: () => {
+          deleteMessage(message.event_id);
+        },
+      });
+    }
 
-    // if (!isSelf) {
-    //   messageActions.push({
-    //     label: "Report message",
-    //     value: "report",
-    //     className: "danger-option",
-    //     onClick: () => {},
-    //   });
-    // }
-  }
+    if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
+      messageActions.push({
+        label: "Reply",
+        value: "reply",
+        onClick: () => {
+          activateReplyToMessageState(formattedMessage.event_id);
+        },
+      });
 
-  const replyToMessage = _.get(
-    formattedMessage,
-    "content['m.relates_to']['m.in_reply_to']"
-  );
+      // if (!isSelf) {
+      //   messageActions.push({
+      //     label: "Report message",
+      //     value: "report",
+      //     className: "danger-option",
+      //     onClick: () => {},
+      //   });
+      // }
+    }
 
-  return (
-    <div
-      className={`chat-message-container ${
-        isSelf ? "chat-message-container-self" : "chat-message-container-other"
-      }`}
-    >
-      {!isSelf && senderName && (
-        <Avatar name={senderName} style={{ marginRight: 12 }} />
-      )}
-      <div>
-        <div
-          className={`message-header ${isSelf ? "" : "message-header-other"}`}
-        >
-          <div className="message-time">
-            {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
+    const replyToMessage = _.get(
+      formattedMessage,
+      "content['m.relates_to']['m.in_reply_to']"
+    );
+
+    return (
+      <div
+        className={`chat-message-container ${
+          isSelf
+            ? "chat-message-container-self"
+            : "chat-message-container-other"
+        }`}
+      >
+        {!isSelf && senderName && (
+          <Avatar name={senderName} style={{ marginRight: 12 }} />
+        )}
+        <div>
+          <div
+            className={`message-header ${isSelf ? "" : "message-header-other"}`}
+          >
+            <div className="message-time">
+              {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
+            </div>
+            <div
+              className={`chat-message-sender ${
+                isSelf ? "chat-message-sender-self" : ""
+              }`}
+            >
+              {senderName}
+            </div>
           </div>
           <div
-            className={`chat-message-sender ${
-              isSelf ? "chat-message-sender-self" : ""
-            }`}
+            onMouseOver={handleMouseOver}
+            className={getMessageClass("", isSelf)}
+            onMouseLeave={() => {
+              setMessageActionsMenu(false);
+              setIsMessageActionsDropdownOpen(false);
+            }}
           >
-            {senderName}
-          </div>
-        </div>
-        <div
-          onMouseOver={handleMouseOver}
-          className={getMessageClass("", isSelf)}
-          onMouseLeave={() => {
-            setMessageActionsMenu(false);
-            setIsMessageActionsDropdownOpen(false);
-          }}
-        >
-          {replyToMessage && (
-            <div className="reply-to-container">
-              <div className="reply-to-header">
-                <div>in reply to</div>
-                <div className="reply-sender">
-                  <Avatar
-                    name={getMemberName(
-                      members.find(
-                        (member) => member.sender === replyToMessage.sender
-                      )
-                    )}
-                    style={{
-                      marginRight: 8,
-                      width: 16,
-                      height: 16,
-                      fontSize: 12,
-                    }}
-                  />
-                  <div>
-                    {getMemberName(
-                      members.find(
-                        (member) => member.sender === replyToMessage.sender
-                      )
-                    )}
+            {replyToMessage && (
+              <div className="reply-to-container">
+                <div className="reply-to-header">
+                  <div>in reply to</div>
+                  <div className="reply-sender">
+                    <Avatar
+                      name={getMemberName(
+                        members.find(
+                          (member) => member.sender === replyToMessage.sender
+                        )
+                      )}
+                      style={{
+                        marginRight: 8,
+                        width: 16,
+                        height: 16,
+                        fontSize: 12,
+                      }}
+                    />
+                    <div>
+                      {getMemberName(
+                        members.find(
+                          (member) => member.sender === replyToMessage.sender
+                        )
+                      )}
+                    </div>
                   </div>
                 </div>
+                <div>{replyToMessage.body}</div>
               </div>
-              <div>{replyToMessage.body}</div>
-            </div>
-          )}
-          {formattedMessage.isHtml ? (
-            <span
-              dangerouslySetInnerHTML={{
-                __html: formattedMessage.value,
-              }}
-            ></span>
-          ) : (
-            formattedMessage.value
-          )}
-          {isMessageActionsMenuOpen && messageActions.length > 0 && (
-            <div className="actions-dropdown-trigger-container">
-              <button
-                className="actions-dropdown-trigger"
-                onClick={() => {
-                  setIsMessageActionsDropdownOpen(
-                    !isMessageActionsDropdownOpen
-                  );
+            )}
+            {formattedMessage.isHtml ? (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formattedMessage.value,
                 }}
-              >
-                <i className="fa fa-chevron-down" />
-              </button>
-              <Dropdown
-                isOpen={isMessageActionsDropdownOpen}
-                options={messageActions}
-              />
-            </div>
-          )}
+              ></span>
+            ) : (
+              formattedMessage.value
+            )}
+            {isMessageActionsMenuOpen && messageActions.length > 0 && (
+              <div className="actions-dropdown-trigger-container">
+                <button
+                  className="actions-dropdown-trigger"
+                  onClick={() => {
+                    setIsMessageActionsDropdownOpen(
+                      !isMessageActionsDropdownOpen
+                    );
+                  }}
+                >
+                  <i className="fa fa-chevron-down" />
+                </button>
+                <Dropdown
+                  isOpen={isMessageActionsDropdownOpen}
+                  options={messageActions}
+                />
+              </div>
+            )}
+          </div>
+          {formattedMessage.options && renderOptions(formattedMessage.options)}
         </div>
-        {formattedMessage.options && renderOptions(formattedMessage.options)}
+        {isSelf && senderName && (
+          <Avatar name={senderName} style={{ marginLeft: 12 }} />
+        )}
       </div>
-      {isSelf && senderName && (
-        <Avatar name={senderName} style={{ marginLeft: 12 }} />
-      )}
-    </div>
-  );
+    );
+  }
+  return null;
 };
