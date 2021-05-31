@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
@@ -12,7 +12,7 @@ import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
 
-let PAGINATION_THRESHOLD = 150;
+let PAGINATION_THRESHOLD = 200;
 
 const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
@@ -21,6 +21,7 @@ const Mentor = () => {
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
+  const [prevScrollPosition, setPrevScrollPosition] = useState(null);
   const [roomNamesMap, setRoomNamesMap] = useState({});
   const [members, setMembers] = useState({});
   const [accessToken, setAccessToken] = useState("");
@@ -203,6 +204,7 @@ const Mentor = () => {
       element.scrollHeight + element.scrollTop <
       element.clientHeight + PAGINATION_THRESHOLD
     ) {
+      setPrevScrollPosition(element.scrollTop);
       getMessages();
     }
   }, 1000);
@@ -266,6 +268,7 @@ const Mentor = () => {
 
   useEffect(() => {
     if (accessToken && selectedRoomId) {
+      setPrevScrollPosition(null);
       getMessages();
     }
   }, [selectedRoomId, accessToken]);
@@ -283,7 +286,9 @@ const Mentor = () => {
                   accessToken={accessToken}
                   isSelected={room.roomId === selectedRoomId}
                   name={room.name}
-                  onSelect={() => setSelectedRoomId(room.roomId)}
+                  onSelect={() => {
+                    setSelectedRoomId(room.roomId);
+                  }}
                   lastMessage={
                     roomMessages[room.roomId]
                       ? roomMessages[room.roomId][0]
@@ -305,6 +310,7 @@ const Mentor = () => {
           <Messages
             messages={roomMessages[selectedRoomId]}
             selfChatId={chat_id}
+            prevScrollPosition={prevScrollPosition}
             onScroll={(e) => {
               handleScroll(e.target);
             }}

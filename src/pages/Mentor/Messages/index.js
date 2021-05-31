@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Message from "../Message";
 import format from "date-fns/format";
 import { getMemberName, getAreDatesOnDifferentDays } from "../utils";
@@ -12,9 +12,18 @@ export default ({
   onSendMessage,
   deleteMessage,
   activateReplyToMessageState,
+  prevScrollPosition,
 }) => {
+  const messagesRef = useRef();
+
+  useEffect(() => {
+    if (prevScrollPosition) {
+      messagesRef.current.scrollTop = prevScrollPosition;
+    }
+  }, [messages && messages.length]);
+
   return (
-    <div className="messages" onScroll={onScroll}>
+    <div className="messages" onScroll={onScroll} ref={messagesRef}>
       <div className="messages-content">
         {messages &&
           messages
@@ -34,14 +43,13 @@ export default ({
               );
 
               return (
-                <>
+                <React.Fragment key={message.event_id}>
                   {shouldDisplayDayMarker && (
                     <div className="messages-day-marker">
                       {format(new Date(message.origin_server_ts), "do MMM")}
                     </div>
                   )}
                   <Message
-                    key={message.event_id}
                     deleteMessage={deleteMessage}
                     members={members}
                     onSendMessage={onSendMessage}
@@ -50,7 +58,7 @@ export default ({
                     message={message}
                     isSelf={message.sender.indexOf(selfChatId) > -1}
                   />
-                </>
+                </React.Fragment>
               );
             })}
       </div>
