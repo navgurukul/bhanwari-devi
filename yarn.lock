@@ -4469,6 +4469,11 @@ domhandler@^3.0.0, domhandler@^3.3.0:
   dependencies:
     domelementtype "^2.0.1"
 
+dompurify@^2.2.8:
+  version "2.2.8"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/dompurify/-/dompurify-2.2.8.tgz#ce88e395f6d00b6dc53f80d6b2a6fdf5446873c6"
+  integrity sha1-zojjlfbQC23FP4DWsqb99URoc8Y=
+
 domutils@1.5.1:
   version "1.5.1"
   resolved "https://registry.npmjs.org/domutils/-/domutils-1.5.1.tgz"

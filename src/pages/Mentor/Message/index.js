@@ -3,8 +3,13 @@ import { format } from "date-fns";
 import _ from "lodash";
 import Avatar from "../../../components/common/Avatar";
 import Dropdown from "../../../components/common/Dropdown";
+import createDOMPurify from "dompurify";
 import "./styles.scss";
+import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
+
+const window = new JSDOM("").window;
+const DOMPurify = createDOMPurify(window);
 
 const getMessageClass = (type, isSelf) => {
   let messageClass = "chat-message";
@@ -93,15 +98,6 @@ export default ({
           activateReplyToMessageState(formattedMessage.event_id);
         },
       });
-
-      // if (!isSelf) {
-      //   messageActions.push({
-      //     label: "Report message",
-      //     value: "report",
-      //     className: "danger-option",
-      //     onClick: () => {},
-      //   });
-      // }
     }
 
     const replyToMessage = _.get(
@@ -173,15 +169,11 @@ export default ({
                 <div>{replyToMessage.body}</div>
               </div>
             )}
-            {formattedMessage.isHtml ? (
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: formattedMessage.value,
-                }}
-              ></span>
-            ) : (
-              formattedMessage.value
-            )}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(formattedMessage.value),
+              }}
+            ></span>
             {isMessageActionsMenuOpen && messageActions.length > 0 && (
               <div className="actions-dropdown-trigger-container">
                 <button
