@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 function PartnerDashboard() {
   const [partners, setPartners] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
@@ -19,6 +20,11 @@ function PartnerDashboard() {
         setPartners(res.data);
       });
   }, []);
+
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value);
+  };
 
   // API CALL FOR GET partners DATA
   // useEffect(() => {
@@ -36,6 +42,14 @@ function PartnerDashboard() {
 
   return (
     <>
+      <div className="table-search">
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={handleSearchChange}
+          value={searchTerm}
+        />
+      </div>
       <table className="Partner-dashboard">
         <thead>
           <tr>
@@ -44,25 +58,35 @@ function PartnerDashboard() {
           </tr>
         </thead>
 
-        {partners.map((item) => {
-          return (
-            <tr key={item.id}>
-              <td>
-                <Link
-                  className="Link"
-                  style={{ textDecoration: "none", border: "none" }}
-                  to={`${PATHS.PARTNERS}/${item.id}`}
-                >
-                  <td className="t-data" data-column=" Name">
-                    {" "}
-                    {item.name}
-                  </td>
-                </Link>
-              </td>
-              <td data-column="Number of students">{item.users}</td>{" "}
-            </tr>
-          );
-        })}
+        {partners
+          .filter((searchValue) => {
+            if (searchTerm == "") {
+              return searchValue;
+            } else if (
+              searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return searchValue;
+            }
+          })
+          .map((item) => {
+            return (
+              <tr key={item.id}>
+                <td>
+                  <Link
+                    className="Link"
+                    style={{ textDecoration: "none", border: "none" }}
+                    to={`${PATHS.PARTNERS}/${item.id}`}
+                  >
+                    <td className="t-data" data-column=" Name">
+                      {" "}
+                      {item.name}
+                    </td>
+                  </Link>
+                </td>
+                <td data-column="Number of students">{item.users}</td>{" "}
+              </tr>
+            );
+          })}
       </table>
     </>
   );

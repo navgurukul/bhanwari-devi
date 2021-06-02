@@ -33,8 +33,9 @@ function StudentClassData(props) {
             <td data-column="Language">{languageMap[item.lang]}</td>
             <td data-column="Facilitator Name">{item.facilitator_name}</td>
             <td data-column="Title">{item.title}</td>
-
-            <td data-column="Feedback">{item.feedback.feedback}</td>
+            <td data-column="Feedback">
+              {item.feedback.feedback || "" ? item.feedback.feedback : "NA"}{" "}
+            </td>
           </tr>
         );
       })}

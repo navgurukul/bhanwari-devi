@@ -1,3 +1,17 @@
+.table-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  input {
+    padding: 5px;
+    height: 25px;
+    width: 20%;
+    border: 2px solid #83b344;
+    border-radius: 5px;
+    font-size: 15px;
+  }
+}
 .Partner-dashboard {
   width: 850px;
   border-collapse: collapse;
