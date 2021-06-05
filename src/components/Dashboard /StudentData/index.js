@@ -26,7 +26,6 @@ function StudentData() {
         headers: { Authorization: user.data.token },
       })
       .then((res) => {
-        // console.log(res, "DATA-------");
         setStudents(res.data);
       });
   }, []);
@@ -74,6 +73,7 @@ function StudentData() {
             .map((item) => {
               const classEnrollDate =
                 item.created_at && item.created_at.replace("Z", "");
+
               return (
                 <tr key={item.id}>
                   <td>
@@ -111,12 +111,16 @@ function StudentData() {
                   <td>
                     {item.classes_registered &&
                     item.classes_registered.length > 0 &&
-                    item.classes_registered[item.classes_registered.length - 1][
-                      "end_time"
-                    ] != ""
-                      ? item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["end_time"]
+                    moment(
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["end_time"].replace("Z", "")
+                    ).format("DD-MM-YYYY") != ""
+                      ? moment(
+                          item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["end_time"].replace("Z", "")
+                        ).format("DD-MM-YYYY")
                       : "NA"}
                   </td>
                 </tr>

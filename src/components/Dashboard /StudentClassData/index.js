@@ -10,7 +10,6 @@ function StudentClassData(props) {
     ta: "Tamil",
   };
 
-  // console.log(props.location.state.pass, "....");
   return (
     <table className="student-class-table">
       <thead>

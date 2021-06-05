@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./styles.scss";
+// import { METHODS } from "../../../services/api";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../constant";
 import { useSelector } from "react-redux";
@@ -16,7 +17,6 @@ function PartnerDashboard() {
         headers: { Authorization: user.data.token },
       })
       .then((res) => {
-        // console.log(res, "PATNER NAME");
         setPartners(res.data);
       });
   }, []);
@@ -36,7 +36,7 @@ function PartnerDashboard() {
   //       Authorization: user.data.token,
   //     },
   //   }).then((res) => {
-  //     setPartners(res.data.data);
+  //     setPartners(res.data);
   //   });
   // }, []);
 
@@ -68,13 +68,14 @@ function PartnerDashboard() {
               return searchValue;
             }
           })
+
           .map((item) => {
             return (
               <tr key={item.id}>
                 <td>
                   <Link
                     className="Link"
-                    style={{ textDecoration: "none", border: "none" }}
+                    style={{ textDecoration: "none" }}
                     to={`${PATHS.PARTNERS}/${item.id}`}
                   >
                     <td className="t-data" data-column=" Name">
