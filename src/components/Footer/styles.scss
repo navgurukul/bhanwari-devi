@@ -1,22 +1,15 @@
-.ng-footer {
-  width: 100%;
-  position: sticky;
-  background-color: #e7e4e4;
-  color: white;
-  height: 80px;
-
-  // text-align: center
-}
-
 .footer {
-  padding: 30px;
+  padding: 30px 60px;
+  display: flex;
+  background-color: rgba(163, 163, 163, 0.2);
+  border-top: rgba(163, 163, 163, 0.4);
+  justify-content: flex-end;
 
   > .footer-link {
     font-family: Rubik;
     font-style: normal;
-    font-size: 20px;
-    // margin-left: 18%;
     text-decoration: none;
+    font-size: 14px;
     cursor: pointer;
     color: #191b26;
     font-weight: 400;
