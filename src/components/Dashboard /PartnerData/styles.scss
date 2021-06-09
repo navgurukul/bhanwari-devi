@@ -1,6 +1,5 @@
 .table-search {
   display: flex;
-
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -27,12 +26,10 @@ tr:nth-of-type(odd) {
 
 th {
   background: #83b344;
-  // color: white;
-  // font-size: 20px;
 }
 
 .t-data {
-  border: none;
+  text-decoration: none;
   color: #000;
 }
 
@@ -56,6 +53,10 @@ tr:hover {
     width: 100%;
   }
 
+  .table-search > input {
+    width: 75%;
+  }
+
   /* Force table to not be like tables anymore */
   .Partner-dashboard,
   thead,
@@ -74,7 +75,7 @@ tr:hover {
   }
 
   tr {
-    // border: 1px solid #ccc;
+    border: 1px solid #ccc;
   }
 
   td {
@@ -97,6 +98,5 @@ tr:hover {
     /* Label the data */
     content: attr(data-column);
     color: #000;
-    font-weight: bold;
   }
 }

@@ -1,44 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./styles.scss";
-// import { METHODS } from "../../../services/api";
+import { METHODS } from "../../../services/api";
 import { Link } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 import { PATHS } from "../../../constant";
 import { useSelector } from "react-redux";
 
 function PartnerDashboard() {
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedText] = useDebounce(searchTerm);
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
-    axios
-      .get(` https://api.merakilearn.org/partners`, {
-        headers: { Authorization: user.data.token },
-      })
-      .then((res) => {
-        setPartners(res.data);
-      });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setPartners(res.data);
+    });
   }, []);
-
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    setSearchTerm(e.target.value);
-  };
-
-  // API CALL FOR GET partners DATA
-  // useEffect(() => {
-  //   axios({
-  //     method: METHODS.GET,
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: user.data.token,
-  //     },
-  //   }).then((res) => {
-  //     setPartners(res.data);
-  //   });
-  // }, []);
 
   return (
     <>
@@ -46,15 +32,17 @@ function PartnerDashboard() {
         <input
           type="text"
           placeholder="Search..."
-          onChange={handleSearchChange}
-          value={searchTerm}
+          value={debouncedText}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
         />
       </div>
       <table className="Partner-dashboard">
         <thead>
           <tr>
             <th>Partners Name</th>
-            <th> Number of students</th>
+            <th>Number of students</th>
           </tr>
         </thead>
 
@@ -68,23 +56,16 @@ function PartnerDashboard() {
               return searchValue;
             }
           })
-
           .map((item) => {
             return (
               <tr key={item.id}>
-                <td>
-                  <Link
-                    className="Link"
-                    style={{ textDecoration: "none" }}
-                    to={`${PATHS.PARTNERS}/${item.id}`}
-                  >
-                    <td className="t-data" data-column=" Name">
-                      {" "}
-                      {item.name}
-                    </td>
+                <td data-column="Name">
+                  <Link className="t-data" to={`${PATHS.PARTNERS}/${item.id}`}>
+                    {" "}
+                    {item.name}
                   </Link>
                 </td>
-                <td data-column="Number of students">{item.users}</td>{" "}
+                <td data-column="Total students">{item.users}</td>
               </tr>
             );
           })}

@@ -15,8 +15,7 @@ th {
   font-size: 20px;
 }
 
-.T-data {
-  border: none;
+.t-data {
   text-decoration: none;
   color: #000;
   width: 20%px;
@@ -83,6 +82,5 @@ tr:hover {
     /* Label the data */
     content: attr(data-column);
     color: #000;
-    font-weight: bold;
   }
 }
