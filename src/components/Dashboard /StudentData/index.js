@@ -17,6 +17,7 @@ const getPartnerIdFromUrl = () => {
 
 function StudentData() {
   const [students, setStudents] = useState([]);
+  const [message, setMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
   const user = useSelector(({ User }) => User);
@@ -31,23 +32,27 @@ function StudentData() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      const data = res.data.map((item) => {
-        return {
-          ...item,
-          created_at: moment(item.created_at.replace("Z", "")).format(
-            "DD-MM-YYYY"
-          ),
-          classes_registered: item.classes_registered.map((item) => {
-            return {
-              ...item,
-              end_time: moment(item.end_time.replace("Z", "")).format(
-                "DD-MM-YYYY"
-              ),
-            };
-          }),
-        };
-      });
-      setStudents(data);
+      if (res.data.length < 1) {
+        setMessage("There are no results to display");
+      } else {
+        const data = res.data.map((item) => {
+          return {
+            ...item,
+            created_at: moment(item.created_at.replace("Z", "")).format(
+              "DD-MM-YYYY"
+            ),
+            classes_registered: item.classes_registered.map((item) => {
+              return {
+                ...item,
+                end_time: moment(item.end_time.replace("Z", "")).format(
+                  "DD-MM-YYYY"
+                ),
+              };
+            }),
+          };
+        });
+        setStudents(data);
+      }
     });
   }, []);
 
@@ -128,6 +133,7 @@ function StudentData() {
               </tr>
             );
           })}
+        {message ? <h3 className="message">{message}</h3> : null}
       </table>
     </>
   );

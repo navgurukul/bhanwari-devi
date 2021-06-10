@@ -35,6 +35,12 @@ tr:hover {
   cursor: pointer;
 }
 
+.message {
+  font-size: 20px;
+  font-family: Rubik;
+  font-style: normal;
+}
+
 @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
   .student-overview-table {
