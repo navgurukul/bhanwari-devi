@@ -107,7 +107,7 @@ function PartnerDashboard() {
                 <td data-column="Total students">{item.users}</td>
 
                 {item.meraki_link ? (
-                  <td data-column="Total students">
+                  <td data-column="Meraki Link">
                     <a
                       className="meraki_link"
                       target="_blank"
@@ -118,7 +118,7 @@ function PartnerDashboard() {
                     </a>
                   </td>
                 ) : (
-                  <td data-column="Total students">
+                  <td data-column="Meraki Link">
                     <div
                       className="create"
                       onClick={() => createMerakiLink(item.id)}
