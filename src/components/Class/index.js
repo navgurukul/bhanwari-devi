@@ -183,7 +183,13 @@ function Class({ classToEdit }) {
     };
 
     for (let [fieldName, value] of formData.entries()) {
-      if (value) formFields[fieldName] = value;
+      if (value) {
+        if (fieldName === "max-enrolment") {
+          formFields[fieldName] = Number(value);
+        } else {
+          formFields[fieldName] = value;
+        }
+      }
     }
 
     handleTimeValidationAndCreateClass(formFields);
@@ -346,6 +352,15 @@ function Class({ classToEdit }) {
                   );
                 })}
               </select>
+              <label htmlFor="max_enrolment">Maximum Enrollments</label>
+              <input
+                className="input-field"
+                type="number"
+                name="max_enrolment"
+                id="max_enrolment"
+                min="1"
+                placeholder="Maximum students per class"
+              />
               <button type="submit" className="submit" disabled={loading}>
                 {loading ? (
                   <Loader />
