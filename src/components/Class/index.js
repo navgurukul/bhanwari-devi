@@ -184,7 +184,7 @@ function Class({ classToEdit }) {
 
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
-        if (fieldName === "max-enrolment") {
+        if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
         } else {
           formFields[fieldName] = value;
