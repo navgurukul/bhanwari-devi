@@ -9,4 +9,7 @@ export const PATHS = {
   EXERCISE: "/exercise/:exerciseId",
   USER: "/user",
   PRIVACY_POLICY: "/privacy",
+  PARTNERS: "/partners",
+  PARTNER_DATA: "/partners/:partnerId",
+  STUDENT: "/student",
 };

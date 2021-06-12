@@ -146,6 +146,7 @@ function ClassCard({ item, editClass }) {
         <p>Facilitator Name : {item.facilitator.name} </p>
         <p>Language : {languageMap[item.lang]} </p>
         <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
+        {/* {item.email} */}
         <p>
           Time:{moment(classStartTime).format("hh:mm a")} -{" "}
           {moment(classEndTime).format("hh:mm a")}
