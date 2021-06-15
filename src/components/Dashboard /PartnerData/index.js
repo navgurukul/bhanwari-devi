@@ -25,7 +25,10 @@ function PartnerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setPartners(res.data);
+      const orderedData = res.data.sort((a, b) => {
+        return b.users - a.users;
+      });
+      setPartners(orderedData);
     });
   }, []);
 
