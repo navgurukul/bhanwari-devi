@@ -100,3 +100,29 @@ tr:hover {
     color: #000;
   }
 }
+
+.meraki_link {
+  text-decoration: none;
+  color: green;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.create {
+  width: 90px;
+  height: 30px;
+  margin-left: 10px;
+  margin-top: 6px;
+  background-color: #83b344;
+  color: #ffffff;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
