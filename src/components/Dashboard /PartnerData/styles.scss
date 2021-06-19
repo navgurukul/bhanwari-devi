@@ -1,0 +1,128 @@
+.table-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  input {
+    padding: 5px;
+    height: 25px;
+    width: 20%;
+    border: 2px solid #83b344;
+    border-radius: 5px;
+    font-size: 15px;
+  }
+}
+.Partner-dashboard {
+  width: 850px;
+  border-collapse: collapse;
+  margin: 40px auto;
+  box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Zebra striping */
+tr:nth-of-type(odd) {
+  background: #eee;
+}
+
+th {
+  background: #83b344;
+}
+
+.t-data {
+  text-decoration: none;
+  color: #000;
+}
+
+td,
+th {
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-family: Rubik;
+  font-style: normal;
+  font-size: 19px;
+}
+
+tr:hover {
+  background-color: #dddddd;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  .Partner-dashboard {
+    width: 100%;
+  }
+
+  .table-search > input {
+    width: 75%;
+  }
+
+  /* Force table to not be like tables anymore */
+  .Partner-dashboard,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid #ccc;
+  }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    /* Label the data */
+    content: attr(data-column);
+    color: #000;
+  }
+}
+
+.meraki_link {
+  text-decoration: none;
+  color: green;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.create {
+  width: 90px;
+  height: 30px;
+  margin-left: 10px;
+  margin-top: 6px;
+  background-color: #83b344;
+  color: #ffffff;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}

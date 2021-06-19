@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import LinkifyHtml from "linkifyjs/html";
+
 import { format } from "date-fns";
 import _ from "lodash";
 import Avatar from "../../../components/common/Avatar";
@@ -32,10 +34,8 @@ export default ({
   members,
 }) => {
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
-  const [
-    isMessageActionsDropdownOpen,
-    setIsMessageActionsDropdownOpen,
-  ] = useState(false);
+  const [isMessageActionsDropdownOpen, setIsMessageActionsDropdownOpen] =
+    useState(false);
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
@@ -46,7 +46,6 @@ export default ({
         return {
           ...message,
           value: message.content.label,
-          isHtml: true,
           options: message.content.options,
         };
 
@@ -55,7 +54,6 @@ export default ({
         return {
           ...message,
           value: message.content.body,
-          isHtml: false,
         };
     }
   };
@@ -171,7 +169,11 @@ export default ({
             )}
             <span
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(formattedMessage.value),
+                __html: DOMPurify.sanitize(
+                  LinkifyHtml(formattedMessage.value, {
+                    defaultProtocol: "https",
+                  })
+                ),
               }}
             ></span>
             {isMessageActionsMenuOpen && messageActions.length > 0 && (
