@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
 import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
+import Mentor from "../pages/Mentor";
 import User from "../components/User";
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import PartnerData from "../components/Dashboard /PartnerData";
@@ -24,6 +25,7 @@ const Routing = () => {
       <Route exact path={PATHS.COURSE} component={Course} />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
+      <Route exact path={PATHS.MENTOR} component={Mentor} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.PARTNERS} component={PartnerData} />
       <Route exact path={PATHS.PARTNER_DATA} component={StudentData} />

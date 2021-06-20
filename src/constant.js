@@ -7,6 +7,7 @@ export const PATHS = {
   COURSE: "/course",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
+  MENTOR: "/mentor",
   USER: "/user",
   PRIVACY_POLICY: "/privacy",
   PARTNERS: "/partners",
