@@ -17,6 +17,7 @@ const EditOnGithub = (props) => {
 
 const Exercise = (props) => {
   const { selectedExercise } = props;
+  console.log(selectedExercise, "komal");
 
   return (
     <div>

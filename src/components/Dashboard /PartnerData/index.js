@@ -69,71 +69,80 @@ function PartnerDashboard() {
 
   return (
     <>
-      <div className="table-search">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={debouncedText}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-        />
+      <div className="table-container">
+        <div className="container-for-Search">
+          <input
+            className="Search-box"
+            type="text"
+            placeholder="Search..."
+            value={debouncedText}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
+        </div>
+        <table className="table" style={{ marginTop: "20px" }}>
+          <thead>
+            <tr>
+              <th>Partners Name</th>
+              <th>Number of students</th>
+              <th>Meraki Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {partners
+              .filter((searchValue) => {
+                if (searchTerm == "") {
+                  return searchValue;
+                } else if (
+                  searchValue.name
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())
+                ) {
+                  return searchValue;
+                }
+              })
+              .slice(0, 10)
+              .map((item) => {
+                return (
+                  <tr key={item.id}>
+                    <td data-label="Name">
+                      <Link
+                        className="t-data"
+                        to={`${PATHS.PARTNERS}/${item.id}`}
+                      >
+                        {" "}
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td data-label="Total students">{item.users}</td>
+                    {item.meraki_link ? (
+                      <td data-label="Meraki Link">
+                        <a
+                          className="meraki_link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={item.meraki_link}
+                        >
+                          Get Link
+                        </a>
+                      </td>
+                    ) : (
+                      <td data-label="Meraki Link">
+                        <div
+                          className="create"
+                          onClick={() => createMerakiLink(item.id)}
+                        >
+                          Create
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
       </div>
-      <table className="Partner-dashboard">
-        <thead>
-          <tr>
-            <th>Partners Name</th>
-            <th>Number of students</th>
-            <th>Meraki Link</th>
-          </tr>
-        </thead>
-
-        {partners
-          .filter((searchValue) => {
-            if (searchTerm == "") {
-              return searchValue;
-            } else if (
-              searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-            ) {
-              return searchValue;
-            }
-          })
-          .map((item) => {
-            return (
-              <tr key={item.id}>
-                <td data-column="Name">
-                  <Link className="t-data" to={`${PATHS.PARTNERS}/${item.id}`}>
-                    {" "}
-                    {item.name}
-                  </Link>
-                </td>
-                <td data-column="Total students">{item.users}</td>
-
-                {item.meraki_link ? (
-                  <td data-column="Meraki Link">
-                    <a
-                      className="meraki_link"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={item.meraki_link}
-                    >
-                      Get Link
-                    </a>
-                  </td>
-                ) : (
-                  <td data-column="Meraki Link">
-                    <div
-                      className="create"
-                      onClick={() => createMerakiLink(item.id)}
-                    >
-                      Create
-                    </div>
-                  </td>
-                )}
-              </tr>
-            );
-          })}
-      </table>
     </>
   );
 }
