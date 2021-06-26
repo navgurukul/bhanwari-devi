@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 toast.configure();
 
 function PartnerDashboard() {
-  const [pageNumber, setPageNumber] = useState(0); //current page
+  const [pageNumber, setPageNumber] = useState(0);
   const [countPage, setCountPage] = useState(2);
   const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
   const [partners, setPartners] = useState([]);
@@ -21,20 +21,45 @@ function PartnerDashboard() {
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners?limit=${10}&page=${
-        pageNumber + 1
-      }`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      setPartners(res.data);
-      getCountPageNumber(res.data);
-    });
-  }, [pageNumber]);
+    if (searchTerm.length > 0) {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/partners?name=${searchTerm}`,
+        // url: `https://api.merakilearn.org/partners?name=${searchTerm}`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setPartners(res.data);
+      });
+    } else {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/partners?limit=${10}&page=${
+          pageNumber + 1
+        }`,
+        // url:`https://api.merakilearn.org/partners?limit=${10}&page=${pageNumber + 1}`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setPartners(res.data);
+        getCountPageNumber(res.data);
+      });
+    }
+  }, [searchTerm, pageNumber]);
+
+  const Partners = partners.filter((searchValue) => {
+    if (searchTerm == "") {
+      return searchValue;
+    } else if (
+      searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return searchValue;
+    }
+  });
 
   const getCountPageNumber = (response) => {
     if (response.length === 0) {
@@ -86,7 +111,6 @@ function PartnerDashboard() {
       }
     );
   };
-
   return (
     <>
       <div className="table-container">
@@ -127,56 +151,43 @@ function PartnerDashboard() {
             </tr>
           </thead>
           <tbody>
-            {partners
-              .filter((searchValue) => {
-                if (searchTerm == "") {
-                  return searchValue;
-                } else if (
-                  searchValue.name
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
-                ) {
-                  return searchValue;
-                }
-              })
-              .slice(0, 10)
-              .map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <td data-column="Name">
-                      <Link
-                        className="t-data"
-                        to={`${PATHS.PARTNERS}/${item.id}`}
+            {Partners.map((item) => {
+              return (
+                <tr key={item.id}>
+                  <td data-column="Name">
+                    <Link
+                      className="t-data"
+                      to={`${PATHS.PARTNERS}/${item.id}`}
+                    >
+                      {" "}
+                      {item.name}
+                    </Link>
+                  </td>
+                  <td data-column="Total students">{item.users}</td>
+                  {item.meraki_link ? (
+                    <td data-column="Meraki Link">
+                      <a
+                        className="meraki_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={item.meraki_link}
                       >
-                        {" "}
-                        {item.name}
-                      </Link>
+                        Get Link
+                      </a>
                     </td>
-                    <td data-column="Total students">{item.users}</td>
-                    {item.meraki_link ? (
-                      <td data-column="Meraki Link">
-                        <a
-                          className="meraki_link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={item.meraki_link}
-                        >
-                          Get Link
-                        </a>
-                      </td>
-                    ) : (
-                      <td data-column="Meraki Link">
-                        <div
-                          className="create"
-                          onClick={() => createMerakiLink(item.id)}
-                        >
-                          Create Link
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                );
-              })}
+                  ) : (
+                    <td data-column="Meraki Link">
+                      <div
+                        className="create"
+                        onClick={() => createMerakiLink(item.id)}
+                      >
+                        Create Link
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

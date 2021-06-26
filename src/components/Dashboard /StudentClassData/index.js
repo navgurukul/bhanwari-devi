@@ -29,7 +29,7 @@ function StudentClassData(props) {
         }}
       />
 
-      <table className="student-class-table" style={{ marginTop: "30px" }}>
+      <table className="student-class-table">
         <thead>
           <tr>
             <th>Class Title</th>
@@ -54,7 +54,7 @@ function StudentClassData(props) {
                   return searchValue;
                 }
               })
-              .slice(0, 10)
+              // .slice(0, 10)
               .map((item) => {
                 return (
                   <tr key={item.id}>

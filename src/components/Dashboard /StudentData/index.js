@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-// import { METHODS } from "../../services/api";
+import { METHODS } from "../../../services/api";
 import { useDebounce } from "use-debounce";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -24,37 +24,37 @@ function StudentData() {
 
   useEffect(() => {
     let id = getPartnerIdFromUrl();
-    axios
-      .get(`https://api.merakilearn.org/partners/${id}/users`, {
-        headers: { Authorization: user.data.token },
-      })
-      .then((res) => {
-        if (res.data.length < 1) {
-          setMessage("There are no results to display");
-        } else {
-          const data = res.data.map((item) => {
-            return {
-              ...item,
-              created_at: moment(item.created_at.replace("Z", "")).format(
-                "DD-MM-YYYY"
-              ),
-              classes_registered: item.classes_registered.map((item) => {
-                return {
-                  ...item,
-                  start_time: moment(item.start_time.replace("Z", "")).format(
-                    "DD-MM-YYYY"
-                  ),
-                  item,
-                  end_time: moment(item.end_time.replace("Z", "")).format(
-                    "hh:mm a"
-                  ),
-                };
-              }),
-            };
-          });
-          setStudents(data);
-        }
-      });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users`,
+      headers: { accept: "application/json", Authorization: user.data.token },
+    }).then((res) => {
+      if (res.data.length < 1) {
+        setMessage("There are no results to display");
+      } else {
+        const data = res.data.map((item) => {
+          return {
+            ...item,
+            created_at: moment(item.created_at.replace("Z", "")).format(
+              "DD-MM-YYYY"
+            ),
+            classes_registered: item.classes_registered.map((item) => {
+              return {
+                ...item,
+                start_time: moment(item.start_time.replace("Z", "")).format(
+                  "DD-MM-YYYY"
+                ),
+                item,
+                end_time: moment(item.end_time.replace("Z", "")).format(
+                  "hh:mm a"
+                ),
+              };
+            }),
+          };
+        });
+        setStudents(data);
+      }
+    });
   }, []);
 
   return (
@@ -94,7 +94,7 @@ function StudentData() {
                 return searchValue;
               }
             })
-            .slice(0, 10)
+            // .slice(0, 10)
             .map((item) => {
               let getStars = 0;
               let totalStarts = item.classes_registered.length * 5;
@@ -175,7 +175,7 @@ function StudentData() {
                 </tr>
               );
             })}
-          {message ? <h1>{message}</h1> : null}
+          {message ? <h1 className="Message">{message}</h1> : null}
         </tbody>
       </table>
     </div>
