@@ -12,9 +12,9 @@ const AuthenticatedHeaderOption = () => {
     <>
       {flag ? (
         <>
-          {/* <a className="link" href={PATHS.USER}>
+          <a className="link" href={PATHS.USER}>
             User
-          </a> */}
+          </a>
           <a className="link" href={PATHS.PARTNERS}>
             Partners
           </a>
@@ -27,12 +27,9 @@ const AuthenticatedHeaderOption = () => {
       <a className="link" href={PATHS.CLASS}>
         Classes
       </a>
-      {/* <a className="link" href={PATHS.PARTNERS}>
-      Partners
-      </a> */}
-      {/* <div className="logout" onClick={() => dispatch(userActions.logout())}>
+      <div className="logout" onClick={() => dispatch(userActions.logout())}>
         Logout
-      </div> */}
+      </div>
     </>
   );
 };

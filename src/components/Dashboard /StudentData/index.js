@@ -69,7 +69,7 @@ function StudentData() {
         }}
       />
 
-      <table className="student-overview-table" style={{ marginTop: "30px" }}>
+      <table className="student-overview-table">
         <thead>
           <tr>
             <th>Students Name</th>

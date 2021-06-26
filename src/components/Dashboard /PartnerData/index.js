@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import ReactPaginate from "react-paginate";
 import "./styles.scss";
 import { METHODS } from "../../../services/api";
 import { Link } from "react-router-dom";
@@ -11,6 +12,9 @@ import { toast } from "react-toastify";
 toast.configure();
 
 function PartnerDashboard() {
+  const [pageNumber, setPageNumber] = useState(0); //current page
+  const [countPage, setCountPage] = useState(2);
+  const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
@@ -19,18 +23,34 @@ function PartnerDashboard() {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners?limit=${10}&page=${
+        pageNumber + 1
+      }`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then((res) => {
-      const orderedData = res.data.sort((a, b) => {
-        return b.users - a.users;
-      });
-      setPartners(orderedData);
+      setPartners(res.data);
+      getCountPageNumber(res.data);
     });
-  }, []);
+  }, [pageNumber]);
+
+  const getCountPageNumber = (response) => {
+    if (response.length === 0) {
+      setIsUpdateCountPage(false);
+    } else if (isUpdateCountPage) {
+      if (pageNumber > 10) {
+        setCountPage(pageNumber + 1);
+      } else {
+        setCountPage((preState) => preState + 1);
+      }
+    }
+  };
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   const createMerakiLink = (id) => {
     axios({
@@ -71,17 +91,34 @@ function PartnerDashboard() {
     <>
       <div className="table-container">
         <div className="container-for-Search">
-          <input
-            className="Search-box"
-            type="text"
-            placeholder="Search..."
-            value={debouncedText}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
-          />
+          <div>
+            <input
+              className="Search-box"
+              type="text"
+              placeholder="Search..."
+              value={debouncedText}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
+            />
+          </div>
+          <div className="last-item">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              initialPage={0}
+              marginPagesDisplayed={0}
+              onPageChange={changePage}
+              pageCount={countPage}
+              containerClassName={"paginationBttns"}
+              previousLinkClassName={"previousBttn"}
+              nextLinkClassName={"nextBttn"}
+              disabledClassName={"paginationDisabled"}
+              activeClassName={"paginationActive"}
+            />
+          </div>
         </div>
-        <table className="table" style={{ marginTop: "20px" }}>
+        <table className="table">
           <thead>
             <tr>
               <th>Partners Name</th>
@@ -106,7 +143,7 @@ function PartnerDashboard() {
               .map((item) => {
                 return (
                   <tr key={item.id}>
-                    <td data-label="Name">
+                    <td data-column="Name">
                       <Link
                         className="t-data"
                         to={`${PATHS.PARTNERS}/${item.id}`}
@@ -115,9 +152,9 @@ function PartnerDashboard() {
                         {item.name}
                       </Link>
                     </td>
-                    <td data-label="Total students">{item.users}</td>
+                    <td data-column="Total students">{item.users}</td>
                     {item.meraki_link ? (
-                      <td data-label="Meraki Link">
+                      <td data-column="Meraki Link">
                         <a
                           className="meraki_link"
                           target="_blank"
@@ -128,12 +165,12 @@ function PartnerDashboard() {
                         </a>
                       </td>
                     ) : (
-                      <td data-label="Meraki Link">
+                      <td data-column="Meraki Link">
                         <div
                           className="create"
                           onClick={() => createMerakiLink(item.id)}
                         >
-                          Create
+                          Create Link
                         </div>
                       </td>
                     )}
