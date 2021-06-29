@@ -8,6 +8,7 @@ import { useDebounce } from "use-debounce";
 import { PATHS } from "../../../constant";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { BsArrowUpDown } from "react-icons/bs";
 
 toast.configure();
 
@@ -17,6 +18,10 @@ function PartnerDashboard() {
   const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [ascendingPartnersNames, setAscendingPartnersNames] = useState(true);
+  const [ascendingPartnerStudentsNumber, setAscendingPartnerStudentsNumber] =
+    useState(true);
+  const [ascendingAlphabetically, setAsscendingAlphabetically] = useState(true);
   const [debouncedText] = useDebounce(searchTerm);
   const user = useSelector(({ User }) => User);
 
@@ -24,8 +29,8 @@ function PartnerDashboard() {
     if (searchTerm.length > 0) {
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/partners?name=${searchTerm}`,
-        // url: `https://api.merakilearn.org/partners?name=${searchTerm}`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/partners?name=${searchTerm}`,
+        url: `https://api.merakilearn.org/partners?name=${searchTerm}`,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
@@ -36,10 +41,12 @@ function PartnerDashboard() {
     } else {
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/partners?limit=${10}&page=${
+        // url: `${process.env.REACT_APP_MERAKI_URL}/partners?limit=${10}&page=${
+        //   pageNumber + 1
+        // }`,
+        url: `https://api.merakilearn.org/partners?limit=${10}&page=${
           pageNumber + 1
         }`,
-        // url:`https://api.merakilearn.org/partners?limit=${10}&page=${pageNumber + 1}`,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
@@ -61,6 +68,38 @@ function PartnerDashboard() {
     }
   });
 
+  const partnersData = (item) => {
+    return (
+      <tr key={item.id}>
+        <td data-column="Name">
+          <Link className="t-data" to={`${PATHS.PARTNERS}/${item.id}`}>
+            {" "}
+            {item.name}
+          </Link>
+        </td>
+        <td data-column="Total students">{item.users}</td>
+        {item.meraki_link ? (
+          <td data-column="Meraki Link">
+            <a
+              className="meraki_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={item.meraki_link}
+            >
+              Get Link
+            </a>
+          </td>
+        ) : (
+          <td data-column="Meraki Link">
+            <div className="create" onClick={() => createMerakiLink(item.id)}>
+              Create Link
+            </div>
+          </td>
+        )}
+      </tr>
+    );
+  };
+
   const getCountPageNumber = (response) => {
     if (response.length === 0) {
       setIsUpdateCountPage(false);
@@ -75,6 +114,16 @@ function PartnerDashboard() {
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
+  };
+
+  const sortByName = () => {
+    setAscendingPartnersNames(!ascendingPartnersNames);
+    setAsscendingAlphabetically(true);
+  };
+
+  const sortByNumber = () => {
+    setAscendingPartnerStudentsNumber(!ascendingPartnerStudentsNumber);
+    setAsscendingAlphabetically(false);
   };
 
   const createMerakiLink = (id) => {
@@ -145,13 +194,31 @@ function PartnerDashboard() {
         <table className="table">
           <thead>
             <tr>
-              <th>Partners Name</th>
-              <th>Number of students</th>
+              <th>
+                Partners Name
+                <button
+                  type="button"
+                  onClick={sortByName}
+                  className="sortNameButton"
+                >
+                  <BsArrowUpDown />
+                </button>
+              </th>
+              <th>
+                Number of students
+                <button
+                  type="button"
+                  onClick={sortByNumber}
+                  className="sortNumberButton"
+                >
+                  <BsArrowUpDown />
+                </button>
+              </th>
               <th>Meraki Link</th>
             </tr>
           </thead>
           <tbody>
-            {Partners.map((item) => {
+            {/* {Partners.map((item) => {
               return (
                 <tr key={item.id}>
                   <td data-column="Name">
@@ -187,7 +254,26 @@ function PartnerDashboard() {
                   )}
                 </tr>
               );
-            })}
+            })} */}
+            {ascendingAlphabetically
+              ? ascendingPartnersNames
+                ? Partners.map((item) => {
+                    return partnersData(item);
+                  })
+                : Partners.reverse().map((item) => {
+                    return partnersData(item);
+                  })
+              : ascendingPartnerStudentsNumber
+              ? Partners.sort(function (a, b) {
+                  return b.users - a.users;
+                }).map((item) => {
+                  return partnersData(item);
+                })
+              : Partners.sort(function (a, b) {
+                  return a.users - b.users;
+                }).map((item) => {
+                  return partnersData(item);
+                })}
           </tbody>
         </table>
       </div>
