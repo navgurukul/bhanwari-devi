@@ -54,6 +54,7 @@ const RenderContent = ({ data }) => {
 
 function ExerciseContent(props) {
   const { content = [] } = props;
+  // console.log(content,'content')
 
   if (!content) {
     return "";
