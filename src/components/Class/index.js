@@ -22,6 +22,7 @@ const {
   LANG,
   TYPE,
   COURSE_ID,
+  PATHWAY_ID,
 } = CLASS_FIELDS;
 
 function Class({ classToEdit }) {
@@ -37,6 +38,7 @@ function Class({ classToEdit }) {
     start_time,
     end_time,
     course_id,
+    pathway_id,
   } = classToEdit;
 
   const initialFormState = useRef({
@@ -56,6 +58,7 @@ function Class({ classToEdit }) {
     [LANG]: lang || "hi",
     [TYPE]: type || "doubt_class",
     [COURSE_ID]: course_id || "",
+    [PATHWAY_ID]: pathway_id || "",
   });
 
   const user = useSelector(({ User }) => User);
@@ -100,13 +103,13 @@ function Class({ classToEdit }) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/courses`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setAllCourse(res.data.courses);
+      setAllCourse(res.data.pathways);
     });
   }, []);
 
@@ -331,18 +334,18 @@ function Class({ classToEdit }) {
                 <option value="workshop">Workshop</option>
                 <option value="doubt_class">Doubt Class</option>
               </select>
-              <label htmlFor="course_id">Select Course</label>
+              <label htmlFor="pathway_id">Select Pathway</label>
               <select
                 className="create-class-select"
-                name={COURSE_ID}
-                value={formFieldsState[COURSE_ID]}
+                name={PATHWAY_ID}
+                value={formFieldsState[PATHWAY_ID]}
                 onChange={(e) => {
-                  setFormField(e.target.value, COURSE_ID);
+                  setFormField(e.target.value, PATHWAY_ID);
                 }}
-                id="course_id"
+                id="pathway_id"
               >
                 <option value="" disabled>
-                  Select a course from options below
+                  Select a pathway from options below
                 </option>
                 {allCourse.map((item, index) => {
                   return (
@@ -352,6 +355,36 @@ function Class({ classToEdit }) {
                   );
                 })}
               </select>
+              {formFieldsState[PATHWAY_ID] &&
+                allCourse.map((item) => {
+                  if (formFieldsState[PATHWAY_ID] == item.id) {
+                    return (
+                      <>
+                        <label htmlFor="course_id">Select Course</label>
+                        <select
+                          className="create-class-select"
+                          name={COURSE_ID}
+                          value={formFieldsState[COURSE_ID]}
+                          onChange={(e) => {
+                            setFormField(e.target.value, COURSE_ID);
+                          }}
+                          id="course_id"
+                        >
+                          <option value="" disabled>
+                            Select a course from options below
+                          </option>
+                          {item.courses.map((course, index) => {
+                            return (
+                              <option key={index} value={course.id}>
+                                {course.name}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </>
+                    );
+                  }
+                })}
               <label htmlFor="max_enrolment">Maximum Enrollments</label>
               <input
                 className="input-field"
