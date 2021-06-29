@@ -25,7 +25,7 @@ const RenderContent = ({ data }) => {
         astPlugins={[parseHtml]}
       />
     );
-  } else if (data.type === "python") {
+  } else if (data.type === "python" || "javascript") {
     return (
       <code className="language-python code-block">
         {" "}
@@ -46,6 +46,8 @@ const RenderContent = ({ data }) => {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
   } else if (data.type === "youtube") {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
+  } else if (data.type === "image") {
+    return <img className="image" src={get(data, "value.url")} alt="content" />;
   }
   return "";
 };
