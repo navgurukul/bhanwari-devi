@@ -46,15 +46,12 @@ const RenderContent = ({ data }) => {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
   } else if (data.type === "youtube") {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
-  } else if (data.type === "image") {
-    return <img className="image" src={get(data, "value.url")} alt="content" />;
   }
   return "";
 };
 
 function ExerciseContent(props) {
   const { content = [] } = props;
-  // console.log(content,'content')
 
   if (!content) {
     return "";
