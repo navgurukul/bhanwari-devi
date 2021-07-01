@@ -34,22 +34,19 @@
     }
   }
 
-  .table th {
+  .table-content th {
     background-color: #ffffff;
     color: black;
   }
 
-  .table {
-    width: 850px;
+  td,
+  th {
+    padding: 11px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+  }
+
+  .table-content {
     border-collapse: collapse;
-    margin: 40px auto;
-    // box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
   }
 }
-
-// @media only screen and (max-width: 760px),
-//   (min-device-width: 768px) and (max-device-width: 1024px) {
-//   .table {
-//     width: 50%;
-//   }
-// }
