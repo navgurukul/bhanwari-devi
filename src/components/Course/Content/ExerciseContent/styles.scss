@@ -33,4 +33,20 @@
       height: 200px;
     }
   }
+
+  .table-content th {
+    background-color: #ffffff;
+    color: black;
+  }
+
+  td,
+  th {
+    padding: 11px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+  }
+
+  .table-content {
+    border-collapse: collapse;
+  }
 }
