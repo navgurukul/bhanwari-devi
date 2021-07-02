@@ -344,9 +344,7 @@ function Class({ classToEdit }) {
                 }}
                 id="pathway_id"
               >
-                <option value="" disabled>
-                  Select a pathway from options below
-                </option>
+                <option value="">Select a pathway from options below</option>
                 {allCourse.map((item, index) => {
                   return (
                     <option key={index} value={item.id}>
@@ -370,7 +368,7 @@ function Class({ classToEdit }) {
                           }}
                           id="course_id"
                         >
-                          <option value="" disabled>
+                          <option value="">
                             Select a course from options below
                           </option>
                           {item.courses.map((course, index) => {
