@@ -1,0 +1,131 @@
+.chat-message {
+  padding: 16px;
+  border-radius: 12px;
+  line-height: 1.4;
+  border-bottom-left-radius: 0;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  font-weight: 500;
+  padding-right: 48px;
+  position: relative;
+
+  &-other {
+    align-self: flex-start;
+    background-color: #f6f8fa;
+  }
+
+  &-self {
+    align-self: flex-end;
+    background-color: #e8e8e8;
+  }
+
+  &-action {
+    background-color: transparent;
+    color: #626667;
+    font-style: italic;
+    align-self: center;
+    box-shadow: none;
+  }
+
+  .reply-to-header {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  .reply-to-container {
+    border-left: 3px solid #b8bcbd;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  .actions-dropdown-trigger-container {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+  }
+
+  .actions-dropdown-trigger {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-right: 16px;
+  }
+}
+
+.option-button {
+  background-color: #d63447;
+  border-radius: 4px;
+  display: block;
+  align-self: flex-start;
+  color: #fff;
+  padding: 0 16px;
+  height: 60px;
+  font-weight: bold;
+  font-size: 16px;
+  border: 0;
+  margin-top: 12px;
+  cursor: pointer;
+  min-width: 200px;
+  transition: background-color 0.2s linear;
+
+  &:hover {
+    background-color: darken(#d63447, 10%);
+  }
+
+  &-self {
+    align-self: flex-start;
+  }
+}
+
+.danger-option {
+  color: #d63447;
+}
+
+.chat-message-container {
+  display: flex;
+  margin: 12px 0;
+
+  &-other {
+    align-self: flex-start;
+  }
+
+  &-self {
+    align-self: flex-end;
+  }
+}
+
+.chat-message-sender {
+  font-size: 13px;
+  color: gray;
+
+  &-self {
+    text-align: right;
+  }
+}
+
+.message-header {
+  display: flex;
+  margin-bottom: 8px;
+  justify-content: flex-end;
+
+  &-other {
+    justify-content: flex-start;
+  }
+}
+
+.message-time {
+  margin-right: 16px;
+  color: gray;
+  font-size: 13px;
+
+  &-other {
+    margin-left: 16px;
+  }
+}

@@ -1,0 +1,32 @@
+.messages {
+  flex: 1;
+  background-color: white;
+  border-top: 1px solid #ddd;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column-reverse;
+  word-break: break-word;
+  max-height: calc(100vh - 112px);
+  overflow: auto;
+
+  @media screen and (max-width: 768px) {
+    max-height: calc(100vh - 104px);
+    padding: 0 16px;
+  }
+}
+
+.messages-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-day-marker {
+  background-color: rgba(163, 163, 163, 0.1);
+  font-weight: bold;
+  font-size: 13px;
+  margin: 12px 0;
+  color: #5e95ff;
+  align-self: center;
+  border-radius: 4px;
+  padding: 8px;
+}

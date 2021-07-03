@@ -1,0 +1,24 @@
+.dropdown {
+  position: absolute;
+  right: 0px;
+  z-index: 1;
+  min-width: 200px;
+  background-color: #fff;
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.dropdown-button {
+  border: 0;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  font-size: 14px;
+  padding: 16px;
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(226, 226, 226);
+  }
+}

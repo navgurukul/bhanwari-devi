@@ -1,0 +1,52 @@
+.room-nav {
+  padding: 16px 20px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: white;
+  border-right: 4px solid #fff;
+  border-bottom: 1px solid #b8bcbd;
+
+  .title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  &-selected {
+    border-right-color: #d94451;
+  }
+
+  .room-text {
+    margin-left: 12px;
+  }
+
+  .empty-char {
+    color: transparent;
+  }
+
+  .room-info-actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+  }
+}
+
+.menu-ellipsis-dot {
+  line-height: 0.5;
+  cursor: pointer;
+}
+
+.menu-ellipsis {
+  position: relative;
+  background: transparent;
+  border: 0;
+  margin-left: 12px;
+  cursor: pointer;
+}

@@ -25,7 +25,7 @@ function PartnerDashboard() {
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/partners?name=${searchTerm}`,
-        // url: `https://api.merakilearn.org/partners?name=${searchTerm}`,
+
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
@@ -36,10 +36,9 @@ function PartnerDashboard() {
     } else {
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/partners?limit=${10}&page=${
+        url: `https://api.merakilearn.org/partners?limit=${10}&page=${
           pageNumber + 1
         }`,
-        // url:`https://api.merakilearn.org/partners?limit=${10}&page=${pageNumber + 1}`,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
