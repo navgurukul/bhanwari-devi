@@ -3,7 +3,7 @@
   margin: 40px auto 0;
 }
 
-.Search-box {
+.search-box {
   border: 0;
   font-size: 16px;
   outline: 0;
@@ -17,20 +17,19 @@
   padding: 12px 20px 12px 40px;
 }
 
-.table {
+.partners-table {
   width: 100%;
   border-collapse: collapse;
-  // margin: 40px auto;
   box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
-.table thead tr th {
+.partners-table thead tr th {
   box-shadow: 1px, 1px rgba(112, 111, 111, 0.16);
   letter-spacing: 0.35;
   color: #2e2e2e;
   opacity: 1;
   padding: 12px;
-  font-size: 16px;
+  font-size: 17px;
   font-style: normal;
   font-family: Rubik;
   text-align: start;
@@ -86,7 +85,7 @@ tr:hover {
   background-color: #83b344;
 }
 
-.container-for-Search {
+.container-for-search {
   display: flex;
   flex-wrap: wrap;
 }
@@ -98,10 +97,6 @@ tr:hover {
 .create {
   text-decoration: none;
   color: green;
-
-  &:hover {
-    box-shadow: 0 0 40px 40px #83b344 inset;
-  }
 }
 
 .meraki_link {
@@ -114,11 +109,11 @@ tr:hover {
 
 @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
-  .table {
+  .partners-table {
     width: 100%;
   }
 
-  .Search-box {
+  .search-box {
     width: 270px;
   }
 
@@ -133,7 +128,7 @@ tr:hover {
   }
 
   /* Force table to not be like tables anymore */
-  .table,
+  .partners-table,
   thead,
   tbody,
   th,

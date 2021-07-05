@@ -17,50 +17,39 @@ function PartnerDashboard() {
   const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedText] = useDebounce(searchTerm);
+  const [debouncedText] = useDebounce(searchTerm, 300);
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
-    if (searchTerm.length > 0) {
-      axios({
-        method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/partners?name=${searchTerm}`,
-
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-      }).then((res) => {
-        setPartners(res.data);
-      });
-    } else {
-      axios({
-        method: METHODS.GET,
-        url: `https://api.merakilearn.org/partners?limit=${10}&page=${
-          pageNumber + 1
-        }`,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-      }).then((res) => {
-        setPartners(res.data);
-        getCountPageNumber(res.data);
-      });
-    }
+    axios({
+      method: METHODS.GET,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/partners?name=${searchTerm}`,
+      url: `https://api.merakilearn.org/partners?${
+        searchTerm.length > 0
+          ? `name=${searchTerm}`
+          : `limit=10&page=${pageNumber + 1}`
+      }`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setPartners(res.data);
+      updatePageCountNumber(res.data);
+    });
   }, [searchTerm, pageNumber]);
 
   const Partners = partners.filter((searchValue) => {
     if (searchTerm == "") {
-      return searchValue;
+      return true;
     } else if (
       searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
-      return searchValue;
+      return true;
     }
   });
 
-  const getCountPageNumber = (response) => {
+  const updatePageCountNumber = (response) => {
     if (response.length === 0) {
       setIsUpdateCountPage(false);
     } else if (isUpdateCountPage) {
@@ -86,7 +75,7 @@ function PartnerDashboard() {
       },
     }).then(
       (res) => {
-        toast.success("You have been created link successfully", {
+        toast.success("Link created!", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 5000,
         });
@@ -113,10 +102,10 @@ function PartnerDashboard() {
   return (
     <>
       <div className="table-container">
-        <div className="container-for-Search">
+        <div className="container-for-search">
           <div>
             <input
-              className="Search-box"
+              className="search-box"
               type="text"
               placeholder="Search..."
               value={debouncedText}
@@ -133,18 +122,18 @@ function PartnerDashboard() {
               marginPagesDisplayed={0}
               onPageChange={changePage}
               pageCount={countPage}
-              containerClassName={"paginationBttns"}
-              previousLinkClassName={"previousBttn"}
-              nextLinkClassName={"nextBttn"}
-              disabledClassName={"paginationDisabled"}
-              activeClassName={"paginationActive"}
+              containerClassName="paginationBttns"
+              previousLinkClassName="previousBttn"
+              nextLinkClassName="nextBttn"
+              disabledClassName="paginationDisabled"
+              activeClassName="paginationActive"
             />
           </div>
         </div>
-        <table className="table">
+        <table className="partners-table">
           <thead>
             <tr>
-              <th>Partners Name</th>
+              <th>Partner's Name</th>
               <th>Number of students</th>
               <th>Meraki Link</th>
             </tr>

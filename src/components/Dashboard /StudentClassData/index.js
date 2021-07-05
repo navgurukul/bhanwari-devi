@@ -20,7 +20,7 @@ function StudentClassData(props) {
         {props.location.state.pass.length}
       </p>
       <input
-        className="Search-bar-1"
+        className="search-for-classes"
         type="text"
         placeholder="Search by classes,facilator,language...."
         value={debouncedText}

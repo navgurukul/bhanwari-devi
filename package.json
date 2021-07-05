@@ -12,6 +12,7 @@
     "axios": "^0.21.0",
     "connected-react-router": "^6.8.0",
     "date-fns": "^2.16.1",
+    "debounce": "^1.2.1",
     "dompurify": "^2.2.8",
     "history": "^5.0.0",
     "husky": "^4.3.6",
