@@ -17,14 +17,13 @@ function PartnerDashboard() {
   const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedText] = useDebounce(searchTerm, 300);
+  const [debouncedText] = useDebounce(searchTerm, 1000);
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/partners?name=${searchTerm}`,
-      url: `https://api.merakilearn.org/partners?${
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners?${
         searchTerm.length > 0
           ? `name=${searchTerm}`
           : `limit=10&page=${pageNumber + 1}`
@@ -37,17 +36,7 @@ function PartnerDashboard() {
       setPartners(res.data);
       updatePageCountNumber(res.data);
     });
-  }, [searchTerm, pageNumber]);
-
-  const Partners = partners.filter((searchValue) => {
-    if (searchTerm == "") {
-      return true;
-    } else if (
-      searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
-      return true;
-    }
-  });
+  }, [debouncedText, pageNumber]);
 
   const updatePageCountNumber = (response) => {
     if (response.length === 0) {
@@ -108,7 +97,7 @@ function PartnerDashboard() {
               className="search-box"
               type="text"
               placeholder="Search..."
-              value={debouncedText}
+              value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
               }}
@@ -139,7 +128,7 @@ function PartnerDashboard() {
             </tr>
           </thead>
           <tbody>
-            {Partners.map((item) => {
+            {partners.map((item) => {
               return (
                 <tr key={item.id}>
                   <td data-column="Name">

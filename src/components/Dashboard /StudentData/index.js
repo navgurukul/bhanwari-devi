@@ -26,8 +26,7 @@ function StudentData() {
     let id = getPartnerIdFromUrl();
     axios({
       method: METHODS.GET,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users`,
-      url: `https://api.merakilearn.org/partners/${id}/users`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
       if (res.data.length < 1) {
