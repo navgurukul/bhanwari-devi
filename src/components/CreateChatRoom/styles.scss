@@ -1,0 +1,70 @@
+@import "../../sass/mixins.scss";
+
+.create-chat-room {
+  margin: auto;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form-for-room {
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    width: auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+    box-shadow: 0px 0px 16px 2px rgba(88, 88, 88, 0.16);
+    @include breakpoint-mobile {
+      width: 75%;
+    }
+  }
+
+  .input-field {
+    width: 360px;
+    height: 48px;
+    font-size: 16px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    background: #ffffff;
+    &:focus {
+      border: 1px solid #3cb728;
+      box-shadow: 0 0 4px #3cb728;
+    }
+    @include breakpoint-mobile {
+      padding: 20px;
+      width: 100%;
+    }
+  }
+
+  .radio {
+    margin-top: 18px;
+  }
+
+  .button2 {
+    margin-left: 10px;
+  }
+
+  .create-room-btn {
+    background: rgba(124, 193, 68, 1);
+    cursor: pointer;
+    width: 340px;
+    height: 48px;
+    border-radius: 19px;
+    font-size: 18px;
+    line-height: 21px;
+    text-transform: uppercase;
+    color: #ffffff;
+    border-width: 0px;
+    border-radius: 19px;
+    margin-top: 24px;
+    text-decoration: none;
+    transition: all 0.2s;
+    @include breakpoint-mobile {
+      width: 100%;
+    }
+  }
+}

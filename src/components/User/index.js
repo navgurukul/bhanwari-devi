@@ -4,6 +4,7 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
 import { toast } from "react-toastify";
+import MerakiCreateRoom from "../CreateChatRoom/index";
 
 function User() {
   const user = useSelector(({ User }) => User);
@@ -61,52 +62,57 @@ function User() {
   };
 
   return (
-    <div>
-      <label htmlFor="email" className="label">
-        Email
-      </label>
-      <input
-        type="text"
-        value={values.email}
-        onChange={changeHandler}
-        name="email"
-        id="email"
-        className="inputField"
-        required
-        aria-required
-      />
-      <label htmlFor="room" className="label">
-        Select Class
-      </label>
-      <select
-        className="inputField"
-        onChange={changeHandler}
-        value={values.roomId}
-        id="item.room_id"
-        name="roomId"
-      >
-        <option value="" disabled selected>
-          Select a Class from options below
-        </option>
-        {allClasses.map((item, index) => {
-          const className =
-            lang[item.room_alias.split("meraki")[1].substr(0, 2)] +
-            " Class - " +
-            item.room_alias
-              .split(":navgurukul.org")[0]
-              .split("meraki")[1]
-              .split("class")[1];
-          return (
-            <option key={index} value={item.room_id}>
-              {className}
-            </option>
-          );
-        })}
-      </select>
-      <button type="submit" className="submitData" onClick={submitHandler}>
-        Add
-      </button>
-    </div>
+    <>
+      <div>
+        <label htmlFor="email" className="label">
+          Email
+        </label>
+        <input
+          type="text"
+          value={values.email}
+          onChange={changeHandler}
+          name="email"
+          id="email"
+          className="inputField"
+          required
+          aria-required
+        />
+        <label htmlFor="room" className="label">
+          Select Class
+        </label>
+        <select
+          className="inputField"
+          onChange={changeHandler}
+          value={values.roomId}
+          id="item.room_id"
+          name="roomId"
+        >
+          <option value="" disabled selected>
+            Select a Class from options below
+          </option>
+          {allClasses.map((item, index) => {
+            const className =
+              lang[item.room_alias.split("meraki")[1].substr(0, 2)] +
+              " Class - " +
+              item.room_alias
+                .split(":navgurukul.org")[0]
+                .split("meraki")[1]
+                .split("class")[1];
+            return (
+              <option key={index} value={item.room_id}>
+                {className}
+              </option>
+            );
+          })}
+        </select>
+        <button type="submit" className="submitData" onClick={submitHandler}>
+          Add
+        </button>
+      </div>
+      <div className="create-room">
+        <MerakiCreateRoom />
+      </div>
+    </>
   );
 }
 
