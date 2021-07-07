@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { PATHS } from "../../constant";
 import { actions as userActions } from "../User/redux/action";
-
 import "./styles.scss";
 
 const AuthenticatedHeaderOption = () => {
@@ -12,30 +11,19 @@ const AuthenticatedHeaderOption = () => {
     <>
       {flag ? (
         <>
-          <a className="link" href={PATHS.USER}>
-            User
-          </a>
-          <a className="link" href={PATHS.PARTNERS}>
-            Partners
-          </a>
+          <a href={PATHS.USER}>User</a>
+          <a href={PATHS.PARTNERS}>Partners</a>
         </>
       ) : null}
 
-      <a className="link" href={PATHS.COURSE}>
-        Courses
+      <a href={PATHS.COURSE}>Courses</a>
+      <a href={PATHS.MENTOR}>Mentor</a>
+      <a href={PATHS.CLASS}>Classes</a>
+      <a>
+        <div className="logout" onClick={() => dispatch(userActions.logout())}>
+          Logout
+        </div>
       </a>
-      <a className="link" href={PATHS.MENTOR}>
-        Mentor
-      </a>
-      <a className="link" href={PATHS.CLASS}>
-        Classes
-      </a>
-      {/* <a className="link" href={PATHS.PARTNERS}>
-      Partners
-      </a> */}
-      <div className="logout" onClick={() => dispatch(userActions.logout())}>
-        Logout
-      </div>
     </>
   );
 };
@@ -43,12 +31,8 @@ const AuthenticatedHeaderOption = () => {
 const PublicMenuOption = () => {
   return (
     <>
-      <a className="link" href={PATHS.COURSE}>
-        Courses
-      </a>
-      <a className="login" href={PATHS.LOGIN}>
-        Login/Signup
-      </a>
+      <a href={PATHS.COURSE}>Courses</a>
+      <a href={PATHS.LOGIN}>Login/Signup</a>
     </>
   );
 };
@@ -67,12 +51,23 @@ function Header() {
         : (flag = false);
     });
   }
-
   return (
-    <div className="ng-header">
-      <a href="/">
-        <div className="logo" />
-      </a>
+    <div className="ng-header ">
+      <input type="checkbox" id="nav-check" />
+      <div className="logo">
+        <a href="/">
+          <div className="meraki-logo" />
+        </a>
+      </div>
+
+      <div className="dropDown-btn">
+        <label htmlFor="nav-check">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+      </div>
+
       <div className="option">
         {isAuthenticated ? <AuthenticatedHeaderOption /> : <PublicMenuOption />}
       </div>
