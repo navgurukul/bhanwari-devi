@@ -94,9 +94,14 @@ tr:hover {
   margin-left: auto;
 }
 
-.create {
+.create-link {
   text-decoration: none;
-  color: green;
+  font-size: 18px;
+  color: white;
+  border-radius: 8px;
+  padding: 0px 10px 0px 10px;
+  width: 95px;
+  background-color: #83b344;
 }
 
 .meraki_link {

@@ -1,7 +1,6 @@
 .student-overview-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 26px;
   // margin: 40px auto;
   box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
 }
@@ -45,16 +44,18 @@ tr:hover {
   padding: 0 10%;
   margin: 40px auto 0;
 }
+
 .Search-bar {
   border: 0;
   background-color: #a3a3a3;
-  font-size: 17px;
+  font-size: 16px;
   outline: 0;
   background: transparent;
   border-bottom: 1px solid #2e2e2e;
   height: 5px;
-
-  width: 340px;
+  width: 500px;
+  margin-top: 13px;
+  // width: 340px;
   background-image: url("../../../asset/search.svg");
   background-repeat: no-repeat;
   padding: 12px 20px 12px 40px;
@@ -85,6 +86,10 @@ tr:hover {
     position: absolute;
     top: -9999px;
     left: -9999px;
+  }
+
+  .Search-bar {
+    width: 270px;
   }
 
   tr {

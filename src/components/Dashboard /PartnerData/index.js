@@ -105,8 +105,8 @@ function PartnerDashboard() {
           </div>
           <div className="last-item">
             <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
+              previousLabel={<i className="fa fa-angle-left"></i>}
+              nextLabel={<i className="fa fa-angle-right"></i>}
               initialPage={0}
               marginPagesDisplayed={0}
               onPageChange={changePage}
@@ -155,10 +155,10 @@ function PartnerDashboard() {
                   ) : (
                     <td data-column="Meraki Link">
                       <div
-                        className="create"
+                        className="create-link"
                         onClick={() => createMerakiLink(item.id)}
                       >
-                        Create Link
+                        Create link
                       </div>
                     </td>
                   )}

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
 import { useDebounce } from "use-debounce";
+import ReactPaginate from "react-paginate";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import "./styles.scss";
@@ -16,19 +17,27 @@ const getPartnerIdFromUrl = () => {
 };
 
 function StudentData() {
+  const [pageNumber, setPageNumber] = useState(0);
+  const [countPage, setCountPage] = useState(2);
+  const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedText] = useDebounce(searchTerm);
+  const [debouncedText] = useDebounce(searchTerm, 1000);
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
     let id = getPartnerIdFromUrl();
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users?${
+        searchTerm.length > 0
+          ? `name=${searchTerm}`
+          : `limit=10&page=${pageNumber + 1}`
+      }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
+      // console.log(res,'data')
       if (res.data.length < 1) {
         setMessage("There are no results to display");
       } else {
@@ -53,22 +62,57 @@ function StudentData() {
           };
         });
         setStudents(data);
+        updatePageCountNumber(data);
       }
     });
-  }, []);
+  }, [debouncedText, pageNumber]);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
+  const updatePageCountNumber = (response) => {
+    if (response.length === 0) {
+      setIsUpdateCountPage(false);
+    } else if (isUpdateCountPage) {
+      if (pageNumber > 10) {
+        setCountPage(pageNumber + 1);
+      } else {
+        setCountPage((preState) => preState + 1);
+      }
+    }
+  };
 
   return (
     <div className="container-table">
-      <input
-        className="Search-bar"
-        type="text"
-        placeholder="Search by student name,class...."
-        value={debouncedText}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
-      />
-
+      <div className="container-for-search">
+        <div>
+          <input
+            className="Search-bar"
+            type="text"
+            placeholder="Search by student name,class...."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
+        </div>
+        <div className="last-item">
+          <ReactPaginate
+            previousLabel={<i className="fa fa-angle-left"></i>}
+            nextLabel={<i className="fa fa-angle-right"></i>}
+            initialPage={0}
+            marginPagesDisplayed={0}
+            onPageChange={changePage}
+            pageCount={countPage}
+            containerClassName="paginationBttns"
+            previousLinkClassName="previousBttn"
+            nextLinkClassName="nextBttn"
+            disabledClassName="paginationDisabled"
+            activeClassName="paginationActive"
+          />
+        </div>
+      </div>
       <table className="student-overview-table">
         <thead>
           <tr>
@@ -82,99 +126,86 @@ function StudentData() {
           </tr>
         </thead>
         <tbody>
-          {students
-            .filter((searchValue) => {
-              if (searchTerm == "") {
-                return searchValue;
-              } else if (
-                searchValue.name
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase())
-              ) {
-                return searchValue;
-              }
-            })
-            .slice(0, 10)
-            .map((item) => {
-              let getStars = 0;
-              let totalStarts = item.classes_registered.length * 5;
-              item.classes_registered.map((stars) => {
-                getStars = getStars + Number(stars.feedback.feedback);
-              });
-              return (
-                <tr key={item.id}>
-                  <td data-column="Name">
-                    <Link
-                      className="t-data"
-                      to={{
-                        pathname: "/student",
-                        state: {
-                          pass: item.classes_registered,
-                          passName: item.name,
-                        },
-                      }}
-                    >
-                      {item.name}
-                    </Link>
-                  </td>
-                  <td data-column="Enrolled On">{item.created_at}</td>
-                  <td data-column="Total classes ">
-                    {" "}
-                    {item.classes_registered.length}
-                  </td>
+          {students.map((item) => {
+            let getStars = 0;
+            let totalStarts = item.classes_registered.length * 5;
+            item.classes_registered.map((stars) => {
+              getStars = getStars + Number(stars.feedback.feedback);
+            });
+            return (
+              <tr key={item.id}>
+                <td data-column="Name">
+                  <Link
+                    className="t-data"
+                    to={{
+                      pathname: "/student",
+                      state: {
+                        pass: item.classes_registered,
+                        passName: item.name,
+                      },
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                </td>
+                <td data-column="Enrolled On">{item.created_at}</td>
+                <td data-column="Total classes ">
+                  {" "}
+                  {item.classes_registered.length}
+                </td>
 
-                  <td data-column="Last class title">
-                    {item.classes_registered &&
-                    item.classes_registered.length > 0 &&
-                    item.classes_registered[item.classes_registered.length - 1][
-                      "title"
-                    ] != ""
-                      ? item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["title"]
-                      : "NA"}
-                  </td>
-                  <td data-column="Last class date">
-                    {item.classes_registered &&
-                    item.classes_registered.length > 0 &&
-                    item.classes_registered[item.classes_registered.length - 1][
-                      "start_time"
-                    ]
-                      ? item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["start_time"]
-                      : "NA"}
-                  </td>
-                  <td data-column="Last class time">
-                    {item.classes_registered &&
-                    item.classes_registered.length > 0 &&
-                    item.classes_registered[item.classes_registered.length - 1][
-                      "end_time"
-                    ]
-                      ? item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["end_time"]
-                      : "NA"}
-                  </td>
-                  <td data-column="Avg rating ">
-                    {[1, 2, 3, 4, 5].map((star) => {
-                      return Math.ceil(getStars / totalStarts) > 0 &&
-                        star <= Math.ceil(getStars / totalStarts) ? (
-                        <span
-                          className="fa fa-star"
-                          style={{ color: "#D55F31" }}
-                        ></span>
-                      ) : (
-                        <span
-                          className="fa fa-star"
-                          style={{ color: "gray" }}
-                        ></span>
-                      );
-                    })}
-                  </td>
-                </tr>
-              );
-            })}
+                <td data-column="Last class title">
+                  {item.classes_registered &&
+                  item.classes_registered.length > 0 &&
+                  item.classes_registered[item.classes_registered.length - 1][
+                    "title"
+                  ] != ""
+                    ? item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["title"]
+                    : "NA"}
+                </td>
+                <td data-column="Last class date">
+                  {item.classes_registered &&
+                  item.classes_registered.length > 0 &&
+                  item.classes_registered[item.classes_registered.length - 1][
+                    "start_time"
+                  ]
+                    ? item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["start_time"]
+                    : "NA"}
+                </td>
+                <td data-column="Last class time">
+                  {item.classes_registered &&
+                  item.classes_registered.length > 0 &&
+                  item.classes_registered[item.classes_registered.length - 1][
+                    "end_time"
+                  ]
+                    ? item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["end_time"]
+                    : "NA"}
+                </td>
+                <td data-column="Avg rating ">
+                  {[1, 2, 3, 4, 5].map((star) => {
+                    return Math.ceil(getStars / totalStarts) > 0 &&
+                      star <= Math.ceil(getStars / totalStarts) ? (
+                      <span
+                        className="fa fa-star"
+                        style={{ color: "#D55F31" }}
+                      ></span>
+                    ) : (
+                      <span
+                        className="fa fa-star"
+                        style={{ color: "gray" }}
+                      ></span>
+                    );
+                  })}
+                </td>
+              </tr>
+            );
+          })}
           {message ? <h1 className="Message">{message}</h1> : null}
         </tbody>
       </table>
