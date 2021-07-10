@@ -2,17 +2,13 @@
 @import "../../../sass/mixins.scss";
 
 .ng-search {
-  width: 40%;
-  position: absolute;
-  top: 34px;
-  left: 20%;
   display: flex;
   margin: auto;
+  margin-bottom: 20px;
+
   @include breakpoint-tablet {
-    top: 112px;
-    left: 12%;
-    width: 80%;
     margin: 0 auto;
+    max-width: 100%;
   }
 
   > input {

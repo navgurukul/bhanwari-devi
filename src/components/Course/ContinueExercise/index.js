@@ -9,6 +9,7 @@ function ContinueExercise() {
 
   return (
     <div className="stored-exercise">
+      <h2>Hello, There</h2>
       Continue where you left off..
       <span>
         <a className="exercise-url" href={storedExerciseUrl}>

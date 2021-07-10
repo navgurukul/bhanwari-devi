@@ -2,13 +2,13 @@
 @import "../../sass/mixins.scss";
 
 .ng-course-container {
-  padding-top: 70px;
-  width: 80%;
+  box-sizing: border-box;
+  padding-top: 40px;
+  max-width: 80%;
   margin: auto;
-  width: 1234px;
   @include breakpoint-mobile {
-    padding-top: 70px;
-    width: 50%;
+    max-width: 100%;
+    padding: 0 20px;
   }
 
   > h2 {

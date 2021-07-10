@@ -9,6 +9,7 @@ import SearchBox from "../common/SearchBox";
 import Loader from "../common/Loader";
 import "./styles.scss";
 import { useHistory } from "react-router-dom";
+import ContinueExercise from "../Course/ContinueExercise";
 
 function Course() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function Course() {
   return (
     <div>
       <SearchBox onChange={handleSearchChange} value={search} />
+      <ContinueExercise />
       {search.length > 0 ? (
         <h1 className="ng-course">
           <CourseList

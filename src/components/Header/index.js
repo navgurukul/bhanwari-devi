@@ -20,9 +20,12 @@ const AuthenticatedHeaderOption = () => {
       <a href={PATHS.MENTOR}>Mentor</a>
       <a href={PATHS.CLASS}>Classes</a>
       <a>
-        <div className="logout" onClick={() => dispatch(userActions.logout())}>
+        <button
+          className="logout"
+          onClick={() => dispatch(userActions.logout())}
+        >
           Logout
-        </div>
+        </button>
       </a>
     </>
   );
