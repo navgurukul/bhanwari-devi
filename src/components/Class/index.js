@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
@@ -23,6 +23,8 @@ const {
   TYPE,
   COURSE_ID,
   PATHWAY_ID,
+  EXERCISE_ID,
+  MAX_ENROLMENT,
 } = CLASS_FIELDS;
 
 function Class({ classToEdit }) {
@@ -39,27 +41,33 @@ function Class({ classToEdit }) {
     end_time,
     course_id,
     pathway_id,
+    exercise_id,
+    max_enrolment,
   } = classToEdit;
 
-  const initialFormState = useRef({
-    [TITLE]: title || "",
-    [DESCRIPTION]: description || "",
-    [FACILITATOR_NAME]: facilitator ? facilitator.name : "",
-    [FACILITATOR_EMAIL]: facilitator ? facilitator.email : "",
-    [START_TIME]: start_time
-      ? moment.utc(start_time).format("YYYY-MM-DD")
-      : moment().format("YYYY-MM-DD"),
-    [CLASS_START_TIME]: start_time
-      ? moment.utc(start_time).format("kk:mm")
-      : moment().format("kk:mm"),
-    [CLASS_END_TIME]: end_time
-      ? moment.utc(end_time).format("kk:mm")
-      : moment().add(15, "minute").format("kk:mm"),
-    [LANG]: lang || "hi",
-    [TYPE]: type || "doubt_class",
-    [COURSE_ID]: course_id || "",
-    [PATHWAY_ID]: pathway_id || "",
-  });
+  const initialFormState = useMemo(() => {
+    return {
+      [TITLE]: title || "",
+      [DESCRIPTION]: description || "",
+      [FACILITATOR_NAME]: facilitator ? facilitator.name : "",
+      [FACILITATOR_EMAIL]: facilitator ? facilitator.email : "",
+      [START_TIME]: start_time
+        ? moment.utc(start_time).format("YYYY-MM-DD")
+        : moment().format("YYYY-MM-DD"),
+      [CLASS_START_TIME]: start_time
+        ? moment.utc(start_time).format("kk:mm")
+        : moment().format("kk:mm"),
+      [CLASS_END_TIME]: end_time
+        ? moment.utc(end_time).format("kk:mm")
+        : moment().add(15, "minute").format("kk:mm"),
+      [LANG]: lang || "hi",
+      [TYPE]: type || "doubt_class",
+      [COURSE_ID]: course_id || "",
+      [PATHWAY_ID]: pathway_id || "",
+      [EXERCISE_ID]: exercise_id || "",
+      [MAX_ENROLMENT]: max_enrolment || "",
+    };
+  }, [classToEdit]);
 
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
@@ -68,7 +76,10 @@ function Class({ classToEdit }) {
     rolesList.indexOf("classAdmin") > -1 ||
     rolesList.indexOf("dumbeldore") > -1;
 
-  const [allCourse, setAllCourse] = useState([]);
+  const [pathways, setPathways] = useState([]);
+  const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
+    {}
+  );
 
   const editClass = (payload) => {
     setLoading(true);
@@ -109,9 +120,28 @@ function Class({ classToEdit }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setAllCourse(res.data.pathways);
+      setPathways(res.data.pathways);
     });
   }, []);
+
+  const onCourseChange = (courseId) => {
+    if (exercisesForSelectedCourse[courseId]) {
+      return;
+    }
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setExercisesForSelectedCourse({
+        ...exercisesForSelectedCourse,
+        [courseId]: res.data.course.exercises,
+      });
+    });
+  };
 
   const handleTimeValidationAndCreateClass = (payload) => {
     const classStartTime = moment(
@@ -206,7 +236,7 @@ function Class({ classToEdit }) {
       <Form
         className="form"
         onSubmit={onFormSubmit}
-        initialFieldsState={initialFormState.current}
+        initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField }) => {
           return (
@@ -334,7 +364,10 @@ function Class({ classToEdit }) {
                 <option value="workshop">Workshop</option>
                 <option value="doubt_class">Doubt Class</option>
               </select>
-              <label htmlFor="pathway_id">Select Pathway</label>
+              <label htmlFor="pathway">
+                Select Pathway{" "}
+                <span className="optional-field">(optional)</span>
+              </label>
               <select
                 className="create-class-select"
                 name={PATHWAY_ID}
@@ -342,54 +375,91 @@ function Class({ classToEdit }) {
                 onChange={(e) => {
                   setFormField(e.target.value, PATHWAY_ID);
                 }}
-                id="pathway_id"
+                id="pathway"
               >
                 <option value="">Select a pathway from options below</option>
-                {allCourse.map((item, index) => {
+                {pathways.map((item) => {
                   return (
-                    <option key={index} value={item.id}>
+                    <option key={item.id} value={item.id}>
                       {item.name}
                     </option>
                   );
                 })}
               </select>
               {formFieldsState[PATHWAY_ID] &&
-                allCourse.map((item) => {
-                  if (formFieldsState[PATHWAY_ID] == item.id) {
+                pathways.map((pathway) => {
+                  if (formFieldsState[PATHWAY_ID] == pathway.id) {
                     return (
-                      <>
-                        <label htmlFor="course_id">Select Course</label>
+                      <React.Fragment key={pathway.id}>
+                        <label htmlFor="course_id">
+                          Select Course{" "}
+                          <span className="optional-field">(optional)</span>
+                        </label>
                         <select
                           className="create-class-select"
                           name={COURSE_ID}
                           value={formFieldsState[COURSE_ID]}
                           onChange={(e) => {
+                            onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
                           }}
                           id="course_id"
                         >
-                          <option value="">
-                            Select a course from options below
-                          </option>
-                          {item.courses.map((course, index) => {
+                          <option value="">Select a course</option>
+                          {pathway.courses.map((course) => {
                             return (
-                              <option key={index} value={course.id}>
+                              <option key={course.id} value={course.id}>
                                 {course.name}
                               </option>
                             );
                           })}
                         </select>
-                      </>
+                      </React.Fragment>
                     );
                   }
                 })}
-              <label htmlFor="max_enrolment">Maximum Enrollments</label>
+              {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
+                <>
+                  <label htmlFor="exercise_id">
+                    Select Exercise
+                    <span className="optional-field">(optional)</span>
+                  </label>
+                  <select
+                    className="create-class-select"
+                    name={EXERCISE_ID}
+                    value={formFieldsState[EXERCISE_ID]}
+                    onChange={(e) => {
+                      setFormField(e.target.value, EXERCISE_ID);
+                    }}
+                    id="exercise_id"
+                  >
+                    <option value="">Select an exercise</option>
+                    {(
+                      exercisesForSelectedCourse[formFieldsState[COURSE_ID]] ||
+                      []
+                    ).map((exercise) => {
+                      return (
+                        <option key={exercise.id} value={exercise.id}>
+                          {exercise.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </>
+              )}
+              <label htmlFor={MAX_ENROLMENT}>
+                Maximum Enrollments
+                <span className="optional-field">(optional)</span>
+              </label>
               <input
                 className="input-field"
                 type="number"
-                name="max_enrolment"
-                id="max_enrolment"
-                min="1"
+                name={MAX_ENROLMENT}
+                id={MAX_ENROLMENT}
+                onChange={(e) => {
+                  setFormField(e.target.value, MAX_ENROLMENT);
+                }}
+                value={formFieldsState[MAX_ENROLMENT]}
                 placeholder="Maximum students per class"
               />
               <button type="submit" className="submit" disabled={loading}>
