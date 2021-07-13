@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import get from "lodash/get";
+import { useLocation } from "react-router-dom";
 
 import { actions as courseActions } from "./redux/action";
 import CourseList from "./CourseList";
 import SearchBox from "../common/SearchBox";
 import Loader from "../common/Loader";
 import "./styles.scss";
+import { useHistory } from "react-router-dom";
+import ContinueExercise from "../Course/ContinueExercise";
 
 function Course() {
   const dispatch = useDispatch();
   const { loading, data } = useSelector(({ Course }) => Course);
-  const [search, setSearch] = useState("");
+  const query = new URLSearchParams(useLocation().search).get("search");
+  const [search, setSearch] = useState(query ? query : "");
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
@@ -22,6 +27,7 @@ function Course() {
   }
 
   const handleSearchChange = (e) => {
+    history.push(`?search=${e.target.value}`);
     e.preventDefault();
     setSearch(e.target.value);
   };
@@ -36,6 +42,7 @@ function Course() {
   return (
     <div>
       <SearchBox onChange={handleSearchChange} value={search} />
+      <ContinueExercise />
       {search.length > 0 ? (
         <h1 className="ng-course">
           <CourseList
