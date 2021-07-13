@@ -25,7 +25,7 @@ function PartnerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      const orderedData = res.data.sort((a, b) => {
+      const orderedData = res.data.partners.sort((a, b) => {
         return b.users - a.users;
       });
       setPartners(orderedData);
