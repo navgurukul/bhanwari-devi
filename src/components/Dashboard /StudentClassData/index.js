@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import "./styles.scss";
 import { useDebounce } from "use-debounce";
+import ReactPaginate from "react-paginate";
 
 function StudentClassData(props) {
+  const [pageNumber, setPageNumber] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
+
+  const usersPerPage = 10;
+  const pagesVisited = pageNumber * usersPerPage;
+
+  const pageCount = Math.ceil(props.location.state.pass.length / usersPerPage);
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
   const languageMap = {
     hi: "Hindi",
     te: "Telugu",
@@ -19,15 +30,34 @@ function StudentClassData(props) {
         Total Classes by {props.location.state.passName} :{" "}
         {props.location.state.pass.length}
       </p>
-      <input
-        className="search-for-classes"
-        type="text"
-        placeholder="Search by classes,facilator,language...."
-        value={debouncedText}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
-      />
+      <div className="container-for-search">
+        <div>
+          <input
+            className="search-for-classes"
+            type="text"
+            placeholder="Search by classes,facilator,language...."
+            value={debouncedText}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
+        </div>
+        <div className="last-item">
+          <ReactPaginate
+            previousLabel={<i className="fa fa-angle-left"></i>}
+            nextLabel={<i className="fa fa-angle-right"></i>}
+            initialPage={0}
+            marginPagesDisplayed={0}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName="paginationBttns"
+            previousLinkClassName="previousBttn"
+            nextLinkClassName="nextBttn"
+            disabledClassName="paginationDisabled"
+            activeClassName="paginationActive"
+          />
+        </div>
+      </div>
 
       <table className="student-class-table">
         <thead>
@@ -54,7 +84,7 @@ function StudentClassData(props) {
                   return searchValue;
                 }
               })
-              // .slice(0, 10)
+              .slice(pagesVisited, pagesVisited + usersPerPage)
               .map((item) => {
                 return (
                   <tr key={item.id}>

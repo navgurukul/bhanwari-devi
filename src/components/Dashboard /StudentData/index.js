@@ -18,13 +18,14 @@ const getPartnerIdFromUrl = () => {
 
 function StudentData() {
   const [pageNumber, setPageNumber] = useState(0);
-  const [countPage, setCountPage] = useState(2);
-  const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
+  const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm, 1000);
   const user = useSelector(({ User }) => User);
+
+  const limit = 10;
 
   useEffect(() => {
     let id = getPartnerIdFromUrl();
@@ -33,15 +34,14 @@ function StudentData() {
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users?${
         searchTerm.length > 0
           ? `name=${searchTerm}`
-          : `limit=10&page=${pageNumber + 1}`
+          : `limit=${limit}&page=${pageNumber + 1}`
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      // console.log(res,'data')
-      if (res.data.length < 1) {
+      if (res.data.students.length < 1) {
         setMessage("There are no results to display");
       } else {
-        const data = res.data.map((item) => {
+        const data = res.data.students.map((item) => {
           return {
             ...item,
             created_at: moment(item.created_at.replace("Z", "")).format(
@@ -62,25 +62,14 @@ function StudentData() {
           };
         });
         setStudents(data);
-        updatePageCountNumber(data);
+        setTotalCount(res.data.count);
       }
     });
   }, [debouncedText, pageNumber]);
 
+  const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
-  };
-
-  const updatePageCountNumber = (response) => {
-    if (response.length === 0) {
-      setIsUpdateCountPage(false);
-    } else if (isUpdateCountPage) {
-      if (pageNumber > 10) {
-        setCountPage(pageNumber + 1);
-      } else {
-        setCountPage((preState) => preState + 1);
-      }
-    }
   };
 
   return (
@@ -104,7 +93,7 @@ function StudentData() {
             initialPage={0}
             marginPagesDisplayed={0}
             onPageChange={changePage}
-            pageCount={countPage}
+            pageCount={pageCount}
             containerClassName="paginationBttns"
             previousLinkClassName="previousBttn"
             nextLinkClassName="nextBttn"

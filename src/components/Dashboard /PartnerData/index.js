@@ -13,12 +13,13 @@ toast.configure();
 
 function PartnerDashboard() {
   const [pageNumber, setPageNumber] = useState(0);
-  const [countPage, setCountPage] = useState(2);
-  const [isUpdateCountPage, setIsUpdateCountPage] = useState(true);
+
+  const [totalCount, setTotalCount] = useState();
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm, 1000);
   const user = useSelector(({ User }) => User);
+  const limit = 10;
 
   useEffect(() => {
     axios({
@@ -26,30 +27,19 @@ function PartnerDashboard() {
       url: `${process.env.REACT_APP_MERAKI_URL}/partners?${
         searchTerm.length > 0
           ? `name=${searchTerm}`
-          : `limit=10&page=${pageNumber + 1}`
+          : `limit=${limit}&page=${pageNumber + 1}`
       }`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setPartners(res.data);
-      updatePageCountNumber(res.data);
+      setPartners(res.data.partners);
+      setTotalCount(res.data.count);
     });
   }, [debouncedText, pageNumber]);
 
-  const updatePageCountNumber = (response) => {
-    if (response.length === 0) {
-      setIsUpdateCountPage(false);
-    } else if (isUpdateCountPage) {
-      if (pageNumber > 10) {
-        setCountPage(pageNumber + 1);
-      } else {
-        setCountPage((preState) => preState + 1);
-      }
-    }
-  };
-
+  const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
@@ -110,7 +100,7 @@ function PartnerDashboard() {
               initialPage={0}
               marginPagesDisplayed={0}
               onPageChange={changePage}
-              pageCount={countPage}
+              pageCount={pageCount}
               containerClassName="paginationBttns"
               previousLinkClassName="previousBttn"
               nextLinkClassName="nextBttn"
