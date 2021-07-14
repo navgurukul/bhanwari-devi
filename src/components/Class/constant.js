@@ -16,4 +16,6 @@ export const CLASS_FIELDS = {
   LANG: "lang",
   TYPE: "type",
   COURSE_ID: "course_id",
+  EXERCISE_ID: "exercise_id",
+  MAX_ENROLMENT: "max_enrolment",
 };
