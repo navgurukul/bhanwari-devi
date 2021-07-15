@@ -32,10 +32,10 @@ function StudentData() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      if (res.data.length < 1) {
+      if (res.data.students.length < 1) {
         setMessage("There are no results to display");
       } else {
-        const data = res.data.map((item) => {
+        const data = res.data.students.map((item) => {
           return {
             ...item,
             created_at: moment(item.created_at.replace("Z", "")).format(
