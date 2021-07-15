@@ -1,20 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
-import htmlParser from "react-markdown/plugins/html-parser";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import YouTube from "react-youtube";
 import get from "lodash/get";
 
 import "./styles.scss";
-
-// See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
-// for more info on the processing instructions
-const parseHtml = htmlParser({
-  isValidNode: (node) => node.type !== "script",
-  processingInstructions: [
-    /* ... */
-  ],
-});
 
 const RenderContent = ({ data }) => {
   if (data.type === "image") {
@@ -52,9 +44,8 @@ const RenderContent = ({ data }) => {
   if (data.type === "markdown") {
     return (
       <ReactMarkdown
-        source={data.value}
-        escapeHtml={false}
-        astPlugins={[parseHtml]}
+        children={data.value}
+        rehypePlugins={[rehypeRaw, rehypeSanitize]}
       />
     );
   }
