@@ -21,15 +21,15 @@ export const getCourses = () => {
  * end-point to get content of a course
  *
  * @param {data} object payload
- * @param {String} data.courseId
+ * @param {String} data.courseId.
  * @param {object} opts
  *
  * @returns {Promise}
  */
 export const getCourseContent = (data) => {
-  const { courseId } = data;
+  const { courseId, lang } = data;
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?userLang=${lang}`,
     method: METHODS.GET,
     // headers: HeaderFactory(token),
   });

@@ -9,6 +9,7 @@ import "./styles.scss";
 
 function ExerciseList(props) {
   const { list = [] } = props;
+
   const dispatch = useDispatch();
   const {
     courseContent: { data },

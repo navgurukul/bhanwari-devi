@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { PATHS } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,6 +22,7 @@ const getExerciseIdFromUrl = () => {
 };
 
 function CourseContent(props) {
+  const [changeLanguage, setChangeLanguage] = useState("hi");
   const history = useHistory();
   let { url, path } = useRouteMatch();
 
@@ -49,8 +50,23 @@ function CourseContent(props) {
   const courseId = get(props, "match.params.courseId");
 
   useEffect(() => {
-    dispatch(courseActions.getCourseContent({ courseId: courseId }));
-  }, [dispatch, courseId]);
+    const getLocalStorageValue = localStorage.getItem("changeLanguage");
+    const valueSet =
+      getLocalStorageValue === undefined
+        ? setChangeLanguage("hi")
+        : setChangeLanguage(getLocalStorageValue);
+    dispatch(
+      courseActions.getCourseContent({
+        courseId: courseId,
+        lang: changeLanguage,
+      })
+    );
+  }, [dispatch, courseId, changeLanguage]);
+
+  const onLangChange = (e) => {
+    setChangeLanguage(e.target.value);
+    localStorage.setItem("changeLanguage", e.target.value);
+  };
 
   useEffect(() => {
     let exerciseIdFromParams = getExerciseIdFromUrl();
@@ -97,7 +113,22 @@ function CourseContent(props) {
   return (
     <div className="ng-course-content">
       <div className="content">
+        <div className="lang">
+          <select
+            className="language-select"
+            id="lang"
+            required
+            value={changeLanguage}
+            aria-required
+            onChange={onLangChange}
+          >
+            <option value="hi">Hindi</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
         <h1>{courseTitle}</h1>
+
         <Switch>
           <Route path={`${path}${PATHS.EXERCISE}`}>
             <Exercise data={data} selectedExercise={selectedExercise} />
