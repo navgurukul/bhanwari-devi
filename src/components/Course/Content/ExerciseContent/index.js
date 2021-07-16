@@ -99,7 +99,7 @@ const RenderContent = ({ data }) => {
           components={components}
           children={getMarkdown(get(data, "value.code"), data.type)}
         />
-        <button>
+        <div class="code__controls">
           <a
             target="_blank"
             href={createVisulizeURL(
@@ -110,15 +110,14 @@ const RenderContent = ({ data }) => {
           >
             Visualize
           </a>
-        </button>
-        <button>
+
           <a
             target="_blank"
             href={createVisulizeURL(get(data, "value.code"), data.type, "edit")}
           >
             Edit
           </a>
-        </button>
+        </div>
       </div>
     );
   }

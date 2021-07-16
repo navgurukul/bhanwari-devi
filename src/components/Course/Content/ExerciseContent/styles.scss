@@ -50,3 +50,33 @@
     border-collapse: collapse;
   }
 }
+
+.code__controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  a {
+    text-decoration: none;
+    font-size: 1rem;
+    text-align: center;
+    color: #eee;
+    border-radius: 3px;
+    width: 100px;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: 500;
+
+    border: 2px solid #b33;
+    background: #d55f31;
+    transition: all 0.25s linear;
+
+    &:hover {
+      color: #111;
+      border: 2px solid #555;
+      background: #eee;
+      transform: translateY(-3px);
+      box-shadow: 0 2px 8px #111;
+    }
+  }
+}
