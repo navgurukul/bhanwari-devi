@@ -4,17 +4,51 @@ import ReactMarkdown from "react-markdown";
 import htmlParser from "react-markdown/plugins/html-parser";
 import YouTube from "react-youtube";
 import get from "lodash/get";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import "./styles.scss";
 
-// See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
-// for more info on the processing instructions
-const parseHtml = htmlParser({
-  isValidNode: (node) => node.type !== "script",
-  processingInstructions: [
-    /* ... */
-  ],
-});
+function getMarkdown(code, lang) {
+  let l = lang == "python" ? "py" : "js";
+  return `~~~${l}
+${code}
+~~~`;
+}
+
+// for transforming code : encodeURIComponent => decode comma(,) and slash(/) => encode round brackets
+const createVisulizeURL = (code, lang, mode) => {
+  // only support two languages for now
+  let l = lang == "python" ? "2" : "js";
+  let url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
+    code
+  )
+    .replace(/%2C|%2F/g, decodeURIComponent)
+    .replace(/\(/g, "%28")
+    .replace(
+      /\)/g,
+      "%29"
+    )}&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=${mode}&origin=opt-frontend.js&py=${l}&rawInputLstJSON=%5B%5D&textReferences=false`;
+  return url;
+};
+
+const components = {
+  code({ node, inline, className, children, ...props }) {
+    const match = /language-(\w+)/.exec(className || "");
+    return !inline && match ? (
+      <SyntaxHighlighter
+        showLineNumbers
+        language={match[1]}
+        PreTag="div"
+        children={String(children).replace(/\n$/, "")}
+        {...props}
+      />
+    ) : (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    );
+  },
+};
 
 const RenderContent = ({ data }) => {
   if (data.type === "image") {
@@ -60,11 +94,32 @@ const RenderContent = ({ data }) => {
   }
   if (data.type === "python" || "javascript") {
     return (
-      <code className="language-python code-block">
-        {" "}
-        <br />
-        {get(data, "value.code")} <br />
-      </code>
+      <div>
+        <ReactMarkdown
+          components={components}
+          children={getMarkdown(get(data, "value.code"), data.type)}
+        />
+        <button>
+          <a
+            target="_blank"
+            href={createVisulizeURL(
+              get(data, "value.code"),
+              data.type,
+              "display"
+            )}
+          >
+            Visualize
+          </a>
+        </button>
+        <button>
+          <a
+            target="_blank"
+            href={createVisulizeURL(get(data, "value.code"), data.type, "edit")}
+          >
+            Edit
+          </a>
+        </button>
+      </div>
     );
   }
   if (data.type === "bash") {
