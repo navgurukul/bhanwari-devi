@@ -38,7 +38,6 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      console.log(res, "data");
       if (res.data.students.length < 1) {
         setMessage("There are no results to display");
       } else {
@@ -80,7 +79,7 @@ function StudentData() {
           <input
             className="Search-bar"
             type="text"
-            placeholder="Search by student name,class...."
+            placeholder="Search by student Name class"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);

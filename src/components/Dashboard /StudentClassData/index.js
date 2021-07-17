@@ -35,7 +35,7 @@ function StudentClassData(props) {
           <input
             className="search-for-classes"
             type="text"
-            placeholder="Search by classes,facilator,language...."
+            placeholder="Search by Class Title "
             value={debouncedText}
             onChange={(e) => {
               setSearchTerm(e.target.value);
