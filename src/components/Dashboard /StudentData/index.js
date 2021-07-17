@@ -22,7 +22,7 @@ function StudentData() {
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedText] = useDebounce(searchTerm, 1000);
+  const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
 
   const limit = 10;
@@ -38,6 +38,7 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
+      console.log(res, "data");
       if (res.data.students.length < 1) {
         setMessage("There are no results to display");
       } else {

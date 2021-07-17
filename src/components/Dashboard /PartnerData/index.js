@@ -17,7 +17,7 @@ function PartnerDashboard() {
   const [totalCount, setTotalCount] = useState();
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedText] = useDebounce(searchTerm, 1000);
+  const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
   const limit = 10;
 
