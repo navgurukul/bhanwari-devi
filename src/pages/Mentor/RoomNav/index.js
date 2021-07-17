@@ -13,10 +13,8 @@ export default ({
   roomId,
   accessToken,
 }) => {
-  const [
-    isMessageActionsDropdownOpen,
-    setIsMessageActionsDropdownOpen,
-  ] = useState(false);
+  const [isMessageActionsDropdownOpen, setIsMessageActionsDropdownOpen] =
+    useState(false);
   const subtitle = lastMessage ? lastMessage.text : "";
 
   const renderSubtitle = () => {

@@ -1,36 +1,70 @@
+.container-for-table {
+  padding: 0 10%;
+  margin: 40px auto 0;
+}
 .student-class-table {
-  width: 1300px;
   border-collapse: collapse;
-  margin: 40px auto;
+  width: 100%;
   box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.3);
 }
 
-th {
-  background: #83b344;
-  color: white;
+.student-class-table thead tr th {
+  box-shadow: 1px, 1px rgba(112, 111, 111, 0.16);
+  letter-spacing: 0.35;
+  color: #2e2e2e;
+  opacity: 1;
+  padding: 12px;
+  font-size: 16px;
+  font-style: normal;
+  font-family: Rubik;
+  text-align: start;
+  vertical-align: top;
+  border: 1px solid #dee2e685;
 }
 
 td,
 th {
-  padding: 11px;
-  border: 1px solid #ccc;
+  padding: 15px;
+  border: 1px solid #dee2e685;
   font-size: 18px;
 }
 
-tr:hover {
-  background-color: #dddddd;
-  cursor: pointer;
+.search-for-classes {
+  border: 0;
+  background-color: #a3a3a3;
+  font-size: 16px;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #2e2e2e;
+  height: 5px;
+  width: 500px;
+  margin-top: 13px;
+  background-image: url("../../../asset/search.svg");
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+}
+
+.studentName {
+  font-size: 20px;
+  counter-reset: #2e2e2e;
+  font-style: normal;
+  font-family: Rubik;
+  font-weight: 500;
 }
 
 /* 
-Max width before this PARTICULAR table gets nasty
-This query will take effect for any screen smaller than 760px
-and also iPads specifically.
-*/
+  Max width before this PARTICULAR table gets nasty
+  This query will take effect for any screen smaller than 760px
+  and also iPads specifically.
+  */
 @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
   .student-class-table {
     width: 100%;
+  }
+
+  .search-for-classes {
+    width: 270px;
   }
 
   /* Force table to not be like tables anymore */
@@ -66,7 +100,7 @@ and also iPads specifically.
     /* Now like a table header */
     position: absolute;
     /* Top/left values mimic padding */
-    top: 6px;
+    // top: 6px;
     left: 6px;
     width: 45%;
     padding-right: 10px;
