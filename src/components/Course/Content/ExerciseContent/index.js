@@ -59,32 +59,6 @@ const RenderContent = ({ data }) => {
   if (data.type === "youtube") {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
   }
-  // if (data.type === "table") {
-  //   const columns = data.value.header;
-  //   const tableData = data.value.value;
-  //   return (
-  //     <table className="table-content">
-  //       <thead>
-  //         <tr>
-  //           {columns.map((col) => {
-  //             return <th>{col}</th>;
-  //           })}
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {tableData.map((rows) => {
-  //           return (
-  //             <tr>
-  //               {rows.map((row) => {
-  //                 return <td>{row}</td>;
-  //               })}
-  //             </tr>
-  //           );
-  //         })}
-  //       </tbody>
-  //     </table>
-  //   );
-  // }
   if (data.type === "markdown") {
     return (
       <ReactMarkdown
