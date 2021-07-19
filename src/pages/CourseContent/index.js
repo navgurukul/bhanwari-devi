@@ -10,6 +10,8 @@ import Exercise from "../../components/Course/Content/Exercise";
 import ExerciseList from "../../components/Course/Content/ExerciseList";
 import GoBackArrow from "../../components/Course/Content/GoBackArrow";
 import Loader from "../../components/common/Loader";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 import "./styles.scss";
 
 const getExerciseIdFromUrl = () => {
@@ -23,6 +25,7 @@ const getExerciseIdFromUrl = () => {
 
 function CourseContent(props) {
   const [changeLanguage, setChangeLanguage] = useState("en");
+  const [courseLang, setCourseLang] = useState([]);
   const history = useHistory();
   let { url, path } = useRouteMatch();
 
@@ -31,6 +34,20 @@ function CourseContent(props) {
     courseContent: { loading, data },
     selectedExercise,
   } = useSelector(({ Course }) => Course);
+
+  const languageMap = {
+    hi: "Hindi",
+    en: "English",
+  };
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
+    }).then((res) => {
+      setCourseLang(res.data);
+    });
+  }, []);
 
   useEffect(() => {
     const exerciseId = get(selectedExercise, "exercise.id");
@@ -89,7 +106,6 @@ function CourseContent(props) {
           defaultExerciseIndex = exerciseFromParamsIndex;
         }
       }
-
       const selectedExerciseInfo = {
         exercise: defaultExercise,
         index: defaultExerciseIndex,
@@ -114,21 +130,32 @@ function CourseContent(props) {
     <div className="ng-course-content">
       <div className="content">
         <div className="lang">
-          <select
-            className="language-select"
-            id="lang"
-            required
-            value={changeLanguage}
-            aria-required
-            onChange={onLangChange}
-          >
-            <option value="en">English</option>
-            <option value="hi">Hindi</option>
-          </select>
+          {courseLang.map((item) => {
+            if (item.hasOwnProperty("lang_available")) {
+              if (item.id === courseId) {
+                return (
+                  <select
+                    className="language-select"
+                    id="lang"
+                    required
+                    value={changeLanguage}
+                    aria-required
+                    onChange={onLangChange}
+                  >
+                    {item.lang_available.map((language, index) => {
+                      return (
+                        <option key={index} value={language}>
+                          {languageMap[language]}
+                        </option>
+                      );
+                    })}
+                  </select>
+                );
+              }
+            }
+          })}
         </div>
-
         <h1>{courseTitle}</h1>
-
         <Switch>
           <Route path={`${path}${PATHS.EXERCISE}`}>
             <Exercise data={data} selectedExercise={selectedExercise} />
