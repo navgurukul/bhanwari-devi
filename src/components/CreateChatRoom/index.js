@@ -9,8 +9,23 @@ function MerakiChatRoom() {
   const [chatRoom, setChatRoom] = useState({
     name: "",
     topic: "",
+    roomAliasName: "",
     visibility: "",
   });
+
+  const notifySuccess = () => {
+    toast.success("Room Created!", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 2500,
+    });
+  };
+
+  const notifyFail = () => {
+    toast.error("Room couldn't be created!", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      autoClose: 2500,
+    });
+  };
 
   const handleChange = async (event) => {
     setChatRoom({ ...chatRoom, [event.target.name]: event.target.value });
@@ -18,12 +33,6 @@ function MerakiChatRoom() {
 
   const submit = (event) => {
     event && event.preventDefault();
-    const notify = () => {
-      toast.success("Room Created!", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
-      });
-    };
     axios
       .post(`${process.env.REACT_APP_MERAKI_URL}/chat/room`, chatRoom, {
         headers: {
@@ -32,7 +41,10 @@ function MerakiChatRoom() {
         },
       })
       .then(() => {
-        notify();
+        notifySuccess();
+      })
+      .catch(() => {
+        notifyFail();
       });
   };
 
@@ -61,6 +73,17 @@ function MerakiChatRoom() {
             aria-required
             onChange={handleChange}
             value={chatRoom.topic}
+          />
+          <label htmlFor="roomAliasName">Room Alias</label>
+          <input
+            type="text"
+            name="roomAliasName"
+            id="roomAliasName"
+            className="input-field"
+            required
+            aria-required
+            onChange={handleChange}
+            value={chatRoom.roomAliasName}
           />
           <label htmlFor="visibility">Visibility</label>
           <div className="radio">

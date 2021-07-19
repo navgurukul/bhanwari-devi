@@ -56,7 +56,7 @@ function PartnerDashboard() {
       (res) => {
         toast.success("Link created!", {
           position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
+          autoClose: 2500,
         });
         const response = res.data.data[0];
         const id = response.id;
@@ -73,7 +73,7 @@ function PartnerDashboard() {
       () => {
         toast.error("Something went wrong", {
           position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
+          autoClose: 2500,
         });
       }
     );

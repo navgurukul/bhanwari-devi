@@ -37,6 +37,7 @@ function Course() {
     filteredCourse = data.allCourses.filter((names) => {
       return names.name.toLowerCase().includes(search.toLowerCase());
     });
+    // console.log(data);
   }
 
   return (

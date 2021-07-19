@@ -19,6 +19,7 @@
     "linkifyjs": "^3.0.0-beta.3",
     "lint-staged": "^10.5.3",
     "matrix-js-sdk": "^9.4.1",
+    "mdast-add-list-metadata": "^1.1.0",
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",
     "npm": "^6.14.10",

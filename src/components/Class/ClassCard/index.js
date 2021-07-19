@@ -66,7 +66,7 @@ function ClassCard({ item, editClass }) {
     const notify = () => {
       toast.success(" Deleted the class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     };
     setShowModel(!showModel);
@@ -87,7 +87,7 @@ function ClassCard({ item, editClass }) {
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     };
     setEnrollShowModel(!enrollShowModel);
@@ -114,7 +114,7 @@ function ClassCard({ item, editClass }) {
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     };
     setunenrollShowModel(!unenrollShowModel);

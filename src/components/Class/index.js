@@ -95,7 +95,7 @@ function Class({ classToEdit }) {
       () => {
         toast.success("Updated class details!", {
           position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
+          autoClose: 2500,
         });
         setLoading(false);
       },

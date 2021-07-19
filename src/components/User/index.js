@@ -46,7 +46,7 @@ function User() {
           .split("class")[1];
       toast.success(`Added ${values.email} to ${className} successfully!`, {
         position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     };
     return axios({
