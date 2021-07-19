@@ -52,6 +52,12 @@ const components = {
   },
 };
 
+const table = {
+  table({ node, ...props }) {
+    return <table style={{ borderCollapse: "collapse" }} {...props} />;
+  },
+};
+
 const RenderContent = ({ data }) => {
   if (data.type === "image") {
     return <img className="image" src={get(data, "value.url")} alt="content" />;
@@ -66,6 +72,7 @@ const RenderContent = ({ data }) => {
         children={data.value}
         rehypePlugins={[rehypeRaw, rehypeSanitize]}
         remarkPlugins={[gfm]}
+        components={table}
       />
     );
   }
