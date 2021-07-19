@@ -22,7 +22,7 @@ const getExerciseIdFromUrl = () => {
 };
 
 function CourseContent(props) {
-  const [changeLanguage, setChangeLanguage] = useState("hi");
+  const [changeLanguage, setChangeLanguage] = useState("en");
   const history = useHistory();
   let { url, path } = useRouteMatch();
 
@@ -53,7 +53,7 @@ function CourseContent(props) {
     const getLocalStorageValue = localStorage.getItem("changeLanguage");
     const valueSet =
       getLocalStorageValue === undefined
-        ? setChangeLanguage("hi")
+        ? setChangeLanguage("en")
         : setChangeLanguage(getLocalStorageValue);
     dispatch(
       courseActions.getCourseContent({
@@ -122,8 +122,8 @@ function CourseContent(props) {
             aria-required
             onChange={onLangChange}
           >
-            <option value="hi">Hindi</option>
             <option value="en">English</option>
+            <option value="hi">Hindi</option>
           </select>
         </div>
 

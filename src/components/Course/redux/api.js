@@ -29,7 +29,7 @@ export const getCourses = () => {
 export const getCourseContent = (data) => {
   const { courseId, lang } = data;
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?userLang=${lang}`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
     method: METHODS.GET,
     // headers: HeaderFactory(token),
   });
