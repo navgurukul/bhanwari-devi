@@ -46,8 +46,18 @@
     font-size: 18px;
   }
 
+  tr:hover {
+    background-color: #ffffff;
+    box-shadow: 0 0;
+    cursor: auto;
+  }
+
   .table-content {
     border-collapse: collapse;
+  }
+
+  .table-content td {
+    font-size: 93%;
   }
 }
 
