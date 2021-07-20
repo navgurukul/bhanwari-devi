@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import YouTube from "react-youtube";
@@ -51,6 +52,12 @@ const components = {
   },
 };
 
+const table = {
+  table({ node, ...props }) {
+    return <table style={{ borderCollapse: "collapse" }} {...props} />;
+  },
+};
+
 const RenderContent = ({ data }) => {
   if (data.type === "image") {
     return <img className="image" src={get(data, "value.url")} alt="content" />;
@@ -58,37 +65,14 @@ const RenderContent = ({ data }) => {
   if (data.type === "youtube") {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
   }
-  if (data.type === "table") {
-    const columns = data.value.header;
-    const tableData = data.value.value;
-    return (
-      <table className="table-content">
-        <thead>
-          <tr>
-            {columns.map((col) => {
-              return <th>{col}</th>;
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((rows) => {
-            return (
-              <tr>
-                {rows.map((row) => {
-                  return <td>{row}</td>;
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    );
-  }
   if (data.type === "markdown") {
     return (
       <ReactMarkdown
+        className="table-content"
         children={data.value}
         rehypePlugins={[rehypeRaw, rehypeSanitize]}
+        remarkPlugins={[gfm]}
+        components={table}
       />
     );
   }
@@ -140,7 +124,7 @@ function ExerciseContent(props) {
   }
 
   return (
-    <div className="ng-exercise-content">
+    <div className="ng-exercise-content" align="justify">
       {content.map((contentItem, index) => (
         <RenderContent data={contentItem} key={index} />
       ))}

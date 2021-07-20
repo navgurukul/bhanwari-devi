@@ -19,11 +19,13 @@ const Exercise = (props) => {
   const { selectedExercise } = props;
 
   return (
-    <div>
-      <h2>{get(selectedExercise, "exercise.name")}</h2>
-      <ExerciseContent content={get(selectedExercise, "exercise.content")} />
+    <>
+      <div align="center">
+        <h2>{get(selectedExercise, "exercise.name")}</h2>
+        <ExerciseContent content={get(selectedExercise, "exercise.content")} />
+      </div>
       <EditOnGithub link={`${get(selectedExercise, "exercise.githubLink")}`} />
-    </div>
+    </>
   );
 };
 
