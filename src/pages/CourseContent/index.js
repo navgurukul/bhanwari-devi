@@ -40,6 +40,8 @@ function CourseContent(props) {
     en: "English",
   };
 
+  // api call for course
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
