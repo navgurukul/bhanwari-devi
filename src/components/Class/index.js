@@ -364,14 +364,13 @@ function Class({ classToEdit }) {
                 <option value="workshop">Workshop</option>
                 <option value="doubt_class">Doubt Class</option>
               </select>
-              <label htmlFor="pathway">
-                Select Pathway{" "}
-                <span className="optional-field">(optional)</span>
-              </label>
+              <label htmlFor="pathway">Select Pathway </label>
               <select
                 className="create-class-select"
                 name={PATHWAY_ID}
                 value={formFieldsState[PATHWAY_ID]}
+                required
+                aria-required
                 onChange={(e) => {
                   setFormField(e.target.value, PATHWAY_ID);
                 }}
@@ -391,12 +390,11 @@ function Class({ classToEdit }) {
                   if (formFieldsState[PATHWAY_ID] == pathway.id) {
                     return (
                       <React.Fragment key={pathway.id}>
-                        <label htmlFor="course_id">
-                          Select Course{" "}
-                          <span className="optional-field">(optional)</span>
-                        </label>
+                        <label htmlFor="course_id">Select Course </label>
                         <select
                           className="create-class-select"
+                          required
+                          aria-required
                           name={COURSE_ID}
                           value={formFieldsState[COURSE_ID]}
                           onChange={(e) => {
@@ -451,6 +449,12 @@ function Class({ classToEdit }) {
                 Maximum Enrollments
                 <span className="optional-field">(optional)</span>
               </label>
+              <span className="description-for-enrollments">
+                This is specific to Spoken English Classes, to cap the students
+                per class between 5 - 10 <br />
+                so that you can provide individual attention to each student's
+                progress.{" "}
+              </span>
               <input
                 className="input-field"
                 type="number"

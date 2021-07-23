@@ -15,7 +15,6 @@ function* handleGetCourses({ data }) {
     httpStatuses.SUCCESS.includes(coursesResponse.status)
   ) {
     const mappedCourses = mapCourses(coursesResponse.data);
-    console.log(mappedCourses);
     yield put(actions.getCoursesResolved(mappedCourses));
   } else {
     yield put(actions.getCoursesRejected(coursesResponse));
