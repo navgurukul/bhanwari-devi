@@ -7,6 +7,7 @@ import rehypeSanitize from "rehype-sanitize";
 import YouTube from "react-youtube";
 import get from "lodash/get";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import HiddenContent from "../HiddenContent";
 
 import "./styles.scss";
 
@@ -113,6 +114,14 @@ const RenderContent = ({ data }) => {
       </code>
     );
   }
+  if (data.type === "solution") {
+    return (
+      <HiddenContent>
+        <ReactMarkdown components={components} children={data.value} />
+      </HiddenContent>
+    );
+  }
+
   return "";
 };
 
