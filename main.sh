@@ -15,7 +15,8 @@ rm *
 rm -r static
 
 # Copy the build files 
-cp -r build/* .
+cp -r build/* .    
+
 
 # Add CNAME
 echo 'merakilearn.org' > CNAME
