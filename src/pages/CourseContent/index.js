@@ -27,7 +27,8 @@ function CourseContent(props) {
   const [changeLanguage, setChangeLanguage] = useState("en");
   const [courseLang, setCourseLang] = useState([]);
   const history = useHistory();
-  let { url, path } = useRouteMatch();
+  let { path, url } = useRouteMatch();
+  let fullUrl = window.location.href;
 
   const dispatch = useDispatch();
   const {
@@ -53,10 +54,9 @@ function CourseContent(props) {
 
   useEffect(() => {
     const exerciseId = get(selectedExercise, "exercise.id");
-    let url = window.location.href;
     window.localStorage.setItem(
       "lastExerciseUrl",
-      `${url}/exercise/${exerciseId}`
+      `${fullUrl}/exercise/${exerciseId}`
     );
     const exercise = get(selectedExercise, "exercise.name");
     window.localStorage.setItem("exerciseName", exercise);
@@ -70,10 +70,10 @@ function CourseContent(props) {
 
   useEffect(() => {
     const getLocalStorageValue = localStorage.getItem("changeLanguage");
-    const valueSet =
-      getLocalStorageValue === undefined
-        ? setChangeLanguage("en")
-        : setChangeLanguage(getLocalStorageValue);
+
+    getLocalStorageValue === undefined
+      ? setChangeLanguage("en")
+      : setChangeLanguage(getLocalStorageValue);
     dispatch(
       courseActions.getCourseContent({
         courseId: courseId,
@@ -87,6 +87,13 @@ function CourseContent(props) {
     localStorage.setItem("changeLanguage", e.target.value);
   };
 
+  const setSelectedExercise = (exerciseInfo, doNotUpdateHistory) => {
+    dispatch(courseActions.updateSelectedExercise(exerciseInfo));
+    if (!doNotUpdateHistory) {
+      history.push(`${url}/exercise/${exerciseInfo.exercise.id}`);
+    }
+  };
+
   useEffect(() => {
     let exerciseIdFromParams = getExerciseIdFromUrl();
     const firstExercise = get(data, "exerciseList[0]");
@@ -95,8 +102,6 @@ function CourseContent(props) {
 
     // exercises loaded
     if (firstExercise) {
-      // set default exercise if the exercise id present in the url and is valid
-      // TBD: Ideally, when navigating to a course content page, the first exercise should be pre-computed and the url should be course/:courseId/exercise/:exerciseId so we can always use the exerciseId from the params to set the default exercise.
       if (exerciseIdFromParams) {
         const exerciseFromParamsIndex = data.exerciseList.findIndex(
           (exercise) => {
@@ -113,16 +118,32 @@ function CourseContent(props) {
         index: defaultExerciseIndex,
       };
 
-      dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
+      setSelectedExercise(selectedExerciseInfo);
     }
-  }, [dispatch, data]);
+  }, [data]);
 
   useEffect(() => {
-    const exerciseId = get(selectedExercise, "exercise.id");
-    if (exerciseId) {
-      history.push(`${url}/exercise/${exerciseId}`);
+    const pathWithoutParams = fullUrl.split("?")[0];
+    if (pathWithoutParams.includes("exercise")) {
+      const routeExerciseId = pathWithoutParams.split("/").pop();
+      if (
+        get(selectedExercise, "exercise.id") !== routeExerciseId &&
+        routeExerciseId &&
+        data
+      ) {
+        const newSelectedExerciseIndex = data.exerciseList.findIndex(
+          (exercise) => exercise.id === routeExerciseId
+        );
+        setSelectedExercise(
+          {
+            exercise: data.exerciseList[newSelectedExerciseIndex],
+            index: newSelectedExerciseIndex,
+          },
+          true
+        );
+      }
     }
-  }, [selectedExercise, history, url]);
+  }, [fullUrl, path]);
 
   if (loading) {
     return <Loader pageLoader={true} />;
@@ -164,11 +185,14 @@ function CourseContent(props) {
           </Route>
         </Switch>
         <div className="arrow-row">
-          <GoBackArrow />
-          <GoForwardArrow />
+          <GoBackArrow setSelectedExercise={setSelectedExercise} />
+          <GoForwardArrow setSelectedExercise={setSelectedExercise} />
         </div>
       </div>
-      <ExerciseList list={get(data, "exerciseList")} />
+      <ExerciseList
+        setSelectedExercise={setSelectedExercise}
+        list={get(data, "exerciseList")}
+      />
     </div>
   );
 }
