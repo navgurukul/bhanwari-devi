@@ -143,7 +143,7 @@ function CourseContent(props) {
         );
       }
     }
-  }, [fullUrl, path]);
+  }, [fullUrl]);
 
   if (loading) {
     return <Loader pageLoader={true} />;
