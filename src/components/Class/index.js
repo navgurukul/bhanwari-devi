@@ -369,11 +369,11 @@ function Class({ classToEdit }) {
                 className="create-class-select"
                 name={PATHWAY_ID}
                 value={formFieldsState[PATHWAY_ID]}
-                required
-                aria-required
                 onChange={(e) => {
                   setFormField(e.target.value, PATHWAY_ID);
                 }}
+                required
+                aria-required
                 id="pathway"
               >
                 <option value="">Select a pathway from options below</option>
@@ -393,14 +393,14 @@ function Class({ classToEdit }) {
                         <label htmlFor="course_id">Select Course </label>
                         <select
                           className="create-class-select"
-                          required
-                          aria-required
                           name={COURSE_ID}
                           value={formFieldsState[COURSE_ID]}
                           onChange={(e) => {
                             onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
                           }}
+                          required
+                          aria-required
                           id="course_id"
                         >
                           <option value="">Select a course</option>
