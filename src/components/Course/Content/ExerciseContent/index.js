@@ -53,18 +53,38 @@ const components = {
   },
 };
 
-const table = {
-  table({ node, ...props }) {
-    return <table style={{ borderCollapse: "collapse" }} {...props} />;
-  },
-};
-
 const RenderContent = ({ data }) => {
   if (data.type === "image") {
     return <img className="image" src={get(data, "value.url")} alt="content" />;
   }
   if (data.type === "youtube") {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
+  }
+  if (data.type === "table") {
+    const columns = data.value.header;
+    const tableData = data.value.value;
+    return (
+      <table className="table-content">
+        <thead>
+          <tr>
+            {columns.map((col) => {
+              return <th>{col}</th>;
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((rows) => {
+            return (
+              <tr>
+                {rows.map((row) => {
+                  return <td>{row}</td>;
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
   }
   if (data.type === "markdown") {
     return (
@@ -73,7 +93,6 @@ const RenderContent = ({ data }) => {
         children={data.value}
         rehypePlugins={[rehypeRaw, rehypeSanitize]}
         remarkPlugins={[gfm]}
-        components={table}
       />
     );
   }
