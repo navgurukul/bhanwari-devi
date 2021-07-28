@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
 
 function HiddenContent(props) {
   const [hidden, setHidden] = useState(true);
+  useEffect(() => setHidden(true), [props]);
 
   return (
     <div id="hiddenContent__container">
