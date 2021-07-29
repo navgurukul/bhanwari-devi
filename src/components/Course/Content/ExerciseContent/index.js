@@ -117,7 +117,10 @@ const RenderContent = ({ data }) => {
   if (data.type === "solution") {
     return (
       <HiddenContent>
-        <ReactMarkdown components={components} children={data.value} />
+        <ReactMarkdown
+          components={components}
+          children={get(data, "value.code")}
+        />
       </HiddenContent>
     );
   }
