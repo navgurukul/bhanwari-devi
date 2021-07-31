@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Loader from "../common/Loader";
 import { toast } from "react-toastify";
 import "./styles.scss";
 
 function MerakiChatRoom() {
+  const [loading, setLoading] = useState(false);
   const user = useSelector(({ User }) => User);
   const [chatRoom, setChatRoom] = useState({
     name: "",
@@ -13,25 +15,12 @@ function MerakiChatRoom() {
     visibility: "",
   });
 
-  const notifySuccess = () => {
-    toast.success("Room Created!", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 2500,
-    });
-  };
-
-  const notifyFail = () => {
-    toast.error("Room couldn't be created!", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: 2500,
-    });
-  };
-
   const handleChange = async (event) => {
     setChatRoom({ ...chatRoom, [event.target.name]: event.target.value });
   };
 
   const submit = (event) => {
+    setLoading(true);
     event && event.preventDefault();
     axios
       .post(`${process.env.REACT_APP_MERAKI_URL}/chat/room`, chatRoom, {
@@ -41,10 +30,19 @@ function MerakiChatRoom() {
         },
       })
       .then(() => {
-        notifySuccess();
+        toast.success("Room Created!", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        setLoading(false);
       })
-      .catch(() => {
-        notifyFail();
+      .catch((error) => {
+        toast.error(
+          `Room couldn't be created!: ${error.response.status} ${error.response.data.message.error}`,
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          }
+        );
+        setLoading(false);
       });
   };
 
@@ -108,8 +106,8 @@ function MerakiChatRoom() {
               <label htmlFor="Choice2">Private</label>
             </span>
           </div>
-          <button type="submit" className="create-room-btn">
-            create room
+          <button type="submit" className="create-room-btn" disabled={loading}>
+            {loading ? <Loader /> : "create room"}
           </button>
         </form>
       </div>
