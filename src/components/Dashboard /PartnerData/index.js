@@ -44,40 +44,30 @@ function PartnerDashboard() {
     setPageNumber(selected);
   };
 
-  const createMerakiLink = (id) => {
+  const createMerakiLink = (id, platform) => {
     axios({
       method: METHODS.PUT,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/meraki-link`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/merakiLink`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        platform: platform,
       },
-    }).then(
-      (res) => {
+    })
+      .then((res) => {
         toast.success("Link created!", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
-        const response = res.data.data[0];
-        const id = response.id;
-        const merakiLink = response.meraki_link;
-        const newData = partners.map((data) => {
-          if (id === data.id) {
-            data["meraki_link"] = merakiLink;
-            return data;
-          }
-          return data;
-        });
-        setPartners(newData);
-      },
-      () => {
+      })
+      .catch(() => {
         toast.error("Something went wrong", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
-      }
-    );
+      });
   };
+
   return (
     <>
       <div className="table-container">
@@ -114,7 +104,8 @@ function PartnerDashboard() {
             <tr>
               <th>Partner's Name</th>
               <th>Number of students</th>
-              <th>Meraki Link</th>
+              <th>Meraki - Android Link</th>
+              <th>Meraki - Web Link</th>
             </tr>
           </thead>
           <tbody>
@@ -146,7 +137,28 @@ function PartnerDashboard() {
                     <td data-column="Meraki Link">
                       <div
                         className="create-link"
-                        onClick={() => createMerakiLink(item.id)}
+                        onClick={() => createMerakiLink(item.id, "android")}
+                      >
+                        Create link
+                      </div>
+                    </td>
+                  )}
+                  {item.web_link ? (
+                    <td data-column="Meraki Link">
+                      <a
+                        className="meraki_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={item.web_link}
+                      >
+                        Get Link
+                      </a>
+                    </td>
+                  ) : (
+                    <td data-column="Meraki Link">
+                      <div
+                        className="create-link"
+                        onClick={() => createMerakiLink(item.id, "web")}
                       >
                         Create link
                       </div>
