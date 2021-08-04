@@ -1,4 +1,4 @@
-export const getIsMobile = () => {
+const getIsMobile = () => {
   let check = false;
   (function (a) {
     if (
@@ -14,3 +14,16 @@ export const getIsMobile = () => {
   })(navigator.userAgent || navigator.vendor || window.opera);
   return check;
 };
+
+const getQueryVariable = (queryVars) => {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (decodeURIComponent(pair[0]) == queryVars) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+};
+
+module.exports = { getIsMobile, getQueryVariable };

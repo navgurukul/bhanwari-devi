@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router";
 import GoogleLogin from "react-google-login";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 import { actions as userActions } from "../../components/User/redux/action";
 import { PATHS } from "../../constant";
+import { getQueryVariable } from "../../common/utils";
 
 import "./styles.scss";
 
 function Login() {
+  const [queryString, setqueryString] = useState(null);
+
+  const updateQueryString = (value) => {
+    setqueryString(value);
+  };
   const dispatch = useDispatch();
   const { loading, data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
@@ -22,9 +30,9 @@ function Login() {
       email: profile.getEmail(),
       idToken,
     };
-
     // let's send the data to our backend.
     dispatch(userActions.onUserSignin(googleData));
+    updateQueryString(getQueryVariable("referrer"));
   }
 
   const onGoogleLoginFail = (errorResponse) => {
@@ -33,6 +41,19 @@ function Login() {
   };
 
   if (isAuthenticated) {
+    if (queryString) {
+      axios({
+        method: METHODS.PUT,
+        url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+        headers: {
+          accept: "application/json",
+          Authorization: data.token,
+        },
+        data: { referrer: queryString },
+      }).then((res) => {
+        console.log(res);
+      });
+    }
     return <Redirect to={PATHS.COURSE} />;
   }
 
