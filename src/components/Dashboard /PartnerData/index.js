@@ -104,7 +104,7 @@ function PartnerDashboard() {
             <tr>
               <th>Partner's Name</th>
               <th>Number of students</th>
-              <th>Meraki Link</th>
+              <th>Meraki Android Link</th>
               <th>Meraki Web Link</th>
             </tr>
           </thead>
