@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import get from "lodash/get";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as courseActions } from "../.././redux/action";
