@@ -16,6 +16,9 @@ function ExerciseList(props) {
     selectedExercise,
   } = useSelector(({ Course }) => Course);
 
+  // console.log("data", data);
+  // console.log("upper selectedExercise", selectedExercise);
+
   const handleExerciseChange = useCallback(
     (clickedExerciseInfo) => {
       const { index, subExerciseIndex } = clickedExerciseInfo;
