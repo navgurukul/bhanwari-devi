@@ -13,7 +13,7 @@ toast.configure();
 
 function PartnerDashboard() {
   const [pageNumber, setPageNumber] = useState(0);
-
+  const [flag, setFlag] = useState(false);
   const [totalCount, setTotalCount] = useState();
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,7 +37,7 @@ function PartnerDashboard() {
       setPartners(res.data.partners);
       setTotalCount(res.data.count);
     });
-  }, [debouncedText, pageNumber]);
+  }, [debouncedText, pageNumber, flag]);
 
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
@@ -59,6 +59,7 @@ function PartnerDashboard() {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
+        setFlag(!flag);
       })
       .catch(() => {
         toast.error("Something went wrong", {
