@@ -7,6 +7,7 @@ import rehypeSanitize from "rehype-sanitize";
 import YouTube from "react-youtube";
 import get from "lodash/get";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import HiddenContent from "../HiddenContent";
 
 import "./styles.scss";
 
@@ -76,14 +77,14 @@ const RenderContent = ({ data }) => {
       />
     );
   }
-  if (data.type === "python" || "javascript") {
+  if (data.type === "python" || data.type === "javascript") {
     return (
       <div>
         <ReactMarkdown
           components={components}
           children={getMarkdown(get(data, "value.code"), data.type)}
         />
-        <div class="code__controls">
+        <div className="code__controls">
           <a
             target="_blank"
             href={createVisulizeURL(
@@ -113,6 +114,16 @@ const RenderContent = ({ data }) => {
       </code>
     );
   }
+  if (data.type === "solution") {
+    return (
+      <HiddenContent>
+        <code>
+          <ReactMarkdown children={get(data, "value.code")} />
+        </code>
+      </HiddenContent>
+    );
+  }
+
   return "";
 };
 

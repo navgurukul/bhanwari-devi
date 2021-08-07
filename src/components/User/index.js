@@ -13,7 +13,7 @@ function User() {
     email: "",
     roomId: "",
   });
-  const lang = { en: "English", hi: "Hindi" };
+  const lang = { en: "English", hi: "Hindi", sp: "Spoken English" };
 
   useEffect(() => {
     axios({

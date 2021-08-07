@@ -39,6 +39,8 @@ function CourseContent(props) {
   const languageMap = {
     hi: "Hindi",
     en: "English",
+    te: "Telugu",
+    ta: "Tamil",
   };
 
   // api call for course
