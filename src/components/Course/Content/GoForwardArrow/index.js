@@ -1,13 +1,11 @@
 import React from "react";
 // import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import get from "lodash/get";
 
-import { actions as courseActions } from "../../redux/action";
 import Arrow from "../../../common/Arrow";
 
-const GoBackArrow = () => {
-  const dispatch = useDispatch();
+const GoBackArrow = ({ setSelectedExercise }) => {
   const {
     courseContent: { data },
     selectedExercise,
@@ -46,7 +44,7 @@ const GoBackArrow = () => {
         index,
         subExerciseIndex: nextSubExerciseIndex,
       };
-      dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
+      setSelectedExercise(selectedExerciseInfo);
     } else if (!subExerciseIndex && exercise.childExercises) {
       const mainExercise = get(data, `exerciseList[${index}]`);
       const selectedChildExercise = mainExercise.childExercises[0];
@@ -56,12 +54,12 @@ const GoBackArrow = () => {
         index,
         subExerciseIndex: 0,
       };
-      dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
+      setSelectedExercise(selectedExerciseInfo);
     } else {
       const nextIndex = index + 1;
       const nextExercise = get(data, `exerciseList[${nextIndex}]`);
       const selectedMainExercise = { exercise: nextExercise, index: nextIndex };
-      dispatch(courseActions.updateSelectedExercise(selectedMainExercise));
+      setSelectedExercise(selectedMainExercise);
     }
   };
 
