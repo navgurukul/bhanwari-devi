@@ -36,7 +36,6 @@ function Class({ classToEdit, formFieldsState }) {
   const [classType, setClassType] = useState();
   const [pathwayId, setPathwayId] = useState();
 
-  console.log("formFieldsState upr", formFieldsState);
   const {
     title,
     description,
@@ -159,7 +158,6 @@ function Class({ classToEdit, formFieldsState }) {
   };
 
   const handleTimeValidationAndCreateClass = (payload) => {
-    console.log("payload", payload);
     const classStartTime = moment(
       `${payload[TIME_CONSTANT.CLASS_START_DATE]} ${
         payload[TIME_CONSTANT.CLASS_START_TIME]
@@ -195,19 +193,19 @@ function Class({ classToEdit, formFieldsState }) {
   };
 
   const changeHandler = async (e, setField, field) => {
-    console.log(e.target.name);
+    // console.log(e.target.name);
     if (e.target.name === "occurrence") {
-      // console.log("UNTIL WILL RESET");
+      // // console.log("UNTIL WILL RESET");
       setField({ ...field, [e.target.name]: e.target.value, until: "" });
     } else if (e.target.name === "until") {
-      // console.log("OCCURRENCE WILL RESET");
+      // // console.log("OCCURRENCE WILL RESET");
       setField({
         ...field,
         [e.target.name]: e.target.value,
         occurrence: "",
       });
     } else {
-      // console.log("OTHER THINGS");
+      // // console.log("OTHER THINGS");
       setField({ ...field, [e.target.name]: e.target.value });
     }
   };
@@ -244,7 +242,7 @@ function Class({ classToEdit, formFieldsState }) {
       },
       (error) => {
         // if (OCCURRENCE === "" && UNTIL === "") {
-        //   console.log("I love you Poonam");
+        //   // console.log("I love you Poonam");
         //   toast.error(`You must fill either occurrence or untill field`, {
         //     position: toast.POSITION.BOTTOM_RIGHT,
         //   });
@@ -266,18 +264,19 @@ function Class({ classToEdit, formFieldsState }) {
       category_id: 3,
     };
 
-    console.log("rona aa rha", formFields);
+    // console.log("rona aa rha", formFields);
 
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
         if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
+        } else if (fieldName === "on_days") {
+          formFields[fieldName] = value.split(",");
         } else {
           formFields[fieldName] = value;
         }
       }
     }
-
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -292,7 +291,6 @@ function Class({ classToEdit, formFieldsState }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
-          console.log("formFieldsState", formFieldsState);
           return (
             <>
               <label htmlFor="class_type" className="label-field">
