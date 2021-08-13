@@ -12,9 +12,9 @@
     width: 100%;
   }
 
-  label {
-    font-weight: bold;
-  }
+  // label {
+  //   font-weight: normal;
+  // }
 
   //TODO: move the colors to color file.
   background: #ffffff;
@@ -24,11 +24,15 @@
   .title {
     width: 100%;
     display: flex;
-    justify-content: center;
-    text-transform: uppercase;
+    // justify-content: center;
+    // text-transform: uppercase;
+    margin-left: 21%;
+    font-size: 200%;
+    font-family: "Times New Roman", Times, serif;
   }
 
   .form {
+    // font-weight: normal;
     padding: 48px;
     display: flex;
     flex-direction: column;
@@ -72,12 +76,86 @@
   }
 }
 
+.radio-field {
+  margin: 5% 2% 5% 2%;
+  // &:focus {
+  //   background-color: #d1d3d1;
+  //   // outline: none !important;
+  //   // border: 1px solid #3cb728;
+  //   // box-shadow: 0 0 4px #3cb728;
+  // }
+}
+
+.label-field {
+  color: #bbbbbb;
+  font-weight: normal;
+  // padding-left: -2%;
+}
+
+.radio-field {
+  // -webkit-appearance: none;
+  // -moz-appearance: none;
+  // appearance: none;
+  /* create custom radiobutton appearance */
+  // display: inline-block;
+  width: 15px;
+  height: 15px;
+  padding: 2px;
+  display: inline-block;
+  /* background-color only for content */
+  background-clip: content-box;
+  border: 1px solid #bbbbbb;
+  background-color: #e7e6e7;
+  border-radius: 50%;
+  // width: 12px;
+  // height: 12px;
+  // // border-radius: 12px;
+  // // padding: 6px;
+  // background-clip: content-box;
+  // border: 2px solid #bbbbbb;
+  // background-color: #e7e6e7;
+  // border-radius: 50%;
+  // top: -2px;
+  // left: -1px;
+  // position: relative;
+  // // background-color: #ffa500;
+  // content: '';
+  // display: inline-block;
+  // visibility: visible;
+  // border: 2px solid rgb(27, 141, 65);
+}
+
+.radio-field:checked {
+  background-color: #19a078;
+  border: 1px solid #19a078;
+}
+
+// .radio-field:after {
+//   width: 15px;
+//   height: 15px;
+//   border-radius: 15px;
+//   top: -2px;
+//   left: -1px;
+//   position: relative;
+//   background-color: #d1d3d1;
+//   content: '';
+//   display: inline-block;
+//   visibility: visible;
+//   border: 2px solid white;
+// }
+
+.radio-field-course {
+  margin: 2%;
+}
+
 .input-field {
   width: 628px;
   height: 48px;
   padding-left: 8px;
   margin: 8px 0 24px 0;
   font-size: 16px;
+  border: none;
+  border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
     width: 100%;
@@ -88,9 +166,9 @@
   }
 
   background: #ffffff;
-  border: 1px solid #000000;
+  // border: 1px solid #000000;
   box-sizing: border-box;
-  border-radius: 8px;
+  // border-radius: 8px;
 
   &:focus {
     outline: none !important;
@@ -106,6 +184,8 @@
   font-size: 16px;
   margin: 8px 0 24px 0;
   resize: none;
+  border: none;
+  border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
     width: 100%;
@@ -113,9 +193,9 @@
 
   //TODO: move the color in the root colors.scss file.
   background: #ffffff;
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  border-radius: 8px;
+  // border: 1px solid #000000;
+  // box-sizing: border-box;
+  // border-radius: 8px;
 
   &:focus {
     outline: none !important;
@@ -141,7 +221,7 @@
 
 .description-for-enrollments {
   font-weight: normal;
-  font-size: 15px;
+  font-size: 1px;
   margin-top: 6px;
   font-family: Rubik, sans-serif;
   font-style: normal;
