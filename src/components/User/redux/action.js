@@ -13,6 +13,12 @@ export const actions = {
       data,
     };
   },
+  onUserUpdate(data) {
+    return {
+      type: types.ON_USER_UPDATE,
+      data,
+    };
+  },
   onUserSigninResolved(data) {
     return {
       type: types.ON_USER_SIGN_INTENT_RESOLVED,

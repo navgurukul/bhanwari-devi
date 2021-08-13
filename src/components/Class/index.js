@@ -194,15 +194,22 @@ function Class({ classToEdit, formFieldsState }) {
     }
   };
 
-  const changeHandler = (e, setField, field) => {
+  const changeHandler = async (e, setField, field) => {
+    console.log(e.target.name);
     if (e.target.name === "occurrence") {
-      console.log(e.target);
-      setField({ [until]: "ujd" });
+      // console.log("UNTIL WILL RESET");
+      setField({ ...field, [e.target.name]: e.target.value, until: "" });
+    } else if (e.target.name === "until") {
+      // console.log("OCCURRENCE WILL RESET");
+      setField({
+        ...field,
+        [e.target.name]: e.target.value,
+        occurrence: "",
+      });
+    } else {
+      // console.log("OTHER THINGS");
+      setField({ ...field, [e.target.name]: e.target.value });
     }
-    if (e.target.name === "until") {
-      setField({ ...field, [occurrence]: "poo" });
-    }
-    setField({ ...field, [e.target.name]: e.target.value });
   };
 
   const checkBoxHandler = (e, day, key, field, setField) => {

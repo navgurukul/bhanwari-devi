@@ -23,6 +23,7 @@ function Login() {
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
     let { id_token: idToken } = googleUser.getAuthResponse();
+
     const googleData = {
       id: profile.getId(),
       name: profile.getName(),
@@ -31,8 +32,11 @@ function Login() {
       idToken,
     };
     // let's send the data to our backend.
+    const referrer = getQueryVariable("referrer");
+    console.log(referrer);
     dispatch(userActions.onUserSignin(googleData));
-    updateQueryString(getQueryVariable("referrer"));
+    dispatch(userActions.onUserUpdate(referrer));
+    // updateQueryString(getQueryVariable("referrer"));
   }
 
   const onGoogleLoginFail = (errorResponse) => {
@@ -41,19 +45,19 @@ function Login() {
   };
 
   if (isAuthenticated) {
-    if (queryString) {
-      axios({
-        method: METHODS.PUT,
-        url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-        headers: {
-          accept: "application/json",
-          Authorization: data.token,
-        },
-        data: { referrer: queryString },
-      }).then((res) => {
-        console.log(res);
-      });
-    }
+    // if (queryString) {
+    //   axios({
+    //     method: METHODS.PUT,
+    //     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+    //     headers: {
+    //       accept: "application/json",
+    //       Authorization: data.token,
+    //     },
+    //     data: { referrer: queryString },
+    //   }).then((res) => {
+    //     console.log(res);
+    //   });
+    // }
     return <Redirect to={PATHS.COURSE} />;
   }
 
