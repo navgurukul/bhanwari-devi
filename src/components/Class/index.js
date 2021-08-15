@@ -77,9 +77,6 @@ function Class({ classToEdit, formFieldsState }) {
       [ON_DAYS]: on_days || [],
       [OCCURRENCE]: occurrence || "",
       [UNTIL]: until || "",
-      // [UNTIL]: until
-      //   ? moment.utc(until).format("YYYY-MM-DD")
-      //   : moment().format("YYYY-MM-DD"),
     };
   }, [classToEdit]);
 
@@ -95,7 +92,11 @@ function Class({ classToEdit, formFieldsState }) {
     {}
   );
 
-  const editClass = (payload) => {
+  console.log("classToEdit", classToEdit);
+
+  const editClass = (payload, indicator) => {
+    console.log("Pooooonam");
+    console.log("indicator hai ye", indicator);
     setLoading(true);
     return axios({
       method: METHODS.PUT,
@@ -104,7 +105,7 @@ function Class({ classToEdit, formFieldsState }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-      data: payload,
+      data: { ...payload, updateAll: indicator },
     }).then(
       () => {
         toast.success("Updated class details!", {
@@ -193,19 +194,15 @@ function Class({ classToEdit, formFieldsState }) {
   };
 
   const changeHandler = async (e, setField, field) => {
-    // console.log(e.target.name);
     if (e.target.name === "occurrence") {
-      // // console.log("UNTIL WILL RESET");
       setField({ ...field, [e.target.name]: e.target.value, until: "" });
     } else if (e.target.name === "until") {
-      // // console.log("OCCURRENCE WILL RESET");
       setField({
         ...field,
         [e.target.name]: e.target.value,
         occurrence: "",
       });
     } else {
-      // // console.log("OTHER THINGS");
       setField({ ...field, [e.target.name]: e.target.value });
     }
   };
@@ -241,12 +238,6 @@ function Class({ classToEdit, formFieldsState }) {
         setLoading(false);
       },
       (error) => {
-        // if (OCCURRENCE === "" && UNTIL === "") {
-        //   // console.log("I love you Poonam");
-        //   toast.error(`You must fill either occurrence or untill field`, {
-        //     position: toast.POSITION.BOTTOM_RIGHT,
-        //   });
-        // }
         toast.error(
           `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
           {
@@ -264,8 +255,6 @@ function Class({ classToEdit, formFieldsState }) {
       category_id: 3,
     };
 
-    // console.log("rona aa rha", formFields);
-
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
         if (fieldName === "max_enrolment") {
@@ -277,6 +266,7 @@ function Class({ classToEdit, formFieldsState }) {
         }
       }
     }
+    delete formFields.class_type;
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -297,42 +287,42 @@ function Class({ classToEdit, formFieldsState }) {
                 Class Type
               </label>
               <span>
-                <label htmlFor="class_type">
+                <label htmlFor="class_type" for="class_type1">
                   <input
                     className="radio-field"
                     type="radio"
-                    // name="class_type"
+                    name="class_type"
                     onChange={(e) => {
                       setClassType("cohort");
                     }}
                     value={classType}
-                    id="class_type"
+                    id="class_type1"
                   />
                   Cohort
                 </label>
-                <label htmlFor="class_type">
+                <label htmlFor="class_type" for="class_type2">
                   <input
                     className="radio-field"
                     type="radio"
-                    // name="class_type"
+                    name="class_type"
                     onChange={(e) => {
                       setClassType("workshop");
                     }}
                     value={classType}
-                    id="class_type"
+                    id="class_type2"
                   />
                   Workshop
                 </label>
-                <label htmlFor="class_type">
+                <label htmlFor="class_type" for="class_type3">
                   <input
                     className="radio-field"
                     type="radio"
-                    // name="class_type"
+                    name="class_type"
                     onChange={(e) => {
                       setClassType("doubt_class");
                     }}
                     value={classType}
-                    id="class_type"
+                    id="class_type3"
                   />
                   Doubt Class
                 </label>
@@ -347,9 +337,6 @@ function Class({ classToEdit, formFieldsState }) {
                 onChange={(e) =>
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
-                // onChange={(e) => {
-                //   setFormField(e.target.value, TITLE);
-                // }}
                 value={formFieldsState[TITLE]}
                 id="title"
                 required
@@ -365,9 +352,6 @@ function Class({ classToEdit, formFieldsState }) {
                 onChange={(e) =>
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
-                // onChange={(e) => {
-                //   setFormField(e.target.value, DESCRIPTION);
-                // }}
                 value={formFieldsState[DESCRIPTION]}
                 className="textarea-field"
                 required
@@ -386,9 +370,6 @@ function Class({ classToEdit, formFieldsState }) {
                     onChange={(e) =>
                       changeHandler(e, setFormFieldsState, formFieldsState)
                     }
-                    // onChange={(e) => {
-                    //   setFormField(e.target.value, FACILITATOR_NAME);
-                    // }}
                     id="facilitator_name"
                   />
                   <label htmlFor="facilitator_email" className="label-field">
@@ -401,9 +382,6 @@ function Class({ classToEdit, formFieldsState }) {
                     onChange={(e) =>
                       changeHandler(e, setFormFieldsState, formFieldsState)
                     }
-                    // onChange={(e) => {
-                    //   setFormField(e.target.value, FACILITATOR_EMAIL);
-                    // }}
                     name={FACILITATOR_EMAIL}
                     id="facilitator_email"
                   />
@@ -420,9 +398,6 @@ function Class({ classToEdit, formFieldsState }) {
                 onChange={(e) =>
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
-                // onChange={(e) => {
-                //   setFormField(e.target.value, START_TIME);
-                // }}
                 id="start_time"
                 required
                 aria-required
@@ -437,9 +412,6 @@ function Class({ classToEdit, formFieldsState }) {
                 onChange={(e) =>
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
-                // onChange={(e) => {
-                //   setFormField(e.target.value, CLASS_START_TIME);
-                // }}
                 value={formFieldsState[CLASS_START_TIME]}
                 id="class_start_time"
                 required
@@ -455,9 +427,6 @@ function Class({ classToEdit, formFieldsState }) {
                 onChange={(e) =>
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
-                // onChange={(e) => {
-                //   setFormField(e.target.value, CLASS_END_TIME);
-                // }}
                 value={formFieldsState[CLASS_END_TIME]}
                 id="class_end_time"
                 required
@@ -470,9 +439,6 @@ function Class({ classToEdit, formFieldsState }) {
                     type="radio"
                     className="radio-field"
                     name={TYPE}
-                    // onChange={(e) =>
-                    //   changeHandler(e, setFormFieldsState, formFieldsState)
-                    // }
                     onChange={(e) => {
                       setFormField("workshop", TYPE);
                     }}
@@ -486,9 +452,6 @@ function Class({ classToEdit, formFieldsState }) {
                     type="radio"
                     className="radio-field"
                     name={TYPE}
-                    // onChange={(e) =>
-                    //   changeHandler(e, setFormFieldsState, formFieldsState)
-                    // }
                     onChange={(e) => {
                       setFormField("doubt_class", TYPE);
                     }}
@@ -507,9 +470,6 @@ function Class({ classToEdit, formFieldsState }) {
                     type="radio"
                     className="radio-field"
                     name={LANG}
-                    // onChange={(e) =>
-                    //   changeHandler(e, setFormFieldsState, formFieldsState)
-                    // }
                     onChange={(e) => {
                       setFormField("en", LANG);
                     }}
@@ -523,9 +483,6 @@ function Class({ classToEdit, formFieldsState }) {
                     type="radio"
                     className="radio-field"
                     name={LANG}
-                    // onChange={(e) =>
-                    //   changeHandler(e, setFormFieldsState, formFieldsState)
-                    // }
                     onChange={(e) => {
                       setFormField("hi", LANG);
                     }}
@@ -539,9 +496,6 @@ function Class({ classToEdit, formFieldsState }) {
                     type="radio"
                     className="radio-field"
                     name={LANG}
-                    // onChange={(e) =>
-                    //   changeHandler(e, setFormFieldsState, formFieldsState)
-                    // }
                     onChange={(e) => {
                       setFormField("te", LANG);
                     }}
@@ -555,9 +509,6 @@ function Class({ classToEdit, formFieldsState }) {
                     type="radio"
                     className="radio-field"
                     name={LANG}
-                    // onChange={(e) =>
-                    //   changeHandler(e, setFormFieldsState, formFieldsState)
-                    // }
                     onChange={(e) => {
                       setFormField("ta", LANG);
                     }}
@@ -575,9 +526,6 @@ function Class({ classToEdit, formFieldsState }) {
                 value={pathwayId}
                 required
                 aria-required
-                // onChange={(e) =>
-                //   changeHandler(e, setFormFieldsState, formFieldsState)
-                // }
                 onChange={(e) => {
                   setPathwayId(e.target.value);
                 }}
@@ -606,13 +554,6 @@ function Class({ classToEdit, formFieldsState }) {
                           aria-required
                           name={COURSE_ID}
                           value={formFieldsState[COURSE_ID]}
-                          // onChange={(e) =>
-                          //   changeHandler(
-                          //     e,
-                          //     setFormFieldsState,
-                          //     formFieldsState
-                          //   )
-                          // }
                           onChange={(e) => {
                             onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
@@ -642,9 +583,6 @@ function Class({ classToEdit, formFieldsState }) {
                     className="input-field"
                     name={EXERCISE_ID}
                     value={formFieldsState[EXERCISE_ID]}
-                    // onChange={(e) =>
-                    //   changeHandler(e, setFormFieldsState, formFieldsState)
-                    // }
                     onChange={(e) => {
                       setFormField(e.target.value, EXERCISE_ID);
                     }}
@@ -681,9 +619,6 @@ function Class({ classToEdit, formFieldsState }) {
                 onChange={(e) =>
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
-                // onChange={(e) => {
-                //   setFormField(e.target.value, MAX_ENROLMENT);
-                // }}
                 value={formFieldsState[MAX_ENROLMENT]}
                 placeholder="Maximum students per class"
               />
@@ -698,9 +633,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="radio"
                         className="radio-field-course"
                         name={FREQUENCY}
-                        // onChange={(e) =>
-                        //   changeHandler(e, setFormFieldsState, formFieldsState)
-                        // }
                         onChange={(e) => {
                           setFormField("DAILY", FREQUENCY);
                         }}
@@ -714,9 +646,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="radio"
                         className="radio-field-course"
                         name={FREQUENCY}
-                        // onChange={(e) =>
-                        //   changeHandler(e, setFormFieldsState, formFieldsState)
-                        // }
                         onChange={(e) => {
                           setFormField("WEEKLY", FREQUENCY);
                         }}
@@ -754,10 +683,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="checkbox"
                         className="radio-field-course"
                         name={ON_DAYS}
-                        // onChange={(e) => {
-                        //   var days = [...formFieldsState[ON_DAYS], "TU"];
-                        //   setFormField(days, ON_DAYS);
-                        // }}
                         onClick={(e) =>
                           checkBoxHandler(
                             e,
@@ -777,10 +702,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="checkbox"
                         className="radio-field-course"
                         name={ON_DAYS}
-                        // onChange={(e) => {
-                        //   var days = [...formFieldsState[ON_DAYS], "WE"];
-                        //   setFormField(days, ON_DAYS);
-                        // }}
                         onClick={(e) =>
                           checkBoxHandler(
                             e,
@@ -800,10 +721,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="checkbox"
                         className="radio-field-course"
                         name={ON_DAYS}
-                        // onChange={(e) => {
-                        //   var days = [...formFieldsState[ON_DAYS], "TH"];
-                        //   setFormField(days, ON_DAYS);
-                        // }}
                         onClick={(e) =>
                           checkBoxHandler(
                             e,
@@ -823,10 +740,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="checkbox"
                         className="radio-field-course"
                         name={ON_DAYS}
-                        // onChange={(e) => {
-                        //   var days = [...formFieldsState[ON_DAYS], "FR"];
-                        //   setFormField(days, ON_DAYS);
-                        // }}
                         onClick={(e) =>
                           checkBoxHandler(
                             e,
@@ -846,10 +759,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="checkbox"
                         className="radio-field-course"
                         name={ON_DAYS}
-                        // onChange={(e) => {
-                        //   var days = [...formFieldsState[ON_DAYS], "SA"];
-                        //   setFormField(days, ON_DAYS);
-                        // }}
                         onClick={(e) =>
                           checkBoxHandler(
                             e,
@@ -869,10 +778,6 @@ function Class({ classToEdit, formFieldsState }) {
                         type="checkbox"
                         className="radio-field-course"
                         name={ON_DAYS}
-                        // onChange={(e) => {
-                        //   var days = [...formFieldsState[ON_DAYS], "SU"];
-                        //   setFormField(days, ON_DAYS);
-                        // }}
                         onClick={(e) =>
                           checkBoxHandler(
                             e,
@@ -898,7 +803,6 @@ function Class({ classToEdit, formFieldsState }) {
                     data-date-format="YYYY MM DD"
                     name={UNTIL}
                     id={UNTIL}
-                    // disabled="disabled"
                     onChange={(e) =>
                       changeHandler(e, setFormFieldsState, formFieldsState)
                     }

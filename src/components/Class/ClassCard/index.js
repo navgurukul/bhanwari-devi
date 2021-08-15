@@ -12,7 +12,7 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({ item, editClass }) {
+function ClassCard({ item, editClass, enroll, style, indicator }) {
   const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
@@ -30,6 +30,8 @@ function ClassCard({ item, editClass }) {
     doubt_class: "Doubt Class",
     workshop: "Workshop",
   };
+
+  console.log("indicator", indicator);
 
   const handleClose = () => {
     setShowModel(false);
@@ -77,6 +79,9 @@ function ClassCard({ item, editClass }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
+      data: {
+        deleteAll: indicator,
+      },
     }).then(() => {
       notify();
       dispatch(classActions.deleteClass(id));
@@ -101,6 +106,9 @@ function ClassCard({ item, editClass }) {
             "Content-Type": "application/json",
             Authorization: user.data.token,
           },
+        },
+        {
+          registerToAll: indicator,
         }
       )
       .then(() => {
@@ -124,6 +132,9 @@ function ClassCard({ item, editClass }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+      },
+      data: {
+        unregisterAll: indicator,
       },
     }).then(() => {
       notify();
@@ -155,12 +166,12 @@ function ClassCard({ item, editClass }) {
           {!item.enrolled ? (
             <button
               type="submit"
-              className="class-enroll"
+              className={style}
               onClick={() => {
                 handleClickOpenEnroll(item.id);
               }}
             >
-              Enroll to class
+              {enroll}
             </button>
           ) : (
             <button
@@ -182,7 +193,7 @@ function ClassCard({ item, editClass }) {
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  editClass(item.id);
+                  editClass(item.id, indicator);
                 }}
               />
             </div>
