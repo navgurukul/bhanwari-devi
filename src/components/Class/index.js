@@ -67,7 +67,7 @@ function Class({ classToEdit, formFieldsState }) {
         : moment().format("kk:mm"),
       [CLASS_END_TIME]: end_time
         ? moment.utc(end_time).format("kk:mm")
-        : moment().add(15, "minute").format("kk:mm"),
+        : moment().add(60, "minute").format("kk:mm"),
       [LANG]: lang || "hi",
       [TYPE]: type || "doubt_class",
       [COURSE_ID]: course_id || "",
@@ -92,11 +92,11 @@ function Class({ classToEdit, formFieldsState }) {
     {}
   );
 
-  console.log("classToEdit", classToEdit);
+  const editClass = (payload) => {
+    if (classToEdit.recurring_id) {
+      payload = { ...payload, updateAll: true };
+    }
 
-  const editClass = (payload, indicator) => {
-    console.log("Pooooonam");
-    console.log("indicator hai ye", indicator);
     setLoading(true);
     return axios({
       method: METHODS.PUT,
@@ -105,7 +105,7 @@ function Class({ classToEdit, formFieldsState }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-      data: { ...payload, updateAll: indicator },
+      data: payload,
     }).then(
       () => {
         toast.success("Updated class details!", {
@@ -283,7 +283,7 @@ function Class({ classToEdit, formFieldsState }) {
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
           return (
             <>
-              <label htmlFor="class_type" className="label-field">
+              {/* <label htmlFor="class_type" className="label-field">
                 Class Type
               </label>
               <span>
@@ -325,6 +325,48 @@ function Class({ classToEdit, formFieldsState }) {
                     id="class_type3"
                   />
                   Doubt Class
+                </label>
+              </span> */}
+              <label htmlFor="type">Select Class Type</label>
+              <span>
+                <label htmlFor="type">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={TYPE}
+                    onChange={(e) => {
+                      setFormField("doubt_class", TYPE);
+                    }}
+                    value={formFieldsState[TYPE]}
+                    id="type"
+                  />
+                  Doubt Class
+                </label>
+                <label htmlFor="type">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={TYPE}
+                    onChange={(e) => {
+                      setFormField("workshop", TYPE);
+                    }}
+                    value={formFieldsState[TYPE]}
+                    id="type"
+                  />
+                  Workshop
+                </label>
+                <label htmlFor="type">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={TYPE}
+                    onChange={(e) => {
+                      setFormField("cohort", TYPE);
+                    }}
+                    value={formFieldsState[TYPE]}
+                    id="type"
+                  />
+                  Cohort
                 </label>
               </span>
               <label htmlFor="title" className="label-field">
@@ -432,7 +474,7 @@ function Class({ classToEdit, formFieldsState }) {
                 required
                 aria-required
               />
-              <label htmlFor="type">Select Class Type</label>
+              {/* <label htmlFor="type">Select Class Type</label>
               <span>
                 <label htmlFor="type">
                   <input
@@ -460,7 +502,7 @@ function Class({ classToEdit, formFieldsState }) {
                   />
                   Doubt Class
                 </label>
-              </span>
+              </span> */}
               <label htmlFor="lang" className="label">
                 Select Language
               </label>
@@ -622,7 +664,7 @@ function Class({ classToEdit, formFieldsState }) {
                 value={formFieldsState[MAX_ENROLMENT]}
                 placeholder="Maximum students per class"
               />
-              {classType === "cohort" && (
+              {formFieldsState[TYPE] === "cohort" && (
                 <>
                   <label htmlFor="frequency" className="label-field">
                     Frequency

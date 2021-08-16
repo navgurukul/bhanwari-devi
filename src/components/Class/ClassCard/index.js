@@ -29,9 +29,8 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
     ta: "Tamil",
     doubt_class: "Doubt Class",
     workshop: "Workshop",
+    cohort: "Cohort",
   };
-
-  console.log("indicator", indicator);
 
   const handleClose = () => {
     setShowModel(false);

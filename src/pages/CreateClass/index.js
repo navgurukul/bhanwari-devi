@@ -15,7 +15,7 @@ function ToggleClassFormModal() {
     setShowModal(!showModal);
   };
 
-  const editClass = (classId) => {
+  const editClass = (classId, ...rest) => {
     setClassToEdit(data.find((classData) => classData.id === classId));
     setShowModal(true);
   };

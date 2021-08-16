@@ -54,7 +54,6 @@ function ClassList({ editClass, isShow }) {
               );
             })}
             {recurring_classes.map((item, index) => {
-              console.log("index", index);
               return (
                 <ClassCard
                   item={item}
