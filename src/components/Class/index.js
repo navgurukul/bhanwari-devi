@@ -368,6 +368,7 @@ function Class({ classToEdit }) {
                       changeHandler(e, setFormFieldsState, formFieldsState)
                     }
                     id="facilitator_name"
+                    disabled={isEditMode ? true : false}
                   />
                   <label htmlFor="facilitator_email" className="label-field">
                     Facilitator Email
@@ -381,6 +382,7 @@ function Class({ classToEdit }) {
                     }
                     name={FACILITATOR_EMAIL}
                     id="facilitator_email"
+                    disabled={isEditMode ? true : false}
                   />
                 </>
               )}
