@@ -13,7 +13,6 @@ toast.configure();
 
 function PartnerDashboard() {
   const [pageNumber, setPageNumber] = useState(0);
-
   const [totalCount, setTotalCount] = useState();
   const [partners, setPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,7 +36,7 @@ function PartnerDashboard() {
       setPartners(res.data.partners);
       setTotalCount(res.data.count);
     });
-  }, [debouncedText, pageNumber]);
+  }, [debouncedText, pageNumber, partners]);
 
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {

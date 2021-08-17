@@ -7,6 +7,7 @@ import { METHODS } from "../../services/api";
 import { actions as userActions } from "../../components/User/redux/action";
 import { PATHS } from "../../constant";
 import { getQueryVariable } from "../../common/utils";
+import Loader from "../../components/common/Loader";
 
 import "./styles.scss";
 
@@ -65,7 +66,7 @@ function Login() {
     <div className="ng-login">
       <div className="logo" />
       {loading ? (
-        "..."
+        <Loader />
       ) : (
         <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
