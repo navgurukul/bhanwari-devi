@@ -140,6 +140,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
       dispatch(classActions.dropOutClass(Id));
     });
   };
+
   return (
     <div className="class-card ">
       <div className="class-details">
@@ -153,7 +154,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
           ) : null}
         </span>
         <h4>{item.title}</h4>
-        <p>Facilitator Name : {item.facilitator.name} </p>
+        <p>Facilitator : {item.facilitator.name} </p>
         <p>Language : {languageMap[item.lang]} </p>
         <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
         {/* {item.email} */}

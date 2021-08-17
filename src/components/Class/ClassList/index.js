@@ -60,7 +60,7 @@ function ClassList({ editClass, isShow }) {
                   key={index}
                   index={index}
                   editClass={editClass}
-                  enroll="Enroll to Cohot class"
+                  enroll="Enroll to Cohort class"
                   style="class-enroll-cohort"
                   indicator="true"
                 />

@@ -30,10 +30,9 @@ const {
   UNTIL,
 } = CLASS_FIELDS;
 
-function Class({ classToEdit, formFieldsState }) {
+function Class({ classToEdit }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
-  const [classType, setClassType] = useState();
   const [pathwayId, setPathwayId] = useState();
 
   const {
@@ -283,50 +282,6 @@ function Class({ classToEdit, formFieldsState }) {
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
           return (
             <>
-              {/* <label htmlFor="class_type" className="label-field">
-                Class Type
-              </label>
-              <span>
-                <label htmlFor="class_type" for="class_type1">
-                  <input
-                    className="radio-field"
-                    type="radio"
-                    name="class_type"
-                    onChange={(e) => {
-                      setClassType("cohort");
-                    }}
-                    value={classType}
-                    id="class_type1"
-                  />
-                  Cohort
-                </label>
-                <label htmlFor="class_type" for="class_type2">
-                  <input
-                    className="radio-field"
-                    type="radio"
-                    name="class_type"
-                    onChange={(e) => {
-                      setClassType("workshop");
-                    }}
-                    value={classType}
-                    id="class_type2"
-                  />
-                  Workshop
-                </label>
-                <label htmlFor="class_type" for="class_type3">
-                  <input
-                    className="radio-field"
-                    type="radio"
-                    name="class_type"
-                    onChange={(e) => {
-                      setClassType("doubt_class");
-                    }}
-                    value={classType}
-                    id="class_type3"
-                  />
-                  Doubt Class
-                </label>
-              </span> */}
               <label htmlFor="type">Select Class Type</label>
               <span>
                 <label htmlFor="type">
@@ -474,35 +429,6 @@ function Class({ classToEdit, formFieldsState }) {
                 required
                 aria-required
               />
-              {/* <label htmlFor="type">Select Class Type</label>
-              <span>
-                <label htmlFor="type">
-                  <input
-                    type="radio"
-                    className="radio-field"
-                    name={TYPE}
-                    onChange={(e) => {
-                      setFormField("workshop", TYPE);
-                    }}
-                    value={formFieldsState[TYPE]}
-                    id="type"
-                  />
-                  Workshop
-                </label>
-                <label htmlFor="type">
-                  <input
-                    type="radio"
-                    className="radio-field"
-                    name={TYPE}
-                    onChange={(e) => {
-                      setFormField("doubt_class", TYPE);
-                    }}
-                    value={formFieldsState[TYPE]}
-                    id="type"
-                  />
-                  Doubt Class
-                </label>
-              </span> */}
               <label htmlFor="lang" className="label">
                 Select Language
               </label>
@@ -672,20 +598,9 @@ function Class({ classToEdit, formFieldsState }) {
                   <spam>
                     <label htmlFor="frequency">
                       <input
-                        type="radio"
-                        className="radio-field-course"
-                        name={FREQUENCY}
-                        onChange={(e) => {
-                          setFormField("DAILY", FREQUENCY);
-                        }}
-                        value={formFieldsState[FREQUENCY]}
-                        id="frequency"
-                      />
-                      DAILY
-                    </label>
-                    <label htmlFor="frequency">
-                      <input
-                        type="radio"
+                        // type="radio"
+                        type="checkbox"
+                        // checked
                         className="radio-field-course"
                         name={FREQUENCY}
                         onChange={(e) => {
