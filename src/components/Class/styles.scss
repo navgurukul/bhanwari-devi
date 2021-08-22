@@ -12,10 +12,6 @@
     width: 100%;
   }
 
-  // label {
-  //   font-weight: normal;
-  // }
-
   //TODO: move the colors to color file.
   background: #ffffff;
   box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.4);
@@ -24,11 +20,13 @@
   .title {
     width: 100%;
     display: flex;
-    // justify-content: center;
-    // text-transform: uppercase;
-    margin-left: 21%;
-    font-size: 200%;
+    justify-content: center;
+    text-transform: uppercase;
+    font-size: 30px;
     font-family: "Times New Roman", Times, serif;
+    @include breakpoint-mobile {
+      margin-left: 80px;
+    }
   }
 
   .form {
@@ -77,75 +75,16 @@
 }
 
 .radio-field {
-  margin: 5% 2% 5% 2%;
-  // &:focus {
-  //   background-color: #d1d3d1;
-  //   // outline: none !important;
-  //   // border: 1px solid #3cb728;
-  //   // box-shadow: 0 0 4px #3cb728;
-  // }
+  margin: 30px 12px 30px 12px;
 }
 
 .label-field {
   color: #bbbbbb;
   font-weight: normal;
-  // padding-left: -2%;
 }
 
-.radio-field {
-  // -webkit-appearance: none;
-  // -moz-appearance: none;
-  // appearance: none;
-  /* create custom radiobutton appearance */
-  // display: inline-block;
-  width: 15px;
-  height: 15px;
-  padding: 2px;
-  display: inline-block;
-  /* background-color only for content */
-  background-clip: content-box;
-  border: 1px solid #bbbbbb;
-  background-color: #e7e6e7;
-  border-radius: 50%;
-  // width: 12px;
-  // height: 12px;
-  // // border-radius: 12px;
-  // // padding: 6px;
-  // background-clip: content-box;
-  // border: 2px solid #bbbbbb;
-  // background-color: #e7e6e7;
-  // border-radius: 50%;
-  // top: -2px;
-  // left: -1px;
-  // position: relative;
-  // // background-color: #ffa500;
-  // content: '';
-  // display: inline-block;
-  // visibility: visible;
-  // border: 2px solid rgb(27, 141, 65);
-}
-
-.radio-field:checked {
-  background-color: #19a078;
-  border: 1px solid #19a078;
-}
-
-// .radio-field:after {
-//   width: 15px;
-//   height: 15px;
-//   border-radius: 15px;
-//   top: -2px;
-//   left: -1px;
-//   position: relative;
-//   background-color: #d1d3d1;
-//   content: '';
-//   display: inline-block;
-//   visibility: visible;
-//   border: 2px solid white;
-// }
-
-.radio-field-course {
-  margin: 2%;
+.checkbox-field {
+  margin: 12px;
 }
 
 .input-field {
@@ -158,7 +97,7 @@
   border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
-    width: 100%;
+    width: 350px;
   }
 
   &--short {
@@ -166,9 +105,7 @@
   }
 
   background: #ffffff;
-  // border: 1px solid #000000;
   box-sizing: border-box;
-  // border-radius: 8px;
 
   &:focus {
     outline: none !important;
@@ -188,14 +125,11 @@
   border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
-    width: 100%;
+    width: 340px;
   }
 
   //TODO: move the color in the root colors.scss file.
   background: #ffffff;
-  // border: 1px solid #000000;
-  // box-sizing: border-box;
-  // border-radius: 8px;
 
   &:focus {
     outline: none !important;

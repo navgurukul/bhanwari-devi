@@ -293,7 +293,7 @@ function Class({ classToEdit }) {
                       setFormField("doubt_class", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
-                    id="type"
+                    id="type1"
                   />
                   Doubt Class
                 </label>
@@ -306,7 +306,7 @@ function Class({ classToEdit }) {
                       setFormField("workshop", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
-                    id="type"
+                    id="type2"
                   />
                   Workshop
                 </label>
@@ -319,7 +319,7 @@ function Class({ classToEdit }) {
                       setFormField("cohort", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
-                    id="type"
+                    id="type3"
                   />
                   Cohort
                 </label>
@@ -431,7 +431,7 @@ function Class({ classToEdit }) {
                 required
                 aria-required
               />
-              <label htmlFor="lang" className="label">
+              <label htmlFor="lang" className="label-field">
                 Select Language
               </label>
               <span>
@@ -603,7 +603,7 @@ function Class({ classToEdit }) {
                         // type="radio"
                         type="checkbox"
                         // checked
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={FREQUENCY}
                         onChange={(e) => {
                           setFormField("WEEKLY", FREQUENCY);
@@ -621,7 +621,7 @@ function Class({ classToEdit }) {
                     <label htmlFor="on_days" for="on_days">
                       <input
                         type="checkbox"
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={ON_DAYS}
                         onClick={(e) =>
                           checkBoxHandler(
@@ -640,7 +640,7 @@ function Class({ classToEdit }) {
                     <label htmlFor="on_days">
                       <input
                         type="checkbox"
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={ON_DAYS}
                         onClick={(e) =>
                           checkBoxHandler(
@@ -659,7 +659,7 @@ function Class({ classToEdit }) {
                     <label htmlFor="on_days">
                       <input
                         type="checkbox"
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={ON_DAYS}
                         onClick={(e) =>
                           checkBoxHandler(
@@ -678,7 +678,7 @@ function Class({ classToEdit }) {
                     <label htmlFor="on_days">
                       <input
                         type="checkbox"
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={ON_DAYS}
                         onClick={(e) =>
                           checkBoxHandler(
@@ -697,7 +697,7 @@ function Class({ classToEdit }) {
                     <label htmlFor="on_days">
                       <input
                         type="checkbox"
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={ON_DAYS}
                         onClick={(e) =>
                           checkBoxHandler(
@@ -716,7 +716,7 @@ function Class({ classToEdit }) {
                     <label htmlFor="on_days">
                       <input
                         type="checkbox"
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={ON_DAYS}
                         onClick={(e) =>
                           checkBoxHandler(
@@ -735,7 +735,7 @@ function Class({ classToEdit }) {
                     <label htmlFor="on_days">
                       <input
                         type="checkbox"
-                        className="radio-field-course"
+                        className="checkbox-field"
                         name={ON_DAYS}
                         onClick={(e) =>
                           checkBoxHandler(
@@ -768,7 +768,7 @@ function Class({ classToEdit }) {
                     value={formFieldsState[UNTIL]}
                     placeholder="Until when recurring classes"
                   />
-                  <label htmlFor={OCCURRENCE} className="label">
+                  <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
                     <span className="optional-field">(optional)</span>
                   </label>
