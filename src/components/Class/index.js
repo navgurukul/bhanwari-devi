@@ -265,7 +265,6 @@ function Class({ classToEdit }) {
         }
       }
     }
-    delete formFields.class_type;
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -575,12 +574,13 @@ function Class({ classToEdit }) {
               <label htmlFor={MAX_ENROLMENT} className="label-field">
                 Maximum Enrollments
                 <span className="optional-field">(optional)</span>
+                <br />
+                <span className="optional-field">
+                  This is specific to Spoken English Classes, to cap the
+                  students per class between <br />5 - 10 so that you can
+                  provide individual attention to each student's progress.{" "}
+                </span>
               </label>
-              <span className="description-for-enrollments">
-                This is specific to Spoken English Classes, to cap the students
-                per class between <br />5 - 10 so that you can provide
-                individual attention to each student's progress.{" "}
-              </span>
               <input
                 className="input-field"
                 type="number"
@@ -594,7 +594,7 @@ function Class({ classToEdit }) {
               />
               {formFieldsState[TYPE] === "cohort" && (
                 <>
-                  <label htmlFor="frequency" className="label-field">
+                  {/* <label htmlFor="frequency" className="label-field">
                     Frequency
                   </label>
                   <spam>
@@ -613,7 +613,7 @@ function Class({ classToEdit }) {
                       />
                       WEEKLY
                     </label>
-                  </spam>
+                  </spam> */}
                   <label htmlFor="on_days" className="label-field">
                     On days
                   </label>
