@@ -47,6 +47,8 @@
 }
 
 .bottom-details {
+  // padding-top: 45%;
+  // margin-bottom: -5%;
   padding-top: 15px;
   display: flex;
 }
@@ -75,6 +77,17 @@
   border-radius: 5px;
   font-size: 16px;
   width: 130px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+}
+
+.class-enroll-cohort {
+  background-color: #7cc144;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 165px;
   height: 40px;
   cursor: pointer;
   border: none;

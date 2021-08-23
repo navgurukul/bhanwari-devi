@@ -20,3 +20,12 @@ export const sendGoogleUserData = (userData, tokens) => {
     },
   });
 };
+
+export const updateUser = (userData, tokens) => {
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+    method: METHODS.PUT,
+    headers: HeaderFactory(tokens),
+    data: userData,
+  });
+};

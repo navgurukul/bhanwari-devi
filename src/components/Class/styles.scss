@@ -12,10 +12,6 @@
     width: 100%;
   }
 
-  label {
-    font-weight: bold;
-  }
-
   //TODO: move the colors to color file.
   background: #ffffff;
   box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.4);
@@ -26,9 +22,15 @@
     display: flex;
     justify-content: center;
     text-transform: uppercase;
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+    @include breakpoint-mobile {
+      margin-left: 80px;
+    }
   }
 
   .form {
+    // font-weight: normal;
     padding: 48px;
     display: flex;
     flex-direction: column;
@@ -72,15 +74,30 @@
   }
 }
 
+.radio-field {
+  margin: 30px 12px 30px 12px;
+}
+
+.label-field {
+  color: #bbbbbb;
+  font-weight: normal;
+}
+
+.checkbox-field {
+  margin: 12px;
+}
+
 .input-field {
   width: 628px;
   height: 48px;
   padding-left: 8px;
   margin: 8px 0 24px 0;
   font-size: 16px;
+  border: none;
+  border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
-    width: 100%;
+    width: 350px;
   }
 
   &--short {
@@ -88,9 +105,7 @@
   }
 
   background: #ffffff;
-  border: 1px solid #000000;
   box-sizing: border-box;
-  border-radius: 8px;
 
   &:focus {
     outline: none !important;
@@ -106,16 +121,15 @@
   font-size: 16px;
   margin: 8px 0 24px 0;
   resize: none;
+  border: none;
+  border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
-    width: 100%;
+    width: 340px;
   }
 
   //TODO: move the color in the root colors.scss file.
   background: #ffffff;
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  border-radius: 8px;
 
   &:focus {
     outline: none !important;
@@ -141,7 +155,7 @@
 
 .description-for-enrollments {
   font-weight: normal;
-  font-size: 15px;
+  font-size: 1px;
   margin-top: 6px;
   font-family: Rubik, sans-serif;
   font-style: normal;

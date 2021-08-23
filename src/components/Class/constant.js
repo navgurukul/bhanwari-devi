@@ -18,4 +18,8 @@ export const CLASS_FIELDS = {
   COURSE_ID: "course_id",
   EXERCISE_ID: "exercise_id",
   MAX_ENROLMENT: "max_enrolment",
+  FREQUENCY: "frequency",
+  ON_DAYS: "on_days",
+  OCCURRENCE: "occurrence",
+  UNTIL: "until",
 };

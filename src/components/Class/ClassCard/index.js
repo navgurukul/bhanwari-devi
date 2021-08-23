@@ -12,7 +12,7 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({ item, editClass }) {
+function ClassCard({ item, editClass, enroll, style, indicator }) {
   const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
@@ -29,6 +29,7 @@ function ClassCard({ item, editClass }) {
     ta: "Tamil",
     doubt_class: "Doubt Class",
     workshop: "Workshop",
+    cohort: "Cohort",
   };
 
   const handleClose = () => {
@@ -77,6 +78,9 @@ function ClassCard({ item, editClass }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
+      data: {
+        deleteAll: indicator,
+      },
     }).then(() => {
       notify();
       dispatch(classActions.deleteClass(id));
@@ -101,6 +105,9 @@ function ClassCard({ item, editClass }) {
             "Content-Type": "application/json",
             Authorization: user.data.token,
           },
+        },
+        {
+          registerToAll: indicator,
         }
       )
       .then(() => {
@@ -125,11 +132,15 @@ function ClassCard({ item, editClass }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
+      data: {
+        unregisterAll: indicator,
+      },
     }).then(() => {
       notify();
       dispatch(classActions.dropOutClass(Id));
     });
   };
+
   return (
     <div className="class-card ">
       <div className="class-details">
@@ -143,7 +154,7 @@ function ClassCard({ item, editClass }) {
           ) : null}
         </span>
         <h4>{item.title}</h4>
-        <p>Facilitator Name : {item.facilitator.name} </p>
+        <p>Facilitator : {item.facilitator.name} </p>
         <p>Language : {languageMap[item.lang]} </p>
         <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
         {/* {item.email} */}
@@ -155,12 +166,12 @@ function ClassCard({ item, editClass }) {
           {!item.enrolled ? (
             <button
               type="submit"
-              className="class-enroll"
+              className={style}
               onClick={() => {
                 handleClickOpenEnroll(item.id);
               }}
             >
-              Enroll to class
+              {enroll}
             </button>
           ) : (
             <button
@@ -182,7 +193,7 @@ function ClassCard({ item, editClass }) {
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  editClass(item.id);
+                  editClass(item.id, indicator);
                 }}
               />
             </div>
