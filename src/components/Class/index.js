@@ -250,7 +250,7 @@ function Class({ classToEdit }) {
   const onFormSubmit = (event) => {
     event && event.preventDefault();
     const formData = new FormData(event.target);
-    const formFields = {
+    let formFields = {
       category_id: 3,
     };
 
@@ -258,6 +258,12 @@ function Class({ classToEdit }) {
       if (value) {
         if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
+        } else if (fieldName === "type") {
+          if (value === "cohort") {
+            formFields = { ...formFields, type: "cohort", frequency: "WEEKLY" };
+          } else {
+            formFields[fieldName] = value;
+          }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
         } else {
@@ -265,7 +271,6 @@ function Class({ classToEdit }) {
         }
       }
     }
-    delete formFields.class_type;
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -575,12 +580,14 @@ function Class({ classToEdit }) {
               <label htmlFor={MAX_ENROLMENT} className="label-field">
                 Maximum Enrollments
                 <span className="optional-field">(optional)</span>
+                <br />
+                <span className="description-for-enrollments">
+                  This is specific to Spoken English Classes, to cap the
+                  students per class between 5 - 10 <br />
+                  so that you can provide individual attention to each student's
+                  progress.
+                </span>
               </label>
-              <span className="description-for-enrollments">
-                This is specific to Spoken English Classes, to cap the students
-                per class between <br />5 - 10 so that you can provide
-                individual attention to each student's progress.{" "}
-              </span>
               <input
                 className="input-field"
                 type="number"
@@ -594,26 +601,6 @@ function Class({ classToEdit }) {
               />
               {formFieldsState[TYPE] === "cohort" && (
                 <>
-                  <label htmlFor="frequency" className="label-field">
-                    Frequency
-                  </label>
-                  <spam>
-                    <label htmlFor="frequency">
-                      <input
-                        // type="radio"
-                        type="checkbox"
-                        // checked
-                        className="checkbox-field"
-                        name={FREQUENCY}
-                        onChange={(e) => {
-                          setFormField("WEEKLY", FREQUENCY);
-                        }}
-                        value={formFieldsState[FREQUENCY]}
-                        id="frequency"
-                      />
-                      WEEKLY
-                    </label>
-                  </spam>
                   <label htmlFor="on_days" className="label-field">
                     On days
                   </label>
