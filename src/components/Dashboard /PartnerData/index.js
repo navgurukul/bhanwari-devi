@@ -58,6 +58,21 @@ function PartnerDashboard() {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
+        axios({
+          method: METHODS.GET,
+          url: `${process.env.REACT_APP_MERAKI_URL}/partners?${
+            searchTerm.length > 0
+              ? `name=${searchTerm}`
+              : `limit=${limit}&page=${pageNumber + 1}`
+          }`,
+          headers: {
+            accept: "application/json",
+            Authorization: user.data.token,
+          },
+        }).then((res) => {
+          setPartners(res.data.partners);
+          setTotalCount(res.data.count);
+        });
       })
       .catch(() => {
         toast.error("Something went wrong", {
