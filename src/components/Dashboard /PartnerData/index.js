@@ -36,7 +36,7 @@ function PartnerDashboard() {
       setPartners(res.data.partners);
       setTotalCount(res.data.count);
     });
-  }, [debouncedText, pageNumber, partners]);
+  }, [debouncedText, pageNumber]);
 
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
