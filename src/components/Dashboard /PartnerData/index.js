@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { MdContentCopy } from "react-icons";
+
 import "./styles.scss";
 import { METHODS } from "../../../services/api";
 import { Link } from "react-router-dom";
@@ -131,6 +134,17 @@ function PartnerDashboard() {
                       >
                         Get Link
                       </a>
+                      <CopyToClipboard
+                        text={item.meraki_link}
+                        onCopy={() => {
+                          toast.success("Copied to Clipboard", {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose: 1200,
+                          });
+                        }}
+                      >
+                        <i className="clipboard fa fa-copy"></i>
+                      </CopyToClipboard>
                     </td>
                   ) : (
                     <td data-column="Meraki Link">
@@ -152,6 +166,17 @@ function PartnerDashboard() {
                       >
                         Get Link
                       </a>
+                      <CopyToClipboard
+                        text={item.web_link}
+                        onCopy={() => {
+                          toast.success("Copied to Clipboard", {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose: 1200,
+                          });
+                        }}
+                      >
+                        <i className="clipboard fa fa-copy"></i>
+                      </CopyToClipboard>
                     </td>
                   ) : (
                     <td data-column="Meraki Link">
