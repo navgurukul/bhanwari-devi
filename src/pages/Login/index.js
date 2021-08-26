@@ -44,7 +44,7 @@ function Login() {
   };
 
   if (isAuthenticated) {
-    return <Redirect to={PATHS.COURSE} />;
+    return <Redirect to={PATHS.CLASS} />;
   }
 
   return (
