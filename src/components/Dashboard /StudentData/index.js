@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { BsArrowUpDown } from "react-icons/bs";
+
 import { METHODS } from "../../../services/api";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
@@ -21,7 +23,10 @@ function StudentData() {
   const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState([]);
+  const [originalResponse, setOriginalReponse] = useState([]);
+  const [slicedStudents, setSlicedStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortMethod, setSortMethod] = useState("dsc");
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
 
@@ -31,17 +36,85 @@ function StudentData() {
     let id = getPartnerIdFromUrl();
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users?${
-        searchTerm.length > 0
-          ? `name=${searchTerm}`
-          : `limit=${limit}&page=${pageNumber + 1}`
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users${
+        searchTerm.length > 0 ? `?name=${searchTerm}` : ""
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
       if (res.data.students.length < 1) {
         setMessage("There are no results to display");
       } else {
-        const data = res.data.students.map((item) => {
+        setOriginalReponse(res.data.students);
+        const data = res.data.students
+          .map((item) => {
+            if (item.classes_registered.length > 0) {
+              item.classes_registered = item.classes_registered.sort(
+                (c1, c2) => {
+                  return new Date(c1.start_time) - new Date(c2.start_time);
+                }
+              );
+            }
+            return {
+              ...item,
+              created_at: moment(item.created_at.replace("Z", "")).format(
+                "DD-MM-YYYY"
+              ),
+              classes_registered: item.classes_registered.map((item) => {
+                return {
+                  ...item,
+                  start_time: moment(item.start_time.replace("Z", "")).format(
+                    "DD-MM-YYYY"
+                  ),
+                  item,
+                  end_time: moment(item.end_time.replace("Z", "")).format(
+                    "hh:mm a"
+                  ),
+                };
+              }),
+            };
+          })
+          .sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
+
+        setStudents(data);
+        setSlicedStudents(
+          data.slice(pageNumber * limit, (pageNumber + 1) * limit)
+        );
+        setTotalCount(res.data.count);
+      }
+    });
+  }, [debouncedText]);
+
+  useEffect(() => {
+    const slicedData = students.slice(
+      pageNumber * limit,
+      (pageNumber + 1) * limit
+    );
+    setSlicedStudents(slicedData);
+  }, [pageNumber]);
+
+  const pageCount = Math.ceil(totalCount / limit);
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
+  const sortStudents = (byMethod) => {
+    let sortedStudents;
+    if (byMethod === "name") {
+      sortedStudents = students.sort().reverse();
+      setStudents(sortedStudents);
+      setSlicedStudents(
+        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+    } else if (byMethod === "enroll_date") {
+      sortedStudents = originalResponse
+        .sort((a, b) =>
+          sortMethod === "asc"
+            ? new Date(a.created_at) - new Date(b.created_at)
+            : new Date(b.created_at) - new Date(a.created_at)
+        )
+        .map((item) => {
           return {
             ...item,
             created_at: moment(item.created_at.replace("Z", "")).format(
@@ -61,15 +134,133 @@ function StudentData() {
             }),
           };
         });
-        setStudents(data);
-        setTotalCount(res.data.count);
-      }
-    });
-  }, [debouncedText, pageNumber]);
+      setStudents(sortedStudents);
+      setSlicedStudents(
+        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
+    } else if (byMethod === "total_classes") {
+      sortedStudents = students.sort((a, b) =>
+        sortMethod === "asc"
+          ? a.classes_registered.length - b.classes_registered.length
+          : b.classes_registered.length - a.classes_registered.length
+      );
+      setStudents(sortedStudents);
+      setSlicedStudents(
+        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
+    } else if (byMethod === "last_class_title") {
+      const zeroClass = students.filter((a) => {
+        return a.classes_registered.length <= 0;
+      });
+      sortedStudents = students
+        .filter((a) => {
+          return a.classes_registered.length > 0;
+        })
+        .sort((a, b) => {
+          return sortMethod === "asc"
+            ? a.classes_registered[
+                a.classes_registered.length - 1
+              ].title.localeCompare(
+                b.classes_registered[b.classes_registered.length - 1].title
+              )
+            : b.classes_registered[
+                b.classes_registered.length - 1
+              ].title.localeCompare(
+                a.classes_registered[a.classes_registered.length - 1].title
+              );
+        });
+      sortedStudents = [...sortedStudents, ...zeroClass];
+      setStudents(sortedStudents);
+      setSlicedStudents(
+        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
+    } else if (byMethod === "last_class_date") {
+      const zeroClass = students.filter((a) => {
+        return a.classes_registered.length <= 0;
+      });
+      sortedStudents = originalResponse
+        .filter((a) => {
+          if (a.classes_registered.length > 0) {
+            a.classes_registered = a.classes_registered.sort((c1, c2) => {
+              return new Date(c1.start_time) - new Date(c2.start_time);
+            });
+            return a;
+          }
+        })
+        .sort((a, b) => {
+          const startTimeOfA = [];
+          const startTimeOfB = [];
+          a.classes_registered.forEach((c) =>
+            startTimeOfA.push(new Date(c.start_time))
+          );
+          b.classes_registered.forEach((c) =>
+            startTimeOfB.push(new Date(c.start_time))
+          );
+          return sortMethod === "asc"
+            ? Math.max(...startTimeOfA) - Math.max(...startTimeOfB)
+            : Math.max(...startTimeOfB) - Math.max(...startTimeOfA);
+        })
+        .map((item) => {
+          return {
+            ...item,
+            created_at: moment(item.created_at.replace("Z", "")).format(
+              "DD-MM-YYYY"
+            ),
+            classes_registered: item.classes_registered.map((item) => {
+              return {
+                ...item,
+                start_time: moment(item.start_time.replace("Z", "")).format(
+                  "DD-MM-YYYY"
+                ),
+                item,
+                end_time: moment(item.end_time.replace("Z", "")).format(
+                  "hh:mm a"
+                ),
+              };
+            }),
+          };
+        });
+      sortedStudents = [...sortedStudents, ...zeroClass];
+      setStudents(sortedStudents);
+      setSlicedStudents(
+        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
+    } else if (byMethod === "rating") {
+      const zeroClass = students.filter((a) => {
+        return a.classes_registered.length <= 0;
+      });
 
-  const pageCount = Math.ceil(totalCount / limit);
-  const changePage = ({ selected }) => {
-    setPageNumber(selected);
+      sortedStudents = students.filter((a) => {
+        if (a.classes_registered.length > 0) {
+          a.averageRating = 0;
+          a.averageRating = a.classes_registered.reduce((acc, cu) => {
+            if (cu.feedback.feedback) {
+              return acc + parseInt(cu.feedback.feedback);
+            } else {
+              console.log(acc, a.classes_registered);
+            }
+          }, 0);
+          return a;
+        }
+      });
+      // .sort((a, b) => {
+      //   const startTimeOfA = [];
+      //   const startTimeOfB = [];
+      //   a.classes_registered.forEach((c) =>
+      //     startTimeOfA.push(new Date(c.start_time))
+      //   );
+      //   b.classes_registered.forEach((c) =>
+      //     startTimeOfB.push(new Date(c.start_time))
+      //   );
+      //   return sortMethod === "asc"
+      //     ? Math.max(...startTimeOfA) - Math.max(...startTimeOfB)
+      //     : Math.max(...startTimeOfB) - Math.max(...startTimeOfA);
+      // });
+    }
   };
 
   return (
@@ -105,17 +296,47 @@ function StudentData() {
       <table className="student-overview-table">
         <thead>
           <tr>
-            <th>Students Name</th>
-            <th>Enroll date </th>
-            <th>Total Classes Attended</th>
-            <th>Last Class Title</th>
-            <th>Last Class Date </th>
+            <th>
+              Students Name
+              <button onClick={() => sortStudents("name")}>
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Enroll date
+              <button onClick={() => sortStudents("enroll_date")}>
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Total Classes Attended
+              <button onClick={() => sortStudents("total_classes")}>
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Last Class Title
+              <button onClick={() => sortStudents("last_class_title")}>
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Last Class Date
+              <button onClick={() => sortStudents("last_class_date")}>
+                <BsArrowUpDown />
+              </button>
+            </th>
             <th>Last Class Time</th>
-            <th>Avg Class Rating</th>
+            <th>
+              Avg Class Rating
+              <button onClick={() => sortStudents("rating")}>
+                <BsArrowUpDown />
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
-          {students.map((item) => {
+          {slicedStudents.map((item) => {
             let getStars = 0;
             let totalStarts = item.classes_registered.length * 5;
             item.classes_registered.map((stars) => {
