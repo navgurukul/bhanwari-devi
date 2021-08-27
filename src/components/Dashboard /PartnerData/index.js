@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { BsArrowUpDown } from "react-icons/bs";
+
 import "./styles.scss";
 import { METHODS } from "../../../services/api";
 import { Link } from "react-router-dom";
@@ -16,18 +18,19 @@ function PartnerDashboard() {
   const [pageNumber, setPageNumber] = useState(0);
   const [totalCount, setTotalCount] = useState();
   const [partners, setPartners] = useState([]);
+  const [slicedPartners, setSlicedPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortMethod, setSortMethod] = useState("dsc");
+
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
-  const limit = 10;
+  const limit = 15;
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners?${
-        searchTerm.length > 0
-          ? `name=${searchTerm}`
-          : `limit=${limit}&page=${pageNumber + 1}`
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners${
+        searchTerm.length > 0 ? `?name=${searchTerm}` : ""
       }`,
       headers: {
         accept: "application/json",
@@ -35,13 +38,43 @@ function PartnerDashboard() {
       },
     }).then((res) => {
       setPartners(res.data.partners);
+      setSlicedPartners(
+        res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
       setTotalCount(res.data.count);
     });
-  }, [debouncedText, pageNumber]);
+  }, [debouncedText]);
+
+  useEffect(() => {
+    const slicedData = partners.slice(
+      pageNumber * limit,
+      (pageNumber + 1) * limit
+    );
+    setSlicedPartners(slicedData);
+  }, [pageNumber]);
 
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
+  };
+
+  const sortByName = () => {
+    const sortedPartners = partners.sort().reverse();
+    setPartners(sortedPartners);
+    setSlicedPartners(
+      sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+    );
+  };
+
+  const sortByStudents = () => {
+    const sortedPartners = partners.sort((a, b) => {
+      return sortMethod === "asc" ? a.users - b.users : b.users - a.users;
+    });
+    sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
+    setPartners(sortedPartners);
+    setSlicedPartners(
+      sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+    );
   };
 
   const createMerakiLink = (id, platform) => {
@@ -117,14 +150,24 @@ function PartnerDashboard() {
         <table className="partners-table">
           <thead>
             <tr>
-              <th>Partner's Name</th>
-              <th>Number of students</th>
+              <th>
+                Partner's Name
+                <button onClick={sortByName}>
+                  <BsArrowUpDown />
+                </button>
+              </th>
+              <th>
+                Number of students
+                <button onClick={sortByStudents}>
+                  <BsArrowUpDown />
+                </button>
+              </th>
               <th>Meraki - Android Link</th>
               <th>Meraki - Web Link</th>
             </tr>
           </thead>
           <tbody>
-            {partners.map((item) => {
+            {slicedPartners.map((item) => {
               return (
                 <tr key={item.id}>
                   <td data-column="Name">
