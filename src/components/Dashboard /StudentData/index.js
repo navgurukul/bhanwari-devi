@@ -23,7 +23,6 @@ function StudentData() {
   const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState([]);
-  const [originalResponse, setOriginalReponse] = useState([]);
   const [slicedStudents, setSlicedStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortMethod, setSortMethod] = useState("dsc");
@@ -44,7 +43,6 @@ function StudentData() {
       if (res.data.students.length < 1) {
         setMessage("There are no results to display");
       } else {
-        setOriginalReponse(res.data.students);
         const data = res.data.students
           .map((item) => {
             if (item.classes_registered.length > 0) {
@@ -67,19 +65,24 @@ function StudentData() {
             }
             return {
               ...item,
-              created_at: moment(item.created_at.replace("Z", "")).format(
-                "DD-MM-YYYY"
-              ),
+              // not overwriting original created_at because we need the date object to sort by date
+              formatted_created_at: moment(
+                item.created_at.replace("Z", "")
+              ).format("DD-MM-YYYY"),
               classes_registered: item.classes_registered.map((item) => {
                 return {
                   ...item,
-                  start_time: moment(item.start_time.replace("Z", "")).format(
-                    "DD-MM-YYYY"
-                  ),
+                  formatted_start_time: moment(
+                    item.start_time.replace("Z", "")
+                  ).format("DD-MM-YYYY"),
+                  /**
+                   * REVIEW
+                   * Why item is there again in the next line?
+                   */
                   item,
-                  end_time: moment(item.end_time.replace("Z", "")).format(
-                    "hh:mm a"
-                  ),
+                  formatted_end_time: moment(
+                    item.end_time.replace("Z", "")
+                  ).format("hh:mm a"),
                 };
               }),
             };
@@ -87,7 +90,6 @@ function StudentData() {
           .sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-        console.log(data);
         setStudents(data);
         setSlicedStudents(
           data.slice(pageNumber * limit, (pageNumber + 1) * limit)
@@ -119,43 +121,11 @@ function StudentData() {
         sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
     } else if (byMethod === "enroll_date") {
-      sortedStudents = originalResponse
-        .sort((a, b) =>
-          sortMethod === "asc"
-            ? new Date(a.created_at) - new Date(b.created_at)
-            : new Date(b.created_at) - new Date(a.created_at)
-        )
-        .map((item) => {
-          item.averageRating = 0;
-          let avg = 0;
-          let count = 0;
-          item.classes_registered.map((f) => {
-            if (f.feedback.feedback) {
-              avg = avg + parseInt(f.feedback.feedback);
-              count += 1;
-            }
-          });
-          if (avg > 0) item.averageRating = avg / count;
-          else item.averageRating = avg;
-          return {
-            ...item,
-            created_at: moment(item.created_at.replace("Z", "")).format(
-              "DD-MM-YYYY"
-            ),
-            classes_registered: item.classes_registered.map((item) => {
-              return {
-                ...item,
-                start_time: moment(item.start_time.replace("Z", "")).format(
-                  "DD-MM-YYYY"
-                ),
-                item,
-                end_time: moment(item.end_time.replace("Z", "")).format(
-                  "hh:mm a"
-                ),
-              };
-            }),
-          };
-        });
+      sortedStudents = students.sort((a, b) =>
+        sortMethod === "asc"
+          ? new Date(a.created_at) - new Date(b.created_at)
+          : new Date(b.created_at) - new Date(a.created_at)
+      );
       setStudents(sortedStudents);
       setSlicedStudents(
         sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
@@ -203,7 +173,7 @@ function StudentData() {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
       });
-      sortedStudents = originalResponse
+      sortedStudents = students
         .filter((a) => {
           if (a.classes_registered.length > 0) {
             a.classes_registered = a.classes_registered.sort((c1, c2) => {
@@ -224,26 +194,6 @@ function StudentData() {
           return sortMethod === "asc"
             ? Math.max(...startTimeOfA) - Math.max(...startTimeOfB)
             : Math.max(...startTimeOfB) - Math.max(...startTimeOfA);
-        })
-        .map((item) => {
-          return {
-            ...item,
-            created_at: moment(item.created_at.replace("Z", "")).format(
-              "DD-MM-YYYY"
-            ),
-            classes_registered: item.classes_registered.map((item) => {
-              return {
-                ...item,
-                start_time: moment(item.start_time.replace("Z", "")).format(
-                  "DD-MM-YYYY"
-                ),
-                item,
-                end_time: moment(item.end_time.replace("Z", "")).format(
-                  "hh:mm a"
-                ),
-              };
-            }),
-          };
         });
       sortedStudents = [...sortedStudents, ...zeroClass];
       setStudents(sortedStudents);
@@ -364,7 +314,7 @@ function StudentData() {
                     {item.name}
                   </Link>
                 </td>
-                <td data-column="Enrolled On">{item.created_at}</td>
+                <td data-column="Enrolled On">{item.formatted_created_at}</td>
                 <td data-column="Total classes ">
                   {" "}
                   {item.classes_registered.length}
@@ -385,22 +335,22 @@ function StudentData() {
                   {item.classes_registered &&
                   item.classes_registered.length > 0 &&
                   item.classes_registered[item.classes_registered.length - 1][
-                    "start_time"
+                    "formatted_start_time"
                   ]
                     ? item.classes_registered[
                         item.classes_registered.length - 1
-                      ]["start_time"]
+                      ]["formatted_start_time"]
                     : "NA"}
                 </td>
                 <td data-column="Last class time">
                   {item.classes_registered &&
                   item.classes_registered.length > 0 &&
                   item.classes_registered[item.classes_registered.length - 1][
-                    "end_time"
+                    "formatted_end_time"
                   ]
                     ? item.classes_registered[
                         item.classes_registered.length - 1
-                      ]["end_time"]
+                      ]["formatted_end_time"]
                     : "NA"}
                 </td>
                 <td data-column="Avg rating ">
