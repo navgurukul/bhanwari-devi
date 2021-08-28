@@ -234,32 +234,35 @@ function StudentData() {
         return a.classes_registered.length <= 0;
       });
 
-      sortedStudents = students.filter((a) => {
-        if (a.classes_registered.length > 0) {
-          a.averageRating = 0;
-          a.averageRating = a.classes_registered.reduce((acc, cu) => {
-            if (cu.feedback.feedback) {
-              return acc + parseInt(cu.feedback.feedback);
-            } else {
-              console.log(acc, a.classes_registered);
-            }
-          }, 0);
-          return a;
-        }
-      });
-      // .sort((a, b) => {
-      //   const startTimeOfA = [];
-      //   const startTimeOfB = [];
-      //   a.classes_registered.forEach((c) =>
-      //     startTimeOfA.push(new Date(c.start_time))
-      //   );
-      //   b.classes_registered.forEach((c) =>
-      //     startTimeOfB.push(new Date(c.start_time))
-      //   );
-      //   return sortMethod === "asc"
-      //     ? Math.max(...startTimeOfA) - Math.max(...startTimeOfB)
-      //     : Math.max(...startTimeOfB) - Math.max(...startTimeOfA);
-      // });
+      sortedStudents = students
+        .filter((a) => {
+          if (a.classes_registered.length > 0) {
+            a.averageRating = 0;
+            let avg = 0;
+            let count = 0;
+            a.classes_registered.map((f) => {
+              if (f.feedback.feedback) {
+                avg = avg + parseInt(f.feedback.feedback);
+                count += 1;
+              }
+            });
+            if (avg > 0) a.averageRating = avg / count;
+            else a.averageRating = avg;
+            return a;
+          }
+        })
+        .sort((a, b) => {
+          return sortMethod === "asc"
+            ? a.averageRating - b.averageRating
+            : b.averageRating - a.averageRating;
+        });
+      console.log(sortedStudents);
+      sortedStudents = [...sortedStudents, ...zeroClass];
+      setStudents(sortedStudents);
+      setSlicedStudents(
+        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     }
   };
 
