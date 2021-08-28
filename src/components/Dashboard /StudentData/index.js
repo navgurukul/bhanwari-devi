@@ -48,6 +48,17 @@ function StudentData() {
         const data = res.data.students
           .map((item) => {
             if (item.classes_registered.length > 0) {
+              item.averageRating = 0;
+              let avg = 0;
+              let count = 0;
+              item.classes_registered.map((f) => {
+                if (f.feedback.feedback) {
+                  avg = avg + parseInt(f.feedback.feedback);
+                  count += 1;
+                }
+              });
+              if (avg > 0) item.averageRating = avg / count;
+              else item.averageRating = avg;
               item.classes_registered = item.classes_registered.sort(
                 (c1, c2) => {
                   return new Date(c1.start_time) - new Date(c2.start_time);
@@ -76,7 +87,7 @@ function StudentData() {
           .sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-
+        console.log(data);
         setStudents(data);
         setSlicedStudents(
           data.slice(pageNumber * limit, (pageNumber + 1) * limit)
@@ -115,6 +126,17 @@ function StudentData() {
             : new Date(b.created_at) - new Date(a.created_at)
         )
         .map((item) => {
+          item.averageRating = 0;
+          let avg = 0;
+          let count = 0;
+          item.classes_registered.map((f) => {
+            if (f.feedback.feedback) {
+              avg = avg + parseInt(f.feedback.feedback);
+              count += 1;
+            }
+          });
+          if (avg > 0) item.averageRating = avg / count;
+          else item.averageRating = avg;
           return {
             ...item,
             created_at: moment(item.created_at.replace("Z", "")).format(
@@ -233,30 +255,11 @@ function StudentData() {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
       });
-
-      sortedStudents = students
-        .filter((a) => {
-          if (a.classes_registered.length > 0) {
-            a.averageRating = 0;
-            let avg = 0;
-            let count = 0;
-            a.classes_registered.map((f) => {
-              if (f.feedback.feedback) {
-                avg = avg + parseInt(f.feedback.feedback);
-                count += 1;
-              }
-            });
-            if (avg > 0) a.averageRating = avg / count;
-            else a.averageRating = avg;
-            return a;
-          }
-        })
-        .sort((a, b) => {
-          return sortMethod === "asc"
-            ? a.averageRating - b.averageRating
-            : b.averageRating - a.averageRating;
-        });
-      console.log(sortedStudents);
+      sortedStudents = students.sort((a, b) => {
+        return sortMethod === "asc"
+          ? a.averageRating - b.averageRating
+          : b.averageRating - a.averageRating;
+      });
       sortedStudents = [...sortedStudents, ...zeroClass];
       setStudents(sortedStudents);
       setSlicedStudents(
