@@ -19,6 +19,16 @@
   border: 1px solid #dee2e685;
 }
 
+.sorter {
+  background: transparent;
+  margin-left: 10px;
+  border: none;
+}
+
+.turn {
+  transform: scaleX(-1);
+}
+
 .t-data {
   text-decoration: none;
   color: #000;

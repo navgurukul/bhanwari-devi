@@ -8,6 +8,16 @@
   box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.3);
 }
 
+.sorter {
+  background: transparent;
+  margin-left: 10px;
+  border: none;
+}
+
+.turn {
+  transform: scaleX(-1);
+}
+
 .student-class-table thead tr th {
   box-shadow: 1px, 1px rgba(112, 111, 111, 0.16);
   letter-spacing: 0.35;

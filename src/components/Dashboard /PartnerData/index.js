@@ -21,6 +21,7 @@ function PartnerDashboard() {
   const [slicedPartners, setSlicedPartners] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortMethod, setSortMethod] = useState("dsc");
+  const [sort_class, setSortClass] = useState("sorter");
 
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
@@ -58,23 +59,29 @@ function PartnerDashboard() {
     setPageNumber(selected);
   };
 
-  const sortByName = () => {
-    const sortedPartners = partners.sort().reverse();
-    setPartners(sortedPartners);
-    setSlicedPartners(
-      sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
-    );
-  };
-
-  const sortByStudents = () => {
-    const sortedPartners = partners.sort((a, b) => {
-      return sortMethod === "asc" ? a.users - b.users : b.users - a.users;
-    });
-    sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
-    setPartners(sortedPartners);
-    setSlicedPartners(
-      sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
-    );
+  const sortPartners = (byMethod) => {
+    if (byMethod === "name") {
+      const sortedPartners = partners.sort().reverse();
+      setPartners(sortedPartners);
+      setSlicedPartners(
+        sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+    } else if (byMethod === "students") {
+      const sortedPartners = partners.sort((a, b) => {
+        return sortMethod === "asc" ? a.users - b.users : b.users - a.users;
+      });
+      setPartners(sortedPartners);
+      setSlicedPartners(
+        sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
+    }
+    if (sortMethod === "asc") {
+      setSortClass("sorter");
+      setSortMethod("dsc");
+    } else {
+      setSortClass("sorter turn");
+      setSortMethod("asc");
+    }
   };
 
   const createMerakiLink = (id, platform) => {
@@ -152,13 +159,19 @@ function PartnerDashboard() {
             <tr>
               <th>
                 Partner's Name
-                <button onClick={sortByName}>
+                <button
+                  className={sort_class}
+                  onClick={() => sortPartners("name")}
+                >
                   <BsArrowUpDown />
                 </button>
               </th>
               <th>
                 Number of students
-                <button onClick={sortByStudents}>
+                <button
+                  className={sort_class}
+                  onClick={() => sortPartners("students")}
+                >
                   <BsArrowUpDown />
                 </button>
               </th>

@@ -26,6 +26,7 @@ function StudentData() {
   const [slicedStudents, setSlicedStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortMethod, setSortMethod] = useState("dsc");
+  const [sort_class, setSortClass] = useState("sorter");
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
 
@@ -130,7 +131,6 @@ function StudentData() {
       setSlicedStudents(
         sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "total_classes") {
       sortedStudents = students.sort((a, b) =>
         sortMethod === "asc"
@@ -141,7 +141,6 @@ function StudentData() {
       setSlicedStudents(
         sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "last_class_title") {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
@@ -168,7 +167,6 @@ function StudentData() {
       setSlicedStudents(
         sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "last_class_date") {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
@@ -200,7 +198,6 @@ function StudentData() {
       setSlicedStudents(
         sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "rating") {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
@@ -215,7 +212,14 @@ function StudentData() {
       setSlicedStudents(
         sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
+    }
+
+    if (sortMethod === "asc") {
+      setSortClass("sorter");
+      setSortMethod("dsc");
+    } else {
+      setSortClass("sorter turn");
+      setSortMethod("asc");
     }
   };
 
@@ -254,38 +258,56 @@ function StudentData() {
           <tr>
             <th>
               Students Name
-              <button onClick={() => sortStudents("name")}>
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("name")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>
               Enroll date
-              <button onClick={() => sortStudents("enroll_date")}>
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("enroll_date")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>
               Total Classes Attended
-              <button onClick={() => sortStudents("total_classes")}>
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("total_classes")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>
               Last Class Title
-              <button onClick={() => sortStudents("last_class_title")}>
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("last_class_title")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>
               Last Class Date
-              <button onClick={() => sortStudents("last_class_date")}>
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("last_class_date")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>Last Class Time</th>
             <th>
               Avg Class Rating
-              <button onClick={() => sortStudents("rating")}>
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("rating")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>

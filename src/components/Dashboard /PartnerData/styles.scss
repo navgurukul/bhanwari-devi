@@ -17,6 +17,16 @@
   padding: 12px 20px 12px 40px;
 }
 
+.sorter {
+  background: transparent;
+  margin-left: 10px;
+  border: none;
+}
+
+.turn {
+  transform: scaleX(-1);
+}
+
 .clipboard {
   padding-left: 16px;
 }

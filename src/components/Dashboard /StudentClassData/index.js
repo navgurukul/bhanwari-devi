@@ -9,6 +9,7 @@ function StudentClassData(props) {
   const [classes, setClasses] = useState([]);
   const [slicedClasses, setSlicedClasses] = useState([]);
   const [sortMethod, setSortMethod] = useState("dsc");
+  const [sort_class, setSortClass] = useState("sorter");
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
 
@@ -53,7 +54,6 @@ function StudentClassData(props) {
       setSlicedClasses(
         sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "id") {
       sortedClasses = classes.sort((a, b) =>
         sortMethod === "asc" ? a.id - b.id : b.id - a.id
@@ -62,7 +62,6 @@ function StudentClassData(props) {
       setSlicedClasses(
         sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "facilitator") {
       sortedClasses = classes.sort((a, b) =>
         sortMethod === "asc"
@@ -73,7 +72,6 @@ function StudentClassData(props) {
       setSlicedClasses(
         sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "date") {
       sortedClasses = classes.sort((a, b) => {
         return sortMethod === "asc"
@@ -84,7 +82,6 @@ function StudentClassData(props) {
       setSlicedClasses(
         sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
     } else if (byMethod === "rating") {
       const nullFeedback = classes.filter((c) => c.feedback.feedback === null);
       sortedClasses = classes
@@ -99,8 +96,13 @@ function StudentClassData(props) {
       setSlicedClasses(
         sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
-      sortMethod === "asc" ? setSortMethod("dsc") : setSortMethod("asc");
-    } else if (byMethod === "date") {
+    }
+    if (sortMethod === "asc") {
+      setSortClass("sorter");
+      setSortMethod("dsc");
+    } else {
+      setSortClass("sorter turn");
+      setSortMethod("asc");
     }
   };
 
@@ -145,32 +147,44 @@ function StudentClassData(props) {
           <tr>
             <th>
               Class Title
-              <button onClick={() => sortClasses("title")}>
+              <button
+                className={sort_class}
+                onClick={() => sortClasses("title")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>
               Class Id
-              <button onClick={() => sortClasses("id")}>
+              <button className={sort_class} onClick={() => sortClasses("id")}>
                 <BsArrowUpDown />
               </button>
             </th>
             <th>
               Facilitator
-              <button onClick={() => sortClasses("facilitator")}>
+              <button
+                className={sort_class}
+                onClick={() => sortClasses("facilitator")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>Language</th>
             <th>
               Class Date
-              <button onClick={() => sortClasses("date")}>
+              <button
+                className={sort_class}
+                onClick={() => sortClasses("date")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
             <th>
               Class Rating
-              <button onClick={() => sortClasses("rating")}>
+              <button
+                className={sort_class}
+                onClick={() => sortClasses("rating")}
+              >
                 <BsArrowUpDown />
               </button>
             </th>
