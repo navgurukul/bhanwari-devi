@@ -60,21 +60,18 @@ function PartnerDashboard() {
   };
 
   const sortPartners = (byMethod) => {
+    let sortedPartners = partners;
     if (byMethod === "name") {
-      const sortedPartners = partners.sort().reverse();
-      setPartners(sortedPartners);
-      setSlicedPartners(
-        sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
+      sortedPartners = partners.sort().reverse();
     } else if (byMethod === "students") {
-      const sortedPartners = partners.sort((a, b) => {
+      sortedPartners = partners.sort((a, b) => {
         return sortMethod === "asc" ? a.users - b.users : b.users - a.users;
       });
-      setPartners(sortedPartners);
-      setSlicedPartners(
-        sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     }
+    setPartners(sortedPartners);
+    setSlicedPartners(
+      sortedPartners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+    );
     if (sortMethod === "asc") {
       setSortClass("sorter");
       setSortMethod("dsc");

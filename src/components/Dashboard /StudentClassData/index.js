@@ -50,17 +50,9 @@ function StudentClassData(props) {
           ? a.title.localeCompare(b.title)
           : b.title.localeCompare(a.title)
       );
-      setClasses(sortedClasses);
-      setSlicedClasses(
-        sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     } else if (byMethod === "id") {
       sortedClasses = classes.sort((a, b) =>
         sortMethod === "asc" ? a.id - b.id : b.id - a.id
-      );
-      setClasses(sortedClasses);
-      setSlicedClasses(
-        sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
     } else if (byMethod === "facilitator") {
       sortedClasses = classes.sort((a, b) =>
@@ -68,20 +60,12 @@ function StudentClassData(props) {
           ? a.facilitator_name.localeCompare(b.facilitator_name)
           : b.facilitator_name.localeCompare(a.facilitator_name)
       );
-      setClasses(sortedClasses);
-      setSlicedClasses(
-        sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     } else if (byMethod === "date") {
       sortedClasses = classes.sort((a, b) => {
         return sortMethod === "asc"
           ? new Date(a.start_time) - new Date(b.start_time)
           : new Date(b.start_time) - new Date(a.start_time);
       });
-      setClasses(sortedClasses);
-      setSlicedClasses(
-        sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     } else if (byMethod === "rating") {
       const nullFeedback = classes.filter((c) => c.feedback.feedback === null);
       sortedClasses = classes
@@ -92,11 +76,12 @@ function StudentClassData(props) {
             : parseInt(b.feedback.feedback) - parseInt(a.feedback.feedback)
         );
       sortedClasses = [...sortedClasses, ...nullFeedback];
-      setClasses(sortedClasses);
-      setSlicedClasses(
-        sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     }
+
+    setClasses(sortedClasses);
+    setSlicedClasses(
+      sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
+    );
     if (sortMethod === "asc") {
       setSortClass("sorter");
       setSortMethod("dsc");

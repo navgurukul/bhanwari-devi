@@ -117,29 +117,17 @@ function StudentData() {
     let sortedStudents;
     if (byMethod === "name") {
       sortedStudents = students.sort().reverse();
-      setStudents(sortedStudents);
-      setSlicedStudents(
-        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     } else if (byMethod === "enroll_date") {
       sortedStudents = students.sort((a, b) =>
         sortMethod === "asc"
           ? new Date(a.created_at) - new Date(b.created_at)
           : new Date(b.created_at) - new Date(a.created_at)
       );
-      setStudents(sortedStudents);
-      setSlicedStudents(
-        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     } else if (byMethod === "total_classes") {
       sortedStudents = students.sort((a, b) =>
         sortMethod === "asc"
           ? a.classes_registered.length - b.classes_registered.length
           : b.classes_registered.length - a.classes_registered.length
-      );
-      setStudents(sortedStudents);
-      setSlicedStudents(
-        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
     } else if (byMethod === "last_class_title") {
       const zeroClass = students.filter((a) => {
@@ -163,10 +151,6 @@ function StudentData() {
               );
         });
       sortedStudents = [...sortedStudents, ...zeroClass];
-      setStudents(sortedStudents);
-      setSlicedStudents(
-        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     } else if (byMethod === "last_class_date") {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
@@ -194,10 +178,6 @@ function StudentData() {
             : Math.max(...startTimeOfB) - Math.max(...startTimeOfA);
         });
       sortedStudents = [...sortedStudents, ...zeroClass];
-      setStudents(sortedStudents);
-      setSlicedStudents(
-        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     } else if (byMethod === "rating") {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
@@ -208,12 +188,11 @@ function StudentData() {
           : b.averageRating - a.averageRating;
       });
       sortedStudents = [...sortedStudents, ...zeroClass];
-      setStudents(sortedStudents);
-      setSlicedStudents(
-        sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
     }
-
+    setStudents(sortedStudents);
+    setSlicedStudents(
+      sortedStudents.slice(pageNumber * limit, (pageNumber + 1) * limit)
+    );
     if (sortMethod === "asc") {
       setSortClass("sorter");
       setSortMethod("dsc");
