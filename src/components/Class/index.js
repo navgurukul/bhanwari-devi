@@ -62,10 +62,10 @@ function Class({ classToEdit }) {
         ? moment.utc(start_time).format("YYYY-MM-DD")
         : moment().format("YYYY-MM-DD"),
       [CLASS_START_TIME]: start_time
-        ? moment.utc(start_time).format("kk:mm")
+        ? moment.utc(start_time).add(330, "minute").format("kk:mm")
         : moment().format("kk:mm"),
       [CLASS_END_TIME]: end_time
-        ? moment.utc(end_time).format("kk:mm")
+        ? moment.utc(end_time).add(330, "minute").format("kk:mm")
         : moment().add(60, "minute").format("kk:mm"),
       [LANG]: lang || "hi",
       [TYPE]: type || "doubt_class",
@@ -92,8 +92,8 @@ function Class({ classToEdit }) {
   );
 
   const editClass = (payload) => {
-    if (classToEdit.recurring_id) {
-      payload = { ...payload, updateAll: true };
+    if (classToEdit.type === "cohort") {
+      delete payload.frequency;
     }
 
     setLoading(true);
@@ -621,6 +621,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
+                        disabled={isEditMode ? true : false}
                       />
                       MO
                     </label>
@@ -640,6 +641,7 @@ function Class({ classToEdit }) {
                         }
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
+                        disabled={isEditMode ? true : false}
                       />
                       TU
                     </label>
@@ -659,6 +661,7 @@ function Class({ classToEdit }) {
                         }
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
+                        disabled={isEditMode ? true : false}
                       />
                       WE
                     </label>
@@ -678,6 +681,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
+                        disabled={isEditMode ? true : false}
                       />
                       TH
                     </label>
@@ -697,6 +701,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
+                        disabled={isEditMode ? true : false}
                       />
                       FR
                     </label>
@@ -716,6 +721,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
+                        disabled={isEditMode ? true : false}
                       />
                       SA
                     </label>
@@ -735,6 +741,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
+                        disabled={isEditMode ? true : false}
                       />
                       SU
                     </label>
@@ -754,6 +761,7 @@ function Class({ classToEdit }) {
                     }
                     value={formFieldsState[UNTIL]}
                     placeholder="Until when recurring classes"
+                    disabled={isEditMode ? true : false}
                   />
                   <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
@@ -769,6 +777,7 @@ function Class({ classToEdit }) {
                     }
                     value={formFieldsState[OCCURRENCE]}
                     placeholder="How many recurring classes"
+                    disabled={isEditMode ? true : false}
                   />
                 </>
               )}
