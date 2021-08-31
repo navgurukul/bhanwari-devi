@@ -3,7 +3,9 @@
   margin: 40px auto 0;
 }
 .student-class-table {
+  margin-bottom: 20px;
   border-collapse: collapse;
+  table-layout: fixed;
   width: 100%;
   box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.3);
 }
@@ -23,7 +25,7 @@
   letter-spacing: 0.35;
   color: #2e2e2e;
   opacity: 1;
-  padding: 12px;
+  // padding: 12px;
   font-size: 16px;
   font-style: normal;
   font-family: Rubik;

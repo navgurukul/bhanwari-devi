@@ -32,7 +32,9 @@
 }
 
 .partners-table {
+  margin-bottom: 30px;
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
 }
