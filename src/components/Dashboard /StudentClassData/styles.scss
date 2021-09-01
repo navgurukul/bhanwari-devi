@@ -3,9 +3,21 @@
   margin: 40px auto 0;
 }
 .student-class-table {
+  margin-bottom: 20px;
   border-collapse: collapse;
+  table-layout: fixed;
   width: 100%;
   box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.3);
+}
+
+.sorter {
+  background: transparent;
+  margin-left: 10px;
+  border: none;
+}
+
+.turn {
+  transform: scaleX(-1);
 }
 
 .student-class-table thead tr th {

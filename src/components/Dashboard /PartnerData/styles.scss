@@ -17,12 +17,24 @@
   padding: 12px 20px 12px 40px;
 }
 
+.sorter {
+  background: transparent;
+  margin-left: 10px;
+  border: none;
+}
+
+.turn {
+  transform: scaleX(-1);
+}
+
 .clipboard {
   padding-left: 16px;
 }
 
 .partners-table {
+  margin-bottom: 30px;
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
 }
