@@ -254,7 +254,7 @@ function StudentData() {
               </button>
             </th>
             <th>
-              Total Classes Attended
+              Classes Attended
               <button
                 className={sort_class}
                 onClick={() => sortStudents("total_classes")}
@@ -356,8 +356,8 @@ function StudentData() {
                 </td>
                 <td data-column="Avg rating ">
                   {[1, 2, 3, 4, 5].map((star) => {
-                    return Math.ceil(getStars / totalStarts) > 0 &&
-                      star <= Math.ceil(getStars / totalStarts) ? (
+                    return Math.ceil(item.averageRating) > 0 &&
+                      star <= Math.ceil(item.averageRating) ? (
                       <span
                         className="fa fa-star"
                         style={{ color: "#D55F31" }}
