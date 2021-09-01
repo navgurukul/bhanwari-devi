@@ -235,7 +235,7 @@ function StudentData() {
       <table className="student-overview-table">
         <thead>
           <tr>
-            <th>
+            <th className="student-name">
               Students Name
               <button
                 className={sort_class}
@@ -282,7 +282,7 @@ function StudentData() {
             </th>
             <th>Last Class Time</th>
             <th>
-              Avg Class Rating
+              Average Rating
               <button
                 className={sort_class}
                 onClick={() => sortStudents("rating")}

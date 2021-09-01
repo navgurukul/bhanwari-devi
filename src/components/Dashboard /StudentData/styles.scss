@@ -29,6 +29,10 @@
   border: none;
 }
 
+.student-name {
+  width: 23% !important;
+}
+
 .turn {
   transform: scaleX(-1);
 }
@@ -72,59 +76,6 @@ tr:hover {
 
 .Message {
   font-size: 20px;
-}
-
-@media screen and (min-device-width: 1920px) and (max-device-width: 1080px) {
-  .student-overview-table {
-    width: 100%;
-  }
-  /* Force table to not be like tables anymore */
-  .student-overview-table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  /* Hide table headers (but not display: none;, for accessibility) */
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  .Search-bar {
-    width: 270px;
-  }
-
-  tr {
-    border: 1px solid #ccc;
-  }
-
-  td {
-    /* Behave  like a "row" */
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  td:before {
-    /* Now like a table header */
-    position: absolute;
-    /* Top/left values mimic padding */
-
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    /* Label the data */
-    content: attr(data-column);
-    color: #000;
-    font-weight: 500;
-  }
 }
 
 @media only screen and (max-width: 760px),
