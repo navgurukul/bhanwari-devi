@@ -62,7 +62,7 @@ function ClassList({ editClass, isShow }) {
                   editClass={editClass}
                   enroll="Enroll to Cohort class"
                   style="class-enroll-cohort"
-                  indicator={true}
+                  indicator={false}
                 />
               );
             })}
