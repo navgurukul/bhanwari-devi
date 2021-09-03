@@ -49,9 +49,7 @@ function Header() {
 
   if (rolesList != null) {
     rolesList.map((role) => {
-      role === "classAdmin" || role === "dumbeldore"
-        ? (flag = true)
-        : (flag = false);
+      role === "admin" || role === "patner" ? (flag = true) : (flag = false);
     });
   }
   return (
