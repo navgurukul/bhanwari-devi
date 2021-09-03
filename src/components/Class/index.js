@@ -83,8 +83,7 @@ function Class({ classToEdit }) {
   const rolesList = user.data.user.rolesList;
 
   const canSpecifyFacilitator =
-    rolesList.indexOf("classAdmin") > -1 ||
-    rolesList.indexOf("dumbeldore") > -1;
+    rolesList.indexOf("classAdmin") > -1 || rolesList.indexOf("admin") > -1;
 
   const [pathways, setPathways] = useState([]);
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
