@@ -48,8 +48,13 @@ function Header() {
   const rolesList = data && data.user.rolesList;
 
   if (rolesList != null) {
+    /**
+     * This is entirely incorrect logical condition, if a user has multiple user including 'admin'
+     * and it will set the flag based on the last role it finds in the array
+     * A simple check of indexOf('admin') > -1 || indexOf('partner') > -1 can solve this
+     */
     rolesList.map((role) => {
-      role === "admin" || role === "patner" ? (flag = true) : (flag = false);
+      role === "admin" || role === "partner" ? (flag = true) : (flag = false);
     });
   }
   return (
