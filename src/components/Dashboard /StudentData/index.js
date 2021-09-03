@@ -8,7 +8,13 @@ import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 import "./styles.scss";
+
+const { createSliderWithTooltip } = Slider;
+const Range = createSliderWithTooltip(Slider.Range);
+const { Handle } = Slider;
 
 const getPartnerIdFromUrl = () => {
   let partnerId;
@@ -27,6 +33,9 @@ function StudentData() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortMethod, setSortMethod] = useState("dsc");
   const [sort_class, setSortClass] = useState("sorter");
+  const [start, setStart] = useState(1);
+  const [end, setEnd] = useState(6);
+  const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
 
@@ -202,6 +211,33 @@ function StudentData() {
     }
   };
 
+  const handleChange = (value) => {
+    setFilteredData(true);
+    setStart(value[0]);
+    setEnd(value[1]);
+  };
+
+  let filter = [];
+  students.filter((item) => {
+    if (start === 0) {
+      if (item.classes_registered.length === 0) {
+        filter.push(item);
+      }
+    } else if (start === 30) {
+      if (item.classes_registered.length >= 30) {
+        filter.push(item);
+      }
+    } else {
+      const range = (min, max) =>
+        Array.from({ length: max - min + 1 }, (_, i) => min + i);
+      range(start, end).map((range) => {
+        if (item.classes_registered.length === range) {
+          filter.push(item);
+        }
+      });
+    }
+  });
+
   return (
     <div className="container-table">
       <div className="container-for-search">
@@ -231,6 +267,38 @@ function StudentData() {
             activeClassName="paginationActive"
           />
         </div>
+      </div>
+      <div className="slider-label">
+        <label>Total attended classes </label>
+        <div className="slider">
+          <Range
+            min={0}
+            max={40}
+            defaultValue={[0, 0]}
+            step={null}
+            tipFormatter={(value) => value}
+            onChange={handleChange}
+            marks={{
+              0: 0,
+              1: 1,
+              6: 6,
+              10: 10,
+              15: 15,
+              20: 20,
+              25: 25,
+              30: 30,
+              40: `${30}+`,
+            }}
+          />
+        </div>
+        <button
+          onClick={() => {
+            setFilteredData(false);
+          }}
+          className="filter-clear"
+        >
+          clear
+        </button>
       </div>
       <table className="student-overview-table">
         <thead>
@@ -293,86 +361,171 @@ function StudentData() {
           </tr>
         </thead>
         <tbody>
-          {slicedStudents.map((item) => {
-            let getStars = 0;
-            let totalStarts = item.classes_registered.length * 5;
-            item.classes_registered.map((stars) => {
-              getStars = getStars + Number(stars.feedback.feedback);
-            });
-            return (
-              <tr key={item.id}>
-                <td data-column="Name">
-                  <Link
-                    className="t-data"
-                    to={{
-                      pathname: "/student",
-                      state: {
-                        pass: item.classes_registered,
-                        passName: item.name,
-                      },
-                    }}
-                  >
-                    {item.name}
-                  </Link>
-                </td>
-                <td data-column="Enrolled On">{item.formatted_created_at}</td>
-                <td data-column="Total classes ">
-                  {" "}
-                  {item.classes_registered.length}
-                </td>
+          {filteredData
+            ? filter.map((item) => {
+                let getStars = 0;
+                let totalStarts = item.classes_registered.length * 5;
+                item.classes_registered.map((stars) => {
+                  getStars = getStars + Number(stars.feedback.feedback);
+                });
+                return (
+                  <tr key={item.id}>
+                    <td data-column="Name">
+                      <Link
+                        className="t-data"
+                        to={{
+                          pathname: "/student",
+                          state: {
+                            pass: item.classes_registered,
+                            passName: item.name,
+                          },
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td data-column="Enrolled On">
+                      {item.formatted_created_at}
+                    </td>
+                    <td data-column="Total classes ">
+                      {" "}
+                      {item.classes_registered.length}
+                    </td>
 
-                <td data-column="Last class title">
-                  {item.classes_registered &&
-                  item.classes_registered.length > 0 &&
-                  item.classes_registered[item.classes_registered.length - 1][
-                    "title"
-                  ] != ""
-                    ? item.classes_registered[
+                    <td data-column="Last class title">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
                         item.classes_registered.length - 1
-                      ]["title"]
-                    : "NA"}
-                </td>
-                <td data-column="Last class date">
-                  {item.classes_registered &&
-                  item.classes_registered.length > 0 &&
-                  item.classes_registered[item.classes_registered.length - 1][
-                    "formatted_start_time"
-                  ]
-                    ? item.classes_registered[
+                      ]["title"] != ""
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["title"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class date">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
                         item.classes_registered.length - 1
                       ]["formatted_start_time"]
-                    : "NA"}
-                </td>
-                <td data-column="Last class time">
-                  {item.classes_registered &&
-                  item.classes_registered.length > 0 &&
-                  item.classes_registered[item.classes_registered.length - 1][
-                    "formatted_end_time"
-                  ]
-                    ? item.classes_registered[
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_start_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class time">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
                         item.classes_registered.length - 1
                       ]["formatted_end_time"]
-                    : "NA"}
-                </td>
-                <td data-column="Avg rating ">
-                  {[1, 2, 3, 4, 5].map((star) => {
-                    return Math.ceil(item.averageRating) > 0 &&
-                      star <= Math.ceil(item.averageRating) ? (
-                      <span
-                        className="fa fa-star"
-                        style={{ color: "#D55F31" }}
-                      ></span>
-                    ) : (
-                      <span
-                        className="fa fa-star"
-                        style={{ color: "gray" }}
-                      ></span>
-                    );
-                  })}
-                </td>
-              </tr>
-            );
-          })}
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_end_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Avg rating ">
+                      {[1, 2, 3, 4, 5].map((star) => {
+                        return Math.ceil(item.averageRating) > 0 &&
+                          star <= Math.ceil(item.averageRating) ? (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "#D55F31" }}
+                          ></span>
+                        ) : (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "gray" }}
+                          ></span>
+                        );
+                      })}
+                    </td>
+                  </tr>
+                );
+              })
+            : slicedStudents.map((item) => {
+                let getStars = 0;
+                let totalStarts = item.classes_registered.length * 5;
+                item.classes_registered.map((stars) => {
+                  getStars = getStars + Number(stars.feedback.feedback);
+                });
+                return (
+                  <tr key={item.id}>
+                    <td data-column="Name">
+                      <Link
+                        className="t-data"
+                        to={{
+                          pathname: "/student",
+                          state: {
+                            pass: item.classes_registered,
+                            passName: item.name,
+                          },
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td data-column="Enrolled On">
+                      {item.formatted_created_at}
+                    </td>
+                    <td data-column="Total classes ">
+                      {" "}
+                      {item.classes_registered.length}
+                    </td>
+
+                    <td data-column="Last class title">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["title"] != ""
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["title"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class date">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["formatted_start_time"]
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_start_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class time">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["formatted_end_time"]
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_end_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Avg rating ">
+                      {[1, 2, 3, 4, 5].map((star) => {
+                        return Math.ceil(item.averageRating) > 0 &&
+                          star <= Math.ceil(item.averageRating) ? (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "#D55F31" }}
+                          ></span>
+                        ) : (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "gray" }}
+                          ></span>
+                        );
+                      })}
+                    </td>
+                  </tr>
+                );
+              })}
           {message ? <h1 className="Message">{message}</h1> : null}
         </tbody>
       </table>

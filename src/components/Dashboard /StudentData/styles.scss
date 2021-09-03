@@ -74,6 +74,34 @@ tr:hover {
   padding: 12px 20px 12px 40px;
 }
 
+.slider-label {
+  display: flex;
+}
+
+// .slider-color {
+//   background-color: #83b344;
+//   color: #83b344;
+// }
+
+.slider {
+  width: 1120px;
+  margin-left: 50px;
+  margin-bottom: 40px;
+}
+
+.filter-clear {
+  background: #83b344;
+  margin-left: 20px;
+  width: 100px;
+  height: 30px;
+  border-radius: 15px;
+  color: white;
+  font-size: 17px;
+  font-weight: "bold";
+  border: none;
+  cursor: pointer;
+}
+
 .Message {
   font-size: 20px;
 }
@@ -103,6 +131,16 @@ tr:hover {
 
   .Search-bar {
     width: 270px;
+  }
+
+  .slider-label {
+    margin-bottom: 20px;
+  }
+
+  .slider {
+    // width: 100%;
+    margin-left: 30px;
+    margin-bottom: 40px;
   }
 
   tr {
