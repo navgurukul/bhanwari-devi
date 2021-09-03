@@ -57,9 +57,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
   const rolesList = user.data.user.rolesList;
   let flag = false;
   rolesList.map((role) => {
-    role === "classAdmin" || role === "dumbeldore"
-      ? (flag = true)
-      : (flag = false);
+    role === "admin" || role === "classAdmin" ? (flag = true) : (flag = false);
   });
 
   // API CALL FOR DELETE CLASS
