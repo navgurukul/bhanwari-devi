@@ -33,6 +33,7 @@ function StudentData() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortMethod, setSortMethod] = useState("dsc");
   const [sort_class, setSortClass] = useState("sorter");
+  const [filterVal, setFilterVal] = useState([0, 0]);
   const [start, setStart] = useState(1);
   const [end, setEnd] = useState(6);
   const [filteredData, setFilteredData] = useState(false);
@@ -212,25 +213,27 @@ function StudentData() {
   };
 
   const handleChange = (value) => {
+    console.log(value);
     setFilteredData(true);
-    setStart(value[0]);
-    setEnd(value[1]);
+    setFilterVal(value);
+    // setStart(value[0]);
+    // setEnd(value[1]);
   };
 
   let filter = [];
   students.filter((item) => {
-    if (start === 0) {
+    if (filterVal[0] === 0) {
       if (item.classes_registered.length === 0) {
         filter.push(item);
       }
-    } else if (start === 30) {
+    } else if (filterVal[0] === 30) {
       if (item.classes_registered.length >= 30) {
         filter.push(item);
       }
     } else {
       const range = (min, max) =>
         Array.from({ length: max - min + 1 }, (_, i) => min + i);
-      range(start, end).map((range) => {
+      range(filterVal[0], filterVal[1]).map((range) => {
         if (item.classes_registered.length === range) {
           filter.push(item);
         }
@@ -274,8 +277,9 @@ function StudentData() {
           <Range
             min={0}
             max={40}
-            defaultValue={[0, 0]}
+            value={filterVal}
             step={null}
+            allowCross={false}
             tipFormatter={(value) => value}
             onChange={handleChange}
             marks={{
@@ -294,6 +298,7 @@ function StudentData() {
         <button
           onClick={() => {
             setFilteredData(false);
+            setFilterVal([0, 0]);
           }}
           className="filter-clear"
         >
