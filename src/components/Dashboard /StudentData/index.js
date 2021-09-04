@@ -14,7 +14,6 @@ import "./styles.scss";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
-const { Handle } = Slider;
 
 const getPartnerIdFromUrl = () => {
   let partnerId;
@@ -34,8 +33,6 @@ function StudentData() {
   const [sortMethod, setSortMethod] = useState("dsc");
   const [sort_class, setSortClass] = useState("sorter");
   const [filterVal, setFilterVal] = useState([0, 0]);
-  const [start, setStart] = useState(1);
-  const [end, setEnd] = useState(6);
   const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
@@ -213,11 +210,8 @@ function StudentData() {
   };
 
   const handleChange = (value) => {
-    console.log(value);
     setFilteredData(true);
     setFilterVal(value);
-    // setStart(value[0]);
-    // setEnd(value[1]);
   };
 
   let filter = [];
@@ -277,10 +271,10 @@ function StudentData() {
           <Range
             min={0}
             max={40}
-            value={filterVal}
+            defaultValue={[0, 0]}
             step={null}
-            allowCross={false}
-            tipFormatter={(value) => value}
+            tipFormatter={(value) => (value === 40 ? (value = "30+") : value)}
+            value={filterVal}
             onChange={handleChange}
             marks={{
               0: 0,
