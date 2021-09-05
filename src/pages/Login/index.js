@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router";
 import GoogleLogin from "react-google-login";
-import axios from "axios";
-import { METHODS } from "../../services/api";
+
 import { actions as userActions } from "../../components/User/redux/action";
 import { PATHS } from "../../constant";
 import { getQueryVariable } from "../../common/utils";
@@ -11,14 +10,16 @@ import Loader from "../../components/common/Loader";
 
 import "./styles.scss";
 
-function Login() {
+function Login(props) {
   const [queryString, setqueryString] = useState(null);
 
   const updateQueryString = (value) => {
     setqueryString(value);
   };
   const dispatch = useDispatch();
+
   const { loading, data } = useSelector(({ User }) => User);
+
   const isAuthenticated = data && data.isAuthenticated;
 
   function onSignIn(googleUser) {
@@ -43,7 +44,9 @@ function Login() {
     console.log("onGoogle login fail", errorResponse);
   };
 
-  if (isAuthenticated) {
+  if (isAuthenticated && props.location.state) {
+    return <Redirect to={props.location.state.from.pathname} />;
+  } else if (isAuthenticated) {
     return <Redirect to={PATHS.COURSE} />;
   }
 
