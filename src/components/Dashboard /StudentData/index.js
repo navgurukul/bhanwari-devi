@@ -8,17 +8,18 @@ import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { PATHS } from "../../../constant";
 import "./styles.scss";
 
 const getPartnerIdFromUrl = () => {
   let partnerId;
-  if (window.location.pathname.includes("partners")) {
+  if (window.location.pathname.includes("partner")) {
     partnerId = window.location.pathname.split("/").pop();
   }
   return partnerId;
 };
 
-function StudentData() {
+function StudentData(props) {
   const [pageNumber, setPageNumber] = useState(0);
   const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
@@ -305,7 +306,7 @@ function StudentData() {
                   <Link
                     className="t-data"
                     to={{
-                      pathname: "/student",
+                      pathname: `/student/${item.id}`,
                       state: {
                         pass: item.classes_registered,
                         passName: item.name,

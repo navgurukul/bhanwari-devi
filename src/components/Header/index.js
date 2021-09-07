@@ -10,8 +10,13 @@ const AuthenticatedHeaderOption = () => {
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
 
-  const canSpecifyUserBaseRole =
-    rolesList.indexOf("admin") > -1 || rolesList.indexOf("partner") > -1;
+  const userId = user.data.user.partner_id;
+
+  const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
+
+  const canSpecifyPartner =
+    rolesList.includes("partner") && user.data.user.partner_id != null;
+
   return (
     <>
       {canSpecifyUserBaseRole ? (
@@ -20,10 +25,16 @@ const AuthenticatedHeaderOption = () => {
           <a href={PATHS.PARTNERS}>Partners</a>
         </>
       ) : null}
+      {canSpecifyPartner ? (
+        <>
+          <a href={`${PATHS.PARTNERS}/${userId}`}>Dashboard</a>
+        </>
+      ) : null}
 
       <a href={PATHS.COURSE}>Courses</a>
       <a href={PATHS.MENTOR}>Mentor</a>
       <a href={PATHS.CLASS}>Classes</a>
+
       <a>
         <button
           className="logout"
