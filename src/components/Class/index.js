@@ -284,6 +284,7 @@ function Class({ classToEdit }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
+          console.log(formFieldsState);
           return (
             <>
               <label htmlFor="type">Select Class Type</label>
@@ -298,6 +299,9 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[TYPE]}
                     id="type1"
+                    checked={
+                      formFieldsState.type === "doubt_class" ? "checked" : false
+                    }
                   />
                   Doubt Class
                 </label>
@@ -311,6 +315,9 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[TYPE]}
                     id="type2"
+                    checked={
+                      formFieldsState.type === "workshop" ? "checked" : false
+                    }
                   />
                   Workshop
                 </label>
@@ -324,6 +331,9 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[TYPE]}
                     id="type3"
+                    checked={
+                      formFieldsState.type === "cohort" ? "checked" : false
+                    }
                   />
                   Cohort
                 </label>
@@ -449,6 +459,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "en" ? "checked" : false}
                   />
                   English
                 </label>
@@ -462,6 +473,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "hi" ? "checked" : false}
                   />
                   Hindi
                 </label>
@@ -475,6 +487,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "te" ? "checked" : false}
                   />
                   Telugu
                 </label>
@@ -488,6 +501,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "ta" ? "checked" : false}
                   />
                   Tamil
                 </label>
@@ -621,6 +635,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("MO") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       MO
                     </label>
@@ -641,6 +660,11 @@ function Class({ classToEdit }) {
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("TU") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       TU
                     </label>
@@ -661,6 +685,11 @@ function Class({ classToEdit }) {
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("WE") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       WE
                     </label>
@@ -681,6 +710,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("TH") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       TH
                     </label>
@@ -701,6 +735,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("FR") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       FR
                     </label>
@@ -721,6 +760,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("SA") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       SA
                     </label>
@@ -741,6 +785,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("SU") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       SU
                     </label>
