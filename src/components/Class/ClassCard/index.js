@@ -75,9 +75,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-      },
-      data: {
-        deleteAll: indicator,
+        "delete-all": indicator,
       },
     }).then(() => {
       notify();
@@ -94,7 +92,6 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
     };
     setEnrollShowModel(!enrollShowModel);
     axios
-
       .post(
         `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
         {},
@@ -102,10 +99,8 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
+            "register-to-all": indicator,
           },
-        },
-        {
-          registerToAll: indicator,
         }
       )
       .then(() => {
@@ -129,9 +124,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-      },
-      data: {
-        unregisterAll: indicator,
+        "unregister-all": indicator,
       },
     }).then(() => {
       notify();
