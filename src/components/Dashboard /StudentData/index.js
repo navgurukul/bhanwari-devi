@@ -360,35 +360,6 @@ function StudentData(props) {
           </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
-          {slicedStudents.map((item) => {
-            let getStars = 0;
-            let totalStarts = item.classes_registered.length * 5;
-            item.classes_registered.map((stars) => {
-              getStars = getStars + Number(stars.feedback.feedback);
-            });
-            return (
-              <tr key={item.id}>
-                <td data-column="Name">
-                  <Link
-                    className="t-data"
-                    to={{
-                      pathname: `/student/${item.id}`,
-                      state: {
-                        pass: item.classes_registered,
-                        passName: item.name,
-                      },
-                    }}
-                  >
-                    {item.name}
-                  </Link>
-                </td>
-                <td data-column="Enrolled On">{item.formatted_created_at}</td>
-                <td data-column="Total classes ">
-                  {" "}
-                  {item.classes_registered.length}
-                </td>
-=======
           {filteredData
             ? filter.map((item) => {
                 let getStars = 0;
@@ -501,7 +472,6 @@ function StudentData(props) {
                       {" "}
                       {item.classes_registered.length}
                     </td>
->>>>>>> 6018a7284d7c063e72f3cf724ed86ea94717cbd4
 
                     <td data-column="Last class title">
                       {item.classes_registered &&
