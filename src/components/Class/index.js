@@ -10,6 +10,10 @@ import Loader from "../common/Loader";
 import Form from "../common/form";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
+import { Redirect } from "react-router";
+import { PATHS } from "../../constant";
+import { createBrowserHistory } from "history";
+import history from "../../history";
 
 const {
   TITLE,
@@ -230,11 +234,13 @@ function Class({ classToEdit }) {
         ...payload,
       },
     }).then(
-      () => {
+      (res) => {
         toast.success("You successfully created a class.", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
+        // history.push("/class");
+        return <Redirect to={PATHS.CLASS} />;
       },
       (error) => {
         toast.error(
@@ -247,6 +253,7 @@ function Class({ classToEdit }) {
       }
     );
   };
+
   const onFormSubmit = (event) => {
     event && event.preventDefault();
     const formData = new FormData(event.target);

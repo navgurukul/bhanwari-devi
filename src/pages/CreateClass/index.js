@@ -82,6 +82,7 @@ function ToggleClassFormModal() {
 
       calledOnce.current = true;
     }
+    console.log("payload", payload);
     if (calledOnce.current) {
       return axios({
         method: METHODS.PUT,
@@ -116,11 +117,7 @@ function ToggleClassFormModal() {
         </Modal>
       ) : (
         show && (
-          <Modal
-            // onClose={handleClickOpen}
-            onClick={handleClose}
-            className="confirmation-massage"
-          >
+          <Modal onClick={handleClose} className="confirmation-massage">
             <h2>
               We need your calendar consent to create class. <br />
               Do you want to go ahead?'
