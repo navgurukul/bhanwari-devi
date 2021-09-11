@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import CreateClassComponent from "../../components/Class";
 import ClassesList from "../../components/Class/ClassList";
 import { useSelector } from "react-redux";
@@ -51,7 +52,7 @@ function ToggleClassFormModal() {
     setShow(false);
   };
 
-  const codeGenerate = () => {
+  const codeGenerate = async () => {
     return axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/users/calendar/generateAuthURL`,
@@ -65,24 +66,25 @@ function ToggleClassFormModal() {
   };
 
   const calledOnce = useRef(false);
+  const history = useHistory();
 
-  useEffect(() => {
+  useEffect(async () => {
     let code;
     let payload;
+    let user_id;
+    let user_email;
     if (url.includes("code")) {
       const decodedUri = url.replace(/%3D/g, "=").replace("%2B", "+");
-      let user_id = decodedUri.split("=")[2].split("+")[0];
-      let user_email = decodedUri.split("=")[3].split("&")[0];
+      user_id = decodedUri.split("=")[2].split("+")[0];
+      user_email = decodedUri.split("=")[3].split("&")[0];
       code = url.split("code=")[1].split("scope")[0];
       payload = {
         ...payload,
         user_id: parseInt(user_id, 10),
         user_email: user_email,
       };
-
       calledOnce.current = true;
     }
-    console.log("payload", payload);
     if (calledOnce.current) {
       return axios({
         method: METHODS.PUT,
@@ -97,6 +99,7 @@ function ToggleClassFormModal() {
       }).then((res) => {
         if (res.data.success) {
           setShowModal(true);
+          history.push("/class");
         }
       });
     }
@@ -119,8 +122,8 @@ function ToggleClassFormModal() {
         show && (
           <Modal onClick={handleClose} className="confirmation-massage">
             <h2>
-              We need your calendar consent to create class. <br />
-              Do you want to go ahead?'
+              Meraki needs access to your calendar to create classes. <br />
+              Do you want to go ahead?
             </h2>
             <div className="wrap">
               <button onClick={codeGenerate} className="delete-btn">
