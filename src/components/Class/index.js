@@ -224,6 +224,7 @@ function Class({ classToEdit }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        role: "volunteer",
       },
       data: {
         ...payload,
