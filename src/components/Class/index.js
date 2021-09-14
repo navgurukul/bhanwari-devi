@@ -47,12 +47,18 @@ function Class({ classToEdit }) {
     exercise_id,
     max_enrolment,
     frequency,
-    on_days,
-    occurrence,
-    until,
+    parent_class,
   } = classToEdit;
 
   const initialFormState = useMemo(() => {
+    let on_days_list = [];
+    let occurrence_data = "";
+    let until_data = "";
+    if (parent_class) {
+      if (parent_class.on_days) on_days_list = parent_class.on_days.split(",");
+      if (parent_class.occurrence) occurrence_data = parent_class.occurrence;
+      if (parent_class.until) until_data = parent_class.until;
+    }
     return {
       [TITLE]: title || "",
       [DESCRIPTION]: description || "",
@@ -73,9 +79,9 @@ function Class({ classToEdit }) {
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "",
       [FREQUENCY]: frequency || "",
-      [ON_DAYS]: on_days || [],
-      [OCCURRENCE]: occurrence || "",
-      [UNTIL]: until || "",
+      [ON_DAYS]: on_days_list || [],
+      [OCCURRENCE]: occurrence_data || "",
+      [UNTIL]: until_data || "",
     };
   }, [classToEdit]);
 
@@ -300,6 +306,9 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[TYPE]}
                     id="type1"
+                    checked={
+                      formFieldsState.type === "doubt_class" ? "checked" : false
+                    }
                   />
                   Doubt Class
                 </label>
@@ -313,6 +322,9 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[TYPE]}
                     id="type2"
+                    checked={
+                      formFieldsState.type === "workshop" ? "checked" : false
+                    }
                   />
                   Workshop
                 </label>
@@ -326,6 +338,9 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[TYPE]}
                     id="type3"
+                    checked={
+                      formFieldsState.type === "cohort" ? "checked" : false
+                    }
                   />
                   Cohort
                 </label>
@@ -451,6 +466,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "en" ? "checked" : false}
                   />
                   English
                 </label>
@@ -464,6 +480,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "hi" ? "checked" : false}
                   />
                   Hindi
                 </label>
@@ -477,6 +494,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "te" ? "checked" : false}
                   />
                   Telugu
                 </label>
@@ -490,6 +508,7 @@ function Class({ classToEdit }) {
                     }}
                     value={formFieldsState[LANG]}
                     id="lang"
+                    checked={formFieldsState.lang === "ta" ? "checked" : false}
                   />
                   Tamil
                 </label>
@@ -500,7 +519,7 @@ function Class({ classToEdit }) {
               <select
                 className="input-field"
                 value={pathwayId}
-                required
+                required={isEditMode ? false : true}
                 aria-required
                 onChange={(e) => {
                   setPathwayId(e.target.value);
@@ -526,7 +545,7 @@ function Class({ classToEdit }) {
                         </label>
                         <select
                           className="input-field"
-                          required
+                          required={isEditMode ? false : true}
                           aria-required
                           name={COURSE_ID}
                           value={formFieldsState[COURSE_ID]}
@@ -623,6 +642,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("MO") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       MO
                     </label>
@@ -643,6 +667,11 @@ function Class({ classToEdit }) {
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("TU") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       TU
                     </label>
@@ -663,6 +692,11 @@ function Class({ classToEdit }) {
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("WE") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       WE
                     </label>
@@ -683,6 +717,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("TH") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       TH
                     </label>
@@ -703,6 +742,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("FR") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       FR
                     </label>
@@ -723,6 +767,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("SA") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       SA
                     </label>
@@ -743,6 +792,11 @@ function Class({ classToEdit }) {
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("SU") > -1
+                            ? "checked"
+                            : false
+                        }
                       />
                       SU
                     </label>
