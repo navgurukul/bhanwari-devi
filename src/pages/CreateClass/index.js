@@ -7,6 +7,7 @@ import Modal from "../../components/common/Modal";
 import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
+import "./styles.scss";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -120,7 +121,7 @@ function ToggleClassFormModal() {
         </Modal>
       ) : (
         showConsentModal && (
-          <Modal onClose={handleClose} className="confirmation-massage">
+          <Modal onClose={handleClose} className="confirmation-for-consent">
             <h2>
               Meraki needs access to your calendar to create classes. <br />
               Do you want to go ahead?
