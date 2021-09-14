@@ -11,7 +11,7 @@ import { METHODS } from "../../services/api";
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
   const [classToEdit, setClassToEdit] = useState({});
-  const [show, setShow] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
   const [calenderConsent, setCalenderConsent] = useState(true);
@@ -44,12 +44,12 @@ function ToggleClassFormModal() {
       })
       .catch((err) => {
         setCalenderConsent(false);
-        setShow(true);
+        setShowConsentModal(true);
       });
   };
 
   const handleClose = () => {
-    setShow(false);
+    setShowConsentModal(false);
   };
 
   const codeGenerate = async () => {
@@ -74,7 +74,7 @@ function ToggleClassFormModal() {
     let user_id;
     let user_email;
     if (url.includes("code")) {
-      const decodedUri = url.replace(/%3D/g, "=").replace("%2B", "+");
+      const decodedUri = decodeURIComponent(url);
       user_id = decodedUri.split("=")[2].split("+")[0];
       user_email = decodedUri.split("=")[3].split("&")[0];
       code = url.split("code=")[1].split("scope")[0];
@@ -119,8 +119,8 @@ function ToggleClassFormModal() {
           />
         </Modal>
       ) : (
-        show && (
-          <Modal onClick={handleClose} className="confirmation-massage">
+        showConsentModal && (
+          <Modal onClose={handleClose} className="confirmation-massage">
             <h2>
               Meraki needs access to your calendar to create classes. <br />
               Do you want to go ahead?
