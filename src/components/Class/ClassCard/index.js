@@ -17,6 +17,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
+  const [deleteCohort, setDeleteCohort] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
@@ -62,6 +63,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
 
   // API CALL FOR DELETE CLASS
   const deleteHandler = (id) => {
+    console.log("deleteCohort", deleteCohort);
     const notify = () => {
       toast.success(" Deleted the class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -75,7 +77,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "delete-all": indicator,
+        "delete-all": deleteCohort,
       },
     }).then(() => {
       notify();
@@ -193,6 +195,18 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
         {showModel ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
+
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="delete-cohort"
+                onClick={() => {
+                  setDeleteCohort(true);
+                }}
+              />
+              Delete all classes of this cohort?
+            </label>
             <div className="wrap">
               <button
                 onClick={() => {

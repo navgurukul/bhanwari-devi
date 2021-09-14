@@ -111,6 +111,14 @@
   }
 }
 
+.delete-cohort {
+  margin-left: 160px;
+  margin-bottom: 20px;
+  @include breakpoint-mobile {
+    margin-left: 50px;
+  }
+}
+
 .class-card-edit {
   justify-content: space-around;
   margin-left: 16px;
