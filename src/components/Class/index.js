@@ -230,7 +230,6 @@ function Class({ classToEdit }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        role: "volunteer",
       },
       data: {
         ...payload,
@@ -253,7 +252,6 @@ function Class({ classToEdit }) {
       }
     );
   };
-
   const onFormSubmit = (event) => {
     event && event.preventDefault();
     const formData = new FormData(event.target);
