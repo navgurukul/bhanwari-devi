@@ -20,6 +20,7 @@ function Login(props) {
 
   const { loading, data } = useSelector(({ User }) => User);
 
+  const rolesList = data !== null && data.user.rolesList;
   const isAuthenticated = data && data.isAuthenticated;
 
   function onSignIn(googleUser) {
@@ -43,6 +44,14 @@ function Login(props) {
     // eslint-disable-next-line no-console
     console.log("onGoogle login fail", errorResponse);
   };
+
+  if (rolesList != false) {
+    if (!(rolesList.includes("partner") || rolesList.includes("admin"))) {
+      return <Redirect to={PATHS.COURSE} />;
+    }
+  } else if (rolesList.length == 0) {
+    return <Redirect to={PATHS.COURSE} />;
+  }
 
   if (isAuthenticated && props.location.state) {
     return <Redirect to={props.location.state.from.pathname} />;

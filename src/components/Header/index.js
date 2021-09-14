@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { PATHS } from "../../constant";
+
 import { actions as userActions } from "../User/redux/action";
 import "./styles.scss";
 

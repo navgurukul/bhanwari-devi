@@ -373,7 +373,7 @@ function StudentData(props) {
                       <Link
                         className="t-data"
                         to={{
-                          pathname: "/student",
+                          pathname: `/student/${item.id}`,
                           state: {
                             pass: item.classes_registered,
                             passName: item.name,
@@ -455,7 +455,7 @@ function StudentData(props) {
                       <Link
                         className="t-data"
                         to={{
-                          pathname: "/student",
+                          pathname: `/student/${item.id}`,
                           state: {
                             pass: item.classes_registered,
                             passName: item.name,
