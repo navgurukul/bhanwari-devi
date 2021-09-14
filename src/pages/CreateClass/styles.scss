@@ -1,0 +1,26 @@
+@import "../../sass/colors.scss";
+@import "../../sass/mixins.scss";
+
+.confirmation-for-consent {
+  position: absolute;
+  top: 30%;
+  width: 650px !important;
+  z-index: 100;
+  backdrop-filter: blur(3px);
+  overflow-y: auto;
+  @include breakpoint-mobile {
+    width: 360px !important;
+  }
+  .close {
+    @include breakpoint-mobile {
+      display: none;
+    }
+  }
+
+  > h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px;
+  }
+}
