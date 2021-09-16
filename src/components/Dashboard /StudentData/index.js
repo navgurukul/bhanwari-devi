@@ -236,7 +236,6 @@ function StudentData(props) {
       });
     }
   });
-
   if (
     user.data.user.rolesList.indexOf("admin") > -1 ||
     (user.data.user.rolesList.indexOf("partner") > -1 &&
