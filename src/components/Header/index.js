@@ -2,23 +2,40 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { PATHS } from "../../constant";
+
 import { actions as userActions } from "../User/redux/action";
 import "./styles.scss";
 
 const AuthenticatedHeaderOption = () => {
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
+  const rolesList = user.data.user.rolesList;
+
+  const userId = user.data.user.partner_id;
+
+  const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
+
+  const canSpecifyPartner =
+    rolesList.includes("partner") && user.data.user.partner_id != null;
+
   return (
     <>
-      {flag ? (
+      {canSpecifyUserBaseRole ? (
         <>
           <a href={PATHS.USER}>User</a>
           <a href={PATHS.PARTNERS}>Partners</a>
+        </>
+      ) : null}
+      {canSpecifyPartner ? (
+        <>
+          <a href={`${PATHS.PARTNERS}/${userId}`}>Dashboard</a>
         </>
       ) : null}
 
       <a href={PATHS.COURSE}>Courses</a>
       <a href={PATHS.MENTOR}>Mentor</a>
       <a href={PATHS.CLASS}>Classes</a>
+
       <a>
         <button
           className="logout"
@@ -40,23 +57,10 @@ const PublicMenuOption = () => {
   );
 };
 
-let flag = false;
-
 function Header() {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
-  const rolesList = data && data.user.rolesList;
 
-  if (rolesList != null) {
-    /**
-     * This is entirely incorrect logical condition, if a user has multiple user including 'admin'
-     * and it will set the flag based on the last role it finds in the array
-     * A simple check of indexOf('admin') > -1 || indexOf('partner') > -1 can solve this
-     */
-    rolesList.map((role) => {
-      role === "admin" || role === "partner" ? (flag = true) : (flag = false);
-    });
-  }
   return (
     <div className="ng-header ">
       <input type="checkbox" id="nav-check" />
