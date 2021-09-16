@@ -236,9 +236,11 @@ function StudentData(props) {
       });
     }
   });
+
   if (
     user.data.user.rolesList.indexOf("admin") > -1 ||
-    user.data.user.rolesList.indexOf("partner") > -1
+    (user.data.user.rolesList.indexOf("partner") > -1 &&
+      user.data.user.partner_id)
   ) {
     return (
       <div className="container-table">

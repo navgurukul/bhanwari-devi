@@ -120,10 +120,7 @@ function PartnerDashboard() {
         });
       });
   };
-  if (
-    user.data.user.rolesList.indexOf("admin") > -1 ||
-    user.data.user.rolesList.indexOf("partner") > -1
-  ) {
+  if (user.data.user.rolesList.indexOf("admin") > -1) {
     return (
       <>
         <div className="table-container">
