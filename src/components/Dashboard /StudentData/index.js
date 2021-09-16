@@ -25,7 +25,7 @@ const getPartnerIdFromUrl = () => {
   return partnerId;
 };
 
-function StudentData(props) {
+function StudentData() {
   const [pageNumber, setPageNumber] = useState(0);
   const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
@@ -40,9 +40,9 @@ function StudentData(props) {
   const user = useSelector(({ User }) => User);
 
   const limit = 10;
-
+  let id = getPartnerIdFromUrl();
   useEffect(() => {
-    let id = getPartnerIdFromUrl();
+    // let id = getPartnerIdFromUrl();
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users${
@@ -50,61 +50,66 @@ function StudentData(props) {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      if (res.data.students.length < 1) {
-        setMessage("There are no results to display");
-      } else {
-        const data = res.data.students
-          .map((item) => {
-            if (item.classes_registered.length > 0) {
-              item.averageRating = 0;
-              let avg = 0;
-              let count = 0;
-              item.classes_registered.map((f) => {
-                if (f.feedback.feedback) {
-                  avg = avg + parseInt(f.feedback.feedback);
-                  count += 1;
-                }
-              });
-              if (avg > 0) item.averageRating = avg / count;
-              else item.averageRating = avg;
-              item.classes_registered = item.classes_registered.sort(
-                (c1, c2) => {
-                  return new Date(c1.start_time) - new Date(c2.start_time);
-                }
-              );
-            }
-            return {
-              ...item,
-              // not overwriting original created_at because we need the date object to sort by date
-              formatted_created_at: moment(
-                item.created_at.replace("Z", "")
-              ).format("DD-MM-YYYY"),
-              classes_registered: item.classes_registered.map((item) => {
-                return {
-                  ...item,
-                  formatted_start_time: moment(
-                    item.start_time.replace("Z", "")
-                  ).format("DD-MM-YYYY"),
-                  /**
-                   * REVIEW
-                   * Why item is there again in the next line?
-                   */
-                  item,
-                  formatted_end_time: moment(
-                    item.end_time.replace("Z", "")
-                  ).format("hh:mm a"),
-                };
-              }),
-            };
-          })
-          .sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
-        setStudents(data);
-        setSlicedStudents(
-          data.slice(pageNumber * limit, (pageNumber + 1) * limit)
-        );
-        setTotalCount(res.data.count);
+      if (
+        id == user.data.user.partner_id ||
+        user.data.user.rolesList.indexOf("admin") > -1
+      ) {
+        if (res.data.students.length < 1) {
+          setMessage("There are no results to display");
+        } else {
+          const data = res.data.students
+            .map((item) => {
+              if (item.classes_registered.length > 0) {
+                item.averageRating = 0;
+                let avg = 0;
+                let count = 0;
+                item.classes_registered.map((f) => {
+                  if (f.feedback.feedback) {
+                    avg = avg + parseInt(f.feedback.feedback);
+                    count += 1;
+                  }
+                });
+                if (avg > 0) item.averageRating = avg / count;
+                else item.averageRating = avg;
+                item.classes_registered = item.classes_registered.sort(
+                  (c1, c2) => {
+                    return new Date(c1.start_time) - new Date(c2.start_time);
+                  }
+                );
+              }
+              return {
+                ...item,
+                // not overwriting original created_at because we need the date object to sort by date
+                formatted_created_at: moment(
+                  item.created_at.replace("Z", "")
+                ).format("DD-MM-YYYY"),
+                classes_registered: item.classes_registered.map((item) => {
+                  return {
+                    ...item,
+                    formatted_start_time: moment(
+                      item.start_time.replace("Z", "")
+                    ).format("DD-MM-YYYY"),
+                    /**
+                     * REVIEW
+                     * Why item is there again in the next line?
+                     */
+                    item,
+                    formatted_end_time: moment(
+                      item.end_time.replace("Z", "")
+                    ).format("hh:mm a"),
+                  };
+                }),
+              };
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            });
+          setStudents(data);
+          setSlicedStudents(
+            data.slice(pageNumber * limit, (pageNumber + 1) * limit)
+          );
+          setTotalCount(res.data.count);
+        }
       }
     });
   }, [debouncedText]);
@@ -236,11 +241,11 @@ function StudentData(props) {
       });
     }
   });
+
   if (
-    user.data.user.rolesList.indexOf("admin") > -1
-    // ||
-    // (user.data.user.rolesList.indexOf("partner") > -1 &&
-    //   user.data.user.partner_id)
+    user.data.user.rolesList.indexOf("admin") > -1 ||
+    (user.data.user.rolesList.indexOf("partner") > -1 &&
+      user.data.user.partner_id == id)
   ) {
     return (
       <div className="container-table">
@@ -380,7 +385,7 @@ function StudentData(props) {
                         <Link
                           className="t-data"
                           to={{
-                            pathname: "/student",
+                            pathname: `/student/${item.id}`,
                             state: {
                               pass: item.classes_registered,
                               passName: item.name,
@@ -462,7 +467,7 @@ function StudentData(props) {
                         <Link
                           className="t-data"
                           to={{
-                            pathname: "/student",
+                            pathname: `/student/${item.id}`,
                             state: {
                               pass: item.classes_registered,
                               passName: item.name,
