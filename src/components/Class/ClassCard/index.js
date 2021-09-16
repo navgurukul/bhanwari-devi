@@ -12,12 +12,14 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({ item, editClass, enroll, style, indicator }) {
+function ClassCard({ item, editClass, enroll, style }) {
   const dispatch = useDispatch();
   const [enrollShowModel, setEnrollShowModel] = React.useState(false);
   const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
   const [showModel, setShowModel] = React.useState(false);
+  const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
+  const [indicator, setIndicator] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
@@ -35,6 +37,14 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
 
   const handleClose = () => {
     setShowModel(false);
+  };
+
+  const handleEdit = () => {
+    setEditShowModal(true);
+  };
+
+  const handleCloseEdit = () => {
+    setEditShowModal(false);
   };
 
   const handleClickOpen = () => {
@@ -63,7 +73,6 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
 
   // API CALL FOR DELETE CLASS
   const deleteHandler = (id) => {
-    console.log("deleteCohort", deleteCohort);
     const notify = () => {
       toast.success(" Deleted the class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -186,7 +195,8 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  editClass(item.id, indicator);
+                  handleEdit(item.id);
+                  // editClass(item.id, indicator);
                 }}
               />
             </div>
@@ -200,7 +210,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
               <input
                 type="checkbox"
                 align="center"
-                className="delete-cohort"
+                className="cohort-class"
                 onClick={() => {
                   setDeleteCohort(true);
                 }}
@@ -222,12 +232,53 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
             </div>
           </Modal>
         ) : null}
+        {editShowModal ? (
+          <Modal onClose={handleCloseEdit} className="confirmation-massage">
+            <h2>Do you want to edit this class?</h2>
+
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="cohort-class"
+                onClick={() => {
+                  setIndicator(true);
+                }}
+              />
+              Edit all classes of this cohort?
+            </label>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return editClass(item.id, indicator);
+                }}
+                className="delete-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseEdit} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
+        ) : null}
         {enrollShowModel ? (
           <Modal
             onClose={() => handleCloseEnroll()}
-            className="confirmation_massage-for-enroll"
+            className="confirmation-massage"
           >
-            <h2>Are you sure you do you want to enroll?</h2>
+            <h2>Are you sure you want to enroll?</h2>
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="cohort-class"
+                onClick={() => {
+                  setIndicator(true);
+                }}
+              />
+              Enroll all classes of this cohort?
+            </label>
             <div className="wrap">
               <button
                 onClick={() => {
@@ -246,9 +297,20 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
         {unenrollShowModel ? (
           <Modal
             onClose={() => handleCloseUnenroll()}
-            className="confirmation_massage-for-enroll"
+            className="confirmation-massage"
           >
-            <h2> Are you sure you do you want to drop out</h2>
+            <h2> Are you sure you want to drop out</h2>
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="cohort-class"
+                onClick={() => {
+                  setIndicator(true);
+                }}
+              />
+              Drop all classes of this cohort?
+            </label>
             <div className="wrap">
               <button
                 onClick={() => {

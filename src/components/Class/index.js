@@ -30,7 +30,7 @@ const {
   UNTIL,
 } = CLASS_FIELDS;
 
-function Class({ classToEdit }) {
+function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
@@ -98,7 +98,9 @@ function Class({ classToEdit }) {
 
   const editClass = (payload) => {
     if (classToEdit.type === "cohort") {
-      delete payload.frequency;
+      if (indicator === false) {
+        delete payload.frequency;
+      }
     }
 
     setLoading(true);
@@ -108,6 +110,7 @@ function Class({ classToEdit }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "update-all": indicator,
       },
       data: payload,
     }).then(
@@ -639,7 +642,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
-                        disabled={isEditMode ? true : false}
+                        disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("MO") > -1
                             ? "checked"
@@ -664,7 +667,7 @@ function Class({ classToEdit }) {
                         }
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
-                        disabled={isEditMode ? true : false}
+                        disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("TU") > -1
                             ? "checked"
@@ -689,7 +692,7 @@ function Class({ classToEdit }) {
                         }
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
-                        disabled={isEditMode ? true : false}
+                        disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("WE") > -1
                             ? "checked"
@@ -714,7 +717,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
-                        disabled={isEditMode ? true : false}
+                        disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("TH") > -1
                             ? "checked"
@@ -739,7 +742,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
-                        disabled={isEditMode ? true : false}
+                        disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("FR") > -1
                             ? "checked"
@@ -764,7 +767,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
-                        disabled={isEditMode ? true : false}
+                        disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("SA") > -1
                             ? "checked"
@@ -789,7 +792,7 @@ function Class({ classToEdit }) {
                         }
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
-                        disabled={isEditMode ? true : false}
+                        disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("SU") > -1
                             ? "checked"
@@ -814,7 +817,7 @@ function Class({ classToEdit }) {
                     }
                     value={formFieldsState[UNTIL]}
                     placeholder="Until when recurring classes"
-                    disabled={isEditMode ? true : false}
+                    disabled={isEditMode && !indicator ? true : false}
                   />
                   <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
@@ -830,7 +833,7 @@ function Class({ classToEdit }) {
                     }
                     value={formFieldsState[OCCURRENCE]}
                     placeholder="How many recurring classes"
-                    disabled={isEditMode ? true : false}
+                    disabled={isEditMode && !indicator ? true : false}
                   />
                 </>
               )}
