@@ -9,6 +9,7 @@ import { TIME_CONSTANT, CLASS_FIELDS } from "./constant";
 import Loader from "../common/Loader";
 import Form from "../common/form";
 import { METHODS } from "../../services/api";
+import Modal from "../common/Modal";
 import "./styles.scss";
 
 const {
@@ -30,9 +31,12 @@ const {
   UNTIL,
 } = CLASS_FIELDS;
 
-function Class({ classToEdit, indicator }) {
+function Class({ classToEdit }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [indicator, setIndicator] = useState(false);
+  const [classId, setClassId] = useState(0);
   const [pathwayId, setPathwayId] = useState();
 
   const {
@@ -96,6 +100,8 @@ function Class({ classToEdit, indicator }) {
     {}
   );
 
+  console.log("showModal", showModal);
+
   const editClass = (payload) => {
     if (classToEdit.type === "cohort") {
       if (indicator === false) {
@@ -106,7 +112,7 @@ function Class({ classToEdit, indicator }) {
     setLoading(true);
     return axios({
       method: METHODS.PUT,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${classToEdit.id}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${classId}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -225,6 +231,10 @@ function Class({ classToEdit, indicator }) {
     }
   };
 
+  const handleCloseEdit = () => {
+    setShowModal(false);
+  };
+
   const createClass = (payload) => {
     setLoading(true);
     return axios({
@@ -282,6 +292,8 @@ function Class({ classToEdit, indicator }) {
     handleTimeValidationAndCreateClass(formFields);
   };
 
+  console.log("showModal", showModal);
+
   return (
     <div className="ng-create-class">
       <h2 className="title">
@@ -289,7 +301,7 @@ function Class({ classToEdit, indicator }) {
       </h2>
       <Form
         className="form"
-        onSubmit={onFormSubmit}
+        // onSubmit={onFormSubmit}
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
@@ -837,15 +849,69 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              <button type="submit" className="submit" disabled={loading}>
-                {loading ? (
-                  <Loader />
-                ) : isEditMode ? (
-                  "UPDATE CLASS"
-                ) : (
-                  "Create Class"
-                )}
-              </button>
+              {isEditMode ? (
+                <button
+                  type="submit"
+                  onClick={() => {
+                    setShowModal(true);
+                    // setClassId(classToEdit.id);
+                  }}
+                  className="submit"
+                  disabled={loading}
+                >
+                  {loading ? <Loader /> : "UPDATE CLASS"}
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="submit"
+                  onSubmit={onFormSubmit}
+                  disabled={loading}
+                >
+                  {loading ? <Loader /> : "Create Class"}
+                </button>
+              )}
+              {showModal ? (
+                <Modal
+                  // onClose={handleCloseEdit}
+                  backGroundClassName="background"
+                  className="confirmation-massage-edit-modal"
+                >
+                  <h2>Do you want to edit this class?</h2>
+
+                  <label>
+                    <input
+                      type="checkbox"
+                      align="center"
+                      className="cohort-class"
+                      onClick={() => {
+                        setIndicator(true);
+                      }}
+                    />
+                    Edit all classes of this cohort?
+                  </label>
+                  <div className="wrap">
+                    <button
+                      onSubmit={onFormSubmit}
+                      onClick={() => {
+                        setClassId(classToEdit.id);
+
+                        return editClass(classId, indicator);
+                        // return editClass(item.id, indicator);
+                      }}
+                      className="delete-btn"
+                    >
+                      Yes
+                    </button>
+                    <button
+                      // onClick={handleCloseEdit}
+                      className="cancel-btn"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Modal>
+              ) : null}
             </>
           );
         }}

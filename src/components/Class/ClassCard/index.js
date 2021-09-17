@@ -195,8 +195,8 @@ function ClassCard({ item, editClass, enroll, style }) {
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  handleEdit(item.id);
-                  // editClass(item.id, indicator);
+                  // handleEdit(item.id);
+                  editClass(item.id, indicator);
                 }}
               />
             </div>
