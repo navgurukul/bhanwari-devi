@@ -195,8 +195,8 @@ function ClassCard({ item, editClass, enroll, style }) {
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  // handleEdit(item.id);
-                  editClass(item.id, indicator);
+                  handleEdit(item.id);
+                  // editClass(item.id, indicator);
                 }}
               />
             </div>
@@ -252,7 +252,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                 onClick={() => {
                   return editClass(item.id, indicator);
                 }}
-                className="delete-btn"
+                className="agree-btn"
               >
                 Yes
               </button>
@@ -284,7 +284,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                 onClick={() => {
                   return handleSubmit(item.id);
                 }}
-                className="enroll-btn"
+                className="agree-btn"
               >
                 Yes
               </button>
