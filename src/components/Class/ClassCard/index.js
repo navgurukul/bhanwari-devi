@@ -14,9 +14,9 @@ toast.configure();
 
 function ClassCard({ item, editClass, enroll, style }) {
   const dispatch = useDispatch();
-  const [enrollShowModel, setEnrollShowModel] = React.useState(false);
-  const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
-  const [showModel, setShowModel] = React.useState(false);
+  const [enrollShowModal, setEnrollShowModal] = React.useState(false);
+  const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false);
   const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
@@ -36,7 +36,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   };
 
   const handleClose = () => {
-    setShowModel(false);
+    setShowModal(false);
   };
 
   const handleEdit = () => {
@@ -48,21 +48,21 @@ function ClassCard({ item, editClass, enroll, style }) {
   };
 
   const handleClickOpen = () => {
-    setShowModel(!showModel);
+    setShowModal(!showModal);
   };
 
   const handleCloseEnroll = () => {
-    setEnrollShowModel(false);
+    setEnrollShowModal(false);
   };
   const handleClickOpenEnroll = () => {
-    setEnrollShowModel(!enrollShowModel);
+    setEnrollShowModal(!enrollShowModal);
   };
 
   const handleCloseUnenroll = () => {
-    setunenrollShowModel(false);
+    setunenrollShowModal(false);
   };
   const handleClickOpenUnenroll = () => {
-    setunenrollShowModel(!unenrollShowModel);
+    setunenrollShowModal(!unenrollShowModal);
   };
 
   const rolesList = user.data.user.rolesList;
@@ -79,7 +79,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         autoClose: 2500,
       });
     };
-    setShowModel(!showModel);
+    setShowModal(!showModal);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${id}`,
@@ -101,7 +101,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         autoClose: 2500,
       });
     };
-    setEnrollShowModel(!enrollShowModel);
+    setEnrollShowModal(!enrollShowModal);
     axios
       .post(
         `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
@@ -128,7 +128,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         autoClose: 2500,
       });
     };
-    setunenrollShowModel(!unenrollShowModel);
+    setunenrollShowModal(!unenrollShowModal);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
@@ -202,7 +202,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             </div>
           ) : null}
         </div>
-        {showModel ? (
+        {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
 
@@ -262,7 +262,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             </div>
           </Modal>
         ) : null}
-        {enrollShowModel ? (
+        {enrollShowModal ? (
           <Modal
             onClose={() => handleCloseEnroll()}
             className="confirmation-massage"
@@ -294,7 +294,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             </div>
           </Modal>
         ) : null}
-        {unenrollShowModel ? (
+        {unenrollShowModal ? (
           <Modal
             onClose={() => handleCloseUnenroll()}
             className="confirmation-massage"
