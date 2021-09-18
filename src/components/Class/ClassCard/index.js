@@ -37,6 +37,7 @@ function ClassCard({ item, editClass, enroll, style }) {
 
   const handleClose = () => {
     setShowModal(false);
+    setDeleteCohort(false);
   };
 
   const handleEdit = () => {
@@ -45,14 +46,17 @@ function ClassCard({ item, editClass, enroll, style }) {
 
   const handleCloseEdit = () => {
     setEditShowModal(false);
+    setIndicator(false);
   };
 
   const handleClickOpen = () => {
     setShowModal(!showModal);
+    setIndicator(false);
   };
 
   const handleCloseEnroll = () => {
     setEnrollShowModal(false);
+    setIndicator(false);
   };
   const handleClickOpenEnroll = () => {
     setEnrollShowModal(!enrollShowModal);
@@ -60,9 +64,11 @@ function ClassCard({ item, editClass, enroll, style }) {
 
   const handleCloseUnenroll = () => {
     setunenrollShowModal(false);
+    setIndicator(false);
   };
   const handleClickOpenUnenroll = () => {
     setunenrollShowModal(!unenrollShowModal);
+    setIndicator(false);
   };
 
   const rolesList = user.data.user.rolesList;
