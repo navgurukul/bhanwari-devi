@@ -25,11 +25,7 @@ const Routing = () => {
       <Route exact path={PATHS.COURSE} component={Course} />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
-      <Route exact path={PATHS.MENTOR} component={Mentor} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
-      <Route exact path={PATHS.PARTNERS} component={PartnerData} />
-      <Route exact path={PATHS.PARTNER_DATA} component={StudentData} />
-      <Route exact path={PATHS.STUDENT} component={StudentClassData} />
       {/* Private routes */}
       {/* <PrivateRoute
         exact
@@ -38,6 +34,10 @@ const Routing = () => {
       />*/}
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
+      <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
+      <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
+      <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
+      <PrivateRoute exact path={PATHS.STUDENT} component={StudentClassData} />
     </>
   );
 };
