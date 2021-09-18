@@ -12,11 +12,14 @@ import Modal from "../../common/Modal";
 
 toast.configure();
 
-function ClassCard({ item, editClass, enroll, style, indicator }) {
+function ClassCard({ item, editClass, enroll, style }) {
   const dispatch = useDispatch();
-  const [enrollShowModel, setEnrollShowModel] = React.useState(false);
-  const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
-  const [showModel, setShowModel] = React.useState(false);
+  const [enrollShowModal, setEnrollShowModal] = React.useState(false);
+  const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false);
+  const [editShowModal, setEditShowModal] = React.useState(false);
+  const [deleteCohort, setDeleteCohort] = React.useState(false);
+  const [indicator, setIndicator] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
@@ -33,25 +36,33 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
   };
 
   const handleClose = () => {
-    setShowModel(false);
+    setShowModal(false);
+  };
+
+  const handleEdit = () => {
+    setEditShowModal(true);
+  };
+
+  const handleCloseEdit = () => {
+    setEditShowModal(false);
   };
 
   const handleClickOpen = () => {
-    setShowModel(!showModel);
+    setShowModal(!showModal);
   };
 
   const handleCloseEnroll = () => {
-    setEnrollShowModel(false);
+    setEnrollShowModal(false);
   };
   const handleClickOpenEnroll = () => {
-    setEnrollShowModel(!enrollShowModel);
+    setEnrollShowModal(!enrollShowModal);
   };
 
   const handleCloseUnenroll = () => {
-    setunenrollShowModel(false);
+    setunenrollShowModal(false);
   };
   const handleClickOpenUnenroll = () => {
-    setunenrollShowModel(!unenrollShowModel);
+    setunenrollShowModal(!unenrollShowModal);
   };
 
   const rolesList = user.data.user.rolesList;
@@ -68,14 +79,14 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
         autoClose: 2500,
       });
     };
-    setShowModel(!showModel);
+    setShowModal(!showModal);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${id}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "delete-all": indicator,
+        "delete-all": deleteCohort,
       },
     }).then(() => {
       notify();
@@ -90,7 +101,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
         autoClose: 2500,
       });
     };
-    setEnrollShowModel(!enrollShowModel);
+    setEnrollShowModal(!enrollShowModal);
     axios
       .post(
         `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
@@ -117,7 +128,7 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
         autoClose: 2500,
       });
     };
-    setunenrollShowModel(!unenrollShowModel);
+    setunenrollShowModal(!unenrollShowModal);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
@@ -184,15 +195,28 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  editClass(item.id, indicator);
+                  handleEdit(item.id);
+                  // editClass(item.id, indicator);
                 }}
               />
             </div>
           ) : null}
         </div>
-        {showModel ? (
+        {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
+
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="cohort-class"
+                onClick={() => {
+                  setDeleteCohort(true);
+                }}
+              />
+              Delete all classes of this cohort?
+            </label>
             <div className="wrap">
               <button
                 onClick={() => {
@@ -208,18 +232,59 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
             </div>
           </Modal>
         ) : null}
-        {enrollShowModel ? (
+        {editShowModal ? (
+          <Modal onClose={handleCloseEdit} className="confirmation-massage">
+            <h2>Do you want to edit this class?</h2>
+
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="cohort-class"
+                onClick={() => {
+                  setIndicator(true);
+                }}
+              />
+              Edit all classes of this cohort?
+            </label>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return editClass(item.id, indicator);
+                }}
+                className="agree-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseEdit} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
+        ) : null}
+        {enrollShowModal ? (
           <Modal
             onClose={() => handleCloseEnroll()}
-            className="confirmation_massage-for-enroll"
+            className="confirmation-massage"
           >
-            <h2>Are you sure you do you want to enroll?</h2>
+            <h2>Are you sure you want to enroll?</h2>
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="cohort-class"
+                onClick={() => {
+                  setIndicator(true);
+                }}
+              />
+              Enroll all classes of this cohort?
+            </label>
             <div className="wrap">
               <button
                 onClick={() => {
                   return handleSubmit(item.id);
                 }}
-                className="enroll-btn"
+                className="agree-btn"
               >
                 Yes
               </button>
@@ -229,12 +294,23 @@ function ClassCard({ item, editClass, enroll, style, indicator }) {
             </div>
           </Modal>
         ) : null}
-        {unenrollShowModel ? (
+        {unenrollShowModal ? (
           <Modal
             onClose={() => handleCloseUnenroll()}
-            className="confirmation_massage-for-enroll"
+            className="confirmation-massage"
           >
-            <h2> Are you sure you do you want to drop out</h2>
+            <h2> Are you sure you want to drop out</h2>
+            <label>
+              <input
+                type="checkbox"
+                align="center"
+                className="cohort-class"
+                onClick={() => {
+                  setIndicator(true);
+                }}
+              />
+              Drop all classes of this cohort?
+            </label>
             <div className="wrap">
               <button
                 onClick={() => {

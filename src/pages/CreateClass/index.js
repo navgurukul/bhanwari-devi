@@ -12,6 +12,7 @@ import "./styles.scss";
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
   const [classToEdit, setClassToEdit] = useState({});
+  const [indicator, setIndicator] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
@@ -26,9 +27,10 @@ function ToggleClassFormModal() {
     CalenderConsent();
   };
 
-  const editClass = (classId) => {
+  const editClass = (classId, indicator) => {
     setClassToEdit(data.find((classData) => classData.id === classId));
     setShowModal(true);
+    setIndicator(indicator);
   };
 
   const CalenderConsent = () => {
@@ -116,6 +118,7 @@ function ToggleClassFormModal() {
         <Modal onClose={toggleModalOpen}>
           <CreateClassComponent
             classToEdit={classToEdit}
+            indicator={indicator}
             toggleModalOpen={toggleModalOpen}
           />
         </Modal>
