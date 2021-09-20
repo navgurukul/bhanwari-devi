@@ -165,7 +165,6 @@ function ClassCard({ item, editClass, enroll, style }) {
         <p>Facilitator : {item.facilitator.name} </p>
         <p>Language : {languageMap[item.lang]} </p>
         <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
-        {/* {item.email} */}
         <p>
           Time:{moment(classStartTime).format("hh:mm a")} -{" "}
           {moment(classEndTime).format("hh:mm a")}
@@ -210,18 +209,19 @@ function ClassCard({ item, editClass, enroll, style }) {
         {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
-
-            <label>
-              <input
-                type="checkbox"
-                align="center"
-                className="cohort-class"
-                onClick={() => {
-                  setDeleteCohort(true);
-                }}
-              />
-              Delete all classes of this cohort?
-            </label>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setDeleteCohort(true);
+                  }}
+                />
+                Delete all classes of this cohort?
+              </label>
+            )}
             <div className="wrap">
               <button
                 onClick={() => {
@@ -240,18 +240,19 @@ function ClassCard({ item, editClass, enroll, style }) {
         {editShowModal ? (
           <Modal onClose={handleCloseEdit} className="confirmation-massage">
             <h2>Do you want to edit this class?</h2>
-
-            <label>
-              <input
-                type="checkbox"
-                align="center"
-                className="cohort-class"
-                onClick={() => {
-                  setIndicator(true);
-                }}
-              />
-              Edit all classes of this cohort?
-            </label>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
+                />
+                Edit all classes of this cohort?
+              </label>
+            )}
             <div className="wrap">
               <button
                 onClick={() => {
@@ -273,17 +274,19 @@ function ClassCard({ item, editClass, enroll, style }) {
             className="confirmation-massage"
           >
             <h2>Are you sure you want to enroll?</h2>
-            <label>
-              <input
-                type="checkbox"
-                align="center"
-                className="cohort-class"
-                onClick={() => {
-                  setIndicator(true);
-                }}
-              />
-              Enroll all classes of this cohort?
-            </label>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
+                />
+                Enroll all classes of this cohort?
+              </label>
+            )}
             <div className="wrap">
               <button
                 onClick={() => {
@@ -305,17 +308,19 @@ function ClassCard({ item, editClass, enroll, style }) {
             className="confirmation-massage"
           >
             <h2> Are you sure you want to drop out</h2>
-            <label>
-              <input
-                type="checkbox"
-                align="center"
-                className="cohort-class"
-                onClick={() => {
-                  setIndicator(true);
-                }}
-              />
-              Drop all classes of this cohort?
-            </label>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
+                />
+                Drop all classes of this cohort?
+              </label>
+            )}
             <div className="wrap">
               <button
                 onClick={() => {
