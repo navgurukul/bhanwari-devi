@@ -855,6 +855,7 @@ function Class({ classToEdit, indicator }) {
                         ? true
                         : false
                     }
+                    max={48}
                   />
                 </>
               )}
