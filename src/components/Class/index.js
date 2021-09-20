@@ -623,6 +623,7 @@ function Class({ classToEdit, indicator }) {
                 }
                 value={formFieldsState[MAX_ENROLMENT]}
                 placeholder="Maximum students per class"
+                min={1}
               />
               {formFieldsState[TYPE] === "cohort" && (
                 <>
