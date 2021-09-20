@@ -808,7 +808,9 @@ function Class({ classToEdit, indicator }) {
                   </spam>
                   <label htmlFor={UNTIL} className="label-field">
                     Until
-                    <span className="optional-field">(optional)</span>
+                    <span className="optional-field">
+                      (either until or occurrence is required)
+                    </span>
                   </label>
                   <input
                     className="input-field input-field--short"
@@ -822,10 +824,18 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[UNTIL]}
                     placeholder="Until when recurring classes"
                     disabled={isEditMode && !indicator ? true : false}
+                    required={
+                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[OCCURRENCE] === ""
+                        ? true
+                        : false
+                    }
                   />
                   <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
-                    <span className="optional-field">(optional)</span>
+                    <span className="optional-field">
+                      (either occurrence or until is required)
+                    </span>
                   </label>
                   <input
                     className="input-field"
@@ -838,6 +848,12 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[OCCURRENCE]}
                     placeholder="How many recurring classes"
                     disabled={isEditMode && !indicator ? true : false}
+                    required={
+                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[UNTIL] === ""
+                        ? true
+                        : false
+                    }
                   />
                 </>
               )}
