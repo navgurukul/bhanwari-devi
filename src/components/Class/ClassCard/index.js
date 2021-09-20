@@ -66,10 +66,10 @@ function ClassCard({ item, editClass, enroll, style }) {
   };
 
   const rolesList = user.data.user.rolesList;
-  let flag = false;
-  rolesList.map((role) => {
-    role === "admin" || role === "classAdmin" ? (flag = true) : (flag = false);
-  });
+  let flag;
+  rolesList.includes("admin") || rolesList.includes("classAdmin")
+    ? (flag = true)
+    : (flag = false);
 
   // API CALL FOR DELETE CLASS
   const deleteHandler = (id) => {
@@ -196,7 +196,6 @@ function ClassCard({ item, editClass, enroll, style }) {
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
                   handleEdit(item.id);
-                  // editClass(item.id, indicator);
                 }}
               />
             </div>
