@@ -36,8 +36,6 @@ function Class({ classToEdit, indicator }) {
   const [pathwayId, setPathwayId] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
 
-  console.log("checkedState", checkedState);
-
   const {
     title,
     description,
@@ -100,8 +98,6 @@ function Class({ classToEdit, indicator }) {
   );
 
   const editClass = (payload) => {
-    console.log("classToEdit", classToEdit);
-    console.log("indicator", indicator);
     if (classToEdit.type === "cohort") {
       if (indicator === false) {
         delete payload.frequency;
@@ -227,7 +223,6 @@ function Class({ classToEdit, indicator }) {
   };
 
   const checkBoxHandler = (e, day, key, field, setField) => {
-    console.log("e.target.checked", e.target.checked);
     if (e.target.checked === true) {
       const daysList = [...field[key], day];
       setField(daysList, key);
