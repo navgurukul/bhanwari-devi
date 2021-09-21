@@ -34,7 +34,6 @@ function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
-  const [onDaysList, setOnDaysList] = useState([]);
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
 
   console.log("checkedState", checkedState);
@@ -231,7 +230,6 @@ function Class({ classToEdit, indicator }) {
     console.log("e.target.checked", e.target.checked);
     if (e.target.checked === true) {
       const daysList = [...field[key], day];
-      setOnDaysList(daysList);
       setField(daysList, key);
     } else {
       _.remove(field[key], function (del) {
@@ -239,8 +237,6 @@ function Class({ classToEdit, indicator }) {
       });
     }
   };
-
-  console.log("onDaysList", onDaysList);
 
   const createClass = (payload) => {
     setLoading(true);
@@ -659,14 +655,14 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
-                        onChange={() => handleOnChange(1)}
+                        onChange={() => handleOnChange(0)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
-                          checkedState[1]
-                          // checked
-                          // onDaysList.includes("MO") ? "checked" : false
+                          formFieldsState[ON_DAYS].indexOf("MO") > -1
+                            ? "checked"
+                            : false
                         }
                       />
                       MO
@@ -685,14 +681,14 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
-                        onChange={() => handleOnChange(2)}
+                        onChange={() => handleOnChange(1)}
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
-                          checkedState[2]
-                          // checked
-                          // onDaysList.includes("TU") ? "checked" : false
+                          formFieldsState[ON_DAYS].indexOf("TU") > -1
+                            ? "checked"
+                            : false
                         }
                       />
                       TU
@@ -711,15 +707,14 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
-                        onChange={() => handleOnChange(3)}
+                        onChange={() => handleOnChange(2)}
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
-                          checkedState[3]
-                          // formFieldsState[ON_DAYS].includes("WE")
-                          //   ? "checked"
-                          //   : false
+                          formFieldsState[ON_DAYS].indexOf("WE") > -1
+                            ? "checked"
+                            : false
                         }
                       />
                       WE
@@ -738,15 +733,14 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
-                        onChange={() => handleOnChange(4)}
+                        onChange={() => handleOnChange(3)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
-                          checkedState[4]
-                          // formFieldsState[ON_DAYS].includes("TH")
-                          //   ? "checked"
-                          //   : false
+                          formFieldsState[ON_DAYS].indexOf("TH") > -1
+                            ? "checked"
+                            : false
                         }
                       />
                       TH
@@ -765,14 +759,11 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
-                        onChange={() => handleOnChange(5)}
+                        onChange={() => handleOnChange(4)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
-                          // checkedState[5]
-                          // formFieldsState[ON_DAYS].indexOf("FR") > -1
-                          // && checkedState[5]
                           formFieldsState[ON_DAYS].indexOf("FR") > -1
                             ? "checked"
                             : false
@@ -794,14 +785,11 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
-                        onChange={() => handleOnChange(6)}
+                        onChange={() => handleOnChange(5)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
-                          // checkedState[6]
-                          // formFieldsState[ON_DAYS].indexOf("SA") > -1
-                          // && checkedState[6]
                           formFieldsState[ON_DAYS].indexOf("SA") > -1
                             ? "checked"
                             : false
@@ -823,14 +811,11 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
-                        onChange={() => handleOnChange(7)}
+                        onChange={() => handleOnChange(6)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
-                          // checkedState[7]
-                          // formFieldsState[ON_DAYS].indexOf("SU") > -1
-                          // && checkedState[7]
                           formFieldsState[ON_DAYS].indexOf("SU") > -1
                             ? "checked"
                             : false
