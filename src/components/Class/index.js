@@ -34,6 +34,7 @@ function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
+  const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
 
   const {
     title,
@@ -97,8 +98,6 @@ function Class({ classToEdit, indicator }) {
   );
 
   const editClass = (payload) => {
-    console.log("classToEdit", classToEdit);
-    console.log("indicator", indicator);
     if (classToEdit.type === "cohort") {
       if (indicator === false) {
         delete payload.frequency;
@@ -214,6 +213,13 @@ function Class({ classToEdit, indicator }) {
     } else {
       setField({ ...field, [e.target.name]: e.target.value });
     }
+  };
+
+  const handleOnChange = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
   };
 
   const checkBoxHandler = (e, day, key, field, setField) => {
@@ -631,7 +637,7 @@ function Class({ classToEdit, indicator }) {
                     On days
                   </label>
                   <spam>
-                    <label htmlFor="on_days" for="on_days">
+                    <label htmlFor="on_days">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -645,6 +651,7 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
+                        onChange={() => handleOnChange(0)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
@@ -670,6 +677,7 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
+                        onChange={() => handleOnChange(1)}
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
@@ -695,6 +703,7 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
+                        onChange={() => handleOnChange(2)}
                         value={[...formFieldsState[ON_DAYS]]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
@@ -720,6 +729,7 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
+                        onChange={() => handleOnChange(3)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
@@ -745,6 +755,7 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
+                        onChange={() => handleOnChange(4)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
@@ -770,6 +781,7 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
+                        onChange={() => handleOnChange(5)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
@@ -795,6 +807,7 @@ function Class({ classToEdit, indicator }) {
                             setFormField
                           )
                         }
+                        onChange={() => handleOnChange(6)}
                         value={formFieldsState[ON_DAYS]}
                         id="on_days"
                         disabled={isEditMode && !indicator ? true : false}
