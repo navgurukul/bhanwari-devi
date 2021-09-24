@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router";
 import GoogleLogin from "react-google-login";
-
+import axios from "axios";
 import { actions as userActions } from "../../components/User/redux/action";
 import { PATHS } from "../../constant";
 import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
+import { METHODS } from "../../services/api";
 
 import "./styles.scss";
 
@@ -16,6 +17,7 @@ function Login(props) {
   const updateQueryString = (value) => {
     setqueryString(value);
   };
+
   const dispatch = useDispatch();
 
   const { loading, data } = useSelector(({ User }) => User);
@@ -35,9 +37,9 @@ function Login(props) {
       idToken,
     };
     // let's send the data to our backend.
-    const referrer = getQueryVariable("referrer");
     dispatch(userActions.onUserSignin(googleData));
-    dispatch(userActions.onUserUpdate(referrer));
+    updateQueryString(getQueryVariable("referrer"));
+    // dispatch(userActions.onUserUpdate(referrer));
   }
 
   const onGoogleLoginFail = (errorResponse) => {
@@ -45,17 +47,32 @@ function Login(props) {
     console.log("onGoogle login fail", errorResponse);
   };
 
+  if (isAuthenticated) {
+    if (queryString) {
+      axios({
+        method: METHODS.PUT,
+        url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+        headers: {
+          accept: "application/json",
+          Authorization: data.token,
+        },
+        data: { referrer: queryString },
+      }).then((res) => {
+        console.log(res);
+      });
+    }
+    if (props.location.state) {
+      return <Redirect to={props.location.state.from.pathname} />;
+    } else {
+      return <Redirect to={PATHS.COURSE} />;
+    }
+  }
+
   if (rolesList != false) {
     if (!(rolesList.includes("partner") || rolesList.includes("admin"))) {
       return <Redirect to={PATHS.COURSE} />;
     }
   } else if (rolesList.length == 0) {
-    return <Redirect to={PATHS.COURSE} />;
-  }
-
-  if (isAuthenticated && props.location.state) {
-    return <Redirect to={props.location.state.from.pathname} />;
-  } else if (isAuthenticated) {
     return <Redirect to={PATHS.COURSE} />;
   }
 
