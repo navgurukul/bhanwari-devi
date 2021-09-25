@@ -63,6 +63,17 @@
     transition: all 0.2s;
   }
 
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  .cursor {
+    margin-left: 200px;
+    cursor: not-allowed;
+  }
+
   .submit:hover {
     cursor: pointer;
     background-color: rgb(10, 122, 25);

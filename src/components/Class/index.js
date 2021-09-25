@@ -30,21 +30,8 @@ const {
   UNTIL,
 } = CLASS_FIELDS;
 
-function usePrevious(value) {
-  // The ref object is a generic container whose current property is mutable ...
-  // ... and can hold any value, similar to an instance property on a class
-  const ref = useRef();
-  // Store current value in ref
-  useEffect(() => {
-    ref.current = value;
-  }, [value]); // Only re-run if value changes
-  // Return previous value (happens before update in useEffect above)
-  return ref.current;
-}
-
 function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
-  const [initialFormValue, setInitialFormValue] = useState();
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
@@ -160,8 +147,6 @@ function Class({ classToEdit, indicator }) {
       setPathways(res.data.pathways);
     });
   }, []);
-
-  // useEffect((formFieldsState) => {}, [classToEdit])
 
   const onCourseChange = (courseId) => {
     if (exercisesForSelectedCourse[courseId]) {
@@ -307,7 +292,6 @@ function Class({ classToEdit, indicator }) {
     }
     handleTimeValidationAndCreateClass(formFields);
   };
-  const prevClassState = usePrevious(initialFormValue);
 
   return (
     <div className="ng-create-class">
@@ -320,7 +304,6 @@ function Class({ classToEdit, indicator }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
-          setInitialFormValue(formFieldsState);
           return (
             <>
               <label htmlFor="type">Select Class Type</label>
@@ -890,21 +873,33 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              {console.log(_.isEqual(prevClassState, formFieldsState))}
-              {console.log(prevClassState, formFieldsState)}
-              <button
-                type="submit"
-                className="submit"
-                disabled={loading && _.isEqual(prevClassState, formFieldsState)}
-              >
-                {loading ? (
-                  <Loader />
-                ) : isEditMode ? (
-                  "UPDATE CLASS"
-                ) : (
-                  "Create Class"
-                )}
-              </button>
+              {_.isEqual(initialFormState, formFieldsState) ? (
+                <div class="cursor">
+                  <button
+                    type="submit"
+                    className="submit disabled"
+                    disabled={_.isEqual(initialFormState, formFieldsState)}
+                  >
+                    {loading ? (
+                      <Loader />
+                    ) : isEditMode ? (
+                      "UPDATE CLASS"
+                    ) : (
+                      "Create Class"
+                    )}
+                  </button>
+                </div>
+              ) : (
+                <button type="submit" className="submit">
+                  {loading ? (
+                    <Loader />
+                  ) : isEditMode ? (
+                    "UPDATE CLASS"
+                  ) : (
+                    "Create Class"
+                  )}
+                </button>
+              )}
             </>
           );
         }}
