@@ -9,6 +9,7 @@ import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../common/Modal";
+import Loader from "../../common/Loader";
 
 toast.configure();
 
@@ -20,6 +21,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
@@ -101,6 +103,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   };
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
+    setLoading(true);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -122,12 +125,14 @@ function ClassCard({ item, editClass, enroll, style }) {
       )
       .then(() => {
         notify();
+        setLoading(false);
         dispatch(classActions.enrolledClass(Id));
       });
   };
 
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
+    setLoading(true);
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -144,6 +149,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         "unregister-all": indicator,
       },
     }).then(() => {
+      setLoading(false);
       notify();
       dispatch(classActions.dropOutClass(Id));
     });
@@ -171,15 +177,25 @@ function ClassCard({ item, editClass, enroll, style }) {
         </p>
         <div className="bottom-details">
           {!item.enrolled ? (
-            <button
-              type="submit"
-              className={style}
-              onClick={() => {
-                handleClickOpenEnroll(item.id);
-              }}
-            >
-              {enroll}
-            </button>
+            loading ? (
+              <div className="loader-button">
+                <Loader />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className={style}
+                onClick={() => {
+                  handleClickOpenEnroll(item.id);
+                }}
+              >
+                {enroll}
+              </button>
+            )
+          ) : loading ? (
+            <div className="loader-button">
+              <Loader />
+            </div>
           ) : (
             <button
               type="submit"

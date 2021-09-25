@@ -252,6 +252,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
