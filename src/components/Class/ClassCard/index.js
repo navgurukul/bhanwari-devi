@@ -101,6 +101,7 @@ function ClassCard({ item, editClass, enroll, style }) {
       dispatch(classActions.deleteClass(id));
     });
   };
+
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
     setLoading(true);
@@ -111,6 +112,11 @@ function ClassCard({ item, editClass, enroll, style }) {
       });
     };
     setEnrollShowModal(!enrollShowModal);
+    setTimeout(() => {
+      dispatch(classActions.enrolledClass(Id));
+      setLoading(false);
+      notify();
+    }, 10000);
     axios
       .post(
         `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
@@ -129,10 +135,10 @@ function ClassCard({ item, editClass, enroll, style }) {
         dispatch(classActions.enrolledClass(Id));
       });
   };
-
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
     setLoading(true);
+
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -140,6 +146,11 @@ function ClassCard({ item, editClass, enroll, style }) {
       });
     };
     setunenrollShowModal(!unenrollShowModal);
+    setTimeout(() => {
+      dispatch(classActions.dropOutClass(Id));
+      setLoading(false);
+      notify();
+    }, 10000);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
@@ -154,7 +165,6 @@ function ClassCard({ item, editClass, enroll, style }) {
       dispatch(classActions.dropOutClass(Id));
     });
   };
-
   return (
     <div className="class-card ">
       <div className="class-details">
