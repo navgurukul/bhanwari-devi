@@ -69,9 +69,19 @@
     opacity: 0.3;
   }
 
-  .cursor {
+  .disabled-button {
     margin-left: 200px;
     cursor: not-allowed;
+    @include breakpoint-mobile {
+      margin-left: 60px;
+    }
+  }
+
+  .enabled-button {
+    margin-left: 200px;
+    @include breakpoint-mobile {
+      margin-left: 60px;
+    }
   }
 
   .submit:hover {

@@ -304,6 +304,7 @@ function Class({ classToEdit, indicator }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
+          const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
           return (
             <>
               <label htmlFor="type">Select Class Type</label>
@@ -873,24 +874,14 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              {_.isEqual(initialFormState, formFieldsState) ? (
-                <div class="cursor">
-                  <button
-                    type="submit"
-                    className="submit disabled"
-                    disabled={_.isEqual(initialFormState, formFieldsState)}
-                  >
-                    {loading ? (
-                      <Loader />
-                    ) : isEditMode ? (
-                      "UPDATE CLASS"
-                    ) : (
-                      "Create Class"
-                    )}
-                  </button>
-                </div>
-              ) : (
-                <button type="submit" className="submit">
+              <div
+                class={checkEquivalence ? "disabled-button" : "enabled-button"}
+              >
+                <button
+                  type="submit"
+                  className={checkEquivalence ? "submit disabled" : "submit"}
+                  disabled={checkEquivalence}
+                >
                   {loading ? (
                     <Loader />
                   ) : isEditMode ? (
@@ -899,7 +890,7 @@ function Class({ classToEdit, indicator }) {
                     "Create Class"
                   )}
                 </button>
-              )}
+              </div>
             </>
           );
         }}
