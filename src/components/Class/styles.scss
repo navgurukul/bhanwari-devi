@@ -63,6 +63,27 @@
     transition: all 0.2s;
   }
 
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  .disabled-button {
+    margin-left: 200px;
+    cursor: not-allowed;
+    @include breakpoint-mobile {
+      margin-left: 60px;
+    }
+  }
+
+  .enabled-button {
+    margin-left: 200px;
+    @include breakpoint-mobile {
+      margin-left: 60px;
+    }
+  }
+
   .submit:hover {
     cursor: pointer;
     background-color: rgb(10, 122, 25);

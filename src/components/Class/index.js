@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
@@ -123,6 +123,7 @@ function Class({ classToEdit, indicator }) {
         setLoading(false);
       },
       (error) => {
+        console.log(error);
         toast.error(
           `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
           {
@@ -303,6 +304,7 @@ function Class({ classToEdit, indicator }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
+          const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
           return (
             <>
               <label htmlFor="type">Select Class Type</label>
@@ -872,15 +874,23 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              <button type="submit" className="submit" disabled={loading}>
-                {loading ? (
-                  <Loader />
-                ) : isEditMode ? (
-                  "UPDATE CLASS"
-                ) : (
-                  "Create Class"
-                )}
-              </button>
+              <div
+                class={checkEquivalence ? "disabled-button" : "enabled-button"}
+              >
+                <button
+                  type="submit"
+                  className={checkEquivalence ? "submit disabled" : "submit"}
+                  disabled={checkEquivalence}
+                >
+                  {loading ? (
+                    <Loader />
+                  ) : isEditMode ? (
+                    "UPDATE CLASS"
+                  ) : (
+                    "Create Class"
+                  )}
+                </button>
+              </div>
             </>
           );
         }}
