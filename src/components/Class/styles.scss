@@ -77,6 +77,10 @@
     }
   }
 
+  .cursor {
+    cursor: pointer;
+  }
+
   .enabled-button {
     margin-left: 200px;
     @include breakpoint-mobile {
