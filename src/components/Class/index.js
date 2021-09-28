@@ -309,7 +309,7 @@ function Class({ classToEdit, indicator }) {
             <>
               <label htmlFor="type">Select Class Type</label>
               <span>
-                <label htmlFor="type">
+                <label htmlFor="type1">
                   <input
                     type="radio"
                     className="radio-field"
@@ -325,7 +325,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   Doubt Class
                 </label>
-                <label htmlFor="type">
+                <label htmlFor="type2">
                   <input
                     type="radio"
                     className="radio-field"
@@ -341,7 +341,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   Workshop
                 </label>
-                <label htmlFor="type">
+                <label htmlFor="type3">
                   <input
                     type="radio"
                     className="radio-field"
@@ -469,7 +469,7 @@ function Class({ classToEdit, indicator }) {
                 Select Language
               </label>
               <span>
-                <label htmlFor="lang">
+                <label htmlFor="lang-en">
                   <input
                     type="radio"
                     className="radio-field"
@@ -478,12 +478,12 @@ function Class({ classToEdit, indicator }) {
                       setFormField("en", LANG);
                     }}
                     value={formFieldsState[LANG]}
-                    id="lang"
+                    id="lang-en"
                     checked={formFieldsState.lang === "en" ? "checked" : false}
                   />
                   English
                 </label>
-                <label htmlFor="lang">
+                <label htmlFor="lang-hi">
                   <input
                     type="radio"
                     className="radio-field"
@@ -492,12 +492,12 @@ function Class({ classToEdit, indicator }) {
                       setFormField("hi", LANG);
                     }}
                     value={formFieldsState[LANG]}
-                    id="lang"
+                    id="lang-hi"
                     checked={formFieldsState.lang === "hi" ? "checked" : false}
                   />
                   Hindi
                 </label>
-                <label htmlFor="lang">
+                <label htmlFor="lang-te">
                   <input
                     type="radio"
                     className="radio-field"
@@ -506,12 +506,12 @@ function Class({ classToEdit, indicator }) {
                       setFormField("te", LANG);
                     }}
                     value={formFieldsState[LANG]}
-                    id="lang"
+                    id="lang-te"
                     checked={formFieldsState.lang === "te" ? "checked" : false}
                   />
                   Telugu
                 </label>
-                <label htmlFor="lang">
+                <label htmlFor="lang-ta">
                   <input
                     type="radio"
                     className="radio-field"
@@ -520,7 +520,7 @@ function Class({ classToEdit, indicator }) {
                       setFormField("ta", LANG);
                     }}
                     value={formFieldsState[LANG]}
-                    id="lang"
+                    id="lang-ta"
                     checked={formFieldsState.lang === "ta" ? "checked" : false}
                   />
                   Tamil
@@ -638,8 +638,8 @@ function Class({ classToEdit, indicator }) {
                   <label htmlFor="on_days" className="label-field">
                     On days
                   </label>
-                  <spam>
-                    <label htmlFor="on_days">
+                  <span>
+                    <label htmlFor="on_days_mo">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -655,7 +655,7 @@ function Class({ classToEdit, indicator }) {
                         }
                         onChange={() => handleOnChange(0)}
                         value={formFieldsState[ON_DAYS]}
-                        id="on_days"
+                        id="on_days_mo"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("MO") > -1
@@ -665,7 +665,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       MO
                     </label>
-                    <label htmlFor="on_days">
+                    <label htmlFor="on_days_tu">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -681,7 +681,7 @@ function Class({ classToEdit, indicator }) {
                         }
                         onChange={() => handleOnChange(1)}
                         value={[...formFieldsState[ON_DAYS]]}
-                        id="on_days"
+                        id="on_days_tu"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("TU") > -1
@@ -691,7 +691,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       TU
                     </label>
-                    <label htmlFor="on_days">
+                    <label htmlFor="on_days_we">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -707,7 +707,7 @@ function Class({ classToEdit, indicator }) {
                         }
                         onChange={() => handleOnChange(2)}
                         value={[...formFieldsState[ON_DAYS]]}
-                        id="on_days"
+                        id="on_days_we"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("WE") > -1
@@ -717,7 +717,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       WE
                     </label>
-                    <label htmlFor="on_days">
+                    <label htmlFor="on_days_th">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -733,7 +733,7 @@ function Class({ classToEdit, indicator }) {
                         }
                         onChange={() => handleOnChange(3)}
                         value={formFieldsState[ON_DAYS]}
-                        id="on_days"
+                        id="on_days_th"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("TH") > -1
@@ -743,7 +743,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       TH
                     </label>
-                    <label htmlFor="on_days">
+                    <label htmlFor="on_days_fr">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -759,7 +759,7 @@ function Class({ classToEdit, indicator }) {
                         }
                         onChange={() => handleOnChange(4)}
                         value={formFieldsState[ON_DAYS]}
-                        id="on_days"
+                        id="on_days_fr"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("FR") > -1
@@ -769,7 +769,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       FR
                     </label>
-                    <label htmlFor="on_days">
+                    <label htmlFor="on_days_sa">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -785,7 +785,7 @@ function Class({ classToEdit, indicator }) {
                         }
                         onChange={() => handleOnChange(5)}
                         value={formFieldsState[ON_DAYS]}
-                        id="on_days"
+                        id="on_days_sa"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("SA") > -1
@@ -795,7 +795,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       SA
                     </label>
-                    <label htmlFor="on_days">
+                    <label htmlFor="on_days_su">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -811,7 +811,7 @@ function Class({ classToEdit, indicator }) {
                         }
                         onChange={() => handleOnChange(6)}
                         value={formFieldsState[ON_DAYS]}
-                        id="on_days"
+                        id="on_days_su"
                         disabled={isEditMode && !indicator ? true : false}
                         checked={
                           formFieldsState[ON_DAYS].indexOf("SU") > -1
@@ -821,7 +821,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       SU
                     </label>
-                  </spam>
+                  </span>
                   <label htmlFor={UNTIL} className="label-field">
                     Until
                     <span className="optional-field">
