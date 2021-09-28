@@ -309,7 +309,7 @@ function Class({ classToEdit, indicator }) {
             <>
               <label htmlFor="type">Select Class Type</label>
               <span>
-                <label htmlFor="type1" className="cursor">
+                <label htmlFor="type1" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -325,7 +325,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   Doubt Class
                 </label>
-                <label htmlFor="type2" className="cursor">
+                <label htmlFor="type2" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -341,7 +341,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   Workshop
                 </label>
-                <label htmlFor="type3" className="cursor">
+                <label htmlFor="type3" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -469,7 +469,7 @@ function Class({ classToEdit, indicator }) {
                 Select Language
               </label>
               <span>
-                <label htmlFor="lang-en" className="cursor">
+                <label htmlFor="lang-en" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -483,7 +483,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   English
                 </label>
-                <label htmlFor="lang-hi" className="cursor">
+                <label htmlFor="lang-hi" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -497,7 +497,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   Hindi
                 </label>
-                <label htmlFor="lang-te" className="cursor">
+                <label htmlFor="lang-te" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -511,7 +511,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   Telugu
                 </label>
-                <label htmlFor="lang-ta" className="cursor">
+                <label htmlFor="lang-ta" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
