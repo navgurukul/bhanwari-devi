@@ -22,6 +22,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  // const [myFlag, setMyFlag] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
@@ -111,10 +112,15 @@ function ClassCard({ item, editClass, enroll, style }) {
         autoClose: 2500,
       });
     };
+    let myFlag = false;
     setEnrollShowModal(!enrollShowModal);
-    setTimeout(() => {
+    const timer = setTimeout(() => {
+      console.log("Punnu");
+      myFlag = true;
+      console.log("myFlag", myFlag);
       dispatch(classActions.enrolledClass(Id));
       setLoading(false);
+
       notify();
     }, 10000);
     axios
@@ -129,9 +135,16 @@ function ClassCard({ item, editClass, enroll, style }) {
           },
         }
       )
-      .then(() => {
-        notify();
-        setLoading(false);
+      .then((res) => {
+        console.log("response", res);
+        console.log("my flag outside", myFlag);
+        if (!myFlag) {
+          console.log("my flag inside", myFlag);
+          console.log("response in my flag", res);
+          notify();
+          clearTimeout(timer);
+          setLoading(false);
+        }
         dispatch(classActions.enrolledClass(Id));
       });
   };
@@ -145,10 +158,15 @@ function ClassCard({ item, editClass, enroll, style }) {
         autoClose: 2500,
       });
     };
+    let myFlag = false;
     setunenrollShowModal(!unenrollShowModal);
-    setTimeout(() => {
+    const timer = setTimeout(() => {
+      console.log("Punnu");
+      myFlag = true;
+      console.log("myFlag", myFlag);
       dispatch(classActions.dropOutClass(Id));
       setLoading(false);
+
       notify();
     }, 10000);
     return axios({
@@ -159,9 +177,14 @@ function ClassCard({ item, editClass, enroll, style }) {
         Authorization: user.data.token,
         "unregister-all": indicator,
       },
-    }).then(() => {
-      setLoading(false);
-      notify();
+    }).then((res) => {
+      if (!myFlag) {
+        console.log("my flag inside", myFlag);
+        console.log("response in my flag", res);
+        notify();
+        clearTimeout(timer);
+        setLoading(false);
+      }
       dispatch(classActions.dropOutClass(Id));
     });
   };
