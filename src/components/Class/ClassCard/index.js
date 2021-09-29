@@ -22,9 +22,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  // const [myFlag, setMyFlag] = React.useState(false);
   const user = useSelector(({ User }) => User);
-
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
 
@@ -112,15 +110,12 @@ function ClassCard({ item, editClass, enroll, style }) {
         autoClose: 2500,
       });
     };
-    let myFlag = false;
+    let getNotify = false;
     setEnrollShowModal(!enrollShowModal);
     const timer = setTimeout(() => {
-      console.log("Punnu");
-      myFlag = true;
-      console.log("myFlag", myFlag);
+      getNotify = true;
       dispatch(classActions.enrolledClass(Id));
       setLoading(false);
-
       notify();
     }, 10000);
     axios
@@ -135,12 +130,8 @@ function ClassCard({ item, editClass, enroll, style }) {
           },
         }
       )
-      .then((res) => {
-        console.log("response", res);
-        console.log("my flag outside", myFlag);
-        if (!myFlag) {
-          console.log("my flag inside", myFlag);
-          console.log("response in my flag", res);
+      .then(() => {
+        if (!getNotify) {
           notify();
           clearTimeout(timer);
           setLoading(false);
@@ -158,12 +149,10 @@ function ClassCard({ item, editClass, enroll, style }) {
         autoClose: 2500,
       });
     };
-    let myFlag = false;
+    let getNotify = false;
     setunenrollShowModal(!unenrollShowModal);
     const timer = setTimeout(() => {
-      console.log("Punnu");
-      myFlag = true;
-      console.log("myFlag", myFlag);
+      getNotify = true;
       dispatch(classActions.dropOutClass(Id));
       setLoading(false);
 
@@ -177,10 +166,8 @@ function ClassCard({ item, editClass, enroll, style }) {
         Authorization: user.data.token,
         "unregister-all": indicator,
       },
-    }).then((res) => {
-      if (!myFlag) {
-        console.log("my flag inside", myFlag);
-        console.log("response in my flag", res);
+    }).then(() => {
+      if (!getNotify) {
         notify();
         clearTimeout(timer);
         setLoading(false);
