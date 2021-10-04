@@ -1,0 +1,55 @@
+html,
+body {
+  min-height: 100%;
+  color: #222;
+}
+
+@font-face {
+  font-family: "Lusitana";
+  src: URL("./asset/fonts/Lusitana-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "LusitanaBold";
+  src: URL("./asset/fonts/Lusitana-Bold.ttf") format("truetype");
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.primary-btn {
+  background-color: #48a145;
+  color: #fff;
+  border: 1px solid #48a145;
+  padding: 0 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &--inverted {
+    background-color: #fff;
+    color: #48a145;
+    border: 1px solid #48a145;
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.flex {
+  display: flex;
+}
