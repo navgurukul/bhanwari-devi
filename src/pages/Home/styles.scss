@@ -110,3 +110,17 @@
   line-height: 1.5;
   max-width: 220px;
 }
+
+.home-see-all-members {
+  color: #48a145;
+  font-weight: 700;
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.6;
+
+  .fa-chevron-right {
+    margin-left: 8px;
+  }
+}

@@ -72,6 +72,111 @@ const teamMembers = [
       },
     ],
   },
+  {
+    name: "Abhishek Gupta",
+    bio: "CEO, Navgurukul & Meraki",
+    image: require("./assets/teamMember.png"),
+    description:
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+    socialMedia: [
+      {
+        image: require("./assets/linkedin.svg"),
+        link: "",
+      },
+      {
+        image: require("./assets/twitter.svg"),
+        link: "",
+      },
+    ],
+  },
+];
+
+const partners = [
+  {
+    name: "Hope Foundation",
+    footerMsg: "- Suresh G, Program Director",
+    image: require("./assets/partner.png"),
+    description:
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+    socialMedia: [
+      {
+        image: require("./assets/linkedin.svg"),
+        link: "",
+      },
+      {
+        image: require("./assets/twitter.svg"),
+        link: "",
+      },
+    ],
+  },
+  {
+    name: "Hope Foundation",
+    footerMsg: "- Suresh G, Program Director",
+    image: require("./assets/partner.png"),
+    description:
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+    socialMedia: [
+      {
+        image: require("./assets/linkedin.svg"),
+        link: "",
+      },
+      {
+        image: require("./assets/twitter.svg"),
+        link: "",
+      },
+    ],
+  },
+  {
+    name: "Hope Foundation",
+    footerMsg: "- Suresh G, Program Director",
+    image: require("./assets/partner.png"),
+    description:
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+    socialMedia: [
+      {
+        image: require("./assets/linkedin.svg"),
+        link: "",
+      },
+      {
+        image: require("./assets/twitter.svg"),
+        link: "",
+      },
+    ],
+  },
+  {
+    name: "Hope Foundation",
+    footerMsg: "- Suresh G, Program Director",
+    image: require("./assets/partner.png"),
+    description:
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+    socialMedia: [
+      {
+        image: require("./assets/linkedin.svg"),
+        link: "",
+      },
+      {
+        image: require("./assets/twitter.svg"),
+        link: "",
+      },
+    ],
+  },
+  {
+    name: "Hope Foundation",
+    footerMsg: "- Suresh G, Program Director",
+    image: require("./assets/partner.png"),
+    description:
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+    socialMedia: [
+      {
+        image: require("./assets/linkedin.svg"),
+        link: "",
+      },
+      {
+        image: require("./assets/twitter.svg"),
+        link: "",
+      },
+    ],
+  },
 ];
 
 export const Home = () => {
@@ -263,7 +368,26 @@ export const Home = () => {
             </div>
           </div>
         </section>
-        <Gallery Component={BioItem} items={teamMembers} />
+        <section className="page-section">
+          <h2 className="section-title">The Team behind Meraki</h2>
+          <Gallery Component={BioItem} items={teamMembers} />
+          <p className="base-font home-see-all-members page-section-footer">
+            <span>See all team members and volunteers </span>
+            <i className="fa fa-chevron-right" />
+          </p>
+        </section>
+        <section className="page-section">
+          <h2 className="section-title">Our Partners</h2>
+          <p className="base-font">
+            22 partners &bull; Across 7 states &bull; Offering volunteering and
+            funding
+          </p>
+          <Gallery Component={BioItem} items={partners} />
+          <p className="base-font home-see-all-members page-section-footer">
+            <span>See all our partners </span>
+            <i className="fa fa-chevron-right" />
+          </p>
+        </section>
       </div>
     </main>
   );

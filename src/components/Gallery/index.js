@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./styles.scss";
 
 const Gallery = ({ items, Component }) => {
   const [selectedItemIndex, setSelectedItem] = useState(
@@ -6,12 +7,12 @@ const Gallery = ({ items, Component }) => {
   );
 
   return (
-    <section className="flex">
+    <section className="gallery-container">
       {items.map((item, index) => {
         return (
           <Component
-            key={item.bio}
-            isSelected={selectedItemIndex}
+            key={`${item.bio}-${index}`}
+            isSelected={selectedItemIndex === index}
             {...item}
             setSelected={() => {
               setSelectedItem(index);
