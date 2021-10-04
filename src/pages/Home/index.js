@@ -9,7 +9,7 @@ const teamMembers = [
     bio: "CEO, Navgurukul & Meraki",
     image: require("./assets/teamMember.png"),
     description:
-      "IITD '13 CS graduate. Co-foudned Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
     socialMedia: [
       {
         image: require("./assets/linkedin.svg"),
@@ -26,7 +26,7 @@ const teamMembers = [
     bio: "CEO, Navgurukul & Meraki",
     image: require("./assets/teamMember.png"),
     description:
-      "IITD '13 CS graduate. Co-foudned Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
     socialMedia: [
       {
         image: require("./assets/linkedin.svg"),
@@ -43,7 +43,7 @@ const teamMembers = [
     bio: "CEO, Navgurukul & Meraki",
     image: require("./assets/teamMember.png"),
     description:
-      "IITD '13 CS graduate. Co-foudned Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
     socialMedia: [
       {
         image: require("./assets/linkedin.svg"),
@@ -60,7 +60,7 @@ const teamMembers = [
     bio: "CEO, Navgurukul & Meraki",
     image: require("./assets/teamMember.png"),
     description:
-      "IITD '13 CS graduate. Co-foudned Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
+      "IITD '13 CS graduate. Co-founded Zumbl.com and FranklyMe. Zumbl was acquired and FranklyMe raised more than 2.6M$ from Matrix Partners and others.",
     socialMedia: [
       {
         image: require("./assets/linkedin.svg"),
