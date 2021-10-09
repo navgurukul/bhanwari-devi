@@ -1,17 +1,164 @@
-.footer {
+@import "../../sass/colors.scss";
+@import "../../sass/mixins.scss";
+
+.upper-footer {
   padding: 30px 60px;
   display: flex;
-  background-color: rgba(163, 163, 163, 0.2);
-  border-top: rgba(163, 163, 163, 0.4);
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  background-color: rgba(124, 187, 124, 0.2);
+  border-top: rgba(175, 240, 220, 0.4);
+  display: flex;
+  height: 26px;
+  @include breakpoint-mobile {
+    display: block;
+    height: 170px;
+    padding-left: 16%;
+  }
+}
 
-  > .footer-link {
-    font-family: Rubik;
-    font-style: normal;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
-    color: #191b26;
-    font-weight: 400;
+.meraki-learn-logo {
+  display: flex;
+  @include breakpoint-mobile {
+    position: absolute;
+  }
+}
+
+.meraki {
+  width: 31px;
+  height: 48px;
+  margin-left: 111%;
+  @include breakpoint-mobile {
+    position: absolute;
+    width: 40px;
+    height: 54px;
+    margin-left: 45px;
+  }
+}
+
+.merakilearn {
+  width: 100px;
+  height: 18px;
+  margin-left: 10%;
+  margin-top: 8px;
+  @include breakpoint-mobile {
+    position: absolute;
+    margin-left: 100px;
+    margin-top: 20px;
+  }
+}
+
+.social-media {
+  display: flex;
+  position: absolute;
+  margin-left: 41%;
+  @include breakpoint-mobile {
+    margin-left: 33px;
+    margin-top: 70px;
+  }
+}
+
+.insta-logo {
+  width: 40px;
+  height: 48px;
+  margin-right: 7%;
+}
+
+.linkedIn-logo {
+  width: 40px;
+  height: 48px;
+  margin-right: 7%;
+}
+
+.facebook-logo {
+  width: 40px;
+  height: 48px;
+  margin-right: 7%;
+}
+
+.twitter-logo {
+  width: 40px;
+  height: 48px;
+}
+
+.playStor {
+  font-weight: 500;
+  display: flex;
+  margin-left: 67%;
+  @include breakpoint-mobile {
+    margin-left: 0;
+    margin-top: 120px;
+  }
+}
+
+.playstore-logo {
+  width: 55px;
+  height: 70px;
+  @include breakpoint-mobile {
+    position: absolute;
+    padding-top: 12px;
+  }
+}
+
+.playStor-text {
+  margin-left: 3%;
+  margin-right: 5%;
+  text-align: right;
+  line-height: 1.3;
+  @include breakpoint-mobile {
+    position: absolute;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    padding-top: 28px;
+    margin-left: 50px;
+  }
+}
+
+.lower-footer {
+  padding: 30px 60px;
+  height: 5px;
+  display: flex;
+  background-color: rgba(247, 252, 247, 0.2);
+  border-top: rgba(250, 252, 251, 0.4);
+  display: flex;
+  padding-left: 11.5%;
+  margin-top: -0.6%;
+  @include breakpoint-mobile {
+    display: block;
+    height: 70px;
+    line-height: 2;
+    padding-left: 20%;
+  }
+}
+
+.footer-link {
+  color: rgba(53, 145, 53, 0.87);
+  margin-right: 23%;
+  margin-left: 26%;
+  font-weight: bold;
+  font-family: Rubik;
+  font-style: normal;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding-top: 2px;
+}
+
+.contact {
+  font-weight: bold;
+  display: flex;
+  margin-left: 1%;
+}
+
+.email {
+  color: rgba(53, 145, 53, 0.87);
+  cursor: pointer;
+}
+
+.footer-sentence {
+  font-weight: 500;
+  margin-top: -1px;
+  @include breakpoint-mobile {
+    padding-bottom: 10%;
   }
 }
