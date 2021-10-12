@@ -112,7 +112,6 @@
 }
 
 .home-see-all-members {
-  color: #48a145;
   font-weight: 700;
   margin-top: 32px;
   display: flex;
@@ -122,5 +121,81 @@
 
   .fa-chevron-right {
     margin-left: 8px;
+  }
+}
+// my css
+
+.page-for-start-learning {
+  background: #e9f5e9;
+  padding: 40px;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+}
+
+.flex-child:first-child {
+  margin-right: 20px;
+}
+
+.quers-from {
+  margin: auto;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form-for-query {
+    text-align: left;
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    width: auto;
+    padding: 30px;
+    color: #c0c3c4;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .input-field {
+    width: 360px;
+    height: 48px;
+    padding-left: 8px;
+    margin: 8px 0 24px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid #c0c3c4;
+    background: #fff;
+    box-sizing: border-box;
+    &:focus {
+      border: 1px solid #3cb728;
+      box-shadow: 0 0 4px #3cb728;
+    }
+  }
+
+  .send-email {
+    background: #48a145;
+    cursor: pointer;
+    height: 48px;
+    border-radius: 8px;
+    font-size: 18px;
+    line-height: 21px;
+    color: #ffffff;
+    border-width: 0px;
+    margin-top: 24px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+}
+
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  .image-call {
+    display: none;
   }
 }

@@ -1,0 +1,329 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+}
+
+.page-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  // background-color: blue;
+  margin-top: 75px;
+}
+
+.wrapper {
+  // position: fixed;
+  // width: 100%;
+}
+.wrapper nav {
+  position: relative;
+  display: flex;
+  max-width: calc(100% - 200px);
+  margin: 0 auto;
+  // height: 70px;
+  // margin: 60px 0px;
+  // background-color: #48a145;
+  align-items: center;
+  justify-content: space-between;
+  //   background-color: tomato;
+  margin-top: 15px;
+}
+nav .content {
+  display: flex;
+  align-items: center;
+}
+nav .content .links {
+  margin-left: 80px;
+  display: flex;
+  //   background-color: slateblue;
+}
+
+.content .links li {
+  list-style: none;
+  line-height: 70px;
+}
+.content .links li a,
+.content .links li label {
+  color: #171c24;
+  //   background-color: rebeccapurple;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 9px 17px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.content .links li label {
+  display: none;
+}
+.content .links li a:hover,
+.content .links li label:hover {
+  background: #e9f5e9;
+}
+
+.nav-left {
+  margin-left: 415px;
+}
+
+.nav-login {
+  margin-left: 20px;
+}
+
+.btn {
+  border: none;
+  background: #48a145;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 17px;
+  // margin: 0px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.wrapper .search-icon,
+.wrapper .menu-icon {
+  color: #171c24;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 70px;
+  width: 70px;
+  text-align: center;
+}
+.wrapper .menu-icon {
+  display: none;
+}
+.wrapper #show-search:checked ~ .search-icon i::before {
+  content: "\f00d";
+}
+
+.search-box input::placeholder {
+  //   color: #f2f2f2;
+  color: #000;
+}
+
+.wrapper input[type="checkbox"] {
+  display: none;
+}
+
+.meraki {
+  background-image: url("../../asset/meraki.png");
+  width: 58px;
+  height: 55px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.meraki-name {
+  background-image: url("../../asset/Merakilearn.png");
+  width: 150px;
+  height: 26px;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.search-course {
+  border: 0;
+  font-size: 16px;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #2e2e2e;
+  height: 5px;
+  margin-top: 13px;
+  // width: 700px;
+  width: 190%;
+  margin-left: 25px;
+  background-image: url("../../asset/search.svg");
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+}
+
+.content .links li .komal {
+  width: 58%;
+}
+
+/* Dropdown Menu code start *************************************/
+.content .links ul {
+  position: absolute;
+  background: #fff;
+  top: 80px;
+  z-index: 999;
+  opacity: 0;
+  border-radius: 8px;
+  box-shadow: 0px 4px 5px rgba(46, 46, 46, 0.06),
+    0px 1px 10px rgba(46, 46, 46, 0.04), 0px 2px 4px rgba(46, 46, 46, 0.08);
+  visibility: hidden;
+}
+.content .links li:hover > ul {
+  top: 70px;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.3s ease;
+}
+.content .links ul li a {
+  display: block;
+  width: 100%;
+  line-height: 30px;
+  border-radius: 0px !important;
+}
+.content .links ul ul {
+  position: absolute;
+  top: 0;
+  right: calc(-100% + 8px);
+}
+.content .links ul li {
+  position: relative;
+}
+.content .links ul li:hover ul {
+  top: 0;
+}
+
+/* Responsive code start ********************************/
+@media screen and (max-width: 1250px) {
+  .wrapper nav {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+  nav .content .links {
+    margin-left: 30px;
+  }
+  .content .links li a {
+    padding: 8px 13px;
+  }
+  .search-course {
+    width: 90%;
+  }
+
+  // need to change this
+  .content .links li .komal {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 900px) {
+  .wrapper .menu-icon {
+    display: block;
+  }
+  .wrapper #show-menu:checked ~ .menu-icon i::before {
+    content: "\f00d";
+    background-color: red;
+  }
+  nav .content .links {
+    display: block;
+    position: fixed;
+    background-color: #f2f2f2;
+    height: 100%;
+    width: 100%;
+    top: 70px;
+    left: -100%;
+    margin-left: 0;
+    max-width: 350px;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    transition: all 0.3s ease;
+  }
+  nav #show-menu:checked ~ .content .links {
+    left: 0%;
+  }
+  .content .links li {
+    margin: 15px 20px;
+  }
+  .content .links li a,
+  .content .links li label {
+    line-height: 40px;
+    font-size: 20px;
+    display: block;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+  .content .links li a.desktop-link {
+    display: none;
+  }
+  /* dropdown responsive code start ********************************/
+  .content .links ul,
+  .content .links ul ul {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    background: none;
+    max-height: 0px;
+    overflow: hidden;
+  }
+  .content .links #show-features:checked ~ ul,
+  .content .links #show-services:checked ~ ul,
+  .content .links #show-items:checked ~ ul {
+    max-height: 100vh;
+    // max-height: 100%;
+  }
+  .content .links ul li {
+    margin: 7px 20px;
+  }
+  .content .links ul li a {
+    font-size: 18px;
+    line-height: 30px;
+    border-radius: 5px !important;
+  }
+}
+@media screen and (max-width: 400px) {
+  .wrapper nav {
+    padding: 0 10px;
+  }
+}
+
+.page-sectionm {
+  margin: 9px 0;
+  //   padding: 0 5%;
+}
+
+.nav-info-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  // background-color: royalblue;
+  // width: 80%;
+  width: 100%;
+  // background-color: teal;
+}
+
+.course-image-contain {
+  display: flex;
+}
+
+.nav-info-card {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+
+  // max-width: 270px;
+  // min-width: 270px;
+  margin: 5px;
+  &:hover {
+    background: #e9f5e9;
+    border-radius: 4px;
+    box-shadow: 0px 4px 5px rgba(46, 46, 46, 0.06),
+      0px 1px 10px rgba(46, 46, 46, 0.04), 0px 2px 4px rgba(46, 46, 46, 0.08);
+  }
+}
+
+.nav-info-card-img {
+  width: 34px;
+  margin-left: 20px;
+}
+
+.nav-info-card-title {
+  font-size: 20px;
+  font-weight: bold;
+  // margin-top: 12px;
+  // margin-bottom: 10px;
+  // background-color: slateblue;
+}
+
+.nav-info-card-description {
+  font-size: 16px;
+  line-height: 1.5;
+  // max-width: 220px;
+  max-width: 244px;
+}
