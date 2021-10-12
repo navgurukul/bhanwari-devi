@@ -98,6 +98,8 @@ function Class({ classToEdit, indicator }) {
   );
 
   const editClass = (payload) => {
+    payload.start_time = convertToIST(payload.start_time);
+    payload.end_time = convertToIST(payload.end_time);
     if (classToEdit.type === "cohort") {
       if (indicator === false) {
         delete payload.frequency;
@@ -167,6 +169,15 @@ function Class({ classToEdit, indicator }) {
     });
   };
 
+  const convertToIST = (d) => {
+    const b = d.split(/\D+/);
+    const dateInObj = new Date(
+      Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6])
+    );
+    const utc = dateInObj.getTime() + dateInObj.getTimezoneOffset() * 60000;
+    return new Date(utc + 3600000 * +5.5).toISOString();
+  };
+
   const handleTimeValidationAndCreateClass = (payload) => {
     const classStartTime = moment(
       `${payload[TIME_CONSTANT.CLASS_START_DATE]} ${
@@ -178,6 +189,7 @@ function Class({ classToEdit, indicator }) {
         payload[TIME_CONSTANT.CLASS_END_TIME]
       }`
     );
+
     if (classStartTime.valueOf() >= classEndTime.valueOf()) {
       toast.error("Class end time must be later than class start time.", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -235,6 +247,8 @@ function Class({ classToEdit, indicator }) {
   };
 
   const createClass = (payload) => {
+    payload.start_time = convertToIST(payload.start_time);
+    payload.end_time = convertToIST(payload.end_time);
     setLoading(true);
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
