@@ -13,6 +13,7 @@ import PrivacyPolicy from "../components/PrivacyPolicy";
 import PartnerData from "../components/Dashboard /PartnerData";
 import StudentData from "../components/Dashboard /StudentData";
 import StudentClassData from "../components/Dashboard /StudentClassData";
+import Opportunities from "../pages/Opportunities";
 
 // import Classes from '../pages/classes'
 
@@ -26,6 +27,7 @@ const Routing = () => {
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
+      <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
       {/* Private routes */}
       {/* <PrivateRoute
         exact

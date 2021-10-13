@@ -13,4 +13,5 @@ export const PATHS = {
   PARTNERS: "/partner",
   PARTNER_DATA: "/partner/:partnerId",
   STUDENT: "/student/:studentId",
+  OPPORTUNITIES: "/opportunities",
 };
