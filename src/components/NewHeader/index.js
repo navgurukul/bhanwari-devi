@@ -27,7 +27,7 @@ function Header() {
               <input type="checkbox" id="show-features" />
               <label for="show-features">Explore</label>
               <ul className="komal">
-                <section className="page-sectionm">
+                <section className="page-heading-top">
                   {/* <h2 className="section-title"> learning tracks</h2> */}
                   <div className="nav-info-cards-container">
                     <div className="nav-info-card">

@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles.scss";
+import { Link } from "react-router-dom";
 import Gallery from "../../components/Gallery";
 import BioItem from "../../components/BioItem";
 
@@ -384,8 +385,13 @@ export const Home = () => {
           </p>
           <Gallery Component={BioItem} items={partners} />
           <p className="base-font home-see-all-members page-section-footer">
-            <span>See all our partners </span>
-            <i className="fa fa-chevron-right" />
+            <Link className="go-to-partner" to="/our-partners">
+              {" "}
+              <span>See all our partners </span>
+              <i className="fa fa-chevron-right" />
+            </Link>
+            {/* <span>See all our partners </span>
+            <i className="fa fa-chevron-right" /> */}
           </p>
         </section>
 
@@ -406,52 +412,6 @@ export const Home = () => {
               />
               <span className="home-playstore-btn-text">Download Meraki</span>
             </button>
-          </div>
-        </section>
-
-        <section className="page-section">
-          <h2 className="section-title">Have Questions ?</h2>
-          <div class="flex-container">
-            <div class="flex-child magenta">
-              <div className="quers-from">
-                <form className="form-for-query">
-                  <label htmlFor="name">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    className="input-field"
-                    required
-                    aria-required
-                  />
-                  <label htmlFor="topic">Phone Number</label>
-                  <input
-                    type="text"
-                    name="number"
-                    id="number"
-                    className="input-field"
-                    required
-                    aria-required
-                  />
-                  <label htmlFor="query">Your Query</label>
-                  <input
-                    type="text"
-                    name="query"
-                    className="input-field"
-                    required
-                    aria-required
-                  />
-
-                  <button type="submit" className="send-email">
-                    Send Message
-                  </button>
-                </form>
-              </div>
-            </div>
-
-            <div class="flex-child green">
-              <img className="image-call" src={require("./assets/call.png")} />
-            </div>
           </div>
         </section>
       </div>
