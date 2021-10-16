@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles.scss";
+import { Link } from "react-router-dom";
 import Gallery from "../../components/Gallery";
 import BioItem from "../../components/BioItem";
 
@@ -386,9 +387,34 @@ export const Home = () => {
           </p>
           <Gallery Component={BioItem} items={partners} />
           <p className="base-font home-see-all-members page-section-footer">
-            <span>See all our partners </span>
-            <i className="fa fa-chevron-right" />
+            <Link className="go-to-partner" to="/our-partners">
+              {" "}
+              <span>See all our partners </span>
+              <i className="fa fa-chevron-right" />
+            </Link>
+            {/* <span>See all our partners </span>
+            <i className="fa fa-chevron-right" /> */}
           </p>
+        </section>
+
+        {/* ******************************************************************** */}
+        <section className="page-section first-page-section ">
+          <div className="page-for-start-learning">
+            <p className="page-subtitle">
+              With Meraki, begin your programming journey for free today
+            </p>
+            <button className="primary-btn">Start Learning</button>
+            <button
+              className="primary-btn primary-btn--inverted home-playstore-download-btn"
+              style={{ marginLeft: 20 }}
+            >
+              <img
+                src={require("./assets/playstore.svg")}
+                className="home-playstore-icon"
+              />
+              <span className="home-playstore-btn-text">Download Meraki</span>
+            </button>
+          </div>
         </section>
       </div>
     </main>

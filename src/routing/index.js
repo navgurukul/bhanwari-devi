@@ -6,7 +6,9 @@ import { PATHS } from "../constant";
 import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
 import Course from "../pages/Course";
+
 import { Home } from "../pages/Home";
+import OurPartners from "../pages/Home/PartnersPage";
 import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
@@ -23,6 +25,7 @@ const Routing = () => {
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
+      <Route exact path={PATHS.OUR_PARTNERS} component={OurPartners} />
       <Route exact path={PATHS.COURSE} component={Course} />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
