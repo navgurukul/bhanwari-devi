@@ -8,10 +8,10 @@
   background-color: rgba(124, 187, 124, 0.2);
   border-top: rgba(175, 240, 220, 0.4);
   display: flex;
-  height: 26px;
+  height: 35px;
   @include breakpoint-mobile {
     display: block;
-    height: 170px;
+    height: 190px;
     padding-left: 16%;
   }
 }
@@ -39,7 +39,7 @@
   width: 100px;
   height: 18px;
   margin-left: 10%;
-  margin-top: 8px;
+  margin-top: 15px;
   @include breakpoint-mobile {
     position: absolute;
     margin-left: 100px;
