@@ -3,7 +3,7 @@ export const AUTH_KEY = "__AUTH__";
 export const PATHS = {
   HOME_PATH: "/",
   MERAKI_TEAM: "/team",
-  CORE_MEMBERS: "/core",
+  OUR_PARTNERS: "/our-partners",
   LOGIN: "/login",
   CLASS: "/class",
   COURSE: "/course",
