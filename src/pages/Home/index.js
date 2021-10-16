@@ -179,6 +179,8 @@ const partners = [
   },
 ];
 
+console.log(partners, "komal");
+
 export const Home = () => {
   return (
     <main className="home">
