@@ -2,6 +2,7 @@ import React from "react";
 import "./styles.scss";
 import Gallery from "../../components/Gallery";
 import BioItem from "../../components/BioItem";
+import { Link } from "react-router-dom";
 
 const teamMembers = [
   {
@@ -372,8 +373,10 @@ export const Home = () => {
           <h2 className="section-title">The Team behind Meraki</h2>
           <Gallery Component={BioItem} items={teamMembers} />
           <p className="base-font home-see-all-members page-section-footer">
-            <span>See all team members and volunteers </span>
-            <i className="fa fa-chevron-right" />
+            <Link to="team">
+              <span>See all team members and volunteers </span>
+              <i className="fa fa-chevron-right" />
+            </Link>
           </p>
         </section>
         <section className="page-section">
