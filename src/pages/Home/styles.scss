@@ -1,0 +1,126 @@
+.home {
+  background-color: #fff;
+  text-align: center;
+  font-family: "Lusitana", Fallback, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.page-title {
+  font-size: 36px;
+  margin: 0;
+}
+
+.page-subtitle {
+  font-family: "LusitanaBold";
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.page-section {
+  margin: 40px 0;
+}
+
+.popup-card {
+  box-shadow: 0px 24px 38px rgba(46, 46, 46, 0.06),
+    0px 9px 46px rgba(46, 46, 46, 0.04), 0px 11px 15px rgba(46, 46, 46, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.user-card {
+  position: absolute;
+
+  .popup-card {
+    margin-bottom: 12px;
+  }
+}
+
+.home-user-image {
+  width: 48px;
+}
+
+.home-playstore-icon {
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.home-playstore-download-btn {
+  position: relative;
+}
+
+.home-playstore-btn-text {
+  margin-left: 32px;
+}
+
+.first-page-section {
+  margin-top: 20px;
+  margin-bottom: 100px;
+}
+
+.section-title {
+  margin-top: 100px;
+  font-size: 32px;
+}
+
+.section-bottom-border {
+  width: 50%;
+  fill: solid;
+  height: 0;
+  border-top: 1px solid #bdbaba;
+  margin-top: -5px;
+  margin-bottom: 0;
+}
+
+.info-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.info-card {
+  box-shadow: 0px 4px 5px rgba(46, 46, 46, 0.06),
+    0px 1px 10px rgba(46, 46, 46, 0.04), 0px 2px 4px rgba(46, 46, 46, 0.08);
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  max-width: 250px;
+  min-width: 250px;
+  margin: 16px;
+}
+
+.info-card-img {
+  width: 48px;
+}
+
+.info-card-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.info-card-description {
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 220px;
+}
+
+.home-see-all-members {
+  color: #48a145;
+  font-weight: 700;
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.6;
+
+  .fa-chevron-right {
+    margin-left: 8px;
+  }
+}

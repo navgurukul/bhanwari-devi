@@ -1,0 +1,78 @@
+html,
+body {
+  min-height: 100%;
+  color: #222;
+}
+
+@font-face {
+  font-family: "Lusitana";
+  src: URL("./asset/fonts/Lusitana-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "LusitanaBold";
+  src: URL("./asset/fonts/Lusitana-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NunitoSansRegular";
+  src: URL("./asset/fonts/NunitoSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NunitoSansBold";
+  src: URL("./asset/fonts/NunitoSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NunitoSansLight";
+  src: URL("./asset/fonts/NunitoSans-Light.ttf") format("truetype");
+}
+
+.base-font {
+  font-family: "NunitoSans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  color: #2e2e2e;
+}
+
+body {
+  @extend .base-font;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.primary-btn {
+  background-color: #48a145;
+  color: #fff;
+  border: 1px solid #48a145;
+  padding: 0 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &--inverted {
+    background-color: #fff;
+    color: #48a145;
+    border: 1px solid #48a145;
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.flex {
+  display: flex;
+}

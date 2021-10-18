@@ -1,0 +1,43 @@
+.bio-item {
+  margin: 0 12px;
+  flex: 1;
+}
+
+.bio-name {
+  font-family: "LusitanaBold";
+  margin-bottom: 12px;
+}
+
+.bio-subtitle {
+  color: #818181;
+  margin-bottom: 12px;
+}
+
+.bio-image {
+  width: 128px;
+  border-radius: 50%;
+}
+
+.bio-image-collapsed {
+  width: 64px;
+  margin-top: 16px;
+}
+
+.bio-social-media-images {
+  margin: 16px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.bio-social-media-image {
+  margin-right: 8px;
+}
+
+.bio-description {
+  line-height: 1.6;
+}
+
+.bio-footer-msg {
+  color: #818181;
+  margin-top: 12px;
+}

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import initialStore from "./store.js";
-import "./index.css";
+import "./index.scss";
 import App from "./components/App/index.js";
 import { DeviceProvider } from "./common/context";
 import * as serviceWorker from "./serviceWorker";
