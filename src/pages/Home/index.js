@@ -388,6 +388,78 @@ export const Home = () => {
             <i className="fa fa-chevron-right" />
           </p>
         </section>
+        <section className="page-section">
+          <h2 className="section-title">Sponsored by</h2>
+          <a href="" target="_blank">
+            <img className="sponsored-by" src={require("./assets/Wipro.png")} />
+          </a>
+          <a href="" target="_blank">
+            <img className="sponsored-by" src={require("./assets/Tata.png")} />
+          </a>
+          <a href="" target="_blank">
+            <img
+              className="sponsored-by"
+              src={require("./assets/Microsoft.png")}
+            />
+          </a>
+          <a href="" target="_blank">
+            <img
+              className="sponsored-by"
+              src={require("./assets/Amazon.png")}
+            />
+          </a>
+          <a href="" target="_blank">
+            <img
+              className="sponsored-by"
+              src={require("./assets/ntosys.png")}
+            />
+          </a>
+          <a href="" target="_blank">
+            <img className="sponsored-by" src={require("./assets/Ebene.png")} />
+          </a>
+        </section>
+        <section className="page-section">
+          <h2 className="section-title">Student Testimonials</h2>
+          <div className="info-cards-container">
+            <div className="student-testimonial-info-card">
+              <img
+                className="student-testimonial-info-card-img"
+                src={require("./assets/teamMember.png")}
+              />
+              <div className="student-testimonial-info-card-title">
+                Manisha Tripathi
+              </div>
+              <div className="student-testimonial-info-card-description">
+                Python Foundation Track
+              </div>
+            </div>
+            <h2 className="student-testimonial-title">
+              The teachers were amazing!!!
+            </h2>
+            <div className="student-testimonial-description">
+              I've had the best of experience working and hiring folks from
+              Navgurukul and
+              <br />
+              meraki platform will certainly give them morereach to have more
+              such
+              <br />
+              students ready to take up important roles in the industry. Really
+              love that I
+              <br />
+              have a bigger hiring pool to get candidates from
+            </div>
+            {/* <div className="student-testimonial-info-card">
+                <img
+                  className="info-card-img"
+                  src={require("./assets/teamMember.png")}
+                />
+                <div className="info-card-title">Manisha Tripathi</div>
+                <div className="info-card-description">
+                  Python Foundation Track
+                </div>
+              </div> */}
+          </div>
+        </section>
       </div>
     </main>
   );

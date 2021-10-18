@@ -1,3 +1,6 @@
+@import "../../sass/colors.scss";
+@import "../../sass/mixins.scss";
+
 .home {
   background-color: #fff;
   text-align: center;
@@ -109,6 +112,63 @@
   font-size: 16px;
   line-height: 1.5;
   max-width: 220px;
+  margin-top: 42px;
+}
+
+.student-testimonial-info-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-left: 5px;
+  letter-spacing: 1.5px;
+}
+
+.student-testimonial-info-card-description {
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 220px;
+  margin-top: 35px;
+  position: absolute;
+  margin-left: 95px;
+}
+
+.student-testimonial-info-card-img {
+  width: 85px;
+  position: relative;
+}
+
+.student-testimonial-info-card {
+  box-shadow: 0px 4px 5px rgba(46, 46, 46, 0.06),
+    0px 1px 10px rgba(46, 46, 46, 0.04), 0px 2px 4px rgba(46, 46, 46, 0.08);
+  border-radius: 8px;
+  background-color: #fff;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  max-width: 250px;
+  min-width: 250px;
+  margin: 16px;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.student-testimonial-title {
+  margin-left: 70px;
+  @include breakpoint-mobile {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.student-testimonial-description {
+  text-align: left;
+  margin-left: 630px;
+  padding-bottom: 5%;
+  @include breakpoint-mobile {
+    width: 70%;
+    margin-left: 0;
+  }
 }
 
 .home-see-all-members {
@@ -119,8 +179,15 @@
   align-items: center;
   justify-content: center;
   line-height: 1.6;
-
   .fa-chevron-right {
     margin-left: 8px;
+  }
+}
+
+.sponsored-by {
+  margin-left: 2%;
+  margin-right: 2%;
+  @include breakpoint-mobile {
+    width: 12%;
   }
 }
