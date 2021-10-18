@@ -5,7 +5,7 @@ import { teamMembers, volunteers } from "./config/index.js";
 function MerakiTeam() {
   const [members, setMembers] = useState(teamMembers);
 
-  console.log("teamMembers", teamMembers);
+  // console.log("teamMembers", teamMembers);
 
   return (
     <>
