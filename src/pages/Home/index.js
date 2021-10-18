@@ -180,8 +180,6 @@ const partners = [
   },
 ];
 
-console.log(partners, "komal");
-
 export const Home = () => {
   return (
     <>
@@ -433,7 +431,7 @@ export const Home = () => {
               />
             </a>
           </section>
-          {/* <section className="page-section">
+          <section className="page-section">
             <h2 className="section-title">Student Testimonials</h2>
             <div className="info-cards-container">
               <div className="student-testimonial-info-card">
@@ -463,24 +461,16 @@ export const Home = () => {
                 <br />
                 have a bigger hiring pool to get candidates from
               </div>
-            </div>
-          </section> */}
-          <section className="page-section first-page-section ">
-            <div className="page-for-start-learning">
-              <p className="page-subtitle">
-                With Meraki, begin your programming journey for free today
-              </p>
-              <button className="primary-btn">Start Learning</button>
-              <button
-                className="primary-btn primary-btn--inverted home-playstore-download-btn"
-                style={{ marginLeft: 20 }}
-              >
+              {/* <div className="student-testimonial-info-card">
                 <img
-                  src={require("./assets/playstore.svg")}
-                  className="home-playstore-icon"
+                  className="info-card-img"
+                  src={require("./assets/teamMember.png")}
                 />
-                <span className="home-playstore-btn-text">Download Meraki</span>
-              </button>
+                <div className="info-card-title">Manisha Tripathi</div>
+                <div className="info-card-description">
+                  Python Foundation Track
+                </div>
+              </div> */}
             </div>
           </section>
         </div>

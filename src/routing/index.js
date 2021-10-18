@@ -8,7 +8,7 @@ import CreateClass from "../pages/CreateClass";
 import Course from "../pages/Course";
 
 import { Home } from "../pages/Home";
-import OurPartners from "../pages/Home/PartnersPage";
+// import OurPartners from "../pages/Home/PartnersPage";
 import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
@@ -17,6 +17,8 @@ import PartnerData from "../components/Dashboard /PartnerData";
 import StudentData from "../components/Dashboard /StudentData";
 import StudentClassData from "../components/Dashboard /StudentClassData";
 import MerakiTeam from "../pages/Home/MerakiTeam";
+import PartnersPage from "../pages/Home/PartnersPage";
+// import { CoreMemberss } from "../pages/CoreMemberss";
 
 // import Classes from '../pages/classes'
 
@@ -27,7 +29,8 @@ const Routing = () => {
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
       <Route exact path={PATHS.MERAKI_TEAM} component={MerakiTeam} />
-      <Route exact path={PATHS.OUR_PARTNERS} component={OurPartners} />
+      <Route exact path={PATHS.OUR_PARTNERS} component={PartnersPage} />
+      {/* <Route exact path={PATHS.CORE_MEMBERS} component={CoreMemberss} /> */}
       <Route exact path={PATHS.COURSE} component={Course} />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
