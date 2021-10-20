@@ -179,6 +179,8 @@ const partners = [
   },
 ];
 
+// console.log(teamMembers)
+
 export const Home = () => {
   return (
     <main className="home">
