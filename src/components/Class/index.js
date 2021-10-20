@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
@@ -22,14 +22,19 @@ const {
   LANG,
   TYPE,
   COURSE_ID,
-  PATHWAY_ID,
   EXERCISE_ID,
   MAX_ENROLMENT,
+  FREQUENCY,
+  ON_DAYS,
+  OCCURRENCE,
+  UNTIL,
 } = CLASS_FIELDS;
 
-function Class({ classToEdit }) {
+function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
+  const [pathwayId, setPathwayId] = useState();
+  const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
 
   const {
     title,
@@ -40,12 +45,21 @@ function Class({ classToEdit }) {
     start_time,
     end_time,
     course_id,
-    pathway_id,
     exercise_id,
     max_enrolment,
+    frequency,
+    parent_class,
   } = classToEdit;
 
   const initialFormState = useMemo(() => {
+    let on_days_list = [];
+    let occurrence_data = "";
+    let until_data = "";
+    if (parent_class) {
+      if (parent_class.on_days) on_days_list = parent_class.on_days.split(",");
+      if (parent_class.occurrence) occurrence_data = parent_class.occurrence;
+      if (parent_class.until) until_data = parent_class.until;
+    }
     return {
       [TITLE]: title || "",
       [DESCRIPTION]: description || "",
@@ -55,17 +69,20 @@ function Class({ classToEdit }) {
         ? moment.utc(start_time).format("YYYY-MM-DD")
         : moment().format("YYYY-MM-DD"),
       [CLASS_START_TIME]: start_time
-        ? moment.utc(start_time).format("kk:mm")
+        ? moment.utc(start_time).add(330, "minute").format("kk:mm")
         : moment().format("kk:mm"),
       [CLASS_END_TIME]: end_time
-        ? moment.utc(end_time).format("kk:mm")
-        : moment().add(15, "minute").format("kk:mm"),
+        ? moment.utc(end_time).add(330, "minute").format("kk:mm")
+        : moment().add(60, "minute").format("kk:mm"),
       [LANG]: lang || "hi",
       [TYPE]: type || "doubt_class",
       [COURSE_ID]: course_id || "",
-      [PATHWAY_ID]: pathway_id || "",
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "",
+      [FREQUENCY]: frequency || "",
+      [ON_DAYS]: on_days_list || [],
+      [OCCURRENCE]: occurrence_data || "",
+      [UNTIL]: until_data || "",
     };
   }, [classToEdit]);
 
@@ -73,8 +90,7 @@ function Class({ classToEdit }) {
   const rolesList = user.data.user.rolesList;
 
   const canSpecifyFacilitator =
-    rolesList.indexOf("classAdmin") > -1 ||
-    rolesList.indexOf("dumbeldore") > -1;
+    rolesList.indexOf("classAdmin") > -1 || rolesList.indexOf("admin") > -1;
 
   const [pathways, setPathways] = useState([]);
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
@@ -82,6 +98,14 @@ function Class({ classToEdit }) {
   );
 
   const editClass = (payload) => {
+    payload.start_time = convertToIST(payload.start_time);
+    payload.end_time = convertToIST(payload.end_time);
+    if (classToEdit.type === "cohort") {
+      if (indicator === false) {
+        delete payload.frequency;
+      }
+    }
+
     setLoading(true);
     return axios({
       method: METHODS.PUT,
@@ -89,6 +113,7 @@ function Class({ classToEdit }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "update-all": indicator,
       },
       data: payload,
     }).then(
@@ -100,6 +125,7 @@ function Class({ classToEdit }) {
         setLoading(false);
       },
       (error) => {
+        console.log(error);
         toast.error(
           `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
           {
@@ -143,6 +169,15 @@ function Class({ classToEdit }) {
     });
   };
 
+  const convertToIST = (d) => {
+    const b = d.split(/\D+/);
+    const dateInObj = new Date(
+      Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6])
+    );
+    const utc = dateInObj.getTime() + dateInObj.getTimezoneOffset() * 60000;
+    return new Date(utc + 3600000 * +5.5).toISOString();
+  };
+
   const handleTimeValidationAndCreateClass = (payload) => {
     const classStartTime = moment(
       `${payload[TIME_CONSTANT.CLASS_START_DATE]} ${
@@ -154,6 +189,7 @@ function Class({ classToEdit }) {
         payload[TIME_CONSTANT.CLASS_END_TIME]
       }`
     );
+
     if (classStartTime.valueOf() >= classEndTime.valueOf()) {
       toast.error("Class end time must be later than class start time.", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -178,7 +214,41 @@ function Class({ classToEdit }) {
     }
   };
 
+  const changeHandler = async (e, setField, field) => {
+    if (e.target.name === "occurrence") {
+      setField({ ...field, [e.target.name]: e.target.value, until: "" });
+    } else if (e.target.name === "until") {
+      setField({
+        ...field,
+        [e.target.name]: e.target.value,
+        occurrence: "",
+      });
+    } else {
+      setField({ ...field, [e.target.name]: e.target.value });
+    }
+  };
+
+  const handleOnChange = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+  };
+
+  const checkBoxHandler = (e, day, key, field, setField) => {
+    if (e.target.checked === true) {
+      const daysList = [...field[key], day];
+      setField(daysList, key);
+    } else {
+      _.remove(field[key], function (del) {
+        return del === day;
+      });
+    }
+  };
+
   const createClass = (payload) => {
+    payload.start_time = convertToIST(payload.start_time);
+    payload.end_time = convertToIST(payload.end_time);
     setLoading(true);
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
@@ -186,6 +256,7 @@ function Class({ classToEdit }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        role: "volunteer",
       },
       data: {
         ...payload,
@@ -196,6 +267,7 @@ function Class({ classToEdit }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -208,10 +280,11 @@ function Class({ classToEdit }) {
       }
     );
   };
+
   const onFormSubmit = (event) => {
     event && event.preventDefault();
     const formData = new FormData(event.target);
-    const formFields = {
+    let formFields = {
       category_id: 3,
     };
 
@@ -219,49 +292,112 @@ function Class({ classToEdit }) {
       if (value) {
         if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
+        } else if (fieldName === "type") {
+          if (value === "cohort") {
+            formFields = { ...formFields, type: "cohort", frequency: "WEEKLY" };
+          } else {
+            formFields[fieldName] = value;
+          }
+        } else if (fieldName === "on_days") {
+          formFields[fieldName] = value.split(",");
         } else {
           formFields[fieldName] = value;
         }
       }
     }
-
     handleTimeValidationAndCreateClass(formFields);
   };
 
   return (
     <div className="ng-create-class">
       <h2 className="title">
-        {isEditMode ? "Update class" : "Create a class"}
+        {isEditMode ? "Update class" : "Create Cohort / Single Class"}
       </h2>
       <Form
         className="form"
         onSubmit={onFormSubmit}
         initialFieldsState={initialFormState}
       >
-        {({ formFieldsState, setFormField }) => {
+        {({ formFieldsState, setFormField, setFormFieldsState }) => {
+          const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
           return (
             <>
-              <label htmlFor="title">Title</label>
+              <label htmlFor="type">Select Class Type</label>
+              <span>
+                <label htmlFor="type1" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={TYPE}
+                    onChange={(e) => {
+                      setFormField("doubt_class", TYPE);
+                    }}
+                    value={formFieldsState[TYPE]}
+                    id="type1"
+                    checked={
+                      formFieldsState.type === "doubt_class" ? "checked" : false
+                    }
+                  />
+                  Doubt Class
+                </label>
+                <label htmlFor="type2" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={TYPE}
+                    onChange={(e) => {
+                      setFormField("workshop", TYPE);
+                    }}
+                    value={formFieldsState[TYPE]}
+                    id="type2"
+                    checked={
+                      formFieldsState.type === "workshop" ? "checked" : false
+                    }
+                  />
+                  Workshop
+                </label>
+                <label htmlFor="type3" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={TYPE}
+                    onChange={(e) => {
+                      setFormField("cohort", TYPE);
+                    }}
+                    value={formFieldsState[TYPE]}
+                    id="type3"
+                    checked={
+                      formFieldsState.type === "cohort" ? "checked" : false
+                    }
+                  />
+                  Cohort
+                </label>
+              </span>
+              <label htmlFor="title" className="label-field">
+                Title
+              </label>
               <input
                 className="input-field"
                 type="text"
                 name={TITLE}
-                onChange={(e) => {
-                  setFormField(e.target.value, TITLE);
-                }}
+                onChange={(e) =>
+                  changeHandler(e, setFormFieldsState, formFieldsState)
+                }
                 value={formFieldsState[TITLE]}
                 id="title"
                 required
                 aria-required
               />
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description" className="label-field">
+                Description
+              </label>
               <textarea
                 name={DESCRIPTION}
                 rows="10"
                 id="description"
-                onChange={(e) => {
-                  setFormField(e.target.value, DESCRIPTION);
-                }}
+                onChange={(e) =>
+                  changeHandler(e, setFormFieldsState, formFieldsState)
+                }
                 value={formFieldsState[DESCRIPTION]}
                 className="textarea-field"
                 required
@@ -269,110 +405,152 @@ function Class({ classToEdit }) {
               />
               {canSpecifyFacilitator && (
                 <>
-                  <label htmlFor="facilitator_name">Facilitator Name</label>
+                  <label htmlFor="facilitator_name" className="label-field">
+                    Facilitator Name
+                  </label>
                   <input
                     className="input-field"
                     type="text"
                     name={FACILITATOR_NAME}
                     value={formFieldsState[FACILITATOR_NAME]}
-                    onChange={(e) => {
-                      setFormField(e.target.value, FACILITATOR_NAME);
-                    }}
+                    onChange={(e) =>
+                      changeHandler(e, setFormFieldsState, formFieldsState)
+                    }
                     id="facilitator_name"
+                    disabled={isEditMode ? true : false}
                   />
-                  <label htmlFor="facilitator_email">Facilitator Email</label>
+                  <label htmlFor="facilitator_email" className="label-field">
+                    Facilitator Email
+                  </label>
                   <input
                     className="input-field"
                     type="email"
                     value={formFieldsState[FACILITATOR_EMAIL]}
-                    onChange={(e) => {
-                      setFormField(e.target.value, FACILITATOR_EMAIL);
-                    }}
+                    onChange={(e) =>
+                      changeHandler(e, setFormFieldsState, formFieldsState)
+                    }
                     name={FACILITATOR_EMAIL}
                     id="facilitator_email"
+                    disabled={isEditMode ? true : false}
                   />
                 </>
               )}
-              <label htmlFor="start_time">Date</label>
+              <label htmlFor="start_time" className="label-field">
+                Date
+              </label>
               <input
                 className="input-field input-field--short"
                 type="date"
                 name={START_TIME}
                 value={formFieldsState[START_TIME]}
-                onChange={(e) => {
-                  setFormField(e.target.value, START_TIME);
-                }}
+                onChange={(e) =>
+                  changeHandler(e, setFormFieldsState, formFieldsState)
+                }
                 id="start_time"
                 required
                 aria-required
               />
-              <label htmlFor="class_start_time">Start Time</label>
+              <label htmlFor="class_start_time" className="label-field">
+                Start Time
+              </label>
               <input
                 className="input-field input-field--short"
                 type="time"
                 name={CLASS_START_TIME}
-                onChange={(e) => {
-                  setFormField(e.target.value, CLASS_START_TIME);
-                }}
+                onChange={(e) =>
+                  changeHandler(e, setFormFieldsState, formFieldsState)
+                }
                 value={formFieldsState[CLASS_START_TIME]}
                 id="class_start_time"
                 required
                 aria-required
               />
-              <label htmlFor="class_end_time">End Time</label>
+              <label htmlFor="class_end_time" className="label-field">
+                End Time
+              </label>
               <input
                 className="input-field input-field--short"
                 type="time"
                 name={CLASS_END_TIME}
-                onChange={(e) => {
-                  setFormField(e.target.value, CLASS_END_TIME);
-                }}
+                onChange={(e) =>
+                  changeHandler(e, setFormFieldsState, formFieldsState)
+                }
                 value={formFieldsState[CLASS_END_TIME]}
                 id="class_end_time"
                 required
                 aria-required
               />
-              <label htmlFor="lang">Select Language</label>
+              <label htmlFor="lang" className="label-field">
+                Select Language
+              </label>
+              <span>
+                <label htmlFor="lang-en" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={LANG}
+                    onChange={(e) => {
+                      setFormField("en", LANG);
+                    }}
+                    value={formFieldsState[LANG]}
+                    id="lang-en"
+                    checked={formFieldsState.lang === "en" ? "checked" : false}
+                  />
+                  English
+                </label>
+                <label htmlFor="lang-hi" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={LANG}
+                    onChange={(e) => {
+                      setFormField("hi", LANG);
+                    }}
+                    value={formFieldsState[LANG]}
+                    id="lang-hi"
+                    checked={formFieldsState.lang === "hi" ? "checked" : false}
+                  />
+                  Hindi
+                </label>
+                <label htmlFor="lang-te" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={LANG}
+                    onChange={(e) => {
+                      setFormField("te", LANG);
+                    }}
+                    value={formFieldsState[LANG]}
+                    id="lang-te"
+                    checked={formFieldsState.lang === "te" ? "checked" : false}
+                  />
+                  Telugu
+                </label>
+                <label htmlFor="lang-ta" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={LANG}
+                    onChange={(e) => {
+                      setFormField("ta", LANG);
+                    }}
+                    value={formFieldsState[LANG]}
+                    id="lang-ta"
+                    checked={formFieldsState.lang === "ta" ? "checked" : false}
+                  />
+                  Tamil
+                </label>
+              </span>
+              <label htmlFor="pathway" className="label-field">
+                Select Pathway
+              </label>
               <select
-                className="create-class-select"
-                name={LANG}
-                value={formFieldsState[LANG]}
-                onChange={(e) => {
-                  setFormField(e.target.value, LANG);
-                }}
-                id="lang"
-                required
-                aria-required
-              >
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                <option value="te">Telugu</option>
-                <option value="ta">Tamil</option>
-              </select>
-              <label htmlFor="type">Select Class Type</label>
-              <select
-                className="create-class-select"
-                name={TYPE}
-                value={formFieldsState[TYPE]}
-                onChange={(e) => {
-                  setFormField(e.target.value, TYPE);
-                }}
-                id="type"
-                required
-                aria-required
-              >
-                <option value="workshop">Workshop</option>
-                <option value="doubt_class">Doubt Class</option>
-              </select>
-              <label htmlFor="pathway">Select Pathway </label>
-              <select
-                className="create-class-select"
-                name={PATHWAY_ID}
-                value={formFieldsState[PATHWAY_ID]}
-                required
+                className="input-field"
+                value={pathwayId}
+                required={isEditMode ? false : true}
                 aria-required
                 onChange={(e) => {
-                  setFormField(e.target.value, PATHWAY_ID);
+                  setPathwayId(e.target.value);
                 }}
                 id="pathway"
               >
@@ -385,15 +563,17 @@ function Class({ classToEdit }) {
                   );
                 })}
               </select>
-              {formFieldsState[PATHWAY_ID] &&
+              {pathwayId &&
                 pathways.map((pathway) => {
-                  if (formFieldsState[PATHWAY_ID] == pathway.id) {
+                  if (pathwayId == pathway.id) {
                     return (
                       <React.Fragment key={pathway.id}>
-                        <label htmlFor="course_id">Select Course </label>
+                        <label htmlFor="course_id" className="label-field">
+                          Select Course{" "}
+                        </label>
                         <select
-                          className="create-class-select"
-                          required
+                          className="input-field"
+                          required={isEditMode ? false : true}
                           aria-required
                           name={COURSE_ID}
                           value={formFieldsState[COURSE_ID]}
@@ -418,12 +598,12 @@ function Class({ classToEdit }) {
                 })}
               {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
                 <>
-                  <label htmlFor="exercise_id">
+                  <label htmlFor="exercise_id" className="label-field">
                     Select Exercise
                     <span className="optional-field">(optional)</span>
                   </label>
                   <select
-                    className="create-class-select"
+                    className="input-field"
                     name={EXERCISE_ID}
                     value={formFieldsState[EXERCISE_ID]}
                     onChange={(e) => {
@@ -445,36 +625,289 @@ function Class({ classToEdit }) {
                   </select>
                 </>
               )}
-              <label htmlFor={MAX_ENROLMENT}>
+              <label htmlFor={MAX_ENROLMENT} className="label-field">
                 Maximum Enrollments
                 <span className="optional-field">(optional)</span>
+                <br />
+                <span className="description-for-enrollments">
+                  This is specific to Spoken English Classes, to cap the
+                  students per class between 5 - 10 <br />
+                  so that you can provide individual attention to each student's
+                  progress.
+                </span>
               </label>
-              <span className="description-for-enrollments">
-                This is specific to Spoken English Classes, to cap the students
-                per class between 5 - 10 <br />
-                so that you can provide individual attention to each student's
-                progress.{" "}
-              </span>
               <input
                 className="input-field"
                 type="number"
                 name={MAX_ENROLMENT}
                 id={MAX_ENROLMENT}
-                onChange={(e) => {
-                  setFormField(e.target.value, MAX_ENROLMENT);
-                }}
+                onChange={(e) =>
+                  changeHandler(e, setFormFieldsState, formFieldsState)
+                }
                 value={formFieldsState[MAX_ENROLMENT]}
                 placeholder="Maximum students per class"
+                min={1}
               />
-              <button type="submit" className="submit" disabled={loading}>
-                {loading ? (
-                  <Loader />
-                ) : isEditMode ? (
-                  "UPDATE CLASS"
-                ) : (
-                  "CREATE CLASS"
-                )}
-              </button>
+              {formFieldsState[TYPE] === "cohort" && (
+                <>
+                  <label htmlFor="on_days" className="label-field">
+                    On days
+                  </label>
+                  <span>
+                    <label htmlFor="on_days_mo">
+                      <input
+                        type="checkbox"
+                        className="checkbox-field"
+                        name={ON_DAYS}
+                        onClick={(e) =>
+                          checkBoxHandler(
+                            e,
+                            "MO",
+                            ON_DAYS,
+                            formFieldsState,
+                            setFormField
+                          )
+                        }
+                        onChange={() => handleOnChange(0)}
+                        value={formFieldsState[ON_DAYS]}
+                        id="on_days_mo"
+                        disabled={isEditMode && !indicator ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("MO") > -1
+                            ? "checked"
+                            : false
+                        }
+                      />
+                      MO
+                    </label>
+                    <label htmlFor="on_days_tu">
+                      <input
+                        type="checkbox"
+                        className="checkbox-field"
+                        name={ON_DAYS}
+                        onClick={(e) =>
+                          checkBoxHandler(
+                            e,
+                            "TU",
+                            ON_DAYS,
+                            formFieldsState,
+                            setFormField
+                          )
+                        }
+                        onChange={() => handleOnChange(1)}
+                        value={[...formFieldsState[ON_DAYS]]}
+                        id="on_days_tu"
+                        disabled={isEditMode && !indicator ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("TU") > -1
+                            ? "checked"
+                            : false
+                        }
+                      />
+                      TU
+                    </label>
+                    <label htmlFor="on_days_we">
+                      <input
+                        type="checkbox"
+                        className="checkbox-field"
+                        name={ON_DAYS}
+                        onClick={(e) =>
+                          checkBoxHandler(
+                            e,
+                            "WE",
+                            ON_DAYS,
+                            formFieldsState,
+                            setFormField
+                          )
+                        }
+                        onChange={() => handleOnChange(2)}
+                        value={[...formFieldsState[ON_DAYS]]}
+                        id="on_days_we"
+                        disabled={isEditMode && !indicator ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("WE") > -1
+                            ? "checked"
+                            : false
+                        }
+                      />
+                      WE
+                    </label>
+                    <label htmlFor="on_days_th">
+                      <input
+                        type="checkbox"
+                        className="checkbox-field"
+                        name={ON_DAYS}
+                        onClick={(e) =>
+                          checkBoxHandler(
+                            e,
+                            "TH",
+                            ON_DAYS,
+                            formFieldsState,
+                            setFormField
+                          )
+                        }
+                        onChange={() => handleOnChange(3)}
+                        value={formFieldsState[ON_DAYS]}
+                        id="on_days_th"
+                        disabled={isEditMode && !indicator ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("TH") > -1
+                            ? "checked"
+                            : false
+                        }
+                      />
+                      TH
+                    </label>
+                    <label htmlFor="on_days_fr">
+                      <input
+                        type="checkbox"
+                        className="checkbox-field"
+                        name={ON_DAYS}
+                        onClick={(e) =>
+                          checkBoxHandler(
+                            e,
+                            "FR",
+                            ON_DAYS,
+                            formFieldsState,
+                            setFormField
+                          )
+                        }
+                        onChange={() => handleOnChange(4)}
+                        value={formFieldsState[ON_DAYS]}
+                        id="on_days_fr"
+                        disabled={isEditMode && !indicator ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("FR") > -1
+                            ? "checked"
+                            : false
+                        }
+                      />
+                      FR
+                    </label>
+                    <label htmlFor="on_days_sa">
+                      <input
+                        type="checkbox"
+                        className="checkbox-field"
+                        name={ON_DAYS}
+                        onClick={(e) =>
+                          checkBoxHandler(
+                            e,
+                            "SA",
+                            ON_DAYS,
+                            formFieldsState,
+                            setFormField
+                          )
+                        }
+                        onChange={() => handleOnChange(5)}
+                        value={formFieldsState[ON_DAYS]}
+                        id="on_days_sa"
+                        disabled={isEditMode && !indicator ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("SA") > -1
+                            ? "checked"
+                            : false
+                        }
+                      />
+                      SA
+                    </label>
+                    <label htmlFor="on_days_su">
+                      <input
+                        type="checkbox"
+                        className="checkbox-field"
+                        name={ON_DAYS}
+                        onClick={(e) =>
+                          checkBoxHandler(
+                            e,
+                            "SU",
+                            ON_DAYS,
+                            formFieldsState,
+                            setFormField
+                          )
+                        }
+                        onChange={() => handleOnChange(6)}
+                        value={formFieldsState[ON_DAYS]}
+                        id="on_days_su"
+                        disabled={isEditMode && !indicator ? true : false}
+                        checked={
+                          formFieldsState[ON_DAYS].indexOf("SU") > -1
+                            ? "checked"
+                            : false
+                        }
+                      />
+                      SU
+                    </label>
+                  </span>
+                  <label htmlFor={UNTIL} className="label-field">
+                    Until
+                    <span className="optional-field">
+                      (either until or occurrence is required)
+                    </span>
+                  </label>
+                  <input
+                    className="input-field input-field--short"
+                    type="date"
+                    data-date-format="YYYY MM DD"
+                    name={UNTIL}
+                    id={UNTIL}
+                    onChange={(e) =>
+                      changeHandler(e, setFormFieldsState, formFieldsState)
+                    }
+                    value={formFieldsState[UNTIL]}
+                    placeholder="Until when recurring classes"
+                    disabled={isEditMode && !indicator ? true : false}
+                    required={
+                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[OCCURRENCE] === ""
+                        ? true
+                        : false
+                    }
+                  />
+                  <label htmlFor={OCCURRENCE} className="label-field">
+                    Occurrence
+                    <span className="optional-field">
+                      (either occurrence or until is required)
+                    </span>
+                  </label>
+                  <input
+                    className="input-field"
+                    type="number"
+                    name={OCCURRENCE}
+                    id={OCCURRENCE}
+                    onChange={(e) =>
+                      changeHandler(e, setFormFieldsState, formFieldsState)
+                    }
+                    value={formFieldsState[OCCURRENCE]}
+                    placeholder="How many recurring classes"
+                    disabled={isEditMode && !indicator ? true : false}
+                    required={
+                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[UNTIL] === ""
+                        ? true
+                        : false
+                    }
+                    max={48}
+                  />
+                </>
+              )}
+              <div
+                className={
+                  checkEquivalence ? "disabled-button" : "enabled-button"
+                }
+              >
+                <button
+                  type="submit"
+                  className={checkEquivalence ? "submit disabled" : "submit"}
+                  disabled={checkEquivalence}
+                >
+                  {loading ? (
+                    <Loader />
+                  ) : isEditMode ? (
+                    "UPDATE CLASS"
+                  ) : (
+                    "Create Class"
+                  )}
+                </button>
+              </div>
             </>
           );
         }}

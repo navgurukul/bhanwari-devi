@@ -1,7 +1,12 @@
+.container-table {
+  padding: 0 10%;
+  margin: 40px auto 0;
+}
 .student-overview-table {
   width: 100%;
+  table-layout: fixed;
+  margin-bottom: 20px;
   border-collapse: collapse;
-  // margin: 40px auto;
   box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
@@ -17,6 +22,19 @@
   text-align: start;
   vertical-align: top;
   border: 1px solid #dee2e685;
+}
+
+.sorter {
+  background: transparent;
+  border: none;
+}
+
+.student-name {
+  width: 23% !important;
+}
+
+.turn {
+  transform: scaleX(-1);
 }
 
 .t-data {
@@ -40,11 +58,6 @@ tr:hover {
   box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
-.container-table {
-  padding: 0 10%;
-  margin: 40px auto 0;
-}
-
 .Search-bar {
   border: 0;
   background-color: #a3a3a3;
@@ -59,6 +72,29 @@ tr:hover {
   background-image: url("../../../asset/search.svg");
   background-repeat: no-repeat;
   padding: 12px 20px 12px 40px;
+}
+
+.slider-label {
+  display: flex;
+}
+
+.slider {
+  width: 1120px;
+  margin-left: 50px;
+  margin-bottom: 40px;
+}
+
+.filter-clear {
+  background: #83b344;
+  margin-left: 20px;
+  width: 100px;
+  height: 30px;
+  border-radius: 15px;
+  color: white;
+  font-size: 17px;
+  font-weight: "bold";
+  border: none;
+  cursor: pointer;
 }
 
 .Message {
@@ -90,6 +126,16 @@ tr:hover {
 
   .Search-bar {
     width: 270px;
+  }
+
+  .slider-label {
+    margin-bottom: 20px;
+  }
+
+  .slider {
+    // width: 100%;
+    margin-left: 30px;
+    margin-bottom: 40px;
   }
 
   tr {

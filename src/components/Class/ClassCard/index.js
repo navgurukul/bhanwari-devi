@@ -9,16 +9,20 @@ import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../common/Modal";
+import Loader from "../../common/Loader";
 
 toast.configure();
 
-function ClassCard({ item, editClass }) {
+function ClassCard({ item, editClass, enroll, style }) {
   const dispatch = useDispatch();
-  const [enrollShowModel, setEnrollShowModel] = React.useState(false);
-  const [unenrollShowModel, setunenrollShowModel] = React.useState(false);
-  const [showModel, setShowModel] = React.useState(false);
+  const [enrollShowModal, setEnrollShowModal] = React.useState(false);
+  const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false);
+  const [editShowModal, setEditShowModal] = React.useState(false);
+  const [deleteCohort, setDeleteCohort] = React.useState(false);
+  const [indicator, setIndicator] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
-
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
 
@@ -29,37 +33,50 @@ function ClassCard({ item, editClass }) {
     ta: "Tamil",
     doubt_class: "Doubt Class",
     workshop: "Workshop",
+    cohort: "Cohort",
   };
 
   const handleClose = () => {
-    setShowModel(false);
+    setShowModal(false);
+    setDeleteCohort(false);
+  };
+
+  const handleEdit = () => {
+    setEditShowModal(true);
+  };
+
+  const handleCloseEdit = () => {
+    setEditShowModal(false);
+    setIndicator(false);
   };
 
   const handleClickOpen = () => {
-    setShowModel(!showModel);
+    setShowModal(!showModal);
+    setIndicator(false);
   };
 
   const handleCloseEnroll = () => {
-    setEnrollShowModel(false);
+    setEnrollShowModal(false);
+    setIndicator(false);
   };
   const handleClickOpenEnroll = () => {
-    setEnrollShowModel(!enrollShowModel);
+    setEnrollShowModal(!enrollShowModal);
   };
 
   const handleCloseUnenroll = () => {
-    setunenrollShowModel(false);
+    setunenrollShowModal(false);
+    setIndicator(false);
   };
   const handleClickOpenUnenroll = () => {
-    setunenrollShowModel(!unenrollShowModel);
+    setunenrollShowModal(!unenrollShowModal);
+    setIndicator(false);
   };
 
   const rolesList = user.data.user.rolesList;
   let flag = false;
-  rolesList.map((role) => {
-    role === "classAdmin" || role === "dumbeldore"
-      ? (flag = true)
-      : (flag = false);
-  });
+  rolesList.includes("admin") || rolesList.includes("classAdmin")
+    ? (flag = true)
+    : (flag = false);
 
   // API CALL FOR DELETE CLASS
   const deleteHandler = (id) => {
@@ -69,30 +86,39 @@ function ClassCard({ item, editClass }) {
         autoClose: 2500,
       });
     };
-    setShowModel(!showModel);
+    setShowModal(!showModal);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${id}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "delete-all": deleteCohort,
       },
     }).then(() => {
       notify();
       dispatch(classActions.deleteClass(id));
     });
   };
+
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
+    setLoading(true);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2500,
       });
     };
-    setEnrollShowModel(!enrollShowModel);
+    let getNotify = false;
+    setEnrollShowModal(!enrollShowModal);
+    const timer = setTimeout(() => {
+      getNotify = true;
+      dispatch(classActions.enrolledClass(Id));
+      setLoading(false);
+      notify();
+    }, 10000);
     axios
-
       .post(
         `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
         {},
@@ -100,33 +126,52 @@ function ClassCard({ item, editClass }) {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
+            "register-to-all": indicator,
           },
         }
       )
       .then(() => {
-        notify();
+        if (!getNotify) {
+          notify();
+          clearTimeout(timer);
+          setLoading(false);
+        }
         dispatch(classActions.enrolledClass(Id));
       });
   };
-
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
+    setLoading(true);
+
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2500,
       });
     };
-    setunenrollShowModel(!unenrollShowModel);
+    let getNotify = false;
+    setunenrollShowModal(!unenrollShowModal);
+    const timer = setTimeout(() => {
+      getNotify = true;
+      dispatch(classActions.dropOutClass(Id));
+      setLoading(false);
+
+      notify();
+    }, 10000);
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "unregister-all": indicator,
       },
     }).then(() => {
-      notify();
+      if (!getNotify) {
+        notify();
+        clearTimeout(timer);
+        setLoading(false);
+      }
       dispatch(classActions.dropOutClass(Id));
     });
   };
@@ -143,25 +188,34 @@ function ClassCard({ item, editClass }) {
           ) : null}
         </span>
         <h4>{item.title}</h4>
-        <p>Facilitator Name : {item.facilitator.name} </p>
+        <p>Facilitator : {item.facilitator.name} </p>
         <p>Language : {languageMap[item.lang]} </p>
         <p>Date:{moment(classStartTime).format("DD-MM-YYYY")} </p>
-        {/* {item.email} */}
         <p>
           Time:{moment(classStartTime).format("hh:mm a")} -{" "}
           {moment(classEndTime).format("hh:mm a")}
         </p>
         <div className="bottom-details">
           {!item.enrolled ? (
-            <button
-              type="submit"
-              className="class-enroll"
-              onClick={() => {
-                handleClickOpenEnroll(item.id);
-              }}
-            >
-              Enroll to class
-            </button>
+            loading ? (
+              <div className="loader-button">
+                <Loader />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className={style}
+                onClick={() => {
+                  handleClickOpenEnroll(item.id);
+                }}
+              >
+                {enroll}
+              </button>
+            )
+          ) : loading ? (
+            <div className="loader-button">
+              <Loader />
+            </div>
           ) : (
             <button
               type="submit"
@@ -182,15 +236,28 @@ function ClassCard({ item, editClass }) {
               <i
                 className="class-card-action-icon class-card-edit fa fa-edit"
                 onClick={() => {
-                  editClass(item.id);
+                  handleEdit(item.id);
                 }}
               />
             </div>
           ) : null}
         </div>
-        {showModel ? (
+        {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setDeleteCohort(true);
+                  }}
+                />
+                Delete all classes of this cohort?
+              </label>
+            )}
             <div className="wrap">
               <button
                 onClick={() => {
@@ -206,18 +273,62 @@ function ClassCard({ item, editClass }) {
             </div>
           </Modal>
         ) : null}
-        {enrollShowModel ? (
+        {editShowModal ? (
+          <Modal onClose={handleCloseEdit} className="confirmation-massage">
+            <h2>Do you want to edit this class?</h2>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
+                />
+                Edit all classes of this cohort?
+              </label>
+            )}
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return editClass(item.id, indicator);
+                }}
+                className="agree-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseEdit} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
+        ) : null}
+        {enrollShowModal ? (
           <Modal
             onClose={() => handleCloseEnroll()}
-            className="confirmation_massage-for-enroll"
+            className="confirmation-massage"
           >
-            <h2>Are you sure you do you want to enroll?</h2>
+            <h2>Are you sure you want to enroll?</h2>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
+                />
+                Enroll all classes of this cohort?
+              </label>
+            )}
             <div className="wrap">
               <button
                 onClick={() => {
                   return handleSubmit(item.id);
                 }}
-                className="enroll-btn"
+                className="agree-btn"
               >
                 Yes
               </button>
@@ -227,12 +338,25 @@ function ClassCard({ item, editClass }) {
             </div>
           </Modal>
         ) : null}
-        {unenrollShowModel ? (
+        {unenrollShowModal ? (
           <Modal
             onClose={() => handleCloseUnenroll()}
-            className="confirmation_massage-for-enroll"
+            className="confirmation-massage"
           >
-            <h2> Are you sure you do you want to drop out</h2>
+            <h2> Are you sure you want to drop out</h2>
+            {item.type === "cohort" && (
+              <label>
+                <input
+                  type="checkbox"
+                  align="center"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
+                />
+                Drop all classes of this cohort?
+              </label>
+            )}
             <div className="wrap">
               <button
                 onClick={() => {

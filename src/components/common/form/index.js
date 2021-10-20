@@ -20,6 +20,7 @@ const Form = ({
       {children({
         formFieldsState,
         setFormField,
+        setFormFieldsState,
       })}
     </form>
   );
