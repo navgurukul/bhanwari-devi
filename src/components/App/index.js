@@ -1,6 +1,7 @@
 import React from "react";
 
 import Routing from "../../routing";
+// import Footer from "../Footer";
 // import Header from "../Header";
 import NewHeader from "../NewHeader";
 
@@ -15,6 +16,7 @@ function App() {
         {" "}
         <Routing />{" "}
       </div>
+      {/* <Footer /> */}
     </div>
   );
 }

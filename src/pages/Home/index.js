@@ -375,8 +375,10 @@ export const Home = () => {
           <h2 className="section-title">The Team behind Meraki</h2>
           <Gallery Component={BioItem} items={teamMembers} />
           <p className="base-font home-see-all-members page-section-footer">
-            <span>See all team members and volunteers </span>
-            <i className="fa fa-chevron-right" />
+            <Link className="go-to-partner" to="/team">
+              <span>See all team members and volunteers </span>
+              <i className="fa fa-chevron-right" />
+            </Link>
           </p>
         </section>
         <section className="page-section">
