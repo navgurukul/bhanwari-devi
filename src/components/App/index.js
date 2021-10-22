@@ -1,16 +1,16 @@
 import React from "react";
 
 import Routing from "../../routing";
-// import Header from "../Header";
-import NewHeader from "../NewHeader";
+import Header from "../Header";
+// import NewHeader from "../NewHeader";
 
 import "./styles.scss";
 
 function App() {
   return (
     <div className="layout">
-      {/* <Header /> */}
-      <NewHeader />
+      <Header />
+      {/* <NewHeader /> */}
       <div className="content">
         {" "}
         <Routing />{" "}
