@@ -110,9 +110,10 @@
   padding: 0 40px;
   border-radius: 8px;
   font-weight: 600;
-  width: 300px;
+  width: 250px;
+
   cursor: pointer;
-  font-size: 17px;
+  font-size: 19px;
 }
 
 .more-opportunities {
@@ -143,5 +144,9 @@
 }
 .button-apply {
   position: relative;
-  top: -2px;
+  top: -4px;
+  text-decoration: none;
+  color: rgba(72, 161, 69, 1);
+  font-family: Lusitana;
+  font-style: normal;
 }

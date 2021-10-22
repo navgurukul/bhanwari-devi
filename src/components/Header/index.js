@@ -35,7 +35,7 @@ const AuthenticatedHeaderOption = () => {
       <a href={PATHS.COURSE}>Courses</a>
       <a href={PATHS.MENTOR}>Mentor</a>
       <a href={PATHS.CLASS}>Classes</a>
-      <a href={PATHS.OPPORTUNITIES}>opportunities</a>
+      <a href={PATHS.OPPORTUNITIES}>Opportunities</a>
 
       <a>
         <button
