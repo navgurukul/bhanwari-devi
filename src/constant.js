@@ -10,6 +10,7 @@ export const PATHS = {
   MENTOR: "/mentor",
   USER: "/user",
   PRIVACY_POLICY: "/privacy",
+  AFE: "/AFE",
   PARTNERS: "/partner",
   PARTNER_DATA: "/partner/:partnerId",
   STUDENT: "/student/:studentId",

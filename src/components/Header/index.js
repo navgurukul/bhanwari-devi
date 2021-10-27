@@ -22,6 +22,7 @@ const AuthenticatedHeaderOption = () => {
     <>
       {canSpecifyUserBaseRole ? (
         <>
+          <a href={PATHS.AFE}>Amazon Partnership</a>
           <a href={PATHS.USER}>User</a>
           <a href={PATHS.PARTNERS}>Partners</a>
         </>
@@ -51,6 +52,7 @@ const AuthenticatedHeaderOption = () => {
 const PublicMenuOption = () => {
   return (
     <>
+      <a href={PATHS.AFE}>Amazon Partnership</a>
       <a href={PATHS.COURSE}>Courses</a>
       <a href={PATHS.LOGIN}>Login/Signup</a>
     </>
