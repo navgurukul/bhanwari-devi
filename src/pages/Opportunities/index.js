@@ -1,30 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./styles.scss";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
+import "./styles.scss";
 
 function Opportunities() {
   const [partner, setPartner] = useState([]);
-  const [users, setUsers] = useState();
   const user = useSelector(({ User }) => User);
-  const userId = user.data.user.partner_id;
+  const partnerId = user.data.user.partner_id;
 
-  const Token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMTYiLCJlbWFpbCI6InBvb25hbUBuYXZndXJ1a3VsLm9yZyIsImlhdCI6MTYzNDU0ODc1OCwiZXhwIjoxNjY2MTA2MzU4fQ.PbvSCQbum3kigzwJs7BoSJPOFrqx6F70Rj6c-5AWOOo";
-
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-      headers: {
-        accept: "application/json",
-        Authorization: Token,
-      },
-    }).then((res) => {
-      setUsers(res.data.user.partner_id);
-    });
-  }, []);
+  const url = window.location.href;
+  let partnerIdFromAndroid = url.split("partner_id=");
 
   useEffect(() => {
     axios({
@@ -35,17 +21,16 @@ function Opportunities() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      // console.log(res, '===========')
       setPartner(res.data.partners);
     });
   }, []);
 
   let slug;
   for (const item of partner) {
-    if (item.id == userId) {
+    if (item.id == partnerId) {
       slug = item.slug;
       break;
-    } else if (item.id == users) {
+    } else if (item.id == partnerIdFromAndroid[1]) {
       slug = item.slug;
       break;
     } else {
@@ -83,7 +68,10 @@ function Opportunities() {
                   target="_blank"
                 >
                   Take a Test Today{" "}
-                  <i class="fas fa-angle-right test-icon"> </i>{" "}
+                  <i
+                    class="fa fa-chevron-right test-icon"
+                    aria-hidden="true"
+                  ></i>
                 </a>
               ) : (
                 <a
@@ -92,7 +80,10 @@ function Opportunities() {
                   target="_blank"
                 >
                   Take a Test Today{" "}
-                  <i class="fas fa-angle-right test-icon"> </i>{" "}
+                  <i
+                    class="fa fa-chevron-right test-icon"
+                    aria-hidden="true"
+                  ></i>
                 </a>
               )}
             </div>
@@ -108,7 +99,8 @@ function Opportunities() {
                 href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
                 target="_blank"
               >
-                Apply Now <i class="fas fa-angle-right  test-icon "> </i>
+                Apply Now
+                <i class="fa fa-chevron-right test-icon" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -140,7 +132,7 @@ function Opportunities() {
               >
                 Apply Now{" "}
               </a>{" "}
-              <i class="fas fa-angle-right aplly-icon"> </i>
+              <i class="fa fa-chevron-right test-icon" aria-hidden="true"></i>
             </button>
           </div>
         </section>

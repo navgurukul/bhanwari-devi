@@ -44,7 +44,6 @@
   font-size: 20px;
   line-height: 1.8;
   margin-top: 15px;
-
   color: rgba(72, 161, 69, 1);
 }
 
@@ -111,9 +110,17 @@
   border-radius: 8px;
   font-weight: 600;
   width: 250px;
-
   cursor: pointer;
-  font-size: 19px;
+  font-size: 18px;
+}
+
+.button-apply {
+  text-decoration: none;
+  color: #48a145;
+}
+
+.apply-btn a:hover {
+  color: #3e8e41;
 }
 
 .more-opportunities {
@@ -124,29 +131,8 @@
   margin-bottom: 5px;
 }
 
-.btn-arrow {
-  font-size: 35px;
-  color: #48a145;
-  float: right;
-  padding: 2px;
-  background-color: yellow;
-}
-.aplly-icon {
-  width: 37px;
-  font-size: 23px;
-}
-
 .test-icon {
-  font-size: 30px;
-  position: relative;
-  top: 5px;
   margin-left: 11px;
-}
-.button-apply {
   position: relative;
-  top: -4px;
-  text-decoration: none;
-  color: rgba(72, 161, 69, 1);
-  font-family: Lusitana;
-  font-style: normal;
+  top: 3px;
 }
