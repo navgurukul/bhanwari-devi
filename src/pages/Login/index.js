@@ -57,9 +57,7 @@ function Login(props) {
           Authorization: data.token,
         },
         data: { referrer: queryString },
-      }).then((res) => {
-        console.log(res);
-      });
+      }).then((res) => {});
     }
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;

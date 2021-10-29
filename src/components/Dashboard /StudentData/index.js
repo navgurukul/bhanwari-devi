@@ -50,7 +50,6 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      console.log(res, "jamanat");
       if (
         id == user.data.user.partner_id ||
         user.data.user.rolesList.indexOf("admin") > -1

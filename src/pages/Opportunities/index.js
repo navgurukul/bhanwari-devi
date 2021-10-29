@@ -3,14 +3,14 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
+import { getQueryVariable } from "../../common/utils";
 
 function Opportunities() {
   const [partner, setPartner] = useState([]);
   const user = useSelector(({ User }) => User);
   const partnerId = user.data.user.partner_id;
 
-  const url = window.location.href;
-  let partnerIdFromAndroid = url.split("partner_id=");
+  const partnerIdFromAndroid = getQueryVariable("partner_id");
 
   useEffect(() => {
     axios({
@@ -27,14 +27,8 @@ function Opportunities() {
 
   let slug;
   for (const item of partner) {
-    if (item.id == partnerId) {
+    if (item.id == partnerId || item.id == partnerIdFromAndroid) {
       slug = item.slug;
-      break;
-    } else if (item.id == partnerIdFromAndroid[1]) {
-      slug = item.slug;
-      break;
-    } else {
-      slug = null;
     }
   }
 
@@ -81,7 +75,7 @@ function Opportunities() {
                 >
                   Take a Test Today{" "}
                   <i
-                    class="fa fa-chevron-right test-icon"
+                    className="fa fa-chevron-right test-icon"
                     aria-hidden="true"
                   ></i>
                 </a>
@@ -100,7 +94,10 @@ function Opportunities() {
                 target="_blank"
               >
                 Apply Now
-                <i class="fa fa-chevron-right test-icon" aria-hidden="true"></i>
+                <i
+                  className="fa fa-chevron-right test-icon"
+                  aria-hidden="true"
+                ></i>
               </a>
             </div>
           </div>
@@ -132,7 +129,10 @@ function Opportunities() {
               >
                 Apply Now{" "}
               </a>{" "}
-              <i class="fa fa-chevron-right test-icon" aria-hidden="true"></i>
+              <i
+                className="fa fa-chevron-right test-icon"
+                aria-hidden="true"
+              ></i>
             </button>
           </div>
         </section>
