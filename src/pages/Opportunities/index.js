@@ -8,6 +8,7 @@ import { getQueryVariable } from "../../common/utils";
 function Opportunities() {
   const [partner, setPartner] = useState([]);
   const user = useSelector(({ User }) => User);
+
   const partnerId = user.data.user.partner_id;
 
   const partnerIdFromAndroid = getQueryVariable("partner_id");

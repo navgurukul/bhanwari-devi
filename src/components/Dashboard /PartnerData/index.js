@@ -39,6 +39,7 @@ function PartnerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      console.log(res, "data");
       setPartners(res.data.partners);
       setSlicedPartners(
         res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)
