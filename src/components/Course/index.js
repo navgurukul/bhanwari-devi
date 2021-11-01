@@ -35,7 +35,9 @@ function Course() {
   let filteredCourse;
   if (data) {
     filteredCourse = data.allCourses.filter((names) => {
-      return names.name.toLowerCase().includes(search.toLowerCase());
+      if (names.course_type === null) {
+        return names.name.toLowerCase().includes(search.toLowerCase());
+      }
     });
   }
 
