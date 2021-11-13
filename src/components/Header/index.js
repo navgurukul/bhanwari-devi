@@ -22,21 +22,37 @@ const AuthenticatedHeaderOption = () => {
     <>
       {canSpecifyUserBaseRole ? (
         <>
-          <a href={PATHS.AFE}>Amazon Partnership</a>
-          <a href={PATHS.USER}>User</a>
-          <a href={PATHS.PARTNERS}>Partners</a>
+          <a className="item" href={PATHS.USER}>
+            User
+          </a>
+          <a className="item" href={PATHS.PARTNERS}>
+            Partners
+          </a>
         </>
       ) : null}
       {canSpecifyPartner ? (
         <>
-          <a href={`${PATHS.PARTNERS}/${userId}`}>Dashboard</a>
+          <a className="item" href={`${PATHS.PARTNERS}/${userId}`}>
+            Dashboard
+          </a>
         </>
       ) : null}
 
-      <a href={PATHS.COURSE}>Courses</a>
-      <a href={PATHS.MENTOR}>Mentor</a>
-      <a href={PATHS.CLASS}>Classes</a>
-      <a href={PATHS.OPPORTUNITIES}>Opportunities</a>
+      <a className="item" href={PATHS.COURSE}>
+        Courses
+      </a>
+      <a className="item" href={PATHS.MENTOR}>
+        Mentor
+      </a>
+      <a className="item" href={PATHS.CLASS}>
+        Classes
+      </a>
+      <a className="item" href={PATHS.OPPORTUNITIES}>
+        Opportunities
+      </a>
+      <a className="item" href={PATHS.AFE}>
+        Amazon Partnership
+      </a>
 
       <a>
         <button
@@ -53,9 +69,15 @@ const AuthenticatedHeaderOption = () => {
 const PublicMenuOption = () => {
   return (
     <>
-      <a href={PATHS.AFE}>Amazon Partnership</a>
-      <a href={PATHS.COURSE}>Courses</a>
-      <a href={PATHS.LOGIN}>Login/Signup</a>
+      <a className="item" href={PATHS.COURSE}>
+        Courses
+      </a>
+      <a className="item" href={PATHS.AFE}>
+        Amazon Partnership
+      </a>
+      <a className="item" href={PATHS.LOGIN}>
+        Login/Signup
+      </a>
     </>
   );
 };
