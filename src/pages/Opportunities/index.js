@@ -28,10 +28,6 @@ function Opportunities() {
     });
   }, []);
 
-  if (user.data === null) {
-    return <Redirect to={PATHS.LOGIN} />;
-  }
-
   let slug;
   for (const item of partner) {
     if (item.id == partnerId || item.id == partnerIdFromAndroid) {
