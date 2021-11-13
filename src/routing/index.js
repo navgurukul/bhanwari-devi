@@ -10,9 +10,9 @@ import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
 import PrivacyPolicy from "../components/PrivacyPolicy";
-import PartnerData from "../components/Dashboard /PartnerData";
-import StudentData from "../components/Dashboard /StudentData";
-import StudentClassData from "../components/Dashboard /StudentClassData";
+import PartnerData from "../components/Dashboard/PartnerData";
+import StudentData from "../components/Dashboard/StudentData";
+import StudentClassData from "../components/Dashboard/StudentClassData";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 

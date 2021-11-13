@@ -10,7 +10,7 @@ export const PATHS = {
   MENTOR: "/mentor",
   USER: "/user",
   PRIVACY_POLICY: "/privacy",
-  AFE: "/AFE",
+  AFE: "/amazon-future-engineer",
   PARTNERS: "/partner",
   PARTNER_DATA: "/partner/:partnerId",
   STUDENT: "/student/:studentId",
