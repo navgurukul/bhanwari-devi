@@ -79,23 +79,27 @@ function PartnerStudentData() {
               return {
                 ...item,
                 // not overwriting original created_at because we need the date object to sort by date
-                formatted_created_at: moment(
-                  item.created_at.replace("Z", "")
-                ).format("DD-MM-YYYY"),
+                formatted_created_at: item.created_at
+                  ? moment(item.created_at.replace("Z", "")).format(
+                      "DD-MM-YYYY"
+                    )
+                  : "",
                 classes_registered: item.classes_registered.map((item) => {
                   return {
                     ...item,
-                    formatted_start_time: moment(
-                      item.start_time.replace("Z", "")
-                    ).format("DD-MM-YYYY"),
+                    formatted_start_time: item.start_time
+                      ? moment(item.start_time.replace("Z", "")).format(
+                          "DD-MM-YYYY"
+                        )
+                      : "",
                     /**
                      * REVIEW
                      * Why item is there again in the next line?
                      */
                     item,
-                    formatted_end_time: moment(
-                      item.end_time.replace("Z", "")
-                    ).format("hh:mm a"),
+                    formatted_end_time: item.end_time
+                      ? moment(item.end_time.replace("Z", "")).format("hh:mm a")
+                      : "",
                   };
                 }),
               };
