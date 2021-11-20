@@ -65,7 +65,7 @@ function User() {
   return (
     <>
       <PartnerStudentData />
-      <div className="user-data">
+      <div className="container-for-users">
         <label htmlFor="email" className="label">
           Email
         </label>
