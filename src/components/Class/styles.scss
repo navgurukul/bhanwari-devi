@@ -1,6 +1,13 @@
 @import "../../sass/colors.scss";
 @import "../../sass/mixins.scss";
 
+.class_time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  // justify-content: center;
+}
+
 .ng-create-class {
   margin: auto;
   padding-top: 24px;
@@ -76,10 +83,45 @@
       margin-left: 60px;
     }
   }
+  // input[type="radio"] {
+  //   border: 0px;
+  //   width: 100%;
+  //   height: 1em;
+  // }
+  // .radio-pointer {
+  //   display: inline-flex;
+  //   cursor: pointer;
+  //   margin-right: 12px;
+  //   align-items: center;
+  //   margin-block: 10px;
+  // }
+  // .radio__input {
+  //   // display: none;
+  // }
+  // .radio__radio {
+  //   width: 1.25em;
+  //   height: 1.25em;
+  //   border: 2px solid black;
+  //   border-radius: 50%;
+  //   margin-right: 10px;
+  //   box-sizing: border-box;
+  //   padding: 2px;
+  // }
 
-  .radio-pointer {
-    cursor: pointer;
-  }
+  // .radio__radio::after{
+  //   content: "";
+  //   width: 100%;
+  //   height: 100%;
+  //   display: block;
+  //   background-color: #48A145;
+  //   border-radius: 50%;
+  //   // transform: scale(0);
+  //   transition: all ease 0.3s;
+  // }
+
+  // .radio__radio::after + .radio__radio:checked{
+  //   transform: scale(1);
+  // }
 
   .enabled-button {
     margin-left: 200px;
