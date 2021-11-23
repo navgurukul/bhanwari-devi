@@ -7,7 +7,6 @@ const Form = ({
   children,
 }) => {
   const [formFieldsState, setFormFieldsState] = useState(initialFieldsState);
-
   const setFormField = (fieldValue, fieldName) => {
     setFormFieldsState({
       ...formFieldsState,

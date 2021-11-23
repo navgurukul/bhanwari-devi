@@ -284,6 +284,7 @@ function Class({ classToEdit, indicator }) {
   const onFormSubmit = (event) => {
     event && event.preventDefault();
     const formData = new FormData(event.target);
+
     let formFields = {
       category_id: 3,
     };
@@ -300,11 +301,14 @@ function Class({ classToEdit, indicator }) {
           }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
+        } else if (fieldName === pathwayId) {
+          formFields["course_id"] = pathwayId;
         } else {
           formFields[fieldName] = value;
         }
       }
     }
+
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -412,6 +416,7 @@ function Class({ classToEdit, indicator }) {
                           onChange={(e) => {
                             onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
+                            // console.log(pathway.id);
                           }}
                           id="course_id"
                         >
@@ -619,7 +624,7 @@ function Class({ classToEdit, indicator }) {
                 required
                 aria-required
               />
-              <span>
+              <span className="class_main_time">
                 <div className="class_time">
                   <label htmlFor="class_start_time" className="label-field">
                     Start Time
@@ -728,18 +733,63 @@ function Class({ classToEdit, indicator }) {
                   progress.
                 </span> */}
               </label>
-              <input
+              {/* <input
                 className="input-field"
                 type="number"
                 name={MAX_ENROLMENT}
                 id={MAX_ENROLMENT}
-                onChange={(e) =>
-                  changeHandler(e, setFormFieldsState, formFieldsState)
-                }
+                onChange={(e) => {
+                  changeHandler(e, setFormFieldsState, formFieldsState);
+                  console.log(e.target.value);
+                }}
                 value={formFieldsState[MAX_ENROLMENT]}
                 placeholder="Maximum students per class"
                 min={1}
-              />
+              /> */}
+              <span className="enrolment_buttons">
+                <button
+                  className={
+                    formFieldsState[MAX_ENROLMENT] === 5 ? "active" : ""
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFormFieldsState({
+                      ...formFieldsState,
+                      [MAX_ENROLMENT]: 5,
+                    });
+                  }}
+                >
+                  5
+                </button>
+                <button
+                  className={
+                    formFieldsState[MAX_ENROLMENT] === 10 ? "active" : ""
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFormFieldsState({
+                      ...formFieldsState,
+                      [MAX_ENROLMENT]: 10,
+                    });
+                  }}
+                >
+                  10
+                </button>
+                <button
+                  className={
+                    formFieldsState[MAX_ENROLMENT] === 15 ? "active" : ""
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFormFieldsState({
+                      ...formFieldsState,
+                      [MAX_ENROLMENT]: 15,
+                    });
+                  }}
+                >
+                  15
+                </button>
+              </span>
               {formFieldsState[TYPE] === "cohort" && (
                 <>
                   <label htmlFor="on_days" className="label-field">
