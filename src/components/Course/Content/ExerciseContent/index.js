@@ -8,8 +8,15 @@ import YouTube from "react-youtube";
 import get from "lodash/get";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import HiddenContent from "../HiddenContent";
+import DOMPurify from "dompurify";
 
 import "./styles.scss";
+
+// const createDOMPurify = require("dompurify");
+const { JSDOM } = require("jsdom");
+
+const window = new JSDOM("").window;
+// const DOMPurify = createDOMPurify(window);
 
 function getMarkdown(code, lang) {
   let l = lang == "python" ? "py" : "js";
@@ -59,61 +66,80 @@ const table = {
   },
 };
 
+const headingVarients = {
+  1: (data) => <h1 className="heading">{data.value}</h1>,
+  2: (data) => <h2 className="heading">{data.value}</h2>,
+  3: (data) => <h3 className="heading">{data.value}</h3>,
+  4: (data) => <h4 className="heading">{data.value}</h4>,
+  5: (data) => <h5 className="heading">{data.value}</h5>,
+  6: (data) => <h6 className="heading">{data.value}</h6>,
+};
+
 const RenderContent = ({ data }) => {
-  if (data.type === "image") {
-    return <img className="image" src={get(data, "value.url")} alt="content" />;
+  if (data.component === "header") {
+    return headingVarients[data.variant](data);
   }
-  if (data.type === "youtube") {
+
+  if (data.component === "image") {
+    return <img className="image" src={get(data, "value")} alt="content" />;
+  }
+  if (data.component === "youtube") {
     return <YouTube className={"youtube-video"} videoId={data.value} />;
   }
-  if (data.type === "markdown") {
-    return (
-      <ReactMarkdown
-        className="table-content"
-        children={data.value}
-        rehypePlugins={[rehypeRaw, rehypeSanitize]}
-        remarkPlugins={[gfm]}
-        components={table}
-      />
-    );
+  if (data.component === "text") {
+    return <p>{`${data.value}`}</p>;
   }
-  if (data.type === "python" || data.type === "javascript") {
-    return (
-      <div>
-        <ReactMarkdown
-          components={components}
-          children={getMarkdown(get(data, "value.code"), data.type)}
-        />
-        <div className="code__controls">
-          <a
-            target="_blank"
-            href={createVisulizeURL(
-              get(data, "value.code"),
-              data.type,
-              "display"
+  // if (data.type === "markdown") {
+  //   return (
+  //     <ReactMarkdown
+  //       className="table-content"
+  //       children={data.value}
+  //       rehypePlugins={[rehypeRaw, rehypeSanitize]}
+  //       remarkPlugins={[gfm]}
+  //       components={table}
+  //     />
+  //   );
+  // }
+  if (data.component === "code")
+    if (data.type === "python" || data.type === "javascript") {
+      return (
+        <div>
+          <ReactMarkdown
+            components={components}
+            children={getMarkdown(
+              DOMPurify.sanitize(get(data, "value"), data.type)
             )}
-          >
-            Visualize
-          </a>
+          />
+          <div className="code__controls">
+            <a
+              target="_blank"
+              href={createVisulizeURL(get(data, "value"), data.type, "display")}
+            >
+              Visualize
+            </a>
 
-          <a
-            target="_blank"
-            href={createVisulizeURL(get(data, "value.code"), data.type, "edit")}
-          >
-            Edit
-          </a>
+            <a
+              target="_blank"
+              href={createVisulizeURL(
+                get(data, "value.code"),
+                data.type,
+                "edit"
+              )}
+            >
+              Edit
+            </a>
+          </div>
         </div>
-      </div>
-    );
-  }
-  if (data.type === "bash") {
-    return (
-      <code className="language-bash code-block">
-        {" "}
-        {get(data, "value.code")}{" "}
-      </code>
-    );
-  }
+      );
+    }
+  // if (data.type === "bash") {
+  //   return (
+  //     <code className="language-bash code-block">
+  //       {" "}
+  //       {get(data, "value.code")}{" "}
+  //     </code>
+  //   );
+  // }
   if (data.type === "solution") {
     return (
       <HiddenContent>
