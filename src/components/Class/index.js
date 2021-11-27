@@ -140,7 +140,7 @@ function Class({ classToEdit, indicator }) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -326,7 +326,9 @@ function Class({ classToEdit, indicator }) {
           const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
           return (
             <>
-              <label htmlFor="type">Class Type</label>
+              <label htmlFor="type" className="label-field">
+                Class Type
+              </label>
               <span>
                 {/* <label htmlFor="type2" className="radio-pointer">
                   <input
@@ -344,7 +346,11 @@ function Class({ classToEdit, indicator }) {
                   />
                   Workshop
                 </label> */}
-                <label htmlFor="type3" className="radio-pointer">
+                <label
+                  htmlFor="type3"
+                  className="label-field"
+                  className="radio-pointer"
+                >
                   <input
                     type="radio"
                     className="radio-field"
@@ -378,7 +384,9 @@ function Class({ classToEdit, indicator }) {
                 </label>
               </span>
 
-              <label htmlFor="pathway">Pathway</label>
+              <label htmlFor="pathway" className="label-field">
+                Pathway
+              </label>
               <span>
                 {pathways.map((item) => {
                   return (
@@ -416,7 +424,6 @@ function Class({ classToEdit, indicator }) {
                           onChange={(e) => {
                             onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
-                            // console.log(pathway.id);
                           }}
                           id="course_id"
                         >

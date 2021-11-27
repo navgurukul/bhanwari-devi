@@ -36,6 +36,8 @@ input[type="radio"]:checked {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: Lusitana;
+  font-style: normal;
   @include breakpoint-mobile {
     width: 100%;
   }
@@ -51,14 +53,14 @@ input[type="radio"]:checked {
     justify-content: center;
     text-transform: uppercase;
     font-size: 30px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: Lusitana;
+    font-style: normal;
     @include breakpoint-mobile {
       margin-left: 80px;
     }
   }
 
   .form {
-    // font-weight: normal;
     padding: 48px;
     display: flex;
     flex-direction: column;
@@ -100,9 +102,6 @@ input[type="radio"]:checked {
   .disabled-button {
     margin-left: 200px;
     cursor: not-allowed;
-    @include breakpoint-mobile {
-      margin-left: 60px;
-    }
   }
 
   .radio-pointer {
@@ -136,8 +135,9 @@ input[type="radio"]:checked {
 }
 
 .label-field {
-  color: #bbbbbb;
+  color: #818181;
   font-weight: normal;
+  font-size: 18px;
 }
 
 .checkbox-field {
@@ -179,6 +179,7 @@ input[type="radio"]:checked {
   padding-left: 8px;
   padding-top: 8px;
   font-size: 16px;
+
   margin: 8px 0 24px 0;
   resize: none;
   border: none;
@@ -202,6 +203,7 @@ input[type="radio"]:checked {
   display: flex;
   justify-content: space-between;
   // width: 80%;
+  flex-wrap: wrap;
 }
 
 .create-class-select {
@@ -241,4 +243,25 @@ input[type="radio"]:checked {
 .enrolment_buttons button.active {
   color: #48a145;
   background-color: #e9f5e9;
+}
+@media screen and (max-width: 500px) {
+  .input-field {
+    width: 100%;
+  }
+  .textarea-field {
+    width: 95%;
+  }
+  .input-field--short {
+    width: 15rem;
+  }
+  .ng-create-class .radio-pointer {
+    width: 100%;
+  }
+  input[type="radio"] {
+    margin-block: 10px;
+  }
+  .ng-create-class .enabled-button,
+  .ng-create-class .disabled-button {
+    margin-left: 35px;
+  }
 }
