@@ -6,11 +6,9 @@ import { METHODS } from "../../services/api";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./styles.scss";
-import { Redirect } from "react-router";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -48,7 +46,6 @@ function PartnerStudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      console.log(res, "data");
       if (
         id == user.data.user.partner_id ||
         user.data.user.rolesList.indexOf("admin") > -1
@@ -321,6 +318,15 @@ function PartnerStudentData() {
                 <BsArrowUpDown />
               </button>
             </th>
+            <th className="student-name">
+              Partner Name
+              {/* <button
+                className={sort_class}
+                onClick={() => sortStudents("name")}
+              >
+                <BsArrowUpDown />
+              </button> */}
+            </th>
 
             <th>
               Enroll date
@@ -380,19 +386,10 @@ function PartnerStudentData() {
                 });
                 return (
                   <tr key={item.id}>
-                    <td data-column="Name">
-                      <Link
-                        className="t-data"
-                        //   to={{
-                        //     pathname: `/student/${item.id}`,
-                        //     state: {
-                        //       pass: item.classes_registered,
-                        //       passName: item.name,
-                        //     },
-                        //   }}
-                      >
-                        {item.name}
-                      </Link>
+                    <td data-column="Name">{item.name}</td>
+
+                    <td data-column="Partner">
+                      {item.partner ? item.partner.name : "NA"}
                     </td>
 
                     <td data-column="Enrolled On">
@@ -463,19 +460,10 @@ function PartnerStudentData() {
                 });
                 return (
                   <tr key={item.id}>
-                    <td data-column="Name">
-                      <Link
-                        className="t-data"
-                        //   to={{
-                        //     pathname: `/student/${item.id}`,
-                        //     state: {
-                        //       pass: item.classes_registered,
-                        //       passName: item.name,
-                        //     },
-                        //   }}
-                      >
-                        {item.name}
-                      </Link>
+                    <td data-column="Name">{item.name}</td>
+
+                    <td data-column="Partner">
+                      {item.partner ? item.partner.name : "NA"}
                     </td>
 
                     <td data-column="Enrolled On">
