@@ -152,12 +152,12 @@ const RenderContent = ({ data }) => {
     return (
       <div>
         <div className="code-bg">
-          <div
+          {/* <div
             dangerouslySetInnerHTML={{
               __html: getMarkdown(codeContent, data.type),
             }}
-          />
-          {/* <Highlight innerHTML={true}>{get(data, "value")}</Highlight> */}
+          /> */}
+          <Highlight innerHTML={true}>{get(data, "value")}</Highlight>
         </div>
         <div className="code__controls">
           <a
