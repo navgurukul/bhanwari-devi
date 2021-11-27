@@ -40,7 +40,6 @@ const createVisulizeURL = (code, lang, mode) => {
 // const components = {
 //   code({ node, inline, className, children, ...props }) {
 //     const match = /language-(\w+)/.exec(className || "");
-//     console.log("children", children);
 //     return !inline && match ? (
 //       <SyntaxHighlighter
 //         showLineNumbers
@@ -205,8 +204,6 @@ function ExerciseContent(props) {
   if (!content) {
     return "";
   }
-
-  console.log("content", content);
 
   return (
     <div className="ng-exercise-content" align="justify">
