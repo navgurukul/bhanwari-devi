@@ -110,7 +110,8 @@ const RenderContent = ({ data }) => {
     return (
       <code className="language-bash code-block">
         {" "}
-        {get(data, "value.code")}{" "}
+        {get(data, "value.code")}
+        {""}
       </code>
     );
   }

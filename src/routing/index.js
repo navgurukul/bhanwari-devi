@@ -15,6 +15,9 @@ import StudentData from "../components/Dashboard/StudentData";
 import StudentClassData from "../components/Dashboard/StudentClassData";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
+import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
+import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
+// import IndividualVolunteers from "../components/VolunteerDashbord/IndividualVolunteers"
 
 // import Classes from '../pages/classes'
 
@@ -30,6 +33,12 @@ const Routing = () => {
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
+      <Route exact path={PATHS.VOLUNTEER} component={VolunteerDashboard} />
+      <Route
+        exact
+        path={PATHS.VOLUNTEER_OVERVIEW}
+        component={VolunteerOverview}
+      />
 
       {/* Private routes */}
       {/* <PrivateRoute

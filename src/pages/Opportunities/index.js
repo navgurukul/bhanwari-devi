@@ -3,8 +3,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
-import { PATHS } from "../../constant";
-import { Redirect } from "react-router";
 import { getQueryVariable } from "../../common/utils";
 
 function Opportunities() {
