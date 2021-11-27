@@ -1,6 +1,34 @@
 @import "../../sass/colors.scss";
 @import "../../sass/mixins.scss";
 
+.class_time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  // justify-content: center;
+}
+
+input[type="radio"] {
+  /* remove standard background appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* create custom radiobutton appearance */
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 3px;
+  /* background-color only for content */
+  background-clip: content-box;
+  border: 2px solid #bbbbbb;
+  background-color: #e7e6e7;
+  border-radius: 50%;
+}
+
+input[type="radio"]:checked {
+  background-color: #48a145;
+}
+
 .ng-create-class {
   margin: auto;
   padding-top: 24px;
@@ -78,7 +106,11 @@
   }
 
   .radio-pointer {
+    display: inline-flex;
     cursor: pointer;
+    margin-right: 12px;
+    align-items: center;
+    margin-block: 10px;
   }
 
   .enabled-button {
@@ -138,6 +170,9 @@
     box-shadow: 0 0 4px #3cb728;
   }
 }
+.input-field--short {
+  width: 18.75rem;
+}
 
 .textarea-field {
   width: 628px;
@@ -163,6 +198,12 @@
   }
 }
 
+.class_main_time {
+  display: flex;
+  justify-content: space-between;
+  // width: 80%;
+}
+
 .create-class-select {
   padding: 12px 8px;
   font-size: 16px;
@@ -185,4 +226,19 @@
   margin-top: 10px;
   font-family: Rubik, sans-serif;
   font-style: normal;
+}
+.enrolment_buttons button {
+  margin: 1rem;
+  margin-left: 0;
+  border: none;
+  background: white;
+  border-radius: 8px;
+  padding: 1em 1.2rem;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+.enrolment_buttons button.active {
+  color: #48a145;
+  background-color: #e9f5e9;
 }

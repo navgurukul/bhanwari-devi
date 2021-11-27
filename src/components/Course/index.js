@@ -35,12 +35,12 @@ function Course() {
   let filteredCourse;
   if (data) {
     filteredCourse = data.allCourses.filter((names) => {
-      if (names.course_type === null) {
+      if (names.course_type === "json") {
         return names.name.toLowerCase().includes(search.toLowerCase());
       }
     });
   }
-
+  console.log(filteredCourse);
   return (
     <div>
       <SearchBox onChange={handleSearchChange} value={search} />
