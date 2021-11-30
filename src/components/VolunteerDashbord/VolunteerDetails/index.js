@@ -46,6 +46,7 @@ function VolunteerDashboard() {
           <button className="filter-button">Python(100)</button>
           <button className="filter-button">Spoken English (20)</button>
           <button className="filter-button">Typing (10)</button>
+          <button className="filter-button">Filter</button>
         </div>
 
         <table className="volunteer-overview-table">
@@ -62,6 +63,7 @@ function VolunteerDashboard() {
           </thead>
           <tbody>
             {volunteer.map((item) => {
+              console.log("item", item);
               const sortedClasses = item.classes.sort((a, b) => {
                 return new Date(a.start_time) - new Date(b.start_time);
               });
@@ -81,7 +83,7 @@ function VolunteerDashboard() {
                       to={{
                         pathname: `/volunteer/${item.id}`,
                         state: {
-                          pass: item.classes,
+                          pass: item,
                           passName: item.name,
                         },
                       }}
