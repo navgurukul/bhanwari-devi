@@ -10,6 +10,8 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import HiddenContent from "../HiddenContent";
 import DOMPurify from "dompurify";
 import Highlight from "react-highlight";
+import JSONInput from "react-json-editor-ajrm";
+import locale from "react-json-editor-ajrm/locale/en";
 
 import "./styles.scss";
 const { JSDOM } = require("jsdom");
@@ -206,14 +208,30 @@ function ExerciseContent(props) {
   }
 
   return (
-    <div className="ng-exercise-content" align="justify">
-      {content.map((contentItem, index) => (
-        <RenderContent data={contentItem} key={index} />
-      ))}
-    </div>
+    <>
+      {props.flag ? (
+        <div className="ng-exercise-content" align="justify">
+          {content.map((contentItem, index) => (
+            <RenderContent data={contentItem} key={index} />
+          ))}
+        </div>
+      ) : (
+        <div align="left">
+          {content.map((contentItem, index) => (
+            <JSONInput
+              id="a_unique_id"
+              placeholder={contentItem}
+              // colors={darktheme}
+              locale={locale}
+              height="auto"
+              width="800px"
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 }
-
 ExerciseContent.propTypes = {
   content: PropTypes.array,
 };

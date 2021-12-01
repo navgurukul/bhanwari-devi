@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import get from "lodash/get";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as courseActions } from "../.././redux/action";
@@ -36,6 +36,7 @@ const CourseName = (props) => {
 };
 
 const Exercise = (props) => {
+  const [flag, setFlag] = useState(true);
   const { selectedExercise } = props;
   const dispatch = useDispatch();
   const { data } = useSelector(({ Course }) => Course);
@@ -45,10 +46,21 @@ const Exercise = (props) => {
 
   return (
     <>
+      <span class="tooltip" title="Edit Content">
+        <i
+          class="fa fa-pencil"
+          onClick={(e) => {
+            setFlag(!flag);
+          }}
+        ></i>
+      </span>
       <div align="center">
         <CourseName data={data} />
         <h2>{get(selectedExercise, "exercise.name")}</h2>
-        <ExerciseContent content={get(selectedExercise, "exercise.content")} />
+        <ExerciseContent
+          flag={flag}
+          content={get(selectedExercise, "exercise.content")}
+        />
       </div>
       <EditOnGithub link={`${get(selectedExercise, "exercise.githubLink")}`} />
     </>
