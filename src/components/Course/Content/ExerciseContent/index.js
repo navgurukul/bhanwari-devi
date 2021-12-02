@@ -218,6 +218,7 @@ function ExerciseContent(props) {
   let courseId = url.split("exercise/");
 
   const handleEdit = () => {
+    setFlag(true);
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${courseId[1]}`,
       method: METHODS.PUT,
@@ -260,9 +261,10 @@ function ExerciseContent(props) {
       {flag ? null : (
         <button
           className="save-button"
-          onClick={() => {
-            setFlag(true);
-          }}
+          onClick={handleEdit}
+          // onClick={() => {
+          //   setFlag(true);
+          // }}
         >
           Save the Content
         </button>
