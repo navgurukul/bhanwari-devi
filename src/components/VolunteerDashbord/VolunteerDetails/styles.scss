@@ -80,7 +80,7 @@ th {
 }
 
 .filter-items {
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 @media only screen and (max-width: 760px),
@@ -131,4 +131,110 @@ th {
     color: #000;
     font-weight: 500;
   }
+}
+.selectedPathway {
+  background-color: #48a145;
+  color: white;
+}
+.filterBar {
+  display: flex;
+  margin-top: 30px;
+  // display: none;
+  // opacity: 0;
+  // pointer-events: none;
+}
+.filterBar .filter {
+  display: flex;
+  flex-direction: column;
+  width: 18em;
+  margin-right: 20px;
+  position: relative;
+  // display: none;
+}
+.filterBar .filter span {
+  color: #818181;
+  font-size: 16px;
+}
+.filterBar .filter button {
+  margin-top: 20px;
+  background-color: transparent;
+  text-align: left;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 10px;
+  padding-top: 0;
+  background-image: url("../../../asset/dropdown.svg");
+  background-repeat: no-repeat;
+  background-position: 96% 40%;
+  background-size: 14px;
+  cursor: pointer;
+}
+.filterBar .filter .dropdown {
+  width: 100%;
+  top: 120%;
+  left: 0;
+  background: #ffffff;
+
+  box-shadow: 0px 16px 24px rgba(46, 46, 46, 0.06),
+    0px 6px 30px rgba(46, 46, 46, 0.04), 0px 8px 10px rgba(46, 46, 46, 0.08);
+  border-radius: 8px;
+  // height: 100%;
+  // padding-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transition: height 0.3s ease-in;
+}
+
+.filter .dropdown ul {
+  align-self: flex-start;
+  list-style: none;
+  margin: 5px 20px;
+  padding: 0;
+  width: 80% !important;
+}
+.dropdown ul li {
+  font-size: 18px;
+  margin-block: 10px;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: all ease-in 1s;
+}
+.dropdown ul li::after {
+  content: "";
+  height: 25px;
+  width: 25px;
+  background-image: url("../../../asset/tick.svg");
+  background-repeat: no-repeat;
+  background-position: 96% 40%;
+  background-size: 20px;
+  position: absolute;
+  right: -10%;
+  opacity: 0;
+  transition: all ease-in 0.15s;
+}
+.dropdown ul li.checked::after {
+  opacity: 1;
+}
+.dropdown ul li:hover::after {
+  opacity: 1;
+}
+.filter .dropdown span {
+  background: #48a145;
+  border-radius: 8px;
+  color: white;
+  padding: 5px 20px;
+  margin: 15px;
+  padding-bottom: 8px;
+  margin-top: 0;
+  cursor: pointer;
+}
+.dropdown ul li img {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
 }

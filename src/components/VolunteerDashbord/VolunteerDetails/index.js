@@ -3,11 +3,34 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
+import star from "../../../asset/ratingIcon.svg";
 import moment from "moment";
 import "./styles.scss";
 
 function VolunteerDashboard() {
   const [volunteer, setVolunteer] = useState([]);
+  const [cacheVolunteer, setCacheVolunteer] = useState([]);
+  const [language, setLangue] = useState({
+    All: true,
+    Hindi: false,
+    English: false,
+  });
+  const [selctedPathway, setSelectedPathway] = useState("");
+  const [dropdowns, setDropdowns] = useState({
+    duration: false,
+    language: false,
+    rating: false,
+  });
+
+  const handleDropdown = (e) => (key) => {
+    setDropdowns({ ...dropdowns, [key]: !dropdowns[key] });
+  };
+
+  // handle language function
+  const handleLanguage = (e) => (key) => {
+    setLangue({ ...language, [key]: !language[key] });
+  };
+
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
@@ -21,6 +44,7 @@ function VolunteerDashboard() {
     }).then((res) => {
       console.log(res.data, "data");
       setVolunteer(res.data);
+      setCacheVolunteer(res.data);
     });
   }, []);
 
@@ -30,6 +54,23 @@ function VolunteerDashboard() {
     en: "English",
     ta: "Tamil",
   };
+
+  function filterPathway(pathway, volunteer) {
+    return volunteer.filter((el) => {
+      for (let i of el.pathways) {
+        if (i === pathway) {
+          return true;
+        }
+      }
+    });
+  }
+
+  function filterLanguage() {
+    return cacheVolunteer.filter((el) => {
+      if (language["All"]) return true;
+      return language[languageMap[el.classes[el.classes.length - 1].lang]];
+    });
+  }
 
   return (
     <>
@@ -43,11 +84,159 @@ function VolunteerDashboard() {
         </div>
 
         <div className="filter-items">
-          <button className="filter-button">Python(100)</button>
-          <button className="filter-button">Spoken English (20)</button>
-          <button className="filter-button">Typing (10)</button>
-          <button className="filter-button">Filter</button>
+          <button
+            className={
+              "filter-button " +
+              (selctedPathway === "Python" ? "selectedPathway" : "")
+            }
+            onClick={() => {
+              setVolunteer(filterPathway("Python", cacheVolunteer));
+              setSelectedPathway("Python");
+            }}
+          >
+            Python(100)
+          </button>
+          <button
+            className={
+              "filter-button " +
+              (selctedPathway === "JavaScript" ? "selectedPathway" : "")
+            }
+            onClick={() => {
+              setVolunteer(filterPathway("JavaScript", cacheVolunteer));
+              setSelectedPathway("JavaScript");
+            }}
+          >
+            Spoken English (20)
+          </button>
+          <button
+            className={
+              "filter-button " +
+              (selctedPathway === "Typing" ? "selectedPathway" : "")
+            }
+            onClick={() => {
+              setVolunteer(filterPathway("Typing", cacheVolunteer));
+              setSelectedPathway("Typing");
+            }}
+          >
+            Typing (10)
+          </button>
+          <button
+            className={
+              "filter-button " +
+              (selctedPathway === "Filter" ? "selectedPathway" : "")
+            }
+            onClick={() => {
+              setSelectedPathway("Filter");
+              setVolunteer(cacheVolunteer);
+            }}
+          >
+            Filter
+          </button>
         </div>
+
+        {selctedPathway === "Filter" ? (
+          <div className="filterBar">
+            <div className="filter">
+              <span>Duration</span>
+              <button onClick={(e) => handleDropdown(e)("duration")}>
+                All Time
+              </button>
+              {dropdowns.duration ? (
+                <div className="dropdown">
+                  <ul>
+                    <li>All Time</li>
+                    <li>Past 1 week</li>
+                    <li>Past 4 week</li>
+                    <li>Past 8 week</li>
+                    <li>Past 12 week</li>
+                  </ul>
+                  <span>Apply</span>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="filter">
+              <span>Language</span>
+              <button onClick={(e) => handleDropdown(e)("language")}>
+                All Languages
+              </button>
+              {dropdowns.language ? (
+                <div className="dropdown">
+                  <ul>
+                    <li
+                      onClick={(e) => {
+                        handleLanguage(e)("All");
+                      }}
+                      className={language["All"] ? "checked" : ""}
+                    >
+                      All
+                    </li>
+                    <li
+                      onClick={(e) => {
+                        handleLanguage(e)("English");
+                      }}
+                      className={language["English"] ? "checked" : ""}
+                    >
+                      English
+                    </li>
+                    <li
+                      onClick={(e) => {
+                        handleLanguage(e)("Hindi");
+                      }}
+                      className={language["Hindi"] ? "checked" : ""}
+                    >
+                      Hindi
+                    </li>
+                  </ul>
+                  <span
+                    onClick={(e) => {
+                      setVolunteer(filterLanguage());
+                      handleDropdown(e)("language");
+                    }}
+                  >
+                    Select (1)
+                  </span>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="filter">
+              <span>Avg. Rating</span>
+              <button onClick={(e) => handleDropdown(e)("rating")}>All</button>
+              {dropdowns.rating ? (
+                <div className="dropdown">
+                  <ul>
+                    <li>
+                      <img src={star} />
+                      <img src={star} />
+                      <img src={star} />
+                      <img src={star} />& Above
+                    </li>
+                    <li>
+                      <img src={star} />
+                      <img src={star} />
+                      <img src={star} />
+                    </li>
+                    <li>
+                      <img src={star} />
+                      <img src={star} />
+                    </li>
+                    <li>
+                      <img src={star} />
+                    </li>
+                  </ul>
+                  <span>Select (1)</span>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
 
         <table className="volunteer-overview-table">
           <thead>
@@ -63,7 +252,6 @@ function VolunteerDashboard() {
           </thead>
           <tbody>
             {volunteer.map((item) => {
-              console.log("item", item);
               const sortedClasses = item.classes.sort((a, b) => {
                 return new Date(a.start_time) - new Date(b.start_time);
               });
