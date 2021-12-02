@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import get from "lodash/get";
 import { useSelector, useDispatch } from "react-redux";
+// import axios from "axios";
 import { actions as courseActions } from "../.././redux/action";
 import { useLocation } from "react-router-dom";
 import ExerciseContent from "../ExerciseContent";
@@ -39,6 +40,7 @@ const Exercise = (props) => {
   const [flag, setFlag] = useState(true);
   const { selectedExercise } = props;
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
   const { data } = useSelector(({ Course }) => Course);
   useEffect(() => {
     dispatch(courseActions.getCourses());
@@ -54,6 +56,7 @@ const Exercise = (props) => {
           }}
         ></i>
       </span>
+
       <div align="center">
         <CourseName data={data} />
         <h2>{get(selectedExercise, "exercise.name")}</h2>

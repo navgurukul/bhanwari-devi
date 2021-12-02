@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
@@ -12,6 +12,9 @@ import DOMPurify from "dompurify";
 import Highlight from "react-highlight";
 import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
+import axios from "axios";
+import { METHODS } from "../../../../services/api";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./styles.scss";
 const { JSDOM } = require("jsdom");
@@ -201,14 +204,40 @@ const RenderContent = ({ data }) => {
 };
 
 function ExerciseContent(props) {
+  const [updateCourse, setupdateCourse] = useState();
+  const user = useSelector(({ User }) => User);
   const { content = [] } = props;
 
   if (!content) {
     return "";
   }
 
+  const url = window.location.href;
+  let courseId = url.split("exercise/");
+
+  const handleEdit = () => {
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${courseId[1]}`,
+      method: METHODS.PUT,
+      headers: {
+        "Content-Type": "application/json",
+        "version-code": 25,
+      },
+      data: {
+        content: updateCourse,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
+      <button onClick={handleEdit}>Save the Content</button>
       {props.flag ? (
         <div className="ng-exercise-content" align="justify">
           {content.map((contentItem, index) => (
@@ -219,10 +248,14 @@ function ExerciseContent(props) {
         <div align="left">
           {content.map((contentItem, index) => (
             <JSONInput
+              // key={index}
               id="a_unique_id"
               placeholder={contentItem}
               // colors={darktheme}
               locale={locale}
+              onChange={(e) => {
+                setupdateCourse(e.json);
+              }}
               height="auto"
               width="800px"
             />
