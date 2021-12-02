@@ -205,7 +205,6 @@ const RenderContent = ({ data }) => {
 
 function ExerciseContent(props) {
   const [updateCourse, setUpdateCourse] = useState();
-  // const [saveButton, setSaveButton] = useState(false);
   const [flag, setFlag] = useState(true);
   const user = useSelector(({ User }) => User);
   const { content = [] } = props;
@@ -216,14 +215,10 @@ function ExerciseContent(props) {
 
   const url = window.location.href;
   const exerciseId = url.split("exercise/")[1];
-  const courseId = url.split("course/")[1].split("/")[0];
-  console.log("url", url.split("course/")[1].split("/")[0]);
-  console.log("courseId", courseId);
 
   const handleEdit = () => {
     setFlag(true);
-    // return
-    axios({
+    return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${exerciseId}`,
       method: METHODS.PUT,
       headers: {
@@ -231,32 +226,16 @@ function ExerciseContent(props) {
         "version-code": 25,
       },
       data: {
-        content: updateCourse,
+        content: updateCourse && JSON.stringify([JSON.parse(updateCourse)]),
       },
     })
       .then((res) => {
+        window.location.reload(1);
         console.log(res);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    // setTimeout(() => {
-    //   axios({
-    //     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
-    //     method: METHODS.GET,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "version-code": 25,
-    //     },
-    //   })
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }, 3000);
   };
 
   return (
@@ -280,13 +259,7 @@ function ExerciseContent(props) {
         ></i>
       </span> */}
       {flag ? null : (
-        <button
-          className="save-button"
-          onClick={handleEdit}
-          // onClick={() => {
-          //   setFlag(true);
-          // }}
-        >
+        <button className="save-button" onClick={handleEdit}>
           Save the Content
         </button>
       )}
@@ -306,6 +279,7 @@ function ExerciseContent(props) {
               // colors={darktheme}
               locale={locale}
               onChange={(e) => {
+                console.log("e", e);
                 setUpdateCourse(e.json);
               }}
               height="auto"
