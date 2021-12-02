@@ -37,7 +37,7 @@ const CourseName = (props) => {
 };
 
 const Exercise = (props) => {
-  const [flag, setFlag] = useState(true);
+  // const [flag, setFlag] = useState(true);
   const { selectedExercise } = props;
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
@@ -48,20 +48,20 @@ const Exercise = (props) => {
 
   return (
     <>
-      <span class="tooltip" title="Edit Content">
+      {/* <span class="tooltip" title="Edit Content">
         <i
           class="fa fa-pencil"
           onClick={(e) => {
             setFlag(!flag);
           }}
         ></i>
-      </span>
+      </span> */}
 
       <div align="center">
         <CourseName data={data} />
         <h2>{get(selectedExercise, "exercise.name")}</h2>
         <ExerciseContent
-          flag={flag}
+          // flag={flag}
           content={get(selectedExercise, "exercise.content")}
         />
       </div>

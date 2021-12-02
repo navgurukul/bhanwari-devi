@@ -85,6 +85,25 @@
   }
 }
 
+.edit-button {
+  // background-color: rgba(72, 161, 69, 1);
+  // position: absolute;
+  // top: 0;
+}
+
+.save-button {
+  background-color: rgba(72, 161, 69, 1);
+  color: #ffffff;
+  border-width: 0px;
+  border-radius: 7px;
+  height: 35px;
+  font-size: 15px;
+  line-height: 21px;
+  width: 200px;
+  margin-bottom: 10px;
+  margin-left: 590px;
+}
+
 .code__controls {
   display: flex;
   flex-direction: row;

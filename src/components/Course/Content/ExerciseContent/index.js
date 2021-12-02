@@ -204,7 +204,9 @@ const RenderContent = ({ data }) => {
 };
 
 function ExerciseContent(props) {
-  const [updateCourse, setupdateCourse] = useState();
+  const [updateCourse, setUpdateCourse] = useState();
+  // const [saveButton, setSaveButton] = useState(false);
+  const [flag, setFlag] = useState(true);
   const user = useSelector(({ User }) => User);
   const { content = [] } = props;
 
@@ -237,8 +239,35 @@ function ExerciseContent(props) {
 
   return (
     <>
-      <button onClick={handleEdit}>Save the Content</button>
-      {props.flag ? (
+      {flag && (
+        <span class="tooltip" title="Edit Content">
+          <i
+            class="fa fa-pencil edit-button"
+            onClick={() => {
+              setFlag(false);
+            }}
+          ></i>
+        </span>
+      )}
+      {/* <span class="tooltip" title="Edit Content">
+        <i
+          class="fa fa-pencil edit-button"
+          onClick={() => {
+            setFlag(false);
+          }}
+        ></i>
+      </span> */}
+      {flag ? null : (
+        <button
+          className="save-button"
+          onClick={() => {
+            setFlag(true);
+          }}
+        >
+          Save the Content
+        </button>
+      )}
+      {flag ? (
         <div className="ng-exercise-content" align="justify">
           {content.map((contentItem, index) => (
             <RenderContent data={contentItem} key={index} />
@@ -254,7 +283,7 @@ function ExerciseContent(props) {
               // colors={darktheme}
               locale={locale}
               onChange={(e) => {
-                setupdateCourse(e.json);
+                setUpdateCourse(e.json);
               }}
               height="auto"
               width="800px"
@@ -262,6 +291,31 @@ function ExerciseContent(props) {
           ))}
         </div>
       )}
+
+      {/* {props.flag? (
+        <div className="ng-exercise-content" align="justify">
+          {content.map((contentItem, index) => (
+            <RenderContent data={contentItem} key={index} />
+          ))}
+        </div>
+      ) : (
+        <div align="left">
+          {content.map((contentItem, index) => (
+            <JSONInput
+              // key={index}
+              id="a_unique_id"
+              placeholder={contentItem}
+              // colors={darktheme}
+              locale={locale}
+              onChange={(e) => {
+                setUpdateCourse(e.json);
+              }}
+              height="auto"
+              width="800px"
+            />
+          ))}
+        </div>
+      )} */}
     </>
   );
 }
