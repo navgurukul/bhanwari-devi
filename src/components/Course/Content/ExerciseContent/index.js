@@ -215,12 +215,16 @@ function ExerciseContent(props) {
   }
 
   const url = window.location.href;
-  let courseId = url.split("exercise/");
+  const exerciseId = url.split("exercise/")[1];
+  const courseId = url.split("course/")[1].split("/")[0];
+  console.log("url", url.split("course/")[1].split("/")[0]);
+  console.log("courseId", courseId);
 
   const handleEdit = () => {
     setFlag(true);
-    return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${courseId[1]}`,
+    // return
+    axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${exerciseId}`,
       method: METHODS.PUT,
       headers: {
         "Content-Type": "application/json",
@@ -236,6 +240,23 @@ function ExerciseContent(props) {
       .catch((error) => {
         console.log(error);
       });
+
+    // setTimeout(() => {
+    //   axios({
+    //     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+    //     method: METHODS.GET,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "version-code": 25,
+    //     },
+    //   })
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // }, 3000);
   };
 
   return (
