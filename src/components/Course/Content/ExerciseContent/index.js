@@ -205,6 +205,8 @@ const RenderContent = ({ data }) => {
 
 function ExerciseContent(props) {
   const [updateCourse, setUpdateCourse] = useState();
+  // const [contentList, setContentList] = useState([]);
+  const [index, setIndex] = useState();
   const [flag, setFlag] = useState(true);
   const user = useSelector(({ User }) => User);
   const { content = [] } = props;
@@ -212,6 +214,19 @@ function ExerciseContent(props) {
   if (!content) {
     return "";
   }
+
+  console.log("index", index);
+  const contentObj = {};
+  // contentList.push(updateCourse)
+  const list = { ...contentObj, index: updateCourse };
+  console.log("contentObj", list);
+
+  // const updatedContent =
+  updateCourse && content.splice(0, 1, updateCourse);
+  // .splice(2, 1, "Lemon");
+  // .splice(index, 0, updateCourse);
+  console.log("updateCourse", updateCourse);
+  console.log("updatedContent", content);
 
   const url = window.location.href;
   const exerciseId = url.split("exercise/")[1];
@@ -226,7 +241,7 @@ function ExerciseContent(props) {
         "version-code": 25,
       },
       data: {
-        content: updateCourse && JSON.stringify([JSON.parse(updateCourse)]),
+        content: JSON.stringify(content),
       },
     })
       .then((res) => {
@@ -237,6 +252,9 @@ function ExerciseContent(props) {
         console.log(error);
       });
   };
+
+  // console.log("content", content);
+  // console.log("index", index);
 
   return (
     <>
@@ -270,7 +288,7 @@ function ExerciseContent(props) {
           ))}
         </div>
       ) : (
-        <div align="left">
+        <div align="left" className="json-input">
           {content.map((contentItem, index) => (
             <JSONInput
               // key={index}
@@ -280,7 +298,8 @@ function ExerciseContent(props) {
               locale={locale}
               onChange={(e) => {
                 console.log("e", e);
-                setUpdateCourse(e.json);
+                setUpdateCourse(e.jsObject);
+                setIndex(index);
               }}
               height="auto"
               width="800px"
