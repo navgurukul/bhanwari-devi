@@ -21,6 +21,12 @@ function VolunteerDashboard() {
     language: false,
     rating: false,
   });
+  const [week, setWeek] = useState({
+    one: false,
+    four: false,
+    eight: false,
+    twelve: false,
+  });
 
   const handleDropdown = (e) => (key) => {
     setDropdowns({ ...dropdowns, [key]: !dropdowns[key] });
@@ -63,6 +69,31 @@ function VolunteerDashboard() {
         }
       }
     });
+  }
+
+  function filterweek() {
+    let date = Date.now();
+    return volunteer.filter((el) => {
+      const cur_date = new Date(el.classes[el.classes.length - 1].end_time);
+      if (week["one"] && cur_date <= date - 7 * 24 * 60 * 60 * 1000) {
+        return true;
+      } else if (week["four"] && cur_date <= date - 28 * 24 * 60 * 60 * 1000) {
+        return true;
+      } else if (week["eight"] && cur_date <= date - 56 * 24 * 60 * 60 * 1000) {
+        return true;
+      } else if (
+        week["twelve"] &&
+        cur_date <= date - 84 * 24 * 60 * 60 * 1000
+      ) {
+        return true;
+      }
+    });
+  }
+
+  function numberOfWeek(el) {
+    let last_date = new Date(el.classes[el.classes.length - 1].end_time);
+    let new_date = new Date(el.classes[0].end_time);
+    return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
   }
 
   function filterLanguage() {
@@ -280,9 +311,7 @@ function VolunteerDashboard() {
                     </Link>
                   </td>
                   <td data-column="No.of Classes">{item.classes.length}</td>
-                  <td data-column="Engagement Week">
-                    {item.engagement_in_months}
-                  </td>
+                  <td data-column="Engagement Week">{numberOfWeek(item)}</td>
                   <td data-column="Last Class Date">
                     {moment(
                       sortedClasses[sortedClasses.length - 1].start_time
