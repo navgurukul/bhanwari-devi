@@ -6,15 +6,28 @@ import { METHODS } from "../../../services/api";
 import star from "../../../asset/ratingIcon.svg";
 import moment from "moment";
 import "./styles.scss";
+import { useDebounce } from "use-debounce";
+import ReactPaginate from "react-paginate";
 
 function VolunteerDashboard() {
   const [volunteer, setVolunteer] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [slicedVolunteer, setSlicedVolunteer] = useState();
+  const [pageNumber, setPageNumber] = useState(0);
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
+  const [debouncedText] = useDebounce(searchTerm);
   const [language, setLangue] = useState({
     All: true,
     Hindi: false,
     English: false,
   });
+
+  const limit = 10;
+  const pageCount = Math.ceil(volunteer && volunteer.length / limit);
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
   const [selctedPathway, setSelectedPathway] = useState("");
   const [dropdowns, setDropdowns] = useState({
     duration: false,
@@ -51,6 +64,9 @@ function VolunteerDashboard() {
       console.log(res.data, "data");
       setVolunteer(res.data);
       setCacheVolunteer(res.data);
+      setSlicedVolunteer(
+        res.data.slice(pageNumber * limit, (pageNumber + 1) * limit)
+      );
     });
   }, []);
 
@@ -103,6 +119,23 @@ function VolunteerDashboard() {
     });
   }
 
+  useEffect(() => {
+    const data =
+      volunteer &&
+      volunteer.filter((searchValue) => {
+        if (searchTerm == "") {
+          return searchValue;
+        } else if (
+          searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
+          return searchValue;
+        }
+      });
+    const slicedData = data.slice(pageNumber * limit, (pageNumber + 1) * limit);
+    // setVolunteer(data);
+    setSlicedVolunteer(slicedData);
+  }, [debouncedText, pageNumber]);
+
   return (
     <>
       <div className="volunteer-container">
@@ -111,6 +144,10 @@ function VolunteerDashboard() {
             className="volunteer-search-bar"
             type="text"
             placeholder="Search by Name "
+            value={debouncedText}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
           />
         </div>
 
@@ -282,86 +319,106 @@ function VolunteerDashboard() {
             </tr>
           </thead>
           <tbody>
-            {volunteer.map((item) => {
-              const sortedClasses = item.classes.sort((a, b) => {
-                return new Date(a.start_time) - new Date(b.start_time);
-              });
-              // console.log(sortedClasses[sortedClasses.length - 1])
-              let getStars = 0;
-              let totalStarts = item.classes.length * 5;
-              item.classes.map((stars) => {
-                getStars = getStars + Number(stars.classes);
-              });
+            {volunteer && volunteer.length > 0 ? (
+              slicedVolunteer &&
+              slicedVolunteer.map((item) => {
+                const sortedClasses = item.classes.sort((a, b) => {
+                  return new Date(a.start_time) - new Date(b.start_time);
+                });
+                let getStars = 0;
+                let totalStarts = item.classes.length * 5;
+                item.classes.map((stars) => {
+                  getStars = getStars + Number(stars.classes);
+                });
 
-              return (
-                <tr key={item.id}>
-                  {/* <td data-column="Name">{item.name}</td> */}
-                  <td data-column="Name">
-                    <Link
-                      className="t-data"
-                      to={{
-                        pathname: `/volunteer/${item.id}`,
-                        state: {
-                          pass: item,
-                          passName: item.name,
-                        },
-                      }}
-                    >
-                      {item.name}
-                    </Link>
-                  </td>
-                  <td data-column="No.of Classes">{item.classes.length}</td>
-                  <td data-column="Engagement Week">{numberOfWeek(item)}</td>
-                  <td data-column="Last Class Date">
-                    {moment(
-                      sortedClasses[sortedClasses.length - 1].start_time
-                    ).format("DD-MM-YYYY")}
-                  </td>
-                  <td data-column="Last Class Title">
-                    {item.classes &&
-                    item.classes.length > 0 &&
-                    item.classes[item.classes.length - 1]["title"] != ""
-                      ? item.classes[item.classes.length - 1]["title"]
-                      : "NA"}
-                  </td>
-                  <td data-column="Last class lang">
-                    {item.classes &&
-                    item.classes.length > 0 &&
-                    item.classes[item.classes.length - 1]["lang"] != ""
-                      ? languageMap[
-                          item.classes[item.classes.length - 1]["lang"]
-                        ]
-                      : "NA"}
-                  </td>
-                  <td data-column="Avg.Rating">
-                    {/* {item.classes.ratings} */}
-                    {/* {item.classes &&
-                                            item.classes.length > 0 && item.classes[item.classes.length - 1
-                                            ]["ratings"] != ""
-                                            ? item.classes[
-                                            item.classes.length - 1
-                                            ]["ratings"]
-                                            : "NA"} */}
-                    {[1, 2, 3, 4, 5].map((star) => {
-                      return Math.ceil(item.averageRating) > 0 &&
-                        star <= Math.ceil(item.averageRating) ? (
-                        <span
-                          className="fa fa-star"
-                          style={{ color: "#D55F31" }}
-                        ></span>
-                      ) : (
-                        <span
-                          className="fa fa-star"
-                          style={{ color: "gray" }}
-                        ></span>
-                      );
-                    })}
-                  </td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={item.id}>
+                    <td data-column="Name">
+                      <Link
+                        className="t-data"
+                        to={{
+                          pathname: `/volunteer/${item.id}`,
+                          state: {
+                            pass: item,
+                            passName: item.name,
+                          },
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td data-column="No.of Classes">{item.classes.length}</td>
+                    <td data-column="Engagement Week">{numberOfWeek(item)}</td>
+                    <td data-column="Last Class Date">
+                      {moment(
+                        sortedClasses[sortedClasses.length - 1].start_time
+                      ).format("DD-MM-YYYY")}
+                    </td>
+                    <td data-column="Last Class Title">
+                      {item.classes &&
+                      item.classes.length > 0 &&
+                      item.classes[item.classes.length - 1]["title"] != ""
+                        ? item.classes[item.classes.length - 1]["title"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class lang">
+                      {item.classes &&
+                      item.classes.length > 0 &&
+                      item.classes[item.classes.length - 1]["lang"] != ""
+                        ? languageMap[
+                            item.classes[item.classes.length - 1]["lang"]
+                          ]
+                        : "NA"}
+                    </td>
+                    <td data-column="Avg.Rating">
+                      {/* {item.classes.ratings} */}
+                      {/* {item.classes &&
+                      item.classes.length > 0 && item.classes[item.classes.length - 1
+                      ]["ratings"] != ""
+                      ? item.classes[
+                      item.classes.length - 1
+                      ]["ratings"]
+                      : "NA"}  */}
+                      {[1, 2, 3, 4, 5].map((star) => {
+                        return Math.ceil(item.averageRating) > 0 &&
+                          star <= Math.ceil(item.averageRating) ? (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "#D55F31" }}
+                          ></span>
+                        ) : (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "gray" }}
+                          ></span>
+                        );
+                      })}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <div className="message ">
+                <h3>There are no results to display...</h3>
+              </div>
+            )}
           </tbody>
         </table>
+        <div className="last-item">
+          <ReactPaginate
+            previousLabel={<i className="fa fa-angle-left"></i>}
+            nextLabel={<i className="fa fa-angle-right"></i>}
+            initialPage={0}
+            marginPagesDisplayed={0}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName="paginationBttns"
+            previousLinkClassName="previousBttn"
+            nextLinkClassName="nextBttn"
+            disabledClassName="paginationDisabled"
+            activeClassName="paginationActive"
+          />
+        </div>
       </div>
     </>
   );

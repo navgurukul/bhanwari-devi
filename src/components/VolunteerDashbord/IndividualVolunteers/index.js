@@ -35,6 +35,13 @@ function VolunteerOverview(props) {
     (item) => (language = language + lang[item] + ", ")
   );
 
+  const languageMap = {
+    hi: "Hindi",
+    te: "Telugu",
+    en: "English",
+    ta: "Tamil",
+  };
+
   useEffect(() => {
     const data = volunteerClassData.classes.filter((searchValue) => {
       if (searchTerm == "") {
@@ -115,7 +122,7 @@ function VolunteerOverview(props) {
                       <td data-column="Enrollments">
                         {item.max_enrollment ? item.max_enrollment : "NA"}
                       </td>
-                      <td data-column="Language">{item.lang}</td>
+                      <td data-column="Language"> {languageMap[item.lang]} </td>
                       <td data-column="Avg. Rating">
                         {[1, 2, 3, 4, 5].map((star) => {
                           return item.avg_rating > 0 &&
