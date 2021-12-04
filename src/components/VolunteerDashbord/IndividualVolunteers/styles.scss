@@ -83,6 +83,10 @@ th {
   // border: none;
 }
 
+.volunteer-class-table tbody {
+  border-bottom: 2px solid #e6e3e3;
+}
+
 .volunteer-class-table tr:hover {
   background-color: #e9f5e9;
   cursor: pointer;

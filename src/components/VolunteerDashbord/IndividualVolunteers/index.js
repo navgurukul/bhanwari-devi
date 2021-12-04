@@ -30,6 +30,12 @@ function VolunteerOverview(props) {
     setPageNumber(selected);
   };
 
+  const firstIndex = pageNumber * limit + 1;
+  // const lastIndex = (pageNumber + 1) * limit;
+  const A = (pageNumber + 1) * limit;
+  const B = volunteerClassData.classes.length;
+  const lastIndex = A < B ? A : B;
+
   const lang = { en: "English", hi: "Hindi" };
   let language = "";
   new Set(volunteerClassData.classes.map((item) => item.lang)).forEach(
@@ -182,20 +188,29 @@ function VolunteerOverview(props) {
             )}
           </tbody>
         </table>
-        <div className="last-item">
-          <ReactPaginate
-            previousLabel={<i className="fa fa-angle-left"></i>}
-            nextLabel={<i className="fa fa-angle-right"></i>}
-            initialPage={0}
-            marginPagesDisplayed={0}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName="paginationBttns"
-            previousLinkClassName="previousBttn"
-            nextLinkClassName="nextBttn"
-            disabledClassName="paginationDisabled"
-            activeClassName="paginationActive"
-          />
+
+        <div className="pagination-footer">
+          <div>
+            <p className="page-descrption">
+              Showing {firstIndex}- {lastIndex} of{" "}
+              {volunteerClassData.classes.length}
+            </p>
+          </div>
+          <div className="pagination">
+            <ReactPaginate
+              previousLabel={<i className="fa fa-angle-left"></i>}
+              nextLabel={<i className="fa fa-angle-right"></i>}
+              initialPage={0}
+              marginPagesDisplayed={0}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName="paginationBttns-volunteer"
+              previousLinkClassName="previousBttn"
+              nextLinkClassName="nextBttn"
+              disabledClassName="paginationDisabled"
+              activeClassName="paginationActive-volunteer"
+            />
+          </div>
         </div>
       </div>
     </>

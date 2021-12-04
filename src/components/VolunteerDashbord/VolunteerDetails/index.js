@@ -479,20 +479,29 @@ function VolunteerDashboard() {
             )}
           </tbody>
         </table>
-        <div className="last-item">
-          <ReactPaginate
-            previousLabel={<i className="fa fa-angle-left"></i>}
-            nextLabel={<i className="fa fa-angle-right"></i>}
-            initialPage={0}
-            marginPagesDisplayed={0}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName="paginationBttns"
-            previousLinkClassName="previousBttn"
-            nextLinkClassName="nextBttn"
-            disabledClassName="paginationDisabled"
-            activeClassName="paginationActive"
-          />
+
+        <div className="pagination-footer">
+          <div>
+            <p className="page-descrption">
+              Showing {pageNumber * limit + 1}-{(pageNumber + 1) * limit} of{" "}
+              {volunteer.length}
+            </p>
+          </div>
+          <div className="pagination">
+            <ReactPaginate
+              previousLabel={<i className="fa fa-angle-left"></i>}
+              nextLabel={<i className="fa fa-angle-right"></i>}
+              initialPage={0}
+              marginPagesDisplayed={0}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName="paginationBttns-volunteer"
+              previousLinkClassName="previousBttn"
+              nextLinkClassName="nextBttn"
+              disabledClassName="paginationDisabled"
+              activeClassName="paginationActive-volunteer"
+            />
+          </div>
         </div>
       </div>
     </>
