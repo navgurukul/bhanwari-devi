@@ -7,16 +7,17 @@ import { PATHS } from "../../../constant";
 import moment from "moment";
 import ReactPaginate from "react-paginate";
 import { useDebounce } from "use-debounce";
+import { BsArrowUpDown } from "react-icons/bs";
 
 import "./styles.scss";
 
 function VolunteerOverview(props) {
-  const [volunteerData, setvolunteerData] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [classes, setClasses] = useState([]);
   const [slicedClasses, setSlicedClasses] = useState();
   const user = useSelector(({ User }) => User);
   const [pageNumber, setPageNumber] = useState(0);
+  const [sortMethod, setSortMethod] = useState("dsc");
   const [debouncedText] = useDebounce(searchTerm);
 
   console.log("props", props.location.state.pass);
@@ -57,6 +58,26 @@ function VolunteerOverview(props) {
     setSlicedClasses(slicedData);
   }, [debouncedText, pageNumber]);
 
+  const sortClasses = (byMethod) => {
+    let sortedClasses;
+    if (byMethod === "class_date") {
+      sortedClasses = classes.sort((a, b) =>
+        sortMethod === "asc"
+          ? new Date(a.end_time) - new Date(b.end_time)
+          : new Date(b.end_time) - new Date(a.end_time)
+      );
+    }
+    setClasses(sortedClasses);
+    setSlicedClasses(
+      sortedClasses.slice(pageNumber * limit, (pageNumber + 1) * limit)
+    );
+    if (sortMethod === "asc") {
+      setSortMethod("dsc");
+    } else {
+      setSortMethod("asc");
+    }
+  };
+
   return (
     <>
       <div className="volunteer-class-page-container">
@@ -93,61 +114,72 @@ function VolunteerOverview(props) {
           <thead>
             <tr>
               <th>Class Title</th>
-              <th>Class Date</th>
+              <th>
+                Class Date
+                <button
+                  className="sort-class"
+                  onClick={() => sortClasses("class_date")}
+                >
+                  <BsArrowUpDown />
+                </button>
+              </th>
               <th>Class Time</th>
-              <th>Student Enrollments</th>
+              <th>
+                Student Enrollments
+                {/* <button
+                  className="sort-class"
+                  onClick={() => sortClasses("enrollment")}
+                >
+                  <BsArrowUpDown />
+                </button> */}
+              </th>
               <th>Language</th>
               <th>Avg. Rating</th>
             </tr>
           </thead>
           <tbody>
-            {
-              // volunteerClassData &&
-              //   volunteerClassData.length > 0 &&
-              classes && classes.length > 0 ? (
-                slicedClasses.map((item) => {
-                  // console.log("item", item.lang);
-                  return (
-                    <tr key={item.id}>
-                      <td data-column="Class Title">{item.title}</td>
-                      <td data-column="Class Date">
-                        {moment.utc(item.end_time).format("DD-MM-YYYY")}
-                      </td>
-                      <td data-column="Class Time">
-                        {moment
-                          .utc(item.start_time)
-                          .add(330, "minute")
-                          .format("kk:mm")}
-                      </td>
-                      <td data-column="Enrollments">
-                        {item.max_enrollment ? item.max_enrollment : "NA"}
-                      </td>
-                      <td data-column="Language"> {languageMap[item.lang]} </td>
-                      <td data-column="Avg. Rating">
-                        {[1, 2, 3, 4, 5].map((star) => {
-                          return item.avg_rating > 0 &&
-                            star <= item.avg_rating ? (
-                            <span
-                              className="fa fa-star"
-                              style={{ color: "#D55F31" }}
-                            ></span>
-                          ) : (
-                            <span
-                              className="fa fa-star"
-                              style={{ color: "gray" }}
-                            ></span>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <div className="message ">
-                  <h3>There are no results to display...</h3>
-                </div>
-              )
-            }
+            {classes && classes.length > 0 ? (
+              slicedClasses.map((item) => {
+                return (
+                  <tr key={item.id}>
+                    <td data-column="Class Title">{item.title}</td>
+                    <td data-column="Class Date">
+                      {moment.utc(item.end_time).format("DD-MM-YYYY")}
+                    </td>
+                    <td data-column="Class Time">
+                      {moment
+                        .utc(item.start_time)
+                        .add(330, "minute")
+                        .format("kk:mm")}
+                    </td>
+                    <td data-column="Enrollments">
+                      {item.max_enrollment ? item.max_enrollment : "NA"}
+                    </td>
+                    <td data-column="Language"> {languageMap[item.lang]} </td>
+                    <td data-column="Avg. Rating">
+                      {[1, 2, 3, 4, 5].map((star) => {
+                        return item.avg_rating > 0 &&
+                          star <= item.avg_rating ? (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "#D55F31" }}
+                          ></span>
+                        ) : (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "gray" }}
+                          ></span>
+                        );
+                      })}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <div className="message ">
+                <h3>There are no results to display...</h3>
+              </div>
+            )}
           </tbody>
         </table>
         <div className="last-item">

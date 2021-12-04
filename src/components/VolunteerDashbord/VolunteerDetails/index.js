@@ -8,6 +8,7 @@ import moment from "moment";
 import "./styles.scss";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
+import { BsArrowUpDown } from "react-icons/bs";
 
 function VolunteerDashboard() {
   const [volunteer, setVolunteer] = useState([]);
@@ -15,6 +16,7 @@ function VolunteerDashboard() {
   const [slicedVolunteer, setSlicedVolunteer] = useState();
   const [pageNumber, setPageNumber] = useState(0);
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
+  const [sortMethod, setSortMethod] = useState("dsc");
   const [debouncedText] = useDebounce(searchTerm);
   const [language, setLangue] = useState({
     All: true,
@@ -112,6 +114,26 @@ function VolunteerDashboard() {
     });
   }
 
+  const sortVolunteers = (byMethod) => {
+    let sortedVolunteers;
+    if (byMethod === "enroll_date") {
+      sortedVolunteers = volunteer.sort((a, b) =>
+        sortMethod === "asc"
+          ? new Date(a.last_class_date) - new Date(b.last_class_date)
+          : new Date(b.last_class_date) - new Date(a.last_class_date)
+      );
+    }
+    setVolunteer(sortedVolunteers);
+    setSlicedVolunteer(
+      sortedVolunteers.slice(pageNumber * limit, (pageNumber + 1) * limit)
+    );
+    if (sortMethod === "asc") {
+      setSortMethod("dsc");
+    } else {
+      setSortMethod("asc");
+    }
+  };
+
   useEffect(() => {
     const data =
       volunteer &&
@@ -151,7 +173,7 @@ function VolunteerDashboard() {
               (selctedPathway === "Python" ? "selectedPathway" : "")
             }
             onClick={() => {
-              setVolunteer(filterPathway("Python", cacheVolunteer));
+              setSlicedVolunteer(filterPathway("Python", cacheVolunteer));
               setSelectedPathway("Python");
             }}
           >
@@ -160,11 +182,13 @@ function VolunteerDashboard() {
           <button
             className={
               "filter-button " +
-              (selctedPathway === "JavaScript" ? "selectedPathway" : "")
+              (selctedPathway === "spoken-english" ? "selectedPathway" : "")
             }
             onClick={() => {
-              setVolunteer(filterPathway("JavaScript", cacheVolunteer));
-              setSelectedPathway("JavaScript");
+              setSlicedVolunteer(
+                filterPathway("spoken-english", cacheVolunteer)
+              );
+              setSelectedPathway("spoken-english");
             }}
           >
             Spoken English (20)
@@ -175,7 +199,7 @@ function VolunteerDashboard() {
               (selctedPathway === "Typing" ? "selectedPathway" : "")
             }
             onClick={() => {
-              setVolunteer(filterPathway("Typing", cacheVolunteer));
+              setSlicedVolunteer(filterPathway("Typing", cacheVolunteer));
               setSelectedPathway("Typing");
             }}
           >
@@ -188,7 +212,7 @@ function VolunteerDashboard() {
             }
             onClick={() => {
               setSelectedPathway("Filter");
-              setVolunteer(cacheVolunteer);
+              setSlicedVolunteer(cacheVolunteer);
             }}
           >
             Filter
@@ -253,7 +277,7 @@ function VolunteerDashboard() {
                   </ul>
                   <span
                     onClick={(e) => {
-                      setVolunteer(filterweek());
+                      setSlicedVolunteer(filterweek());
                       handleDropdown(e)("duration");
                     }}
                   >
@@ -299,7 +323,7 @@ function VolunteerDashboard() {
                   </ul>
                   <span
                     onClick={(e) => {
-                      setVolunteer(filterLanguage());
+                      setSlicedVolunteer(filterLanguage());
                       handleDropdown(e)("language");
                     }}
                   >
@@ -352,7 +376,15 @@ function VolunteerDashboard() {
               <th> Name</th>
               <th> No. of Classes </th>
               <th>Engagement (Weeks)</th>
-              <th>Last Class Date</th>
+              <th>
+                Last Class Date
+                <button
+                  className="sort-volunteer"
+                  onClick={() => sortVolunteers("enroll_date")}
+                >
+                  <BsArrowUpDown />
+                </button>
+              </th>
               <th>Last Class Title</th>
               <th> Last Class Lang </th>
               <th>Avg.Rating</th>
@@ -365,6 +397,8 @@ function VolunteerDashboard() {
                 const sortedClasses = item.classes.sort((a, b) => {
                   return new Date(a.start_time) - new Date(b.start_time);
                 });
+                item.last_class_date =
+                  sortedClasses[sortedClasses.length - 1].start_time;
                 let getStars = 0;
                 let totalStarts = item.classes.length * 5;
                 item.classes.map((stars) => {
@@ -391,7 +425,8 @@ function VolunteerDashboard() {
                     <td data-column="Engagement Week">{numberOfWeek(item)}</td>
                     <td data-column="Last Class Date">
                       {moment(
-                        sortedClasses[sortedClasses.length - 1].start_time
+                        item.last_class_date
+                        // sortedClasses[sortedClasses.length - 1].start_time
                       ).format("DD-MM-YYYY")}
                     </td>
                     <td data-column="Last Class Title">
