@@ -34,12 +34,7 @@ function VolunteerDashboard() {
     language: false,
     rating: false,
   });
-  const [week, setWeek] = useState({
-    one: false,
-    four: false,
-    eight: false,
-    twelve: false,
-  });
+  const [week, setWeek] = useState("All");
 
   const handleDropdown = (e) => (key) => {
     setDropdowns({ ...dropdowns, [key]: !dropdowns[key] });
@@ -48,6 +43,10 @@ function VolunteerDashboard() {
   // handle language function
   const handleLanguage = (e) => (key) => {
     setLangue({ ...language, [key]: !language[key] });
+  };
+
+  const handleWeek = (e) => (key) => {
+    setWeek({ ...week, [key]: !week[key] });
   };
 
   const user = useSelector(({ User }) => User);
@@ -89,18 +88,12 @@ function VolunteerDashboard() {
 
   function filterweek() {
     let date = Date.now();
-    return volunteer.filter((el) => {
+    return cacheVolunteer.filter((el) => {
       const cur_date = new Date(el.classes[el.classes.length - 1].end_time);
-      if (week["one"] && cur_date <= date - 7 * 24 * 60 * 60 * 1000) {
+      if (week === "All") {
         return true;
-      } else if (week["four"] && cur_date <= date - 28 * 24 * 60 * 60 * 1000) {
-        return true;
-      } else if (week["eight"] && cur_date <= date - 56 * 24 * 60 * 60 * 1000) {
-        return true;
-      } else if (
-        week["twelve"] &&
-        cur_date <= date - 84 * 24 * 60 * 60 * 1000
-      ) {
+      }
+      if (cur_date >= date - week * 7 * 24 * 60 * 60 * 1000) {
         return true;
       }
     });
@@ -207,18 +200,65 @@ function VolunteerDashboard() {
             <div className="filter">
               <span>Duration</span>
               <button onClick={(e) => handleDropdown(e)("duration")}>
-                All Time
+                {week === "All" ? "All Time" : `Past ${week} week`}
               </button>
               {dropdowns.duration ? (
                 <div className="dropdown">
                   <ul>
-                    <li>All Time</li>
-                    <li>Past 1 week</li>
-                    <li>Past 4 week</li>
-                    <li>Past 8 week</li>
-                    <li>Past 12 week</li>
+                    <li
+                      onClick={() => {
+                        setWeek("All");
+                      }}
+                      className={week === "All" ? "checked" : ""}
+                      value="All Time"
+                    >
+                      All Time
+                    </li>
+                    <li
+                      onClick={() => {
+                        setWeek(1);
+                      }}
+                      className={week === 1 ? "checked" : ""}
+                      value="Past 1 week"
+                    >
+                      Past 1 week
+                    </li>
+                    <li
+                      onClick={() => {
+                        setWeek(4);
+                      }}
+                      className={week === 4 ? "checked" : ""}
+                      value="Past 4 week"
+                    >
+                      Past 4 week
+                    </li>
+                    <li
+                      onClick={() => {
+                        setWeek(8);
+                      }}
+                      className={week === 8 ? "checked" : ""}
+                      value="Past 8 week"
+                    >
+                      Past 8 week
+                    </li>
+                    <li
+                      onClick={() => {
+                        setWeek(12);
+                      }}
+                      className={week === 12 ? "checked" : ""}
+                      value="Past 12 week"
+                    >
+                      Past 12 week
+                    </li>
                   </ul>
-                  <span>Apply</span>
+                  <span
+                    onClick={(e) => {
+                      setVolunteer(filterweek());
+                      handleDropdown(e)("duration");
+                    }}
+                  >
+                    Apply
+                  </span>
                 </div>
               ) : (
                 ""
@@ -263,7 +303,7 @@ function VolunteerDashboard() {
                       handleDropdown(e)("language");
                     }}
                   >
-                    Select (1)
+                    Apply
                   </span>
                 </div>
               ) : (
