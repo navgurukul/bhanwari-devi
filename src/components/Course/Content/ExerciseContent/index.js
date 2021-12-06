@@ -114,6 +114,28 @@ const RenderContent = ({ data }) => {
     }
   }
   if (data.component === "table") {
+    // return tableData(data);
+    //Changing list data row to column
+    const allData = data.value.map((item) => item.items);
+    const dataInRow = [];
+    for (const i in allData[0]) {
+      for (const j in allData) {
+        dataInRow.push(allData[j][i]);
+      }
+    }
+    const dataInCol = [];
+    for (const i in allData[0]) {
+      const temArray = [];
+      for (const j in dataInRow) {
+        if (j == 3) {
+          break;
+        } else {
+          temArray.push(dataInRow[j]);
+        }
+      }
+      dataInCol.push(temArray);
+      dataInRow.splice(0, 3);
+    }
     return (
       <div>
         <table className="table-data">
@@ -126,19 +148,20 @@ const RenderContent = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {data.value.map((item) => {
+            {dataInCol.map((item) => {
               return (
-                <td>
-                  {item.items.map((row) => {
+                <tr>
+                  {item.map((row) => {
                     const rowData = DOMPurify.sanitize(row);
                     return (
                       <>
-                        <div dangerouslySetInnerHTML={{ __html: rowData }} />
-                        <hr />
+                        <td>
+                          <div dangerouslySetInnerHTML={{ __html: rowData }} />
+                        </td>
                       </>
                     );
                   })}
-                </td>
+                </tr>
               );
             })}
           </tbody>
