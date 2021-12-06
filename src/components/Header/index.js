@@ -28,6 +28,9 @@ const AuthenticatedHeaderOption = () => {
           <a className="item" href={PATHS.PARTNERS}>
             Partners
           </a>
+          <a className="item" href={PATHS.VOLUNTEER}>
+            Volunteers
+          </a>
         </>
       ) : null}
       {canSpecifyPartner ? (
@@ -37,10 +40,6 @@ const AuthenticatedHeaderOption = () => {
           </a>
         </>
       ) : null}
-      <a className="item" href={PATHS.VOLUNTEER}>
-        Volunteers
-      </a>
-
       <a className="item" href={PATHS.COURSE}>
         Courses
       </a>

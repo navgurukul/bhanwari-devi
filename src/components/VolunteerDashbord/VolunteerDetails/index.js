@@ -62,7 +62,6 @@ function VolunteerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log(res.data, "data");
       setVolunteer(res.data);
       setCacheVolunteer(res.data);
       setSlicedVolunteer(
@@ -489,7 +488,7 @@ function VolunteerDashboard() {
           </div>
           <div className="pagination">
             <ReactPaginate
-              previousLabel={<i className="fa fa-angle-left"></i>}
+              previousLabel={<i className="fa fa-angle-left "></i>}
               nextLabel={<i className="fa fa-angle-right"></i>}
               initialPage={0}
               marginPagesDisplayed={0}

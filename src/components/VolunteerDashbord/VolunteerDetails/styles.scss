@@ -90,7 +90,7 @@ th {
 // **********pagination*************
 
 .paginationBttns-volunteer {
-  height: 40px;
+  height: 50px;
   list-style: none;
   display: flex;
   justify-content: center;
@@ -100,16 +100,9 @@ th {
   padding: 10px;
   margin: 8px;
   border-radius: 50%;
-  // border-width: 0;
   border: 1px solid #48a145;
   color: #48a145;
   cursor: pointer;
-  // border: none;
-}
-
-.paginationBttns-volunteer a:hover {
-  color: white;
-  background-color: #48a145;
 }
 
 .paginationActive-volunteer a {
@@ -131,8 +124,6 @@ th {
   font-size: 16px;
   padding-left: 15px;
 }
-
-// ***********************************
 
 @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -205,9 +196,6 @@ th {
 .filterBar {
   display: flex;
   margin-top: 30px;
-  // display: none;
-  // opacity: 0;
-  // pointer-events: none;
 }
 .filterBar .filter {
   display: flex;

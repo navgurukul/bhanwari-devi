@@ -20,8 +20,6 @@ function VolunteerOverview(props) {
   const [sortMethod, setSortMethod] = useState("dsc");
   const [debouncedText] = useDebounce(searchTerm);
 
-  console.log("props", props.location.state.pass);
-
   const limit = 10;
 
   const volunteerClassData = props.location.state.pass;
