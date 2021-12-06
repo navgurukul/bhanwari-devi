@@ -23,6 +23,25 @@
     white-space: break-spaces;
   }
 
+  .paragraph {
+    line-height: 25px;
+  }
+
+  .list {
+    display: flex;
+  }
+
+  .number {
+    padding-right: 10px;
+  }
+
+  .code-bg {
+    background-color: #f3c2ae91;
+    padding: 20px;
+    margin: 10px 0 10px 0;
+    line-height: 30px;
+  }
+
   .image {
     width: 100%;
   }
@@ -32,6 +51,11 @@
       width: 100%;
       height: 200px;
     }
+  }
+
+  .table-data {
+    // width: 90%;
+    border-collapse: collapse;
   }
 
   .table-content th {

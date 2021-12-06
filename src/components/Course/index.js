@@ -32,10 +32,15 @@ function Course() {
     setSearch(e.target.value);
   };
 
+  let dataJSON;
   let filteredCourse;
   if (data) {
-    filteredCourse = data.allCourses.filter((names) => {
-      if (names.course_type === null) {
+    dataJSON = data.allCourses.filter((c) => {
+      return c.course_type === "json";
+    });
+    dataJSON.allCourses = dataJSON;
+    filteredCourse = dataJSON.allCourses.filter((names) => {
+      if (names.course_type === "json") {
         return names.name.toLowerCase().includes(search.toLowerCase());
       }
     });
@@ -55,11 +60,11 @@ function Course() {
       ) : (
         <h1 className="ng-course">
           <CourseList
-            list={get(data, "enrolledCourses")}
+            list={get(dataJSON, "enrolledCourses")}
             title="Aap in courses mein enrolled hai"
           />
           <CourseList
-            list={get(data, "allCourses")}
+            list={get(dataJSON, "allCourses")}
             title="Aap yeh courses mein enroll kar sakte hai"
           />
         </h1>
