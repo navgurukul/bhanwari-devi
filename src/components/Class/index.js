@@ -577,6 +577,7 @@ function Class({ classToEdit, indicator }) {
                 required
                 aria-required
               />
+
               {canSpecifyFacilitator && (
                 <>
                   <label htmlFor="facilitator_name" className="label-field">

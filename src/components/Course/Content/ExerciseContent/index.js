@@ -204,12 +204,14 @@ const RenderContent = ({ data }) => {
 };
 
 function ExerciseContent(props) {
-  // const [updateCourse, setUpdateCourse] = useState();
-  // const [contentList, setContentList] = useState();
-  // const [index, setIndex] = useState();
   const [contentList, setContentList] = useState([]);
   const [flag, setFlag] = useState(true);
   const user = useSelector(({ User }) => User);
+  const rolesList = user.data.user.rolesList;
+
+  const canSpecifyUserRole =
+    rolesList.indexOf("academics") > -1 || rolesList.indexOf("admin") > -1;
+
   const { content = [] } = props;
 
   useEffect(() => {
@@ -219,10 +221,6 @@ function ExerciseContent(props) {
   // if (!content) {
   //   return [];
   // }
-
-  // const updatedContent =
-  // updateCourse && content.splice(index, 1, updateCourse);
-  // console.log("updateCourse", updateCourse);
 
   const changeHandler = (excersice, index) => {
     contentList.splice(index, 1, excersice);
@@ -256,15 +254,20 @@ function ExerciseContent(props) {
 
   return (
     <>
-      {flag && (
-        <span class="tooltip" title="Edit Content">
-          <i
-            class="fa fa-pencil edit-button"
-            onClick={() => {
-              setFlag(false);
-            }}
-          ></i>
-        </span>
+      {" "}
+      {canSpecifyUserRole && (
+        <>
+          {flag && (
+            <span class="tooltip" title="Edit Content">
+              <i
+                class="fa fa-pencil edit-button"
+                onClick={() => {
+                  setFlag(false);
+                }}
+              ></i>
+            </span>
+          )}
+        </>
       )}
       {flag ? null : (
         <button className="save-button" onClick={handleEdit}>
@@ -285,7 +288,8 @@ function ExerciseContent(props) {
               id="a_unique_id"
               placeholder={contentItem}
               // colors={darktheme}
-              // style={style.container}
+              style={{ body: { fontSize: "15px" } }}
+              // style={{container:screeSize<500 ? class1 : class2}}
               locale={locale}
               onChange={(e) => {
                 changeHandler(e.jsObject, index);
