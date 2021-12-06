@@ -115,7 +115,7 @@ const RenderContent = ({ data }) => {
   }
   if (data.component === "table") {
     // return tableData(data);
-    //Changing list data row to column
+    //Changing list data from row to column
     const allData = data.value.map((item) => item.items);
     const dataInRow = [];
     for (const i in allData[0]) {
@@ -155,9 +155,7 @@ const RenderContent = ({ data }) => {
                     const rowData = DOMPurify.sanitize(row);
                     return (
                       <>
-                        <td>
-                          <div dangerouslySetInnerHTML={{ __html: rowData }} />
-                        </td>
+                        <td dangerouslySetInnerHTML={{ __html: rowData }} />
                       </>
                     );
                   })}
