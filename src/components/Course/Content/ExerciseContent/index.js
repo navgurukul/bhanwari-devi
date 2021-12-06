@@ -224,7 +224,6 @@ function ExerciseContent(props) {
 
   const changeHandler = (excersice, index) => {
     contentList.splice(index, 1, excersice);
-    console.log("contentList", contentList);
   };
 
   const url = window.location.href;
@@ -244,12 +243,9 @@ function ExerciseContent(props) {
       },
     })
       .then((res) => {
-        window.location.reload(1);
-        console.log(res);
+        window.location.reload();
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (
@@ -284,18 +280,13 @@ function ExerciseContent(props) {
         <div align="left" className="json-input">
           {contentList.map((contentItem, index) => (
             <JSONInput
-              // key={index}
               id="a_unique_id"
               placeholder={contentItem}
               // colors={darktheme}
               style={{ body: { fontSize: "15px" } }}
-              // style={{container:screeSize<500 ? class1 : class2}}
               locale={locale}
               onChange={(e) => {
                 changeHandler(e.jsObject, index);
-                console.log("e", e);
-                // setUpdateCourse(e.jsObject);
-                // setIndex(index);
               }}
               height="auto"
               width="800px"
