@@ -117,25 +117,7 @@ const RenderContent = ({ data }) => {
     // return tableData(data);
     //Changing list data from row to column
     const allData = data.value.map((item) => item.items);
-    const dataInRow = [];
-    for (const i in allData[0]) {
-      for (const j in allData) {
-        dataInRow.push(allData[j][i]);
-      }
-    }
-    const dataInCol = [];
-    for (const i in allData[0]) {
-      const temArray = [];
-      for (const j in dataInRow) {
-        if (j == 3) {
-          break;
-        } else {
-          temArray.push(dataInRow[j]);
-        }
-      }
-      dataInCol.push(temArray);
-      dataInRow.splice(0, 3);
-    }
+    const dataInCol = allData[0].map((_, i) => allData.map((_, j) => allData[j][i]));
     return (
       <div>
         <table className="table-data">
