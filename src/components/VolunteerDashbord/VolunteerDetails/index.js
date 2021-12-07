@@ -16,6 +16,12 @@ function VolunteerDashboard() {
   const [selctedPathway, setSelectedPathway] = useState("");
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
   const [slicedVolunteer, setSlicedVolunteer] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
+  const [sortMethod, setSortMethod] = useState("dsc");
+  const [debouncedText] = useDebounce(searchTerm);
+  const [language, setLangue] = useState("All");
+  const [week, setWeek] = useState("All");
 
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
 
@@ -23,42 +29,21 @@ function VolunteerDashboard() {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [pageNumber, setPageNumber] = useState(0);
-  const [sortMethod, setSortMethod] = useState("dsc");
-  const [debouncedText] = useDebounce(searchTerm);
-
-  const [language, setLangue] = useState({
-    All: true,
-    Hindi: false,
-    English: false,
-  });
-
-  const changePage = ({ selected }) => {
-    setPageNumber(selected);
-  };
-
   const [dropdowns, setDropdowns] = useState({
     duration: false,
     language: false,
     rating: false,
   });
-  const [week, setWeek] = useState("All");
+
+  const user = useSelector(({ User }) => User);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   const handleDropdown = (e) => (key) => {
     setDropdowns({ ...dropdowns, [key]: !dropdowns[key] });
   };
-
-  // handle language function
-  const handleLanguage = (e) => (key) => {
-    setLangue({ ...language, [key]: !language[key] });
-  };
-
-  const handleWeek = (e) => (key) => {
-    setWeek({ ...week, [key]: !week[key] });
-  };
-
-  const user = useSelector(({ User }) => User);
 
   useEffect(() => {
     axios({
@@ -116,8 +101,8 @@ function VolunteerDashboard() {
 
   function filterLanguage() {
     return cacheVolunteer.filter((el) => {
-      if (language["All"]) return true;
-      return language[languageMap[el.classes[el.classes.length - 1].lang]];
+      if (language == "All") return true;
+      return language == languageMap[el.classes[el.classes.length - 1].lang];
     });
   }
 
@@ -298,32 +283,35 @@ function VolunteerDashboard() {
             <div className="filter">
               <span>Language</span>
               <button onClick={(e) => handleDropdown(e)("language")}>
-                All Languages
+                {language == "All" ? "All Languages" : language}
               </button>
               {dropdowns.language ? (
                 <div className="dropdown">
                   <ul>
                     <li
                       onClick={(e) => {
-                        handleLanguage(e)("All");
+                        setLangue("All");
                       }}
-                      className={language["All"] ? "checked" : ""}
+                      className={language == "All" ? "checked" : ""}
+                      value="All"
                     >
                       All
                     </li>
                     <li
                       onClick={(e) => {
-                        handleLanguage(e)("English");
+                        setLangue("English");
                       }}
-                      className={language["English"] ? "checked" : ""}
+                      className={language == "English" ? "checked" : ""}
+                      value="English"
                     >
                       English
                     </li>
                     <li
                       onClick={(e) => {
-                        handleLanguage(e)("Hindi");
+                        setLangue("Hindi");
                       }}
-                      className={language["Hindi"] ? "checked" : ""}
+                      className={language == "Hindi" ? "checked" : ""}
+                      value="Hindi"
                     >
                       Hindi
                     </li>
@@ -490,8 +478,11 @@ function VolunteerDashboard() {
         <div className="pagination-footer">
           <div>
             <p className="page-descrption">
-              Showing {pageNumber * limit + 1}-{(pageNumber + 1) * limit} of{" "}
-              {volunteer.length}
+              Showing {pageNumber * limit + 1}-
+              {(pageNumber + 1) * limit > volunteer.length
+                ? volunteer.length
+                : (pageNumber + 1) * limit}
+              of {volunteer.length}
             </p>
           </div>
           <div className="pagination">

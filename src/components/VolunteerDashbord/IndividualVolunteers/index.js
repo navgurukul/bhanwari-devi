@@ -28,11 +28,8 @@ function VolunteerOverview(props) {
     setPageNumber(selected);
   };
 
-  const firstIndex = pageNumber * limit + 1;
-  // const lastIndex = (pageNumber + 1) * limit;
-  const A = (pageNumber + 1) * limit;
-  const B = volunteerClassData.classes.length;
-  const lastIndex = A < B ? A : B;
+  const firstIndex = (pageNumber + 1) * limit;
+  const lastIndex = volunteerClassData.classes.length;
 
   const lang = { en: "English", hi: "Hindi" };
   let language = "";
@@ -190,8 +187,9 @@ function VolunteerOverview(props) {
         <div className="pagination-footer">
           <div>
             <p className="page-descrption">
-              Showing {firstIndex}- {lastIndex} of{" "}
-              {volunteerClassData.classes.length}
+              Showing {pageNumber * limit + 1}-
+              {firstIndex > lastIndex ? lastIndex : firstIndex}
+              of {lastIndex}
             </p>
           </div>
           <div className="pagination">
