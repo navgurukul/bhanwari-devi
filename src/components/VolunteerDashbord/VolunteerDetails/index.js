@@ -471,8 +471,11 @@ function VolunteerDashboard() {
         <div className="pagination-footer">
           <div>
             <p className="page-descrption">
-              Showing {pageNumber * limit + 1}-{(pageNumber + 1) * limit} of{" "}
-              {volunteer.length}
+              Showing {pageNumber * limit + 1}-
+              {(pageNumber + 1) * limit > volunteer.length
+                ? volunteer.length
+                : (pageNumber + 1) * limit}
+              of {volunteer.length}
             </p>
           </div>
           <div className="pagination">
