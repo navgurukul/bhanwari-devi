@@ -11,26 +11,33 @@ import ReactPaginate from "react-paginate";
 import { BsArrowUpDown } from "react-icons/bs";
 
 function VolunteerDashboard() {
+  const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [slicedVolunteer, setSlicedVolunteer] = useState();
-  const [pageNumber, setPageNumber] = useState(0);
+  const [selctedPathway, setSelectedPathway] = useState("");
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
+  const [slicedVolunteer, setSlicedVolunteer] = useState([]);
+
+  let pageCount = Math.ceil(volunteer && volunteer.length / limit);
+
+  if (selctedPathway) {
+    pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
+  }
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
   const [sortMethod, setSortMethod] = useState("dsc");
   const [debouncedText] = useDebounce(searchTerm);
+
   const [language, setLangue] = useState({
     All: true,
     Hindi: false,
     English: false,
   });
 
-  const limit = 10;
-  const pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
 
-  const [selctedPathway, setSelectedPathway] = useState("");
   const [dropdowns, setDropdowns] = useState({
     duration: false,
     language: false,
@@ -67,6 +74,7 @@ function VolunteerDashboard() {
       setSlicedVolunteer(
         res.data.slice(pageNumber * limit, (pageNumber + 1) * limit)
       );
+      pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
     });
   }, []);
 
@@ -176,7 +184,7 @@ function VolunteerDashboard() {
               setSelectedPathway("Python");
             }}
           >
-            Python(100)
+            Python
           </button>
           <button
             className={
@@ -190,7 +198,7 @@ function VolunteerDashboard() {
               setSelectedPathway("spoken-english");
             }}
           >
-            Spoken English (20)
+            Spoken English
           </button>
           <button
             className={
@@ -202,7 +210,7 @@ function VolunteerDashboard() {
               setSelectedPathway("Typing");
             }}
           >
-            Typing (10)
+            Typing
           </button>
           <button
             className={
