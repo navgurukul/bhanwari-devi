@@ -141,6 +141,15 @@ function VolunteerOverview(props) {
           <tbody>
             {classes && classes.length > 0 ? (
               slicedClasses.map((item) => {
+                let ratingCount = 0;
+                item.ratings.map((item) => {
+                  if (item.rating) ratingCount += parseInt(item.rating);
+
+                  return ratingCount;
+                });
+                item.avg_rating = Math.ceil(
+                  item.ratings.length && ratingCount / item.ratings.length
+                );
                 return (
                   <tr key={item.id}>
                     <td data-column="Class Title">{item.title}</td>

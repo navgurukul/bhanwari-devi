@@ -22,6 +22,7 @@ function VolunteerDashboard() {
   const [debouncedText] = useDebounce(searchTerm);
   const [language, setLangue] = useState("All");
   const [week, setWeek] = useState("All");
+  const [rating, setRating] = useState("All");
 
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
 
@@ -83,7 +84,9 @@ function VolunteerDashboard() {
   function filterweek() {
     let date = Date.now();
     return cacheVolunteer.filter((el) => {
-      const cur_date = new Date(el.classes[el.classes.length - 1].end_time);
+      const classes = el.classes;
+      const cur_date =
+        classes.length && new Date(classes[classes.length - 1].end_time);
       if (week === "All") {
         return true;
       }
@@ -93,16 +96,26 @@ function VolunteerDashboard() {
     });
   }
 
+  function ratings() {
+    return cacheVolunteer.filter((el) => {
+      if (rating === "All") return true;
+      return rating == el.avg_rating;
+    });
+  }
+
   function numberOfWeek(el) {
-    let last_date = new Date(el.classes[el.classes.length - 1].end_time);
-    let new_date = new Date(el.classes[0].end_time);
+    const classes = el.classes;
+    let last_date =
+      classes.length && new Date(classes[classes.length - 1].end_time);
+    let new_date = classes.length && new Date(el.classes[0].end_time);
     return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
   }
 
   function filterLanguage() {
     return cacheVolunteer.filter((el) => {
       if (language == "All") return true;
-      return language == languageMap[el.classes[el.classes.length - 1].lang];
+      if (el.classes.length)
+        return language == languageMap[el.classes[el.classes.length - 1].lang];
     });
   }
 
@@ -331,30 +344,72 @@ function VolunteerDashboard() {
             </div>
             <div className="filter">
               <span>Avg. Rating</span>
-              <button onClick={(e) => handleDropdown(e)("rating")}>All</button>
+              <button onClick={(e) => handleDropdown(e)("rating")}>
+                {rating === "All" ? "All Ratings" : `${rating} Star`}
+              </button>
               {dropdowns.rating ? (
                 <div className="dropdown">
                   <ul>
-                    <li>
+                    <li
+                      onClick={() => {
+                        setRating("All");
+                      }}
+                      className={rating === "All" ? "checked" : ""}
+                      value="All ratings"
+                    >
+                      All
+                    </li>
+                    <li
+                      onClick={() => {
+                        setRating(4);
+                      }}
+                      className={rating === 4 ? "checked" : ""}
+                      value="4 Stars"
+                    >
                       <img src={star} />
                       <img src={star} />
                       <img src={star} />
                       <img src={star} />& Above
                     </li>
-                    <li>
+                    <li
+                      onClick={() => {
+                        setRating(3);
+                      }}
+                      className={rating === 3 ? "checked" : ""}
+                      value="3 Stars"
+                    >
                       <img src={star} />
                       <img src={star} />
                       <img src={star} />
                     </li>
-                    <li>
+                    <li
+                      onClick={() => {
+                        setRating(2);
+                      }}
+                      className={rating === 2 ? "checked" : ""}
+                      value="2 Stars"
+                    >
                       <img src={star} />
                       <img src={star} />
                     </li>
-                    <li>
+                    <li
+                      onClick={() => {
+                        setRating(1);
+                      }}
+                      className={rating === 1 ? "checked" : ""}
+                      value="1 Stars"
+                    >
                       <img src={star} />
                     </li>
                   </ul>
-                  <span>Select (1)</span>
+                  <span
+                    onClick={(e) => {
+                      setSlicedVolunteer(ratings());
+                      handleDropdown(e)("rating");
+                    }}
+                  >
+                    Select (1)
+                  </span>
                 </div>
               ) : (
                 ""
@@ -389,17 +444,28 @@ function VolunteerDashboard() {
             {volunteer && volunteer.length > 0 ? (
               slicedVolunteer &&
               slicedVolunteer.map((item) => {
-                const sortedClasses = item.classes.sort((a, b) => {
-                  return new Date(a.start_time) - new Date(b.start_time);
+                let ratingCount = 0;
+                let count = 0;
+                item.classes.map((classes) => {
+                  classes.ratings.map((rating) => {
+                    if (rating.rating) ratingCount += parseInt(rating.rating);
+                    count += 1;
+                  });
                 });
+                item.avg_rating = Math.ceil(ratingCount / count);
+                const sortedClasses =
+                  item.classes.length &&
+                  item.classes.sort((a, b) => {
+                    return new Date(a.start_time) - new Date(b.start_time);
+                  });
                 item.last_class_date =
+                  sortedClasses.length &&
                   sortedClasses[sortedClasses.length - 1].start_time;
                 let getStars = 0;
                 let totalStarts = item.classes.length * 5;
                 item.classes.map((stars) => {
                   getStars = getStars + Number(stars.classes);
                 });
-
                 return (
                   <tr key={item.id}>
                     <td data-column="Name">
@@ -450,8 +516,8 @@ function VolunteerDashboard() {
                       ]["ratings"]
                       : "NA"}  */}
                       {[1, 2, 3, 4, 5].map((star) => {
-                        return Math.ceil(item.averageRating) > 0 &&
-                          star <= Math.ceil(item.averageRating) ? (
+                        return Math.ceil(item.avg_rating) > 0 &&
+                          star <= Math.ceil(item.avg_rating) ? (
                           <span
                             className="fa fa-star"
                             style={{ color: "#D55F31" }}
