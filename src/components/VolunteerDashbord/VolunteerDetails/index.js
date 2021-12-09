@@ -81,7 +81,9 @@ function VolunteerDashboard() {
     });
   }
 
-  function filterweek() {
+  function filterweek(language, rating) {
+    language("All");
+    rating("All");
     let date = Date.now();
     return cacheVolunteer.filter((el) => {
       const classes = el.classes;
@@ -96,7 +98,9 @@ function VolunteerDashboard() {
     });
   }
 
-  function ratings() {
+  function ratings(week, language) {
+    week("All");
+    language("All");
     return cacheVolunteer.filter((el) => {
       if (rating === "All") return true;
       return rating == el.avg_rating;
@@ -111,7 +115,9 @@ function VolunteerDashboard() {
     return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
   }
 
-  function filterLanguage() {
+  function filterLanguage(week, rating) {
+    week("All");
+    rating("All");
     return cacheVolunteer.filter((el) => {
       if (language == "All") return true;
       if (el.classes.length)
@@ -282,7 +288,7 @@ function VolunteerDashboard() {
                   </ul>
                   <span
                     onClick={(e) => {
-                      setSlicedVolunteer(filterweek());
+                      setSlicedVolunteer(filterweek(setLangue, setRating));
                       handleDropdown(e)("duration");
                     }}
                   >
@@ -331,7 +337,7 @@ function VolunteerDashboard() {
                   </ul>
                   <span
                     onClick={(e) => {
-                      setSlicedVolunteer(filterLanguage());
+                      setSlicedVolunteer(filterLanguage(setWeek, setRating));
                       handleDropdown(e)("language");
                     }}
                   >
@@ -404,7 +410,7 @@ function VolunteerDashboard() {
                   </ul>
                   <span
                     onClick={(e) => {
-                      setSlicedVolunteer(ratings());
+                      setSlicedVolunteer(ratings(setWeek, setLangue));
                       handleDropdown(e)("rating");
                     }}
                   >
