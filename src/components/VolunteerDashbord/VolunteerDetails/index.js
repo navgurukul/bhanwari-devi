@@ -101,10 +101,13 @@ function VolunteerDashboard() {
   function ratings(week, language) {
     week("All");
     language("All");
-    return cacheVolunteer.filter((el) => {
-      if (rating === "All") return true;
-      return rating == el.avg_rating;
-    });
+    return cacheVolunteer.filter(
+      (el) => rating === "All" || rating == el.avg_rating
+    );
+    // return cacheVolunteer.filter((el) => {
+    //   if (rating === "All") return true;
+    //   return rating == el.avg_rating;
+    // });
   }
 
   function numberOfWeek(el) {
@@ -118,11 +121,16 @@ function VolunteerDashboard() {
   function filterLanguage(week, rating) {
     week("All");
     rating("All");
-    return cacheVolunteer.filter((el) => {
-      if (language == "All") return true;
-      if (el.classes.length)
-        return language == languageMap[el.classes[el.classes.length - 1].lang];
-    });
+    return cacheVolunteer.filter(
+      (el) =>
+        language == "All" ||
+        language == languageMap[el.classes[el.classes.length - 1].lang]
+    );
+    // {
+    //   if (language == "All") return true;
+    //   if (el.classes.length)
+    //     return language == languageMap[el.classes[el.classes.length - 1].lang];
+    // });
   }
 
   const sortVolunteers = (byMethod) => {
