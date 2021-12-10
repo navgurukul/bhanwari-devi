@@ -129,8 +129,7 @@ tr:hover {
   margin-left: 10px;
 }
 
-@media only screen and (max-width: 760px),
-  (min-device-width: 768px) and (max-device-width: 1024px) {
+@media screen and (max-width: 768px) {
   .partners-table {
     width: 100%;
   }
