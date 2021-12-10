@@ -132,6 +132,7 @@ function VolunteerOverview(props) {
             {classes && classes.length > 0 ? (
               slicedClasses.map((item) => {
                 const ratings = item.ratings.filter((item) => item.rating);
+                console.log("ratings", ratings);
                 item.avg_rating =
                   ratings.length &&
                   Math.ceil(

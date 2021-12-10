@@ -104,10 +104,6 @@ function VolunteerDashboard() {
     return cacheVolunteer.filter(
       (el) => rating === "All" || rating == el.avg_rating
     );
-    // return cacheVolunteer.filter((el) => {
-    //   if (rating === "All") return true;
-    //   return rating == el.avg_rating;
-    // });
   }
 
   function numberOfWeek(el) {
@@ -126,11 +122,6 @@ function VolunteerDashboard() {
         language == "All" ||
         language == languageMap[el.classes[el.classes.length - 1].lang]
     );
-    // {
-    //   if (language == "All") return true;
-    //   if (el.classes.length)
-    //     return language == languageMap[el.classes[el.classes.length - 1].lang];
-    // });
   }
 
   const sortVolunteers = (byMethod) => {
@@ -156,15 +147,9 @@ function VolunteerDashboard() {
   useEffect(() => {
     const data =
       volunteer &&
-      volunteer.filter((searchValue) => {
-        if (searchTerm == "") {
-          return searchValue;
-        } else if (
-          searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-        ) {
-          return searchValue;
-        }
-      });
+      volunteer.filter((searchValue) =>
+        searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     const slicedData = data.slice(pageNumber * limit, (pageNumber + 1) * limit);
     // setVolunteer(data);
     setSlicedVolunteer(slicedData);
@@ -455,8 +440,8 @@ function VolunteerDashboard() {
             </tr>
           </thead>
           <tbody>
-            {volunteer && volunteer.length > 0 ? (
-              slicedVolunteer &&
+            {/* {volunteer && volunteer.length > 0 ? ( */}
+            {slicedVolunteer && slicedVolunteer.length > 0 ? (
               slicedVolunteer.map((item) => {
                 let ratingCount = 0;
                 let count = 0;
