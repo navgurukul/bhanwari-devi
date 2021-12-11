@@ -31,6 +31,12 @@ function VolunteerOverview(props) {
   const firstIndex = (pageNumber + 1) * limit;
   const lastIndex = volunteerClassData.classes.length;
 
+  const lang = { en: "English", hi: "Hindi" };
+  let language = "";
+  new Set(volunteerClassData.classes.map((item) => item.lang)).forEach(
+    (item) => (language = language + lang[item] + ", ")
+  );
+
   const languageMap = {
     hi: "Hindi",
     te: "Telugu",
@@ -38,15 +44,16 @@ function VolunteerOverview(props) {
     ta: "Tamil",
   };
 
-  let language = "";
-  new Set(volunteerClassData.classes.map((item) => item.lang)).forEach(
-    (item) => (language = language + languageMap[item] + ", ")
-  );
-
   useEffect(() => {
-    const data = volunteerClassData.classes.filter((searchValue) =>
-      searchValue.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const data = volunteerClassData.classes.filter((searchValue) => {
+      if (searchTerm == "") {
+        return searchValue;
+      } else if (
+        searchValue.title.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        return searchValue;
+      }
+    });
     const slicedData = data.slice(pageNumber * limit, (pageNumber + 1) * limit);
     setClasses(data);
     setSlicedClasses(slicedData);
@@ -88,7 +95,10 @@ function VolunteerOverview(props) {
           <p className="volunteer-name">{volunteerClassData.name}</p>
           <p>Python: {language.slice(0, -2)}</p>
           <p>Total Classes: {volunteerClassData.classes.length}</p>
-          <p>Associated Partner: {volunteerClassData.partner || "NA"}</p>
+          <p>
+            Associated Partner:{" "}
+            {volunteerClassData.partner ? volunteerClassData.partner : "NA"}
+          </p>
         </div>
         <div>
           <input
@@ -131,8 +141,16 @@ function VolunteerOverview(props) {
           <tbody>
             {classes && classes.length > 0 ? (
               slicedClasses.map((item) => {
+                // let ratingCount = 0;
+                // item.ratings.map((item) => {
+                //   if (item.rating) ratingCount += parseInt(item.rating);
+
+                //   return ratingCount;
+                // });
+                // item.avg_rating = Math.ceil(
+                //   item.ratings.length && ratingCount / item.ratings.length
+                // );
                 const ratings = item.ratings.filter((item) => item.rating);
-                console.log("ratings", ratings);
                 item.avg_rating =
                   ratings.length &&
                   Math.ceil(
@@ -154,7 +172,7 @@ function VolunteerOverview(props) {
                         .format("kk:mm")}
                     </td>
                     <td data-column="Enrollments">
-                      {item.max_enrollment || "NA"}
+                      {item.max_enrollment ? item.max_enrollment : "NA"}
                     </td>
                     <td data-column="Language"> {languageMap[item.lang]} </td>
                     <td data-column="Avg. Rating">

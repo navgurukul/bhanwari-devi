@@ -186,13 +186,13 @@ function VolunteerDashboard() {
           <button
             className={
               "filter-button " +
-              (selctedPathway === "spoken-english" ? "selectedPathway" : "")
+              (selctedPathway === "Spoken English" ? "selectedPathway" : "")
             }
             onClick={() => {
               setSlicedVolunteer(
-                filterPathway("spoken-english", cacheVolunteer)
+                filterPathway("Spoken English", cacheVolunteer)
               );
-              setSelectedPathway("spoken-english");
+              setSelectedPathway("Spoken English");
             }}
           >
             Spoken English
@@ -447,8 +447,10 @@ function VolunteerDashboard() {
                 let count = 0;
                 item.classes.map((classes) => {
                   classes.ratings.map((rating) => {
-                    if (rating.rating) ratingCount += parseInt(rating.rating);
-                    count += 1;
+                    if (rating.rating) {
+                      ratingCount += parseInt(rating.rating);
+                      count += 1;
+                    }
                   });
                 });
                 item.avg_rating = Math.ceil(ratingCount / count);
