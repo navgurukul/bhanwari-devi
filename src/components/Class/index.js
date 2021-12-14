@@ -381,22 +381,26 @@ function Class({ classToEdit, indicator }) {
               <label htmlFor="pathway">Pathway</label>
               <span>
                 {pathways.map((item) => {
-                  return (
-                    <label htmlFor="pathway" className="radio-pointer">
-                      <input
-                        type="radio"
-                        className="radio-field radio__input"
-                        key={item.id}
-                        name={item.id}
-                        value={item.id}
-                        onChange={(e) => {
-                          setPathwayId(e.target.value);
-                        }}
-                        checked={pathwayId === `${item.id}` ? "checked" : false}
-                      />
-                      {item.name}
-                    </label>
-                  );
+                  if (item.code !== "PRCRSE") {
+                    return (
+                      <label htmlFor="pathway" className="radio-pointer">
+                        <input
+                          type="radio"
+                          className="radio-field radio__input"
+                          key={item.id}
+                          name={item.id}
+                          value={item.id}
+                          onChange={(e) => {
+                            setPathwayId(e.target.value);
+                          }}
+                          checked={
+                            pathwayId === `${item.id}` ? "checked" : false
+                          }
+                        />
+                        {item.name}
+                      </label>
+                    );
+                  }
                 })}
               </span>
               {pathwayId &&
