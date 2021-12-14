@@ -178,12 +178,12 @@ const RenderContent = ({ data }) => {
             Visualize
           </a>
 
-          <a
+          {/* <a
             target="_blank"
             href={createVisulizeURL(get(data, "value.code"), data.type, "edit")}
           >
             Edit
-          </a>
+          </a> */}
         </div>
       </div>
     );
