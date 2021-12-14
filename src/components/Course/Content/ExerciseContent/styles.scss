@@ -38,8 +38,12 @@
   .code-bg {
     background-color: #f3c2ae91;
     padding: 20px;
-    margin: 10px 0 10px 0;
+    margin: 10px 10px 10px 10px;
     line-height: 30px;
+  }
+
+  pre {
+    white-space: pre-wrap;
   }
 
   .image {
