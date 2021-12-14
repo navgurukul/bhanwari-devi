@@ -87,9 +87,14 @@ function VolunteerOverview(props) {
             <Link className="home" to={`${PATHS.HOME_PATH}`}>
               {" "}
               Home
+            </Link>{" "}
+            /
+            <Link className="home" to={`${PATHS.VOLUNTEER}`}>
+              {" "}
+              Volunteer&nbsp;
             </Link>
           </div>
-          <div> / {volunteerClassData.name}</div>
+          <div>/ {volunteerClassData.name}</div>
         </div>
         <div className="volunteer-details">
           <p className="volunteer-name">{volunteerClassData.name}</p>
