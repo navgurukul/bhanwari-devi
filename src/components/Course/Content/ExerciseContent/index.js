@@ -25,8 +25,9 @@ ${code}
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   let l = lang == "python" ? "2" : "js";
+  let visualizerCode = code && code.replace(/<br>/g, "\n");
   let url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
-    code
+    visualizerCode
   )
     .replace(/%2C|%2F/g, decodeURIComponent)
     .replace(/\(/g, "%28")
@@ -117,7 +118,9 @@ const RenderContent = ({ data }) => {
     // return tableData(data);
     //Changing list data from row to column
     const allData = data.value.map((item) => item.items);
-    const dataInCol = allData[0].map((_, i) => allData.map((_, j) => allData[j][i]));
+    const dataInCol = allData[0].map((_, i) =>
+      allData.map((_, j) => allData[j][i])
+    );
     return (
       <div>
         <table className="table-data">
@@ -160,7 +163,12 @@ const RenderContent = ({ data }) => {
               __html: getMarkdown(codeContent, data.type),
             }}
           /> */}
-          <Highlight innerHTML={true}>{get(data, "value")}</Highlight>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: codeContent,
+            }}
+          />
+          {/* <Highlight innerHTML={true}>{get(data, "value")}</Highlight> */}
         </div>
         <div className="code__controls">
           <a
@@ -170,12 +178,12 @@ const RenderContent = ({ data }) => {
             Visualize
           </a>
 
-          <a
+          {/* <a
             target="_blank"
             href={createVisulizeURL(get(data, "value.code"), data.type, "edit")}
           >
             Edit
-          </a>
+          </a> */}
         </div>
       </div>
     );
