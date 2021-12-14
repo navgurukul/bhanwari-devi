@@ -381,7 +381,7 @@ function Class({ classToEdit, indicator }) {
               <label htmlFor="pathway">Pathway</label>
               <span>
                 {pathways.map((item) => {
-                  if (item.name !== "Residential Programmes Info-Track") {
+                  if (item.code !== "PRCRSE") {
                     return (
                       <label htmlFor="pathway" className="radio-pointer">
                         <input
