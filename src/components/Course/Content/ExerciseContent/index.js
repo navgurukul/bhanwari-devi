@@ -158,12 +158,7 @@ const RenderContent = ({ data }) => {
     return (
       <div>
         <div className="code-bg">
-          {/* <div
-            dangerouslySetInnerHTML={{
-              __html: getMarkdown(codeContent, data.type),
-            }}
-          /> */}
-          <div
+          <pre
             dangerouslySetInnerHTML={{
               __html: codeContent,
             }}
