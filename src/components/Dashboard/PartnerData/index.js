@@ -35,7 +35,7 @@ function PartnerDashboard() {
       }`,
       headers: {
         accept: "application/json",
-        Authorization: user.data.token,
+        // Authorization: user.data.token,
       },
     }).then((res) => {
       setPartners(res.data.partners);
@@ -119,151 +119,151 @@ function PartnerDashboard() {
         });
       });
   };
-  if (user.data.user.rolesList.indexOf("admin") > -1) {
-    return (
-      <>
-        <div className="table-container">
-          <div className="container-for-search">
-            <div>
-              <input
-                className="search-box"
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                }}
-              />
-            </div>
-            <div className="last-item">
-              <ReactPaginate
-                previousLabel={<i className="fa fa-angle-left"></i>}
-                nextLabel={<i className="fa fa-angle-right"></i>}
-                initialPage={0}
-                marginPagesDisplayed={0}
-                onPageChange={changePage}
-                pageCount={pageCount}
-                containerClassName="paginationBttns"
-                previousLinkClassName="previousBttn"
-                nextLinkClassName="nextBttn"
-                disabledClassName="paginationDisabled"
-                activeClassName="paginationActive"
-              />
-            </div>
+  // if (user.data.user.rolesList.indexOf("admin") > -1) {
+  return (
+    <>
+      <div className="table-container">
+        <div className="container-for-search">
+          <div>
+            <input
+              className="search-box"
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
+            />
           </div>
-          <table className="partners-table">
-            <thead>
-              <tr>
-                <th>
-                  Partner's Name
-                  <button
-                    className={sort_class}
-                    onClick={() => sortPartners("name")}
-                  >
-                    <BsArrowUpDown />
-                  </button>
-                </th>
-                <th>
-                  Number of students
-                  <button
-                    className={sort_class}
-                    onClick={() => sortPartners("students")}
-                  >
-                    <BsArrowUpDown />
-                  </button>
-                </th>
-                <th>Meraki - Android Link</th>
-                <th>Meraki - Web Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {slicedPartners.map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <td data-column="Name">
-                      <Link
-                        className="t-data"
-                        to={`${PATHS.PARTNERS}/${item.id}`}
-                      >
-                        {" "}
-                        {item.name}
-                      </Link>
-                    </td>
-                    <td data-column="Total students">{item.users}</td>
-                    {item.meraki_link ? (
-                      <td data-column="Meraki Link">
-                        <a
-                          className="meraki_link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={item.meraki_link}
-                        >
-                          Get Link
-                        </a>
-                        <CopyToClipboard
-                          text={item.meraki_link}
-                          onCopy={() => {
-                            toast.success("Copied to Clipboard", {
-                              position: toast.POSITION.BOTTOM_RIGHT,
-                              autoClose: 1200,
-                            });
-                          }}
-                        >
-                          <i className="clipboard fa fa-copy"></i>
-                        </CopyToClipboard>
-                      </td>
-                    ) : (
-                      <td data-column="Meraki Link">
-                        <div
-                          className="create-link"
-                          onClick={() => createMerakiLink(item.id, "android")}
-                        >
-                          Create link
-                        </div>
-                      </td>
-                    )}
-                    {item.web_link ? (
-                      <td data-column="Meraki Link">
-                        <a
-                          className="meraki_link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={item.web_link}
-                        >
-                          Get Link
-                        </a>
-                        <CopyToClipboard
-                          text={item.web_link}
-                          onCopy={() => {
-                            toast.success("Copied to Clipboard", {
-                              position: toast.POSITION.BOTTOM_RIGHT,
-                              autoClose: 1200,
-                            });
-                          }}
-                        >
-                          <i className="clipboard fa fa-copy"></i>
-                        </CopyToClipboard>
-                      </td>
-                    ) : (
-                      <td data-column="Meraki Link">
-                        <div
-                          className="create-link"
-                          onClick={() => createMerakiLink(item.id, "web")}
-                        >
-                          Create link
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="last-item">
+            <ReactPaginate
+              previousLabel={<i className="fa fa-angle-left"></i>}
+              nextLabel={<i className="fa fa-angle-right"></i>}
+              initialPage={0}
+              marginPagesDisplayed={0}
+              onPageChange={changePage}
+              pageCount={pageCount}
+              containerClassName="paginationBttns"
+              previousLinkClassName="previousBttn"
+              nextLinkClassName="nextBttn"
+              disabledClassName="paginationDisabled"
+              activeClassName="paginationActive"
+            />
+          </div>
         </div>
-      </>
-    );
-  }
-  return <Redirect to={PATHS.HOME_PATH} />;
+        <table className="partners-table">
+          <thead>
+            <tr>
+              <th>
+                Partner's Name
+                <button
+                  className={sort_class}
+                  onClick={() => sortPartners("name")}
+                >
+                  <BsArrowUpDown />
+                </button>
+              </th>
+              <th>
+                Number of students
+                <button
+                  className={sort_class}
+                  onClick={() => sortPartners("students")}
+                >
+                  <BsArrowUpDown />
+                </button>
+              </th>
+              <th>Meraki - Android Link</th>
+              <th>Meraki - Web Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {slicedPartners.map((item) => {
+              return (
+                <tr key={item.id}>
+                  <td data-column="Name">
+                    <Link
+                      className="t-data"
+                      to={`${PATHS.PARTNERS}/${item.id}`}
+                    >
+                      {" "}
+                      {item.name}
+                    </Link>
+                  </td>
+                  <td data-column="Total students">{item.users}</td>
+                  {item.meraki_link ? (
+                    <td data-column="Meraki Link">
+                      <a
+                        className="meraki_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={item.meraki_link}
+                      >
+                        Get Link
+                      </a>
+                      <CopyToClipboard
+                        text={item.meraki_link}
+                        onCopy={() => {
+                          toast.success("Copied to Clipboard", {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose: 1200,
+                          });
+                        }}
+                      >
+                        <i className="clipboard fa fa-copy"></i>
+                      </CopyToClipboard>
+                    </td>
+                  ) : (
+                    <td data-column="Meraki Link">
+                      <div
+                        className="create-link"
+                        onClick={() => createMerakiLink(item.id, "android")}
+                      >
+                        Create link
+                      </div>
+                    </td>
+                  )}
+                  {item.web_link ? (
+                    <td data-column="Meraki Link">
+                      <a
+                        className="meraki_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={item.web_link}
+                      >
+                        Get Link
+                      </a>
+                      <CopyToClipboard
+                        text={item.web_link}
+                        onCopy={() => {
+                          toast.success("Copied to Clipboard", {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose: 1200,
+                          });
+                        }}
+                      >
+                        <i className="clipboard fa fa-copy"></i>
+                      </CopyToClipboard>
+                    </td>
+                  ) : (
+                    <td data-column="Meraki Link">
+                      <div
+                        className="create-link"
+                        onClick={() => createMerakiLink(item.id, "web")}
+                      >
+                        Create link
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
 }
+//   return <Redirect to={PATHS.HOME_PATH} />;
+// }
 
 export default PartnerDashboard;

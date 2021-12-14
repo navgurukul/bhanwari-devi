@@ -15,8 +15,8 @@ const AuthenticatedHeaderOption = () => {
 
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 
-  const canSpecifyPartner =
-    rolesList.includes("partner") && user.data.user.partner_id != null;
+  // const canSpecifyPartner =
+  //   rolesList.includes("partner") && user.data.user.partner_id != null;
 
   return (
     <>
@@ -25,21 +25,19 @@ const AuthenticatedHeaderOption = () => {
           <a className="item" href={PATHS.USER}>
             User
           </a>
-          <a className="item" href={PATHS.PARTNERS}>
-            Partners
-          </a>
+
           <a className="item" href={PATHS.VOLUNTEER}>
             Volunteers
           </a>
         </>
       ) : null}
-      {canSpecifyPartner ? (
+      {/* {canSpecifyPartner ? (
         <>
           <a className="item" href={`${PATHS.PARTNERS}/${userId}`}>
             Dashboard
           </a>
         </>
-      ) : null}
+      ) : null} */}
       <a className="item" href={PATHS.COURSE}>
         Courses
       </a>
@@ -49,6 +47,11 @@ const AuthenticatedHeaderOption = () => {
       <a className="item" href={PATHS.CLASS}>
         Classes
       </a>
+
+      <a className="item" href={PATHS.PARTNERS}>
+        Partners
+      </a>
+
       <a className="item" href={PATHS.OPPORTUNITIES}>
         Opportunities
       </a>
@@ -71,6 +74,9 @@ const AuthenticatedHeaderOption = () => {
 const PublicMenuOption = () => {
   return (
     <>
+      <a className="item" href={PATHS.PARTNERS}>
+        Partners
+      </a>
       <a className="item" href={PATHS.COURSE}>
         Courses
       </a>

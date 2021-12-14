@@ -48,69 +48,69 @@ function StudentData() {
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users${
         searchTerm.length > 0 ? `?name=${searchTerm}` : ""
       }`,
-      headers: { accept: "application/json", Authorization: user.data.token },
+      // headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      if (
-        id == user.data.user.partner_id ||
-        user.data.user.rolesList.indexOf("admin") > -1
-      ) {
-        if (res.data.students.length < 1) {
-          setMessage("There are no results to display");
-        } else {
-          const data = res.data.students
-            .map((item) => {
-              if (item.classes_registered.length > 0) {
-                item.averageRating = 0;
-                let avg = 0;
-                let count = 0;
-                item.classes_registered.map((f) => {
-                  if (f.feedback.feedback) {
-                    avg = avg + parseInt(f.feedback.feedback);
-                    count += 1;
-                  }
-                });
-                if (avg > 0) item.averageRating = avg / count;
-                else item.averageRating = avg;
-                item.classes_registered = item.classes_registered.sort(
-                  (c1, c2) => {
-                    return new Date(c1.start_time) - new Date(c2.start_time);
-                  }
-                );
-              }
-              return {
-                ...item,
-                // not overwriting original created_at because we need the date object to sort by date
-                formatted_created_at: moment(
-                  item.created_at.replace("Z", "")
-                ).format("DD-MM-YYYY"),
-                classes_registered: item.classes_registered.map((item) => {
-                  return {
-                    ...item,
-                    formatted_start_time: moment(
-                      item.start_time.replace("Z", "")
-                    ).format("DD-MM-YYYY"),
-                    /**
-                     * REVIEW
-                     * Why item is there again in the next line?
-                     */
-                    item,
-                    formatted_end_time: moment(
-                      item.end_time.replace("Z", "")
-                    ).format("hh:mm a"),
-                  };
-                }),
-              };
-            })
-            .sort((a, b) => {
-              return a.name.localeCompare(b.name);
-            });
-          setStudents(data);
-          setSlicedStudents(
-            data.slice(pageNumber * limit, (pageNumber + 1) * limit)
-          );
-          setTotalCount(res.data.count);
-        }
+      // if (
+      //   id == user.data.user.partner_id ||
+      //   user.data.user.rolesList.indexOf("admin") > -1
+      // ) {
+      if (res.data.students.length < 1) {
+        setMessage("There are no results to display");
+      } else {
+        const data = res.data.students
+          .map((item) => {
+            if (item.classes_registered.length > 0) {
+              item.averageRating = 0;
+              let avg = 0;
+              let count = 0;
+              item.classes_registered.map((f) => {
+                if (f.feedback.feedback) {
+                  avg = avg + parseInt(f.feedback.feedback);
+                  count += 1;
+                }
+              });
+              if (avg > 0) item.averageRating = avg / count;
+              else item.averageRating = avg;
+              item.classes_registered = item.classes_registered.sort(
+                (c1, c2) => {
+                  return new Date(c1.start_time) - new Date(c2.start_time);
+                }
+              );
+            }
+            return {
+              ...item,
+              // not overwriting original created_at because we need the date object to sort by date
+              formatted_created_at: moment(
+                item.created_at.replace("Z", "")
+              ).format("DD-MM-YYYY"),
+              classes_registered: item.classes_registered.map((item) => {
+                return {
+                  ...item,
+                  formatted_start_time: moment(
+                    item.start_time.replace("Z", "")
+                  ).format("DD-MM-YYYY"),
+                  /**
+                   * REVIEW
+                   * Why item is there again in the next line?
+                   */
+                  item,
+                  formatted_end_time: moment(
+                    item.end_time.replace("Z", "")
+                  ).format("hh:mm a"),
+                };
+              }),
+            };
+          })
+          .sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
+        setStudents(data);
+        setSlicedStudents(
+          data.slice(pageNumber * limit, (pageNumber + 1) * limit)
+        );
+        setTotalCount(res.data.count);
       }
+      // }
     });
   }, [debouncedText]);
 
@@ -242,308 +242,308 @@ function StudentData() {
     }
   });
 
-  if (
-    user.data.user.rolesList.indexOf("admin") > -1 ||
-    (user.data.user.rolesList.indexOf("partner") > -1 &&
-      user.data.user.partner_id == id)
-  ) {
-    return (
-      <div className="container-table">
-        <div className="container-for-search">
-          <div>
-            <input
-              className="Search-bar"
-              type="text"
-              placeholder="Search by student Name class"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
-            />
-          </div>
-          <div className="last-item">
-            <ReactPaginate
-              previousLabel={<i className="fa fa-angle-left"></i>}
-              nextLabel={<i className="fa fa-angle-right"></i>}
-              initialPage={0}
-              marginPagesDisplayed={0}
-              onPageChange={changePage}
-              pageCount={pageCount}
-              containerClassName="paginationBttns"
-              previousLinkClassName="previousBttn"
-              nextLinkClassName="nextBttn"
-              disabledClassName="paginationDisabled"
-              activeClassName="paginationActive"
-            />
-          </div>
-        </div>
-        <div className="slider-label">
-          <label>Total attended classes </label>
-          <div className="slider">
-            <Range
-              min={0}
-              max={40}
-              defaultValue={[0, 0]}
-              step={null}
-              tipFormatter={(value) => (value === 40 ? (value = "30+") : value)}
-              value={filterVal}
-              onChange={handleChange}
-              marks={{
-                0: 0,
-                1: 1,
-                6: 6,
-                10: 10,
-                15: 15,
-                20: 20,
-                25: 25,
-                30: 30,
-                40: `${30}+`,
-              }}
-            />
-          </div>
-          <button
-            onClick={() => {
-              setFilteredData(false);
-              setFilterVal([0, 0]);
+  // if (
+  //   user.data.user.rolesList.indexOf("admin") > -1 ||
+  //   (user.data.user.rolesList.indexOf("partner") > -1 &&
+  //     user.data.user.partner_id == id)
+  // ) {
+  return (
+    <div className="container-table">
+      <div className="container-for-search">
+        <div>
+          <input
+            className="Search-bar"
+            type="text"
+            placeholder="Search by student Name class"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
             }}
-            className="filter-clear"
-          >
-            clear
-          </button>
+          />
         </div>
-        <table className="student-overview-table">
-          <thead>
-            <tr>
-              <th className="student-name">
-                Students Name
-                <button
-                  className={sort_class}
-                  onClick={() => sortStudents("name")}
-                >
-                  <BsArrowUpDown />
-                </button>
-              </th>
-              <th>
-                Enroll date
-                <button
-                  className={sort_class}
-                  onClick={() => sortStudents("enroll_date")}
-                >
-                  <BsArrowUpDown />
-                </button>
-              </th>
-              <th>
-                Classes Attended
-                <button
-                  className={sort_class}
-                  onClick={() => sortStudents("total_classes")}
-                >
-                  <BsArrowUpDown />
-                </button>
-              </th>
-              <th>
-                Last Class Title
-                <button
-                  className={sort_class}
-                  onClick={() => sortStudents("last_class_title")}
-                >
-                  <BsArrowUpDown />
-                </button>
-              </th>
-              <th>
-                Last Class Date
-                <button
-                  className={sort_class}
-                  onClick={() => sortStudents("last_class_date")}
-                >
-                  <BsArrowUpDown />
-                </button>
-              </th>
-              <th>Last Class Time</th>
-              <th>
-                Average Rating
-                <button
-                  className={sort_class}
-                  onClick={() => sortStudents("rating")}
-                >
-                  <BsArrowUpDown />
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData
-              ? filter.map((item) => {
-                  let getStars = 0;
-                  let totalStarts = item.classes_registered.length * 5;
-                  item.classes_registered.map((stars) => {
-                    getStars = getStars + Number(stars.feedback.feedback);
-                  });
-                  return (
-                    <tr key={item.id}>
-                      <td data-column="Name">
-                        <Link
-                          className="t-data"
-                          to={{
-                            pathname: `/student/${item.id}`,
-                            state: {
-                              pass: item.classes_registered,
-                              passName: item.name,
-                            },
-                          }}
-                        >
-                          {item.name}
-                        </Link>
-                      </td>
-                      <td data-column="Enrolled On">
-                        {item.formatted_created_at}
-                      </td>
-                      <td data-column="Total classes ">
-                        {" "}
-                        {item.classes_registered.length}
-                      </td>
-
-                      <td data-column="Last class title">
-                        {item.classes_registered &&
-                        item.classes_registered.length > 0 &&
-                        item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["title"] != ""
-                          ? item.classes_registered[
-                              item.classes_registered.length - 1
-                            ]["title"]
-                          : "NA"}
-                      </td>
-                      <td data-column="Last class date">
-                        {item.classes_registered &&
-                        item.classes_registered.length > 0 &&
-                        item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["formatted_start_time"]
-                          ? item.classes_registered[
-                              item.classes_registered.length - 1
-                            ]["formatted_start_time"]
-                          : "NA"}
-                      </td>
-                      <td data-column="Last class time">
-                        {item.classes_registered &&
-                        item.classes_registered.length > 0 &&
-                        item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["formatted_end_time"]
-                          ? item.classes_registered[
-                              item.classes_registered.length - 1
-                            ]["formatted_end_time"]
-                          : "NA"}
-                      </td>
-                      <td data-column="Avg rating ">
-                        {[1, 2, 3, 4, 5].map((star) => {
-                          return Math.ceil(item.averageRating) > 0 &&
-                            star <= Math.ceil(item.averageRating) ? (
-                            <span
-                              className="fa fa-star"
-                              style={{ color: "#D55F31" }}
-                            ></span>
-                          ) : (
-                            <span
-                              className="fa fa-star"
-                              style={{ color: "gray" }}
-                            ></span>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })
-              : slicedStudents.map((item) => {
-                  let getStars = 0;
-                  let totalStarts = item.classes_registered.length * 5;
-                  item.classes_registered.map((stars) => {
-                    getStars = getStars + Number(stars.feedback.feedback);
-                  });
-                  return (
-                    <tr key={item.id}>
-                      <td data-column="Name">
-                        <Link
-                          className="t-data"
-                          to={{
-                            pathname: `/student/${item.id}`,
-                            state: {
-                              pass: item.classes_registered,
-                              passName: item.name,
-                            },
-                          }}
-                        >
-                          {item.name}
-                        </Link>
-                      </td>
-                      <td data-column="Enrolled On">
-                        {item.formatted_created_at}
-                      </td>
-                      <td data-column="Total classes ">
-                        {" "}
-                        {item.classes_registered.length}
-                      </td>
-
-                      <td data-column="Last class title">
-                        {item.classes_registered &&
-                        item.classes_registered.length > 0 &&
-                        item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["title"] != ""
-                          ? item.classes_registered[
-                              item.classes_registered.length - 1
-                            ]["title"]
-                          : "NA"}
-                      </td>
-                      <td data-column="Last class date">
-                        {item.classes_registered &&
-                        item.classes_registered.length > 0 &&
-                        item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["formatted_start_time"]
-                          ? item.classes_registered[
-                              item.classes_registered.length - 1
-                            ]["formatted_start_time"]
-                          : "NA"}
-                      </td>
-                      <td data-column="Last class time">
-                        {item.classes_registered &&
-                        item.classes_registered.length > 0 &&
-                        item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["formatted_end_time"]
-                          ? item.classes_registered[
-                              item.classes_registered.length - 1
-                            ]["formatted_end_time"]
-                          : "NA"}
-                      </td>
-                      <td data-column="Avg rating ">
-                        {[1, 2, 3, 4, 5].map((star) => {
-                          return Math.ceil(item.averageRating) > 0 &&
-                            star <= Math.ceil(item.averageRating) ? (
-                            <span
-                              className="fa fa-star"
-                              style={{ color: "#D55F31" }}
-                            ></span>
-                          ) : (
-                            <span
-                              className="fa fa-star"
-                              style={{ color: "gray" }}
-                            ></span>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })}
-            {message ? <h1 className="Message">{message}</h1> : null}
-          </tbody>
-        </table>
+        <div className="last-item">
+          <ReactPaginate
+            previousLabel={<i className="fa fa-angle-left"></i>}
+            nextLabel={<i className="fa fa-angle-right"></i>}
+            initialPage={0}
+            marginPagesDisplayed={0}
+            onPageChange={changePage}
+            pageCount={pageCount}
+            containerClassName="paginationBttns"
+            previousLinkClassName="previousBttn"
+            nextLinkClassName="nextBttn"
+            disabledClassName="paginationDisabled"
+            activeClassName="paginationActive"
+          />
+        </div>
       </div>
-    );
-  }
-  return <Redirect to={PATHS.HOME_PATH} />;
+      <div className="slider-label">
+        <label>Total attended classes </label>
+        <div className="slider">
+          <Range
+            min={0}
+            max={40}
+            defaultValue={[0, 0]}
+            step={null}
+            tipFormatter={(value) => (value === 40 ? (value = "30+") : value)}
+            value={filterVal}
+            onChange={handleChange}
+            marks={{
+              0: 0,
+              1: 1,
+              6: 6,
+              10: 10,
+              15: 15,
+              20: 20,
+              25: 25,
+              30: 30,
+              40: `${30}+`,
+            }}
+          />
+        </div>
+        <button
+          onClick={() => {
+            setFilteredData(false);
+            setFilterVal([0, 0]);
+          }}
+          className="filter-clear"
+        >
+          clear
+        </button>
+      </div>
+      <table className="student-overview-table">
+        <thead>
+          <tr>
+            <th className="student-name">
+              Students Name
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("name")}
+              >
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Enroll date
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("enroll_date")}
+              >
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Classes Attended
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("total_classes")}
+              >
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Last Class Title
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("last_class_title")}
+              >
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>
+              Last Class Date
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("last_class_date")}
+              >
+                <BsArrowUpDown />
+              </button>
+            </th>
+            <th>Last Class Time</th>
+            <th>
+              Average Rating
+              <button
+                className={sort_class}
+                onClick={() => sortStudents("rating")}
+              >
+                <BsArrowUpDown />
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData
+            ? filter.map((item) => {
+                let getStars = 0;
+                let totalStarts = item.classes_registered.length * 5;
+                item.classes_registered.map((stars) => {
+                  getStars = getStars + Number(stars.feedback.feedback);
+                });
+                return (
+                  <tr key={item.id}>
+                    <td data-column="Name">
+                      <Link
+                        className="t-data"
+                        to={{
+                          pathname: `/student/${item.id}`,
+                          state: {
+                            pass: item.classes_registered,
+                            passName: item.name,
+                          },
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td data-column="Enrolled On">
+                      {item.formatted_created_at}
+                    </td>
+                    <td data-column="Total classes ">
+                      {" "}
+                      {item.classes_registered.length}
+                    </td>
+
+                    <td data-column="Last class title">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["title"] != ""
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["title"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class date">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["formatted_start_time"]
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_start_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class time">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["formatted_end_time"]
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_end_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Avg rating ">
+                      {[1, 2, 3, 4, 5].map((star) => {
+                        return Math.ceil(item.averageRating) > 0 &&
+                          star <= Math.ceil(item.averageRating) ? (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "#D55F31" }}
+                          ></span>
+                        ) : (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "gray" }}
+                          ></span>
+                        );
+                      })}
+                    </td>
+                  </tr>
+                );
+              })
+            : slicedStudents.map((item) => {
+                let getStars = 0;
+                let totalStarts = item.classes_registered.length * 5;
+                item.classes_registered.map((stars) => {
+                  getStars = getStars + Number(stars.feedback.feedback);
+                });
+                return (
+                  <tr key={item.id}>
+                    <td data-column="Name">
+                      <Link
+                        className="t-data"
+                        to={{
+                          pathname: `/student/${item.id}`,
+                          state: {
+                            pass: item.classes_registered,
+                            passName: item.name,
+                          },
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td data-column="Enrolled On">
+                      {item.formatted_created_at}
+                    </td>
+                    <td data-column="Total classes ">
+                      {" "}
+                      {item.classes_registered.length}
+                    </td>
+
+                    <td data-column="Last class title">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["title"] != ""
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["title"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class date">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["formatted_start_time"]
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_start_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Last class time">
+                      {item.classes_registered &&
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[
+                        item.classes_registered.length - 1
+                      ]["formatted_end_time"]
+                        ? item.classes_registered[
+                            item.classes_registered.length - 1
+                          ]["formatted_end_time"]
+                        : "NA"}
+                    </td>
+                    <td data-column="Avg rating ">
+                      {[1, 2, 3, 4, 5].map((star) => {
+                        return Math.ceil(item.averageRating) > 0 &&
+                          star <= Math.ceil(item.averageRating) ? (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "#D55F31" }}
+                          ></span>
+                        ) : (
+                          <span
+                            className="fa fa-star"
+                            style={{ color: "gray" }}
+                          ></span>
+                        );
+                      })}
+                    </td>
+                  </tr>
+                );
+              })}
+          {message ? <h1 className="Message">{message}</h1> : null}
+        </tbody>
+      </table>
+    </div>
+  );
 }
+//   return <Redirect to={PATHS.HOME_PATH} />;
+// }
 
 export default StudentData;
