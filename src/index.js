@@ -12,7 +12,6 @@ import { getIsMobile } from "./common/utils";
 // To learn redux and redux saga
 // https://www.codementor.io/@rajjeet/step-by-step-how-to-add-redux-saga-to-a-react-redux-app-11xqieyj67
 // https://redux.js.org/recipes/configuring-your-store
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={initialStore()}>
