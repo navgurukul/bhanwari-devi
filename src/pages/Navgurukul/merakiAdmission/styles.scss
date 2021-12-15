@@ -1,9 +1,9 @@
-.Admission {
+.admission {
   display: flex;
   height: 100%;
   width: 100%;
 }
-.left {
+.left-section {
   flex: 0.5;
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@
   font-size: 24px;
   font-weight: 900;
 }
-.right {
+.right-section {
   flex: 0.5;
   display: flex;
   flex-direction: column;
@@ -29,14 +29,14 @@
 }
 
 .test-form {
-  width: 80%;
+  width: 70%;
 }
-.field {
+.input-form {
   display: flex;
   flex-direction: column;
   margin: 10px 0;
 }
-.test-form .row {
+.test-form .form-row {
   display: flex;
   justify-content: space-between;
 }
@@ -80,7 +80,7 @@ button {
   }
 }
 @media screen and (max-width: 1000px) {
-  .Admission {
+  .admission {
     flex-direction: column;
   }
   .right,
@@ -121,7 +121,7 @@ button {
   }
 }
 @media screen and (max-width: 530px) {
-  .test-form .row {
+  .test-form .form-row {
     flex-wrap: wrap;
     justify-content: center;
   }
