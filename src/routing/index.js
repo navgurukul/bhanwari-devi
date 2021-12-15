@@ -39,9 +39,7 @@ const Routing = () => {
         path={PATHS.VOLUNTEER_OVERVIEW}
         component={VolunteerOverview}
       />
-      <Route exact path={PATHS.PARTNERS} component={PartnerData} />
-      <Route exact path={PATHS.PARTNER_DATA} component={StudentData} />
-      <Route exact path={PATHS.STUDENT} component={StudentClassData} />
+
       {/* Private routes */}
       {/* <PrivateRoute
         exact
@@ -51,6 +49,9 @@ const Routing = () => {
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
+      <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
+      <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
+      <PrivateRoute exact path={PATHS.STUDENT} component={StudentClassData} />
     </>
   );
 };
