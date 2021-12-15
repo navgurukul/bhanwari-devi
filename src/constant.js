@@ -17,4 +17,5 @@ export const PATHS = {
   OPPORTUNITIES: "/opportunities",
   VOLUNTEER: "/volunteer",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
+  ADMISSION: "/admission",
 };

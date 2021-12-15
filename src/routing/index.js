@@ -17,6 +17,7 @@ import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
+import Admission from "../pages/Navgurukul";
 // import IndividualVolunteers from "../components/VolunteerDashbord/IndividualVolunteers"
 
 // import Classes from '../pages/classes'
@@ -42,6 +43,7 @@ const Routing = () => {
       <Route exact path={PATHS.PARTNERS} component={PartnerData} />
       <Route exact path={PATHS.PARTNER_DATA} component={StudentData} />
       <Route exact path={PATHS.STUDENT} component={StudentClassData} />
+      <Route exact path={PATHS.ADMISSION} component={Admission} />
       {/* Private routes */}
       {/* <PrivateRoute
         exact
