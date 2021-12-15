@@ -10,6 +10,8 @@ import Loader from "../common/Loader";
 import "./styles.scss";
 import { useHistory } from "react-router-dom";
 import ContinueExercise from "../Course/ContinueExercise";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 
 function Course() {
   const dispatch = useDispatch();
@@ -17,10 +19,26 @@ function Course() {
   const query = new URLSearchParams(useLocation().search).get("search");
   const [search, setSearch] = useState(query ? query : "");
   const history = useHistory();
+  const user = useSelector(({ User }) => User);
+  const [pathwaysCourses, setPathwaysCourses] = useState([]);
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
   }, [dispatch]);
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      console.log("res", res.data.pathways);
+      setPathwaysCourses(res.data.pathways);
+    });
+  }, []);
 
   if (loading) {
     return <Loader pageLoader={true} />;
@@ -46,11 +64,14 @@ function Course() {
     });
   }
 
+  console.log("pathwaysCourses", pathwaysCourses);
+  console.log("filteredCourse", filteredCourse);
+
   return (
     <div>
       <SearchBox onChange={handleSearchChange} value={search} />
       <ContinueExercise />
-      {search.length > 0 ? (
+      {/* {search.length > 0 ? (
         <h1 className="ng-course">
           <CourseList
             list={filteredCourse}
@@ -68,7 +89,19 @@ function Course() {
             title="Aap yeh courses mein enroll kar sakte hai"
           />
         </h1>
-      )}
+      )} */}
+      <h1 className="ng-course">
+        <CourseList
+          list={pathwaysCourses}
+          title="Aap inn courses ko search kiya hai"
+        />
+      </h1>
+      {/* <h1 className="ng-course">
+        <CourseList
+          list={filteredCourse}
+          title="Aap inn courses ko search kiya hai"
+        />
+      </h1> */}
     </div>
   );
 }
