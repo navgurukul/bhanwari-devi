@@ -266,5 +266,4 @@ function PartnerDashboard() {
   }
   return <Redirect to={PATHS.HOME_PATH} />;
 }
-
 export default PartnerDashboard;

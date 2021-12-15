@@ -15,6 +15,9 @@ import StudentData from "../components/Dashboard/StudentData";
 import StudentClassData from "../components/Dashboard/StudentClassData";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
+import NavgurukulIntroduce from "../pages/Navgurukul";
+import NavgurukulLogin from "../pages/Navgurukul/navgurukulLogin";
+import Admission from "../pages/Navgurukul/merakiAdmission";
 
 // import Classes from '../pages/classes'
 
@@ -30,6 +33,13 @@ const Routing = () => {
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
+      <Route
+        exact
+        path={PATHS.NAVGURUKUL_INTRODUCE}
+        component={NavgurukulIntroduce}
+      />
+      <Route exact path={PATHS.NAVGURUKUL_LOGIN} component={NavgurukulLogin} />
+      <Route exact path={PATHS.ADMISSION} component={Admission} />
 
       {/* Private routes */}
       {/* <PrivateRoute
