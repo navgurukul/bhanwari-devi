@@ -1,32 +1,7 @@
 .login-container {
   padding: 0 10%;
   margin: 40px auto 0;
-  // background-color:darkseagreen
 }
-
-// .flex-container {
-
-//     display: flex;
-//     justify-content: center;
-
-// //   display: flex;
-// //   flex-direction: row;
-// //   flex-wrap: wrap;
-// }
-
-// .flex-left {
-//   width: 40%;
-//   margin: 5px;
-//   padding: 5px;
-//   border: 2px solid red;
-// }
-
-// .flex-right {
-//   width: 40%;
-//   margin: 5px;
-//   padding: 5px;
-//   border: 2px solid green;
-// }
 
 .flex-Container {
   display: flex;
@@ -35,15 +10,13 @@
   justify-content: flex-start;
   align-items: stretch;
 }
-.left,
-.right {
+.left-side-conent,
+.right-side-conent {
   flex: 1 300px;
   min-width: 0;
-  // background: #f55;
   padding: 15px 0;
 }
-.right {
-  // background: #57f;
+.right-side-conent {
   margin: 10px;
   padding: 6px;
 }

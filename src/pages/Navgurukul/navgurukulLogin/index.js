@@ -6,16 +6,10 @@ function NavgurukulLogin() {
   return (
     <div className="login-container">
       <div className="flex-Container">
-        <div className="left">
-          <div className="video-of-ng">
-            <video width="720" height="500" controls>
-              <source src="movie.mp4" type="video/mp4" />
-              <source src="movie.ogg" type="video/ogg" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
+        <div className="left-side-conent">
+          <video src="../../asset/video.mp4" className="video" controls></video>
         </div>
-        <div className="right">
+        <div className="right-side-conent">
           <h2 className="login-heading">
             Navgurukul One-Year Software Engineering Scholarship Test
           </h2>

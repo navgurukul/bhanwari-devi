@@ -6,13 +6,14 @@ function NavgurukulIntroduce() {
     <div className="ng-introduce-container">
       <div className="main-text">
         <h1 className="main-heading"> Navigating Meraki and its offerings</h1>
-        <div className="video-of-ng">
-          <video width="920" height="500" controls>
-            <source src="movie.mp4" type="video/mp4" />
-            <source src="movie.ogg" type="video/ogg" />
-            Your browser does not support the video tag.
-          </video>
+        <div>
+          <video
+            src="../../asset/video.mp4"
+            className="meraki-insertion-video"
+            controls
+          ></video>
         </div>
+        <button className="get-meraki-link">Get Meraki App</button>
       </div>
     </div>
   );
