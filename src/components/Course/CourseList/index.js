@@ -5,14 +5,12 @@
 // import "./styles.scss";
 
 // const CourseList = ({ list, title }) => {
-//   console.log("list", list);
 //   if (list && list.length) {
 //     return (
 //       <div className="ng-course-list">
 //         <h2>{title}</h2>
 //         <div className="cards">
 //           {list.map((course, index) => {
-// console.log("my course", course);
 // return (
 //   <CourseCard
 //     key={`${course.id}-${index}`}
@@ -42,7 +40,6 @@ import CourseCard from "../CourseCard";
 import "./styles.scss";
 
 const CourseList = ({ list, otherCourses, title }) => {
-  console.log("list", list);
   if (list && list.length) {
     return (
       <div>
@@ -54,7 +51,6 @@ const CourseList = ({ list, otherCourses, title }) => {
                 <h3>{pathway.name}</h3>
                 <div className="cards">
                   {pathway.courses.map((course, index) => {
-                    console.log("course", course.name);
                     return (
                       <>
                         <CourseCard
@@ -73,7 +69,6 @@ const CourseList = ({ list, otherCourses, title }) => {
             <h3>Miscellaneous Courses</h3>
             <div className="cards">
               {otherCourses.map((course, index) => {
-                console.log("my course", course);
                 return (
                   <CourseCard
                     key={`${course.id}-${index}`}

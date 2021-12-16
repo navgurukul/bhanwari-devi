@@ -35,7 +35,6 @@ function Course() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log("res", res.data.pathways);
       setPathwaysCourses(res.data.pathways);
     });
   }, []);
