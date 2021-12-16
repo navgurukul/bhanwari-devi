@@ -32,7 +32,6 @@ function Course() {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
       headers: {
         accept: "application/json",
-        Authorization: user.data.token,
       },
     }).then((res) => {
       setPathwaysCourses(res.data.pathways);
