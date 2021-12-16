@@ -10,6 +10,8 @@ import Loader from "../common/Loader";
 import "./styles.scss";
 import { useHistory } from "react-router-dom";
 import ContinueExercise from "../Course/ContinueExercise";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 
 function Course() {
   const dispatch = useDispatch();
@@ -17,10 +19,24 @@ function Course() {
   const query = new URLSearchParams(useLocation().search).get("search");
   const [search, setSearch] = useState(query ? query : "");
   const history = useHistory();
+  const user = useSelector(({ User }) => User);
+  const [pathwaysCourses, setPathwaysCourses] = useState([]);
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
   }, [dispatch]);
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
+      headers: {
+        accept: "application/json",
+      },
+    }).then((res) => {
+      setPathwaysCourses(res.data.pathways);
+    });
+  }, []);
 
   if (loading) {
     return <Loader pageLoader={true} />;
@@ -46,11 +62,23 @@ function Course() {
     });
   }
 
+  const pathwayCourseId = [];
+  pathwaysCourses.filter((pathway) => {
+    pathway.courses.filter((course) => {
+      pathwayCourseId.push(course.id);
+      return course.id;
+    });
+  });
+
+  let otherCourses =
+    filteredCourse &&
+    filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
+
   return (
     <div>
       <SearchBox onChange={handleSearchChange} value={search} />
       <ContinueExercise />
-      {search.length > 0 ? (
+      {/* {search.length > 0 ? (
         <h1 className="ng-course">
           <CourseList
             list={filteredCourse}
@@ -68,7 +96,14 @@ function Course() {
             title="Aap yeh courses mein enroll kar sakte hai"
           />
         </h1>
-      )}
+      )} */}
+      <h1 className="ng-course">
+        <CourseList
+          list={pathwaysCourses}
+          otherCourses={otherCourses}
+          title="Aap inn courses ko search kiya hai"
+        />
+      </h1>
     </div>
   );
 }
