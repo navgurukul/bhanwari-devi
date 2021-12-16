@@ -64,8 +64,17 @@ function Course() {
     });
   }
 
-  console.log("pathwaysCourses", pathwaysCourses);
-  console.log("filteredCourse", filteredCourse);
+  const pathwayCourseId = [];
+  pathwaysCourses.filter((pathway) => {
+    pathway.courses.filter((course) => {
+      pathwayCourseId.push(course.id);
+      return course.id;
+    });
+  });
+
+  let otherCourses =
+    filteredCourse &&
+    filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
 
   return (
     <div>
@@ -93,15 +102,10 @@ function Course() {
       <h1 className="ng-course">
         <CourseList
           list={pathwaysCourses}
+          otherCourses={otherCourses}
           title="Aap inn courses ko search kiya hai"
         />
       </h1>
-      {/* <h1 className="ng-course">
-        <CourseList
-          list={filteredCourse}
-          title="Aap inn courses ko search kiya hai"
-        />
-      </h1> */}
     </div>
   );
 }

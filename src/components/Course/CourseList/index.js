@@ -12,14 +12,14 @@
 //         <h2>{title}</h2>
 //         <div className="cards">
 //           {list.map((course, index) => {
-//             console.log("my course", course);
-//             return (
-//               <CourseCard
-//                 key={`${course.id}-${index}`}
-//                 course={course}
-//                 index={index}
-//               />
-//             );
+// console.log("my course", course);
+// return (
+//   <CourseCard
+//     key={`${course.id}-${index}`}
+//     course={course}
+//     index={index}
+//   />
+// );
 //           })}
 //         </div>
 //       </div>
@@ -41,7 +41,7 @@ import PropTypes from "prop-types";
 import CourseCard from "../CourseCard";
 import "./styles.scss";
 
-const CourseList = ({ list, title }) => {
+const CourseList = ({ list, otherCourses, title }) => {
   console.log("list", list);
   if (list && list.length) {
     return (
@@ -69,6 +69,21 @@ const CourseList = ({ list, title }) => {
               </div>
             </>
           ))}
+          <div className="ng-course-list">
+            <h3>Miscellaneous Courses</h3>
+            <div className="cards">
+              {otherCourses.map((course, index) => {
+                console.log("my course", course);
+                return (
+                  <CourseCard
+                    key={`${course.id}-${index}`}
+                    course={course}
+                    index={index}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     );
