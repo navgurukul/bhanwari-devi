@@ -63,7 +63,7 @@ function Course() {
       }
     });
   }
-  const demoCourse = pathwaysCourses.map((pathway) => {
+  const pathwaysfilteredCourses = pathwaysCourses.map((pathway) => {
     return {
       ...pathway,
       courses: pathway.courses.filter((course) => {
@@ -72,7 +72,7 @@ function Course() {
     };
   });
   const pathwayCourseId = [];
-  demoCourse.filter((pathway) => {
+  pathwaysfilteredCourses.filter((pathway) => {
     pathway.courses.filter((course) => {
       pathwayCourseId.push(course.id);
       return course.id;
@@ -81,7 +81,7 @@ function Course() {
   let otherCourses =
     filteredCourse &&
     filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
-  console.log(demoCourse, otherCourses, "iii");
+  // console.log(pathwaysfilteredCourses, otherCourses, "iii");
 
   return (
     <div>
@@ -108,7 +108,7 @@ function Course() {
       )} */}
       <h1 className="ng-course">
         <CourseList
-          list={demoCourse}
+          list={pathwaysfilteredCourses}
           otherCourses={otherCourses}
           title="Aap inn courses ko search kiya hai"
           //   search={search}
