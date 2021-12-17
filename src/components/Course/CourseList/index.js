@@ -45,40 +45,47 @@ const CourseList = ({ list, otherCourses, title }) => {
       <div>
         <h2 className="class-title">{title}</h2>
         <div className="cards">
-          {list.map((pathway, index) => (
-            <>
-              <div className="ng-course-list">
-                <h3>{pathway.name}</h3>
-                <div className="cards">
-                  {pathway.courses.map((course, index) => {
-                    return (
-                      <>
-                        <CourseCard
-                          key={`${course.id}-${index}`}
-                          course={course}
-                          index={index}
-                        />
-                      </>
-                    );
-                  })}
+          {list.map((pathway, index) => {
+            if (pathway.courses.length == 0) return null;
+            return (
+              <>
+                <div className="ng-course-list">
+                  <h3>{pathway.name}</h3>
+                  <div className="cards">
+                    {pathway.courses.map((course, index) => {
+                      return (
+                        <>
+                          <CourseCard
+                            key={`${course.id}-${index}`}
+                            course={course}
+                            index={index}
+                          />
+                        </>
+                      );
+                    })}
+                  </div>
                 </div>
+              </>
+            );
+          })}
+          {otherCourses.length > 0 ? (
+            <div className="ng-course-list">
+              <h3>Miscellaneous Courses</h3>
+              <div className="cards">
+                {otherCourses.map((course, index) => {
+                  return (
+                    <CourseCard
+                      key={`${course.id}-${index}`}
+                      course={course}
+                      index={index}
+                    />
+                  );
+                })}
               </div>
-            </>
-          ))}
-          <div className="ng-course-list">
-            <h3>Miscellaneous Courses</h3>
-            <div className="cards">
-              {otherCourses.map((course, index) => {
-                return (
-                  <CourseCard
-                    key={`${course.id}-${index}`}
-                    course={course}
-                    index={index}
-                  />
-                );
-              })}
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     );

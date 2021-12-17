@@ -50,29 +50,38 @@ function Course() {
 
   let dataJSON;
   let filteredCourse;
+
   if (data) {
     dataJSON = data.allCourses.filter((c) => {
       return c.course_type === "json";
     });
     dataJSON.allCourses = dataJSON;
+    // console.log(dataJSON.allCourses);
     filteredCourse = dataJSON.allCourses.filter((names) => {
       if (names.course_type === "json") {
         return names.name.toLowerCase().includes(search.toLowerCase());
       }
     });
   }
-
+  const pathwaysfilteredCourses = pathwaysCourses.map((pathway) => {
+    return {
+      ...pathway,
+      courses: pathway.courses.filter((course) => {
+        return course.name.toLowerCase().includes(search.toLowerCase());
+      }),
+    };
+  });
   const pathwayCourseId = [];
-  pathwaysCourses.filter((pathway) => {
+  pathwaysfilteredCourses.filter((pathway) => {
     pathway.courses.filter((course) => {
       pathwayCourseId.push(course.id);
       return course.id;
     });
   });
-
   let otherCourses =
     filteredCourse &&
     filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
+  // console.log(pathwaysfilteredCourses, otherCourses, "iii");
 
   return (
     <div>
@@ -99,9 +108,11 @@ function Course() {
       )} */}
       <h1 className="ng-course">
         <CourseList
-          list={pathwaysCourses}
+          list={pathwaysfilteredCourses}
           otherCourses={otherCourses}
           title="Aap inn courses ko search kiya hai"
+          //   search={search}
+          //   filterdata={filteredCourse}
         />
       </h1>
     </div>
