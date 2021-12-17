@@ -25,7 +25,8 @@ ${code}
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   let l = lang == "python" ? "2" : "js";
-  let visualizerCode = code && code.replace(/<br>/g, "\n");
+  let replacedCode = code && code.replace(/<br>/g, "\n");
+  let visualizerCode = replacedCode.replace(/&emsp;/g, " ");
   let url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
     visualizerCode
   )
