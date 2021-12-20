@@ -14,6 +14,7 @@ function Admission() {
   // console.log("url", process.env.REACT_APP_CHANAKYA_BASE_URL);
 
   const partnerId = 112;
+  const testUrl = "http://dev-join.navgurukul.org/k/";
 
   const generateTestLink = async () => {
     try {
@@ -30,6 +31,26 @@ function Admission() {
       });
       console.log("response.data.key", response.data.key);
       setEnrolmentKey("response.data.key", response.data.key);
+      const params = {
+        firstName: userDetails.firstName,
+        middleName: userDetails.middleName,
+        lastName: userDetails.lastName,
+        mobileNumber: userDetails.mobileNumber,
+      };
+      const queryString = Object.keys(params)
+        .map((filter) => {
+          if (params[filter]) {
+            return `${filter}=${params[filter]}`;
+          }
+          return null;
+        })
+        .filter((item) => item)
+        .join("&");
+
+      const url = `${testUrl}${enrolmentKey}?${queryString}`;
+      console.log("url", url);
+
+      window.open(url, "_blank");
       return response;
     } catch (e) {
       console.log(e);
@@ -124,8 +145,8 @@ function Admission() {
               <input
                 type="text"
                 placeholder="Mobile Number..."
-                value={userDetails.mobileNumber}
-                name="mobileNumber"
+                // value={userDetails.mobileNumber}
+                // name="mobileNumber"
               />
             </div>
           </div>
