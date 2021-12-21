@@ -31,6 +31,19 @@ function Admission() {
       });
       console.log("response.data.key", response.data.key);
       setEnrolmentKey("response.data.key", response.data.key);
+      axios
+        // .post(
+        //   `http://dev-join.navgurukul.org/api/on_assessment/questions/A73OG2`
+        // )
+        .get(
+          `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call?ngCallType=getEnrolmentKey&From=0${userDetails.mobileNumber}&partner_id=112`
+        )
+        .then((res) => {
+          console.log("res", res);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
       const params = {
         firstName: userDetails.firstName,
         middleName: userDetails.middleName,
@@ -60,9 +73,10 @@ function Admission() {
 
   // const generateTestLink = () => {
   //   axios
-  //     .get(
-  //       `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call?ngCallType=getEnrolmentKey&From=0${userDetails.mobileNumber}&partner_id=112`
-  //     )
+  //     .get(`http://dev-join.navgurukul.org/api/on_assessment/questions/A73OG2`)
+  //     // .get(
+  //     //   `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call?ngCallType=getEnrolmentKey&From=0${userDetails.mobileNumber}&partner_id=112`
+  //     // )
   //     .then((res) => {
   //       console.log("res", res);
   //     })
@@ -150,7 +164,7 @@ function Admission() {
               />
             </div>
           </div>
-          <button>Give Admissions Test</button>
+          <button>Check Result</button>
         </div>
       </div>
     </div>
@@ -158,3 +172,5 @@ function Admission() {
 }
 
 export default Admission;
+
+// http://dev-join.navgurukul.org/api/on_assessment/questions/A73OG2
