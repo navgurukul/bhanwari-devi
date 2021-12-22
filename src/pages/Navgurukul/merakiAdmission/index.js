@@ -10,6 +10,8 @@ function Admission() {
     mobileNumber: "",
   });
 
+  const [mobile, setMobile] = useState("");
+
   const [enrolmentKey, setEnrolmentKey] = useState("");
   // console.log("url", process.env.REACT_APP_CHANAKYA_BASE_URL);
 
@@ -96,7 +98,6 @@ function Admission() {
   return (
     <div className="admission">
       <div className="left-section">
-        {/* <video src="" className="video" controls></video> */}
         <video src="../../asset/video.mp4" className="video" controls></video>
         <div className="video-label">Experience of NG Alumni & Graduates</div>
       </div>
@@ -159,12 +160,22 @@ function Admission() {
               <input
                 type="text"
                 placeholder="Mobile Number..."
-                // value={userDetails.mobileNumber}
-                // name="mobileNumber"
+                onChange={(e) => {
+                  setMobile(e.target.value);
+                }}
+                value={mobile}
               />
             </div>
           </div>
-          <button>Check Result</button>
+          <button>
+            <a
+              className="result-btn"
+              href={`https://admissions.navgurukul.org/status/${mobile}`}
+              target="_blank"
+            >
+              Check Result{" "}
+            </a>{" "}
+          </button>
         </div>
       </div>
     </div>
