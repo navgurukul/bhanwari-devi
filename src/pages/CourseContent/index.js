@@ -180,6 +180,7 @@ function CourseContent(props) {
             }
           })}
         </div>
+
         <h1>{courseTitle}</h1>
         <Switch>
           <Route path={`${path}${PATHS.EXERCISE}`}>

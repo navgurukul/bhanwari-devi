@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
@@ -10,6 +10,11 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import HiddenContent from "../HiddenContent";
 import DOMPurify from "dompurify";
 import Highlight from "react-highlight";
+import JSONInput from "react-json-editor-ajrm";
+import locale from "react-json-editor-ajrm/locale/en";
+import axios from "axios";
+import { METHODS } from "../../../../services/api";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./styles.scss";
 const { JSDOM } = require("jsdom");
@@ -206,21 +211,99 @@ const RenderContent = ({ data }) => {
 };
 
 function ExerciseContent(props) {
+  const [contentList, setContentList] = useState([]);
+  const [flag, setFlag] = useState(true);
+  const user = useSelector(({ User }) => User);
+  const rolesList = user.data.user.rolesList;
+
+  const canSpecifyUserRole =
+    rolesList.indexOf("academics") > -1 || rolesList.indexOf("admin") > -1;
+
   const { content = [] } = props;
 
-  if (!content) {
-    return "";
-  }
+  useEffect(() => {
+    setContentList([...content]);
+  }, [content]);
+
+  // if (!content) {
+  //   return [];
+  // }
+
+  const changeHandler = (excersice, index) => {
+    contentList.splice(index, 1, excersice);
+  };
+
+  const url = window.location.href;
+  const exerciseId = url.split("exercise/")[1];
+
+  const handleEdit = () => {
+    setFlag(true);
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${exerciseId}`,
+      method: METHODS.PUT,
+      headers: {
+        "Content-Type": "application/json",
+        "version-code": 25,
+      },
+      data: {
+        content: JSON.stringify(contentList),
+      },
+    })
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((error) => {});
+  };
 
   return (
-    <div className="ng-exercise-content" align="justify">
-      {content.map((contentItem, index) => (
-        <RenderContent data={contentItem} key={index} />
-      ))}
-    </div>
+    <>
+      {" "}
+      {canSpecifyUserRole && (
+        <>
+          {flag && (
+            <span class="tooltip" title="Edit Content">
+              <i
+                class="fa fa-pencil edit-button"
+                onClick={() => {
+                  setFlag(false);
+                }}
+              ></i>
+            </span>
+          )}
+        </>
+      )}
+      {flag ? null : (
+        <button className="save-button" onClick={handleEdit}>
+          Save the Content
+        </button>
+      )}
+      {flag ? (
+        <div className="ng-exercise-content" align="justify">
+          {contentList.map((contentItem, index) => (
+            <RenderContent data={contentItem} key={index} />
+          ))}
+        </div>
+      ) : (
+        <div align="left" className="json-input">
+          {contentList.map((contentItem, index) => (
+            <JSONInput
+              id="a_unique_id"
+              placeholder={contentItem}
+              // colors={darktheme}
+              style={{ body: { fontSize: "15px" } }}
+              locale={locale}
+              onChange={(e) => {
+                changeHandler(e.jsObject, index);
+              }}
+              height="auto"
+              width="800px"
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 }
-
 ExerciseContent.propTypes = {
   content: PropTypes.array,
 };

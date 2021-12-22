@@ -75,4 +75,11 @@
     border-radius: 8px;
     border: 2px solid #d55f31;
   }
+  .tooltip {
+    cursor: pointer;
+    position: absolute;
+    margin-left: 23%;
+    margin-top: 3px;
+    font-size: 25px;
+  }
 }
