@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles.scss";
 import axios from "axios";
-import { useParams, Link } from "react-router";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 
 function NavgurukulIntroduce() {
   const user = useSelector(({ User }) => User);
-  const [url, setUrl] = useState("");
-  let { id = "112" } = useParams();
-  useEffect(() => {
+  const [getMerakiUrl, setGetMerakiUrl] = useState([]);
+
+  const partnerId = window.location.href.split("partner/")[1];
+
+  const getMerakiLink = (id, platform) => {
     axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}partners/${id}/merakiLink`,
+      method: METHODS.PUT,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${partnerId}/merakiLink`,
       headers: {
         accept: "application/json",
-        Authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzNDMiLCJlbWFpbCI6ImFuYW5kbmF2Z3VydWt1bEBnbWFpbC5jb20iLCJpYXQiOjE2MjAzODI5MDIsImV4cCI6MTY1MTk0MDUwMn0.nSzJ32kBeN57iRpTiDCK81L1555oIgxaF0B1XZI7SjI",
-        platform: "android",
+        Authorization: user.data.token,
+        platform: platform,
       },
-    }).then((res) => console.log(res.data));
-  }, []);
-  console.log(id);
+    }).then((res) => {
+      setGetMerakiUrl(res.data.meraki_link);
+    });
+  };
+
   return (
     <div className="ng-introduce-container">
       <div className="main-text">
@@ -33,13 +35,14 @@ function NavgurukulIntroduce() {
             controls
           ></video>
         </div>
+
         <button
           className="get-meraki-link"
-          onClick={() => {
-            window.location.href = url;
-          }}
+          onClick={() => getMerakiLink(partnerId, "android")}
         >
-          Get Meraki App
+          <a target="_blank" rel="noopener noreferrer" href={getMerakiUrl}>
+            Get Meraki App
+          </a>
         </button>
       </div>
     </div>

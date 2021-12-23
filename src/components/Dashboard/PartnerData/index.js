@@ -93,8 +93,6 @@ function PartnerDashboard() {
       },
     })
       .then((res) => {
-        // console.log(res,'llllll')
-
         toast.success("Link created!", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
