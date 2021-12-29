@@ -11,9 +11,7 @@ function Admission() {
   });
 
   const [mobile, setMobile] = useState("");
-
   const [enrolmentKey, setEnrolmentKey] = useState("");
-  // console.log("url", process.env.REACT_APP_CHANAKYA_BASE_URL);
 
   const partnerId = 112;
   const testUrl = "http://dev-join.navgurukul.org/k/";
@@ -22,7 +20,6 @@ function Admission() {
     try {
       // const partnerId = this.state.partnerId ? this.state.partnerId : null;
       const mobile = `0${userDetails.mobileNumber}`;
-      // this.props.fetchingStart();
       const dataURL = `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call`;
       const response = await axios.get(dataURL, {
         params: {
@@ -34,9 +31,6 @@ function Admission() {
       console.log("response.data.key", response.data.key);
       setEnrolmentKey("response.data.key", response.data.key);
       axios
-        // .post(
-        //   `http://dev-join.navgurukul.org/api/on_assessment/questions/A73OG2`
-        // )
         .get(
           `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call?ngCallType=getEnrolmentKey&From=0${userDetails.mobileNumber}&partner_id=112`
         )
@@ -69,7 +63,6 @@ function Admission() {
       return response;
     } catch (e) {
       console.log(e);
-      // this.props.fetchingFinish();
     }
   };
 
@@ -84,43 +77,18 @@ function Admission() {
       })
       .then(async (data) => {
         const response = data.data.data;
-        console.log("response", response);
+        console.log("alreadyGivenTest", response.alreadyGivenTest);
+        const stage = response.pendingInterviewStage;
+        const url = `https://admissions.navgurukul.org/check_duplicate/Name=${firstName}${middleName}${lastName}&Number=${mobileNumber}&Stage=${stage}`;
         if (response.alreadyGivenTest) {
-          return (
-            <a
-              className="result-btn"
-              href={`https://admissions.navgurukul.org/check_duplicate/Name=PoonamSinghBagh&Number=8826332326`}
-              target="_blank"
-            />
-          );
-          //****************************
-          // window.location.assign(
-          //   `https://admissions.navgurukul.org/check_duplicate/Name=PoonamSinghBagh&Number=8826332326`
-          // );
-          //***************************
+          window.open(url, "_blank");
         } else {
           generateTestLink();
         }
       });
   };
 
-  // const generateTestLink = () => {
-  //   axios
-  //     .get(`http://dev-join.navgurukul.org/api/on_assessment/questions/A73OG2`)
-  //     // .get(
-  //     //   `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call?ngCallType=getEnrolmentKey&From=0${userDetails.mobileNumber}&partner_id=112`
-  //     // )
-  //     .then((res) => {
-  //       console.log("res", res);
-  //     })
-  //     .catch((err) => {
-  //       console.log("err", err);
-  //     });
-  // };
-
   const changeHandler = (e) => {
-    console.log("e.target.name", e.target.name);
-    console.log("e.target.value", e.target.value);
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
@@ -201,8 +169,7 @@ function Admission() {
           <button>
             <a
               className="result-btn"
-              // href={`https://admissions.navgurukul.org/status/${mobile}`}
-              href={`https://admissions.navgurukul.org/check_duplicate/Name=PoonamSinghBagh&Number=8826332326`}
+              href={`https://admissions.navgurukul.org/status/${mobile}`}
               target="_blank"
             >
               Check Result{" "}
