@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import "./styles.scss";
 
 function Admission() {
@@ -64,6 +65,29 @@ function Admission() {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const giveTest = async () => {
+    if (
+      !userDetails.firstName ||
+      !userDetails.lastName ||
+      !userDetails.mobileNumber
+    ) {
+      toast.error(
+        "To attempt the test, it is compulsory to enter your First Name, Last Name and Mobile Number. Middle Name is optional, you can choose not to enter.",
+        {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        }
+      );
+      return;
+    }
+    if (userDetails.mobileNumber.toString().length !== 10) {
+      toast.error("Please give 10 digits of the mobile number.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      return;
+    }
+    await isDuplicate();
   };
 
   const isDuplicate = () => {
@@ -149,7 +173,7 @@ function Admission() {
               </div>
             </div>
           </div>
-          <button onClick={isDuplicate}>Give Admissions Test</button>
+          <button onClick={giveTest}>Give Admissions Test</button>
         </div>
         <div className="test-form down">
           <h2>Check Test Result via Registered Mobile Number </h2>
