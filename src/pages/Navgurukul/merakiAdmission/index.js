@@ -73,6 +73,37 @@ function Admission() {
     }
   };
 
+  const isDuplicate = () => {
+    const { firstName, middleName, lastName, mobileNumber } = userDetails;
+    axios
+      .get(`${process.env.REACT_APP_CHANAKYA_BASE_URL}/check_duplicate`, {
+        params: {
+          Name: firstName.concat(" ", middleName, lastName),
+          Number: mobileNumber,
+        },
+      })
+      .then(async (data) => {
+        const response = data.data.data;
+        console.log("response", response);
+        if (response.alreadyGivenTest) {
+          return (
+            <a
+              className="result-btn"
+              href={`https://admissions.navgurukul.org/check_duplicate/Name=PoonamSinghBagh&Number=8826332326`}
+              target="_blank"
+            />
+          );
+          //****************************
+          // window.location.assign(
+          //   `https://admissions.navgurukul.org/check_duplicate/Name=PoonamSinghBagh&Number=8826332326`
+          // );
+          //***************************
+        } else {
+          generateTestLink();
+        }
+      });
+  };
+
   // const generateTestLink = () => {
   //   axios
   //     .get(`http://dev-join.navgurukul.org/api/on_assessment/questions/A73OG2`)
@@ -150,7 +181,7 @@ function Admission() {
               </div>
             </div>
           </div>
-          <button onClick={generateTestLink}>Give Admissions Test</button>
+          <button onClick={isDuplicate}>Give Admissions Test</button>
         </div>
         <div className="test-form down">
           <h2>Check Test Result via Registered Mobile Number </h2>
@@ -170,7 +201,8 @@ function Admission() {
           <button>
             <a
               className="result-btn"
-              href={`https://admissions.navgurukul.org/status/${mobile}`}
+              // href={`https://admissions.navgurukul.org/status/${mobile}`}
+              href={`https://admissions.navgurukul.org/check_duplicate/Name=PoonamSinghBagh&Number=8826332326`}
               target="_blank"
             >
               Check Result{" "}
