@@ -13,6 +13,7 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./styles.scss";
 import { Redirect } from "react-router";
+import AddStudent from "../../../pages/AddStudent/index.js";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -26,6 +27,7 @@ const getPartnerIdFromUrl = () => {
 };
 
 function StudentData() {
+  const [openform, setOpenform] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
   const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
@@ -543,6 +545,8 @@ function StudentData() {
             {message ? <h1 className="Message">{message}</h1> : null}
           </tbody>
         </table>
+
+        <AddStudent />
       </div>
     );
   }
