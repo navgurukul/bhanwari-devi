@@ -43,6 +43,7 @@ function StudentData() {
   const [isEditing, setIsEditing] = useState(false);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [userId, setUserId] = useState();
+  const [userName, setUserName] = useState();
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
@@ -55,7 +56,6 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      console.log(res, "data");
       if (
         id == user.data.user.partner_id ||
         user.data.user.rolesList.indexOf("admin") > -1
@@ -240,7 +240,6 @@ function StudentData() {
       },
     })
       .then((data) => {
-        console.log("data", data);
         if (data.data.error) throw new Error(data.data.message);
         toast.success("Student deleted successfully!", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -248,7 +247,6 @@ function StudentData() {
         window.location.reload(1);
       })
       .catch((e) => {
-        console.log("e", e);
         toast.error(`Student couldn't be deleted!: ${e.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
@@ -574,6 +572,7 @@ function StudentData() {
                           onClick={() => {
                             setOpenEditForm(true);
                             setUserId(item.id);
+                            setUserName(item.name);
                           }}
                         />
                         <i
@@ -593,6 +592,7 @@ function StudentData() {
           openEditForm={openEditForm}
           setOpenEditForm={setOpenEditForm}
           userId={userId}
+          userName={userName}
         />
       </div>
     );

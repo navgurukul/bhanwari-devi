@@ -6,10 +6,11 @@ import "./style.scss";
 import { useEffect, useRef } from "react";
 import { METHODS } from "../../services/api";
 
-function AddStudent({ openEditForm, setOpenEditForm, userId }) {
+function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
   const [openForm, setOpenForm] = useState(false);
   const [studentEmail, setStudentEmail] = useState("");
-  const [studentName, setStudentNam] = useState("");
+  // const name = userName;
+  const [studentName, setStudentName] = useState();
   const user = useSelector(({ User }) => User);
 
   const submit = () => {
@@ -19,6 +20,10 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
       addStudent();
     }
   };
+
+  // useEffect(() => {
+  //   setStudentName(userName);
+  // }, []);
 
   const editStudent = () => {
     return axios({
@@ -33,7 +38,6 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
       },
     })
       .then((data) => {
-        console.log("data", data);
         if (data.data.error) throw new Error(data.data.message);
         toast.success(`Student name ${data.data.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -63,7 +67,6 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
       },
     })
       .then((data) => {
-        console.log("data", data);
         if (data.data.error) throw new Error(data.data.message);
         toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -119,7 +122,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
                       required
                       aria-required
                       onChange={(e) => {
-                        setStudentNam(e.target.value);
+                        setStudentName(e.target.value);
                       }}
                       value={studentName}
                     />
