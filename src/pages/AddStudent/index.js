@@ -8,16 +8,9 @@ import { METHODS } from "../../services/api";
 
 function AddStudent({ openEditForm, setOpenEditForm, userId }) {
   const [openForm, setOpenForm] = useState(false);
-  const [newStudent, setNewStudent] = useState({ email: "" });
+  const [studentEmail, setStudentEmail] = useState("");
   const [studentName, setStudentNam] = useState("");
   const user = useSelector(({ User }) => User);
-
-  const handleChange = async (event) => {
-    setNewStudent({ ...newStudent, [event.target.name]: event.target.value });
-  };
-
-  console.log("openEditForm", openEditForm);
-  console.log("userId", userId);
 
   const submit = () => {
     if (openEditForm) {
@@ -57,20 +50,21 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
   };
 
   const addStudent = () => {
-    axios
-      .post(
-        `${process.env.REACT_APP_MERAKI_URL}/partners/addUser`,
-        newStudent,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: user.data.token,
-          },
-        }
-      )
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/addUser`,
+      method: METHODS.POST,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        email: studentEmail,
+      },
+    })
       .then((data) => {
+        console.log("data", data);
         if (data.data.error) throw new Error(data.data.message);
-        toast.success("Student Added", {
+        toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
       })
@@ -125,7 +119,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
                       onChange={(e) => {
                         setStudentNam(e.target.value);
                       }}
-                      value={newStudent.name}
+                      value={studentName}
                     />
                   </>
                 ) : null}
@@ -140,8 +134,10 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
                       name="email"
                       required
                       aria-required
-                      onChange={handleChange}
-                      value={newStudent.email}
+                      onChange={(e) => {
+                        setStudentEmail(e.target.value);
+                      }}
+                      value={studentEmail}
                     />
                   </>
                 )}
@@ -150,7 +146,6 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
                   onClick={() => {
                     submit();
                     setOpenForm(false);
-                    setNewStudent({ email: "" });
                   }}
                 >
                   {openEditForm ? "Edit" : "Submit"}
