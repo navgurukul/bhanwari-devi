@@ -420,7 +420,6 @@ function Class({ classToEdit, indicator }) {
                           onChange={(e) => {
                             onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
-                            // console.log(pathway.id);
                           }}
                           id="course_id"
                         >

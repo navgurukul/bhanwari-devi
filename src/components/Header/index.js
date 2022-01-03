@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { PATHS } from "../../constant";
@@ -10,6 +10,8 @@ const AuthenticatedHeaderOption = () => {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
+
+  const [open, setOpen] = useState(false);
 
   const userId = user.data.user.partner_id;
 
@@ -59,13 +61,31 @@ const AuthenticatedHeaderOption = () => {
       </a>
 
       <a>
-        <button
-          className="logout"
-          onClick={() => dispatch(userActions.logout())}
-        >
-          Logout
-        </button>
+        <i
+          class="fa fa-user-circle-o profile-icon"
+          onClick={() => setOpen(!open)}
+        ></i>
       </a>
+      {open && (
+        <div class="dropdown-wrapper">
+          <ul class="dropdown-menu">
+            <li class="dropdown-menu__item">
+              <a className="item" href={PATHS.PROFILE}>
+                Profile
+              </a>
+            </li>
+            <li class="dropdown-menu__item">
+              <a
+                class="logout-btn"
+                onClick={() => dispatch(userActions.logout())}
+              >
+                {" "}
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
     </>
   );
 };

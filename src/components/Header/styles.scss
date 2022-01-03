@@ -85,6 +85,47 @@
   display: none;
 }
 
+.profile-icon {
+  font-size: 35px;
+  color: rgb(46, 44, 44);
+}
+
+.dropdown-wrapper {
+  position: absolute;
+  right: 0;
+
+  z-index: 1;
+
+  border: 1px solid rgba(0, 0, 0, 0.04);
+
+  box-shadow: 0px 16px 24px rgba(46, 46, 46, 0.06),
+    0px 6px 30px rgba(46, 46, 46, 0.04), 0px 8px 10px rgba(46, 46, 46, 0.08);
+}
+.dropdown-menu__item > a {
+  text-decoration: none;
+  color: #83b344;
+}
+
+.logout-btn {
+  cursor: pointer;
+  color: #d55f31 !important;
+}
+
+.dropdown-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  &__item {
+    padding: 8px 12px;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.14);
+      cursor: pointer;
+    }
+  }
+}
+
 @media (max-width: 600px) {
   .ng-header > .dropDown-btn {
     display: inline-block;

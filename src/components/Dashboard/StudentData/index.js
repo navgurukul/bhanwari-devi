@@ -80,9 +80,12 @@ function StudentData() {
               return {
                 ...item,
                 // not overwriting original created_at because we need the date object to sort by date
-                formatted_created_at: moment(
-                  item.created_at.replace("Z", "")
-                ).format("DD-MM-YYYY"),
+                formatted_created_at: moment(item.created_at).format(
+                  "DD-MM-YYYY"
+                ),
+                // formatted_created_at: moment(
+                //   // item.created_at.replace("Z")
+                // ).format("DD-MM-YYYY"),
                 classes_registered: item.classes_registered.map((item) => {
                   return {
                     ...item,

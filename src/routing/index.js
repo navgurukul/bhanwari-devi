@@ -13,6 +13,7 @@ import PrivacyPolicy from "../components/PrivacyPolicy";
 import PartnerData from "../components/Dashboard/PartnerData";
 import StudentData from "../components/Dashboard/StudentData";
 import StudentClassData from "../components/Dashboard/StudentClassData";
+import Profile from "../pages/Profile";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
@@ -32,6 +33,7 @@ const Routing = () => {
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
+      <Route exact path={PATHS.PROFILE} component={Profile} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
       <Route exact path={PATHS.VOLUNTEER} component={VolunteerDashboard} />
       <Route

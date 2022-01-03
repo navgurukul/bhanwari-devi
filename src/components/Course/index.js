@@ -81,7 +81,6 @@ function Course() {
   let otherCourses =
     filteredCourse &&
     filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
-  // console.log(pathwaysfilteredCourses, otherCourses, "iii");
 
   return (
     <div>
