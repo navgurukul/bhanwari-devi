@@ -27,7 +27,6 @@ const getPartnerIdFromUrl = () => {
 };
 
 function StudentData() {
-  const [openform, setOpenform] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
   const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
@@ -41,6 +40,8 @@ function StudentData() {
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
   const [isEditing, setIsEditing] = useState(false);
+  const [openEditForm, setOpenEditForm] = useState(false);
+  const [userId, setUserId] = useState();
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
@@ -248,6 +249,8 @@ function StudentData() {
       });
     }
   });
+
+  console.log("userId", userId);
 
   const removeStudent = () => {
     console.log("hello komal");
@@ -548,9 +551,11 @@ function StudentData() {
                       <td data-column="Avg rating ">
                         <i
                           className="class-card-action-icon class-card-edit fa fa-edit"
-                          // onClick={() => {
-                          //   handleEdit(item.id);
-                          // }}
+                          onClick={() => {
+                            setOpenEditForm(true);
+                            setUserId(item.id);
+                            // handleEdit(item.id);
+                          }}
                         />
                         <i
                           style={{ marginLeft: "20px" }}
@@ -566,7 +571,11 @@ function StudentData() {
           </tbody>
         </table>
 
-        <AddStudent />
+        <AddStudent
+          openEditForm={openEditForm}
+          setOpenEditForm={setOpenEditForm}
+          userId={userId}
+        />
       </div>
     );
   }
