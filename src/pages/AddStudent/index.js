@@ -1,10 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import "./style.scss";
-import { useState } from "react";
 import { useEffect, useRef } from "react";
 
 function AddStudent() {
   const [closeform, setCloseform] = useState(false);
+  const [newStudent, setNewStudent] = useState({ email: "" });
+  const user = useSelector(({ User }) => User);
+
+  const handleChange = async (event) => {
+    setNewStudent({ ...newStudent, [event.target.name]: event.target.value });
+  };
+
+  const submit = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_MERAKI_URL}/partners/addUser`,
+        newStudent,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user.data.token,
+          },
+        }
+      )
+      .then((data) => {
+        if (data.data.error) throw new Error(data.data.message);
+        toast.success("Student Added", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      })
+      .catch((e) => {
+        toast.error(`Student couldn't be created!: ${e.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
+  };
+
   return (
     <>
       <button
@@ -38,14 +72,31 @@ function AddStudent() {
                   className="student_data_field"
                   placeholder="Name of Student"
                   type="text"
+                  name="name"
+                  required
+                  aria-required
                 />
                 <label>Email of Student</label>
                 <input
                   className="student_data_field"
                   placeholder="Email ID of Student"
                   type="email"
+                  name="email"
+                  required
+                  aria-required
+                  onChange={handleChange}
+                  value={newStudent.email}
                 />
-                <button className="add_student_form_btn">Submit</button>
+                <button
+                  className="add_student_form_btn"
+                  onClick={() => {
+                    submit();
+                    setCloseform(false);
+                    setNewStudent({ email: "" });
+                  }}
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </OutsideAlerter>

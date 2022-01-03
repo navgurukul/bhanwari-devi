@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  // box-sizing: border-box;
 }
 .add_student_form_background {
   position: fixed;
@@ -18,8 +18,8 @@
 }
 .close_add_student_form {
   position: absolute;
-  top: 5px;
-  right: 15px;
+  top: 6px;
+  right: -47px;
   font-size: 25px;
   cursor: pointer;
 }
