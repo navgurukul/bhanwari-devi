@@ -38,6 +38,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
         toast.success(`Student name ${data.data.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+        window.location.reload(1);
       })
       .catch((e) => {
         toast.error(
@@ -67,6 +68,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
         toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+        window.location.reload(1);
       })
       .catch((e) => {
         toast.error(`Student couldn't be created!: ${e.message}`, {

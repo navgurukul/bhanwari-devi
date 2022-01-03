@@ -245,6 +245,7 @@ function StudentData() {
         toast.success("Student deleted successfully!", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+        window.location.reload(1);
       })
       .catch((e) => {
         console.log("e", e);
