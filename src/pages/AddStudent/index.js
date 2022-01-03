@@ -35,7 +35,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId }) {
       .then((data) => {
         console.log("data", data);
         if (data.data.error) throw new Error(data.data.message);
-        toast.success("Student name changed successfully!", {
+        toast.success(`Student name ${data.data.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
       })

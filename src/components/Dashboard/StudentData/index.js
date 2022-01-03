@@ -14,6 +14,7 @@ import "rc-slider/assets/index.css";
 import "./styles.scss";
 import { Redirect } from "react-router";
 import AddStudent from "../../../pages/AddStudent/index.js";
+import { toast } from "react-toastify";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -229,6 +230,30 @@ function StudentData() {
     setFilterVal(value);
   };
 
+  const removeStudent = (id) => {
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/user`,
+      method: METHODS.DELETE,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user.data.token,
+      },
+    })
+      .then((data) => {
+        console.log("data", data);
+        if (data.data.error) throw new Error(data.data.message);
+        toast.success("Student deleted successfully!", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      })
+      .catch((e) => {
+        console.log("e", e);
+        toast.error(`Student couldn't be deleted!: ${e.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
+  };
+
   let filter = [];
   students.filter((item) => {
     if (filterVal[0] === 0) {
@@ -249,12 +274,6 @@ function StudentData() {
       });
     }
   });
-
-  console.log("userId", userId);
-
-  const removeStudent = () => {
-    console.log("hello komal");
-  };
 
   if (
     user.data.user.rolesList.indexOf("admin") > -1 ||
@@ -554,14 +573,12 @@ function StudentData() {
                           onClick={() => {
                             setOpenEditForm(true);
                             setUserId(item.id);
-                            // handleEdit(item.id);
                           }}
                         />
                         <i
                           style={{ marginLeft: "20px" }}
                           className="class-card-action-icon fa fa-trash"
-                          // onClick={() => handleClickOpen(item.id)}
-                          onClick={removeStudent}
+                          onClick={() => removeStudent(item.id)}
                         />
                       </td>
                     </tr>
