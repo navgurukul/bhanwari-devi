@@ -40,6 +40,7 @@ function StudentData() {
   const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
+  const [isEditing, setIsEditing] = useState(false);
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
@@ -52,6 +53,7 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
+      console.log(res, "data");
       if (
         id == user.data.user.partner_id ||
         user.data.user.rolesList.indexOf("admin") > -1
@@ -246,6 +248,10 @@ function StudentData() {
       });
     }
   });
+
+  const removeStudent = () => {
+    console.log("hello komal");
+  };
 
   if (
     user.data.user.rolesList.indexOf("admin") > -1 ||
@@ -538,6 +544,20 @@ function StudentData() {
                             ></span>
                           );
                         })}
+                      </td>
+                      <td data-column="Avg rating ">
+                        <i
+                          className="class-card-action-icon class-card-edit fa fa-edit"
+                          // onClick={() => {
+                          //   handleEdit(item.id);
+                          // }}
+                        />
+                        <i
+                          style={{ marginLeft: "20px" }}
+                          className="class-card-action-icon fa fa-trash"
+                          // onClick={() => handleClickOpen(item.id)}
+                          onClick={removeStudent}
+                        />
                       </td>
                     </tr>
                   );

@@ -49,6 +49,7 @@ function AddStudent() {
       >
         Add Student
       </button>
+
       {closeform ? (
         <div className="add_student_form_background">
           <OutsideAlerter
