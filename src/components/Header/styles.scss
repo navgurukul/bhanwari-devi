@@ -9,28 +9,28 @@
   justify-content: space-between;
 }
 
-.logout {
-  width: 108px;
-  height: 42px;
-  background-color: #d55f31;
-  color: #ffffff;
-  // text-decoration: none;
-  border-radius: 16px;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 16px;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  outline: none;
-  border: 0;
+// .logout {
+//   width: 108px;
+//   height: 42px;
+//   background-color: #d55f31;
+//   color: #ffffff;
+//   // text-decoration: none;
+//   border-radius: 16px;
+//   font-weight: bold;
+//   font-size: 18px;
+//   line-height: 16px;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+//   outline: none;
+//   border: 0;
 
-  @include breakpoint-mobile {
-    position: absolute;
-    left: 10px;
-    margin-top: 40px;
-  }
-}
+//   @include breakpoint-mobile {
+//     position: absolute;
+//     left: 10px;
+//     margin-top: 40px;
+//   }
+// }
 
 .ng-header > .logo {
   display: inline-block;
@@ -93,14 +93,13 @@
 .dropdown-wrapper {
   position: absolute;
   right: 0;
-
+  background: white;
   z-index: 1;
-
   border: 1px solid rgba(0, 0, 0, 0.04);
-
   box-shadow: 0px 16px 24px rgba(46, 46, 46, 0.06),
     0px 6px 30px rgba(46, 46, 46, 0.04), 0px 8px 10px rgba(46, 46, 46, 0.08);
 }
+
 .dropdown-menu__item > a {
   text-decoration: none;
   color: #83b344;
@@ -169,5 +168,11 @@
   .ng-header > #nav-check:checked ~ .option {
     height: calc(100vh - 50px);
     overflow-y: auto;
+  }
+  .dropdown-wrapper {
+    position: absolute;
+    left: 0;
+    z-index: 999;
+    background: white;
   }
 }
