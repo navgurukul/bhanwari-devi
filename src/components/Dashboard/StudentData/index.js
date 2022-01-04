@@ -40,10 +40,11 @@ function StudentData() {
   const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
-  const [isEditing, setIsEditing] = useState(false);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [userId, setUserId] = useState();
   const [userName, setUserName] = useState();
+
+  const loginUser = user.data.user.id;
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
@@ -575,11 +576,13 @@ function StudentData() {
                             setUserName(item.name);
                           }}
                         />
-                        <i
-                          style={{ marginLeft: "20px" }}
-                          className="class-card-action-icon fa fa-trash"
-                          onClick={() => removeStudent(item.id)}
-                        />
+                        {loginUser == item.id ? null : (
+                          <i
+                            style={{ marginLeft: "20px" }}
+                            className="class-card-action-icon fa fa-trash"
+                            onClick={() => removeStudent(item.id)}
+                          />
+                        )}
                       </td>
                     </tr>
                   );
