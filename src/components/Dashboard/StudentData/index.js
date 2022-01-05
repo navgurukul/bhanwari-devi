@@ -42,6 +42,7 @@ function StudentData() {
   const user = useSelector(({ User }) => User);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [userId, setUserId] = useState();
+  const [partneName, setPartneName] = useState();
   const [userName, setUserName] = useState();
 
   const loginUser = user.data.user.id;
@@ -57,6 +58,7 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
+      console.log(res, "kkk");
       if (
         id == user.data.user.partner_id ||
         user.data.user.rolesList.indexOf("admin") > -1
@@ -120,10 +122,13 @@ function StudentData() {
             data.slice(pageNumber * limit, (pageNumber + 1) * limit)
           );
           setTotalCount(res.data.count);
+          setPartneName(res.data.partner_name);
         }
       }
     });
   }, [debouncedText]);
+
+  console.log(partneName, "partneName");
 
   useEffect(() => {
     const slicedData = students.slice(
@@ -283,6 +288,7 @@ function StudentData() {
   ) {
     return (
       <div className="container-table">
+        <h3 className="partner-name">{partneName}</h3>
         <div className="container-for-search">
           <div>
             <input
