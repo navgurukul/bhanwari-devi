@@ -9,6 +9,7 @@ function Profile() {
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState();
+  const [msg, setMsg] = useState();
 
   useEffect(() => {
     axios({
@@ -26,6 +27,7 @@ function Profile() {
 
   const editProfile = () => {
     setIsEditing(false);
+    setMsg(true);
     axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
@@ -45,6 +47,7 @@ function Profile() {
           Authorization: user.data.token,
         },
       }).then((res) => {
+        setMsg(false);
         setUserData(res.data.user);
       });
     });
@@ -65,6 +68,8 @@ function Profile() {
                 setEditName(e.target.value);
               }}
             />
+          ) : msg ? (
+            <p>Please wait...</p>
           ) : (
             <h1 className="profile-deta">{userData.name}</h1>
           )}
