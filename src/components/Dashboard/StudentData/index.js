@@ -63,6 +63,7 @@ function StudentData() {
       ) {
         if (res.data.students.length < 1) {
           setMessage("There are no results to display");
+          setSlicedStudents([]);
         } else {
           const data = res.data.students
             .map((item) => {
@@ -291,6 +292,7 @@ function StudentData() {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
+                setMessage("");
               }}
             />
           </div>
