@@ -90,7 +90,9 @@ const RenderContent = ({ data }) => {
     return <img className="image" src={get(data, "value")} alt="content" />;
   }
   if (data.component === "youtube") {
-    const videoId = data.value.split("=")[1];
+    const videoId = data.value.includes("=")
+      ? data.value.split("=")[1]
+      : data.value;
     return <YouTube className={"youtube-video"} videoId={videoId} />;
   }
   if (data.component === "text") {
