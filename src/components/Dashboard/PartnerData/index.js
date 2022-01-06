@@ -43,16 +43,11 @@ function PartnerDashboard() {
         setSlicedPartners([]);
         setMessage("There are no results to display");
       } else {
-        {
-          setPartners(res.data.partners);
-          setSlicedPartners(
-            res.data.partners.slice(
-              pageNumber * limit,
-              (pageNumber + 1) * limit
-            )
-          );
-          setTotalCount(res.data.count);
-        }
+        setPartners(res.data.partners);
+        setSlicedPartners(
+          res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+        );
+        setTotalCount(res.data.partners.length);
       }
     });
   }, [debouncedText]);
