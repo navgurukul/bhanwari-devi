@@ -102,6 +102,7 @@ function StudentClassData(props) {
         Total Classes by {props.location.state.passName} :{" "}
         {props.location.state.pass.length}
       </p>
+      <h3 className="student-email">{props.location.state.passEmail}</h3>
       <div className="container-for-search">
         <div>
           <input
@@ -182,6 +183,7 @@ function StudentClassData(props) {
         <tbody>
           {classes && classes.length > 0 ? (
             slicedClasses.map((item) => {
+              console.log(item);
               return (
                 <tr key={item.id}>
                   <td data-column="Title">{item.title}</td>

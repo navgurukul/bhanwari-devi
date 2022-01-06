@@ -509,6 +509,7 @@ function StudentData() {
                             state: {
                               pass: item.classes_registered,
                               passName: item.name,
+                              passEmail: item.email,
                             },
                           }}
                         >
