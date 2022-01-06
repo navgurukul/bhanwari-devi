@@ -43,10 +43,6 @@ function PartnerDashboard() {
         setSlicedPartners([]);
         setMessage("There are no results to display");
       } else {
-        console.log("res.data.partners", res.data.partners);
-        console.log("res.data.partners.length", res.data.partners.length);
-        console.log("res.data.count", res.data.count);
-        console.log("res.data", res.data);
         setPartners(res.data.partners);
         setSlicedPartners(
           res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)

@@ -58,7 +58,6 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
-      console.log(res, "kkk");
       if (
         id == user.data.user.partner_id ||
         user.data.user.rolesList.indexOf("admin") > -1
@@ -121,14 +120,12 @@ function StudentData() {
           setSlicedStudents(
             data.slice(pageNumber * limit, (pageNumber + 1) * limit)
           );
-          setTotalCount(res.data.count);
+          setTotalCount(data.length);
           setPartneName(res.data.partner_name);
         }
       }
     });
   }, [debouncedText]);
-
-  console.log(partneName, "partneName");
 
   useEffect(() => {
     const slicedData = students.slice(
