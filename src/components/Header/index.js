@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 
 import { PATHS } from "../../constant";
 
@@ -7,18 +9,29 @@ import { actions as userActions } from "../User/redux/action";
 import "./styles.scss";
 
 const AuthenticatedHeaderOption = () => {
+  const [partnerId, setPartnerId] = useState("");
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
 
   const [open, setOpen] = useState(false);
 
-  const userId = user.data.user.partner_id;
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setPartnerId(res.data.user.partner_id);
+    });
+  }, []);
 
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 
-  const canSpecifyPartner =
-    rolesList.includes("partner") && user.data.user.partner_id != null;
+  const canSpecifyPartner = rolesList.includes("partner") && partnerId != null;
 
   return (
     <>
@@ -38,7 +51,7 @@ const AuthenticatedHeaderOption = () => {
       ) : null}
       {canSpecifyPartner ? (
         <>
-          <a className="item" href={`${PATHS.PARTNERS}/${userId}`}>
+          <a className="item" href={`${PATHS.PARTNERS}/${partnerId}`}>
             Dashboard
           </a>
         </>
