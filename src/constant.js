@@ -17,5 +17,6 @@ export const PATHS = {
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   VOLUNTEER: "/volunteer",
+  STATEPARTNER: "/statepartner",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
 };
