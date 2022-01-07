@@ -16,6 +16,11 @@ function ToggleClassFormModal() {
   const [showConsentModal, setShowConsentModal] = useState(false);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
+
+  const rolesList = user.data.user.rolesList;
+  const canSpecifyFacilitator =
+    rolesList.indexOf("volunteer") > -1 || rolesList.indexOf("admin") > -1;
+
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
 
@@ -110,9 +115,11 @@ function ToggleClassFormModal() {
 
   return (
     <div>
-      <button className="create-class-button" onClick={toggleModalOpen}>
-        CREATE A CLASS
-      </button>
+      {canSpecifyFacilitator && (
+        <button className="create-class-button" onClick={toggleModalOpen}>
+          CREATE A CLASS
+        </button>
+      )}
       <ClassesList editClass={editClass} isShow={showModal} />
       {showModal && calenderConsent ? (
         <Modal onClose={toggleModalOpen}>
