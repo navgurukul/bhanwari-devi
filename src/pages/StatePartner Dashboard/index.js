@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+
 import "./style.scss";
 
 function StatePartnerDashboard() {
+  const [dropdown, setDropdown] = useState(false);
   return (
     <div className="state-partner-dashboard">
       <h2>Haryana State Partnership Dashboard</h2>
@@ -22,7 +24,24 @@ function StatePartnerDashboard() {
       </div>
       <div className="state-partner-choose-district">
         <h4>Please choose a district</h4>
-        <span className="choose-district-dropdown">Ambala</span>
+        <div
+          className="choose-district-dropdown"
+          onClick={() => {
+            setDropdown(!dropdown);
+          }}
+        >
+          Ambala
+          <span
+            className="choose-district-dropdown-content"
+            style={dropdown ? { display: "block" } : {}}
+          >
+            <ul>
+              <li>Jaipur</li>
+              <li>Surat</li>
+              <li>Banglore</li>
+            </ul>
+          </span>
+        </div>
       </div>
       <div className="state-partner-state-schools">
         <div className="state-schools-heading">
