@@ -16,6 +16,7 @@ export const PATHS = {
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   NAVGURUKUL_INTRODUCE: "/navgurukul",
-  NAVGURUKUL_LOGIN: "/navgurukul/login",
+  ADMISSION_LOGIN: "/admission-login",
   ADMISSION: "/admission",
+  REDIRECT: "/redirect",
 };

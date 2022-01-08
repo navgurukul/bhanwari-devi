@@ -8,16 +8,17 @@ function NavgurukulIntroduce() {
   const user = useSelector(({ User }) => User);
   const [getMerakiUrl, setGetMerakiUrl] = useState([]);
 
-  const partnerId = window.location.href.split("partner/")[1];
+  // const partnerId = window.location.href.split("partner/")[1];
+  const partnerId = 112;
 
-  const getMerakiLink = (id, platform) => {
+  const getMerakiLink = () => {
     axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${partnerId}/merakiLink`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        platform: platform,
+        platform: "android",
       },
     }).then((res) => {
       setGetMerakiUrl(res.data.meraki_link);
@@ -36,10 +37,7 @@ function NavgurukulIntroduce() {
           ></video>
         </div>
 
-        <button
-          className="get-meraki-link"
-          onClick={() => getMerakiLink(partnerId, "android")}
-        >
+        <button className="get-meraki-link" onClick={getMerakiLink()}>
           <a target="_blank" rel="noopener noreferrer" href={getMerakiUrl}>
             Get Meraki App
           </a>

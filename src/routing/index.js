@@ -18,6 +18,7 @@ import AFEpage from "../components/AFEpage";
 import NavgurukulIntroduce from "../pages/Navgurukul";
 import NavgurukulLogin from "../pages/Navgurukul/navgurukulLogin";
 import Admission from "../pages/Navgurukul/merakiAdmission";
+import RedirectComponent from "../components/common/RedirectComponent";
 
 // import Classes from '../pages/classes'
 
@@ -38,9 +39,9 @@ const Routing = () => {
         path={PATHS.NAVGURUKUL_INTRODUCE}
         component={NavgurukulIntroduce}
       />
-      <Route exact path={PATHS.NAVGURUKUL_LOGIN} component={NavgurukulLogin} />
+      <Route exact path={PATHS.ADMISSION_LOGIN} component={NavgurukulLogin} />
       <Route exact path={PATHS.ADMISSION} component={Admission} />
-
+      <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       {/* Private routes */}
       {/* <PrivateRoute
         exact

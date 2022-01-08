@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import "./styles.scss";
 import GoogleLogin from "react-google-login";
-import axios from "axios";
 import { Redirect } from "react-router";
-// import { PATHS } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as userActions } from "../../../components/User/redux/action";
-import { getQueryVariable } from "../../../common/utils";
-// import { METHODS } from "../../../services/api";
 
 function NavgurukulLogin() {
-  const [queryString, setqueryString] = useState(null);
-
-  const updateQueryString = (value) => {
-    setqueryString(value);
-  };
-
   const dispatch = useDispatch();
-  const { loading, data } = useSelector(({ User }) => User);
+  const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
 
   function onSignIn(googleUser) {
@@ -33,8 +23,6 @@ function NavgurukulLogin() {
     };
     // let's send the data to our backend.
     dispatch(userActions.onUserSignin(googleData));
-    updateQueryString(getQueryVariable("referrer"));
-    // dispatch(userActions.onUserUpdate(referrer));
   }
 
   const onGoogleLoginFail = (errorResponse) => {
@@ -43,25 +31,7 @@ function NavgurukulLogin() {
   };
 
   if (isAuthenticated) {
-    // if (queryString) {
-    //   axios({
-    //     method: "PUT",
-    //     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-    //     headers: {
-    //       accept: "application/json",
-    //       Authorization: data.token,
-    //     },
-    //     data: { referrer: queryString },
-    //   }).then((res) => {
-    //     console.log("res", res);
-    //   });
-    // }
     return <Redirect to="/admission" />;
-    // if (props.location.state) {
-    //   return <Redirect to={props.location.state.from.pathname} />;
-    // } else {
-    //   return <Redirect to={PATHS.COURSE} />;
-    // }
   }
 
   return (
