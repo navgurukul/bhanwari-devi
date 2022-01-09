@@ -16,11 +16,49 @@ import "./styles.scss";
 
 const getExerciseIdFromUrl = () => {
   let exerciseId;
+  const pathWithoutParams = window.location.href.split("?")[0];
 
-  if (window.location.href.includes("exercise")) {
+  if (pathWithoutParams.includes("exercise")) {
     exerciseId = window.location.href.split("/").pop();
   }
   return exerciseId;
+};
+
+const getSubExerciseIndex = (parent, childId) => {
+  if (parent.childExercises) {
+    return parent.childExercises.findIndex((c) => c.id === childId);
+  } else {
+    return -1;
+  }
+};
+
+const getSelectedFromId = (exerciseList, exerciseId) => {
+  if (!Array.isArray(exerciseList)) {
+    return;
+  }
+
+  let index, subExerciseIndex;
+  index = exerciseList.findIndex((e) => {
+    subExerciseIndex = getSubExerciseIndex(e, exerciseId);
+    return subExerciseIndex !== -1 || e.id === exerciseId;
+  });
+
+  if (subExerciseIndex === -1) {
+    if (index === -1) {
+      index = 0; // use default exercise
+    }
+    return {
+      index,
+      exercise: exerciseList[index]
+    };
+  } else {
+    return {
+      index,
+      subExerciseIndex,
+      exercise: exerciseList[index].childExercises[subExerciseIndex],
+      parentExercise: exerciseList[index]
+    };
+  }
 };
 
 function CourseContent(props) {
@@ -55,10 +93,11 @@ function CourseContent(props) {
   }, []);
 
   useEffect(() => {
-    const exerciseId = get(selectedExercise, "exercise.id");
+    // const exerciseId = get(selectedExercise, "exercise.id");
     window.localStorage.setItem(
       "lastExerciseUrl",
-      `${fullUrl}/exercise/${exerciseId}`
+      fullUrl
+      //`${fullUrl}/exercise/${exerciseId}`
     );
     const exercise = get(selectedExercise, "exercise.name");
     window.localStorage.setItem("exerciseName", exercise);
@@ -99,51 +138,29 @@ function CourseContent(props) {
   useEffect(() => {
     let exerciseIdFromParams = getExerciseIdFromUrl();
     const firstExercise = get(data, "exerciseList[0]");
-    let defaultExercise = firstExercise,
-      defaultExerciseIndex = 0;
 
     // exercises loaded
     if (firstExercise) {
       if (exerciseIdFromParams) {
-        const exerciseFromParamsIndex = data.exerciseList.findIndex(
-          (exercise) => {
-            return exercise.id === exerciseIdFromParams;
-          }
+        setSelectedExercise(
+          getSelectedFromId(data.exerciseList, exerciseIdFromParams)
         );
-        if (exerciseFromParamsIndex !== -1) {
-          defaultExercise = data.exerciseList[exerciseFromParamsIndex];
-          defaultExerciseIndex = exerciseFromParamsIndex;
-        }
       }
-      const selectedExerciseInfo = {
-        exercise: defaultExercise,
-        index: defaultExerciseIndex,
-      };
-
-      setSelectedExercise(selectedExerciseInfo);
     }
   }, [data]);
 
   useEffect(() => {
-    const pathWithoutParams = fullUrl.split("?")[0];
-    if (pathWithoutParams.includes("exercise")) {
-      const routeExerciseId = pathWithoutParams.split("/").pop();
-      if (
-        get(selectedExercise, "exercise.id") !== routeExerciseId &&
-        routeExerciseId &&
-        data
-      ) {
-        const newSelectedExerciseIndex = data.exerciseList.findIndex(
-          (exercise) => exercise.id === routeExerciseId
-        );
-        setSelectedExercise(
-          {
-            exercise: data.exerciseList[newSelectedExerciseIndex],
-            index: newSelectedExerciseIndex,
-          },
-          true
-        );
-      }
+    const routeExerciseId = getExerciseIdFromUrl();
+
+    if (
+      routeExerciseId !== undefined &&
+      data &&
+      get(selectedExercise, "exercise.id") !== routeExerciseId
+    ) {
+      setSelectedExercise(
+        getSelectedFromId(data.exerciseList, routeExerciseId),
+        true
+      );
     }
   }, [fullUrl]);
 

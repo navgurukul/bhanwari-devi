@@ -1,4 +1,5 @@
 import get from "lodash/get";
+import pick from "lodash/pick";
 
 export const mapCourses = (courses) => {
   // TODO: handle later when we provide functionality of enrolling courses.
@@ -49,37 +50,29 @@ export const mapCourses = (courses) => {
  */
 export const mapCourseContent = (contentResponse) => {
   const { exercises = [] } = get(contentResponse, "course", {});
-  const exerciseList = exercises.map((exercise) => {
-    let childExercises = null;
-    if (exercise.childExercises) {
-      childExercises = exercise.childExercises.map((childExercise) => {
-        if (typeof childExercise.content === "string") {
-          childExercise.content = [
-            { type: "markdown", value: exercise.content },
-          ];
-        }
-        return {
-          content: childExercise.content,
-          githubLink: childExercise.github_link,
-          id: childExercise.id,
-          name: childExercise.name,
-          slug: childExercise.slug,
-        };
-      });
+  const exerciseList = exercises.reduce((currentList, exercise) => {
+    if (
+      exercise.parent_exercise_id &&
+      exercise.id !== exercise.parent_exercise_id &&
+      exercises.find((p) => p.id === exercise.parent_exercise_id)
+    ) {
+      // child exercise of some other exercise in list, don't add to list
+      return currentList;
     }
-    if (typeof exercise.content === "string") {
-      exercise.content = [{ type: "markdown", value: exercise.content }];
+    const e = pick(exercise, ["content", "github_link", "id", "name", "slug"]);
+    if (typeof e.content === "string") {
+      e.content = [{ type: "markdown", value: e.content }];
     }
-    return {
-      content: exercise.content,
-      githubLink: exercise.github_link,
-      id: exercise.id,
-      name: exercise.name,
-      slug: exercise.slug,
-      childExercises: childExercises,
-    };
-  });
-
+    if (exercise.parent_exercise_id != null) {
+      e.childExercises = exercises.filter(
+        (potentialSubEx) => potentialSubEx.parent_exercise_id === exercise.id
+      );
+    } else {
+      e.childExercises = null;
+    }
+    return currentList.concat(e);
+  }, []);
+  
   return {
     exerciseList,
   };
