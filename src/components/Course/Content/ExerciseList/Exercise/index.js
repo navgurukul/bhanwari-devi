@@ -47,7 +47,7 @@ const ExerciseTitle = (props) => {
 
   return (
     <div
-      className={`content ${isChildExercise && "child-exercise"}`}
+      className={`content${(isChildExercise || "") && " child-exercise"}`}
       onClick={props.onClick}
     >
       {isChildExercise ? (

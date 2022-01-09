@@ -141,11 +141,9 @@ function CourseContent(props) {
 
     // exercises loaded
     if (firstExercise) {
-      if (exerciseIdFromParams) {
-        setSelectedExercise(
-          getSelectedFromId(data.exerciseList, exerciseIdFromParams)
-        );
-      }
+      setSelectedExercise(
+        getSelectedFromId(data.exerciseList, exerciseIdFromParams)
+      );
     }
   }, [data]);
 
