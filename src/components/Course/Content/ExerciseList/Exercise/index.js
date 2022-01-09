@@ -88,11 +88,11 @@ function Exercise(props) {
   };
 
   const containerClasses =
-    selected && !haveChildExercises ? "ng-exercise-selected" : "";
+    selected && !haveChildExercises ? " ng-exercise-selected" : "";
   return (
     <div
-      className={`ng-exercise  ${containerClasses} ${
-        showChildExercise && "ng-exercise-child"
+      className={`ng-exercise${containerClasses}${
+        (showChildExercise || "") && " ng-exercise-child"
       }`}
       key={index}
     >
@@ -112,7 +112,7 @@ function Exercise(props) {
             <ExerciseTitle
               isChildExercise={haveChildExercises}
               exercise={childExercise}
-              selected={subExerciseIndex === selectedExercise.subExerciseIndex}
+              selected={selected && subExerciseIndex === selectedExercise.subExerciseIndex}
               onClick={() => handleExerciseClick(index, subExerciseIndex)}
               key={subExerciseIndex}
             />
