@@ -51,8 +51,6 @@ function StatePartnerDashboard() {
           <div className="state-schools-card">
             <h4>GSMM School</h4>
             <div className="school-card-row">
-              <span className="student-card-icon"></span>
-              <span className="student-card-icon"></span>
               <span className="student-card-numbers">
                 <span>200</span> Students
               </span>
@@ -61,8 +59,6 @@ function StatePartnerDashboard() {
           <div className="state-schools-card">
             <h4>GSMM School</h4>
             <div className="school-card-row">
-              <span className="student-card-icon"></span>
-              <span className="student-card-icon"></span>
               <span className="student-card-numbers">
                 <span>200</span> Students
               </span>
@@ -71,8 +67,6 @@ function StatePartnerDashboard() {
           <div className="state-schools-card">
             <h4>GSMM School</h4>
             <div className="school-card-row">
-              <span className="student-card-icon"></span>
-              <span className="student-card-icon"></span>
               <span className="student-card-numbers">
                 <span>200</span> Students
               </span>
@@ -81,8 +75,6 @@ function StatePartnerDashboard() {
           <div className="state-schools-card">
             <h4>GSMM School</h4>
             <div className="school-card-row">
-              <span className="student-card-icon"></span>
-              <span className="student-card-icon"></span>
               <span className="student-card-numbers">
                 <span>200</span> Students
               </span>
@@ -91,8 +83,6 @@ function StatePartnerDashboard() {
           <div className="state-schools-card">
             <h4>GSMM School</h4>
             <div className="school-card-row">
-              <span className="student-card-icon"></span>
-              <span className="student-card-icon"></span>
               <span className="student-card-numbers">
                 <span>200</span> Students
               </span>
@@ -101,8 +91,6 @@ function StatePartnerDashboard() {
           <div className="state-schools-card">
             <h4>GSMM School</h4>
             <div className="school-card-row">
-              <span className="student-card-icon"></span>
-              <span className="student-card-icon"></span>
               <span className="student-card-numbers">
                 <span>200</span> Students
               </span>
@@ -111,8 +99,6 @@ function StatePartnerDashboard() {
           <div className="state-schools-card">
             <h4>GSMM School</h4>
             <div className="school-card-row">
-              <span className="student-card-icon"></span>
-              <span className="student-card-icon"></span>
               <span className="student-card-numbers">
                 <span>200</span> Students
               </span>
