@@ -183,7 +183,6 @@ function StudentClassData(props) {
         <tbody>
           {classes && classes.length > 0 ? (
             slicedClasses.map((item) => {
-              console.log(item);
               return (
                 <tr key={item.id}>
                   <td data-column="Title">{item.title}</td>
