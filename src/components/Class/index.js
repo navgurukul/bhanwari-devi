@@ -267,7 +267,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        // window.location.reload(1);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -364,10 +364,13 @@ function Class({ classToEdit, indicator }) {
 
               <label htmlFor="pathway">Pathway</label>
               <span>
-                {pathways.map((item) => {
+                {pathways.map((item, index) => {
                   if (item.code !== "PRCRSE") {
                     return (
-                      <label htmlFor="pathway" className="radio-pointer">
+                      <label
+                        htmlFor={`pathway-${index}`}
+                        className="radio-pointer"
+                      >
                         <input
                           type="radio"
                           className="radio-field radio__input"
@@ -380,6 +383,7 @@ function Class({ classToEdit, indicator }) {
                           checked={
                             pathwayId === `${item.id}` ? "checked" : false
                           }
+                          id={`pathway-${index}`}
                         />
                         {item.name}
                       </label>
