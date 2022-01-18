@@ -229,9 +229,9 @@ function Class({ classToEdit, indicator }) {
     }
   };
 
-  const clickHandler = (e, setField, field) => {
-    console.log("e", e);
-    // setField({ ...field, [e.target.name]: e.target.value });
+  const clickHandler = (num, setField, field) => {
+    // console.log("e", e);
+    setField({ ...field, [MAX_ENROLMENT]: num });
   };
 
   const handleOnChange = (position) => {
@@ -242,6 +242,7 @@ function Class({ classToEdit, indicator }) {
   };
 
   const checkBoxHandler = (e, day, key, field, setField) => {
+    console.log("day", day, "key", key);
     if (e.target.checked === true) {
       const daysList = [...field[key], day];
       setField(daysList, key);
@@ -766,19 +767,21 @@ function Class({ classToEdit, indicator }) {
                   className={
                     formFieldsState[MAX_ENROLMENT] === 5 ? "active" : ""
                   }
-                  onClick={
-                    (e) => {
-                      clickHandler(e, setFormFieldsState, formFieldsState);
-                      console.log(e.target.value);
-                    }
-                    //   (e) => {
+                  onClick={(e) => {
+                    // e.preventDefault();
+                    // setFormFieldsState({
+                    //   ...formFieldsState,
+                    //   [e.target.name]: e.target.value,
+                    // });
+                    clickHandler(5, setFormFieldsState, formFieldsState);
+                    // console.log("poo", e.target.value);
+                    // (e) => {
                     //   e.preventDefault();
                     //   setFormFieldsState({
                     //     ...formFieldsState,
                     //     [MAX_ENROLMENT]: 5,
                     //   });
-                    // }
-                  }
+                  }}
                 >
                   5
                 </button>
