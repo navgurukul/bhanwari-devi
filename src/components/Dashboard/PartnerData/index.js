@@ -180,7 +180,6 @@ function PartnerDashboard() {
             </thead>
             <tbody>
               {slicedPartners.map((item) => {
-                console.log("item", item);
                 return (
                   <tr key={item.id}>
                     <td data-column="Name">

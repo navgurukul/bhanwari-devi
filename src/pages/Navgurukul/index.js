@@ -26,6 +26,8 @@ function NavgurukulIntroduce() {
     });
   };
 
+  console.log("getMerakiUrl", getMerakiUrl);
+
   return (
     <div className="ng-introduce-container">
       <div className="main-text">
@@ -38,8 +40,13 @@ function NavgurukulIntroduce() {
           ></video>
         </div>
 
-        <button className="get-meraki-link" onClick={getMerakiLink}>
-          <a target="_blank" rel="noopener noreferrer" href={getMerakiUrl}>
+        <button className="get-meraki-link" onClick={getMerakiLink()}>
+          <a
+            className="meraki_link"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={getMerakiUrl}
+          >
             Get Meraki App
           </a>
         </button>
