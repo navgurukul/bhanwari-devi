@@ -267,7 +267,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -328,22 +328,6 @@ function Class({ classToEdit, indicator }) {
             <>
               <label htmlFor="type">Class Type</label>
               <span>
-                {/* <label htmlFor="type2" className="radio-pointer">
-                  <input
-                    type="radio"
-                    className="radio-field"
-                    name={TYPE}
-                    onChange={(e) => {
-                      setFormField("workshop", TYPE);
-                    }}
-                    value={formFieldsState[TYPE]}
-                    id="type2"
-                    checked={
-                      formFieldsState.type === "workshop" ? "checked" : false
-                    }
-                  />
-                  Workshop
-                </label> */}
                 <label htmlFor="type3" className="radio-pointer">
                   <input
                     type="radio"
@@ -465,91 +449,6 @@ function Class({ classToEdit, indicator }) {
                   </select>
                 </>
               )}
-              {/* <span />
-              <label htmlFor="pathway" className="label-field">
-                Pathway
-              </label>
-              <select
-                className="input-field"
-                value={pathwayId}
-                required={isEditMode ? false : true}
-                aria-required
-                onChange={(e) => {
-                  setPathwayId(e.target.value);
-                }}
-                id="pathway"
-              >
-                <option value="">Select a pathway from options below</option>
-                {pathways.map((item) => {
-                  return (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  );
-                })}
-              </select>
-              {pathwayId &&
-                pathways.map((pathway) => {
-                  if (pathwayId == pathway.id) {
-                    return (
-                      <React.Fragment key={pathway.id}>
-                        <label htmlFor="course_id" className="label-field">
-                          Select Course{" "}
-                        </label>
-                        <select
-                          className="input-field"
-                          required={isEditMode ? false : true}
-                          aria-required
-                          name={COURSE_ID}
-                          value={formFieldsState[COURSE_ID]}
-                          onChange={(e) => {
-                            onCourseChange(e.target.value);
-                            setFormField(e.target.value, COURSE_ID);
-                          }}
-                          id="course_id"
-                        >
-                          <option value="">Select a course</option>
-                          {pathway.courses.map((course) => {
-                            return (
-                              <option key={course.id} value={course.id}>
-                                {course.name}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </React.Fragment>
-                    );
-                  }
-                })}
-              {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
-                <>
-                  <label htmlFor="exercise_id" className="label-field">
-                    Select Exercise
-                    <span className="optional-field">(optional)</span>
-                  </label>
-                  <select
-                    className="input-field"
-                    name={EXERCISE_ID}
-                    value={formFieldsState[EXERCISE_ID]}
-                    onChange={(e) => {
-                      setFormField(e.target.value, EXERCISE_ID);
-                    }}
-                    id="exercise_id"
-                  >
-                    <option value="">Select an exercise</option>
-                    {(
-                      exercisesForSelectedCourse[formFieldsState[COURSE_ID]] ||
-                      []
-                    ).map((exercise) => {
-                      return (
-                        <option key={exercise.id} value={exercise.id}>
-                          {exercise.name}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </>
-              )} */}
               <label htmlFor="title" className="label-field">
                 Title
               </label>
@@ -728,70 +627,104 @@ function Class({ classToEdit, indicator }) {
               <label htmlFor={MAX_ENROLMENT} className="label-field">
                 Maximum Enrollments
                 <span className="optional-field">(optional)</span>
-                {/* <br /> */}
-                {/* <span className="description-for-enrollments">
-                  This is specific to Spoken English Classes, to cap the
-                  students per class between 5 - 10 <br />
-                  so that you can provide individual attention to each student's
-                  progress.
-                </span> */}
               </label>
-              {/* <input
-                className="input-field"
-                type="number"
-                name={MAX_ENROLMENT}
-                id={MAX_ENROLMENT}
-                onChange={(e) => {
-                  changeHandler(e, setFormFieldsState, formFieldsState);
-                  console.log(e.target.value);
-                }}
-                value={formFieldsState[MAX_ENROLMENT]}
-                placeholder="Maximum students per class"
-                min={1}
-              /> */}
-              <span className="enrolment_buttons">
-                <button
-                  className={
-                    formFieldsState[MAX_ENROLMENT] === 5 ? "active" : ""
-                  }
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFormFieldsState({
-                      ...formFieldsState,
-                      [MAX_ENROLMENT]: 5,
-                    });
-                  }}
-                >
+              <span>
+                <label htmlFor="enrole-5" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={MAX_ENROLMENT}
+                    onChange={(e) => {
+                      setFormField("5", MAX_ENROLMENT);
+                    }}
+                    value={formFieldsState[MAX_ENROLMENT]}
+                    id="enrole-5"
+                    checked={
+                      formFieldsState.max_enrolment == "5" ? "checked" : false
+                    }
+                  />
                   5
-                </button>
-                <button
-                  className={
-                    formFieldsState[MAX_ENROLMENT] === 10 ? "active" : ""
-                  }
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFormFieldsState({
-                      ...formFieldsState,
-                      [MAX_ENROLMENT]: 10,
-                    });
-                  }}
-                >
+                </label>
+                <label htmlFor="enrole-10" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={MAX_ENROLMENT}
+                    onChange={(e) => {
+                      setFormField("10", MAX_ENROLMENT);
+                    }}
+                    value={formFieldsState[MAX_ENROLMENT]}
+                    id="enrole-10"
+                    checked={
+                      formFieldsState.max_enrolment == "10" ? "checked" : false
+                    }
+                  />
                   10
-                </button>
-                <button
-                  className={
-                    formFieldsState[MAX_ENROLMENT] === 15 ? "active" : ""
-                  }
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFormFieldsState({
-                      ...formFieldsState,
-                      [MAX_ENROLMENT]: 15,
-                    });
-                  }}
-                >
+                </label>
+                <label htmlFor="enrole-15" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={MAX_ENROLMENT}
+                    onChange={(e) => {
+                      setFormField("15", MAX_ENROLMENT);
+                    }}
+                    value={formFieldsState[MAX_ENROLMENT]}
+                    id="enrole-15"
+                    checked={
+                      formFieldsState.max_enrolment == "15" ? "checked" : false
+                    }
+                  />
                   15
-                </button>
+                </label>
+                <label htmlFor="enrole-20" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={MAX_ENROLMENT}
+                    onChange={(e) => {
+                      setFormField("20", MAX_ENROLMENT);
+                    }}
+                    value={formFieldsState[MAX_ENROLMENT]}
+                    id="enrole-20"
+                    checked={
+                      formFieldsState.max_enrolment == "20" ? "checked" : false
+                    }
+                  />
+                  20
+                </label>
+                <label htmlFor="enrole-25" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={MAX_ENROLMENT}
+                    onChange={(e) => {
+                      setFormField("25", MAX_ENROLMENT);
+                    }}
+                    value={formFieldsState[MAX_ENROLMENT]}
+                    id="enrole-25"
+                    checked={
+                      formFieldsState.max_enrolment == "25" ? "checked" : false
+                    }
+                  />
+                  25
+                </label>
+                <label htmlFor="enrole-30" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={MAX_ENROLMENT}
+                    onChange={(e) => {
+                      setFormField("30", MAX_ENROLMENT);
+                    }}
+                    value={formFieldsState[MAX_ENROLMENT]}
+                    id="enrole-30"
+                    checked={
+                      formFieldsState.max_enrolment == "30" ? "checked" : false
+                    }
+                  />
+                  30
+                </label>
               </span>
               {formFieldsState[TYPE] === "cohort" && (
                 <>
