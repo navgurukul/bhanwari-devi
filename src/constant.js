@@ -15,7 +15,7 @@ export const PATHS = {
   PARTNER_DATA: "/partner/:partnerId",
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
-  NAVGURUKUL_INTRODUCE: "/navgurukul",
+  NAVGURUKUL_INTRODUCE: "/navgurukul/:partnerId",
   ADMISSION_LOGIN: "/admission-login",
   ADMISSION: "/admission",
   REDIRECT: "/redirect",
