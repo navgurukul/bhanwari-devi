@@ -179,6 +179,7 @@ function Class({ classToEdit, indicator }) {
   };
 
   const handleTimeValidationAndCreateClass = (payload) => {
+    console.log("payload", payload);
     const classStartTime = moment(
       `${payload[TIME_CONSTANT.CLASS_START_DATE]} ${
         payload[TIME_CONSTANT.CLASS_START_TIME]
@@ -228,6 +229,11 @@ function Class({ classToEdit, indicator }) {
     }
   };
 
+  const clickHandler = (e, setField, field) => {
+    console.log("e", e);
+    // setField({ ...field, [e.target.name]: e.target.value });
+  };
+
   const handleOnChange = (position) => {
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
@@ -247,6 +253,7 @@ function Class({ classToEdit, indicator }) {
   };
 
   const createClass = (payload) => {
+    console.log("payload in create class", payload);
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
     setLoading(true);
@@ -267,7 +274,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -285,11 +292,13 @@ function Class({ classToEdit, indicator }) {
     event && event.preventDefault();
     const formData = new FormData(event.target);
 
+    console.log("event.target", event.target);
     let formFields = {
       category_id: 3,
     };
 
     for (let [fieldName, value] of formData.entries()) {
+      console.log("fieldName=", fieldName, " ", "value=", value);
       if (value) {
         if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
@@ -309,6 +318,8 @@ function Class({ classToEdit, indicator }) {
       }
     }
 
+    console.log("formFields", formFields);
+
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -323,6 +334,7 @@ function Class({ classToEdit, indicator }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
+          console.log("formFieldsState", formFieldsState);
           const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
           return (
             <>
@@ -754,13 +766,19 @@ function Class({ classToEdit, indicator }) {
                   className={
                     formFieldsState[MAX_ENROLMENT] === 5 ? "active" : ""
                   }
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFormFieldsState({
-                      ...formFieldsState,
-                      [MAX_ENROLMENT]: 5,
-                    });
-                  }}
+                  onClick={
+                    (e) => {
+                      clickHandler(e, setFormFieldsState, formFieldsState);
+                      console.log(e.target.value);
+                    }
+                    //   (e) => {
+                    //   e.preventDefault();
+                    //   setFormFieldsState({
+                    //     ...formFieldsState,
+                    //     [MAX_ENROLMENT]: 5,
+                    //   });
+                    // }
+                  }
                 >
                   5
                 </button>
