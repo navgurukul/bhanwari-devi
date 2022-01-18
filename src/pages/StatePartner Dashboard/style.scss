@@ -4,9 +4,13 @@ body {
   width: 100%;
 }
 .state-partner-dashboard {
+  margin-top: 50px;
+
   display: flex;
   flex-direction: column;
   //   width: 100%;
+  font-family: Lusitana;
+  font-style: normal;
   padding: 0 10%;
   font-size: 18px;
 }
@@ -44,56 +48,21 @@ h4 {
   h4 {
     margin: 0;
   }
-  margin: 40px 0;
+  margin: 20px 0;
 }
-.choose-district-dropdown {
-  border-bottom: 2px solid black;
-  width: 230px;
-  box-sizing: border-box;
-  padding: 5px 2px;
-  position: relative;
-  cursor: pointer;
+
+.input-for-district {
+  width: 250px;
+  height: 36px;
+  margin: 10px 3px 10px 0px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #2e2e2e;
+  background: #f6f8fa;
+  // box-sizing: border-box;
 }
-.choose-district-dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
-  left: 0;
-  top: 135%;
-  z-index: 9;
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04),
-    0px 1px 5px rgba(0, 0, 0, 0.08);
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-    li {
-      margin: 5px 5px;
-      padding: 10px 5px;
-      box-sizing: border-box;
-      border: none;
-      border-bottom: 2px solid transparent;
-    }
-    li:hover {
-      border-bottom: 2px solid black;
-      transition: all ease-in 0.2s;
-    }
-  }
-}
-.choose-district-dropdown::after {
-  content: "";
-  position: absolute;
-  background-image: url("../../asset/dropdown.svg");
-  height: 20px;
-  width: 15px;
-  background-repeat: no-repeat;
-  right: 0;
-  top: 50%;
-}
+
 .state-partner-state-schools {
-  margin: 30px 0;
   display: flex;
   flex-direction: column;
 }
@@ -140,16 +109,23 @@ h4 {
   align-items: center;
 }
 
+.all-btn {
+  // width: 50%;
+  // background-color:#48a145 ;
+  // // height: 50px;
+  // border: none;
+  font-size: 15px;
+  // color: #f6f8fa;
+  // margin-top: 13px;
+}
+
 @media screen and (max-width: 650px) {
   .state-partner-choose-district {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
   }
-  .choose-district-dropdown {
-    margin-top: 20px;
-    width: 100%;
-  }
+
   .state-schools-card {
     width: 100%;
   }

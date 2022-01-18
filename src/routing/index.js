@@ -19,7 +19,6 @@ import AFEpage from "../components/AFEpage";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
-// import IndividualVolunteers from "../components/VolunteerDashbord/IndividualVolunteers"
 
 // import Classes from '../pages/classes'
 
