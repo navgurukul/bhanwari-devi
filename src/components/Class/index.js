@@ -315,7 +315,11 @@ function Class({ classToEdit, indicator }) {
   return (
     <div className="ng-create-class">
       <h2 className="title">
-        {isEditMode ? "Update class" : "Create Cohort / Doubt Class"}
+        {isEditMode
+          ? `Update ${
+              initialFormState[TYPE] == "cohort" ? "cohort" : "doubt"
+            } class`
+          : "Create Cohort / Doubt Class"}
       </h2>
       <Form
         className="form"
@@ -327,6 +331,7 @@ function Class({ classToEdit, indicator }) {
           return (
             <>
               <label htmlFor="type">Class Type</label>
+              {console.log("isEditMode", isEditMode)}
               <span>
                 <label htmlFor="type1" className="radio-pointer">
                   <input
@@ -340,6 +345,14 @@ function Class({ classToEdit, indicator }) {
                     id="type1"
                     checked={
                       formFieldsState.type === "cohort" ? "checked" : false
+                    }
+                    // disabled={formFieldsState[TYPE] === "cohort" ? true : false}
+                    disabled={
+                      isEditMode
+                        ? formFieldsState[TYPE] === "cohort"
+                          ? false
+                          : true
+                        : false
                     }
                   />
                   Cohort
@@ -356,6 +369,13 @@ function Class({ classToEdit, indicator }) {
                     id="type2"
                     checked={
                       formFieldsState.type === "doubt_class" ? "checked" : false
+                    }
+                    disabled={
+                      isEditMode
+                        ? formFieldsState[TYPE] === "doubt_class"
+                          ? false
+                          : true
+                        : false
                     }
                   />
                   Doubt Class
@@ -971,6 +991,7 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
+              {console.log("formFieldsState[TYPE]", formFieldsState[TYPE])}
               <div
                 className={
                   checkEquivalence ? "disabled-button" : "enabled-button"
@@ -984,7 +1005,7 @@ function Class({ classToEdit, indicator }) {
                   {loading ? (
                     <Loader />
                   ) : isEditMode ? (
-                    "UPDATE CLASS"
+                    `UPDATE CLASS`
                   ) : (
                     "Create Class"
                   )}
