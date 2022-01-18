@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./styles.scss";
@@ -13,6 +13,9 @@ function Admission() {
 
   const [mobile, setMobile] = useState("");
   const [enrolmentKey, setEnrolmentKey] = useState("");
+
+  let userToken = localStorage.getItem("Token");
+  console.log(userToken, "----");
 
   const partnerId = 112;
   const testUrl = "http://dev-join.navgurukul.org/k/";
@@ -206,5 +209,3 @@ function Admission() {
 }
 
 export default Admission;
-
-// http://dev-join.navgurukul.org/api/on_assessment/questions/A73OG2

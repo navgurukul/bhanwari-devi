@@ -13,17 +13,15 @@ function RedirectComponent() {
   console.log("redirect", redirect);
   console.log("token", token);
 
+  localStorage.setItem("Token", token);
+
   if (uri.includes("token")) {
     return <Redirect to={redirect} />;
   } else {
     return <Redirect to="/admission-login" />;
   }
 
-  return (
-    <div>
-      <h1>Komal</h1>
-    </div>
-  );
+  return <div></div>;
 }
 
 export default RedirectComponent;

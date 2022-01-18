@@ -9,6 +9,7 @@ function NavgurukulIntroduce() {
   const [getMerakiUrl, setGetMerakiUrl] = useState([]);
 
   // const partnerId = window.location.href.split("partner/")[1];
+
   const partnerId = 112;
 
   const getMerakiLink = () => {
