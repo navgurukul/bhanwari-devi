@@ -75,7 +75,7 @@ function Class({ classToEdit, indicator }) {
         ? moment.utc(end_time).add(330, "minute").format("kk:mm")
         : moment().add(60, "minute").format("kk:mm"),
       [LANG]: lang || "hi",
-      [TYPE]: type || "doubt_class",
+      [TYPE]: type || "cohort",
       [COURSE_ID]: course_id || "",
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "",
@@ -315,7 +315,7 @@ function Class({ classToEdit, indicator }) {
   return (
     <div className="ng-create-class">
       <h2 className="title">
-        {isEditMode ? "Update class" : "Create Cohort / Single Class"}
+        {isEditMode ? "Update class" : "Create Cohort / Doubt Class"}
       </h2>
       <Form
         className="form"
@@ -328,7 +328,7 @@ function Class({ classToEdit, indicator }) {
             <>
               <label htmlFor="type">Class Type</label>
               <span>
-                <label htmlFor="type3" className="radio-pointer">
+                <label htmlFor="type1" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -337,14 +337,14 @@ function Class({ classToEdit, indicator }) {
                       setFormField("cohort", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
-                    id="type3"
+                    id="type1"
                     checked={
                       formFieldsState.type === "cohort" ? "checked" : false
                     }
                   />
                   Cohort
                 </label>
-                <label htmlFor="type1" className="radio-pointer">
+                <label htmlFor="type2" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -353,7 +353,7 @@ function Class({ classToEdit, indicator }) {
                       setFormField("doubt_class", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
-                    id="type1"
+                    id="type2"
                     checked={
                       formFieldsState.type === "doubt_class" ? "checked" : false
                     }
