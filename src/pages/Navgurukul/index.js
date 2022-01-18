@@ -8,9 +8,9 @@ function NavgurukulIntroduce() {
   const user = useSelector(({ User }) => User);
   const [getMerakiUrl, setGetMerakiUrl] = useState([]);
 
-  // const partnerId = window.location.href.split("partner/")[1];
-
-  const partnerId = 112;
+  const partnerId = window.location.href.split("navgurukul/")[1];
+  // const partnerId = 112;
+  console.log("partnerId", partnerId);
 
   const getMerakiLink = () => {
     axios({
@@ -38,7 +38,7 @@ function NavgurukulIntroduce() {
           ></video>
         </div>
 
-        <button className="get-meraki-link" onClick={getMerakiLink()}>
+        <button className="get-meraki-link" onClick={getMerakiLink}>
           <a target="_blank" rel="noopener noreferrer" href={getMerakiUrl}>
             Get Meraki App
           </a>

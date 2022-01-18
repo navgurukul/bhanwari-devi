@@ -175,10 +175,12 @@ function PartnerDashboard() {
                 </th>
                 <th>Meraki - Android Link</th>
                 <th>Meraki - Web Link</th>
+                <th>Partner specific url</th>
               </tr>
             </thead>
             <tbody>
               {slicedPartners.map((item) => {
+                console.log("item", item);
                 return (
                   <tr key={item.id}>
                     <td data-column="Name">
@@ -255,6 +257,40 @@ function PartnerDashboard() {
                         </div>
                       </td>
                     )}
+                    {/* {item.web_link ? ( */}
+                    <td data-column="Meraki Link">
+                      <a
+                        className="meraki_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        // href={`https://www.merakilearn.org/navgurukul/${item.id}`}
+                        href={`http://localhost:3000/navgurukul/${item.id}`}
+                      >
+                        Get Url
+                      </a>
+                      <CopyToClipboard
+                        // text={`https://www.merakilearn.org/navgurukul/${item.id}`}
+                        text={`http://localhost:3000/navgurukul/${item.id}`}
+                        onCopy={() => {
+                          toast.success("Copied to Clipboard", {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose: 1200,
+                          });
+                        }}
+                      >
+                        <i className="clipboard fa fa-copy"></i>
+                      </CopyToClipboard>
+                    </td>
+                    {/* ) : (
+                      <td data-column="Meraki Link">
+                        <div
+                          className="create-link"
+                          onClick={() => createMerakiLink(item.id, "web")}
+                        >
+                          Create Url
+                        </div>
+                      </td>
+                    )} */}
                   </tr>
                 );
               })}
