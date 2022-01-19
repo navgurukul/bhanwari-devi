@@ -4,7 +4,6 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 
 import { PATHS } from "../../constant";
-
 import { actions as userActions } from "../User/redux/action";
 import "./styles.scss";
 
@@ -13,6 +12,8 @@ const AuthenticatedHeaderOption = () => {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
+
+  console.log(user, "USER");
 
   const [open, setOpen] = useState(false);
 
@@ -28,6 +29,13 @@ const AuthenticatedHeaderOption = () => {
       setPartnerId(res.data.user.partner_id);
     });
   }, []);
+
+  const partnerGroupId = user.data.user.partner_group_id;
+
+  // console.log(partnerGroupId)
+
+  const canSpecifyPartnerGroupId =
+    rolesList.includes("partner") && user.data.user.partner_group_id;
 
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 
@@ -49,13 +57,28 @@ const AuthenticatedHeaderOption = () => {
           </a>
         </>
       ) : null}
-      {canSpecifyPartner ? (
+      {/* {canSpecifyPartner ? (
+        <>
+          <a className="item" href={`${PATHS.PARTNERS}/${userId}`}>
+            Dashboard
+          </a>
+        </>
+      ) : null} */}
+
+      {canSpecifyPartnerGroupId ? (
+        <>
+          <a className="item" href={`${PATHS.STATE}/${partnerGroupId}`}>
+            Dashboard
+          </a>
+        </>
+      ) : canSpecifyPartner ? (
         <>
           <a className="item" href={`${PATHS.PARTNERS}/${partnerId}`}>
             Dashboard
           </a>
         </>
       ) : null}
+
       <a className="item" href={PATHS.COURSE}>
         Courses
       </a>
@@ -80,16 +103,16 @@ const AuthenticatedHeaderOption = () => {
         ></i>
       </a>
       {open && (
-        <div class="dropdown-wrapper">
-          <ul class="dropdown-menu">
-            <li class="dropdown-menu__item">
+        <div className="dropdown-wrapper">
+          <ul className="dropdown-menu">
+            <li className="dropdown-menu__item">
               <a className="item" href={PATHS.PROFILE}>
                 Profile
               </a>
             </li>
-            <li class="dropdown-menu__item">
+            <li className="dropdown-menu__item">
               <a
-                class="logout-btn"
+                className="logout-btn"
                 onClick={() => dispatch(userActions.logout())}
               >
                 {" "}

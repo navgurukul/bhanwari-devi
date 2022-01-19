@@ -18,7 +18,7 @@ import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
-// import IndividualVolunteers from "../components/VolunteerDashbord/IndividualVolunteers"
+import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 
 // import Classes from '../pages/classes'
 
@@ -36,6 +36,11 @@ const Routing = () => {
       <Route exact path={PATHS.PROFILE} component={Profile} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
       <Route exact path={PATHS.VOLUNTEER} component={VolunteerDashboard} />
+      <Route
+        exact
+        path={PATHS.STATEPARTNER}
+        component={StatePartnerDashboard}
+      />
       <Route
         exact
         path={PATHS.VOLUNTEER_OVERVIEW}
