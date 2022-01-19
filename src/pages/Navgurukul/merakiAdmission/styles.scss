@@ -1,3 +1,6 @@
+*:focus-visible {
+  outline: none;
+}
 .admission {
   display: flex;
   height: 100%;
@@ -29,7 +32,8 @@
 }
 
 .test-form {
-  width: 70%;
+  width: 80%;
+  max-width: 600px;
 }
 .input-form {
   display: flex;
@@ -50,14 +54,15 @@
   font-size: 15px;
 }
 .input input {
-  font-size: 18px;
+  font-size: 16px;
   margin: 5px 0;
   padding: 10px;
   border: none;
   border-bottom: 2px solid #818181;
-  max-width: 256px;
+  max-width: 150px;
   background-color: transparent;
 }
+
 button {
   background-color: #48a145;
   color: white;

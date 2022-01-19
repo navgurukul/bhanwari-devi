@@ -152,8 +152,6 @@ function Admission() {
                   onChange={changeHandler}
                 />
               </div>
-            </div>
-            <div className="form-row">
               <div className="input">
                 <span>Last Name</span>
                 <input
@@ -164,6 +162,8 @@ function Admission() {
                   onChange={changeHandler}
                 />
               </div>
+            </div>
+            <div className="form-row">
               <div className="input">
                 <span>Mobile Number</span>
                 <input
