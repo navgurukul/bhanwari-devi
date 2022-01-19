@@ -12,7 +12,7 @@ function StatePartnerDashboard() {
   const [districtPartnerData, setDistrictPartnerData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [myData, setMyData] = useState(
-    Object.keys(filterData).length ? filterData : "poonam"
+    filterData.length ? filterData : "poonam"
   );
 
   const [isShow, setIsShow] = useState(false);
@@ -43,9 +43,9 @@ function StatePartnerDashboard() {
     setIsShow(false);
   };
 
-  console.log(myData, "MYDATA");
+  // console.log(myData, 'MYDATA')
 
-  console.log("filterData", filterData);
+  // console.log(filterData, '------')
 
   return (
     <div className="state-partner-dashboard">
