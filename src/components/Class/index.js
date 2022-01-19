@@ -345,13 +345,6 @@ function Class({ classToEdit, indicator }) {
                     checked={
                       formFieldsState.type === "cohort" ? "checked" : false
                     }
-                    // disabled={
-                    //   isEditMode
-                    //     ? formFieldsState[TYPE] === "cohort"
-                    //       ? false
-                    //       : true
-                    //     : false
-                    // }
                     disabled={isEditMode && formFieldsState[TYPE] !== "cohort"}
                   />
                   Cohort
@@ -369,13 +362,6 @@ function Class({ classToEdit, indicator }) {
                     checked={
                       formFieldsState.type === "doubt_class" ? "checked" : false
                     }
-                    // disabled={
-                    //   isEditMode
-                    //     ? formFieldsState[TYPE] === "doubt_class"
-                    //       ? false
-                    //       : true
-                    //     : false
-                    // }
                     disabled={
                       isEditMode && formFieldsState[TYPE] !== "doubt_class"
                     }
