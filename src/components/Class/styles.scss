@@ -141,7 +141,16 @@ input[type="radio"]:checked {
 }
 
 .checkbox-field {
-  margin: 12px;
+  margin: 30px 12px 30px 12px;
+}
+
+.checkbox {
+  margin-right: 20px;
+}
+
+input.checkbox-field {
+  width: 15px;
+  height: 15px;
 }
 
 .input-field {
