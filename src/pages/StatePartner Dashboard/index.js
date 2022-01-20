@@ -88,7 +88,7 @@ function StatePartnerDashboard() {
       </div>
 
       {value === "all" ? (
-        <div className="volunteer-class-page-container">
+        <div className="State-dashboard-container">
           <table className="volunteer-class-table">
             <thead>
               <tr>
@@ -101,9 +101,9 @@ function StatePartnerDashboard() {
               {districtPartnerData.map((item) => {
                 return (
                   <tr key={item.id}>
-                    <td data-column="Class Title">{item.partner_group_name}</td>
-                    <td data-column="Class Title">{item.total_partners}</td>
-                    <td data-column="Class Title">{item.total_students}</td>
+                    <td data-column="Group Name">{item.partner_group_name}</td>
+                    <td data-column="No Partners">{item.total_partners}</td>
+                    <td data-column="No Students">{item.total_students}</td>
                   </tr>
                 );
               })}
