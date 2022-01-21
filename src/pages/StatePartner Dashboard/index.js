@@ -11,11 +11,7 @@ function StatePartnerDashboard() {
   const [districtPartner, setDistrictPartner] = useState([]);
   const [districtPartnerData, setDistrictPartnerData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [myData, setMyData] = useState(
-    filterData.length ? filterData : "poonam"
-  );
-
-  const [isShow, setIsShow] = useState(false);
+  const [value, setValue] = useState();
 
   useEffect(() => {
     axios({
@@ -38,14 +34,8 @@ function StatePartnerDashboard() {
       (el) => el.partner_group_name == e.target.value
     );
     setFilterData(stateFilterData);
-
-    setMyData(e.target.value);
-    setIsShow(false);
+    setValue(e.target.value);
   };
-
-  // console.log(myData, 'MYDATA')
-
-  // console.log(filterData, '------')
 
   return (
     <div className="state-partner-dashboard">
@@ -76,30 +66,29 @@ function StatePartnerDashboard() {
         <select
           className="input-for-district"
           onChange={handleSelcet}
-          // value={myData}
+          value={value}
         >
-          {/* <option value="all">All</option> */}
+          <option value="all">All</option>
           {districtPartnerData.map((item, i) => {
             return (
-              <option key={i} value={item.partner_group_name}>
-                {item.partner_group_name}
-              </option>
+              <>
+                {i == 0 ? (
+                  <option key={i} value={item.partner_group_name} selected>
+                    {item.partner_group_name}
+                  </option>
+                ) : (
+                  <option key={i} value={item.partner_group_name}>
+                    {item.partner_group_name}
+                  </option>
+                )}
+              </>
             );
           })}
         </select>
-
-        <button
-          className="all-btn"
-          onClick={() => {
-            setIsShow(true);
-          }}
-        >
-          All
-        </button>
       </div>
 
-      {isShow ? (
-        <div className="volunteer-class-page-container">
+      {value === "all" ? (
+        <div className="State-dashboard-container">
           <table className="volunteer-class-table">
             <thead>
               <tr>
@@ -112,9 +101,9 @@ function StatePartnerDashboard() {
               {districtPartnerData.map((item) => {
                 return (
                   <tr key={item.id}>
-                    <td data-column="Class Title">{item.partner_group_name}</td>
-                    <td data-column="Class Title">{item.total_partners}</td>
-                    <td data-column="Class Title">{item.total_students}</td>
+                    <td data-column="Group Name">{item.partner_group_name}</td>
+                    <td data-column="No Partners">{item.total_partners}</td>
+                    <td data-column="No Students">{item.total_students}</td>
                   </tr>
                 );
               })}
