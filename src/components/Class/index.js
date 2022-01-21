@@ -756,7 +756,7 @@ function Class({ classToEdit, indicator }) {
                     On days
                   </label>
                   <span>
-                    <label htmlFor="on_days_mo">
+                    <label htmlFor="on_days_mo" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -782,7 +782,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       MO
                     </label>
-                    <label htmlFor="on_days_tu">
+                    <label htmlFor="on_days_tu" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -808,7 +808,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       TU
                     </label>
-                    <label htmlFor="on_days_we">
+                    <label htmlFor="on_days_we" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -834,7 +834,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       WE
                     </label>
-                    <label htmlFor="on_days_th">
+                    <label htmlFor="on_days_th" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -860,7 +860,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       TH
                     </label>
-                    <label htmlFor="on_days_fr">
+                    <label htmlFor="on_days_fr" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -886,7 +886,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       FR
                     </label>
-                    <label htmlFor="on_days_sa">
+                    <label htmlFor="on_days_sa" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -912,7 +912,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       SA
                     </label>
-                    <label htmlFor="on_days_su">
+                    <label htmlFor="on_days_su" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
