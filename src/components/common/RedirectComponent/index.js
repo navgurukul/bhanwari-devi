@@ -3,15 +3,11 @@ import { Redirect } from "react-router";
 import { getQueryVariable } from "../../../common/utils";
 
 function RedirectComponent() {
-  // const uri = window.location.href;
-  const uri = `https://www.merakilearn.org/redirect?token=xyz&redirectUrl=/admission`;
-  // const token = uri.split("token=")[1].split("&")[0];
-  // console.log("token", token);
+  const uri = window.location.href;
+  // const uri = `https://www.merakilearn.org/redirect?token=xyz&redirectUrl=/admission`;
 
   const token = getQueryVariable("token");
   const redirect = getQueryVariable("redirectUrl");
-  console.log("redirect", redirect);
-  console.log("token", token);
 
   localStorage.setItem("Token", token);
 

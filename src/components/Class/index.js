@@ -125,7 +125,6 @@ function Class({ classToEdit, indicator }) {
         setLoading(false);
       },
       (error) => {
-        console.log(error);
         toast.error(
           `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
           {

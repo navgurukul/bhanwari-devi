@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import YouTube from "react-youtube";
+import { METHODS } from "../../../services/api";
 import "./styles.scss";
 
 function Admission() {
@@ -14,36 +16,36 @@ function Admission() {
   const [mobile, setMobile] = useState("");
   const [enrolmentKey, setEnrolmentKey] = useState("");
 
-  let userToken = localStorage.getItem("Token");
-  console.log(userToken, "----");
+  const [partnerId, setPartnerId] = useState("");
 
-  const partnerId = 112;
+  let userToken = localStorage.getItem("Token");
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+      headers: {
+        accept: "application/json",
+        Authorization: userToken,
+      },
+    }).then((res) => {
+      setPartnerId(res.data.user.partner_id);
+    });
+  }, []);
+
   const testUrl = "http://dev-join.navgurukul.org/k/";
 
   const generateTestLink = async () => {
     try {
-      // const partnerId = this.state.partnerId ? this.state.partnerId : null;
       const mobile = `0${userDetails.mobileNumber}`;
       const dataURL = `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call`;
       const response = await axios.get(dataURL, {
         params: {
           ngCallType: "getEnrolmentKey",
           From: mobile,
-          partner_id: partnerId,
+          partner_id: partnerId ? partnerId : null,
         },
       });
-      console.log("response.data.key", response.data.key);
-      setEnrolmentKey("response.data.key", response.data.key);
-      axios
-        .get(
-          `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call?ngCallType=getEnrolmentKey&From=0${userDetails.mobileNumber}&partner_id=112`
-        )
-        .then((res) => {
-          console.log("res", res);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
+      setEnrolmentKey(response.data.key);
       const params = {
         firstName: userDetails.firstName,
         middleName: userDetails.middleName,
@@ -61,13 +63,10 @@ function Admission() {
         .join("&");
 
       const url = `${testUrl}${enrolmentKey}?${queryString}`;
-      console.log("url", url);
 
       window.open(url, "_blank");
       return response;
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   const giveTest = async () => {
@@ -104,7 +103,6 @@ function Admission() {
       })
       .then(async (data) => {
         const response = data.data.data;
-        console.log("alreadyGivenTest", response.alreadyGivenTest);
         const stage = response.pendingInterviewStage;
         const url = `https://admissions.navgurukul.org/check_duplicate/Name=${firstName}${middleName}${lastName}&Number=${mobileNumber}&Stage=${stage}`;
         if (response.alreadyGivenTest) {
@@ -119,44 +117,44 @@ function Admission() {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
-  console.log("userDetails", userDetails);
-
   return (
     <div className="admission">
       <div className="left-section">
-        <video src="../../asset/video.mp4" className="video" controls></video>
+        <YouTube className={"video-alumni"} videoId={`vuSwndj5cbs`} />;
         <div className="video-label">Experience of NG Alumni & Graduates</div>
       </div>
       <div className="right-section">
         <div className="test-form">
-          <h2>Software Engineering Scholarship Test</h2>
+          <h2 className="scholarship-test">
+            Software Engineering Scholarship Test
+          </h2>
           <div className="input-form">
             <div className="form-row">
-              <div className="input">
+              <div className="input-field-test">
                 <span>First Name</span>
                 <input
                   type="text"
-                  placeholder="First Name..."
+                  placeholder="Abhi..."
                   value={userDetails.firstName}
                   name="firstName"
                   onChange={changeHandler}
                 />
               </div>
-              <div className="input">
+              <div className="input-field-test">
                 <span>Middle Name (Optional)</span>
                 <input
                   type="text"
-                  placeholder="Middle Name..."
+                  placeholder="Kumar..."
                   value={userDetails.middleName}
                   name="middleName"
                   onChange={changeHandler}
                 />
               </div>
-              <div className="input">
+              <div className="input-field-test">
                 <span>Last Name</span>
                 <input
                   type="text"
-                  placeholder="Last Name..."
+                  placeholder="Garg..."
                   value={userDetails.lastName}
                   name="lastName"
                   onChange={changeHandler}
@@ -164,11 +162,11 @@ function Admission() {
               </div>
             </div>
             <div className="form-row">
-              <div className="input">
+              <div className="input-field-test">
                 <span>Mobile Number</span>
                 <input
                   type="text"
-                  placeholder="Mobile Number..."
+                  placeholder="9874500000"
                   value={userDetails.mobileNumber}
                   name="mobileNumber"
                   onChange={changeHandler}
@@ -176,16 +174,18 @@ function Admission() {
               </div>
             </div>
           </div>
-          <button onClick={giveTest}>Give Admissions Test</button>
+          <button className="test-btn" onClick={giveTest}>
+            Give Admissions Test
+          </button>
         </div>
         <div className="test-form down">
           <h2>Check Test Result via Registered Mobile Number </h2>
           <div className="input-form">
-            <div className="input">
+            <div className="input-field-test">
               <span>Mobile Number</span>
               <input
                 type="text"
-                placeholder="Mobile Number..."
+                placeholder="9874500000"
                 onChange={(e) => {
                   setMobile(e.target.value);
                 }}
@@ -193,7 +193,7 @@ function Admission() {
               />
             </div>
           </div>
-          <button>
+          <button className="test-btn">
             <a
               className="result-btn"
               href={`https://admissions.navgurukul.org/status/${mobile}`}

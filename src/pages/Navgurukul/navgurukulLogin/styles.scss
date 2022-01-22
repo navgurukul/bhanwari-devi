@@ -2,28 +2,20 @@
   padding: 0 10%;
   margin: 40px auto 0;
 }
-
-.flex-Container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-}
-.left-side-conent,
-.right-side-conent {
-  flex: 1 300px;
-  min-width: 0;
-  padding: 15px 0;
-}
-.right-side-conent {
-  margin: 10px;
-  padding: 6px;
-}
-
 .login-heading {
-  max-width: 500px;
-  font-size: 30px;
-  font-family: Lusitana;
-  font-style: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  margin: auto;
+  margin-top: 160px;
+  padding-top: 24px;
+  padding-bottom: 36px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
 }

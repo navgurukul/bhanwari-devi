@@ -8,7 +8,6 @@
 
 .main-text {
   width: 100%;
-  // margin-top: 30px;
 }
 
 .meraki-insertion-video {
@@ -17,16 +16,19 @@
   border-radius: 8px;
 }
 
-.get-meraki-link a {
+.get-meraki-link {
   background-color: #48a145;
-  text-decoration: none;
-  color: white;
+
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 18px;
   align-self: center;
   width: 290px;
+}
+.get-meraki-link a {
+  color: white;
+  text-decoration: none;
 }
 
 @media only screen and (max-width: 760px),

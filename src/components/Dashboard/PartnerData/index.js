@@ -256,20 +256,17 @@ function PartnerDashboard() {
                         </div>
                       </td>
                     )}
-                    {/* {item.web_link ? ( */}
                     <td data-column="Meraki Link">
                       <a
                         className="meraki_link"
                         target="_blank"
                         rel="noopener noreferrer"
-                        // href={`https://www.merakilearn.org/navgurukul/${item.id}`}
-                        href={`http://localhost:3000/navgurukul/${item.id}`}
+                        href={`https://www.merakilearn.org/navgurukul/${item.id}`}
                       >
                         Get Url
                       </a>
                       <CopyToClipboard
-                        // text={`https://www.merakilearn.org/navgurukul/${item.id}`}
-                        text={`http://localhost:3000/navgurukul/${item.id}`}
+                        text={`https://www.merakilearn.org/navgurukul/${item.id}`}
                         onCopy={() => {
                           toast.success("Copied to Clipboard", {
                             position: toast.POSITION.BOTTOM_RIGHT,
@@ -280,16 +277,6 @@ function PartnerDashboard() {
                         <i className="clipboard fa fa-copy"></i>
                       </CopyToClipboard>
                     </td>
-                    {/* ) : (
-                      <td data-column="Meraki Link">
-                        <div
-                          className="create-link"
-                          onClick={() => createMerakiLink(item.id, "web")}
-                        >
-                          Create Url
-                        </div>
-                      </td>
-                    )} */}
                   </tr>
                 );
               })}
