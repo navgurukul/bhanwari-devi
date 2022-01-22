@@ -35,11 +35,17 @@ const AuthenticatedHeaderOption = () => {
   // console.log(partnerGroupId)
 
   const canSpecifyPartnerGroupId =
-    rolesList.includes("partner") && user.data.user.partner_group_id;
+    rolesList.includes("admin") ||
+    rolesList.includes("partner") ||
+    (rolesList.includes("partner_view") && user.data.user.partner_group_id);
 
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 
-  const canSpecifyPartner = rolesList.includes("partner") && partnerId != null;
+  const canSpecifyPartner =
+    (rolesList.includes("partner") ||
+      // rolesList.includes("partner_view") ||
+      rolesList.includes("partner_edit")) &&
+    partnerId != null;
 
   return (
     <>
@@ -57,13 +63,6 @@ const AuthenticatedHeaderOption = () => {
           </a>
         </>
       ) : null}
-      {/* {canSpecifyPartner ? (
-        <>
-          <a className="item" href={`${PATHS.PARTNERS}/${userId}`}>
-            Dashboard
-          </a>
-        </>
-      ) : null} */}
 
       {canSpecifyPartnerGroupId ? (
         <>
