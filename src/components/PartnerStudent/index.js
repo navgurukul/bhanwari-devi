@@ -33,6 +33,7 @@ function PartnerStudentData() {
   const [filterVal, setFilterVal] = useState([0, 0]);
   const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
+
   const user = useSelector(({ User }) => User);
 
   const limit = 10;

@@ -25,8 +25,10 @@ ${code}
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   let l = lang == "python" ? "2" : "js";
+  let replacedCode = code && code.replace(/<br>/g, "\n");
+  let visualizerCode = replacedCode.replace(/&emsp;/g, " ");
   let url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
-    code
+    visualizerCode
   )
     .replace(/%2C|%2F/g, decodeURIComponent)
     .replace(/\(/g, "%28")
@@ -88,7 +90,10 @@ const RenderContent = ({ data }) => {
     return <img className="image" src={get(data, "value")} alt="content" />;
   }
   if (data.component === "youtube") {
-    return <YouTube className={"youtube-video"} videoId={data.value} />;
+    const videoId = data.value.includes("=")
+      ? data.value.split("=")[1]
+      : data.value;
+    return <YouTube className={"youtube-video"} videoId={videoId} />;
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
@@ -117,7 +122,9 @@ const RenderContent = ({ data }) => {
     // return tableData(data);
     //Changing list data from row to column
     const allData = data.value.map((item) => item.items);
-    const dataInCol = allData[0].map((_, i) => allData.map((_, j) => allData[j][i]));
+    const dataInCol = allData[0].map((_, i) =>
+      allData.map((_, j) => allData[j][i])
+    );
     return (
       <div>
         <table className="table-data">
@@ -155,12 +162,12 @@ const RenderContent = ({ data }) => {
     return (
       <div>
         <div className="code-bg">
-          {/* <div
+          <pre
             dangerouslySetInnerHTML={{
-              __html: getMarkdown(codeContent, data.type),
+              __html: codeContent,
             }}
-          /> */}
-          <Highlight innerHTML={true}>{get(data, "value")}</Highlight>
+          />
+          {/* <Highlight innerHTML={true}>{get(data, "value")}</Highlight> */}
         </div>
         <div className="code__controls">
           <a
@@ -170,12 +177,12 @@ const RenderContent = ({ data }) => {
             Visualize
           </a>
 
-          <a
+          {/* <a
             target="_blank"
             href={createVisulizeURL(get(data, "value.code"), data.type, "edit")}
           >
             Edit
-          </a>
+          </a> */}
         </div>
       </div>
     );

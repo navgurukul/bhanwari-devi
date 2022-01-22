@@ -13,6 +13,8 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./styles.scss";
 import { Redirect } from "react-router";
+import AddStudent from "../../../pages/AddStudent/index.js";
+import { toast } from "react-toastify";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -38,6 +40,12 @@ function StudentData() {
   const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
   const user = useSelector(({ User }) => User);
+  const [openEditForm, setOpenEditForm] = useState(false);
+  const [userId, setUserId] = useState();
+  const [partneName, setPartneName] = useState();
+  const [userName, setUserName] = useState();
+
+  const loginUser = user.data.user.id;
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
@@ -56,6 +64,7 @@ function StudentData() {
       ) {
         if (res.data.students.length < 1) {
           setMessage("There are no results to display");
+          setSlicedStudents([]);
         } else {
           const data = res.data.students
             .map((item) => {
@@ -80,9 +89,12 @@ function StudentData() {
               return {
                 ...item,
                 // not overwriting original created_at because we need the date object to sort by date
-                formatted_created_at: moment(
-                  item.created_at.replace("Z", "")
-                ).format("DD-MM-YYYY"),
+                formatted_created_at: moment(item.created_at).format(
+                  "DD-MM-YYYY"
+                ),
+                // formatted_created_at: moment(
+                //   // item.created_at.replace("Z")
+                // ).format("DD-MM-YYYY"),
                 classes_registered: item.classes_registered.map((item) => {
                   return {
                     ...item,
@@ -108,7 +120,8 @@ function StudentData() {
           setSlicedStudents(
             data.slice(pageNumber * limit, (pageNumber + 1) * limit)
           );
-          setTotalCount(res.data.count);
+          setTotalCount(data.length);
+          setPartneName(res.data.partner_name);
         }
       }
     });
@@ -221,6 +234,29 @@ function StudentData() {
     setFilterVal(value);
   };
 
+  const removeStudent = (id) => {
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/user`,
+      method: METHODS.DELETE,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user.data.token,
+      },
+    })
+      .then((data) => {
+        if (data.data.error) throw new Error(data.data.message);
+        toast.success("Student deleted successfully!", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        window.location.reload(1);
+      })
+      .catch((e) => {
+        toast.error(`Student couldn't be deleted!: ${e.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
+  };
+
   let filter = [];
   students.filter((item) => {
     if (filterVal[0] === 0) {
@@ -249,6 +285,7 @@ function StudentData() {
   ) {
     return (
       <div className="container-table">
+        <h3 className="partner-name">{partneName}</h3>
         <div className="container-for-search">
           <div>
             <input
@@ -258,6 +295,7 @@ function StudentData() {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
+                setMessage("");
               }}
             />
           </div>
@@ -471,6 +509,7 @@ function StudentData() {
                             state: {
                               pass: item.classes_registered,
                               passName: item.name,
+                              passEmail: item.email,
                             },
                           }}
                         >
@@ -534,12 +573,36 @@ function StudentData() {
                           );
                         })}
                       </td>
+                      <td data-column="Avg rating ">
+                        <i
+                          className="class-card-action-icon class-card-edit fa fa-edit"
+                          onClick={() => {
+                            setOpenEditForm(true);
+                            setUserId(item.id);
+                            setUserName(item.name);
+                          }}
+                        />
+                        {loginUser == item.id ? null : (
+                          <i
+                            style={{ marginLeft: "20px" }}
+                            className="class-card-action-icon fa fa-trash"
+                            onClick={() => removeStudent(item.id)}
+                          />
+                        )}
+                      </td>
                     </tr>
                   );
                 })}
             {message ? <h1 className="Message">{message}</h1> : null}
           </tbody>
         </table>
+
+        <AddStudent
+          openEditForm={openEditForm}
+          setOpenEditForm={setOpenEditForm}
+          userId={userId}
+          userName={userName}
+        />
       </div>
     );
   }

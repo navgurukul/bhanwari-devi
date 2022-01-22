@@ -23,8 +23,8 @@ function PartnerDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortMethod, setSortMethod] = useState("dsc");
   const [sort_class, setSortClass] = useState("sorter");
-
   const [debouncedText] = useDebounce(searchTerm, 400);
+  const [message, setMessage] = useState("");
   const user = useSelector(({ User }) => User);
   const limit = 15;
 
@@ -39,11 +39,16 @@ function PartnerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setPartners(res.data.partners);
-      setSlicedPartners(
-        res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)
-      );
-      setTotalCount(res.data.count);
+      if (res.data.partners.length < 1) {
+        setSlicedPartners([]);
+        setMessage("There are no results to display");
+      } else {
+        setPartners(res.data.partners);
+        setSlicedPartners(
+          res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+        );
+        setTotalCount(res.data.partners.length);
+      }
     });
   }, [debouncedText]);
 
@@ -133,6 +138,7 @@ function PartnerDashboard() {
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
+                  setMessage("");
                 }}
               />
             </div>
@@ -280,6 +286,7 @@ function PartnerDashboard() {
                   </tr>
                 );
               })}
+              {message ? <h1 className="Message">{message}</h1> : null}
             </tbody>
           </table>
         </div>

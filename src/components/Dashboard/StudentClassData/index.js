@@ -12,10 +12,13 @@ function StudentClassData(props) {
   const [sort_class, setSortClass] = useState("sorter");
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
+  const [totalCount, setTotalCount] = useState(
+    props.location.state.pass.length
+  );
 
   const limit = 10;
 
-  const pageCount = Math.ceil(props.location.state.pass.length / limit);
+  const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
@@ -30,6 +33,7 @@ function StudentClassData(props) {
         return searchValue;
       }
     });
+    setTotalCount(data.length);
     const slicedData = data.slice(pageNumber * limit, (pageNumber + 1) * limit);
     setClasses(data);
     setSlicedClasses(slicedData);
@@ -98,6 +102,7 @@ function StudentClassData(props) {
         Total Classes by {props.location.state.passName} :{" "}
         {props.location.state.pass.length}
       </p>
+      <h3 className="student-email">{props.location.state.passEmail}</h3>
       <div className="container-for-search">
         <div>
           <input

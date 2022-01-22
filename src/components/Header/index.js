@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 
 import { PATHS } from "../../constant";
 
@@ -7,16 +9,29 @@ import { actions as userActions } from "../User/redux/action";
 import "./styles.scss";
 
 const AuthenticatedHeaderOption = () => {
+  const [partnerId, setPartnerId] = useState("");
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
 
-  const userId = user.data.user.partner_id;
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setPartnerId(res.data.user.partner_id);
+    });
+  }, []);
 
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 
-  const canSpecifyPartner =
-    rolesList.includes("partner") && user.data.user.partner_id != null;
+  const canSpecifyPartner = rolesList.includes("partner") && partnerId != null;
 
   return (
     <>
@@ -25,6 +40,10 @@ const AuthenticatedHeaderOption = () => {
           <a className="item" href={PATHS.USER}>
             User
           </a>
+
+          <a className="item" href={PATHS.VOLUNTEER}>
+            Volunteers
+          </a>
           <a className="item" href={PATHS.PARTNERS}>
             Partners
           </a>
@@ -32,7 +51,7 @@ const AuthenticatedHeaderOption = () => {
       ) : null}
       {canSpecifyPartner ? (
         <>
-          <a className="item" href={`${PATHS.PARTNERS}/${userId}`}>
+          <a className="item" href={`${PATHS.PARTNERS}/${partnerId}`}>
             Dashboard
           </a>
         </>
@@ -50,6 +69,7 @@ const AuthenticatedHeaderOption = () => {
       <a className="item" href={PATHS.CLASS}>
         Classes
       </a>
+
       <a className="item" href={PATHS.OPPORTUNITIES}>
         Opportunities
       </a>
@@ -58,13 +78,31 @@ const AuthenticatedHeaderOption = () => {
       </a>
 
       <a>
-        <button
-          className="logout"
-          onClick={() => dispatch(userActions.logout())}
-        >
-          Logout
-        </button>
+        <i
+          class="fa fa-user-circle-o profile-icon"
+          onClick={() => setOpen(!open)}
+        ></i>
       </a>
+      {open && (
+        <div class="dropdown-wrapper">
+          <ul class="dropdown-menu">
+            <li class="dropdown-menu__item">
+              <a className="item" href={PATHS.PROFILE}>
+                Profile
+              </a>
+            </li>
+            <li class="dropdown-menu__item">
+              <a
+                class="logout-btn"
+                onClick={() => dispatch(userActions.logout())}
+              >
+                {" "}
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
     </>
   );
 };

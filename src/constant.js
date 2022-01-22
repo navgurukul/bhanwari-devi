@@ -9,6 +9,7 @@ export const PATHS = {
   EXERCISE: "/exercise/:exerciseId",
   MENTOR: "/mentor",
   USER: "/user",
+  PROFILE: "/Profile",
   PRIVACY_POLICY: "/privacy",
   AFE: "/amazon-future-engineer",
   PARTNERS: "/partner",
@@ -19,4 +20,6 @@ export const PATHS = {
   ADMISSION_LOGIN: "/admission-login",
   ADMISSION: "/admission",
   REDIRECT: "/redirect",
+  VOLUNTEER: "/volunteer",
+  VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
 };
