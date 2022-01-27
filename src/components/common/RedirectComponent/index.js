@@ -1,6 +1,9 @@
 import React from "react";
 import { Redirect } from "react-router";
 import { getQueryVariable } from "../../../common/utils";
+import Login from "../../../pages/Login";
+// import { PATHS } from "../../constant";
+import { PATHS } from "../../../constant";
 
 function RedirectComponent() {
   const uri = window.location.href;
@@ -11,13 +14,7 @@ function RedirectComponent() {
 
   localStorage.setItem("Token", token);
 
-  if (uri.includes("token")) {
-    return <Redirect to={redirect} />;
-  } else {
-    return <Redirect to="/admission-login" />;
-  }
-
-  return <div></div>;
+  return <Redirect to={uri.includes("token") ? redirect : PATHS.LOGIN} />;
 }
 
 export default RedirectComponent;

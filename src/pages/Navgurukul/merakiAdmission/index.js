@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import YouTube from "react-youtube";
 import { METHODS } from "../../../services/api";
+import { useSelector } from "react-redux";
 import "./styles.scss";
 
 function Admission() {
@@ -15,19 +16,21 @@ function Admission() {
 
   const [mobile, setMobile] = useState("");
   const [enrolmentKey, setEnrolmentKey] = useState("");
-
   const [partnerId, setPartnerId] = useState("");
+  const user = useSelector(({ User }) => User);
 
   let userToken = localStorage.getItem("Token");
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
       headers: {
         accept: "application/json",
-        Authorization: userToken,
+        Authorization: userToken !== "undefined" ? userToken : user.data.token,
       },
     }).then((res) => {
+      console.log("res", res);
       setPartnerId(res.data.user.partner_id);
     });
   }, []);
@@ -42,7 +45,7 @@ function Admission() {
         params: {
           ngCallType: "getEnrolmentKey",
           From: mobile,
-          partner_id: partnerId ? partnerId : null,
+          partner_id: partnerId || null,
         },
       });
       setEnrolmentKey(response.data.key);
@@ -53,13 +56,8 @@ function Admission() {
         mobileNumber: userDetails.mobileNumber,
       };
       const queryString = Object.keys(params)
-        .map((filter) => {
-          if (params[filter]) {
-            return `${filter}=${params[filter]}`;
-          }
-          return null;
-        })
-        .filter((item) => item)
+        .filter((key) => params[key])
+        .map((key) => `${key}=${params[key]}`)
         .join("&");
 
       const url = `${testUrl}${enrolmentKey}?${queryString}`;
@@ -83,7 +81,7 @@ function Admission() {
       );
       return;
     }
-    if (userDetails.mobileNumber.toString().length !== 10) {
+    if (!/^[0-9]{10}$/.test(userDetails.mobileNumber.toString())) {
       toast.error("Please give 10 digits of the mobile number.", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
@@ -131,7 +129,7 @@ function Admission() {
           <div className="input-form">
             <div className="form-row">
               <div className="input-field-test">
-                <span>First Name</span>
+                <label>First Name</label>
                 <input
                   type="text"
                   placeholder="Abhi..."
@@ -141,7 +139,7 @@ function Admission() {
                 />
               </div>
               <div className="input-field-test">
-                <span>Middle Name (Optional)</span>
+                <label>Middle Name (Optional)</label>
                 <input
                   type="text"
                   placeholder="Kumar..."
@@ -151,7 +149,7 @@ function Admission() {
                 />
               </div>
               <div className="input-field-test">
-                <span>Last Name</span>
+                <label>Last Name</label>
                 <input
                   type="text"
                   placeholder="Garg..."
@@ -163,9 +161,10 @@ function Admission() {
             </div>
             <div className="form-row">
               <div className="input-field-test">
-                <span>Mobile Number</span>
+                <label>Mobile Number</label>
                 <input
-                  type="text"
+                  type="tel"
+                  pattern="^[0-9]{10}$"
                   placeholder="9874500000"
                   value={userDetails.mobileNumber}
                   name="mobileNumber"
@@ -178,13 +177,15 @@ function Admission() {
             Give Admissions Test
           </button>
         </div>
-        <div className="test-form down">
+
+        <form className="test-form down">
           <h2>Check Test Result via Registered Mobile Number </h2>
           <div className="input-form">
             <div className="input-field-test">
-              <span>Mobile Number</span>
+              <label>Mobile Number</label>
               <input
-                type="text"
+                type="tel"
+                pattern="^[0-9]{10}$"
                 placeholder="9874500000"
                 onChange={(e) => {
                   setMobile(e.target.value);
@@ -199,10 +200,10 @@ function Admission() {
               href={`https://admissions.navgurukul.org/status/${mobile}`}
               target="_blank"
             >
-              Check Result{" "}
-            </a>{" "}
+              Check Result
+            </a>
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

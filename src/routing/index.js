@@ -17,7 +17,6 @@ import Profile from "../pages/Profile";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import NavgurukulIntroduce from "../pages/Navgurukul";
-import NavgurukulLogin from "../pages/Navgurukul/navgurukulLogin";
 import Admission from "../pages/Navgurukul/merakiAdmission";
 import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
@@ -37,22 +36,13 @@ const Routing = () => {
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
-      <Route exact path={PATHS.PROFILE} component={Profile} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
       <Route
         exact
         path={PATHS.NAVGURUKUL_INTRODUCE}
         component={NavgurukulIntroduce}
       />
-      <Route exact path={PATHS.ADMISSION_LOGIN} component={NavgurukulLogin} />
-      <Route exact path={PATHS.ADMISSION} component={Admission} />
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
-      <Route exact path={PATHS.VOLUNTEER} component={VolunteerDashboard} />
-      <Route
-        exact
-        path={PATHS.VOLUNTEER_OVERVIEW}
-        component={VolunteerOverview}
-      />
 
       {/* Private routes */}
       {/* <PrivateRoute
@@ -60,6 +50,18 @@ const Routing = () => {
         path={ PATHS.CLASS }
         component={ Class }
       />*/}
+      <PrivateRoute exact path={PATHS.PROFILE} component={Profile} />
+      <PrivateRoute
+        exact
+        path={PATHS.VOLUNTEER}
+        component={VolunteerDashboard}
+      />
+      <PrivateRoute
+        exact
+        path={PATHS.VOLUNTEER_OVERVIEW}
+        component={VolunteerOverview}
+      />
+      <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
