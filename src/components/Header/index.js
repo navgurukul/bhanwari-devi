@@ -13,8 +13,6 @@ const AuthenticatedHeaderOption = () => {
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
 
-  console.log(user, "USER");
-
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -32,12 +30,11 @@ const AuthenticatedHeaderOption = () => {
 
   const partnerGroupId = user.data.user.partner_group_id;
 
-  // console.log(partnerGroupId)
-
   const canSpecifyPartnerGroupId =
-    rolesList.includes("admin") ||
-    rolesList.includes("partner") ||
-    (rolesList.includes("partner_view") && user.data.user.partner_group_id);
+    (rolesList.includes("admin") ||
+      rolesList.includes("partner") ||
+      rolesList.includes("partner_view")) &&
+    user.data.user.partner_group_id;
 
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 

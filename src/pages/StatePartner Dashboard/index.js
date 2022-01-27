@@ -22,7 +22,6 @@ function StatePartnerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log(res, "data");
       setDistrictPartner(res.data);
       setDistrictPartnerData(res.data.partner_groups_data);
       setFilterData([...filterData, res.data.partner_groups_data[0]]);
@@ -39,7 +38,8 @@ function StatePartnerDashboard() {
 
   return (
     <div className="state-partner-dashboard">
-      <h2> State Partnership Dashboard</h2>
+      {/* <h2> Hariyana Partnership dashboard</h2> */}
+      <h2>{districtPartner.state_name} Dashboard</h2>
       <h4>Overview</h4>
       <div className="state-partner-overview">
         <div className="state-partner-overview-card">
@@ -123,12 +123,12 @@ function StatePartnerDashboard() {
                       to={`${PATHS.PARTNERS}/${name.partner_id}`}
                     >
                       <h4>{name.partner_name} </h4>
+                      <div className="school-card-row">
+                        <span className="student-card-numbers">
+                          <span>{name.users_count}</span> Students
+                        </span>
+                      </div>
                     </Link>
-                    <div className="school-card-row">
-                      <span className="student-card-numbers">
-                        <span>{name.users_count}</span> Students
-                      </span>
-                    </div>
                   </div>
                 );
               });

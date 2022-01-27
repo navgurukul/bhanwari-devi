@@ -23,7 +23,6 @@ h4 {
 .state-partner-overview {
   display: flex;
   width: 100%;
-  // justify-content: space-between;
   margin-bottom: 20px;
   margin-right: 5px;
   flex-wrap: wrap;
@@ -59,7 +58,6 @@ h4 {
   border: none;
   border-bottom: 2px solid #2e2e2e;
   background: #f6f8fa;
-  // box-sizing: border-box;
 }
 
 .state-partner-state-schools {
@@ -111,7 +109,6 @@ h4 {
 
 .State-dashboard-container {
   width: 70%;
-  // margin-bottom: 20px;
 }
 
 @media screen and (max-width: 650px) {
