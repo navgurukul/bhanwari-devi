@@ -94,7 +94,7 @@ function Admission() {
     axios
       .get(`${process.env.REACT_APP_CHANAKYA_BASE_URL}/check_duplicate`, {
         params: {
-          Name: firstName.concat(" ", middleName, lastName),
+          Name: firstName + " " + middleName + lastName,
           Number: mobileNumber,
         },
       })
@@ -134,41 +134,44 @@ function Admission() {
           <div className="input-form">
             <div className="form-row">
               <div className="input-field-test">
-                <label>First Name</label>
+                <label htmlFor="firstName">First Name</label>
                 <input
                   type="text"
                   placeholder="Abhi..."
                   value={userDetails.firstName}
                   name="firstName"
                   onChange={changeHandler}
+                  id="firstName"
                   required
                 />
               </div>
               <div className="input-field-test">
-                <label>Middle Name (Optional)</label>
+                <label htmlFor="middleName">Middle Name (Optional)</label>
                 <input
                   type="text"
                   placeholder="Kumar..."
                   value={userDetails.middleName}
                   name="middleName"
                   onChange={changeHandler}
+                  id="middleName"
                 />
               </div>
               <div className="input-field-test">
-                <label>Last Name</label>
+                <label htmlFor="lastName">Last Name</label>
                 <input
                   type="text"
                   placeholder="Garg..."
                   value={userDetails.lastName}
                   name="lastName"
                   onChange={changeHandler}
+                  id="lastName"
                   required
                 />
               </div>
             </div>
             <div className="form-row">
               <div className="input-field-test">
-                <label>Mobile Number</label>
+                <label htmlFor="mobileNumber">Mobile Number</label>
                 <input
                   type="tel"
                   pattern="^[0-9]{10}$"
@@ -176,6 +179,7 @@ function Admission() {
                   value={userDetails.mobileNumber}
                   name="mobileNumber"
                   onChange={changeHandler}
+                  id="mobileNumber"
                   required
                 />
               </div>
