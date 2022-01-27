@@ -30,7 +30,6 @@ function Admission() {
         Authorization: userToken !== "undefined" ? userToken : user.data.token,
       },
     }).then((res) => {
-      console.log("res", res);
       setPartnerId(res.data.user.partner_id);
     });
   }, []);
@@ -102,7 +101,13 @@ function Admission() {
       .then(async (data) => {
         const response = data.data.data;
         const stage = response.pendingInterviewStage;
-        const url = `https://admissions.navgurukul.org/check_duplicate/Name=${firstName}${middleName}${lastName}&Number=${mobileNumber}&Stage=${stage}`;
+        const url =
+          `${process.env.REACT_APP_ADMISSIONS_URL}check_duplicate/` +
+          new URLSearchParams({
+            Name: `${firstName}${middleName}${lastName}`,
+            Number: mobileNumber,
+            Stage: stage,
+          }).toString();
         if (response.alreadyGivenTest) {
           window.open(url, "_blank");
         } else {
@@ -136,6 +141,7 @@ function Admission() {
                   value={userDetails.firstName}
                   name="firstName"
                   onChange={changeHandler}
+                  required
                 />
               </div>
               <div className="input-field-test">
@@ -156,6 +162,7 @@ function Admission() {
                   value={userDetails.lastName}
                   name="lastName"
                   onChange={changeHandler}
+                  required
                 />
               </div>
             </div>
@@ -169,6 +176,7 @@ function Admission() {
                   value={userDetails.mobileNumber}
                   name="mobileNumber"
                   onChange={changeHandler}
+                  required
                 />
               </div>
             </div>
@@ -197,7 +205,7 @@ function Admission() {
           <button className="test-btn">
             <a
               className="result-btn"
-              href={`https://admissions.navgurukul.org/status/${mobile}`}
+              href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
               target="_blank"
             >
               Check Result
