@@ -10,6 +10,7 @@ import Loader from "../common/Loader";
 import Form from "../common/form";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
+import { setDay } from "date-fns";
 
 const {
   TITLE,
@@ -34,7 +35,9 @@ function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
+  const [pathwayName, setPathwayName] = useState("");
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
+  const [day, setDay] = useState({});
 
   const {
     title,
@@ -97,6 +100,16 @@ function Class({ classToEdit, indicator }) {
     {}
   );
 
+  const days = {
+    MO: "Mon",
+    TU: "Tue",
+    WE: "Wed",
+    TH: "Thu",
+    FR: "Fri",
+    SA: "Sat",
+    SU: "Sun",
+  };
+
   const editClass = (payload) => {
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
@@ -143,6 +156,7 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
       headers: {
         accept: "application/json",
+        "version-code": 30,
         Authorization: user.data.token,
       },
     }).then((res) => {
@@ -159,6 +173,7 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
       headers: {
         accept: "application/json",
+        "version-code": 30,
         Authorization: user.data.token,
       },
     }).then((res) => {
@@ -235,14 +250,20 @@ function Class({ classToEdit, indicator }) {
     setCheckedState(updatedCheckedState);
   };
 
-  const checkBoxHandler = (e, day, key, field, setField) => {
+  const checkBoxHandler = (e, days, count, key, field, setField) => {
+    const obj = {
+      [count]: days,
+    };
     if (e.target.checked === true) {
-      const daysList = [...field[key], day];
+      const daysList = [...field[key], days];
+      const forDate = Object.assign(day, obj);
       setField(daysList, key);
+      setDay(forDate);
     } else {
       _.remove(field[key], function (del) {
-        return del === day;
+        return del === days;
       });
+      delete day[count];
     }
   };
 
@@ -291,7 +312,22 @@ function Class({ classToEdit, indicator }) {
 
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
-        if (fieldName === "max_enrolment") {
+        const weekDday = Object.values(day);
+        if (fieldName === "start_time") {
+          let incrementedDate = new Date(value);
+          let newDate;
+          var i = 1;
+          while (i <= 7) {
+            incrementedDate = moment(incrementedDate).add(1, "days")._d;
+            let Day = incrementedDate.toString().split(" ")[0];
+            if (days[weekDday[0]] === Day) {
+              newDate = incrementedDate;
+              break;
+            }
+            i = i + 1;
+          }
+          formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+        } else if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
         } else if (fieldName === "type") {
           if (value === "cohort") {
@@ -302,13 +338,13 @@ function Class({ classToEdit, indicator }) {
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
         } else if (fieldName === pathwayId) {
-          formFields["course_id"] = pathwayId;
+          // formFields["course_id"] = pathwayId;
+          formFields["pathway_id"] = pathwayId;
         } else {
           formFields[fieldName] = value;
         }
       }
     }
-
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -331,7 +367,6 @@ function Class({ classToEdit, indicator }) {
           return (
             <>
               <label htmlFor="type">Class Type</label>
-              {console.log("isEditMode", isEditMode)}
               <span>
                 <label htmlFor="type1" className="radio-pointer">
                   <input
@@ -346,7 +381,6 @@ function Class({ classToEdit, indicator }) {
                     checked={
                       formFieldsState.type === "cohort" ? "checked" : false
                     }
-                    // disabled={formFieldsState[TYPE] === "cohort" ? true : false}
                     disabled={
                       isEditMode
                         ? formFieldsState[TYPE] === "cohort"
@@ -399,6 +433,7 @@ function Class({ classToEdit, indicator }) {
                           value={item.id}
                           onChange={(e) => {
                             setPathwayId(e.target.value);
+                            setPathwayName(item.name);
                           }}
                           checked={
                             pathwayId === `${item.id}` ? "checked" : false
@@ -413,7 +448,13 @@ function Class({ classToEdit, indicator }) {
               </span>
               {pathwayId &&
                 pathways.map((pathway) => {
-                  if (pathwayId == pathway.id) {
+                  if (
+                    (formFieldsState[TYPE] === "doubt_class" &&
+                      pathway.name == "python") ||
+                    (formFieldsState[TYPE] === "cohort" &&
+                      pathway.name !== "python" &&
+                      pathwayId == pathway.id)
+                  ) {
                     return (
                       <React.Fragment key={pathway.id}>
                         <label htmlFor="course_id" className="label-field">
@@ -543,9 +584,9 @@ function Class({ classToEdit, indicator }) {
                 type="date"
                 name={START_TIME}
                 value={formFieldsState[START_TIME]}
-                onChange={(e) =>
-                  changeHandler(e, setFormFieldsState, formFieldsState)
-                }
+                onChange={(e) => {
+                  changeHandler(e, setFormFieldsState, formFieldsState);
+                }}
                 id="start_time"
                 required
                 aria-required
@@ -765,6 +806,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "MO",
+                            1,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -791,6 +833,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "TU",
+                            2,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -817,6 +860,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "WE",
+                            3,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -843,6 +887,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "TH",
+                            4,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -869,6 +914,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "FR",
+                            5,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -895,6 +941,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "SA",
+                            6,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -921,6 +968,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "SU",
+                            7,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -939,59 +987,62 @@ function Class({ classToEdit, indicator }) {
                       SU
                     </label>
                   </span>
-                  <label htmlFor={UNTIL} className="label-field">
-                    Until
-                    <span className="optional-field">
-                      (either until or occurrence is required)
-                    </span>
-                  </label>
-                  <input
-                    className="input-field input-field--short"
-                    type="date"
-                    data-date-format="YYYY MM DD"
-                    name={UNTIL}
-                    id={UNTIL}
-                    onChange={(e) =>
-                      changeHandler(e, setFormFieldsState, formFieldsState)
-                    }
-                    value={formFieldsState[UNTIL]}
-                    placeholder="Until when recurring classes"
-                    disabled={isEditMode && !indicator ? true : false}
-                    required={
-                      formFieldsState[TYPE] === "cohort" &&
-                      formFieldsState[OCCURRENCE] === ""
-                        ? true
-                        : false
-                    }
-                  />
-                  <label htmlFor={OCCURRENCE} className="label-field">
-                    Occurrence
-                    <span className="optional-field">
-                      (either occurrence or until is required)
-                    </span>
-                  </label>
-                  <input
-                    className="input-field"
-                    type="number"
-                    name={OCCURRENCE}
-                    id={OCCURRENCE}
-                    onChange={(e) =>
-                      changeHandler(e, setFormFieldsState, formFieldsState)
-                    }
-                    value={formFieldsState[OCCURRENCE]}
-                    placeholder="How many recurring classes"
-                    disabled={isEditMode && !indicator ? true : false}
-                    required={
-                      formFieldsState[TYPE] === "cohort" &&
-                      formFieldsState[UNTIL] === ""
-                        ? true
-                        : false
-                    }
-                    max={48}
-                  />
+                  {pathwayName !== "python" && (
+                    <>
+                      <label htmlFor={UNTIL} className="label-field">
+                        Until
+                        <span className="optional-field">
+                          (either until or occurrence is required)
+                        </span>
+                      </label>
+                      <input
+                        className="input-field input-field--short"
+                        type="date"
+                        data-date-format="YYYY MM DD"
+                        name={UNTIL}
+                        id={UNTIL}
+                        onChange={(e) =>
+                          changeHandler(e, setFormFieldsState, formFieldsState)
+                        }
+                        value={formFieldsState[UNTIL]}
+                        placeholder="Until when recurring classes"
+                        disabled={isEditMode && !indicator ? true : false}
+                        required={
+                          formFieldsState[TYPE] === "cohort" &&
+                          formFieldsState[OCCURRENCE] === ""
+                            ? true
+                            : false
+                        }
+                      />
+                      <label htmlFor={OCCURRENCE} className="label-field">
+                        Occurrence
+                        <span className="optional-field">
+                          (either occurrence or until is required)
+                        </span>
+                      </label>
+                      <input
+                        className="input-field"
+                        type="number"
+                        name={OCCURRENCE}
+                        id={OCCURRENCE}
+                        onChange={(e) =>
+                          changeHandler(e, setFormFieldsState, formFieldsState)
+                        }
+                        value={formFieldsState[OCCURRENCE]}
+                        placeholder="How many recurring classes"
+                        disabled={isEditMode && !indicator ? true : false}
+                        required={
+                          formFieldsState[TYPE] === "cohort" &&
+                          formFieldsState[UNTIL] === ""
+                            ? true
+                            : false
+                        }
+                        max={48}
+                      />
+                    </>
+                  )}
                 </>
               )}
-              {console.log("formFieldsState[TYPE]", formFieldsState[TYPE])}
               <div
                 className={
                   checkEquivalence ? "disabled-button" : "enabled-button"

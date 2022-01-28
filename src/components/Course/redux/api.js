@@ -13,6 +13,11 @@ export const getCourses = () => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
     method: METHODS.GET,
+    headers: {
+      accept: "application/json",
+      "version-code": 30,
+      // Authorization: user.data.token,
+    },
     // headers: HeaderFactory(token),
   });
 };
@@ -31,6 +36,11 @@ export const getCourseContent = (data) => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
     method: METHODS.GET,
+    headers: {
+      accept: "application/json",
+      "version-code": 30,
+      // Authorization: user.data.token,
+    },
     // headers: HeaderFactory(token),
   });
 };
