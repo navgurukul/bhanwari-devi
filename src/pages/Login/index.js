@@ -82,7 +82,7 @@ function Login(props) {
       ) : (
         <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-          buttonText="Login/Sign Up"
+          buttonText="Continue with Google"
           onSuccess={onSignIn}
           onFailure={onGoogleLoginFail}
           cookiePolicy={"single_host_origin"}
