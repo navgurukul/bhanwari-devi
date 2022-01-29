@@ -7,7 +7,7 @@ import { PATHS } from "../../../constant";
 
 function RedirectComponent() {
   const uri = window.location.href;
-  // const uri = `https://www.merakilearn.org/redirect?token=xyz&redirectUrl=/admission`;
+  // const uri = `https://www.merakilearn.org/redirect?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZC[…]JKeaoO_2neSYUVf0fl1yjYlGt9YLNOeLr12Xs&redirectUrl=admission`;
 
   const token = getQueryVariable("token");
   const redirect = getQueryVariable("redirectUrl");
