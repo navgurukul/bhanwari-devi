@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -10,18 +10,20 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../common/Modal";
 import Loader from "../../common/Loader";
+import { check } from "prettier";
 
 toast.configure();
 
 function ClassCard({ item, editClass, enroll, style }) {
   const dispatch = useDispatch();
-  const [enrollShowModal, setEnrollShowModal] = React.useState(false);
-  const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
-  const [showModal, setShowModal] = React.useState(false);
-  const [editShowModal, setEditShowModal] = React.useState(false);
-  const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [indicator, setIndicator] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [enrollShowModal, setEnrollShowModal] = useState(false);
+  const [unenrollShowModal, setunenrollShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [editShowModal, setEditShowModal] = useState(false);
+  const [deleteCohort, setDeleteCohort] = useState(false);
+  const [indicator, setIndicator] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [classEnrolled, setClassEnrolled] = useState("");
   const user = useSelector(({ User }) => User);
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
@@ -58,6 +60,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const handleCloseEnroll = () => {
     setEnrollShowModal(false);
     setIndicator(false);
+    window.location.reload();
   };
   const handleClickOpenEnroll = () => {
     setEnrollShowModal(!enrollShowModal);
@@ -101,8 +104,26 @@ function ClassCard({ item, editClass, enroll, style }) {
     });
   };
 
+  //API CALL FOR /users/enrolment to check whether user is enrolled or not
+  const checkEnrolled = (pathway_id) => {
+    return axios({
+      method: METHODS.POST,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/enrolment?email=${user.data.user.email}&pathway_id=${pathway_id}`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    })
+      .then((res) => {
+        setClassEnrolled(res.data.message);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
   // API CALL FOR enroll class
-  const handleSubmit = (Id) => {
+  const handleSubmit = (Id, indicator) => {
     setLoading(true);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
@@ -130,7 +151,8 @@ function ClassCard({ item, editClass, enroll, style }) {
           },
         }
       )
-      .then(() => {
+      .then((res) => {
+        console.log("response", res);
         if (!getNotify) {
           notify();
           clearTimeout(timer);
@@ -207,6 +229,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                 className={style}
                 onClick={() => {
                   handleClickOpenEnroll(item.id);
+                  checkEnrolled(item.pathway_id);
                 }}
               >
                 {enroll}
@@ -255,7 +278,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                     setDeleteCohort(true);
                   }}
                 />
-                Delete all classes of this cohort?
+                Delete all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -265,7 +288,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                 }}
                 className="delete-btn"
               >
-                Yes
+                Delete
               </button>
               <button onClick={handleClose} className="cancel-btn">
                 Cancel
@@ -286,7 +309,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                     setIndicator(true);
                   }}
                 />
-                Edit all classes of this cohort?
+                Edit all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -296,7 +319,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                 }}
                 className="agree-btn"
               >
-                Yes
+                Edit
               </button>
               <button onClick={handleCloseEdit} className="cancel-btn">
                 Cancel
@@ -309,33 +332,73 @@ function ClassCard({ item, editClass, enroll, style }) {
             onClose={() => handleCloseEnroll()}
             className="confirmation-massage"
           >
-            <h2>Are you sure you want to enroll?</h2>
-            {item.type === "cohort" && (
-              <label>
-                <input
-                  type="checkbox"
-                  align="center"
-                  className="cohort-class"
-                  onClick={() => {
-                    setIndicator(true);
-                  }}
-                />
-                Enroll all classes of this cohort?
-              </label>
+            {classEnrolled === "enrolled" && item.type === "cohort" ? (
+              <>
+                <p align="center">
+                  You'll be enrolled to a single class of Batch <br /> As you
+                  are already enrolled in another Batch.
+                </p>
+                <div className="wrap">
+                  <button
+                    onClick={() => {
+                      handleSubmit(item.id, false);
+                    }}
+                    className="agree-btn"
+                  >
+                    Enroll
+                  </button>
+                  <button onClick={handleCloseEnroll} className="cancel-btn">
+                    Cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>Are you sure you want to enroll?</h2>
+                {(classEnrolled === "enrolled_but_finished" ||
+                  classEnrolled === "not_enrolled") &&
+                  item.type === "cohort" && (
+                    <>
+                      <div className="wrap">
+                        <button
+                          onClick={() => {
+                            handleSubmit(item.id, true);
+                          }}
+                          className="agree-btn"
+                        >
+                          Enroll
+                        </button>
+                        <button
+                          onClick={handleCloseEnroll}
+                          className="cancel-btn"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </>
+                  )}
+                {item.type !== "cohort" && (
+                  <>
+                    <div className="wrap">
+                      <button
+                        onClick={() => {
+                          handleSubmit(item.id, false);
+                        }}
+                        className="agree-btn"
+                      >
+                        Enroll
+                      </button>
+                      <button
+                        onClick={handleCloseEnroll}
+                        className="cancel-btn"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </>
+                )}
+              </>
             )}
-            <div className="wrap">
-              <button
-                onClick={() => {
-                  return handleSubmit(item.id);
-                }}
-                className="agree-btn"
-              >
-                Yes
-              </button>
-              <button onClick={handleCloseEnroll} className="cancel-btn">
-                Cancel
-              </button>
-            </div>
           </Modal>
         ) : null}
         {unenrollShowModal ? (
@@ -354,7 +417,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                     setIndicator(true);
                   }}
                 />
-                Drop all classes of this cohort?
+                Drop all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -364,7 +427,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                 }}
                 className="delete-btn"
               >
-                Yes
+                Drop
               </button>
               <button onClick={handleCloseUnenroll} className="cancel-btn">
                 Cancel
