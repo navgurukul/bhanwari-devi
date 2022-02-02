@@ -75,7 +75,7 @@ function Class({ classToEdit, indicator }) {
         ? moment.utc(end_time).add(330, "minute").format("kk:mm")
         : moment().add(60, "minute").format("kk:mm"),
       [LANG]: lang || "hi",
-      [TYPE]: type || "doubt_class",
+      [TYPE]: type || "cohort",
       [COURSE_ID]: course_id || "",
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "",
@@ -125,7 +125,6 @@ function Class({ classToEdit, indicator }) {
         setLoading(false);
       },
       (error) => {
-        console.log(error);
         toast.error(
           `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
           {
@@ -267,7 +266,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        // window.location.reload(1);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -315,7 +314,11 @@ function Class({ classToEdit, indicator }) {
   return (
     <div className="ng-create-class">
       <h2 className="title">
-        {isEditMode ? "Update class" : "Create Cohort / Single Class"}
+        {isEditMode
+          ? `Update ${
+              initialFormState[TYPE] == "cohort" ? "cohort" : "doubt"
+            } class`
+          : "Create Cohort / Doubt Class"}
       </h2>
       <Form
         className="form"
@@ -327,8 +330,9 @@ function Class({ classToEdit, indicator }) {
           return (
             <>
               <label htmlFor="type">Class Type</label>
+              {console.log("isEditMode", isEditMode)}
               <span>
-                <label htmlFor="type3" className="radio-pointer">
+                <label htmlFor="type1" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -337,14 +341,22 @@ function Class({ classToEdit, indicator }) {
                       setFormField("cohort", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
-                    id="type3"
+                    id="type1"
                     checked={
                       formFieldsState.type === "cohort" ? "checked" : false
+                    }
+                    // disabled={formFieldsState[TYPE] === "cohort" ? true : false}
+                    disabled={
+                      isEditMode
+                        ? formFieldsState[TYPE] === "cohort"
+                          ? false
+                          : true
+                        : false
                     }
                   />
                   Cohort
                 </label>
-                <label htmlFor="type1" className="radio-pointer">
+                <label htmlFor="type2" className="radio-pointer">
                   <input
                     type="radio"
                     className="radio-field"
@@ -353,9 +365,16 @@ function Class({ classToEdit, indicator }) {
                       setFormField("doubt_class", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
-                    id="type1"
+                    id="type2"
                     checked={
                       formFieldsState.type === "doubt_class" ? "checked" : false
+                    }
+                    disabled={
+                      isEditMode
+                        ? formFieldsState[TYPE] === "doubt_class"
+                          ? false
+                          : true
+                        : false
                     }
                   />
                   Doubt Class
@@ -364,10 +383,13 @@ function Class({ classToEdit, indicator }) {
 
               <label htmlFor="pathway">Pathway</label>
               <span>
-                {pathways.map((item) => {
+                {pathways.map((item, index) => {
                   if (item.code !== "PRCRSE") {
                     return (
-                      <label htmlFor="pathway" className="radio-pointer">
+                      <label
+                        htmlFor={`pathway-${index}`}
+                        className="radio-pointer"
+                      >
                         <input
                           type="radio"
                           className="radio-field radio__input"
@@ -380,6 +402,7 @@ function Class({ classToEdit, indicator }) {
                           checked={
                             pathwayId === `${item.id}` ? "checked" : false
                           }
+                          id={`pathway-${index}`}
                         />
                         {item.name}
                       </label>
@@ -732,7 +755,7 @@ function Class({ classToEdit, indicator }) {
                     On days
                   </label>
                   <span>
-                    <label htmlFor="on_days_mo">
+                    <label htmlFor="on_days_mo" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -758,7 +781,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       MO
                     </label>
-                    <label htmlFor="on_days_tu">
+                    <label htmlFor="on_days_tu" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -784,7 +807,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       TU
                     </label>
-                    <label htmlFor="on_days_we">
+                    <label htmlFor="on_days_we" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -810,7 +833,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       WE
                     </label>
-                    <label htmlFor="on_days_th">
+                    <label htmlFor="on_days_th" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -836,7 +859,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       TH
                     </label>
-                    <label htmlFor="on_days_fr">
+                    <label htmlFor="on_days_fr" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -862,7 +885,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       FR
                     </label>
-                    <label htmlFor="on_days_sa">
+                    <label htmlFor="on_days_sa" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -888,7 +911,7 @@ function Class({ classToEdit, indicator }) {
                       />
                       SA
                     </label>
-                    <label htmlFor="on_days_su">
+                    <label htmlFor="on_days_su" className="checkbox">
                       <input
                         type="checkbox"
                         className="checkbox-field"
@@ -967,6 +990,7 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
+              {console.log("formFieldsState[TYPE]", formFieldsState[TYPE])}
               <div
                 className={
                   checkEquivalence ? "disabled-button" : "enabled-button"
@@ -980,7 +1004,7 @@ function Class({ classToEdit, indicator }) {
                   {loading ? (
                     <Loader />
                   ) : isEditMode ? (
-                    "UPDATE CLASS"
+                    `UPDATE CLASS`
                   ) : (
                     "Create Class"
                   )}

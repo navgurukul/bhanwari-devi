@@ -1,0 +1,40 @@
+.ng-introduce-container {
+  padding: 0 10%;
+  margin: 40px auto 0;
+  font-family: Nunito Sans;
+  font-style: normal;
+  text-align: center;
+}
+
+.main-text {
+  width: 100%;
+}
+
+.meraki-insertion-video {
+  width: 800px;
+  margin-block: 50px;
+  border-radius: 8px;
+}
+
+.get-meraki-link {
+  background-color: #48a145;
+
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 18px;
+  align-self: center;
+  width: 290px;
+}
+.get-meraki-link a {
+  color: white;
+  text-decoration: none;
+}
+
+// @media only screen and (max-width: 760px),
+//   (min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (max-width: 768px) {
+  .meraki-insertion-video {
+    width: auto;
+  }
+}

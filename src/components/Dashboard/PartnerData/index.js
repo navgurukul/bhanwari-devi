@@ -181,6 +181,7 @@ function PartnerDashboard() {
                 </th>
                 <th>Meraki - Android Link</th>
                 <th>Meraki - Web Link</th>
+                <th>Partner specific url</th>
               </tr>
             </thead>
             <tbody>
@@ -261,6 +262,27 @@ function PartnerDashboard() {
                         </div>
                       </td>
                     )}
+                    <td data-column="Meraki Link">
+                      <a
+                        className="meraki_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`https://www.merakilearn.org/navgurukul/${item.id}`}
+                      >
+                        Get Url
+                      </a>
+                      <CopyToClipboard
+                        text={`https://www.merakilearn.org/navgurukul/${item.id}`}
+                        onCopy={() => {
+                          toast.success("Copied to Clipboard", {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose: 1200,
+                          });
+                        }}
+                      >
+                        <i className="clipboard fa fa-copy"></i>
+                      </CopyToClipboard>
+                    </td>
                   </tr>
                 );
               })}
@@ -273,5 +295,4 @@ function PartnerDashboard() {
   }
   return <Redirect to={PATHS.HOME_PATH} />;
 }
-
 export default PartnerDashboard;
