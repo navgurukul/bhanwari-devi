@@ -26,4 +26,6 @@ const getQueryVariable = (queryVars) => {
   }
 };
 
-module.exports = { getIsMobile, getQueryVariable };
+const hasOneFrom = (arr1, arr2) => arr2.some((item) => arr1.includes(item));
+
+module.exports = { getIsMobile, getQueryVariable, hasOneFrom };

@@ -5,6 +5,7 @@ import { METHODS } from "../../services/api";
 
 import { PATHS } from "../../constant";
 import { actions as userActions } from "../User/redux/action";
+import { hasOneFrom } from "../../common/utils";
 import "./styles.scss";
 
 const AuthenticatedHeaderOption = () => {
@@ -31,17 +32,13 @@ const AuthenticatedHeaderOption = () => {
   const partnerGroupId = user.data.user.partner_group_id;
 
   const canSpecifyPartnerGroupId =
-    (rolesList.includes("admin") ||
-      rolesList.includes("partner") ||
-      rolesList.includes("partner_view")) &&
+    hasOneFrom(rolesList, ["admin", "partner", "partner_view"]) &&
     user.data.user.partner_group_id;
 
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 
   const canSpecifyPartner =
-    (rolesList.includes("partner") ||
-      // rolesList.includes("partner_view") ||
-      rolesList.includes("partner_edit")) &&
+    hasOneFrom(rolesList, ["partner", "partner_view", "partner_edit"]) &&
     partnerId != null;
 
   return (
@@ -61,7 +58,7 @@ const AuthenticatedHeaderOption = () => {
         </>
       ) : null}
 
-      {canSpecifyPartnerGroupId ? (
+      {/* {canSpecifyPartnerGroupId ? (
         <>
           <a className="item" href={`${PATHS.STATE}/${partnerGroupId}`}>
             Dashboard
@@ -70,6 +67,21 @@ const AuthenticatedHeaderOption = () => {
       ) : canSpecifyPartner ? (
         <>
           <a className="item" href={`${PATHS.PARTNERS}/${partnerId}`}>
+            Dashboard
+          </a>
+        </>
+      ) : null} */}
+
+      {canSpecifyPartnerGroupId || canSpecifyPartner ? (
+        <>
+          <a
+            className="item"
+            href={
+              canSpecifyPartnerGroupId
+                ? `${PATHS.STATE}/${partnerGroupId}`
+                : `${PATHS.PARTNERS}/${partnerId}`
+            }
+          >
             Dashboard
           </a>
         </>

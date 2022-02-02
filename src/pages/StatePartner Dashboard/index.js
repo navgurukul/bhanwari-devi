@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
+import { hasOneFrom } from "../../common/utils";
+import { Redirect } from "react-router";
 import "./style.scss";
 
 function StatePartnerDashboard() {
@@ -36,108 +38,120 @@ function StatePartnerDashboard() {
     setValue(e.target.value);
   };
 
-  return (
-    <div className="state-partner-dashboard">
-      {/* <h2> Hariyana Partnership dashboard</h2> */}
-      <h2>{districtPartner.state_name} Dashboard</h2>
-      <h4>Overview</h4>
-      <div className="state-partner-overview">
-        <div className="state-partner-overview-card">
-          <span className="overview-card-number">
-            {districtPartner.total_no_of_groups}
-          </span>
-          <span className="overview-card-label">Total Number of Groups</span>
-        </div>
-        <div className="state-partner-overview-card">
-          <span className="overview-card-number">
-            {districtPartner.total_no_of_partners}
-          </span>
-          <span className="overview-card-label">Total Number of Partners</span>
-        </div>
-        <div className="state-partner-overview-card">
-          <span className="overview-card-number">
-            {districtPartner.total_no_of_students}
-          </span>
-          <span className="overview-card-label">Total Enrolled Students</span>
-        </div>
-      </div>
-      <div className="state-partner-choose-district">
-        <h4>Please choose a group</h4>
-        <select
-          className="input-for-district"
-          onChange={handleSelcet}
-          value={value}
-        >
-          <option value="all">All</option>
-          {districtPartnerData.map((item, i) => {
-            return (
-              <>
-                {i == 0 ? (
-                  <option key={i} value={item.partner_group_name} selected>
-                    {item.partner_group_name}
-                  </option>
-                ) : (
-                  <option key={i} value={item.partner_group_name}>
-                    {item.partner_group_name}
-                  </option>
-                )}
-              </>
-            );
-          })}
-        </select>
-      </div>
+  const canSpecifyPartnerGroupId =
+    hasOneFrom(user.data.user.rolesList, [
+      "admin",
+      "partner",
+      "partner_view",
+    ]) && user.data.user.partner_group_id;
 
-      {value === "all" ? (
-        <div className="State-dashboard-container">
-          <table className="volunteer-class-table">
-            <thead>
-              <tr>
-                <th>Group Name</th>
-                <th>Number of Partners</th>
-                <th>Number of Students</th>
-              </tr>
-            </thead>
-            <tbody>
-              {districtPartnerData.map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <td data-column="Group Name">{item.partner_group_name}</td>
-                    <td data-column="No Partners">{item.total_partners}</td>
-                    <td data-column="No Students">{item.total_students}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className="state-partner-state-schools">
-          <div className="state-schools-heading"></div>
-          <div className="state-schools-cards">
-            {filterData.map((item) => {
-              return item.partners.map((name) => {
-                return (
-                  <div className="state-schools-card">
-                    <Link
-                      className="t-data"
-                      to={`${PATHS.PARTNERS}/${name.partner_id}`}
-                    >
-                      <h4>{name.partner_name} </h4>
-                      <div className="school-card-row">
-                        <span className="student-card-numbers">
-                          <span>{name.users_count}</span> Students
-                        </span>
-                      </div>
-                    </Link>
-                  </div>
-                );
-              });
-            })}
+  if (canSpecifyPartnerGroupId) {
+    return (
+      <div className="state-partner-dashboard">
+        {/* <h2> Hariyana Partnership dashboard</h2> */}
+        <h2>{districtPartner.state_name} Dashboard</h2>
+        <h4>Overview</h4>
+        <div className="state-partner-overview">
+          <div className="state-partner-overview-card">
+            <span className="overview-card-number">
+              {districtPartner.total_no_of_groups}
+            </span>
+            <span className="overview-card-label">Total Number of Groups</span>
+          </div>
+          <div className="state-partner-overview-card">
+            <span className="overview-card-number">
+              {districtPartner.total_no_of_partners}
+            </span>
+            <span className="overview-card-label">
+              Total Number of Partners
+            </span>
+          </div>
+          <div className="state-partner-overview-card">
+            <span className="overview-card-number">
+              {districtPartner.total_no_of_students}
+            </span>
+            <span className="overview-card-label">Total Enrolled Students</span>
           </div>
         </div>
-      )}
-    </div>
-  );
+        <div className="state-partner-choose-district">
+          <h4>Please choose a group</h4>
+          <select
+            className="input-for-district"
+            onChange={handleSelcet}
+            value={value}
+          >
+            <option value="all">All</option>
+            {districtPartnerData.map((item, i) => {
+              return (
+                <>
+                  <option
+                    key={i}
+                    value={item.partner_group_name}
+                    selected={i === 0 ? "selected" : ""}
+                  >
+                    {item.partner_group_name}
+                  </option>
+                </>
+              );
+            })}
+          </select>
+        </div>
+
+        {value === "all" ? (
+          <div className="State-dashboard-container">
+            <table className="volunteer-class-table">
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Number of Partners</th>
+                  <th>Number of Students</th>
+                </tr>
+              </thead>
+              <tbody>
+                {districtPartnerData.map((item) => {
+                  return (
+                    <tr key={item.id}>
+                      <td data-column="Group Name">
+                        {item.partner_group_name}
+                      </td>
+                      <td data-column="No Partners">{item.total_partners}</td>
+                      <td data-column="No Students">{item.total_students}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="state-partner-state-schools">
+            <div className="state-schools-heading"></div>
+            <div className="state-schools-cards">
+              {filterData.map((item) => {
+                return item.partners.map((name) => {
+                  return (
+                    <div className="state-schools-card">
+                      <Link
+                        className="t-data"
+                        to={`${PATHS.PARTNERS}/${name.partner_id}`}
+                      >
+                        <h4>{name.partner_name} </h4>
+                        <div className="school-card-row">
+                          <span className="student-card-numbers">
+                            <span>{name.users_count}</span> Students
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                });
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+  return <Redirect to={PATHS.HOME_PATH} />;
 }
 
 export default StatePartnerDashboard;

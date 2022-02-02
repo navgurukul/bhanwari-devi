@@ -38,11 +38,6 @@ const Routing = () => {
       <Route exact path={PATHS.VOLUNTEER} component={VolunteerDashboard} />
       <Route
         exact
-        path={PATHS.STATEPARTNER}
-        component={StatePartnerDashboard}
-      />
-      <Route
-        exact
         path={PATHS.VOLUNTEER_OVERVIEW}
         component={VolunteerOverview}
       />
@@ -53,6 +48,11 @@ const Routing = () => {
         path={ PATHS.CLASS }
         component={ Class }
       />*/}
+      <PrivateRoute
+        exact
+        path={PATHS.STATEPARTNER}
+        component={StatePartnerDashboard}
+      />
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
