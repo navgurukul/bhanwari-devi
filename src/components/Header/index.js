@@ -58,20 +58,6 @@ const AuthenticatedHeaderOption = () => {
         </>
       ) : null}
 
-      {/* {canSpecifyPartnerGroupId ? (
-        <>
-          <a className="item" href={`${PATHS.STATE}/${partnerGroupId}`}>
-            Dashboard
-          </a>
-        </>
-      ) : canSpecifyPartner ? (
-        <>
-          <a className="item" href={`${PATHS.PARTNERS}/${partnerId}`}>
-            Dashboard
-          </a>
-        </>
-      ) : null} */}
-
       {canSpecifyPartnerGroupId || canSpecifyPartner ? (
         <>
           <a

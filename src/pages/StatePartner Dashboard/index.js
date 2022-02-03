@@ -32,7 +32,7 @@ function StatePartnerDashboard() {
 
   const handleSelcet = (e) => {
     const stateFilterData = districtPartnerData.filter(
-      (el) => el.partner_group_name == e.target.value
+      (el) => el.partner_group_name === e.target.value
     );
     setFilterData(stateFilterData);
     setValue(e.target.value);
@@ -87,7 +87,7 @@ function StatePartnerDashboard() {
                   <option
                     key={i}
                     value={item.partner_group_name}
-                    selected={i === 0 ? "selected" : ""}
+                    selected={i === 0}
                   >
                     {item.partner_group_name}
                   </option>
