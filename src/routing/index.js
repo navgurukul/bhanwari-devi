@@ -21,7 +21,7 @@ import Admission from "../pages/Navgurukul/merakiAdmission";
 import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
-// import IndividualVolunteers from "../components/VolunteerDashbord/IndividualVolunteers"
+import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 
 // import Classes from '../pages/classes'
 
@@ -51,6 +51,11 @@ const Routing = () => {
         path={ PATHS.CLASS }
         component={ Class }
       />*/}
+      <PrivateRoute
+        exact
+        path={PATHS.STATEPARTNER}
+        component={StatePartnerDashboard}
+      />
       <PrivateRoute exact path={PATHS.PROFILE} component={Profile} />
       <PrivateRoute
         exact

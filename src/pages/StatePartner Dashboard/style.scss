@@ -1,0 +1,128 @@
+html,
+body {
+  min-height: 100%;
+  width: 100%;
+}
+.state-partner-dashboard {
+  margin-top: 50px;
+
+  display: flex;
+  flex-direction: column;
+  //   width: 100%;
+  font-family: Lusitana;
+  font-style: normal;
+  padding: 0 10%;
+  font-size: 18px;
+}
+h4 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.state-partner-overview {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-right: 5px;
+  flex-wrap: wrap;
+}
+.state-partner-overview-card {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 20px 10px;
+}
+.state-partner-overview-card .overview-card-number {
+  font-size: 42px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.state-partner-choose-district {
+  flex-wrap: wrap;
+  display: flex;
+  width: 470px;
+  justify-content: space-between;
+  align-items: center;
+  h4 {
+    margin: 0;
+  }
+  margin: 20px 0;
+}
+
+.input-for-district {
+  width: 250px;
+  height: 36px;
+  margin: 10px 3px 10px 0px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #2e2e2e;
+  background: #f6f8fa;
+}
+
+.state-partner-state-schools {
+  display: flex;
+  flex-direction: column;
+}
+.state-schools-heading {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  h4 {
+    margin: 0;
+  }
+}
+.state-schools-cards {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.state-schools-card {
+  width: 285px;
+  background: #ffffff;
+  margin: 20px 40px;
+  margin-left: 0;
+  padding: 20px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04),
+    0px 1px 5px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 22px;
+  h4 {
+    font-size: 24px;
+  }
+}
+.state-schools-card:hover {
+  border: 2px solid #48a145;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06),
+    0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  transition: all ease 0.2s;
+}
+.school-card-row {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.State-dashboard-container {
+  width: 70%;
+}
+
+@media screen and (max-width: 650px) {
+  .state-partner-choose-district {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .state-schools-card {
+    width: 100%;
+  }
+  .state-schools-cards {
+    align-items: center;
+    justify-content: center;
+  }
+}

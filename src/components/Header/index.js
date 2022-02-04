@@ -4,8 +4,8 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 
 import { PATHS } from "../../constant";
-
 import { actions as userActions } from "../User/redux/action";
+import { hasOneFrom } from "../../common/utils";
 import "./styles.scss";
 
 const AuthenticatedHeaderOption = () => {
@@ -29,9 +29,17 @@ const AuthenticatedHeaderOption = () => {
     });
   }, []);
 
+  const partnerGroupId = user.data.user.partner_group_id;
+
+  const canSpecifyPartnerGroupId =
+    hasOneFrom(rolesList, ["admin", "partner", "partner_view"]) &&
+    user.data.user.partner_group_id;
+
   const canSpecifyUserBaseRole = rolesList.indexOf("admin") > -1;
 
-  const canSpecifyPartner = rolesList.includes("partner") && partnerId != null;
+  const canSpecifyPartner =
+    hasOneFrom(rolesList, ["partner", "partner_view", "partner_edit"]) &&
+    partnerId != null;
 
   return (
     <>
@@ -49,9 +57,17 @@ const AuthenticatedHeaderOption = () => {
           </a>
         </>
       ) : null}
-      {canSpecifyPartner ? (
+
+      {canSpecifyPartnerGroupId || canSpecifyPartner ? (
         <>
-          <a className="item" href={`${PATHS.PARTNERS}/${partnerId}`}>
+          <a
+            className="item"
+            href={
+              canSpecifyPartnerGroupId
+                ? `${PATHS.STATE}/${partnerGroupId}`
+                : `${PATHS.PARTNERS}/${partnerId}`
+            }
+          >
             Dashboard
           </a>
         </>
@@ -84,16 +100,16 @@ const AuthenticatedHeaderOption = () => {
         ></i>
       </a>
       {open && (
-        <div class="dropdown-wrapper">
-          <ul class="dropdown-menu">
-            <li class="dropdown-menu__item">
+        <div className="dropdown-wrapper">
+          <ul className="dropdown-menu">
+            <li className="dropdown-menu__item">
               <a className="item" href={PATHS.PROFILE}>
                 Profile
               </a>
             </li>
-            <li class="dropdown-menu__item">
+            <li className="dropdown-menu__item">
               <a
-                class="logout-btn"
+                className="logout-btn"
                 onClick={() => dispatch(userActions.logout())}
               >
                 {" "}

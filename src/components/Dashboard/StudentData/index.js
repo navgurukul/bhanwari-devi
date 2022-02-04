@@ -15,6 +15,7 @@ import "./styles.scss";
 import { Redirect } from "react-router";
 import AddStudent from "../../../pages/AddStudent/index.js";
 import { toast } from "react-toastify";
+import { hasOneFrom } from "../../../common/utils";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -50,7 +51,6 @@ function StudentData() {
   const limit = 10;
   let id = getPartnerIdFromUrl();
   useEffect(() => {
-    // let id = getPartnerIdFromUrl();
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users${
@@ -60,7 +60,12 @@ function StudentData() {
     }).then((res) => {
       if (
         id == user.data.user.partner_id ||
-        user.data.user.rolesList.indexOf("admin") > -1
+        hasOneFrom(user.data.user.rolesList, [
+          "admin",
+          "partner_view",
+          "partner_edit",
+          "partner",
+        ])
       ) {
         if (res.data.students.length < 1) {
           setMessage("There are no results to display");
@@ -279,9 +284,13 @@ function StudentData() {
   });
 
   if (
-    user.data.user.rolesList.indexOf("admin") > -1 ||
-    (user.data.user.rolesList.indexOf("partner") > -1 &&
-      user.data.user.partner_id == id)
+    hasOneFrom(user.data.user.rolesList, [
+      "admin",
+      "partner_view",
+      "partner_edit",
+      "partner",
+    ]) ||
+    user.data.user.partner_id == id
   ) {
     return (
       <div className="container-table">
@@ -573,23 +582,26 @@ function StudentData() {
                           );
                         })}
                       </td>
-                      <td data-column="Avg rating ">
-                        <i
-                          className="class-card-action-icon class-card-edit fa fa-edit"
-                          onClick={() => {
-                            setOpenEditForm(true);
-                            setUserId(item.id);
-                            setUserName(item.name);
-                          }}
-                        />
-                        {loginUser == item.id ? null : (
-                          <i
-                            style={{ marginLeft: "20px" }}
-                            className="class-card-action-icon fa fa-trash"
-                            onClick={() => removeStudent(item.id)}
-                          />
+                      {user.data.user.rolesList.indexOf("partner_edit") > -1 &&
+                        user.data.user.partner_id == id && (
+                          <td data-column="Delete">
+                            <i
+                              className="class-card-action-icon class-card-edit fa fa-edit"
+                              onClick={() => {
+                                setOpenEditForm(true);
+                                setUserId(item.id);
+                                setUserName(item.name);
+                              }}
+                            />
+                            {loginUser == item.id ? null : (
+                              <i
+                                style={{ marginLeft: "20px" }}
+                                className="class-card-action-icon fa fa-trash"
+                                onClick={() => removeStudent(item.id)}
+                              />
+                            )}
+                          </td>
                         )}
-                      </td>
                     </tr>
                   );
                 })}
