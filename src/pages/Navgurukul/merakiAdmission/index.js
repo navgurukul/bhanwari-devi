@@ -27,7 +27,7 @@ function Admission() {
       url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
       headers: {
         accept: "application/json",
-        Authorization: userToken !== "undefined" ? userToken : user.data.token,
+        Authorization: userToken !== undefined ? userToken : user.data.token,
       },
     }).then((res) => {
       setPartnerId(res.data.user.partner_id);
