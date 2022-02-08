@@ -106,6 +106,7 @@ function ClassCard({ item, editClass, enroll, style }) {
 
   //API CALL FOR /users/enrolment to check whether user is enrolled or not
   const checkEnrolled = (pathway_id) => {
+    console.log("pathway_id", pathway_id);
     return axios({
       method: METHODS.POST,
       url: `${process.env.REACT_APP_MERAKI_URL}/users/enrolment?email=${user.data.user.email}&pathway_id=${pathway_id}`,
@@ -115,12 +116,17 @@ function ClassCard({ item, editClass, enroll, style }) {
       },
     })
       .then((res) => {
-        setClassEnrolled(res.data.message);
+        // setClassEnrolled(res.data.message);
+        // setClassEnrolled("not_enrolled");
+        setClassEnrolled("enrolled");
+        // setClassEnrolled("enrolled_but_finished");
       })
       .catch((err) => {
         console.log("err", err);
       });
   };
+
+  console.log("classEnrolled", classEnrolled);
 
   // API CALL FOR enroll class
   const handleSubmit = (Id, indicator) => {
@@ -272,7 +278,7 @@ function ClassCard({ item, editClass, enroll, style }) {
               <label>
                 <input
                   type="checkbox"
-                  align="center"
+                  // align="center"
                   className="cohort-class"
                   onClick={() => {
                     setDeleteCohort(true);
@@ -303,7 +309,7 @@ function ClassCard({ item, editClass, enroll, style }) {
               <label>
                 <input
                   type="checkbox"
-                  align="center"
+                  // align="center"
                   className="cohort-class"
                   onClick={() => {
                     setIndicator(true);
@@ -334,7 +340,7 @@ function ClassCard({ item, editClass, enroll, style }) {
           >
             {classEnrolled === "enrolled" && item.type === "cohort" ? (
               <>
-                <p align="center">
+                <p className="modal-text">
                   You'll be enrolled to a single class of Batch <br /> As you
                   are already enrolled in another Batch.
                 </p>
@@ -411,7 +417,7 @@ function ClassCard({ item, editClass, enroll, style }) {
               <label>
                 <input
                   type="checkbox"
-                  align="center"
+                  // align="center"
                   className="cohort-class"
                   onClick={() => {
                     setIndicator(true);

@@ -114,9 +114,14 @@
 .cohort-class {
   margin-left: 170px;
   margin-bottom: 20px;
+  text-align: center;
   @include breakpoint-mobile {
     margin-left: 50px;
   }
+}
+
+.modal-text {
+  text-align: center;
 }
 
 .class-card-edit {

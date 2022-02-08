@@ -254,7 +254,7 @@ function Class({ classToEdit, indicator }) {
     const obj = {
       [count]: days,
     };
-    if (e.target.checked === true) {
+    if (e.target.checked) {
       const daysList = [...field[key], days];
       const forDate = Object.assign(day, obj);
       setField(daysList, key);
@@ -1034,8 +1034,6 @@ function Class({ classToEdit, indicator }) {
                         required={
                           formFieldsState[TYPE] === "cohort" &&
                           formFieldsState[UNTIL] === ""
-                            ? true
-                            : false
                         }
                         max={48}
                       />
