@@ -43,7 +43,7 @@ const Routing = () => {
         component={NavgurukulIntroduce}
       />
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
-      <Route exact path={PATHS.ADMISSION} component={Admission} />
+      <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
 
       {/* Private routes */}
       {/* <PrivateRoute

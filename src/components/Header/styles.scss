@@ -32,8 +32,14 @@
 //   }
 // }
 
+// .ng-header > .logo {
+//   display: inline-block;
+//   font-size: 22px;
+//   color: #83b344;
+// }
+
 .ng-header > .logo {
-  display: inline-block;
+  display: flex;
   font-size: 22px;
   color: #83b344;
 }
@@ -42,6 +48,7 @@
   background-image: url("../../asset/meraki.png");
   width: 58px;
   height: 70px;
+  margin-top: 15px;
   background-size: contain;
   background-repeat: no-repeat;
   @include breakpoint-mobile {
@@ -54,21 +61,37 @@
   padding-top: 35px;
 }
 
-.ng-header > .option {
+.option {
   font-size: 18px;
+  padding-top: 38px;
 }
 
-.ng-header > .option > a {
+.ng-header > .option {
+  font-size: 18px;
+  padding-top: 2px;
+}
+
+.option > a {
   padding: 13px 10px 13px 10px;
   text-decoration: none;
   color: #83b344;
 }
-.ng-header > .option > .item:hover {
+
+// .ng-header > .option > a {
+//   padding: 13px 10px 13px 10px;
+//   text-decoration: none;
+//   color: #83b344;
+// }
+.option > .item:hover {
   border-bottom: 3px solid rgba(72, 161, 69, 1);
   color: rgba(72, 161, 69, 1);
   @include breakpoint-mobile {
     width: auto;
   }
+}
+
+.option > .left-item {
+  display: none;
 }
 
 .active {
@@ -137,6 +160,13 @@
     justify-content: center;
     width: 50px;
     height: 50px;
+  }
+  .option > .left-item {
+    display: block;
+  }
+
+  .option > a {
+    display: none;
   }
 
   .ng-header > .dropDown-btn > label > span {

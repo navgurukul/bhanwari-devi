@@ -73,25 +73,18 @@ const AuthenticatedHeaderOption = () => {
         </>
       ) : null}
 
-      <a className="item" href={PATHS.ADMISSION}>
-        Admission
-      </a>
-      <a className="item" href={PATHS.COURSE}>
-        Courses
-      </a>
-      <a className="item" href={PATHS.MENTOR}>
-        Mentor
-      </a>
-      <a className="item" href={PATHS.CLASS}>
-        Classes
-      </a>
-
-      <a className="item" href={PATHS.OPPORTUNITIES}>
-        Opportunities
-      </a>
-      <a className="item" href={PATHS.AFE}>
-        Amazon Partnership
-      </a>
+      {["ADMISSION", "COURSE", "MENTOR", "CLASS", "OPPORTUNITIES", "AFE"].map(
+        (item) => (
+          <MenuOption
+            item={item}
+            className={
+              ["COURSE", "MENTOR", "CLASS"].includes(item)
+                ? "left-item"
+                : "item"
+            }
+          />
+        )
+      )}
 
       <a>
         <i
@@ -123,12 +116,19 @@ const AuthenticatedHeaderOption = () => {
   );
 };
 
+const AuthenticatedLeftHeaderOption = () => {
+  return (
+    <>
+      {["COURSE", "MENTOR", "CLASS"].map((item) => (
+        <MenuOption item={item} className="item" />
+      ))}
+    </>
+  );
+};
+
 const PublicMenuOption = () => {
   return (
     <>
-      <a className="item" href={PATHS.COURSE}>
-        Courses
-      </a>
       <a className="item" href={PATHS.AFE}>
         Amazon Partnership
       </a>
@@ -136,6 +136,30 @@ const PublicMenuOption = () => {
         Login/Signup
       </a>
     </>
+  );
+};
+
+const PublicLeftMenuOption = () => {
+  return (
+    <a className="item" href={PATHS.COURSE}>
+      Courses
+    </a>
+  );
+};
+
+const MenuOption = (props) => {
+  const NAMES = {
+    COURSE: "Courses",
+    MENTOR: "Mentors",
+    CLASS: "Classes",
+    ADMISSION: "Admission",
+    OPPORTUNITIES: "Opportunities",
+    AFE: "Amazon Partnership",
+  };
+  return (
+    <a className={props.className} href={PATHS[props.item]}>
+      {NAMES[props.item]}
+    </a>
   );
 };
 
@@ -150,6 +174,14 @@ function Header() {
         <a href="/">
           <div className="meraki-logo" />
         </a>
+
+        <div className="option">
+          {isAuthenticated ? (
+            <AuthenticatedLeftHeaderOption />
+          ) : (
+            <PublicLeftMenuOption />
+          )}
+        </div>
       </div>
 
       <div className="dropDown-btn">
