@@ -14,6 +14,7 @@ function* handleUserData({ data }) {
       yield call(sendGoogleUserData, data) :
       yield call(sendToken, data);
   if (res.status === 200) {
+    res.data.token = res.data.token || data.token;
     const mappedUserData = { ...res.data, isAuthenticated: true };
     yield put(actions.onUserSigninResolved(mappedUserData));
   } else {
