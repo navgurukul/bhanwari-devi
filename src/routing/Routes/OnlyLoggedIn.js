@@ -21,15 +21,16 @@ const OnlyLoggedIn = (passedProps) => {
   //   isAuthorized = userHasAccess(User.user, roles || [])
   // }
 
-  if(loading) {
+  if (loading) {
     return <Loader />;
   }
 
-  if(token && (!user || !user.isAuthenticated)) {
+  if (token && (!user || !user.isAuthenticated)) {
     // Registered user attempting to log in by using redirect token; 
     //     let's send the token to our back-end to get profile data
     //     from /users/me
     dispatch(userActions.onUserSignin({token}));
+    localStorage.removeItem("Token");
   }
 
   return (
