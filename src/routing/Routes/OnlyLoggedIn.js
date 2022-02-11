@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import { actions as userActions } from "../../components/User/redux/action";
+import Loader from "../../components/common/Loader";
 
 // import { userHasAccess } from '../../services/auth'
 import { PATHS } from "../../constant";
