@@ -19,7 +19,7 @@ const OnlyLoggedIn = (passedProps) => {
   //   isAuthorized = userHasAccess(User.user, roles || [])
   // }
 
-  if(user && !user.isAuthenticated && token) {
+  if(token && (!user || !user.isAuthenticated)) {
     // Registered user attempting to log in by using redirect token; 
     //     let's send the token to our back-end to get profile data
     //     from /users/me
