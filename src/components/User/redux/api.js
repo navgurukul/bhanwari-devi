@@ -21,6 +21,21 @@ export const sendGoogleUserData = (userData, tokens) => {
   });
 };
 
+
+/**
+ * Sends id-token to Meraki back-end to get profile data of registered user.
+ */
+export const sendToken = (userData, tokens) => {
+  return axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+      headers: {
+        accept: "application/json",
+        Authorization: userData.token,
+      },
+    });
+}
+
 export const updateUser = (userData, tokens) => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
