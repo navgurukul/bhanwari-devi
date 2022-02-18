@@ -284,10 +284,7 @@ function StudentData() {
     }
   });
 
-  console.log("filter", filter);
-
   useEffect(() => {
-    console.log("Poo");
     const slicedData = filter.slice(
       pageNumber * limit,
       (pageNumber + 1) * limit
