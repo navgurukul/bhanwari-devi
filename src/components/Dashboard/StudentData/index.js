@@ -146,6 +146,7 @@ function StudentData() {
   };
 
   const sortStudents = (byMethod) => {
+    const students = filteredData ? filter : students;
     let sortedStudents;
     if (byMethod === "name") {
       sortedStudents = students.sort().reverse();
@@ -282,6 +283,17 @@ function StudentData() {
       });
     }
   });
+
+  console.log("filter", filter);
+
+  useEffect(() => {
+    console.log("Poo");
+    const slicedData = filter.slice(
+      pageNumber * limit,
+      (pageNumber + 1) * limit
+    );
+    setSlicedStudents(slicedData);
+  }, [pageNumber, filterVal]);
 
   if (
     hasOneFrom(user.data.user.rolesList, [
@@ -420,7 +432,7 @@ function StudentData() {
           </thead>
           <tbody>
             {filteredData
-              ? filter.map((item) => {
+              ? slicedStudents.map((item) => {
                   let getStars = 0;
                   let totalStarts = item.classes_registered.length * 5;
                   item.classes_registered.map((stars) => {

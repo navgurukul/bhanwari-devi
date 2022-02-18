@@ -5,7 +5,7 @@ import { METHODS } from "../../services/api";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import MerakiCreateRoom from "../CreateChatRoom/index";
-import PartnerStudentData from "../PartnerStudent";
+import MerakiUsers from "../MerakiUsers";
 
 function User() {
   const user = useSelector(({ User }) => User);
@@ -64,7 +64,7 @@ function User() {
 
   return (
     <>
-      <PartnerStudentData />
+      <MerakiUsers />
       <div className="container-for-users">
         <label htmlFor="email" className="label">
           Email
