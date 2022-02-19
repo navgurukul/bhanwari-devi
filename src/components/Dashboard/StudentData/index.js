@@ -591,7 +591,10 @@ function StudentData() {
                           );
                         })}
                       </td>
-                      {user.data.user.rolesList.indexOf("partner_edit") > -1 &&
+                      {hasOneFrom(user.data.user.rolesList, [
+                        "partner_edit",
+                        "partner",
+                      ]) &&
                         user.data.user.partner_id == id && (
                           <td data-column="Delete">
                             <i
