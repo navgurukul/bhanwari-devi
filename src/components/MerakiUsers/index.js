@@ -21,7 +21,7 @@ const getPartnerIdFromUrl = () => {
   return partnerId;
 };
 
-function PartnerStudentData() {
+function MerakiUsers() {
   const [pageNumber, setPageNumber] = useState(0);
   const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
@@ -129,6 +129,7 @@ function PartnerStudentData() {
   };
 
   const sortStudents = (byMethod) => {
+    const students = filteredData ? filter : students;
     let sortedStudents;
     if (byMethod === "name") {
       sortedStudents = students.sort().reverse();
@@ -242,6 +243,14 @@ function PartnerStudentData() {
       });
     }
   });
+
+  useEffect(() => {
+    const slicedData = filter.slice(
+      pageNumber * limit,
+      (pageNumber + 1) * limit
+    );
+    setSlicedStudents(slicedData);
+  }, [pageNumber, filterVal]);
 
   return (
     <div className="container-table">
@@ -379,7 +388,7 @@ function PartnerStudentData() {
         </thead>
         <tbody>
           {filteredData
-            ? filter.map((item) => {
+            ? slicedStudents.map((item) => {
                 let getStars = 0;
                 let totalStarts = item.classes_registered.length * 5;
                 item.classes_registered.map((stars) => {
@@ -534,4 +543,4 @@ function PartnerStudentData() {
   );
 }
 
-export default PartnerStudentData;
+export default MerakiUsers;
