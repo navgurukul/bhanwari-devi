@@ -18,7 +18,7 @@ function StatePartnerDashboard() {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners/46/groups`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/23/groups`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
