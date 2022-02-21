@@ -115,14 +115,6 @@ function MerakiUsers() {
     });
   }, [debouncedText]);
 
-  useEffect(() => {
-    const slicedData = students.slice(
-      pageNumber * limit,
-      (pageNumber + 1) * limit
-    );
-    setSlicedStudents(slicedData);
-  }, [pageNumber]);
-
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -245,11 +237,19 @@ function MerakiUsers() {
   });
 
   useEffect(() => {
-    const slicedData = filter.slice(
-      pageNumber * limit,
-      (pageNumber + 1) * limit
-    );
-    setSlicedStudents(slicedData);
+    if (filteredData) {
+      const slicedData = filter.slice(
+        pageNumber * limit,
+        (pageNumber + 1) * limit
+      );
+      setSlicedStudents(slicedData);
+    } else {
+      const slicedData = students.slice(
+        pageNumber * limit,
+        (pageNumber + 1) * limit
+      );
+      setSlicedStudents(slicedData);
+    }
   }, [pageNumber, filterVal]);
 
   return (
