@@ -330,7 +330,6 @@ function Class({ classToEdit, indicator }) {
           return (
             <>
               <label htmlFor="type">Class Type</label>
-              {console.log("isEditMode", isEditMode)}
               <span>
                 <label htmlFor="type1" className="radio-pointer">
                   <input
@@ -990,7 +989,6 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              {console.log("formFieldsState[TYPE]", formFieldsState[TYPE])}
               <div
                 className={
                   checkEquivalence ? "disabled-button" : "enabled-button"
