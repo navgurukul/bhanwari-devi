@@ -389,7 +389,7 @@ function StudentData() {
                 </button>
               </th>
               <th>
-                Classes Attended
+                Classes Enrolled to
                 <button
                   className={sort_class}
                   onClick={() => sortStudents("total_classes")}
