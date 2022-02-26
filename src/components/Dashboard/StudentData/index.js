@@ -132,14 +132,6 @@ function StudentData() {
     });
   }, [debouncedText]);
 
-  useEffect(() => {
-    const slicedData = students.slice(
-      pageNumber * limit,
-      (pageNumber + 1) * limit
-    );
-    setSlicedStudents(slicedData);
-  }, [pageNumber]);
-
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -285,11 +277,19 @@ function StudentData() {
   });
 
   useEffect(() => {
-    const slicedData = filter.slice(
-      pageNumber * limit,
-      (pageNumber + 1) * limit
-    );
-    setSlicedStudents(slicedData);
+    if (filteredData) {
+      const slicedData = filter.slice(
+        pageNumber * limit,
+        (pageNumber + 1) * limit
+      );
+      setSlicedStudents(slicedData);
+    } else {
+      const slicedData = students.slice(
+        pageNumber * limit,
+        (pageNumber + 1) * limit
+      );
+      setSlicedStudents(slicedData);
+    }
   }, [pageNumber, filterVal]);
 
   if (
@@ -389,7 +389,7 @@ function StudentData() {
                 </button>
               </th>
               <th>
-                Classes Attended
+                Classes Enrolled to
                 <button
                   className={sort_class}
                   onClick={() => sortStudents("total_classes")}
