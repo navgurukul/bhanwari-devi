@@ -23,6 +23,29 @@
     white-space: break-spaces;
   }
 
+  .paragraph {
+    line-height: 25px;
+  }
+
+  .list {
+    display: flex;
+  }
+
+  .number {
+    padding-right: 10px;
+  }
+
+  .code-bg {
+    background-color: #f3c2ae91;
+    padding: 20px;
+    margin: 10px 10px 10px 10px;
+    line-height: 30px;
+  }
+
+  pre {
+    white-space: pre-wrap;
+  }
+
   .image {
     width: 100%;
   }
@@ -31,6 +54,67 @@
     @include breakpoint-mobile {
       width: 100%;
       height: 200px;
+    }
+  }
+
+  .table-data {
+    // width: 90%;
+    border-collapse: collapse;
+  }
+
+  .table-content th {
+    background-color: #ffffff;
+    color: black;
+  }
+
+  td,
+  th {
+    padding: 11px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+  }
+
+  tr:hover {
+    background-color: #ffffff;
+    box-shadow: 0 0;
+    cursor: auto;
+  }
+
+  .table-content {
+    border-collapse: collapse;
+  }
+
+  .table-content td {
+    font-size: 93%;
+  }
+}
+
+.code__controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  a {
+    text-decoration: none;
+    font-size: 1rem;
+    text-align: center;
+    color: #eee;
+    border-radius: 3px;
+    width: 100px;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: 500;
+
+    border: 2px solid #b33;
+    background: #d55f31;
+    transition: all 0.25s linear;
+
+    &:hover {
+      color: #111;
+      border: 2px solid #555;
+      background: #eee;
+      transform: translateY(-3px);
+      box-shadow: 0 2px 8px #111;
     }
   }
 }

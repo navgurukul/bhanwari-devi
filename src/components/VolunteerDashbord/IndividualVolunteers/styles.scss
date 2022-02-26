@@ -1,0 +1,142 @@
+.volunteer-class-page-container {
+  padding: 0 10%;
+  margin: 40px auto 0;
+}
+
+.volunteer-table-container {
+  padding: 0 10%;
+  margin: 40px auto 0;
+}
+
+.volunteer-page-heading {
+  display: flex;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.home {
+  color: #48a145;
+  text-decoration: none;
+}
+
+.volunteer-details {
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.volunteer-name {
+  font-weight: 700;
+}
+
+.volunteer-search-box {
+  border: 0;
+  font-size: 16px;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #2e2e2e;
+  height: 5px;
+  margin-top: 13px;
+  width: 1280px;
+  background-image: url("../../../asset/search.svg");
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+}
+
+.volunteer-class-table {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.volunteer-class-table td,
+th {
+  padding: 14px;
+  border: none;
+  font-family: Rubik;
+  font-style: normal;
+  font-size: 16px;
+}
+
+.volunteer-class-table thead tr th {
+  letter-spacing: 0.35;
+  line-height: 20px;
+  color: #2e2e2e;
+  // opacity: 1;
+  padding: 12px;
+  font-size: 16px;
+  font-style: normal;
+  // font-family: Nunito Sans;
+  text-align: start;
+  vertical-align: top;
+  // border: 1px solid #eb0f0f;
+  border-bottom: 2px solid #e6e3e3;
+  // border: none;
+}
+
+.volunteer-class-table tbody {
+  border-bottom: 2px solid #e6e3e3;
+}
+
+.volunteer-class-table tr:hover {
+  background-color: #e9f5e9;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px 0px;
+}
+
+.sort-class {
+  background: transparent;
+  border: none;
+}
+
+@media screen and (max-width: 768px) {
+  .volunteer-search-box {
+    width: 270px;
+  }
+  .volunteer-class-table {
+    width: 100%;
+  }
+  .volunteer-class-table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  .volunteer-class-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .volunteer-class-table tr {
+    border: 1px solid #ccc;
+  }
+
+  .volunteer-class-table td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .volunteer-class-table td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    /* Label the data */
+    content: attr(data-column);
+    color: #000;
+    font-weight: 500;
+  }
+}

@@ -1,13 +1,16 @@
 import React from "react";
 
 import CourseComponent from "../../components/Course";
+import Footer from "../../components/Footer";
 import "./styles.scss";
 
 function Course() {
   return (
-    <div className="ng-course-container">
-      <h2>Hello, There</h2>
-      <CourseComponent />
+    <div className="layout">
+      <div className="ng-course-container">
+        <CourseComponent />
+      </div>
+      <Footer />
     </div>
   );
 }

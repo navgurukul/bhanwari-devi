@@ -6,29 +6,68 @@ import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 
-function ClassList() {
+function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
 
   useEffect(() => {
-    dispatch(classActions.getClasses());
-  }, [dispatch]);
+    if (isShow === false) {
+      dispatch(classActions.getClasses());
+    }
+  }, [dispatch, isShow]);
 
   if (loading) {
     return <Loader pageLoader={true} />;
   }
 
+  let recurring_classes_data = [];
+  let single_classes = [];
+  data &&
+    data.forEach((item) => {
+      if (item.recurring_id) {
+        recurring_classes_data.push(item);
+      } else {
+        single_classes.push(item);
+      }
+    });
+
+  const _ = require("lodash");
+  var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
+
   return (
     <div>
       <div className="ng-upcoming-class">
         {data && data.length > 0 ? (
-          data.map((item, index) => {
-            return <ClassCard item={item} key={index} />;
-          })
+          <>
+            {single_classes.map((item, index) => {
+              return (
+                <ClassCard
+                  item={item}
+                  key={index}
+                  index={index}
+                  editClass={editClass}
+                  enroll="Enroll to class"
+                  style="class-enroll"
+                />
+              );
+            })}
+            {recurring_classes.map((item, index) => {
+              return (
+                <ClassCard
+                  item={item}
+                  key={index}
+                  index={index}
+                  editClass={editClass}
+                  enroll="Enroll to Cohort class"
+                  style="class-enroll-cohort"
+                />
+              );
+            })}
+          </>
         ) : (
           <div className="message">
-            <h2>No Classes Today</h2>
+            <h2>No Classes Today....</h2>
           </div>
         )}
       </div>

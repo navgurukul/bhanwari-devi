@@ -1,6 +1,34 @@
 @import "../../sass/colors.scss";
 @import "../../sass/mixins.scss";
 
+.class_time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  // justify-content: center;
+}
+
+input[type="radio"] {
+  /* remove standard background appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* create custom radiobutton appearance */
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 3px;
+  /* background-color only for content */
+  background-clip: content-box;
+  border: 2px solid #bbbbbb;
+  background-color: #e7e6e7;
+  border-radius: 50%;
+}
+
+input[type="radio"]:checked {
+  background-color: #48a145;
+}
+
 .ng-create-class {
   margin: auto;
   padding-top: 24px;
@@ -10,10 +38,6 @@
   align-items: center;
   @include breakpoint-mobile {
     width: 100%;
-  }
-
-  label {
-    font-weight: bold;
   }
 
   //TODO: move the colors to color file.
@@ -26,9 +50,15 @@
     display: flex;
     justify-content: center;
     text-transform: uppercase;
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+    @include breakpoint-mobile {
+      margin-left: 80px;
+    }
   }
 
   .form {
+    // font-weight: normal;
     padding: 48px;
     display: flex;
     flex-direction: column;
@@ -61,6 +91,35 @@
     transition: all 0.2s;
   }
 
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  .disabled-button {
+    margin-left: 200px;
+    cursor: not-allowed;
+    @include breakpoint-mobile {
+      margin-left: 60px;
+    }
+  }
+
+  .radio-pointer {
+    display: inline-flex;
+    cursor: pointer;
+    margin-right: 12px;
+    align-items: center;
+    margin-block: 10px;
+  }
+
+  .enabled-button {
+    margin-left: 200px;
+    @include breakpoint-mobile {
+      margin-left: 60px;
+    }
+  }
+
   .submit:hover {
     cursor: pointer;
     background-color: rgb(10, 122, 25);
@@ -72,15 +131,39 @@
   }
 }
 
+.radio-field {
+  margin: 30px 12px 30px 12px;
+}
+
+.label-field {
+  color: #bbbbbb;
+  font-weight: normal;
+}
+
+.checkbox-field {
+  margin: 30px 12px 30px 12px;
+}
+
+.checkbox {
+  margin-right: 20px;
+}
+
+input.checkbox-field {
+  width: 15px;
+  height: 15px;
+}
+
 .input-field {
   width: 628px;
   height: 48px;
   padding-left: 8px;
   margin: 8px 0 24px 0;
   font-size: 16px;
+  border: none;
+  border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
-    width: 100%;
+    width: 350px;
   }
 
   &--short {
@@ -88,15 +171,16 @@
   }
 
   background: #ffffff;
-  border: 1px solid #000000;
   box-sizing: border-box;
-  border-radius: 8px;
 
   &:focus {
     outline: none !important;
     border: 1px solid #3cb728;
     box-shadow: 0 0 4px #3cb728;
   }
+}
+.input-field--short {
+  width: 18.75rem;
 }
 
 .textarea-field {
@@ -106,16 +190,15 @@
   font-size: 16px;
   margin: 8px 0 24px 0;
   resize: none;
+  border: none;
+  border-bottom: 2px solid rgb(192, 195, 196);
 
   @include breakpoint-mobile {
-    width: 100%;
+    width: 340px;
   }
 
   //TODO: move the color in the root colors.scss file.
   background: #ffffff;
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  border-radius: 8px;
 
   &:focus {
     outline: none !important;
@@ -124,10 +207,47 @@
   }
 }
 
+.class_main_time {
+  display: flex;
+  justify-content: space-between;
+  // width: 80%;
+}
+
 .create-class-select {
   padding: 12px 8px;
   font-size: 16px;
   background: #ffffff;
   margin: 8px 0 24px 0;
   border-radius: 8px;
+}
+
+.optional-field {
+  font-weight: normal;
+  color: grey;
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.description-for-enrollments {
+  font-weight: normal;
+  font-size: 15px;
+  color: grey;
+  margin-top: 10px;
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+}
+.enrolment_buttons button {
+  margin: 1rem;
+  margin-left: 0;
+  border: none;
+  background: white;
+  border-radius: 8px;
+  padding: 1em 1.2rem;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+.enrolment_buttons button.active {
+  color: #48a145;
+  background-color: #e9f5e9;
 }

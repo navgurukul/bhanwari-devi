@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import get from "lodash/get";
 
-import { actions as courseActions } from "../../redux/action";
 import Exercise from "./Exercise";
 import "./styles.scss";
 
 function ExerciseList(props) {
   const { list = [] } = props;
+
   const dispatch = useDispatch();
   const {
     courseContent: { data },
@@ -29,10 +29,10 @@ function ExerciseList(props) {
           index,
           subExerciseIndex,
         };
-        dispatch(courseActions.updateSelectedExercise(selectedExerciseInfo));
+        props.setSelectedExercise(selectedExerciseInfo);
       } else {
         const selectedMainExercise = { exercise: mainExercise, index };
-        dispatch(courseActions.updateSelectedExercise(selectedMainExercise));
+        props.setSelectedExercise(selectedMainExercise);
       }
     },
     [data, dispatch]

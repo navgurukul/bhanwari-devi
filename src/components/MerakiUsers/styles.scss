@@ -1,0 +1,126 @@
+.container-for-table {
+  padding: 0 10%;
+  margin: 40px auto 0;
+}
+.student-class-table {
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.3);
+}
+
+.sorter {
+  background: transparent;
+  margin-left: 10px;
+  border: none;
+}
+
+.turn {
+  transform: scaleX(-1);
+}
+
+.student-class-table thead tr th {
+  box-shadow: 1px, 1px rgba(112, 111, 111, 0.16);
+  letter-spacing: 0.35;
+  color: #2e2e2e;
+  opacity: 1;
+  padding: 12px;
+  font-size: 16px;
+  font-style: normal;
+  font-family: Rubik;
+  text-align: start;
+  vertical-align: top;
+  border: 1px solid #dee2e685;
+}
+
+td,
+th {
+  padding: 15px;
+  border: 1px solid #dee2e685;
+  font-size: 18px;
+}
+
+.search-for-classes {
+  border: 0;
+  background-color: #a3a3a3;
+  font-size: 16px;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid #2e2e2e;
+  height: 5px;
+  width: 500px;
+  margin-top: 13px;
+
+  background-image: url("../../asset/search.svg");
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+}
+
+.studentName {
+  font-size: 20px;
+  counter-reset: #2e2e2e;
+  font-style: normal;
+  font-family: Rubik;
+  font-weight: 500;
+}
+
+/* 
+      Max width before this PARTICULAR table gets nasty
+      This query will take effect for any screen smaller than 760px
+      and also iPads specifically.
+      */
+@media screen and (max-width: 768px) {
+  .student-class-table {
+    width: 100%;
+  }
+
+  .search-for-classes {
+    width: 270px;
+  }
+
+  /* Force table to not be like tables anymore */
+  .student-class-table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid #ccc;
+  }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    // top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    /* Label the data */
+    content: attr(data-column);
+
+    color: #000;
+    font-weight: bold;
+  }
+}

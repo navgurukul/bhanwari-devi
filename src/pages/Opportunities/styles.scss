@@ -1,0 +1,138 @@
+@import "../../sass/mixins.scss";
+
+.container-for-course-opportunity {
+  padding: 0 10%;
+  margin: 40px auto 0;
+}
+
+.content-section {
+  width: 100%;
+}
+
+.opportunity-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.opportunity-info-card {
+  box-shadow: 0px 4px 5px rgba(46, 46, 46, 0.06),
+    0px 1px 10px rgba(46, 46, 46, 0.04), 0px 2px 4px rgba(46, 46, 46, 0.08);
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  font-family: Nunito Sans;
+  font-style: normal;
+  padding: 25px;
+  width: 380px;
+  margin: 16px;
+  @include breakpoint-mobile {
+    width: 100%;
+  }
+}
+
+.opportunity-card-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.opportunity-card-form {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.8;
+  margin-top: 15px;
+  color: rgba(72, 161, 69, 1);
+}
+
+.opportunity-link {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.1;
+  margin-top: 43px;
+
+  color: rgba(72, 161, 69, 1);
+}
+
+.opportunity-card-description {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.dispaly {
+  display: flex;
+  margin-top: 5px;
+}
+
+.featured {
+  font-size: 18px;
+  font-weight: 300;
+  border-radius: 45px;
+  padding: 9px;
+  background-color: #ffda6a;
+}
+
+.section-heading {
+  margin: 25px;
+  font-family: Lusitana;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  color: #2e2e2e;
+  max-width: 550px;
+}
+
+.advanced-course-heading {
+  padding: 0px 32px 0px 32px;
+  color: rgba(129, 129, 129, 1);
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.details-of-advanced-courses {
+  margin: 25px;
+  font-family: Lusitana;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+.apply-btn {
+  margin: 25px;
+  background-color: #fff;
+  color: #48a145;
+  border: 1px solid #48a145;
+  height: 40px;
+  padding: 0 40px;
+  border-radius: 8px;
+  font-weight: 600;
+  width: 250px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.button-apply {
+  text-decoration: none;
+  color: #48a145;
+}
+
+.apply-btn a:hover {
+  color: #3e8e41;
+}
+
+.more-opportunities {
+  margin: 25px;
+  font-family: Lusitana;
+  font-style: normal;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.test-icon {
+  margin-left: 11px;
+  position: relative;
+  top: 3px;
+}

@@ -7,7 +7,6 @@ import "./styles.scss";
 
 function CourseCard(props) {
   const { course, index } = props;
-
   const randomBackgroundColor = COURSE_CARD_COLORS[index % 7];
   return (
     <a

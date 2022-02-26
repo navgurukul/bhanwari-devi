@@ -1,3 +1,6 @@
+@import "../../../sass/colors.scss";
+@import "../../../sass/mixins.scss";
+
 .class-card {
   width: 380px;
   background: rgba(255, 220, 220, 0.4);
@@ -5,46 +8,187 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 15px;
   display: flex;
+  font-family: Rubik, sans-serif;
+  font-style: normal;
   flex-direction: column;
   margin-bottom: 25px;
   margin-left: 32px;
+}
 
-  > .card-content {
-    padding: 25px;
-    font-family: "Times New Roman", Times, serif;
-    text-transform: capitalize;
-  }
-
-  .card-heading {
-    display: flex;
-    color: #191b26;
-
-    > .title {
-      flex: 1;
-      font-weight: 600;
-      font-size: 22px;
-    }
-
-    > .class-type {
-      margin-top: 8px;
-      font-weight: 600;
-      color: #d55f31;
-    }
-  }
-
-  .class-detail {
-    margin-top: 34px;
-    font-size: 17px;
+.class-details {
+  padding: 30px;
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+  flex-direction: column;
+  > .class-type {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #d55f31;
+    margin-bottom: 18px;
   }
 }
 
-.delete-button {
-  background-color: #d55f31;
+.class-details h4 {
+  font-weight: 500;
+  margin-top: 10px;
+  font-size: 18px;
+
+  color: #191b26;
+}
+
+.class-details p {
+  margin-bottom: 12px;
+  color: #191b26;
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+  font-size: 19px;
+  font-weight: 300;
+}
+
+.bottom-details {
+  // padding-top: 45%;
+  // margin-bottom: -5%;
+  padding-top: 15px;
+  display: flex;
+}
+
+.class-card-action-icon {
+  padding-top: 8px;
+  cursor: pointer;
+  font-size: 25px;
+  color: grey;
+}
+
+.check-icon {
+  font-size: 18px;
+  color: #7cc144;
+  float: right;
+  font-weight: 300;
+  border-radius: 18px;
+  width: 100px;
+  padding: 2px;
+  background-color: white;
+}
+
+.class-enroll {
+  background-color: #7cc144;
   color: #ffffff;
   border-radius: 5px;
-  font-size: 18px;
-  width: 108px;
+  font-size: 16px;
+  width: 130px;
   height: 40px;
   cursor: pointer;
   border: none;
+}
+
+.class-enroll-cohort {
+  background-color: #7cc144;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 165px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+}
+.class-drop-out {
+  background-color: #d55f31;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 130px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+}
+
+.class-card-actions {
+  position: relative;
+  left: 110px;
+  @include breakpoint-mobile {
+    left: 75px;
+  }
+}
+
+.cohort-class {
+  margin-left: 170px;
+  margin-bottom: 20px;
+  @include breakpoint-mobile {
+    margin-left: 50px;
+  }
+}
+
+.class-card-edit {
+  justify-content: space-around;
+  margin-left: 16px;
+  cursor: pointer;
+}
+
+.confirmation-massage {
+  position: absolute;
+  top: 30%;
+  width: 600px !important;
+  z-index: 100;
+  backdrop-filter: blur(3px);
+  overflow-y: auto;
+  @include breakpoint-mobile {
+    width: 360px !important;
+  }
+  .close {
+    @include breakpoint-mobile {
+      display: none;
+    }
+  }
+
+  > h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px;
+  }
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cancel-btn {
+  background-color: grey;
+  border: none;
+  margin-left: 10px;
+  color: white;
+  height: 35px;
+  width: 85px;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: rgb(248, 93, 93);
+  border: none;
+  color: white;
+  height: 35px;
+  width: 85px;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.agree-btn {
+  background-color: green;
+  border: none;
+  color: white;
+  height: 35px;
+  width: 85px;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.loader-button {
+  margin-right: 10%;
 }
