@@ -5,7 +5,7 @@ import { METHODS } from "../../services/api";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import { hasOneFrom } from "../../common/utils";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import "./style.scss";
 
 function StatePartnerDashboard() {

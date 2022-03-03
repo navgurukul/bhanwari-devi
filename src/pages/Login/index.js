@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
 import { actions as userActions } from "../../components/User/redux/action";

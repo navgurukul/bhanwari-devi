@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import { getQueryVariable } from "../../../common/utils";
 import Login from "../../../pages/Login";
 // import { PATHS } from "../../constant";
