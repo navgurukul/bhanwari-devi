@@ -117,6 +117,7 @@ const theme = createTheme({
       fontSize: "1.125rem",
       lineHeight: 1.55,
       fontWeight: 500,
+      textTransform: "none",
     },
     caption: {
       fontSize: "0.75rem",
