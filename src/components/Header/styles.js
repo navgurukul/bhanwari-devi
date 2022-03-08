@@ -28,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 0,
     display: { xs: "none", md: "flex" },
   },
+  button: {
+    textDecoration: "none",
+    color: "white",
+  },
+  bgColor: {
+    bgcolor: "#e9f5e9",
+  },
 }));
 
 export default useStyles;
