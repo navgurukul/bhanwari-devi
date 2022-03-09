@@ -7,6 +7,7 @@ import { METHODS } from "../../services/api";
 import { hasOneFrom } from "../../common/utils";
 import { actions as userActions } from "../User/redux/action";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import useStyles from "./styles";
 import "./styles.scss";
 import { DropDown, MobileDropDown } from "./DropDown";
@@ -115,9 +116,8 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 // sx={{ my: 2, color: "black" }}
               >
                 Learn
-                <ExpandMoreIcon />
+                {learn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </MenuItem>
-
               <DropDown
                 dropDown="Learn"
                 indicator={learn}
@@ -125,7 +125,12 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 toggleDrawer={toggleDrawer}
               />
             </Box>
-            <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "block", md: "none" },
+              }}
+            >
               <MobileDropDown Menu="Learn" />
             </Box>
             <Box
@@ -278,7 +283,8 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
           {rolesList.length > 1 ? (
             <>
               <MenuItem onClick={handleOpenSwitchView}>
-                Switch Views <ExpandMoreIcon />
+                Switch Views
+                {dropDown ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </MenuItem>
               <Menu
                 sx={{ mt: "45px" }}
@@ -298,7 +304,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
               >
                 <MenuItem
                   onClick={() => {
-                    //   setStudentView(!studentView);
                     setSwitchView("student");
                     handleCloseSwitchView();
                   }}
@@ -308,11 +313,9 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 {rolesList.map((role) => (
                   <MenuItem
                     onClick={() => {
-                      //   setStudentView(!studentView);
                       setSwitchView(role);
                       handleCloseSwitchView();
                     }}
-                    // onClick={handleCloseSwitchView}
                   >
                     {role}
                   </MenuItem>

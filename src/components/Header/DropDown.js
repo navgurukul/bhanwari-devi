@@ -14,7 +14,13 @@ import Divider from "@mui/material/Divider";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import { CardMedia, Typography, Menu, MenuItem } from "@mui/material";
+import {
+  CardMedia,
+  Typography,
+  Menu,
+  MenuItem,
+  CardContent,
+} from "@mui/material";
 
 const students = {
   // image: [
@@ -44,11 +50,13 @@ export const MobileDropDown = ({ Menu }) => {
     <>
       {/* {["Learn", "About", "Get Involved"].map((Menu, index) => ( */}
       <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
+        {/* sx={{ bgcolor: "#e9f5e9" }}> */}
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
           //   key={index}
+          //   sx={{ bgcolor: "#e9f5e9" }}
         >
           <Typography>{Menu}</Typography>
         </AccordionSummary>
@@ -63,7 +71,9 @@ export const MobileDropDown = ({ Menu }) => {
                     sx={{ padding: "15px" }}
                   />
                 )}
-                <Typography textAlign="center">{menu}</Typography>
+                <CardContent>
+                  <Typography textAlign="center">{menu}</Typography>
+                </CardContent>
               </MenuItem>
             </Link>
           ))}
@@ -114,7 +124,9 @@ export const DropDown = ({
                     sx={{ padding: "15px" }}
                   />
                 )}
-                <Typography textAlign="center">{menu}</Typography>
+                <CardContent>
+                  <Typography textAlign="center">{menu}</Typography>
+                </CardContent>
               </MenuItem>
             </Link>
             {dropDown === "Learn" && index == 4 && <Divider />}
