@@ -78,7 +78,7 @@ function Class({ classToEdit, indicator }) {
       [TYPE]: type || "cohort",
       [COURSE_ID]: course_id || "",
       [EXERCISE_ID]: exercise_id || "",
-      [MAX_ENROLMENT]: max_enrolment || "",
+      [MAX_ENROLMENT]: max_enrolment || "0",
       [FREQUENCY]: frequency || "",
       [ON_DAYS]: on_days_list || [],
       [OCCURRENCE]: occurrence_data || "",
@@ -292,6 +292,9 @@ function Class({ classToEdit, indicator }) {
       if (value) {
         if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
+          if (value == 0) {
+            delete formFields.max_enrolment;
+          }
         } else if (fieldName === "type") {
           if (value === "cohort") {
             formFields = { ...formFields, type: "cohort", frequency: "WEEKLY" };
@@ -344,7 +347,6 @@ function Class({ classToEdit, indicator }) {
                     checked={
                       formFieldsState.type === "cohort" ? "checked" : false
                     }
-                    // disabled={formFieldsState[TYPE] === "cohort" ? true : false}
                     disabled={
                       isEditMode
                         ? formFieldsState[TYPE] === "cohort"
@@ -648,9 +650,24 @@ function Class({ classToEdit, indicator }) {
 
               <label htmlFor={MAX_ENROLMENT} className="label-field">
                 Maximum Enrollments
-                <span className="optional-field">(optional)</span>
               </label>
               <span>
+                <label htmlFor="enrole-0" className="radio-pointer">
+                  <input
+                    type="radio"
+                    className="radio-field"
+                    name={MAX_ENROLMENT}
+                    onChange={(e) => {
+                      setFormField("0", MAX_ENROLMENT);
+                    }}
+                    value={formFieldsState[MAX_ENROLMENT]}
+                    id="enrole-0"
+                    checked={
+                      formFieldsState.max_enrolment == "0" ? "checked" : false
+                    }
+                  />
+                  No limit
+                </label>
                 <label htmlFor="enrole-5" className="radio-pointer">
                   <input
                     type="radio"
