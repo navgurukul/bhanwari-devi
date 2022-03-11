@@ -60,6 +60,7 @@ const theme = createTheme({
     },
     divider: "#DEDEDE",
   },
+
   typography: {
     fontFamily: "Nunito Sans",
     fontSize: 18,
@@ -117,6 +118,7 @@ const theme = createTheme({
       fontSize: "1.125rem",
       lineHeight: 1.55,
       fontWeight: 500,
+      textTransform: "none",
     },
     caption: {
       fontSize: "0.75rem",
@@ -127,5 +129,31 @@ const theme = createTheme({
     },
   },
 });
+
+theme.components = {
+  MuiCardMedia: {
+    defaultProps: {
+      disableRipple: true,
+    },
+    styleOverrides: {
+      root: { width: 64 },
+      // containedPrimary: {
+      //   "&:hover": {
+      //     backgroundColor: purple[500],
+      //     color: "#99dfff",
+      //   },
+      // },
+      // containedSecondary: {
+      //   fontWeight: 700,
+      //   color: "#ba000d",
+      // },
+      // containedCaution: {
+      //   // padding: "50px",
+      //   fontWeight: 700,
+      //   color: "#F44336",
+      // },
+    },
+  },
+};
 
 export default theme;
