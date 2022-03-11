@@ -1,106 +1,5 @@
-// import React from "react";
-// import "./styles.scss";
-// import { PATHS } from "../../constant";
-// import { Link } from "react-router-dom";
-
-// function Footer() {
-//   return (
-//     <div className="footer">
-//       <Link className="footer-link" to={PATHS.PRIVACY_POLICY}>
-//         Privacy Policy
-//       </Link>
-//     </div>
-//   );
-// }
-
-// export default Footer;
-
-// import React from "react";
-// import "./styles.scss";
-// import useStyles from "./styles";
-
-// function Footer() {
-//   const classes = useStyles();
-//   return (
-//     <div className="meraki-footer">
-//       <div className="footer-logo"></div>
-//       <div className={classes.footerItems}>
-//         {/* <div className="footer-items">  */}
-//         <div className="footer-items-column">
-//           <h3>About</h3>
-//           <p>Our Story</p>
-//           <p>Team</p>
-//         </div>
-//         <div className="footer-items-column">
-//           <h3>Learning Tracks</h3>
-//           <span>Python</span>
-//           <span>Typing Guru</span>
-//           <span>Spoken English</span>
-//           <span>Javascript</span>
-//           <span>Soft Skills</span>
-//           <span>Open Courses</span>
-//         </div>
-//         <div className="footer-items-column">
-//           <h3>Get Involved</h3>
-//           <span>Be a Partner</span>
-//           <span>Donate</span>
-//           <span>Careers</span>
-//           <span>Volunteer</span>
-//         </div>
-//         <div className="footer-items-column">
-//           <h3>Learn on Mobile</h3>
-//           <span>
-//             <div className="footer-playstore-icon"></div>Now on Playstore
-//           </span>
-//         </div>
-//       </div>
-//       <hr />
-//       <div className="footer-row">
-//         <span>Legal & Privacy Policy</span>
-//         <span>Made with ❤️ for our students </span>
-//         <span>
-//           <div className="footer-social-media-icons">
-//             <div className="footer-social-icon footer-icon-facebook"></div>
-//             <div className="footer-social-icon footer-icon-linkedin"></div>
-//             <div className="footer-social-icon footer-icon-twitter"></div>
-//           </div>
-//         </span>
-//       </div>
-//       {/* <div className="footer-row footer-NG-info">
-//         <span>Part of NavGurukul Foundation for Social Welfare</span>
-//       </div> */}
-//     </div>
-//   );
-// }
-
-// export default Footer;
-
 import React from "react";
-import playStore from "./asset/playStore.svg";
-import logo from "./asset/logo.svg";
-import meraki from "./asset/meraki.svg";
-import facebook from "./asset/facebook.svg";
-import twitter from "./asset/twitter.svg";
-import linkedIn from "./asset/linkedIn.svg";
-
-import {
-  Grid,
-  Paper,
-  Box,
-  Container,
-  ListItem,
-  List,
-  ListItemText,
-  Stack,
-  Typography,
-  Demo,
-  dense,
-  styled,
-  CardMedia,
-  CardContent,
-  Divider,
-} from "@mui/material";
-import "./styles.scss";
+import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
 
 const menu = {
@@ -120,12 +19,19 @@ const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
   return (
     <>
-      <Typography sx={{ mt: 4, mb: 2 }} variant="subtitle1" component="div">
+      <Typography
+        color="text.primary"
+        sx={{ mt: 4 }}
+        variant="subtitle1"
+        component="div"
+      >
         {title}
       </Typography>
       <List>
         {menu[menuItem].map((item) => (
-          <Typography sx={{ paddingBottom: "5px" }}>{item}</Typography>
+          <Typography color="text.primary" sx={{ pb: "5px" }}>
+            {item}
+          </Typography>
         ))}
       </List>
     </>
@@ -135,11 +41,10 @@ const MenuList = (menuItem) => {
 function Footer() {
   const classes = useStyles();
   return (
-    <Box maxWidth="false" sx={{ bgcolor: "#e9f5e9" }}>
+    <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
-        {/* sx={{ bgcolor: "#cfe8fc", height: "100vh" }}> */}
-        <Grid container spacing={2} sx={{ marginTop: "40px" }}>
-          <Grid xs={12} md={4} sx={{ paddingLeft: { sm: "none", md: "16px" } }}>
+        <Grid container spacing={2} sx={{ mt: "40px" }}>
+          <Grid xs={12} md={4} sx={{ pl: { sm: "none", md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
                 <img
@@ -180,23 +85,24 @@ function Footer() {
               </Box>
             </Box>
             <Box className={classes.content}>
-              <Typography>
+              <Typography color="text.primary">
                 © 2022 NavGurukul Foundation for Social Welfare
               </Typography>
             </Box>
           </Grid>
-          <Grid xs={6} md={2} sx={{ paddingLeft: "15px" }}>
+          <Grid xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("About")}
           </Grid>
           <Grid xs={6} md={2}>
             {MenuList("LearningTracks")}
           </Grid>
-          <Grid xs={6} md={2} sx={{ paddingLeft: "15px" }}>
+          <Grid xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("GetInvolved")}
           </Grid>
           <Grid xs={6} md={2}>
             <Typography
-              sx={{ mt: 4, mb: 2 }}
+              color="text.primary"
+              sx={{ mt: 4, mb: 1 }}
               variant="subtitle1"
               component="div"
             >
@@ -209,29 +115,32 @@ function Footer() {
                 loading="lazy"
               />
               <Box sx={{ padding: "4px 0 0 10px" }}>
-                <Typography component="div">Now on Playstore</Typography>
+                <Typography color="text.primary" component="div">
+                  Now on Playstore
+                </Typography>
               </Box>
             </Box>
           </Grid>
         </Grid>
-        <Divider variant="string" sx={{ paddingTop: "25px" }} />
+        <Divider variant="string" sx={{ pt: "25px" }} />
         <Box>
-          <Grid container spacing={2} sx={{ margin: "30px 0px 30px 0px" }}>
-            <Grid
-              xs={12}
-              md={6}
-              sx={{ paddingLeft: { sm: "none", md: "10px" } }}
-            >
-              <Typography>Legal & Privacy Policy</Typography>
+          <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
+            <Grid xs={12} md={6} sx={{ pl: { sm: "none", md: "10px" } }}>
+              <Typography color="text.primary">
+                Legal & Privacy Policy
+              </Typography>
             </Grid>
             <Grid
               xs={12}
               md={6}
               sx={{
-                paddingRight: { sm: "none", md: "17px" },
+                pr: { sm: "none", md: "17px" },
               }}
             >
-              <Typography sx={{ textAlign: { sm: "none", md: "right" } }}>
+              <Typography
+                color="text.primary"
+                sx={{ textAlign: { sm: "none", md: "right" } }}
+              >
                 Made with ❤️ for our students{" "}
               </Typography>
             </Grid>
@@ -243,4 +152,3 @@ function Footer() {
 }
 
 export default Footer;
-//337
