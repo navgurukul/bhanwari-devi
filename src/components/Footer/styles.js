@@ -1,17 +1,18 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
-  footerItems: {
-    // textDecoration: "none",
-    // color: "black",
-    // display: flex,
-    width: 100,
-    justifyContent: "space-between",
-    // justify-content: space-between,
-    // flex-wrap: wrap,
+  logo: {
+    padding: "27px 8px 0px 10px",
   },
-  box: {
-    padding: "20px 0px 0px 20px",
+  meraki: {
+    padding: "40px 8px",
+  },
+  image: {
+    padding: "5px 8px",
+  },
+  content: {
+    padding: "27px 10px",
+    width: "300px",
   },
 }));
 
