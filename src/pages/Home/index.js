@@ -24,16 +24,17 @@ function Home() {
         <div className={classes.container}>
           <Container maxWidth="md">
             <Typography
-              variant={isActive ? "h5" : "h3"}
-              align="center"
+              variant="h4"
+              align={isActive ? "left" : "center"}
+              className={!isActive && classes.heading}
               color="textPrimary"
               gutterBottom
             >
               Let income not be a barrier to your career dreams
             </Typography>
             <Typography
-              variant={isActive ? "h6" : "h6"}
-              align="center"
+              variant="h6"
+              align={isActive ? "left" : "center"}
               gutterBottom
             >
               With Meraki, begin your programming journey for free today
@@ -47,7 +48,9 @@ function Home() {
               >
                 <Grid item>
                   <Button
-                    className={classes.LearningBtn}
+                    className={
+                      isActive ? classes.responsiveBtn : classes.LearningBtn
+                    }
                     variant="contained"
                     color="primary"
                   >
@@ -56,7 +59,9 @@ function Home() {
                 </Grid>
                 <Grid item>
                   <Button
-                    className={classes.LearningBtn}
+                    className={
+                      isActive ? classes.responsiveBtn : classes.LearningBtn
+                    }
                     variant="outlined"
                     color="primary"
                   >
@@ -78,7 +83,7 @@ function Home() {
               <Grid container item xs={4} justifyContent="flex-start">
                 <Card className={classes.typingPopupCard}>
                   <CardContent>
-                    <Typography align="" color="text.secondary">
+                    <Typography color="text.secondary">
                       I want to be a typing assitant
                     </Typography>
                   </CardContent>
@@ -108,7 +113,7 @@ function Home() {
 
           <Container sx={{ mt: 10 }} maxWidth="sm">
             <Typography
-              variant="h6"
+              variant="h5"
               component="h6"
               align="center"
               color="textPrimary"
@@ -258,7 +263,7 @@ function Home() {
           {/* ********************** Section 4 ******************* */}
           <Container sx={{ mt: 10 }} maxWidth="sm">
             <Typography
-              variant="h6"
+              variant="h5"
               component="h6"
               align="center"
               color="textPrimary"
@@ -386,7 +391,7 @@ function Home() {
               Partners Across India
             </Typography>
 
-            <Grid container spacing={2}>
+            <Grid sx={{ mt: 1 }} container spacing={2}>
               <Grid item xs={2}>
                 <img
                   className={classes.partner}
@@ -425,7 +430,12 @@ function Home() {
               </Grid>
             </Grid>
 
-            <Typography align="center" color="primary" gutterBottom>
+            <Typography
+              sx={{ mt: 2 }}
+              align="center"
+              color="primary"
+              gutterBottom
+            >
               See all our partners
             </Typography>
           </Container>
@@ -447,7 +457,9 @@ function Home() {
               >
                 <Grid item>
                   <Button
-                    className={classes.LearningBtn}
+                    className={
+                      isActive ? classes.responsiveBtn : classes.LearningBtn
+                    }
                     variant="contained"
                     color="primary"
                   >
@@ -456,7 +468,9 @@ function Home() {
                 </Grid>
                 <Grid item>
                   <Button
-                    className={classes.LearningBtn}
+                    className={
+                      isActive ? classes.responsiveBtn : classes.LearningBtn
+                    }
                     variant="outlined"
                     color="primary"
                   >

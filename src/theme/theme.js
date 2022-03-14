@@ -1,6 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
+let theme = createTheme();
+theme = createTheme(theme, {
   palette: {
     type: "light",
     default: {
@@ -55,7 +56,7 @@ const theme = createTheme({
       hint: "#949494",
     },
     background: {
-      default: "#f7f7f7",
+      default: "#FFFFFF",
       paper: "#ffffff",
     },
     divider: "#DEDEDE",
@@ -81,17 +82,29 @@ const theme = createTheme({
     h4: {
       fontWeight: 700,
       fontSize: "2.625rem",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "	2rem",
+        fontFamily: "Lusitana",
+      },
       fontFamily: "Lusitana",
       lineHeight: 1.33,
     },
     h5: {
       fontWeight: 700,
       fontSize: "2rem",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "	1.5rem",
+        fontFamily: "Lusitana",
+      },
       lineHeight: 1.33,
       fontFamily: "Lusitana",
     },
     h6: {
       fontSize: "1.5rem",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "	1.5rem",
+        fontFamily: "Lusitana",
+      },
       lineHeight: 1.33,
       fontWeight: 700,
       fontFamily: "Lusitana",
@@ -109,6 +122,7 @@ const theme = createTheme({
     body1: {
       fontSize: "1.125rem",
       lineHeight: 1.55,
+      fontFamily: "Lusitana",
     },
     body2: {
       fontSize: "0.875rem",
@@ -126,7 +140,13 @@ const theme = createTheme({
     },
     overline: {
       fontSize: "0.75rem",
+      fontFamily: "Lusitana",
     },
+  },
+
+  shadow: {
+    boxShadow:
+      "0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04), 0px 1px 5px rgba(0, 0, 0, 0.08)",
   },
 });
 
@@ -137,21 +157,12 @@ theme.components = {
     },
     styleOverrides: {
       root: { width: 64 },
-      // containedPrimary: {
-      //   "&:hover": {
-      //     backgroundColor: purple[500],
-      //     color: "#99dfff",
-      //   },
-      // },
-      // containedSecondary: {
-      //   fontWeight: 700,
-      //   color: "#ba000d",
-      // },
-      // containedCaution: {
-      //   // padding: "50px",
-      //   fontWeight: 700,
-      //   color: "#F44336",
-      // },
+    },
+  },
+
+  MuiButton: {
+    styleOverrides: {
+      root: { borderRadius: 8 },
     },
   },
 };
