@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import "./styles.scss";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import {
+  Container,
+  Grid,
+  Avatar,
+  TextField,
+  Typography,
+  Button,
+} from "@mui/material";
 
 function Profile() {
   const user = useSelector(({ User }) => User);
@@ -10,6 +18,8 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
+
+  const isActive = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     axios({
@@ -53,39 +63,40 @@ function Profile() {
     });
   };
   return (
-    <div className="profile-container">
-      <div className="profile">
-        <div>
-          <img className="profile-img" src={userData.profile_picture} />
-        </div>
-        <div className="profile-details">
+    <Container maxWidth="lg" sx={{ pt: 20 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6} align={isActive ? "center" : "right"}>
+          <Avatar
+            alt="Remy Sharp"
+            src={userData.profile_picture}
+            sx={{ width: 100, height: 100 }}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} align={isActive ? "center" : "none"}>
           {isEditing ? (
-            <input
-              className="email-input"
-              type="text"
+            <TextField
+              id="standard-basic"
+              label="name"
+              variant="standard"
               value={editName}
               onChange={(e) => {
                 setEditName(e.target.value);
               }}
             />
           ) : msg ? (
-            <p>Please wait...</p>
+            <Typography>Please wait...</Typography>
           ) : (
-            <h1 className="profile-deta">{userData.name}</h1>
+            <Typography variant="h5">{userData.name}</Typography>
           )}
-          <p className="user-email">{userData.email}</p>
+          <Typography>{userData.email}</Typography>
           {isEditing ? (
-            <button onClick={editProfile} className="edit-Profile">
-              Save
-            </button>
+            <Button onClick={editProfile}>Save</Button>
           ) : (
-            <button onClick={() => setIsEditing(true)} className="edit-Profile">
-              Edit Name
-            </button>
+            <Button onClick={() => setIsEditing(true)}>Edit Name</Button>
           )}
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 export default Profile;
