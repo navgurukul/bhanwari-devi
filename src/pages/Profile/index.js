@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Container,
   Grid,
@@ -86,13 +87,22 @@ function Profile() {
           ) : msg ? (
             <Typography>Please wait...</Typography>
           ) : (
-            <Typography variant="h5">{userData.name}</Typography>
+            <Typography variant="h5">
+              {userData.name}
+              {isActive && !isEditing && (
+                <Button onClick={() => setIsEditing(true)}>
+                  <EditIcon />
+                </Button>
+              )}
+            </Typography>
           )}
           <Typography>{userData.email}</Typography>
           {isEditing ? (
-            <Button onClick={editProfile}>Save</Button>
+            <Button onClick={editProfile}>Save Profile</Button>
           ) : (
-            <Button onClick={() => setIsEditing(true)}>Edit Name</Button>
+            <Button onClick={() => setIsEditing(true)}>
+              {!isActive && "Edit Profile"}
+            </Button>
           )}
         </Grid>
       </Grid>
