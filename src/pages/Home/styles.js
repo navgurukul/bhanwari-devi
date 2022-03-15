@@ -19,10 +19,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: "15px 0px 0px 0px",
-    "&:hover": {
-      boxShadow:
-        "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
-    },
   },
 
   cardContent: {
