@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: "black",
+    // color: "#48a145",
   },
   box: {
     padding: "20px 0px 0px 20px",
@@ -33,7 +34,10 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   bgColor: {
-    bgcolor: "#e9f5e9",
+    background: "#e9f5e9",
+  },
+  active: {
+    color: "#48a145",
   },
 }));
 

@@ -61,6 +61,15 @@ function Login(props) {
     }
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;
+    }
+    if (rolesList[0] === "volunteer") {
+      return <Redirect to={PATHS.CLASS} />;
+    }
+    if (rolesList[0] === "admin") {
+      return <Redirect to={PATHS.PARTNERS} />;
+    }
+    if (rolesList[0] === "partner") {
+      return <Redirect to={PATHS.PARTNERS} />;
     } else {
       return <Redirect to={PATHS.COURSE} />;
     }

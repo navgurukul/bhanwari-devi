@@ -1,18 +1,14 @@
 import React from "react";
-import MenuIcon from "@mui/icons-material/Menu";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
-import "./styles.scss";
 import List from "@mui/material/List";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { DropDown, MobileDropDown } from "./DropDown";
-import Grid from "@mui/material/Grid";
 import {
   AppBar,
   Box,
@@ -22,6 +18,7 @@ import {
   Button,
   MenuItem,
   ThemeProvider,
+  SwipeableDrawer,
 } from "@mui/material";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 
@@ -70,9 +67,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         ))}
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
-        {/* <MobileDropDown /> */}
         {["Learn", "About", "Get Involved"].map((Menu) => (
           <MobileDropDown Menu={Menu} />
+          // <MobileDropDown Menu={Menu} path={`${Menu}Link`} />
         ))}
       </Box>
       {!leftDrawer && (
@@ -158,7 +155,7 @@ function Header() {
                 color="inherit"
                 onClick={toggleDrawer(true)}
               >
-                <MenuIcon />
+                <img src={require("./asset/menu.svg")} loading="lazy" />
               </IconButton>
               <SwipeableDrawer
                 anchor="left"
@@ -172,18 +169,12 @@ function Header() {
                 />
               </SwipeableDrawer>
             </Box>
-            <Box
-              // className={classes.meraki}
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-            >
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <Link to="/">
                 <img src={require("./asset/logo.svg")} loading="lazy" />
               </Link>
             </Box>
-            <Box
-              // className={classes.merakiLearn}
-              sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}
-            >
+            <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
               <Link to="/">
                 <img src={require("./asset/meraki.svg")} loading="lazy" />
               </Link>

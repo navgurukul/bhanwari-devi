@@ -481,16 +481,21 @@
 //     width: 35%;
 //   }
 // }
-@media screen and (max-width: 800px) {
-  .dropdown-container,
-  .ng-dropdown,
-  .login-btn,
-  .d-inline,
-  .header-searchbar {
-    display: none;
-  }
-  .hamburger-menu {
-    //ok
-    display: block;
-  }
+// @media screen and (max-width: 800px) {
+//   .dropdown-container,
+//   .ng-dropdown,
+//   .login-btn,
+//   .d-inline,
+//   .header-searchbar {
+//     display: none;
+//   }
+//   .hamburger-menu {
+//     //ok
+//     display: block;
+//   }
+// }
+
+.active {
+  // color: "red",
+  padding: "200px 200px 200px 200px";
 }

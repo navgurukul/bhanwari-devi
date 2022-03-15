@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { PATHS } from "../../constant";
 import axios from "axios";
 import { METHODS } from "../../services/api";
@@ -20,6 +20,63 @@ import {
   MenuItem,
 } from "@mui/material";
 
+// const SwitchView = ({ role }) => {
+//   if (role == "admin") {
+//     return (
+//       <MenuItem
+//         onClick={() => {
+//           setSwitchView(role);
+//           handleCloseSwitchView();
+//         }}
+//       >
+//         <NavLink
+//           to={PATHS.VOLUNTEER}
+//           className={classes.link}
+//           // activeClassName={classes.active}
+//         >
+//           {role}
+//         </NavLink>
+//       </MenuItem>
+//     );
+//   }
+//   if (role == "volunteer") {
+//     return (
+//       <MenuItem
+//         onClick={() => {
+//           setSwitchView(role);
+//           handleCloseSwitchView();
+//         }}
+//       >
+//         <NavLink
+//           to={PATHS.CLASS}
+//           className={classes.link}
+//           // activeClassName={classes.active}
+//         >
+//           {role}
+//         </NavLink>
+//       </MenuItem>
+//     );
+//   }
+//   if (role == "partner") {
+//     return (
+//       <MenuItem
+//         onClick={() => {
+//           setSwitchView(role);
+//           handleCloseSwitchView();
+//         }}
+//       >
+//         <NavLink
+//           to={PATHS.CLASS}
+//           className={classes.link}
+//           // activeClassName={classes.active}
+//         >
+//           {role}
+//         </NavLink>
+//       </MenuItem>
+//     );
+//   }
+// };
+
 function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const [partnerId, setPartnerId] = useState("");
   const [profile, setProfile] = useState("");
@@ -27,7 +84,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const [learn, setLearn] = React.useState(null);
   const [dropDown, setDropDown] = React.useState(null);
   const [studentView, setStudentView] = React.useState(false);
-  const [switchView, setSwitchView] = React.useState(false);
+  const [switchView, setSwitchView] = React.useState("");
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
@@ -89,6 +146,66 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
 
   console.log("switchView", switchView);
 
+  // const SwitchView = (role) => {
+  //   console.log("poo");
+
+  //   if (role == "admin") {
+  //     console.log("role", role);
+  //     return (
+  //       <MenuItem
+  //         onClick={() => {
+  //           setSwitchView(role);
+  //           handleCloseSwitchView();
+  //         }}
+  //       >
+  //         <NavLink
+  //           to={PATHS.VOLUNTEER}
+  //           className={classes.link}
+  //           // activeClassName={classes.active}
+  //         >
+  //           {role}
+  //         </NavLink>
+  //       </MenuItem>
+  //     );
+  //   }
+  //   if (role == "volunteer") {
+  //     return (
+  //       <MenuItem
+  //         onClick={() => {
+  //           setSwitchView(role);
+  //           handleCloseSwitchView();
+  //         }}
+  //       >
+  //         <NavLink
+  //           to={PATHS.CLASS}
+  //           className={classes.link}
+  //           // activeClassName={classes.active}
+  //         >
+  //           {role}
+  //         </NavLink>
+  //       </MenuItem>
+  //     );
+  //   }
+  //   if (role == "partner") {
+  //     return (
+  //       <MenuItem
+  //         onClick={() => {
+  //           setSwitchView(role);
+  //           handleCloseSwitchView();
+  //         }}
+  //       >
+  //         <NavLink
+  //           to={PATHS.CLASS}
+  //           className={classes.link}
+  //           // activeClassName={classes.active}
+  //         >
+  //           {role}
+  //         </NavLink>
+  //       </MenuItem>
+  //     );
+  //   }
+  // };
+
   return (
     <>
       <Box
@@ -111,10 +228,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 },
               }}
             >
-              <MenuItem
-                onClick={handleOpenLearn}
-                // sx={{ my: 2, color: "black" }}
-              >
+              <MenuItem onClick={handleOpenLearn}>
                 Learn
                 {learn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </MenuItem>
@@ -143,18 +257,27 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
               }}
             >
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <Link to={PATHS.ADMISSION} className={classes.link}>
+                <NavLink
+                  to={PATHS.ADMISSION}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
                   Admission
-                </Link>
+                </NavLink>
               </MenuItem>
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <Link to={PATHS.OPPORTUNITIES} className={classes.link}>
+                <NavLink
+                  to={PATHS.OPPORTUNITIES}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
                   Opportunity
-                </Link>
+                </NavLink>
               </MenuItem>
             </Box>
           </>
         )}
+
         {!studentView && (
           <Box
             sx={{
@@ -169,34 +292,64 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             canSpecifyUserBaseRole ? (
               <>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <Link to={PATHS.USER} className={classes.link}>
+                  <NavLink
+                    to={PATHS.USER}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
                     Students
-                  </Link>
+                  </NavLink>
                 </MenuItem>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <Link to={PATHS.VOLUNTEER} className={classes.link}>
+                  <NavLink
+                    to={PATHS.VOLUNTEER}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
                     Volunteers
-                  </Link>
+                  </NavLink>
                 </MenuItem>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <Link to={PATHS.PARTNERS} className={classes.link}>
+                  <NavLink
+                    to={PATHS.PARTNERS}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
                     Partners
-                  </Link>
+                  </NavLink>
                 </MenuItem>
               </>
             ) : null}
 
             {(switchView || rolesList[0]) === "volunteer" && volunteer ? (
               <>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <Link to={PATHS.CLASS} className={classes.link}>
-                    Classes
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <Link to={PATHS.VOLUNTEER} className={classes.link}>
+                {/* <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                  <NavLink
+                    to={PATHS.VOLUNTEER}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
                     Volunteers
-                  </Link>
+                  </NavLink>
+                </MenuItem> */}
+                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                  <NavLink
+                    to={PATHS.COURSE}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
+                    Course
+                  </NavLink>
+                </MenuItem>
+
+                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                  <NavLink
+                    to={PATHS.CLASS}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
+                    Classes
+                  </NavLink>
                 </MenuItem>
               </>
             ) : null}
@@ -205,78 +358,103 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             (canSpecifyPartnerGroupId || canSpecifyPartner) ? (
               <>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <Link
+                  <NavLink
                     to={
                       canSpecifyPartnerGroupId
                         ? `${PATHS.STATE}/${partnerGroupId}`
                         : `${PATHS.PARTNERS}/${partnerId}`
                     }
                     className={classes.link}
+                    activeClassName={classes.active}
                   >
                     Dashboard
-                  </Link>
+                  </NavLink>
                 </MenuItem>
               </>
             ) : null}
           </Box>
         )}
-        {/* {(switchView === "student" || merakiStudents || studentView) && (
-          <>
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: {
-                  xs: "none",
-                  md: leftDrawer ? "none" : "flex",
-                },
-              }}
-            >
-              <MenuItem
-                onClick={handleOpenLearn}
-                sx={{ my: 2, color: "black" }}
-              >
-                Learn
-                <ExpandMoreIcon />
-              </MenuItem>
-
-              <DropDown
-                dropDown="Learn"
-                indicator={learn}
-                handleClose={handleCloseLearn}
-                toggleDrawer={toggleDrawer}
-              />
-            </Box>
-            <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}>
-              <MobileDropDown Menu="Learn" />
-            </Box>
-            <Box
-              sx={{
-                flexGrow: 0,
-                display: {
-                  xs: leftDrawer ? "block" : "none",
-                  md: leftDrawer ? "none" : "flex",
-                },
-              }}
-            >
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <Link to={PATHS.ADMISSION} className={classes.link}>
-                  Admission
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <Link to={PATHS.OPPORTUNITIES} className={classes.link}>
-                  Opportunity
-                </Link>
-              </MenuItem>
-            </Box>
-          </>
-        )} */}
         <Box
           sx={{
             flexGrow: 0,
             display: {
               xs: leftDrawer ? "block" : "none",
               md: leftDrawer ? "none" : "flex",
+            },
+            // display: {
+            //   xs: "none",
+            //   md: leftDrawer ? "none" : "flex",
+            // },
+          }}
+        >
+          {rolesList.length > 1 ? (
+            <>
+              <MenuItem onClick={handleOpenSwitchView}>
+                Switch Views
+                {dropDown ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </MenuItem>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={dropDown}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: leftDrawer ? "left" : "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: leftDrawer ? "left" : "right",
+                }}
+                open={Boolean(dropDown)}
+                onClose={handleCloseSwitchView}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setSwitchView("student");
+                    handleCloseSwitchView();
+                  }}
+                >
+                  Student
+                </MenuItem>
+                {/* {rolesList.map((role) => {
+                  // <SwitchView role={role} />;
+                  SwitchView(role);
+                })} */}
+                {rolesList.map((role) => (
+                  <MenuItem
+                    onClick={() => {
+                      setSwitchView(role);
+                      handleCloseSwitchView();
+                    }}
+                    sx={{ width: 130 }}
+                    className={switchView === role ? classes.bgColor : null}
+                  >
+                    {console.log("switchView", switchView, "role", role)}
+                    {role}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
+          ) : (
+            <MenuItem
+              onClick={() => {
+                setStudentView(!studentView);
+              }}
+            >
+              {studentView
+                ? `Switch to ${rolesList[0]} View`
+                : "Switch to student View"}
+            </MenuItem>
+          )}
+        </Box>
+
+        {/* <Box
+          sx={{
+            flexGrow: 0,
+            display: {
+              xs: leftDrawer ? "block" : "none",
+              md: "none",
             },
           }}
         >
@@ -302,24 +480,24 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 open={Boolean(dropDown)}
                 onClose={handleCloseSwitchView}
               >
+              <MenuItem
+                onClick={() => {
+                  setSwitchView("student");
+                  handleCloseSwitchView();
+                }}
+              >
+                Student
+              </MenuItem>
+              {rolesList.map((role) => (
                 <MenuItem
                   onClick={() => {
-                    setSwitchView("student");
+                    setSwitchView(role);
                     handleCloseSwitchView();
                   }}
                 >
-                  Student
+                  Poonam
                 </MenuItem>
-                {rolesList.map((role) => (
-                  <MenuItem
-                    onClick={() => {
-                      setSwitchView(role);
-                      handleCloseSwitchView();
-                    }}
-                  >
-                    {role}
-                  </MenuItem>
-                ))}
+              ))}
               </Menu>
             </>
           ) : (
@@ -333,7 +511,31 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 : "Switch to student View"}
             </MenuItem>
           )}
-        </Box>
+        </Box> */}
+
+        {/* <Box
+          sx={{
+            flexGrow: 0,
+            display: {
+              xs: leftDrawer ? "block" : "none",
+              md: "none",
+            },
+          }}
+        >
+          {rolesList.length > 1 ? (
+            <MobileDropDown Menu={rolesList} />
+          ) : (
+            <MenuItem
+              onClick={() => {
+                setStudentView(!studentView);
+              }}
+            >
+              {studentView
+                ? `Switch to ${rolesList[0]} View`
+                : "Switch to student View"}
+            </MenuItem>
+          )}
+        </Box> */}
       </Box>
 
       {!leftDrawer && (
@@ -356,18 +558,21 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             }}
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
+            // elevation={2}
           >
-            <MenuItem onClick={handleCloseUserMenu}>
-              <Link to={PATHS.PROFILE} className={classes.link}>
+            <MenuItem onClick={handleCloseUserMenu} sx={{ width: 130 }}>
+              <NavLink to={PATHS.PROFILE} className={classes.link}>
                 <Typography textAlign="center">Profile</Typography>
-              </Link>
+              </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleCloseUserMenu}>
+            <MenuItem onClick={handleCloseUserMenu} sx={{ width: 130 }}>
               <Link
                 onClick={() => dispatch(userActions.logout())}
                 className={classes.link}
               >
-                <Typography textAlign="center">Logout</Typography>
+                <Typography textAlign="center" color="error">
+                  Logout
+                </Typography>
               </Link>
             </MenuItem>
           </Menu>
