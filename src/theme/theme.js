@@ -109,7 +109,7 @@ theme = createTheme(theme, {
       fontFamily: "Lusitana",
       lineHeight: 1.33,
     },
-    // ------------------
+
     h5: {
       fontWeight: 700,
       fontSize: "2rem",

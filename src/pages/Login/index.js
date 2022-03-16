@@ -9,7 +9,10 @@ import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
 
-import "./styles.scss";
+import { Typography, Container, Grid, Box } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
+import useStyles from "./styles";
 
 function Login(props) {
   const [queryString, setqueryString] = useState(null);
@@ -21,7 +24,6 @@ function Login(props) {
   const dispatch = useDispatch();
 
   const { loading, data } = useSelector(({ User }) => User);
-
   const rolesList = data !== null && data.user.rolesList;
   const isAuthenticated = data && data.isAuthenticated;
 
@@ -41,6 +43,9 @@ function Login(props) {
     updateQueryString(getQueryVariable("referrer"));
     // dispatch(userActions.onUserUpdate(referrer));
   }
+
+  const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:600px)");
 
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
@@ -75,21 +80,51 @@ function Login(props) {
   }
 
   return (
-    <div className="ng-login">
-      <div className="logo" />
-      {loading ? (
-        <Loader />
-      ) : (
-        <GoogleLogin
-          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-          buttonText="Continue with Google"
-          onSuccess={onSignIn}
-          onFailure={onGoogleLoginFail}
-          cookiePolicy={"single_host_origin"}
-          className="google-login"
-        />
-      )}
-    </div>
+    <>
+      <Container className={classes.merakiLogin} maxWidth="lg">
+        <Grid container spacing={2}>
+          <Grid item xs={12} ms={6} md={6}>
+            <Container maxWidth="sm">
+              <Typography
+                sx={{ pt: { xs: "none", md: 24 } }}
+                variant="h4"
+                align={isActive ? "center" : "left"}
+                color="textPrimary"
+                gutterBottom
+              >
+                Embark on your learning journey with Meraki
+              </Typography>
+
+              {loading ? (
+                <Loader />
+              ) : (
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                  buttonText="Continue with Google"
+                  onSuccess={onSignIn}
+                  onFailure={onGoogleLoginFail}
+                  cookiePolicy={"single_host_origin"}
+                  className={
+                    isActive
+                      ? classes.responsiveGoogleLogin
+                      : classes.googleLogin
+                  }
+                />
+              )}
+            </Container>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            ms={6}
+            md={6}
+            sx={{ display: { xs: "none", md: "flex" } }}
+          >
+            <img src={require("./assets/background.svg")} />
+          </Grid>
+        </Grid>
+      </Container>
+    </>
   );
 }
 
