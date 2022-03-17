@@ -9,9 +9,111 @@ import {
 } from "@mui/material";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
+import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
+
+const pathwayData = [
+  {
+    title: "Python",
+    image: "python",
+    description: "Get familiar with programming with bite sized lessons",
+  },
+  {
+    title: "Typing",
+    image: "typing",
+    description: "Learn to type with accuracy and speed",
+  },
+  {
+    title: "Web Development",
+    image: "web-development",
+    description: "Learn the basics of tech that powers the web",
+  },
+  {
+    title: "English",
+    image: "language",
+    description: "Get familiar with programming with bite sized lessons",
+  },
+  {
+    title: "Soft Skills",
+    image: "soft-skills",
+    description: "Interview preparation  to get you job ready",
+  },
+  {
+    title: "Open Courses",
+    image: "misc",
+    description: "Courses on Android, Game dev projects and more",
+  },
+];
+
+const merakiConcerns = [
+  {
+    image: "learn-python",
+    description: "How will I learn Python without a teacher?",
+  },
+  {
+    image: "never-typed",
+    description: "I have never typed on a computer keyboard before",
+  },
+  {
+    image: "difficulty-english",
+    description: "I face difficulty in understanding and speaking English",
+  },
+];
+
+const concernsText = [
+  {
+    description: "Learn through interactive classes and self study material",
+  },
+  {
+    description: "I have never typed on a computer keyboard before",
+  },
+  {
+    description: "I face difficulty in understanding and speaking English",
+  },
+];
+
+function MerakiEntry(props) {
+  const isActive = useMediaQuery("(max-width:600px)");
+  const classes = useStyles();
+
+  return (
+    <div>
+      <Typography
+        variant="h6"
+        color="textPrimary"
+        gutterBottom
+        {...props.headingAttr}
+      >
+        With Meraki, begin your programming journey for free today
+      </Typography>
+      <Grid sx={{ mt: 3 }} container spacing={2} justifyContent="center">
+        <Grid item>
+          <Button
+            className={isActive ? classes.responsiveBtn : classes.LearningBtn}
+            variant="contained"
+            color="primary"
+          >
+            Start Learning
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            className={isActive ? classes.responsiveBtn : classes.LearningBtn}
+            variant="outlined"
+            color="primary"
+          >
+            <img
+              className={classes.playstoreImg}
+              src={require("./assets/playstore.svg")}
+              alt="Google Playstore Icon"
+            />
+            <span className={classes.downloadBtn}>Download Meraki</span>
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
+  );
+}
 
 function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
@@ -32,64 +134,25 @@ function Home() {
             >
               Let income not be a barrier to your career dreams
             </Typography>
-            <Typography
-              variant="h6"
-              align={isActive ? "left" : "center"}
-              gutterBottom
-            >
-              With Meraki, begin your programming journey for free today
-            </Typography>
-            <div>
-              <Grid
-                sx={{ mt: 3 }}
-                container
-                spacing={2}
-                justifyContent="center"
-              >
-                <Grid item>
-                  <Button
-                    className={
-                      isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }
-                    variant="contained"
-                    color="primary"
-                  >
-                    Start Learning
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    className={
-                      isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }
-                    variant="outlined"
-                    color="primary"
-                  >
-                    <img
-                      className={classes.playstoreImg}
-                      src={require("./assets/playstore.svg")}
-                    />
-                    <span className={classes.downloadBtn}>Download Meraki</span>
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
+            <MerakiEntry
+              headingAttr={{
+                align: isActive ? "left" : "center",
+                gutterBottom: true,
+              }}
+            />
           </Container>
 
-          {/* ********************** Section 2 ******************* */}
+          {/* Section 2  */}
 
           <Container sx={{ mt: 4, display: { xs: "none", md: "flex" } }}>
-            <Grid container>
+            <Grid container justifyContent="space-between">
               <Grid container item xs={4} justifyContent="flex-start">
                 <Card className={classes.typingPopupCard}>
-                  <CardContent>
-                    <Typography color="text.secondary">
-                      I want to be a typing assitant
-                    </Typography>
-                  </CardContent>
+                  <Typography color="text.secondary">
+                    I want to be a typing assistant
+                  </Typography>
                 </Card>
               </Grid>
-              <Grid item xs={4}></Grid>
               <Grid container item xs={4} justifyContent="flex-end">
                 <Card className={classes.engineerPopupCard}>
                   <Typography align="right" color="text.secondary">
@@ -109,7 +172,7 @@ function Home() {
             </Grid>
           </Container>
 
-          {/* ********************** Section 3 ******************* */}
+          {/* Section 3  */}
 
           <Container sx={{ mt: 10 }} maxWidth="sm">
             <Typography
@@ -125,142 +188,19 @@ function Home() {
 
           <Container className={classes.cardGrid} maxWidth="lg">
             <Grid container spacing={4}>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    image={require("./assets/python.svg")}
-                    alt="green iguana"
+              {pathwayData.map((item) => (
+                <Grid item xs={12} ms={6} md={4}>
+                  <PathwayCard
+                    title={item.title}
+                    description={item.description}
+                    image={item.image}
                   />
-                  <CardContent className={classes.cardConten}>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      align="center"
-                      component="div"
-                    >
-                      Python
-                    </Typography>
-                    <Typography align="center">
-                      Get familiar with programming with bite sized lessons
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    src={require("./assets/typing.svg")}
-                    alt="green iguana"
-                  />
-                  <CardContent className={classes.cardConten}>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      align="center"
-                      component="div"
-                    >
-                      Typing
-                    </Typography>
-                    <Typography align="center">
-                      Learn to type with accuracy and speed
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    image={require("./assets/web-development.svg")}
-                    alt="green iguana"
-                  />
-                  <CardContent className={classes.cardConten}>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      align="center"
-                      component="div"
-                    >
-                      Web Development
-                    </Typography>
-                    <Typography align="center">
-                      Learn the basics of tech that powers the web
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    image={require("./assets/language.svg")}
-                    alt="green iguana"
-                  />
-                  <CardContent className={classes.cardConten}>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      align="center"
-                      component="div"
-                    >
-                      English
-                    </Typography>
-                    <Typography align="center">
-                      Master English with easy to understand courses
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    image={require("./assets/soft-skills.svg")}
-                    alt="green iguana"
-                  />
-                  <CardContent className={classes.cardConten}>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      align="center"
-                      component="div"
-                    >
-                      Soft Skills
-                    </Typography>
-                    <Typography align="center">
-                      Interview preparation to get you job ready
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    image={require("./assets/misc.svg")}
-                    alt="green iguana"
-                  />
-                  <CardContent className={classes.cardConten}>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      align="center"
-                      component="div"
-                    >
-                      Open Courses
-                    </Typography>
-                    <Typography align="center">
-                      Courses on Android, Game dev projects and more
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+                </Grid>
+              ))}
             </Grid>
           </Container>
 
-          {/* ********************** Section 4 ******************* */}
+          {/* Section 4 */}
           <Container sx={{ mt: 10 }} maxWidth="sm">
             <Typography
               variant="h5"
@@ -272,91 +212,27 @@ function Home() {
               How can Meraki help with your concerns?
             </Typography>
           </Container>
-
           <Container className={classes.cardGrid} maxWidth="lg">
             <Grid container spacing={4}>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    component="img"
-                    src={require("./assets/learn-python.svg")}
-                    alt="green iguana"
+              {merakiConcerns.map((item) => (
+                <Grid item xs={12} ms={6} md={4}>
+                  <PathwayCard
+                    image={item.image}
+                    description={item.description}
                   />
-                  <CardContent className={classes.cardConten}>
-                    <Typography align="center">
-                      How will I learn Python without a teacher?
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    src={require("./assets/never-typed.svg")}
-                    alt="green iguana"
-                  />
-                  <CardContent className={classes.cardConten}>
-                    <Typography align="center">
-                      I have never typed on a computer keyboard before
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component="img"
-                    src={require("./assets/difficulty-english.svg")}
-                    alt="green iguana"
-                  />
-                  <CardContent className={classes.cardConten}>
-                    <Typography align="center">
-                      I face difficulty in understanding and speaking English
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Stack alignItems="center">
-                  <img src={require("./assets/down-swirly.svg")} />
-                </Stack>
-                <Card>
-                  <CardContent className={classes.cardConten}>
-                    <Typography align="center">
-                      Learn through interactive classes and self study material
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Stack alignItems="center">
-                  <img src={require("./assets/down-swirly.svg")} />
-                </Stack>
-                <Card>
-                  <CardContent className={classes.cardConten}>
-                    <Typography align="center">
-                      Get accurate and fast with our typing guru track
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} ms={6} md={4}>
-                <Stack alignItems="center">
-                  <img src={require("./assets/down-swirly.svg")} />
-                </Stack>
-                <Card>
-                  <CardContent className={classes.cardConten}>
-                    <Typography align="center" gutterBottom>
-                      Become confident with our spoken English track
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+                </Grid>
+              ))}
+              {concernsText.map((item) => (
+                <Grid item xs={12} ms={6} md={4}>
+                  <Stack alignItems="center">
+                    <img src={require("./assets/down-swirly.svg")} />
+                  </Stack>
+                  <PathwayCard description={item.description} />
+                </Grid>
+              ))}
             </Grid>
           </Container>
-          {/* ********************** Section 5 ******************* */}
+          {/* Section 5 */}
           <Container maxWidth="sm">
             <Stack alignItems="center">
               <img src={require("./assets/down-swirly.svg")} />
@@ -367,7 +243,7 @@ function Home() {
             </Typography>
           </Container>
 
-          {/* ********************** Section 6 ******************* */}
+          {/* Section 6  */}
 
           <Container maxWidth="md" sx={{ mt: 10 }}>
             <Typography
@@ -390,46 +266,24 @@ function Home() {
             <Typography align="center" color="textPrimary" gutterBottom>
               Partners Across India
             </Typography>
-
             <Grid sx={{ mt: 1 }} container spacing={2}>
-              <Grid item xs={2}>
-                <img
-                  className={classes.partner}
-                  src={require("./assets/Wipro.png")}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <img
-                  className={classes.partner}
-                  src={require("./assets/Infosys.png")}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <img
-                  className={classes.partner}
-                  src={require("./assets/Milaap.png")}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <img
-                  className={classes.partner}
-                  src={require("./assets/Askforhope.png")}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <img
-                  className={classes.partner}
-                  src={require("./assets/Infosys.png")}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <img
-                  className={classes.partner}
-                  src={require("./assets/Milaap.png")}
-                />
-              </Grid>
+              {[
+                "Wipro",
+                "Infosys",
+                "Milaap",
+                "Askforhope",
+                "Infosys",
+                "Milaap",
+              ].map((partnerName, _, partnerArr) => (
+                <Grid item xs={Math.floor(12 / partnerArr.length)}>
+                  <img
+                    className={classes.partner}
+                    src={require("./assets/" + partnerName + ".png")}
+                    alt={partnerName}
+                  />
+                </Grid>
+              ))}
             </Grid>
-
             <Typography
               sx={{ mt: 2 }}
               align="center"
@@ -439,53 +293,17 @@ function Home() {
               See all our partners
             </Typography>
           </Container>
-          {/* ********************** Section 7 ******************* */}
+          {/* Section 7  */}
           <Container
             maxWidth="false"
             sx={{ mt: 10, p: 6, background: "#E9F5E9" }}
           >
             <Container maxWidth="md">
-              <Typography variant="h6" align="center" color="textPrimary">
-                With Meraki, begin your programming journey for free today
-              </Typography>
-
-              <Grid
-                sx={{ mt: 3 }}
-                container
-                spacing={2}
-                justifyContent="center"
-              >
-                <Grid item>
-                  <Button
-                    className={
-                      isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }
-                    variant="contained"
-                    color="primary"
-                  >
-                    Start Learning
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    className={
-                      isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }
-                    variant="outlined"
-                    color="primary"
-                  >
-                    <img
-                      className={classes.playstoreImg}
-                      src={require("./assets/playstore.svg")}
-                    />
-                    <span className={classes.downloadBtn}>Download Meraki</span>
-                  </Button>
-                </Grid>
-              </Grid>
+              <MerakiEntry />
             </Container>
           </Container>
 
-          {/* ********************** Section 8 ******************* */}
+          {/* Section 8  */}
 
           <Container sx={{ mt: 10 }} maxWidth="sm">
             <Typography
@@ -505,7 +323,6 @@ function Home() {
             >
               Connect with us anytime for more information
             </Typography>
-
             <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
@@ -530,5 +347,4 @@ function Home() {
     </>
   );
 }
-
 export default Home;

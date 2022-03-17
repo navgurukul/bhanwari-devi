@@ -21,20 +21,16 @@ const useStyles = makeStyles((theme) => ({
     padding: "15px 0px 0px 0px",
   },
 
-  cardContent: {
-    flexGrow: 1,
-  },
-
   engineerPopupCard: {
-    // padding: "10px 45px 5px 0px",
     width: "253px",
-    background: "red",
     marginRight: "60px",
     padding: "10px 20px 5px 0px",
   },
 
   typingPopupCard: {
     marginLeft: "60px",
+    width: "210px",
+    padding: "10px 0px 5px 20px",
   },
 
   LearningBtn: {

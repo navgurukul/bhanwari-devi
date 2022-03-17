@@ -150,19 +150,19 @@ theme = createTheme(theme, {
     },
     body1: {
       fontSize: "1.125rem",
-      [theme.breakpoints.down("sm")]: {
-        fontSize: "0.875rem",
-        fontFamily: "Lusitana",
-      },
+      // [theme.breakpoints.down("sm")]: {
+      //   fontSize: "0.875rem",
+      //   fontFamily: "Lusitana",
+      // },
       lineHeight: 1.55,
       fontFamily: "Lusitana",
     },
     body2: {
       fontSize: "0.875rem",
-      [theme.breakpoints.down("sm")]: {
-        fontSize: "0.75rem",
-        fontFamily: "Lusitana",
-      },
+      // [theme.breakpoints.down("sm")]: {
+      //   fontSize: "0.75rem",
+      //   fontFamily: "Lusitana",
+      // },
       lineHeight: 1.42,
     },
     button: {
