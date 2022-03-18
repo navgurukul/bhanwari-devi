@@ -23,6 +23,8 @@ import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 
+import OurPartner from "../pages/Partner";
+
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme/theme";
 
@@ -41,6 +43,7 @@ const Routing = () => {
         <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
         <Route exact path={PATHS.AFE} component={AFEpage} />
         <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
+        <Route exact path={PATHS.OUR_PARTNER} component={OurPartner} />
         <Route
           exact
           path={PATHS.NAVGURUKUL_INTRODUCE}
