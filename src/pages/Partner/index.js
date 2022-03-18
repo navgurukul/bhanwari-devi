@@ -6,7 +6,6 @@ import {
   Grid,
   Card,
   CardContent,
-  CardActions,
 } from "@material-ui/core";
 import PublicIcon from "@mui/icons-material/Public";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -14,13 +13,10 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Partners_data from "./Partnerdata";
-
-// path= /our-partner
 
 const Partner = () => {
   const classes = useStyles();
