@@ -87,7 +87,8 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const [switchView, setSwitchView] = React.useState("");
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
-  const rolesList = user.data.user.rolesList;
+  // const rolesList = user.data.user.rolesList;
+  const rolesList = ['admin', 'volunteer', 'partner'];
   const classes = useStyles();
 
   useEffect(() => {
