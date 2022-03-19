@@ -20,8 +20,6 @@ import { METHODS } from "../../../services/api";
 import course3 from "./asset/course3.svg";
 import course2 from "./asset/course2.svg";
 import course1 from "./asset/course1.svg";
-import vector from "./asset/vector.svg";
-import pythonCertificate from "./asset/pythonCertificate.svg";
 
 const content = [
   "Vestibulum eu quam nec neque pellentesque efficitur id eget nisl. Proin porta est convallis lacus blandit",
@@ -30,42 +28,15 @@ const content = [
 ];
 
 const data = [
-  {
-    image: course1,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course2,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course3,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course1,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course2,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course3,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course1,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course2,
-    description: "Some description of the course in one or two or three lines",
-  },
-  {
-    image: course3,
-    description: "Some description of the course in one or two or three lines",
-  },
+  { image: course1 },
+  { image: course2 },
+  { image: course3 },
+  { image: course1 },
+  { image: course2 },
+  { image: course3 },
+  { image: course1 },
+  { image: course2 },
+  { image: course3 },
 ];
 
 function Common({ pathwayId }) {
@@ -97,8 +68,6 @@ function Common({ pathwayId }) {
   return (
     <>
       <Container maxWidth="lg">
-        {/* <Container maxWidth="lg" sx={{ bgcolor: "#cfe8fc", height: "180vh" }}> */}
-        {/* <Box sx={{ pt: 5 }}> */}
         <Grid container spacing={2} align="center" sx={{ pt: 3 }}>
           <Grid xs={12} md={6}>
             {pathwayId == 1 && (
@@ -209,7 +178,7 @@ function Common({ pathwayId }) {
           <Typography sx={{ pb: 3 }} variant="h6">
             Courses
           </Typography>
-          <Grid container spacing={0} align="center">
+          <Grid container spacing={3} align="center">
             {pythonCourse.length > 1 &&
               pythonCourse.map((item, index) => (
                 <Grid xs={12} md={3} sx={{ mb: 2 }}>
@@ -222,25 +191,12 @@ function Common({ pathwayId }) {
                     />
                     <CardContent>
                       <Typography variant="subtitle1">{item.name}</Typography>
-                      <Typography variant="body1">
-                        {data[index].description}
-                      </Typography>
                     </CardContent>
                   </Card>
                 </Grid>
               ))}
           </Grid>
         </Box>
-        <Stack alignItems="center">
-          <CardMedia
-            component="img"
-            src={require("./asset/pythonCertificate.svg")}
-            alt="certificate"
-          />
-        </Stack>
-        <Typography sx={{ pt: 3 }} align="center">
-          Python Track Certificate
-        </Typography>
       </Container>
     </>
   );
