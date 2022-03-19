@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
@@ -16,7 +16,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
 // import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import axios from "axios";
-import { METHODS } from "../../services/api";
+import { METHODS } from "../../../services/api";
 import course3 from "./asset/course3.svg";
 import course2 from "./asset/course2.svg";
 import course1 from "./asset/course1.svg";
@@ -68,22 +68,26 @@ const data = [
   },
 ];
 
-function PathwayCourse({ endpoint }) {
+function Common({ pathwayId }) {
   const [pythonCourse, setPythonCourse] = useState([]);
   const user = useSelector(({ User }) => User);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:600px)");
 
+  console.log("pathwayId", pathwayId);
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/courses?courseType=json`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/pathways/courses?courseType=json`
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
       headers: {
         accept: "application/json",
-        "version-code": 30,
+        "version-code": 40,
         Authorization: user.data.token,
       },
     }).then((res) => {
+      console.log("res", res);
       setPythonCourse(res.data.courses);
     });
   }, []);
@@ -97,51 +101,79 @@ function PathwayCourse({ endpoint }) {
         {/* <Box sx={{ pt: 5 }}> */}
         <Grid container spacing={2} align="center" sx={{ pt: 3 }}>
           <Grid xs={12} md={6}>
-            <Card align="left" elevation={0} sx={{ ml: 4 }}>
-              <CardContent>
+            {pathwayId == 1 && (
+              <Card align="left" elevation={0} sx={{ ml: 4 }}>
+                <CardContent>
+                  <Typography variant="body2" className={classes.cardSubtitle}>
+                    Learning Track
+                  </Typography>
+                  <Typography variant="h5" sx={{ pb: 1 }}>
+                    Python
+                  </Typography>
+                  <Typography variant="subtitle1" sx={{ pb: 1 }}>
+                    Batch: Ankit_15SEP21
+                  </Typography>
+                  <Box sx={{ display: "flex" }}>
+                    {/* <CalendarMonthIcon /> */}
+                    <Typography sx={{ pb: 1 }}>
+                      15 Sep 21 - 15 Nov 21
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: "flex" }}>
+                    <Typography sx={{ pb: 1 }}>
+                      Access to live classes
+                    </Typography>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    className={classes.cardButton}
+                    sx={{ mb: 1 }}
+                  >
+                    <Typography>Enroll Batch</Typography>
+                  </Button>
+                  <Box sx={{ display: "flex" }}>
+                    <Typography sx={{ pb: 1 }} className={classes.text}>
+                      Can’t start on 15 Sep 21?
+                    </Typography>
+                    <Typography sx={{ pb: 1, ml: 1 }} color="primary">
+                      Check out our other batches
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            )}
+            {pathwayId == 2 && (
+              <Card align="left" elevation={0} sx={{ ml: 4 }}>
                 <Typography variant="body2" className={classes.cardSubtitle}>
                   Learning Track
                 </Typography>
                 <Typography variant="h5" sx={{ pb: 1 }}>
-                  Python
+                  Javascript
                 </Typography>
-                <Typography variant="subtitle1" sx={{ pb: 1 }}>
-                  Batch: Ankit_15SEP21
+                <Typography>
+                  Learn the nuances and basics of the technology that powers the
+                  web. Start with learning what is Javascript and eventually
+                  build your own website.
                 </Typography>
-                <Box sx={{ display: "flex" }}>
-                  {/* <CalendarMonthIcon /> */}
-                  <Typography sx={{ pb: 1 }}>15 Sep 21 - 15 Nov 21</Typography>
-                </Box>
-                <Box sx={{ display: "flex" }}>
-                  <Typography sx={{ pb: 1 }}>Access to live classes</Typography>
-                </Box>
-                <Button
-                  variant="contained"
-                  className={classes.cardButton}
-                  sx={{ mb: 1 }}
-                >
-                  <Typography>Enroll Batch</Typography>
-                </Button>
-                <Box sx={{ display: "flex" }}>
-                  <Typography sx={{ pb: 1 }} className={classes.text}>
-                    Can’t start on 15 Sep 21?
-                  </Typography>
-                  <Typography sx={{ pb: 1, ml: 1 }} color="primary">
-                    Check out our other batches
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Card>
+              </Card>
+            )}
+            {pathwayId == 3 && (
+              <Card align="left" elevation={0} sx={{ ml: 4 }}>
+                <Typography variant="body2" className={classes.cardSubtitle}>
+                  Learning Track
+                </Typography>
+                <Typography variant="h5" sx={{ pb: 1 }}>
+                  Typing Guru
+                </Typography>
+                <Typography>
+                  The typing track allows you to practice keyboard typing in a
+                  adaptive manner. You require a keyboard if on Android or use
+                  your laptop keyboard.
+                </Typography>
+              </Card>
+            )}
           </Grid>
           <Grid xs={12} md={6}>
-            {/* <Card sx={{ width: 355 }} align="left" elevation={0}> */}
-            {/* <CardMedia
-                component="img"
-                image={vector}
-                alt="Paella dish"
-                className={isActive ? classes.mobileVideo : classes.deskVideo}
-                // sx={{ width: 475 }}
-              /> */}
             <CardMedia
               component="video"
               autoPlay
@@ -153,7 +185,6 @@ function PathwayCourse({ endpoint }) {
               // // sx={{ width: 300 }}
               sx={{ width: 480 }}
             />
-            {/* </Card> */}
           </Grid>
         </Grid>
         {/* </Box> */}
@@ -162,11 +193,11 @@ function PathwayCourse({ endpoint }) {
           <Grid container spacing={0} align="center">
             {content.map((item) => (
               <Grid xs={12} md={4}>
-                <Card sx={{ width: 355 }} align="left" elevation={0}>
+                <Card sx={{ width: 380 }} align="left" elevation={0}>
                   <CardContent>
                     <Box sx={{ display: "flex" }}>
                       <CheckIcon color="primary" />
-                      <Typography>{item}</Typography>
+                      <Typography sx={{ ml: 1 }}>{item}</Typography>
                     </Box>
                   </CardContent>
                 </Card>
@@ -215,4 +246,4 @@ function PathwayCourse({ endpoint }) {
   );
 }
 
-export default PathwayCourse;
+export default Common;
