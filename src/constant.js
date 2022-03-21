@@ -5,7 +5,6 @@ export const PATHS = {
   LOGIN: "/login",
   CLASS: "/class",
   COURSE: "/course",
-  // PATHWAY_COURSE: "/pathway-course",
   PYTHON_COURSE: "/python-course",
   JAVAXCRIPT_COURSE: "/javascript-course",
   TYPING_GURU: "/typing-guru",

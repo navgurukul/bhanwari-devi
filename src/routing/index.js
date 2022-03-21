@@ -29,7 +29,6 @@ import PythonCourse from "../components/PathwayCourse/PythonCourse";
 import JavaScriptCourse from "../components/PathwayCourse/JavaScriptCourse";
 import TypingGuru from "../components/PathwayCourse/TypingGuru";
 import EnglishCourse from "../components/PathwayCourse/EnglishCourse";
-// import PathwayCourse from "../components/PathwayCourse";
 
 // import Classes from '../pages/classes'
 
@@ -41,7 +40,6 @@ const Routing = () => {
         {/* Route home page to login in  */}
         <Route exact path={PATHS.HOME_PATH} component={Course} />
         <Route exact path={PATHS.COURSE} component={Course} />
-        {/* <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} /> */}
         <Route exact path={PATHS.PYTHON_COURSE} component={PythonCourse} />
         <Route
           exact
