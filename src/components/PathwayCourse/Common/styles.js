@@ -5,17 +5,30 @@ const useStyles = makeStyles((theme) => ({
     color: "#818181",
     paddingBottom: 2,
   },
-  cardButton: {
-    width: 200,
-  },
-  text: {
-    color: "#818181",
-  },
   mobileVideo: {
-    width: "700px",
+    width: 700,
   },
   deskVideo: {
-    width: "475px",
+    width: 475,
+  },
+  heading: {
+    paddingBottom: 7,
+  },
+  box: {
+    paddingTop: 23,
+  },
+  course: {
+    paddingBottom: 40,
+  },
+  courseCard: {
+    marginBottom: 10,
+  },
+  titleCard: {
+    marginBottom: 30,
+    marginLeft: 30,
+  },
+  flex: {
+    display: "flex",
   },
 }));
 
