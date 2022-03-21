@@ -323,7 +323,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
 
             {(switchView || rolesList[0]) === "volunteer" && volunteer ? (
               <>
-                {/* <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
                   <NavLink
                     to={PATHS.VOLUNTEER}
                     className={classes.link}
@@ -331,8 +331,8 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   >
                     Volunteers
                   </NavLink>
-                </MenuItem> */}
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                </MenuItem>
+                {/* <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
                   <NavLink
                     to={PATHS.COURSE}
                     className={classes.link}
@@ -340,7 +340,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   >
                     Course
                   </NavLink>
-                </MenuItem>
+                </MenuItem> */}
 
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
                   <NavLink
