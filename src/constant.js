@@ -9,6 +9,8 @@ export const PATHS = {
   JAVAXCRIPT_COURSE: "/javascript-course",
   TYPING_GURU: "/typing-guru",
   ENGLISH_COURSE: "/english-course",
+  RESIDENTIAL_COURSE: "/residential-course",
+  MISCELLENEOUS_COURSE: "/open-course",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   MENTOR: "/mentor",
