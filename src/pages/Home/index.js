@@ -81,6 +81,7 @@ function MerakiEntry(props) {
       <Typography
         variant="h6"
         color="textPrimary"
+        align="center"
         gutterBottom
         {...props.headingAttr}
       >

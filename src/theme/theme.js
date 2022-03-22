@@ -109,7 +109,7 @@ theme = createTheme(theme, {
       fontFamily: "Lusitana",
       lineHeight: 1.33,
     },
-    // ------------------
+
     h5: {
       fontWeight: 700,
       fontSize: "2rem",
@@ -150,19 +150,20 @@ theme = createTheme(theme, {
     },
     body1: {
       fontSize: "1.125rem",
-      // [theme.breakpoints.down("sm")]: {
-      //   fontSize: "0.875rem",
-      //   fontFamily: "Lusitana",
-      // },
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.875rem",
+        fontFamily: "Lusitana",
+      },
       lineHeight: 1.55,
       fontFamily: "Lusitana",
     },
     body2: {
-      fontSize: "0.875rem",
-      // [theme.breakpoints.down("sm")]: {
-      //   fontSize: "0.75rem",
-      //   fontFamily: "Lusitana",
-      // },
+      fontSize: "1rem", //0.875rem
+      fontFamily: "Lusitana",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.75rem",
+        fontFamily: "Lusitana",
+      },
       lineHeight: 1.42,
     },
     button: {

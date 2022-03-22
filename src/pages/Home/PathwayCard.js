@@ -17,7 +17,9 @@ function PathwayCard({ title, description, image }) {
         <Typography gutterBottom variant="h6" align="center" component="div">
           {title}
         </Typography>
-        <Typography align="center">{description}</Typography>
+        <Typography variant="body1" align="center">
+          {description}
+        </Typography>
       </CardContent>
     </Card>
   );
