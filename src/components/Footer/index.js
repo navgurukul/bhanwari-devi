@@ -38,13 +38,26 @@ const MenuList = (menuItem) => {
   );
 };
 
+function FooterIcon(props) {
+  const classes = useStyles();
+  return (
+    <Box className={classes.image}>
+      <img
+        src={require("./asset/" + props.name + ".svg")}
+        alt={props.alt || "image of " + props.name}
+        loading="lazy"
+      />
+    </Box>
+  );
+}
+
 function Footer() {
   const classes = useStyles();
   return (
     <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
         <Grid container spacing={2} sx={{ mt: "40px" }}>
-          <Grid xs={12} md={4} sx={{ pl: { sm: "none", md: "16px" } }}>
+          <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
                 <img
@@ -62,27 +75,9 @@ function Footer() {
               </Box>
             </Box>
             <Box sx={{ display: "flex" }}>
-              <Box className={classes.image}>
-                <img
-                  src={require("./asset/facebook.svg")}
-                  alt="social media"
-                  loading="lazy"
-                />
-              </Box>
-              <Box className={classes.image}>
-                <img
-                  src={require("./asset/linkedIn.svg")}
-                  alt="social media"
-                  loading="lazy"
-                />
-              </Box>
-              <Box className={classes.image}>
-                <img
-                  src={require("./asset/twitter.svg")}
-                  alt="social media"
-                  loading="lazy"
-                />
-              </Box>
+              {["facebook", "linkedIn", "twitter"].map((imgName) => (
+                <FooterIcon name={imgName} />
+              ))}
             </Box>
             <Box className={classes.content}>
               <Typography color="text.primary">
@@ -125,7 +120,7 @@ function Footer() {
         <Divider variant="string" sx={{ pt: "25px" }} />
         <Box>
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
-            <Grid xs={12} md={6} sx={{ pl: { sm: "none", md: "10px" } }}>
+            <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
               <Typography color="text.primary">
                 Legal & Privacy Policy
               </Typography>
@@ -134,12 +129,12 @@ function Footer() {
               xs={12}
               md={6}
               sx={{
-                pr: { sm: "none", md: "17px" },
+                pr: { sm: 0, md: "17px" },
               }}
             >
               <Typography
                 color="text.primary"
-                sx={{ textAlign: { sm: "none", md: "right" } }}
+                sx={{ textAlign: { sm: "left", md: "right" } }}
               >
                 Made with ❤️ for our students{" "}
               </Typography>
