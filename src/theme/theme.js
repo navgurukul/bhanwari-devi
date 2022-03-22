@@ -109,7 +109,7 @@ theme = createTheme(theme, {
       fontFamily: "Lusitana",
       lineHeight: 1.33,
     },
-    // ------------------
+
     h5: {
       fontWeight: 700,
       fontSize: "2rem",
@@ -158,7 +158,8 @@ theme = createTheme(theme, {
       fontFamily: "Lusitana",
     },
     body2: {
-      fontSize: "0.875rem",
+      fontSize: "1rem", //0.875rem
+      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
         fontFamily: "Lusitana",
@@ -208,6 +209,17 @@ theme.components = {
   MuiButton: {
     styleOverrides: {
       root: { borderRadius: 8 },
+    },
+  },
+
+  MuiCard: {
+    styleOverrides: {
+      root: {
+        "&:hover": {
+          boxShadow:
+            "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
+        },
+      },
     },
   },
 };
