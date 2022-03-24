@@ -144,6 +144,8 @@ function Home() {
           </Container>
 
           {/* Section 2  */}
+          
+          
 
           <Container sx={{ mt: 4, display: { xs: "none", md: "flex" } }}>
             <Grid container justifyContent="space-between">
