@@ -11,7 +11,7 @@ shadows[8] =
 
 theme = createTheme(theme, {
   palette: {
-    type: "light",
+    mode: "light",
     default: {
       // main: "#ffffff",
       // contrastText: "#000000",
