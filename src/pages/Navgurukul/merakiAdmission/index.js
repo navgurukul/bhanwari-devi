@@ -34,7 +34,7 @@ function Admission() {
     });
   }, []);
 
-  const testUrl = "http://dev-join.navgurukul.org/k/";
+  const testUrl = "https://join.navgurukul.org/k/";
 
   const generateTestLink = async () => {
     try {
