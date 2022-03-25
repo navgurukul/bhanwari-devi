@@ -19,6 +19,7 @@ import {
   MenuItem,
   ThemeProvider,
   SwipeableDrawer,
+  Typography,
 } from "@mui/material";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 
@@ -50,6 +51,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               sx={{ my: 2, color: "black" }}
               key={index}
             >
+              {/* <Typography variant="subtitle2">{menu}</Typography> */}
               {menu}
               {selectedMenu === menu && indicator ? (
                 <ExpandLessIcon />
@@ -143,7 +145,7 @@ function Header() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="default" elevation={0}>
+      <AppBar position="sticky" color="background" elevation={0}>
         <Container maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

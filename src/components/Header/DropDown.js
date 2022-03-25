@@ -47,21 +47,24 @@ export const MobileDropDown = ({ Menu }) => {
           id="panel1a-header"
           sx={{ width: 380 }}
         >
-          <Typography>{Menu}</Typography>
+          <Typography variant="body1">{Menu}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {students[Menu.split(" ").join("")].map((menu, index) => (
             <Link to={PATHS.COURSE} className={classes.link}>
               <MenuItem key={index}>
                 {Menu === "Learn" && (
-                  <CardMedia
-                    image={students.image[index]}
-                    loading="lazy"
-                    sx={{ padding: "15px" }}
-                  />
+                  <img src={students.image[index]} alt="course logo" />
+                  // <CardMedia
+                  //   image={students.image[index]}
+                  //   loading="lazy"
+                  //   sx={{ padding: "15px" }}
+                  // />
                 )}
                 <CardContent>
-                  <Typography textAlign="center">{menu}</Typography>
+                  <Typography textAlign="center" variant="body1">
+                    {menu}
+                  </Typography>
                 </CardContent>
               </MenuItem>
             </Link>
@@ -173,17 +176,18 @@ export const DropDown = ({
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
-              <MenuItem key={menu} onClick={handleClose}>
+              <MenuItem key={menu} onClick={handleClose} sx={{ padding: 1 }}>
                 {dropDown === "Learn" && (
-                  <CardMedia
-                    image={students.image[index]}
-                    loading="lazy"
-                    sx={{ padding: "15px" }}
-                  />
+                  <img src={students.image[index]} alt="course logo" />
                 )}
-                <CardContent>
-                  <Typography textAlign="center">{menu}</Typography>
-                </CardContent>
+                {/* <CardContent> */}
+                <Typography
+                  textAlign="center"
+                  sx={{ paddingLeft: dropDown === "Learn" && 2 }}
+                >
+                  {menu}
+                </Typography>
+                {/* </CardContent> */}
               </MenuItem>
             </Link>
             {dropDown === "Learn" && index == 4 && <Divider />}
