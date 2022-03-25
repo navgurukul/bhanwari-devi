@@ -20,62 +20,60 @@ import {
   MenuItem,
 } from "@mui/material";
 
-// const SwitchView = ({ role }) => {
-//   if (role == "admin") {
-//     return (
-//       <MenuItem
-//         onClick={() => {
-//           setSwitchView(role);
-//           handleCloseSwitchView();
-//         }}
-//       >
-//         <NavLink
-//           to={PATHS.VOLUNTEER}
-//           className={classes.link}
-//           // activeClassName={classes.active}
-//         >
-//           {role}
-//         </NavLink>
-//       </MenuItem>
-//     );
-//   }
-//   if (role == "volunteer") {
-//     return (
-//       <MenuItem
-//         onClick={() => {
-//           setSwitchView(role);
-//           handleCloseSwitchView();
-//         }}
-//       >
-//         <NavLink
-//           to={PATHS.CLASS}
-//           className={classes.link}
-//           // activeClassName={classes.active}
-//         >
-//           {role}
-//         </NavLink>
-//       </MenuItem>
-//     );
-//   }
-//   if (role == "partner") {
-//     return (
-//       <MenuItem
-//         onClick={() => {
-//           setSwitchView(role);
-//           handleCloseSwitchView();
-//         }}
-//       >
-//         <NavLink
-//           to={PATHS.CLASS}
-//           className={classes.link}
-//           // activeClassName={classes.active}
-//         >
-//           {role}
-//         </NavLink>
-//       </MenuItem>
-//     );
-//   }
-// };
+const SwitchView = ({
+  role,
+  setSwitchView,
+  handleCloseSwitchView,
+  switchView,
+}) => {
+  const classes = useStyles();
+  if (role == "admin") {
+    return (
+      <MenuItem
+        onClick={() => {
+          setSwitchView(role);
+          handleCloseSwitchView();
+        }}
+        className={switchView === role && classes.bgColor}
+      >
+        <NavLink to={PATHS.PARTNERS} className={classes.link}>
+          {role}
+        </NavLink>
+      </MenuItem>
+    );
+  }
+  if (role == "volunteer") {
+    return (
+      <MenuItem
+        onClick={() => {
+          setSwitchView(role);
+          handleCloseSwitchView();
+        }}
+        className={switchView === role && classes.bgColor}
+      >
+        <NavLink to={PATHS.CLASS} className={classes.link}>
+          {role}
+        </NavLink>
+      </MenuItem>
+    );
+  }
+  if (role == "partner") {
+    return (
+      <MenuItem
+        onClick={() => {
+          setSwitchView(role);
+          handleCloseSwitchView();
+        }}
+        className={switchView === role && classes.bgColor}
+      >
+        <NavLink to={PATHS.PARTNERS} className={classes.link}>
+          {role}
+        </NavLink>
+      </MenuItem>
+    );
+  }
+  return "";
+};
 
 function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const [partnerId, setPartnerId] = useState("");
@@ -144,68 +142,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
     setAnchorElUser(null);
   };
 
-  console.log("switchView", switchView);
-
-  // const SwitchView = (role) => {
-  //   console.log("poo");
-
-  //   if (role == "admin") {
-  //     console.log("role", role);
-  //     return (
-  //       <MenuItem
-  //         onClick={() => {
-  //           setSwitchView(role);
-  //           handleCloseSwitchView();
-  //         }}
-  //       >
-  //         <NavLink
-  //           to={PATHS.VOLUNTEER}
-  //           className={classes.link}
-  //           // activeClassName={classes.active}
-  //         >
-  //           {role}
-  //         </NavLink>
-  //       </MenuItem>
-  //     );
-  //   }
-  //   if (role == "volunteer") {
-  //     return (
-  //       <MenuItem
-  //         onClick={() => {
-  //           setSwitchView(role);
-  //           handleCloseSwitchView();
-  //         }}
-  //       >
-  //         <NavLink
-  //           to={PATHS.CLASS}
-  //           className={classes.link}
-  //           // activeClassName={classes.active}
-  //         >
-  //           {role}
-  //         </NavLink>
-  //       </MenuItem>
-  //     );
-  //   }
-  //   if (role == "partner") {
-  //     return (
-  //       <MenuItem
-  //         onClick={() => {
-  //           setSwitchView(role);
-  //           handleCloseSwitchView();
-  //         }}
-  //       >
-  //         <NavLink
-  //           to={PATHS.CLASS}
-  //           className={classes.link}
-  //           // activeClassName={classes.active}
-  //         >
-  //           {role}
-  //         </NavLink>
-  //       </MenuItem>
-  //     );
-  //   }
-  // };
-
   return (
     <>
       <Box
@@ -256,6 +192,15 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 },
               }}
             >
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.CLASS}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Classes
+                </NavLink>
+              </MenuItem>
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
                 <NavLink
                   to={PATHS.ADMISSION}
@@ -332,16 +277,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     Volunteers
                   </NavLink>
                 </MenuItem>
-                {/* <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.COURSE}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Course
-                  </NavLink>
-                </MenuItem> */}
-
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
                   <NavLink
                     to={PATHS.CLASS}
@@ -355,6 +290,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             ) : null}
 
             {(switchView || rolesList[0]) === "partner" &&
+            // "partner_view" || "partner_edit" || "partner"
             (canSpecifyPartnerGroupId || canSpecifyPartner) ? (
               <>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -381,10 +317,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
               xs: leftDrawer ? "block" : "none",
               md: leftDrawer ? "none" : "flex",
             },
-            // display: {
-            //   xs: "none",
-            //   md: leftDrawer ? "none" : "flex",
-            // },
           }}
         >
           {rolesList.length > 1 ? (
@@ -414,25 +346,17 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     setSwitchView("student");
                     handleCloseSwitchView();
                   }}
+                  className={switchView === "student" && classes.bgColor}
                 >
                   Student
                 </MenuItem>
-                {/* {rolesList.map((role) => {
-                  // <SwitchView role={role} />;
-                  SwitchView(role);
-                })} */}
                 {rolesList.map((role) => (
-                  <MenuItem
-                    onClick={() => {
-                      setSwitchView(role);
-                      handleCloseSwitchView();
-                    }}
-                    sx={{ width: 130 }}
-                    className={switchView === role ? classes.bgColor : null}
-                  >
-                    {console.log("switchView", switchView, "role", role)}
-                    {role}
-                  </MenuItem>
+                  <SwitchView
+                    role={role}
+                    setSwitchView={setSwitchView}
+                    handleCloseSwitchView={handleCloseSwitchView}
+                    switchView={switchView}
+                  />
                 ))}
               </Menu>
             </>
@@ -448,94 +372,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             </MenuItem>
           )}
         </Box>
-
-        {/* <Box
-          sx={{
-            flexGrow: 0,
-            display: {
-              xs: leftDrawer ? "block" : "none",
-              md: "none",
-            },
-          }}
-        >
-          {rolesList.length > 1 ? (
-            <>
-              <MenuItem onClick={handleOpenSwitchView}>
-                Switch Views
-                {dropDown ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </MenuItem>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={dropDown}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(dropDown)}
-                onClose={handleCloseSwitchView}
-              >
-              <MenuItem
-                onClick={() => {
-                  setSwitchView("student");
-                  handleCloseSwitchView();
-                }}
-              >
-                Student
-              </MenuItem>
-              {rolesList.map((role) => (
-                <MenuItem
-                  onClick={() => {
-                    setSwitchView(role);
-                    handleCloseSwitchView();
-                  }}
-                >
-                  Poonam
-                </MenuItem>
-              ))}
-              </Menu>
-            </>
-          ) : (
-            <MenuItem
-              onClick={() => {
-                setStudentView(!studentView);
-              }}
-            >
-              {studentView
-                ? `Switch to ${rolesList[0]} View`
-                : "Switch to student View"}
-            </MenuItem>
-          )}
-        </Box> */}
-
-        {/* <Box
-          sx={{
-            flexGrow: 0,
-            display: {
-              xs: leftDrawer ? "block" : "none",
-              md: "none",
-            },
-          }}
-        >
-          {rolesList.length > 1 ? (
-            <MobileDropDown Menu={rolesList} />
-          ) : (
-            <MenuItem
-              onClick={() => {
-                setStudentView(!studentView);
-              }}
-            >
-              {studentView
-                ? `Switch to ${rolesList[0]} View`
-                : "Switch to student View"}
-            </MenuItem>
-          )}
-        </Box> */}
       </Box>
 
       {!leftDrawer && (

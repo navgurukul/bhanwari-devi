@@ -4,7 +4,6 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: "black",
-    // color: "#48a145",
   },
   box: {
     padding: "20px 0px 0px 20px",
@@ -23,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
   meraki: {
     flexGrow: 1,
-    // display: { xs: "flex", md: "none" },
   },
   merakiLearn: {
     flexGrow: 0,
