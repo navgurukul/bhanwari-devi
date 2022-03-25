@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as courseActions } from "../../Course/redux/action";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../../theme/constant";
 import {
   Container,
   Box,
@@ -19,6 +21,7 @@ function MiscelleneousCourses() {
   const { data } = useSelector(({ Course }) => Course);
   const [pathwaysCourses, setPathwaysCourses] = useState([]);
   const user = useSelector(({ User }) => User);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
@@ -73,25 +76,33 @@ function MiscelleneousCourses() {
         <Grid container spacing={2}>
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0}>
-              <Typography variant="h4">Miscelleneous Courses</Typography>
-              <Typography variant="body2">
-                Do you want to delve into Android, Game Development, Web Dev
-                Basics or just some fun projects? Check out these courses for a
-                sneak peak into these exciting fields.
-              </Typography>
+              <CardContent>
+                <Typography variant="h5" align={isActive ? "center" : "left"}>
+                  Miscelleneous Courses
+                </Typography>
+              </CardContent>
+              <CardContent>
+                <Typography
+                  variant="body2"
+                  align={isActive ? "center" : "left"}
+                >
+                  Do you want to delve into Android, Game Development, Web Dev
+                  Basics or just some fun projects? Check out these courses for
+                  a sneak peak into these exciting fields.
+                </Typography>
+              </CardContent>
             </Card>
           </Grid>
-          {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
-
-                    </Grid> */}
         </Grid>
 
-        <Box sx={{ mt: 6 }}>
-          <Typography variant="h6">Courses</Typography>
+        <Box sx={{ mt: 3 }}>
+          <Typography variant="h5" align={isActive ? "center" : "left"}>
+            Courses
+          </Typography>
           <Grid sx={{ mt: 2 }} container spacing={3} align="center">
             {otherCourses &&
               otherCourses.map((item, index) => (
-                <Grid key={index} xs={12} md={3}>
+                <Grid key={index} xs={12} sm={6} md={3}>
                   <Card elevation={0}>
                     <img
                       // src={require(`../Common/asset/${images}.svg`)}
@@ -100,9 +111,9 @@ function MiscelleneousCourses() {
                       loading="lazy"
                     />
 
-                    <CardContent>
+                    <CardContent sx={{ ml: 1 }}>
                       <Typography
-                        // align={isActive ? "center" : "left"}
+                        align={isActive ? "center" : "left"}
                         variant="subtitle1"
                       >
                         {item.name}

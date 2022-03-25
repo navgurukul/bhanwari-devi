@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import { breakpoints } from "./constant";
 
 let theme = createTheme();
 const shadows = theme.shadows;
@@ -10,6 +11,7 @@ shadows[8] =
   "0px 24px 38px rgba(0, 0, 0, 0.06), 0px 9px 46px rgba(0, 0, 0, 0.04), 0px 11px 15px rgba(0, 0, 0, 0.08)";
 
 theme = createTheme(theme, {
+  breakpoints,
   palette: {
     type: "light",
     default: {

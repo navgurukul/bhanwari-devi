@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
   flex: {
     display: "flex",
   },
+  myVideo: {
+    width: "480px",
+    // marginTop:'200px',
+  },
 }));
 
 export default useStyles;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+// import { breakpoints } from '../../theme/constant'
 import {
   Container,
   Box,
@@ -30,6 +31,7 @@ const images = [
 function ResidentialProgramme() {
   const [pathwayCourse, setPathwayCourse] = useState([]);
   const user = useSelector(({ User }) => User);
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({

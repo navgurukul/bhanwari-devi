@@ -4,11 +4,10 @@ import Common from "../Common";
 
 function PythonCourse({ pathwayId }) {
   const number = "1";
-  console.log("pathwayId in PythonCourse", pathwayId);
+  // console.log("pathwayId in PythonCourse", pathwayId);
   return (
     <>
-      <Common pathwayId={pathwayId} />
-      {/* <Pathways /> */}
+      <Common pathwayId="1" />;
     </>
   );
 }
