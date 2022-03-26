@@ -16,7 +16,7 @@ theme = createTheme(theme, {
       // main: "#ffffff",
       // contrastText: "#000000",
       light: "#0066ff",
-      main: "#0044ff",
+      main: "#fff",
       // dark: will be calculated from palette.secondary.main,
       contrastText: "#ffcc00",
     },
