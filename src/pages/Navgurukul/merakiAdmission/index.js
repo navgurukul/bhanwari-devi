@@ -4,9 +4,19 @@ import { toast } from "react-toastify";
 import YouTube from "react-youtube";
 import { METHODS } from "../../../services/api";
 import { useSelector } from "react-redux";
-import "./styles.scss";
+// import "./styles.scss";
+
+import { Container, Box, Grid, Typography, CardMedia } from "@mui/material";
+import useStyles from "./styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
 
 function Admission() {
+  const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:600px)");
+
   const [userDetails, setUserDetails] = useState({
     firstName: "",
     middleName: "",
@@ -34,7 +44,7 @@ function Admission() {
     });
   }, []);
 
-  const testUrl = "http://dev-join.navgurukul.org/k/";
+  const testUrl = "https://join.navgurukul.org/k/";
 
   const generateTestLink = async () => {
     try {
@@ -87,6 +97,12 @@ function Admission() {
       return;
     }
     await isDuplicate();
+    setUserDetails({
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      mobileNumber: "",
+    });
   };
 
   const isDuplicate = () => {
@@ -121,103 +137,251 @@ function Admission() {
   };
 
   return (
-    <div className="admission">
-      <div className="left-section">
-        <YouTube className={"video-alumni"} videoId={`vuSwndj5cbs`} />;
-        <div className="video-label">Experience of NG Alumni & Graduates</div>
-      </div>
-      <div className="right-section">
-        <div className="test-form">
-          <h2 className="scholarship-test">
-            Software Engineering Scholarship Test
-          </h2>
-          <div className="input-form">
-            <div className="form-row">
-              <div className="input-field-test">
-                <label htmlFor="firstName">First Name</label>
-                <input
+    <>
+      <Container maxWidth="lg" className={classes.admitionContainer}>
+        <Grid container>
+          <Grid item xs={12} sm={6} md={6}>
+            <CardMedia>
+              <YouTube
+                className={
+                  !isActive ? classes.admitionVideo : classes.admitionVideo1
+                }
+                videoId={`vuSwndj5cbs`}
+              />
+            </CardMedia>
+            <Typography variant="subtitle1" gutterBottom align="center">
+              Experience of NG Alumni & Graduates
+            </Typography>
+            <hr
+              className={isActive ? classes.admitionHr1 : classes.admitionHr}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={6}>
+            <Grid container>
+              <Typography
+                variant="h6"
+                gutterBottom
+                align="left"
+                className={isActive && classes.admitionSpacing1}
+              >
+                Software Engineering Scholarship Test
+              </Typography>
+              <Box
+                component="form"
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { sm: "1fr 1fr" },
+                  gap: 3,
+                  width: "100%",
+                  m: 1,
+                }}
+                className={
+                  isActive ? classes.admitionBottom1 : classes.admitionBottom
+                }
+              >
+                <TextField
+                  label="First Name"
                   type="text"
-                  placeholder="Abhi..."
                   value={userDetails.firstName}
                   name="firstName"
                   onChange={changeHandler}
                   id="firstName"
+                  variant="standard"
                   required
                 />
-              </div>
-              <div className="input-field-test">
-                <label htmlFor="middleName">Middle Name (Optional)</label>
-                <input
+
+                <TextField
+                  label="Middel Name(Optional)"
                   type="text"
-                  placeholder="Kumar..."
                   value={userDetails.middleName}
                   name="middleName"
                   onChange={changeHandler}
                   id="middleName"
+                  variant="standard"
                 />
-              </div>
-              <div className="input-field-test">
-                <label htmlFor="lastName">Last Name</label>
-                <input
+                <TextField
+                  label="Last Name"
                   type="text"
-                  placeholder="Garg..."
                   value={userDetails.lastName}
                   name="lastName"
                   onChange={changeHandler}
                   id="lastName"
                   required
+                  variant="standard"
                 />
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="input-field-test">
-                <label htmlFor="mobileNumber">Mobile Number</label>
-                <input
-                  type="tel"
+
+                <TextField
+                  label="Mobile Number"
+                  type="number"
                   pattern="^[0-9]{10}$"
-                  placeholder="9874500000"
                   value={userDetails.mobileNumber}
                   name="mobileNumber"
                   onChange={changeHandler}
                   id="mobileNumber"
                   required
+                  variant="standard"
                 />
-              </div>
-            </div>
-          </div>
-          <button className="test-btn" onClick={giveTest}>
-            Give Admissions Test
-          </button>
-        </div>
+              </Box>
+              <Button
+                variant="contained"
+                color="primary"
+                className={
+                  !isActive ? classes.admitionBtn1 : classes.admitionBtn2
+                }
+                onClick={giveTest}
+              >
+                Give Admission Test
+              </Button>
+            </Grid>
+            <Grid container className={classes.admitionSpacing}>
+              <Grid item xs={12} sm={12} md={12}>
+                <Typography variant="h6" gutterBottom>
+                  Check Test Result
+                </Typography>
 
-        <form className="test-form down">
-          <h2>Check Test Result via Registered Mobile Number </h2>
-          <div className="input-form">
-            <div className="input-field-test">
-              <label>Mobile Number</label>
-              <input
-                type="tel"
-                pattern="^[0-9]{10}$"
-                placeholder="9874500000"
-                onChange={(e) => {
-                  setMobile(e.target.value);
-                }}
-                value={mobile}
-              />
-            </div>
-          </div>
-          <button className="test-btn">
-            <a
-              className="result-btn"
-              href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
-              target="_blank"
-            >
-              Check Result
-            </a>
-          </button>
-        </form>
-      </div>
-    </div>
+                <Box
+                  component="form"
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { sm: "1fr 1fr" },
+                    m: 1,
+                  }}
+                  className={
+                    isActive ? classes.admitionBottom1 : classes.admitionBottom
+                  }
+                >
+                  <TextField
+                    label="Mobile Number"
+                    type="number"
+                    pattern="^[0-9]{10}$"
+                    onChange={(e) => {
+                      setMobile(e.target.value);
+                    }}
+                    value={mobile}
+                    required
+                    variant="standard"
+                  />
+                </Box>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={
+                    !isActive ? classes.admitionBtn : classes.admitionBtn2
+                  }
+                >
+                  <Link
+                    href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
+                    underline="none"
+                    target="_blank"
+                    color="white"
+                  >
+                    Check Result
+                  </Link>
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </>
+    // <div className="admission">
+    //   <div className="left-section">
+    //     <YouTube className={"video-alumni"} videoId={`vuSwndj5cbs`} />;
+    //     <div className="video-label">Experience of NG Alumni & Graduates</div>
+    //   </div>
+    //   <div className="right-section">
+    //     <div className="test-form">
+    //       <h2 className="scholarship-test">
+    //         Software Engineering Scholarship Test
+    //       </h2>
+    //       <div className="input-form">
+    //         <div className="form-row">
+    //           <div className="input-field-test">
+    //             <label htmlFor="firstName">First Name</label>
+    //             <input
+    //               type="text"
+    //               placeholder="Abhi..."
+    //               value={userDetails.firstName}
+    //               name="firstName"
+    //               onChange={changeHandler}
+    //               id="firstName"
+    //               required
+    //             />
+    //           </div>
+    //           <div className="input-field-test">
+    //             <label htmlFor="middleName">Middle Name (Optional)</label>
+    //             <input
+    //               type="text"
+    //               placeholder="Kumar..."
+    //               value={userDetails.middleName}
+    //               name="middleName"
+    //               onChange={changeHandler}
+    //               id="middleName"
+    //             />
+    //           </div>
+    //           <div className="input-field-test">
+    //             <label htmlFor="lastName">Last Name</label>
+    //             <input
+    //               type="text"
+    //               placeholder="Garg..."
+    //               value={userDetails.lastName}
+    //               name="lastName"
+    //               onChange={changeHandler}
+    //               id="lastName"
+    //               required
+    //             />
+    //           </div>
+    //         </div>
+    //         <div className="form-row">
+    //           <div className="input-field-test">
+    //             <label htmlFor="mobileNumber">Mobile Number</label>
+    //             <input
+    //               type="tel"
+    //               pattern="^[0-9]{10}$"
+    //               placeholder="9874500000"
+    //               value={userDetails.mobileNumber}
+    //               name="mobileNumber"
+    //               onChange={changeHandler}
+    //               id="mobileNumber"
+    //               required
+    //             />
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <button className="test-btn" onClick={giveTest}>
+    //         Give Admissions Test
+    //       </button>
+    //     </div>
+
+    //     <form className="test-form down">
+    //       <h2>Check Test Result via Registered Mobile Number </h2>
+    //       <div className="input-form">
+    //         <div className="input-field-test">
+    //           <label>Mobile Number</label>
+    //           <input
+    //             type="tel"
+    //             pattern="^[0-9]{10}$"
+    //             placeholder="9874500000"
+    //             onChange={(e) => {
+    //               setMobile(e.target.value);
+    //             }}
+    //             value={mobile}
+    //           />
+    //         </div>
+    //       </div>
+    //       <button className="test-btn">
+    //         <a
+    //           className="result-btn"
+    //           href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
+    //           target="_blank"
+    //         >
+    //           Check Result
+    //         </a>
+    //       </button>
+    //     </form>
+    //   </div>
+    // </div>
   );
 }
 
