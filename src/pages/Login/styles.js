@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: "47px",
     width: "254px",
-    borderRadius: "8px",
+    borderRadius: "17px",
   },
 
   responsiveGoogleLogin: {
@@ -18,6 +18,13 @@ const useStyles = makeStyles((theme) => ({
     width: "325px",
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  Loder: {
+    marginRight: "70%",
+  },
+  responsiveLoder: {
+    marginLeft: "10px",
   },
 }));
 

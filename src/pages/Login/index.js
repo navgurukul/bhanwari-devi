@@ -9,10 +9,11 @@ import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
 
-import { Typography, Container, Grid, Box } from "@mui/material";
+import { Typography, Container, Grid, Stack, Box } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import useStyles from "./styles";
+import { breakpoints } from "../../theme/constant";
 
 function Login(props) {
   const [queryString, setqueryString] = useState(null);
@@ -45,7 +46,8 @@ function Login(props) {
   }
 
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:600px)");
+  // const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
@@ -96,20 +98,26 @@ function Login(props) {
               </Typography>
 
               {loading ? (
-                <Loader />
+                <Box
+                  className={isActive ? classes.responsiveLoder : classes.Loder}
+                >
+                  <Loader />
+                </Box>
               ) : (
-                <GoogleLogin
-                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                  buttonText="Continue with Google"
-                  onSuccess={onSignIn}
-                  onFailure={onGoogleLoginFail}
-                  cookiePolicy={"single_host_origin"}
-                  className={
-                    isActive
-                      ? classes.responsiveGoogleLogin
-                      : classes.googleLogin
-                  }
-                />
+                <Stack alignItems={isActive ? "center" : "left"}>
+                  <GoogleLogin
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                    buttonText="Continue with Google"
+                    onSuccess={onSignIn}
+                    onFailure={onGoogleLoginFail}
+                    cookiePolicy={"single_host_origin"}
+                    className={
+                      isActive
+                        ? classes.responsiveGoogleLogin
+                        : classes.googleLogin
+                    }
+                  />
+                </Stack>
               )}
             </Container>
           </Grid>
