@@ -7,6 +7,7 @@ import {
   Card,
   Stack,
 } from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
@@ -79,7 +80,6 @@ function MerakiEntry(props) {
   return (
     <div>
       <Typography
-        variant="h6"
         color="textPrimary"
         align="center"
         gutterBottom
@@ -138,27 +138,29 @@ function Home() {
             <MerakiEntry
               headingAttr={{
                 align: isActive ? "left" : "center",
+                variant: "h6",
                 gutterBottom: true,
               }}
             />
           </Container>
 
           {/* Section 2  */}
-          
-          
-
           <Container sx={{ mt: 4, display: { xs: "none", md: "flex" } }}>
             <Grid container justifyContent="space-between">
               <Grid container item xs={4} justifyContent="flex-start">
-                <Card className={classes.typingPopupCard}>
-                  <Typography color="text.secondary">
+                <Card elevation={2} className={classes.typingPopupCard}>
+                  <Typography variant="body1" color="text.secondary">
                     I want to be a typing assistant
                   </Typography>
                 </Card>
               </Grid>
               <Grid container item xs={4} justifyContent="flex-end">
-                <Card className={classes.engineerPopupCard}>
-                  <Typography align="right" color="text.secondary">
+                <Card elevation={2} className={classes.engineerPopupCard}>
+                  <Typography
+                    align="right"
+                    variant="body1"
+                    color="text.secondary"
+                  >
                     I want to be the first software engineer in my family
                   </Typography>
                 </Card>
@@ -212,7 +214,7 @@ function Home() {
               color="textPrimary"
               gutterBottom
             >
-              How can Meraki help with your concerns?
+              How can Meraki help you?
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
@@ -227,9 +229,10 @@ function Home() {
               ))}
               {concernsText.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
-                  <Stack alignItems="center">
+                  <Stack sx={{ mb: 3 }} alignItems="center">
                     <img src={require("./assets/down-swirly.svg")} />
                   </Stack>
+
                   <PathwayCard description={item.description} />
                 </Grid>
               ))}
@@ -237,7 +240,7 @@ function Home() {
           </Container>
           {/* Section 5 */}
           <Container maxWidth="sm">
-            <Stack alignItems="center">
+            <Stack sx={{ mt: 2 }} alignItems="center">
               <img src={require("./assets/down-swirly.svg")} />
             </Stack>
             <Typography sx={{ mt: 3 }} align="center" gutterBottom>
@@ -287,14 +290,12 @@ function Home() {
                 </Grid>
               ))}
             </Grid>
-            <Typography
-              sx={{ mt: 2 }}
-              align="center"
-              color="primary"
-              gutterBottom
-            >
-              See all our partners
-            </Typography>
+            <Stack sx={{ mt: 3 }} alignItems="center">
+              <Button href="#">
+                See all our partners
+                <ArrowForwardIosIcon sx={{ padding: "2px" }} />
+              </Button>
+            </Stack>
           </Container>
           {/* Section 7  */}
           <Container
@@ -302,7 +303,11 @@ function Home() {
             sx={{ mt: 10, p: 6, background: "#E9F5E9" }}
           >
             <Container maxWidth="md">
-              <MerakiEntry />
+              <MerakiEntry
+                headingAttr={{
+                  variant: "h5",
+                }}
+              />
             </Container>
           </Container>
 
@@ -319,7 +324,7 @@ function Home() {
               Have Questions?
             </Typography>
             <Typography
-              sx={{ mt: 5 }}
+              sx={{ mt: 3 }}
               align="center"
               color="textPrimary"
               gutterBottom

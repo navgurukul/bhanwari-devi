@@ -5,7 +5,7 @@ import { Typography, CardMedia, CardContent, Card } from "@mui/material";
 function PathwayCard({ title, description, image }) {
   const classes = useStyles();
   return (
-    <Card className={image && classes.card}>
+    <Card elevation={2} className={image && classes.card}>
       {image && (
         <CardMedia
           component="img"
