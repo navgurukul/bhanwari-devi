@@ -25,7 +25,7 @@ import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme/theme";
-import PathwayCourseContent from "../components/PathwayCourseContent";
+import PathwayCourse from "../components/PathwayCourse";
 
 // import Classes from '../pages/classes'
 
@@ -38,10 +38,7 @@ const Routing = () => {
         <Route exact path={PATHS.HOME_PATH} component={Course} />
         <Route exact path={PATHS.COURSE} component={Course} />
         <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
-        <Route
-          path={PATHS.PATHWAY_COURSE_CONTENT}
-          component={PathwayCourseContent}
-        />
+        <Route path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
         <Route exact path={PATHS.LOGIN} component={Login} />
         <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
         <Route exact path={PATHS.AFE} component={AFEpage} />

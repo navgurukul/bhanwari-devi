@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
-import { METHODS } from "../../services/api";
+import { METHODS } from "../../../services/api";
 import axios from "axios";
 import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
 // import HiddenContent from "../HiddenContent";
+// import useStyles from "./styles";
 
 import {
   Container,
@@ -62,13 +63,20 @@ const headingVarients = {
 };
 
 const RenderContent = ({ data }) => {
+  // const classes = useStyles();
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
     );
   }
   if (data.component === "image") {
-    return <img className="image" src={get(data, "value")} alt="content" />;
+    return (
+      <img
+        className="classes.content-img"
+        src={get(data, "value")}
+        alt="content"
+      />
+    );
   }
   if (data.component === "youtube") {
     const videoId = data.value.includes("=")
@@ -78,6 +86,7 @@ const RenderContent = ({ data }) => {
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
+    // console.log("text", text);
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <li className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
@@ -187,7 +196,7 @@ function PathwayCourseContent() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log("res", res.data.course.exercises[0].content);
+      //   console.log("res", res.data.course.exercises[0].content);
       setContent(res.data.course.exercises[0].content);
       // setPathways(res.data.pathways);
     });
