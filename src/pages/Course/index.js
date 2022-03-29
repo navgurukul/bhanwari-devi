@@ -1,7 +1,6 @@
 import React from "react";
 
 import CourseComponent from "../../components/Course";
-import Footer from "../../components/Footer";
 import "./styles.scss";
 
 function Course() {
@@ -10,7 +9,6 @@ function Course() {
       <div className="ng-course-container">
         <CourseComponent />
       </div>
-      <Footer />
     </div>
   );
 }
