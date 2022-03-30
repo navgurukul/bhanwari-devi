@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import YouTube from "react-youtube";
 import { METHODS } from "../../../services/api";
 import { useSelector } from "react-redux";
-// import "./styles.scss";
 
 import { Container, Box, Grid, Typography, CardMedia } from "@mui/material";
 import useStyles from "./styles";
@@ -97,12 +96,12 @@ function Admission() {
       return;
     }
     await isDuplicate();
-    setUserDetails({
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      mobileNumber: "",
-    });
+    // setUserDetails({
+    //   firstName: "",
+    //   middleName: "",
+    //   lastName: "",
+    //   mobileNumber: "",
+    // });
   };
 
   const isDuplicate = () => {
@@ -162,7 +161,7 @@ function Admission() {
               <Typography
                 variant="h6"
                 gutterBottom
-                align="left"
+                align="190%"
                 className={isActive && classes.admitionSpacing1}
               >
                 Software Engineering Scholarship Test
@@ -187,7 +186,7 @@ function Admission() {
                   name="firstName"
                   onChange={changeHandler}
                   id="firstName"
-                  variant="standard"
+                  variant="outlined"
                   required
                 />
 
@@ -198,7 +197,7 @@ function Admission() {
                   name="middleName"
                   onChange={changeHandler}
                   id="middleName"
-                  variant="standard"
+                  variant="outlined"
                 />
                 <TextField
                   label="Last Name"
@@ -207,8 +206,8 @@ function Admission() {
                   name="lastName"
                   onChange={changeHandler}
                   id="lastName"
+                  variant="outlined"
                   required
-                  variant="standard"
                 />
 
                 <TextField
@@ -219,23 +218,24 @@ function Admission() {
                   name="mobileNumber"
                   onChange={changeHandler}
                   id="mobileNumber"
+                  variant="outlined"
                   required
-                  variant="standard"
                 />
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={
+                    !isActive ? classes.admitionBtn1 : classes.admitionBtn2
+                  }
+                  onClick={giveTest}
+                >
+                  Give Admission Test
+                </Button>
               </Box>
-              <Button
-                variant="contained"
-                color="primary"
-                className={
-                  !isActive ? classes.admitionBtn1 : classes.admitionBtn2
-                }
-                onClick={giveTest}
-              >
-                Give Admission Test
-              </Button>
             </Grid>
             <Grid container className={classes.admitionSpacing}>
-              <Grid item xs={12} sm={12} md={12}>
+              <Grid item xs={12} sm={12} md={6}>
                 <Typography variant="h6" gutterBottom>
                   Check Test Result
                 </Typography>
@@ -244,7 +244,7 @@ function Admission() {
                   component="form"
                   sx={{
                     display: "grid",
-                    gridTemplateColumns: { sm: "1fr 1fr" },
+                    gap: 3,
                     m: 1,
                   }}
                   className={
@@ -259,26 +259,27 @@ function Admission() {
                       setMobile(e.target.value);
                     }}
                     value={mobile}
+                    variant="outlined"
                     required
-                    variant="standard"
                   />
-                </Box>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={
-                    !isActive ? classes.admitionBtn : classes.admitionBtn2
-                  }
-                >
-                  <Link
-                    href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
-                    underline="none"
-                    target="_blank"
-                    color="white"
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={
+                      !isActive ? classes.admitionBtn : classes.admitionBtn2
+                    }
                   >
-                    Check Result
-                  </Link>
-                </Button>
+                    <Link
+                      href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
+                      underline="none"
+                      target="_blank"
+                      color="white"
+                    >
+                      Check Result
+                    </Link>
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
           </Grid>

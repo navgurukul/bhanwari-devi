@@ -41,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "4%",
   },
   admitionBtn1: {
-    width: "49%",
+    width: "auto%",
     height: 50,
   },
   admitionBtn: {
-    width: "50%",
+    width: "auto",
     height: 50,
   },
   admitionBtn2: {
