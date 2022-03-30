@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import { breakpoints } from "./constant";
 
 let theme = createTheme();
 const shadows = theme.shadows;
@@ -10,13 +11,14 @@ shadows[8] =
   "0px 24px 38px rgba(0, 0, 0, 0.06), 0px 9px 46px rgba(0, 0, 0, 0.04), 0px 11px 15px rgba(0, 0, 0, 0.08)";
 
 theme = createTheme(theme, {
+  breakpoints,
   palette: {
-    type: "light",
+    mode: "light",
     default: {
       // main: "#ffffff",
       // contrastText: "#000000",
       light: "#0066ff",
-      main: "#0044ff",
+      main: "#fff",
       // dark: will be calculated from palette.secondary.main,
       contrastText: "#ffcc00",
     },
@@ -76,16 +78,16 @@ theme = createTheme(theme, {
     h1: {
       fontWeight: 700,
       fontSize: "6rem",
+      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "4.875rem",
-        fontFamily: "Lusitana",
       },
     },
     h2: {
       fontSize: "4.5rem",
+      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "3.625rem",
-        fontFamily: "Lusitana",
       },
       fontWeight: 700,
     },
@@ -93,7 +95,6 @@ theme = createTheme(theme, {
       fontSize: "3.5rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "2.75rem",
-        fontFamily: "Lusitana",
       },
       fontWeight: 700,
       fontFamily: "Lusitana",
@@ -104,7 +105,7 @@ theme = createTheme(theme, {
       fontSize: "2.625rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "	2rem",
-        fontFamily: "Lusitana",
+        // fontFamily: "Lusitana",
       },
       fontFamily: "Lusitana",
       lineHeight: 1.33,
@@ -115,7 +116,7 @@ theme = createTheme(theme, {
       fontSize: "2rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "	1.5rem",
-        fontFamily: "Lusitana",
+        // fontFamily: "Lusitana",
       },
       lineHeight: 1.33,
       fontFamily: "Lusitana",
@@ -124,7 +125,7 @@ theme = createTheme(theme, {
       fontSize: "1.5rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "	1.125rem",
-        fontFamily: "Lusitana",
+        // fontFamily: "Lusitana",
       },
       lineHeight: 1.33,
       fontWeight: 700,
@@ -132,18 +133,19 @@ theme = createTheme(theme, {
     },
     subtitle1: {
       fontSize: "1.125rem",
+      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
-        fontFamily: "Lusitana",
+        // fontFamily: "Nunito Sans",
       },
       lineHeight: 1.55,
       fontWeight: 700,
     },
     subtitle2: {
       fontSize: "0.875rem",
+      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
-        fontFamily: "Lusitana",
       },
       fontWeight: 700,
       lineHeight: 1.42,
@@ -152,27 +154,22 @@ theme = createTheme(theme, {
       fontSize: "1.125rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
-        fontFamily: "Lusitana",
       },
-      lineHeight: 1.55,
-      fontFamily: "Lusitana",
+      lineHeight: 1.5,
     },
     body2: {
       fontSize: "1rem", //0.875rem
-      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
-        fontFamily: "Lusitana",
       },
-      lineHeight: 1.42,
+      lineHeight: 1.5,
     },
     button: {
       fontSize: "1.125rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
-        fontFamily: "Lusitana",
       },
-      lineHeight: 1.55,
+      lineHeight: 1.5,
       fontWeight: 500,
       textTransform: "none",
     },
@@ -180,7 +177,6 @@ theme = createTheme(theme, {
       fontSize: "0.75rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
-        fontFamily: "Lusitana",
       },
       lineHeight: 1.33,
     },
@@ -188,9 +184,7 @@ theme = createTheme(theme, {
       fontSize: "0.75rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
-        fontFamily: "Lusitana",
       },
-      fontFamily: "Lusitana",
     },
   },
   shadows,
@@ -215,10 +209,12 @@ theme.components = {
   MuiCard: {
     styleOverrides: {
       root: {
-        "&:hover": {
-          boxShadow:
-            "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
-        },
+        borderRadius: 8,
+
+        // "&:hover": {
+        //   boxShadow:
+        //     "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
+        // },
       },
     },
   },

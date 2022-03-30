@@ -1,208 +1,501 @@
-@import "../../sass/colors.scss";
-@import "../../sass/mixins.scss";
+// @import "../../sass/colors.scss";
+// @import "../../sass/mixins.scss";
 
-.ng-header {
-  height: 80px;
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  justify-content: space-between;
-}
-
-// .logout {
-//   width: 108px;
-//   height: 42px;
-//   background-color: #d55f31;
-//   color: #ffffff;
-//   // text-decoration: none;
-//   border-radius: 16px;
-//   font-weight: bold;
-//   font-size: 18px;
-//   line-height: 16px;
-//   justify-content: center;
+// .ng-header {
+//   height: 80px;
+//   display: flex;
 //   align-items: center;
-//   cursor: pointer;
-//   outline: none;
-//   border: 0;
-
-//   @include breakpoint-mobile {
-//     position: absolute;
-//     left: 10px;
-//     margin-top: 40px;
-//   }
+//   padding: 10px 20px;
+//   justify-content: space-between;
 // }
 
+// // .logout {
+// //   width: 108px;
+// //   height: 42px;
+// //   background-color: #d55f31;
+// //   color: #ffffff;
+// //   // text-decoration: none;
+// //   border-radius: 16px;
+// //   font-weight: bold;
+// //   font-size: 18px;
+// //   line-height: 16px;
+// //   justify-content: center;
+// //   align-items: center;
+// //   cursor: pointer;
+// //   outline: none;
+// //   border: 0;
+
+// //   @include breakpoint-mobile {
+// //     position: absolute;
+// //     left: 10px;
+// //     margin-top: 40px;
+// //   }
+// // }
+
+// // .ng-header > .logo {
+// //   display: inline-block;
+// //   font-size: 22px;
+// //   color: #83b344;
+// // }
+
 // .ng-header > .logo {
-//   display: inline-block;
+//   display: flex;
 //   font-size: 22px;
 //   color: #83b344;
 // }
 
-.ng-header > .logo {
-  display: flex;
-  font-size: 22px;
-  color: #83b344;
-}
+// .meraki-logo {
+//   background-image: url("../../asset/meraki.png");
+//   width: 58px;
+//   height: 70px;
+//   margin-top: 15px;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   @include breakpoint-mobile {
+//     margin-left: 12px;
+//   }
+// }
 
-.meraki-logo {
-  background-image: url("../../asset/meraki.png");
-  width: 58px;
-  height: 70px;
-  margin-top: 15px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  @include breakpoint-mobile {
-    margin-left: 12px;
-  }
-}
+// .ng-header > .dropDown-btn {
+//   display: none;
+//   padding-top: 35px;
+// }
 
-.ng-header > .dropDown-btn {
-  display: none;
-  padding-top: 35px;
-}
+// .Link {
+//   text-decoration: none;
+//   color: black;
+// }
 
-.option {
-  font-size: 18px;
-  padding-top: 38px;
-}
+// .option {
+//   font-size: 18px;
+//   padding-top: 38px;
+// }
 
-.ng-header > .option {
-  font-size: 18px;
-  padding-top: 2px;
-}
+// .ng-header > .option {
+//   font-size: 18px;
+//   padding-top: 2px;
+// }
 
-.option > a {
-  padding: 13px 10px 13px 10px;
-  text-decoration: none;
-  color: #83b344;
-}
-
-// .ng-header > .option > a {
+// .option > a {
 //   padding: 13px 10px 13px 10px;
 //   text-decoration: none;
 //   color: #83b344;
 // }
-.option > .item:hover {
-  border-bottom: 3px solid rgba(72, 161, 69, 1);
-  color: rgba(72, 161, 69, 1);
-  @include breakpoint-mobile {
-    width: auto;
-  }
-}
 
-.option > .left-item {
-  display: none;
-}
+// // .ng-header > .option > a {
+// //   padding: 13px 10px 13px 10px;
+// //   text-decoration: none;
+// //   color: #83b344;
+// // }
+// .option > .item:hover {
+//   border-bottom: 3px solid rgba(72, 161, 69, 1);
+//   color: rgba(72, 161, 69, 1);
+//   @include breakpoint-mobile {
+//     width: auto;
+//   }
+// }
+
+// .option > .left-item {
+//   display: none;
+// }
+
+// .active {
+//   background-color: red;
+//   color: #fff;
+// }
+
+// .active a {
+//   background-color: red;
+//   color: #fff;
+// }
+
+// .ng-header > #nav-check {
+//   display: none;
+// }
+
+// .profile-icon {
+//   font-size: 35px;
+//   color: rgb(46, 44, 44);
+// }
+
+// .dropdown-wrapper {
+//   position: absolute;
+//   right: 0;
+//   background: white;
+//   z-index: 1;
+//   border: 1px solid rgba(0, 0, 0, 0.04);
+//   box-shadow: 0px 16px 24px rgba(46, 46, 46, 0.06),
+//     0px 6px 30px rgba(46, 46, 46, 0.04), 0px 8px 10px rgba(46, 46, 46, 0.08);
+// }
+
+// .dropdown-menu__item > a {
+//   text-decoration: none;
+//   color: #83b344;
+// }
+
+// .logout-btn {
+//   cursor: pointer;
+//   color: #d55f31 !important;
+// }
+
+// .dropdown-menu {
+//   list-style: none;
+//   padding: 0;
+//   margin: 0;
+
+//   &__item {
+//     padding: 8px 12px;
+
+//     &:hover {
+//       background-color: rgba(0, 0, 0, 0.14);
+//       cursor: pointer;
+//     }
+//   }
+// }
+
+// @media (max-width: 600px) {
+//   .ng-header > .dropDown-btn {
+//     display: inline-block;
+//     padding: 0;
+//   }
+//   .ng-header > .dropDown-btn > label {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+//     width: 50px;
+//     height: 50px;
+//   }
+//   .option > .left-item {
+//     display: block;
+//   }
+
+//   .option > a {
+//     display: none;
+//   }
+
+//   .ng-header > .dropDown-btn > label > span {
+//     display: block;
+//     width: 25px;
+//     height: 10px;
+//     border-top: 2px solid #83b344;
+//   }
+//   .ng-header > .option {
+//     position: absolute;
+//     display: block;
+//     width: 100%;
+//     background-color: #e4f8ca;
+//     height: 0px;
+//     z-index: 999;
+//     transition: all 0.3s ease-in;
+//     overflow-y: hidden;
+//     top: 89px;
+//     left: 0px;
+//   }
+//   .ng-header > .option > a {
+//     display: block;
+//     width: 100%;
+//     margin-left: 18px;
+//   }
+//   .ng-header > #nav-check:not(:checked) ~ .option {
+//     height: 0px;
+//   }
+//   .ng-header > #nav-check:checked ~ .option {
+//     height: calc(100vh - 50px);
+//     overflow-y: auto;
+//   }
+//   .dropdown-wrapper {
+//     position: absolute;
+//     left: 0;
+//     z-index: 999;
+//     background: white;
+//   }
+// }
+
+// @import "../../sass/colors.scss";
+// @import "../../sass/mixins.scss";
+// * {
+//   box-sizing: border-box;
+//   textarea:focus,
+//   input:focus {
+//     outline: none;
+//   }
+// }
+// .ng-header {
+//   height: 80px;
+//   display: flex;
+//   align-items: center;
+//   padding: 10px 20px;
+//   justify-content: space-between;
+//   background-color: white;
+//   z-index: 2;
+//   position: relative;
+// }
+// .logo {
+//   height: 100%;
+// }
+// .logo a {
+//   height: 80px;
+//   display: flex;
+//   align-items: center;
+// }
+// .meraki-logo {
+//   background-image: url("../../asset/meraki.png");
+//   width: 58px;
+//   height: 70px;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   @include breakpoint-mobile {
+//     margin-left: 12px;
+//   }
+// }
+// .meraki-name {
+//   background-image: url("../../asset/meraki-name.png");
+//   width: 98px;
+//   height: 70px;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   margin-bottom: 10px;
+//   @include breakpoint-mobile {
+//     margin-left: 12px;
+//   }
+// }
+// .ng-dropdown {
+//   background-color: transparent;
+//   border: none;
+//   position: relative;
+//   font-size: 16px;
+//   cursor: pointer;
+// }
+// .ng-dropdown::after {
+//   content: "";
+//   position: absolute;
+//   background-image: url("../../asset/dropdown-icon.png");
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   height: 9px;
+//   width: 18px;
+//   right: -18px;
+//   top: 50%;
+//   transform: translateY(-50%);
+// }
+// .dropdown-container {
+//   display: flex;
+//   width: 28%;
+//   justify-content: space-between;
+// }
+// .header-searchbar {
+//   width: 35%;
+//   position: relative;
+// }
+// .header-searchbar input {
+//   width: 100%;
+//   border: none;
+//   background-color: transparent;
+//   border-bottom: 2px solid black;
+//   padding-left: 30px;
+//   font-size: 18px;
+//   padding-bottom: 8px;
+// }
+// .header-searchbar::before {
+//   content: "";
+//   position: absolute;
+//   background-image: url("../../asset/search.svg");
+//   background-repeat: no-repeat;
+//   background-position: top;
+//   background-size: contain;
+//   height: 30px;
+//   width: 25px;
+//   left: 0px;
+//   top: 0px;
+// }
+// .login-btn,
+// .option-login-btn {
+//   background-color: #48a145;
+//   color: white;
+//   padding: 8px 16px;
+//   border: none;
+//   border-radius: 8px;
+//   font-size: 18px;
+//   cursor: pointer;
+// }
+// .dropdown-content {
+//   position: absolute;
+//   box-shadow: 0px 24px 38px rgba(46, 46, 46, 0.06),
+//     0px 9px 46px rgba(46, 46, 46, 0.04), 0px 11px 15px rgba(46, 46, 46, 0.08);
+//   border-radius: 8px;
+//   min-width: 140px;
+//   text-align: left;
+//   left: 0;
+//   top: 150%;
+//   z-index: 1;
+//   background-color: white;
+//   display: none;
+//   cursor: auto;
+// }
+// .dropdown-content ul {
+//   list-style: none;
+//   padding: 0;
+//   margin: 0;
+// }
+// .dropdown-content ul li {
+//   padding: 8px 20px;
+//   font-size: 16px;
+//   font-weight: bold;
+//   cursor: pointer;
+// }
+// .dropdown-content ul li:hover {
+//   background-color: #e9f5e9;
+//   transition: all ease 0.3s;
+// }
+// .pathway-dropdown {
+//   width: max-content;
+// }
+// .pathway-row {
+//   display: flex;
+//   flex-wrap: wrap;
+// }
+// .pathway-card {
+//   margin: 15px;
+//   min-width: 300px;
+//   max-width: 300px;
+//   padding: 5px 70px 5px 10px;
+//   border-radius: 8px;
+//   position: relative;
+//   cursor: pointer;
+// }
+// .pathway-card:hover {
+//   background-color: #e9f5e9;
+//   transition: all ease 0.3s;
+// }
+// .pathway-dropdown h2 {
+//   font-size: 18px;
+//   margin: 10px 20px;
+//   margin-bottom: 0;
+// }
+// .pathway-card h2 {
+//   font-size: 18px;
+//   margin: 10px 0;
+// }
+// .pathway-icon {
+//   position: absolute;
+//   right: 10px;
+//   top: 10px;
+// }
+// .pathway-dropdown hr {
+//   margin: 0 20px;
+// }
+// .hamburger-menu {      //Ok
+//   background-image: url("../../asset/menu.png");
+//   background-repeat: no-repeat;
+//   background-position: top;
+//   background-size: contain;
+//   height: 30px;
+//   width: 30px;
+//   cursor: pointer;
+//   display: none;
+// }
+// .ng-header-options {    //ok
+//   display: flex;
+//   flex-direction: column;
+//   position: absolute;
+//   align-items: flex-start;
+//   width: 100%;
+//   background-color: #e4f8ca;
+
+//   z-index: 999;
+//   transition: all 0.3s ease-in;
+//   overflow-y: hidden;
+//   top: 80px;
+//   left: 0;
+//   padding: 0px 20px;
+//   // display: none;
+//   height: 0px;
+//   overflow: hidden;
+//   transition: all ease-in-out 0.1s;
+// }
+// .options-item {   //ok
+//   font-size: 20px;
+//   margin-bottom: 20px;
+//   position: relative;
+//   width: max-content;
+//   font-weight: bold;
+//   cursor: pointer;
+// }
+// .options-item-options {    //ok
+//   height: 0;
+//   overflow: hidden;
+//   transition: all ease-in-out 0.1s;
+//   ul {
+//     padding: 0;
+//     list-style: none;
+//     margin: 0;
+//   }
+//   li {
+//     margin-bottom: 20px;
+//     font-size: 20px;
+//     font-weight: 400;
+//     cursor: pointer;
+//     transition: all ease-in-out 0.1s;
+//   }
+// }
+// .options-item::after {
+//   content: "";
+//   position: absolute;
+//   background-image: url("../../asset/dropdown-icon.png");
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   height: 9px;
+//   width: 18px;
+//   right: -25px;
+//   top: 60%;
+//   transform: translateY(-50%);
+// }
+// .options-item:hover,
+// .options-item-options ul li:hover {   //ok
+//   color: #48a145;
+//   transition: all ease-in 0.2s;
+// }
+
+// @media screen and (max-width: 1050px) {
+//   .header-searchbar {
+//     width: 28%;
+//   }
+//   .meraki-name {
+//     width: 74px;
+//     height: 70px;
+//   }
+//   .dropdown-container {
+//     width: 31%;
+//   }
+// }
+// @media screen and (max-width: 930px) {
+//   .meraki-name {
+//     display: none;
+//   }
+//   .header-searchbar {
+//     width: 26%;
+//   }
+//   .dropdown-container {
+//     width: 35%;
+//   }
+// }
+// @media screen and (max-width: 800px) {
+//   .dropdown-container,
+//   .ng-dropdown,
+//   .login-btn,
+//   .d-inline,
+//   .header-searchbar {
+//     display: none;
+//   }
+//   .hamburger-menu {
+//     //ok
+//     display: block;
+//   }
+// }
 
 .active {
-  background-color: red;
-  color: #fff;
-}
-
-.active a {
-  background-color: red;
-  color: #fff;
-}
-
-.ng-header > #nav-check {
-  display: none;
-}
-
-.profile-icon {
-  font-size: 35px;
-  color: rgb(46, 44, 44);
-}
-
-.dropdown-wrapper {
-  position: absolute;
-  right: 0;
-  background: white;
-  z-index: 1;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0px 16px 24px rgba(46, 46, 46, 0.06),
-    0px 6px 30px rgba(46, 46, 46, 0.04), 0px 8px 10px rgba(46, 46, 46, 0.08);
-}
-
-.dropdown-menu__item > a {
-  text-decoration: none;
-  color: #83b344;
-}
-
-.logout-btn {
-  cursor: pointer;
-  color: #d55f31 !important;
-}
-
-.dropdown-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  &__item {
-    padding: 8px 12px;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.14);
-      cursor: pointer;
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .ng-header > .dropDown-btn {
-    display: inline-block;
-    padding: 0;
-  }
-  .ng-header > .dropDown-btn > label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-  }
-  .option > .left-item {
-    display: block;
-  }
-
-  .option > a {
-    display: none;
-  }
-
-  .ng-header > .dropDown-btn > label > span {
-    display: block;
-    width: 25px;
-    height: 10px;
-    border-top: 2px solid #83b344;
-  }
-  .ng-header > .option {
-    position: absolute;
-    display: block;
-    width: 100%;
-    background-color: #e4f8ca;
-    height: 0px;
-    z-index: 999;
-    transition: all 0.3s ease-in;
-    overflow-y: hidden;
-    top: 89px;
-    left: 0px;
-  }
-  .ng-header > .option > a {
-    display: block;
-    width: 100%;
-    margin-left: 18px;
-  }
-  .ng-header > #nav-check:not(:checked) ~ .option {
-    height: 0px;
-  }
-  .ng-header > #nav-check:checked ~ .option {
-    height: calc(100vh - 50px);
-    overflow-y: auto;
-  }
-  .dropdown-wrapper {
-    position: absolute;
-    left: 0;
-    z-index: 999;
-    background: white;
-  }
+  // color: "red",
+  padding: "200px 200px 200px 200px";
 }
