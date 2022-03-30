@@ -96,12 +96,13 @@ function Admission() {
       return;
     }
     await isDuplicate();
-    // setUserDetails({
-    //   firstName: "",
-    //   middleName: "",
-    //   lastName: "",
-    //   mobileNumber: "",
-    // });
+
+    setUserDetails({
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      mobileNumber: "",
+    });
   };
 
   const isDuplicate = () => {
