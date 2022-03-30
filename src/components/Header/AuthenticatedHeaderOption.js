@@ -181,7 +181,11 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <MobileDropDown Menu="Learn" />
+              <MobileDropDown
+                Menu="Learn"
+                handleClose={handleCloseLearn}
+                toggleDrawer={toggleDrawer}
+              />
             </Box>
             <Box
               sx={{

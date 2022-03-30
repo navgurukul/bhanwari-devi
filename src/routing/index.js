@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { PrivateRoute } from "./Routes";
 // import { userRoles } from '../services/auth'
-// import Home from "../pages/Home";
+import Home from "../pages/Home";
 import { PATHS } from "../constant";
 import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
@@ -23,14 +23,15 @@ import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
-import PythonCourse from "../components/PathwayCourse/PythonCourse";
-import JavaScriptCourse from "../components/PathwayCourse/JavaScriptCourse";
-import TypingGuru from "../components/PathwayCourse/TypingGuru";
-import EnglishCourse from "../components/PathwayCourse/EnglishCourse";
+// import PythonCourse from "../components/PathwayCourse/PythonCourse";
+// import JavaScriptCourse from "../components/PathwayCourse/JavaScriptCourse";
+// import TypingGuru from "../components/PathwayCourse/TypingGuru";
+// import EnglishCourse from "../components/PathwayCourse/EnglishCourse";
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
 //  import "../../styles/styles.css";
 import "../styles/styles.css";
+import PathwayCourse from "../components/PathwayCourse";
 
 // import Classes from '../pages/classes'
 
@@ -40,16 +41,17 @@ const Routing = () => {
       {/* <ThemeProvider theme={theme}> */}
       {/* Public routes */}
       {/* Route home page to login in  */}
-      <Route exact path={PATHS.HOME_PATH} component={Course} />
+      <Route exact path={PATHS.HOME_PATH} component={Home} />
       <Route exact path={PATHS.COURSE} component={Course} />
-      <Route exact path={PATHS.PYTHON_COURSE} component={PythonCourse} />
+      <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
+      {/* <Route exact path={PATHS.PYTHON_COURSE} component={PythonCourse} />
       <Route
         exact
         path={PATHS.JAVAXCRIPT_COURSE}
         component={JavaScriptCourse}
       />
       <Route exact path={PATHS.TYPING_GURU} component={TypingGuru} />
-      <Route exact path={PATHS.ENGLISH_COURSE} component={EnglishCourse} />
+      <Route exact path={PATHS.ENGLISH_COURSE} component={EnglishCourse} /> */}
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />

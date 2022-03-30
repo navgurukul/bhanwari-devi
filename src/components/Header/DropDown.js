@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import python from "./asset/python.svg";
 import typing from "./asset/typing.svg";
 import web from "./asset/web.svg";
@@ -9,6 +9,9 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
+import { METHODS } from "../../services/api";
+import { useSelector } from "react-redux";
+
 import "./styles.scss";
 import {
   CardMedia,
@@ -21,23 +24,102 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
+import axios from "axios";
 
-const students = {
-  image: [python, typing, web, language, softSkills, random],
-  Learn: [
-    "Python",
-    "Typing Guru",
-    "JavaScript",
-    "English",
-    "Soft Skills",
-    "Open Courses",
-  ],
-  About: ["Meraki Team", "Alumni"],
-  GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
-};
+// const students = {
+//   image: [python, typing, web, language, softSkills, random],
+//   Learn: [
+//     "Python",
+//     "Typing Guru",
+//     "JavaScript",
+//     "English",
+//     "Soft Skills",
+//     "Open Courses",
+//   ],
+//   About: ["Meraki Team", "Alumni"],
+//   GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
+// };
 
-export const MobileDropDown = ({ Menu }) => {
+// const pathways = async () => {
+//   // const user = useSelector(({ User }) => User);
+//   const response = await axios({
+//     method: METHODS.GET,
+//     url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
+//     headers: {
+//       accept: "application/json",
+//       "version-code": 40,
+//       // Authorization: user.data.token,
+//     },
+//   });
+//   console.log("response", response);
+//   let pathwayList = [];
+//   response.data.pathways.forEach((pathway) => {
+//     if (pathway.code !== "PRCRSE") {
+//       const name = pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
+//       pathwayList.push({
+//         id: pathway["id"],
+//         name: name,
+//       });
+//     }
+//   });
+//   // console.log("pathwayList", pathwayList);
+//   return pathwayList;
+// };
+
+export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
+  const [pathways, setPathways] = useState([]);
+
+  const students = {
+    image: [python, typing, web, language, softSkills, random],
+    Learn: [
+      "Python",
+      "Typing Guru",
+      "JavaScript",
+      "English",
+      "Soft Skills",
+      "Open Courses",
+    ],
+    About: ["Meraki Team", "Alumni"],
+    GetInvolved: [
+      "Become a Partner",
+      "Become a Volunteer",
+      "Donate",
+      "Careers",
+    ],
+  };
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
+      headers: {
+        accept: "application/json",
+        "version-code": 40,
+        // Authorization: user.data.token,
+      },
+    }).then((res) => {
+      console.log("res", res.data.pathways);
+      let pathwayList = [];
+      res.data.pathways.forEach((pathway) => {
+        if (pathway.code !== "PRCRSE") {
+          const name =
+            pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
+          pathwayList.push({
+            id: pathway["id"],
+            name: name,
+          });
+        }
+      });
+      console.log("pathwayList", pathwayList);
+      setPathways(pathwayList);
+    });
+  }, []);
+
+  students.Learn = pathways;
+  console.log("toggleDrawer", toggleDrawer);
+
   return (
     <>
       <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
@@ -51,98 +133,56 @@ export const MobileDropDown = ({ Menu }) => {
         </AccordionSummary>
         <AccordionDetails>
           {students[Menu.split(" ").join("")].map((menu, index) => (
-            <Link to={PATHS.COURSE} className={classes.link}>
-              <MenuItem key={index}>
+            <Link
+              to={Menu === "Learn" ? `pathway/${menu.id}` : PATHS.COURSE}
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
+              <MenuItem key={index} onClick={handleClose}>
                 {Menu === "Learn" && (
                   <img src={students.image[index]} alt="course logo" />
-                  // <CardMedia
-                  //   image={students.image[index]}
-                  //   loading="lazy"
-                  //   sx={{ padding: "15px" }}
-                  // />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
-                    {menu}
+                    {Menu === "Learn" ? menu.name : menu}
                   </Typography>
                 </CardContent>
               </MenuItem>
             </Link>
           ))}
+          {Menu === "Learn" && (
+            <>
+              <Link
+                to={PATHS.COURSE}
+                className={classes.link}
+                onClick={toggleDrawer && toggleDrawer(false)}
+              >
+                <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
+                  <img src={softSkills} alt="course logo" />
+                  <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
+                    Soft Skills
+                  </Typography>
+                </MenuItem>
+              </Link>
+              <Link
+                to={PATHS.COURSE}
+                className={classes.link}
+                onClick={toggleDrawer && toggleDrawer(false)}
+              >
+                <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
+                  <img src={random} alt="course logo" />
+                  <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
+                    Open Courses
+                  </Typography>
+                </MenuItem>
+              </Link>
+            </>
+          )}
         </AccordionDetails>
       </Accordion>
     </>
   );
 };
-
-// const students = {
-//   image: [python, typing, web, language, softSkills, random],
-//   Learn: [
-//     "Python",
-//     "Typing Guru",
-//     "JavaScript",
-//     "English",
-//     "Soft Skills",
-//     "Open Courses",
-//   ],
-//   LearnLink: ["COURSE", "COURSE", "COURSE", "COURSE", "COURSE", "COURSE"],
-//   About: ["Meraki Team", "Alumni"],
-//   AboutLink: ["COURSE", "COURSE"],
-//   GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
-//   GetInvolvedLink: ["COURSE", "COURSE", "COURSE"],
-// };
-
-// export const MobileDropDown = ({ Menu, path }) => {
-//   const classes = useStyles();
-//   const role = {
-//     admin: "PARTNER",
-//     volunteer: "CLASS",
-//     partner: "PARTNER",
-//   };
-//   const dropDown =
-//     typeof Menu === "string" ? students[Menu.split(" ").join("")] : Menu;
-
-//   const link = typeof Menu === "string" && students[path.split(" ").join("")];
-//   return (
-//     <>
-//       <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
-//         <AccordionSummary
-//           expandIcon={<ExpandMoreIcon />}
-//           aria-controls="panel1a-content"
-//           id="panel1a-header"
-//           sx={{ width: 380 }}
-//         >
-//           <Typography>
-//             {typeof Menu === "string" ? Menu : "Switch Views"}
-//           </Typography>
-//         </AccordionSummary>
-//         <AccordionDetails>
-//           {dropDown.map((menu, index) => (
-//             <Link
-//               to={PATHS.COURSE}
-//               // to={typeof Menu === "string" ? PATHS.link : PATHS.role[menu]}
-//               className={classes.link}
-//             >
-//               {console.log("link", role[menu])}
-//               <MenuItem key={index}>
-//                 {Menu === "Learn" && (
-//                   <CardMedia
-//                     image={students.image[index]}
-//                     loading="lazy"
-//                     sx={{ padding: "15px" }}
-//                   />
-//                 )}
-//                 <CardContent>
-//                   <Typography textAlign="center">{menu}</Typography>
-//                 </CardContent>
-//               </MenuItem>
-//             </Link>
-//           ))}
-//         </AccordionDetails>
-//       </Accordion>
-//     </>
-//   );
-// };
 
 export const DropDown = ({
   dropDown,
@@ -151,6 +191,58 @@ export const DropDown = ({
   toggleDrawer,
 }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
+  const [pathways, setPathways] = useState([]);
+
+  const students = {
+    image: [python, typing, web, language, softSkills, random],
+    Learn: [
+      "Python",
+      "Typing Guru",
+      "JavaScript",
+      "English",
+      "Soft Skills",
+      "Open Courses",
+    ],
+    About: ["Meraki Team", "Alumni"],
+    GetInvolved: [
+      "Become a Partner",
+      "Become a Volunteer",
+      "Donate",
+      "Careers",
+    ],
+  };
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
+      headers: {
+        accept: "application/json",
+        "version-code": 40,
+        // Authorization: user.data.token,
+      },
+    }).then((res) => {
+      // console.log("res", res.data.pathways);
+      let pathwayList = [];
+      res.data.pathways.forEach((pathway) => {
+        if (pathway.code !== "PRCRSE") {
+          const name =
+            pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
+          pathwayList.push({
+            id: pathway["id"],
+            name: name,
+          });
+        }
+      });
+      // console.log("pathwayList", pathwayList);
+      setPathways(pathwayList);
+    });
+  }, []);
+
+  students.Learn = pathways;
+
+  // console.log("PATHWAY_COURSE", PATHS.PATHWAY_COURSE);
   return (
     <Menu
       sx={{ mt: "45px" }}
@@ -172,7 +264,12 @@ export const DropDown = ({
         students[dropDown].map((menu, index) => (
           <>
             <Link
-              to={PATHS.COURSE}
+              // to={
+              //   dropDown === "Learn"
+              //     ? `${PATHS.PATHWAY_COURSE}/${menu.id}`
+              //     : PATHS.COURSE
+              // }
+              to={dropDown === "Learn" ? `pathway/${menu.id}` : PATHS.COURSE}
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
@@ -185,7 +282,7 @@ export const DropDown = ({
                   textAlign="center"
                   sx={{ paddingLeft: dropDown === "Learn" && 2 }}
                 >
-                  {menu}
+                  {dropDown === "Learn" ? menu.name : menu}
                 </Typography>
                 {/* </CardContent> */}
               </MenuItem>
@@ -193,6 +290,36 @@ export const DropDown = ({
             {dropDown === "Learn" && index == 4 && <Divider />}
           </>
         ))}
+      {dropDown === "Learn" && (
+        <>
+          <Link
+            to={PATHS.COURSE}
+            className={classes.link}
+            onClick={toggleDrawer && toggleDrawer(false)}
+          >
+            <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
+              <img src={softSkills} alt="course logo" />
+              <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
+                Soft Skills
+              </Typography>
+              {/* </CardContent> */}
+            </MenuItem>
+          </Link>
+          <Link
+            to={PATHS.COURSE}
+            className={classes.link}
+            onClick={toggleDrawer && toggleDrawer(false)}
+          >
+            <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
+              <img src={random} alt="course logo" />
+              <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
+                Open Courses
+              </Typography>
+              {/* </CardContent> */}
+            </MenuItem>
+          </Link>
+        </>
+      )}
     </Menu>
   );
 };

@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
   downloadBtn: {
     marginLeft: "10px",
   },
+  link: {
+    textDecoration: "none",
+    color: "black",
+  },
 }));
 
 export default useStyles;

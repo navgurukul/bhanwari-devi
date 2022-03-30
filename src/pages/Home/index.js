@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   CssBaseline,
@@ -12,25 +12,31 @@ import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { METHODS } from "../../services/api";
+import axios from "axios";
 
 const pathwayData = [
   {
     title: "Python",
+    code: "PRGPYT",
     image: "python",
     description: "Get familiar with programming with bite sized lessons",
   },
   {
     title: "Typing",
+    code: "TYPGRU",
     image: "typing",
     description: "Learn to type with accuracy and speed",
   },
   {
     title: "Web Development",
+    code: "JSRPIT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
   },
   {
     title: "English",
+    code: "SPKENG",
     image: "language",
     description: "Get familiar with programming with bite sized lessons",
   },
@@ -76,6 +82,29 @@ const concernsText = [
 function MerakiEntry(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles();
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
+      headers: {
+        accept: "application/json",
+        "version-code": 40,
+        // Authorization: user.data.token,
+      },
+    }).then((res) => {
+      console.log("res", res.data.pathways);
+      res.data.pathways.forEach((pathway) => {
+        pathwayData.forEach((item) => {
+          if (pathway.code === item.code) {
+            item["id"] = pathway.id;
+          }
+        });
+      });
+    });
+  }, []);
+
+  console.log("pathwayData", pathwayData);
 
   return (
     <div>
@@ -197,6 +226,7 @@ function Home() {
               {pathwayData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
                   <PathwayCard
+                    id={item.id}
                     title={item.title}
                     description={item.description}
                     image={item.image}
