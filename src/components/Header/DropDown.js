@@ -32,7 +32,7 @@ const students = {
     "Soft Skills",
     "Open Courses",
   ],
-  About: ["Meraki Team", "Alumni"],
+  About: ["Meraki Team", "Alumni", "Our Story"],
   GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
 };
 
