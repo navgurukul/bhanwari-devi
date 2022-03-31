@@ -5,10 +5,10 @@ const useStyles = makeStyles((theme) => ({
     padding: "27px 8px 0px 10px",
   },
   meraki: {
-    padding: "40px 8px",
+    padding: "20px 8px",
   },
   image: {
-    padding: "5px 8px",
+    padding: "0px 8px",
   },
   content: {
     padding: "27px 10px",

@@ -134,7 +134,11 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
         <AccordionDetails>
           {students[Menu.split(" ").join("")].map((menu, index) => (
             <Link
-              to={Menu === "Learn" ? `pathway/${menu.id}` : PATHS.COURSE}
+              to={
+                Menu === "Learn"
+                  ? `${PATHS.COURSE_PATHWAY}/${menu.id}`
+                  : PATHS.COURSE
+              }
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
