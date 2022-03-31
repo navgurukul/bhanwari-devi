@@ -5,6 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
 import axios from "axios";
 import { METHODS } from "../../../services/api";
+import { breakpoints } from "../../../theme/constant";
 import {
   Container,
   Box,
@@ -37,7 +38,7 @@ function Common({ pathwayId }) {
   const [pathwayCourse, setPathwayCourse] = useState([]);
   const user = useSelector(({ User }) => User);
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -56,16 +57,24 @@ function Common({ pathwayId }) {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container sx={{ mt: 11 }} maxWidth="lg">
         <Grid container spacing={2} align="center" className={classes.box}>
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0} className={classes.titleCard}>
-              <Typography variant="body2" className={classes.cardSubtitle}>
+              <Typography
+                variant="body2"
+                align={isActive ? "center" : "left"}
+                className={classes.cardSubtitle}
+              >
                 Learning Track
               </Typography>
               {pathwayId == 1 && (
                 <>
-                  <Typography variant="h5" className={classes.heading}>
+                  <Typography
+                    variant="h4"
+                    align={isActive ? "center" : "left"}
+                    className={classes.heading}
+                  >
                     Python
                   </Typography>
                   <Typography>
@@ -119,16 +128,16 @@ function Common({ pathwayId }) {
               autoPlay
               controls
               height="260"
-              // width="900"
+              // className={classes.myVideo}
               src="https://www.youtube.com/watch?v=Doo1T5WabEU"
-              // className={isActive ? classes.mobileVideo : classes.deskVideo}
-              // // sx={{ width: 300 }}
               sx={{ width: isActive ? 300 : 480 }}
             />
           </Grid>
         </Grid>
         <Box className={classes.box}>
-          <Typography variant="h6">Learning Outcomes</Typography>
+          <Typography variant="h5" align={isActive ? "center" : "left"}>
+            Learning Outcomes
+          </Typography>
           <Grid container spacing={0} align="center">
             {content.map((item) => (
               <Grid xs={12} md={4}>
@@ -145,23 +154,27 @@ function Common({ pathwayId }) {
           </Grid>
         </Box>
         <Box className={classes.box}>
-          <Typography className={classes.course} variant="h6">
+          <Typography
+            className={classes.course}
+            variant="h5"
+            align={isActive ? "center" : "left"}
+          >
             Courses
           </Typography>
           <Grid container spacing={3} align="center">
             {pathwayCourse &&
               pathwayCourse.map((item, index) => (
-                <Grid xs={12} md={3} className={classes.courseCard}>
+                <Grid xs={12} sm={6} md={3} className={classes.courseCard}>
                   <Card elevation={0}>
                     <img
                       src={require(`./asset/${images[index]}.svg`)}
                       alt="course"
                       loading="lazy"
                     />
-                    <CardContent>
+                    <CardContent sx={{ ml: 1 }}>
                       <Typography
-                        align={isActive ? "center" : "left"}
                         variant="subtitle1"
+                        align={isActive ? "center" : "left"}
                       >
                         {item.name}
                       </Typography>
