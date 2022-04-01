@@ -16,16 +16,3 @@ export const getPathways = () => {
     // headers: HeaderFactory(token),
   });
 };
-
-//axios({
-//       method: METHODS.GET,
-//       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
-//       headers: {
-//         accept: "application/json",
-//         "version-code": 40,
-//         Authorization: user.data.token,
-//       },
-//     }).then((res) => {
-//       console.log("res", res);
-//       setPathwayCourse(res.data.courses);
-//     });

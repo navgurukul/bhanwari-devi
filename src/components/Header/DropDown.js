@@ -10,7 +10,10 @@ import { PATHS } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { METHODS } from "../../services/api";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as courseActions } from "../Course/redux/action";
+// import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 
 import "./styles.scss";
 import {
@@ -68,8 +71,11 @@ import axios from "axios";
 
 export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const [pathways, setPathways] = useState([]);
+  const { loading, data } = useSelector(({ Course }) => Course);
+  // const { loading, data } = useSelector((Pathways) => Pathways);
 
   const students = {
     image: [python, typing, web, language, softSkills, random],
@@ -89,6 +95,14 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
       "Careers",
     ],
   };
+
+  useEffect(() => {
+    dispatch(courseActions.getCourses());
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathways());
+  // }, [dispatch]);
 
   useEffect(() => {
     axios({
@@ -119,6 +133,8 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
 
   students.Learn = pathways;
   console.log("toggleDrawer", toggleDrawer);
+
+  console.log("pathways data okayyy!!!", data);
 
   return (
     <>
