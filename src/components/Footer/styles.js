@@ -2,16 +2,20 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    padding: "27px 8px 0px 10px",
+    padding: "27px 8px 0px 16px",
+    marginBottom: "20px",
   },
-  meraki: {
-    padding: "40px 8px",
+
+  padd: {
+    paddingLeft: "9px",
   },
+
   image: {
     padding: "5px 8px",
   },
+
   content: {
-    padding: "27px 10px",
+    padding: "10px 10px 0px 16px",
     width: "300px",
   },
 }));

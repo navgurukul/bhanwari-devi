@@ -135,7 +135,7 @@ function Login(props) {
             xs={12}
             ms={6}
             md={6}
-            sx={{ display: { xs: "none", md: "flex" } }}
+            sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
           >
             <img src={require("./assets/background.svg")} />
           </Grid>

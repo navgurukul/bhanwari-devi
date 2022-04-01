@@ -2,10 +2,13 @@ import React from "react";
 import useStyles from "./styles";
 import { Typography, CardMedia, CardContent, Card } from "@mui/material";
 
-function PathwayCard({ title, description, image }) {
+function PathwayCard({ title, description, image, hover }) {
   const classes = useStyles();
   return (
-    <Card elevation={2} className={image && classes.card}>
+    <Card
+      elevation={2}
+      className={hover ? classes.card : image && classes.imageCard}
+    >
       {image && (
         <CardMedia
           component="img"
