@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "black",
   },
+  mainbar: {
+    padding: "16px 0px 16px 0px",
+  },
   box: {
     padding: "20px 0px 0px 20px",
   },

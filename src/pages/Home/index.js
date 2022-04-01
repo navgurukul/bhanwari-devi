@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Stack,
+  Box,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Grid } from "@mui/material";
@@ -22,7 +23,7 @@ const pathwayData = [
   {
     title: "Typing",
     image: "typing",
-    description: "Learn to type with accuracy and speed",
+    description: "Learn to type with pinpoint accuracy and speed.",
   },
   {
     title: "Web Development",
@@ -76,7 +77,6 @@ const concernsText = [
 function MerakiEntry(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles();
-
   return (
     <div>
       <Typography
@@ -88,7 +88,7 @@ function MerakiEntry(props) {
         With Meraki, begin your programming journey for free today
       </Typography>
       <Grid sx={{ mt: 3 }} container spacing={2} justifyContent="center">
-        <Grid item>
+        <Grid alignItems="right" item xs={12} ms={12} md={4}>
           <Button
             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
             variant="contained"
@@ -97,11 +97,13 @@ function MerakiEntry(props) {
             Start Learning
           </Button>
         </Grid>
-        <Grid item>
+        <Grid item xs={12} ms={12} md={4}>
           <Button
             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
             variant="outlined"
             color="primary"
+            target="_blank"
+            href="https://play.google.com/store/apps/details?id=org.merakilearn"
           >
             <img
               className={classes.playstoreImg}
@@ -128,7 +130,7 @@ function Home() {
           <Container maxWidth="md">
             <Typography
               variant="h4"
-              align={isActive ? "left" : "center"}
+              align="center"
               className={!isActive && classes.heading}
               color="textPrimary"
               gutterBottom
@@ -137,7 +139,7 @@ function Home() {
             </Typography>
             <MerakiEntry
               headingAttr={{
-                align: isActive ? "left" : "center",
+                align: "center",
                 variant: "h6",
                 gutterBottom: true,
               }}
@@ -180,7 +182,7 @@ function Home() {
 
           {/* Section 3  */}
 
-          <Container sx={{ mt: 10 }} maxWidth="sm">
+          <Container sx={{ mt: 8 }} maxWidth="sm">
             <Typography
               variant="h5"
               component="h6"
@@ -200,6 +202,7 @@ function Home() {
                     title={item.title}
                     description={item.description}
                     image={item.image}
+                    hover={true}
                   />
                 </Grid>
               ))}
@@ -207,7 +210,7 @@ function Home() {
           </Container>
 
           {/* Section 4 */}
-          <Container sx={{ mt: 10 }} maxWidth="sm">
+          <Container sx={{ mt: 8 }} maxWidth="sm">
             <Typography
               variant="h5"
               component="h6"
@@ -220,25 +223,26 @@ function Home() {
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
             <Grid container spacing={4}>
-              {merakiConcerns.map((item) => (
+              {merakiConcerns.map((item, index) => (
                 <Grid item xs={12} ms={6} md={4}>
                   <PathwayCard
                     image={item.image}
                     description={item.description}
+                    hover={false}
                   />
-                </Grid>
-              ))}
-              {concernsText.map((item) => (
-                <Grid item xs={12} ms={6} md={4}>
-                  <Stack sx={{ mb: 3 }} alignItems="center">
+                  <Stack sx={{ mt: 2 }} alignItems="center">
                     <img src={require("./assets/down-swirly.svg")} />
                   </Stack>
-
-                  <PathwayCard description={item.description} />
+                  <Box sx={{ mt: 3 }}>
+                    <PathwayCard
+                      description={concernsText[index].description}
+                    />
+                  </Box>
                 </Grid>
               ))}
             </Grid>
           </Container>
+
           {/* Section 5 */}
           <Container maxWidth="sm">
             <Stack sx={{ mt: 2 }} alignItems="center">
@@ -249,10 +253,9 @@ function Home() {
               ready for advanced learning schools such as Zoho or Navgurukul
             </Typography>
           </Container>
-
           {/* Section 6  */}
 
-          <Container maxWidth="md" sx={{ mt: 10 }}>
+          <Container maxWidth="md" sx={{ mt: 9 }}>
             <Typography
               variant="h5"
               component="h2"
@@ -301,12 +304,15 @@ function Home() {
           {/* Section 7  */}
           <Container
             maxWidth="false"
-            sx={{ mt: 10, p: 6, background: "#E9F5E9" }}
+            className={isActive ? classes.ResMerakiEntry : classes.MerakiEntry}
+            sx={{ p: 5, background: "#E9F5E9" }}
           >
             <Container maxWidth="md">
               <MerakiEntry
                 headingAttr={{
                   variant: "h5",
+                  align: "center",
+                  gutterBottom: true,
                 }}
               />
             </Container>
@@ -314,7 +320,7 @@ function Home() {
 
           {/* Section 8  */}
 
-          <Container sx={{ mt: 10 }} maxWidth="sm">
+          <Container sx={{ mt: 6, mb: 6 }} maxWidth="sm">
             <Typography
               variant="h5"
               component="h6"

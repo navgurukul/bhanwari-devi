@@ -73,11 +73,13 @@ theme = createTheme(theme, {
   },
 
   typography: {
-    fontFamily: "Nunito Sans",
+    fontFamily: "Nunito Sans , Lusitana",
+
     fontSize: 18,
     h1: {
       fontWeight: 700,
       fontSize: "6rem",
+      lineHeight: 1.3,
       fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "4.875rem",
@@ -85,6 +87,7 @@ theme = createTheme(theme, {
     },
     h2: {
       fontSize: "4.5rem",
+      lineHeight: 1.3,
       fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "3.625rem",
@@ -98,7 +101,7 @@ theme = createTheme(theme, {
       },
       fontWeight: 700,
       fontFamily: "Lusitana",
-      lineHeight: 1.14285714286,
+      lineHeight: 1.3,
     },
     h4: {
       fontWeight: 700,
@@ -108,7 +111,7 @@ theme = createTheme(theme, {
         // fontFamily: "Lusitana",
       },
       fontFamily: "Lusitana",
-      lineHeight: 1.33,
+      lineHeight: 1.3,
     },
 
     h5: {
@@ -118,7 +121,7 @@ theme = createTheme(theme, {
         fontSize: "	1.5rem",
         // fontFamily: "Lusitana",
       },
-      lineHeight: 1.33,
+      lineHeight: 1.5,
       fontFamily: "Lusitana",
     },
     h6: {
@@ -127,37 +130,39 @@ theme = createTheme(theme, {
         fontSize: "	1.125rem",
         // fontFamily: "Lusitana",
       },
-      lineHeight: 1.33,
+      lineHeight: 1.5,
       fontWeight: 700,
       fontFamily: "Lusitana",
     },
     subtitle1: {
       fontSize: "1.125rem",
-      fontFamily: "Lusitana",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
-        // fontFamily: "Nunito Sans",
+        fontFamily: "Nunito Sans",
       },
-      lineHeight: 1.55,
+      lineHeight: 1.5,
       fontWeight: 700,
     },
     subtitle2: {
       fontSize: "0.875rem",
-      fontFamily: "Lusitana",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
       fontWeight: 700,
-      lineHeight: 1.42,
+      lineHeight: 1.5,
     },
     body1: {
       fontSize: "1.125rem",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
       lineHeight: 1.5,
     },
     body2: {
+      fontFamily: "Nunito Sans",
       fontSize: "1rem", //0.875rem
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
@@ -166,22 +171,26 @@ theme = createTheme(theme, {
     },
     button: {
       fontSize: "1.125rem",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
       lineHeight: 1.5,
-      fontWeight: 500,
+      fontWeight: 700,
       textTransform: "none",
     },
     caption: {
       fontSize: "0.75rem",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
-      lineHeight: 1.33,
+      lineHeight: 1.5,
     },
     overline: {
+      fontFamily: "Nunito Sans",
       fontSize: "0.75rem",
+      lineHeight: 1.5,
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
@@ -202,7 +211,21 @@ theme.components = {
 
   MuiButton: {
     styleOverrides: {
-      root: { borderRadius: 8 },
+      root: {
+        borderRadius: "8px",
+        height: "48px",
+      },
+    },
+  },
+
+  MuiMenuItem: {
+    styleOverrides: {
+      root: {
+        height: "48px",
+        "&:hover": {
+          backgroundColor: "#E9F5E9",
+        },
+      },
     },
   },
 
