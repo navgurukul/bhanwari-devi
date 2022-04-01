@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
-import { Redirect } from "react-router-dom";
-=======
->>>>>>> 428076ecc2b8b48656dd36245258feca9dc8c162
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { getQueryVariable } from "../../../common/utils";
