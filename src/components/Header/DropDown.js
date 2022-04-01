@@ -12,8 +12,8 @@ import useStyles from "./styles";
 import { METHODS } from "../../services/api";
 // import { useSelector } from "react-redux";
 import { useSelector, useDispatch } from "react-redux";
-import { actions as courseActions } from "../Course/redux/action";
-// import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+// import { actions as courseActions } from "../Course/redux/action";
+import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 
 import "./styles.scss";
 import {
@@ -74,8 +74,11 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const [pathways, setPathways] = useState([]);
-  const { loading, data } = useSelector(({ Course }) => Course);
-  // const { loading, data } = useSelector((Pathways) => Pathways);
+  // const { loading, data } = useSelector(({ Course }) => Course);
+  const { loading, data } = useSelector((state) => state.Pathways);
+  //   console.log(state);
+  //   return state.Pathways;
+  // });
 
   const students = {
     image: [python, typing, web, language, softSkills, random],
@@ -96,13 +99,13 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
     ],
   };
 
-  useEffect(() => {
-    dispatch(courseActions.getCourses());
-  }, [dispatch]);
-
   // useEffect(() => {
-  //   dispatch(pathwayActions.getPathways());
+  //   dispatch(courseActions.getCourses());
   // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
 
   useEffect(() => {
     axios({
