@@ -76,7 +76,7 @@ function ToggleClassFormModal() {
   const calledOnce = useRef(false);
   const history = useHistory();
 
-  useEffect(async () => {
+  useEffect(() => {
     let code;
     let payload;
     let user_id;
