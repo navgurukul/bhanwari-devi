@@ -181,10 +181,12 @@ const RenderContent = ({ data }) => {
   return "";
 };
 
-function PathwayCourseContent() {
+function PathwayCourseContent({ exerciseId }) {
   const user = useSelector(({ User }) => User);
-  const [content, setContent] = useState();
+  const [content, setContent] = useState([]);
   const courseId = 370;
+  const id = exerciseId;
+  console.log("exerciseId in exercise", exerciseId);
 
   useEffect(() => {
     axios({
@@ -197,10 +199,12 @@ function PathwayCourseContent() {
       },
     }).then((res) => {
       //   console.log("res", res.data.course.exercises[0].content);
-      setContent(res.data.course.exercises[0].content);
+      setContent(res.data.course.exercises[id].content);
       // setPathways(res.data.pathways);
     });
   }, []);
+
+  console.log("content", content);
 
   return (
     <Container maxWidth="sm">
