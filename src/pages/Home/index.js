@@ -7,13 +7,13 @@ import {
   Card,
   Stack,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { METHODS } from "../../services/api";
-import axios from "axios";
 
 const pathwayData = [
   {
@@ -82,27 +82,21 @@ const concernsText = [
 function MerakiEntry(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { loading, data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
-      headers: {
-        accept: "application/json",
-        "version-code": 40,
-        // Authorization: user.data.token,
-      },
-    }).then((res) => {
-      console.log("res", res.data.pathways);
-      res.data.pathways.forEach((pathway) => {
-        pathwayData.forEach((item) => {
-          if (pathway.code === item.code) {
-            item["id"] = pathway.id;
-          }
-        });
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  data &&
+    data.pathways.forEach((pathway) => {
+      pathwayData.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
       });
     });
-  }, []);
 
   console.log("pathwayData", pathwayData);
 

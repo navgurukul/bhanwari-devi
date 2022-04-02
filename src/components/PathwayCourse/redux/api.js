@@ -13,7 +13,9 @@ export const getPathways = () => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
     method: METHODS.GET,
-    "version-code": 40,
+    headers: {
+      "version-code": 40,
+    },
     // headers: HeaderFactory(token),
   });
 };

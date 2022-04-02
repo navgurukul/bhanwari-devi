@@ -10,14 +10,11 @@ import { PATHS } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { METHODS } from "../../services/api";
-// import { useSelector } from "react-redux";
 import { useSelector, useDispatch } from "react-redux";
-// import { actions as courseActions } from "../Course/redux/action";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 
 import "./styles.scss";
 import {
-  CardMedia,
   Typography,
   Menu,
   MenuItem,
@@ -27,117 +24,45 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import axios from "axios";
 
-// const students = {
-//   image: [python, typing, web, language, softSkills, random],
-//   Learn: [
-//     "Python",
-//     "Typing Guru",
-//     "JavaScript",
-//     "English",
-//     "Soft Skills",
-//     "Open Courses",
-//   ],
-//   About: ["Meraki Team", "Alumni"],
-//   GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
-// };
-
-// const pathways = async () => {
-//   // const user = useSelector(({ User }) => User);
-//   const response = await axios({
-//     method: METHODS.GET,
-//     url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
-//     headers: {
-//       accept: "application/json",
-//       "version-code": 40,
-//       // Authorization: user.data.token,
-//     },
-//   });
-//   console.log("response", response);
-//   let pathwayList = [];
-//   response.data.pathways.forEach((pathway) => {
-//     if (pathway.code !== "PRCRSE") {
-//       const name = pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
-//       pathwayList.push({
-//         id: pathway["id"],
-//         name: name,
-//       });
-//     }
-//   });
-//   // console.log("pathwayList", pathwayList);
-//   return pathwayList;
-// };
+const students = {
+  image: [python, typing, web, language, softSkills, random],
+  Learn: [
+    "Python",
+    "Typing Guru",
+    "JavaScript",
+    "English",
+    "Soft Skills",
+    "Open Courses",
+  ],
+  About: ["Meraki Team", "Alumni"],
+  GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
+};
 
 export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = useSelector(({ User }) => User);
-  const [pathways, setPathways] = useState([]);
-  // const { loading, data } = useSelector(({ Course }) => Course);
   const { loading, data } = useSelector((state) => state.Pathways);
-  //   console.log(state);
-  //   return state.Pathways;
-  // });
-
-  const students = {
-    image: [python, typing, web, language, softSkills, random],
-    Learn: [
-      "Python",
-      "Typing Guru",
-      "JavaScript",
-      "English",
-      "Soft Skills",
-      "Open Courses",
-    ],
-    About: ["Meraki Team", "Alumni"],
-    GetInvolved: [
-      "Become a Partner",
-      "Become a Volunteer",
-      "Donate",
-      "Careers",
-    ],
-  };
-
-  // useEffect(() => {
-  //   dispatch(courseActions.getCourses());
-  // }, [dispatch]);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
-      headers: {
-        accept: "application/json",
-        "version-code": 40,
-        // Authorization: user.data.token,
-      },
-    }).then((res) => {
-      console.log("res", res.data.pathways);
-      let pathwayList = [];
-      res.data.pathways.forEach((pathway) => {
-        if (pathway.code !== "PRCRSE") {
-          const name =
-            pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
-          pathwayList.push({
-            id: pathway["id"],
-            name: name,
-          });
-        }
-      });
-      console.log("pathwayList", pathwayList);
-      setPathways(pathwayList);
+  let pathways = [];
+  data &&
+    data.pathways.forEach((pathway) => {
+      if (pathway.code !== "PRCRSE") {
+        const name =
+          pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
+        pathways.push({
+          id: pathway["id"],
+          name: name,
+        });
+      }
     });
-  }, []);
 
   students.Learn = pathways;
-  console.log("toggleDrawer", toggleDrawer);
-
-  console.log("pathways data okayyy!!!", data);
+  // console.log("pathways data okayyy!!!", data);
 
   return (
     <>
@@ -155,7 +80,8 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
             <Link
               to={
                 Menu === "Learn"
-                  ? `${PATHS.COURSE_PATHWAY}/${menu.id}`
+                  ? // ? `${PATHS.COURSE_PATHWAY}/${menu.id}`
+                    `pathway/${menu.id}`
                   : PATHS.COURSE
               }
               className={classes.link}
@@ -214,58 +140,27 @@ export const DropDown = ({
   toggleDrawer,
 }) => {
   const classes = useStyles();
-  const user = useSelector(({ User }) => User);
-  const [pathways, setPathways] = useState([]);
-
-  const students = {
-    image: [python, typing, web, language, softSkills, random],
-    Learn: [
-      "Python",
-      "Typing Guru",
-      "JavaScript",
-      "English",
-      "Soft Skills",
-      "Open Courses",
-    ],
-    About: ["Meraki Team", "Alumni"],
-    GetInvolved: [
-      "Become a Partner",
-      "Become a Volunteer",
-      "Donate",
-      "Careers",
-    ],
-  };
+  const dispatch = useDispatch();
+  const { loading, data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
-      headers: {
-        accept: "application/json",
-        "version-code": 40,
-        // Authorization: user.data.token,
-      },
-    }).then((res) => {
-      // console.log("res", res.data.pathways);
-      let pathwayList = [];
-      res.data.pathways.forEach((pathway) => {
-        if (pathway.code !== "PRCRSE") {
-          const name =
-            pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
-          pathwayList.push({
-            id: pathway["id"],
-            name: name,
-          });
-        }
-      });
-      // console.log("pathwayList", pathwayList);
-      setPathways(pathwayList);
-    });
-  }, []);
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
 
+  let pathways = [];
+  data &&
+    data.pathways.forEach((pathway) => {
+      if (pathway.code !== "PRCRSE") {
+        const name =
+          pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
+        pathways.push({
+          id: pathway["id"],
+          name: name,
+        });
+      }
+    });
   students.Learn = pathways;
 
-  // console.log("PATHWAY_COURSE", PATHS.PATHWAY_COURSE);
   return (
     <Menu
       sx={{ mt: "45px" }}
@@ -300,14 +195,12 @@ export const DropDown = ({
                 {dropDown === "Learn" && (
                   <img src={students.image[index]} alt="course logo" />
                 )}
-                {/* <CardContent> */}
                 <Typography
                   textAlign="center"
                   sx={{ paddingLeft: dropDown === "Learn" && 2 }}
                 >
                   {dropDown === "Learn" ? menu.name : menu}
                 </Typography>
-                {/* </CardContent> */}
               </MenuItem>
             </Link>
             {dropDown === "Learn" && index == 4 && <Divider />}
@@ -325,7 +218,6 @@ export const DropDown = ({
               <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
                 Soft Skills
               </Typography>
-              {/* </CardContent> */}
             </MenuItem>
           </Link>
           <Link
@@ -338,7 +230,6 @@ export const DropDown = ({
               <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
                 Open Courses
               </Typography>
-              {/* </CardContent> */}
             </MenuItem>
           </Link>
         </>
@@ -346,3 +237,5 @@ export const DropDown = ({
     </Menu>
   );
 };
+
+// 383
