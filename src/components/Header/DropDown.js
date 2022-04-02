@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
-import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 
@@ -27,13 +26,14 @@ import {
 
 const students = {
   image: [python, typing, web, language, softSkills, random],
+  // Learn: ["Python","Typing Guru","JavaScript","English","Soft Skills","Open Courses",],
   Learn: [
-    "Python",
-    "Typing Guru",
-    "JavaScript",
-    "English",
-    "Soft Skills",
-    "Open Courses",
+    { title: "Python", code: "PRGPYT" },
+    { title: "Typing Guru", code: "TYPGRU" },
+    { title: "JavaScript", code: "JSRPIT" },
+    { title: "English", code: "SPKENG" },
+    { title: "Soft Skills" },
+    { title: "Open Courses" },
   ],
   About: ["Meraki Team", "Alumni"],
   GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
@@ -48,20 +48,30 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  let pathways = [];
+  // let pathways = [];
+  // data &&
+  //   data.pathways.forEach((pathway) => {
+  //     if (pathway.code !== "PRCRSE") {
+  //       const name =
+  //         pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
+  //       pathways.push({
+  //         id: pathway["id"],
+  //         name: name,
+  //       });
+  //     }
+  //   });
+  // students.Learn = pathways;
+
   data &&
     data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE") {
-        const name =
-          pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
-        pathways.push({
-          id: pathway["id"],
-          name: name,
-        });
-      }
+      students.Learn.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
     });
 
-  students.Learn = pathways;
+  // console.log("students", students);
   // console.log("pathways data okayyy!!!", data);
 
   return (
@@ -93,13 +103,13 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
-                    {Menu === "Learn" ? menu.name : menu}
+                    {Menu === "Learn" ? menu.title : menu}
                   </Typography>
                 </CardContent>
               </MenuItem>
             </Link>
           ))}
-          {Menu === "Learn" && (
+          {/* {Menu === "Learn" && (
             <>
               <Link
                 to={PATHS.COURSE}
@@ -126,7 +136,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                 </MenuItem>
               </Link>
             </>
-          )}
+          )} */}
         </AccordionDetails>
       </Accordion>
     </>
@@ -147,19 +157,29 @@ export const DropDown = ({
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  let pathways = [];
+  // let pathways = [];
+  // data &&
+  //   data.pathways.forEach((pathway) => {
+  //     if (pathway.code !== "PRCRSE") {
+  //       const name =
+  //         pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
+  //       pathways.push({
+  //         id: pathway["id"],
+  //         name: name,
+  //       });
+  //     }
+  //   });
+  // students.Learn = pathways;
+
   data &&
     data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE") {
-        const name =
-          pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
-        pathways.push({
-          id: pathway["id"],
-          name: name,
-        });
-      }
+      students.Learn.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
     });
-  students.Learn = pathways;
+  console.log("students", students);
 
   return (
     <Menu
@@ -199,14 +219,15 @@ export const DropDown = ({
                   textAlign="center"
                   sx={{ paddingLeft: dropDown === "Learn" && 2 }}
                 >
-                  {dropDown === "Learn" ? menu.name : menu}
+                  {console.log("menu.title", menu.title)}
+                  {dropDown === "Learn" ? menu.title : menu}
                 </Typography>
               </MenuItem>
             </Link>
             {dropDown === "Learn" && index == 4 && <Divider />}
           </>
         ))}
-      {dropDown === "Learn" && (
+      {/* {dropDown === "Learn" && (
         <>
           <Link
             to={PATHS.COURSE}
@@ -233,9 +254,7 @@ export const DropDown = ({
             </MenuItem>
           </Link>
         </>
-      )}
+      )} */}
     </Menu>
   );
 };
-
-// 383

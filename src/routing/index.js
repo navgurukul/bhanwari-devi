@@ -26,10 +26,6 @@ import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
-// import PythonCourse from "../components/PathwayCourse/PythonCourse";
-// import JavaScriptCourse from "../components/PathwayCourse/JavaScriptCourse";
-// import TypingGuru from "../components/PathwayCourse/TypingGuru";
-// import EnglishCourse from "../components/PathwayCourse/EnglishCourse";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscelleneousCourses from "../components/PathwayCourse/MiscelleneousCourses";
@@ -45,19 +41,11 @@ const Routing = () => {
       <Route exact path={PATHS.HOME_PATH} component={Home} />
       <Route exact path={PATHS.COURSE} component={Course} />
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
-      {/* <Route exact path={PATHS.PYTHON_COURSE} component={PythonCourse} />
-        <Route
-          exact
-          path={PATHS.JAVAXCRIPT_COURSE}
-          component={JavaScriptCourse}
-        />
-        <Route exact path={PATHS.TYPING_GURU} component={TypingGuru} /> */}
       <Route
         exact
         path={PATHS.MISCELLENEOUS_COURSE}
         component={MiscelleneousCourses}
       />
-      {/* <Route exact path={PATHS.ENGLISH_COURSE} component={EnglishCourse} /> */}
       <Route
         exact
         path={PATHS.RESIDENTIAL_COURSE}
