@@ -66,8 +66,7 @@ function ResidentialProgramme() {
             </Card>
           </Grid>
           {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
-
-                    </Grid> */}
+          </Grid> */}
         </Grid>
 
         <Box sx={{ mt: 6 }}>
@@ -77,17 +76,12 @@ function ResidentialProgramme() {
               <Grid xs={12} md={3}>
                 <Card elevation={0}>
                   <img
-                    src={require(`../Common/asset/${images[index]}.svg`)}
+                    src={require(`../asset/${images[index]}.svg`)}
                     alt="course"
                     loading="lazy"
                   />
                   <CardContent>
-                    <Typography
-                      // align={isActive ? "center" : "left"}
-                      variant="subtitle1"
-                    >
-                      {item.name}
-                    </Typography>
+                    <Typography variant="subtitle1">{item.name}</Typography>
                   </CardContent>
                 </Card>
               </Grid>

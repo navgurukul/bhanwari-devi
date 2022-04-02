@@ -105,8 +105,7 @@ function MiscelleneousCourses() {
                 <Grid key={index} xs={12} sm={6} md={3}>
                   <Card elevation={0}>
                     <img
-                      // src={require(`../Common/asset/${images}.svg`)}
-                      src={require(`../Common/asset/course1.svg`)}
+                      src={require(`../asset/course1.svg`)}
                       alt="course"
                       loading="lazy"
                     />
