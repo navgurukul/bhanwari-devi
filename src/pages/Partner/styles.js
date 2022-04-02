@@ -1,49 +1,45 @@
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
-  partner_textBold: {
-    fontWeight: "bold",
+  partnerTopspacing: {
+    paddingTop: "15%",
   },
-  partner_hrline: {
+  partnerHrline: {
     width: "90px",
     textAlign: "center",
   },
-  partner_btn: {
+  partnerBtn: {
     width: "40%",
   },
-  partner_btn1: {
+  partnerBtn1: {
     height: "60px",
     width: "100%",
     fontSize: "lg",
   },
-  partner_container: {
+  partnerContainer: {
     paddingTop: "6%",
     paddingBottom: "6%",
   },
-  partner_container1: {
+  partnerContainer1: {
     paddingTop: "20%",
     paddingBottom: "25%",
   },
-  partner_Topspacing: {
-    paddingTop: "15%",
-  },
-  partner_Topspacing1: {
-    paddingTop: "4%",
-  },
-
-  partner_img: {
+  partnerImg: {
     height: "100%",
     width: "100%",
     borderRadius: "6px",
   },
-  partner_icon: {
+  partnerTopspacing1: {
+    paddingTop: "4%",
+  },
+  partnerIcon: {
     marginBottom: "-9px",
   },
-  partner_card: {
-    height: "95%",
+  partnerCard: {
+    height: "100%",
     width: "100%",
   },
-  partner_iconSize: {
+  partnerIconSize: {
     padding: "5px",
     backgroundColor: "white",
     fontSize: "28px",
