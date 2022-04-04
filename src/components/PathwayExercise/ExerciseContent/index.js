@@ -79,10 +79,13 @@ const RenderContent = ({ data }) => {
     );
   }
   if (data.component === "youtube") {
+    const opts = {
+      width: "100%",
+    };
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    return <YouTube className={"youtube-video"} videoId={videoId} />;
+    return <YouTube className="youtube-video" opts={opts} videoId={videoId} />;
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
