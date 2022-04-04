@@ -185,8 +185,6 @@ function PathwayCourseContent({ exerciseId }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const courseId = 370;
-  const id = exerciseId;
-  console.log("exerciseId in exercise", exerciseId);
 
   useEffect(() => {
     axios({
@@ -198,11 +196,10 @@ function PathwayCourseContent({ exerciseId }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      //   console.log("res", res.data.course.exercises[0].content);
-      setContent(res.data.course.exercises[id].content);
-      // setPathways(res.data.pathways);
+      setContent(res.data.course.exercises[exerciseId].content);
     });
-  }, []);
+    // }, [courseId, exerciseId, id, user.data.token]);
+  }, [courseId, exerciseId]);
 
   console.log("content", content);
 
@@ -211,7 +208,6 @@ function PathwayCourseContent({ exerciseId }) {
       <Box>
         {content &&
           content.map((contentItem, index) => (
-            // <Typography>{console.log("contentItem", contentItem)}</Typography>
             <RenderContent data={contentItem} key={index} />
           ))}
       </Box>

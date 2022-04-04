@@ -26,7 +26,7 @@ import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
-import PathwayCourse from "../components/PathwayCourse";
+import PathwayExercise from "../components/PathwayExercise";
 
 // import Classes from '../pages/classes'
 
@@ -34,23 +34,23 @@ const Routing = () => {
   return (
     <>
       {/* <ThemeProvider theme={theme}> */}
-        {/* Public routes */}
-        {/* Route home page to login in  */}
-        <Route exact path={PATHS.HOME_PATH} component={Home} />
-        <Route exact path={PATHS.COURSE} component={Course} />
-        <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
-        <Route path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
-        <Route exact path={PATHS.LOGIN} component={Login} />
-        <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
-        <Route exact path={PATHS.AFE} component={AFEpage} />
-        <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
-        <Route
-          exact
-          path={PATHS.NAVGURUKUL_INTRODUCE}
-          component={NavgurukulIntroduce}
-        />
-        <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
-        <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
+      {/* Public routes */}
+      {/* Route home page to login in  */}
+      <Route exact path={PATHS.HOME_PATH} component={Home} />
+      <Route exact path={PATHS.COURSE} component={Course} />
+      <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
+      <Route path={PATHS.PATHWAY_COURSE} component={PathwayExercise} />
+      <Route exact path={PATHS.LOGIN} component={Login} />
+      <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
+      <Route exact path={PATHS.AFE} component={AFEpage} />
+      <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
+      <Route
+        exact
+        path={PATHS.NAVGURUKUL_INTRODUCE}
+        component={NavgurukulIntroduce}
+      />
+      <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
+      <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
 
       {/* Private routes */}
       {/* <PrivateRoute
