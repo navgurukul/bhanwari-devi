@@ -6,11 +6,12 @@ import language from "./asset/language.svg";
 import softSkills from "./asset/softSkills.svg";
 import random from "./asset/random.svg";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../constant";
+import { PATHS, interpolatePath } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+// import interpolatePath from "../../constant";
 
 import "./styles.scss";
 import {
@@ -89,9 +90,10 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
           {students[Menu.split(" ").join("")].map((menu, index) => (
             <Link
               to={
-                Menu === "Learn"
-                  ? // ? `${PATHS.COURSE_PATHWAY}/${menu.id}`
-                    `pathway/${menu.id}`
+                Menu === "Learn" && menu.id
+                  ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                      pathwayId: menu.id,
+                    })
                   : PATHS.COURSE
               }
               className={classes.link}
@@ -202,12 +204,13 @@ export const DropDown = ({
         students[dropDown].map((menu, index) => (
           <>
             <Link
-              // to={
-              //   dropDown === "Learn"
-              //     ? `${PATHS.PATHWAY_COURSE}/${menu.id}`
-              //     : PATHS.COURSE
-              // }
-              to={dropDown === "Learn" ? `pathway/${menu.id}` : PATHS.COURSE}
+              to={
+                dropDown === "Learn" && menu.id
+                  ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                      pathwayId: menu.id,
+                    })
+                  : PATHS.COURSE
+              }
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >

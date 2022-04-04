@@ -1,14 +1,21 @@
 import React from "react";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../constant";
+import { PATHS, interpolatePath } from "../../constant";
 import { Typography, CardMedia, CardContent, Card } from "@mui/material";
 
 function PathwayCard({ id, title, description, image }) {
   const classes = useStyles();
   console.log("id", id);
   return (
-    <Link to={id ? `pathway/${id}` : PATHS.COURSE} className={classes.link}>
+    <Link
+      to={
+        id
+          ? interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: id })
+          : PATHS.COURSE
+      }
+      className={classes.link}
+    >
       <Card elevation={2} className={image && classes.card}>
         {image && (
           <CardMedia

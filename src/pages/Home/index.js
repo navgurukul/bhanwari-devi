@@ -82,23 +82,23 @@ const concernsText = [
 function MerakiEntry(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const { loading, data } = useSelector((state) => state.Pathways);
+  // const dispatch = useDispatch();
+  // const { loading, data } = useSelector((state) => state.Pathways);
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathways());
+  // }, [dispatch]);
 
-  data &&
-    data.pathways.forEach((pathway) => {
-      pathwayData.forEach((item) => {
-        if (pathway.code === item.code) {
-          item["id"] = pathway.id;
-        }
-      });
-    });
+  // data &&
+  //   data.pathways.forEach((pathway) => {
+  //     pathwayData.forEach((item) => {
+  //       if (pathway.code === item.code) {
+  //         item["id"] = pathway.id;
+  //       }
+  //     });
+  //   });
 
-  console.log("pathwayData", pathwayData);
+  // console.log("pathwayData", pathwayData);
 
   return (
     <div>
@@ -143,6 +143,22 @@ function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { loading, data } = useSelector((state) => state.Pathways);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  data &&
+    data.pathways.forEach((pathway) => {
+      pathwayData.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
+
   return (
     <>
       <CssBaseline />
