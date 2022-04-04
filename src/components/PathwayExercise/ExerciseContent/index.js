@@ -5,16 +5,17 @@ import axios from "axios";
 import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
+import useStyles from "../styles";
+
 // import HiddenContent from "../HiddenContent";
-// import useStyles from "./styles";
 
 import {
   Container,
   Box,
-  AppBar,
   Toolbar,
   Typography,
   Button,
+  Grid,
 } from "@mui/material";
 
 function getMarkdown(code, lang) {
@@ -62,8 +63,7 @@ const headingVarients = {
   ),
 };
 
-const RenderContent = ({ data }) => {
-  // const classes = useStyles();
+const RenderContent = ({ data, classes }) => {
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
@@ -86,7 +86,6 @@ const RenderContent = ({ data }) => {
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
-    // console.log("text", text);
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <li className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
@@ -148,23 +147,32 @@ const RenderContent = ({ data }) => {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
       <div>
-        <Box
-          sx={{ bgcolor: "#E5E5E5", padding: 5, marginBottom: 2, marginTop: 2 }}
-        >
-          <pre
+        <Box className={classes.codeBackground}>
+          <Toolbar disableGutters>
+            <img
+              src={require("../asset/code-example.svg")}
+              loading="lazy"
+              className={classes.codeExampleImg}
+            />
+            <Typography variant="subtitle1">Code Example</Typography>
+          </Toolbar>
+          <Typography
+            className={classes.codeWrap}
             dangerouslySetInnerHTML={{
               __html: codeContent,
             }}
           />
+          <Grid container justifyContent="flex-end">
+            <Button
+              variant="contained"
+              color="dark"
+              target="_blank"
+              href={createVisulizeURL(get(data, "value"), data.type, "display")}
+            >
+              Visualize
+            </Button>
+          </Grid>
         </Box>
-        <div className="code__controls">
-          <a
-            target="_blank"
-            href={createVisulizeURL(get(data, "value"), data.type, "display")}
-          >
-            Visualize
-          </a>
-        </div>
       </div>
     );
   }
@@ -181,9 +189,10 @@ const RenderContent = ({ data }) => {
   return "";
 };
 
-function PathwayCourseContent({ exerciseId }) {
+function ExerciseContent({ exerciseId }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
+  const classes = useStyles();
   const courseId = 370;
 
   useEffect(() => {
@@ -208,11 +217,11 @@ function PathwayCourseContent({ exerciseId }) {
       <Box>
         {content &&
           content.map((contentItem, index) => (
-            <RenderContent data={contentItem} key={index} />
+            <RenderContent data={contentItem} key={index} classes={classes} />
           ))}
       </Box>
     </Container>
   );
 }
 
-export default PathwayCourseContent;
+export default ExerciseContent;

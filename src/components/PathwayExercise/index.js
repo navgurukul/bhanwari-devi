@@ -23,7 +23,7 @@ import {
   BottomNavigationAction,
 } from "@mui/material";
 
-function PathwayCourse() {
+function PathwayExercise() {
   const user = useSelector(({ User }) => User);
   const [course, setCourse] = useState();
   const [exerciseId, setExerciseId] = useState(0);
@@ -126,4 +126,4 @@ function PathwayCourse() {
   );
 }
 
-export default PathwayCourse;
+export default PathwayExercise;
