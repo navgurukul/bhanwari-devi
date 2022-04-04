@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 
-// import useStyles from "./styles";
 import axios from "axios";
 import { METHODS } from "../../../services/api";
 
@@ -38,7 +37,6 @@ function MiscelleneousCourses() {
       setPathwaysCourses(res.data.pathways);
     });
   }, []);
-  // const classes = useStyles();
 
   let dataJSON;
   let filteredCourse;
@@ -67,9 +65,6 @@ function MiscelleneousCourses() {
     filteredCourse &&
     filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
 
-  const Images = new Array(otherCourses ? otherCourses.length : 1).fill(
-    "image"
-  );
   return (
     <React.Fragment>
       <Container sx={{ mt: 10 }} maxWidth="lg">

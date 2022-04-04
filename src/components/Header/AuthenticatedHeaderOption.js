@@ -9,7 +9,6 @@ import { actions as userActions } from "../User/redux/action";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import useStyles from "./styles";
-import "./styles.scss";
 import { DropDown, MobileDropDown } from "./DropDown";
 import {
   Box,
@@ -398,7 +397,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             }}
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
-            // elevation={2}
           >
             <MenuItem onClick={handleCloseUserMenu} sx={{ width: 130 }}>
               <NavLink to={PATHS.PROFILE} className={classes.link}>

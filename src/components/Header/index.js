@@ -1,7 +1,7 @@
 import React from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -40,7 +40,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   };
 
   return (
-    <>
+    <Box>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {["Learn", "About", "Get Involved"].map((menu, index) => (
           <>
@@ -51,7 +51,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               sx={{ my: 2, color: "black" }}
               key={index}
             >
-              {/* <Typography variant="subtitle2">{menu}</Typography> */}
               {menu}
               {selectedMenu === menu && indicator ? (
                 <ExpandLessIcon />
@@ -75,7 +74,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             handleClose={menuCloseHandler}
             toggleDrawer={toggleDrawer}
           />
-          // <MobileDropDown Menu={Menu} path={`${Menu}Link`} />
         ))}
       </Box>
       {!leftDrawer && (
@@ -87,7 +85,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </Button>
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 

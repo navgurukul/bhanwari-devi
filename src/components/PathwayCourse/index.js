@@ -1,43 +1,3 @@
-// // import React, { useState } from "react";
-// import PythonCourse from "./PythonCourse";
-// import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
-// // import useMediaQuery from "@mui/material/useMediaQuery";
-// // import CheckIcon from "@mui/icons-material/Check";
-// // import useStyles from "./styles";
-// import axios from "axios";
-// import { METHODS } from "../../services/api";
-
-// function Pathways() {
-//   const user = useSelector(({ User }) => User);
-//   const [pathwayId, setPathwayId] = useState("1");
-//   useEffect(() => {
-//     axios({
-//       method: METHODS.GET,
-//       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
-//       headers: {
-//         accept: "application/json",
-//         "version-code": 40,
-//         Authorization: user.data.token,
-//       },
-//     }).then((res) => {
-//       console.log("ressssss", res);
-//       setPathwayId(res.data.pathways[0].id);
-//     });
-//   }, []);
-
-//   console.log("pathwayId", pathwayId);
-
-//   return (
-//     <>
-//       <h1>Komal</h1>
-//       <PythonCourse pathwayId={pathwayId} />
-//     </>
-//   );
-// }
-
-// export default Pathways;
-
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -93,14 +53,9 @@ function PathwayCourse() {
         Authorization: user.data ? user.data.token : null,
       },
     }).then((res) => {
-      console.log("res", res);
       setPathwayCourse(res.data.courses);
     });
   }, []);
-
-  console.log("pathwayId", pathwayId);
-
-  console.log("pathwayCourse", pathwayCourse);
 
   return (
     <>
@@ -108,12 +63,20 @@ function PathwayCourse() {
         <Grid container spacing={2} align="center" className={classes.box}>
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0} className={classes.titleCard}>
-              <Typography variant="body2" className={classes.cardSubtitle}>
+              <Typography
+                variant="body2"
+                className={classes.cardSubtitle}
+                sx={{ textAlign: isActive && "center" }}
+              >
                 Learning Track
               </Typography>
               {pathwayId == 1 && (
                 <>
-                  <Typography variant="h5" className={classes.heading}>
+                  <Typography
+                    variant="h5"
+                    className={classes.heading}
+                    sx={{ textAlign: isActive && "center" }}
+                  >
                     Python
                   </Typography>
                   <Typography>
@@ -125,7 +88,11 @@ function PathwayCourse() {
               )}
               {pathwayId == 2 && (
                 <>
-                  <Typography variant="h5" className={classes.heading}>
+                  <Typography
+                    variant="h5"
+                    className={classes.heading}
+                    sx={{ textAlign: isActive && "center" }}
+                  >
                     JavaScript
                   </Typography>
                   <Typography>
@@ -137,7 +104,11 @@ function PathwayCourse() {
               )}
               {pathwayId == 3 && (
                 <>
-                  <Typography variant="h5" className={classes.heading}>
+                  <Typography
+                    variant="h5"
+                    className={classes.heading}
+                    sx={{ textAlign: isActive && "center" }}
+                  >
                     Typing Guru
                   </Typography>
                   <Typography>
@@ -149,7 +120,11 @@ function PathwayCourse() {
               )}
               {pathwayId == 5 && (
                 <>
-                  <Typography variant="h5" className={classes.heading}>
+                  <Typography
+                    variant="h5"
+                    className={classes.heading}
+                    sx={{ textAlign: isActive && "center" }}
+                  >
                     English - Spoken & Grammar
                   </Typography>
                   <Typography>
@@ -167,33 +142,34 @@ function PathwayCourse() {
               autoPlay
               controls
               height="260"
-              // width="900"
               src="https://www.youtube.com/watch?v=Doo1T5WabEU"
-              // className={isActive ? classes.mobileVideo : classes.deskVideo}
-              // // sx={{ width: 300 }}
-              sx={{ width: isActive ? 300 : 480 }}
+              sx={{ width: isActive ? 380 : 480 }}
             />
           </Grid>
         </Grid>
         <Box className={classes.box}>
-          <Typography variant="h6">Learning Outcomes</Typography>
+          <Typography variant="h6" sx={{ textAlign: isActive && "center" }}>
+            Learning Outcomes
+          </Typography>
           <Grid container spacing={0} align="center">
             {content.map((item) => (
               <Grid xs={12} md={4}>
                 <Card align="left" elevation={0}>
-                  <CardContent>
-                    <Box className={classes.flex}>
-                      <CheckIcon color="primary" />
-                      <Typography sx={{ ml: 1 }}>{item}</Typography>
-                    </Box>
-                  </CardContent>
+                  <Box className={classes.flex}>
+                    <CheckIcon color="primary" />
+                    <Typography sx={{ ml: 1 }}>{item}</Typography>
+                  </Box>
                 </Card>
               </Grid>
             ))}
           </Grid>
         </Box>
         <Box className={classes.box}>
-          <Typography className={classes.course} variant="h6">
+          <Typography
+            className={classes.course}
+            variant="h6"
+            sx={{ textAlign: isActive && "center" }}
+          >
             Courses
           </Typography>
           <Grid container spacing={3} align="center">

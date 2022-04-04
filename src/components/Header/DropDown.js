@@ -11,9 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
-// import interpolatePath from "../../constant";
 
-import "./styles.scss";
 import {
   Typography,
   Menu,
@@ -27,13 +25,12 @@ import {
 
 const students = {
   image: [python, typing, web, language, softSkills, random],
-  // Learn: ["Python","Typing Guru","JavaScript","English","Soft Skills","Open Courses",],
   Learn: [
     { title: "Python", code: "PRGPYT" },
     { title: "Typing Guru", code: "TYPGRU" },
     { title: "JavaScript", code: "JSRPIT" },
     { title: "English", code: "SPKENG" },
-    { title: "Soft Skills" },
+    { title: "Residential" },
     { title: "Open Courses" },
   ],
   About: ["Meraki Team", "Alumni"],
@@ -43,25 +40,11 @@ const students = {
 export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { loading, data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
-
-  // let pathways = [];
-  // data &&
-  //   data.pathways.forEach((pathway) => {
-  //     if (pathway.code !== "PRCRSE") {
-  //       const name =
-  //         pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
-  //       pathways.push({
-  //         id: pathway["id"],
-  //         name: name,
-  //       });
-  //     }
-  //   });
-  // students.Learn = pathways;
 
   data &&
     data.pathways.forEach((pathway) => {
@@ -72,76 +55,45 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
       });
     });
 
-  // console.log("students", students);
-  // console.log("pathways data okayyy!!!", data);
-
   return (
-    <>
-      <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          sx={{ width: 380 }}
-        >
-          <Typography variant="body1">{Menu}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {students[Menu.split(" ").join("")].map((menu, index) => (
-            <Link
-              to={
-                Menu === "Learn" && menu.id
-                  ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                      pathwayId: menu.id,
-                    })
-                  : PATHS.COURSE
-              }
-              className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}
-            >
-              <MenuItem key={index} onClick={handleClose}>
-                {Menu === "Learn" && (
-                  <img src={students.image[index]} alt="course logo" />
-                )}
-                <CardContent>
-                  <Typography textAlign="center" variant="body1">
-                    {Menu === "Learn" ? menu.title : menu}
-                  </Typography>
-                </CardContent>
-              </MenuItem>
-            </Link>
-          ))}
-          {/* {Menu === "Learn" && (
-            <>
-              <Link
-                to={PATHS.COURSE}
-                className={classes.link}
-                onClick={toggleDrawer && toggleDrawer(false)}
-              >
-                <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
-                  <img src={softSkills} alt="course logo" />
-                  <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
-                    Soft Skills
-                  </Typography>
-                </MenuItem>
-              </Link>
-              <Link
-                to={PATHS.COURSE}
-                className={classes.link}
-                onClick={toggleDrawer && toggleDrawer(false)}
-              >
-                <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
-                  <img src={random} alt="course logo" />
-                  <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
-                    Open Courses
-                  </Typography>
-                </MenuItem>
-              </Link>
-            </>
-          )} */}
-        </AccordionDetails>
-      </Accordion>
-    </>
+    <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        sx={{ width: 380 }}
+      >
+        <Typography variant="body1">{Menu}</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        {students[Menu.split(" ").join("")].map((menu, index) => (
+          <Link
+            to={
+              Menu === "Learn" && menu.id
+                ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                    pathwayId: menu.id,
+                  })
+                : menu.title === "Residential"
+                ? PATHS.RESIDENTIAL_COURSE
+                : PATHS.MISCELLENEOUS_COURSE
+            }
+            className={classes.link}
+            onClick={toggleDrawer && toggleDrawer(false)}
+          >
+            <MenuItem key={index} onClick={handleClose}>
+              {Menu === "Learn" && (
+                <img src={students.image[index]} alt="course logo" />
+              )}
+              <CardContent>
+                <Typography textAlign="center" variant="body1">
+                  {Menu === "Learn" ? menu.title : menu}
+                </Typography>
+              </CardContent>
+            </MenuItem>
+          </Link>
+        ))}
+      </AccordionDetails>
+    </Accordion>
   );
 };
 
@@ -153,25 +105,11 @@ export const DropDown = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { loading, data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
-
-  // let pathways = [];
-  // data &&
-  //   data.pathways.forEach((pathway) => {
-  //     if (pathway.code !== "PRCRSE") {
-  //       const name =
-  //         pathway["name"][0].toUpperCase() + pathway["name"].slice(1);
-  //       pathways.push({
-  //         id: pathway["id"],
-  //         name: name,
-  //       });
-  //     }
-  //   });
-  // students.Learn = pathways;
 
   data &&
     data.pathways.forEach((pathway) => {
@@ -181,7 +119,6 @@ export const DropDown = ({
         }
       });
     });
-  console.log("students", students);
 
   return (
     <Menu
@@ -209,7 +146,9 @@ export const DropDown = ({
                   ? interpolatePath(PATHS.PATHWAY_COURSE, {
                       pathwayId: menu.id,
                     })
-                  : PATHS.COURSE
+                  : menu.title === "Residential"
+                  ? PATHS.RESIDENTIAL_COURSE
+                  : PATHS.MISCELLENEOUS_COURSE
               }
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
@@ -222,7 +161,6 @@ export const DropDown = ({
                   textAlign="center"
                   sx={{ paddingLeft: dropDown === "Learn" && 2 }}
                 >
-                  {console.log("menu.title", menu.title)}
                   {dropDown === "Learn" ? menu.title : menu}
                 </Typography>
               </MenuItem>
@@ -230,34 +168,6 @@ export const DropDown = ({
             {dropDown === "Learn" && index == 4 && <Divider />}
           </>
         ))}
-      {/* {dropDown === "Learn" && (
-        <>
-          <Link
-            to={PATHS.COURSE}
-            className={classes.link}
-            onClick={toggleDrawer && toggleDrawer(false)}
-          >
-            <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
-              <img src={softSkills} alt="course logo" />
-              <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
-                Soft Skills
-              </Typography>
-            </MenuItem>
-          </Link>
-          <Link
-            to={PATHS.COURSE}
-            className={classes.link}
-            onClick={toggleDrawer && toggleDrawer(false)}
-          >
-            <MenuItem onClick={handleClose} sx={{ padding: 1 }}>
-              <img src={random} alt="course logo" />
-              <Typography textAlign="center" sx={{ paddingLeft: 2 }}>
-                Open Courses
-              </Typography>
-            </MenuItem>
-          </Link>
-        </>
-      )} */}
     </Menu>
   );
 };

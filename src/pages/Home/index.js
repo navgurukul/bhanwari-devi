@@ -41,7 +41,7 @@ const pathwayData = [
     description: "Get familiar with programming with bite sized lessons",
   },
   {
-    title: "Soft Skills",
+    title: "Residential",
     image: "soft-skills",
     description: "Interview preparation  to get you job ready",
   },
@@ -82,23 +82,6 @@ const concernsText = [
 function MerakiEntry(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles();
-  // const dispatch = useDispatch();
-  // const { loading, data } = useSelector((state) => state.Pathways);
-
-  // useEffect(() => {
-  //   dispatch(pathwayActions.getPathways());
-  // }, [dispatch]);
-
-  // data &&
-  //   data.pathways.forEach((pathway) => {
-  //     pathwayData.forEach((item) => {
-  //       if (pathway.code === item.code) {
-  //         item["id"] = pathway.id;
-  //       }
-  //     });
-  //   });
-
-  // console.log("pathwayData", pathwayData);
 
   return (
     <div>

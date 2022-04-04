@@ -25,10 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
   titleCard: {
     marginBottom: 30,
-    marginLeft: 30,
+    marginLeft: 16,
   },
   flex: {
     display: "flex",
+    padding: "16px 0 16px 0",
   },
 }));
 
