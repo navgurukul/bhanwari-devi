@@ -194,7 +194,14 @@ function PathwayExercise() {
       </Box>
       <ExerciseContent exerciseId={exerciseId} />
       <Box>
-        <Toolbar>
+        <Toolbar
+          style={{
+            width: "95%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Button
             variant="text"
             color="primary"
@@ -204,12 +211,7 @@ function PathwayExercise() {
           >
             Back
           </Button>
-          <Button
-            variant="text"
-            color="primary"
-            sx={{ flexGrow: 1 }}
-            onClick={nextClickHandler}
-          >
+          <Button variant="text" color="primary" onClick={nextClickHandler}>
             Next
           </Button>
         </Toolbar>
