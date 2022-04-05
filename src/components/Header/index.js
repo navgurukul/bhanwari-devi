@@ -142,10 +142,17 @@ function Header() {
     }
     setLeftDrawer(open);
   };
-
+  const [elevation, setElevation] = React.useState(0);
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 0) {
+      setElevation(6);
+    } else {
+      setElevation(0);
+    }
+  });
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="background" elevation={0}>
+      <AppBar position="sticky" color="background" elevation={elevation}>
         <Container className={classes.mainbar} maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

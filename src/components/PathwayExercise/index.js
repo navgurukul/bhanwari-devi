@@ -10,6 +10,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
   Container,
@@ -22,6 +23,8 @@ import {
   CardMedia,
   BottomNavigation,
   BottomNavigationAction,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 function PathwayExercise() {
@@ -31,8 +34,24 @@ function PathwayExercise() {
   const courseId = 370;
   const classes = useStyles();
   // const params = useParams();
-
+  const courseLength = course && course.length;
+  window.addEventListener("load", () => {
+    if (localStorage.getItem("CurrentCourse")) {
+      setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
+      console.log(exerciseId);
+    } else {
+      localStorage.setItem("CurrentCourse", 0);
+    }
+  });
   useEffect(() => {
+    const courseLength = course && course.length;
+    if (localStorage.getItem("CurrentCourse")) {
+      if (localStorage.getItem("CurrentCourse") <= courseLength) {
+        setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
+      }
+    } else {
+      localStorage.setItem("CurrentCourse", 0);
+    }
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
@@ -48,17 +67,19 @@ function PathwayExercise() {
   }, []);
 
   const previousClickHandler = () => {
+    localStorage.setItem("CurrentCourse", exerciseId - 1);
     setExerciseId(exerciseId - 1);
   };
 
   const nextClickHandler = () => {
+    localStorage.setItem("CurrentCourse", exerciseId + 1);
+
     setExerciseId(exerciseId + 1);
   };
 
   console.log("course", course);
   console.log("exerciseId", exerciseId);
-  const courseLength = course && course.length;
-
+  const [language, setLanguage] = useState("en");
   return (
     <>
       {/* <Container maxWidth="false"> */}
@@ -68,7 +89,14 @@ function PathwayExercise() {
             <div className="hideInMobile">
               <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  <CloseIcon />
+                  <Link
+                    style={{
+                      color: "black",
+                    }}
+                    to="/"
+                  >
+                    <CloseIcon />
+                  </Link>
                 </Typography>
                 <Toolbar sx={{ flexGrow: 1, ml: { sm: 0, md: 13 } }}>
                   {exerciseId !== 0 && (
@@ -85,7 +113,10 @@ function PathwayExercise() {
                             <>
                               {/* <Link to="/"> */}
                               <img
-                                onClick={() => setExerciseId(index)}
+                                onClick={() => {
+                                  localStorage.setItem("CurrentCourse", index);
+                                  setExerciseId(index);
+                                }}
                                 src={
                                   exerciseId == index
                                     ? `${require("./asset/contentTypeSelectd.svg")}`
@@ -106,7 +137,10 @@ function PathwayExercise() {
                             <>
                               {/* <Link to="/"> */}
                               <img
-                                onClick={() => setExerciseId(index)}
+                                onClick={() => {
+                                  localStorage.setItem("CurrentCourse", index);
+                                  setExerciseId(index);
+                                }}
                                 src={
                                   exerciseId == index
                                     ? `${require("./asset/contentTypeSelectd.svg")}`
@@ -149,16 +183,47 @@ function PathwayExercise() {
                     />
                   )}
                 </Toolbar>
-                <Button color="inherit">English</Button>
+                <Select
+                  IconComponent={() => null}
+                  disableUnderline
+                  value={language}
+                  onChange={(e) => {
+                    setLanguage(e.target.value);
+                  }}
+                  variant="standard"
+                >
+                  <MenuItem value="en">English</MenuItem>
+                  <MenuItem value="hi">Hindi</MenuItem>
+                  <MenuItem value="mr">Marathi</MenuItem>
+                </Select>
               </Toolbar>
             </div>
             <div className="VisibleInMobile">
               <div className="courseCloseAndEnglish">
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  <CloseIcon />
+                  <Link
+                    style={{
+                      color: "black",
+                    }}
+                    to="/"
+                  >
+                    <CloseIcon />
+                  </Link>
                 </Typography>
 
-                <Button color="inherit">English</Button>
+                <Select
+                  disableUnderline
+                  value={language}
+                  IconComponent={() => null}
+                  onChange={(e) => {
+                    setLanguage(e.target.value);
+                  }}
+                  variant="standard"
+                >
+                  <MenuItem value="en">English</MenuItem>
+                  <MenuItem value="hi">Hindi</MenuItem>
+                  <MenuItem value="mr">Marathi</MenuItem>
+                </Select>
               </div>
               <Toolbar>
                 <div
@@ -192,7 +257,7 @@ function PathwayExercise() {
           </Container>
         </AppBar>
       </Box>
-      <ExerciseContent exerciseId={exerciseId} />
+      <ExerciseContent exerciseId={exerciseId} lang={language} />
       <Box>
         <Toolbar
           style={{
