@@ -162,7 +162,7 @@ theme = createTheme(theme, {
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
-      fontFamily: "Lusitana",
+      fontFamily: "Nunito Sans ",
       lineHeight: 1.5,
     },
     button: {

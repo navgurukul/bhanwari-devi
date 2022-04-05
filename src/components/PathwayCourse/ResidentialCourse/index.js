@@ -62,10 +62,10 @@ function ResidentialProgramme() {
             <Typography variant="h4" sx={{ textAlign: isActive && "center" }}>
               Residential Programme Info- Track
             </Typography>
-            <Typography variant="body2">
-              Learn the nuances and basics of the technology that powers the
-              web. Start with learning what is Javascript and eventually build
-              your own website.
+            <Typography variant="body1">
+              Navgurukul, our parent organization, offers fully funded 1 year
+              software engineering programme. Learn all about it in this
+              introductory course and get ready to apply for it.
             </Typography>
           </Card>
         </Grid>

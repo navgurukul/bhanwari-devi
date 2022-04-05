@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     padding: "16px 0 16px 0",
   },
+  courseName: {
+    background: "#E9F5E9",
+    width: "24px",
+    height: "24px",
+    borderRadius: "50%",
+  },
 }));
 
 export default useStyles;
