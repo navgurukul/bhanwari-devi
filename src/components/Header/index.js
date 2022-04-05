@@ -40,7 +40,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   };
 
   return (
-    <Box>
+    <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {["Learn", "About", "Get Involved"].map((menu, index) => (
           <>
@@ -70,11 +70,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
-          <MobileDropDown
-            Menu={Menu}
-            handleClose={menuCloseHandler}
-            toggleDrawer={toggleDrawer}
-          />
+          <MobileDropDown Menu={Menu} />
         ))}
       </Box>
       {!leftDrawer && (
@@ -86,7 +82,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </Button>
         </Box>
       )}
-    </Box>
+    </>
   );
 };
 

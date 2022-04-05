@@ -38,8 +38,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%",
   },
   openCourse: {
-    // background: linear-gradient(90deg, #E6E9F0 0%, #EEF1F5 100%);,
-    background: "grey",
+    background: "#EEF1F5",
     m: "15px",
     ml: "35px",
     height: "200px",

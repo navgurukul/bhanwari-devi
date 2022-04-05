@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as courseActions } from "../../Course/redux/action";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -12,32 +12,17 @@ import {
   Typography,
 } from "@mui/material";
 import useStyles from "../styles";
-import axios from "axios";
-import { METHODS } from "../../../services/api";
 
 function MiscelleneousCourses() {
   const dispatch = useDispatch();
   const { data } = useSelector(({ Course }) => Course);
-  const user = useSelector(({ User }) => User);
-  const [pathwaysCourses, setPathwaysCourses] = useState([]);
+  const pathway = useSelector((state) => state.Pathways);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
   }, [dispatch]);
-
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
-      headers: {
-        accept: "application/json",
-      },
-    }).then((res) => {
-      setPathwaysCourses(res.data.pathways);
-    });
-  }, []);
 
   let dataJSON;
   let filteredCourse;
@@ -55,12 +40,13 @@ function MiscelleneousCourses() {
   }
 
   const pathwayCourseId = [];
-  pathwaysCourses.filter((pathway) => {
-    pathway.courses.filter((course) => {
-      pathwayCourseId.push(course.id);
-      return course.id;
+  pathway.data &&
+    pathway.data.pathways.filter((pathway) => {
+      pathway.courses.filter((course) => {
+        pathwayCourseId.push(course.id);
+        return course.id;
+      });
     });
-  });
 
   let otherCourses =
     filteredCourse &&
@@ -103,10 +89,10 @@ function MiscelleneousCourses() {
                     elevation={0}
                     // className={classes.openCourse}
                     sx={{
-                      background: "grey",
+                      background: "#EEF1F5",
                       m: "15px",
-                      ml: "35px",
-                      height: "200px",
+                      // ml: "35px",
+                      height: "190px",
                     }}
                   >
                     <Typography
@@ -115,7 +101,7 @@ function MiscelleneousCourses() {
                       sx={{
                         p: "10px",
                         verticalAlign: "middle",
-                        lineHeight: "180px",
+                        lineHeight: "170px",
                       }}
                     >
                       {item.name}
