@@ -5,6 +5,12 @@ import axios from "axios";
 import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
+import useMediaQuery from "@mui/material/useMediaQuery";
+// import { breakpoints } from "../../theme/constant";
+import { breakpoints } from "../../../theme/constant";
+import CircleIcon from "@mui/icons-material/Circle";
+
+// import HiddenContent from "../HiddenContent";
 import useStyles from "../styles";
 
 // import HiddenContent from "../HiddenContent";
@@ -14,9 +20,11 @@ import {
   Box,
   Toolbar,
   Typography,
+  Stack,
   Button,
   Grid,
 } from "@mui/material";
+import { CardMedia } from "@material-ui/core";
 
 function getMarkdown(code, lang) {
   let l = lang == "python" ? "py" : "js";
@@ -44,7 +52,11 @@ const createVisulizeURL = (code, lang, mode) => {
 
 const headingVarients = {
   1: (data) => (
-    <h1 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h1>
+    <Typography
+      variant="h6"
+      className="heading"
+      dangerouslySetInnerHTML={{ __html: data }}
+    ></Typography>
   ),
   2: (data) => (
     <h2 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h2>
@@ -63,7 +75,9 @@ const headingVarients = {
   ),
 };
 
-const RenderContent = ({ data, classes }) => {
+const RenderContent = ({ data }) => {
+  const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
@@ -75,34 +89,49 @@ const RenderContent = ({ data, classes }) => {
     );
   }
   if (data.component === "youtube") {
-    const opts = {
-      width: "100%",
-    };
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    return <YouTube className="youtube-video" opts={opts} videoId={videoId} />;
+    return <YouTube className={classes.youtubeVideo} videoId={videoId} />;
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
     if (data.decoration && data.decoration.type === "bullet") {
       return (
-        <li className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
+        <Box className={classes.List}>
+          <CircleIcon sx={{ pr: 2, width: "7px" }} />
+          <Typography
+            variant="body1"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
+        </Box>
       );
     }
     if (data.decoration && data.decoration.type === "number") {
       return (
-        <div className="list">
-          <p
-            className="number"
+        <Box className={classes.List}>
+          <Typography
+            variant="body1"
+            sx={{ pr: 1 }}
+            // className="number"
+            className={classes.number}
             dangerouslySetInnerHTML={{ __html: data.decoration.value }}
           />
-          <p className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
-        </div>
+          <Typography
+            variant="body1"
+            className={classes.number}
+            // className="paragraph"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
+        </Box>
       );
     } else {
       return (
-        <p className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
+        <Typography
+          variant="body1"
+          //  className="paragraph"
+          dangerouslySetInnerHTML={{ __html: text }}
+        />
       );
     }
   }

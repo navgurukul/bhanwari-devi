@@ -1,6 +1,20 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
+  List: {
+    display: "flex",
+  },
+  contentImg: {
+    padding: 5,
+  },
+
+  number: {
+    padding: "8px",
+  },
+
+  youtubeVideo: {
+    width: "100%",
+  },
   contentImg: {
     padding: 5,
   },
