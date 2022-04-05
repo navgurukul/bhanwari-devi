@@ -71,11 +71,7 @@ const RenderContent = ({ data, classes }) => {
   }
   if (data.component === "image") {
     return (
-      <img
-        className="classes.content-img"
-        src={get(data, "value")}
-        alt="content"
-      />
+      <img className={classes["content-img"]} src={data.value} alt="content" />
     );
   }
   if (data.component === "youtube") {
