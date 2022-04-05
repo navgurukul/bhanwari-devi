@@ -13,6 +13,9 @@ export const getCourses = () => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
     method: METHODS.GET,
+    headers: {
+      "version-code": 40,
+    },
     // headers: HeaderFactory(token),
   });
 };

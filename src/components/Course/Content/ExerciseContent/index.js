@@ -215,6 +215,8 @@ function ExerciseContent(props) {
     return "";
   }
 
+  console.log("content", content);
+
   return (
     <div className="ng-exercise-content" align="justify">
       {content.map((contentItem, index) => (
