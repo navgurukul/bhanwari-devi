@@ -27,6 +27,7 @@ import OurStory from "../pages/OurStory";
 
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
+import PathwayExercise from "../components/PathwayExercise";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscelleneousCourses from "../components/PathwayCourse/MiscelleneousCourses";
@@ -53,6 +54,7 @@ const Routing = () => {
         component={ResidentialCourse}
       />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
+      <Route path={PATHS.PATHWAY_COURSE_CONTENT} component={PathwayExercise} />
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />

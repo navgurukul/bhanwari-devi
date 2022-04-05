@@ -69,6 +69,10 @@ theme = createTheme(theme, {
       default: "#FFFFFF",
       paper: "#ffffff",
     },
+    dark: {
+      main: "#000000",
+      contrastText: "#FFFFFF",
+    },
     divider: "#DEDEDE",
   },
 
