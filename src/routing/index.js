@@ -26,8 +26,9 @@ import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
-//  import "../../styles/styles.css";
-import "../styles/styles.css";
+import PathwayCourse from "../components/PathwayCourse";
+import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
+import MiscelleneousCourses from "../components/PathwayCourse/MiscelleneousCourses";
 
 // import Classes from '../pages/classes'
 
@@ -39,6 +40,17 @@ const Routing = () => {
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
       <Route exact path={PATHS.COURSE} component={Course} />
+      <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
+      <Route
+        exact
+        path={PATHS.MISCELLENEOUS_COURSE}
+        component={MiscelleneousCourses}
+      />
+      <Route
+        exact
+        path={PATHS.RESIDENTIAL_COURSE}
+        component={ResidentialCourse}
+      />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />

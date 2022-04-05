@@ -7,6 +7,9 @@ export const PATHS = {
   COURSE: "/course",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
+  PATHWAY_COURSE: "/pathway/:pathwayId",
+  RESIDENTIAL_COURSE: "/residential-course",
+  MISCELLENEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
   USER: "/user",
   PROFILE: "/Profile",
@@ -24,3 +27,6 @@ export const PATHS = {
   STATE: "/state-dashboard",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
 };
+
+export const interpolatePath = (path, paramValues) =>
+  path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
