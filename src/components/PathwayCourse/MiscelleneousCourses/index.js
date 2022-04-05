@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as courseActions } from "../../Course/redux/action";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -11,32 +11,18 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-
-import axios from "axios";
-import { METHODS } from "../../../services/api";
+import useStyles from "../styles";
 
 function MiscelleneousCourses() {
   const dispatch = useDispatch();
   const { data } = useSelector(({ Course }) => Course);
-  const [pathwaysCourses, setPathwaysCourses] = useState([]);
-  const user = useSelector(({ User }) => User);
+  const pathway = useSelector((state) => state.Pathways);
+  const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
   }, [dispatch]);
-
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
-      headers: {
-        accept: "application/json",
-      },
-    }).then((res) => {
-      setPathwaysCourses(res.data.pathways);
-    });
-  }, []);
 
   let dataJSON;
   let filteredCourse;
@@ -54,12 +40,13 @@ function MiscelleneousCourses() {
   }
 
   const pathwayCourseId = [];
-  pathwaysCourses.filter((pathway) => {
-    pathway.courses.filter((course) => {
-      pathwayCourseId.push(course.id);
-      return course.id;
+  pathway.data &&
+    pathway.data.pathways.filter((pathway) => {
+      pathway.courses.filter((course) => {
+        pathwayCourseId.push(course.id);
+        return course.id;
+      });
     });
-  });
 
   let otherCourses =
     filteredCourse &&
@@ -98,21 +85,27 @@ function MiscelleneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
-                  <Card elevation={0}>
-                    <img
-                      src={require(`../asset/course1.svg`)}
-                      alt="course"
-                      loading="lazy"
-                    />
-
-                    <CardContent sx={{ ml: 1 }}>
-                      <Typography
-                        align={isActive ? "center" : "left"}
-                        variant="subtitle1"
-                      >
-                        {item.name}
-                      </Typography>
-                    </CardContent>
+                  <Card
+                    elevation={0}
+                    // className={classes.openCourse}
+                    sx={{
+                      background: "#EEF1F5",
+                      m: "15px",
+                      // ml: "35px",
+                      height: "190px",
+                    }}
+                  >
+                    <Typography
+                      align="center"
+                      variant="subtitle1"
+                      sx={{
+                        p: "10px",
+                        verticalAlign: "middle",
+                        lineHeight: "170px",
+                      }}
+                    >
+                      {item.name}
+                    </Typography>
                   </Card>
                 </Grid>
               ))}

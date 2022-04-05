@@ -14,6 +14,7 @@ import {
   CardContent,
   Typography,
   CardMedia,
+  Toolbar,
 } from "@mui/material";
 
 const content = [
@@ -79,10 +80,9 @@ function PathwayCourse() {
                   >
                     Python
                   </Typography>
-                  <Typography>
-                    Learn the nuances and basics of the technology that powers
-                    the web. Start with learning what is Javascript and
-                    eventually build your own website.
+                  <Typography variant="body1">
+                    Learn the basics and become comfortable in one of the most
+                    popular programming languages Python.
                   </Typography>
                 </>
               )}
@@ -95,7 +95,7 @@ function PathwayCourse() {
                   >
                     JavaScript
                   </Typography>
-                  <Typography>
+                  <Typography variant="body1">
                     Learn the nuances and basics of the technology that powers
                     the web. Start with learning what is Javascript and
                     eventually build your own website.
@@ -111,7 +111,7 @@ function PathwayCourse() {
                   >
                     Typing Guru
                   </Typography>
-                  <Typography>
+                  <Typography variant="body1">
                     The typing track allows you to practice keyboard typing in a
                     adaptive manner. You require a keyboard if on Android or use
                     your laptop keyboard.
@@ -127,10 +127,12 @@ function PathwayCourse() {
                   >
                     English - Spoken & Grammar
                   </Typography>
-                  <Typography>
-                    The typing track allows you to practice keyboard typing in a
-                    adaptive manner. You require a keyboard if on Android or use
-                    your laptop keyboard.
+                  <Typography variant="body1">
+                    English is a great tool needed to navigate the tech world
+                    and also in an International setting. Whether you are a
+                    total beginner or already know some English, prepare for the
+                    challenge with our Spoken English classes and online
+                    courses.
                   </Typography>
                 </>
               )}
@@ -157,7 +159,9 @@ function PathwayCourse() {
                 <Card align="left" elevation={0}>
                   <Box className={classes.flex}>
                     <CheckIcon color="primary" />
-                    <Typography sx={{ ml: 1 }}>{item}</Typography>
+                    <Typography sx={{ ml: 1 }} variant="body1">
+                      {item}
+                    </Typography>
                   </Box>
                 </Card>
               </Grid>
@@ -176,20 +180,33 @@ function PathwayCourse() {
             {pathwayCourse &&
               pathwayCourse.map((item, index) => (
                 <Grid xs={12} md={3} className={classes.courseCard}>
-                  <Card elevation={0}>
+                  <Card elevation={0} sx={{ ml: 3 }}>
                     <img
                       src={require(`./asset/${images[index]}.svg`)}
                       alt="course"
                       loading="lazy"
                     />
-                    <CardContent>
+                    {/* <CardContent> */}
+                    <Toolbar disableGutters sx={{ ml: 2 }}>
                       <Typography
                         align={isActive ? "center" : "left"}
-                        variant="subtitle1"
+                        variant="body1"
+                        className={classes.courseName}
+                        sx={{
+                          mr: "10px",
+                          padding: isActive ? "5px" : "5px 0 5px 13px",
+                        }}
+                      >
+                        {index + 1}
+                      </Typography>
+                      <Typography
+                        align={isActive ? "center" : "left"}
+                        variant="body1"
                       >
                         {item.name}
                       </Typography>
-                    </CardContent>
+                    </Toolbar>
+                    {/* </CardContent> */}
                   </Card>
                 </Grid>
               ))}
