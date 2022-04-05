@@ -1,5 +1,6 @@
 import React from "react";
 import useStyles from "./styles";
+import { PATHS } from "../../constant";
 import {
   Container,
   Typography,
@@ -20,7 +21,7 @@ function Opportunities() {
   return (
     <>
       <Container maxWidth="lg">
-        <Grid container columnSpacing={2} mb={8}>
+        <Grid container columnSpacing={2} mb={8} mt={5}>
           <Grid item xs={12}>
             <Typography variant="h5">
               Curated list of opportunities to skyrocket your career
@@ -55,8 +56,9 @@ function Opportunities() {
                   <CardActions>
                     <Grid className={classes.card_button}>
                       <Link
-                        href="https://admissions.navgurukul.org/"
+                        href={PATHS.ADMISSION}
                         underline="none"
+                        target="blank"
                       >
                         <Button>
                           <Typography mr={1}>Take a Test Today</Typography>
@@ -96,6 +98,7 @@ function Opportunities() {
                       <Link
                         href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
                         underline="none"
+                        target="blank"
                       >
                         <Button>
                           <Typography mr={1}>Apply Now</Typography>
@@ -131,8 +134,9 @@ function Opportunities() {
               </Grid>
               <Grid>
                 <Link
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSdml = {}7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
                   underline="none"
+                  target="blank"
                 >
                   <Button
                     variant="outlined"
