@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import { Typography, CardMedia, CardContent, Card } from "@mui/material";
 
-function PathwayCard({ id, title, description, image }) {
+function PathwayCard({ id, title, description, image, hover }) {
   const classes = useStyles();
   return (
     <Link
@@ -17,7 +17,10 @@ function PathwayCard({ id, title, description, image }) {
       }
       className={classes.link}
     >
-      <Card elevation={2} className={image && classes.card}>
+      <Card
+        elevation={2}
+        className={hover ? classes.card : image && classes.imageCard}
+      >
         {image && (
           <CardMedia
             component="img"

@@ -45,6 +45,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         {["Learn", "About", "Get Involved"].map((menu, index) => (
           <>
             <MenuItem
+              className={classes.MenuItem}
               onClick={(e) => {
                 menuOpenHandler(e, menu);
               }}
@@ -131,6 +132,7 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
 };
 
 function Header() {
+  const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = React.useState(false);
@@ -148,19 +150,12 @@ function Header() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="sticky" color="background" elevation={0}>
-        <Container maxWidth="false">
+        <Container className={classes.mainbar} maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-                onClick={toggleDrawer(true)}
-              >
+              <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
                 <img src={require("./asset/menu.svg")} loading="lazy" />
-              </IconButton>
+              </Box>
               <SwipeableDrawer
                 anchor="left"
                 open={leftDrawer}
@@ -178,7 +173,9 @@ function Header() {
                 <img src={require("./asset/logo.svg")} loading="lazy" />
               </Link>
             </Box>
-            <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+            <Box
+              sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
+            >
               <Link to="/">
                 <img src={require("./asset/meraki.svg")} loading="lazy" />
               </Link>

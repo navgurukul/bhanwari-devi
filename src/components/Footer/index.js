@@ -29,7 +29,7 @@ const MenuList = (menuItem) => {
       </Typography>
       <List>
         {menu[menuItem].map((item) => (
-          <Typography color="text.primary" sx={{ pb: "5px" }}>
+          <Typography variant="body2" color="text.primary" sx={{ pb: "5px" }}>
             {item}
           </Typography>
         ))}
@@ -66,21 +66,14 @@ function Footer() {
                   loading="lazy"
                 />
               </Box>
-              <Box className={classes.meraki}>
-                <img
-                  src={require("./asset/meraki.svg")}
-                  alt="social media"
-                  loading="lazy"
-                />
-              </Box>
             </Box>
-            <Box sx={{ display: "flex" }}>
+            <Box className={classes.socialMedia} sx={{ display: "flex" }}>
               {["facebook", "linkedIn", "twitter"].map((imgName) => (
                 <FooterIcon name={imgName} />
               ))}
             </Box>
             <Box className={classes.content}>
-              <Typography color="text.primary">
+              <Typography variant="body2" color="text.primary">
                 © 2022 NavGurukul Foundation for Social Welfare
               </Typography>
             </Box>
@@ -110,7 +103,11 @@ function Footer() {
                 loading="lazy"
               />
               <Box sx={{ padding: "4px 0 0 10px" }}>
-                <Typography color="text.primary" component="div">
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  component="div"
+                >
                   Now on Playstore
                 </Typography>
               </Box>
@@ -121,7 +118,7 @@ function Footer() {
         <Box>
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
             <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
-              <Typography color="text.primary">
+              <Typography variant="body2" color="text.primary">
                 Legal & Privacy Policy
               </Typography>
             </Grid>
@@ -134,6 +131,7 @@ function Footer() {
             >
               <Typography
                 color="text.primary"
+                variant="body2"
                 sx={{ textAlign: { sm: "left", md: "right" } }}
               >
                 Made with ❤️ for our students{" "}
