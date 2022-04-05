@@ -37,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
     height: "24px",
     borderRadius: "50%",
   },
+  openCourse: {
+    // background: linear-gradient(90deg, #E6E9F0 0%, #EEF1F5 100%);,
+    background: "grey",
+    m: "15px",
+    ml: "35px",
+    height: "200px",
+  },
 }));
 
 export default useStyles;

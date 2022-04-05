@@ -11,15 +11,16 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-
+import useStyles from "../styles";
 import axios from "axios";
 import { METHODS } from "../../../services/api";
 
 function MiscelleneousCourses() {
   const dispatch = useDispatch();
   const { data } = useSelector(({ Course }) => Course);
-  const [pathwaysCourses, setPathwaysCourses] = useState([]);
   const user = useSelector(({ User }) => User);
+  const [pathwaysCourses, setPathwaysCourses] = useState([]);
+  const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
@@ -98,21 +99,27 @@ function MiscelleneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
-                  <Card elevation={0}>
-                    <img
-                      src={require(`../asset/course1.svg`)}
-                      alt="course"
-                      loading="lazy"
-                    />
-
-                    <CardContent sx={{ ml: 1 }}>
-                      <Typography
-                        align={isActive ? "center" : "left"}
-                        variant="subtitle1"
-                      >
-                        {item.name}
-                      </Typography>
-                    </CardContent>
+                  <Card
+                    elevation={0}
+                    // className={classes.openCourse}
+                    sx={{
+                      background: "grey",
+                      m: "15px",
+                      ml: "35px",
+                      height: "200px",
+                    }}
+                  >
+                    <Typography
+                      align="center"
+                      variant="subtitle1"
+                      sx={{
+                        p: "10px",
+                        verticalAlign: "middle",
+                        lineHeight: "180px",
+                      }}
+                    >
+                      {item.name}
+                    </Typography>
                   </Card>
                 </Grid>
               ))}
