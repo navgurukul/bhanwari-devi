@@ -40,7 +40,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   };
 
   return (
-    <Box>
+    <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {["Learn", "About", "Get Involved"].map((menu, index) => (
           <>
@@ -86,7 +86,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </Button>
         </Box>
       )}
-    </Box>
+    </>
   );
 };
 
