@@ -8,13 +8,14 @@ import { useSelector } from "react-redux";
 import { Container, Box, Grid, Typography, CardMedia } from "@mui/material";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../../theme/constant";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 
 function Admission() {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const [userDetails, setUserDetails] = useState({
     firstName: "",
