@@ -13,10 +13,11 @@ import CircleIcon from "@mui/icons-material/Circle";
 // import HiddenContent from "../HiddenContent";
 import useStyles from "../styles";
 
+// import HiddenContent from "../HiddenContent";
+
 import {
   Container,
   Box,
-  AppBar,
   Toolbar,
   Typography,
   Stack,
@@ -95,20 +96,10 @@ const RenderContent = ({ data }) => {
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    // <Stack alignItems="center"><YouTube className={classes.komal} videoId={videoId} /></Stack>
-    // <CardMedia
-    //           component="video"
-    //           autoPlay
-    //           controls
-    //           height="260"
-    //           src="https://www.youtube.com/watch?v=Doo1T5WabEU"
-    //           sx={{ width: isActive ? 380 : 480 }}
-    //         />
-    return <YouTube className={classes.komal} videoId={videoId} />;
+    return <YouTube className={classes.youtubeVideo} videoId={videoId} />;
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
-    // console.log("text", text);
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <Box className={classes.List}>
@@ -188,23 +179,32 @@ const RenderContent = ({ data }) => {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
       <div>
-        <Box
-          sx={{ bgcolor: "#E5E5E5", padding: 5, marginBottom: 2, marginTop: 2 }}
-        >
-          <pre
+        <Box className={classes.codeBackground}>
+          <Toolbar disableGutters>
+            <img
+              src={require("../asset/code-example.svg")}
+              loading="lazy"
+              className={classes.codeExampleImg}
+            />
+            <Typography variant="subtitle1">Code Example</Typography>
+          </Toolbar>
+          <Typography
+            className={classes.codeWrap}
             dangerouslySetInnerHTML={{
               __html: codeContent,
             }}
           />
+          <Grid container justifyContent="flex-end">
+            <Button
+              variant="contained"
+              color="dark"
+              target="_blank"
+              href={createVisulizeURL(get(data, "value"), data.type, "display")}
+            >
+              Visualize
+            </Button>
+          </Grid>
         </Box>
-        <div className="code__controls">
-          <a
-            target="_blank"
-            href={createVisulizeURL(get(data, "value"), data.type, "display")}
-          >
-            Visualize
-          </a>
-        </div>
       </div>
     );
   }
@@ -221,9 +221,10 @@ const RenderContent = ({ data }) => {
   return "";
 };
 
-function PathwayCourseContent({ exerciseId }) {
+function ExerciseContent({ exerciseId }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
+  const classes = useStyles();
   const courseId = 370;
 
   useEffect(() => {
@@ -248,11 +249,11 @@ function PathwayCourseContent({ exerciseId }) {
       <Box>
         {content &&
           content.map((contentItem, index) => (
-            <RenderContent data={contentItem} key={index} />
+            <RenderContent data={contentItem} key={index} classes={classes} />
           ))}
       </Box>
     </Container>
   );
 }
 
-export default PathwayCourseContent;
+export default ExerciseContent;
