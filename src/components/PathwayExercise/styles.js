@@ -8,12 +8,17 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
   },
 
-  number: {
+  contentNumber: {
     padding: "8px",
   },
 
   youtubeVideo: {
     width: "100%",
+    marginTop: "20px",
+  },
+  contentImage: {
+    width: "100%",
+    marginTop: "32px",
   },
   contentImg: {
     padding: 5,
