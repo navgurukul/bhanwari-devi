@@ -221,7 +221,7 @@ const RenderContent = ({ data }) => {
   return "";
 };
 
-function ExerciseContent({ exerciseId }) {
+function ExerciseContent({ exerciseId, lang }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const classes = useStyles();
@@ -230,7 +230,7 @@ function ExerciseContent({ exerciseId }) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
       headers: {
         "version-code": 40,
         accept: "application/json",
@@ -240,7 +240,7 @@ function ExerciseContent({ exerciseId }) {
       setContent(res.data.course.exercises[exerciseId].content);
     });
     // }, [courseId, exerciseId, id, user.data.token]);
-  }, [courseId, exerciseId]);
+  }, [courseId, exerciseId, lang]);
 
   console.log("content", content);
 
