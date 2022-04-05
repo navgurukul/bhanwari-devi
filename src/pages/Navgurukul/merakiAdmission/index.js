@@ -6,7 +6,7 @@ import { METHODS } from "../../../services/api";
 import { useSelector } from "react-redux";
 import "./styles.scss";
 
-function Admission() {
+function Admission(props) {
   const [userDetails, setUserDetails] = useState({
     firstName: "",
     middleName: "",
@@ -20,6 +20,7 @@ function Admission() {
   const user = useSelector(({ User }) => User);
 
   let userToken = localStorage.getItem("Token");
+  const partnerIdFromOpportunity = props.location.state.partnerId;
 
   useEffect(() => {
     axios({
@@ -44,7 +45,7 @@ function Admission() {
         params: {
           ngCallType: "getEnrolmentKey",
           From: mobile,
-          partner_id: partnerId || null,
+          partner_id: partnerId || partnerIdFromOpportunity || null,
         },
       });
       setEnrolmentKey(response.data.key);

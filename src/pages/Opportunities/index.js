@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
 import { PATHS } from "../../constant";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { METHODS } from "../../services/api";
+import { getQueryVariable } from "../../common/utils";
+import { Link } from "react-router-dom";
+
 import {
   Container,
   Typography,
@@ -11,13 +17,40 @@ import {
   CardActions,
   useMediaQuery,
   Card,
-  Link,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 function Opportunities() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width: 600px)");
+
+  const [partner, setPartner] = useState([]);
+  const user = useSelector(({ User }) => User);
+
+  const partnerId = user.data && user.data.user.partner_id;
+
+  const partnerIdFromAndroid = getQueryVariable("partner_id");
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data ? user.data.token : "",
+      },
+    }).then((res) => {
+      setPartner(res.data.partners);
+    });
+  }, []);
+
+  let slug;
+  for (const item of partner) {
+    if (item.id == partnerId || item.id == partnerIdFromAndroid) {
+      slug = item.slug;
+    }
+  }
+
   return (
     <>
       <Container maxWidth="lg">
@@ -56,9 +89,11 @@ function Opportunities() {
                   <CardActions>
                     <Grid className={classes.card_button}>
                       <Link
-                        href={PATHS.ADMISSION}
-                        underline="none"
-                        target="blank"
+                        to={{
+                          pathname: "/admission",
+                          state: { partnerId: partnerId },
+                        }}
+                        style={{ textDecoration: "none" }}
                       >
                         <Button>
                           <Typography mr={1}>Take a Test Today</Typography>
@@ -97,7 +132,7 @@ function Opportunities() {
                     <CardActions>
                       <Link
                         href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
-                        underline="none"
+                        style={{ textDecoration: "none" }}
                         target="blank"
                       >
                         <Button>
@@ -135,7 +170,7 @@ function Opportunities() {
               <Grid>
                 <Link
                   href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
-                  underline="none"
+                  style={{ textDecoration: "none" }}
                   target="blank"
                 >
                   <Button
