@@ -38,15 +38,15 @@ const useStyles = makeStyles((theme) => ({
   },
   partnerCard: {
     height: "95%",
-    ":hover": {
-      boxShadow: "20px",
-    },
   },
   partnerCard1: {
     height: "97%",
   },
   partnerCardContainer: {
     height: "56%",
+  },
+  partnerCardContainer: {
+    height: "50%",
   },
 
   partnerIconSize: {

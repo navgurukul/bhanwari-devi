@@ -136,7 +136,13 @@ const Partner = () => {
                     title={partners[item].Name}
                     titleTypographyProps={{ variant: "subtitle1" }}
                   />
-                  <CardContent className={classes.partnerCardContainer}>
+                  <CardContent
+                    className={
+                      !isActive
+                        ? classes.partnerCardContainer
+                        : classes.partnerCardContainer1
+                    }
+                  >
                     <Typography variant="body1">
                       {partners[item].Description}
                     </Typography>
