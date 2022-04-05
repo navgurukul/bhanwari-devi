@@ -26,6 +26,8 @@ export const PATHS = {
   STATEPARTNER: "/state-dashboard/:clusterId",
   STATE: "/state-dashboard",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
+
+  OUR_STORY: "/our-story",
 };
 
 export const interpolatePath = (path, paramValues) =>
