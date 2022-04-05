@@ -67,7 +67,7 @@ function Footer() {
                 />
               </Box>
             </Box>
-            <Box className={classes.padd} sx={{ display: "flex" }}>
+            <Box className={classes.socialMedia} sx={{ display: "flex" }}>
               {["facebook", "linkedIn", "twitter"].map((imgName) => (
                 <FooterIcon name={imgName} />
               ))}

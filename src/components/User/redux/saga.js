@@ -10,9 +10,9 @@ import { PATHS } from "../../../constant";
  * @param {object} payload
  */
 function* handleUserData({ data }) {
-  const res = data.idToken ?
-      yield call(sendGoogleUserData, data) :
-      yield call(sendToken, data);
+  const res = data.idToken
+    ? yield call(sendGoogleUserData, data)
+    : yield call(sendToken, data);
   if (res.status === 200) {
     res.data.token = res.data.token || data.token;
     const mappedUserData = { ...res.data, isAuthenticated: true };

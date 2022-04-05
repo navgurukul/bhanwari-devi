@@ -112,7 +112,6 @@ theme = createTheme(theme, {
       fontSize: "2.625rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "	2rem",
-        // fontFamily: "Lusitana",
       },
       fontFamily: "Lusitana",
       lineHeight: 1.3,
@@ -123,7 +122,6 @@ theme = createTheme(theme, {
       fontSize: "2rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "	1.5rem",
-        // fontFamily: "Lusitana",
       },
       lineHeight: 1.5,
       fontFamily: "Lusitana",
@@ -132,7 +130,6 @@ theme = createTheme(theme, {
       fontSize: "1.5rem",
       [theme.breakpoints.down("sm")]: {
         fontSize: "	1.125rem",
-        // fontFamily: "Lusitana",
       },
       lineHeight: 1.5,
       fontWeight: 700,
@@ -143,7 +140,6 @@ theme = createTheme(theme, {
       fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
-        fontFamily: "Nunito Sans",
       },
       lineHeight: 1.5,
       fontWeight: 700,
@@ -166,11 +162,11 @@ theme = createTheme(theme, {
       lineHeight: 1.5,
     },
     body2: {
-      fontFamily: "Nunito Sans",
       fontSize: "1rem", //0.875rem
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
+      fontFamily: "Lusitana",
       lineHeight: 1.5,
     },
     button: {
