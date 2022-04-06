@@ -53,6 +53,7 @@ function PathwayExercise() {
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
   const params = useParams();
+  const courseId = params.courseId;
   const courseLength = course && course.length;
   // window.addEventListener("load", () => {
   //   if (localStorage.getItem("CurrentCourse")) {
