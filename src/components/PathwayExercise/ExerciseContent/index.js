@@ -5,6 +5,7 @@ import axios from "axios";
 import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
+import { useParams } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 // import { breakpoints } from "../../theme/constant";
 
@@ -214,7 +215,8 @@ function ExerciseContent({ exerciseId, lang }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const classes = useStyles();
-  const courseId = 370;
+  const params = useParams();
+  const courseId = params.courseId;
 
   useEffect(() => {
     axios({

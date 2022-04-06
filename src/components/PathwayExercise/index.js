@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import axios from "axios";
 import "./style/index.scss";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ExerciseContent from "./ExerciseContent";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -31,10 +31,11 @@ function PathwayExercise() {
   const user = useSelector(({ User }) => User);
   const [course, setCourse] = useState();
   const [exerciseId, setExerciseId] = useState(0);
-  const courseId = 370;
   const classes = useStyles();
-  // const params = useParams();
+  const params = useParams();
   const courseLength = course && course.length;
+  const courseId = params.courseId;
+
   window.addEventListener("load", () => {
     if (localStorage.getItem("CurrentCourse")) {
       setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
@@ -43,6 +44,9 @@ function PathwayExercise() {
       localStorage.setItem("CurrentCourse", 0);
     }
   });
+
+  console.log("params", params);
+
   useEffect(() => {
     const courseLength = course && course.length;
     if (localStorage.getItem("CurrentCourse")) {
