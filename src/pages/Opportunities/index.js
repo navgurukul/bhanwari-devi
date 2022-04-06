@@ -44,13 +44,6 @@ function Opportunities() {
     });
   }, []);
 
-  let slug;
-  for (const item of partner) {
-    if (item.id == partnerId || item.id == partnerIdFromAndroid) {
-      slug = item.slug;
-    }
-  }
-
   return (
     <>
       <Container maxWidth="lg">
