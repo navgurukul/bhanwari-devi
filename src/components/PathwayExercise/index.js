@@ -3,15 +3,16 @@ import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import axios from "axios";
 import "./style/index.scss";
-import { useParams } from "react-router-dom";
 import ExerciseContent from "./ExerciseContent";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { PATHS, interpolatePath } from "../../constant";
 import {
   Container,
   Box,
@@ -26,13 +27,25 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-function NavigationComponent({ index, exerciseId, setExerciseId, classes }) {
+function NavigationComponent({
+  index,
+  exerciseId,
+  setExerciseId,
+  classes,
+  history,
+  params,
+}) {
   return (
     <>
       {/* <Link to="/"> */}
       <img
         onClick={() => {
-          localStorage.setItem("CurrentCourse", index);
+          history.push(
+            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+              courseId: params.courseId,
+              exerciseId: index,
+            })
+          );
           setExerciseId(index);
         }}
         src={
@@ -48,6 +61,7 @@ function NavigationComponent({ index, exerciseId, setExerciseId, classes }) {
   );
 }
 function PathwayExercise() {
+  const history = useHistory();
   const user = useSelector(({ User }) => User);
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
@@ -55,27 +69,10 @@ function PathwayExercise() {
   const params = useParams();
   const courseId = params.courseId;
   const courseLength = course && course.length;
-  // window.addEventListener("load", () => {
-  //   if (localStorage.getItem("CurrentCourse")) {
-  //     if (course.length < localStorage.getItem("CurrentCourse")) {
-  //       setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
-  //     } else {
-  //       setExerciseId(0);
-  //     }
-  //     console.log(exerciseId);
-  //   } else {
-  //     localStorage.setItem("CurrentCourse", 0);
-  //   }
-  // });
+
   useEffect(() => {
-    const courseLength = course && course.length;
-    if (localStorage.getItem("CurrentCourse")) {
-      if (localStorage.getItem("CurrentCourse") <= courseLength) {
-        setExerciseId(localStorage.getItem("CurrentCourse"));
-      }
-    } else {
-      localStorage.setItem("CurrentCourse", 0);
-    }
+    const currentCourse = params.exerciseId;
+    setExerciseId(parseInt(currentCourse));
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
@@ -89,22 +86,24 @@ function PathwayExercise() {
       setCourse(res.data.course.exercises);
     });
   }, []);
-  useEffect(() => {
-    if (localStorage.getItem("CurrentCourse")) {
-      if (course.length > localStorage.getItem("CurrentCourse")) {
-        setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
-      }
-    } else {
-      localStorage.setItem("CurrentCourse", 0);
-    }
-  }, [course]);
+
   const previousClickHandler = () => {
-    localStorage.setItem("CurrentCourse", exerciseId - 1);
+    history.push(
+      interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+        courseId: params.courseId,
+        exerciseId: exerciseId - 1,
+      })
+    );
     setExerciseId(exerciseId - 1);
   };
 
   const nextClickHandler = () => {
-    localStorage.setItem("CurrentCourse", exerciseId + 1);
+    history.push(
+      interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+        courseId: params.courseId,
+        exerciseId: exerciseId + 1,
+      })
+    );
 
     setExerciseId(exerciseId + 1);
   };
@@ -143,6 +142,8 @@ function PathwayExercise() {
                         if (exerciseId < 7 && index < 7) {
                           return (
                             <NavigationComponent
+                              params={params}
+                              history={history}
                               index={index}
                               exerciseId={exerciseId}
                               setExerciseId={setExerciseId}
@@ -156,6 +157,8 @@ function PathwayExercise() {
                         ) {
                           return (
                             <NavigationComponent
+                              params={params}
+                              history={history}
                               index={index}
                               exerciseId={exerciseId}
                               setExerciseId={setExerciseId}
@@ -169,6 +172,8 @@ function PathwayExercise() {
                         ) {
                           return (
                             <NavigationComponent
+                              params={params}
+                              history={history}
                               index={index}
                               exerciseId={exerciseId}
                               setExerciseId={setExerciseId}
@@ -238,18 +243,23 @@ function PathwayExercise() {
                     course.map((exercise, index) => {
                       return (
                         <>
-                          {/* <Link to="/"> */}
-                          <img
-                            onClick={() => setExerciseId(index)}
-                            src={
-                              exerciseId == index
-                                ? `${require("./asset/contentTypeSelectd.svg")}`
-                                : `${require("./asset/contenttype.svg")}`
-                            }
-                            loading="lazy"
-                            className={classes.contentImg}
-                          />
-                          {/* </Link> */}
+                          <Link
+                            to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                              courseId: params.courseId,
+                              exerciseId: index,
+                            })}
+                          >
+                            <img
+                              onClick={() => setExerciseId(index)}
+                              src={
+                                exerciseId == index
+                                  ? `${require("./asset/contentTypeSelectd.svg")}`
+                                  : `${require("./asset/contenttype.svg")}`
+                              }
+                              loading="lazy"
+                              className={classes.contentImg}
+                            />
+                          </Link>
                         </>
                       );
                     })}

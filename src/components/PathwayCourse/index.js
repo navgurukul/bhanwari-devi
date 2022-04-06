@@ -188,6 +188,7 @@ function PathwayCourse() {
                   <Link
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
                       courseId: item.id,
+                      exerciseId: 0,
                     })}
                   >
                     <Card elevation={0} sx={{ ml: 3 }}>
