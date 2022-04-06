@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as courseActions } from "../../Course/redux/action";
+import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import {
@@ -24,20 +25,9 @@ function MiscelleneousCourses() {
     dispatch(courseActions.getCourses());
   }, [dispatch]);
 
-  let dataJSON;
-  let filteredCourse;
-
-  if (data) {
-    dataJSON = data.allCourses.filter((c) => {
-      return c.course_type === "json";
-    });
-    dataJSON.allCourses = dataJSON;
-    filteredCourse = dataJSON.allCourses.filter((names) => {
-      if (names.course_type === "json") {
-        return names.name;
-      }
-    });
-  }
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
 
   const pathwayCourseId = [];
   pathway.data &&
@@ -49,8 +39,10 @@ function MiscelleneousCourses() {
     });
 
   let otherCourses =
-    filteredCourse &&
-    filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
+    data &&
+    data.allCourses.filter(
+      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
+    );
 
   return (
     <React.Fragment>

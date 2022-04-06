@@ -6,6 +6,7 @@ import useStyles from "./styles";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useParams } from "react-router-dom";
+import { breakpoints } from "../../theme/constant";
 import {
   Container,
   Box,
@@ -40,7 +41,7 @@ function PathwayCourse() {
   const [pathwayCourse, setPathwayCourse] = useState([]);
   const user = useSelector(({ User }) => User);
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
 
@@ -138,7 +139,7 @@ function PathwayCourse() {
               )}
             </Card>
           </Grid>
-          <Grid xs={12} md={6} sx={{ pl: 2 }}>
+          {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
             <CardMedia
               component="video"
               autoPlay
@@ -147,7 +148,7 @@ function PathwayCourse() {
               src="https://www.youtube.com/watch?v=Doo1T5WabEU"
               sx={{ width: isActive ? 380 : 480 }}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
         <Box className={classes.box}>
           <Typography variant="h6" sx={{ textAlign: isActive && "center" }}>

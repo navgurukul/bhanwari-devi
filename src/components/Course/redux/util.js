@@ -18,7 +18,6 @@ export const mapCourses = (courses) => {
       name: course.name,
       logo: course.logo,
       description: course.short_description,
-      course_type: course.course_type,
     };
   });
 
