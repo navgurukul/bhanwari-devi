@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   CssBaseline,
@@ -8,6 +8,8 @@ import {
   Stack,
   Box,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
@@ -17,26 +19,30 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 const pathwayData = [
   {
     title: "Python",
+    code: "PRGPYT",
     image: "python",
     description: "Get familiar with programming with bite sized lessons",
   },
   {
     title: "Typing",
+    code: "TYPGRU",
     image: "typing",
     description: "Learn to type with pinpoint accuracy and speed.",
   },
   {
     title: "Web Development",
+    code: "JSRPIT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
   },
   {
     title: "English",
+    code: "SPKENG",
     image: "language",
     description: "Get familiar with programming with bite sized lessons",
   },
   {
-    title: "Soft Skills",
+    title: "Residential",
     image: "soft-skills",
     description: "Interview preparation  to get you job ready",
   },
@@ -122,6 +128,22 @@ function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { loading, data } = useSelector((state) => state.Pathways);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  data &&
+    data.pathways.forEach((pathway) => {
+      pathwayData.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
+
   return (
     <>
       <CssBaseline />
@@ -199,6 +221,7 @@ function Home() {
               {pathwayData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
                   <PathwayCard
+                    id={item.id}
                     title={item.title}
                     description={item.description}
                     image={item.image}

@@ -1,18 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
-import YouTube from "react-youtube";
+import React, { useEffect, useState, useMemo, useRef } from "react";
+import { useSelector } from "react-redux";
+import { METHODS } from "../../../services/api";
+import axios from "axios";
 import get from "lodash/get";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import HiddenContent from "../HiddenContent";
+import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
-import Highlight from "react-highlight";
+import useMediaQuery from "@mui/material/useMediaQuery";
+// import { breakpoints } from "../../theme/constant";
 
-import "./styles.scss";
-const { JSDOM } = require("jsdom");
+import CircleIcon from "@mui/icons-material/Circle";
+import useStyles from "../styles";
+
+import {
+  Container,
+  Box,
+  Toolbar,
+  Typography,
+  Stack,
+  Button,
+  Grid,
+} from "@mui/material";
+import { CardMedia } from "@material-ui/core";
 
 function getMarkdown(code, lang) {
   let l = lang == "python" ? "py" : "js";
@@ -21,7 +29,6 @@ ${code}
 ~~~`;
 }
 
-// for transforming code : encodeURIComponent => decode comma(,) and slash(/) => encode round brackets
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   let l = lang == "python" ? "2" : "js";
@@ -39,28 +46,13 @@ const createVisulizeURL = (code, lang, mode) => {
   return url;
 };
 
-// const components = {
-//   code({ node, inline, className, children, ...props }) {
-//     const match = /language-(\w+)/.exec(className || "");
-//     return !inline && match ? (
-//       <SyntaxHighlighter
-//         showLineNumbers
-//         language={match[1]}
-//         PreTag="div"
-//         children={String(children).replace(/\n$/, "")}
-//         {...props}
-//       />
-//     ) : (
-//       <code className={className} {...props}>
-//         {children}
-//       </code>
-//     );
-//   },
-// };
-
 const headingVarients = {
   1: (data) => (
-    <h1 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h1>
+    <Typography
+      variant="h6"
+      className="heading"
+      dangerouslySetInnerHTML={{ __html: data }}
+    ></Typography>
   ),
   2: (data) => (
     <h2 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h2>
@@ -80,47 +72,63 @@ const headingVarients = {
 };
 
 const RenderContent = ({ data }) => {
+  const classes = useStyles();
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
     );
   }
-
   if (data.component === "image") {
-    return <img className="image" src={get(data, "value")} alt="content" />;
+    return (
+      <img className={classes.contentImage} src={data.value} alt="content" />
+    );
   }
   if (data.component === "youtube") {
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    return <YouTube className={"youtube-video"} videoId={videoId} />;
+    return <YouTube className={classes.youtubeVideo} videoId={videoId} />;
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
     if (data.decoration && data.decoration.type === "bullet") {
       return (
-        <li className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
+        <Box className={classes.List}>
+          <CircleIcon sx={{ pr: 2, width: "7px" }} />
+          <Typography
+            variant="body1"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
+        </Box>
       );
     }
     if (data.decoration && data.decoration.type === "number") {
       return (
-        <div className="list">
-          <p
-            className="number"
+        <Box className={classes.List}>
+          <Typography
+            variant="body1"
+            sx={{ pr: 1 }}
+            className={classes.contentNumber}
             dangerouslySetInnerHTML={{ __html: data.decoration.value }}
           />
-          <p className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
-        </div>
+          <Typography
+            variant="body1"
+            className={classes.contentNumber}
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
+        </Box>
       );
     } else {
       return (
-        <p className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
+        <Typography
+          variant="body1"
+          dangerouslySetInnerHTML={{ __html: text }}
+        />
       );
     }
   }
   if (data.component === "table") {
-    // return tableData(data);
-    //Changing list data from row to column
     const allData = data.value.map((item) => item.items);
     const dataInCol = allData[0].map((_, i) =>
       allData.map((_, j) => allData[j][i])
@@ -157,77 +165,84 @@ const RenderContent = ({ data }) => {
     );
   }
   if (data.component === "code") {
-    // if (data.type === "python" || data.type === "javascript") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
       <div>
-        <div className="code-bg">
-          <pre
+        <Box className={classes.codeBackground}>
+          <Toolbar disableGutters>
+            <img
+              src={require("../asset/code-example.svg")}
+              loading="lazy"
+              className={classes.codeExampleImg}
+            />
+            <Typography variant="subtitle1">Code Example</Typography>
+          </Toolbar>
+          <Typography
+            className={classes.codeWrap}
             dangerouslySetInnerHTML={{
               __html: codeContent,
             }}
           />
-          {/* <Highlight innerHTML={true}>{get(data, "value")}</Highlight> */}
-        </div>
-        <div className="code__controls">
-          <a
-            target="_blank"
-            href={createVisulizeURL(get(data, "value"), data.type, "display")}
-          >
-            Visualize
-          </a>
-
-          {/* <a
-            target="_blank"
-            href={createVisulizeURL(get(data, "value.code"), data.type, "edit")}
-          >
-            Edit
-          </a> */}
-        </div>
+          <Grid container justifyContent="flex-end">
+            <Button
+              variant="contained"
+              color="dark"
+              target="_blank"
+              href={createVisulizeURL(get(data, "value"), data.type, "display")}
+            >
+              Visualize
+            </Button>
+          </Grid>
+        </Box>
       </div>
     );
   }
-  // if (data.type === "bash") {
+  // if (data.type === "solution") {
   //   return (
-  //     <code className="language-bash code-block">
-  //       {" "}
-  //       {get(data, "value.code")}{" "}
-  //     </code>
+  //     <HiddenContent>
+  //       <code>
+  //         <ReactMarkdown children={get(data, "value.code")} />
+  //       </code>
+  //     </HiddenContent>
   //   );
   // }
-  if (data.type === "solution") {
-    return (
-      <HiddenContent>
-        <code>
-          <ReactMarkdown children={get(data, "value.code")} />
-        </code>
-      </HiddenContent>
-    );
-  }
 
   return "";
 };
 
-function ExerciseContent(props) {
-  const { content = [] } = props;
+function ExerciseContent({ exerciseId, lang }) {
+  const user = useSelector(({ User }) => User);
+  const [content, setContent] = useState([]);
+  const classes = useStyles();
+  const courseId = 370;
 
-  if (!content) {
-    return "";
-  }
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
+      headers: {
+        "version-code": 40,
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setContent(res.data.course.exercises[exerciseId].content);
+    });
+    // }, [courseId, exerciseId, id, user.data.token]);
+  }, [courseId, exerciseId, lang]);
 
   console.log("content", content);
 
   return (
-    <div className="ng-exercise-content" align="justify">
-      {content.map((contentItem, index) => (
-        <RenderContent data={contentItem} key={index} />
-      ))}
-    </div>
+    <Container maxWidth="sm">
+      <Box sx={{ mt: 5 }}>
+        {content &&
+          content.map((contentItem, index) => (
+            <RenderContent data={contentItem} key={index} classes={classes} />
+          ))}
+      </Box>
+    </Container>
   );
 }
-
-ExerciseContent.propTypes = {
-  content: PropTypes.array,
-};
 
 export default ExerciseContent;

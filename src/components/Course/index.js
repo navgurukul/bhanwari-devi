@@ -71,6 +71,7 @@ function Course() {
       }),
     };
   });
+
   const pathwayCourseId = [];
   pathwaysfilteredCourses.filter((pathway) => {
     pathway.courses.filter((course) => {
@@ -78,6 +79,7 @@ function Course() {
       return course.id;
     });
   });
+
   let otherCourses =
     filteredCourse &&
     filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));
