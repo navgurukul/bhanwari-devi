@@ -1,5 +1,6 @@
 import React from "react";
 import useStyles from "./styles";
+import { breakpoints } from "../../theme/constant";
 import {
   Container,
   Typography,
@@ -13,7 +14,8 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 function AFEpage() {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width: 600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   return (
     <>
       <Container maxWidth="lg">
