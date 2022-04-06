@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "50px",
   },
   cardGrid: {
-    padding: "10px 0",
+    padding: "10px 16px 10px 16px",
     marginTop: "20px",
   },
 
@@ -19,10 +19,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: "15px 0px 0px 0px",
+    "&:hover": {
+      boxShadow:
+        "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
+    },
+  },
+
+  imageCard: {
+    height: "50%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "15px 0px 0px 0px",
   },
 
   engineerPopupCard: {
-    width: "253px",
+    width: "280px",
     marginRight: "60px",
     padding: "10px 20px 5px 0px",
   },
@@ -33,14 +45,20 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 0px 5px 20px",
   },
 
+  MerakiEntry: {
+    marginTop: "65px",
+  },
+
+  ResMerakiEntry: {
+    marginTop: "20px",
+  },
+
   LearningBtn: {
     width: "256px",
-    height: "48px",
   },
 
   responsiveBtn: {
-    width: "320px",
-    height: "48px",
+    width: "100%",
   },
 
   playstoreImg: {
@@ -48,6 +66,10 @@ const useStyles = makeStyles((theme) => ({
   },
   downloadBtn: {
     marginLeft: "10px",
+  },
+  link: {
+    textDecoration: "none",
+    color: "black",
   },
 }));
 

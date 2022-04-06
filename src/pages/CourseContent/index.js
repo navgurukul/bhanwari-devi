@@ -41,6 +41,7 @@ function CourseContent(props) {
     en: "English",
     te: "Telugu",
     ta: "Tamil",
+    mr: "Marathi",
   };
 
   // api call for course

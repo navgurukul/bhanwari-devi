@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   CssBaseline,
@@ -6,7 +6,11 @@ import {
   Button,
   Card,
   Stack,
+  Box,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
@@ -15,26 +19,30 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 const pathwayData = [
   {
     title: "Python",
+    code: "PRGPYT",
     image: "python",
     description: "Get familiar with programming with bite sized lessons",
   },
   {
     title: "Typing",
+    code: "TYPGRU",
     image: "typing",
-    description: "Learn to type with accuracy and speed",
+    description: "Learn to type with pinpoint accuracy and speed.",
   },
   {
     title: "Web Development",
+    code: "JSRPIT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
   },
   {
     title: "English",
+    code: "SPKENG",
     image: "language",
     description: "Get familiar with programming with bite sized lessons",
   },
   {
-    title: "Soft Skills",
+    title: "Residential",
     image: "soft-skills",
     description: "Interview preparation  to get you job ready",
   },
@@ -75,11 +83,9 @@ const concernsText = [
 function MerakiEntry(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles();
-
   return (
     <div>
       <Typography
-        variant="h6"
         color="textPrimary"
         align="center"
         gutterBottom
@@ -88,7 +94,7 @@ function MerakiEntry(props) {
         With Meraki, begin your programming journey for free today
       </Typography>
       <Grid sx={{ mt: 3 }} container spacing={2} justifyContent="center">
-        <Grid item>
+        <Grid alignItems="right" item xs={12} ms={12} md={4}>
           <Button
             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
             variant="contained"
@@ -97,11 +103,13 @@ function MerakiEntry(props) {
             Start Learning
           </Button>
         </Grid>
-        <Grid item>
+        <Grid item xs={12} ms={12} md={4}>
           <Button
             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
             variant="outlined"
             color="primary"
+            target="_blank"
+            href="https://play.google.com/store/apps/details?id=org.merakilearn"
           >
             <img
               className={classes.playstoreImg}
@@ -120,6 +128,22 @@ function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { loading, data } = useSelector((state) => state.Pathways);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  data &&
+    data.pathways.forEach((pathway) => {
+      pathwayData.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
+
   return (
     <>
       <CssBaseline />
@@ -128,7 +152,7 @@ function Home() {
           <Container maxWidth="md">
             <Typography
               variant="h4"
-              align={isActive ? "left" : "center"}
+              align="center"
               className={!isActive && classes.heading}
               color="textPrimary"
               gutterBottom
@@ -137,26 +161,31 @@ function Home() {
             </Typography>
             <MerakiEntry
               headingAttr={{
-                align: isActive ? "left" : "center",
+                align: "center",
+                variant: "h6",
                 gutterBottom: true,
               }}
             />
           </Container>
 
           {/* Section 2  */}
-          
+
           <Container sx={{ mt: 4, display: { xs: "none", md: "flex" } }}>
             <Grid container justifyContent="space-between">
               <Grid container item xs={4} justifyContent="flex-start">
-                <Card className={classes.typingPopupCard}>
-                  <Typography color="text.secondary">
+                <Card elevation={2} className={classes.typingPopupCard}>
+                  <Typography variant="body1" color="text.secondary">
                     I want to be a typing assistant
                   </Typography>
                 </Card>
               </Grid>
               <Grid container item xs={4} justifyContent="flex-end">
-                <Card className={classes.engineerPopupCard}>
-                  <Typography align="right" color="text.secondary">
+                <Card elevation={2} className={classes.engineerPopupCard}>
+                  <Typography
+                    align="right"
+                    variant="body1"
+                    color="text.secondary"
+                  >
                     I want to be the first software engineer in my family
                   </Typography>
                 </Card>
@@ -175,7 +204,7 @@ function Home() {
 
           {/* Section 3  */}
 
-          <Container sx={{ mt: 10 }} maxWidth="sm">
+          <Container sx={{ mt: 8 }} maxWidth="sm">
             <Typography
               variant="h5"
               component="h6"
@@ -192,9 +221,11 @@ function Home() {
               {pathwayData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
                   <PathwayCard
+                    id={item.id}
                     title={item.title}
                     description={item.description}
                     image={item.image}
+                    hover={true}
                   />
                 </Grid>
               ))}
@@ -202,7 +233,7 @@ function Home() {
           </Container>
 
           {/* Section 4 */}
-          <Container sx={{ mt: 10 }} maxWidth="sm">
+          <Container sx={{ mt: 8 }} maxWidth="sm">
             <Typography
               variant="h5"
               component="h6"
@@ -210,32 +241,34 @@ function Home() {
               color="textPrimary"
               gutterBottom
             >
-              How can Meraki help with your concerns?
+              How can Meraki help you?
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
             <Grid container spacing={4}>
-              {merakiConcerns.map((item) => (
+              {merakiConcerns.map((item, index) => (
                 <Grid item xs={12} ms={6} md={4}>
                   <PathwayCard
                     image={item.image}
                     description={item.description}
+                    hover={false}
                   />
-                </Grid>
-              ))}
-              {concernsText.map((item) => (
-                <Grid item xs={12} ms={6} md={4}>
-                  <Stack alignItems="center">
+                  <Stack sx={{ mt: 2 }} alignItems="center">
                     <img src={require("./assets/down-swirly.svg")} />
                   </Stack>
-                  <PathwayCard description={item.description} />
+                  <Box sx={{ mt: 3 }}>
+                    <PathwayCard
+                      description={concernsText[index].description}
+                    />
+                  </Box>
                 </Grid>
               ))}
             </Grid>
           </Container>
+
           {/* Section 5 */}
           <Container maxWidth="sm">
-            <Stack alignItems="center">
+            <Stack sx={{ mt: 2 }} alignItems="center">
               <img src={require("./assets/down-swirly.svg")} />
             </Stack>
             <Typography sx={{ mt: 3 }} align="center" gutterBottom>
@@ -243,10 +276,9 @@ function Home() {
               ready for advanced learning schools such as Zoho or Navgurukul
             </Typography>
           </Container>
-
           {/* Section 6  */}
 
-          <Container maxWidth="md" sx={{ mt: 10 }}>
+          <Container maxWidth="md" sx={{ mt: 9 }}>
             <Typography
               variant="h5"
               component="h2"
@@ -285,28 +317,33 @@ function Home() {
                 </Grid>
               ))}
             </Grid>
-            <Typography
-              sx={{ mt: 2 }}
-              align="center"
-              color="primary"
-              gutterBottom
-            >
-              See all our partners
-            </Typography>
+            <Stack sx={{ mt: 3 }} alignItems="center">
+              <Button href="#">
+                See all our partners
+                <ArrowForwardIosIcon sx={{ padding: "2px" }} />
+              </Button>
+            </Stack>
           </Container>
           {/* Section 7  */}
           <Container
             maxWidth="false"
-            sx={{ mt: 10, p: 6, background: "#E9F5E9" }}
+            className={isActive ? classes.ResMerakiEntry : classes.MerakiEntry}
+            sx={{ p: 5, background: "#E9F5E9" }}
           >
             <Container maxWidth="md">
-              <MerakiEntry />
+              <MerakiEntry
+                headingAttr={{
+                  variant: "h5",
+                  align: "center",
+                  gutterBottom: true,
+                }}
+              />
             </Container>
           </Container>
 
           {/* Section 8  */}
 
-          <Container sx={{ mt: 10 }} maxWidth="sm">
+          <Container sx={{ mt: 6, mb: 6 }} maxWidth="sm">
             <Typography
               variant="h5"
               component="h6"
@@ -317,7 +354,7 @@ function Home() {
               Have Questions?
             </Typography>
             <Typography
-              sx={{ mt: 5 }}
+              sx={{ mt: 3 }}
               align="center"
               color="textPrimary"
               gutterBottom
