@@ -4,6 +4,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { PATHS, interpolatePath } from "../../constant";
 import { METHODS } from "../../services/api";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
@@ -181,34 +183,42 @@ function PathwayCourse() {
             {pathwayCourse &&
               pathwayCourse.map((item, index) => (
                 <Grid xs={12} md={3} className={classes.courseCard}>
-                  <Card elevation={0} sx={{ ml: 3 }}>
-                    <img
-                      src={require(`./asset/${images[index]}.svg`)}
-                      alt="course"
-                      loading="lazy"
-                    />
-                    {/* <CardContent> */}
-                    <Toolbar disableGutters sx={{ ml: 2 }}>
-                      <Typography
-                        align={isActive ? "center" : "left"}
-                        variant="body1"
-                        className={classes.courseName}
-                        sx={{
-                          mr: "10px",
-                          padding: isActive ? "5px" : "5px 0 5px 13px",
-                        }}
-                      >
-                        {index + 1}
-                      </Typography>
-                      <Typography
-                        align={isActive ? "center" : "left"}
-                        variant="body1"
-                      >
-                        {item.name}
-                      </Typography>
-                    </Toolbar>
-                    {/* </CardContent> */}
-                  </Card>
+                  {console.log("item", item)}
+                  {/* <Link to={PATHS.PATHWAY_COURSE_CONTENT}> */}
+                  <Link
+                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                      courseId: item.id,
+                    })}
+                  >
+                    <Card elevation={0} sx={{ ml: 3 }}>
+                      <img
+                        src={require(`./asset/${images[index]}.svg`)}
+                        alt="course"
+                        loading="lazy"
+                      />
+                      {/* <CardContent> */}
+                      <Toolbar disableGutters sx={{ ml: 2 }}>
+                        <Typography
+                          align={isActive ? "center" : "left"}
+                          variant="body1"
+                          className={classes.courseName}
+                          sx={{
+                            mr: "10px",
+                            padding: isActive ? "5px" : "5px 0 5px 13px",
+                          }}
+                        >
+                          {index + 1}
+                        </Typography>
+                        <Typography
+                          align={isActive ? "center" : "left"}
+                          variant="body1"
+                        >
+                          {item.name}
+                        </Typography>
+                      </Toolbar>
+                      {/* </CardContent> */}
+                    </Card>
+                  </Link>
                 </Grid>
               ))}
           </Grid>

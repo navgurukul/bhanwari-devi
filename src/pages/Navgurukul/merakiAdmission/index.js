@@ -13,7 +13,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 
-function Admission() {
+function Admission(props) {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -30,6 +30,7 @@ function Admission() {
   const user = useSelector(({ User }) => User);
 
   let userToken = localStorage.getItem("Token");
+  const partnerIdFromOpportunity = props.location.state.partnerId;
 
   useEffect(() => {
     axios({
@@ -54,7 +55,7 @@ function Admission() {
         params: {
           ngCallType: "getEnrolmentKey",
           From: mobile,
-          partner_id: partnerId || null,
+          partner_id: partnerId || partnerIdFromOpportunity || null,
         },
       });
       setEnrolmentKey(response.data.key);
