@@ -25,6 +25,8 @@ import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunte
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 import OurStory from "../pages/OurStory";
 
+import Partner from "../pages/Partner";
+
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
 import PathwayExercise from "../components/PathwayExercise";
@@ -59,6 +61,8 @@ const Routing = () => {
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
+
+      <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
       <Route
         exact
