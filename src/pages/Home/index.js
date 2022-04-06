@@ -15,6 +15,7 @@ import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 
 const pathwayData = [
   {
@@ -81,7 +82,7 @@ const concernsText = [
 ];
 
 function MerakiEntry(props) {
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   return (
     <div>

@@ -18,9 +18,9 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 // import HiddenContent from "../HiddenContent";
-import useStyles from "../styles";
 
-// import HiddenContent from "../HiddenContent";
+import CircleIcon from "@mui/icons-material/Circle";
+import useStyles from "../styles";
 
 import {
   Container,
@@ -84,7 +84,7 @@ const headingVarients = {
 
 const RenderContent = ({ data }) => {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
@@ -92,7 +92,7 @@ const RenderContent = ({ data }) => {
   }
   if (data.component === "image") {
     return (
-      <img className={classes["content-img"]} src={data.value} alt="content" />
+      <img className={classes.contentImage} src={data.value} alt="content" />
     );
   }
   if (data.component === "youtube") {
@@ -120,14 +120,12 @@ const RenderContent = ({ data }) => {
           <Typography
             variant="body1"
             sx={{ pr: 1 }}
-            // className="number"
-            className={classes.number}
+            className={classes.contentNumber}
             dangerouslySetInnerHTML={{ __html: data.decoration.value }}
           />
           <Typography
             variant="body1"
-            className={classes.number}
-            // className="paragraph"
+            className={classes.contentNumber}
             dangerouslySetInnerHTML={{ __html: text }}
           />
         </Box>
@@ -136,7 +134,6 @@ const RenderContent = ({ data }) => {
       return (
         <Typography
           variant="body1"
-          //  className="paragraph"
           dangerouslySetInnerHTML={{ __html: text }}
         />
       );
@@ -288,7 +285,7 @@ function ExerciseContent({ exerciseId, lang }) {
 
   return (
     <Container maxWidth="sm">
-      <Box>
+      <Box sx={{ mt: 5 }}>
         {content &&
           content.map((contentItem, index) => (
             <RenderContent data={contentItem} key={index} classes={classes} />

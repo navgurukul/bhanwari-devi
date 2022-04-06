@@ -27,7 +27,7 @@ export const PATHS = {
   STATEPARTNER: "/state-dashboard/:clusterId",
   STATE: "/state-dashboard",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
-
+  OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
 };
 

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 // import { breakpoints } from '../../theme/constant'
+import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
+import { useDispatch } from "react-redux";
+import { breakpoints } from "../../../theme/constant";
 import {
   Container,
   Box,
@@ -12,9 +15,6 @@ import {
   Button,
   Stack,
 } from "@mui/material";
-
-import axios from "axios";
-import { METHODS } from "../../../services/api";
 
 const images = [
   "course1",
@@ -29,24 +29,21 @@ const images = [
 ];
 
 function ResidentialProgramme() {
-  const [pathwayCourse, setPathwayCourse] = useState([]);
-  const user = useSelector(({ User }) => User);
-  const isActive = useMediaQuery("(max-width:600px)");
-  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.Pathways);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/4/courses?courseType=json`,
-      headers: {
-        accept: "application/json",
-        "version-code": 40,
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      setPathwayCourse(res.data.courses);
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  let pathwayCourse;
+  data &&
+    data.pathways.forEach((pathway) => {
+      if (pathway.code === "PRCRSE") {
+        pathwayCourse = pathway.courses;
+      }
     });
-  }, []);
 
   return (
     <Container sx={{ mt: 5, p: 4 }} maxWidth="lg">
@@ -62,10 +59,10 @@ function ResidentialProgramme() {
             <Typography variant="h4" sx={{ textAlign: isActive && "center" }}>
               Residential Programme Info- Track
             </Typography>
-            <Typography variant="body2">
-              Learn the nuances and basics of the technology that powers the
-              web. Start with learning what is Javascript and eventually build
-              your own website.
+            <Typography variant="body1">
+              Navgurukul, our parent organization, offers fully funded 1 year
+              software engineering programme. Learn all about it in this
+              introductory course and get ready to apply for it.
             </Typography>
           </Card>
         </Grid>
@@ -76,27 +73,28 @@ function ResidentialProgramme() {
           Courses
         </Typography>
         <Grid sx={{ mt: 2 }} container spacing={3} align="center">
-          {pathwayCourse.map((item, index) => (
-            <Grid xs={12} md={3}>
-              <Card elevation={0}>
-                <img
-                  src={require(`../asset/${images[index]}.svg`)}
-                  alt="course"
-                  loading="lazy"
-                />
-                <CardContent>
-                  <Typography variant="subtitle1">{item.name}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+          {pathwayCourse &&
+            pathwayCourse.map((item, index) => (
+              <Grid xs={12} md={3}>
+                <Card elevation={0}>
+                  <img
+                    src={require(`../asset/${images[index]}.svg`)}
+                    alt="course"
+                    loading="lazy"
+                  />
+                  <CardContent>
+                    <Typography variant="subtitle1">{item.name}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
         </Grid>
       </Box>
 
       <Stack sx={{ mt: 8 }} alignItems="center">
         <Typography variant="h6">Have you completed the overview?</Typography>
         <Button sx={{ mt: 2 }} variant="contained" color="primary">
-          Yes, let’s take the test
+          Yes, let's take the test
         </Button>
       </Stack>
     </Container>
