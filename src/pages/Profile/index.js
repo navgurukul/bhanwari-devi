@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Container,
@@ -20,7 +21,7 @@ function Profile() {
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
 
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -66,7 +67,13 @@ function Profile() {
   return (
     <Container maxWidth="lg" sx={{ pt: 20 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6} align={isActive ? "center" : "right"}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          align={isActive ? "center" : "right"}
+          sx={{ pr: "16px" }}
+        >
           <Avatar
             alt="Remy Sharp"
             src={userData.profile_picture}

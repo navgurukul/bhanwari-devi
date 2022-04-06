@@ -4,6 +4,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 // import { breakpoints } from '../../theme/constant'
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import { useDispatch } from "react-redux";
+import { breakpoints } from "../../../theme/constant";
 import {
   Container,
   Box,
@@ -30,7 +31,7 @@ const images = [
 function ResidentialProgramme() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
