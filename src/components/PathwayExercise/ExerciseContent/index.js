@@ -9,7 +9,14 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 // import { breakpoints } from "../../theme/constant";
 import { breakpoints } from "../../../theme/constant";
 import CircleIcon from "@mui/icons-material/Circle";
-
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 // import HiddenContent from "../HiddenContent";
 import useStyles from "../styles";
 
@@ -135,42 +142,81 @@ const RenderContent = ({ data }) => {
       );
     }
   }
+  // if (data.component === "table") {
+  //   const allData = data.value.map((item) => item.items);
+  //   const dataInCol = allData[0].map((_, i) =>
+  //     allData.map((_, j) => allData[j][i])
+  //   );
+  //   return (
+  //     <div>
+  //       <table className="table-data">
+  //         <thead>
+  //           <tr>
+  //             {data.value.map((item) => {
+  //               const header = DOMPurify.sanitize(item.header);
+  //               return <th dangerouslySetInnerHTML={{ __html: header }} />;
+  //             })}
+  //           </tr>
+  //         </thead>
+  //         <tbody>
+  // {dataInCol.map((item) => {
+  //   return (
+  //     <tr>
+  //       {item.map((row) => {
+  //         const rowData = DOMPurify.sanitize(row);
+  //         return (
+  //           <>
+  //             <td dangerouslySetInnerHTML={{ __html: rowData }} />
+  //           </>
+  //         );
+  //       })}
+  //     </tr>
+  //   );
+  // })}
+  //         </tbody>
+  //       </table>
+  //     </div>
+  //   );
+  // }
   if (data.component === "table") {
     const allData = data.value.map((item) => item.items);
     const dataInCol = allData[0].map((_, i) =>
       allData.map((_, j) => allData[j][i])
     );
     return (
-      <div>
-        <table className="table-data">
-          <thead>
-            <tr>
+      <TableContainer>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
               {data.value.map((item) => {
                 const header = DOMPurify.sanitize(item.header);
-                return <th dangerouslySetInnerHTML={{ __html: header }} />;
+                return (
+                  <TableCell dangerouslySetInnerHTML={{ __html: header }} />
+                );
               })}
-            </tr>
-          </thead>
-          <tbody>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {dataInCol.map((item) => {
               return (
-                <tr>
+                <TableRow hover={false}>
                   {item.map((row) => {
                     const rowData = DOMPurify.sanitize(row);
                     return (
-                      <>
-                        <td dangerouslySetInnerHTML={{ __html: rowData }} />
-                      </>
+                      <TableCell
+                        dangerouslySetInnerHTML={{ __html: rowData }}
+                      />
                     );
                   })}
-                </tr>
+                </TableRow>
               );
             })}
-          </tbody>
-        </table>
-      </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   }
+
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
@@ -221,7 +267,7 @@ function ExerciseContent({ exerciseId, lang }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const classes = useStyles();
-  const courseId = 370;
+  const courseId = 375;
 
   useEffect(() => {
     axios({

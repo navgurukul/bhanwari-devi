@@ -26,28 +26,52 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-
+function NavigationComponent({ index, exerciseId, setExerciseId, classes }) {
+  return (
+    <>
+      {/* <Link to="/"> */}
+      <img
+        onClick={() => {
+          localStorage.setItem("CurrentCourse", index);
+          setExerciseId(index);
+        }}
+        src={
+          exerciseId == index
+            ? `${require("./asset/contentTypeSelectd.svg")}`
+            : `${require("./asset/contenttype.svg")}`
+        }
+        loading="lazy"
+        className={classes.contentImg}
+      />
+      {/* </Link> */}
+    </>
+  );
+}
 function PathwayExercise() {
   const user = useSelector(({ User }) => User);
-  const [course, setCourse] = useState();
+  const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
   const courseId = 370;
   const classes = useStyles();
   // const params = useParams();
   const courseLength = course && course.length;
-  window.addEventListener("load", () => {
-    if (localStorage.getItem("CurrentCourse")) {
-      setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
-      console.log(exerciseId);
-    } else {
-      localStorage.setItem("CurrentCourse", 0);
-    }
-  });
+  // window.addEventListener("load", () => {
+  //   if (localStorage.getItem("CurrentCourse")) {
+  //     if (course.length < localStorage.getItem("CurrentCourse")) {
+  //       setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
+  //     } else {
+  //       setExerciseId(0);
+  //     }
+  //     console.log(exerciseId);
+  //   } else {
+  //     localStorage.setItem("CurrentCourse", 0);
+  //   }
+  // });
   useEffect(() => {
     const courseLength = course && course.length;
     if (localStorage.getItem("CurrentCourse")) {
       if (localStorage.getItem("CurrentCourse") <= courseLength) {
-        setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
+        setExerciseId(localStorage.getItem("CurrentCourse"));
       }
     } else {
       localStorage.setItem("CurrentCourse", 0);
@@ -65,7 +89,15 @@ function PathwayExercise() {
       setCourse(res.data.course.exercises);
     });
   }, []);
-
+  useEffect(() => {
+    if (localStorage.getItem("CurrentCourse")) {
+      if (course.length > localStorage.getItem("CurrentCourse")) {
+        setExerciseId(parseInt(localStorage.getItem("CurrentCourse")));
+      }
+    } else {
+      localStorage.setItem("CurrentCourse", 0);
+    }
+  }, [course]);
   const previousClickHandler = () => {
     localStorage.setItem("CurrentCourse", exerciseId - 1);
     setExerciseId(exerciseId - 1);
@@ -110,23 +142,12 @@ function PathwayExercise() {
                       course.map((exercise, index) => {
                         if (exerciseId < 7 && index < 7) {
                           return (
-                            <>
-                              {/* <Link to="/"> */}
-                              <img
-                                onClick={() => {
-                                  localStorage.setItem("CurrentCourse", index);
-                                  setExerciseId(index);
-                                }}
-                                src={
-                                  exerciseId == index
-                                    ? `${require("./asset/contentTypeSelectd.svg")}`
-                                    : `${require("./asset/contenttype.svg")}`
-                                }
-                                loading="lazy"
-                                className={classes.contentImg}
-                              />
-                              {/* </Link> */}
-                            </>
+                            <NavigationComponent
+                              index={index}
+                              exerciseId={exerciseId}
+                              setExerciseId={setExerciseId}
+                              classes={classes}
+                            />
                           );
                         } else if (
                           exerciseId >= 7 &&
@@ -134,23 +155,12 @@ function PathwayExercise() {
                           index < 14
                         ) {
                           return (
-                            <>
-                              {/* <Link to="/"> */}
-                              <img
-                                onClick={() => {
-                                  localStorage.setItem("CurrentCourse", index);
-                                  setExerciseId(index);
-                                }}
-                                src={
-                                  exerciseId == index
-                                    ? `${require("./asset/contentTypeSelectd.svg")}`
-                                    : `${require("./asset/contenttype.svg")}`
-                                }
-                                loading="lazy"
-                                className={classes.contentImg}
-                              />
-                              {/* </Link> */}
-                            </>
+                            <NavigationComponent
+                              index={index}
+                              exerciseId={exerciseId}
+                              setExerciseId={setExerciseId}
+                              classes={classes}
+                            />
                           );
                         } else if (
                           exerciseId >= 14 &&
@@ -158,20 +168,12 @@ function PathwayExercise() {
                           index < 21
                         ) {
                           return (
-                            <>
-                              {/* <Link to="/"> */}
-                              <img
-                                onClick={() => setExerciseId(index)}
-                                src={
-                                  exerciseId == index
-                                    ? `${require("./asset/contentTypeSelectd.svg")}`
-                                    : `${require("./asset/contenttype.svg")}`
-                                }
-                                loading="lazy"
-                                className={classes.contentImg}
-                              />
-                              {/* </Link> */}
-                            </>
+                            <NavigationComponent
+                              index={index}
+                              exerciseId={exerciseId}
+                              setExerciseId={setExerciseId}
+                              classes={classes}
+                            />
                           );
                         }
                       })}
