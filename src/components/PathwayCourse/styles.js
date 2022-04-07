@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#818181",
     paddingBottom: 2,
   },
+  pathwayContainer: {
+    marginTop: 40,
+  },
   mobileVideo: {
     width: 700,
   },
@@ -15,7 +18,10 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 7,
   },
   box: {
-    paddingTop: 23,
+    paddingTop: 40,
+  },
+  Box1: {
+    marginTop: 20,
   },
   course: {
     paddingBottom: 40,
@@ -42,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     m: "15px",
     ml: "35px",
     height: "200px",
+  },
+  pathwayLink: {
+    textDecoration: "none",
   },
 }));
 
