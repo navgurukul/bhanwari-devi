@@ -192,64 +192,72 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 </NavLink>
               </MenuItem>
             </Box>
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: { xs: "block", md: "none" },
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "spaced-around",
               }}
             >
-              <MobileDropDown
-                Menu="Learn"
-                handleClose={handleCloseLearn}
-                toggleDrawer={toggleDrawer}
-              />
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.CLASS}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  Classes
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.MENTOR}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  Mentor
-                </NavLink>
-              </MenuItem>
-            </Box>
-            <Box
-              sx={{
-                flexGrow: 0,
-                display: {
-                  xs: "block",
-                  md: "flex",
-                },
-              }}
-            >
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.ADMISSION}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  Admission
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.OPPORTUNITIES}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  Opportunity
-                </NavLink>
-              </MenuItem>
-            </Box>
+              <Box
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                <MobileDropDown
+                  Menu="Learn"
+                  handleClose={handleCloseLearn}
+                  toggleDrawer={toggleDrawer}
+                />
+                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                  <NavLink
+                    to={PATHS.CLASS}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
+                    Classes
+                  </NavLink>
+                </MenuItem>
+                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                  <NavLink
+                    to={PATHS.MENTOR}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
+                    Mentor
+                  </NavLink>
+                </MenuItem>
+              </Box>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-end",
+                  alignSelf: "flex-end",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                }}
+              >
+                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                  <NavLink
+                    to={PATHS.ADMISSION}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
+                    Admission
+                  </NavLink>
+                </MenuItem>
+                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                  <NavLink
+                    to={PATHS.OPPORTUNITIES}
+                    className={classes.link}
+                    activeClassName={classes.active}
+                  >
+                    Opportunity
+                  </NavLink>
+                </MenuItem>
+              </div>
+            </div>
           </>
         )}
 

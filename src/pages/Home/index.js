@@ -372,7 +372,15 @@ function Home() {
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
                     Via email:
                   </span>{" "}
-                  team@meraki.org
+                  <a
+                    style={{
+                      textDecoration: "none",
+                      color: "#48a145",
+                    }}
+                    href="mailto:team@meraki.org"
+                  >
+                    team@meraki.org
+                  </a>
                 </Typography>
               </Grid>
               <Grid item>
@@ -380,7 +388,16 @@ function Home() {
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
                     Via Whatsapp:
                   </span>{" "}
-                  +91 8891300300
+                  <a
+                    style={{
+                      textDecoration: "none",
+                      color: "#48a145",
+                    }}
+                    href="tel:+918891300300"
+                  >
+                    {" "}
+                    +91 8891300300
+                  </a>
                 </Typography>
               </Grid>
             </Grid>

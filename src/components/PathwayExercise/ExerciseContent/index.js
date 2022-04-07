@@ -301,10 +301,10 @@ function ExerciseContent({ exerciseId, lang }) {
       headers: {
         "version-code": 40,
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: user.data?.token || "",
       },
     }).then((res) => {
-      setContent(res.data.course.exercises[exerciseId].content);
+      setContent(res.data.course.exercises[exerciseId]?.content);
     });
     // }, [courseId, exerciseId, id, user.data.token]);
   }, [courseId, exerciseId, lang]);

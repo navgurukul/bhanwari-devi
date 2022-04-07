@@ -46,6 +46,7 @@ function NavigationComponent({
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
               courseId: params.courseId,
               exerciseId: index,
+              pathwayId: params.pathwayId,
             })
           );
           setExerciseId(index);
@@ -70,7 +71,7 @@ function PathwayExercise() {
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
-  const courseLength = course && course.length;
+  const courseLength = course && course.length ? course.length : 0;
 
   useEffect(() => {
     const currentCourse = params.exerciseId;
@@ -81,10 +82,10 @@ function PathwayExercise() {
       headers: {
         "version-code": 40,
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: user.data?.token || "",
       },
     }).then((res) => {
-      console.log("res", res.data.course.exercises[0].content);
+      console.log("res", res.data.course.exercises[0]?.content);
       setCourse(res.data.course.exercises);
     });
   }, []);
@@ -95,6 +96,7 @@ function PathwayExercise() {
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
           exerciseId: exerciseId - 1,
+          pathwayId: params.pathwayId,
         })
       );
       setExerciseId(exerciseId - 1);
@@ -107,6 +109,7 @@ function PathwayExercise() {
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
           exerciseId: exerciseId + 1,
+          pathwayId: params.pathwayId,
         })
       );
 
@@ -136,7 +139,7 @@ function PathwayExercise() {
                   style={{
                     color: "black",
                   }}
-                  to="/pathway/1"
+                  to={`/pathway/${params.pathwayId}`}
                 >
                   <CloseIcon />
                 </Link>
@@ -219,7 +222,7 @@ function PathwayExercise() {
                   style={{
                     color: "black",
                   }}
-                  to="/pathway/1"
+                  to={`/pathway/${params.pathwayId}`}
                 >
                   <CloseIcon />
                 </Link>
@@ -254,6 +257,7 @@ function PathwayExercise() {
                           to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
                             courseId: params.courseId,
                             exerciseId: index,
+                            pathwayId: params.pathwayId,
                           })}
                           onClick={() => {
                             setExerciseId(index);
