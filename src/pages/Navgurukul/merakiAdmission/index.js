@@ -30,7 +30,8 @@ function Admission(props) {
   const user = useSelector(({ User }) => User);
 
   let userToken = localStorage.getItem("Token");
-  const partnerIdFromOpportunity = props.location.state.partnerId;
+  const partnerIdFromOpportunity =
+    props.location.state && props.location.state.partnerId;
 
   useEffect(() => {
     axios({
