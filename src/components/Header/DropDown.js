@@ -77,18 +77,8 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
       <AccordionDetails>
         {students[Menu.split(" ").join("")].map((menu, index) => (
           <Link
-            // to={
-            //   Menu === "Learn" && menu.id
-            //     ? interpolatePath(PATHS.PATHWAY_COURSE, {
-            //         pathwayId: menu.id,
-            //       })
-            //     : menu.title === "Open Courses"
-            //     ? PATHS.MISCELLENEOUS_COURSE
-            //     : menu.title === "Residential Programmes" &&
-            //       PATHS.RESIDENTIAL_COURSE
-            // }
             to={
-              Menu === "Learn" && menu.id
+              menu === "Learn" && menu.id
                 ? interpolatePath(PATHS.PATHWAY_COURSE, {
                     pathwayId: menu.id,
                   })
@@ -99,7 +89,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                 : (Menu === "About" || "GetInvolved") && menu.path
             }
             target={
-              Menu === "GetInvolved" && menu.path.includes("http")
+              menu === "GetInvolved" && menu.path.includes("http")
                 ? "blank"
                 : ""
             }

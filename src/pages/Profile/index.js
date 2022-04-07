@@ -65,9 +65,24 @@ function Profile() {
     });
   };
   return (
-    <Container maxWidth="lg" sx={{ pt: 20 }}>
-      <Grid container spacing={2}>
-        <Grid
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        marginTop: "4rem",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
           item
           xs={12}
           md={6}
@@ -79,8 +94,15 @@ function Profile() {
             src={userData.profile_picture}
             sx={{ width: 100, height: 100 }}
           />
-        </Grid>
-        <Grid item xs={12} md={6} align={isActive ? "center" : "none"}>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
           {isEditing ? (
             <TextField
               id="standard-basic"
@@ -105,15 +127,28 @@ function Profile() {
           )}
           <Typography>{userData.email}</Typography>
           {isEditing ? (
-            <Button onClick={editProfile}>Save Profile</Button>
+            <Button
+              style={{
+                padding: "0",
+              }}
+              onClick={editProfile}
+            >
+              Save Profile
+            </Button>
           ) : (
-            <Button onClick={() => setIsEditing(true)}>
+            <Button
+              style={{
+                padding: "0",
+              }}
+              variant="text"
+              onClick={() => setIsEditing(true)}
+            >
               {!isActive && "Edit Profile"}
             </Button>
           )}
-        </Grid>
-      </Grid>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 export default Profile;
