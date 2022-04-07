@@ -122,16 +122,7 @@ const Partner = () => {
           Object.keys(partners).map((item) => {
             return (
               <Grid item xs={12} sm={4} md={4}>
-                <Card
-                  sx={{
-                    ":hover": {
-                      boxShadow: 20, // theme.shadows[20]
-                    },
-                  }}
-                  className={
-                    isActive ? classes.partnerCard1 : classes.partnerCard
-                  }
-                >
+                <Card className={classes.partnerCard}>
                   <CardHeader
                     title={partners[item].Name}
                     titleTypographyProps={{ variant: "subtitle1" }}
@@ -147,7 +138,7 @@ const Partner = () => {
                       {partners[item].Description}
                     </Typography>
                   </CardContent>
-                  <CardActions disableSpacing className={classes.partnerRight}>
+                  <CardActions>
                     {partners[item].Url ? (
                       <IconButton>
                         <Link href={partners[item].Url}>
