@@ -55,7 +55,11 @@ function Footer() {
   const classes = useStyles();
   const [showHeader, setShowHeader] = React.useState(true);
   useEffect(() => {
-    if (window.location.pathname.split("/").includes("course-content")) {
+    if (
+      window.location.pathname.split("/").includes("course-content") ||
+      window.location.pathname.split("/").includes("login") ||
+      window.location.pathname.split("/").includes("profile")
+    ) {
       console.log("here");
       setShowHeader(false);
     }
@@ -63,8 +67,16 @@ function Footer() {
 
   const history = useHistory();
   history.listen((location, action) => {
-    if (location.pathname.split("/").includes("course-content")) {
+    if (
+      location.pathname.split("/").includes("course-content") ||
+      location.pathname.split("/").includes("login") ||
+      location.pathname.split("/").includes("profile")
+    ) {
       console.log("not in header");
+      console.log(
+        ' location.pathname.split("/").includes("course-content")',
+        location.pathname.split("/").includes("course-content")
+      );
       setShowHeader(false);
     } else {
       setShowHeader(true);

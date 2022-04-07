@@ -30,11 +30,20 @@ const students = {
     { title: "Typing Guru", code: "TYPGRU" },
     { title: "JavaScript", code: "JSRPIT" },
     { title: "English", code: "SPKENG" },
-    { title: "Residential" },
+    { title: "Residential Programmes" },
     { title: "Open Courses" },
   ],
-  About: ["Meraki Team", "Alumni", "Our Story"],
-  GetInvolved: ["Become a Partner", "Become a Volunteer", "Donate", "Careers"],
+  // About: ["Meraki Team", "Our Story"],
+  // GetInvolved: ["Become a Partner", "Donate", "Careers"],
+  About: [
+    { title: "Meraki Team", path: PATHS.MERAKI_TEAM },
+    { title: "Our Story", path: PATHS.OUR_STORY },
+  ],
+  GetInvolved: [
+    { title: "Become a Partner", path: PATHS.OUR_PARTNER },
+    { title: "Donate", path: "https://www.navgurukul.org/donate" },
+    { title: "Careers", path: "https://recruiterflow.com/navgurukul/jobs" },
+  ],
 };
 
 export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
@@ -68,14 +77,31 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
       <AccordionDetails>
         {students[Menu.split(" ").join("")].map((menu, index) => (
           <Link
+            // to={
+            //   Menu === "Learn" && menu.id
+            //     ? interpolatePath(PATHS.PATHWAY_COURSE, {
+            //         pathwayId: menu.id,
+            //       })
+            //     : menu.title === "Open Courses"
+            //     ? PATHS.MISCELLENEOUS_COURSE
+            //     : menu.title === "Residential Programmes" &&
+            //       PATHS.RESIDENTIAL_COURSE
+            // }
             to={
               Menu === "Learn" && menu.id
                 ? interpolatePath(PATHS.PATHWAY_COURSE, {
                     pathwayId: menu.id,
                   })
-                : menu.title === "Residential"
+                : menu.title === "Open Courses"
+                ? PATHS.MISCELLENEOUS_COURSE
+                : menu.title === "Residential Programmes"
                 ? PATHS.RESIDENTIAL_COURSE
-                : PATHS.MISCELLENEOUS_COURSE
+                : (Menu === "About" || "GetInvolved") && menu.path
+            }
+            target={
+              Menu === "GetInvolved" && menu.path.includes("http")
+                ? "blank"
+                : ""
             }
             className={classes.link}
             onClick={toggleDrawer && toggleDrawer(false)}
@@ -86,7 +112,8 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
               )}
               <CardContent>
                 <Typography textAlign="center" variant="body1">
-                  {Menu === "Learn" ? menu.title : menu}
+                  {menu.title}
+                  {/* {Menu === "Learn" ? menu.title : menu} */}
                 </Typography>
               </CardContent>
             </MenuItem>
@@ -140,19 +167,29 @@ export const DropDown = ({
       {dropDown &&
         students[dropDown].map((menu, index) => (
           <>
-            <Link
-              to={
+            {/* If you'll use Link and to instead of a and href then it will not get reload 
+            hence won't take time to redirect to another page and also it won't redirect to external links */}
+            <a
+              href={
                 dropDown === "Learn" && menu.id
                   ? interpolatePath(PATHS.PATHWAY_COURSE, {
                       pathwayId: menu.id,
                     })
-                  : menu.title === "Residential"
+                  : menu.title === "Open Courses"
+                  ? PATHS.MISCELLENEOUS_COURSE
+                  : menu.title === "Residential Programmes"
                   ? PATHS.RESIDENTIAL_COURSE
-                  : PATHS.MISCELLENEOUS_COURSE
+                  : (dropDown === "About" || "GetInvolved") && menu.path
+              }
+              target={
+                dropDown === "GetInvolved" && menu.path.includes("http")
+                  ? "blank"
+                  : ""
               }
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
+              {console.log("menu.path", menu.path)}
               <MenuItem key={menu} onClick={handleClose} sx={{ padding: 1 }}>
                 {dropDown === "Learn" && (
                   <img src={students.image[index]} alt="course logo" />
@@ -161,10 +198,11 @@ export const DropDown = ({
                   textAlign="center"
                   sx={{ paddingLeft: dropDown === "Learn" && 2 }}
                 >
-                  {dropDown === "Learn" ? menu.title : menu}
+                  {menu.title}
+                  {/* {dropDown === "Learn" ? menu.title : menu} */}
                 </Typography>
               </MenuItem>
-            </Link>
+            </a>
             {dropDown === "Learn" && index == 4 && <Divider />}
           </>
         ))}

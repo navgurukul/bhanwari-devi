@@ -173,6 +173,24 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 handleClose={handleCloseLearn}
                 toggleDrawer={toggleDrawer}
               />
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.CLASS}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Classes
+                </NavLink>
+              </MenuItem>
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.MENTOR}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Mentor
+                </NavLink>
+              </MenuItem>
             </Box>
             <Box
               sx={{
@@ -185,6 +203,24 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 handleClose={handleCloseLearn}
                 toggleDrawer={toggleDrawer}
               />
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.CLASS}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Classes
+                </NavLink>
+              </MenuItem>
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.MENTOR}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Mentor
+                </NavLink>
+              </MenuItem>
             </Box>
             <Box
               sx={{
@@ -195,15 +231,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 },
               }}
             >
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.CLASS}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  Classes
-                </NavLink>
-              </MenuItem>
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
                 <NavLink
                   to={PATHS.ADMISSION}
@@ -313,6 +340,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             ) : null}
           </Box>
         )}
+
         <Box
           sx={{
             flexGrow: 0,
@@ -364,15 +392,17 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
               </Menu>
             </>
           ) : (
-            <MenuItem
-              onClick={() => {
-                setStudentView(!studentView);
-              }}
-            >
-              {studentView
-                ? `Switch to ${rolesList[0]} View`
-                : "Switch to student View"}
-            </MenuItem>
+            rolesList.length !== 0 && (
+              <MenuItem
+                onClick={() => {
+                  setStudentView(!studentView);
+                }}
+              >
+                {studentView
+                  ? `Switch to ${rolesList[0]} View`
+                  : "Switch to student View"}
+              </MenuItem>
+            )
           )}
         </Box>
       </Box>

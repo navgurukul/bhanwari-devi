@@ -59,7 +59,9 @@ function PathwayCourse() {
     }).then((res) => {
       setPathwayCourse(res.data.courses);
     });
-  }, []);
+  }, [pathwayId]);
+
+  console.log("pathwayCourse", pathwayCourse);
 
   return (
     <>
