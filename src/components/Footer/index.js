@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
-
+import { useHistory } from "react-router-dom";
 const menu = {
   About: ["Our Story", "Meraki Team "],
   LearningTracks: [
@@ -53,8 +53,31 @@ function FooterIcon(props) {
 
 function Footer() {
   const classes = useStyles();
+  const [showHeader, setShowHeader] = React.useState(true);
+  useEffect(() => {
+    if (window.location.pathname.split("/").includes("course-content")) {
+      console.log("here");
+      setShowHeader(false);
+    }
+  }, []);
+
+  const history = useHistory();
+  history.listen((location, action) => {
+    if (location.pathname.split("/").includes("course-content")) {
+      console.log("not in header");
+      setShowHeader(false);
+    } else {
+      setShowHeader(true);
+    }
+  });
   return (
-    <Box maxWidth="false" bgcolor="primary.light">
+    <Box
+      style={{
+        display: showHeader ? "inherit" : "none",
+      }}
+      maxWidth="false"
+      bgcolor="primary.light"
+    >
       <Container maxWidth="xl">
         <Grid container spacing={2} sx={{ mt: "40px" }}>
           <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
