@@ -19,7 +19,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 // import HiddenContent from "../HiddenContent";
-
+import { styled } from "@mui/system";
 import useStyles from "../styles";
 
 import {
@@ -39,7 +39,34 @@ function getMarkdown(code, lang) {
 ${code}
 ~~~`;
 }
+const Root = styled("div")(
+  ({ theme }) => `
+  table {
+   border:none;
+   background-color:#F5F5F5;
+  }
+th{
+  font-family: 'Nunito Sans';
+font-weight: 700;
+font-size: 18px;
+letter-spacing: 0.15px;
 
+}
+  td,
+  th,tr {
+    text-align: left;
+    padding: 6px;
+    border:none;
+       background-color:#F5F5F5;
+  }
+  tr,td,th:hover {{
+  background-color: #F5F5F5;
+    box-shadow: none;
+    cursor: default;
+}
+
+  `
+);
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   let l = lang == "python" ? "2" : "js";
@@ -181,7 +208,7 @@ const RenderContent = ({ data }) => {
       allData.map((_, j) => allData[j][i])
     );
     return (
-      <TableContainer>
+      <Root>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -210,7 +237,7 @@ const RenderContent = ({ data }) => {
             })}
           </TableBody>
         </Table>
-      </TableContainer>
+      </Root>
     );
   }
 

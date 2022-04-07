@@ -54,7 +54,7 @@ function PathwayCourse() {
       headers: {
         accept: "application/json",
         "version-code": 40,
-        Authorization: user.data ? user.data.token : null,
+        // Authorization: user.data ? user.data.token : null,
       },
     }).then((res) => {
       setPathwayCourse(res.data.courses);
