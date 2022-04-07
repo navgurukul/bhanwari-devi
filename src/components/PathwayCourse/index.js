@@ -101,85 +101,7 @@ function PathwayCourse() {
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
-        {/* <Grid container spacing={2} align="center" className={classes.box}>
-          <Grid xs={12} md={6}>
-            <Card align="left" elevation={0} className={classes.titleCard}>
-              <Typography
-                variant="body2"
-                className={classes.cardSubtitle}
-                sx={{ textAlign: isActive && "center" }}
-              >
-                Learning Track
-              </Typography>
-              {pathwayId == 1 && (
-                <>
-                  <Typography
-                    variant="h5"
-                    className={classes.heading}
-                    sx={{ textAlign: isActive && "center" }}
-                  >
-                    Python
-                  </Typography>
-                  <Typography variant="body1">
-                    Learn the basics and become comfortable in one of the most
-                    popular programming languages Python.
-                  </Typography>
-                </>
-              )}
-              {pathwayId == 2 && (
-                <>
-                  <Typography
-                    variant="h5"
-                    className={classes.heading}
-                    sx={{ textAlign: isActive && "center" }}
-                  >
-                    JavaScript
-                  </Typography>
-                  <Typography variant="body1">
-                    Learn the nuances and basics of the technology that powers
-                    the web. Start with learning what is Javascript and
-                    eventually build your own website.
-                  </Typography>
-                </>
-              )}
-              {pathwayId == 3 && (
-                <>
-                  <Typography
-                    variant="h5"
-                    className={classes.heading}
-                    sx={{ textAlign: isActive && "center" }}
-                  >
-                    Typing Guru
-                  </Typography>
-                  <Typography variant="body1">
-                    The typing track allows you to practice keyboard typing in a
-                    adaptive manner. You require a keyboard if on Android or use
-                    your laptop keyboard.
-                  </Typography>
-                </>
-              )}
-              {pathwayId == 5 && (
-                <>
-                  <Typography
-                    variant="h5"
-                    className={classes.heading}
-                    sx={{ textAlign: isActive && "center" }}
-                  >
-                    English - Spoken & Grammar
-                  </Typography>
-                  <Typography variant="body1">
-                    English is a great tool needed to navigate the tech world
-                    and also in an International setting. Whether you are a
-                    total beginner or already know some English, prepare for the
-                    challenge with our Spoken English classes and online
-                    courses.
-                  </Typography>
-                </>
-              )}
-            </Card>
-          </Grid>
-        </Grid> */}
-        {pathwayId === pathwayId && (
+        {pathwayId && (
           <>
             <Grid container spacing={2} align="center" className={classes.box}>
               <Grid xs={12} md={6}>
@@ -235,25 +157,6 @@ function PathwayCourse() {
             </Box>
           </>
         )}
-        {/* <Box className={classes.box}>
-          <Typography variant="h6" sx={{ textAlign: isActive && "center" }}>
-            Learning Outcomes
-          </Typography>
-          <Grid container spacing={0} align="center">
-            {content.map((item) => (
-              <Grid xs={12} md={4}>
-                <Card align="left" elevation={0}>
-                  <Box className={classes.flex}>
-                    <CheckIcon color="primary" />
-                    <Typography sx={{ ml: 1 }} variant="body1">
-                      {item}
-                    </Typography>
-                  </Box>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box> */}
         <Box className={classes.box}>
           <Typography
             className={classes.course}
