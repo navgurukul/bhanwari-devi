@@ -11,9 +11,9 @@ function PathwayCard({ id, title, description, image, hover }) {
       to={
         id
           ? interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: id })
-          : title === "Residential"
-          ? PATHS.RESIDENTIAL_COURSE
-          : PATHS.MISCELLENEOUS_COURSE
+          : title === "Open Courses"
+          ? PATHS.MISCELLENEOUS_COURSE
+          : title === "Residential Programmes" && PATHS.RESIDENTIAL_COURSE
       }
       className={classes.link}
     >

@@ -16,6 +16,8 @@ import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import { Link } from "react-router-dom";
+import { PATHS } from "../../constant";
 
 const pathwayData = [
   {
@@ -43,7 +45,7 @@ const pathwayData = [
     description: "Get familiar with programming with bite sized lessons",
   },
   {
-    title: "Residential",
+    title: "Residential Programmes",
     image: "soft-skills",
     description: "Interview preparation  to get you job ready",
   },
@@ -96,13 +98,15 @@ function MerakiEntry(props) {
       </Typography>
       <Grid sx={{ mt: 3 }} container spacing={2} justifyContent="center">
         <Grid alignItems="right" item xs={12} ms={12} md={4}>
-          <Button
-            className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-            variant="contained"
-            color="primary"
-          >
-            Start Learning
-          </Button>
+          <Link to={PATHS.LOGIN} className={classes.link}>
+            <Button
+              className={isActive ? classes.responsiveBtn : classes.LearningBtn}
+              variant="contained"
+              color="primary"
+            >
+              Start Learning
+            </Button>
+          </Link>
         </Grid>
         <Grid item xs={12} ms={12} md={4}>
           <Button
@@ -300,7 +304,7 @@ function Home() {
             <Typography align="center" color="textPrimary" gutterBottom>
               Partners Across India
             </Typography>
-            <Grid sx={{ mt: 1 }} container spacing={2}>
+            {/* <Grid sx={{ mt: 1 }} container spacing={2}>
               {[
                 "Wipro",
                 "Infosys",
@@ -317,7 +321,7 @@ function Home() {
                   />
                 </Grid>
               ))}
-            </Grid>
+            </Grid> */}
             <Stack sx={{ mt: 3 }} alignItems="center">
               <Button href="#">
                 See all our partners

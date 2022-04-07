@@ -4,6 +4,8 @@ import { actions as courseActions } from "../../Course/redux/action";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
+import { Link } from "react-router-dom";
+import { PATHS, interpolatePath } from "../../../constant";
 import {
   Container,
   Box,
@@ -77,28 +79,31 @@ function MiscelleneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
-                  <Card
-                    elevation={0}
-                    // className={classes.openCourse}
-                    sx={{
-                      background: "#EEF1F5",
-                      m: "15px",
-                      // ml: "35px",
-                      height: "190px",
-                    }}
-                  >
-                    <Typography
-                      align="center"
-                      variant="subtitle1"
+                  {console.log("item", item)}
+                  <Link>
+                    <Card
+                      elevation={0}
+                      // className={classes.openCourse}
                       sx={{
-                        p: "10px",
-                        verticalAlign: "middle",
-                        lineHeight: "170px",
+                        background: "#EEF1F5",
+                        m: "15px",
+                        // ml: "35px",
+                        height: "190px",
                       }}
                     >
-                      {item.name}
-                    </Typography>
-                  </Card>
+                      <Typography
+                        align="center"
+                        variant="subtitle1"
+                        sx={{
+                          p: "10px",
+                          verticalAlign: "middle",
+                          lineHeight: "170px",
+                        }}
+                      >
+                        {item.name}
+                      </Typography>
+                    </Card>
+                  </Link>
                 </Grid>
               ))}
           </Grid>
