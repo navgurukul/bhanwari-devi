@@ -63,7 +63,7 @@ function PathwayCourse() {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container className={classes.pathwayContainer} maxWidth="lg">
         <Grid container spacing={2} align="center" className={classes.box}>
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0} className={classes.titleCard}>
@@ -152,7 +152,7 @@ function PathwayCourse() {
             />
           </Grid> */}
         </Grid>
-        <Box className={classes.box}>
+        <Box className={classes.Box1}>
           <Typography variant="h6" sx={{ textAlign: isActive && "center" }}>
             Learning Outcomes
           </Typography>
@@ -186,6 +186,7 @@ function PathwayCourse() {
                   {console.log("item", item)}
                   {/* <Link to={PATHS.PATHWAY_COURSE_CONTENT}> */}
                   <Link
+                    className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
                       courseId: item.id,
                       exerciseId: 0,

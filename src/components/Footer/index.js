@@ -9,10 +9,10 @@ const menu = {
     "Typing Guru",
     "Spoken English",
     "Javascript",
-    "Soft Skills",
+    "Residential Programm",
     "Open Courses",
   ],
-  GetInvolved: ["Be a Partner", "Donate", "Careers", "Volunteer"],
+  GetInvolved: ["Be a Partner", "Donate", "Careers"],
 };
 
 const MenuList = (menuItem) => {
@@ -54,9 +54,9 @@ function FooterIcon(props) {
 function Footer() {
   const classes = useStyles();
   return (
-    <Box maxWidth="false" bgcolor="primary.light">
+    <Box sx={{ mt: 10 }} maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
-        <Grid container spacing={2} sx={{ mt: "40px" }}>
+        <Grid container spacing={2} sx={{ mt: "50px" }}>
           <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
