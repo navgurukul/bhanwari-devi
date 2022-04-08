@@ -33,8 +33,6 @@ const students = {
     { title: "Residential Programmes" },
     { title: "Open Courses" },
   ],
-  // About: ["Meraki Team", "Our Story"],
-  // GetInvolved: ["Become a Partner", "Donate", "Careers"],
   About: [
     { title: "Meraki Team", path: PATHS.MERAKI_TEAM },
     { title: "Our Story", path: PATHS.OUR_STORY },
@@ -103,7 +101,6 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
               <CardContent>
                 <Typography textAlign="center" variant="body1">
                   {menu.title}
-                  {/* {Menu === "Learn" ? menu.title : menu} */}
                 </Typography>
               </CardContent>
             </MenuItem>
@@ -179,7 +176,14 @@ export const DropDown = ({
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
-              <MenuItem key={menu} onClick={handleClose} sx={{ padding: 1 }}>
+              <MenuItem
+                key={menu}
+                onClick={handleClose}
+                sx={{
+                  padding:
+                    dropDown === "Learn" ? "30px 10px 30px 10px" : "10px",
+                }}
+              >
                 {dropDown === "Learn" && (
                   <img src={students.image[index]} alt="course logo" />
                 )}
@@ -188,11 +192,12 @@ export const DropDown = ({
                   sx={{ paddingLeft: dropDown === "Learn" && 2 }}
                 >
                   {menu.title}
-                  {/* {dropDown === "Learn" ? menu.title : menu} */}
                 </Typography>
               </MenuItem>
             </a>
-            {dropDown === "Learn" && index == 4 && <Divider />}
+            {dropDown === "Learn" && index == 4 && (
+              <Divider sx={{ paddingBottom: "5px" }} />
+            )}
           </>
         ))}
     </Menu>
