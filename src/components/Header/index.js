@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
+import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -70,7 +71,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
-          <MobileDropDown Menu={Menu} />
+          <MobileDropDown
+            Menu={Menu}
+            handleClose={menuCloseHandler}
+            toggleDrawer={toggleDrawer}
+          />
         ))}
       </Box>
       {!leftDrawer && (
@@ -150,9 +155,40 @@ function Header() {
       setElevation(0);
     }
   });
+  const [showHeader, setShowHeader] = React.useState(true);
+  useEffect(() => {
+    if (window.location.pathname.split("/").includes("course-content")) {
+      console.log("here");
+      setShowHeader(false);
+    }
+  }, []);
+
+  const history = useHistory();
+  history.listen((location, action) => {
+    if (location.pathname.split("/").includes("course-content")) {
+      console.log("not in header");
+      setShowHeader(false);
+    } else {
+      setShowHeader(true);
+    }
+  });
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="background" elevation={elevation}>
+      <AppBar
+        position="sticky"
+        color="background"
+        elevation={elevation}
+        style={{
+          display: showHeader ? "inherit" : "none",
+        }}
+        onhashchange={() => {
+          console.log("here changes");
+          if (window.location.pathname.split("/").includes("course-content")) {
+            console.log("here");
+            setShowHeader(false);
+          }
+        }}
+      >
         <Container className={classes.mainbar} maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

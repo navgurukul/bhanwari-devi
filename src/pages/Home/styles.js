@@ -36,13 +36,15 @@ const useStyles = makeStyles((theme) => ({
   engineerPopupCard: {
     width: "280px",
     marginRight: "60px",
-    padding: "10px 20px 5px 0px",
+    // padding: "10px 20px 5px 0px",
+    padding: "16px",
   },
 
   typingPopupCard: {
     marginLeft: "60px",
     width: "210px",
-    padding: "10px 0px 5px 20px",
+    // padding: "10px 0px 5px 20px",
+    padding: "16px",
   },
 
   MerakiEntry: {
