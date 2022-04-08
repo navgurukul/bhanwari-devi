@@ -59,16 +59,16 @@ function Opportunities() {
               </Typography>
             </Grid>
             <Grid container>
-              <Grid xs={12} sm={4}>
+              <Grid xs={12} sm={4} md={4}>
                 <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Grid container>
-                      <Grid item xs={7} sm={8.5} mr={isActive ? 5 : 3}>
+                      <Grid item xs={7} sm={9} md={9} mr={isActive ? 5 : 0}>
                         <Typography variant="subtitle1">
                           NavGurukul One-Year Residential Programmme
                         </Typography>
                       </Grid>
-                      <Grid item xs={3} sm={1.5}>
+                      <Grid item xs={3} sm={1} md={1}>
                         <Chip
                           label="Featured"
                           variant="caption"
@@ -102,11 +102,7 @@ function Opportunities() {
                 </Card>
               </Grid>
               <Grid item xs={12} sm={4} md={4} pt={!isActive ? 0 : 2}>
-                <Card
-                  elevation={2}
-                  className={classes.cards}
-                  sx={{ width: isActive ? "370px" : "452px" }}
-                >
+                <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Typography variant="subtitle1">
                       HyperVerge Fellowships
