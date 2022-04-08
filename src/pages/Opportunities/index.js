@@ -59,16 +59,16 @@ function Opportunities() {
               </Typography>
             </Grid>
             <Grid container>
-              <Grid xs={!isActive ? 4 : 12}>
+              <Grid xs={12} lg={4}>
                 <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Grid container>
-                      <Grid item xs={isActive ? 7 : 8.5} mr={isActive ? 5 : 3}>
+                      <Grid item xs={7} lg={8.5} mr={isActive ? 5 : 3}>
                         <Typography variant="subtitle1">
                           NavGurukul One-Year Residential Programmme
                         </Typography>
                       </Grid>
-                      <Grid item xs={isActive ? 3 : 1.5}>
+                      <Grid item xs={3} lg={1.5}>
                         <Chip
                           label="Featured"
                           variant="caption"
@@ -101,13 +101,7 @@ function Opportunities() {
                   </CardActions>
                 </Card>
               </Grid>
-              <Grid
-                item
-                xs={!isActive ? 4 : 12}
-                sm={6}
-                md={6}
-                pt={!isActive ? 0 : 2}
-              >
+              <Grid item xs={12} sm={4} md={4} pt={!isActive ? 0 : 2}>
                 <Card
                   elevation={2}
                   className={classes.cards}
