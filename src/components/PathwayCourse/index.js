@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
@@ -9,6 +8,8 @@ import { PATHS, interpolatePath } from "../../constant";
 import { METHODS } from "../../services/api";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import {
   Container,
   Box,
@@ -76,7 +77,9 @@ const images = [
 
 function PathwayCourse() {
   const [pathwayCourse, setPathwayCourse] = useState([]);
+  const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
+  const { data } = useSelector((state) => state.Pathways);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
@@ -169,7 +172,6 @@ function PathwayCourse() {
             {pathwayCourse &&
               pathwayCourse.map((item, index) => (
                 <Grid xs={12} md={3} className={classes.courseCard}>
-                  {console.log("item", item)}
                   {/* <Link to={PATHS.PATHWAY_COURSE_CONTENT}> */}
                   <Link
                     className={classes.pathwayLink}
