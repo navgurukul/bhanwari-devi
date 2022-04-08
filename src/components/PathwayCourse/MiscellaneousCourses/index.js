@@ -82,7 +82,7 @@ function MiscellaneousCourses() {
                   {console.log("item", item)}
                   <Link
                     className={classes.pathwayLink}
-                    to={interpolatePath(PATHS.OPEN_COURSE_CONTENT, {
+                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
                       courseId: item.id,
                       exerciseId: 0,
                     })}
