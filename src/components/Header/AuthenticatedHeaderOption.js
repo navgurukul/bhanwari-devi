@@ -10,6 +10,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
+import { breakpoints } from "../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import {
   Box,
   IconButton,
@@ -89,6 +92,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -195,72 +199,61 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 </NavLink>
               </MenuItem>
             </Box>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "spaced-around",
+            <Box
+              sx={{
+                display: { xs: "block", md: "none" },
               }}
             >
-              <Box
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                <MobileDropDown
-                  Menu="Learn"
-                  handleClose={handleCloseLearn}
-                  toggleDrawer={toggleDrawer}
-                />
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.CLASS}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Classes
-                  </NavLink>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.MENTOR}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Mentor
-                  </NavLink>
-                </MenuItem>
-              </Box>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-end",
-                  alignSelf: "flex-end",
-                  justifyContent: "flex-end",
-                  width: "100%",
-                }}
-              >
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.ADMISSION}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Admission
-                  </NavLink>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.OPPORTUNITIES}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Opportunity
-                  </NavLink>
-                </MenuItem>
-              </div>
-            </div>
+              <MobileDropDown
+                Menu="Learn"
+                handleClose={handleCloseLearn}
+                toggleDrawer={toggleDrawer}
+              />
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.CLASS}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Classes
+                </NavLink>
+              </MenuItem>
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.MENTOR}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Mentor
+                </NavLink>
+              </MenuItem>
+            </Box>
+            <Box
+              sx={{
+                display: { xs: "block", md: "flex" },
+                justifyContent: !isActive && "flex-end",
+                width: !isActive && "100%",
+              }}
+            >
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.ADMISSION}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Admission
+                </NavLink>
+              </MenuItem>
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.OPPORTUNITIES}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Opportunity
+                </NavLink>
+              </MenuItem>
+            </Box>
           </>
         )}
 
