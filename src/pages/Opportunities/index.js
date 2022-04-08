@@ -4,6 +4,7 @@ import { PATHS } from "../../constant";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
+import { breakpoints } from "../../theme/constant";
 import { getQueryVariable } from "../../common/utils";
 import { Link } from "react-router-dom";
 
@@ -22,7 +23,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 function Opportunities() {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width: 600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const [partner, setPartner] = useState([]);
   const user = useSelector(({ User }) => User);
@@ -58,16 +59,16 @@ function Opportunities() {
               </Typography>
             </Grid>
             <Grid container>
-              <Grid>
+              <Grid xs={12} sm={4} md={4}>
                 <Card elevation={2} className={classes.cards}>
                   <CardContent>
-                    <Grid container Spacing={2}>
-                      <Grid item xs={isActive ? 7 : 8.5} mr={isActive ? 5 : 3}>
+                    <Grid container>
+                      <Grid item xs={7} sm={9} md={9} mr = {isActive ? 5 : 0}>
                         <Typography variant="subtitle1">
                           NavGurukul One-Year Residential Programmme
                         </Typography>
                       </Grid>
-                      <Grid item xs={isActive ? 3 : 1.5}>
+                      <Grid item xs={3} sm={1} md={1}>
                         <Chip
                           label="Featured"
                           variant="caption"
@@ -88,27 +89,22 @@ function Opportunities() {
                         }}
                         style={{ textDecoration: "none" }}
                       >
-                        <Button>
-                          <Typography mr={1}>Take a Test Today</Typography>
-                          <ArrowForwardIosIcon />
+                        <Button mr={1}>
+                          Take a Test Today
+                          <Typography ml={1} mt={1}>
+                            {" "}
+                            <ArrowForwardIosIcon />{" "}
+                          </Typography>
                         </Button>
                       </Link>
                     </Grid>
                   </CardActions>
                 </Card>
               </Grid>
-              <Grid
-                item
-                xs={5}
-                sm={6}
-                md={6}
-                pl={isActive ? 0 : 2}
-                pt={!isActive ? 0 : 2}
-              >
+              <Grid item xs={12} sm={4} md={4} pt={!isActive ? 0 : 2}>
                 <Card
                   elevation={2}
                   className={classes.cards}
-                  sx={{ width: isActive ? "342px" : "452px" }}
                 >
                   <CardContent>
                     <Typography variant="subtitle1">
@@ -121,18 +117,22 @@ function Opportunities() {
                   <Grid
                     className={classes.card_button}
                     mt={isActive ? "0px" : "27px"}
+                    mr={2}
                   >
                     <CardActions>
-                      <Link
+                      <a
                         href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
                         style={{ textDecoration: "none" }}
                         target="blank"
                       >
                         <Button>
-                          <Typography mr={1}>Apply Now</Typography>
-                          <ArrowForwardIosIcon />
+                          Apply Now
+                          <Typography ml={1} mt={1}>
+                            {" "}
+                            <ArrowForwardIosIcon />{" "}
+                          </Typography>
                         </Button>
-                      </Link>
+                      </a>
                     </CardActions>
                   </Grid>
                 </Card>
@@ -140,7 +140,7 @@ function Opportunities() {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid className={classes.section_Heading}>
+            <Grid className={classes.section_Heading} mt={4}>
               <Typography variant="subtitle1" color="text.secondary">
                 Grants / Advanced Courses / Mentorships
               </Typography>
@@ -161,7 +161,7 @@ function Opportunities() {
                 </Typography>
               </Grid>
               <Grid>
-                <Link
+                <a
                   href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
                   style={{ textDecoration: "none" }}
                   target="blank"
@@ -170,10 +170,12 @@ function Opportunities() {
                     variant="outlined"
                     sx={{ width: isActive ? "100%" : "255px" }}
                   >
-                    <Typography mr={1}>Apply Now</Typography>
-                    <ArrowForwardIosIcon />
+                    Apply Now
+                    <Typography ml={1} mt={1}>
+                      <ArrowForwardIosIcon />
+                    </Typography>
                   </Button>
-                </Link>
+                </a>
               </Grid>
             </Grid>
           </Grid>
