@@ -123,7 +123,6 @@ function PathwayExercise() {
   return (
     <>
       {/* <Container maxWidth="false"> */}
-      {/* <Box sx={{ flexGrow: 1 }}> */}
       <AppBar fullWidth position="sticky" color="background">
         <Container maxWidth>
           <div className="hideInMobile">
@@ -282,7 +281,6 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      {/* </Box> */}
       <ExerciseContent exerciseId={exerciseId} lang={language} />
       <Box>
         <Toolbar

@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import useStyles from "../styles";
 
-function MiscelleneousCourses() {
+function MiscellaneousCourses() {
   const dispatch = useDispatch();
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
@@ -54,7 +54,7 @@ function MiscelleneousCourses() {
             <Card align="left" elevation={0}>
               <CardContent>
                 <Typography variant="h5" align={isActive ? "center" : "left"}>
-                  Miscelleneous Courses
+                  Miscellaneous Courses
                 </Typography>
               </CardContent>
               <CardContent>
@@ -80,7 +80,13 @@ function MiscelleneousCourses() {
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
                   {console.log("item", item)}
-                  <Link>
+                  <Link
+                    className={classes.pathwayLink}
+                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                      courseId: item.id,
+                      exerciseId: 0,
+                    })}
+                  >
                     <Card
                       elevation={0}
                       // className={classes.openCourse}
@@ -113,4 +119,4 @@ function MiscelleneousCourses() {
   );
 }
 
-export default MiscelleneousCourses;
+export default MiscellaneousCourses;
