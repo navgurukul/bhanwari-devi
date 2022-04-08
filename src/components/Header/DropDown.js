@@ -83,7 +83,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                     pathwayId: menu.id,
                   })
                 : menu.title === "Open Courses"
-                ? PATHS.MISCELLENEOUS_COURSE
+                ? PATHS.MISCELLANEOUS_COURSE
                 : menu.title === "Residential Programmes"
                 ? PATHS.RESIDENTIAL_COURSE
                 : (Menu === "About" || "GetInvolved") && menu.path
@@ -166,7 +166,7 @@ export const DropDown = ({
                       pathwayId: menu.id,
                     })
                   : menu.title === "Open Courses"
-                  ? PATHS.MISCELLENEOUS_COURSE
+                  ? PATHS.MISCELLANEOUS_COURSE
                   : menu.title === "Residential Programmes"
                   ? PATHS.RESIDENTIAL_COURSE
                   : (dropDown === "About" || "GetInvolved") && menu.path
@@ -179,7 +179,6 @@ export const DropDown = ({
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
-              {console.log("menu.path", menu.path)}
               <MenuItem key={menu} onClick={handleClose} sx={{ padding: 1 }}>
                 {dropDown === "Learn" && (
                   <img src={students.image[index]} alt="course logo" />

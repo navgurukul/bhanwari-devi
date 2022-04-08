@@ -47,7 +47,7 @@ const Routing = () => {
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       <Route
         exact
-        path={PATHS.MISCELLENEOUS_COURSE}
+        path={PATHS.MISCELLANEOUS_COURSE}
         component={MiscellaneousCourses}
       />
       <Route

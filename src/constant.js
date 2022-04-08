@@ -10,7 +10,7 @@ export const PATHS = {
   EXERCISE: "/exercise/:exerciseId",
   PATHWAY_COURSE: "/pathway/:pathwayId",
   RESIDENTIAL_COURSE: "/residential-course",
-  MISCELLENEOUS_COURSE: "/open-course",
+  MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
   USER: "/user",
   PROFILE: "/profile",

@@ -2,37 +2,33 @@ import React, { useEffect } from "react";
 import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
 import { Link, useHistory } from "react-router-dom";
+import { PATHS, interpolatePath } from "../../constant";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+
 const menu = {
   About: [
-    {
-      title: "Our Story",
-      type: "external",
-      link: "https://www.navgurukul.org/about",
-    },
-    {
-      title: "Meraki Team",
-      type: "external",
-      link: "https://www.navgurukul.org/team",
-    },
+    { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
+    { title: "Meraki Team", type: "internal", link: PATHS.MERAKI_TEAM },
   ],
   LearningTracks: [
+    { title: "Python", code: "PRGPYT", type: "internal" },
+    { title: "Typing Guru", code: "TYPGRU", type: "internal" },
+    { title: "Spoken English", code: "SPKENG", type: "internal" },
+    { title: "Javascript", code: "JSRPIT", type: "internal" },
     {
-      title: "Python",
+      title: "Residential Programmes",
       type: "internal",
-      link: "/pathway/1",
+      link: PATHS.RESIDENTIAL_COURSE,
     },
-    { title: "Typing Guru", type: "internal", link: "/pathway/3" },
-    { title: "Spoken English", type: "internal", link: "/pathway/5" },
-    { title: "Javascript", type: "internal", link: "/pathway/2" },
     {
-      title: "Residential Programm",
+      title: "Open Courses",
       type: "internal",
-      link: "/residential-course",
+      link: PATHS.MISCELLANEOUS_COURSE,
     },
-    { title: "Open Courses", type: "internal", link: "/open-course" },
   ],
   GetInvolved: [
-    { title: "Be a Partner", type: "internal", link: "/our-partner" },
+    { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
 
     {
       title: "Donate",
@@ -64,7 +60,13 @@ const MenuList = (menuItem) => {
           if (item.type === "internal") {
             return (
               <Link
-                to={item.link}
+                to={
+                  item.id
+                    ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                        pathwayId: item.id,
+                      })
+                    : item.link
+                }
                 style={{
                   textDecoration: "none",
                 }}
@@ -119,6 +121,22 @@ function FooterIcon(props) {
 function Footer() {
   const classes = useStyles();
   const [showHeader, setShowHeader] = React.useState(true);
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.Pathways);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  data &&
+    data.pathways.forEach((pathway) => {
+      menu.LearningTracks.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
+
   useEffect(() => {
     if (
       window.location.pathname.split("/").includes("course-content") ||
@@ -143,6 +161,7 @@ function Footer() {
       setShowHeader(true);
     }
   });
+
   return (
     <Box
       style={{
