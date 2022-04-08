@@ -32,7 +32,7 @@ import Partner from "../pages/Partner";
 import PathwayExercise from "../components/PathwayExercise";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
-import MiscelleneousCourses from "../components/PathwayCourse/MiscelleneousCourses";
+import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
 
 // import Classes from '../pages/classes'
 
@@ -48,7 +48,7 @@ const Routing = () => {
       <Route
         exact
         path={PATHS.MISCELLENEOUS_COURSE}
-        component={MiscelleneousCourses}
+        component={MiscellaneousCourses}
       />
       <Route
         exact

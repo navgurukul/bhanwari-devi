@@ -73,10 +73,6 @@ function Footer() {
       location.pathname.split("/").includes("profile")
     ) {
       console.log("not in header");
-      console.log(
-        ' location.pathname.split("/").includes("course-content")',
-        location.pathname.split("/").includes("course-content")
-      );
       setShowHeader(false);
     } else {
       setShowHeader(true);
