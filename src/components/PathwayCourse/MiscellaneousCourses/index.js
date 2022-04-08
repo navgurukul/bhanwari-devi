@@ -79,9 +79,10 @@ function MiscellaneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
+                  {console.log("item", item)}
                   <Link
                     className={classes.pathwayLink}
-                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                    to={interpolatePath(PATHS.OPEN_COURSE_CONTENT, {
                       courseId: item.id,
                       exerciseId: 0,
                     })}

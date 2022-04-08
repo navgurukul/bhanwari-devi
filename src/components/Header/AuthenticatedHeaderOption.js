@@ -10,6 +10,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
+import { breakpoints } from "../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import {
   Box,
   IconButton,
@@ -33,6 +36,7 @@ const SwitchView = ({
           setSwitchView(role);
           handleCloseSwitchView();
         }}
+        sx={{ margin: "0px 10px 0px 10px" }}
         className={switchView === role && classes.bgColor}
       >
         <NavLink to={PATHS.PARTNERS} className={classes.link}>
@@ -48,6 +52,7 @@ const SwitchView = ({
           setSwitchView(role);
           handleCloseSwitchView();
         }}
+        sx={{ margin: "0px 10px 0px 10px" }}
         className={switchView === role && classes.bgColor}
       >
         <NavLink to={PATHS.CLASS} className={classes.link}>
@@ -63,6 +68,7 @@ const SwitchView = ({
           setSwitchView(role);
           handleCloseSwitchView();
         }}
+        sx={{ margin: "0px 10px 0px 10px" }}
         className={switchView === role && classes.bgColor}
       >
         <NavLink to={PATHS.PARTNERS} className={classes.link}>
@@ -86,6 +92,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -192,72 +199,61 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 </NavLink>
               </MenuItem>
             </Box>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "spaced-around",
+            <Box
+              sx={{
+                display: { xs: "block", md: "none" },
               }}
             >
-              <Box
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                <MobileDropDown
-                  Menu="Learn"
-                  handleClose={handleCloseLearn}
-                  toggleDrawer={toggleDrawer}
-                />
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.CLASS}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Classes
-                  </NavLink>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.MENTOR}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Mentor
-                  </NavLink>
-                </MenuItem>
-              </Box>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-end",
-                  alignSelf: "flex-end",
-                  justifyContent: "flex-end",
-                  width: "100%",
-                }}
-              >
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.ADMISSION}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Admission
-                  </NavLink>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.OPPORTUNITIES}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    Opportunity
-                  </NavLink>
-                </MenuItem>
-              </div>
-            </div>
+              <MobileDropDown
+                Menu="Learn"
+                handleClose={handleCloseLearn}
+                toggleDrawer={toggleDrawer}
+              />
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.CLASS}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Classes
+                </NavLink>
+              </MenuItem>
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.MENTOR}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Mentor
+                </NavLink>
+              </MenuItem>
+            </Box>
+            <Box
+              sx={{
+                display: { xs: "block", md: "flex" },
+                justifyContent: !isActive && "flex-end",
+                width: !isActive && "100%",
+              }}
+            >
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.ADMISSION}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Admission
+                </NavLink>
+              </MenuItem>
+              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
+                <NavLink
+                  to={PATHS.OPPORTUNITIES}
+                  className={classes.link}
+                  activeClassName={classes.active}
+                >
+                  Opportunity
+                </NavLink>
+              </MenuItem>
+            </Box>
           </>
         )}
 
@@ -385,6 +381,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     setSwitchView("student");
                     handleCloseSwitchView();
                   }}
+                  sx={{ margin: "0px 10px 0px 10px" }}
                   className={switchView === "student" && classes.bgColor}
                 >
                   Student
@@ -436,12 +433,18 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <MenuItem onClick={handleCloseUserMenu} sx={{ width: 130 }}>
+            <MenuItem
+              onClick={handleCloseUserMenu}
+              sx={{ width: 120, margin: "0px 10px 0px 10px" }}
+            >
               <NavLink to={PATHS.PROFILE} className={classes.link}>
                 <Typography textAlign="center">Profile</Typography>
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleCloseUserMenu} sx={{ width: 130 }}>
+            <MenuItem
+              onClick={handleCloseUserMenu}
+              sx={{ width: 120, margin: "0px 10px 0px 10px" }}
+            >
               <Link
                 onClick={() => dispatch(userActions.logout())}
                 className={classes.link}

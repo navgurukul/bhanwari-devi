@@ -86,6 +86,10 @@ function PathwayCourse() {
   const pathwayId = params.pathwayId;
 
   useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  useEffect(() => {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
@@ -95,11 +99,13 @@ function PathwayCourse() {
         // Authorization: user.data ? user.data.token : null,
       },
     }).then((res) => {
+      console.log("res", res);
       setPathwayCourse(res.data.courses);
     });
   }, [pathwayId]);
 
   console.log("pathwayCourse", pathwayCourse);
+  console.log("data", data);
 
   return (
     <>
@@ -172,7 +178,6 @@ function PathwayCourse() {
             {pathwayCourse &&
               pathwayCourse.map((item, index) => (
                 <Grid xs={12} md={3} className={classes.courseCard}>
-                  {/* <Link to={PATHS.PATHWAY_COURSE_CONTENT}> */}
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -184,6 +189,7 @@ function PathwayCourse() {
                     <Card elevation={0} sx={{ ml: 3 }}>
                       <img
                         src={require(`./asset/${images[index]}.svg`)}
+                        // src={item.logo}
                         alt="course"
                         loading="lazy"
                       />
@@ -207,7 +213,6 @@ function PathwayCourse() {
                           {item.name}
                         </Typography>
                       </Toolbar>
-                      {/* </CardContent> */}
                     </Card>
                   </Link>
                 </Grid>

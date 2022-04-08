@@ -222,8 +222,10 @@ theme.components = {
     styleOverrides: {
       root: {
         height: "48px",
+        // margin: "10px 16px 10px 16px",
         "&:hover": {
           backgroundColor: "#E9F5E9",
+          borderRadius: "8px",
         },
       },
     },

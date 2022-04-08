@@ -219,14 +219,16 @@ const RenderContent = ({ data }) => {
     return (
       <div>
         <Box className={classes.codeBackground}>
-          <Toolbar disableGutters>
+          {/* <Toolbar disableGutters> */}
+          <Box sx={{ display: "flex", pb: 2 }}>
             <img
               src={require("../asset/code-example.svg")}
               loading="lazy"
               className={classes.codeExampleImg}
             />
             <Typography variant="subtitle1">Code Example</Typography>
-          </Toolbar>
+          </Box>
+          {/* </Toolbar> */}
           <Typography
             className={classes.codeWrap}
             dangerouslySetInnerHTML={{
