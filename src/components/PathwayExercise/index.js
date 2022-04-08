@@ -73,6 +73,8 @@ function PathwayExercise() {
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
 
+  console.log("params", params);
+
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -84,10 +86,14 @@ function PathwayExercise() {
         accept: "application/json",
         Authorization: user.data?.token || "",
       },
-    }).then((res) => {
-      console.log("res", res.data.course.exercises[0]?.content);
-      setCourse(res.data.course.exercises);
-    });
+    })
+      .then((res) => {
+        console.log("res", res.data.course.exercises[0]?.content);
+        setCourse(res.data.course.exercises);
+      })
+      .catch((err) => {
+        console.log("error");
+      });
   }, []);
 
   const previousClickHandler = () => {
