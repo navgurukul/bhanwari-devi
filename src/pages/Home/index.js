@@ -46,7 +46,7 @@ const pathwayData = [
   },
   {
     title: "Residential Programmes",
-    image: "soft-skills",
+    image: "residential",
     description: "Interview preparation  to get you job ready",
   },
   {

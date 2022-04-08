@@ -95,6 +95,7 @@ function PathwayCourse() {
         // Authorization: user.data ? user.data.token : null,
       },
     }).then((res) => {
+      console.log("res", res);
       setPathwayCourse(res.data.courses);
     });
   }, [pathwayId]);
@@ -184,6 +185,7 @@ function PathwayCourse() {
                     <Card elevation={0} sx={{ ml: 3 }}>
                       <img
                         src={require(`./asset/${images[index]}.svg`)}
+                        // src={item.logo}
                         alt="course"
                         loading="lazy"
                       />

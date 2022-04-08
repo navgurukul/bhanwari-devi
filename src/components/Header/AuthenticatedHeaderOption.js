@@ -33,6 +33,7 @@ const SwitchView = ({
           setSwitchView(role);
           handleCloseSwitchView();
         }}
+        sx={{ margin: "0px 10px 0px 10px" }}
         className={switchView === role && classes.bgColor}
       >
         <NavLink to={PATHS.PARTNERS} className={classes.link}>
@@ -48,6 +49,7 @@ const SwitchView = ({
           setSwitchView(role);
           handleCloseSwitchView();
         }}
+        sx={{ margin: "0px 10px 0px 10px" }}
         className={switchView === role && classes.bgColor}
       >
         <NavLink to={PATHS.CLASS} className={classes.link}>
@@ -63,6 +65,7 @@ const SwitchView = ({
           setSwitchView(role);
           handleCloseSwitchView();
         }}
+        sx={{ margin: "0px 10px 0px 10px" }}
         className={switchView === role && classes.bgColor}
       >
         <NavLink to={PATHS.PARTNERS} className={classes.link}>
@@ -385,6 +388,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     setSwitchView("student");
                     handleCloseSwitchView();
                   }}
+                  sx={{ margin: "0px 10px 0px 10px" }}
                   className={switchView === "student" && classes.bgColor}
                 >
                   Student
@@ -436,12 +440,18 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <MenuItem onClick={handleCloseUserMenu} sx={{ width: 130 }}>
+            <MenuItem
+              onClick={handleCloseUserMenu}
+              sx={{ width: 120, margin: "0px 10px 0px 10px" }}
+            >
               <NavLink to={PATHS.PROFILE} className={classes.link}>
                 <Typography textAlign="center">Profile</Typography>
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleCloseUserMenu} sx={{ width: 130 }}>
+            <MenuItem
+              onClick={handleCloseUserMenu}
+              sx={{ width: 120, margin: "0px 10px 0px 10px" }}
+            >
               <Link
                 onClick={() => dispatch(userActions.logout())}
                 className={classes.link}

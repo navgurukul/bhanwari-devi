@@ -3,7 +3,7 @@ import python from "./asset/python.svg";
 import typing from "./asset/typing.svg";
 import web from "./asset/web.svg";
 import language from "./asset/language.svg";
-import softSkills from "./asset/softSkills.svg";
+import residential from "./asset/residential.svg";
 import random from "./asset/random.svg";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
@@ -24,23 +24,39 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, typing, web, language, softSkills, random],
+  image: [python, typing, web, language, residential, random],
   Learn: [
-    { title: "Python", code: "PRGPYT" },
-    { title: "Typing Guru", code: "TYPGRU" },
-    { title: "JavaScript", code: "JSRPIT" },
-    { title: "English", code: "SPKENG" },
-    { title: "Residential Programmes" },
-    { title: "Open Courses" },
+    { title: "Python", code: "PRGPYT", type: "internal" },
+    { title: "Typing Guru", code: "TYPGRU", type: "internal" },
+    { title: "JavaScript", code: "JSRPIT", type: "internal" },
+    { title: "English", code: "SPKENG", type: "internal" },
+    {
+      title: "Residential Programmes",
+      path: PATHS.RESIDENTIAL_COURSE,
+      type: "internal",
+    },
+    {
+      title: "Open Courses",
+      path: PATHS.MISCELLANEOUS_COURSE,
+      type: "internal",
+    },
   ],
   About: [
-    { title: "Meraki Team", path: PATHS.MERAKI_TEAM },
-    { title: "Our Story", path: PATHS.OUR_STORY },
+    { title: "Meraki Team", path: PATHS.MERAKI_TEAM, type: "internal" },
+    { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
   ],
   GetInvolved: [
-    { title: "Become a Partner", path: PATHS.OUR_PARTNER },
-    { title: "Donate", path: "https://www.navgurukul.org/donate" },
-    { title: "Careers", path: "https://recruiterflow.com/navgurukul/jobs" },
+    { title: "Become a Partner", path: PATHS.OUR_PARTNER, type: "internal" },
+    {
+      title: "Donate",
+      path: "https://www.navgurukul.org/donate",
+      type: "external",
+    },
+    {
+      title: "Careers",
+      path: "https://recruiterflow.com/navgurukul/jobs",
+      type: "external",
+    },
   ],
 };
 
@@ -73,39 +89,54 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
         <Typography variant="body1">{Menu}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {students[Menu.split(" ").join("")].map((menu, index) => (
-          <Link
-            to={
-              menu === "Learn" && menu.id
-                ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                    pathwayId: menu.id,
-                  })
-                : menu.title === "Open Courses"
-                ? PATHS.MISCELLANEOUS_COURSE
-                : menu.title === "Residential Programmes"
-                ? PATHS.RESIDENTIAL_COURSE
-                : (Menu === "About" || "GetInvolved") && menu.path
-            }
-            target={
-              menu === "GetInvolved" && menu.path.includes("http")
-                ? "blank"
-                : ""
-            }
-            className={classes.link}
-            onClick={toggleDrawer && toggleDrawer(false)}
-          >
-            <MenuItem key={index} onClick={handleClose}>
-              {Menu === "Learn" && (
-                <img src={students.image[index]} alt="course logo" />
-              )}
-              <CardContent>
-                <Typography textAlign="center" variant="body1">
-                  {menu.title}
-                </Typography>
-              </CardContent>
-            </MenuItem>
-          </Link>
-        ))}
+        {students[Menu.split(" ").join("")].map((menu, index) => {
+          if (menu.type === "internal") {
+            return (
+              <Link
+                to={
+                  menu.id
+                    ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                        pathwayId: menu.id,
+                      })
+                    : menu.path
+                }
+                className={classes.link}
+                onClick={toggleDrawer && toggleDrawer(false)}
+              >
+                <MenuItem key={index} onClick={handleClose}>
+                  {Menu === "Learn" && (
+                    <img src={students.image[index]} alt="course logo" />
+                  )}
+                  <CardContent>
+                    <Typography textAlign="center" variant="body1">
+                      {menu.title}
+                    </Typography>
+                  </CardContent>
+                </MenuItem>
+              </Link>
+            );
+          } else {
+            return (
+              <a
+                target="_blank"
+                href={menu.path}
+                className={classes.link}
+                onClick={toggleDrawer && toggleDrawer(false)}
+              >
+                <MenuItem key={index} onClick={handleClose}>
+                  {Menu === "Learn" && (
+                    <img src={students.image[index]} alt="course logo" />
+                  )}
+                  <CardContent>
+                    <Typography textAlign="center" variant="body1">
+                      {menu.title}
+                    </Typography>
+                  </CardContent>
+                </MenuItem>
+              </a>
+            );
+          }
+        })}
       </AccordionDetails>
     </Accordion>
   );
@@ -152,54 +183,78 @@ export const DropDown = ({
       onClose={handleClose}
     >
       {dropDown &&
-        students[dropDown].map((menu, index) => (
-          <>
-            {/* If you'll use Link and to instead of a and href then it will not get reload 
-            hence won't take time to redirect to another page and also it won't redirect to external links */}
-            <a
-              href={
-                dropDown === "Learn" && menu.id
-                  ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                      pathwayId: menu.id,
-                    })
-                  : menu.title === "Open Courses"
-                  ? PATHS.MISCELLANEOUS_COURSE
-                  : menu.title === "Residential Programmes"
-                  ? PATHS.RESIDENTIAL_COURSE
-                  : (dropDown === "About" || "GetInvolved") && menu.path
-              }
-              target={
-                dropDown === "GetInvolved" && menu.path.includes("http")
-                  ? "blank"
-                  : ""
-              }
-              className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}
-            >
-              <MenuItem
-                key={menu}
-                onClick={handleClose}
-                sx={{
-                  padding:
-                    dropDown === "Learn" ? "30px 10px 30px 10px" : "10px",
-                }}
-              >
-                {dropDown === "Learn" && (
-                  <img src={students.image[index]} alt="course logo" />
-                )}
-                <Typography
-                  textAlign="center"
-                  sx={{ paddingLeft: dropDown === "Learn" && 2 }}
+        students[dropDown].map((menu, index) => {
+          if (menu.type === "internal") {
+            return (
+              <>
+                <Link
+                  to={
+                    menu.id
+                      ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                          pathwayId: menu.id,
+                        })
+                      : menu.path
+                  }
+                  className={classes.link}
+                  onClick={toggleDrawer && toggleDrawer(false)}
                 >
-                  {menu.title}
-                </Typography>
-              </MenuItem>
-            </a>
-            {dropDown === "Learn" && index == 4 && (
-              <Divider sx={{ paddingBottom: "5px" }} />
-            )}
-          </>
-        ))}
+                  <MenuItem
+                    key={menu}
+                    onClick={handleClose}
+                    sx={{
+                      padding:
+                        dropDown === "Learn" ? "30px 6px 30px 6px" : "10px",
+                      margin: "6px 16px 6px 16px",
+                    }}
+                  >
+                    {dropDown === "Learn" && (
+                      <img src={students.image[index]} alt="course logo" />
+                    )}
+                    <Typography
+                      textAlign="center"
+                      sx={{ paddingLeft: dropDown === "Learn" && 2 }}
+                    >
+                      {menu.title}
+                    </Typography>
+                  </MenuItem>
+                </Link>
+                {dropDown === "Learn" && index == 4 && <Divider />}
+              </>
+            );
+          } else {
+            return (
+              <>
+                <a
+                  target="_blank"
+                  href={menu.path}
+                  className={classes.link}
+                  onClick={toggleDrawer && toggleDrawer(false)}
+                >
+                  <MenuItem
+                    key={menu}
+                    onClick={handleClose}
+                    sx={{
+                      padding:
+                        dropDown === "Learn" ? "30px 6px 30px 6px" : "10px",
+                      margin: "6px 16px 6px 16px",
+                    }}
+                  >
+                    {dropDown === "Learn" && (
+                      <img src={students.image[index]} alt="course logo" />
+                    )}
+                    <Typography
+                      textAlign="center"
+                      sx={{ paddingLeft: dropDown === "Learn" && 2 }}
+                    >
+                      {menu.title}
+                    </Typography>
+                  </MenuItem>
+                </a>
+                {dropDown === "Learn" && index == 4 && <Divider />}
+              </>
+            );
+          }
+        })}
     </Menu>
   );
 };
