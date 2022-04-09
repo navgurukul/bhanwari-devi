@@ -166,9 +166,7 @@ function Home() {
             </Typography>
             <MerakiEntry
               headingAttr={{
-                align: "center",
                 variant: "h6",
-                gutterBottom: true,
               }}
             />
           </Container>
@@ -339,8 +337,6 @@ function Home() {
               <MerakiEntry
                 headingAttr={{
                   variant: "h5",
-                  align: "center",
-                  gutterBottom: true,
                 }}
               />
             </Container>
@@ -369,35 +365,40 @@ function Home() {
             <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
-                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    Via email:
-                  </span>{" "}
-                  <a
-                    style={{
-                      textDecoration: "none",
-                      color: "#48a145",
-                    }}
-                    href="mailto:team@meraki.org"
-                  >
-                    team@meraki.org
-                  </a>
+                  <address>
+                    <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
+                      Via email:{" "}
+                    </span>
+
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                      }}
+                      href="mailto:team@meraki.org"
+                    >
+                      team@meraki.org
+                    </a>
+                  </address>
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
-                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    Via Whatsapp:
-                  </span>{" "}
-                  <a
-                    style={{
-                      textDecoration: "none",
-                      color: "#48a145",
-                    }}
-                    href="tel:+918891300300"
-                  >
-                    {" "}
-                    +91 8891300300
-                  </a>
+                  <address>
+                    <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
+                      Via Whatsapp:
+                    </span>
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                      }}
+                      href="tel:+918891300300"
+                    >
+                      {" "}
+                      +91 8891300300
+                    </a>
+                  </address>
                 </Typography>
               </Grid>
             </Grid>
