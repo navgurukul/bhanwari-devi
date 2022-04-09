@@ -85,9 +85,14 @@ function PathwayCourse() {
   const params = useParams();
   const pathwayId = params.pathwayId;
 
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathways());
+  // }, [dispatch]);
+
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(pathwayActions.getPathwayCourse({ pathwayId: pathwayId }));
+  }, [dispatch, pathwayId]);
 
   useEffect(() => {
     axios({

@@ -11,3 +11,15 @@ export const getPathways = () => {
     // headers: HeaderFactory(token),
   });
 };
+
+export const getPathwayCourse = (data) => {
+  const { pathwayId } = data;
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
+    method: METHODS.GET,
+    headers: {
+      "version-code": 40,
+    },
+    // headers: HeaderFactory(token),
+  });
+};
