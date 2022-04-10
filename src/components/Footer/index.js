@@ -120,7 +120,7 @@ function FooterIcon(props) {
 
 function Footer() {
   const classes = useStyles();
-  const [showHeader, setShowHeader] = React.useState(true);
+  const [showFooter, setShowFooter] = React.useState(true);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
 
@@ -144,8 +144,7 @@ function Footer() {
       window.location.pathname.split("/").includes("login") ||
       window.location.pathname.split("/").includes("profile")
     ) {
-      console.log("here");
-      setShowHeader(false);
+      setShowFooter(false);
     }
   }, []);
 
@@ -157,16 +156,16 @@ function Footer() {
       location.pathname.split("/").includes("profile")
     ) {
       console.log("not in header");
-      setShowHeader(false);
+      setShowFooter(false);
     } else {
-      setShowHeader(true);
+      setShowFooter(true);
     }
   });
 
   return (
     <Box
       style={{
-        display: showHeader ? "inherit" : "none",
+        display: showFooter ? "inherit" : "none",
       }}
       maxWidth="false"
       bgcolor="primary.light"
