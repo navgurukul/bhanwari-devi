@@ -22,8 +22,29 @@ export default (state = initialState, action) => {
         error: false,
         data: action.data,
       };
-
     case types.GET_PATHWAY_INTENT_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        data: null,
+      };
+
+    case types.GET_PATHWAY_COURSE_INTENT:
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        data: null,
+      };
+    case types.GET_PATHWAY_COURSE_INTENT_RESOLVED:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: action.data,
+      };
+    case types.GET_PATHWAY_COURSE_INTENT_REJECTED:
       return {
         ...state,
         loading: false,

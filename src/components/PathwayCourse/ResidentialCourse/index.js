@@ -39,6 +39,7 @@ function ResidentialProgramme() {
 
   let pathwayCourse;
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       if (pathway.code === "PRCRSE") {
         pathwayCourse = pathway.courses;

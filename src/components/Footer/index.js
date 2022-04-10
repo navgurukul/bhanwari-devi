@@ -129,6 +129,7 @@ function Footer() {
   }, [dispatch]);
 
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
