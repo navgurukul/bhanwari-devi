@@ -1,7 +1,7 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 import { types, actions } from "./action";
 import { httpStatuses } from "../../../services/auth";
-import { getPathways, getPathwayCourse } from "./api";
+import { getPathways, getPathwaysCourse } from "./api";
 
 function* handleGetPathways({ data }) {
   const pathwaysResponse = yield call(getPathways, data);
@@ -15,8 +15,8 @@ function* handleGetPathways({ data }) {
   }
 }
 
-function* handleGetPathwayCourse({ data }) {
-  const pathwayCourseResponse = yield call(getPathwayCourse, data);
+function* handleGetPathwaysCourse({ data }) {
+  const pathwayCourseResponse = yield call(getPathwaysCourse, data);
   if (
     pathwayCourseResponse &&
     httpStatuses.SUCCESS.includes(pathwayCourseResponse.status)
@@ -29,5 +29,5 @@ function* handleGetPathwayCourse({ data }) {
 
 export default function* () {
   yield takeLatest(types.GET_PATHWAY_INTENT, handleGetPathways);
-  yield takeLatest(types.GET_PATHWAY_COURSE_INTENT, handleGetPathwayCourse);
+  yield takeLatest(types.GET_PATHWAY_COURSE_INTENT, handleGetPathwaysCourse);
 }

@@ -141,6 +141,7 @@ function Home() {
   }, [dispatch]);
 
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       pathwayData.forEach((item) => {
         if (pathway.code === item.code) {
