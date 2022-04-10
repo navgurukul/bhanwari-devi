@@ -70,6 +70,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   }, [dispatch]);
 
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       students.Learn.forEach((item) => {
         if (pathway.code === item.code) {
@@ -157,6 +158,7 @@ export const DropDown = ({
   }, [dispatch]);
 
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       students.Learn.forEach((item) => {
         if (pathway.code === item.code) {
