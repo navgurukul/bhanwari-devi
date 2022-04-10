@@ -91,8 +91,11 @@ function PathwayCourse() {
   useEffect(() => {
     // dispatch(pathwayActions.getPathways());
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId })); //sometimes it's returning pathways and sometimes pathway's course
-  }, [dispatch, pathwayId]);
+  }, [pathwayId]);
 
+  window.addEventListener("load", () => {
+    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId })); //sometimes it's returning pathways and sometimes pathway's course
+  });
   const pathwayCourse = data && data.courses;
 
   // useEffect(() => {

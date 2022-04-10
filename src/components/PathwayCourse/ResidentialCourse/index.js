@@ -15,6 +15,9 @@ import {
   Button,
   Stack,
 } from "@mui/material";
+import { Link } from "react-router-dom";
+import { interpolatePath, PATHS } from "../../../constant";
+import useStyles from "../styles";
 
 const images = [
   "course1",
@@ -32,6 +35,7 @@ function ResidentialProgramme() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles();
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -77,16 +81,25 @@ function ResidentialProgramme() {
           {pathwayCourse &&
             pathwayCourse.map((item, index) => (
               <Grid xs={12} md={3}>
-                <Card elevation={0}>
-                  <img
-                    src={require(`../asset/${images[index]}.svg`)}
-                    alt="course"
-                    loading="lazy"
-                  />
-                  <CardContent>
-                    <Typography variant="subtitle1">{item.name}</Typography>
-                  </CardContent>
-                </Card>
+                <Link
+                  className={classes.pathwayLink}
+                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                    courseId: item.id,
+                    exerciseId: 0,
+                    pathwayId: "residential",
+                  })}
+                >
+                  <Card elevation={0}>
+                    <img
+                      src={require(`../asset/${images[index]}.svg`)}
+                      alt="course"
+                      loading="lazy"
+                    />
+                    <CardContent>
+                      <Typography variant="subtitle1">{item.name}</Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
               </Grid>
             ))}
         </Grid>

@@ -144,7 +144,15 @@ function PathwayExercise() {
                   style={{
                     color: "black",
                   }}
-                  to={`/pathway/${params.pathwayId}`}
+                  to={
+                    params.pathwayId == "miscellaneous"
+                      ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
+                      : params.pathwayId == "residential"
+                      ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
+                      : interpolatePath(PATHS.PATHWAY_COURSE, {
+                          pathwayId: params.pathwayId,
+                        })
+                  }
                 >
                   <CloseIcon />
                 </Link>
@@ -227,7 +235,15 @@ function PathwayExercise() {
                   style={{
                     color: "black",
                   }}
-                  to={`/pathway/${params.pathwayId}`}
+                  to={
+                    params.pathwayId == "miscellaneous"
+                      ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
+                      : params.pathwayId == "residential"
+                      ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
+                      : interpolatePath(PATHS.PATHWAY_COURSE, {
+                          pathwayId: params.pathwayId,
+                        })
+                  }
                 >
                   <CloseIcon />
                 </Link>
@@ -295,6 +311,8 @@ function PathwayExercise() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            position: "fixed",
+            bottom: 0,
           }}
         >
           <Button
