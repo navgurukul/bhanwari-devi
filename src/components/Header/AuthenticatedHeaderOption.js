@@ -10,8 +10,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
-import { breakpoints } from "../../theme/constant";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 import {
   Box,
@@ -92,7 +90,6 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -231,8 +228,8 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             <Box
               sx={{
                 display: { xs: "block", md: "flex" },
-                justifyContent: !isActive && "flex-end",
-                width: !isActive && "100%",
+                justifyContent: { xs: "normal", md: "flex-end" },
+                width: { xs: 0, sm: "100%" },
               }}
             >
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -381,7 +378,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     setSwitchView("student");
                     handleCloseSwitchView();
                   }}
-                  sx={{ margin: "0px 10px 0px 10px" }}
+                  sx={{ margin: "0px 10px" }}
                   className={switchView === "student" && classes.bgColor}
                 >
                   Student
@@ -435,7 +432,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
           >
             <MenuItem
               onClick={handleCloseUserMenu}
-              sx={{ width: 120, margin: "0px 10px 0px 10px" }}
+              sx={{ width: 120, margin: "0px 10px" }}
             >
               <NavLink to={PATHS.PROFILE} className={classes.link}>
                 <Typography textAlign="center">Profile</Typography>
@@ -443,7 +440,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             </MenuItem>
             <MenuItem
               onClick={handleCloseUserMenu}
-              sx={{ width: 120, margin: "0px 10px 0px 10px" }}
+              sx={{ width: 120, margin: "0px 10px" }}
             >
               <Link
                 onClick={() => dispatch(userActions.logout())}
