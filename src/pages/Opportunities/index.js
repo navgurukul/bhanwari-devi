@@ -7,6 +7,7 @@ import { METHODS } from "../../services/api";
 import { breakpoints } from "../../theme/constant";
 import { getQueryVariable } from "../../common/utils";
 import { Link } from "react-router-dom";
+import ExternalLink from "../../components/common/ExternalLink";
 
 import {
   Container,
@@ -63,7 +64,7 @@ function Opportunities() {
                 <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Grid container>
-                      <Grid item xs={7} sm={9} md={9} mr = {isActive ? 5 : 0}>
+                      <Grid item xs={7} sm={9} md={9} mr={isActive ? 5 : 0}>
                         <Typography variant="subtitle1">
                           NavGurukul One-Year Residential Programmme
                         </Typography>
@@ -102,10 +103,7 @@ function Opportunities() {
                 </Card>
               </Grid>
               <Grid item xs={12} sm={4} md={4} pt={!isActive ? 0 : 2}>
-                <Card
-                  elevation={2}
-                  className={classes.cards}
-                >
+                <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Typography variant="subtitle1">
                       HyperVerge Fellowships
@@ -120,10 +118,9 @@ function Opportunities() {
                     mr={2}
                   >
                     <CardActions>
-                      <a
+                      <ExternalLink
                         href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
                         style={{ textDecoration: "none" }}
-                        target="blank"
                       >
                         <Button>
                           Apply Now
@@ -132,7 +129,7 @@ function Opportunities() {
                             <ArrowForwardIosIcon />{" "}
                           </Typography>
                         </Button>
-                      </a>
+                      </ExternalLink>
                     </CardActions>
                   </Grid>
                 </Card>
@@ -161,10 +158,9 @@ function Opportunities() {
                 </Typography>
               </Grid>
               <Grid>
-                <a
+                <ExternalLink
                   href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
                   style={{ textDecoration: "none" }}
-                  target="blank"
                 >
                   <Button
                     variant="outlined"
@@ -175,7 +171,7 @@ function Opportunities() {
                       <ArrowForwardIosIcon />
                     </Typography>
                   </Button>
-                </a>
+                </ExternalLink>
               </Grid>
             </Grid>
           </Grid>

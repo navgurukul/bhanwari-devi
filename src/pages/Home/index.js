@@ -18,6 +18,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
+import ExternalLink from "../../components/common/ExternalLink";
 
 const pathwayData = [
   {
@@ -371,7 +372,7 @@ function Home() {
                       Via email:{" "}
                     </span>
 
-                    <a
+                    <ExternalLink
                       style={{
                         textDecoration: "none",
                         color: "#48a145",
@@ -379,7 +380,7 @@ function Home() {
                       href="mailto:team@meraki.org"
                     >
                       team@meraki.org
-                    </a>
+                    </ExternalLink>
                   </address>
                 </Typography>
               </Grid>
@@ -389,7 +390,7 @@ function Home() {
                     <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
                       Via Whatsapp:
                     </span>
-                    <a
+                    <ExternalLink
                       style={{
                         textDecoration: "none",
                         color: "#48a145",
@@ -398,7 +399,7 @@ function Home() {
                     >
                       {" "}
                       +91 8891300300
-                    </a>
+                    </ExternalLink>
                   </address>
                 </Typography>
               </Grid>

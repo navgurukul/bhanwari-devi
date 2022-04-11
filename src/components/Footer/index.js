@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { PATHS, interpolatePath, HideHeader, HideFooter } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import ExternalLink from "../common/ExternalLink";
 import { useRouteMatch } from "react-router-dom";
 
 const menu = {
@@ -83,11 +84,10 @@ const MenuList = (menuItem) => {
             );
           } else {
             return (
-              <a
+              <ExternalLink
                 style={{
                   textDecoration: "none",
                 }}
-                target="_blank"
                 href={item.link}
               >
                 <Typography
@@ -97,7 +97,7 @@ const MenuList = (menuItem) => {
                 >
                   {item.title}
                 </Typography>
-              </a>
+              </ExternalLink>
             );
           }
         })}
@@ -202,10 +202,8 @@ function Footer() {
             >
               Learn on Mobile
             </Typography>
-            <a
+            <ExternalLink
               href="https://play.google.com/store/apps/details?id=org.merakilearn&hl=en_IN&gl=US"
-              target="_blank"
-              rel="external"
               style={{
                 textDecoration: "none",
               }}
@@ -226,7 +224,7 @@ function Footer() {
                   </Typography>
                 </Box>
               </Box>
-            </a>
+            </ExternalLink>
           </Grid>
         </Grid>
         <Divider variant="string" sx={{ pt: "25px" }} />
