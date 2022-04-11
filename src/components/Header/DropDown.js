@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import ExternalLink from "../common/ExternalLink";
 
 import {
   Typography,
@@ -118,7 +119,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
             );
           } else {
             return (
-              <a
+              <ExternalLink
                 target="_blank"
                 href={menu.path}
                 className={classes.link}
@@ -134,7 +135,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                     </Typography>
                   </CardContent>
                 </MenuItem>
-              </a>
+              </ExternalLink>
             );
           }
         })}
