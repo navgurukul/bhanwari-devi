@@ -10,6 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
+import { sendToken } from "../User/redux/api";
 
 import {
   Box,
@@ -92,18 +93,13 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const classes = useStyles();
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
+    sendToken({ token: user.data.token }).then((res) => {
       setPartnerId(res.data.user.partner_id);
       setProfile(res.data.user.profile_picture);
     });
   }, []);
+
+  console.log("profile", profile);
 
   const partnerGroupId = user.data.user.partner_group_id;
 
