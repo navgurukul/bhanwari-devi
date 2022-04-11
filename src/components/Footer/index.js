@@ -87,7 +87,6 @@ const MenuList = (menuItem) => {
                 style={{
                   textDecoration: "none",
                 }}
-                target="_blank"
                 href={item.link}
               >
                 <Typography
@@ -214,8 +213,6 @@ function Footer() {
             </Typography>
             <ExternalLink
               href="https://play.google.com/store/apps/details?id=org.merakilearn&hl=en_IN&gl=US"
-              target="_blank"
-              rel="external"
               style={{
                 textDecoration: "none",
               }}

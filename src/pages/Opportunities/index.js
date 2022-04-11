@@ -121,7 +121,6 @@ function Opportunities() {
                       <ExternalLink
                         href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
                         style={{ textDecoration: "none" }}
-                        target="blank"
                       >
                         <Button>
                           Apply Now
@@ -162,7 +161,6 @@ function Opportunities() {
                 <ExternalLink
                   href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
                   style={{ textDecoration: "none" }}
-                  target="blank"
                 >
                   <Button
                     variant="outlined"

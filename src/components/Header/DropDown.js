@@ -120,7 +120,6 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
           } else {
             return (
               <ExternalLink
-                target="_blank"
                 href={menu.path}
                 className={classes.link}
                 onClick={toggleDrawer && toggleDrawer(false)}
