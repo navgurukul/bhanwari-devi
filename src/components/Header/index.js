@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../constant";
+import { HideHeader, PATHS } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
-import { useHistory } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -156,22 +156,19 @@ function Header() {
     }
   });
   const [showHeader, setShowHeader] = React.useState(true);
-  useEffect(() => {
-    if (window.location.pathname.split("/").includes("course-content")) {
-      console.log("here");
-      setShowHeader(false);
-    }
-  }, []);
+  const match = useRouteMatch({
+    path: HideHeader,
+  });
 
-  const history = useHistory();
-  history.listen((location, action) => {
-    if (location.pathname.split("/").includes("course-content")) {
-      console.log("not in header");
+  useEffect(() => {
+    if (match) {
+      console.log("matched");
       setShowHeader(false);
     } else {
+      console.log("not matched");
       setShowHeader(true);
     }
-  });
+  }, [match]);
   return (
     <ThemeProvider theme={theme}>
       <AppBar
