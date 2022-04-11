@@ -76,13 +76,9 @@ const images = [
 ];
 
 function PathwayCourse() {
-  // const [pathwayCourse, setPathwayCourse] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
-  const { data } = useSelector((state) => {
-    console.log("state", state);
-    return state.Pathways;
-  });
+  const { pathwayCourse } = useSelector((state) => state.Pathways);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
@@ -90,31 +86,8 @@ function PathwayCourse() {
 
   useEffect(() => {
     // dispatch(pathwayActions.getPathways());
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId })); //sometimes it's returning pathways and sometimes pathway's course
+    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [pathwayId]);
-
-  window.addEventListener("load", () => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId })); //sometimes it's returning pathways and sometimes pathway's course
-  });
-  const pathwayCourse = data && data.courses;
-
-  // useEffect(() => {
-  //   axios({
-  //     method: METHODS.GET,
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
-  //     headers: {
-  //       accept: "application/json",
-  //       "version-code": 40,
-  //       // Authorization: user.data ? user.data.token : null,
-  //     },
-  //   }).then((res) => {
-  //     console.log("res", res);
-  //     setPathwayCourse(res.data.courses);
-  //   });
-  // }, [pathwayId]);
-
-  console.log("pathwayCourse", pathwayCourse);
-  console.log("data in pathway", data && data.pathways);
 
   return (
     <>
@@ -185,7 +158,8 @@ function PathwayCourse() {
           </Typography>
           <Grid container spacing={3} align="center">
             {pathwayCourse &&
-              pathwayCourse.map((item, index) => (
+              pathwayCourse.data &&
+              pathwayCourse.data.courses.map((item, index) => (
                 <Grid xs={12} md={3} className={classes.courseCard}>
                   <Link
                     className={classes.pathwayLink}
@@ -202,7 +176,6 @@ function PathwayCourse() {
                         alt="course"
                         loading="lazy"
                       />
-                      {/* <CardContent> */}
                       <Toolbar disableGutters sx={{ ml: 2 }}>
                         <Typography
                           align={isActive ? "center" : "left"}

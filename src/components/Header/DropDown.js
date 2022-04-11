@@ -162,7 +162,7 @@ export const DropDown = ({
     data.pathways.forEach((pathway) => {
       students.Learn.forEach((item) => {
         if (pathway.code === item.code) {
-          item["id"] = pathway.id;
+          item.id = pathway.id;
         }
       });
     });
