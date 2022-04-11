@@ -38,7 +38,7 @@ function AFEpage() {
           spacing={!isActive ? 3 : 4}
           className={classes.Grid_Space}
         >
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6}>
             <img
               className={classes.IMG}
               src={require("./asset/First-img.svg")}
@@ -76,7 +76,7 @@ function AFEpage() {
           spacing={!isActive ? 3 : 4}
           className={classes.Grid_Space}
         >
-          <Grid item xs={12} sm={6} md={6} order={{ xs: 2, sm: 1 }}>
+          <Grid item xs={12} sm={6} order={{ xs: 2, sm: 1 }}>
             <Typography variant="body1" paragraph>
               NavGurukul is a registered non-profit organization working towards
               the financial empowerment of students from underserved
@@ -92,7 +92,7 @@ function AFEpage() {
               aspirational careers.
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6} order={{ xs: 1, sm: 2 }}>
+          <Grid item xs={12} sm={6} order={{ xs: 1, sm: 2 }}>
             <img
               className={classes.IMG}
               src={require("./asset/Second-img.svg")}
@@ -106,14 +106,14 @@ function AFEpage() {
           spacing={!isActive ? 3 : 4}
           className={classes.Grid_Space}
         >
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6}>
             <img
               className={classes.IMG}
               src={require("./asset/Second-img.svg")}
               alt="Students Img"
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6}>
             <Grid className={classes.Hadings}>
               <Typography
                 gutterbottom

@@ -64,6 +64,15 @@ function Login(props) {
       if (pathway.code === "PRGPYT") pythonPathwayId = pathway.id;
     });
 
+  const rolesLandingPages = {
+    volunteer: PATHS.CLASS,
+    admin: PATHS.PARTNERS,
+    partner: PATHS.PARTNERS,
+    default: interpolatePath(PATHS.PATHWAY_COURSE, {
+      pathwayId: pythonPathwayId,
+    }),
+  };
+
   if (isAuthenticated) {
     if (queryString) {
       axios({
@@ -79,23 +88,28 @@ function Login(props) {
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;
     }
-    if (rolesList[0] === "volunteer") {
-      return <Redirect to={PATHS.CLASS} />;
-    }
-    if (rolesList[0] === "admin") {
-      return <Redirect to={PATHS.PARTNERS} />;
-    }
-    if (rolesList[0] === "partner") {
-      return <Redirect to={PATHS.PARTNERS} />;
-    } else {
-      return (
-        <Redirect
-          to={interpolatePath(PATHS.PATHWAY_COURSE, {
-            pathwayId: pythonPathwayId,
-          })}
-        />
-      );
-    }
+    return (
+      <Redirect
+        to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
+      />
+    );
+    // if (rolesList[0] === "volunteer") {
+    //   return <Redirect to={PATHS.CLASS} />;
+    // }
+    // if (rolesList[0] === "admin") {
+    //   return <Redirect to={PATHS.PARTNERS} />;
+    // }
+    // if (rolesList[0] === "partner") {
+    //   return <Redirect to={PATHS.PARTNERS} />;
+    // } else {
+    //   return (
+    //     <Redirect
+    //       to={interpolatePath(PATHS.PATHWAY_COURSE, {
+    //         pathwayId: pythonPathwayId,
+    //       })}
+    //     />
+    //   );
+    // }
   }
 
   if (rolesList != false) {
