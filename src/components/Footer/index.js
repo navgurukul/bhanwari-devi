@@ -153,20 +153,6 @@ function Footer() {
     }
   }, [match]);
 
-  const history = useHistory();
-  // history.listen((location, action) => {
-  //   if (
-  //     location.pathname.split("/").includes("course-content") ||
-  //     location.pathname.split("/").includes("login") ||
-  //     location.pathname.split("/").includes("profile")
-  //   ) {
-  //     console.log("not in header");
-  //     setShowFooter(false);
-  //   } else {
-  //     setShowFooter(true);
-  //   }
-  // });
-
   return (
     <Box
       style={{
