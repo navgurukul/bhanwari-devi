@@ -30,6 +30,11 @@ export const PATHS = {
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
 };
-
+export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
+export const HideFooter = [
+  PATHS.LOGIN,
+  PATHS.PATHWAY_COURSE_CONTENT,
+  PATHS.PROFILE,
+];
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);

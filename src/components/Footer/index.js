@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
 import { Link, useHistory } from "react-router-dom";
-import { PATHS, interpolatePath } from "../../constant";
+import { PATHS, interpolatePath, HideHeader, HideFooter } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import { useRouteMatch } from "react-router-dom";
@@ -140,7 +140,7 @@ function Footer() {
     });
 
   const match = useRouteMatch({
-    path: [PATHS.PATHWAY_COURSE_CONTENT, PATHS.LOGIN, PATHS.PROFILE],
+    path: HideFooter,
   });
 
   useEffect(() => {
