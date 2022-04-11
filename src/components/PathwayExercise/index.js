@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { PATHS, interpolatePath } from "../../constant";
+import { PATHS, interpolatePath, versionCode } from "../../constant";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import {
@@ -22,13 +22,10 @@ import {
   Toolbar,
   Typography,
   Button,
-  Grid,
-  CardMedia,
-  BottomNavigation,
-  BottomNavigationAction,
   Select,
   MenuItem,
 } from "@mui/material";
+
 function NavigationComponent({
   index,
   exerciseId,
@@ -39,7 +36,6 @@ function NavigationComponent({
 }) {
   return (
     <>
-      {/* <Link to="/"> */}
       <img
         onClick={() => {
           history.push(
@@ -59,10 +55,10 @@ function NavigationComponent({
         loading="lazy"
         className={classes.contentImg}
       />
-      {/* </Link> */}
     </>
   );
 }
+
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
@@ -73,8 +69,6 @@ function PathwayExercise() {
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
 
-  console.log("params", params);
-
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -82,7 +76,7 @@ function PathwayExercise() {
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
       headers: {
-        "version-code": 40,
+        "version-code": versionCode,
         accept: "application/json",
         Authorization: user.data?.token || "",
       },

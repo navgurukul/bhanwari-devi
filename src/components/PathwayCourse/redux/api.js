@@ -1,12 +1,13 @@
 import axios from "axios";
 import { METHODS } from "../../../services/api";
+import { versionCode } from "../../../constant";
 
 export const getPathways = () => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
     method: METHODS.GET,
     headers: {
-      "version-code": 40,
+      "version-code": versionCode,
     },
     // headers: HeaderFactory(token),
   });
@@ -18,7 +19,7 @@ export const getPathwaysCourse = (data) => {
     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
     method: METHODS.GET,
     headers: {
-      "version-code": 40,
+      "version-code": versionCode,
     },
     // headers: HeaderFactory(token),
   });
