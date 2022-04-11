@@ -7,31 +7,23 @@ import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
 import { useParams } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import { breakpoints } from "../../theme/constant";
 import { breakpoints } from "../../../theme/constant";
 import CircleIcon from "@mui/icons-material/Circle";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  TableContainer,
+} from "@mui/material";
+
 // import HiddenContent from "../HiddenContent";
+import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
 
-import {
-  Container,
-  Box,
-  Toolbar,
-  Typography,
-  Stack,
-  Button,
-  Grid,
-} from "@mui/material";
-import { CardMedia } from "@material-ui/core";
+import { Container, Box, Typography, Button, Grid } from "@mui/material";
 
 function getMarkdown(code, lang) {
   let l = lang == "python" ? "py" : "js";
@@ -274,7 +266,7 @@ function ExerciseContent({ exerciseId, lang }) {
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
       headers: {
-        "version-code": 40,
+        "version-code": versionCode,
         accept: "application/json",
         Authorization: user.data?.token || "",
       },

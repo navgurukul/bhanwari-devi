@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { PATHS } from "../../constant";
-import axios from "axios";
-import { METHODS } from "../../services/api";
 import { hasOneFrom } from "../../common/utils";
 import { actions as userActions } from "../User/redux/action";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -28,55 +26,29 @@ const SwitchView = ({
   switchView,
 }) => {
   const classes = useStyles();
-  if (role == "admin") {
-    return (
-      <MenuItem
-        onClick={() => {
-          setSwitchView(role);
-          handleCloseSwitchView();
-        }}
-        sx={{ margin: "0px 10px 0px 10px" }}
-        className={switchView === role && classes.bgColor}
-      >
-        <NavLink to={PATHS.PARTNERS} className={classes.link}>
-          {role}
-        </NavLink>
-      </MenuItem>
-    );
-  }
-  if (role == "volunteer") {
-    return (
-      <MenuItem
-        onClick={() => {
-          setSwitchView(role);
-          handleCloseSwitchView();
-        }}
-        sx={{ margin: "0px 10px 0px 10px" }}
-        className={switchView === role && classes.bgColor}
-      >
-        <NavLink to={PATHS.CLASS} className={classes.link}>
-          {role}
-        </NavLink>
-      </MenuItem>
-    );
-  }
-  if (role == "partner") {
-    return (
-      <MenuItem
-        onClick={() => {
-          setSwitchView(role);
-          handleCloseSwitchView();
-        }}
-        sx={{ margin: "0px 10px 0px 10px" }}
-        className={switchView === role && classes.bgColor}
-      >
-        <NavLink to={PATHS.PARTNERS} className={classes.link}>
-          {role}
-        </NavLink>
-      </MenuItem>
-    );
-  }
-  return "";
+  const rolesLandingPages = {
+    admin: PATHS.PARTNERS,
+    volunteer: PATHS.CLASS,
+    partner: PATHS.PARTNERS,
+  };
+
+  const roleLandingPage = rolesLandingPages[role];
+  return roleLandingPage ? (
+    <MenuItem
+      onClick={() => {
+        setSwitchView(role);
+        handleCloseSwitchView();
+      }}
+      sx={{ margin: "0px 10px" }}
+      className={switchView === role && classes.bgColor}
+    >
+      <NavLink to={roleLandingPage} className={classes.link}>
+        {role}
+      </NavLink>
+    </MenuItem>
+  ) : (
+    ""
+  );
 };
 
 function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {

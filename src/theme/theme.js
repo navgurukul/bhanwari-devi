@@ -231,6 +231,17 @@ theme.components = {
     },
   },
 
+  MuiTableRow: {
+    styleOverrides: {
+      root: {
+        "&:hover": {
+          backgroundColor: "#FFFFFF",
+          boxShadow: "0px 0px 0px",
+        },
+      },
+    },
+  },
+
   MuiCard: {
     styleOverrides: {
       root: {
