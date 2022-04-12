@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./styles.scss";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import AddStudent from "../../../pages/AddStudent/index.js";
 import { toast } from "react-toastify";
 import { hasOneFrom } from "../../../common/utils";
@@ -138,27 +138,27 @@ function StudentData() {
   };
 
   const sortStudents = (byMethod) => {
-    const students = filteredData ? filter : students;
+    const student = filteredData ? filter : students;
     let sortedStudents;
     if (byMethod === "name") {
-      sortedStudents = students.sort().reverse();
+      sortedStudents = student.sort().reverse();
     } else if (byMethod === "enroll_date") {
-      sortedStudents = students.sort((a, b) =>
+      sortedStudents = student.sort((a, b) =>
         sortMethod === "asc"
           ? new Date(a.created_at) - new Date(b.created_at)
           : new Date(b.created_at) - new Date(a.created_at)
       );
     } else if (byMethod === "total_classes") {
-      sortedStudents = students.sort((a, b) =>
+      sortedStudents = student.sort((a, b) =>
         sortMethod === "asc"
           ? a.classes_registered.length - b.classes_registered.length
           : b.classes_registered.length - a.classes_registered.length
       );
     } else if (byMethod === "last_class_title") {
-      const zeroClass = students.filter((a) => {
+      const zeroClass = student.filter((a) => {
         return a.classes_registered.length <= 0;
       });
-      sortedStudents = students
+      sortedStudents = student
         .filter((a) => {
           return a.classes_registered.length > 0;
         })
@@ -180,7 +180,7 @@ function StudentData() {
       const zeroClass = students.filter((a) => {
         return a.classes_registered.length <= 0;
       });
-      sortedStudents = students
+      sortedStudents = student
         .filter((a) => {
           if (a.classes_registered.length > 0) {
             a.classes_registered = a.classes_registered.sort((c1, c2) => {
@@ -204,10 +204,10 @@ function StudentData() {
         });
       sortedStudents = [...sortedStudents, ...zeroClass];
     } else if (byMethod === "rating") {
-      const zeroClass = students.filter((a) => {
+      const zeroClass = student.filter((a) => {
         return a.classes_registered.length <= 0;
       });
-      sortedStudents = students.sort((a, b) => {
+      sortedStudents = student.sort((a, b) => {
         return sortMethod === "asc"
           ? a.averageRating - b.averageRating
           : b.averageRating - a.averageRating;
@@ -389,7 +389,7 @@ function StudentData() {
                 </button>
               </th>
               <th>
-                Classes Attended
+                Classes Enrolled to
                 <button
                   className={sort_class}
                   onClick={() => sortStudents("total_classes")}

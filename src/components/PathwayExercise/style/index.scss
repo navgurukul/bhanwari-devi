@@ -1,0 +1,31 @@
+@import "../../../sass/colors.scss";
+@import "../../../sass/mixins.scss";
+.gridtopofcourse7 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  @include breakpoint-mobile {
+    width: 100px;
+    overflow: scroll;
+  }
+}
+.hideInMobile {
+  @include breakpoint-mobile {
+    display: none;
+  }
+}
+.courseCloseAndEnglish {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+.VisibleInMobile {
+  display: none;
+  @include breakpoint-mobile {
+    display: block;
+    width: 97%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+}

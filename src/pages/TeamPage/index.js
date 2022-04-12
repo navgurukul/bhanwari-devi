@@ -98,11 +98,27 @@ function TeamPage() {
     <>
       <CssBaseline />
       <div>
-        <Container maxWidth="lg">
+        <Container
+          maxWidth="lg"
+          style={
+            isActive ? { padding: 0, marginTop: "24px" } : { marginTop: "40px" }
+          }
+        >
           <Container maxWidth="sm">
             <Stack spacing={5}>
               <Box>
-                <div className={classes.team_conainerLeft}>
+                <div
+                  className={classes.team_conainerLeft}
+                  style={
+                    isActive
+                      ? {
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          marginBottom: "1rem",
+                        }
+                      : {}
+                  }
+                >
                   <Box mr={2}>
                     <Typography
                       className={classes.team_fontNunito}
@@ -120,7 +136,18 @@ function TeamPage() {
                 <hr color="primary" className={classes.team_hrline} />
               </Box>
               <Box align="right">
-                <div className={classes.team_conainerRight}>
+                <div
+                  className={classes.team_conainerRight}
+                  style={
+                    isActive
+                      ? {
+                          flexDirection: "column",
+                          alignItems: "flex-end",
+                          marginBottom: "1rem",
+                        }
+                      : {}
+                  }
+                >
                   <Box mr={2}>
                     <Typography
                       className={classes.team_fontNunito}

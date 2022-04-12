@@ -2,7 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import "./styles.scss";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Container,
+  Grid,
+  Avatar,
+  TextField,
+  Typography,
+  Button,
+} from "@mui/material";
 
 function Profile() {
   const user = useSelector(({ User }) => User);
@@ -10,6 +20,8 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
+
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -53,35 +65,86 @@ function Profile() {
     });
   };
   return (
-    <div className="profile-container">
-      <div className="profile">
-        <div>
-          <img className="profile-img" src={userData.profile_picture} />
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        marginTop: "4rem",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          item
+          xs={12}
+          md={6}
+          align={isActive ? "center" : "right"}
+          sx={{ pr: "16px" }}
+        >
+          <Avatar
+            alt="Remy Sharp"
+            src={userData.profile_picture}
+            sx={{ width: 100, height: 100 }}
+          />
         </div>
-        <div className="profile-details">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
           {isEditing ? (
-            <input
-              className="email-input"
-              type="text"
+            <TextField
+              id="standard-basic"
+              label="name"
+              variant="standard"
               value={editName}
               onChange={(e) => {
                 setEditName(e.target.value);
               }}
             />
           ) : msg ? (
-            <p>Please wait...</p>
+            <Typography>Please wait...</Typography>
           ) : (
-            <h1 className="profile-deta">{userData.name}</h1>
+            <Typography variant="h5">
+              {userData.name}
+              {isActive && !isEditing && (
+                <Button onClick={() => setIsEditing(true)}>
+                  <EditIcon />
+                </Button>
+              )}
+            </Typography>
           )}
-          <p className="user-email">{userData.email}</p>
+          <Typography>{userData.email}</Typography>
           {isEditing ? (
-            <button onClick={editProfile} className="edit-Profile">
-              Save
-            </button>
+            <Button
+              style={{
+                padding: "0",
+              }}
+              onClick={editProfile}
+            >
+              Save Profile
+            </Button>
           ) : (
-            <button onClick={() => setIsEditing(true)} className="edit-Profile">
-              Edit Name
-            </button>
+            <Button
+              style={{
+                padding: "0",
+              }}
+              variant="text"
+              onClick={() => setIsEditing(true)}
+            >
+              {!isActive && "Edit Profile"}
+            </Button>
           )}
         </div>
       </div>

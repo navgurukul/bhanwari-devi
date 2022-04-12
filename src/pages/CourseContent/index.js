@@ -13,7 +13,7 @@ import Loader from "../../components/common/Loader";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
-
+import languageMap from "./languageMap";
 const getExerciseIdFromUrl = () => {
   let exerciseId;
 
@@ -35,13 +35,6 @@ function CourseContent(props) {
     courseContent: { loading, data },
     selectedExercise,
   } = useSelector(({ Course }) => Course);
-
-  const languageMap = {
-    hi: "Hindi",
-    en: "English",
-    te: "Telugu",
-    ta: "Tamil",
-  };
 
   // api call for course
 
