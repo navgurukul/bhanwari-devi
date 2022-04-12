@@ -10,6 +10,8 @@ const useStyles = makeStyles((theme) => ({
     height: "47px",
     width: "254px",
     borderRadius: "17px",
+    padding: "10px",
+    fontWeight: "bold",
   },
 
   responsiveGoogleLogin: {

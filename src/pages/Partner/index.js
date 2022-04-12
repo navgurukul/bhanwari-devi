@@ -36,7 +36,7 @@ const Partner = () => {
     });
   }, []);
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" className={classes.partnerTopspacing}>
       <Container maxWidth="sm">
         <Typography variant="h5" align="center">
           Our Partners
@@ -113,90 +113,98 @@ const Partner = () => {
           </Grid>
         </Grid>
       </Container>
-
-      <Typography variant="h5" align="center">
-        Partners List
-        <hr color="primary" className={classes.partnerHrline} />
-      </Typography>
-      <Grid container spacing={4}>
-        {Object.keys(partners).length ? (
-          Object.keys(partners).map((item) => {
-            return (
-              <Grid item xs={12} sm={4} md={4}>
-                <Card
-                  sx={{
-                    ":hover": {
-                      boxShadow: 20, // theme.shadows[20]
-                    },
-                  }}
-                  className={
-                    isActive ? classes.partnerCard1 : classes.partnerCard
-                  }
-                >
-                  <CardHeader
-                    title={partners[item].Name}
-                    titleTypographyProps={{ variant: "subtitle1" }}
-                  />
-                  <CardContent
+      <div
+        style={{
+          padding: "40px 0px",
+        }}
+      >
+        <Typography variant="h4" align="center">
+          Partners List
+          <hr color="primary" className={classes.partnerHrline} />
+        </Typography>
+        <Grid container spacing={4}>
+          {Object.keys(partners).length ? (
+            Object.keys(partners).map((item) => {
+              return (
+                <Grid item xs={12} sm={4} md={4}>
+                  <Card
+                    sx={{
+                      ":hover": {
+                        boxShadow: 20, // theme.shadows[20]
+                      },
+                    }}
                     className={
-                      !isActive
-                        ? classes.partnerCardContainer
-                        : classes.partnerCardContainer1
+                      isActive ? classes.partnerCard1 : classes.partnerCard
                     }
                   >
-                    <Typography variant="body1">
-                      {partners[item].Description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions disableSpacing className={classes.partnerRight}>
-                    {partners[item].Url ? (
-                      <IconButton>
-                        <Link href={partners[item].Url}>
-                          <PublicIcon
-                            variant="outlined"
-                            fontSize="small"
-                            className={classes.partnerIconSize}
-                          />
-                        </Link>
-                      </IconButton>
-                    ) : (
-                      <></>
-                    )}
-                    {partners[item].LinkedinId ? (
-                      <IconButton>
-                        <Link href={partners[item].LinkedinId}>
-                          <LinkedInIcon
-                            variant="outlined"
-                            fontSize="small"
-                            className={classes.partnerIconSize}
-                          />
-                        </Link>
-                      </IconButton>
-                    ) : (
-                      <></>
-                    )}
-                    {partners[item].TwitterId ? (
-                      <IconButton>
-                        <Link href={partners[item].TwitterId}>
-                          <TwitterIcon
-                            variant="outlined"
-                            fontSize="small"
-                            className={classes.partnerIconSize}
-                          />
-                        </Link>
-                      </IconButton>
-                    ) : (
-                      <></>
-                    )}
-                  </CardActions>
-                </Card>
-              </Grid>
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </Grid>
+                    <CardHeader
+                      title={partners[item].Name}
+                      titleTypographyProps={{ variant: "subtitle1" }}
+                    />
+                    <CardContent
+                      className={
+                        !isActive
+                          ? classes.partnerCardContainer
+                          : classes.partnerCardContainer1
+                      }
+                    >
+                      <Typography variant="body1">
+                        {partners[item].Description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions
+                      disableSpacing
+                      className={classes.partnerRight}
+                    >
+                      {partners[item].Url ? (
+                        <IconButton>
+                          <Link href={partners[item].Url}>
+                            <PublicIcon
+                              variant="outlined"
+                              fontSize="small"
+                              className={classes.partnerIconSize}
+                            />
+                          </Link>
+                        </IconButton>
+                      ) : (
+                        <></>
+                      )}
+                      {partners[item].LinkedinId ? (
+                        <IconButton>
+                          <Link href={partners[item].LinkedinId}>
+                            <LinkedInIcon
+                              variant="outlined"
+                              fontSize="small"
+                              className={classes.partnerIconSize}
+                            />
+                          </Link>
+                        </IconButton>
+                      ) : (
+                        <></>
+                      )}
+                      {partners[item].TwitterId ? (
+                        <IconButton>
+                          <Link href={partners[item].TwitterId}>
+                            <TwitterIcon
+                              variant="outlined"
+                              fontSize="small"
+                              className={classes.partnerIconSize}
+                            />
+                          </Link>
+                        </IconButton>
+                      ) : (
+                        <></>
+                      )}
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </Grid>
+      </div>
     </Container>
   );
 };

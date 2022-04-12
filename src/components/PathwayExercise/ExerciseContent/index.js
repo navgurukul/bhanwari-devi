@@ -125,6 +125,9 @@ const RenderContent = ({ data }) => {
     } else {
       return (
         <Typography
+          style={{
+            margin: "2rem 0",
+          }}
           variant="body1"
           dangerouslySetInnerHTML={{ __html: text }}
         />
@@ -280,7 +283,7 @@ function ExerciseContent({ exerciseId, lang }) {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 5 }}>
+      <Box sx={{ mt: 5, mb: 8 }}>
         {content &&
           content.map((contentItem, index) => (
             <RenderContent data={contentItem} key={index} classes={classes} />

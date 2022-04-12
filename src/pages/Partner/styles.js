@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
   partnerTopspacing: {
-    paddingTop: "15%",
+    paddingTop: "2%",
   },
 
   partnerHrline: {
@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
   },
   partnerContainer: {
     paddingTop: "6%",
-    paddingBottom: "6%",
   },
   partnerContainer1: {
     paddingTop: "20%",

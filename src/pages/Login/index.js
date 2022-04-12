@@ -10,9 +10,9 @@ import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 // ../PathwayCourse/redux/action
-import { Typography, Container, Grid, Stack, Box } from "@mui/material";
+import { Typography, Container, Grid, Stack, Box, Button } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 
@@ -148,6 +148,22 @@ function Login(props) {
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Continue with Google"
                     onSuccess={onSignIn}
+                    render={(renderProps) => (
+                      <Button
+                        variant="contained"
+                        startIcon={<GoogleIcon />}
+                        onClick={renderProps.onClick}
+                        style={{
+                          backgroundColor: "white",
+                          color: "black",
+                          width: "max-content",
+                          margin: "10px 0",
+                          fontSize: "18px",
+                        }}
+                      >
+                        Continue with Google
+                      </Button>
+                    )}
                     onFailure={onGoogleLoginFail}
                     cookiePolicy={"single_host_origin"}
                     className={

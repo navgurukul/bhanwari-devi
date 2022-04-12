@@ -297,17 +297,21 @@ function PathwayExercise() {
       <Box>
         <Toolbar
           style={{
-            width: "95%",
+            width: "97%",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             position: "fixed",
             bottom: 0,
+            background: "#f5f5f5",
           }}
         >
           <Button
             variant="text"
             color="dark"
+            style={{
+              opacity: `${exerciseId !== 0 ? 1 : 0}`,
+            }}
             disabled={exerciseId === 0}
             onClick={previousClickHandler}
             sx={{ flexGrow: 0 }}
@@ -316,6 +320,9 @@ function PathwayExercise() {
             Back
           </Button>
           <Button
+            style={{
+              opacity: `${exerciseId < courseLength - 1 ? 1 : 0}`,
+            }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength - 1)}
             variant="text"
