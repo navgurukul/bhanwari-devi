@@ -105,7 +105,7 @@ function PathwayCourse() {
                     Learning Track
                   </Typography>
                   <Typography
-                    variant="h5"
+                    variant="h4"
                     className={classes.heading}
                     sx={{ textAlign: isActive && "center" }}
                   >
@@ -128,7 +128,7 @@ function PathwayCourse() {
               </Grid> */}
             </Grid>
             <Box className={classes.Box1}>
-              <Typography variant="h6" sx={{ textAlign: isActive && "center" }}>
+              <Typography variant="h5" sx={{ textAlign: isActive && "center" }}>
                 Learning Outcomes
               </Typography>
               <Grid container spacing={0} align="center">
@@ -151,7 +151,7 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            variant="h6"
+            variant="h5"
             sx={{ textAlign: isActive && "center" }}
           >
             Courses

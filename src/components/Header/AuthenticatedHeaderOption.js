@@ -136,7 +136,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
               }}
             >
               <MenuItem onClick={handleOpenLearn}>
-                Learn
+                <Typography variant="subtitle1">Learn</Typography>
                 {learn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </MenuItem>
               <DropDown
@@ -151,7 +151,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   className={classes.link}
                   activeClassName={classes.active}
                 >
-                  Classes
+                  <Typography variant="subtitle1">Classes</Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -160,7 +160,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   className={classes.link}
                   activeClassName={classes.active}
                 >
-                  Mentor
+                  <Typography variant="subtitle1">Mentor</Typography>
                 </NavLink>
               </MenuItem>
             </Box>
@@ -180,7 +180,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   className={classes.link}
                   activeClassName={classes.active}
                 >
-                  Classes
+                  <Typography variant="subtitle1">Classes</Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -189,7 +189,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   className={classes.link}
                   activeClassName={classes.active}
                 >
-                  Mentor
+                  <Typography variant="subtitle1">Mentor</Typography>
                 </NavLink>
               </MenuItem>
             </Box>
@@ -198,6 +198,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 display: { xs: "block", md: "flex" },
                 justifyContent: { xs: "normal", md: "flex-end" },
                 width: { xs: 0, sm: "100%" },
+                pr: rolesList.length < 1 && 2,
               }}
             >
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -206,7 +207,9 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   className={classes.link}
                   activeClassName={classes.active}
                 >
-                  Admission
+                  <Typography variant="subtitle1">
+                    Navgurukul Admission
+                  </Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -215,7 +218,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   className={classes.link}
                   activeClassName={classes.active}
                 >
-                  Opportunity
+                  <Typography variant="subtitle1">Opportunity</Typography>
                 </NavLink>
               </MenuItem>
             </Box>
@@ -241,7 +244,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     className={classes.link}
                     activeClassName={classes.active}
                   >
-                    Students
+                    <Typography variant="subtitle1">Students</Typography>
                   </NavLink>
                 </MenuItem>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -250,7 +253,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     className={classes.link}
                     activeClassName={classes.active}
                   >
-                    Volunteers
+                    <Typography variant="subtitle1">Volunteers</Typography>
                   </NavLink>
                 </MenuItem>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -259,7 +262,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     className={classes.link}
                     activeClassName={classes.active}
                   >
-                    Partners
+                    <Typography variant="subtitle1">Partners</Typography>
                   </NavLink>
                 </MenuItem>
               </>
@@ -273,7 +276,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     className={classes.link}
                     activeClassName={classes.active}
                   >
-                    Volunteers
+                    <Typography variant="subtitle1">Volunteers</Typography>
                   </NavLink>
                 </MenuItem>
                 <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
@@ -282,7 +285,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     className={classes.link}
                     activeClassName={classes.active}
                   >
-                    Classes
+                    <Typography variant="subtitle1">Classes</Typography>
                   </NavLink>
                 </MenuItem>
               </>
@@ -302,7 +305,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     className={classes.link}
                     activeClassName={classes.active}
                   >
-                    Dashboard
+                    <Typography variant="subtitle1">Dashboard</Typography>
                   </NavLink>
                 </MenuItem>
               </>
@@ -322,7 +325,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
           {rolesList.length > 1 ? (
             <>
               <MenuItem onClick={handleOpenSwitchView}>
-                Switch Views
+                <Typography variant="subtitle1">Switch Views</Typography>
                 {dropDown ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </MenuItem>
               <Menu

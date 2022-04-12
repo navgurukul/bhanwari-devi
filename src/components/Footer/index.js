@@ -47,6 +47,7 @@ const menu = {
 
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
+  const classes = useStyles();
   return (
     <>
       <Typography
@@ -69,14 +70,13 @@ const MenuList = (menuItem) => {
                       })
                     : item.link
                 }
-                style={{
-                  textDecoration: "none",
-                }}
+                className={classes.link}
               >
                 <Typography
                   variant="body2"
                   color="text.primary"
                   sx={{ pb: "5px" }}
+                  className={classes.hover}
                 >
                   {item.title}
                 </Typography>
@@ -84,16 +84,12 @@ const MenuList = (menuItem) => {
             );
           } else {
             return (
-              <ExternalLink
-                style={{
-                  textDecoration: "none",
-                }}
-                href={item.link}
-              >
+              <ExternalLink className={classes.link} href={item.link}>
                 <Typography
                   variant="body2"
                   color="text.primary"
                   sx={{ pb: "5px" }}
+                  className={classes.hover}
                 >
                   {item.title}
                 </Typography>
@@ -108,13 +104,22 @@ const MenuList = (menuItem) => {
 
 function FooterIcon(props) {
   const classes = useStyles();
+
+  const socialMediaLink = {
+    facebook: "https://www.facebook.com/navgurukul/",
+    linkedIn: "https://www.linkedin.com/company/navgurukul/",
+    twitter: "https://twitter.com/navgurukul",
+  };
+
   return (
     <Box className={classes.image}>
-      <img
-        src={require("./asset/" + props.name + ".svg")}
-        alt={props.alt || "image of " + props.name}
-        loading="lazy"
-      />
+      <ExternalLink href={socialMediaLink[props.name]}>
+        <img
+          src={require("./asset/" + props.name + ".svg")}
+          alt={props.alt || "image of " + props.name}
+          loading="lazy"
+        />
+      </ExternalLink>
     </Box>
   );
 }
@@ -204,9 +209,7 @@ function Footer() {
             </Typography>
             <ExternalLink
               href="https://play.google.com/store/apps/details?id=org.merakilearn&hl=en_IN&gl=US"
-              style={{
-                textDecoration: "none",
-              }}
+              className={classes.link}
             >
               <Box sx={{ display: "flex" }}>
                 <img
@@ -231,9 +234,11 @@ function Footer() {
         <Box>
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
             <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
-              <Typography variant="body2" color="text.primary">
-                Legal & Privacy Policy
-              </Typography>
+              <Link to={PATHS.PRIVACY_POLICY} className={classes.link}>
+                <Typography variant="body2" color="text.primary">
+                  Legal & Privacy Policy
+                </Typography>
+              </Link>
             </Grid>
             <Grid
               xs={12}

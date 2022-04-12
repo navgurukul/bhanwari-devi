@@ -12,9 +12,9 @@ const OurStory = () => {
   const classes = useStyles();
   return (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ mt: 7, mb: 7 }}>
         <Container maxWidth="md">
-          <Typography variant="h5" align="center" gutterBottom>
+          <Typography variant="h5" align="center">
             Our Story
             <hr color="primary" className={classes.ourStoryHrline} />
           </Typography>
@@ -35,7 +35,7 @@ const OurStory = () => {
             NGOs to cater to their students or just individual students.
           </Typography>
         </Container>
-        <Box className={classes.ourStorySpace}>
+        {/* <Box className={classes.ourStorySpace}>
           <Typography variant="h5" align="center" gutterBottom>
             In the Media
             <hr color="primary" className={classes.ourStoryHrline} />
@@ -69,8 +69,8 @@ const OurStory = () => {
               </Button>
             </Grid>
           </Grid>
-        </Box>
-        <hr align="center" className={classes.ourStoryHr} />
+        </Box> */}
+        {/* <hr align="center" className={classes.ourStoryHr} /> */}
       </Container>
     </>
   );

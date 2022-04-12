@@ -18,6 +18,14 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 10px 0px 16px",
     width: "300px",
   },
+  hover: {
+    "&:hover": {
+      color: "#48a145",
+    },
+  },
+  link: {
+    textDecoration: "none",
+  },
 }));
 
 export default useStyles;
