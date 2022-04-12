@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "15px 0px 0px 0px",
+    padding: "32px 0px 0px 0px",
   },
 
   engineerPopupCard: {

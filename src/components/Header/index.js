@@ -53,7 +53,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               sx={{ my: 2, color: "black" }}
               key={index}
             >
-              {menu}
+              <Typography variant="subtitle1">{menu}</Typography>
               {selectedMenu === menu && indicator ? (
                 <ExpandLessIcon />
               ) : (
@@ -186,7 +186,7 @@ function Header() {
           }
         }}
       >
-        <Container className={classes.mainbar} maxWidth="false">
+        <Container maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>

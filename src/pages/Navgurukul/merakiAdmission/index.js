@@ -257,21 +257,8 @@ function Admission(props) {
             </Box>
             <Grid container className={classes.admitionSpacing}>
               <Grid item xs={12} sm={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  Check Test Result
-                </Typography>
-
-                <Box
-                  component="form"
-                  sx={{
-                    display: "grid",
-                    gap: 3,
-                    m: 1,
-                  }}
-                  className={
-                    isActive ? classes.admitionBottom1 : classes.admitionBottom
-                  }
-                >
+                <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
+                  <Typography variant="h6">Check Test Result</Typography>
                   <TextField
                     label="Mobile Number"
                     type="number"
@@ -283,14 +270,7 @@ function Admission(props) {
                     variant="outlined"
                     required
                   />
-
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={
-                      !isActive ? classes.admitionBtn : classes.admitionBtn2
-                    }
-                  >
+                  <Button variant="contained" color="primary">
                     <Link
                       href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
                       underline="none"

@@ -12,6 +12,7 @@ import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 import {
   Typography,
@@ -43,8 +44,8 @@ const students = {
     },
   ],
   About: [
-    { title: "Meraki Team", path: PATHS.MERAKI_TEAM, type: "internal" },
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
+    { title: "Meraki Team", path: PATHS.MERAKI_TEAM, type: "internal" },
   ],
   GetInvolved: [
     { title: "Become a Partner", path: PATHS.OUR_PARTNER, type: "internal" },
@@ -88,7 +89,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
         id="panel1a-header"
         sx={{ width: 380 }}
       >
-        <Typography variant="body1">{Menu}</Typography>
+        <Typography variant="subtitle1">{Menu}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         {students[Menu.split(" ").join("")].map((menu, index) => {
@@ -133,6 +134,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                       {menu.title}
                     </Typography>
                   </CardContent>
+                  <LaunchIcon />
                 </MenuItem>
               </ExternalLink>
             );
@@ -226,8 +228,7 @@ export const DropDown = ({
           } else {
             return (
               <>
-                <a
-                  target="_blank"
+                <ExternalLink
                   href={menu.path}
                   className={classes.link}
                   onClick={toggleDrawer && toggleDrawer(false)}
@@ -244,14 +245,12 @@ export const DropDown = ({
                     {dropDown === "Learn" && (
                       <img src={students.image[index]} alt="course logo" />
                     )}
-                    <Typography
-                      textAlign="center"
-                      sx={{ paddingLeft: dropDown === "Learn" && 2 }}
-                    >
+                    <Typography textAlign="center" sx={{ paddingRight: 1 }}>
                       {menu.title}
                     </Typography>
+                    <LaunchIcon />
                   </MenuItem>
-                </a>
+                </ExternalLink>
                 {dropDown === "Learn" && index == 4 && <Divider />}
               </>
             );
