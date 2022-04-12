@@ -90,12 +90,8 @@ function Opportunities() {
                         }}
                         style={{ textDecoration: "none" }}
                       >
-                        <Button mr={1}>
+                        <Button endIcon={<ArrowForwardIosIcon />} mr={1}>
                           Take a Test Today
-                          <Typography ml={1} mt={1}>
-                            {" "}
-                            <ArrowForwardIosIcon />{" "}
-                          </Typography>
                         </Button>
                       </Link>
                     </Grid>
@@ -122,12 +118,8 @@ function Opportunities() {
                         href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
                         style={{ textDecoration: "none" }}
                       >
-                        <Button>
+                        <Button endIcon={<ArrowForwardIosIcon />}>
                           Apply Now
-                          <Typography ml={1} mt={1}>
-                            {" "}
-                            <ArrowForwardIosIcon />{" "}
-                          </Typography>
                         </Button>
                       </ExternalLink>
                     </CardActions>
@@ -163,13 +155,11 @@ function Opportunities() {
                   style={{ textDecoration: "none" }}
                 >
                   <Button
+                    endIcon={<ArrowForwardIosIcon />}
                     variant="outlined"
                     sx={{ width: isActive ? "100%" : "255px" }}
                   >
                     Apply Now
-                    <Typography ml={1} mt={1}>
-                      <ArrowForwardIosIcon />
-                    </Typography>
                   </Button>
                 </ExternalLink>
               </Grid>

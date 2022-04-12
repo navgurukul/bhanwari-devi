@@ -367,8 +367,18 @@ function Home() {
             <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
-                  <address>
-                    <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
+                  <address
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
                       Via email:{" "}
                     </span>
 
@@ -376,6 +386,7 @@ function Home() {
                       style={{
                         textDecoration: "none",
                         color: "#48a145",
+                        fontStyle: "normal",
                       }}
                       href="mailto:team@meraki.org"
                     >
@@ -387,13 +398,20 @@ function Home() {
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
                   <address>
-                    <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
                       Via Whatsapp:
                     </span>
                     <ExternalLink
                       style={{
                         textDecoration: "none",
                         color: "#48a145",
+                        fontStyle: "normal",
                       }}
                       href="tel:+918891300300"
                     >
