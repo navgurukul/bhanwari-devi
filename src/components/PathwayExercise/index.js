@@ -135,9 +135,7 @@ function PathwayExercise() {
             >
               <Typography variant="h6" component="div">
                 <Link
-                  style={{
-                    color: "black",
-                  }}
+                  style={{ color: "#6D6D6D" }}
                   to={
                     params.pathwayId == "miscellaneous"
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
@@ -226,9 +224,7 @@ function PathwayExercise() {
             <div className="courseCloseAndEnglish">
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 <Link
-                  style={{
-                    color: "black",
-                  }}
+                  style={{ color: "#6D6D6D" }}
                   to={
                     params.pathwayId == "miscellaneous"
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
@@ -311,7 +307,7 @@ function PathwayExercise() {
         >
           <Button
             variant="text"
-            color="primary"
+            color="dark"
             disabled={exerciseId === 0}
             onClick={previousClickHandler}
             sx={{ flexGrow: 0 }}

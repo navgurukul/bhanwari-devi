@@ -110,7 +110,7 @@ function FooterIcon(props) {
     linkedIn: "https://www.linkedin.com/company/navgurukul/",
     twitter: "https://twitter.com/navgurukul",
   };
-  console.log("socialMediaLink.props.name", socialMediaLink[props.name]);
+
   return (
     <Box className={classes.image}>
       <ExternalLink href={socialMediaLink[props.name]}>
