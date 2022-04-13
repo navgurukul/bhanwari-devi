@@ -263,14 +263,14 @@ function ClassCard({ item, editClass, enroll, style }) {
 
             {item.facilitator.email == user.data.user.email || flag ? (
               // <div className="class-card-actions">
-              <>
+              <div>
                 <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
                 <EditIcon
                   onClick={() => {
                     handleEdit(item.id);
                   }}
                 />
-              </>
+              </div>
             ) : // </div>
             null}
           </div>
