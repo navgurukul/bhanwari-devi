@@ -5,6 +5,7 @@ import { actions as classActions } from "../redux/action";
 import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
+import { Grid } from "@mui/material";
 
 function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
@@ -42,26 +43,30 @@ function ClassList({ editClass, isShow }) {
           <>
             {single_classes.map((item, index) => {
               return (
-                <ClassCard
-                  item={item}
-                  key={index}
-                  index={index}
-                  editClass={editClass}
-                  enroll="Enroll to class"
-                  style="class-enroll"
-                />
+                <Grid item xs={12} ms={6} md={3} sx={{ mb: 10 }}>
+                  <ClassCard
+                    item={item}
+                    key={index}
+                    index={index}
+                    editClass={editClass}
+                    enroll="Enroll to class"
+                    style="class-enroll"
+                  />
+                </Grid>
               );
             })}
             {recurring_classes.map((item, index) => {
               return (
-                <ClassCard
-                  item={item}
-                  key={index}
-                  index={index}
-                  editClass={editClass}
-                  enroll="Enroll to Cohort class"
-                  style="class-enroll-cohort"
-                />
+                <Grid item xs={12} ms={6} md={3} sx={{ mb: 10 }}>
+                  <ClassCard
+                    item={item}
+                    key={index}
+                    index={index}
+                    editClass={editClass}
+                    enroll="Enroll to Cohort class"
+                    style="class-enroll-cohort"
+                  />
+                </Grid>
               );
             })}
           </>
