@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {
+  Button,
   Typography,
-  Container,
-  CssBaseline,
-  Grid,
-  Card,
   Box,
-} from "@material-ui/core";
+  Container,
+  Stack,
+  CssBaseline,
+  Card,
+} from "@mui/material";
+import { Grid } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./style";
-import Button from "@mui/material/Button";
 import axios from "axios";
 import Tippy from "@tippyjs/react";
-import { Stack } from "@mui/material";
 import "./style.css";
 import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
@@ -120,22 +120,18 @@ function TeamPage() {
                   }
                 >
                   <Box mr={2}>
-                    <Typography
-                      className={classes.team_fontNunito}
-                      variant="h1"
-                      align="left"
-                    >
+                    <Typography className={"d"} variant="h1" align="left">
                       30+
                     </Typography>
                   </Box>
-                  <Typography className={classes.team_fontNunito} variant="h4">
+                  <Typography className={"d"} variant="h4">
                     Core Members
                   </Typography>
                 </div>
 
                 <hr color="primary" className={classes.team_hrline} />
               </Box>
-              <Box align="right">
+              <Box align="right" className={classes.team_alignRight}>
                 <div
                   className={classes.team_conainerRight}
                   style={
@@ -149,19 +145,11 @@ function TeamPage() {
                   }
                 >
                   <Box mr={2}>
-                    <Typography
-                      className={classes.team_fontNunito}
-                      variant="h1"
-                      align="right"
-                    >
+                    <Typography className={"d"} variant="h1" align="right">
                       100+
                     </Typography>
                   </Box>
-                  <Typography
-                    className={classes.team_fontNunito}
-                    variant="h4"
-                    align="right"
-                  >
+                  <Typography className={"d"} variant="h4" align="right">
                     Supporters
                   </Typography>
                 </div>
@@ -209,7 +197,7 @@ function TeamPage() {
                 : `${classes.team_responsiveContainer}`
             }
           >
-            <Grid container justify="center">
+            <Grid container style={{ justifyContent: "center" }}>
               <Typography
                 onClick={() => {
                   setMembers({ volunteers: false, teamMembers: true });
@@ -261,92 +249,94 @@ function TeamPage() {
               }
               sx={{ marginTop: 4 }}
             >
-              {Object.keys(shuffleObject(team)).length ? (
-                Object.keys(shuffleObject(team)).map((item) => {
-                  const condition = members.teamMembers
-                    ? "teamMembers"
-                    : "volunteers";
-                  if (
-                    (condition === "volunteers" &&
-                      team[item].Association === "Volunteer") ||
-                    (condition === "teamMembers" &&
-                      team[item].Association !== "Volunteer")
-                  ) {
+              <Grid container>
+                {Object.keys(shuffleObject(team)).length ? (
+                  Object.keys(shuffleObject(team)).map((item) => {
+                    const condition = members.teamMembers
+                      ? "teamMembers"
+                      : "volunteers";
                     if (
-                      team[item].Photo &&
-                      team[item].Name &&
-                      team[item].Content.length &&
-                      team[item].Content &&
-                      team[item].Designation
-                    )
-                      return (
-                        <Grid item xs={6} sm={4} md={3}>
-                          <Tippy
-                            animation="fade"
-                            interactive="true"
-                            duration={[500, 0]}
-                            placement={
-                              window.screen.availWidth < 650
-                                ? "bottom"
-                                : "right"
-                            }
-                            content={
-                              <Popup
-                                Name={
-                                  team[item].Name || "Awaiting Member's Name"
-                                }
-                                Content={
-                                  (team[item].Content.length &&
-                                    team[item].Content) ||
-                                  "Awaiting content from team member"
-                                }
-                                linkedin={team[item].Linkedin}
-                                twitter={team[item].Twitter}
-                              />
-                            }
-                          >
-                            <div>
-                              <div
-                                className={`${classes.team_cardDetails} card-details`}
-                              >
-                                <img
-                                  // className="card-img-top team-info-card-img img-card-hover"
-                                  className={
-                                    !isActive
-                                      ? `${classes.team_cardImg} img-hover`
-                                      : `${classes.team_mobileCardImg} img-hover`
+                      (condition === "volunteers" &&
+                        team[item].Association === "Volunteer") ||
+                      (condition === "teamMembers" &&
+                        team[item].Association !== "Volunteer")
+                    ) {
+                      if (
+                        team[item].Photo &&
+                        team[item].Name &&
+                        team[item].Content.length &&
+                        team[item].Content &&
+                        team[item].Designation
+                      )
+                        return (
+                          <Grid item xs={6} sm={4} md={3}>
+                            <Tippy
+                              animation="fade"
+                              interactive="true"
+                              duration={[500, 0]}
+                              placement={
+                                window.screen.availWidth < 650
+                                  ? "bottom"
+                                  : "right"
+                              }
+                              content={
+                                <Popup
+                                  Name={
+                                    team[item].Name || "Awaiting Member's Name"
                                   }
-                                  src={team[item].Photo}
-                                  alt={team[item].Name.substring(
-                                    0,
-                                    team[item].Name.indexOf(" ")
-                                  )}
+                                  Content={
+                                    (team[item].Content.length &&
+                                      team[item].Content) ||
+                                    "Awaiting content from team member"
+                                  }
+                                  linkedin={team[item].Linkedin}
+                                  twitter={team[item].Twitter}
                                 />
-                                <Typography
-                                  variant="body1"
-                                  className={classes.team_cardTitle}
-                                  style={
-                                    !isActive ? {} : { textAlign: "center" }
-                                  }
+                              }
+                            >
+                              <div>
+                                <div
+                                  className={`${classes.team_cardDetails} card-details`}
                                 >
-                                  {team[item].Name}
-                                </Typography>
-                                <Typography
-                                  variant="body1"
-                                  className={classes.team_cardDescription}
-                                >
-                                  {team[item].Designation}
-                                </Typography>
+                                  <img
+                                    // className="card-img-top team-info-card-img img-card-hover"
+                                    className={
+                                      !isActive
+                                        ? `${classes.team_cardImg} img-hover`
+                                        : `${classes.team_mobileCardImg} img-hover`
+                                    }
+                                    src={team[item].Photo}
+                                    alt={team[item].Name.substring(
+                                      0,
+                                      team[item].Name.indexOf(" ")
+                                    )}
+                                  />
+                                  <Typography
+                                    variant="body1"
+                                    className={classes.team_cardTitle}
+                                    style={
+                                      !isActive ? {} : { textAlign: "center" }
+                                    }
+                                  >
+                                    {team[item].Name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body1"
+                                    className={classes.team_cardDescription}
+                                  >
+                                    {team[item].Designation}
+                                  </Typography>
+                                </div>
                               </div>
-                            </div>
-                          </Tippy>
-                        </Grid>
-                      );
-                  }
-                })
-              ) : (
-                <></>
-              )}
+                            </Tippy>
+                          </Grid>
+                        );
+                    }
+                  })
+                ) : (
+                  <></>
+                )}
+              </Grid>
             </Container>
           </Container>
         </Container>

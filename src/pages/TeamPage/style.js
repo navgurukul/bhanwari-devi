@@ -5,6 +5,11 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Nunito Sans",
     fontWeight: "700",
   },
+  team_alignRight: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
   team_hrline: {
     width: "160px",
     height: "8px",
