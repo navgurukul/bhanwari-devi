@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { PATHS } from "../../constant";
+import { PATHS, interpolatePath } from "../../constant";
 import { hasOneFrom } from "../../common/utils";
 import { actions as userActions } from "../User/redux/action";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -9,6 +9,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { sendToken } from "../User/redux/api";
+import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 
 import {
   Box,
@@ -19,6 +20,12 @@ import {
   MenuItem,
 } from "@mui/material";
 
+const rolesLandingPages = {
+  admin: PATHS.PARTNERS,
+  volunteer: PATHS.CLASS,
+  partner: PATHS.PARTNERS,
+};
+
 const SwitchView = ({
   role,
   setSwitchView,
@@ -26,11 +33,6 @@ const SwitchView = ({
   switchView,
 }) => {
   const classes = useStyles();
-  const rolesLandingPages = {
-    admin: PATHS.PARTNERS,
-    volunteer: PATHS.CLASS,
-    partner: PATHS.PARTNERS,
-  };
 
   const roleLandingPage = rolesLandingPages[role];
   return roleLandingPage ? (
@@ -62,6 +64,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
+  const pathway = useSelector((state) => state.Pathways);
   const classes = useStyles();
 
   useEffect(() => {
@@ -71,7 +74,15 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
     });
   }, []);
 
-  console.log("profile", profile);
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  let pythonPathwayId;
+  pathway.data &&
+    pathway.data.pathways.forEach((pathway) => {
+      if (pathway.code === "PRGPYT") pythonPathwayId = pathway.id;
+    });
 
   const partnerGroupId = user.data.user.partner_group_id;
 
@@ -352,7 +363,14 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   sx={{ margin: "0px 10px" }}
                   className={switchView === "student" && classes.bgColor}
                 >
-                  Student
+                  <NavLink
+                    to={interpolatePath(PATHS.PATHWAY_COURSE, {
+                      pathwayId: pythonPathwayId,
+                    })}
+                    className={classes.link}
+                  >
+                    Student
+                  </NavLink>
                 </MenuItem>
                 {rolesList.map((role) => (
                   <SwitchView
@@ -371,9 +389,20 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   setStudentView(!studentView);
                 }}
               >
-                {studentView
-                  ? `Switch to ${rolesList[0]} View`
-                  : "Switch to student View"}
+                <NavLink
+                  to={
+                    studentView === false
+                      ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                          pathwayId: pythonPathwayId,
+                        })
+                      : rolesLandingPages[rolesList[0]]
+                  }
+                  className={classes.link}
+                >
+                  {studentView
+                    ? `Switch to ${rolesList[0]} View`
+                    : "Switch to student View"}
+                </NavLink>
               </MenuItem>
             )
           )}
