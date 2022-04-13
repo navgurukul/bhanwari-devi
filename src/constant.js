@@ -24,7 +24,7 @@ export const PATHS = {
   ADMISSION: "/admission",
   REDIRECT: "/redirect",
   VOLUNTEER: "/volunteer",
-  TEAMPAGE: "/teampage",
+  MERAKI_TEAM: "/team",
   STATEPARTNER: "/state-dashboard/:clusterId",
   STATE: "/state-dashboard",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
