@@ -45,7 +45,7 @@ const SwitchView = ({
       className={switchView === role && classes.bgColor}
     >
       <NavLink to={roleLandingPage} className={classes.link}>
-        {role}
+        {role.charAt(0).toUpperCase() + role.slice(1)}
       </NavLink>
     </MenuItem>
   ) : (
