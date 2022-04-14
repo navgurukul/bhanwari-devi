@@ -36,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
   codeExampleImg: {
     marginRight: 10,
   },
+  tableHead: {
+    borderRight: "none",
+    borderLeft: "none",
+    borderTop: "none",
+    borderBottom: "2px solid #F5F5F5 !important",
+  },
 }));
 
 export default useStyles;

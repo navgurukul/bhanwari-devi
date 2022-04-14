@@ -17,10 +17,16 @@ const useStyles = makeStyles((theme) => ({
     padding: "5px 0px",
   },
   Buttons: {
-    width: "100%",
+    width: "90%",
+    padding: "0 20px",
     display: "flex",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     alignItems: "center",
+  },
+  buttonGroup2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gridGap: "10px",
   },
 }));
 

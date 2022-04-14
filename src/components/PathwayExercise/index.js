@@ -303,7 +303,7 @@ function PathwayExercise() {
             alignItems: "center",
             position: "fixed",
             bottom: 0,
-            background: "#f5f5f5",
+            background: "#fff",
           }}
         >
           <Button

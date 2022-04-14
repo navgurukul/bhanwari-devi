@@ -19,18 +19,6 @@ import { Link } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../constant";
 import useStyles from "../styles";
 
-const images = [
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-];
-
 function ResidentialProgramme() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
@@ -89,9 +77,16 @@ function ResidentialProgramme() {
                     pathwayId: "residential",
                   })}
                 >
-                  <Card elevation={0}>
+                  <Card
+                    className={classes.pathwayCard}
+                    elevation={0}
+                    sx={{
+                      ml: 2,
+                    }}
+                  >
                     <img
-                      src={require(`../asset/${images[index]}.svg`)}
+                      className={classes.courseImage}
+                      src={item.logo}
                       alt="course"
                       loading="lazy"
                     />
