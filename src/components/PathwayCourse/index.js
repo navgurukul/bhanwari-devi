@@ -62,19 +62,6 @@ const pathways = {
   },
 };
 
-const images = [
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-];
-
 function PathwayCourse() {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
@@ -169,10 +156,14 @@ function PathwayCourse() {
                       pathwayId: pathwayId,
                     })}
                   >
-                    <Card elevation={0} sx={{ ml: 3 }}>
+                    <Card
+                      className={classes.pathwayCard}
+                      elevation={0}
+                      sx={{ ml: 3 }}
+                    >
                       <img
-                        src={require(`./asset/${images[index]}.svg`)}
-                        // src={item.logo}
+                        className={classes.courseImage}
+                        src={item.logo}
                         alt="course"
                         loading="lazy"
                       />

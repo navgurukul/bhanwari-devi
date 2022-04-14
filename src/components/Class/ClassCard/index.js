@@ -260,10 +260,9 @@ function ClassCard({ item, editClass, enroll, style }) {
                 Drop out
               </Button>
             )}
-
             {item.facilitator.email == user.data.user.email || flag ? (
               // <div className="class-card-actions">
-              <div>
+              <div className={classes.buttonGroup2}>
                 <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
                 <EditIcon
                   onClick={() => {
