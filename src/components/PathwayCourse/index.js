@@ -159,7 +159,7 @@ function PathwayCourse() {
                     <Card
                       className={classes.pathwayCard}
                       elevation={0}
-                      sx={{ ml: 3 }}
+                      sx={{ ml: 3, p: 2 }}
                     >
                       <img
                         className={classes.courseImage}

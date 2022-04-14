@@ -234,8 +234,10 @@ theme.components = {
   MuiTableRow: {
     styleOverrides: {
       root: {
+        // backgroundColor: theme.palette.divider,
+        backgroundColor: "#F5F5F5",
         "&:hover": {
-          backgroundColor: "#FFFFFF",
+          backgroundColor: "#F5F5F5",
           boxShadow: "0px 0px 0px",
         },
       },

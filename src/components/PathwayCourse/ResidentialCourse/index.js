@@ -80,9 +80,7 @@ function ResidentialProgramme() {
                   <Card
                     className={classes.pathwayCard}
                     elevation={0}
-                    sx={{
-                      ml: 2,
-                    }}
+                    sx={{ ml: 2, p: 2 }}
                   >
                     <img
                       className={classes.courseImage}
