@@ -7,7 +7,29 @@ import { toast } from "react-toastify";
 import MerakiCreateRoom from "../CreateChatRoom/index";
 import MerakiUsers from "../MerakiUsers";
 
+import {
+  Card,
+  Container,
+  CardContent,
+  Box,
+  Grid,
+  Typography,
+  CardMedia,
+} from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import useStyles from "./styles";
+import { breakpoints } from "../../theme/constant";
+
 function User() {
+  const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const user = useSelector(({ User }) => User);
   const [allClasses, setAllClasses] = useState([]);
   const [values, setValues] = useState({
@@ -65,7 +87,72 @@ function User() {
   return (
     <>
       <MerakiUsers />
-      <div className="container-for-users">
+      <Container maxWidth="xl">
+        <Stack direction="row">
+          <InputLabel for="email" className={classes.usertext}>
+            Email
+          </InputLabel>
+
+          <TextField
+            type="text"
+            value={values.email}
+            // inputProps={{style: {borderRadius:" 40%"}}}
+            onChange={changeHandler}
+            name="email"
+            id="email"
+            // className="inputField"
+            // sx={{borderRadius: '20px'}}
+            required
+            aria-required
+          />
+
+          <InputLabel for="room" id="item.room_id" className={classes.usertext}>
+            Select Class
+          </InputLabel>
+          <Select
+            className="inputField"
+            // add the class to the input field.
+            onChange={changeHandler}
+            value={values.roomId}
+            id="item.room_id"
+            name="roomId"
+            sx={{ borderRadius: "20px" }}
+          >
+            <MenuItem value="" disabled={true}>
+              Select a Class from options below
+              {/* IT's not showing when the value is empty. */}
+            </MenuItem>
+            {allClasses.map((item, index) => {
+              const className =
+                lang[item.room_alias.split("meraki")[1].substr(0, 2)] +
+                " Class - " +
+                item.room_alias
+                  .split(":navgurukul.org")[0]
+                  .split("meraki")[1]
+                  .split("class")[1];
+              return (
+                <MenuItem key={index} value={item.room_id}>
+                  {className}
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            onClick={submitHandler}
+            className={classes.userBtn}
+            // size ="xsmall"
+            sx={{ borderRadius: "20px" }}
+          >
+            Add
+          </Button>
+        </Stack>
+        <MerakiCreateRoom />
+      </Container>
+
+      {/* <div className="container-for-users">
         <label htmlFor="email" className="label">
           Email
         </label>
@@ -113,7 +200,7 @@ function User() {
       </div>
       <div className="create-room">
         <MerakiCreateRoom />
-      </div>
+      </div> */}
     </>
   );
 }
