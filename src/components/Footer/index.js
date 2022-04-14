@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
-import { Link, useHistory } from "react-router-dom";
-import { PATHS, interpolatePath, HideHeader, HideFooter } from "../../constant";
+import { Link } from "react-router-dom";
+import { PATHS, interpolatePath } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
-import { useRouteMatch } from "react-router-dom";
 
 const menu = {
   About: [
@@ -126,7 +125,6 @@ function FooterIcon(props) {
 
 function Footer() {
   const classes = useStyles();
-  const [showFooter, setShowFooter] = React.useState(true);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
 
@@ -144,28 +142,8 @@ function Footer() {
       });
     });
 
-  const match = useRouteMatch({
-    path: HideFooter,
-  });
-
-  useEffect(() => {
-    if (match) {
-      console.log("matched");
-      setShowFooter(false);
-    } else {
-      console.log("not matched");
-      setShowFooter(true);
-    }
-  }, [match]);
-
   return (
-    <Box
-      style={{
-        display: showFooter ? "inherit" : "none",
-      }}
-      maxWidth="false"
-      bgcolor="primary.light"
-    >
+    <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
         <Grid container spacing={2} sx={{ mt: "50px" }}>
           <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
