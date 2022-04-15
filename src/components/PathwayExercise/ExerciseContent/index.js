@@ -187,6 +187,7 @@ const RenderContent = ({ data }) => {
                     style={{
                       fontWeight: "bold",
                     }}
+                    sx={{ background: "#F5F5F5" }}
                     className={classes.tableHead}
                     dangerouslySetInnerHTML={{ __html: header }}
                   />

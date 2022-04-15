@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     borderRight: "none",
     borderLeft: "none",
     borderTop: "none",
-    borderBottom: "2px solid #F5F5F5 !important",
+    borderBottom: "2px solid #DEDEDE !important",
   },
 }));
 

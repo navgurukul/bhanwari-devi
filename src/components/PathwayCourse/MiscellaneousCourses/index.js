@@ -90,11 +90,10 @@ function MiscellaneousCourses() {
                   >
                     <Card
                       elevation={0}
-                      // className={classes.openCourse}
+                      className={classes.pathwayCard}
                       sx={{
                         background: "#EEF1F5",
                         m: "15px",
-                        // ml: "35px",
                         height: "190px",
                       }}
                     >
