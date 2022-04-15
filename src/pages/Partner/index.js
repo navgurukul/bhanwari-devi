@@ -134,7 +134,9 @@ const Partner = () => {
                   />
                   <CardContent
                     className={
-                      isActive ? classes.partnerCard1 : classes.partnerCard
+                      !isActive
+                        ? classes.partnerCardContainer
+                        : classes.partnerCardContainer1
                     }
                   >
                     <Typography variant="body1">

@@ -19,10 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
   partnerContainer: {
     paddingTop: "6%",
+    paddingBottom: "6%",
   },
   partnerContainer1: {
     paddingTop: "20%",
-    paddingBottom: "25%",
+    paddingBottom: "20%",
   },
   partnerImg: {
     height: "100%",
@@ -44,11 +45,6 @@ const useStyles = makeStyles((theme) => ({
   partnerCardContainer1: {
     height: "50%",
   },
-  link: {
-    textDecoration: "none",
-    color: "#48a145",
-  },
-
   partnerIconSize: {
     padding: "4px",
     backgroundColor: "white",
