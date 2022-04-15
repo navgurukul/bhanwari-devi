@@ -11,7 +11,7 @@ import { useDebounce } from "use-debounce";
 import { PATHS } from "../../../constant";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 
 toast.configure();
 
