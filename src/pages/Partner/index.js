@@ -7,7 +7,7 @@ import {
   CardContent,
   CardActions,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -52,7 +52,7 @@ const Partner = () => {
           Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate
           aute id deserunt nisi.
         </Typography>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Button
             variant="contained"
             color="primary"
@@ -82,7 +82,11 @@ const Partner = () => {
                 <Button
                   variant="contained"
                   color="warning"
-                  sx={{ borderRadius: 25, height: 34 }}
+                  sx={
+                    !isActive
+                      ? { borderRadius: 25, height: 34 }
+                      : { borderRadius: 15, height: 25 }
+                  }
                   size="small"
                 >
                   featured
@@ -113,98 +117,81 @@ const Partner = () => {
           </Grid>
         </Grid>
       </Container>
-      <div
-        style={{
-          padding: "40px 0px",
-        }}
-      >
-        <Typography variant="h4" align="center">
-          Partners List
-          <hr color="primary" className={classes.partnerHrline} />
-        </Typography>
-        <Grid container spacing={4}>
-          {Object.keys(partners).length ? (
-            Object.keys(partners).map((item) => {
-              return (
-                <Grid item xs={12} sm={4} md={4}>
-                  <Card
-                    sx={{
-                      ":hover": {
-                        boxShadow: 20, // theme.shadows[20]
-                      },
-                    }}
+
+      <Typography variant="h5" align="center">
+        Partners List
+        <hr color="primary" className={classes.partnerHrline} />
+      </Typography>
+      <Grid container spacing={4}>
+        {Object.keys(partners).length ? (
+          Object.keys(partners).map((item) => {
+            return (
+              <Grid item xs={12} sm={4} md={4}>
+                <Card className={classes.partnerCard}>
+                  <CardHeader
+                    title={partners[item].Name}
+                    titleTypographyProps={{ variant: "subtitle1" }}
+                  />
+                  <CardContent
                     className={
-                      isActive ? classes.partnerCard1 : classes.partnerCard
+                      !isActive
+                        ? classes.partnerCardContainer
+                        : classes.partnerCardContainer1
                     }
                   >
-                    <CardHeader
-                      title={partners[item].Name}
-                      titleTypographyProps={{ variant: "subtitle1" }}
-                    />
-                    <CardContent
-                      className={
-                        !isActive
-                          ? classes.partnerCardContainer
-                          : classes.partnerCardContainer1
-                      }
-                    >
-                      <Typography variant="body1">
-                        {partners[item].Description}
-                      </Typography>
-                    </CardContent>
-                    <CardActions
-                      disableSpacing
-                      className={classes.partnerRight}
-                    >
-                      {partners[item].Url ? (
-                        <IconButton>
-                          <Link href={partners[item].Url}>
-                            <PublicIcon
-                              variant="outlined"
-                              fontSize="small"
-                              className={classes.partnerIconSize}
-                            />
-                          </Link>
-                        </IconButton>
-                      ) : (
-                        <></>
-                      )}
-                      {partners[item].LinkedinId ? (
-                        <IconButton>
-                          <Link href={partners[item].LinkedinId}>
-                            <LinkedInIcon
-                              variant="outlined"
-                              fontSize="small"
-                              className={classes.partnerIconSize}
-                            />
-                          </Link>
-                        </IconButton>
-                      ) : (
-                        <></>
-                      )}
-                      {partners[item].TwitterId ? (
-                        <IconButton>
-                          <Link href={partners[item].TwitterId}>
-                            <TwitterIcon
-                              variant="outlined"
-                              fontSize="small"
-                              className={classes.partnerIconSize}
-                            />
-                          </Link>
-                        </IconButton>
-                      ) : (
-                        <></>
-                      )}
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })
-          ) : (
-            <></>
-          )}
-        </Grid>
-      </div>
+                    <Typography variant="body1">
+                      {partners[item].Description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    {partners[item].Url ? (
+                      <IconButton>
+                        <Link href={partners[item].Url}>
+                          <PublicIcon
+                            variant="outlined"
+                            fontSize="small"
+                            className={classes.partnerIconSize}
+                          />
+                        </Link>
+                      </IconButton>
+                    ) : (
+                      <></>
+                    )}
+                    {partners[item].LinkedinId ? (
+                      <IconButton>
+                        <Link href={partners[item].LinkedinId}>
+                          <LinkedInIcon
+                            variant="outlined"
+                            fontSize="small"
+                            className={classes.partnerIconSize}
+                          />
+                        </Link>
+                      </IconButton>
+                    ) : (
+                      <></>
+                    )}
+                    {partners[item].TwitterId ? (
+                      <IconButton>
+                        <Link href={partners[item].TwitterId}>
+                          <TwitterIcon
+                            variant="outlined"
+                            fontSize="small"
+                            className={classes.partnerIconSize}
+                          />
+                        </Link>
+                      </IconButton>
+                    ) : (
+                      <></>
+                    )}
+                  </CardActions>
+                </Card>
+              </Grid>
+            );
+          })
+        ) : (
+          <></>
+        )}
+      </Grid>
     </Container>
   );
 };
