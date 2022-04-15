@@ -15,6 +15,10 @@ import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
+import { Link } from "react-router-dom";
+import { PATHS } from "../../constant";
+import ExternalLink from "../../components/common/ExternalLink";
 
 const pathwayData = [
   {
@@ -42,8 +46,8 @@ const pathwayData = [
     description: "Get familiar with programming with bite sized lessons",
   },
   {
-    title: "Residential",
-    image: "soft-skills",
+    title: "Residential Programmes",
+    image: "residential",
     description: "Interview preparation  to get you job ready",
   },
   {
@@ -81,7 +85,7 @@ const concernsText = [
 ];
 
 function MerakiEntry(props) {
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   return (
     <div>
@@ -95,13 +99,15 @@ function MerakiEntry(props) {
       </Typography>
       <Grid sx={{ mt: 3 }} container spacing={2} justifyContent="center">
         <Grid alignItems="right" item xs={12} ms={12} md={4}>
-          <Button
-            className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-            variant="contained"
-            color="primary"
-          >
-            Start Learning
-          </Button>
+          <Link to={PATHS.LOGIN} className={classes.link}>
+            <Button
+              className={isActive ? classes.responsiveBtn : classes.LearningBtn}
+              variant="contained"
+              color="primary"
+            >
+              Start Learning
+            </Button>
+          </Link>
         </Grid>
         <Grid item xs={12} ms={12} md={4}>
           <Button
@@ -136,6 +142,7 @@ function Home() {
   }, [dispatch]);
 
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       pathwayData.forEach((item) => {
         if (pathway.code === item.code) {
@@ -161,9 +168,7 @@ function Home() {
             </Typography>
             <MerakiEntry
               headingAttr={{
-                align: "center",
                 variant: "h6",
-                gutterBottom: true,
               }}
             />
           </Container>
@@ -299,7 +304,7 @@ function Home() {
             <Typography align="center" color="textPrimary" gutterBottom>
               Partners Across India
             </Typography>
-            <Grid sx={{ mt: 1 }} container spacing={2}>
+            {/* <Grid sx={{ mt: 1 }} container spacing={2}>
               {[
                 "Wipro",
                 "Infosys",
@@ -316,9 +321,9 @@ function Home() {
                   />
                 </Grid>
               ))}
-            </Grid>
+            </Grid> */}
             <Stack sx={{ mt: 3 }} alignItems="center">
-              <Button href="#">
+              <Button href={PATHS.OUR_PARTNER}>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
               </Button>
@@ -334,8 +339,6 @@ function Home() {
               <MerakiEntry
                 headingAttr={{
                   variant: "h5",
-                  align: "center",
-                  gutterBottom: true,
                 }}
               />
             </Container>
@@ -364,18 +367,58 @@ function Home() {
             <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
-                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    Via email:
-                  </span>{" "}
-                  team@meraki.org
+                  <address
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Via email:{" "}
+                    </span>
+
+                    <ExternalLink
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                        fontStyle: "normal",
+                      }}
+                      href="mailto:team@meraki.org"
+                    >
+                      team@meraki.org
+                    </ExternalLink>
+                  </address>
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
-                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    Via Whatsapp:
-                  </span>{" "}
-                  +91 8891300300
+                  <address>
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Via Whatsapp:
+                    </span>
+                    <ExternalLink
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                        fontStyle: "normal",
+                      }}
+                      href="tel:+918891300300"
+                    >
+                      {" "}
+                      +91 8891300300
+                    </ExternalLink>
+                  </address>
                 </Typography>
               </Grid>
             </Grid>

@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#818181",
     paddingBottom: 2,
   },
+  pathwayContainer: {
+    marginTop: 40,
+  },
   mobileVideo: {
     width: 700,
   },
@@ -15,7 +18,10 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 7,
   },
   box: {
-    paddingTop: 23,
+    paddingTop: 40,
+  },
+  Box1: {
+    marginTop: 20,
   },
   course: {
     paddingBottom: 40,
@@ -42,6 +48,27 @@ const useStyles = makeStyles((theme) => ({
     m: "15px",
     ml: "35px",
     height: "200px",
+  },
+  pathwayLink: {
+    textDecoration: "none",
+  },
+  pathwayCard: {
+    margin: "15px 0",
+    "&:hover": {
+      boxShadow:
+        "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
+    },
+  },
+  courseImage: {
+    objectFit: "cover",
+    width: "100%",
+    height: "200px",
+    borderRadius: "8px",
+  },
+  courseTitleNumber: {
+    display: "flex",
+    alignItems: "baseline",
+    paddingTop: "16px",
   },
 }));
 

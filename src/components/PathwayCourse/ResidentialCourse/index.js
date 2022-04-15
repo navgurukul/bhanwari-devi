@@ -4,6 +4,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 // import { breakpoints } from '../../theme/constant'
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import { useDispatch } from "react-redux";
+import { breakpoints } from "../../../theme/constant";
 import {
   Container,
   Box,
@@ -14,23 +15,15 @@ import {
   Button,
   Stack,
 } from "@mui/material";
-
-const images = [
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-];
+import { Link } from "react-router-dom";
+import { interpolatePath, PATHS } from "../../../constant";
+import useStyles from "../styles";
 
 function ResidentialProgramme() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles();
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -38,6 +31,7 @@ function ResidentialProgramme() {
 
   let pathwayCourse;
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       if (pathway.code === "PRCRSE") {
         pathwayCourse = pathway.courses;
@@ -75,16 +69,30 @@ function ResidentialProgramme() {
           {pathwayCourse &&
             pathwayCourse.map((item, index) => (
               <Grid xs={12} md={3}>
-                <Card elevation={0}>
-                  <img
-                    src={require(`../asset/${images[index]}.svg`)}
-                    alt="course"
-                    loading="lazy"
-                  />
-                  <CardContent>
-                    <Typography variant="subtitle1">{item.name}</Typography>
-                  </CardContent>
-                </Card>
+                <Link
+                  className={classes.pathwayLink}
+                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                    courseId: item.id,
+                    exerciseId: 0,
+                    pathwayId: "residential",
+                  })}
+                >
+                  <Card
+                    className={classes.pathwayCard}
+                    elevation={0}
+                    sx={{ ml: 2, p: 2 }}
+                  >
+                    <img
+                      className={classes.courseImage}
+                      src={item.logo}
+                      alt="course"
+                      loading="lazy"
+                    />
+                    <CardContent>
+                      <Typography variant="subtitle1">{item.name}</Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
               </Grid>
             ))}
         </Grid>

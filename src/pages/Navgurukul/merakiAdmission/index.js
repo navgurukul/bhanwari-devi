@@ -13,7 +13,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 
-function Admission() {
+function Admission(props) {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -30,6 +30,8 @@ function Admission() {
   const user = useSelector(({ User }) => User);
 
   let userToken = localStorage.getItem("Token");
+  const partnerIdFromOpportunity =
+    props.location.state && props.location.state.partnerId;
 
   useEffect(() => {
     axios({
@@ -54,7 +56,7 @@ function Admission() {
         params: {
           ngCallType: "getEnrolmentKey",
           From: mobile,
-          partner_id: partnerId || null,
+          partner_id: partnerId || partnerIdFromOpportunity || null,
         },
       });
       setEnrolmentKey(response.data.key);
@@ -140,8 +142,19 @@ function Admission() {
   return (
     <>
       <Container maxWidth="lg" className={classes.admitionContainer}>
-        <Grid container>
-          <Grid item xs={12} sm={6} md={6}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "spaced-center",
+            alignItems: "spaced-evenly",
+            flexWrap: "wrap",
+          }}
+        >
+          <div
+            style={{
+              minWidth: "50%",
+            }}
+          >
             <CardMedia>
               <YouTube
                 className={
@@ -156,103 +169,96 @@ function Admission() {
             <hr
               className={isActive ? classes.admitionHr1 : classes.admitionHr}
             />
-          </Grid>
+          </div>
 
-          <Grid item xs={12} sm={6} md={6}>
-            <Grid container>
-              <Typography
-                variant="h6"
-                gutterBottom
-                align="190%"
-                className={isActive && classes.admitionSpacing1}
-              >
-                Software Engineering Scholarship Test
-              </Typography>
-              <Box
-                component="form"
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: { sm: "1fr 1fr" },
-                  gap: 3,
-                  width: "100%",
-                  m: 1,
-                }}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              minWidth: "50%",
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              align="190%"
+              className={isActive && classes.admitionSpacing1}
+            >
+              Software Engineering Scholarship Test
+            </Typography>
+            <Box
+              component="form"
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 3,
+                width: "100%",
+                m: 1,
+              }}
+              className={
+                isActive ? classes.admitionBottom1 : classes.admitionBottom
+              }
+            >
+              <TextField
+                label="First Name"
+                type="text"
+                value={userDetails.firstName}
+                name="firstName"
+                onChange={changeHandler}
+                id="firstName"
+                variant="outlined"
+                required
+              />
+
+              <TextField
+                label="Middel Name(Optional)"
+                type="text"
+                value={userDetails.middleName}
+                name="middleName"
+                onChange={changeHandler}
+                id="middleName"
+                variant="outlined"
+              />
+              <TextField
+                label="Last Name"
+                type="text"
+                value={userDetails.lastName}
+                name="lastName"
+                onChange={changeHandler}
+                id="lastName"
+                variant="outlined"
+                required
+              />
+
+              <TextField
+                label="Mobile Number"
+                type="number"
+                pattern="^[0-9]{10}$"
+                value={userDetails.mobileNumber}
+                name="mobileNumber"
+                onChange={changeHandler}
+                id="mobileNumber"
+                variant="outlined"
+                required
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
                 className={
-                  isActive ? classes.admitionBottom1 : classes.admitionBottom
+                  !isActive ? classes.admitionBtn1 : classes.admitionBtn2
                 }
+                onClick={giveTest}
               >
-                <TextField
-                  label="First Name"
-                  type="text"
-                  value={userDetails.firstName}
-                  name="firstName"
-                  onChange={changeHandler}
-                  id="firstName"
-                  variant="outlined"
-                  required
-                />
-
-                <TextField
-                  label="Middel Name(Optional)"
-                  type="text"
-                  value={userDetails.middleName}
-                  name="middleName"
-                  onChange={changeHandler}
-                  id="middleName"
-                  variant="outlined"
-                />
-                <TextField
-                  label="Last Name"
-                  type="text"
-                  value={userDetails.lastName}
-                  name="lastName"
-                  onChange={changeHandler}
-                  id="lastName"
-                  variant="outlined"
-                  required
-                />
-
-                <TextField
-                  label="Mobile Number"
-                  type="number"
-                  pattern="^[0-9]{10}$"
-                  value={userDetails.mobileNumber}
-                  name="mobileNumber"
-                  onChange={changeHandler}
-                  id="mobileNumber"
-                  variant="outlined"
-                  required
-                />
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={
-                    !isActive ? classes.admitionBtn1 : classes.admitionBtn2
-                  }
-                  onClick={giveTest}
-                >
-                  Give Admission Test
-                </Button>
-              </Box>
-            </Grid>
+                Give Admission Test
+              </Button>
+            </Box>
             <Grid container className={classes.admitionSpacing}>
               <Grid item xs={12} sm={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  Check Test Result
-                </Typography>
-
-                <Box
-                  component="form"
-                  sx={{
-                    display: "grid",
-                    gap: 3,
-                    m: 1,
-                  }}
-                  className={
-                    isActive ? classes.admitionBottom1 : classes.admitionBottom
-                  }
-                >
+                <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
+                  <Typography variant="h6">Check Test Result</Typography>
                   <TextField
                     label="Mobile Number"
                     type="number"
@@ -264,14 +270,7 @@ function Admission() {
                     variant="outlined"
                     required
                   />
-
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={
-                      !isActive ? classes.admitionBtn : classes.admitionBtn2
-                    }
-                  >
+                  <Button variant="contained" color="primary">
                     <Link
                       href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
                       underline="none"
@@ -284,8 +283,8 @@ function Admission() {
                 </Box>
               </Grid>
             </Grid>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </Container>
     </>
   );

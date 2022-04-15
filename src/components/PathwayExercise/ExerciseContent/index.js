@@ -5,22 +5,25 @@ import axios from "axios";
 import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
+import { useParams } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import { breakpoints } from "../../theme/constant";
-
+import { breakpoints } from "../../../theme/constant";
 import CircleIcon from "@mui/icons-material/Circle";
+import {
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  TableContainer,
+} from "@mui/material";
+
+// import HiddenContent from "../HiddenContent";
+import { versionCode } from "../../../constant";
+
 import useStyles from "../styles";
 
-import {
-  Container,
-  Box,
-  Toolbar,
-  Typography,
-  Stack,
-  Button,
-  Grid,
-} from "@mui/material";
-import { CardMedia } from "@material-ui/core";
+import { Container, Box, Typography, Button, Grid } from "@mui/material";
 
 function getMarkdown(code, lang) {
   let l = lang == "python" ? "py" : "js";
@@ -122,61 +125,113 @@ const RenderContent = ({ data }) => {
     } else {
       return (
         <Typography
+          style={{
+            margin: "2rem 0",
+          }}
           variant="body1"
           dangerouslySetInnerHTML={{ __html: text }}
         />
       );
     }
   }
+  // if (data.component === "table") {
+  //   const allData = data.value.map((item) => item.items);
+  //   const dataInCol = allData[0].map((_, i) =>
+  //     allData.map((_, j) => allData[j][i])
+  //   );
+  //   return (
+  //     <div>
+  //       <table className="table-data">
+  //         <thead>
+  //           <tr>
+  //             {data.value.map((item) => {
+  //               const header = DOMPurify.sanitize(item.header);
+  //               return <th dangerouslySetInnerHTML={{ __html: header }} />;
+  //             })}
+  //           </tr>
+  //         </thead>
+  //         <tbody>
+  // {dataInCol.map((item) => {
+  //   return (
+  //     <tr>
+  //       {item.map((row) => {
+  //         const rowData = DOMPurify.sanitize(row);
+  //         return (
+  //           <>
+  //             <td dangerouslySetInnerHTML={{ __html: rowData }} />
+  //           </>
+  //         );
+  //       })}
+  //     </tr>
+  //   );
+  // })}
+  //         </tbody>
+  //       </table>
+  //     </div>
+  //   );
+  // }
   if (data.component === "table") {
     const allData = data.value.map((item) => item.items);
     const dataInCol = allData[0].map((_, i) =>
       allData.map((_, j) => allData[j][i])
     );
     return (
-      <div>
-        <table className="table-data">
-          <thead>
-            <tr>
+      <TableContainer>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
               {data.value.map((item) => {
                 const header = DOMPurify.sanitize(item.header);
-                return <th dangerouslySetInnerHTML={{ __html: header }} />;
+                return (
+                  <TableCell
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                    sx={{ background: "#F5F5F5" }}
+                    className={classes.tableHead}
+                    dangerouslySetInnerHTML={{ __html: header }}
+                  />
+                );
               })}
-            </tr>
-          </thead>
-          <tbody>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {dataInCol.map((item) => {
               return (
-                <tr>
+                <TableRow className={classes.tableHead} hover={false}>
                   {item.map((row) => {
                     const rowData = DOMPurify.sanitize(row);
                     return (
-                      <>
-                        <td dangerouslySetInnerHTML={{ __html: rowData }} />
-                      </>
+                      <TableCell
+                        className={classes.tableHead}
+                        dangerouslySetInnerHTML={{ __html: rowData }}
+                      />
                     );
                   })}
-                </tr>
+                </TableRow>
               );
             })}
-          </tbody>
-        </table>
-      </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   }
+
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
       <div>
         <Box className={classes.codeBackground}>
-          <Toolbar disableGutters>
+          {/* <Toolbar disableGutters> */}
+          <Box sx={{ display: "flex", pb: 2 }}>
             <img
               src={require("../asset/code-example.svg")}
               loading="lazy"
               className={classes.codeExampleImg}
             />
             <Typography variant="subtitle1">Code Example</Typography>
-          </Toolbar>
+          </Box>
+          {/* </Toolbar> */}
           <Typography
             className={classes.codeWrap}
             dangerouslySetInnerHTML={{
@@ -214,28 +269,29 @@ function ExerciseContent({ exerciseId, lang }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const classes = useStyles();
-  const courseId = 370;
+  const params = useParams();
+  const courseId = params.courseId;
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
       headers: {
-        "version-code": 40,
+        "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: user.data?.token || "",
       },
     }).then((res) => {
-      setContent(res.data.course.exercises[exerciseId].content);
+      setContent(res.data.course.exercises[exerciseId]?.content);
     });
     // }, [courseId, exerciseId, id, user.data.token]);
   }, [courseId, exerciseId, lang]);
 
-  console.log("content", content);
+  console.log("lang", lang);
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 5 }}>
+      <Box sx={{ mt: 5, mb: 8 }}>
         {content &&
           content.map((contentItem, index) => (
             <RenderContent data={contentItem} key={index} classes={classes} />

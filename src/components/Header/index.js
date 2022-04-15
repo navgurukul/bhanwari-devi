@@ -12,7 +12,6 @@ import { DropDown, MobileDropDown } from "./DropDown";
 import {
   AppBar,
   Box,
-  IconButton,
   Toolbar,
   Container,
   Button,
@@ -52,7 +51,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               sx={{ my: 2, color: "black" }}
               key={index}
             >
-              {menu}
+              <Typography variant="subtitle1">{menu}</Typography>
               {selectedMenu === menu && indicator ? (
                 <ExpandLessIcon />
               ) : (
@@ -70,7 +69,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
-          <MobileDropDown Menu={Menu} />
+          <MobileDropDown
+            Menu={Menu}
+            handleClose={menuCloseHandler}
+            toggleDrawer={toggleDrawer}
+          />
         ))}
       </Box>
       {!leftDrawer && (
@@ -150,10 +153,22 @@ function Header() {
       setElevation(0);
     }
   });
+
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="background" elevation={elevation}>
-        <Container className={classes.mainbar} maxWidth="false">
+      <AppBar
+        position="sticky"
+        color="background"
+        elevation={elevation}
+        // onhashchange={() => {
+        //   console.log("here changes");
+        //   if (window.location.pathname.split("/").includes("course-content")) {
+        //     console.log("here");
+        //     setShowHeader(false);
+        //   }
+        // }}
+      >
+        <Container maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>

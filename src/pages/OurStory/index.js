@@ -5,15 +5,16 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 
 const OurStory = () => {
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   return (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ mt: 7, mb: 7 }}>
         <Container maxWidth="md">
-          <Typography variant="h5" align="center" gutterBottom>
+          <Typography variant="h5" align="center">
             Our Story
             <hr color="primary" className={classes.ourStoryHrline} />
           </Typography>
@@ -34,7 +35,7 @@ const OurStory = () => {
             NGOs to cater to their students or just individual students.
           </Typography>
         </Container>
-        <Box className={classes.ourStorySpace}>
+        {/* <Box className={classes.ourStorySpace}>
           <Typography variant="h5" align="center" gutterBottom>
             In the Media
             <hr color="primary" className={classes.ourStoryHrline} />
@@ -68,8 +69,8 @@ const OurStory = () => {
               </Button>
             </Grid>
           </Grid>
-        </Box>
-        <hr align="center" className={classes.ourStoryHr} />
+        </Box> */}
+        {/* <hr align="center" className={classes.ourStoryHr} /> */}
       </Container>
     </>
   );

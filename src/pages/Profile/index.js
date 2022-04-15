@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Container,
@@ -20,7 +21,7 @@ function Profile() {
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
 
-  const isActive = useMediaQuery("(max-width:600px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -64,16 +65,44 @@ function Profile() {
     });
   };
   return (
-    <Container maxWidth="lg" sx={{ pt: 20 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6} align={isActive ? "center" : "right"}>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        marginTop: "4rem",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          item
+          xs={12}
+          md={6}
+          align={isActive ? "center" : "right"}
+          sx={{ pr: "16px" }}
+        >
           <Avatar
             alt="Remy Sharp"
             src={userData.profile_picture}
             sx={{ width: 100, height: 100 }}
           />
-        </Grid>
-        <Grid item xs={12} md={6} align={isActive ? "center" : "none"}>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
           {isEditing ? (
             <TextField
               id="standard-basic"
@@ -98,15 +127,28 @@ function Profile() {
           )}
           <Typography>{userData.email}</Typography>
           {isEditing ? (
-            <Button onClick={editProfile}>Save Profile</Button>
+            <Button
+              style={{
+                padding: "0",
+              }}
+              onClick={editProfile}
+            >
+              Save Profile
+            </Button>
           ) : (
-            <Button onClick={() => setIsEditing(true)}>
+            <Button
+              style={{
+                padding: "0",
+              }}
+              variant="text"
+              onClick={() => setIsEditing(true)}
+            >
               {!isActive && "Edit Profile"}
             </Button>
           )}
-        </Grid>
-      </Grid>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 export default Profile;

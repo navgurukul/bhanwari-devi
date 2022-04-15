@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "15px 0px 0px 0px",
+    padding: "32px",
     "&:hover": {
       boxShadow:
         "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
@@ -30,19 +30,21 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "15px 0px 0px 0px",
+    padding: "32px 0px 0px 0px",
   },
 
   engineerPopupCard: {
     width: "280px",
     marginRight: "60px",
-    padding: "10px 20px 5px 0px",
+    // padding: "10px 20px 5px 0px",
+    padding: "16px",
   },
 
   typingPopupCard: {
     marginLeft: "60px",
     width: "210px",
-    padding: "10px 0px 5px 20px",
+    // padding: "10px 0px 5px 20px",
+    padding: "16px",
   },
 
   MerakiEntry: {

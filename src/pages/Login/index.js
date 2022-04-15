@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
 import { actions as userActions } from "../../components/User/redux/action";
-import { PATHS } from "../../constant";
+import { PATHS, interpolatePath } from "../../constant";
 import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
-
-import { Typography, Container, Grid, Stack, Box } from "@mui/material";
+import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
+// ../PathwayCourse/redux/action
+import { Typography, Container, Grid, Stack, Box, Button } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 
 function Login(props) {
   const [queryString, setqueryString] = useState(null);
-
+  const dispatch = useDispatch();
+  const pathway = useSelector((state) => state.Pathways);
   const updateQueryString = (value) => {
     setqueryString(value);
   };
-
-  const dispatch = useDispatch();
 
   const { loading, data } = useSelector(({ User }) => User);
   const rolesList = data !== null && data.user.rolesList;
@@ -45,6 +45,10 @@ function Login(props) {
     // dispatch(userActions.onUserUpdate(referrer));
   }
 
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -52,6 +56,21 @@ function Login(props) {
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
     console.log("onGoogle login fail", errorResponse);
+  };
+
+  let pythonPathwayId;
+  pathway.data &&
+    pathway.data.pathways.forEach((pathway) => {
+      if (pathway.code === "PRGPYT") pythonPathwayId = pathway.id;
+    });
+
+  const rolesLandingPages = {
+    volunteer: PATHS.CLASS,
+    admin: PATHS.PARTNERS,
+    partner: PATHS.PARTNERS,
+    default: interpolatePath(PATHS.PATHWAY_COURSE, {
+      pathwayId: pythonPathwayId,
+    }),
   };
 
   if (isAuthenticated) {
@@ -69,17 +88,28 @@ function Login(props) {
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;
     }
-    if (rolesList[0] === "volunteer") {
-      return <Redirect to={PATHS.CLASS} />;
-    }
-    if (rolesList[0] === "admin") {
-      return <Redirect to={PATHS.PARTNERS} />;
-    }
-    if (rolesList[0] === "partner") {
-      return <Redirect to={PATHS.PARTNERS} />;
-    } else {
-      return <Redirect to={PATHS.COURSE} />;
-    }
+    return (
+      <Redirect
+        to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
+      />
+    );
+    // if (rolesList[0] === "volunteer") {
+    //   return <Redirect to={PATHS.CLASS} />;
+    // }
+    // if (rolesList[0] === "admin") {
+    //   return <Redirect to={PATHS.PARTNERS} />;
+    // }
+    // if (rolesList[0] === "partner") {
+    //   return <Redirect to={PATHS.PARTNERS} />;
+    // } else {
+    //   return (
+    //     <Redirect
+    //       to={interpolatePath(PATHS.PATHWAY_COURSE, {
+    //         pathwayId: pythonPathwayId,
+    //       })}
+    //     />
+    //   );
+    // }
   }
 
   if (rolesList != false) {
@@ -118,6 +148,22 @@ function Login(props) {
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Continue with Google"
                     onSuccess={onSignIn}
+                    render={(renderProps) => (
+                      <Button
+                        variant="contained"
+                        startIcon={<GoogleIcon />}
+                        onClick={renderProps.onClick}
+                        style={{
+                          backgroundColor: "white",
+                          color: "black",
+                          width: "max-content",
+                          margin: "10px 0",
+                          fontSize: "18px",
+                        }}
+                      >
+                        Continue with Google
+                      </Button>
+                    )}
                     onFailure={onGoogleLoginFail}
                     cookiePolicy={"single_host_origin"}
                     className={

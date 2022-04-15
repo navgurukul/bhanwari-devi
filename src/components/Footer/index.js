@@ -1,22 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
+import { Link } from "react-router-dom";
+import { PATHS, interpolatePath } from "../../constant";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import ExternalLink from "../common/ExternalLink";
 
 const menu = {
-  About: ["Our Story", "Meraki Team "],
-  LearningTracks: [
-    "Python",
-    "Typing Guru",
-    "Spoken English",
-    "Javascript",
-    "Soft Skills",
-    "Open Courses",
+  About: [
+    { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
+    { title: "Meraki Team", type: "internal", link: PATHS.MERAKI_TEAM },
   ],
-  GetInvolved: ["Be a Partner", "Donate", "Careers", "Volunteer"],
+  LearningTracks: [
+    { title: "Python", code: "PRGPYT", type: "internal" },
+    { title: "Typing Guru", code: "TYPGRU", type: "internal" },
+    { title: "Spoken English", code: "SPKENG", type: "internal" },
+    { title: "Javascript", code: "JSRPIT", type: "internal" },
+    {
+      title: "Residential Programmes",
+      type: "internal",
+      link: PATHS.RESIDENTIAL_COURSE,
+    },
+    {
+      title: "Open Courses",
+      type: "internal",
+      link: PATHS.MISCELLANEOUS_COURSE,
+    },
+  ],
+  GetInvolved: [
+    { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
+
+    {
+      title: "Donate",
+      type: "external",
+      link: "https://www.navgurukul.org/donate",
+    },
+    {
+      title: "Careers",
+      type: "exernal",
+      link: "https://recruiterflow.com/navgurukul/jobs",
+    },
+  ],
 };
 
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
+  const classes = useStyles();
   return (
     <>
       <Typography
@@ -28,11 +58,44 @@ const MenuList = (menuItem) => {
         {title}
       </Typography>
       <List>
-        {menu[menuItem].map((item) => (
-          <Typography variant="body2" color="text.primary" sx={{ pb: "5px" }}>
-            {item}
-          </Typography>
-        ))}
+        {menu[menuItem].map((item) => {
+          if (item.type === "internal") {
+            return (
+              <Link
+                to={
+                  item.id
+                    ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                        pathwayId: item.id,
+                      })
+                    : item.link
+                }
+                className={classes.link}
+              >
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{ pb: "5px" }}
+                  className={classes.hover}
+                >
+                  {item.title}
+                </Typography>
+              </Link>
+            );
+          } else {
+            return (
+              <ExternalLink className={classes.link} href={item.link}>
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{ pb: "5px" }}
+                  className={classes.hover}
+                >
+                  {item.title}
+                </Typography>
+              </ExternalLink>
+            );
+          }
+        })}
       </List>
     </>
   );
@@ -40,23 +103,49 @@ const MenuList = (menuItem) => {
 
 function FooterIcon(props) {
   const classes = useStyles();
+
+  const socialMediaLink = {
+    facebook: "https://www.facebook.com/navgurukul/",
+    linkedIn: "https://www.linkedin.com/company/navgurukul/",
+    twitter: "https://twitter.com/navgurukul",
+  };
+
   return (
     <Box className={classes.image}>
-      <img
-        src={require("./asset/" + props.name + ".svg")}
-        alt={props.alt || "image of " + props.name}
-        loading="lazy"
-      />
+      <ExternalLink href={socialMediaLink[props.name]}>
+        <img
+          src={require("./asset/" + props.name + ".svg")}
+          alt={props.alt || "image of " + props.name}
+          loading="lazy"
+        />
+      </ExternalLink>
     </Box>
   );
 }
 
 function Footer() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.Pathways);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  data &&
+    data.pathways &&
+    data.pathways.forEach((pathway) => {
+      menu.LearningTracks.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
+
   return (
     <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
-        <Grid container spacing={2} sx={{ mt: "40px" }}>
+        <Grid container spacing={2} sx={{ mt: "50px" }}>
           <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
@@ -96,31 +185,38 @@ function Footer() {
             >
               Learn on Mobile
             </Typography>
-            <Box sx={{ display: "flex" }}>
-              <img
-                src={require("./asset/playStore.svg")}
-                alt="play store"
-                loading="lazy"
-              />
-              <Box sx={{ padding: "4px 0 0 10px" }}>
-                <Typography
-                  variant="body2"
-                  color="text.primary"
-                  component="div"
-                >
-                  Now on Playstore
-                </Typography>
+            <ExternalLink
+              href="https://play.google.com/store/apps/details?id=org.merakilearn&hl=en_IN&gl=US"
+              className={classes.link}
+            >
+              <Box sx={{ display: "flex" }}>
+                <img
+                  src={require("./asset/playStore.svg")}
+                  alt="play store"
+                  loading="lazy"
+                />
+                <Box sx={{ padding: "4px 0 0 10px" }}>
+                  <Typography
+                    variant="body2"
+                    color="text.primary"
+                    component="div"
+                  >
+                    Now on Playstore
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
+            </ExternalLink>
           </Grid>
         </Grid>
         <Divider variant="string" sx={{ pt: "25px" }} />
         <Box>
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
             <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
-              <Typography variant="body2" color="text.primary">
-                Legal & Privacy Policy
-              </Typography>
+              <Link to={PATHS.PRIVACY_POLICY} className={classes.link}>
+                <Typography variant="body2" color="text.primary">
+                  Legal & Privacy Policy
+                </Typography>
+              </Link>
             </Grid>
             <Grid
               xs={12}
