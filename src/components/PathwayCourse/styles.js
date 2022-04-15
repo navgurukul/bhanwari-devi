@@ -65,6 +65,11 @@ const useStyles = makeStyles((theme) => ({
     height: "200px",
     borderRadius: "8px",
   },
+  courseTitleNumber: {
+    display: "flex",
+    alignItems: "baseline",
+    paddingTop: "16px",
+  },
 }));
 
 export default useStyles;

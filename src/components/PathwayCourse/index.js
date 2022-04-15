@@ -167,7 +167,7 @@ function PathwayCourse() {
                         alt="course"
                         loading="lazy"
                       />
-                      <Toolbar disableGutters>
+                      <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
                           align={isActive ? "center" : "left"}
                           variant="body2"
@@ -187,7 +187,7 @@ function PathwayCourse() {
                         >
                           {item.name}
                         </Typography>
-                      </Toolbar>
+                      </div>
                     </Card>
                   </Link>
                 </Grid>
