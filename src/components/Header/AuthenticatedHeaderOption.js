@@ -10,7 +10,6 @@ import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { sendToken } from "../User/redux/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-
 import {
   Box,
   IconButton,
@@ -19,6 +18,7 @@ import {
   Avatar,
   MenuItem,
 } from "@mui/material";
+import HeaderNavLink from "./HeaderNavlink";
 
 const rolesLandingPages = {
   admin: PATHS.PARTNERS,
@@ -156,24 +156,17 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 handleClose={handleCloseLearn}
                 toggleDrawer={toggleDrawer}
               />
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.CLASS}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  <Typography variant="subtitle1">Classes</Typography>
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.MENTOR}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  <Typography variant="subtitle1">Mentor</Typography>
-                </NavLink>
-              </MenuItem>
+
+              <HeaderNavLink
+                to={PATHS.CLASS}
+                text="Classes"
+                toggleDrawer={toggleDrawer}
+              />
+              <HeaderNavLink
+                to={PATHS.MENTOR}
+                text="Mentor"
+                toggleDrawer={toggleDrawer}
+              />
             </Box>
             <Box
               sx={{
@@ -185,24 +178,16 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 handleClose={handleCloseLearn}
                 toggleDrawer={toggleDrawer}
               />
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.CLASS}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  <Typography variant="subtitle1">Classes</Typography>
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.MENTOR}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  <Typography variant="subtitle1">Mentor</Typography>
-                </NavLink>
-              </MenuItem>
+              <HeaderNavLink
+                to={PATHS.CLASS}
+                text="Classes"
+                toggleDrawer={toggleDrawer}
+              />
+              <HeaderNavLink
+                to={PATHS.MENTOR}
+                text="Mentor"
+                toggleDrawer={toggleDrawer}
+              />
             </Box>
             <Box
               sx={{
@@ -212,26 +197,16 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 pr: rolesList.length < 1 && 2,
               }}
             >
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.ADMISSION}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  <Typography variant="subtitle1">
-                    Navgurukul Admission
-                  </Typography>
-                </NavLink>
-              </MenuItem>
-              <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                <NavLink
-                  to={PATHS.OPPORTUNITIES}
-                  className={classes.link}
-                  activeClassName={classes.active}
-                >
-                  <Typography variant="subtitle1">Opportunity</Typography>
-                </NavLink>
-              </MenuItem>
+              <HeaderNavLink
+                to={PATHS.ADMISSION}
+                text="Navgurukul Admission"
+                toggleDrawer={toggleDrawer}
+              />
+              <HeaderNavLink
+                to={PATHS.OPPORTUNITIES}
+                text="Opportunity"
+                toggleDrawer={toggleDrawer}
+              />
             </Box>
           </>
         )}
@@ -249,56 +224,38 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             {(switchView || rolesList[0]) === "admin" &&
             canSpecifyUserBaseRole ? (
               <>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.USER}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    <Typography variant="subtitle1">Students</Typography>
-                  </NavLink>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.VOLUNTEER}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    <Typography variant="subtitle1">Volunteers</Typography>
-                  </NavLink>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.PARTNERS}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    <Typography variant="subtitle1">Partners</Typography>
-                  </NavLink>
-                </MenuItem>
+                <HeaderNavLink
+                  to={PATHS.USER}
+                  text="Students"
+                  toggleDrawer={toggleDrawer}
+                />
+
+                <HeaderNavLink
+                  to={PATHS.VOLUNTEER}
+                  text="Volunteers"
+                  toggleDrawer={toggleDrawer}
+                />
+
+                <HeaderNavLink
+                  to={PATHS.PARTNERS}
+                  text="Partners"
+                  toggleDrawer={toggleDrawer}
+                />
               </>
             ) : null}
 
             {(switchView || rolesList[0]) === "volunteer" && volunteer ? (
               <>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.VOLUNTEER}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    <Typography variant="subtitle1">Volunteers</Typography>
-                  </NavLink>
-                </MenuItem>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={PATHS.CLASS}
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    <Typography variant="subtitle1">Classes</Typography>
-                  </NavLink>
-                </MenuItem>
+                <HeaderNavLink
+                  to={PATHS.VOLUNTEER}
+                  text="Volunteers"
+                  toggleDrawer={toggleDrawer}
+                />{" "}
+                <HeaderNavLink
+                  to={PATHS.CLASS}
+                  text="Classes"
+                  toggleDrawer={toggleDrawer}
+                />
               </>
             ) : null}
 
@@ -306,19 +263,15 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             // "partner_view" || "partner_edit" || "partner"
             (canSpecifyPartnerGroupId || canSpecifyPartner) ? (
               <>
-                <MenuItem onClick={toggleDrawer && toggleDrawer(false)}>
-                  <NavLink
-                    to={
-                      canSpecifyPartnerGroupId
-                        ? `${PATHS.STATE}/${partnerGroupId}`
-                        : `${PATHS.PARTNERS}/${partnerId}`
-                    }
-                    className={classes.link}
-                    activeClassName={classes.active}
-                  >
-                    <Typography variant="subtitle1">Dashboard</Typography>
-                  </NavLink>
-                </MenuItem>
+                <HeaderNavLink
+                  to={
+                    canSpecifyPartnerGroupId
+                      ? `${PATHS.STATE}/${partnerGroupId}`
+                      : `${PATHS.PARTNERS}/${partnerId}`
+                  }
+                  text="Dashboard"
+                  toggleDrawer={toggleDrawer}
+                />
               </>
             ) : null}
           </Box>
