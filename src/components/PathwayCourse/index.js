@@ -159,7 +159,7 @@ function PathwayCourse() {
                     <Card
                       className={classes.pathwayCard}
                       elevation={0}
-                      sx={{ ml: 3, p: 2 }}
+                      sx={{ ml: 3, p: "16px" }}
                     >
                       <img
                         className={classes.courseImage}
@@ -167,14 +167,15 @@ function PathwayCourse() {
                         alt="course"
                         loading="lazy"
                       />
-                      <Toolbar disableGutters sx={{ ml: 2 }}>
+                      <Toolbar disableGutters>
                         <Typography
                           align={isActive ? "center" : "left"}
-                          variant="body1"
+                          variant="body2"
                           className={classes.courseName}
                           sx={{
                             mr: "10px",
                             padding: isActive ? "5px" : "5px 0 5px 13px",
+                            verticalAlign: "top",
                           }}
                         >
                           {index + 1}
@@ -182,6 +183,7 @@ function PathwayCourse() {
                         <Typography
                           align={isActive ? "center" : "left"}
                           variant="body1"
+                          // sx={{ mt: "16px" }}
                         >
                           {item.name}
                         </Typography>
