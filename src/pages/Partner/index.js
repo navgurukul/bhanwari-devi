@@ -7,7 +7,7 @@ import {
   CardContent,
   CardActions,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -51,7 +51,7 @@ const Partner = () => {
           Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate
           aute id deserunt nisi.
         </Typography>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Button
             variant="contained"
             color="primary"
@@ -81,7 +81,11 @@ const Partner = () => {
                 <Button
                   variant="contained"
                   color="warning"
-                  sx={{ borderRadius: 25, height: 34 }}
+                  sx={
+                    !isActive
+                      ? { borderRadius: 25, height: 34 }
+                      : { borderRadius: 15, height: 25 }
+                  }
                   size="small"
                 >
                   featured

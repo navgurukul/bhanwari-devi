@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   partnerBtn: {
-    width: "40%",
+    width: "50%",
   },
   partnerBtn1: {
     height: "60px",
@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
     height: "95%",
   },
   partnerCardContainer: {
-    height: "56%",
+    height: "65%",
   },
   partnerCardContainer1: {
-    height: "60%",
+    height: "50%",
   },
 
   partnerIconSize: {
