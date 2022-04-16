@@ -9,6 +9,9 @@ function StateDashboard() {
   const [states, setStates] = useState();
   const [stateId, setStateId] = useState();
 
+  const clusterId = user.data.user.partner_group_id;
+  const admin = user.data.user.rolesList.indexOf("admin") > -1;
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -19,7 +22,13 @@ function StateDashboard() {
       },
     }).then((res) => {
       setStates(res.data.filter((item) => !item.name.includes("_REGION")));
-      setStateId(res.data[0].id);
+      if (clusterId) {
+        res.data.filter((item) => {
+          if (clusterId === item.id) setStateId(item.id);
+        });
+      } else {
+        setStateId(res.data[0].id);
+      }
     });
   }, []);
 
@@ -31,25 +40,30 @@ function StateDashboard() {
     <>
       {states && (
         <div className="state-name">
-          <div className="first-state-name">
-            <h2
-              onClick={() => selectedState(states[0].id)}
-              className={stateId === states[0].id ? "dark-text" : "light-text"}
-            >
-              {states[0].name} Dashboard
-            </h2>
-            {stateId === states[0].id && <hr />}
-          </div>
-          <div>
-            <h2
-              onClick={() => selectedState(states[1].id)}
-              className={stateId === states[1].id ? "dark-text" : "light-text"}
-            >
-              {states[1].name[0] + states[1].name.slice(1).toLowerCase()}{" "}
-              Dashboard
-            </h2>
-            {stateId === states[1].id && <hr />}
-          </div>
+          {states.map((item) => {
+            const name = `${
+              item.name[0] + item.name.slice(1).toLowerCase()
+            } Dashboard`;
+            return (
+              <div className="first-state-name">
+                <h2
+                  onClick={() => selectedState(item.id)}
+                  className={
+                    admin
+                      ? stateId === item.id
+                        ? "dark-text"
+                        : "light-text"
+                      : clusterId === item.id
+                      ? "dark-text"
+                      : "light-text"
+                  }
+                >
+                  {(clusterId === item.id || admin) && name}
+                </h2>
+                {admin ? stateId === item.id && <hr /> : ""}
+              </div>
+            );
+          })}
         </div>
       )}
       <Dashboard stateId={stateId} />

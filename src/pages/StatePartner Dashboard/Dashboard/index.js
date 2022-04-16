@@ -128,19 +128,20 @@ function Dashboard({ stateId }) {
                 onChange={selectRegion}
                 value={value}
               >
-                {region.map((item, i) => {
-                  return (
-                    <>
-                      <option
-                        key={i}
-                        value={item.partner_group_name}
-                        selected={i === 0}
-                      >
-                        {item.partner_group_name}
-                      </option>
-                    </>
-                  );
-                })}
+                {region &&
+                  region.map((item, i) => {
+                    return (
+                      <>
+                        <option
+                          key={i}
+                          value={item.partner_group_name}
+                          selected={i === 0}
+                        >
+                          {item.partner_group_name}
+                        </option>
+                      </>
+                    );
+                  })}
               </select>
             </div>
 
