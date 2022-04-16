@@ -18,16 +18,17 @@ import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
 import Twitter from "../../components/common/SocialMediaIcons/Twitter";
 
-function shuffleObject(obj) {
-  let newObj = {};
-  var keys = Object.keys(obj);
-  keys.sort(function (a, b) {
-    return Math.random() - 0.5;
-  });
-  keys.forEach(function (k) {
-    newObj[k] = obj[k];
-  });
-  return newObj;
+/**
+ *
+ * @param {Array} arr
+ * mutates Array inplace
+ */
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i >= 0; i--) {
+    const newIndex = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[newIndex]] = [arr[newIndex], arr[i]];
+  }
+  return arr;
 }
 
 function TeamPage() {
@@ -250,8 +251,8 @@ function TeamPage() {
               sx={{ marginTop: 4 }}
             >
               <Grid container>
-                {Object.keys(shuffleObject(team)).length ? (
-                  Object.keys(shuffleObject(team)).map((item) => {
+                {Object.keys(team).length ? (
+                  shuffleArray(Object.keys(team)).map((item) => {
                     const condition = members.teamMembers
                       ? "teamMembers"
                       : "volunteers";
@@ -269,7 +270,7 @@ function TeamPage() {
                         team[item].Designation
                       )
                         return (
-                          <Grid item xs={6} sm={4} md={3}>
+                          <Grid item xs={6} sm={6} md={3}>
                             <Tippy
                               animation="fade"
                               interactive="true"
