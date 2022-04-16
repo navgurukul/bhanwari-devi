@@ -1,8 +1,7 @@
 @import "../../../sass/colors.scss";
 @import "../../../sass/mixins.scss";
 .gridtopofcourse7 {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  width: 400px;
   @include breakpoint-mobile {
     width: 100px;
     overflow: scroll;
@@ -28,4 +27,10 @@
   ::-webkit-scrollbar {
     width: 0px;
   }
+}
+.sliderOfExercise {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
