@@ -28,28 +28,25 @@ function Dashboard({ stateId }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      const partnerGroups = res.data.partner_groups_data;
+      const includesRegion =
+        partnerGroups[0].partner_group_name.includes("_REGION");
+
       setDistrictPartner(res.data);
-      setIsRegion(
-        res.data.partner_groups_data[0].partner_group_name.includes("_REGION")
-      );
-      setDistrictPartnerData(res.data.partner_groups_data);
-      setRegionData(res.data.partner_groups_data);
+      setIsRegion(includesRegion);
 
-      res.data.partner_groups_data[0].partner_group_name.includes("_REGION") &&
+      setDistrictPartnerData(partnerGroups);
+      setRegionData(partnerGroups);
+
+      if (includesRegion) {
         setRegionDistrictPartner(
-          res.data.partner_groups_data[0].partner_groups_data
-            .partner_groups_data
+          partnerGroups[0].partner_groups_data.partner_groups_data
         );
-
-      if (
-        res.data.partner_groups_data[0].partner_group_name.includes("_REGION")
-      ) {
         setFilterData([
-          res.data.partner_groups_data[0].partner_groups_data
-            .partner_groups_data[0],
+          partnerGroups[0].partner_groups_data.partner_groups_data[0],
         ]);
       } else {
-        setFilterData([res.data.partner_groups_data[0]]);
+        setFilterData([partnerGroups[0]]);
       }
     });
   }, [stateId]);
@@ -63,26 +60,25 @@ function Dashboard({ stateId }) {
   };
 
   const selectRegion = (e) => {
-    let regionPartner;
-    region.filter((item) => {
-      if (item.partner_group_name === e.target.value) {
-        regionPartner = item.partner_groups_data.partner_groups_data;
-      }
-    });
+    const regionItem = region.find(
+      (item) => item.partner_group_name === e.target.value
+    );
+    const regionPartner =
+      regionItem && regionItem.partner_groups_data.partner_groups_data;
+
     setRegionDistrictPartner(regionPartner);
     setValue(e.target.value);
     setFilterData([regionPartner[0]]);
   };
 
   const selecetDistrict = (e) => {
-    let destrictPartner;
-    regionDistrictPartner.filter((item) => {
-      if (item.partner_group_name === e.target.value) {
-        destrictPartner = [item];
-      }
-    });
+    const districtPartner = [
+      regionDistrictPartner.find(
+        (item) => item.partner_group_name === e.target.value
+      ),
+    ];
     setDistrict(e.target.value);
-    setFilterData(destrictPartner);
+    setFilterData(districtPartner);
   };
 
   const canSpecifyPartnerGroupId =
