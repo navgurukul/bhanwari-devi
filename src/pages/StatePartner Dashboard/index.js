@@ -21,7 +21,7 @@ function StateDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setStates(res.data.filter((item) => !item.name.includes("_REGION")));
+      setStates(res.data);
       if (clusterId) {
         res.data.filter((item) => {
           if (clusterId === item.id) setStateId(item.id);
