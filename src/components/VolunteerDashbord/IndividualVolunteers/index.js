@@ -236,3 +236,159 @@ function VolunteerOverview(props) {
   );
 }
 export default VolunteerOverview;
+
+// prev code
+
+// <>
+// <div className="volunteer-class-page-container">
+//   <div className="volunteer-page-heading">
+//     <div>
+//       <Link className="home" to={`${PATHS.HOME_PATH}`}>
+//         {" "}
+//         Home
+//       </Link>{" "}
+//       /
+//       <Link className="home" to={`${PATHS.VOLUNTEER}`}>
+//         {" "}
+//         Volunteer&nbsp;
+//       </Link>
+//     </div>
+//     <div>/ {volunteerClassData.name}</div>
+//   </div>
+//   <div className="volunteer-details">
+//     <p className="volunteer-name">{volunteerClassData.name}</p>
+//     <p>Python: {language.slice(0, -2)}</p>
+//     <p>Total Classes: {volunteerClassData.classes.length}</p>
+//     <p>
+//       Associated Partner:{" "}
+//       {volunteerClassData.partner ? volunteerClassData.partner : "NA"}
+//     </p>
+//   </div>
+//   <div>
+//     <input
+//       className="volunteer-search-box"
+//       type="text"
+//       placeholder="Class title, languange..."
+//       value={debouncedText}
+//       onChange={(e) => {
+//         setSearchTerm(e.target.value);
+//       }}
+//     />
+//   </div>
+//   <table className="volunteer-class-table">
+//     <thead>
+//       <tr>
+//         <th>Class Title</th>
+//         <th>
+//           Class Date
+//           <button
+//             className="sort-class"
+//             onClick={() => sortClasses("class_date")}
+//           >
+//             <BsArrowUpDown />
+//           </button>
+//         </th>
+//         <th>Class Time</th>
+//         <th>
+//           Student Enrollments
+//           {/* <button
+//             className="sort-class"
+//             onClick={() => sortClasses("enrollment")}
+//           >
+//             <BsArrowUpDown />
+//           </button> */}
+//         </th>
+//         <th>Language</th>
+//         <th>Avg. Rating</th>
+//       </tr>
+//     </thead>
+//     <tbody>
+//       {classes && classes.length > 0 ? (
+//         slicedClasses.map((item) => {
+//           // let ratingCount = 0;
+//           // item.ratings.map((item) => {
+//           //   if (item.rating) ratingCount += parseInt(item.rating);
+
+//           //   return ratingCount;
+//           // });
+//           // item.avg_rating = Math.ceil(
+//           //   item.ratings.length && ratingCount / item.ratings.length
+//           // );
+//           const ratings = item.ratings.filter((item) => item.rating);
+//           item.avg_rating =
+//             ratings.length &&
+//             Math.ceil(
+//               ratings.reduce(
+//                 (ratingSum, item) => ratingSum + parseInt(item.rating),
+//                 0
+//               ) / ratings.length
+//             );
+//           return (
+//             <tr key={item.id}>
+//               <td data-column="Class Title">{item.title}</td>
+//               <td data-column="Class Date">
+//                 {moment.utc(item.end_time).format("DD-MM-YYYY")}
+//               </td>
+//               <td data-column="Class Time">
+//                 {moment
+//                   .utc(item.start_time)
+//                   .add(330, "minute")
+//                   .format("kk:mm")}
+//               </td>
+//               <td data-column="Enrollments">
+//                 {item.max_enrollment ? item.max_enrollment : "NA"}
+//               </td>
+//               <td data-column="Language"> {languageMap[item.lang]} </td>
+//               <td data-column="Avg. Rating">
+//                 {[1, 2, 3, 4, 5].map((star) => {
+//                   return item.avg_rating > 0 &&
+//                     star <= item.avg_rating ? (
+//                     <span
+//                       className="fa fa-star"
+//                       style={{ color: "#D55F31" }}
+//                     ></span>
+//                   ) : (
+//                     <span
+//                       className="fa fa-star"
+//                       style={{ color: "gray" }}
+//                     ></span>
+//                   );
+//                 })}
+//               </td>
+//             </tr>
+//           );
+//         })
+//       ) : (
+//         <div className="message ">
+//           <h3>There are no results to display...</h3>
+//         </div>
+//       )}
+//     </tbody>
+//   </table>
+
+//   <div className="pagination-footer">
+//     <div>
+//       <p className="page-descrption">
+//         Showing {pageNumber * limit + 1}-
+//         {firstIndex > lastIndex ? lastIndex : firstIndex}
+//         of {lastIndex}
+//       </p>
+//     </div>
+//     <div className="pagination">
+//       <ReactPaginate
+//         previousLabel={<i className="fa fa-angle-left"></i>}
+//         nextLabel={<i className="fa fa-angle-right"></i>}
+//         initialPage={0}
+//         marginPagesDisplayed={0}
+//         pageCount={pageCount}
+//         onPageChange={changePage}
+//         containerClassName="paginationBttns-volunteer"
+//         previousLinkClassName="previousBttn"
+//         nextLinkClassName="nextBttn"
+//         disabledClassName="paginationDisabled"
+//         activeClassName="paginationActive-volunteer"
+//       />
+//     </div>
+//   </div>
+// </div>
+// </>
