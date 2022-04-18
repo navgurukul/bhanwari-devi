@@ -207,8 +207,12 @@ function Dashboard({ stateId }) {
                       <td data-column="Group Name">
                         {item.partner_group_name}
                       </td>
-                      <td data-column="No Partners">{item.total_partners}</td>
-                      <td data-column="No Students">{item.total_students}</td>
+                      <td data-column="No Partners">
+                        {item.total_no_of_partners}
+                      </td>
+                      <td data-column="No Students">
+                        {item.total_no_of_students}
+                      </td>
                     </tr>
                   );
                 })}
