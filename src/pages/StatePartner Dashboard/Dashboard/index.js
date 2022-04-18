@@ -13,11 +13,12 @@ function Dashboard({ stateId }) {
   const [districtPartner, setDistrictPartner] = useState([]);
   const [districtPartnerData, setDistrictPartnerData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(false);
+  const [region, setRegion] = useState(false);
   const [isRegion, setIsRegion] = useState();
-  const [region, setRegionData] = useState();
+  const [regionData, setRegionData] = useState();
   const [regionDistrictPartner, setRegionDistrictPartner] = useState([]);
-  const [district, setDistrict] = useState();
+  const [district, setDistrict] = useState(false);
 
   useEffect(() => {
     axios({
@@ -28,6 +29,7 @@ function Dashboard({ stateId }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      setRegion(false);
       const partnerGroups = res.data.partner_groups_data;
       const includesRegion =
         partnerGroups[0].partner_group_name.includes("_REGION");
@@ -39,6 +41,8 @@ function Dashboard({ stateId }) {
       setRegionData(partnerGroups);
 
       if (includesRegion) {
+        console.log("okk");
+        setValue(false);
         setRegionDistrictPartner(
           partnerGroups[0].partner_groups_data.partner_groups_data
         );
@@ -46,7 +50,11 @@ function Dashboard({ stateId }) {
           partnerGroups[0].partner_groups_data.partner_groups_data[0],
         ]);
       } else {
+        console.log("nooooooo");
+        console.log("partnerGroups[0]", partnerGroups[0]);
         setFilterData([partnerGroups[0]]);
+        // setRegion(false);
+        setDistrict(false);
       }
     });
   }, [stateId]);
@@ -59,16 +67,24 @@ function Dashboard({ stateId }) {
     setValue(e.target.value);
   };
 
+  console.log("value", value);
+  console.log("region", region);
+  console.log("district", district);
+
   const selectRegion = (e) => {
-    const regionItem = region.find(
+    const regionItem = regionData.find(
       (item) => item.partner_group_name === e.target.value
     );
     const regionPartner =
       regionItem && regionItem.partner_groups_data.partner_groups_data;
 
     setRegionDistrictPartner(regionPartner);
-    setValue(e.target.value);
-    setFilterData([regionPartner[0]]);
+    setRegion(e.target.value);
+    if (e.target.value !== "all") {
+      setFilterData([regionPartner[0]]);
+    } else {
+      setDistrict(false);
+    }
   };
 
   const selecetDistrict = (e) => {
@@ -114,7 +130,6 @@ function Dashboard({ stateId }) {
             <span className="overview-card-label">Total Enrolled Students</span>
           </div>
         </div>
-
         {isRegion ? (
           <>
             <div className="state-partner-choose-district">
@@ -122,10 +137,11 @@ function Dashboard({ stateId }) {
               <select
                 className="input-for-district"
                 onChange={selectRegion}
-                value={value}
+                value={region}
               >
-                {region &&
-                  region.map((item, i) => {
+                <option value="all">All</option>
+                {regionData &&
+                  regionData.map((item, i) => {
                     return (
                       <>
                         <option
@@ -141,28 +157,32 @@ function Dashboard({ stateId }) {
               </select>
             </div>
 
-            <div className="state-partner-choose-district">
-              <h4>Please choose a group</h4>
-              <select
-                className="input-for-district"
-                onChange={selecetDistrict}
-                value={district}
-              >
-                {regionDistrictPartner.map((item, i) => {
-                  return (
-                    <>
-                      <option
-                        key={i}
-                        value={item.partner_group_name}
-                        selected={i === 0}
-                      >
-                        {item.partner_group_name}
-                      </option>
-                    </>
-                  );
-                })}
-              </select>
-            </div>
+            {region !== "all" && (
+              <div className="state-partner-choose-district">
+                <h4>Please choose a group</h4>
+                <select
+                  className="input-for-district"
+                  onChange={selecetDistrict}
+                  value={district}
+                  // disabled={region === "all"}
+                >
+                  <option value="all">All</option>
+                  {regionDistrictPartner.map((item, i) => {
+                    return (
+                      <>
+                        <option
+                          key={i}
+                          value={item.partner_group_name}
+                          selected={i === 0}
+                        >
+                          {item.partner_group_name}
+                        </option>
+                      </>
+                    );
+                  })}
+                </select>
+              </div>
+            )}
           </>
         ) : (
           <div className="state-partner-choose-district">
@@ -202,6 +222,73 @@ function Dashboard({ stateId }) {
               </thead>
               <tbody>
                 {districtPartnerData.map((item) => {
+                  // console.log("item", item);
+                  return (
+                    <tr key={item.id}>
+                      <td data-column="Group Name">
+                        {item.partner_group_name}
+                      </td>
+                      <td data-column="No Partners">
+                        {item.total_no_of_partners}
+                      </td>
+                      <td data-column="No Students">
+                        {item.total_no_of_students}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : region === "all" ? (
+          <div className="State-dashboard-container">
+            <table className="volunteer-class-table">
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Number of District</th>
+                  <th>Number of Partners</th>
+                  <th>Number of Students</th>
+                </tr>
+              </thead>
+              <tbody>
+                {districtPartnerData.map((item) => {
+                  // console.log("item", item);
+                  return (
+                    <tr key={item.id}>
+                      <td data-column="Group Name">
+                        {item.partner_groups_data.partner_group_name}
+                      </td>
+
+                      <td data-column="Group Name">
+                        {item.partner_groups_data.total_no_of_groups}
+                      </td>
+
+                      <td data-column="No Partners">
+                        {item.partner_groups_data.total_no_of_partners}
+                      </td>
+                      <td data-column="No Students">
+                        {item.partner_groups_data.total_no_of_students}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : district === "all" ? (
+          <div className="State-dashboard-container">
+            <table className="volunteer-class-table">
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Number of Partners</th>
+                  <th>Number of Students</th>
+                </tr>
+              </thead>
+              <tbody>
+                {regionDistrictPartner.map((item) => {
+                  // console.log("item", item);
                   return (
                     <tr key={item.id}>
                       <td data-column="Group Name">
@@ -224,6 +311,7 @@ function Dashboard({ stateId }) {
             <div className="state-schools-heading"></div>
             <div className="state-schools-cards">
               {filterData.map((item) => {
+                console.log("item", item);
                 return item.partners.map((name) => {
                   return (
                     <div className="state-schools-card">
@@ -245,6 +333,138 @@ function Dashboard({ stateId }) {
             </div>
           </div>
         )}
+
+        {/* {value === "all" && (
+          <div className="State-dashboard-container">
+            <table className="volunteer-class-table">
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Number of Partners</th>
+                  <th>Number of Students</th>
+                </tr>
+              </thead>
+              <tbody>
+                {districtPartnerData.map((item) => {
+                  // console.log("item", item);
+                  return (
+                    <tr key={item.id}>
+                      <td data-column="Group Name">
+                        {item.partner_group_name}
+                      </td>
+                      <td data-column="No Partners">
+                        {item.total_no_of_partners}
+                      </td>
+                      <td data-column="No Students">
+                        {item.total_no_of_students}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )} */}
+
+        {/* {region === "all" && (
+          <div className="State-dashboard-container">
+            <table className="volunteer-class-table">
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Number of District</th>
+                  <th>Number of Partners</th>
+                  <th>Number of Students</th>
+                </tr>
+              </thead>
+              <tbody>
+                {districtPartnerData.map((item) => {
+                  // console.log("item", item);
+                  return (
+                    <tr key={item.id}>
+                      <td data-column="Group Name">
+                        {item.partner_groups_data.partner_group_name}
+                      </td>
+
+                      <td data-column="Group Name">
+                        {item.partner_groups_data.total_no_of_groups}
+                      </td>
+
+                      <td data-column="No Partners">
+                        {item.partner_groups_data.total_no_of_partners}
+                      </td>
+                      <td data-column="No Students">
+                        {item.partner_groups_data.total_no_of_students}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )} */}
+
+        {/* {district === "all" && (
+          <div className="State-dashboard-container">
+            <table className="volunteer-class-table">
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                  <th>Number of Partners</th>
+                  <th>Number of Students</th>
+                </tr>
+              </thead>
+              <tbody>
+                {regionDistrictPartner.map((item) => {
+                  // console.log("item", item);
+                  return (
+                    <tr key={item.id}>
+                      <td data-column="Group Name">
+                        {item.partner_group_name}
+                      </td>
+                      <td data-column="No Partners">
+                        {item.total_no_of_partners}
+                      </td>
+                      <td data-column="No Students">
+                        {item.total_no_of_students}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )} */}
+        {console.log("filterData", filterData)}
+
+        {/* {(value || region || district !== "all") && (
+          <div className="state-partner-state-schools">
+            <div className="state-schools-heading"></div>
+            <div className="state-schools-cards">
+              {filterData.map((item) => {
+                console.log("item", item);
+                return item.partners.map((name) => {
+                  return (
+                    <div className="state-schools-card">
+                      <Link
+                        className="t-data"
+                        to={`${PATHS.PARTNERS}/${name.partner_id}`}
+                      >
+                        <h4>{name.partner_name} </h4>
+                        <div className="school-card-row">
+                          <span className="student-card-numbers">
+                            <span>{name.users_count}</span> Students
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                });
+              })}
+            </div>
+          </div>
+        )} */}
+        {/* )} */}
       </div>
     );
   }
