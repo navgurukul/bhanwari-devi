@@ -42,7 +42,7 @@ function Dashboard({ stateId }) {
 
       if (includesRegion) {
         console.log("okk");
-        setValue(false);
+        // setValue(false);
         setRegionDistrictPartner(
           partnerGroups[0].partner_groups_data.partner_groups_data
         );
@@ -50,6 +50,7 @@ function Dashboard({ stateId }) {
           partnerGroups[0].partner_groups_data.partner_groups_data[0],
         ]);
       } else {
+        setValue(true);
         console.log("nooooooo");
         console.log("partnerGroups[0]", partnerGroups[0]);
         setFilterData([partnerGroups[0]]);
@@ -72,6 +73,7 @@ function Dashboard({ stateId }) {
   console.log("district", district);
 
   const selectRegion = (e) => {
+    console.log("e");
     const regionItem = regionData.find(
       (item) => item.partner_group_name === e.target.value
     );
@@ -253,7 +255,7 @@ function Dashboard({ stateId }) {
               </thead>
               <tbody>
                 {districtPartnerData.map((item) => {
-                  // console.log("item", item);
+                  console.log("item", item);
                   return (
                     <tr key={item.id}>
                       <td data-column="Group Name">
