@@ -13,12 +13,12 @@ function Dashboard({ stateId }) {
   const [districtPartner, setDistrictPartner] = useState([]);
   const [districtPartnerData, setDistrictPartnerData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [value, setValue] = useState(false);
-  const [region, setRegion] = useState(false);
+  const [value, setValue] = useState();
+  const [region, setRegion] = useState();
   const [isRegion, setIsRegion] = useState();
   const [regionData, setRegionData] = useState();
   const [regionDistrictPartner, setRegionDistrictPartner] = useState([]);
-  const [district, setDistrict] = useState(false);
+  const [district, setDistrict] = useState();
 
   useEffect(() => {
     axios({
@@ -29,7 +29,7 @@ function Dashboard({ stateId }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setRegion(false);
+      setRegion();
       const partnerGroups = res.data.partner_groups_data;
       const includesRegion =
         partnerGroups[0].partner_group_name.includes("_REGION");
@@ -41,8 +41,7 @@ function Dashboard({ stateId }) {
       setRegionData(partnerGroups);
 
       if (includesRegion) {
-        console.log("okk");
-        // setValue(false);
+        setValue();
         setRegionDistrictPartner(
           partnerGroups[0].partner_groups_data.partner_groups_data
         );
@@ -50,12 +49,8 @@ function Dashboard({ stateId }) {
           partnerGroups[0].partner_groups_data.partner_groups_data[0],
         ]);
       } else {
-        setValue(true);
-        console.log("nooooooo");
-        console.log("partnerGroups[0]", partnerGroups[0]);
         setFilterData([partnerGroups[0]]);
-        // setRegion(false);
-        setDistrict(false);
+        setDistrict();
       }
     });
   }, [stateId]);
@@ -68,12 +63,19 @@ function Dashboard({ stateId }) {
     setValue(e.target.value);
   };
 
-  console.log("value", value);
-  console.log("region", region);
-  console.log("district", district);
+  const tableDistrict = (region) => {
+    const regionItem = regionData.find(
+      (item) => item.partner_group_name === region
+    );
+    setRegion(region);
+    const regionPartner =
+      regionItem && regionItem.partner_groups_data.partner_groups_data;
+
+    setRegionDistrictPartner(regionPartner);
+    setDistrict("all");
+  };
 
   const selectRegion = (e) => {
-    console.log("e");
     const regionItem = regionData.find(
       (item) => item.partner_group_name === e.target.value
     );
@@ -84,8 +86,6 @@ function Dashboard({ stateId }) {
     setRegion(e.target.value);
     if (e.target.value !== "all") {
       setFilterData([regionPartner[0]]);
-    } else {
-      setDistrict(false);
     }
   };
 
@@ -166,22 +166,22 @@ function Dashboard({ stateId }) {
                   className="input-for-district"
                   onChange={selecetDistrict}
                   value={district}
-                  // disabled={region === "all"}
                 >
                   <option value="all">All</option>
-                  {regionDistrictPartner.map((item, i) => {
-                    return (
-                      <>
-                        <option
-                          key={i}
-                          value={item.partner_group_name}
-                          selected={i === 0}
-                        >
-                          {item.partner_group_name}
-                        </option>
-                      </>
-                    );
-                  })}
+                  {regionDistrictPartner &&
+                    regionDistrictPartner.map((item, i) => {
+                      return (
+                        <>
+                          <option
+                            key={i}
+                            value={item.partner_group_name}
+                            selected={i === 0}
+                          >
+                            {item.partner_group_name}
+                          </option>
+                        </>
+                      );
+                    })}
                 </select>
               </div>
             )}
@@ -224,7 +224,6 @@ function Dashboard({ stateId }) {
               </thead>
               <tbody>
                 {districtPartnerData.map((item) => {
-                  // console.log("item", item);
                   return (
                     <tr key={item.id}>
                       <td data-column="Group Name">
@@ -255,9 +254,15 @@ function Dashboard({ stateId }) {
               </thead>
               <tbody>
                 {districtPartnerData.map((item) => {
-                  console.log("item", item);
                   return (
-                    <tr key={item.id}>
+                    <tr
+                      key={item.id}
+                      onClick={() => {
+                        tableDistrict(
+                          item.partner_groups_data.partner_group_name
+                        );
+                      }}
+                    >
                       <td data-column="Group Name">
                         {item.partner_groups_data.partner_group_name}
                       </td>
@@ -290,7 +295,6 @@ function Dashboard({ stateId }) {
               </thead>
               <tbody>
                 {regionDistrictPartner.map((item) => {
-                  // console.log("item", item);
                   return (
                     <tr key={item.id}>
                       <td data-column="Group Name">
@@ -313,7 +317,6 @@ function Dashboard({ stateId }) {
             <div className="state-schools-heading"></div>
             <div className="state-schools-cards">
               {filterData.map((item) => {
-                console.log("item", item);
                 return item.partners.map((name) => {
                   return (
                     <div className="state-schools-card">
@@ -335,138 +338,6 @@ function Dashboard({ stateId }) {
             </div>
           </div>
         )}
-
-        {/* {value === "all" && (
-          <div className="State-dashboard-container">
-            <table className="volunteer-class-table">
-              <thead>
-                <tr>
-                  <th>Group Name</th>
-                  <th>Number of Partners</th>
-                  <th>Number of Students</th>
-                </tr>
-              </thead>
-              <tbody>
-                {districtPartnerData.map((item) => {
-                  // console.log("item", item);
-                  return (
-                    <tr key={item.id}>
-                      <td data-column="Group Name">
-                        {item.partner_group_name}
-                      </td>
-                      <td data-column="No Partners">
-                        {item.total_no_of_partners}
-                      </td>
-                      <td data-column="No Students">
-                        {item.total_no_of_students}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )} */}
-
-        {/* {region === "all" && (
-          <div className="State-dashboard-container">
-            <table className="volunteer-class-table">
-              <thead>
-                <tr>
-                  <th>Group Name</th>
-                  <th>Number of District</th>
-                  <th>Number of Partners</th>
-                  <th>Number of Students</th>
-                </tr>
-              </thead>
-              <tbody>
-                {districtPartnerData.map((item) => {
-                  // console.log("item", item);
-                  return (
-                    <tr key={item.id}>
-                      <td data-column="Group Name">
-                        {item.partner_groups_data.partner_group_name}
-                      </td>
-
-                      <td data-column="Group Name">
-                        {item.partner_groups_data.total_no_of_groups}
-                      </td>
-
-                      <td data-column="No Partners">
-                        {item.partner_groups_data.total_no_of_partners}
-                      </td>
-                      <td data-column="No Students">
-                        {item.partner_groups_data.total_no_of_students}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )} */}
-
-        {/* {district === "all" && (
-          <div className="State-dashboard-container">
-            <table className="volunteer-class-table">
-              <thead>
-                <tr>
-                  <th>Group Name</th>
-                  <th>Number of Partners</th>
-                  <th>Number of Students</th>
-                </tr>
-              </thead>
-              <tbody>
-                {regionDistrictPartner.map((item) => {
-                  // console.log("item", item);
-                  return (
-                    <tr key={item.id}>
-                      <td data-column="Group Name">
-                        {item.partner_group_name}
-                      </td>
-                      <td data-column="No Partners">
-                        {item.total_no_of_partners}
-                      </td>
-                      <td data-column="No Students">
-                        {item.total_no_of_students}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )} */}
-        {console.log("filterData", filterData)}
-
-        {/* {(value || region || district !== "all") && (
-          <div className="state-partner-state-schools">
-            <div className="state-schools-heading"></div>
-            <div className="state-schools-cards">
-              {filterData.map((item) => {
-                console.log("item", item);
-                return item.partners.map((name) => {
-                  return (
-                    <div className="state-schools-card">
-                      <Link
-                        className="t-data"
-                        to={`${PATHS.PARTNERS}/${name.partner_id}`}
-                      >
-                        <h4>{name.partner_name} </h4>
-                        <div className="school-card-row">
-                          <span className="student-card-numbers">
-                            <span>{name.users_count}</span> Students
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                  );
-                });
-              })}
-            </div>
-          </div>
-        )} */}
-        {/* )} */}
       </div>
     );
   }
