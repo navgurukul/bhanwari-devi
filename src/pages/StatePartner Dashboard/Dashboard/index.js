@@ -247,8 +247,8 @@ function Dashboard({ stateId }) {
               <thead>
                 <tr>
                   <th>Group Name</th>
-                  <th>Number of District</th>
-                  <th>Number of Partners</th>
+                  <th>Number of Districts</th>
+                  <th>Number of ITIs</th>
                   <th>Number of Students</th>
                 </tr>
               </thead>
@@ -289,7 +289,7 @@ function Dashboard({ stateId }) {
               <thead>
                 <tr>
                   <th>Group Name</th>
-                  <th>Number of Partners</th>
+                  <th>Number of ITIs</th>
                   <th>Number of Students</th>
                 </tr>
               </thead>
