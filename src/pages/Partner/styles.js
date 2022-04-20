@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
   partnerTopspacing: {
-    paddingTop: "15%",
+    paddingTop: "2%",
   },
 
   partnerHrline: {
@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   partnerBtn: {
-    width: "40%",
+    width: "50%",
   },
   partnerBtn1: {
     height: "60px",
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   partnerContainer1: {
     paddingTop: "20%",
-    paddingBottom: "25%",
+    paddingBottom: "20%",
   },
   partnerImg: {
     height: "100%",
@@ -39,16 +39,12 @@ const useStyles = makeStyles((theme) => ({
   partnerCard: {
     height: "95%",
   },
-  partnerCard1: {
-    height: "97%",
-  },
   partnerCardContainer: {
-    height: "56%",
+    height: "65%",
   },
-  partnerCardContainer: {
+  partnerCardContainer1: {
     height: "50%",
   },
-
   partnerIconSize: {
     padding: "4px",
     backgroundColor: "white",

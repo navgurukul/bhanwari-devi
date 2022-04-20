@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles((theme) => ({
   admitionContainer: {
     marginTop: "60px",
+    marginBottom: "70px",
   },
   admitionSpacing1: {
     paddingTop: "20px",

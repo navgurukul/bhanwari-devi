@@ -18,6 +18,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
+import ExternalLink from "../../components/common/ExternalLink";
 
 const pathwayData = [
   {
@@ -46,7 +47,7 @@ const pathwayData = [
   },
   {
     title: "Residential Programmes",
-    image: "soft-skills",
+    image: "residential",
     description: "Interview preparation  to get you job ready",
   },
   {
@@ -141,6 +142,7 @@ function Home() {
   }, [dispatch]);
 
   data &&
+    data.pathways &&
     data.pathways.forEach((pathway) => {
       pathwayData.forEach((item) => {
         if (pathway.code === item.code) {
@@ -166,9 +168,7 @@ function Home() {
             </Typography>
             <MerakiEntry
               headingAttr={{
-                align: "center",
                 variant: "h6",
-                gutterBottom: true,
               }}
             />
           </Container>
@@ -323,7 +323,7 @@ function Home() {
               ))}
             </Grid> */}
             <Stack sx={{ mt: 3 }} alignItems="center">
-              <Button href="#">
+              <Button href={PATHS.OUR_PARTNER}>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
               </Button>
@@ -339,8 +339,6 @@ function Home() {
               <MerakiEntry
                 headingAttr={{
                   variant: "h5",
-                  align: "center",
-                  gutterBottom: true,
                 }}
               />
             </Container>
@@ -369,35 +367,58 @@ function Home() {
             <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
-                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    Via email:
-                  </span>{" "}
-                  <a
+                  <address
                     style={{
                       textDecoration: "none",
-                      color: "#48a145",
                     }}
-                    href="mailto:team@meraki.org"
                   >
-                    team@meraki.org
-                  </a>
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Via email:{" "}
+                    </span>
+
+                    <ExternalLink
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                        fontStyle: "normal",
+                      }}
+                      href="mailto:team@meraki.org"
+                    >
+                      team@meraki.org
+                    </ExternalLink>
+                  </address>
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
-                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    Via Whatsapp:
-                  </span>{" "}
-                  <a
-                    style={{
-                      textDecoration: "none",
-                      color: "#48a145",
-                    }}
-                    href="tel:+918891300300"
-                  >
-                    {" "}
-                    +91 8891300300
-                  </a>
+                  <address>
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Via Whatsapp:
+                    </span>
+                    <ExternalLink
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                        fontStyle: "normal",
+                      }}
+                      href="tel:+918891300300"
+                    >
+                      {" "}
+                      +91 8891300300
+                    </ExternalLink>
+                  </address>
                 </Typography>
               </Grid>
             </Grid>

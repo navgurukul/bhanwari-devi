@@ -11,6 +11,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import SmallScreenAbbreviate from "./SmallScreenAbbreviate";
 
 function AFEpage() {
   const classes = useStyles();
@@ -35,10 +36,10 @@ function AFEpage() {
         </Grid>
         <Grid
           container
-          spacing={!isActive ? 3 : 4}
+          spacing={{ xs: 4, sm: 3 }}
           className={classes.Grid_Space}
         >
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6}>
             <img
               className={classes.IMG}
               src={require("./asset/First-img.svg")}
@@ -65,7 +66,7 @@ function AFEpage() {
           <Typography
             gutterbottom
             variant="h5"
-            align={isActive ? "center" : "left"}
+            textAlign={{ xs: "center", sm: "left" }}
           >
             Our Mission
           </Typography>
@@ -73,10 +74,10 @@ function AFEpage() {
 
         <Grid
           container
-          spacing={!isActive ? 3 : 4}
+          spacing={{ xs: 4, sm: 3 }}
           className={classes.Grid_Space}
         >
-          <Grid item xs={12} sm={6} md={6} order={{ xs: 2, sm: 1 }}>
+          <Grid item xs={12} sm={6} order={{ xs: 2, sm: 1 }}>
             <Typography variant="body1" paragraph>
               NavGurukul is a registered non-profit organization working towards
               the financial empowerment of students from underserved
@@ -92,7 +93,7 @@ function AFEpage() {
               aspirational careers.
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={6} order={{ xs: 1, sm: 2 }}>
+          <Grid item xs={12} sm={6} order={{ xs: 1, sm: 2 }}>
             <img
               className={classes.IMG}
               src={require("./asset/Second-img.svg")}
@@ -103,22 +104,22 @@ function AFEpage() {
 
         <Grid
           container
-          spacing={!isActive ? 3 : 4}
+          spacing={{ xs: 4, sm: 3 }}
           className={classes.Grid_Space}
         >
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6}>
             <img
               className={classes.IMG}
               src={require("./asset/Second-img.svg")}
               alt="Students Img"
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6}>
             <Grid className={classes.Hadings}>
               <Typography
                 gutterbottom
                 variant="h5"
-                align={isActive ? "center" : "left"}
+                textAlign={{ xs: "center", sm: "left" }}
               >
                 Our Approach
               </Typography>
@@ -157,15 +158,13 @@ function AFEpage() {
         </Grid>
 
         <Grid spacing={8} align="center" className={classes.Ng_AFE}>
-          {!isActive ? (
-            <Typography gutterbottom variant="h5">
-              NavGurukul 🤝 Amazon Future Engineer
-            </Typography>
-          ) : (
-            <Typography gutterbottom variant="h5">
-              NavGurukul 🤝 AFE
-            </Typography>
-          )}
+          <Typography gutterbottom variant="h5">
+            NavGurukul 🤝{" "}
+            <SmallScreenAbbreviate
+              isActive={isActive}
+              text="Amazon Future Engineer"
+            />
+          </Typography>
         </Grid>
         <Grid
           container
@@ -173,7 +172,7 @@ function AFEpage() {
           justifyContent="center"
           className={classes.Grid_Space}
         >
-          <Grid iteam xs={isActive ? 11 : 8}>
+          <Grid item xs={isActive ? 11 : 8}>
             <Typography variant="body1" paragraph>
               Amazon Future Engineer (AFE) is a comprehensive
               childhood-to-career program to increase access to computer science

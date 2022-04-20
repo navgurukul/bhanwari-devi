@@ -7,19 +7,20 @@ import {
   CardContent,
   CardActions,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import IconButton from "@mui/material/IconButton";
+import { PATHS } from "../../constant";
 
 const Partner = () => {
   const classes = useStyles();
@@ -35,9 +36,9 @@ const Partner = () => {
     });
   }, []);
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" className={classes.partnerTopspacing}>
       <Container maxWidth="sm">
-        <Typography variant="h5" align="center" gutterBottom>
+        <Typography variant="h5" align="center">
           Our Partners
           <hr color="primary" className={classes.partnerHrline} />
         </Typography>
@@ -51,7 +52,7 @@ const Partner = () => {
           Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate
           aute id deserunt nisi.
         </Typography>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Button
             variant="contained"
             color="primary"
@@ -81,7 +82,11 @@ const Partner = () => {
                 <Button
                   variant="contained"
                   color="warning"
-                  sx={{ borderRadius: 25, height: 34 }}
+                  sx={
+                    !isActive
+                      ? { borderRadius: 25, height: 34 }
+                      : { borderRadius: 15, height: 25 }
+                  }
                   size="small"
                 >
                   featured
@@ -99,11 +104,11 @@ const Partner = () => {
                 pariatur duis deserunt mollit dolore cillum minim tempor enim.
               </Typography>
               <Link
-                href="#"
+                to={PATHS.AFE}
                 underline="hover"
                 color="primary"
                 align={!isActive ? "left" : "center"}
-                className={classes.partnerTopspacing1}
+                className={classes.link}
               >
                 Learn More
                 <ChevronRightOutlinedIcon className={classes.partnerIcon} />
@@ -122,16 +127,7 @@ const Partner = () => {
           Object.keys(partners).map((item) => {
             return (
               <Grid item xs={12} sm={4} md={4}>
-                <Card
-                  sx={{
-                    ":hover": {
-                      boxShadow: 20, // theme.shadows[20]
-                    },
-                  }}
-                  className={
-                    isActive ? classes.partnerCard1 : classes.partnerCard
-                  }
-                >
+                <Card className={classes.partnerCard}>
                   <CardHeader
                     title={partners[item].Name}
                     titleTypographyProps={{ variant: "subtitle1" }}
@@ -147,7 +143,7 @@ const Partner = () => {
                       {partners[item].Description}
                     </Typography>
                   </CardContent>
-                  <CardActions disableSpacing className={classes.partnerRight}>
+                  <CardActions>
                     {partners[item].Url ? (
                       <IconButton>
                         <Link href={partners[item].Url}>

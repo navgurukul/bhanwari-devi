@@ -62,44 +62,19 @@ const pathways = {
   },
 };
 
-const images = [
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-  "course2",
-  "course3",
-  "course1",
-];
-
 function PathwayCourse() {
-  const [pathwayCourse, setPathwayCourse] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
-  const { data } = useSelector((state) => state.Pathways);
+  const { pathwayCourse } = useSelector((state) => state.Pathways);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
-      headers: {
-        accept: "application/json",
-        "version-code": 40,
-        // Authorization: user.data ? user.data.token : null,
-      },
-    }).then((res) => {
-      setPathwayCourse(res.data.courses);
-    });
+    // dispatch(pathwayActions.getPathways());
+    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [pathwayId]);
-
-  console.log("pathwayCourse", pathwayCourse);
 
   return (
     <>
@@ -117,7 +92,7 @@ function PathwayCourse() {
                     Learning Track
                   </Typography>
                   <Typography
-                    variant="h5"
+                    variant="h4"
                     className={classes.heading}
                     sx={{ textAlign: isActive && "center" }}
                   >
@@ -140,7 +115,7 @@ function PathwayCourse() {
               </Grid> */}
             </Grid>
             <Box className={classes.Box1}>
-              <Typography variant="h6" sx={{ textAlign: isActive && "center" }}>
+              <Typography variant="h5" sx={{ textAlign: isActive && "center" }}>
                 Learning Outcomes
               </Typography>
               <Grid container spacing={0} align="center">
@@ -163,16 +138,16 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            variant="h6"
+            variant="h5"
             sx={{ textAlign: isActive && "center" }}
           >
             Courses
           </Typography>
           <Grid container spacing={3} align="center">
             {pathwayCourse &&
-              pathwayCourse.map((item, index) => (
+              pathwayCourse.data &&
+              pathwayCourse.data.courses.map((item, index) => (
                 <Grid xs={12} md={3} className={classes.courseCard}>
-                  {/* <Link to={PATHS.PATHWAY_COURSE_CONTENT}> */}
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -181,21 +156,26 @@ function PathwayCourse() {
                       pathwayId: pathwayId,
                     })}
                   >
-                    <Card elevation={0} sx={{ ml: 3 }}>
+                    <Card
+                      className={classes.pathwayCard}
+                      elevation={0}
+                      sx={{ ml: 3, p: "16px" }}
+                    >
                       <img
-                        src={require(`./asset/${images[index]}.svg`)}
+                        className={classes.courseImage}
+                        src={item.logo}
                         alt="course"
                         loading="lazy"
                       />
-                      {/* <CardContent> */}
-                      <Toolbar disableGutters sx={{ ml: 2 }}>
+                      <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
                           align={isActive ? "center" : "left"}
-                          variant="body1"
+                          variant="body2"
                           className={classes.courseName}
                           sx={{
                             mr: "10px",
                             padding: isActive ? "5px" : "5px 0 5px 13px",
+                            verticalAlign: "top",
                           }}
                         >
                           {index + 1}
@@ -203,11 +183,11 @@ function PathwayCourse() {
                         <Typography
                           align={isActive ? "center" : "left"}
                           variant="body1"
+                          // sx={{ mt: "16px" }}
                         >
                           {item.name}
                         </Typography>
-                      </Toolbar>
-                      {/* </CardContent> */}
+                      </div>
                     </Card>
                   </Link>
                 </Grid>
