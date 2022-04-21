@@ -85,7 +85,7 @@ function Opportunities() {
                     <Grid className={classes.card_button}>
                       <Link
                         to={{
-                          pathname: "/admission",
+                          pathname: PATHS.ADMISSION,
                           state: { partnerId: partnerId },
                         }}
                         style={{ textDecoration: "none" }}
@@ -98,7 +98,7 @@ function Opportunities() {
                   </CardActions>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={4} md={4} pt={!isActive ? 0 : 2}>
+              <Grid item xs={12} sm={4} md={4} pt={{ xs: 2, sm: 0 }}>
                 <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Typography variant="subtitle1">
@@ -110,7 +110,7 @@ function Opportunities() {
                   </CardContent>
                   <Grid
                     className={classes.card_button}
-                    mt={isActive ? "0px" : "27px"}
+                    mt={{ xs: 0, sm: "27px" }}
                     mr={2}
                   >
                     <CardActions>
