@@ -137,7 +137,7 @@ function Footer() {
     data.pathways.forEach((pathway) => {
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
-          item["id"] = pathway.id;
+          item.id = pathway.id;
         }
       });
     });

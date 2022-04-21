@@ -64,7 +64,7 @@ function Opportunities() {
                 <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Grid container>
-                      <Grid item xs={7} sm={9} md={9} mr={isActive ? 5 : 0}>
+                      <Grid item xs={7} sm={9} md={9} mr={{ xs: 5, sm: 0 }}>
                         <Typography variant="subtitle1">
                           NavGurukul One-Year Residential Programmme
                         </Typography>
@@ -85,7 +85,7 @@ function Opportunities() {
                     <Grid className={classes.card_button}>
                       <Link
                         to={{
-                          pathname: "/admission",
+                          pathname: PATHS.ADMISSION,
                           state: { partnerId: partnerId },
                         }}
                         style={{ textDecoration: "none" }}
@@ -98,7 +98,7 @@ function Opportunities() {
                   </CardActions>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={4} md={4} pt={!isActive ? 0 : 2}>
+              <Grid item xs={12} sm={4} md={4} pt={{ xs: 2, sm: 0 }}>
                 <Card elevation={2} className={classes.cards}>
                   <CardContent>
                     <Typography variant="subtitle1">

@@ -4,6 +4,7 @@ import { actions as courseActions } from "../../Course/redux/action";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
+
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../../constant";
 import {
@@ -31,16 +32,15 @@ function MiscellaneousCourses() {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  const pathwayCourseId = [];
-  pathway.data &&
-    pathway.data.pathways.filter((pathway) => {
-      pathway.courses.filter((course) => {
-        pathwayCourseId.push(course.id);
-        return course.id;
-      });
-    });
+  const pathwayCourseId =
+    (pathway.data &&
+      pathway.data.pathways
+        .map((pathway) => pathway.courses)
+        .flat()
+        .map((course) => course.id)) ||
+    [];
 
-  let otherCourses =
+  const otherCourses =
     data &&
     data.allCourses.filter(
       (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
@@ -59,6 +59,7 @@ function MiscellaneousCourses() {
               </CardContent>
               <CardContent>
                 <Typography
+                  variant="body2"
                   variant="body2"
                   align={isActive ? "center" : "left"}
                 >
@@ -79,7 +80,6 @@ function MiscellaneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
-                  {console.log("item", item)}
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

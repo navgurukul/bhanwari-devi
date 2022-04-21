@@ -34,10 +34,10 @@ ${code}
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
-  let l = lang == "python" ? "2" : "js";
-  let replacedCode = code && code.replace(/<br>/g, "\n");
-  let visualizerCode = replacedCode.replace(/&emsp;/g, " ");
-  let url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
+  const l = lang == "python" ? "2" : "js";
+  const replacedCode = code && code.replace(/<br>/g, "\n");
+  const visualizerCode = replacedCode.replace(/&emsp;/g, " ");
+  const url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
     visualizerCode
   )
     .replace(/%2C|%2F/g, decodeURIComponent)
@@ -49,30 +49,18 @@ const createVisulizeURL = (code, lang, mode) => {
   return url;
 };
 
-const headingVarients = {
-  1: (data) => (
-    <Typography
-      variant="h6"
-      className="heading"
-      dangerouslySetInnerHTML={{ __html: data }}
-    ></Typography>
-  ),
-  2: (data) => (
-    <h2 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h2>
-  ),
-  3: (data) => (
-    <h3 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h3>
-  ),
-  4: (data) => (
-    <h4 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h4>
-  ),
-  5: (data) => (
-    <h5 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h5>
-  ),
-  6: (data) => (
-    <h6 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h6>
-  ),
-};
+const headingVarients = {};
+
+[Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
+  (Name, index) =>
+    (headingVarients[index + 1] = (data) => (
+      <Name
+        className="heading"
+        dangerouslySetInnerHTML={{ __html: data }}
+        {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+      />
+    ))
+);
 
 const RenderContent = ({ data }) => {
   const classes = useStyles();
