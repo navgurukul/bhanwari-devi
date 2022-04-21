@@ -1,46 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { BsArrowUpDown } from "react-icons/bs";
 import { METHODS } from "../../services/api";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-// import "./styles.scss";
 
-import {
-  Card,
-  Container,
-  CardContent,
-  Box,
-  Grid,
-  Typography,
-  CardMedia,
-} from "@mui/material";
-// import InputLabel from '@mui/material/InputLabel';
+import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Stack from "@mui/material/Stack";
-import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import TableFooter from "@mui/material/TableFooter";
-// import Slider from '@mui/material/Slider';
-// import TablePagination from '@mui/material/TablePagination';
-import Pagination from "@mui/material/Pagination";
 import useStyles from "./styles";
 import InputAdornment from "@mui/material/InputAdornment";
-// import Paper from '@mui/material/Paper';
-// import Divider from '@mui/material/Divider';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -55,7 +39,7 @@ const getPartnerIdFromUrl = () => {
 
 function MerakiUsers() {
   const classesStyle = useStyles();
-  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const [pageNumber, setPageNumber] = useState(0);
   const [totalCount, setTotalCount] = useState();
@@ -68,6 +52,8 @@ function MerakiUsers() {
   const [filterVal, setFilterVal] = useState([0, 0]);
   const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
+
+  const [show, setShow] = useState(true);
 
   const user = useSelector(({ User }) => User);
 
@@ -156,7 +142,7 @@ function MerakiUsers() {
   };
 
   const sortStudents = (byMethod) => {
-    const students = filteredData ? filter : students;
+    const Students = filteredData ? filter : students;
     let sortedStudents;
     if (byMethod === "name") {
       sortedStudents = students.sort().reverse();
@@ -289,569 +275,410 @@ function MerakiUsers() {
 
   return (
     <>
-      <Container maxWidth="xl" className={classesStyle.merakiUserSpace}>
-        <Box className={classesStyle.merakiUserSpace}>
-          <TextField
-            type="text"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            placeholder="Search by student Name class"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
-            sx={{ width: "100%" }}
-            inputProps={{ "aria-label": "Search by Student Name class" }}
-            variant="standard"
-          />
-        </Box>
-
-        <Box className={classesStyle.merakiUserSpace}>
-          <Stack direction="row" spacing={4}>
-            <InputLabel variant="h6">Total attended classes</InputLabel>
-
-            <Box sx={{ width: "77%" }}>
-              {/* Slider functionality is not working properly. */}
-              <Slider
-                // aria-label="Restricted values"
-                // aria-label="Temperature"
-                // getAriaLabel={() => 'Temperature range'}
-
-                min={0}
-                max={40}
-                defaultValue={[0, 0]}
-                getAriaValueText={filterVal}
-                step={null}
-                tipFormatter={(value) =>
-                  value === 40 ? (value = "30+") : value
-                }
-                value={filterVal}
-                onChange={handleChange}
-                marks={{
-                  0: 0,
-                  1: 1,
-                  6: 6,
-                  10: 10,
-                  15: 15,
-                  20: 20,
-                  25: 25,
-                  30: 30,
-                  40: `${30}+`,
-                }}
-                valueLabelDisplay="auto"
-                getAriaValueText={filterVal}
-                disableSwap
-              />
-            </Box>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setFilteredData(false);
-                setFilterVal([0, 0]);
-              }}
-              sx={{ borderRadius: "24px", width: "7%", height: "30px" }}
-            >
-              clear
-            </Button>
-          </Stack>
-        </Box>
-
-        <Table maxWidth={500} aria-label="simple table">
-          <caption align="center">
-            <Typography variant="caption" align="center">
-              <Stack spacing={2}>
-                <Pagination
-                  count={pageCount}
-                  color="primary"
-
-                  // initialPage={0}
-                  // marginPagesDisplayed={0}
-                  // onPageChange={changePage}
-                  // pageCount={pageCount}
-                  // containerClassName="paginationBttns"
-                  // previousLinkClassName="previousBttn"
-                  // nextLinkClassName="nextBttn"
-                  // disabledClassName="paginationDisabled"
-                  // activeClassName="paginationActive"
-                />
-              </Stack>
-            </Typography>
-          </caption>
-          <TableHead>
-            <TableRow>
-              <TableCell> Students Name</TableCell>
-              <TableCell align="right">Partner Name</TableCell>
-              <TableCell align="right">Enroll date</TableCell>
-              <TableCell align="right">Classes Attended</TableCell>
-              <TableCell align="right">Last Class Title</TableCell>
-              <TableCell align="right">Last Class Date</TableCell>
-              <TableCell align="right">Last Class Time</TableCell>
-              <TableCell align="right">Average Rating</TableCell>
-            </TableRow>
-          </TableHead>
-
-          {message ? (
-            <Typography variant="h6" sx={{ textAlign: "center" }}>
-              {message}
-            </Typography>
-          ) : (
-            <TableBody>
-              {filteredData
-                ? slicedStudents.map((item) => {
-                    let getStars = 0;
-                    let totalStarts = item.classes_registered.length * 5;
-                    item.classes_registered.map((stars) => {
-                      getStars = getStars + Number(stars.feedback.feedback);
-                    });
-                    return (
-                      <TableRow key={item.id}>
-                        <TableCell component="th" scope="row">
-                          {item.name}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.partner ? item.partner.name : "NA"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.formatted_created_at}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.classes_registered.length}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["title"] != ""
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["title"]
-                            : "NA"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_start_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_start_time"]
-                            : "NA"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_end_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_end_time"]
-                            : "NA"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {[1, 2, 3, 4, 5].map((star) => {
-                            return Math.ceil(item.averageRating) > 0 &&
-                              star <= Math.ceil(item.averageRating) ? (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "#D55F31" }}
-                              ></span>
-                            ) : (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "gray" }}
-                              ></span>
-                            );
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                : slicedStudents.map((item) => {
-                    let getStars = 0;
-                    let totalStarts = item.classes_registered.length * 5;
-                    item.classes_registered.map((stars) => {
-                      getStars = getStars + Number(stars.feedback.feedback);
-                    });
-                    return (
-                      <TableRow key={item.id}>
-                        <TableCell component="th" scope="row">
-                          {item.name}
-                        </TableCell>
-
-                        <TableCell align="right">
-                          {item.partner ? item.partner.name : "NA"}
-                        </TableCell>
-
-                        <TableCell align="right">
-                          {item.formatted_created_at}
-                        </TableCell>
-                        <TableCell align="right">
-                          {" "}
-                          {item.classes_registered.length}
-                        </TableCell>
-
-                        <TableCell align="right">
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["title"] != ""
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["title"]
-                            : "NA"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_start_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_start_time"]
-                            : "NA"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_end_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_end_time"]
-                            : "NA"}
-                        </TableCell>
-                        <TableCell align="right">
-                          {[1, 2, 3, 4, 5].map((star) => {
-                            return Math.ceil(item.averageRating) > 0 &&
-                              star <= Math.ceil(item.averageRating) ? (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "#D55F31" }}
-                              ></span>
-                            ) : (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "gray" }}
-                              ></span>
-                            );
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-            </TableBody>
-          )}
-          {/* <TableFooter  >
-             <Stack spacing={2}   >
-              <Pagination 
-                count={pageCount}
-                color="primary"
-              />
-              </Stack>
-        </TableFooter> */}
-        </Table>
-        {/* </TableContainer> */}
-      </Container>
-
-      {/* 
-    <div className="container-table">
-      <div className="container-for-search">
-        <div>
-          <input
-            className="Search-bar"
-            type="text"
-            placeholder="Search by student Name class"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
-          />
-        </div>
-        <div className="last-item">
-          <ReactPaginate
-            previousLabel={<i className="fa fa-angle-left"></i>}
-            nextLabel={<i className="fa fa-angle-right"></i>}
-            initialPage={0}
-            marginPagesDisplayed={0}
-            onPageChange={changePage}
-            pageCount={pageCount}
-            containerClassName="paginationBttns"
-            previousLinkClassName="previousBttn"
-            nextLinkClassName="nextBttn"
-            disabledClassName="paginationDisabled"
-            activeClassName="paginationActive"
-          />
-        </div>
-      </div>
-      <div className="slider-label">
-        <label>Total attended classes </label>
-        <div className="slider">
-          <Range
-            min={0}
-            max={40}
-            defaultValue={[0, 0]}
-            step={null}
-            tipFormatter={(value) => (value === 40 ? (value = "30+") : value)}
-            value={filterVal}
-            onChange={handleChange}
-            marks={{
-              0: 0,
-              1: 1,
-              6: 6,
-              10: 10,
-              15: 15,
-              20: 20,
-              25: 25,
-              30: 30,
-              40: `${30}+`,
-            }}
-          />
-        </div>
-        <button
-          onClick={() => {
-            setFilteredData(false);
-            setFilterVal([0, 0]);
+      <Box className={classesStyle.merakiUserSpace}>
+        <TextField
+          type="text"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
           }}
-          className="filter-clear"
-        >
-          clear
-        </button>
-      </div>
-      <table className="student-overview-table">
-        <thead>
-          <tr>
-            <th className="student-name">
-              Students Name
-              <button
-                className={sort_class}
-                onClick={() => sortStudents("name")}
-              >
-                <BsArrowUpDown />
-              </button>
-            </th>
-            <th className="student-name">
-              Partner Name */}
-      {/* <button
-                className={sort_class}
-                onClick={() => sortStudents("name")}
-              >
-                <BsArrowUpDown />
-              </button> */}
-      {/* </th>
+          placeholder="Search by student Name class"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+          sx={{ width: "100%" }}
+          inputProps={{ "aria-label": "Search by Student Name class" }}
+          variant="standard"
+        />
+      </Box>
 
-            <th>
-              Enroll date
-              <button
-                className={sort_class}
-                onClick={() => sortStudents("enroll_date")}
-              >
-                <BsArrowUpDown />
-              </button>
-            </th>
-            <th>
-              Classes Attended
-              <button
-                className={sort_class}
-                onClick={() => sortStudents("total_classes")}
-              >
-                <BsArrowUpDown />
-              </button>
-            </th>
-            <th>
-              Last Class Title
-              <button
-                className={sort_class}
-                onClick={() => sortStudents("last_class_title")}
-              >
-                <BsArrowUpDown />
-              </button>
-            </th>
-            <th>
-              Last Class Date
-              <button
-                className={sort_class}
-                onClick={() => sortStudents("last_class_date")}
-              >
-                <BsArrowUpDown />
-              </button>
-            </th>
-            <th>Last Class Time</th>
-            <th>
-              Average Rating
-              <button
-                className={sort_class}
-                onClick={() => sortStudents("rating")}
-              >
-                <BsArrowUpDown />
-              </button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData
-            ? slicedStudents.map((item) => {
-                let getStars = 0;
-                let totalStarts = item.classes_registered.length * 5;
-                item.classes_registered.map((stars) => {
-                  getStars = getStars + Number(stars.feedback.feedback);
-                });
-                return (
-                  <tr key={item.id}>
-                    <td data-column="Name">{item.name}</td>
+      <Box className={classesStyle.merakiUserSpace}>
+        <Stack direction="row" spacing={4}>
+          <InputLabel variant="subtitle1">Total attended classes</InputLabel>
 
-                    <td data-column="Partner">
-                      {item.partner ? item.partner.name : "NA"}
-                    </td>
+          <Box sx={{ width: "75%" }}>
+            <Range
+              min={0}
+              max={40}
+              defaultValue={[0, 0]}
+              step={null}
+              tipFormatter={(value) => (value === 40 ? (value = "30+") : value)}
+              value={filterVal}
+              onChange={handleChange}
+              marks={{
+                0: 0,
+                1: 1,
+                6: 6,
+                10: 10,
+                15: 15,
+                20: 20,
+                25: 25,
+                30: 30,
+                40: `${30}+`,
+              }}
+            />
+          </Box>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setFilteredData(false);
+              setFilterVal([0, 0]);
+            }}
+            sx={{ borderRadius: "24px", width: "7%", height: "30px" }}
+          >
+            clear
+          </Button>
+        </Stack>
+      </Box>
 
-                    <td data-column="Enrolled On">
-                      {item.formatted_created_at}
-                    </td>
-                    <td data-column="Total classes ">
-                      {" "}
-                      {item.classes_registered.length}
-                    </td>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <caption align="center">
+          <Typography variant="caption" align="center">
+            <Stack spacing={2}>
+              <ReactPaginate
+                previousLabel={<i className="fa fa-angle-left"></i>}
+                nextLabel={<i className="fa fa-angle-right"></i>}
+                initialPage={0}
+                marginPagesDisplayed={0}
+                onPageChange={changePage}
+                pageCount={pageCount}
+                containerClassName="paginationBttns-volunteer"
+                previousLinkClassName="previousBttn"
+                nextLinkClassName="nextBttn"
+                disabledClassName="paginationDisabled"
+                activeClassName="paginationActive-volunteer"
+              />
+            </Stack>
+          </Typography>
+        </caption>
+        <TableHead>
+          <TableRow>
+            <TableCell>
+              <Typography variant="subtitle1">
+                Students Name
+                {show ? (
+                  <ArrowUpwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("name");
+                      setShow(false);
+                    }}
+                  />
+                ) : (
+                  <ArrowDownwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("name");
+                      setShow(true);
+                    }}
+                  />
+                )}
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="subtitle1">Partner Name</Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="subtitle1">
+                Enroll date
+                {show ? (
+                  <ArrowUpwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("enroll_date");
+                      setShow(false);
+                    }}
+                  />
+                ) : (
+                  <ArrowDownwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("enroll_date");
+                      setShow(true);
+                    }}
+                  />
+                )}
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="subtitle1">
+                Classes Attended
+                {show ? (
+                  <ArrowUpwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("total_classes");
+                      setShow(false);
+                    }}
+                  />
+                ) : (
+                  <ArrowDownwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("total_classes");
+                      setShow(true);
+                    }}
+                  />
+                )}
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="subtitle1">
+                Last Class Title
+                {show ? (
+                  <ArrowUpwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("last_class_title");
+                      setShow(false);
+                    }}
+                  />
+                ) : (
+                  <ArrowDownwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("last_class_title");
+                      setShow(true);
+                    }}
+                  />
+                )}
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="subtitle1">
+                Last Class Date
+                {show ? (
+                  <ArrowUpwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("last_class_date");
+                      setShow(false);
+                    }}
+                  />
+                ) : (
+                  <ArrowDownwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("last_class_date");
+                      setShow(true);
+                    }}
+                  />
+                )}
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="subtitle1">Last Class Time</Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography variant="subtitle1">
+                Average Rating
+                {show ? (
+                  <ArrowUpwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("rating");
+                      setShow(false);
+                    }}
+                  />
+                ) : (
+                  <ArrowDownwardIcon
+                    sx={{ fontSize: "20px" }}
+                    onClick={() => {
+                      sortStudents("rating");
+                      setShow(true);
+                    }}
+                  />
+                )}
+              </Typography>
+            </TableCell>
+          </TableRow>
+        </TableHead>
 
-                    <td data-column="Last class title">
-                      {item.classes_registered &&
-                      item.classes_registered.length > 0 &&
-                      item.classes_registered[
-                        item.classes_registered.length - 1
-                      ]["title"] != ""
-                        ? item.classes_registered[
+        {message ? (
+          <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
+            {message}
+          </Typography>
+        ) : (
+          <TableBody>
+            {filteredData
+              ? slicedStudents.map((item) => {
+                  let getStars = 0;
+                  let totalStarts = item.classes_registered.length * 5;
+                  item.classes_registered.map((stars) => {
+                    getStars = getStars + Number(stars.feedback.feedback);
+                  });
+                  return (
+                    <TableRow key={item.id}>
+                      <TableCell component="th" scope="row">
+                        <Typography>{item.name}</Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.partner ? item.partner.name : "NA"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{item.formatted_created_at}</Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered.length}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered &&
+                          item.classes_registered.length > 0 &&
+                          item.classes_registered[
                             item.classes_registered.length - 1
-                          ]["title"]
-                        : "NA"}
-                    </td>
-                    <td data-column="Last class date">
-                      {item.classes_registered &&
-                      item.classes_registered.length > 0 &&
-                      item.classes_registered[
-                        item.classes_registered.length - 1
-                      ]["formatted_start_time"]
-                        ? item.classes_registered[
+                          ]["title"] != ""
+                            ? item.classes_registered[
+                                item.classes_registered.length - 1
+                              ]["title"]
+                            : "NA"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered &&
+                          item.classes_registered.length > 0 &&
+                          item.classes_registered[
                             item.classes_registered.length - 1
                           ]["formatted_start_time"]
-                        : "NA"}
-                    </td>
-                    <td data-column="Last class time">
-                      {item.classes_registered &&
-                      item.classes_registered.length > 0 &&
-                      item.classes_registered[
-                        item.classes_registered.length - 1
-                      ]["formatted_end_time"]
-                        ? item.classes_registered[
+                            ? item.classes_registered[
+                                item.classes_registered.length - 1
+                              ]["formatted_start_time"]
+                            : "NA"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered &&
+                          item.classes_registered.length > 0 &&
+                          item.classes_registered[
                             item.classes_registered.length - 1
                           ]["formatted_end_time"]
-                        : "NA"}
-                    </td>
-                    <td data-column="Avg rating ">
-                      {[1, 2, 3, 4, 5].map((star) => {
-                        return Math.ceil(item.averageRating) > 0 &&
-                          star <= Math.ceil(item.averageRating) ? (
-                          <span
-                            className="fa fa-star"
-                            style={{ color: "#D55F31" }}
-                          ></span>
-                        ) : (
-                          <span
-                            className="fa fa-star"
-                            style={{ color: "gray" }}
-                          ></span>
-                        );
-                      })}
-                    </td>
-                  </tr>
-                );
-              })
-            : slicedStudents.map((item) => {
-                let getStars = 0;
-                let totalStarts = item.classes_registered.length * 5;
-                item.classes_registered.map((stars) => {
-                  getStars = getStars + Number(stars.feedback.feedback);
-                });
-                return (
-                  <tr key={item.id}>
-                    <td data-column="Name">{item.name}</td>
+                            ? item.classes_registered[
+                                item.classes_registered.length - 1
+                              ]["formatted_end_time"]
+                            : "NA"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {[1, 2, 3, 4, 5].map((star) => {
+                            return Math.ceil(item.averageRating) > 0 &&
+                              star <= Math.ceil(item.averageRating) ? (
+                              <span
+                                className="fa fa-star"
+                                style={{ color: "#D55F31" }}
+                              ></span>
+                            ) : (
+                              <span
+                                className="fa fa-star"
+                                style={{ color: "gray" }}
+                              ></span>
+                            );
+                          })}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              : slicedStudents.map((item) => {
+                  let getStars = 0;
+                  let totalStarts = item.classes_registered.length * 5;
+                  item.classes_registered.map((stars) => {
+                    getStars = getStars + Number(stars.feedback.feedback);
+                  });
+                  return (
+                    <TableRow key={item.id}>
+                      <TableCell component="th" scope="row">
+                        <Typography>{item.name}</Typography>
+                      </TableCell>
 
-                    <td data-column="Partner">
-                      {item.partner ? item.partner.name : "NA"}
-                    </td>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.partner ? item.partner.name : "NA"}
+                        </Typography>
+                      </TableCell>
 
-                    <td data-column="Enrolled On">
-                      {item.formatted_created_at}
-                    </td>
-                    <td data-column="Total classes ">
-                      {" "}
-                      {item.classes_registered.length}
-                    </td>
+                      <TableCell align="right">
+                        <Typography>{item.formatted_created_at}</Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered.length}
+                        </Typography>
+                      </TableCell>
 
-                    <td data-column="Last class title">
-                      {item.classes_registered &&
-                      item.classes_registered.length > 0 &&
-                      item.classes_registered[
-                        item.classes_registered.length - 1
-                      ]["title"] != ""
-                        ? item.classes_registered[
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered &&
+                          item.classes_registered.length > 0 &&
+                          item.classes_registered[
                             item.classes_registered.length - 1
-                          ]["title"]
-                        : "NA"}
-                    </td>
-                    <td data-column="Last class date">
-                      {item.classes_registered &&
-                      item.classes_registered.length > 0 &&
-                      item.classes_registered[
-                        item.classes_registered.length - 1
-                      ]["formatted_start_time"]
-                        ? item.classes_registered[
+                          ]["title"] != ""
+                            ? item.classes_registered[
+                                item.classes_registered.length - 1
+                              ]["title"]
+                            : "NA"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered &&
+                          item.classes_registered.length > 0 &&
+                          item.classes_registered[
                             item.classes_registered.length - 1
                           ]["formatted_start_time"]
-                        : "NA"}
-                    </td>
-                    <td data-column="Last class time">
-                      {item.classes_registered &&
-                      item.classes_registered.length > 0 &&
-                      item.classes_registered[
-                        item.classes_registered.length - 1
-                      ]["formatted_end_time"]
-                        ? item.classes_registered[
+                            ? item.classes_registered[
+                                item.classes_registered.length - 1
+                              ]["formatted_start_time"]
+                            : "NA"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {item.classes_registered &&
+                          item.classes_registered.length > 0 &&
+                          item.classes_registered[
                             item.classes_registered.length - 1
                           ]["formatted_end_time"]
-                        : "NA"}
-                    </td>
-                    <td data-column="Avg rating ">
-                      {[1, 2, 3, 4, 5].map((star) => {
-                        return Math.ceil(item.averageRating) > 0 &&
-                          star <= Math.ceil(item.averageRating) ? (
-                          <span
-                            className="fa fa-star"
-                            style={{ color: "#D55F31" }}
-                          ></span>
-                        ) : (
-                          <span
-                            className="fa fa-star"
-                            style={{ color: "gray" }}
-                          ></span>
-                        );
-                      })}
-                    </td>
-                  </tr>
-                );
-              })}
-          {message ? <h1 className="Message">{message}</h1> : null}
-        </tbody>
-      </table>
-    </div> */}
+                            ? item.classes_registered[
+                                item.classes_registered.length - 1
+                              ]["formatted_end_time"]
+                            : "NA"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>
+                          {[1, 2, 3, 4, 5].map((star) => {
+                            return Math.ceil(item.averageRating) > 0 &&
+                              star <= Math.ceil(item.averageRating) ? (
+                              <span
+                                className="fa fa-star"
+                                style={{ color: "#D55F31" }}
+                              ></span>
+                            ) : (
+                              <span
+                                className="fa fa-star"
+                                style={{ color: "gray" }}
+                              ></span>
+                            );
+                          })}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+          </TableBody>
+        )}
+      </Table>
     </>
   );
 }

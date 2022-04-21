@@ -5,11 +5,11 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 3,
     marginLeft: "15%",
   },
+  createChatRoomText: {
+    padding: "30px",
+  },
   createChatRoomtextField: {
     marginBottom: "15%",
-    // borderRadius:"12px",
-    // margingBottom:"10px",
-    // it's not getting any effect on textField.
   },
 }));
 export default useStyles;
