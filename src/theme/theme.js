@@ -73,6 +73,10 @@ theme = createTheme(theme, {
       main: "#000000",
       contrastText: "#FFFFFF",
     },
+    disable: {
+      main: "#91C78F",
+      contrastText: "#FFFFFF",
+    },
     divider: "#DEDEDE",
   },
 
