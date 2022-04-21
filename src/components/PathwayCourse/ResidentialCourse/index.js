@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import { breakpoints } from '../../theme/constant'
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import { useDispatch } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
@@ -29,14 +28,11 @@ function ResidentialProgramme() {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  let pathwayCourse;
-  data &&
+  const resPathway =
+    data &&
     data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code === "PRCRSE") {
-        pathwayCourse = pathway.courses;
-      }
-    });
+    data.pathways.find((pathway) => pathway.code === "PRCRSE");
+  const pathwayCourse = resPathway && resPathway.courses;
 
   return (
     <Container sx={{ mt: 5, p: 4 }} maxWidth="lg">

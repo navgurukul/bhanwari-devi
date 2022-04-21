@@ -195,12 +195,11 @@ function ClassCard({ item, editClass, enroll, style }) {
             className={classes.spacing}
           >
             {languageMap[item.type]}
-            {item.enrolled == true ? (
+            {item.enrolled && (
               <i className="check-icon check-icon fa fa-check-circle">
-                {" "}
                 Enrolled
               </i>
-            ) : null}
+            )}
           </Typography>
           <Typography variant="subtitle1" className={classes.spacing}>
             {item.title}
@@ -225,23 +224,22 @@ function ClassCard({ item, editClass, enroll, style }) {
           // style={{ display: "flex", flexDirection: "column" }}
         >
           <div className={classes.Buttons}>
-            {!item.enrolled ? (
+            {item.enrolled ? (
               loading ? (
-                <div className="loader-button">
-                  <Loader />
-                </div>
-              ) : (
                 <Button
                   type="submit"
                   variant="contained"
                   onClick={() => {
                     handleClickOpenEnroll(item.id);
-                    console.log("poo");
                   }}
                 >
                   {/* {enroll} */}
                   Enroll
                 </Button>
+              ) : (
+                <div className="loader-button">
+                  <Loader />
+                </div>
               )
             ) : loading ? (
               <div className="loader-button">
@@ -260,7 +258,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                 Drop out
               </Button>
             )}
-            {item.facilitator.email == user.data.user.email || flag ? (
+            {item.facilitator.email === user.data.user.email || flag ? (
               // <div className="class-card-actions">
               <div className={classes.buttonGroup2}>
                 <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />

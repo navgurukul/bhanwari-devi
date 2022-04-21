@@ -172,7 +172,7 @@ function AFEpage() {
           justifyContent="center"
           className={classes.Grid_Space}
         >
-          <Grid item xs={isActive ? 11 : 8}>
+          <Grid item xs={{ xs: 11, sm: 8 }}>
             <Typography variant="body1" paragraph>
               Amazon Future Engineer (AFE) is a comprehensive
               childhood-to-career program to increase access to computer science
