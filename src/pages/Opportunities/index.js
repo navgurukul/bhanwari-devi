@@ -110,7 +110,7 @@ function Opportunities() {
                   </CardContent>
                   <Grid
                     className={classes.card_button}
-                    mt={isActive ? "0px" : "27px"}
+                    mt={{ xs: 0, sm: "27px" }}
                     mr={2}
                   >
                     <CardActions>
