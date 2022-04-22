@@ -490,6 +490,9 @@ function Class({ classToEdit, indicator }) {
               />
               <label htmlFor="description" className="label-field">
                 Description
+                <span className="optional-field">
+                  (You cannot write more than 555 character)
+                </span>
               </label>
               <textarea
                 name={DESCRIPTION}
@@ -498,10 +501,12 @@ function Class({ classToEdit, indicator }) {
                 onChange={(e) =>
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
+                s
                 value={formFieldsState[DESCRIPTION]}
                 className="textarea-field"
                 required
                 aria-required
+                maxLength={555}
               />
               {canSpecifyFacilitator && (
                 <>
