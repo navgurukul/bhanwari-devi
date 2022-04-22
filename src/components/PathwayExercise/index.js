@@ -18,7 +18,6 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
-
 import {
   Container,
   Box,
@@ -98,7 +97,7 @@ function PathwayExercise() {
         sx={{ marginLeft: 3 }}
         style={{
           position: "relative",
-          right: -282,
+          right: "-340px",
           top: -34,
         }}
         onClick={() => {

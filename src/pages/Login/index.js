@@ -58,11 +58,10 @@ function Login(props) {
     console.log("onGoogle login fail", errorResponse);
   };
 
-  let pythonPathwayId;
-  pathway.data &&
-    pathway.data.pathways.forEach((pathway) => {
-      if (pathway.code === "PRGPYT") pythonPathwayId = pathway.id;
-    });
+  const pythonPathway =
+    pathway.data &&
+    pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
+  const pythonPathwayId = pythonPathway && pythonPathway.id;
 
   const rolesLandingPages = {
     volunteer: PATHS.CLASS,
@@ -93,23 +92,6 @@ function Login(props) {
         to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
       />
     );
-    // if (rolesList[0] === "volunteer") {
-    //   return <Redirect to={PATHS.CLASS} />;
-    // }
-    // if (rolesList[0] === "admin") {
-    //   return <Redirect to={PATHS.PARTNERS} />;
-    // }
-    // if (rolesList[0] === "partner") {
-    //   return <Redirect to={PATHS.PARTNERS} />;
-    // } else {
-    //   return (
-    //     <Redirect
-    //       to={interpolatePath(PATHS.PATHWAY_COURSE, {
-    //         pathwayId: pythonPathwayId,
-    //       })}
-    //     />
-    //   );
-    // }
   }
 
   if (rolesList != false) {
