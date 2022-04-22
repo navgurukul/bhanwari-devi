@@ -67,7 +67,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </>
         ))}
       </Box>
-      <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
+      <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
           <MobileDropDown
             Menu={Menu}
@@ -78,11 +78,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       </Box>
       {!leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
-          <Button variant="contained">
-            <Link to={PATHS.LOGIN} className={classes.button}>
-              Log in
-            </Link>
-          </Button>
+          <Link to={PATHS.LOGIN} className={classes.button}>
+            <Button variant="contained">Log in</Button>
+          </Link>
         </Box>
       )}
     </>
@@ -93,6 +91,7 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const classes = useStyles();
+
   return (
     <Box
       className={classes.mobileBox}
@@ -101,7 +100,11 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
       onKeyDown={toggleDrawer(false)}
       bgcolor="primary.light"
     >
-      <Box className={classes.box} onClick={toggleDrawer(false)}>
+      <Box
+        className={classes.box}
+        onClick={toggleDrawer(false)}
+        sx={{ display: { xs: "block", md: "none" } }}
+      >
         <Toolbar disableGutters>
           <Box className={classes.RightBox}>
             <Link to="/">
@@ -135,6 +138,11 @@ function Header() {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = React.useState(false);
+  window.addEventListener("resize", () => {
+    if (window.outerWidth > theme.breakpoints.values.md) {
+      setLeftDrawer(false);
+    }
+  });
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
