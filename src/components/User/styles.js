@@ -9,12 +9,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "2%",
   },
   userinputField: {
-    width: "300px",
+    width: "350px",
     height: "48px",
     margin: "8px 20px 24px 15px",
   },
   userinputField1: {
-    width: "300px",
+    width: "350px",
     height: "auto",
     marginRight: "20px",
   },

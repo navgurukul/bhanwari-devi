@@ -1,29 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import useStyles from "./styles";
-
-// import "./styles.scss";
-
-import { Box } from "@mui/material";
+import "./styles.scss";
 
 const Loader = ({ className = "", pageLoader = false }) => {
-  const classes = useStyles();
-
   return (
-    // <Box className={`${className} ${pageLoader ? "ng-page-loader" : "loader"}`}>
-    //  <Box className="idsEllipsis">
-    <Box
-      className={`${className} ${
-        pageLoader ? classes.loaderNgpageloader : classes.loderLoader
-      }`}
-    >
-      <Box className={classes.loderIdsEllipsis}>
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-      </Box>
-    </Box>
+    <div className={`${className} ${pageLoader ? "ng-page-loader" : "loader"}`}>
+      <div className="idsEllipsis">
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
   );
 };
 

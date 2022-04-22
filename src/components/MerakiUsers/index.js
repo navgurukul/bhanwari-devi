@@ -26,6 +26,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 
@@ -53,7 +61,12 @@ function MerakiUsers() {
   const [filteredData, setFilteredData] = useState(false);
   const [debouncedText] = useDebounce(searchTerm, 400);
 
-  const [show, setShow] = useState(true);
+  const [showName, setshowName] = useState(true);
+  const [showEnDate, setshowEnDate] = useState(true);
+  const [showClassAttended, setshowClassAttended] = useState(true);
+  const [showLastClassTitle, setshowLastClassTitle] = useState(true);
+  const [showLastClassDate, setshowLastClassDate] = useState(true);
+  const [showAvgR, setshowAvgR] = useState(true);
 
   const user = useSelector(({ User }) => User);
 
@@ -335,7 +348,7 @@ function MerakiUsers() {
         </Stack>
       </Box>
 
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650 }} aria-label="caption table">
         <caption align="center">
           <Typography variant="caption" align="center">
             <Stack spacing={2}>
@@ -357,15 +370,20 @@ function MerakiUsers() {
         </caption>
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell sx={{ width: "16%" }}>
               <Typography variant="subtitle1">
                 Students Name
-                {show ? (
+                {showName ? (
                   <ArrowUpwardIcon
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("name");
-                      setShow(false);
+                      setshowName(false);
+                      setshowEnDate(true);
+                      setshowClassAttended(true);
+                      setshowLastClassTitle(true);
+                      setshowLastClassDate(true);
+                      setshowAvgR(true);
                     }}
                   />
                 ) : (
@@ -373,24 +391,29 @@ function MerakiUsers() {
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("name");
-                      setShow(true);
+                      setshowName(true);
                     }}
                   />
                 )}
               </Typography>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align="right" sx={{ width: "12%" }}>
               <Typography variant="subtitle1">Partner Name</Typography>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align="right" sx={{ width: "10%" }}>
               <Typography variant="subtitle1">
                 Enroll date
-                {show ? (
+                {showEnDate ? (
                   <ArrowUpwardIcon
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("enroll_date");
-                      setShow(false);
+                      setshowEnDate(false);
+                      setshowName(true);
+                      setshowClassAttended(true);
+                      setshowLastClassTitle(true);
+                      setshowLastClassDate(true);
+                      setshowAvgR(true);
                     }}
                   />
                 ) : (
@@ -398,21 +421,26 @@ function MerakiUsers() {
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("enroll_date");
-                      setShow(true);
+                      setshowEnDate(true);
                     }}
                   />
                 )}
               </Typography>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align="right" sx={{ width: "14%" }}>
               <Typography variant="subtitle1">
                 Classes Attended
-                {show ? (
+                {showClassAttended ? (
                   <ArrowUpwardIcon
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("total_classes");
-                      setShow(false);
+                      setshowClassAttended(false);
+                      setshowName(true);
+                      setshowEnDate(true);
+                      setshowLastClassTitle(true);
+                      setshowLastClassDate(true);
+                      setshowAvgR(true);
                     }}
                   />
                 ) : (
@@ -420,21 +448,26 @@ function MerakiUsers() {
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("total_classes");
-                      setShow(true);
+                      setshowClassAttended(true);
                     }}
                   />
                 )}
               </Typography>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align="right" sx={{ width: "14%" }}>
               <Typography variant="subtitle1">
                 Last Class Title
-                {show ? (
+                {showLastClassTitle ? (
                   <ArrowUpwardIcon
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("last_class_title");
-                      setShow(false);
+                      setshowLastClassTitle(false);
+                      setshowName(true);
+                      setshowEnDate(true);
+                      setshowClassAttended(true);
+                      setshowLastClassDate(true);
+                      setshowAvgR(true);
                     }}
                   />
                 ) : (
@@ -442,21 +475,26 @@ function MerakiUsers() {
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("last_class_title");
-                      setShow(true);
+                      setshowLastClassTitle(true);
                     }}
                   />
                 )}
               </Typography>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align="right" sx={{ width: "14%" }}>
               <Typography variant="subtitle1">
                 Last Class Date
-                {show ? (
+                {showLastClassDate ? (
                   <ArrowUpwardIcon
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("last_class_date");
-                      setShow(false);
+                      setshowLastClassDate(false);
+                      setshowName(true);
+                      setshowEnDate(true);
+                      setshowClassAttended(true);
+                      setshowLastClassTitle(true);
+                      setshowAvgR(true);
                     }}
                   />
                 ) : (
@@ -464,24 +502,29 @@ function MerakiUsers() {
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("last_class_date");
-                      setShow(true);
+                      setshowLastClassDate(true);
                     }}
                   />
                 )}
               </Typography>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align="right" sx={{ width: "12%" }}>
               <Typography variant="subtitle1">Last Class Time</Typography>
             </TableCell>
             <TableCell align="right">
               <Typography variant="subtitle1">
                 Average Rating
-                {show ? (
+                {showAvgR ? (
                   <ArrowUpwardIcon
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("rating");
-                      setShow(false);
+                      setshowAvgR(false);
+                      setshowName(true);
+                      setshowEnDate(true);
+                      setshowClassAttended(true);
+                      setshowLastClassTitle(true);
+                      setshowLastClassDate(true);
                     }}
                   />
                 ) : (
@@ -489,7 +532,7 @@ function MerakiUsers() {
                     sx={{ fontSize: "20px" }}
                     onClick={() => {
                       sortStudents("rating");
-                      setShow(true);
+                      setshowAvgR(true);
                     }}
                   />
                 )}
@@ -498,186 +541,193 @@ function MerakiUsers() {
           </TableRow>
         </TableHead>
 
-        {message ? (
-          <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
-            {message}
-          </Typography>
-        ) : (
-          <TableBody>
-            {filteredData
-              ? slicedStudents.map((item) => {
-                  let getStars = 0;
-                  let totalStarts = item.classes_registered.length * 5;
-                  item.classes_registered.map((stars) => {
-                    getStars = getStars + Number(stars.feedback.feedback);
-                  });
-                  return (
-                    <TableRow key={item.id}>
-                      <TableCell component="th" scope="row">
-                        <Typography>{item.name}</Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.partner ? item.partner.name : "NA"}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>{item.formatted_created_at}</Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered.length}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["title"] != ""
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["title"]
-                            : "NA"}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_start_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_start_time"]
-                            : "NA"}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_end_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_end_time"]
-                            : "NA"}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {[1, 2, 3, 4, 5].map((star) => {
-                            return Math.ceil(item.averageRating) > 0 &&
-                              star <= Math.ceil(item.averageRating) ? (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "#D55F31" }}
-                              ></span>
-                            ) : (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "gray" }}
-                              ></span>
-                            );
-                          })}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              : slicedStudents.map((item) => {
-                  let getStars = 0;
-                  let totalStarts = item.classes_registered.length * 5;
-                  item.classes_registered.map((stars) => {
-                    getStars = getStars + Number(stars.feedback.feedback);
-                  });
-                  return (
-                    <TableRow key={item.id}>
-                      <TableCell component="th" scope="row">
-                        <Typography>{item.name}</Typography>
-                      </TableCell>
+        <TableBody>
+          {message ? (
+            <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
+              {message}
+            </Typography>
+          ) : (
+            <>
+              {filteredData
+                ? slicedStudents.map((item) => {
+                    let getStars = 0;
+                    let totalStarts = item.classes_registered.length * 5;
+                    item.classes_registered.map((stars) => {
+                      getStars = getStars + Number(stars.feedback.feedback);
+                    });
+                    return (
+                      <TableRow
+                        key={item.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          <Typography>{item.name}</Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.partner ? item.partner.name : "NA"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>{item.formatted_created_at}</Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered.length}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered &&
+                            item.classes_registered.length > 0 &&
+                            item.classes_registered[
+                              item.classes_registered.length - 1
+                            ]["title"] != ""
+                              ? item.classes_registered[
+                                  item.classes_registered.length - 1
+                                ]["title"]
+                              : "NA"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered &&
+                            item.classes_registered.length > 0 &&
+                            item.classes_registered[
+                              item.classes_registered.length - 1
+                            ]["formatted_start_time"]
+                              ? item.classes_registered[
+                                  item.classes_registered.length - 1
+                                ]["formatted_start_time"]
+                              : "NA"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered &&
+                            item.classes_registered.length > 0 &&
+                            item.classes_registered[
+                              item.classes_registered.length - 1
+                            ]["formatted_end_time"]
+                              ? item.classes_registered[
+                                  item.classes_registered.length - 1
+                                ]["formatted_end_time"]
+                              : "NA"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {[1, 2, 3, 4, 5].map((star) => {
+                              return Math.ceil(item.averageRating) > 0 &&
+                                star <= Math.ceil(item.averageRating) ? (
+                                <span
+                                  className="fa fa-star"
+                                  style={{ color: "#D55F31" }}
+                                ></span>
+                              ) : (
+                                <span
+                                  className="fa fa-star"
+                                  style={{ color: "gray" }}
+                                ></span>
+                              );
+                            })}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                : slicedStudents.map((item) => {
+                    let getStars = 0;
+                    let totalStarts = item.classes_registered.length * 5;
+                    item.classes_registered.map((stars) => {
+                      getStars = getStars + Number(stars.feedback.feedback);
+                    });
+                    return (
+                      <TableRow key={item.id}>
+                        <TableCell component="th" scope="row">
+                          <Typography>{item.name}</Typography>
+                        </TableCell>
 
-                      <TableCell align="right">
-                        <Typography>
-                          {item.partner ? item.partner.name : "NA"}
-                        </Typography>
-                      </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.partner ? item.partner.name : "NA"}
+                          </Typography>
+                        </TableCell>
 
-                      <TableCell align="right">
-                        <Typography>{item.formatted_created_at}</Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered.length}
-                        </Typography>
-                      </TableCell>
+                        <TableCell align="right">
+                          <Typography>{item.formatted_created_at}</Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered.length}
+                          </Typography>
+                        </TableCell>
 
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["title"] != ""
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["title"]
-                            : "NA"}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_start_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_start_time"]
-                            : "NA"}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {item.classes_registered &&
-                          item.classes_registered.length > 0 &&
-                          item.classes_registered[
-                            item.classes_registered.length - 1
-                          ]["formatted_end_time"]
-                            ? item.classes_registered[
-                                item.classes_registered.length - 1
-                              ]["formatted_end_time"]
-                            : "NA"}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Typography>
-                          {[1, 2, 3, 4, 5].map((star) => {
-                            return Math.ceil(item.averageRating) > 0 &&
-                              star <= Math.ceil(item.averageRating) ? (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "#D55F31" }}
-                              ></span>
-                            ) : (
-                              <span
-                                className="fa fa-star"
-                                style={{ color: "gray" }}
-                              ></span>
-                            );
-                          })}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-          </TableBody>
-        )}
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered &&
+                            item.classes_registered.length > 0 &&
+                            item.classes_registered[
+                              item.classes_registered.length - 1
+                            ]["title"] != ""
+                              ? item.classes_registered[
+                                  item.classes_registered.length - 1
+                                ]["title"]
+                              : "NA"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered &&
+                            item.classes_registered.length > 0 &&
+                            item.classes_registered[
+                              item.classes_registered.length - 1
+                            ]["formatted_start_time"]
+                              ? item.classes_registered[
+                                  item.classes_registered.length - 1
+                                ]["formatted_start_time"]
+                              : "NA"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {item.classes_registered &&
+                            item.classes_registered.length > 0 &&
+                            item.classes_registered[
+                              item.classes_registered.length - 1
+                            ]["formatted_end_time"]
+                              ? item.classes_registered[
+                                  item.classes_registered.length - 1
+                                ]["formatted_end_time"]
+                              : "NA"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography>
+                            {[1, 2, 3, 4, 5].map((star) => {
+                              return Math.ceil(item.averageRating) > 0 &&
+                                star <= Math.ceil(item.averageRating) ? (
+                                <span
+                                  className="fa fa-star"
+                                  style={{ color: "#D55F31" }}
+                                ></span>
+                              ) : (
+                                <span
+                                  className="fa fa-star"
+                                  style={{ color: "gray" }}
+                                ></span>
+                              );
+                            })}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+            </>
+          )}
+        </TableBody>
       </Table>
     </>
   );

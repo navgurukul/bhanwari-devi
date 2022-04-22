@@ -26,7 +26,7 @@ function User() {
   const [allClasses, setAllClasses] = useState([]);
   const [values, setValues] = useState({
     email: "",
-    roomId: "",
+    roomId: "select",
   });
   const lang = { en: "English", hi: "Hindi", sp: "Spoken English" };
 
@@ -112,7 +112,9 @@ function User() {
             id="item.room_id"
             name="roomId"
           >
-            <MenuItem value="">Select a Class from options below</MenuItem>
+            <MenuItem value="select">
+              Select a Class from options below
+            </MenuItem>
             {allClasses.map((item, index) => {
               const className =
                 lang[item.room_alias.split("meraki")[1].substr(0, 2)] +
@@ -121,12 +123,11 @@ function User() {
                   .split(":navgurukul.org")[0]
                   .split("meraki")[1]
                   .split("class")[1];
+
               return (
-                <>
-                  <MenuItem key={index} value={item.room_id}>
-                    {className}
-                  </MenuItem>
-                </>
+                <MenuItem key={index} value={item.room_id}>
+                  {className}
+                </MenuItem>
               );
             })}
           </Select>
@@ -135,7 +136,12 @@ function User() {
             color="primary"
             type="submit"
             onClick={submitHandler}
-            sx={{ width: "20%", height: "60px", borderRadius: "20px" }}
+            sx={{
+              width: "25%",
+              height: "60px",
+              borderRadius: "20px",
+              textTransform: "uppercase",
+            }}
           >
             Add
           </Button>
