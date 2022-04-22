@@ -31,10 +31,14 @@ export const getCourses = () => {
  * @returns {Promise}
  */
 export const getCourseContent = (data) => {
-  const { courseId, lang } = data;
+  const { courseId, lang, versionCode } = data;
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
     method: METHODS.GET,
+    headers: {
+      "version-code": versionCode,
+      accept: "application/json",
+    },
     // headers: HeaderFactory(token),
   });
 };

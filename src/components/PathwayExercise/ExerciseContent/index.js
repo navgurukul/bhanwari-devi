@@ -6,9 +6,8 @@ import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
 import { useParams } from "react-router-dom";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { breakpoints } from "../../../theme/constant";
 import CircleIcon from "@mui/icons-material/Circle";
+import { getCourseContent } from "../../../components/Course/redux/api";
 import {
   TableRow,
   TableHead,
@@ -24,13 +23,6 @@ import { versionCode } from "../../../constant";
 import useStyles from "../styles";
 
 import { Container, Box, Typography, Button, Grid } from "@mui/material";
-
-function getMarkdown(code, lang) {
-  let l = lang == "python" ? "py" : "js";
-  return `~~~${l}
-${code}
-~~~`;
-}
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
@@ -64,7 +56,6 @@ const headingVarients = {};
 
 const RenderContent = ({ data }) => {
   const classes = useStyles();
-  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
@@ -122,42 +113,6 @@ const RenderContent = ({ data }) => {
       );
     }
   }
-  // if (data.component === "table") {
-  //   const allData = data.value.map((item) => item.items);
-  //   const dataInCol = allData[0].map((_, i) =>
-  //     allData.map((_, j) => allData[j][i])
-  //   );
-  //   return (
-  //     <div>
-  //       <table className="table-data">
-  //         <thead>
-  //           <tr>
-  //             {data.value.map((item) => {
-  //               const header = DOMPurify.sanitize(item.header);
-  //               return <th dangerouslySetInnerHTML={{ __html: header }} />;
-  //             })}
-  //           </tr>
-  //         </thead>
-  //         <tbody>
-  // {dataInCol.map((item) => {
-  //   return (
-  //     <tr>
-  //       {item.map((row) => {
-  //         const rowData = DOMPurify.sanitize(row);
-  //         return (
-  //           <>
-  //             <td dangerouslySetInnerHTML={{ __html: rowData }} />
-  //           </>
-  //         );
-  //       })}
-  //     </tr>
-  //   );
-  // })}
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //   );
-  // }
   if (data.component === "table") {
     const allData = data.value.map((item) => item.items);
     const dataInCol = allData[0].map((_, i) =>
@@ -261,21 +216,10 @@ function ExerciseContent({ exerciseId, lang }) {
   const courseId = params.courseId;
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-    }).then((res) => {
+    getCourseContent({ courseId, lang, versionCode }).then((res) => {
       setContent(res.data.course.exercises[exerciseId]?.content);
     });
-    // }, [courseId, exerciseId, id, user.data.token]);
   }, [courseId, exerciseId, lang]);
-
-  console.log("lang", lang);
 
   return (
     <Container maxWidth="sm">
