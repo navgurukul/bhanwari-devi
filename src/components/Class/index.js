@@ -506,7 +506,7 @@ function Class({ classToEdit, indicator }) {
                 className="textarea-field"
                 required
                 aria-required
-                maxLength={555}
+                // maxLength={555}
               />
               {canSpecifyFacilitator && (
                 <>
