@@ -271,8 +271,7 @@ function Admission(props) {
                   <Button variant="contained" color="primary">
                     <ExternalLink
                       href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
-                      underline="none"
-                      color="white"
+                      style={{ color: "white", textDecoration: "none" }}
                     >
                       Check Result
                     </ExternalLink>
