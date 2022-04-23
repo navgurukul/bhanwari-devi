@@ -43,9 +43,13 @@ function MiscellaneousCourses() {
   const otherCourses =
     data &&
     data.allCourses.filter(
-      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
+      (item) =>
+        pathwayCourseId &&
+        !pathwayCourseId.includes(item.id) &&
+        item.course_type === "json"
     );
 
+  console.log("otherCourses", otherCourses);
   return (
     <React.Fragment>
       <Container sx={{ mt: 10 }} maxWidth="lg">
@@ -59,7 +63,6 @@ function MiscellaneousCourses() {
               </CardContent>
               <CardContent>
                 <Typography
-                  variant="body2"
                   variant="body2"
                   align={isActive ? "center" : "left"}
                 >
@@ -80,6 +83,7 @@ function MiscellaneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
+                  {console.log("item.id", item.id)}
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

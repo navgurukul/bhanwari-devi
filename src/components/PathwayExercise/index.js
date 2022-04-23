@@ -52,13 +52,15 @@ function PathwayExercise() {
       },
     })
       .then((res) => {
-        console.log("res", res.data.course.exercises[0]?.content);
+        // console.log("res", res.data.course.exercises[0]?.content);
         setCourse(res.data.course.exercises);
       })
       .catch((err) => {
         console.log("error");
       });
   }, []);
+
+  console.log("courseId", courseId);
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
@@ -170,8 +172,7 @@ function PathwayExercise() {
     slide: "img",
     verticalWidth: "50%",
   };
-  console.log("course", course);
-  console.log("exerciseId", exerciseId);
+
   const [language, setLanguage] = useState("en");
   return (
     <>
