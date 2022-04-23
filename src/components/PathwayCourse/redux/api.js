@@ -4,7 +4,7 @@ import { versionCode } from "../../../constant";
 
 export const getPathways = () => {
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
     method: METHODS.GET,
     headers: {
       "version-code": versionCode,
