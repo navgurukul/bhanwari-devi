@@ -323,7 +323,8 @@ function Home() {
               ))}
             </Grid> */}
             <Stack sx={{ mt: 3 }} alignItems="center">
-              <Button href={PATHS.OUR_PARTNER}>
+              {/* <Button href={PATHS.OUR_PARTNER}> */}
+              <Button>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
               </Button>
