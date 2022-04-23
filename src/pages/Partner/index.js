@@ -21,7 +21,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import IconButton from "@mui/material/IconButton";
 import { PATHS } from "../../constant";
-import { bgcolor, fontFamily, fontStyle } from "@mui/system";
+
 // import ExternalLink from "../../components/common/ExternalLink";
 
 const Partner = () => {
