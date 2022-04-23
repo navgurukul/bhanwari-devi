@@ -94,9 +94,16 @@ function ResidentialProgramme() {
 
       <Stack sx={{ mt: 8 }} alignItems="center">
         <Typography variant="h6">Have you completed the overview?</Typography>
-        <Button sx={{ mt: 2 }} variant="contained" color="primary">
-          Yes, let's take the test
-        </Button>
+        <Link
+          style={{
+            textDecoration: "none",
+          }}
+          to={PATHS.ADMISSION}
+        >
+          <Button sx={{ mt: 2 }} variant="contained" color="primary">
+            Yes, let's take the test
+          </Button>
+        </Link>
       </Stack>
     </Container>
   );

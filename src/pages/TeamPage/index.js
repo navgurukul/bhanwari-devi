@@ -34,8 +34,9 @@ function shuffleArray(arr) {
 function TeamPage() {
   useEffect(() => {
     axios({
-      url: `https://anandpatel504.github.io/tarabai-shinde/data/ng_team.json`,
+      url: `https://navgurukul.github.io/tarabai-shinde/data/meraki_team.json`,
     }).then((res) => {
+      console.log(res, "data");
       setTeam(res.data);
     });
   }, []);
@@ -47,8 +48,29 @@ function TeamPage() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
-  // console.log(breakpoints.values.sm);
-  console.log(isActive);
+
+  const condition = members.teamMembers ? "teamMembers" : "volunteers";
+  let teamMember = [];
+  let supporters = [];
+
+  const teamData = Object.values(team).filter((item) => {
+    if (
+      item.Association !== null &&
+      item.Photo !== null &&
+      item.Name !== null &&
+      item.Content !== null &&
+      item.Designation !== null
+    ) {
+      console.log("item", item);
+      if (item.Association === "Volunteer") {
+        supporters.push(item);
+      } else {
+        teamMember.push(item);
+      }
+      return item;
+    }
+  });
+
   function Popup(props) {
     return (
       <div className={classes.team_descriptionPopup}>
@@ -122,7 +144,7 @@ function TeamPage() {
                 >
                   <Box mr={2}>
                     <Typography className={"d"} variant="h1" align="left">
-                      30+
+                      {teamMember.length}
                     </Typography>
                   </Box>
                   <Typography className={"d"} variant="h4">
@@ -147,7 +169,7 @@ function TeamPage() {
                 >
                   <Box mr={2}>
                     <Typography className={"d"} variant="h1" align="right">
-                      100+
+                      {supporters.length}
                     </Typography>
                   </Box>
                   <Typography className={"d"} variant="h4" align="right">
@@ -170,6 +192,8 @@ function TeamPage() {
                 <Button
                   variant="contained"
                   color="primary"
+                  href="https://recruiterflow.com/navgurukul/jobs"
+                  target="_blank"
                   className={!isActive ? classes.team_btn : classes.team_btn1}
                   sx={
                     !isActive
@@ -182,6 +206,8 @@ function TeamPage() {
                 <Button
                   variant="outlined"
                   color="primary"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLScHvysncnhJkSMtpdpGl_uPhJWlE81hp6l5m2mvuE1hoxX-dQ/viewform"
+                  target="_blank"
                   spacing={2}
                   container
                   className={!isActive ? classes.team_btn : classes.team_btn1}
@@ -251,24 +277,15 @@ function TeamPage() {
               sx={{ marginTop: 4 }}
             >
               <Grid container>
-                {Object.keys(team).length ? (
-                  shuffleArray(Object.keys(team)).map((item) => {
-                    const condition = members.teamMembers
-                      ? "teamMembers"
-                      : "volunteers";
+                {teamData ? (
+                  shuffleArray(teamData).map((item) => {
                     if (
                       (condition === "volunteers" &&
-                        team[item].Association === "Volunteer") ||
+                        item.Association === "Volunteer") ||
                       (condition === "teamMembers" &&
-                        team[item].Association !== "Volunteer")
+                        item.Association !== "Volunteer")
                     ) {
-                      if (
-                        team[item].Photo &&
-                        team[item].Name &&
-                        team[item].Content.length &&
-                        team[item].Content &&
-                        team[item].Designation
-                      )
+                      if (item.Content.length !== null)
                         return (
                           <Grid item xs={6} sm={6} md={3}>
                             <Tippy
@@ -282,16 +299,13 @@ function TeamPage() {
                               }
                               content={
                                 <Popup
-                                  Name={
-                                    team[item].Name || "Awaiting Member's Name"
-                                  }
+                                  Name={item.Name || "Awaiting Member's Name"}
                                   Content={
-                                    (team[item].Content.length &&
-                                      team[item].Content) ||
+                                    (item.Content.length && item.Content) ||
                                     "Awaiting content from team member"
                                   }
-                                  linkedin={team[item].Linkedin}
-                                  twitter={team[item].Twitter}
+                                  linkedin={item.Linkedin}
+                                  twitter={item.Twitter}
                                 />
                               }
                             >
@@ -306,10 +320,10 @@ function TeamPage() {
                                         ? `${classes.team_cardImg} img-hover`
                                         : `${classes.team_mobileCardImg} img-hover`
                                     }
-                                    src={team[item].Photo}
-                                    alt={team[item].Name.substring(
+                                    src={item.Photo}
+                                    alt={item.Name.substring(
                                       0,
-                                      team[item].Name.indexOf(" ")
+                                      item.Name.indexOf(" ")
                                     )}
                                   />
                                   <Typography
@@ -319,13 +333,13 @@ function TeamPage() {
                                       !isActive ? {} : { textAlign: "center" }
                                     }
                                   >
-                                    {team[item].Name}
+                                    {item.Name}
                                   </Typography>
                                   <Typography
                                     variant="body1"
                                     className={classes.team_cardDescription}
                                   >
-                                    {team[item].Designation}
+                                    {item.Designation}
                                   </Typography>
                                 </div>
                               </div>
