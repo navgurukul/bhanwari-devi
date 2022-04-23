@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import python from "./asset/python.svg";
 import typing from "./asset/typing.svg";
 import web from "./asset/web.svg";
@@ -49,7 +49,7 @@ const students = {
   ],
   GetInvolved: [
     // { title: "Become a Partner", path: PATHS.OUR_PARTNER, type: "internal" },
-    { title: "Become a Partner", path: "#", type: "internal" },
+    // { title: "Become a Partner", path: "#", type: "internal" },
     {
       title: "Donate",
       path: "https://www.navgurukul.org/donate",
