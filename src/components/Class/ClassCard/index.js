@@ -226,20 +226,21 @@ function ClassCard({ item, editClass, enroll, style }) {
           <div className={classes.Buttons}>
             {item.enrolled ? (
               loading ? (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={() => {
-                    handleClickOpenEnroll(item.id);
-                  }}
-                >
-                  {/* {enroll} */}
-                  Enroll
-                </Button>
-              ) : (
                 <div className="loader-button">
                   <Loader />
                 </div>
+              ) : (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="error"
+                  className="class-drop-out"
+                  onClick={() => {
+                    handleClickOpenUnenroll(item.id);
+                  }}
+                >
+                  Drop out
+                </Button>
               )
             ) : loading ? (
               <div className="loader-button">
@@ -249,13 +250,12 @@ function ClassCard({ item, editClass, enroll, style }) {
               <Button
                 type="submit"
                 variant="contained"
-                color="error"
-                className="class-drop-out"
                 onClick={() => {
-                  handleClickOpenUnenroll(item.id);
+                  handleClickOpenEnroll(item.id);
                 }}
               >
-                Drop out
+                {/* {enroll} */}
+                Enroll
               </Button>
             )}
             {item.facilitator.email === user.data.user.email || flag ? (
