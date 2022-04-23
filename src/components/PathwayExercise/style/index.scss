@@ -1,7 +1,7 @@
 @import "../../../sass/colors.scss";
 @import "../../../sass/mixins.scss";
 .gridtopofcourse7 {
-  width: 400px;
+  width: max-content;
   @include breakpoint-mobile {
     width: 100px;
     overflow: scroll;

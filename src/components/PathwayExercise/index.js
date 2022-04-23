@@ -64,8 +64,6 @@ function PathwayExercise() {
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
-      customSlider.current.slickPrev();
-
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -79,8 +77,6 @@ function PathwayExercise() {
 
   const nextClickHandler = () => {
     if (exerciseId < courseLength - 1) {
-      customSlider.current.slickNext();
-
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -165,9 +161,9 @@ function PathwayExercise() {
     infinite: false,
     display: "flex",
     slideAlign: "center",
-    slidesToShow: 7,
+    slidesToShow: course?.length > 7 ? 7 : course?.length - 1,
     slickNext: true,
-    slidesToScroll: 0.5,
+    // slidesToScroll: 0.5,
     useCSS: true,
     slide: "img",
     verticalWidth: "50%",
@@ -203,29 +199,86 @@ function PathwayExercise() {
                   <CloseIcon />
                 </Link>
               </Typography>
-              <Toolbar>
-                <Slider
-                  ref={(slider) => (customSlider.current = slider)}
-                  style={{
-                    width: "20vw",
-                    height: "80px",
-                  }}
-                  {...settings}
-                >
+              <Toolbar sx={{ flexGrow: 0, ml: { sm: 0, md: 13 } }}>
+                {exerciseId !== 0 && (
+                  <ArrowBackIosIcon
+                    sx={{ marginRight: 3 }}
+                    onClick={previousClickHandler}
+                  />
+                )}
+                <div className="gridtopofcourse7">
                   {course &&
                     course.map((exercise, index) => {
-                      return (
-                        <NavigationComponent
-                          params={params}
-                          history={history}
-                          index={index}
-                          exerciseId={exerciseId}
-                          setExerciseId={setExerciseId}
-                          classes={classes}
-                        />
-                      );
+                      if (exerciseId < 7 && index < 7) {
+                        return (
+                          <>
+                            {/* <Link to="/"> */}
+                            <img
+                              onClick={() => {
+                                localStorage.setItem("CurrentCourse", index);
+                                setExerciseId(index);
+                              }}
+                              src={
+                                exerciseId == index
+                                  ? `${require("./asset/contentTypeSelectd.svg")}`
+                                  : `${require("./asset/contenttype.svg")}`
+                              }
+                              loading="lazy"
+                              className={classes.contentImg}
+                            />
+                            {/* </Link> */}
+                          </>
+                        );
+                      } else if (exerciseId >= 7 && index >= 7 && index < 14) {
+                        return (
+                          <>
+                            {/* <Link to="/"> */}
+                            <img
+                              onClick={() => {
+                                localStorage.setItem("CurrentCourse", index);
+                                setExerciseId(index);
+                              }}
+                              src={
+                                exerciseId == index
+                                  ? `${require("./asset/contentTypeSelectd.svg")}`
+                                  : `${require("./asset/contenttype.svg")}`
+                              }
+                              loading="lazy"
+                              className={classes.contentImg}
+                            />
+                            {/* </Link> */}
+                          </>
+                        );
+                      } else if (
+                        exerciseId >= 14 &&
+                        index >= 14 &&
+                        index < 21
+                      ) {
+                        return (
+                          <>
+                            {/* <Link to="/"> */}
+                            <img
+                              onClick={() => setExerciseId(index)}
+                              src={
+                                exerciseId == index
+                                  ? `${require("./asset/contentTypeSelectd.svg")}`
+                                  : `${require("./asset/contenttype.svg")}`
+                              }
+                              loading="lazy"
+                              className={classes.contentImg}
+                            />
+                            {/* </Link> */}
+                          </>
+                        );
+                      }
                     })}
-                </Slider>
+                </div>
+                {exerciseId < courseLength - 1 && (
+                  <ArrowForwardIosIcon
+                    sx={{ marginLeft: 3 }}
+                    onClick={nextClickHandler}
+                  />
+                )}
               </Toolbar>
               <Select
                 IconComponent={() => null}
