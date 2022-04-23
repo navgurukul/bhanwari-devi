@@ -2,7 +2,7 @@ import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import PathwayCard from "../../pages/Home/PathwayCard";
 
 import { Container, Grid, Typography } from "@mui/material";
@@ -57,12 +57,12 @@ const NewUserDashbord = () => {
         <Typography variant="h5" align="center" mt={4} mb={3}>
           Hello, {UserName} 👋
         </Typography>
-        <Typography variant="h6" align="center" mb={2}>
+        <Typography variant="h6" align="center" mb={5}>
           Please choose a learning track to begin!
         </Typography>
       </Container>
       <Container maxWidth="lg">
-        <Grid container align="center" rowSpacing={10} mb={10}>
+        <Grid container align="center" rowSpacing={10} mb={30}>
           {pathwayData.map((item) => (
             <Grid
               item

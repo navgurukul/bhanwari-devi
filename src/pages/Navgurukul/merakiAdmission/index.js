@@ -11,7 +11,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
+import ExternalLink from "../../../components/common/ExternalLink";
 
 function Admission(props) {
   const classes = useStyles();
@@ -46,8 +46,6 @@ function Admission(props) {
     });
   }, []);
 
-  const testUrl = "https://join.navgurukul.org/k/";
-
   const generateTestLink = async () => {
     try {
       const mobile = `0${userDetails.mobileNumber}`;
@@ -71,7 +69,7 @@ function Admission(props) {
         .map((key) => `${key}=${params[key]}`)
         .join("&");
 
-      const url = `${testUrl}${enrolmentKey}?${queryString}`;
+      const url = `${process.env.REACT_APP_TEST_URL}${enrolmentKey}?${queryString}`;
 
       window.open(url, "_blank");
       return response;
@@ -271,14 +269,12 @@ function Admission(props) {
                     required
                   />
                   <Button variant="contained" color="primary">
-                    <Link
+                    <ExternalLink
                       href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
-                      underline="none"
-                      target="_blank"
-                      color="white"
+                      style={{ color: "white", textDecoration: "none" }}
                     >
                       Check Result
-                    </Link>
+                    </ExternalLink>
                   </Button>
                 </Box>
               </Grid>

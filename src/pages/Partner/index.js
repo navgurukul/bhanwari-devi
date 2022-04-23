@@ -21,6 +21,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import IconButton from "@mui/material/IconButton";
 import { PATHS } from "../../constant";
+// import ExternalLink from "../../components/common/ExternalLink";
 
 const Partner = () => {
   const classes = useStyles();
@@ -68,7 +69,7 @@ const Partner = () => {
           !isActive ? classes.partnerContainer : classes.partnerContainer1
         }
       >
-        <Grid container spacing={!isActive ? 4 : 2}>
+        <Grid container spacing={{ xs: 2, sm: 4 }}>
           <Grid item xs={12} sm={6} md={6}>
             <img
               src="https://www.linkfluence.com/hs-fs/hubfs/Amazon%20FMCG.jpg?width=689&name=Amazon%20FMCG.jpg"
@@ -82,11 +83,10 @@ const Partner = () => {
                 <Button
                   variant="contained"
                   color="warning"
-                  sx={
-                    !isActive
-                      ? { borderRadius: 25, height: 34 }
-                      : { borderRadius: 15, height: 25 }
-                  }
+                  sx={{
+                    borderRadius: { xs: 25, sm: 15 },
+                    height: { xs: 34, sm: 25 },
+                  }}
                   size="small"
                 >
                   featured

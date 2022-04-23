@@ -6,9 +6,8 @@ import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
 import { useParams } from "react-router-dom";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { breakpoints } from "../../../theme/constant";
 import CircleIcon from "@mui/icons-material/Circle";
+import { getCourseContent } from "../../../components/Course/redux/api";
 import {
   TableRow,
   TableHead,
@@ -25,19 +24,12 @@ import useStyles from "../styles";
 
 import { Container, Box, Typography, Button, Grid } from "@mui/material";
 
-function getMarkdown(code, lang) {
-  let l = lang == "python" ? "py" : "js";
-  return `~~~${l}
-${code}
-~~~`;
-}
-
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
-  let l = lang == "python" ? "2" : "js";
-  let replacedCode = code && code.replace(/<br>/g, "\n");
-  let visualizerCode = replacedCode.replace(/&emsp;/g, " ");
-  let url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
+  const l = lang == "python" ? "2" : "js";
+  const replacedCode = code && code.replace(/<br>/g, "\n");
+  const visualizerCode = replacedCode.replace(/&emsp;/g, " ");
+  const url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
     visualizerCode
   )
     .replace(/%2C|%2F/g, decodeURIComponent)
@@ -49,34 +41,21 @@ const createVisulizeURL = (code, lang, mode) => {
   return url;
 };
 
-const headingVarients = {
-  1: (data) => (
-    <Typography
-      variant="h6"
-      className="heading"
-      dangerouslySetInnerHTML={{ __html: data }}
-    ></Typography>
-  ),
-  2: (data) => (
-    <h2 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h2>
-  ),
-  3: (data) => (
-    <h3 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h3>
-  ),
-  4: (data) => (
-    <h4 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h4>
-  ),
-  5: (data) => (
-    <h5 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h5>
-  ),
-  6: (data) => (
-    <h6 className="heading" dangerouslySetInnerHTML={{ __html: data }}></h6>
-  ),
-};
+const headingVarients = {};
+
+[Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
+  (Name, index) =>
+    (headingVarients[index + 1] = (data) => (
+      <Name
+        className="heading"
+        dangerouslySetInnerHTML={{ __html: data }}
+        {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+      />
+    ))
+);
 
 const RenderContent = ({ data }) => {
   const classes = useStyles();
-  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
@@ -134,42 +113,6 @@ const RenderContent = ({ data }) => {
       );
     }
   }
-  // if (data.component === "table") {
-  //   const allData = data.value.map((item) => item.items);
-  //   const dataInCol = allData[0].map((_, i) =>
-  //     allData.map((_, j) => allData[j][i])
-  //   );
-  //   return (
-  //     <div>
-  //       <table className="table-data">
-  //         <thead>
-  //           <tr>
-  //             {data.value.map((item) => {
-  //               const header = DOMPurify.sanitize(item.header);
-  //               return <th dangerouslySetInnerHTML={{ __html: header }} />;
-  //             })}
-  //           </tr>
-  //         </thead>
-  //         <tbody>
-  // {dataInCol.map((item) => {
-  //   return (
-  //     <tr>
-  //       {item.map((row) => {
-  //         const rowData = DOMPurify.sanitize(row);
-  //         return (
-  //           <>
-  //             <td dangerouslySetInnerHTML={{ __html: rowData }} />
-  //           </>
-  //         );
-  //       })}
-  //     </tr>
-  //   );
-  // })}
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //   );
-  // }
   if (data.component === "table") {
     const allData = data.value.map((item) => item.items);
     const dataInCol = allData[0].map((_, i) =>
@@ -273,21 +216,10 @@ function ExerciseContent({ exerciseId, lang }) {
   const courseId = params.courseId;
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-    }).then((res) => {
+    getCourseContent({ courseId, lang, versionCode }).then((res) => {
       setContent(res.data.course.exercises[exerciseId]?.content);
     });
-    // }, [courseId, exerciseId, id, user.data.token]);
   }, [courseId, exerciseId, lang]);
-
-  console.log("lang", lang);
 
   return (
     <Container maxWidth="sm">

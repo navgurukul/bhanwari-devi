@@ -74,7 +74,7 @@ function PathwayCourse() {
   useEffect(() => {
     // dispatch(pathwayActions.getPathways());
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [pathwayId]);
+  }, [dispatch, pathwayId]);
 
   return (
     <>
@@ -165,7 +165,6 @@ function PathwayCourse() {
                         className={classes.courseImage}
                         src={item.logo}
                         alt="course"
-                        loading="lazy"
                       />
                       <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
