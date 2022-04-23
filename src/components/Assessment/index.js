@@ -11,7 +11,7 @@ function Assessment() {
   const options = ["A", "B", "C", "D"];
   const code = true;
   return (
-    <Container maxWidth="sm" sx={{ align: "center" }}>
+    <Container maxWidth="sm" sx={{ align: "center", mb: "32px" }}>
       {/* <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}> */}
 
       {code ? (
@@ -42,8 +42,12 @@ function Assessment() {
           return (
             <Paper
               elevation={3}
-              sx={{ height: "59px", width: "544px", mb: "16px" }}
-              className={classes.option}
+              sx={{
+                height: "59px",
+                width: "544px",
+                mb: "16px",
+              }}
+              className={answer === item && classes.option}
               onClick={() => setAnswer(item)}
             >
               <Typography variant="body1" sx={{ p: "16px" }}>
