@@ -67,7 +67,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </>
         ))}
       </Box>
-      <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}>
+      {/* <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}> */}
+      <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
           <MobileDropDown
             Menu={Menu}
