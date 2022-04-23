@@ -21,6 +21,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import IconButton from "@mui/material/IconButton";
 import { PATHS } from "../../constant";
+import { bgcolor, fontFamily, fontStyle } from "@mui/system";
 // import ExternalLink from "../../components/common/ExternalLink";
 
 const Partner = () => {
@@ -139,8 +140,77 @@ const Partner = () => {
                         : classes.partnerCardContainer1
                     }
                   >
+                    {partners[item].OrganisationType == "Non - Profit" ? (
+                      <Button
+                        variant="contained"
+                        rounded
+                        sx={{
+                          borderRadius: { xs: 25, sm: 15 },
+                          height: { xs: "60", sm: "30px" },
+                          fontSize: "caption",
+                          background: "lemonchiffon",
+                          color: "black",
+                          marginTop: "-20px",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        {partners[item].OrganisationType}
+                      </Button>
+                    ) : partners[item].OrganisationType ==
+                      "Educational Institution" ? (
+                      <Button
+                        variant="contained"
+                        rounded
+                        sx={{
+                          borderRadius: { xs: 25, sm: 15 },
+                          height: { xs: "60", sm: "30px" },
+                          fontSize: "caption",
+                          background: "lightskyblue",
+                          color: "black",
+                          marginTop: "-20px",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        {partners[item].OrganisationType}
+                      </Button>
+                    ) : partners[item].OrganisationType == "Government" ? (
+                      <Button
+                        variant="contained"
+                        rounded
+                        sx={{
+                          borderRadius: { xs: 25, sm: 15 },
+                          height: { xs: "60", sm: "30px" },
+                          fontSize: "caption",
+                          background: "silver",
+                          color: "black",
+                          marginTop: "-20px",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        {partners[item].OrganisationType}
+                      </Button>
+                    ) : partners[item].OrganisationType ==
+                      "Community based organisation" ? (
+                      <Button
+                        variant="contained"
+                        rounded
+                        sx={{
+                          borderRadius: { xs: 25, sm: 15 },
+                          height: { xs: "60", sm: "30px" },
+                          fontSize: "caption",
+                          color: "black",
+                          marginTop: "-20px",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        {partners[item].OrganisationType}
+                      </Button>
+                    ) : (
+                      ""
+                    )}
+
                     <Typography variant="body1">
-                      {partners[item].Description}
+                      {partners[item].City},{partners[item].State}
                     </Typography>
                   </CardContent>
                   <CardActions>

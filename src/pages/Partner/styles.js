@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
     height: "95%",
   },
   partnerCardContainer: {
-    height: "65%",
+    height: "25%",
   },
   partnerCardContainer1: {
-    height: "50%",
+    height: "25%",
   },
   partnerIconSize: {
     padding: "4px",
