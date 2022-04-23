@@ -1,5 +1,6 @@
 import axios from "axios";
 import { METHODS } from "../../../services/api";
+import { versionCode } from "../../../constant";
 
 /**
  * end-point to get all the courses
@@ -13,6 +14,9 @@ export const getCourses = () => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses`,
     method: METHODS.GET,
+    headers: {
+      "version-code": versionCode,
+    },
     // headers: HeaderFactory(token),
   });
 };
@@ -27,10 +31,14 @@ export const getCourses = () => {
  * @returns {Promise}
  */
 export const getCourseContent = (data) => {
-  const { courseId, lang } = data;
+  const { courseId, lang, versionCode } = data;
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
     method: METHODS.GET,
+    headers: {
+      "version-code": versionCode,
+      accept: "application/json",
+    },
     // headers: HeaderFactory(token),
   });
 };

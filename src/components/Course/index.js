@@ -56,7 +56,6 @@ function Course() {
       return c.course_type === "json";
     });
     dataJSON.allCourses = dataJSON;
-    // console.log(dataJSON.allCourses);
     filteredCourse = dataJSON.allCourses.filter((names) => {
       if (names.course_type === "json") {
         return names.name.toLowerCase().includes(search.toLowerCase());
@@ -71,6 +70,7 @@ function Course() {
       }),
     };
   });
+
   const pathwayCourseId = [];
   pathwaysfilteredCourses.filter((pathway) => {
     pathway.courses.filter((course) => {
@@ -78,6 +78,7 @@ function Course() {
       return course.id;
     });
   });
+
   let otherCourses =
     filteredCourse &&
     filteredCourse.filter((item) => !pathwayCourseId.includes(item.id));

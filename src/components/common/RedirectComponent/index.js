@@ -4,6 +4,7 @@ import axios from "axios";
 import { getQueryVariable } from "../../../common/utils";
 import { METHODS } from "../../../services/api";
 import { PATHS } from "../../../constant";
+import { sendToken } from "../../User/redux/api";
 
 function RedirectComponent() {
   const [emailId, setEmailId] = useState(null);
@@ -15,14 +16,7 @@ function RedirectComponent() {
   const redirect = (getQueryVariable("redirectUrl") || "").replace(/^\/+/g, "");
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-      headers: {
-        accept: "application/json",
-        Authorization: token,
-      },
-    }).then((res) => {
+    sendToken({ token }).then((res) => {
       if (res.data.user.email) {
         setEmailId(res.data.user.email);
       }

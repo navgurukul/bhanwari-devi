@@ -4,9 +4,19 @@ import { toast } from "react-toastify";
 import YouTube from "react-youtube";
 import { METHODS } from "../../../services/api";
 import { useSelector } from "react-redux";
-import "./styles.scss";
 
-function Admission() {
+import { Container, Box, Grid, Typography, CardMedia } from "@mui/material";
+import useStyles from "./styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../../theme/constant";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import ExternalLink from "../../../components/common/ExternalLink";
+
+function Admission(props) {
+  const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const [userDetails, setUserDetails] = useState({
     firstName: "",
     middleName: "",
@@ -20,6 +30,8 @@ function Admission() {
   const user = useSelector(({ User }) => User);
 
   let userToken = localStorage.getItem("Token");
+  const partnerIdFromOpportunity =
+    props.location.state && props.location.state.partnerId;
 
   useEffect(() => {
     axios({
@@ -34,8 +46,6 @@ function Admission() {
     });
   }, []);
 
-  const testUrl = "https://join.navgurukul.org/k/";
-
   const generateTestLink = async () => {
     try {
       const mobile = `0${userDetails.mobileNumber}`;
@@ -44,7 +54,7 @@ function Admission() {
         params: {
           ngCallType: "getEnrolmentKey",
           From: mobile,
-          partner_id: partnerId || null,
+          partner_id: partnerId || partnerIdFromOpportunity || null,
         },
       });
       setEnrolmentKey(response.data.key);
@@ -59,7 +69,7 @@ function Admission() {
         .map((key) => `${key}=${params[key]}`)
         .join("&");
 
-      const url = `${testUrl}${enrolmentKey}?${queryString}`;
+      const url = `${process.env.REACT_APP_TEST_URL}${enrolmentKey}?${queryString}`;
 
       window.open(url, "_blank");
       return response;
@@ -87,6 +97,13 @@ function Admission() {
       return;
     }
     await isDuplicate();
+
+    setUserDetails({
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      mobileNumber: "",
+    });
   };
 
   const isDuplicate = () => {
@@ -121,103 +138,151 @@ function Admission() {
   };
 
   return (
-    <div className="admission">
-      <div className="left-section">
-        <YouTube className={"video-alumni"} videoId={`vuSwndj5cbs`} />;
-        <div className="video-label">Experience of NG Alumni & Graduates</div>
-      </div>
-      <div className="right-section">
-        <div className="test-form">
-          <h2 className="scholarship-test">
-            Software Engineering Scholarship Test
-          </h2>
-          <div className="input-form">
-            <div className="form-row">
-              <div className="input-field-test">
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  placeholder="Abhi..."
-                  value={userDetails.firstName}
-                  name="firstName"
-                  onChange={changeHandler}
-                  id="firstName"
-                  required
-                />
-              </div>
-              <div className="input-field-test">
-                <label htmlFor="middleName">Middle Name (Optional)</label>
-                <input
-                  type="text"
-                  placeholder="Kumar..."
-                  value={userDetails.middleName}
-                  name="middleName"
-                  onChange={changeHandler}
-                  id="middleName"
-                />
-              </div>
-              <div className="input-field-test">
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type="text"
-                  placeholder="Garg..."
-                  value={userDetails.lastName}
-                  name="lastName"
-                  onChange={changeHandler}
-                  id="lastName"
-                  required
-                />
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="input-field-test">
-                <label htmlFor="mobileNumber">Mobile Number</label>
-                <input
-                  type="tel"
-                  pattern="^[0-9]{10}$"
-                  placeholder="9874500000"
-                  value={userDetails.mobileNumber}
-                  name="mobileNumber"
-                  onChange={changeHandler}
-                  id="mobileNumber"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <button className="test-btn" onClick={giveTest}>
-            Give Admissions Test
-          </button>
-        </div>
-
-        <form className="test-form down">
-          <h2>Check Test Result via Registered Mobile Number </h2>
-          <div className="input-form">
-            <div className="input-field-test">
-              <label>Mobile Number</label>
-              <input
-                type="tel"
-                pattern="^[0-9]{10}$"
-                placeholder="9874500000"
-                onChange={(e) => {
-                  setMobile(e.target.value);
-                }}
-                value={mobile}
+    <>
+      <Container maxWidth="lg" className={classes.admitionContainer}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "spaced-center",
+            alignItems: "spaced-evenly",
+            flexWrap: "wrap",
+          }}
+        >
+          <div
+            style={{
+              minWidth: "50%",
+            }}
+          >
+            <CardMedia>
+              <YouTube
+                className={
+                  !isActive ? classes.admitionVideo : classes.admitionVideo1
+                }
+                videoId={`vuSwndj5cbs`}
               />
-            </div>
+            </CardMedia>
+            <Typography variant="subtitle1" gutterBottom align="center">
+              Experience of NG Alumni & Graduates
+            </Typography>
+            <hr
+              className={isActive ? classes.admitionHr1 : classes.admitionHr}
+            />
           </div>
-          <button className="test-btn">
-            <a
-              className="result-btn"
-              href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
-              target="_blank"
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              minWidth: "50%",
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              align="190%"
+              className={isActive && classes.admitionSpacing1}
             >
-              Check Result
-            </a>
-          </button>
-        </form>
-      </div>
-    </div>
+              Software Engineering Scholarship Test
+            </Typography>
+            <Box
+              component="form"
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 3,
+                width: "100%",
+                m: 1,
+              }}
+              className={
+                isActive ? classes.admitionBottom1 : classes.admitionBottom
+              }
+            >
+              <TextField
+                label="First Name"
+                type="text"
+                value={userDetails.firstName}
+                name="firstName"
+                onChange={changeHandler}
+                id="firstName"
+                variant="outlined"
+                required
+              />
+
+              <TextField
+                label="Middel Name(Optional)"
+                type="text"
+                value={userDetails.middleName}
+                name="middleName"
+                onChange={changeHandler}
+                id="middleName"
+                variant="outlined"
+              />
+              <TextField
+                label="Last Name"
+                type="text"
+                value={userDetails.lastName}
+                name="lastName"
+                onChange={changeHandler}
+                id="lastName"
+                variant="outlined"
+                required
+              />
+
+              <TextField
+                label="Mobile Number"
+                type="number"
+                pattern="^[0-9]{10}$"
+                value={userDetails.mobileNumber}
+                name="mobileNumber"
+                onChange={changeHandler}
+                id="mobileNumber"
+                variant="outlined"
+                required
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                className={
+                  !isActive ? classes.admitionBtn1 : classes.admitionBtn2
+                }
+                onClick={giveTest}
+              >
+                Give Admission Test
+              </Button>
+            </Box>
+            <Grid container className={classes.admitionSpacing}>
+              <Grid item xs={12} sm={12} md={6}>
+                <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
+                  <Typography variant="h6">Check Test Result</Typography>
+                  <TextField
+                    label="Mobile Number"
+                    type="number"
+                    pattern="^[0-9]{10}$"
+                    onChange={(e) => {
+                      setMobile(e.target.value);
+                    }}
+                    value={mobile}
+                    variant="outlined"
+                    required
+                  />
+                  <Button variant="contained" color="primary">
+                    <ExternalLink
+                      href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Check Result
+                    </ExternalLink>
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </div>
+        </div>
+      </Container>
+    </>
   );
 }
 

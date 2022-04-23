@@ -1,11 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import useStyles from "./styles";
+import { PATHS } from "../../constant";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
-import "./styles.scss";
+import { breakpoints } from "../../theme/constant";
 import { getQueryVariable } from "../../common/utils";
+import { Link } from "react-router-dom";
+import ExternalLink from "../../components/common/ExternalLink";
+
+import {
+  Container,
+  Typography,
+  Chip,
+  Grid,
+  Button,
+  CardContent,
+  CardActions,
+  useMediaQuery,
+  Card,
+} from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 function Opportunities() {
+  const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const [partner, setPartner] = useState([]);
   const user = useSelector(({ User }) => User);
 
@@ -26,120 +46,128 @@ function Opportunities() {
     });
   }, []);
 
-  let slug;
-  for (const item of partner) {
-    if (item.id == partnerId || item.id == partnerIdFromAndroid) {
-      slug = item.slug;
-    }
-  }
-
   return (
-    <div className="container-for-course-opportunity">
-      <div className="content-section">
-        <section>
-          <h2 className="section-heading">
-            {" "}
-            Curated list of opportunities to skyrocket your career
-          </h2>
-          <p className="advanced-course-heading "> Admission Opportunities </p>
-          <div className="opportunity-cards-container">
-            <div className="opportunity-info-card">
-              <div className="dispaly">
-                <div className="opportunity-card-title">
-                  NavGurukul One-Year Residential Programmme
-                </div>
-                <div>
-                  <span className="featured"> Featured</span>
-                </div>
-              </div>
-              <div className="opportunity-card-description">
-                Eligibility: Basic coding knowledge
-              </div>
-
-              {slug ? (
-                <a
-                  className="opportunity-card-form"
-                  href={`https://admissions.navgurukul.org/partnerLanding/${slug}`}
-                  target="_blank"
+    <>
+      <Container maxWidth="lg">
+        <Grid container columnSpacing={2} mb={8} mt={5}>
+          <Grid item xs={12}>
+            <Typography variant="h5">
+              Curated list of opportunities to skyrocket your career
+            </Typography>
+            <Grid className={classes.section_Heading}>
+              <Typography variant="subtitle1" color="text.secondary">
+                Admission Opportunities
+              </Typography>
+            </Grid>
+            <Grid container>
+              <Grid xs={12} sm={4} md={4}>
+                <Card elevation={2} className={classes.cards}>
+                  <CardContent>
+                    <Grid container>
+                      <Grid item xs={7} sm={9} md={9} mr={{ xs: 5, sm: 0 }}>
+                        <Typography variant="subtitle1">
+                          NavGurukul One-Year Residential Programmme
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={3} sm={1} md={1}>
+                        <Chip
+                          label="Featured"
+                          variant="caption"
+                          color="warning"
+                        />
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" mt="13px">
+                      Eligibility: Basic coding knowledge
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Grid className={classes.card_button}>
+                      <Link
+                        to={{
+                          pathname: PATHS.ADMISSION,
+                          state: { partnerId: partnerId },
+                        }}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Button endIcon={<ArrowForwardIosIcon />} mr={1}>
+                          Take a Test Today
+                        </Button>
+                      </Link>
+                    </Grid>
+                  </CardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={4} md={4} pt={{ xs: 2, sm: 0 }}>
+                <Card elevation={2} className={classes.cards}>
+                  <CardContent>
+                    <Typography variant="subtitle1">
+                      HyperVerge Fellowships
+                    </Typography>
+                    <Typography variant="body1" mt="13px">
+                      Eligibility: Basic coding knowledge
+                    </Typography>
+                  </CardContent>
+                  <Grid
+                    className={classes.card_button}
+                    mt={{ xs: 0, sm: "27px" }}
+                    mr={2}
+                  >
+                    <CardActions>
+                      <ExternalLink
+                        href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Button endIcon={<ArrowForwardIosIcon />}>
+                          Apply Now
+                        </Button>
+                      </ExternalLink>
+                    </CardActions>
+                  </Grid>
+                </Card>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid className={classes.section_Heading} mt={4}>
+              <Typography variant="subtitle1" color="text.secondary">
+                Grants / Advanced Courses / Mentorships
+              </Typography>
+            </Grid>
+            <Grid>
+              <Typography variant="body1" color="text.primary">
+                By learning with Meraki, you can avail benefits such as:
+                <ul>
+                  <li> Grants such as free keyboards for typing practice</li>
+                  <li> Coursera Membership</li>
+                  <li> Advanced english courses</li>
+                  <li> 1:1 Mentorship sessions</li>
+                </ul>
+              </Typography>
+              <Grid>
+                <Typography variant="subtitle1" color="text.primary" mb={2}>
+                  Are you interested in one or more of the above opportunities?
+                </Typography>
+              </Grid>
+              <Grid>
+                <ExternalLink
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
+                  style={{ textDecoration: "none" }}
                 >
-                  Take a Test Today{" "}
-                  <i
-                    class="fa fa-chevron-right test-icon"
-                    aria-hidden="true"
-                  ></i>
-                </a>
-              ) : (
-                <a
-                  className="opportunity-card-form"
-                  href="https://admissions.navgurukul.org/"
-                  target="_blank"
-                >
-                  Take a Test Today{" "}
-                  <i
-                    className="fa fa-chevron-right test-icon"
-                    aria-hidden="true"
-                  ></i>
-                </a>
-              )}
-            </div>
-            <div className="opportunity-info-card">
-              <div className="opportunity-card-title">
-                HyperVerge Fellowships{" "}
-              </div>
-              <div className="opportunity-card-description">
-                Eligibility: Basic coding knowledge
-              </div>
-              <a
-                className="opportunity-link"
-                href="https://apply.workable.com/hyperverge/j/BDA16E2E25/"
-                target="_blank"
-              >
-                Apply Now
-                <i
-                  className="fa fa-chevron-right test-icon"
-                  aria-hidden="true"
-                ></i>
-              </a>
-            </div>
-          </div>
-        </section>
-        <section>
-          <p className="advanced-course-heading">
-            Grants / Advanced Courses / Mentorships{" "}
-          </p>
-          <p className="details-of-advanced-courses">
-            By learning with Meraki, you can avail benefits such as:
-            <ul>
-              <li> Grants such as free keyboards for typing practice</li>
-              <li> Coursera Membership</li>
-              <li> Advanced english courses</li>
-              <li> 1:1 Mentorship sessions</li>
-            </ul>
-          </p>
-          <p className="more-opportunities">
-            {" "}
-            Are you interested in one or more of the above opportunities?
-          </p>
-          <div>
-            <button className="apply-btn">
-              {" "}
-              <a
-                className="button-apply"
-                href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
-                target="_blank"
-              >
-                Apply Now{" "}
-              </a>{" "}
-              <i
-                className="fa fa-chevron-right test-icon"
-                aria-hidden="true"
-              ></i>
-            </button>
-          </div>
-        </section>
-      </div>
-    </div>
+                  <Button
+                    endIcon={<ArrowForwardIosIcon />}
+                    variant="outlined"
+                    sx={{ width: isActive ? "100%" : "255px" }}
+                  >
+                    Apply Now
+                  </Button>
+                </ExternalLink>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </>
   );
 }
-
 export default Opportunities;

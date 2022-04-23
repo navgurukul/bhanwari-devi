@@ -276,7 +276,13 @@ const Mentor = () => {
   const renderRooms = () => {
     return (
       !(isMobile && selectedRoomId) && (
-        <nav role="navigation">
+        <nav
+          role="navigation"
+          style={{
+            Height: "100vh",
+            overflowY: "scroll",
+          }}
+        >
           <ul className="rooms-navs-container">
             {rooms.map((room) => {
               return (
