@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
-import { useSelector } from "react-redux";
 import PathwayCard from "../../pages/Home/PathwayCard";
-
 import { Container, Grid, Typography } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 
 const pathwayData = [
   {
@@ -50,6 +50,23 @@ const NewUserDashbord = () => {
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const { loading, data } = useSelector((state) => state.Pathways);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
+
+  data &&
+    data.pathways &&
+    data.pathways.forEach((pathway) => {
+      pathwayData.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
 
   return (
     <>
