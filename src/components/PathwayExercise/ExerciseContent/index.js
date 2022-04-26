@@ -15,6 +15,11 @@ import {
   TableBody,
   Table,
   TableContainer,
+  Typography,
+  Container,
+  Box,
+  Button,
+  Grid,
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
@@ -22,7 +27,7 @@ import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
 
-import { Container, Box, Typography, Button, Grid } from "@mui/material";
+// import { Container, Box, Typography, Button, Grid } from "@mui/material";
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
@@ -211,23 +216,36 @@ const RenderContent = ({ data }) => {
 function ExerciseContent({ exerciseId, lang }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
+  const [course, setCourse] = useState();
+  const [exercise, setExercise] = useState();
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
+      console.log("res", res.data.course.exercises[exerciseId].name);
+      setCourse(res.data.course.name);
+      setExercise(res.data.course.exercises[exerciseId].name);
       setContent(res.data.course.exercises[exerciseId]?.content);
     });
   }, [courseId, exerciseId, lang]);
 
+  console.log("content", content[0] && content[0]);
+
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 5, mb: 8 }}>
-        {content &&
-          content.map((contentItem, index) => (
-            <RenderContent data={contentItem} key={index} classes={classes} />
-          ))}
+      <Box sx={{ m: "32px 0px" }}>
+        <Typography variant="h5">{course}</Typography>
+        <Typography variant="h6" sx={{ mt: "16px" }}>
+          {exercise && exercise}
+        </Typography>
+        <Box sx={{ mt: 5, mb: 8 }}>
+          {content &&
+            content.map((contentItem, index) => (
+              <RenderContent data={contentItem} key={index} classes={classes} />
+            ))}
+        </Box>
       </Box>
     </Container>
   );

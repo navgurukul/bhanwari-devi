@@ -164,18 +164,7 @@ function Header() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar
-        position="sticky"
-        color="background"
-        elevation={elevation}
-        // onhashchange={() => {
-        //   console.log("here changes");
-        //   if (window.location.pathname.split("/").includes("course-content")) {
-        //     console.log("here");
-        //     setShowHeader(false);
-        //   }
-        // }}
-      >
+      <AppBar position="sticky" color="background" elevation={elevation}>
         <Container maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

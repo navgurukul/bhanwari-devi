@@ -29,9 +29,7 @@ function ResidentialProgramme() {
   }, [dispatch]);
 
   const resPathway =
-    data &&
-    data.pathways &&
-    data.pathways.find((pathway) => pathway.code === "PRCRSE");
+    data && data.pathways.find((pathway) => pathway.code === "PRCRSE");
   const pathwayCourse = resPathway && resPathway.courses;
 
   return (
