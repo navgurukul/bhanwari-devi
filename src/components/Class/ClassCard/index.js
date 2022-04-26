@@ -195,7 +195,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             className={classes.spacing}
           >
             {languageMap[item.type]}
-            {item.enrolled == true && (
+            {item.enrolled && (
               <i className="check-icon check-icon fa fa-check-circle">
                 Enrolled
               </i>
