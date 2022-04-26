@@ -24,6 +24,8 @@ import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 import OurStory from "../pages/OurStory";
+import NewUserDashbord from "../components/NewUserDashbord";
+
 import TeamPage from "../pages/TeamPage";
 import Partner from "../pages/Partner";
 
@@ -65,6 +67,12 @@ const Routing = () => {
 
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
+      <Route
+        exact
+        path={PATHS.NEWUSER_DASHBOARED}
+        component={NewUserDashbord}
+      />
+
       <Route
         exact
         path={PATHS.NAVGURUKUL_INTRODUCE}
