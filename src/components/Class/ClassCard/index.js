@@ -195,7 +195,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             className={classes.spacing}
           >
             {languageMap[item.type]}
-            {item.enrolled && (
+            {item.enrolled == true && (
               <i className="check-icon check-icon fa fa-check-circle">
                 Enrolled
               </i>
@@ -208,6 +208,9 @@ function ClassCard({ item, editClass, enroll, style }) {
         <div>
           <Typography className={classes.spacing}>
             Facilitator : {item.facilitator.name}
+          </Typography>
+          <Typography className={classes.spacing}>
+            Language : {languageMap[item.lang]}
           </Typography>
           <Typography className={classes.spacing}>
             Date:{moment(classStartTime).format("DD-MM-YYYY")}{" "}
