@@ -58,10 +58,10 @@ function TeamPage() {
       item.Association !== null &&
       item.Photo !== null &&
       item.Name !== null &&
-      item.Content !== null &&
+      item.Content.length > 1 &&
       item.Designation !== null
     ) {
-      console.log("item", item);
+      console.log("item", item.Name, item.Content);
       if (item.Association === "Volunteer") {
         supporters.push(item);
       } else {
@@ -74,7 +74,6 @@ function TeamPage() {
   function Popup(props) {
     return (
       <div className={classes.team_descriptionPopup}>
-        {/* <div className="d-flex align-items-center"> */}
         <div className={classes.team_popupDetails}>
           <Typography variant="subtitle1" className={classes.team_cardTitle}>
             {props.Name}
@@ -241,7 +240,7 @@ function TeamPage() {
                         fontWeight: "bold",
                         borderBottom: "3px solid #48a145",
                       }
-                    : {}
+                    : { color: "#9c9999" }
                 }
               >
                 Core Team
@@ -262,7 +261,7 @@ function TeamPage() {
                         fontWeight: "bold",
                         borderBottom: "3px solid #48a145",
                       }
-                    : {}
+                    : { color: "#9c9999" }
                 }
               >
                 Our Supporters
@@ -285,67 +284,65 @@ function TeamPage() {
                       (condition === "teamMembers" &&
                         item.Association !== "Volunteer")
                     ) {
-                      if (item.Content.length !== null)
-                        return (
-                          <Grid item xs={6} sm={6} md={3}>
-                            <Tippy
-                              animation="fade"
-                              interactive="true"
-                              duration={[500, 0]}
-                              placement={
-                                window.screen.availWidth < 650
-                                  ? "bottom"
-                                  : "right"
-                              }
-                              content={
-                                <Popup
-                                  Name={item.Name || "Awaiting Member's Name"}
-                                  Content={
-                                    (item.Content.length && item.Content) ||
-                                    "Awaiting content from team member"
+                      return (
+                        <Grid item xs={6} sm={6} md={3}>
+                          <Tippy
+                            animation="fade"
+                            interactive="true"
+                            duration={[500, 0]}
+                            placement={
+                              window.screen.availWidth < 650
+                                ? "bottom"
+                                : "right"
+                            }
+                            content={
+                              <Popup
+                                Name={item.Name || "Awaiting Member's Name"}
+                                Content={
+                                  (item.Content.length && item.Content) ||
+                                  "Awaiting content from team member"
+                                }
+                                linkedin={item.Linkedin}
+                                twitter={item.Twitter}
+                              />
+                            }
+                          >
+                            <div>
+                              <div
+                                className={`${classes.team_cardDetails} card-details`}
+                              >
+                                <img
+                                  className={
+                                    !isActive
+                                      ? `${classes.team_cardImg} img-hover`
+                                      : `${classes.team_mobileCardImg} img-hover`
                                   }
-                                  linkedin={item.Linkedin}
-                                  twitter={item.Twitter}
+                                  src={item.Photo}
+                                  alt={item.Name.substring(
+                                    0,
+                                    item.Name.indexOf(" ")
+                                  )}
                                 />
-                              }
-                            >
-                              <div>
-                                <div
-                                  className={`${classes.team_cardDetails} card-details`}
+                                <Typography
+                                  variant="body1"
+                                  className={classes.team_cardTitle}
+                                  style={
+                                    !isActive ? {} : { textAlign: "center" }
+                                  }
                                 >
-                                  <img
-                                    // className="card-img-top team-info-card-img img-card-hover"
-                                    className={
-                                      !isActive
-                                        ? `${classes.team_cardImg} img-hover`
-                                        : `${classes.team_mobileCardImg} img-hover`
-                                    }
-                                    src={item.Photo}
-                                    alt={item.Name.substring(
-                                      0,
-                                      item.Name.indexOf(" ")
-                                    )}
-                                  />
-                                  <Typography
-                                    variant="body1"
-                                    className={classes.team_cardTitle}
-                                    style={
-                                      !isActive ? {} : { textAlign: "center" }
-                                    }
-                                  >
-                                    {item.Name}
-                                  </Typography>
-                                  <Typography
-                                    variant="body1"
-                                    className={classes.team_cardDescription}
-                                  >
-                                    {item.Designation}
-                                  </Typography>
-                                </div>
+                                  {item.Name}
+                                </Typography>
+                                <Typography
+                                  variant="body1"
+                                  className={classes.team_cardDescription}
+                                >
+                                  {item.Designation}
+                                </Typography>
                               </div>
-                            </Tippy>
-                          </Grid>
-                        );
+                            </div>
+                          </Tippy>
+                        </Grid>
+                      );
                     }
                   })
                 ) : (
