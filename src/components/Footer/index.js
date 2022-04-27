@@ -213,7 +213,11 @@ function Footer() {
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
             <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
               <Link to={PATHS.PRIVACY_POLICY} className={classes.link}>
-                <Typography variant="body2" color="text.primary">
+                <Typography
+                  className={classes.hover}
+                  variant="body2"
+                  color="text.primary"
+                >
                   Legal & Privacy Policy
                 </Typography>
               </Link>

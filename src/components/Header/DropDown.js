@@ -26,12 +26,13 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, typing, web, language, residential, random],
+  image: [python, typing, language, web, residential, random],
   Learn: [
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing Guru", code: "TYPGRU", type: "internal" },
-    { title: "JavaScript", code: "JVSCPT", type: "internal" },
     { title: "English", code: "SPKENG", type: "internal" },
+    { title: "JavaScript", code: "JVSCPT", type: "internal" },
+
     {
       title: "Residential Programmes",
       path: PATHS.RESIDENTIAL_COURSE,

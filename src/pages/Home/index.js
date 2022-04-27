@@ -31,7 +31,13 @@ const pathwayData = [
     title: "Typing",
     code: "TYPGRU",
     image: "typing",
-    description: "Learn to type with pinpoint accuracy and speed.",
+    description: "Learn to type with pinpoint accuracy and speed",
+  },
+  {
+    title: "Spoken English",
+    code: "SPKENG",
+    image: "language",
+    description: "Master English with easy to understand courses",
   },
   {
     title: "Web Development",
@@ -40,18 +46,12 @@ const pathwayData = [
     description: "Learn the basics of tech that powers the web",
   },
   {
-    title: "English",
-    code: "SPKENG",
-    image: "language",
-    description: "Get familiar with programming with bite sized lessons",
-  },
-  {
     title: "Residential Programmes",
     image: "residential",
     description: "Interview preparation  to get you job ready",
   },
   {
-    title: "Open Courses",
+    title: "Miscellaneous Courses",
     image: "misc",
     description: "Courses on Android, Game dev projects and more",
   },
@@ -246,7 +246,7 @@ function Home() {
               color="textPrimary"
               gutterBottom
             >
-              How can Meraki help you?
+              How Meraki will help you?
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
