@@ -172,8 +172,6 @@ function Admission(props) {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
               flexDirection: "column",
               minWidth: "50%",
             }}
@@ -193,7 +191,6 @@ function Admission(props) {
                 gridTemplateColumns: { sm: "1fr 1fr" },
                 gap: 3,
                 width: "100%",
-                m: 1,
               }}
               className={
                 isActive ? classes.admitionBottom1 : classes.admitionBottom
