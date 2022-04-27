@@ -123,7 +123,7 @@ const Partner = () => {
         Partners List
         <hr color="primary" className={classes.partnerHrline} />
       </Typography>
-      <Grid container spacing={4}>
+      <Grid container spacing={5} className={classes.partnerBottomspacing}>
         {Object.keys(partners).length ? (
           Object.keys(partners).map((item) => {
             return (
@@ -132,6 +132,7 @@ const Partner = () => {
                   <CardHeader
                     title={partners[item].Name}
                     titleTypographyProps={{ variant: "subtitle1" }}
+                    className={classes.partnerCardContainer}
                   />
                   <CardContent
                     className={
@@ -144,15 +145,28 @@ const Partner = () => {
                       <Button
                         variant="contained"
                         rounded
-                        sx={{
-                          borderRadius: { xs: 25, sm: 15 },
-                          height: { xs: "60", sm: "30px" },
-                          fontSize: "caption",
-                          background: "lemonchiffon",
-                          color: "black",
-                          marginTop: "-20px",
-                          marginBottom: "15px",
-                        }}
+                        sx={
+                          !isActive
+                            ? {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                background: "lemonchiffon",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                            : {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: 34, sm: 25 },
+                                size: "small",
+                                fontSize: "caption",
+                                background: "lemonchiffon",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                        }
                       >
                         {partners[item].OrganisationType}
                       </Button>
@@ -161,15 +175,28 @@ const Partner = () => {
                       <Button
                         variant="contained"
                         rounded
-                        sx={{
-                          borderRadius: { xs: 25, sm: 15 },
-                          height: { xs: "60", sm: "30px" },
-                          fontSize: "caption",
-                          background: "lightskyblue",
-                          color: "black",
-                          marginTop: "-20px",
-                          marginBottom: "15px",
-                        }}
+                        sx={
+                          !isActive
+                            ? {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                background: "lightskyblue",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                            : {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: 34, sm: 25 },
+                                size: "small",
+                                fontSize: "caption",
+                                background: "lightskyblue",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                        }
                       >
                         {partners[item].OrganisationType}
                       </Button>
@@ -177,15 +204,28 @@ const Partner = () => {
                       <Button
                         variant="contained"
                         rounded
-                        sx={{
-                          borderRadius: { xs: 25, sm: 15 },
-                          height: { xs: "60", sm: "30px" },
-                          fontSize: "caption",
-                          background: "silver",
-                          color: "black",
-                          marginTop: "-20px",
-                          marginBottom: "15px",
-                        }}
+                        sx={
+                          !isActive
+                            ? {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                background: "silver",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                            : {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: 34, sm: 25 },
+                                size: "small",
+                                fontSize: "caption",
+                                background: "silver",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                        }
                       >
                         {partners[item].OrganisationType}
                       </Button>
@@ -194,14 +234,26 @@ const Partner = () => {
                       <Button
                         variant="contained"
                         rounded
-                        sx={{
-                          borderRadius: { xs: 25, sm: 15 },
-                          height: { xs: "60", sm: "30px" },
-                          fontSize: "caption",
-                          color: "black",
-                          marginTop: "-20px",
-                          marginBottom: "15px",
-                        }}
+                        sx={
+                          !isActive
+                            ? {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                            : {
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: 34, sm: 25 },
+                                size: "small",
+                                fontSize: "caption",
+                                color: "black",
+                                marginTop: "-20px",
+                                marginBottom: "15px",
+                              }
+                        }
                       >
                         {partners[item].OrganisationType}
                       </Button>
@@ -210,7 +262,8 @@ const Partner = () => {
                     )}
 
                     <Typography variant="body1">
-                      {partners[item].City},{partners[item].State}
+                      {!partners[item].City == "" && `${partners[item].City}, `}
+                      {partners[item].State}
                     </Typography>
                   </CardContent>
                   <CardActions>
