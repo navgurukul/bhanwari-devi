@@ -102,14 +102,14 @@ function PathwayCourse() {
                   <Typography
                     variant="body2"
                     className={classes.cardSubtitle}
-                    sx={{ textAlign: isActive && "center" }}
+                    sx={{ textAlign: isActive && "center", pb: "8px" }}
                   >
                     Learning Track
                   </Typography>
                   <Typography
                     variant="h4"
                     className={classes.heading}
-                    sx={{ textAlign: isActive && "center" }}
+                    sx={{ textAlign: isActive && "center", pb: "16px" }}
                   >
                     {pathwayCourseData.pathway}
                   </Typography>

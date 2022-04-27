@@ -355,7 +355,7 @@ function Class({ classToEdit, indicator }) {
                         : false
                     }
                   />
-                  Cohort
+                  Batch
                 </label>
                 <label htmlFor="type2" className="radio-pointer">
                   <input
