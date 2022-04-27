@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
+import { useRouteMatch } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -33,6 +34,10 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     setDropDownMenu(menu.split(" ").join(""));
     SetSelectedMenu(menu);
   };
+
+  const showLoginButton = !useRouteMatch({
+    path: PATHS.LOGIN,
+  });
 
   const menuCloseHandler = () => {
     setIndicator(null);
@@ -77,7 +82,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           />
         ))}
       </Box>
-      {!leftDrawer && (
+
+      {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
           <Link to={PATHS.LOGIN} className={classes.button}>
             <Button variant="contained">Log in</Button>
