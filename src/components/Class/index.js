@@ -4,7 +4,7 @@ import moment from "moment";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import { versionCode } from "../../constant";
 import { TIME_CONSTANT, CLASS_FIELDS } from "./constant";
 import Loader from "../common/Loader";
 import Form from "../common/form";
@@ -21,6 +21,7 @@ const {
   CLASS_END_TIME,
   LANG,
   TYPE,
+  PATHWAY_ID,
   COURSE_ID,
   EXERCISE_ID,
   MAX_ENROLMENT,
@@ -44,6 +45,7 @@ function Class({ classToEdit, indicator }) {
     type,
     start_time,
     end_time,
+    pathway_id,
     course_id,
     exercise_id,
     max_enrolment,
@@ -77,6 +79,7 @@ function Class({ classToEdit, indicator }) {
       [LANG]: lang || "hi",
       [TYPE]: type || "cohort",
       [COURSE_ID]: course_id || "",
+      [PATHWAY_ID]: pathway_id || "",
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "0",
       [FREQUENCY]: frequency || "",
@@ -142,6 +145,7 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
       headers: {
         accept: "application/json",
+        "version-code": versionCode,
         Authorization: user.data.token,
       },
     }).then((res) => {
@@ -158,6 +162,7 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
       headers: {
         accept: "application/json",
+        "version-code": versionCode,
         Authorization: user.data.token,
       },
     }).then((res) => {
@@ -288,7 +293,10 @@ function Class({ classToEdit, indicator }) {
       category_id: 3,
     };
 
+    console.log("event.target", event.target);
+
     for (let [fieldName, value] of formData.entries()) {
+      console.log("fieldName", fieldName, "value", value);
       if (value) {
         if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
@@ -303,13 +311,13 @@ function Class({ classToEdit, indicator }) {
           }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
-        } else if (fieldName === pathwayId) {
-          formFields["course_id"] = pathwayId;
         } else {
           formFields[fieldName] = value;
         }
       }
     }
+
+    console.log("formFields", formFields);
 
     handleTimeValidationAndCreateClass(formFields);
   };
@@ -383,6 +391,8 @@ function Class({ classToEdit, indicator }) {
               </span>
 
               <label htmlFor="pathway">Pathway</label>
+              {console.log("formFieldsState", formFieldsState)}
+              {console.log("pathwayId", pathwayId)}
               <span>
                 {pathways.map((item, index) => {
                   if (item.code !== "PRCRSE") {
@@ -393,12 +403,14 @@ function Class({ classToEdit, indicator }) {
                       >
                         <input
                           type="radio"
-                          className="radio-field radio__input"
+                          className="radio-field"
                           key={item.id}
-                          name={item.id}
+                          name={PATHWAY_ID}
                           value={item.id}
                           onChange={(e) => {
+                            console.log("e", e.target.value);
                             setPathwayId(e.target.value);
+                            setFormField(item.id, PATHWAY_ID);
                           }}
                           checked={
                             pathwayId === `${item.id}` ? "checked" : false

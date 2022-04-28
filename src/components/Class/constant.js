@@ -15,6 +15,7 @@ export const CLASS_FIELDS = {
   CLASS_END_TIME: "class_end_time",
   LANG: "lang",
   TYPE: "type",
+  PATHWAY_ID: "pathway_id",
   COURSE_ID: "course_id",
   EXERCISE_ID: "exercise_id",
   MAX_ENROLMENT: "max_enrolment",
