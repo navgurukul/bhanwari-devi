@@ -29,7 +29,7 @@ const students = {
   image: [python, typing, language, web, residential, random],
   Learn: [
     { title: "Python", code: "PRGPYT", type: "internal" },
-    { title: "Typing Guru", code: "TYPGRU", type: "internal" },
+    { title: "Typing", code: "TYPGRU", type: "internal" },
     { title: "English", code: "SPKENG", type: "internal" },
     { title: "JavaScript", code: "JVSCPT", type: "internal" },
 
@@ -39,7 +39,7 @@ const students = {
       type: "internal",
     },
     {
-      title: "Open Courses",
+      title: "Miscellaneous Courses",
       path: PATHS.MISCELLANEOUS_COURSE,
       type: "internal",
     },

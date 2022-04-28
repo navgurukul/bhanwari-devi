@@ -14,7 +14,7 @@ const menu = {
   ],
   LearningTracks: [
     { title: "Python", code: "PRGPYT", type: "internal" },
-    { title: "Typing Guru", code: "TYPGRU", type: "internal" },
+    { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "Javascript", code: "JVSCPT", type: "internal" },
     {
@@ -23,7 +23,7 @@ const menu = {
       link: PATHS.RESIDENTIAL_COURSE,
     },
     {
-      title: "Open Courses",
+      title: "Miscellaneous Courses",
       type: "internal",
       link: PATHS.MISCELLANEOUS_COURSE,
     },

@@ -180,7 +180,7 @@ function Home() {
               <Grid container item xs={4} justifyContent="flex-start">
                 <Card elevation={2} className={classes.typingPopupCard}>
                   <Typography variant="body1" color="text.secondary">
-                    I want to be a typing assistant
+                    I want to learn or improve my typing skills
                   </Typography>
                 </Card>
               </Grid>
