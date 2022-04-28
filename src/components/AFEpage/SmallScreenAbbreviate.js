@@ -1,7 +1,7 @@
 import React from "react";
 export default function SmallScreenAbbreviate(props) {
   const text = props.text || "";
-  const isActive = props.isActive || false;
+  const isActive = props.isActive;
   const abbrText = text
     .split(" ")
     .map((word) => word[0].toUpperCase())

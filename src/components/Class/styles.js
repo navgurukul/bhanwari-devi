@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     height: "350px",
     display: "flex",
+    maxWidth: "300px",
     flexDirection: "column",
     justifyContent: "space-between",
     margin: "15px",

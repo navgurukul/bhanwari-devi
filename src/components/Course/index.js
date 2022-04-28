@@ -56,7 +56,6 @@ function Course() {
       return c.course_type === "json";
     });
     dataJSON.allCourses = dataJSON;
-    // console.log(dataJSON.allCourses);
     filteredCourse = dataJSON.allCourses.filter((names) => {
       if (names.course_type === "json") {
         return names.name.toLowerCase().includes(search.toLowerCase());

@@ -4,6 +4,7 @@ import { actions as courseActions } from "../../Course/redux/action";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
+
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../../constant";
 import {
@@ -31,42 +32,42 @@ function MiscellaneousCourses() {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  const pathwayCourseId = [];
-  pathway.data &&
-    pathway.data.pathways.filter((pathway) => {
-      pathway.courses.filter((course) => {
-        pathwayCourseId.push(course.id);
-        return course.id;
-      });
-    });
+  const pathwayCourseId =
+    (pathway.data &&
+      pathway.data.pathways
+        .map((pathway) => pathway.courses)
+        .flat()
+        .map((course) => course.id)) ||
+    [];
 
-  let otherCourses =
+  const otherCourses =
     data &&
     data.allCourses.filter(
-      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
+      (item) =>
+        pathwayCourseId &&
+        !pathwayCourseId.includes(item.id) &&
+        item.course_type === "json"
     );
 
+  console.log("otherCourses", otherCourses);
   return (
     <React.Fragment>
-      <Container sx={{ mt: 10 }} maxWidth="lg">
+      <Container className={classes.pathwayContainer} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0}>
-              <CardContent>
-                <Typography variant="h5" align={isActive ? "center" : "left"}>
-                  Miscellaneous Courses
-                </Typography>
-              </CardContent>
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  align={isActive ? "center" : "left"}
-                >
-                  Do you want to delve into Android, Game Development, Web Dev
-                  Basics or just some fun projects? Check out these courses for
-                  a sneak peak into these exciting fields.
-                </Typography>
-              </CardContent>
+              <Typography
+                variant="h5"
+                align={isActive ? "center" : "left"}
+                sx={{ pb: "16px" }}
+              >
+                Miscellaneous Courses
+              </Typography>
+              <Typography variant="body1" align={isActive ? "center" : "left"}>
+                Do you want to delve into Android, Game Development, Web Dev
+                Basics or just some fun projects? Check out these courses for a
+                sneak peak into these exciting fields.
+              </Typography>
             </Card>
           </Grid>
         </Grid>
@@ -79,7 +80,7 @@ function MiscellaneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
-                  {console.log("item", item)}
+                  {console.log("item.id", item.id)}
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

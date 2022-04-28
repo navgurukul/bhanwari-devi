@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
-import { METHODS } from "../../services/api";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,15 +13,14 @@ import {
   Box,
   Grid,
   Card,
-  CardContent,
   Typography,
   CardMedia,
-  Toolbar,
 } from "@mui/material";
 
-const pathways = {
-  1: {
+const pathways = [
+  {
     pathway: "Python",
+    code: "PRGPYT",
     description:
       "Learn the basics and become comfortable in one of the most popular programming languages Python.",
     outcomes: [
@@ -31,9 +28,9 @@ const pathways = {
       "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
     ],
   },
-
-  2: {
+  {
     pathway: "Javascript",
+    code: "JVSCPT",
     description:
       "Learn the nuances and basics of the technology that powers the web. Start with learning what is Javascript and eventually build your own website.",
     outcomes: [
@@ -41,8 +38,9 @@ const pathways = {
       "Build your basics of HTML, CSS and Javascript to prepare for advanced web development courses",
     ],
   },
-  3: {
+  {
     pathway: "Typing Guru",
+    code: "TYPGRU",
     description:
       "The typing track allows you to practice keyboard typing in a adaptive manner. You require a keyboard if on Android or use your laptop keyboard.",
     outcomes: [
@@ -50,8 +48,9 @@ const pathways = {
       "Be able to type long text with minimal inaccuracies",
     ],
   },
-  5: {
+  {
     pathway: "Spoken English & Grammar",
+    code: "SPKENG",
     description:
       "English is a great tool needed to navigate the tech world and also in an International setting. Whether you are a total beginner or already know some English, prepare for the challenge with our Spoken English classes and online courses.",
     outcomes: [
@@ -60,11 +59,14 @@ const pathways = {
       "Be able to give oral presentations, talk to friends and prospective colleagues",
     ],
   },
-};
+];
 
 function PathwayCourse() {
   const dispatch = useDispatch();
-  const user = useSelector(({ User }) => User);
+  const data = useSelector((state) => {
+    console.log("state", state);
+    return state;
+  });
   const { pathwayCourse } = useSelector((state) => state.Pathways);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -72,14 +74,27 @@ function PathwayCourse() {
   const pathwayId = params.pathwayId;
 
   useEffect(() => {
-    // dispatch(pathwayActions.getPathways());
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [pathwayId]);
+  }, [dispatch, pathwayId]);
+
+  data.Pathways.data &&
+    data.Pathways.data.pathways.forEach((pathway) => {
+      pathways.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
+
+  const pathwayCourseData = pathways.find((item) => {
+    console.log("item.id", item);
+    return item.id == pathwayId;
+  });
 
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
-        {pathwayId && (
+        {pathwayId && pathwayCourseData && (
           <>
             <Grid container spacing={2} align="center" className={classes.box}>
               <Grid xs={12} md={6}>
@@ -87,39 +102,39 @@ function PathwayCourse() {
                   <Typography
                     variant="body2"
                     className={classes.cardSubtitle}
-                    sx={{ textAlign: isActive && "center" }}
+                    sx={{ textAlign: isActive && "center", pb: "8px" }}
                   >
                     Learning Track
                   </Typography>
                   <Typography
                     variant="h4"
                     className={classes.heading}
-                    sx={{ textAlign: isActive && "center" }}
+                    sx={{ textAlign: isActive && "center", pb: "16px" }}
                   >
-                    {pathways[pathwayId].pathway}
+                    {pathwayCourseData.pathway}
                   </Typography>
                   <Typography variant="body1">
-                    {pathways[pathwayId].description}
+                    {pathwayCourseData.description}
                   </Typography>
                 </Card>
               </Grid>
               {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
-                <CardMedia
-                  component="video"
-                  autoPlay
-                  controls
-                  height="260"
-                  src="https://www.youtube.com/watch?v=Doo1T5WabEU"
-                  sx={{ width: isActive ? 380 : 480 }}
-                />
-              </Grid> */}
+                  <CardMedia
+                    component="video"
+                    autoPlay
+                    controls
+                    height="260"
+                    src="https://www.youtube.com/watch?v=Doo1T5WabEU"
+                    sx={{ width: isActive ? 380 : 480 }}
+                  />
+                </Grid> */}
             </Grid>
             <Box className={classes.Box1}>
               <Typography variant="h5" sx={{ textAlign: isActive && "center" }}>
                 Learning Outcomes
               </Typography>
               <Grid container spacing={0} align="center">
-                {pathways[pathwayId].outcomes.map((item) => (
+                {pathwayCourseData.outcomes.map((item) => (
                   <Grid xs={12} md={4}>
                     <Card align="left" elevation={0}>
                       <Box className={classes.flex}>
@@ -165,7 +180,6 @@ function PathwayCourse() {
                         className={classes.courseImage}
                         src={item.logo}
                         alt="course"
-                        loading="lazy"
                       />
                       <div className={classes.courseTitleNumber} disableGutters>
                         <Typography

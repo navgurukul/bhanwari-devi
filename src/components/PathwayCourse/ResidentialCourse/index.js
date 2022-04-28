@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import { breakpoints } from '../../theme/constant'
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import { useDispatch } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
@@ -29,27 +28,26 @@ function ResidentialProgramme() {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  let pathwayCourse;
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code === "PRCRSE") {
-        pathwayCourse = pathway.courses;
-      }
-    });
+  const resPathway =
+    data && data.pathways.find((pathway) => pathway.code === "PRCRSE");
+  const pathwayCourse = resPathway && resPathway.courses;
 
   return (
-    <Container sx={{ mt: 5, p: 4 }} maxWidth="lg">
+    <Container className={classes.pathwayContainer} maxWidth="lg">
       <Grid container spacing={2}>
         <Grid xs={12} md={6}>
           <Card align="left" elevation={0}>
             <Typography
               variant="body2"
-              sx={{ textAlign: isActive && "center" }}
+              className={classes.cardSubtitle}
+              sx={{ textAlign: isActive && "center", pb: "8px" }}
             >
               Learning Track
             </Typography>
-            <Typography variant="h4" sx={{ textAlign: isActive && "center" }}>
+            <Typography
+              variant="h4"
+              sx={{ textAlign: isActive && "center", pb: "16px" }}
+            >
               Residential Programme Info- Track
             </Typography>
             <Typography variant="body1">
@@ -68,7 +66,7 @@ function ResidentialProgramme() {
         <Grid sx={{ mt: 2 }} container spacing={3} align="center">
           {pathwayCourse &&
             pathwayCourse.map((item, index) => (
-              <Grid xs={12} md={3}>
+              <Grid xs={12} md={3} className={classes.courseCard}>
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -80,7 +78,7 @@ function ResidentialProgramme() {
                   <Card
                     className={classes.pathwayCard}
                     elevation={0}
-                    sx={{ ml: 2, p: 2 }}
+                    sx={{ ml: 2, p: "16px" }}
                   >
                     <img
                       className={classes.courseImage}
@@ -88,9 +86,27 @@ function ResidentialProgramme() {
                       alt="course"
                       loading="lazy"
                     />
-                    <CardContent>
-                      <Typography variant="subtitle1">{item.name}</Typography>
-                    </CardContent>
+                    <div className={classes.courseTitleNumber} disableGutters>
+                      <Typography
+                        align={isActive ? "center" : "left"}
+                        variant="body2"
+                        className={classes.courseName}
+                        sx={{
+                          mr: "10px",
+                          padding: isActive ? "5px" : "5px 0 5px 13px",
+                          verticalAlign: "top",
+                        }}
+                      >
+                        {index + 1}
+                      </Typography>
+                      <Typography
+                        align={isActive ? "center" : "left"}
+                        variant="body1"
+                        // sx={{ mt: "16px" }}
+                      >
+                        {item.name}
+                      </Typography>
+                    </div>
                   </Card>
                 </Link>
               </Grid>
@@ -100,9 +116,16 @@ function ResidentialProgramme() {
 
       <Stack sx={{ mt: 8 }} alignItems="center">
         <Typography variant="h6">Have you completed the overview?</Typography>
-        <Button sx={{ mt: 2 }} variant="contained" color="primary">
-          Yes, let's take the test
-        </Button>
+        <Link
+          style={{
+            textDecoration: "none",
+          }}
+          to={PATHS.ADMISSION}
+        >
+          <Button sx={{ mt: 2 }} variant="contained" color="primary">
+            Yes, let's take the test
+          </Button>
+        </Link>
       </Stack>
     </Container>
   );

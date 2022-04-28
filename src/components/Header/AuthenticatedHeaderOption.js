@@ -31,10 +31,13 @@ const SwitchView = ({
   setSwitchView,
   handleCloseSwitchView,
   switchView,
+  partner,
 }) => {
   const classes = useStyles();
 
+  rolesLandingPages.partner = partner;
   const roleLandingPage = rolesLandingPages[role];
+
   return roleLandingPage ? (
     <MenuItem
       onClick={() => {
@@ -229,28 +232,28 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   text="Students"
                   toggleDrawer={toggleDrawer}
                 />
-
                 <HeaderNavLink
                   to={PATHS.VOLUNTEER}
                   text="Volunteers"
                   toggleDrawer={toggleDrawer}
                 />
-
                 <HeaderNavLink
                   to={PATHS.PARTNERS}
                   text="Partners"
                   toggleDrawer={toggleDrawer}
                 />
+                {canSpecifyPartnerGroupId && (
+                  <HeaderNavLink
+                    to={`${PATHS.STATE}/${partnerGroupId}`}
+                    text="Dashboard"
+                    toggleDrawer={toggleDrawer}
+                  />
+                )}
               </>
             ) : null}
 
             {(switchView || rolesList[0]) === "volunteer" && volunteer ? (
               <>
-                <HeaderNavLink
-                  to={PATHS.VOLUNTEER}
-                  text="Volunteers"
-                  toggleDrawer={toggleDrawer}
-                />{" "}
                 <HeaderNavLink
                   to={PATHS.CLASS}
                   text="Classes"
@@ -331,6 +334,11 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                     setSwitchView={setSwitchView}
                     handleCloseSwitchView={handleCloseSwitchView}
                     switchView={switchView}
+                    partner={
+                      canSpecifyPartnerGroupId
+                        ? `${PATHS.STATE}/${partnerGroupId}`
+                        : `${PATHS.PARTNERS}/${partnerId}`
+                    }
                   />
                 ))}
               </Menu>
@@ -383,27 +391,27 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <MenuItem
-              onClick={handleCloseUserMenu}
-              sx={{ width: 120, margin: "0px 10px" }}
-            >
-              <NavLink to={PATHS.PROFILE} className={classes.link}>
+            <NavLink to={PATHS.PROFILE} className={classes.link}>
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                sx={{ width: 120, margin: "0px 10px" }}
+              >
                 <Typography textAlign="center">Profile</Typography>
-              </NavLink>
-            </MenuItem>
-            <MenuItem
-              onClick={handleCloseUserMenu}
-              sx={{ width: 120, margin: "0px 10px" }}
+              </MenuItem>
+            </NavLink>
+            <Link
+              onClick={() => dispatch(userActions.logout())}
+              className={classes.link}
             >
-              <Link
-                onClick={() => dispatch(userActions.logout())}
-                className={classes.link}
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                sx={{ width: 120, margin: "0px 10px" }}
               >
                 <Typography textAlign="center" color="error">
                   Logout
                 </Typography>
-              </Link>
-            </MenuItem>
+              </MenuItem>
+            </Link>
           </Menu>
         </Box>
       )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import axios from "axios";
@@ -11,14 +11,9 @@ import useStyles from "./styles";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
-
 import {
   Container,
   Box,
@@ -30,6 +25,72 @@ import {
   MenuItem,
 } from "@mui/material";
 
+const Exercise = ({
+  course,
+  exerciseId,
+  setExerciseId,
+  classes,
+  history,
+  params,
+}) => {
+  const start = exerciseId > 6 ? exerciseId - 6 : 0;
+  const courseLength =
+    course && course.length && exerciseId < 7
+      ? course.slice(start, 7)
+      : course.slice(start, exerciseId + 1);
+  return (
+    <>
+      {courseLength.map((exercise, index) => {
+        return (
+          <NavigationComponent
+            params={params}
+            history={history}
+            index={index + start}
+            exerciseId={exerciseId}
+            setExerciseId={setExerciseId}
+            classes={classes}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+function NavigationComponent({
+  index,
+  exerciseId,
+  setExerciseId,
+  classes,
+  history,
+  params,
+}) {
+  console.log("exerciseId", exerciseId);
+  console.log("index", index);
+  return (
+    <>
+      <img
+        onClick={() => {
+          history.push(
+            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+              courseId: params.courseId,
+              exerciseId: index,
+              pathwayId: params.pathwayId,
+            })
+          );
+          setExerciseId(index);
+        }}
+        src={
+          exerciseId == index
+            ? `${require("./asset/contentTypeSelectd.svg")}`
+            : `${require("./asset/contenttype.svg")}`
+        }
+        loading="lazy"
+        className={classes.contentImg}
+      />
+    </>
+  );
+}
+
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
@@ -39,7 +100,6 @@ function PathwayExercise() {
   const params = useParams();
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
-  const customSlider = useRef();
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -53,7 +113,6 @@ function PathwayExercise() {
       },
     })
       .then((res) => {
-        console.log("res", res.data.course.exercises[0]?.content);
         setCourse(res.data.course.exercises);
       })
       .catch((err) => {
@@ -61,10 +120,10 @@ function PathwayExercise() {
       });
   }, []);
 
+  console.log("courseId", courseId);
+
   const previousClickHandler = () => {
     if (exerciseId > 0) {
-      customSlider.current.slickPrev();
-
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -78,8 +137,6 @@ function PathwayExercise() {
 
   const nextClickHandler = () => {
     if (exerciseId < courseLength - 1) {
-      customSlider.current.slickNext();
-
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -91,92 +148,10 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
     }
   };
-  const NextClick = () => {
-    return (
-      <ArrowForwardIosIcon
-        opacity={`${exerciseId < courseLength - 1 ? 1 : 0}`}
-        sx={{ marginLeft: 3 }}
-        style={{
-          position: "relative",
-          right: -282,
-          top: -34,
-        }}
-        onClick={() => {
-          nextClickHandler();
-        }}
-      />
-    );
-  };
-  const PrevClick = () => {
-    return (
-      <ArrowBackIosIcon
-        style={{
-          position: "relative",
-          left: -21,
-          top: 36,
-        }}
-        opacity={`${exerciseId !== 0 ? 1 : 0}`}
-        sx={{ marginRight: 3 }}
-        onClick={() => {
-          previousClickHandler();
-        }}
-      />
-    );
-  };
-  function NavigationComponent({
-    index,
-    exerciseId,
-    setExerciseId,
-    classes,
-    history,
-    params,
-  }) {
-    return (
-      <>
-        <img
-          onClick={() => {
-            customSlider.current.slickGoTo(index);
-            history.push(
-              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })
-            );
-            setExerciseId(index);
-          }}
-          src={
-            exerciseId == index
-              ? `${require("./asset/contentTypeSelectd.svg")}`
-              : `${require("./asset/contenttype.svg")}`
-          }
-          loading="lazy"
-          className={classes.contentImg}
-        />
-      </>
-    );
-  }
 
-  const settings = {
-    dots: false,
-    nextArrow: <NextClick />,
-    prevArrow: <PrevClick />,
-    infinite: false,
-    display: "flex",
-    slideAlign: "center",
-    slidesToShow: 7,
-    slickNext: true,
-    slidesToScroll: 0.5,
-    useCSS: true,
-    slide: "img",
-    verticalWidth: "50%",
-  };
-  console.log("course", course);
-  console.log("exerciseId", exerciseId);
   const [language, setLanguage] = useState("en");
   return (
     <>
-      {/* <Container maxWidth="false"> */}
       <AppBar fullWidth position="sticky" color="background">
         <Container maxWidth>
           <div className="hideInMobile">
@@ -204,28 +179,38 @@ function PathwayExercise() {
                 </Link>
               </Typography>
               <Toolbar>
-                <Slider
-                  ref={(slider) => (customSlider.current = slider)}
-                  style={{
-                    width: "20vw",
-                    height: "80px",
-                  }}
-                  {...settings}
-                >
-                  {course &&
-                    course.map((exercise, index) => {
-                      return (
-                        <NavigationComponent
-                          params={params}
-                          history={history}
-                          index={index}
-                          exerciseId={exerciseId}
-                          setExerciseId={setExerciseId}
-                          classes={classes}
-                        />
-                      );
-                    })}
-                </Slider>
+                <ArrowBackIosIcon
+                  opacity={`${exerciseId !== 0 ? 1 : 0}`}
+                  sx={{ marginRight: 3 }}
+                  onClick={previousClickHandler}
+                />
+                <div className="gridtopofcourse7">
+                  {exerciseId >
+                  (
+                    <Exercise
+                      course={course}
+                      params={params}
+                      history={history}
+                      exerciseId={exerciseId + 1}
+                      setExerciseId={setExerciseId}
+                      classes={classes}
+                    />
+                  )}
+                  <Exercise
+                    course={course}
+                    params={params}
+                    history={history}
+                    exerciseId={exerciseId}
+                    setExerciseId={setExerciseId}
+                    classes={classes}
+                  />
+                </div>
+
+                <ArrowForwardIosIcon
+                  opacity={`${exerciseId < courseLength - 1 ? 1 : 0}`}
+                  sx={{ marginLeft: 3 }}
+                  onClick={nextClickHandler}
+                />
               </Toolbar>
               <Select
                 IconComponent={() => null}
@@ -355,7 +340,6 @@ function PathwayExercise() {
           </Button>
         </Toolbar>
       </Box>
-      {/* </Container> */}
     </>
   );
 }

@@ -16,7 +16,7 @@ const menu = {
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing Guru", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "Javascript", code: "JSRPIT", type: "internal" },
+    { title: "Javascript", code: "JVSCPT", type: "internal" },
     {
       title: "Residential Programmes",
       type: "internal",
@@ -29,7 +29,7 @@ const menu = {
     },
   ],
   GetInvolved: [
-    { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
+    // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
 
     {
       title: "Donate",
@@ -137,7 +137,7 @@ function Footer() {
     data.pathways.forEach((pathway) => {
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
-          item["id"] = pathway.id;
+          item.id = pathway.id;
         }
       });
     });

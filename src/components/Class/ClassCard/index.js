@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import useStyles from "./styles";
+import useStyles from "../styles";
 
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
@@ -38,7 +38,7 @@ function ClassCard({ item, editClass, enroll, style }) {
     ta: "Tamil",
     doubt_class: "Doubt Class",
     workshop: "Workshop",
-    cohort: "Cohort",
+    cohort: "Batch",
   };
 
   const handleClose = () => {
@@ -188,36 +188,32 @@ function ClassCard({ item, editClass, enroll, style }) {
         // sx={{ p: 3, background: "#e9f5e9", width: "320px" }}
         className={classes.card}
       >
-        <div>
-          <Typography
-            variant="subtitle1"
-            color="primary"
-            className={classes.spacing}
-          >
-            {languageMap[item.type]}
-            {item.enrolled == true ? (
-              <i className="check-icon check-icon fa fa-check-circle">
-                {" "}
-                Enrolled
-              </i>
-            ) : null}
-          </Typography>
-          <Typography variant="subtitle1" className={classes.spacing}>
-            {item.title}
-          </Typography>
-        </div>
-        <div>
-          <Typography className={classes.spacing}>
-            Facilitator : {item.facilitator.name}
-          </Typography>
-          <Typography className={classes.spacing}>
-            Date:{moment(classStartTime).format("DD-MM-YYYY")}{" "}
-          </Typography>
-          <Typography className={classes.spacing}>
-            Time:{moment(classStartTime).format("hh:mm a")} -{" "}
-            {moment(classEndTime).format("hh:mm a")}
-          </Typography>
-        </div>
+        <Typography
+          variant="subtitle1"
+          color="primary"
+          className={classes.spacing}
+        >
+          {languageMap[item.type]}
+          {item.enrolled && (
+            <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
+          )}
+        </Typography>
+        <Typography variant="subtitle1" className={classes.spacing}>
+          {item.title}
+        </Typography>
+        <Typography className={classes.spacing}>
+          Facilitator : {item.facilitator.name}
+        </Typography>
+        <Typography className={classes.spacing}>
+          Language : {languageMap[item.lang]}
+        </Typography>
+        <Typography className={classes.spacing}>
+          Date:{moment(classStartTime).format("DD-MM-YYYY")}{" "}
+        </Typography>
+        <Typography className={classes.spacing}>
+          Time:{moment(classStartTime).format("hh:mm a")} -{" "}
+          {moment(classEndTime).format("hh:mm a")}
+        </Typography>
         <Grid
           container
           spacing={2}
@@ -225,7 +221,7 @@ function ClassCard({ item, editClass, enroll, style }) {
           // style={{ display: "flex", flexDirection: "column" }}
         >
           <div className={classes.Buttons}>
-            {!item.enrolled ? (
+            {item.enrolled ? (
               loading ? (
                 <div className="loader-button">
                   <Loader />
@@ -234,13 +230,13 @@ function ClassCard({ item, editClass, enroll, style }) {
                 <Button
                   type="submit"
                   variant="contained"
+                  color="error"
+                  className="class-drop-out"
                   onClick={() => {
-                    handleClickOpenEnroll(item.id);
-                    console.log("poo");
+                    handleClickOpenUnenroll(item.id);
                   }}
                 >
-                  {/* {enroll} */}
-                  Enroll
+                  Drop out
                 </Button>
               )
             ) : loading ? (
@@ -251,19 +247,18 @@ function ClassCard({ item, editClass, enroll, style }) {
               <Button
                 type="submit"
                 variant="contained"
-                color="error"
-                className="class-drop-out"
                 onClick={() => {
-                  handleClickOpenUnenroll(item.id);
+                  handleClickOpenEnroll(item.id);
                 }}
               >
-                Drop out
+                {/* {enroll} */}
+                Enroll
               </Button>
             )}
-            {item.facilitator.email == user.data.user.email || flag ? (
+            {item.facilitator.email === user.data.user.email || flag ? (
               // <div className="class-card-actions">
               <div className={classes.buttonGroup2}>
-                <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
+                {/* <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} /> */}
                 <EditIcon
                   onClick={() => {
                     handleEdit(item.id);

@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
+import { useRouteMatch } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -33,6 +34,10 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     setDropDownMenu(menu.split(" ").join(""));
     SetSelectedMenu(menu);
   };
+
+  const showLoginButton = !useRouteMatch({
+    path: PATHS.LOGIN,
+  });
 
   const menuCloseHandler = () => {
     setIndicator(null);
@@ -67,6 +72,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </>
         ))}
       </Box>
+      {/* <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}> */}
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
           <MobileDropDown
@@ -76,13 +82,12 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           />
         ))}
       </Box>
-      {!leftDrawer && (
+
+      {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
-          <Button variant="contained">
-            <Link to={PATHS.LOGIN} className={classes.button}>
-              Log in
-            </Link>
-          </Button>
+          <Link to={PATHS.LOGIN} className={classes.button}>
+            <Button variant="contained">Log in</Button>
+          </Link>
         </Box>
       )}
     </>
@@ -93,6 +98,7 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const classes = useStyles();
+
   return (
     <Box
       className={classes.mobileBox}
@@ -101,7 +107,11 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
       onKeyDown={toggleDrawer(false)}
       bgcolor="primary.light"
     >
-      <Box className={classes.box} onClick={toggleDrawer(false)}>
+      <Box
+        className={classes.box}
+        onClick={toggleDrawer(false)}
+        sx={{ display: { xs: "block", md: "none" } }}
+      >
         <Toolbar disableGutters>
           <Box className={classes.RightBox}>
             <Link to="/">
@@ -135,6 +145,11 @@ function Header() {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = React.useState(false);
+  window.addEventListener("resize", () => {
+    if (window.outerWidth > theme.breakpoints.values.md) {
+      setLeftDrawer(false);
+    }
+  });
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
@@ -156,18 +171,7 @@ function Header() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar
-        position="sticky"
-        color="background"
-        elevation={elevation}
-        // onhashchange={() => {
-        //   console.log("here changes");
-        //   if (window.location.pathname.split("/").includes("course-content")) {
-        //     console.log("here");
-        //     setShowHeader(false);
-        //   }
-        // }}
-      >
+      <AppBar position="sticky" color="background" elevation={elevation}>
         <Container maxWidth="false">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

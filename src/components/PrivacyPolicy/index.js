@@ -104,24 +104,17 @@ function PrivacyPolicy() {
         <Typography variant="body1" sx={{ mt: "40px" }}>
           We may employ third-party companies and individuals due to the
           following reasons:-
-          <Box className={classes.list}>
-            <CircleIcon sx={{ pr: 2, width: "7px" }} />
-            <Typography>To facilitate our service</Typography>
-          </Box>
-          <Box className={classes.list}>
-            <CircleIcon sx={{ pr: 2, width: "7px" }} />
-            <Typography>To provide the service on our behalf</Typography>
-          </Box>
-          <Box className={classes.list}>
-            <CircleIcon sx={{ pr: 2, width: "7px" }} />
-            <Typography>To perform service-related services</Typography>
-          </Box>
-          <Box className={classes.list}>
-            <CircleIcon sx={{ pr: 2, width: "7px" }} />
-            <Typography>
-              To assist us in analyzing how our service is used.
-            </Typography>
-          </Box>
+          {[
+            "To facilitate our service",
+            "To provide the service on our behalf",
+            "To perform service-related services",
+            "To assist us in analyzing how our service is used",
+          ].map((text) => (
+            <Box className={classes.list}>
+              <CircleIcon sx={{ pr: 2, width: "7px" }} />
+              <Typography>{text}</Typography>
+            </Box>
+          ))}
         </Typography>
         <Typography variant="body1" sx={{ mt: "40px" }}>
           We want to inform users of this service that these third parties have
