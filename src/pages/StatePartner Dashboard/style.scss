@@ -111,6 +111,32 @@ h4 {
   width: 70%;
 }
 
+.state-name {
+  display: flex;
+  margin-top: 50px;
+  font-family: Lusitana;
+  font-style: normal;
+  padding: 0 10%;
+  font-size: 18px;
+  cursor: default;
+}
+
+hr {
+  border-top: 2px solid #48a145;
+}
+
+.light-text {
+  color: #9c9999;
+}
+
+.dark-text {
+  color: #1b1b1b;
+}
+
+.first-state-name {
+  margin-right: 50px;
+}
+
 @media screen and (max-width: 650px) {
   .state-partner-choose-district {
     flex-direction: column;
