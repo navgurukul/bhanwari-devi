@@ -10,8 +10,10 @@ import { Typography } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-export default function AlertDialog() {
+export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -24,7 +26,25 @@ export default function AlertDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const { title, start_time, end_time, id } = props;
+  const user = useSelector(({ User }) => User);
+  const handelEnrollment = (Id) => {
+    axios
+      .post(
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user.data.token,
+            "register-to-all": true,
+          },
+        }
+      )
+      .then(() => {
+        handleClose();
+      });
+  };
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpen} fullWidth>
@@ -36,7 +56,7 @@ export default function AlertDialog() {
             Awesome! You have taken the first step to being a programmer
           </Typography>
           <Typography variant="h6" mt={2}>
-            rocking boy
+            {title}
           </Typography>
           <Typography variant="body1" mt={1}>
             <img
@@ -44,12 +64,17 @@ export default function AlertDialog() {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            19 Sep 21, 4 PM - 5 PM
+            {start_time?.split("T")[0]} - {end_time?.split("T")[0]}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
           <Button onClick={handleClose}>Back</Button>
-          <Button onClick={handleClose} variant="contained">
+          <Button
+            onClick={() => {
+              handelEnrollment(id);
+            }}
+            variant="contained"
+          >
             Confirm Enrollment
           </Button>
         </DialogActions>
