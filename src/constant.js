@@ -31,6 +31,7 @@ export const PATHS = {
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
   NEWUSER_DASHBOARED: "/user-dashboared",
+  PYTHONCOURSE: "/Python-course",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];

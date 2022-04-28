@@ -25,6 +25,7 @@ import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunte
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 import OurStory from "../pages/OurStory";
 import NewUserDashbord from "../components/NewUserDashbord";
+// import PythonCourse from "../components/PythonCourse";
 
 import TeamPage from "../pages/TeamPage";
 import Partner from "../pages/Partner";
@@ -72,6 +73,11 @@ const Routing = () => {
         path={PATHS.NEWUSER_DASHBOARED}
         component={NewUserDashbord}
       />
+      {/* <Route
+        exact
+        path={PATHS.PYTHONCOURSE}
+        component={PythonCourse}
+      /> */}
 
       <Route
         exact

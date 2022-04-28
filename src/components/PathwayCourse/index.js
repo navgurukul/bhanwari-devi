@@ -16,6 +16,8 @@ import {
   Typography,
   CardMedia,
 } from "@mui/material";
+import UpcomingCourse from "../UpcomingCourse";
+import BelowComponent from "../UpcomingCourse/BelowComponent";
 
 const pathways = [
   {
@@ -97,7 +99,7 @@ function PathwayCourse() {
         {pathwayId && pathwayCourseData && (
           <>
             <Grid container spacing={2} align="center" className={classes.box}>
-              <Grid xs={12} md={6}>
+              <Grid xs={6} md={6}>
                 <Card align="left" elevation={0} className={classes.titleCard}>
                   <Typography
                     variant="body2"
@@ -118,6 +120,10 @@ function PathwayCourse() {
                   </Typography>
                 </Card>
               </Grid>
+              <Grid xs={6} md={6}>
+                <UpcomingCourse />
+              </Grid>
+
               {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
                   <CardMedia
                     component="video"
@@ -207,6 +213,19 @@ function PathwayCourse() {
                 </Grid>
               ))}
           </Grid>
+          <Grid align="center">
+            <Grid className={classes.certificateLogo}>
+              <img src={require("./asset/separator.svg")} alt="icon" />
+            </Grid>
+            <Grid className={classes.certificateLogo}>
+              <img
+                src={require("./asset/Layer_1.svg")}
+                alt="certificate icon"
+              />
+            </Grid>
+          </Grid>
+
+          <BelowComponent />
         </Box>
       </Container>
     </>
