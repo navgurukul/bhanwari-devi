@@ -52,25 +52,22 @@ function MiscellaneousCourses() {
   console.log("otherCourses", otherCourses);
   return (
     <React.Fragment>
-      <Container sx={{ mt: 10 }} maxWidth="lg">
+      <Container className={classes.pathwayContainer} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0}>
-              <CardContent>
-                <Typography variant="h5" align={isActive ? "center" : "left"}>
-                  Miscellaneous Courses
-                </Typography>
-              </CardContent>
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  align={isActive ? "center" : "left"}
-                >
-                  Do you want to delve into Android, Game Development, Web Dev
-                  Basics or just some fun projects? Check out these courses for
-                  a sneak peak into these exciting fields.
-                </Typography>
-              </CardContent>
+              <Typography
+                variant="h5"
+                align={isActive ? "center" : "left"}
+                sx={{ pb: "16px" }}
+              >
+                Miscellaneous Courses
+              </Typography>
+              <Typography variant="body1" align={isActive ? "center" : "left"}>
+                Do you want to delve into Android, Game Development, Web Dev
+                Basics or just some fun projects? Check out these courses for a
+                sneak peak into these exciting fields.
+              </Typography>
             </Card>
           </Grid>
         </Grid>

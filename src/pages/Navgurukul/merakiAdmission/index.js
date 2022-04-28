@@ -164,9 +164,9 @@ function Admission(props) {
             <Typography variant="subtitle1" gutterBottom align="center">
               Experience of NG Alumni & Graduates
             </Typography>
-            <hr
+            {/* <hr
               className={isActive ? classes.admitionHr1 : classes.admitionHr}
-            />
+            /> */}
           </div>
 
           <div

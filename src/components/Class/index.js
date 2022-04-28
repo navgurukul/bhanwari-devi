@@ -139,7 +139,7 @@ function Class({ classToEdit, indicator }) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -355,7 +355,7 @@ function Class({ classToEdit, indicator }) {
                         : false
                     }
                   />
-                  Cohort
+                  Batch
                 </label>
                 <label htmlFor="type2" className="radio-pointer">
                   <input
