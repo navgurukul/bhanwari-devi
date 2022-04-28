@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pathwayContainer: {
     marginTop: 40,
+    marginBottom: 48,
   },
   mobileVideo: {
     width: 700,
@@ -69,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "baseline",
     paddingTop: "16px",
+  },
+  certificateLogo: {
+    // marginBottom : "5px",
+    fontSize: "90px",
   },
 }));
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 import { getQueryVariable } from "../../../common/utils";
 import { METHODS } from "../../../services/api";
 import { PATHS } from "../../../constant";
