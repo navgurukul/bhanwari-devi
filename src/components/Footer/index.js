@@ -29,7 +29,7 @@ const menu = {
     },
   ],
   GetInvolved: [
-    { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
+    // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
 
     {
       title: "Donate",

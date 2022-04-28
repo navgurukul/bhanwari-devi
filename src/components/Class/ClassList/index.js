@@ -5,7 +5,7 @@ import { actions as classActions } from "../redux/action";
 import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
-import { Grid } from "@mui/material";
+import { Grid, Container } from "@mui/material";
 
 function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
@@ -37,8 +37,9 @@ function ClassList({ editClass, isShow }) {
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
 
   return (
-    <div>
-      <div className="ng-upcoming-class">
+    <Container maxWidth="xl" sx={{ mt: "40px" }}>
+      {/* <div className="ng-upcoming-class"> */}
+      <Grid container spacing={2}>
         {data && data.length > 0 ? (
           <>
             {single_classes.map((item, index) => {
@@ -75,8 +76,9 @@ function ClassList({ editClass, isShow }) {
             <h2>No Classes Today....</h2>
           </div>
         )}
-      </div>
-    </div>
+        {/* </div> */}
+      </Grid>
+    </Container>
   );
 }
 export default ClassList;
