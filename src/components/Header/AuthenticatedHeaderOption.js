@@ -320,9 +320,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   className={switchView === "student" && classes.bgColor}
                 >
                   <NavLink
-                    to={interpolatePath(PATHS.PATHWAY_COURSE, {
-                      pathwayId: pythonPathwayId,
-                    })}
+                    to={interpolatePath(PATHS.NEWUSER_DASHBOARED)}
                     className={classes.link}
                   >
                     Student

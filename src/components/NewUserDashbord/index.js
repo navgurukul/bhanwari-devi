@@ -70,8 +70,8 @@ const NewUserDashbord = () => {
 
   return (
     <>
-      <Container>
-        <Typography variant="h5" align="center" mt={4} mb={3}>
+      <Container className={classes.DashboardContainer}>
+        <Typography variant="h5" align="center" mt={4} mb={1}>
           Hello, {UserName} 👋
         </Typography>
         <Typography variant="h6" align="center" mb={5}>
@@ -79,7 +79,7 @@ const NewUserDashbord = () => {
         </Typography>
       </Container>
       <Container maxWidth="lg">
-        <Grid container align="center" rowSpacing={10} mb={30}>
+        <Grid container align="center" rowSpacing={10} mb={10}>
           {pathwayData.map((item) => (
             <Grid
               item
@@ -87,7 +87,7 @@ const NewUserDashbord = () => {
               ms={6}
               md={4}
               className={classes.cardGrid}
-              maxHeight={310}
+              maxHeight={280}
             >
               <PathwayCard
                 id={item.id}

@@ -67,7 +67,7 @@ const Routing = () => {
 
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
-      <Route
+      <PrivateRoute
         exact
         path={PATHS.NEWUSER_DASHBOARED}
         component={NewUserDashbord}
