@@ -58,7 +58,8 @@ function TeamPage() {
       item.Association !== null &&
       item.Photo !== null &&
       item.Name !== null &&
-      item.Content.length > 1 &&
+      item.Content &&
+      item.Content.length > 0 &&
       item.Designation !== null
     ) {
       console.log("item", item.Name, item.Content);
@@ -70,6 +71,9 @@ function TeamPage() {
       return item;
     }
   });
+
+  const content = "Awaiting content from team member";
+  const name = "Awaiting Member's Name";
 
   function Popup(props) {
     return (
@@ -104,11 +108,7 @@ function TeamPage() {
 
         <Typography
           variant="body1"
-          style={
-            props.Content === "Awaiting content from team member"
-              ? { color: "grey" }
-              : {}
-          }
+          style={props.Content === content ? { color: "grey" } : {}}
           paragraph
         >
           {props.Content}
@@ -297,10 +297,10 @@ function TeamPage() {
                             }
                             content={
                               <Popup
-                                Name={item.Name || "Awaiting Member's Name"}
+                                Name={item.Name || name}
                                 Content={
                                   (item.Content.length && item.Content) ||
-                                  "Awaiting content from team member"
+                                  content
                                 }
                                 linkedin={item.Linkedin}
                                 twitter={item.Twitter}
