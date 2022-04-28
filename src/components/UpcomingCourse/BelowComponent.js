@@ -10,10 +10,10 @@ import { Box } from "@mui/system";
 import AlertDialog from "./dilog";
 // import { Button } from "framework7-react";
 
-const BelowComponent = () => {
+const BelowComponent = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-
+  const { upcomingBatchesData } = props;
   return (
     <>
       <Container align="center">

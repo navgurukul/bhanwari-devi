@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "green",
   },
+  MoreBatchWrap: {
+    display: "flex",
+    flexDirection: "column",
+    padding: "25px",
+  },
 }));
 
 export default useStyles;

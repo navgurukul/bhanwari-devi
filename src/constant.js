@@ -41,6 +41,7 @@ export const HideFooter = [
   PATHS.PROFILE,
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
+  PATHS.NEWUSER_DASHBOARED,
 ];
 
 export const interpolatePath = (path, paramValues) =>
