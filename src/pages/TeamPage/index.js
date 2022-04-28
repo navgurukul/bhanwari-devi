@@ -201,7 +201,7 @@ function TeamPage() {
                       : { marginRight: 0, marginBottom: 2 }
                   }
                 >
-                  Join as a Partner
+                  Join Us
                 </Button>
                 <Button
                   variant="outlined"
