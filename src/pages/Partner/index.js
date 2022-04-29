@@ -42,7 +42,7 @@ const Partner = () => {
       <Container maxWidth="sm">
         <Typography variant="h5" align="center">
           Our Partners
-          <hr color="primary" className={classes.partnerHrline} />
+          {/* <hr color="primary" className={classes.partnerHrline} /> */}
         </Typography>
         <Typography
           variant="body2"
@@ -95,12 +95,12 @@ const Partner = () => {
                   }}
                   size="small"
                 >
-                <Link
-                // to={PATHS.AFE}
-                className={classes.link2}
-                >
-                  featured
-                </Link>
+                  <Link
+                    // to={PATHS.AFE}
+                    className={classes.link2}
+                  >
+                    featured
+                  </Link>
                 </Button>
               </Stack>
               <Typography variant="subtitle1" gutterBottom>
@@ -130,7 +130,7 @@ const Partner = () => {
 
       <Typography variant="h5" align="center">
         Partners List
-        <hr color="primary" className={classes.partnerHrline} />
+        {/* <hr color="primary" className={classes.partnerHrline} /> */}
       </Typography>
       <Grid container spacing={5} className={classes.partnerBottomspacing}>
         {Object.keys(partners).length ? (
@@ -275,7 +275,8 @@ const Partner = () => {
                         )}
 
                         <Typography variant="body1">
-                          {!partners[item].City == "" && `${partners[item].City}, `}
+                          {!partners[item].City == "" &&
+                            `${partners[item].City}, `}
                           {partners[item].State}
                         </Typography>
                       </CardContent>
