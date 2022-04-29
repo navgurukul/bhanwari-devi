@@ -205,6 +205,9 @@ function ClassCard({ item, editClass, enroll, style }) {
           Facilitator : {item.facilitator.name}
         </Typography>
         <Typography className={classes.spacing}>
+          Language : {languageMap[item.lang]}
+        </Typography>
+        <Typography className={classes.spacing}>
           Date:{moment(classStartTime).format("DD-MM-YYYY")}{" "}
         </Typography>
         <Typography className={classes.spacing}>
@@ -255,7 +258,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             {item.facilitator.email === user.data.user.email || flag ? (
               // <div className="class-card-actions">
               <div className={classes.buttonGroup2}>
-                <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
+                {/* <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} /> */}
                 <EditIcon
                   onClick={() => {
                     handleEdit(item.id);
