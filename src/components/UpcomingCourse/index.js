@@ -85,7 +85,14 @@ const UpcomingCourse = (props) => {
               <Typography gutterBottom variant="h5" align="start">
                 {BatchData?.title}
               </Typography>
-              <Typography variant="body1" mb={2} align="start">
+              <Typography
+                variant="body1"
+                mb={1}
+                style={{
+                  display: "flex",
+                  padding: "10px 0",
+                }}
+              >
                 <img
                   className={classes.icons}
                   src={require("./assets/calender.svg")}
@@ -94,7 +101,14 @@ const UpcomingCourse = (props) => {
                 From {BatchData?.start_time.split("T")[0]} -{" "}
                 {BatchData?.end_time.split("T")[0]}
               </Typography>
-              <Typography variant="body1" mb={1} align="start">
+              <Typography
+                variant="body1"
+                mb={1}
+                style={{
+                  display: "flex",
+                  // padding: "10px 0",
+                }}
+              >
                 <img
                   className={classes.icons}
                   src={require("./assets/degree.svg")}

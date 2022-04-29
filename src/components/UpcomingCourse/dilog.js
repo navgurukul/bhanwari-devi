@@ -58,7 +58,14 @@ export default function AlertDialog(props) {
           <Typography variant="h6" mt={2}>
             {title}
           </Typography>
-          <Typography variant="body1" mt={1}>
+          <Typography
+            variant="body1"
+            mb={1}
+            style={{
+              display: "flex",
+              padding: "10px 0",
+            }}
+          >
             <img
               className={classes.icons}
               src={require("./assets/calender.svg")}

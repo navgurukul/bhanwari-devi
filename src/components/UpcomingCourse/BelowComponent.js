@@ -21,7 +21,15 @@ const BelowComponent = (props) => {
           <Typography align="center" gutterBottom variant="h5">
             Batch: Ankit_15SEP21
           </Typography>
-          <Typography variant="body1" mb={2} align="center">
+          <Typography
+            variant="body1"
+            mb={1}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px 0",
+            }}
+          >
             <img
               className={classes.icons}
               src={require("./assets/calender.svg")}
@@ -29,7 +37,15 @@ const BelowComponent = (props) => {
             />
             15 Sep 21 - 15 Nov 21
           </Typography>
-          <Typography variant="body1" mb={1} align="center">
+          <Typography
+            variant="body1"
+            mb={1}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px 0",
+            }}
+          >
             <img
               className={classes.icons}
               src={require("./assets/degree.svg")}

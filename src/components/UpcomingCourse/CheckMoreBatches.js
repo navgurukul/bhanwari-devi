@@ -48,14 +48,13 @@ export default function CheckMoreBatches(props) {
   };
   return (
     <>
-      <Typography
-        className={classes.link}
-        color="success"
-        onClick={handleClickOpen}
-      >
-        {" "}
-        Check out our other batches
-      </Typography>
+      <Link className={classes.link}>
+        <Typography color="success" onClick={handleClickOpen}>
+          {" "}
+          Check out our other batches
+        </Typography>
+      </Link>
+
       <Dialog open={open} onClose={handleClose}>
         <div className={classes.MoreBatchWrap}>
           <Typography onClick={handleClickOpen} variant="h5" align="start">
@@ -64,7 +63,8 @@ export default function CheckMoreBatches(props) {
           {upcomingBatchesData?.slice(1).map((item) => (
             <Card
               style={{
-                padding: "10px 0",
+                margin: "7px 5px 7px 5px",
+                padding: "10px",
               }}
             >
               {" "}
@@ -76,7 +76,6 @@ export default function CheckMoreBatches(props) {
                 mt={1}
                 style={{
                   display: "flex",
-                  justifyContent: "center",
                   padding: "10px 0",
                 }}
               >
