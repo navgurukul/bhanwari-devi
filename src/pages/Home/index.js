@@ -40,7 +40,7 @@ const pathwayData = [
     description: "Master English with easy to understand courses",
   },
   {
-    title: "Web Development",
+    title: "Javascript",
     code: "JVSCPT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
@@ -324,7 +324,7 @@ function Home() {
             </Grid> */}
             <Stack sx={{ mt: 3 }} alignItems="center">
               {/* <Button href={PATHS.OUR_PARTNER}> */}
-              <Button>
+              <Button href={PATHS.OUR_PARTNER}>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
               </Button>
