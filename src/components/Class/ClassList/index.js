@@ -58,7 +58,7 @@ function ClassList({ editClass, isShow }) {
             })}
             {recurring_classes.map((item, index) => {
               return (
-                <Grid item xs={12} ms={6} md={3} sx={{ mb: 10 }}>
+                <Grid item xs={12} ms={6} md={3} sx={{ mb: 3 }}>
                   <ClassCard
                     item={item}
                     key={index}

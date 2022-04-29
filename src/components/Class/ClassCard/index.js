@@ -183,11 +183,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   return (
     <>
       {" "}
-      <Card
-        elevation={2}
-        // sx={{ p: 3, background: "#e9f5e9", width: "320px" }}
-        className={classes.card}
-      >
+      <Card elevation={2} sx={{ p: 4 }} className={classes.card}>
         <Typography
           variant="subtitle1"
           color="primary"
