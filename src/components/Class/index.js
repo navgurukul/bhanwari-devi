@@ -293,10 +293,7 @@ function Class({ classToEdit, indicator }) {
       category_id: 3,
     };
 
-    console.log("event.target", event.target);
-
     for (let [fieldName, value] of formData.entries()) {
-      console.log("fieldName", fieldName, "value", value);
       if (value) {
         if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
@@ -311,13 +308,16 @@ function Class({ classToEdit, indicator }) {
           }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
-        } else {
+        }
+        // if (fieldName === "pathway_id") {
+        //   console.log("removing pathway_id from payload");
+        //   continue;
+        // }
+        else {
           formFields[fieldName] = value;
         }
       }
     }
-
-    console.log("formFields", formFields);
 
     handleTimeValidationAndCreateClass(formFields);
   };
@@ -337,7 +337,29 @@ function Class({ classToEdit, indicator }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
-          const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
+          // const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
+          let checkEquivalence = true;
+          let disable =
+            formFieldsState[TYPE] &&
+            formFieldsState[PATHWAY_ID] &&
+            formFieldsState[TITLE] &&
+            formFieldsState[DESCRIPTION] &&
+            formFieldsState[DESCRIPTION].length < 555;
+
+          if (formFieldsState[TYPE] === "cohort") {
+            if (
+              disable &&
+              formFieldsState[ON_DAYS] &&
+              (formFieldsState[UNTIL] || formFieldsState[OCCURRENCE])
+            ) {
+              checkEquivalence = false;
+            }
+          } else {
+            if (disable) {
+              checkEquivalence = false;
+            }
+          }
+
           return (
             <>
               <label htmlFor="type">Class Type</label>
@@ -391,38 +413,46 @@ function Class({ classToEdit, indicator }) {
               </span>
 
               <label htmlFor="pathway">Pathway</label>
-              {console.log("formFieldsState", formFieldsState)}
-              {console.log("pathwayId", pathwayId)}
-              <span>
-                {pathways.map((item, index) => {
-                  if (item.code !== "PRCRSE") {
-                    return (
-                      <label
-                        htmlFor={`pathway-${index}`}
-                        className="radio-pointer"
-                      >
-                        <input
-                          type="radio"
-                          className="radio-field"
-                          key={item.id}
-                          name={PATHWAY_ID}
-                          value={item.id}
-                          onChange={(e) => {
-                            console.log("e", e.target.value);
-                            setPathwayId(e.target.value);
-                            setFormField(item.id, PATHWAY_ID);
-                          }}
-                          checked={
-                            pathwayId === `${item.id}` ? "checked" : false
-                          }
-                          id={`pathway-${index}`}
-                        />
-                        {item.name}
-                      </label>
-                    );
-                  }
-                })}
-              </span>
+              <div
+                className={
+                  formFieldsState[PATHWAY_ID] && "radio-field-with-validation"
+                }
+              >
+                <span>
+                  {pathways.map((item, index) => {
+                    if (item.code !== "PRCRSE") {
+                      return (
+                        <label
+                          htmlFor={`pathway-${index}`}
+                          className="radio-pointer"
+                        >
+                          <input
+                            type="radio"
+                            className="radio-field"
+                            key={item.id}
+                            name={PATHWAY_ID}
+                            value={item.id}
+                            onChange={(e) => {
+                              setPathwayId(e.target.value);
+                              setFormField(item.id, PATHWAY_ID);
+                            }}
+                            checked={
+                              pathwayId === `${item.id}` ? "checked" : false
+                            }
+                            id={`pathway-${index}`}
+                          />
+                          {item.name}
+                        </label>
+                      );
+                    }
+                  })}
+                </span>
+              </div>
+              {!formFieldsState[PATHWAY_ID] && (
+                <span className="field-validation">
+                  Please choose a pathway
+                </span>
+              )}
               {pathwayId &&
                 pathways.map((pathway) => {
                   if (pathwayId == pathway.id) {
@@ -432,7 +462,11 @@ function Class({ classToEdit, indicator }) {
                           Select Course{" "}
                         </label>
                         <select
-                          className="input-field"
+                          className={
+                            !formFieldsState[COURSE_ID]
+                              ? "input-field"
+                              : "input-field-without-validation"
+                          }
                           required={isEditMode ? false : true}
                           aria-required
                           name={COURSE_ID}
@@ -456,6 +490,9 @@ function Class({ classToEdit, indicator }) {
                     );
                   }
                 })}
+              {pathwayId && formFieldsState[COURSE_ID] == "" && (
+                <span className="field-validation">Select a course</span>
+              )}
               {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
                 <>
                   <label htmlFor="exercise_id" className="label-field">
@@ -463,7 +500,7 @@ function Class({ classToEdit, indicator }) {
                     <span className="optional-field">(optional)</span>
                   </label>
                   <select
-                    className="input-field"
+                    className="input-field-without-validation"
                     name={EXERCISE_ID}
                     value={formFieldsState[EXERCISE_ID]}
                     onChange={(e) => {
@@ -489,7 +526,11 @@ function Class({ classToEdit, indicator }) {
                 Title
               </label>
               <input
-                className="input-field"
+                className={
+                  !formFieldsState[TITLE]
+                    ? "input-field"
+                    : "input-field-without-validation"
+                }
                 type="text"
                 name={TITLE}
                 onChange={(e) =>
@@ -500,6 +541,9 @@ function Class({ classToEdit, indicator }) {
                 required
                 aria-required
               />
+              {!formFieldsState[TITLE] && (
+                <span className="field-validation">Title cannot be empty</span>
+              )}
               <label htmlFor="description" className="label-field">
                 Description
               </label>
@@ -511,10 +555,26 @@ function Class({ classToEdit, indicator }) {
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
                 value={formFieldsState[DESCRIPTION]}
-                className="textarea-field"
+                className={
+                  !formFieldsState[DESCRIPTION] ||
+                  formFieldsState[DESCRIPTION].length > 555
+                    ? "textarea-field"
+                    : "textarea-field-without-validation"
+                }
                 required
                 aria-required
               />
+              {!formFieldsState[DESCRIPTION] ? (
+                <span className="field-validation">
+                  Description cannot be empty
+                </span>
+              ) : (
+                formFieldsState[DESCRIPTION].length > 555 && (
+                  <span className="field-validation">
+                    Description cannot be more than 555 character
+                  </span>
+                )
+              )}
               {canSpecifyFacilitator && (
                 <>
                   <label htmlFor="facilitator_name" className="label-field">
@@ -966,6 +1026,9 @@ function Class({ classToEdit, indicator }) {
                       SU
                     </label>
                   </span>
+                  {formFieldsState[ON_DAYS].length == 0 && (
+                    <span className="field-validation">Select days</span>
+                  )}
                   <label htmlFor={UNTIL} className="label-field">
                     Until
                     <span className="optional-field">
@@ -973,7 +1036,7 @@ function Class({ classToEdit, indicator }) {
                     </span>
                   </label>
                   <input
-                    className="input-field input-field--short"
+                    className="input-field-without-validation input-field--short"
                     type="date"
                     data-date-format="YYYY MM DD"
                     name={UNTIL}
@@ -991,6 +1054,9 @@ function Class({ classToEdit, indicator }) {
                         : false
                     }
                   />
+                  {!formFieldsState[UNTIL] && !formFieldsState[OCCURRENCE] && (
+                    <span className="field-validation">Select date</span>
+                  )}
                   <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
                     <span className="optional-field">
@@ -998,7 +1064,7 @@ function Class({ classToEdit, indicator }) {
                     </span>
                   </label>
                   <input
-                    className="input-field"
+                    className="input-field-without-validation"
                     type="number"
                     name={OCCURRENCE}
                     id={OCCURRENCE}
@@ -1018,25 +1084,32 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              <div
+              {formFieldsState[TYPE] === "cohort" &&
+                !formFieldsState[UNTIL] &&
+                !formFieldsState[OCCURRENCE] && (
+                  <span className="field-validation">
+                    Enter how many class you want to create
+                  </span>
+                )}
+              {/* <div
                 className={
                   checkEquivalence ? "disabled-button" : "enabled-button"
                 }
+              > */}
+              <button
+                type="submit"
+                className={checkEquivalence ? "submit disabled" : "submit"}
+                disabled={checkEquivalence}
               >
-                <button
-                  type="submit"
-                  className={checkEquivalence ? "submit disabled" : "submit"}
-                  disabled={checkEquivalence}
-                >
-                  {loading ? (
-                    <Loader />
-                  ) : isEditMode ? (
-                    `UPDATE CLASS`
-                  ) : (
-                    "Create Class"
-                  )}
-                </button>
-              </div>
+                {loading ? (
+                  <Loader />
+                ) : isEditMode ? (
+                  `UPDATE CLASS`
+                ) : (
+                  "Create Class"
+                )}
+              </button>
+              {/* </div> */}
             </>
           );
         }}
