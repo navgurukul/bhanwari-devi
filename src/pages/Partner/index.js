@@ -55,13 +55,18 @@ const Partner = () => {
           the world of programming? If so, look no further.
         </Typography>
         <Grid container justifyContent="center">
-          <Button
+          {/*<Button
             variant="contained"
             color="primary"
             className={!isActive ? classes.partnerBtn : classes.partnerBtn1}
           >
+            <Link
+              //to={PATHS.AFE}
+              className={classes.link1}
+              >
             Join as a Partner
-          </Button>
+            </Link>
+          </Button>*/}
         </Grid>
       </Container>
 
@@ -90,7 +95,12 @@ const Partner = () => {
                   }}
                   size="small"
                 >
+                <Link
+                // to={PATHS.AFE}
+                className={classes.link2}
+                >
                   featured
+                </Link>
                 </Button>
               </Stack>
               <Typography variant="subtitle1" gutterBottom>
@@ -127,186 +137,191 @@ const Partner = () => {
           Object.keys(partners).map((item) => {
             return (
               <Grid item xs={12} sm={4} md={4}>
-                <Card className={classes.partnerCard}>
-                  <CardHeader
-                    title={partners[item].Name}
-                    titleTypographyProps={{ variant: "subtitle1" }}
-                    className={classes.partnerCardContainer}
-                  />
-                  <CardContent
-                    className={
-                      !isActive
-                        ? classes.partnerCardContainer
-                        : classes.partnerCardContainer1
-                    }
-                  >
-                    {partners[item].OrganisationType == "Non - Profit" ? (
-                      <Button
-                        variant="contained"
-                        rounded
-                        sx={
+                {!partners[item].Name == "" &&
+                  !partners[item].OrganisationType == "" &&
+                  !partners[item].State == "" &&
+                  !partners[item].City == "" && (
+                    <Card className={classes.partnerCard}>
+                      <CardHeader
+                        title={partners[item].Name}
+                        titleTypographyProps={{ variant: "subtitle1" }}
+                        className={classes.partnerCardContainer}
+                      />
+                      <CardContent
+                        className={
                           !isActive
-                            ? {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: "60", sm: "30px" },
-                                fontSize: "caption",
-                                background: "lemonchiffon",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
-                            : {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: 34, sm: 25 },
-                                size: "small",
-                                fontSize: "caption",
-                                background: "lemonchiffon",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
+                            ? classes.partnerCardContainer
+                            : classes.partnerCardContainer1
                         }
                       >
-                        {partners[item].OrganisationType}
-                      </Button>
-                    ) : partners[item].OrganisationType ==
-                      "Educational Institution" ? (
-                      <Button
-                        variant="contained"
-                        rounded
-                        sx={
-                          !isActive
-                            ? {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: "60", sm: "30px" },
-                                fontSize: "caption",
-                                background: "lightskyblue",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
-                            : {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: 34, sm: 25 },
-                                size: "small",
-                                fontSize: "caption",
-                                background: "lightskyblue",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
-                        }
-                      >
-                        {partners[item].OrganisationType}
-                      </Button>
-                    ) : partners[item].OrganisationType == "Government" ? (
-                      <Button
-                        variant="contained"
-                        rounded
-                        sx={
-                          !isActive
-                            ? {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: "60", sm: "30px" },
-                                fontSize: "caption",
-                                background: "silver",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
-                            : {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: 34, sm: 25 },
-                                size: "small",
-                                fontSize: "caption",
-                                background: "silver",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
-                        }
-                      >
-                        {partners[item].OrganisationType}
-                      </Button>
-                    ) : partners[item].OrganisationType ==
-                      "Community based organisation" ? (
-                      <Button
-                        variant="contained"
-                        rounded
-                        sx={
-                          !isActive
-                            ? {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: "60", sm: "30px" },
-                                fontSize: "caption",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
-                            : {
-                                borderRadius: { xs: 25, sm: 15 },
-                                height: { xs: 34, sm: 25 },
-                                size: "small",
-                                fontSize: "caption",
-                                color: "black",
-                                marginTop: "-20px",
-                                marginBottom: "15px",
-                              }
-                        }
-                      >
-                        {partners[item].OrganisationType}
-                      </Button>
-                    ) : (
-                      ""
-                    )}
+                        {partners[item].OrganisationType == "Non - Profit" ? (
+                          <Button
+                            variant="contained"
+                            rounded
+                            sx={
+                              !isActive
+                                ? {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: "60", sm: "30px" },
+                                    fontSize: "caption",
+                                    background: "lemonchiffon",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                                : {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: 34, sm: 25 },
+                                    size: "small",
+                                    fontSize: "caption",
+                                    background: "lemonchiffon",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                            }
+                          >
+                            {partners[item].OrganisationType}
+                          </Button>
+                        ) : partners[item].OrganisationType ==
+                          "Educational Institution" ? (
+                          <Button
+                            variant="contained"
+                            rounded
+                            sx={
+                              !isActive
+                                ? {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: "60", sm: "30px" },
+                                    fontSize: "caption",
+                                    background: "lightskyblue",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                                : {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: 34, sm: 25 },
+                                    size: "small",
+                                    fontSize: "caption",
+                                    background: "lightskyblue",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                            }
+                          >
+                            {partners[item].OrganisationType}
+                          </Button>
+                        ) : partners[item].OrganisationType == "Government" ? (
+                          <Button
+                            variant="contained"
+                            rounded
+                            sx={
+                              !isActive
+                                ? {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: "60", sm: "30px" },
+                                    fontSize: "caption",
+                                    background: "silver",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                                : {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: 34, sm: 25 },
+                                    size: "small",
+                                    fontSize: "caption",
+                                    background: "silver",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                            }
+                          >
+                            {partners[item].OrganisationType}
+                          </Button>
+                        ) : partners[item].OrganisationType ==
+                          "Community based organisation" ? (
+                          <Button
+                            variant="contained"
+                            rounded
+                            sx={
+                              !isActive
+                                ? {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: "60", sm: "30px" },
+                                    fontSize: "caption",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                                : {
+                                    borderRadius: { xs: 25, sm: 15 },
+                                    height: { xs: 34, sm: 25 },
+                                    size: "small",
+                                    fontSize: "caption",
+                                    color: "black",
+                                    marginTop: "-20px",
+                                    marginBottom: "15px",
+                                  }
+                            }
+                          >
+                            {partners[item].OrganisationType}
+                          </Button>
+                        ) : (
+                          ""
+                        )}
 
-                    <Typography variant="body1">
-                      {!partners[item].City == "" && `${partners[item].City}, `}
-                      {partners[item].State}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    {partners[item].Url ? (
-                      <IconButton>
-                        <Link href={partners[item].Url}>
-                          <PublicIcon
-                            variant="outlined"
-                            fontSize="small"
-                            className={classes.partnerIconSize}
-                          />
-                        </Link>
-                      </IconButton>
-                    ) : (
-                      <></>
-                    )}
-                    {partners[item].LinkedinId ? (
-                      <IconButton>
-                        <Link href={partners[item].LinkedinId}>
-                          <LinkedInIcon
-                            variant="outlined"
-                            fontSize="small"
-                            className={classes.partnerIconSize}
-                          />
-                        </Link>
-                      </IconButton>
-                    ) : (
-                      <></>
-                    )}
-                    {partners[item].TwitterId ? (
-                      <IconButton>
-                        <Link href={partners[item].TwitterId}>
-                          <TwitterIcon
-                            variant="outlined"
-                            fontSize="small"
-                            className={classes.partnerIconSize}
-                          />
-                        </Link>
-                      </IconButton>
-                    ) : (
-                      <></>
-                    )}
-                  </CardActions>
-                </Card>
+                        <Typography variant="body1">
+                          {!partners[item].City == "" && `${partners[item].City}, `}
+                          {partners[item].State}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        {partners[item].Url ? (
+                          <IconButton>
+                            <Link href={partners[item].Url}>
+                              <PublicIcon
+                                variant="outlined"
+                                fontSize="small"
+                                className={classes.partnerIconSize}
+                              />
+                            </Link>
+                          </IconButton>
+                        ) : (
+                          <></>
+                        )}
+                        {partners[item].LinkedinId ? (
+                          <IconButton>
+                            <Link href={partners[item].LinkedinId}>
+                              <LinkedInIcon
+                                variant="outlined"
+                                fontSize="small"
+                                className={classes.partnerIconSize}
+                              />
+                            </Link>
+                          </IconButton>
+                        ) : (
+                          <></>
+                        )}
+                        {partners[item].TwitterId ? (
+                          <IconButton>
+                            <Link href={partners[item].TwitterId}>
+                              <TwitterIcon
+                                variant="outlined"
+                                fontSize="small"
+                                className={classes.partnerIconSize}
+                              />
+                            </Link>
+                          </IconButton>
+                        ) : (
+                          <></>
+                        )}
+                      </CardActions>
+                    </Card>
+                  )}
               </Grid>
             );
           })
