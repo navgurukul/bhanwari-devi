@@ -96,6 +96,8 @@ function PathwayExercise() {
   const user = useSelector(({ User }) => User);
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
+  // lang_available
+  const [availableLang, setAvailableLang] = useState(["en"]);
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
@@ -114,12 +116,17 @@ function PathwayExercise() {
     })
       .then((res) => {
         setCourse(res.data.course.exercises);
+        setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
         console.log("error");
       });
   }, []);
-
+  const Lang = {
+    en: "English",
+    mr: "Marathi",
+    hi: "Hindi",
+  };
   console.log("courseId", courseId);
 
   const previousClickHandler = () => {
@@ -221,9 +228,9 @@ function PathwayExercise() {
                 }}
                 variant="standard"
               >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
+                {availableLang.map((lang) => {
+                  return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+                })}
               </Select>
             </Toolbar>
           </div>
@@ -255,9 +262,9 @@ function PathwayExercise() {
                 }}
                 variant="standard"
               >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
+                {availableLang.map((lang) => {
+                  return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+                })}
               </Select>
             </div>
             <Toolbar>
