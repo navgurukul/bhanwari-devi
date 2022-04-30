@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "300px",
     flexDirection: "column",
     justifyContent: "space-between",
-    margin: "15px",
+    margin: "0px 4px 0px 4px",
     padding: "15px",
     "&:hover": {
       boxShadow:
