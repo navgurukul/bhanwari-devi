@@ -8,12 +8,45 @@ import { PATHS, interpolatePath } from "../../constant";
 import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./dilog";
+import axios from "axios";
+import { useSelector } from "react-redux";
 // import { Button } from "framework7-react";
 
 const BelowComponent = (props) => {
+  const [open, setOpen] = React.useState(false);
+
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const { upcomingBatchesData } = props;
+
+  const handleClickOpen = () => {
+    setOpen(!open);
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+
+  const { title, start_time, end_time, id } = props;
+  const user = useSelector(({ User }) => User);
+  // const handelEnrollment = (Id) => {
+  //   axios
+  //     .post(
+  //       `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+  //       {},
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: user.data.token,
+  //           "register-to-all": true,
+  //         },
+  //       }
+  //     )
+  //     .then(() => {
+  //       handleClose();
+  //     });
+  // };
+
   return (
     <>
       <Container align="center">
@@ -54,7 +87,10 @@ const BelowComponent = (props) => {
             Access to live classes
           </Typography>
           <Stack alignItems="center" maxWidth={600}>
-            <AlertDialog />
+            <Button variant="contained" onClick={handleClickOpen}>
+              Ankit_15SEP21 Enroll Batch
+            </Button>
+            <AlertDialog open={open} close={close} />
           </Stack>
           <Typography mt={2} color="primary.text" align="center">
             Can’t start on 15 Sep 21?
