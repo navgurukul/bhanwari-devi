@@ -12,6 +12,7 @@ import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function AlertDialog(props) {
   // const [openDialog, setOpenDialog] = React.useState(false);
@@ -35,6 +36,17 @@ export default function AlertDialog(props) {
         }
       )
       .then(() => {
+        toast.success("Class Enrolled", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2500,
+        });
+        close();
+      })
+      .catch((err) => {
+        toast.error("Failed To Enroll To Class", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2500,
+        });
         close();
       });
   };

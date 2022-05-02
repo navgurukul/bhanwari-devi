@@ -14,7 +14,7 @@ const menu = {
   ],
   LearningTracks: [
     { title: "Python", code: "PRGPYT", type: "internal" },
-    { title: "Typing Guru", code: "TYPGRU", type: "internal" },
+    { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "Javascript", code: "JVSCPT", type: "internal" },
     {
@@ -23,13 +23,13 @@ const menu = {
       link: PATHS.RESIDENTIAL_COURSE,
     },
     {
-      title: "Open Courses",
+      title: "Miscellaneous Courses",
       type: "internal",
       link: PATHS.MISCELLANEOUS_COURSE,
     },
   ],
   GetInvolved: [
-    // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
+    { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
 
     {
       title: "Donate",
@@ -213,7 +213,11 @@ function Footer() {
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
             <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
               <Link to={PATHS.PRIVACY_POLICY} className={classes.link}>
-                <Typography variant="body2" color="text.primary">
+                <Typography
+                  className={classes.hover}
+                  variant="body2"
+                  color="text.primary"
+                >
                   Legal & Privacy Policy
                 </Typography>
               </Link>

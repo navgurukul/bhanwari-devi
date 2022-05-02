@@ -31,19 +31,19 @@ const pathwayData = [
     title: "Typing",
     code: "TYPGRU",
     image: "typing",
-    description: "Learn to type with pinpoint accuracy and speed.",
+    description: "Learn to type with pinpoint accuracy and speed",
   },
   {
-    title: "Web Development",
+    title: "Spoken English",
+    code: "SPKENG",
+    image: "language",
+    description: "Master English with easy to understand courses",
+  },
+  {
+    title: "Javascript",
     code: "JVSCPT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
-  },
-  {
-    title: "English",
-    code: "SPKENG",
-    image: "language",
-    description: "Get familiar with programming with bite sized lessons",
   },
   {
     title: "Residential Programmes",
@@ -51,7 +51,7 @@ const pathwayData = [
     description: "Interview preparation  to get you job ready",
   },
   {
-    title: "Open Courses",
+    title: "Miscellaneous Courses",
     image: "misc",
     description: "Courses on Android, Game dev projects and more",
   },
@@ -180,7 +180,7 @@ function Home() {
               <Grid container item xs={4} justifyContent="flex-start">
                 <Card elevation={2} className={classes.typingPopupCard}>
                   <Typography variant="body1" color="text.secondary">
-                    I want to be a typing assistant
+                    I want to learn or improve my typing skills
                   </Typography>
                 </Card>
               </Grid>
@@ -246,7 +246,7 @@ function Home() {
               color="textPrimary"
               gutterBottom
             >
-              How can Meraki help you?
+              How Meraki will help you?
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
@@ -324,7 +324,7 @@ function Home() {
             </Grid> */}
             <Stack sx={{ mt: 3 }} alignItems="center">
               {/* <Button href={PATHS.OUR_PARTNER}> */}
-              <Button>
+              <Button href={PATHS.OUR_PARTNER}>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
               </Button>

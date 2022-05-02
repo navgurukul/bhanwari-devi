@@ -25,7 +25,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: "25px",
-    width: "320px",
+    width: "448px",
+  },
+  MoreBatchCard: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    padding: "20px 0",
+    minHeight: "170px",
   },
 }));
 
