@@ -14,19 +14,12 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 export default function AlertDialog(props) {
-  const [open, setOpen] = React.useState(false);
+  // const [openDialog, setOpenDialog] = React.useState(false);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const { title, start_time, end_time, id } = props;
+  const { open, close, title, start_time, end_time, id } = props;
   const user = useSelector(({ User }) => User);
   const handelEnrollment = (Id) => {
     axios
@@ -42,15 +35,12 @@ export default function AlertDialog(props) {
         }
       )
       .then(() => {
-        handleClose();
+        close();
       });
   };
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen} fullWidth>
-        Enroll Batch
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
           <Typography variant="h6">
             Awesome! You have taken the first step to being a programmer
@@ -58,7 +48,14 @@ export default function AlertDialog(props) {
           <Typography variant="h6" mt={2}>
             {title}
           </Typography>
-          <Typography variant="body1" mt={1}>
+          <Typography
+            variant="body1"
+            mb={1}
+            style={{
+              display: "flex",
+              padding: "10px 0",
+            }}
+          >
             <img
               className={classes.icons}
               src={require("./assets/calender.svg")}
@@ -68,7 +65,7 @@ export default function AlertDialog(props) {
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
-          <Button onClick={handleClose}>Back</Button>
+          <Button onClick={close}>Back</Button>
           <Button
             onClick={() => {
               handelEnrollment(id);

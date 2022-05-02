@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icons: {
     marginRight: "15px",
+    position: "flex-end",
   },
   centere: {
     align: "center",
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: "25px",
+    width: "320px",
   },
 }));
 

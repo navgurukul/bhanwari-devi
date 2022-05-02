@@ -13,16 +13,47 @@ import { useSelector } from "react-redux";
 // import { Button } from "framework7-react";
 import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
+
 const UpcomingCourse = (props) => {
+  const [open, setOpen] = React.useState(false);
+
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  const user = useSelector(({ User }) => User);
+  // const user = useSelector(({ User }) => User);
   const { upcomingBatchesData } = props;
   const [BatchData, setBatchData] = useState(upcomingBatchesData[0]);
 
   useEffect(() => {
     setBatchData(upcomingBatchesData[0]);
   }, [upcomingBatchesData]);
+
+  const handleClickOpen = () => {
+    setOpen(!open);
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+
+  const { title, start_time, end_time, id } = props;
+  const user = useSelector(({ User }) => User);
+  // const handelEnrollment = (Id) => {
+  //   axios
+  //     .post(
+  //       `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+  //       {},
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: user.data.token,
+  //           "register-to-all": true,
+  //         },
+  //       }
+  //     )
+  //     .then(() => {
+  //       handleClose();
+  //     });
+  // };
 
   // {
   //   "id": 27508,
@@ -85,7 +116,14 @@ const UpcomingCourse = (props) => {
               <Typography gutterBottom variant="h5" align="start">
                 {BatchData?.title}
               </Typography>
-              <Typography variant="body1" mb={2} align="start">
+              <Typography
+                variant="body1"
+                mb={1}
+                style={{
+                  display: "flex",
+                  padding: "10px 0",
+                }}
+              >
                 <img
                   className={classes.icons}
                   src={require("./assets/calender.svg")}
@@ -94,7 +132,14 @@ const UpcomingCourse = (props) => {
                 From {BatchData?.start_time.split("T")[0]} -{" "}
                 {BatchData?.end_time.split("T")[0]}
               </Typography>
-              <Typography variant="body1" mb={1} align="start">
+              <Typography
+                variant="body1"
+                mb={1}
+                style={{
+                  display: "flex",
+                  // padding: "10px 0",
+                }}
+              >
                 <img
                   className={classes.icons}
                   src={require("./assets/degree.svg")}
@@ -102,7 +147,12 @@ const UpcomingCourse = (props) => {
                 />
                 Access to live classes
               </Typography>
+              <Button variant="contained" onClick={handleClickOpen} fullWidth>
+                Enroll Batch
+              </Button>
               <AlertDialog
+                open={open}
+                close={close}
                 title={BatchData?.title}
                 start_time={BatchData?.start_time}
                 end_time={BatchData?.end_time}
