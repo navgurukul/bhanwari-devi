@@ -309,11 +309,10 @@ function Class({ classToEdit, indicator }) {
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
         }
-        // if (fieldName === "pathway_id") {
-        //   console.log("removing pathway_id from payload");
-        //   continue;
-        // }
-        else {
+        if (fieldName === "pathway_id") {
+          console.log("removing pathway_id from payload");
+          continue;
+        } else {
           formFields[fieldName] = value;
         }
       }
