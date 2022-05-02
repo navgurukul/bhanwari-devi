@@ -77,7 +77,7 @@ function Class({ classToEdit, indicator }) {
         ? moment.utc(end_time).add(330, "minute").format("kk:mm")
         : moment().add(60, "minute").format("kk:mm"),
       [LANG]: lang || "hi",
-      [TYPE]: type || "cohort",
+      [TYPE]: type || "batch",
       [COURSE_ID]: course_id || "",
       [PATHWAY_ID]: pathway_id || "",
       [EXERCISE_ID]: exercise_id || "",
@@ -103,7 +103,7 @@ function Class({ classToEdit, indicator }) {
   const editClass = (payload) => {
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
-    if (classToEdit.type === "cohort") {
+    if (classToEdit.type === "batch") {
       if (indicator === false) {
         delete payload.frequency;
       }
@@ -301,18 +301,19 @@ function Class({ classToEdit, indicator }) {
             delete formFields.max_enrolment;
           }
         } else if (fieldName === "type") {
-          if (value === "cohort") {
-            formFields = { ...formFields, type: "cohort", frequency: "WEEKLY" };
+          if (value === "batch") {
+            formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
           } else {
             formFields[fieldName] = value;
           }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
         }
-        if (fieldName === "pathway_id") {
-          console.log("removing pathway_id from payload");
-          continue;
-        } else {
+        // if (fieldName === "pathway_id") {
+        //   console.log("removing pathway_id from payload");
+        //   continue;
+        // }
+        else {
           formFields[fieldName] = value;
         }
       }
@@ -326,7 +327,7 @@ function Class({ classToEdit, indicator }) {
       <h2 className="title">
         {isEditMode
           ? `Update ${
-              initialFormState[TYPE] == "cohort" ? "cohort" : "doubt"
+              initialFormState[TYPE] == "batch" ? "batch" : "doubt"
             } class`
           : "Create Cohort / Doubt Class"}
       </h2>
@@ -345,7 +346,7 @@ function Class({ classToEdit, indicator }) {
             formFieldsState[DESCRIPTION] &&
             formFieldsState[DESCRIPTION].length < 555;
 
-          if (formFieldsState[TYPE] === "cohort") {
+          if (formFieldsState[TYPE] === "batch") {
             if (
               disable &&
               formFieldsState[ON_DAYS] &&
@@ -369,16 +370,16 @@ function Class({ classToEdit, indicator }) {
                     className="radio-field"
                     name={TYPE}
                     onChange={(e) => {
-                      setFormField("cohort", TYPE);
+                      setFormField("batch", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
                     id="type1"
                     checked={
-                      formFieldsState.type === "cohort" ? "checked" : false
+                      formFieldsState.type === "batch" ? "checked" : false
                     }
                     disabled={
                       isEditMode
-                        ? formFieldsState[TYPE] === "cohort"
+                        ? formFieldsState[TYPE] === "batch"
                           ? false
                           : true
                         : false
@@ -836,7 +837,7 @@ function Class({ classToEdit, indicator }) {
                   30
                 </label>
               </span>
-              {formFieldsState[TYPE] === "cohort" && (
+              {formFieldsState[TYPE] === "batch" && (
                 <>
                   <label htmlFor="on_days" className="label-field">
                     On days
@@ -1047,7 +1048,7 @@ function Class({ classToEdit, indicator }) {
                     placeholder="Until when recurring classes"
                     disabled={isEditMode && !indicator ? true : false}
                     required={
-                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[TYPE] === "batch" &&
                       formFieldsState[OCCURRENCE] === ""
                         ? true
                         : false
@@ -1074,7 +1075,7 @@ function Class({ classToEdit, indicator }) {
                     placeholder="How many recurring classes"
                     disabled={isEditMode && !indicator ? true : false}
                     required={
-                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[TYPE] === "batch" &&
                       formFieldsState[UNTIL] === ""
                         ? true
                         : false
@@ -1083,7 +1084,7 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              {formFieldsState[TYPE] === "cohort" &&
+              {formFieldsState[TYPE] === "batch" &&
                 !formFieldsState[UNTIL] &&
                 !formFieldsState[OCCURRENCE] && (
                   <span className="field-validation">
