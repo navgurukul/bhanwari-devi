@@ -16,7 +16,7 @@ import CheckMoreBatches from "./CheckMoreBatches";
 
 const UpcomingCourse = (props) => {
   const [open, setOpen] = React.useState(false);
-
+  const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   // const user = useSelector(({ User }) => User);
@@ -34,7 +34,12 @@ const UpcomingCourse = (props) => {
   const close = () => {
     setOpen(false);
   };
-
+  const handleUpcomingBatchesClickOpen = () => {
+    setUpcomingBatchesOpen(true);
+  };
+  const handleUpcomingBatchesClickClose = () => {
+    setUpcomingBatchesOpen(false);
+  };
   const { title, start_time, end_time, id } = props;
   const user = useSelector(({ User }) => User);
   // const handelEnrollment = (Id) => {
@@ -167,7 +172,23 @@ const UpcomingCourse = (props) => {
               >
                 Can’t start on {BatchData?.start_time.split("T")[0]}
                 {" ? "}
-                <CheckMoreBatches upcomingBatchesData={upcomingBatchesData} />
+                <Typography
+                  color="success"
+                  onClick={handleUpcomingBatchesClickOpen}
+                >
+                  {" "}
+                  Check out our other batches
+                </Typography>
+                <CheckMoreBatches
+                  open={upcomingBatchesOpen}
+                  handleUpcomingBatchesClickOpen={
+                    handleUpcomingBatchesClickOpen
+                  }
+                  handleUpcomingBatchesClickClose={
+                    handleUpcomingBatchesClickClose
+                  }
+                  upcomingBatchesData={upcomingBatchesData}
+                />
               </Typography>
             </CardContent>
           </Card>
