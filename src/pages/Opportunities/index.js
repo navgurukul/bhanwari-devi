@@ -69,7 +69,7 @@ function Opportunities() {
                           NavGurukul One-Year Residential Programmme
                         </Typography>
                       </Grid>
-                      <Grid item xs={3} sm={1} md={1}>
+                      <Grid item xs={3} sm={1} md={3}>
                         <Chip
                           label="Featured"
                           variant="caption"
