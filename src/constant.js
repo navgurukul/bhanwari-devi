@@ -30,6 +30,8 @@ export const PATHS = {
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
+  NEWUSER_DASHBOARED: "/user-dashboared",
+  PYTHONCOURSE: "/Python-course",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
@@ -39,6 +41,7 @@ export const HideFooter = [
   PATHS.PROFILE,
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
+  PATHS.NEWUSER_DASHBOARED,
 ];
 
 export const interpolatePath = (path, paramValues) =>

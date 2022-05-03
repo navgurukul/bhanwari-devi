@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme) => ({
   partnerTopspacing: {
     paddingTop: "2%",
   },
+  partnerBottomspacing: {
+    marginBottom: "6%",
+  },
 
   partnerHrline: {
     width: "90px",
@@ -34,16 +37,30 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "4%",
   },
   partnerIcon: {
-    marginBottom: "-9px",
+    marginBottom: "-8px",
   },
   partnerCard: {
     height: "95%",
   },
+  link: {
+    paddingLeft: "20px",
+    paddingTop: "10px",
+    color: "green",
+    textDecorationLine: "none",
+  },
+  link1: {
+    textDecorationLine: "none",
+    color: "white",
+  },
+  link2: {
+    textDecorationLine: "none",
+    color: "black",
+  },
   partnerCardContainer: {
-    height: "65%",
+    height: "60px",
   },
   partnerCardContainer1: {
-    height: "50%",
+    height: "50px",
   },
   partnerIconSize: {
     padding: "4px",

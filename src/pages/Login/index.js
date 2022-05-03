@@ -67,9 +67,7 @@ function Login(props) {
     volunteer: PATHS.CLASS,
     admin: PATHS.PARTNERS,
     partner: PATHS.PARTNERS,
-    default: interpolatePath(PATHS.PATHWAY_COURSE, {
-      pathwayId: pythonPathwayId,
-    }),
+    default: interpolatePath(PATHS.NEWUSER_DASHBOARED),
   };
 
   if (isAuthenticated) {
@@ -128,7 +126,7 @@ function Login(props) {
                 <Stack alignItems={isActive ? "center" : "left"}>
                   <GoogleLogin
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    buttonText="Continue with Google"
+                    buttonText="Log In with Google "
                     onSuccess={onSignIn}
                     render={(renderProps) => (
                       <Button
@@ -143,7 +141,7 @@ function Login(props) {
                           fontSize: "18px",
                         }}
                       >
-                        Continue with Google
+                        Log In with Google
                       </Button>
                     )}
                     onFailure={onGoogleLoginFail}

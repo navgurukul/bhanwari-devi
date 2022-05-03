@@ -3,12 +3,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 import { PATHS, interpolatePath } from "../../constant";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import PathwayCard from "./PathwayCards/index";
+
 import {
   Container,
   Box,
@@ -17,6 +20,8 @@ import {
   Typography,
   CardMedia,
 } from "@mui/material";
+import UpcomingCourse from "../UpcomingCourse";
+import BelowComponent from "../UpcomingCourse/BelowComponent";
 
 const pathways = [
   {
@@ -63,6 +68,7 @@ const pathways = [
 ];
 
 function PathwayCourse() {
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const data = useSelector((state) => {
     console.log("state", state);
@@ -73,11 +79,23 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
-
+  const baseUrl = process.env.REACT_APP_MERAKI_URL;
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
-
+  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${baseUrl}pathways/${params.pathwayId}/upcomingBatches`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setUpcomingBatchesData(res.data);
+    });
+  }, []);
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
       pathways.forEach((item) => {
@@ -99,7 +117,7 @@ function PathwayCourse() {
         {pathwayId && pathwayCourseData && (
           <>
             <Grid container spacing={2} align="center" className={classes.box}>
-              <Grid xs={12} md={6}>
+              <Grid xs={6} md={6}>
                 <Card align="left" elevation={0} className={classes.titleCard}>
                   <Typography
                     variant="body2"
@@ -120,6 +138,10 @@ function PathwayCourse() {
                   </Typography>
                 </Card>
               </Grid>
+              <Grid xs={6} md={6}>
+                <UpcomingCourse upcomingBatchesData={upcomingBatchesData} />
+              </Grid>
+
               {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
                   <CardMedia
                     component="video"
@@ -209,6 +231,19 @@ function PathwayCourse() {
                 </Grid>
               ))}
           </Grid>
+          <Grid align="center">
+            <Grid className={classes.certificateLogo}>
+              <img src={require("./asset/separator.svg")} alt="icon" />
+            </Grid>
+            <Grid className={classes.certificateLogo}>
+              <img
+                src={require("./asset/Layer_1.svg")}
+                alt="certificate icon"
+              />
+            </Grid>
+          </Grid>
+
+          <BelowComponent upcomingBatchesData={upcomingBatchesData} />
         </Box>
       </Container>
     </>

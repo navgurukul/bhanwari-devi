@@ -71,6 +71,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "baseline",
     paddingTop: "16px",
   },
+  certificateLogo: {
+    // marginBottom : "5px",
+    fontSize: "90px",
+  },
 }));
 
 export default useStyles;
