@@ -49,7 +49,6 @@ function MiscellaneousCourses() {
         item.course_type === "json"
     );
 
-  console.log("otherCourses", otherCourses);
   return (
     <React.Fragment>
       <Container className={classes.pathwayContainer} maxWidth="lg">
@@ -80,7 +79,6 @@ function MiscellaneousCourses() {
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>
-                  {console.log("item.id", item.id)}
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
