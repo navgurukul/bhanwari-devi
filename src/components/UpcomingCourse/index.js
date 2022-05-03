@@ -173,7 +173,7 @@ const UpcomingCourse = (props) => {
                 Can’t start on {BatchData?.start_time.split("T")[0]}
                 {" ? "}
                 <Typography
-                  color="success"
+                  color="primary"
                   onClick={handleUpcomingBatchesClickOpen}
                 >
                   {" "}

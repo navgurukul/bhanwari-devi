@@ -92,12 +92,19 @@ const BelowComponent = (props) => {
             </Button>
             <AlertDialog open={open} close={close} />
           </Stack>
-          <Typography mt={2} color="primary.text" align="center">
-            Can’t start on 15 Sep 21?
-            <Link className={classes.link} color="success" href="#">
+          <Typography
+            mt={2}
+            align="start"
+            style={{
+              display: "flex",
+            }}
+          >
+            Can’t start on 15 Sep 21
+            {" ? "}
+            <Typography color="primary">
               {" "}
               Check out our other batches
-            </Link>
+            </Typography>
           </Typography>
         </Box>
       </Container>

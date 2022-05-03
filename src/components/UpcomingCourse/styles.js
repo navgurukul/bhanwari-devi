@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: "none",
-    color: "green",
+    color: "primary",
   },
   MoreBatchWrap: {
     display: "flex",
