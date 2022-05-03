@@ -100,6 +100,8 @@ function PathwayExercise() {
   const params = useParams();
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
+  const [availableLang, setAvailableLang] = useState(["en"]);
+
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -114,12 +116,17 @@ function PathwayExercise() {
     })
       .then((res) => {
         setCourse(res.data.course.exercises);
+        setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
         console.log("error");
       });
   }, []);
-
+  const Lang = {
+    en: "English",
+    mr: "Marathi",
+    hi: "Hindi",
+  };
   console.log("courseId", courseId);
 
   const previousClickHandler = () => {
@@ -212,19 +219,25 @@ function PathwayExercise() {
                   onClick={nextClickHandler}
                 />
               </Toolbar>
-              <Select
-                IconComponent={() => null}
-                disableUnderline
-                value={language}
-                onChange={(e) => {
-                  setLanguage(e.target.value);
-                }}
-                variant="standard"
-              >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
-              </Select>
+              {availableLang?.length === 1 ? (
+                <MenuItem value={availableLang[0]}>
+                  {Lang[availableLang[0]]}
+                </MenuItem>
+              ) : (
+                <Select
+                  disableUnderline
+                  value={language}
+                  IconComponent={() => null}
+                  onChange={(e) => {
+                    setLanguage(e.target.value);
+                  }}
+                  variant="standard"
+                >
+                  {availableLang.map((lang) => {
+                    return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+                  })}
+                </Select>
+              )}
             </Toolbar>
           </div>
           <div className="VisibleInMobile">
@@ -246,19 +259,25 @@ function PathwayExercise() {
                 </Link>
               </Typography>
 
-              <Select
-                disableUnderline
-                value={language}
-                IconComponent={() => null}
-                onChange={(e) => {
-                  setLanguage(e.target.value);
-                }}
-                variant="standard"
-              >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
-              </Select>
+              {availableLang?.length === 1 ? (
+                <Select
+                  disableUnderline
+                  value={language}
+                  IconComponent={() => null}
+                  onChange={(e) => {
+                    setLanguage(e.target.value);
+                  }}
+                  variant="standard"
+                >
+                  {availableLang.map((lang) => {
+                    return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+                  })}
+                </Select>
+              ) : (
+                <MenuItem value={availableLang[0]}>
+                  {Lang[availableLang[0]]}
+                </MenuItem>
+              )}
             </div>
             <Toolbar>
               <div
