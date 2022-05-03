@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   link2: {
     textDecorationLine: "none",
     color: "black",
-    },
+  },
   partnerCardContainer: {
     height: "60px",
   },
