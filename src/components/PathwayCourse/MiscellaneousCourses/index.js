@@ -103,8 +103,7 @@ function MiscellaneousCourses() {
                         variant="subtitle1"
                         sx={{
                           p: "10px",
-                          verticalAlign: "middle",
-                          lineHeight: "170px",
+                          mt: "60px",
                         }}
                       >
                         {item.name}
