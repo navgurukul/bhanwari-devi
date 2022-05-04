@@ -14,6 +14,8 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
+// const {languageMap} = require("../../pages/CourseContent/languageMap");
+
 import {
   Container,
   Box,
@@ -24,6 +26,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import languageMap from "../../pages/CourseContent/languageMap";
 
 const Exercise = ({
   course,
@@ -122,11 +125,15 @@ function PathwayExercise() {
         console.log("error");
       });
   }, []);
-  const Lang = {
-    en: "English",
-    mr: "Marathi",
-    hi: "Hindi",
-  };
+
+  // const Lang = {
+  //   en: "English",
+  //   mr: "Marathi",
+  //   hi: "Hindi",
+  // };
+
+  const Lang = languageMap;
+
   console.log("courseId", courseId);
 
   const previousClickHandler = () => {
@@ -219,11 +226,12 @@ function PathwayExercise() {
                   onClick={nextClickHandler}
                 />
               </Toolbar>
-              {availableLang?.length === 1 ? (
+
+              {/* {availableLang?.length === 1 ? (
                 <MenuItem value={availableLang[0]}>
                   {Lang[availableLang[0]]}
                 </MenuItem>
-              ) : (
+                ) : (
                 <Select
                   disableUnderline
                   value={language}
@@ -237,7 +245,27 @@ function PathwayExercise() {
                     return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
                   })}
                 </Select>
-              )}
+              )} */}
+              {function languageSelectMenu() {
+                const langMenu = availableLang.map((lang) => (
+                  <MenuItem value={lang}>{Lang[lang]}</MenuItem>
+                ));
+                return availableLang.length === 1 ? (
+                  langMenu
+                ) : (
+                  <Select
+                    disableUnderline
+                    value={language}
+                    IconComponent={() => null}
+                    onChange={(e) => {
+                      setLanguage(e.target.value);
+                    }}
+                    variant="standard"
+                  >
+                    {langMenu}
+                  </Select>
+                );
+              }}
             </Toolbar>
           </div>
           <div className="VisibleInMobile">
