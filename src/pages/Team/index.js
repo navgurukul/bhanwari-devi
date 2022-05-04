@@ -250,8 +250,8 @@ function Team() {
         <Container
           className={
             !isActive
-              ? `${classes.team_infoCardContaier} team-info-cards-container`
-              : `${classes.team_infoResponsiveContainer} team-info-cards-container`
+              ? classes.team_infoCardContaier
+              : classes.team_infoResponsiveContainer
           }
           sx={{ marginTop: 4 }}
         >
