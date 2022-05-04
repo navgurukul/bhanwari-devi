@@ -36,7 +36,6 @@ function TeamPage() {
     axios({
       url: `https://navgurukul.github.io/tarabai-shinde/data/meraki_team.json`,
     }).then((res) => {
-      console.log(res, "data");
       setTeam(res.data);
     });
   }, []);
@@ -62,7 +61,6 @@ function TeamPage() {
       item.Content.length > 0 &&
       item.Designation !== null
     ) {
-      console.log("item", item.Name, item.Content);
       if (item.Association === "Volunteer") {
         supporters.push(item);
       } else {

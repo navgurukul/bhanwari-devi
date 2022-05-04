@@ -64,8 +64,6 @@ function NavigationComponent({
   history,
   params,
 }) {
-  console.log("exerciseId", exerciseId);
-  console.log("index", index);
   return (
     <>
       <img
@@ -119,8 +117,6 @@ function PathwayExercise() {
         console.log("error");
       });
   }, []);
-
-  console.log("courseId", courseId);
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
