@@ -25,8 +25,8 @@ function NewPartner() {
       <Container maxWidth="sm">
         <Typography variant="h5" align="center" gutterBottom>
           Our Partners
+          <hr color="primary" className={classes.hrLine} />
         </Typography>
-        <hr color="primary" className={classes.partnerHrline} />
 
         <Typography variant="body2" align="center" paragraph>
           Meraki has partnered with individual schools, NGOs and state
@@ -106,7 +106,7 @@ function NewPartner() {
       </Container>
       <Typography variant="h5" align="center">
         Partners List
-        <hr color="primary" className={classes.partnerHrline} />
+        <hr color="primary" className={classes.hrLine} />
       </Typography>
     </Container>
   );
