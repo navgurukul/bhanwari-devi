@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
+import { Padding } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   // partnerTopspacing: {
@@ -39,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
   //   paddingTop: "4%",
   // },
   // partnerIcon: {
-  //   marginBottom: "-8px",
+  //   fontSize:"10px",
+  //   paddingTop:"4px",
   // },
   // partnerCard: {
   //   height: "95%",
@@ -64,13 +66,13 @@ const useStyles = makeStyles((theme) => ({
   // partnerCardContainer1: {
   //   height: "50px",
   // },
-  partnerIconSize: {
-    padding: "4px",
-    backgroundColor: "white",
-    fontSize: "28px",
-    color: " #48A145",
-    borderRadius: "100px",
-    border: "1px solid #48A145",
-  },
+  // partnerIconSize: {
+  //   padding: "4px",
+  //   backgroundColor: "white",
+  //   fontSize: "28px",
+  //   color: " #48A145",
+  //   borderRadius: "100px",
+  //   border: "1px solid #48A145",
+  // },
 }));
 export default useStyles;

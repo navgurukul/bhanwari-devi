@@ -14,6 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
 function NewParnter() {
@@ -88,12 +89,17 @@ function NewParnter() {
                 className={classes.link}
               >
                 Learn More
-                <ChevronRightOutlinedIcon className={classes.partnerIcon} />
+                {/* <ArrowForwardIosIcon sx={{ padding: "2px " }} /> */}
+                {/* <ChevronRightOutlinedIcon className={classes.partnerIcon} /> */}
               </Link>
             </Stack>
           </Grid>
         </Grid>
       </Container>
+      <Typography variant="h5" align="center">
+        Partners List
+      </Typography>
+      <hr color="primary" className={classes.underLine} />
     </Container>
   );
 }
