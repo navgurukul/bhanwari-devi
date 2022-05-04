@@ -29,8 +29,8 @@ const content = "Awaiting content from team member";
 const Popup = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.team_descriptionPopup}>
-      <div className={classes.team_popupDetails}>
+    <Box className={classes.team_descriptionPopup}>
+      <Box className={classes.team_popupDetails}>
         <Typography variant="subtitle1" className={classes.team_cardTitle}>
           {props.Name}
         </Typography>
@@ -56,7 +56,7 @@ const Popup = (props) => {
         ) : (
           <></>
         )}
-      </div>
+      </Box>
 
       <Typography
         variant="body1"
@@ -65,7 +65,7 @@ const Popup = (props) => {
       >
         {props.Content}
       </Typography>
-    </div>
+    </Box>
   );
 };
 
@@ -115,10 +115,7 @@ function Team() {
       maxWidth="lg"
       sx={isActive ? { padding: 0, marginTop: "24px" } : { marginTop: "40px" }}
     >
-      {/* <Button variant="contained">Submit</Button> */}
       <Container maxWidth="sm">
-        {/* <Stack spacing={5}> */}
-        {/* <Box> */}
         <Box
           className={classes.team_conainerLeft}
           sx={
@@ -139,7 +136,6 @@ function Team() {
           <Typography variant="h4">Core Members</Typography>
         </Box>
         <hr color="primary" className={classes.team_hrline} />
-        {/* </Box> */}
         <Box align="right" className={classes.team_alignRight}>
           <Box
             className={classes.team_conainerRight}
@@ -203,7 +199,6 @@ function Team() {
             </Button>
           </Grid>
         </Box>
-        {/* </Stack> */}
       </Container>
       <Container
         className={
@@ -289,37 +284,32 @@ function Team() {
                           />
                         }
                       >
-                        <div>
-                          <div
-                            className={`${classes.team_cardDetails} card-details`}
+                        <Box
+                          className={`${classes.team_cardDetails} card-details`}
+                        >
+                          <img
+                            className={
+                              !isActive
+                                ? `${classes.team_cardImg} img-hover`
+                                : `${classes.team_mobileCardImg} img-hover`
+                            }
+                            src={item.Photo}
+                            alt={item.Name.substring(0, item.Name.indexOf(" "))}
+                          />
+                          <Typography
+                            variant="body1"
+                            className={classes.team_cardTitle}
+                            style={!isActive ? {} : { textAlign: "center" }}
                           >
-                            <img
-                              className={
-                                !isActive
-                                  ? `${classes.team_cardImg} img-hover`
-                                  : `${classes.team_mobileCardImg} img-hover`
-                              }
-                              src={item.Photo}
-                              alt={item.Name.substring(
-                                0,
-                                item.Name.indexOf(" ")
-                              )}
-                            />
-                            <Typography
-                              variant="body1"
-                              className={classes.team_cardTitle}
-                              style={!isActive ? {} : { textAlign: "center" }}
-                            >
-                              {item.Name}
-                            </Typography>
-                            <Typography
-                              variant="body1"
-                              className={classes.team_cardDescription}
-                            >
-                              {item.Designation}
-                            </Typography>
-                          </div>
-                        </div>
+                            {item.Name}
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            className={classes.team_cardDescription}
+                          >
+                            {item.Designation}
+                          </Typography>
+                        </Box>
                       </Tippy>
                     </Grid>
                   );
