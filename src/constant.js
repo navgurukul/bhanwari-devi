@@ -25,6 +25,7 @@ export const PATHS = {
   REDIRECT: "/redirect",
   VOLUNTEER: "/volunteer",
   MERAKI_TEAM: "/team",
+  TEAM: "/team-page",
   STATEPARTNER: "/state-dashboard/:clusterId",
   STATE: "/state-dashboard",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
