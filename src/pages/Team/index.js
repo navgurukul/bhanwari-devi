@@ -24,6 +24,51 @@ function shuffleArray(arr) {
   return arr;
 }
 
+const content = "Awaiting content from team member";
+
+const Popup = (props) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.team_descriptionPopup}>
+      <div className={classes.team_popupDetails}>
+        <Typography variant="subtitle1" className={classes.team_cardTitle}>
+          {props.Name}
+        </Typography>
+        {props.linkedin ? (
+          <a
+            href={props.linkedin}
+            target="_blank"
+            className={classes.team_socialIcon}
+          >
+            <LinkedIn />
+          </a>
+        ) : (
+          <></>
+        )}
+        {props.twitter ? (
+          <a
+            href={props.twitter}
+            target="_blank"
+            className={classes.team_socialIcon}
+          >
+            <Twitter />
+          </a>
+        ) : (
+          <></>
+        )}
+      </div>
+
+      <Typography
+        variant="body1"
+        style={props.Content === content ? { color: "grey" } : {}}
+        paragraph
+      >
+        {props.Content}
+      </Typography>
+    </div>
+  );
+};
+
 function Team() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -63,7 +108,6 @@ function Team() {
     }
   });
 
-  const content = "Awaiting content from team member";
   const name = "Awaiting Member's Name";
 
   return (
@@ -234,17 +278,16 @@ function Team() {
                         placement={
                           window.screen.availWidth < 650 ? "bottom" : "right"
                         }
-                        // content={
-                        //   <Popup
-                        //     Name={item.Name || name}
-                        //     Content={
-                        //       (item.Content.length && item.Content) ||
-                        //       content
-                        //     }
-                        //     linkedin={item.Linkedin}
-                        //     twitter={item.Twitter}
-                        //   />
-                        // }
+                        content={
+                          <Popup
+                            Name={item.Name || name}
+                            Content={
+                              (item.Content.length && item.Content) || content
+                            }
+                            linkedin={item.Linkedin}
+                            twitter={item.Twitter}
+                          />
+                        }
                       >
                         <div>
                           <div
