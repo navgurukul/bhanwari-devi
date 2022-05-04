@@ -25,7 +25,7 @@ function NewPartner() {
       <Container maxWidth="sm">
         <Typography variant="h5" align="center" gutterBottom>
           Our Partners
-          <hr color="primary" className={classes.hrLine} />
+          <hr color="primary" className={classes.underLine} />
         </Typography>
 
         <Typography variant="body2" align="center" paragraph>
@@ -106,7 +106,7 @@ function NewPartner() {
       </Container>
       <Typography variant="h5" align="center">
         Partners List
-        <hr color="primary" className={classes.hrLine} />
+        <hr color="primary" className={classes.underLine} />
       </Typography>
     </Container>
   );
