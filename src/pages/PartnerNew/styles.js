@@ -30,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
   //   paddingBottom: "20%",
   // },
   partnerImg: {
-    height: "100%",
-    width: "100%",
-    borderRadius: "6px",
+    // height: "50px",
+    // width: "80%",
+    // padding:"30px",
+    // borderRadius: "6px",
   },
   // partnerTopspacing1: {
   //   paddingTop: "4%",

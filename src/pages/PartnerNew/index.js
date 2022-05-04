@@ -46,9 +46,8 @@ function NewParnter() {
         <Grid container spacing={{ xs: 2, sm: 4 }}>
           <Grid item xs={12} sm={6} md={6}>
             <img
-              src="https://www.linkfluence.com/hs-fs/hubfs/Amazon%20FMCG.jpg?width=689&name=Amazon%20FMCG.jpg"
-              alt="Amazon box Robot"
-              className={classes.partnerImg}
+              className={classes.playstoreImg}
+              src={require("./assest/partnerLogo.svg")}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
