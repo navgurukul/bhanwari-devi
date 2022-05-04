@@ -88,7 +88,7 @@ const BelowComponent = (props) => {
           </Typography>
           <Stack alignItems="center" maxWidth={600}>
             <Button variant="contained" onClick={handleClickOpen}>
-              Ankit_15SEP21 Enroll Batch
+              Enroll to Ankit_15SEP21
             </Button>
             <AlertDialog open={open} close={close} />
           </Stack>
