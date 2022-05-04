@@ -1006,25 +1006,19 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              <div
-                className={
-                  checkEquivalence ? "disabled-button" : "enabled-button"
-                }
-              >
+              {loading ? (
+                <div>
+                  <Loader />
+                </div>
+              ) : (
                 <button
                   type="submit"
                   className={checkEquivalence ? "submit disabled" : "submit"}
                   disabled={checkEquivalence}
                 >
-                  {loading ? (
-                    <Loader />
-                  ) : isEditMode ? (
-                    `UPDATE CLASS`
-                  ) : (
-                    "Create Class"
-                  )}
+                  {isEditMode ? `UPDATE CLASS` : "Create Class"}
                 </button>
-              </div>
+              )}
             </>
           );
         }}
