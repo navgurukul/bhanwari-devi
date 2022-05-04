@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: "none",
   },
   team_descriptionPopup: {
+    paddingTop: "16px",
     pointerEvents: "all",
     boxShadow:
       "0px 4px 5px rgba(46, 46, 46, 0.06),0px 1px 10px rgba(46, 46, 46, 0.04), 0px 2px 4px rgba(46, 46, 46, 0.08)",
