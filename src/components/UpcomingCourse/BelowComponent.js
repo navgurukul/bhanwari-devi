@@ -101,10 +101,12 @@ const BelowComponent = (props) => {
           >
             Can’t start on 15 Sep 21
             {" ? "}
-            <Typography color="primary">
-              {" "}
-              Check out our other batches
-            </Typography>
+            <Link className={classes.link}>
+              <Typography color="primary">
+                {" "}
+                Check out our other batches
+              </Typography>
+            </Link>
           </Typography>
         </Box>
       </Container>

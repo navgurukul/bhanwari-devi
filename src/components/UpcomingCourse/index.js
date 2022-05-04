@@ -172,13 +172,15 @@ const UpcomingCourse = (props) => {
               >
                 Can’t start on {BatchData?.start_time.split("T")[0]}
                 {" ? "}
-                <Typography
-                  color="primary"
-                  onClick={handleUpcomingBatchesClickOpen}
-                >
-                  {" "}
-                  Check out our other batches
-                </Typography>
+                <Link className={classes.link}>
+                  <Typography
+                    color="primary"
+                    onClick={handleUpcomingBatchesClickOpen}
+                  >
+                    {" "}
+                    Check out our other batches
+                  </Typography>
+                </Link>
                 <CheckMoreBatches
                   open={upcomingBatchesOpen}
                   handleUpcomingBatchesClickOpen={
