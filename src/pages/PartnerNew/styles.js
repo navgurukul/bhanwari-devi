@@ -8,18 +8,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "6%",
   },
 
-  partnerHrline: {
+  hrLine: {
     width: "120px",
     height: "1px",
     textAlign: "center",
   },
 
-  team_hrline: {
-    width: "160px",
-    height: "1px",
-    margin: "0",
-    textAlign: "center",
-  },
   partnerBtn: {
     width: "50%",
   },
