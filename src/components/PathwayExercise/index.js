@@ -226,12 +226,11 @@ function PathwayExercise() {
                   onClick={nextClickHandler}
                 />
               </Toolbar>
-
-              {/* {availableLang?.length === 1 ? (
+              {availableLang?.length === 1 ? (
                 <MenuItem value={availableLang[0]}>
                   {Lang[availableLang[0]]}
                 </MenuItem>
-                ) : (
+              ) : (
                 <Select
                   disableUnderline
                   value={language}
@@ -245,27 +244,7 @@ function PathwayExercise() {
                     return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
                   })}
                 </Select>
-              )} */}
-              {function languageSelectMenu() {
-                const langMenu = availableLang.map((lang) => (
-                  <MenuItem value={lang}>{Lang[lang]}</MenuItem>
-                ));
-                return availableLang.length === 1 ? (
-                  langMenu
-                ) : (
-                  <Select
-                    disableUnderline
-                    value={language}
-                    IconComponent={() => null}
-                    onChange={(e) => {
-                      setLanguage(e.target.value);
-                    }}
-                    variant="standard"
-                  >
-                    {langMenu}
-                  </Select>
-                );
-              }}
+              )}
             </Toolbar>
           </div>
           <div className="VisibleInMobile">
