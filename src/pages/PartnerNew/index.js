@@ -131,15 +131,8 @@ function NewParnter() {
                       <CardHeader
                         title={partners[item].Name}
                         titleTypographyProps={{ variant: "subtitle1" }}
-                        className={classes.partnerCardContainer}
                       />
-                      <CardContent
-                        className={
-                          !isActive
-                            ? classes.partnerCardContainer
-                            : classes.partnerCardContainer1
-                        }
-                      >
+                      <CardContent>
                         {partners[item].OrganisationType == "Non - Profit" ? (
                           <Button
                             variant="contained"
@@ -153,7 +146,7 @@ function NewParnter() {
                                     background: "lemonchiffon",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -163,7 +156,7 @@ function NewParnter() {
                                     background: "lemonchiffon",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                             }
                           >
@@ -183,7 +176,7 @@ function NewParnter() {
                                     background: "lightskyblue",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -193,7 +186,7 @@ function NewParnter() {
                                     background: "lightskyblue",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                             }
                           >
@@ -212,7 +205,7 @@ function NewParnter() {
                                     background: "silver",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -222,7 +215,7 @@ function NewParnter() {
                                     background: "silver",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                             }
                           >
@@ -241,7 +234,7 @@ function NewParnter() {
                                     fontSize: "caption",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -250,7 +243,7 @@ function NewParnter() {
                                     fontSize: "caption",
                                     color: "black",
                                     // marginTop: "-20px",
-                                    // marginBottom: "15px",
+                                    marginBottom: "15px",
                                   }
                             }
                           >

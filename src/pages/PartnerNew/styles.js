@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
   // },
   partnerCard: {
     height: "100% !important",
-    backgroundColor: "pink !important",
     width: "100%",
   },
 
