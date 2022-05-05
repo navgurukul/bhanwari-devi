@@ -60,9 +60,9 @@ const useStyles = makeStyles((theme) => ({
     textDecorationLine: "none",
     color: "black",
   },
-  partnerCardContainer: {
-    height: "60px",
-  },
+  // partnerCardContainer: {
+  //   height: "60px",
+  // },
   // partnerCardContainer1: {
   //   height: "50px",
   // },
