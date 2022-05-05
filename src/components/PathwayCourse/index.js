@@ -10,7 +10,8 @@ import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
-import { METHODS } from "../../services/api";
+import PathwayCard from "./PathwayCards/index";
+
 import {
   Container,
   Box,
@@ -112,6 +113,7 @@ function PathwayCourse() {
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
+        <PathwayCard />
         {pathwayId && pathwayCourseData && (
           <>
             <Grid container spacing={2} align="center" className={classes.box}>
