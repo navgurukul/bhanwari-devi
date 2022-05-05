@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 // import { Button } from "framework7-react";
 import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
+import IntroToPython from "./JoinClass/IntroToPython";
 
 const UpcomingCourse = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -172,13 +173,15 @@ const UpcomingCourse = (props) => {
               >
                 Can’t start on {BatchData?.start_time.split("T")[0]}
                 {" ? "}
-                <Typography
-                  color="success"
-                  onClick={handleUpcomingBatchesClickOpen}
-                >
-                  {" "}
-                  Check out our other batches
-                </Typography>
+                <Link className={classes.link}>
+                  <Typography
+                    color="primary"
+                    onClick={handleUpcomingBatchesClickOpen}
+                  >
+                    {" "}
+                    Check out our other batches
+                  </Typography>
+                </Link>
                 <CheckMoreBatches
                   open={upcomingBatchesOpen}
                   handleUpcomingBatchesClickOpen={
@@ -193,6 +196,7 @@ const UpcomingCourse = (props) => {
             </CardContent>
           </Card>
         </Box>
+        <IntroToPython />
       </Container>
     </>
   ) : (
