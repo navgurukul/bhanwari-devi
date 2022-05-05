@@ -88,7 +88,7 @@ const BelowComponent = (props) => {
           </Typography>
           <Stack alignItems="center" maxWidth={600}>
             <Button variant="contained" onClick={handleClickOpen}>
-              Enroll to Ankit_15SEP21
+              Ankit_15SEP21 Enroll Batch
             </Button>
             <AlertDialog open={open} close={close} />
           </Stack>
@@ -101,12 +101,10 @@ const BelowComponent = (props) => {
           >
             Can’t start on 15 Sep 21
             {" ? "}
-            <Link className={classes.link}>
-              <Typography color="primary">
-                {" "}
-                Check out our other batches
-              </Typography>
-            </Link>
+            <Typography color="primary">
+              {" "}
+              Check out our other batches
+            </Typography>
           </Typography>
         </Box>
       </Container>

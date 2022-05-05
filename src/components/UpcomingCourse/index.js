@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 // import { Button } from "framework7-react";
 import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
+import IntroToPython from "./JoinClass/IntroToPython";
 
 const UpcomingCourse = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -195,6 +196,7 @@ const UpcomingCourse = (props) => {
             </CardContent>
           </Card>
         </Box>
+        <IntroToPython />
       </Container>
     </>
   ) : (
