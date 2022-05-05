@@ -118,11 +118,11 @@ function NewParnter() {
         <hr color="primary" className={classes.underLine} />
       </Typography>
 
-      <Grid container spacing={5} className={classes.partnerBottomspacing}>
+      <Grid container spacing={4} className={classes.partnerBottomspacing}>
         {Object.keys(partners).length ? (
           Object.keys(partners).map((item) => {
             return (
-              <Grid item xs={12} sm={4} md={4}>
+              <Grid item xs={12} sm={6} md={4}>
                 {!partners[item].Name == "" &&
                   !partners[item].OrganisationType == "" &&
                   !partners[item].State == "" &&
