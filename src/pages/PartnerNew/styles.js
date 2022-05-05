@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/styles";
-import { Padding } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   // partnerTopspacing: {
@@ -43,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
   //   fontSize:"10px",
   //   paddingTop:"4px",
   // },
-  // partnerCard: {
-  //   height: "100%",
-  // },
+  partnerCard: {
+    height: "100% !important",
+    backgroundColor: "pink !important",
+  },
 
   link: {
     paddingLeft: "20px",

@@ -152,8 +152,8 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lemonchiffon",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -162,8 +162,8 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lemonchiffon",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                             }
                           >
@@ -182,8 +182,8 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lightskyblue",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -192,8 +192,8 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lightskyblue",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                             }
                           >
@@ -211,8 +211,8 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "silver",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -221,8 +221,8 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "silver",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                             }
                           >
