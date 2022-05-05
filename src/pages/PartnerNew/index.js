@@ -70,55 +70,55 @@ function NewParnter() {
             />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
-            <Stack spacing={2}>
-              <Stack direction="row">
-                <Button
-                  variant="contained"
-                  color="warning"
-                  sx={{
-                    borderRadius: { xs: 25, sm: 15 },
-                    height: { xs: 34, sm: 25 },
-                  }}
-                  size="small"
-                >
-                  <Link
-                    // to={PATHS.AFE}
-                    className={classes.link2}
-                  >
-                    featured
-                  </Link>
-                </Button>
-              </Stack>
-              <Typography variant="subtitle1" gutterBottom>
-                Amazon Future Engineer
-              </Typography>
-              <Typography variant="body2" paragraph>
-                Amazon Future Engineer is a complete package of
-                childhood-to-career program aimed at increasing access to
-                computer science education for children and young adults from
-                underserved and underrepresented communities. Amazon has
-                partnered with Meraki to further our cause.
-              </Typography>
+            <Button
+              variant="contained"
+              color="warning"
+              sx={{
+                borderRadius: { xs: 25, sm: 15 },
+                height: { xs: 34, sm: 25 },
+              }}
+              size="small"
+            >
               <Link
-                to={PATHS.AFE}
-                underline="hover"
-                color="primary"
-                align={!isActive ? "left" : "center"}
-                className={classes.link}
+                // to={PATHS.AFE}
+                className={classes.link2}
               >
-                Learn More
-                {/* <ArrowForwardIosIcon sx={{ padding: "2px " }} /> */}
-                {/* <ChevronRightOutlinedIcon className={classes.partnerIcon} /> */}
+                featured
               </Link>
-            </Stack>
+            </Button>
+
+            <Typography variant="subtitle1" gutterBottom>
+              Amazon Future Engineer
+            </Typography>
+            <Typography variant="body2" paragraph>
+              Amazon Future Engineer is a complete package of
+              childhood-to-career program aimed at increasing access to computer
+              science education for children and young adults from underserved
+              and underrepresented communities. Amazon has partnered with Meraki
+              to further our cause.
+            </Typography>
+            <Link
+              to={PATHS.AFE}
+              underline="hover"
+              color="primary"
+              align={!isActive ? "left" : "center"}
+              className={classes.link}
+            >
+              Learn More
+              {/* <ArrowForwardIosIcon sx={{ padding: "2px " }} /> */}
+              {/* <ChevronRightOutlinedIcon className={classes.partnerIcon} /> */}
+            </Link>
+            {/* </Stack> */}
           </Grid>
         </Grid>
       </Container>
+
       <Typography variant="h5" align="center">
         Partners List
+        <hr color="primary" className={classes.underLine} />
       </Typography>
-      <hr color="primary" className={classes.underLine} />
-      <Grid container spacing={5} className={classes.partnerBottomspacing}>
+
+      {/* <Grid container spacing={5} className={classes.partnerBottomspacing}>
         {Object.keys(partners).length ? (
           Object.keys(partners).map((item) => {
             return (
@@ -315,7 +315,7 @@ function NewParnter() {
         ) : (
           <></>
         )}
-      </Grid>
+      </Grid> */}
     </Container>
   );
 }
