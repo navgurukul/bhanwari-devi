@@ -258,7 +258,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             {item.facilitator.email === user.data.user.email || flag ? (
               // <div className="class-card-actions">
               <div className={classes.buttonGroup2}>
-                {/* <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} /> */}
+                <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
                 <EditIcon
                   onClick={() => {
                     handleEdit(item.id);
@@ -274,7 +274,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
@@ -305,7 +305,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         {editShowModal ? (
           <Modal onClose={handleCloseEdit} className="confirmation-massage">
             <h2>Do you want to edit this class?</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
@@ -339,7 +339,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             className="confirmation-massage"
           >
             <h2>Are you sure you want to enroll?</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
@@ -373,7 +373,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             className="confirmation-massage"
           >
             <h2> Are you sure you want to drop out</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
