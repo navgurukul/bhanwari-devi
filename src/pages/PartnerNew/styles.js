@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   //   paddingTop:"4px",
   // },
   partnerCard: {
-    height: "100%",
+    // height: "100%",
   },
 
   link: {
