@@ -240,8 +240,8 @@ function NewParnter() {
                                     height: { xs: "60", sm: "30px" },
                                     fontSize: "caption",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -249,8 +249,8 @@ function NewParnter() {
                                     size: "small",
                                     fontSize: "caption",
                                     color: "black",
-                                    marginTop: "-20px",
-                                    marginBottom: "15px",
+                                    // marginTop: "-20px",
+                                    // marginBottom: "15px",
                                   }
                             }
                           >
