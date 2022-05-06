@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   Typography,
-  CssBaseline,
   Container,
   Button,
   Card,
-  Stack,
   Box,
   CardHeader,
   CardContent,
@@ -23,7 +21,6 @@ import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
 function NewParnter() {
   const classes = useStyles();
@@ -39,15 +36,15 @@ function NewParnter() {
   }, []);
 
   return (
-    <Container sx={{ mt: 10 }} maxWidth="lg">
-      <Container maxWidth="sm">
+    <Container sx={{ mt: 5 }} maxWidth="lg">
+      <Container maxWidth="md">
         <Typography variant="h5" align="center">
           Our Partners
         </Typography>
         <hr color="primary" className={classes.underLine} />
 
         <Typography
-          variant="body2"
+          variant="body1"
           align={isActive ? "center" : "left"}
           paragraph
         >
@@ -57,10 +54,13 @@ function NewParnter() {
           the world of programming? If so, look no further.
         </Typography>
       </Container>
-      <Container>
+      <Container sx={{ mt: 10 }}>
         <Grid container spacing={{ xs: 2, sm: 4 }}>
           <Grid item xs={12} sm={6} md={6}>
-            <img src={require("./assest/partnerLogo.svg")} />
+            <img
+              className={classes.partnerLogo}
+              src={require("./assest/partnerLogo.svg")}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <Button
@@ -80,170 +80,167 @@ function NewParnter() {
               </Link>
             </Button>
 
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography sx={{ mt: 2 }} variant="subtitle1" gutterBottom>
               Amazon Future Engineer
             </Typography>
-            <Typography variant="body2" paragraph>
+            <Typography variant="body1" paragraph>
               Amazon Future Engineer is a complete package of
               childhood-to-career program aimed at increasing access to computer
               science education for children and young adults from underserved
               and underrepresented communities. Amazon has partnered with Meraki
               to further our cause.
             </Typography>
-            <Link
-              to={PATHS.AFE}
-              underline="hover"
-              color="primary"
-              align={!isActive ? "left" : "center"}
-              className={classes.link}
+            <Button
+              // align={!isActive ? "left" : "center"}
+              href={PATHS.AFE}
             >
               Learn More
-              {/* <ArrowForwardIosIcon sx={{ padding: "2px " }} /> */}
-              {/* <ChevronRightOutlinedIcon className={classes.partnerIcon} /> */}
-            </Link>
-            {/* </Stack> */}
+              <ArrowForwardIosIcon />
+            </Button>
           </Grid>
         </Grid>
       </Container>
-
-      <Typography variant="h5" align="center">
-        Partners List
-        <hr color="primary" className={classes.underLine} />
-      </Typography>
-      <Grid container spacing={4}>
-        {Object.keys(partners).length ? (
-          Object.keys(partners).map((item) => {
-            return (
-              <Grid item xs={12} sm={6} md={4}>
-                {!partners[item].Name == "" &&
-                  !partners[item].OrganisationType == "" &&
-                  !partners[item].State == "" &&
-                  !partners[item].City == "" && (
-                    <Card className={classes.partnerCard}>
-                      <CardHeader
-                        sx={{ height: "35px" }}
-                        title={partners[item].Name}
-                        titleTypographyProps={{ variant: "subtitle1" }}
-                      />
-                      <Box sx={{ margin: "10px 10px 10px 10px" }}>
-                        {partners[item].OrganisationType == "Non - Profit" ? (
-                          <Button
-                            variant="contained"
-                            rounded
-                            sx={{
-                              borderRadius: { xs: 25, sm: 15 },
-                              height: { xs: "60", sm: "30px" },
-                              fontSize: "caption",
-                              background: "lemonchiffon",
-                              color: "black",
-                            }}
-                          >
-                            {partners[item].OrganisationType}
-                          </Button>
-                        ) : partners[item].OrganisationType ==
-                          "Educational Institution" ? (
-                          <Button
-                            variant="contained"
-                            rounded
-                            sx={{
-                              borderRadius: { xs: 25, sm: 15 },
-                              height: { xs: "60", sm: "30px" },
-                              fontSize: "caption",
-                              background: "lightskyblue",
-                              color: "black",
-                            }}
-                          >
-                            {partners[item].OrganisationType}
-                          </Button>
-                        ) : partners[item].OrganisationType == "Government" ? (
-                          <Button
-                            variant="contained"
-                            rounded
-                            sx={{
-                              borderRadius: { xs: 25, sm: 15 },
-                              height: { xs: "60", sm: "30px" },
-                              fontSize: "caption",
-                              background: "silver",
-                              color: "black",
-                            }}
-                          >
-                            {partners[item].OrganisationType}
-                          </Button>
-                        ) : partners[item].OrganisationType ==
-                          "Community based organisation" ? (
-                          <Button
-                            variant="contained"
-                            rounded
-                            sx={{
-                              borderRadius: { xs: 25, sm: 15 },
-                              height: { xs: "60", sm: "30px" },
-                              fontSize: "caption",
-                              color: "black",
-                            }}
-                          >
-                            {partners[item].OrganisationType}
-                          </Button>
-                        ) : (
-                          ""
-                        )}
-                      </Box>
-                      <CardContent>
-                        <Typography variant="body1">
-                          {!partners[item].City == "" &&
-                            `${partners[item].City}, `}
-                          {partners[item].State}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        {partners[item].Url ? (
-                          <IconButton>
-                            <Link href={partners[item].Url}>
-                              <PublicIcon
-                                variant="outlined"
-                                fontSize="small"
-                                className={classes.partnerIconSize}
-                              />
-                            </Link>
-                          </IconButton>
-                        ) : (
-                          <></>
-                        )}
-                        {partners[item].LinkedinId ? (
-                          <IconButton>
-                            <Link href={partners[item].LinkedinId}>
-                              <LinkedInIcon
-                                variant="outlined"
-                                fontSize="small"
-                                className={classes.partnerIconSize}
-                              />
-                            </Link>
-                          </IconButton>
-                        ) : (
-                          <></>
-                        )}
-                        {partners[item].TwitterId ? (
-                          <IconButton>
-                            <Link href={partners[item].TwitterId}>
-                              <TwitterIcon
-                                variant="outlined"
-                                fontSize="small"
-                                className={classes.partnerIconSize}
-                              />
-                            </Link>
-                          </IconButton>
-                        ) : (
-                          <></>
-                        )}
-                      </CardActions>
-                    </Card>
-                  )}
-              </Grid>
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </Grid>
+      <Container sx={{ mt: 6 }}>
+        <Typography variant="h5" align="center">
+          Partners List
+          <hr color="primary" className={classes.underLine} />
+        </Typography>
+        <Grid container spacing={4}>
+          {Object.keys(partners).length ? (
+            Object.keys(partners).map((item) => {
+              return (
+                <Grid item xs={12} sm={6} md={4}>
+                  {!partners[item].Name == "" &&
+                    !partners[item].OrganisationType == "" &&
+                    !partners[item].State == "" &&
+                    !partners[item].City == "" && (
+                      <Card className={classes.partnerCard}>
+                        <CardHeader
+                          sx={{ height: "35px" }}
+                          title={partners[item].Name}
+                          titleTypographyProps={{ variant: "subtitle1" }}
+                        />
+                        <Box sx={{ margin: "10px 10px 10px 10px" }}>
+                          {partners[item].OrganisationType == "Non - Profit" ? (
+                            <Button
+                              variant="contained"
+                              rounded
+                              sx={{
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                background: "lemonchiffon",
+                                color: "black",
+                              }}
+                            >
+                              {partners[item].OrganisationType}
+                            </Button>
+                          ) : partners[item].OrganisationType ==
+                            "Educational Institution" ? (
+                            <Button
+                              variant="contained"
+                              rounded
+                              sx={{
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                background: "lightskyblue",
+                                color: "black",
+                              }}
+                            >
+                              {partners[item].OrganisationType}
+                            </Button>
+                          ) : partners[item].OrganisationType ==
+                            "Government" ? (
+                            <Button
+                              variant="contained"
+                              rounded
+                              sx={{
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                background: "silver",
+                                color: "black",
+                              }}
+                            >
+                              {partners[item].OrganisationType}
+                            </Button>
+                          ) : partners[item].OrganisationType ==
+                            "Community based organisation" ? (
+                            <Button
+                              variant="contained"
+                              rounded
+                              sx={{
+                                borderRadius: { xs: 25, sm: 15 },
+                                height: { xs: "60", sm: "30px" },
+                                fontSize: "caption",
+                                color: "black",
+                              }}
+                            >
+                              {partners[item].OrganisationType}
+                            </Button>
+                          ) : (
+                            ""
+                          )}
+                        </Box>
+                        <CardContent>
+                          <Typography variant="body1">
+                            {!partners[item].City == "" &&
+                              `${partners[item].City}, `}
+                            {partners[item].State}
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          {partners[item].Url ? (
+                            <IconButton>
+                              <Link href={partners[item].Url}>
+                                <PublicIcon
+                                  variant="outlined"
+                                  fontSize="small"
+                                  className={classes.partnerIconSize}
+                                />
+                              </Link>
+                            </IconButton>
+                          ) : (
+                            <></>
+                          )}
+                          {partners[item].LinkedinId ? (
+                            <IconButton>
+                              <Link href={partners[item].LinkedinId}>
+                                <LinkedInIcon
+                                  variant="outlined"
+                                  fontSize="small"
+                                  className={classes.partnerIconSize}
+                                />
+                              </Link>
+                            </IconButton>
+                          ) : (
+                            <></>
+                          )}
+                          {partners[item].TwitterId ? (
+                            <IconButton>
+                              <Link href={partners[item].TwitterId}>
+                                <TwitterIcon
+                                  variant="outlined"
+                                  fontSize="small"
+                                  className={classes.partnerIconSize}
+                                />
+                              </Link>
+                            </IconButton>
+                          ) : (
+                            <></>
+                          )}
+                        </CardActions>
+                      </Card>
+                    )}
+                </Grid>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </Grid>
+      </Container>
     </Container>
   );
 }
