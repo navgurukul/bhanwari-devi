@@ -15,6 +15,7 @@ import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
 import IntroToPython from "./JoinClass/IntroToPython";
 import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
+import RevisionClass from "./Revision/EnrollInCourse";
 
 const UpcomingCourse = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -199,6 +200,8 @@ const UpcomingCourse = (props) => {
         </Box>
         <IntroToPython />
         <CourseEnroll />
+
+        <RevisionClass />
       </Container>
     </>
   ) : (
