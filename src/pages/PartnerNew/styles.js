@@ -8,7 +8,11 @@ const useStyles = makeStyles((theme) => ({
   },
   partnerCard: {
     height: "100% !important",
-    width: "100%",
+    width: "100% !important",
+  },
+
+  iconsOfPartner: {
+    color: " #48A145",
   },
 
   link: {

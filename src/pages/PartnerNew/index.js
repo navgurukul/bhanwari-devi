@@ -68,16 +68,11 @@ function NewParnter() {
               color="warning"
               sx={{
                 borderRadius: { xs: 25, sm: 15 },
-                height: { xs: 34, sm: 25 },
+                height: "30px",
               }}
               size="small"
             >
-              <Link
-                // to={PATHS.AFE}
-                className={classes.link2}
-              >
-                featured
-              </Link>
+              featured
             </Button>
 
             <Typography sx={{ mt: 2 }} variant="subtitle1" gutterBottom>
@@ -197,7 +192,7 @@ function NewParnter() {
                                 <PublicIcon
                                   variant="outlined"
                                   fontSize="small"
-                                  className={classes.partnerIconSize}
+                                  className={classes.iconsOfPartner}
                                 />
                               </Link>
                             </IconButton>
@@ -210,7 +205,7 @@ function NewParnter() {
                                 <LinkedInIcon
                                   variant="outlined"
                                   fontSize="small"
-                                  className={classes.partnerIconSize}
+                                  className={classes.iconsOfPartner}
                                 />
                               </Link>
                             </IconButton>
@@ -223,7 +218,7 @@ function NewParnter() {
                                 <TwitterIcon
                                   variant="outlined"
                                   fontSize="small"
-                                  className={classes.partnerIconSize}
+                                  className={classes.iconsOfPartner}
                                 />
                               </Link>
                             </IconButton>
