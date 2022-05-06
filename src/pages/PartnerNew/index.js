@@ -57,17 +57,10 @@ function NewParnter() {
           the world of programming? If so, look no further.
         </Typography>
       </Container>
-      <Container
-      // className={
-      //   !isActive ? classes.partnerContainer : classes.partnerContainer1
-      // }
-      >
+      <Container>
         <Grid container spacing={{ xs: 2, sm: 4 }}>
           <Grid item xs={12} sm={6} md={6}>
-            <img
-              // className={classes.playstoreImg}
-              src={require("./assest/partnerLogo.svg")}
-            />
+            <img src={require("./assest/partnerLogo.svg")} />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <Button
@@ -145,8 +138,6 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lemonchiffon",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -155,8 +146,6 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lemonchiffon",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                             }
                           >
@@ -175,8 +164,6 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lightskyblue",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -185,8 +172,6 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "lightskyblue",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                             }
                           >
@@ -204,8 +189,6 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "silver",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -214,8 +197,6 @@ function NewParnter() {
                                     fontSize: "caption",
                                     background: "silver",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                             }
                           >
@@ -233,8 +214,6 @@ function NewParnter() {
                                     height: { xs: "60", sm: "30px" },
                                     fontSize: "caption",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                                 : {
                                     borderRadius: { xs: 25, sm: 15 },
@@ -242,8 +221,6 @@ function NewParnter() {
                                     size: "small",
                                     fontSize: "caption",
                                     color: "black",
-                                    // marginTop: "-20px",
-                                    marginBottom: "15px",
                                   }
                             }
                           >
