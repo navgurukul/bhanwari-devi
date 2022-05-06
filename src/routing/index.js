@@ -24,7 +24,7 @@ import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 import OurStory from "../pages/OurStory";
-import Partner from "../pages/PartnerNew";
+import Partner from "../pages/Partner";
 
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
