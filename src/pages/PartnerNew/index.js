@@ -39,7 +39,7 @@ function NewParnter() {
   }, []);
 
   return (
-    <Container sx={{ mt: 10, background: "pink" }} maxWidth="lg">
+    <Container sx={{ mt: 10 }} maxWidth="lg">
       <Container maxWidth="sm">
         <Typography variant="h5" align="center">
           Our Partners
@@ -110,8 +110,7 @@ function NewParnter() {
         Partners List
         <hr color="primary" className={classes.underLine} />
       </Typography>
-
-      {/* <Grid container spacing={4} className={classes.partnerBottomspacing}>
+      <Grid container spacing={4}>
         {Object.keys(partners).length ? (
           Object.keys(partners).map((item) => {
             return (
@@ -125,7 +124,7 @@ function NewParnter() {
                         title={partners[item].Name}
                         titleTypographyProps={{ variant: "subtitle1" }}
                       />
-                      <CardContent>
+                      <Box sx={{ margin: "0px 10px 0px 10px" }}>
                         {partners[item].OrganisationType == "Non - Profit" ? (
                           <Button
                             variant="contained"
@@ -229,7 +228,8 @@ function NewParnter() {
                         ) : (
                           ""
                         )}
-
+                      </Box>
+                      <CardContent>
                         <Typography variant="body1">
                           {!partners[item].City == "" &&
                             `${partners[item].City}, `}
@@ -285,22 +285,9 @@ function NewParnter() {
         ) : (
           <></>
         )}
-      </Grid> */}
+      </Grid>
     </Container>
   );
 }
 
 export default NewParnter;
-
-{
-  /* <Container  maxWidth="lg">
-<Grid container spacing={4}>
-  {merakiConcerns.map((item, index) => (
-    <Grid item xs={12} ms={6} md={4}>
-  
-  
-    </Grid>
-  ))}
-</Grid>
-</Container> */
-}
