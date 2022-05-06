@@ -6,6 +6,7 @@ import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 import { Grid } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 
 function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
@@ -19,7 +20,15 @@ function ClassList({ editClass, isShow }) {
   }, [dispatch, isShow]);
 
   if (loading) {
-    return <Loader pageLoader={true} />;
+    return (
+      <Grid container spacing={2}>
+        {Array.from(Array(4)).map((_, index) => (
+          <Grid item xs={2} sm={4} md={3} key={index}>
+            <Skeleton variant="rectangular" width={350} height={350} />
+          </Grid>
+        ))}
+      </Grid>
+    );
   }
 
   let recurring_classes_data = [];
