@@ -8,6 +8,7 @@ import axios from "axios";
 import useStyles from "../styles";
 import { useSelector } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -59,6 +60,41 @@ const RevisionClass = () => {
               </Button>
             </CardContent>
           </Card>
+        </Box>
+        <Box backgroundColor="primary.light" p={2}>
+          <Typography
+            variant="body1"
+            mb={1}
+            align="left"
+            style={{
+              display: "flex",
+              // alignItems : "start"
+              // backgroundColor : "",
+
+              // padding: "10px 0",
+            }}
+          >
+            {" "}
+            <img
+              className={classes.icons}
+              src={require("./assets/Group.svg")}
+              alt="Students Img"
+            />
+            Need help? We got you covered. Enroll in the doubt class on 15 Oct,
+            21 at 4 PM - 5 PM
+          </Typography>
+
+          <Button
+            endIcon={<ArrowForwardIosIcon />}
+            // variant="outlined"
+            sx={{
+              width: isActive ? "90%" : "215px",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            View Class Details
+          </Button>
         </Box>
       </Container>
     </>
