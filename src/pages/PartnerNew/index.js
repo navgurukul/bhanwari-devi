@@ -121,32 +121,22 @@ function NewParnter() {
                   !partners[item].City == "" && (
                     <Card className={classes.partnerCard}>
                       <CardHeader
+                        sx={{ height: "35px" }}
                         title={partners[item].Name}
                         titleTypographyProps={{ variant: "subtitle1" }}
                       />
-                      <Box sx={{ margin: "0px 10px 0px 10px" }}>
+                      <Box sx={{ margin: "10px 10px 10px 10px" }}>
                         {partners[item].OrganisationType == "Non - Profit" ? (
                           <Button
                             variant="contained"
                             rounded
-                            sx={
-                              !isActive
-                                ? {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: "60", sm: "30px" },
-                                    fontSize: "caption",
-                                    background: "lemonchiffon",
-                                    color: "black",
-                                  }
-                                : {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: 34, sm: 25 },
-                                    size: "small",
-                                    fontSize: "caption",
-                                    background: "lemonchiffon",
-                                    color: "black",
-                                  }
-                            }
+                            sx={{
+                              borderRadius: { xs: 25, sm: 15 },
+                              height: { xs: "60", sm: "30px" },
+                              fontSize: "caption",
+                              background: "lemonchiffon",
+                              color: "black",
+                            }}
                           >
                             {partners[item].OrganisationType}
                           </Button>
@@ -155,24 +145,13 @@ function NewParnter() {
                           <Button
                             variant="contained"
                             rounded
-                            sx={
-                              !isActive
-                                ? {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: "60", sm: "30px" },
-                                    fontSize: "caption",
-                                    background: "lightskyblue",
-                                    color: "black",
-                                  }
-                                : {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: 34, sm: 25 },
-                                    size: "small",
-                                    fontSize: "caption",
-                                    background: "lightskyblue",
-                                    color: "black",
-                                  }
-                            }
+                            sx={{
+                              borderRadius: { xs: 25, sm: 15 },
+                              height: { xs: "60", sm: "30px" },
+                              fontSize: "caption",
+                              background: "lightskyblue",
+                              color: "black",
+                            }}
                           >
                             {partners[item].OrganisationType}
                           </Button>
@@ -180,24 +159,13 @@ function NewParnter() {
                           <Button
                             variant="contained"
                             rounded
-                            sx={
-                              !isActive
-                                ? {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: "60", sm: "30px" },
-                                    fontSize: "caption",
-                                    background: "silver",
-                                    color: "black",
-                                  }
-                                : {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: 34, sm: 25 },
-                                    size: "small",
-                                    fontSize: "caption",
-                                    background: "silver",
-                                    color: "black",
-                                  }
-                            }
+                            sx={{
+                              borderRadius: { xs: 25, sm: 15 },
+                              height: { xs: "60", sm: "30px" },
+                              fontSize: "caption",
+                              background: "silver",
+                              color: "black",
+                            }}
                           >
                             {partners[item].OrganisationType}
                           </Button>
@@ -206,22 +174,12 @@ function NewParnter() {
                           <Button
                             variant="contained"
                             rounded
-                            sx={
-                              !isActive
-                                ? {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: "60", sm: "30px" },
-                                    fontSize: "caption",
-                                    color: "black",
-                                  }
-                                : {
-                                    borderRadius: { xs: 25, sm: 15 },
-                                    height: { xs: 34, sm: 25 },
-                                    size: "small",
-                                    fontSize: "caption",
-                                    color: "black",
-                                  }
-                            }
+                            sx={{
+                              borderRadius: { xs: 25, sm: 15 },
+                              height: { xs: "60", sm: "30px" },
+                              fontSize: "caption",
+                              color: "black",
+                            }}
                           >
                             {partners[item].OrganisationType}
                           </Button>
