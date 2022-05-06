@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
 import IntroToPython from "./JoinClass/IntroToPython";
+import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
 
 const UpcomingCourse = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -197,6 +198,7 @@ const UpcomingCourse = (props) => {
           </Card>
         </Box>
         <IntroToPython />
+        <CourseEnroll />
       </Container>
     </>
   ) : (
