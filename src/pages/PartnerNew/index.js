@@ -39,7 +39,7 @@ function NewParnter() {
   }, []);
 
   return (
-    <Container maxWidth="lg">
+    <Container sx={{ mt: 10, background: "pink" }} maxWidth="lg">
       <Container maxWidth="sm">
         <Typography variant="h5" align="center">
           Our Partners
