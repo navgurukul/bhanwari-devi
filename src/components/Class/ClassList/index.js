@@ -5,7 +5,7 @@ import { actions as classActions } from "../redux/action";
 import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
-import { Grid } from "@mui/material";
+import { Grid, Container, Typography, Card, Skeleton } from "@mui/material";
 
 function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
@@ -19,7 +19,37 @@ function ClassList({ editClass, isShow }) {
   }, [dispatch, isShow]);
 
   if (loading) {
-    return <Loader pageLoader={true} />;
+    // return <Loader pageLoader={true} />;
+    return (
+      <Container maxWidth="xl" sx={{ mt: "40px" }}>
+        <Grid container spacing={2}>
+          {Array.from(Array(8)).map((_, index) => (
+            <Grid item xs={2} sm={4} md={3} key={index}>
+              <Card sx={{ p: 4 }}>
+                <Typography variant="subtitle1">
+                  <Skeleton />
+                </Typography>
+                <Typography variant="subtitle2">
+                  <Skeleton />
+                </Typography>
+                <Typography variant="body1">
+                  <Skeleton />
+                </Typography>
+                <Typography variant="body1">
+                  <Skeleton />
+                </Typography>
+                <Typography variant="body1">
+                  <Skeleton />
+                </Typography>
+                <Typography variant="body1">
+                  <Skeleton />
+                </Typography>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    );
   }
 
   let recurring_classes_data = [];
