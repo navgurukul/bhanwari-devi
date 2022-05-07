@@ -1,22 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { Button } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
 import useStyles from "../styles";
-import { useSelector } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-
-// import { Button } from "framework7-react";
 
 const RevisionClassExerciseComponent = () => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -25,30 +14,35 @@ const RevisionClassExerciseComponent = () => {
   return (
     <>
       <Container>
-        <Box backgroundColor="primary.light" p={2}>
-          <Typography
-            variant="body1"
-            mb={1}
-            align="left"
-            style={{
-              display: "flex",
-            }}
-          >
-            {" "}
-            <img
-              className={classes.icons}
-              src={require("./assets/Group.svg")}
-              alt="Students Img"
-            />
-            Need help? We got you covered. Enroll in the doubt class on 15 Oct,
-            21 at 4 PM - 5 PM
-          </Typography>
+        <Box backgroundColor="primary.light" p={2} borderRadius="8px">
+          <Grid container spacing={2}>
+            <Grid item xs={1}>
+              <img
+                pb={1}
+                className={classes.icons}
+                src={require("./assets/Group.svg")}
+                alt="Students Img"
+              />
+            </Grid>
+            <Grid item xs={11}>
+              <Typography
+                variant="body1"
+                mb={1}
+                align="left"
+                style={{
+                  display: "flex",
+                }}
+              >
+                Need help? We got you covered. Enroll in the doubt class on 15
+                Oct, 21 at 4 PM - 5 PM
+              </Typography>
+            </Grid>
+          </Grid>
 
           <Button
             endIcon={<ArrowForwardIosIcon />}
-            // variant="outlined"
             sx={{
-              width: isActive ? "90%" : "215px",
+              width: isActive ? "90%" : "470px",
               display: "flex",
               justifyContent: "flex-end",
             }}

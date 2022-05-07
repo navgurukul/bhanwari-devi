@@ -3,14 +3,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { PATHS, interpolatePath } from "../../constant";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./dilog";
-import axios from "axios";
 import { useSelector } from "react-redux";
-// import { Button } from "framework7-react";
 import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
 import IntroToPython from "./JoinClass/IntroToPython";
@@ -145,7 +141,6 @@ const UpcomingCourse = (props) => {
                 mb={1}
                 style={{
                   display: "flex",
-                  // padding: "10px 0",
                 }}
               >
                 <img

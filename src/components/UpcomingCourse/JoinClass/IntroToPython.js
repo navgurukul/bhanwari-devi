@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
 import useStyles from "../styles";
-import { useSelector } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
-
-// import { Button } from "framework7-react";
 
 const IntroToPython = () => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -42,7 +37,6 @@ const IntroToPython = () => {
                 mb={1}
                 style={{
                   display: "flex",
-                  // padding: "10px 0",
                 }}
               >
                 {" "}
@@ -61,7 +55,6 @@ const IntroToPython = () => {
               >
                 Please join at least 10 mintues before the scheduled time
               </Typography>
-
               <Button variant="contained" fullWidth>
                 join Class
               </Button>
