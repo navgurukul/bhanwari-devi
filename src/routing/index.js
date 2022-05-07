@@ -10,6 +10,7 @@ import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
+import UserUpdate from "../components/User/UserUpdate";
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import PartnerData from "../components/Dashboard/PartnerData";
 import StudentData from "../components/Dashboard/StudentData";
@@ -98,6 +99,7 @@ const Routing = () => {
 
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
+      <PrivateRoute exact path={PATHS.USER_UPDATE} component={UserUpdate} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
       <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
