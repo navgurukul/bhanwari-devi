@@ -26,6 +26,7 @@ import {
 import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
+import IntroToPython from "../../UpcomingCourse/JoinClass/IntroToPython";
 
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 
@@ -237,6 +238,8 @@ function ExerciseContent({ exerciseId, lang }) {
     <Container maxWidth="sm">
       <Box sx={{ m: "32px 0px" }}>
         <Typography variant="h5">{course}</Typography>
+        <IntroToPython />
+
         <Typography variant="h6" sx={{ mt: "16px" }}>
           {exercise && exercise}
         </Typography>

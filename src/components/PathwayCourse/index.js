@@ -4,7 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { METHODS } from "../../services/api";
 import { PATHS, interpolatePath } from "../../constant";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
@@ -80,22 +80,38 @@ function PathwayCourse() {
   const params = useParams();
   const pathwayId = params.pathwayId;
   const baseUrl = process.env.REACT_APP_MERAKI_URL;
+  const [userEnrolledClasses, setUserEnrolledClasses] = useState(null);
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
   const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+
   useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${baseUrl}pathways/${params.pathwayId}/upcomingEnrolledClasses`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    }).then((res) => {
+      setUserEnrolledClasses(res.data);
+
+      console.log("res.data", res.data);
+    });
+
     axios({
       method: METHODS.GET,
       url: `${baseUrl}pathways/${params.pathwayId}/upcomingBatches`,
       headers: {
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: user?.data?.token,
       },
     }).then((res) => {
       setUpcomingBatchesData(res.data);
     });
-  }, []);
+  }, [pathwayCourse]);
+
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
       pathways.forEach((item) => {
@@ -113,36 +129,48 @@ function PathwayCourse() {
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
-        <PathwayCard />
-        {pathwayId && pathwayCourseData && (
-          <>
-            <Grid container spacing={2} align="center" className={classes.box}>
-              <Grid xs={6} md={6}>
-                <Card align="left" elevation={0} className={classes.titleCard}>
-                  <Typography
-                    variant="body2"
-                    className={classes.cardSubtitle}
-                    sx={{ textAlign: isActive && "center", pb: "8px" }}
+        {userEnrolledClasses?.length > 0 ? (
+          <PathwayCard userEnrolledClasses={userEnrolledClasses} />
+        ) : (
+          pathwayId &&
+          pathwayCourseData && (
+            <>
+              <Grid
+                container
+                spacing={2}
+                align="center"
+                className={classes.box}
+              >
+                <Grid xs={6} md={6}>
+                  <Card
+                    align="left"
+                    elevation={0}
+                    className={classes.titleCard}
                   >
-                    Learning Track
-                  </Typography>
-                  <Typography
-                    variant="h4"
-                    className={classes.heading}
-                    sx={{ textAlign: isActive && "center", pb: "16px" }}
-                  >
-                    {pathwayCourseData.pathway}
-                  </Typography>
-                  <Typography variant="body1">
-                    {pathwayCourseData.description}
-                  </Typography>
-                </Card>
-              </Grid>
-              <Grid xs={6} md={6}>
-                <UpcomingCourse upcomingBatchesData={upcomingBatchesData} />
-              </Grid>
+                    <Typography
+                      variant="body2"
+                      className={classes.cardSubtitle}
+                      sx={{ textAlign: isActive && "center", pb: "8px" }}
+                    >
+                      Learning Track
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                      className={classes.heading}
+                      sx={{ textAlign: isActive && "center", pb: "16px" }}
+                    >
+                      {pathwayCourseData.pathway}
+                    </Typography>
+                    <Typography variant="body1">
+                      {pathwayCourseData.description}
+                    </Typography>
+                  </Card>
+                </Grid>
+                <Grid xs={6} md={6}>
+                  <UpcomingCourse upcomingBatchesData={upcomingBatchesData} />
+                </Grid>
 
-              {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
+                {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
                   <CardMedia
                     component="video"
                     autoPlay
@@ -152,28 +180,33 @@ function PathwayCourse() {
                     sx={{ width: isActive ? 380 : 480 }}
                   />
                 </Grid> */}
-            </Grid>
-            <Box className={classes.Box1}>
-              <Typography variant="h5" sx={{ textAlign: isActive && "center" }}>
-                Learning Outcomes
-              </Typography>
-              <Grid container spacing={0} align="center">
-                {pathwayCourseData.outcomes.map((item) => (
-                  <Grid xs={12} md={4}>
-                    <Card align="left" elevation={0}>
-                      <Box className={classes.flex}>
-                        <CheckIcon color="primary" />
-                        <Typography sx={{ ml: 1 }} variant="body1">
-                          {item}
-                        </Typography>
-                      </Box>
-                    </Card>
-                  </Grid>
-                ))}
               </Grid>
-            </Box>
-          </>
+              <Box className={classes.Box1}>
+                <Typography
+                  variant="h5"
+                  sx={{ textAlign: isActive && "center" }}
+                >
+                  Learning Outcomes
+                </Typography>
+                <Grid container spacing={0} align="center">
+                  {pathwayCourseData.outcomes.map((item) => (
+                    <Grid xs={12} md={4}>
+                      <Card align="left" elevation={0}>
+                        <Box className={classes.flex}>
+                          <CheckIcon color="primary" />
+                          <Typography sx={{ ml: 1 }} variant="body1">
+                            {item}
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </>
+          )
         )}
+
         <Box className={classes.box}>
           <Typography
             className={classes.course}
@@ -242,8 +275,12 @@ function PathwayCourse() {
               />
             </Grid>
           </Grid>
-
-          <BelowComponent upcomingBatchesData={upcomingBatchesData} />
+          {!(userEnrolledClasses?.length > 0) &&
+          upcomingBatchesData?.length > 0 ? (
+            <BelowComponent upcomingBatchesData={upcomingBatchesData} />
+          ) : (
+            ""
+          )}
         </Box>
       </Container>
     </>
