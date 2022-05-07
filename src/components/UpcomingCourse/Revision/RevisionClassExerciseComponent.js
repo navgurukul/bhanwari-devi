@@ -38,17 +38,16 @@ const RevisionClassExerciseComponent = () => {
               </Typography>
             </Grid>
           </Grid>
-
-          <Button
-            endIcon={<ArrowForwardIosIcon />}
+          <Box
             sx={{
-              width: isActive ? "90%" : "470px",
               display: "flex",
               justifyContent: "flex-end",
             }}
           >
-            View Class Details
-          </Button>
+            <Button endIcon={<ArrowForwardIosIcon />}>
+              View Class Details
+            </Button>
+          </Box>
         </Box>
       </Container>
     </>

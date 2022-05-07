@@ -7,11 +7,8 @@ import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./dilog";
 import { useSelector } from "react-redux";
-import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
 import IntroToPython from "./JoinClass/IntroToPython";
-import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
-import RevisionClass from "./Revision/RevisionClassExerciseComponent";
 
 const UpcomingCourse = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -41,23 +38,6 @@ const UpcomingCourse = (props) => {
   };
   const { title, start_time, end_time, id } = props;
   const user = useSelector(({ User }) => User);
-  // const handelEnrollment = (Id) => {
-  //   axios
-  //     .post(
-  //       `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
-  //       {},
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: user.data.token,
-  //           "register-to-all": true,
-  //         },
-  //       }
-  //     )
-  //     .then(() => {
-  //       handleClose();
-  //     });
-  // };
 
   // {
   //   "id": 27508,
