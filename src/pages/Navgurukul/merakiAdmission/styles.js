@@ -9,15 +9,11 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "20px",
   },
   admitionVideo: {
-    width: "540px",
+    width: "100%",
     borderRadius: "8px",
-    marginBottom: "50%",
   },
   admitionVideo1: {
-    width: "344px",
-    height: "330px",
-    borderRadius: "8px",
-    marginBottom: "40%",
+    width: "100%",
   },
 
   admitionHr: {
@@ -32,15 +28,15 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: "none none dotted",
     color: "grey",
   },
-  admitionSpacing: {
-    marginTop: "47px",
-  },
-  admitionBottom: {
-    paddingBottom: "2%",
-  },
-  admitionBottom1: {
-    paddingBottom: "4%",
-  },
+
+  // admitionBottom: {
+  //   paddingBottom: "2%",
+  //   backgroundColor:"red"
+  // },
+  // admitionBottom1: {
+  //   paddingBottom: "4%",
+  //   backgroundColor:"red"
+  // },
   admitionBtn1: {
     width: "auto%",
     height: 50,
