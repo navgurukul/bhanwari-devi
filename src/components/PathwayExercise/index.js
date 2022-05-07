@@ -41,8 +41,10 @@ const Exercise = ({
   return (
     <>
       {courseLength.map((exercise, index) => {
+        // console.log("new", exercise);
         return (
           <NavigationComponent
+            exercise={exercise}
             params={params}
             history={history}
             index={index + start}
@@ -63,11 +65,75 @@ function NavigationComponent({
   classes,
   history,
   params,
+  exercise,
 }) {
-  console.log("exerciseId", exerciseId);
+  console.log("new exercise", exercise);
   console.log("index", index);
   return (
     <>
+      {/* {exercise.content_type === "exercise" && (
+        <img
+          onClick={() => {
+            history.push(
+              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: index,
+                pathwayId: params.pathwayId,
+              })
+            );
+            setExerciseId(index);
+          }}
+          src={
+            exerciseId == index
+              ? `${require("./asset/contentTypeSelectd.svg")}`
+              : `${require("./asset/contenttype.svg")}`
+          }
+          loading="lazy"
+          className={classes.contentImg}
+        />
+      )}
+      {exercise.content_type === "assessment" && (
+        <img
+          onClick={() => {
+            history.push(
+              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: index,
+                pathwayId: params.pathwayId,
+              })
+            );
+            setExerciseId(index);
+          }}
+          src={
+            exerciseId == index
+              ? `${require("./asset/assessmentSelected.svg")}`
+              : `${require("./asset/assessment.svg")}`
+          }
+          loading="lazy"
+          className={classes.contentImg}
+        />
+      )}
+      {exercise.content_type === "class_topic" && (
+        <img
+          onClick={() => {
+            history.push(
+              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: index,
+                pathwayId: params.pathwayId,
+              })
+            );
+            setExerciseId(index);
+          }}
+          src={
+            exerciseId == index
+              ? `${require("./asset/classtype.svg")}`
+              : `${require("./asset/classtype.svg")}`
+          }
+          loading="lazy"
+          className={classes.contentImg}
+        />
+      )} */}
       <img
         onClick={() => {
           history.push(
@@ -81,8 +147,18 @@ function NavigationComponent({
         }}
         src={
           exerciseId == index
-            ? `${require("./asset/contentTypeSelectd.svg")}`
-            : `${require("./asset/contenttype.svg")}`
+            ? (exercise.content_type === "assessment" &&
+                `${require("./asset/assessmentSelected.svg")}`) ||
+              (exercise.content_type === "class_topic" &&
+                `${require("./asset/classtype.svg")}`) ||
+              (exercise.content_type === "exercise" &&
+                `${require("./asset/contentTypeSelectd.svg")}`)
+            : (exercise.content_type === "assessment" &&
+                `${require("./asset/assessment.svg")}`) ||
+              (exercise.content_type === "class_topic" &&
+                `${require("./asset/classtype.svg")}`) ||
+              (exercise.content_type === "exercise" &&
+                `${require("./asset/contenttype.svg")}`)
         }
         loading="lazy"
         className={classes.contentImg}
@@ -120,7 +196,8 @@ function PathwayExercise() {
       });
   }, []);
 
-  console.log("courseId", courseId);
+  // console.log("courseId", courseId);
+  // console.log("course", course);
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
@@ -269,6 +346,7 @@ function PathwayExercise() {
               >
                 {course &&
                   course.map((exercise, index) => {
+                    console.log("exercise", exercise);
                     return (
                       <>
                         <Link
@@ -285,8 +363,18 @@ function PathwayExercise() {
                             onClick={() => setExerciseId(index)}
                             src={
                               exerciseId == index
-                                ? `${require("./asset/contentTypeSelectd.svg")}`
-                                : `${require("./asset/contenttype.svg")}`
+                                ? (exercise.content_type === "assessment" &&
+                                    `${require("./asset/assessmentSelected.svg")}`) ||
+                                  (exercise.content_type === "class_topic" &&
+                                    `${require("./asset/classtype.svg")}`) ||
+                                  (exercise.content_type === "exercise" &&
+                                    `${require("./asset/contentTypeSelectd.svg")}`)
+                                : (exercise.content_type === "assessment" &&
+                                    `${require("./asset/assessment.svg")}`) ||
+                                  (exercise.content_type === "class_topic" &&
+                                    `${require("./asset/classtype.svg")}`) ||
+                                  (exercise.content_type === "exercise" &&
+                                    `${require("./asset/contenttype.svg")}`)
                             }
                             loading="lazy"
                             className={classes.contentImg}

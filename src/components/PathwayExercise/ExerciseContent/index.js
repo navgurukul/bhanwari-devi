@@ -8,6 +8,7 @@ import DOMPurify from "dompurify";
 import { useParams } from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
+import Assessment from "../ExerciseContent/Assessment";
 import {
   TableRow,
   TableHead,
@@ -226,27 +227,49 @@ function ExerciseContent({ exerciseId, lang }) {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
       console.log("res", res.data.course.exercises[exerciseId].name);
       setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId].name);
+      setExercise(res.data.course.exercises[exerciseId]);
       setContent(res.data.course.exercises[exerciseId]?.content);
     });
   }, [courseId, exerciseId, lang]);
 
-  console.log("content", content[0] && content[0]);
+  // console.log("content", content);
+  console.log("exercise", exercise && exercise);
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ m: "32px 0px" }}>
-        <Typography variant="h5">{course}</Typography>
-        <Typography variant="h6" sx={{ mt: "16px" }}>
-          {exercise && exercise}
-        </Typography>
-        <Box sx={{ mt: 5, mb: 8 }}>
-          {content &&
-            content.map((contentItem, index) => (
-              <RenderContent data={contentItem} key={index} classes={classes} />
-            ))}
+      {exercise && exercise.content_type === "exercise" && (
+        <Box sx={{ m: "32px 0px" }}>
+          <Typography variant="h5">{course}</Typography>
+          <Typography variant="h6" sx={{ mt: "16px" }}>
+            {exercise && exercise.name}
+          </Typography>
+          <Box sx={{ mt: 5, mb: 8 }}>
+            {content &&
+              content.map((contentItem, index) => (
+                <RenderContent
+                  data={contentItem}
+                  key={index}
+                  classes={classes}
+                />
+              ))}
+          </Box>
         </Box>
-      </Box>
+      )}
+      {exercise && exercise.content_type === "assessment" && (
+        // <Typography variant="h1">Hi Poonam!</Typography>
+        //   <Box sx={{ mt: 5, mb: 8 }}>
+        //   {content &&
+        //     content.map((contentItem, index) => (
+        //       // <RenderContent
+        //       //   data={contentItem}
+        //       //   key={index}
+        //       //   classes={classes}
+        //       // />
+        //       <Assessment data={contentItem}/>
+        //     ))}
+        // </Box>
+        <Assessment data={content} />
+      )}
     </Container>
   );
 }
