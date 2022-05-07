@@ -5,6 +5,7 @@ import useStyles from "./styles";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { METHODS } from "../../services/api";
+
 import { PATHS, interpolatePath } from "../../constant";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
