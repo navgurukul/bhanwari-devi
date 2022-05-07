@@ -49,11 +49,10 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         {["Learn", "About", "Get Involved"].map((menu, index) => (
           <>
             <MenuItem
-              className={classes.MenuItem}
               onClick={(e) => {
                 menuOpenHandler(e, menu);
               }}
-              sx={{ my: 2, color: "black" }}
+              sx={{ color: "black" }}
               key={index}
             >
               <Typography variant="subtitle1">{menu}</Typography>
@@ -172,7 +171,7 @@ function Header() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="sticky" color="background" elevation={elevation}>
-        <Container maxWidth="false">
+        <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>

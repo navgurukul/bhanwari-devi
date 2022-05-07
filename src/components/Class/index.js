@@ -1083,32 +1083,19 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
-              {formFieldsState[TYPE] === "cohort" &&
-                !formFieldsState[UNTIL] &&
-                !formFieldsState[OCCURRENCE] && (
-                  <span className="field-validation">
-                    Enter how many class you want to create
-                  </span>
-                )}
-              {/* <div
-                className={
-                  checkEquivalence ? "disabled-button" : "enabled-button"
-                }
-              > */}
-              <button
-                type="submit"
-                className={checkEquivalence ? "submit disabled" : "submit"}
-                disabled={checkEquivalence}
-              >
-                {loading ? (
+              {loading ? (
+                <div>
                   <Loader />
-                ) : isEditMode ? (
-                  `UPDATE CLASS`
-                ) : (
-                  "Create Class"
-                )}
-              </button>
-              {/* </div> */}
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  className={checkEquivalence ? "submit disabled" : "submit"}
+                  disabled={checkEquivalence}
+                >
+                  {isEditMode ? `UPDATE CLASS` : "Create Class"}
+                </button>
+              )}
             </>
           );
         }}

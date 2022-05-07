@@ -14,6 +14,8 @@ import Loader from "../../common/Loader";
 import { Typography, Card, Grid, Button, Box } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import { breakpoints } from "../../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 toast.configure();
 
@@ -30,6 +32,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const user = useSelector(({ User }) => User);
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const languageMap = {
     hi: "Hindi",
@@ -183,11 +186,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   return (
     <>
       {" "}
-      <Card
-        elevation={2}
-        // sx={{ p: 3, background: "#e9f5e9", width: "320px" }}
-        className={classes.card}
-      >
+      <Card elevation={2} sx={{ p: 4 }} className={classes.card}>
         <Typography
           variant="subtitle1"
           color="primary"

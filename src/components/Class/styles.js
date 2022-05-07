@@ -2,12 +2,12 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    height: "350px",
+    height: "380px",
     display: "flex",
-    maxWidth: "300px",
+    maxWidth: "380px",
     flexDirection: "column",
     justifyContent: "space-between",
-    margin: "15px",
+    margin: "0px 4px 0px 4px",
     padding: "15px",
     "&:hover": {
       boxShadow:

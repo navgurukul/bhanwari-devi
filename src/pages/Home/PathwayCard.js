@@ -8,12 +8,14 @@ function PathwayCard({ id, title, description, image, hover }) {
   const classes = useStyles();
   return (
     <>
-      {id || title === "Open Courses" || title === "Residential Programmes" ? (
+      {id ||
+      title === "Miscellaneous Courses" ||
+      title === "Residential Programmes" ? (
         <Link
           to={
             id
               ? interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: id })
-              : title === "Open Courses"
+              : title === "Miscellaneous Courses"
               ? PATHS.MISCELLANEOUS_COURSE
               : title === "Residential Programmes" && PATHS.RESIDENTIAL_COURSE
           }
