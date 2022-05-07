@@ -15,7 +15,7 @@ import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
 import IntroToPython from "./JoinClass/IntroToPython";
 import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
-import RevisionClass from "./Revision/EnrollInCourse";
+import RevisionClass from "./Revision/RevisionClassExerciseComponent";
 
 const UpcomingCourse = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -175,15 +175,14 @@ const UpcomingCourse = (props) => {
               >
                 Can’t start on {BatchData?.start_time.split("T")[0]}
                 {" ? "}
-                <Link className={classes.link}>
-                  <Typography
-                    color="primary"
-                    onClick={handleUpcomingBatchesClickOpen}
-                  >
-                    {" "}
-                    Check out our other batches
-                  </Typography>
-                </Link>
+                <Typography
+                  color="primary"
+                  onClick={handleUpcomingBatchesClickOpen}
+                  className={classes.link}
+                >
+                  {" "}
+                  Check out our other batches
+                </Typography>
                 <CheckMoreBatches
                   open={upcomingBatchesOpen}
                   handleUpcomingBatchesClickOpen={
@@ -199,9 +198,6 @@ const UpcomingCourse = (props) => {
           </Card>
         </Box>
         <IntroToPython />
-        <CourseEnroll />
-
-        <RevisionClass />
       </Container>
     </>
   ) : (

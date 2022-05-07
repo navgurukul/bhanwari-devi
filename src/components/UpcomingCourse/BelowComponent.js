@@ -10,6 +10,7 @@ import { Box } from "@mui/system";
 import AlertDialog from "./dilog";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import CheckMoreBatches from "./CheckMoreBatches";
 // import { Button } from "framework7-react";
 
 const BelowComponent = (props) => {
@@ -26,6 +27,7 @@ const BelowComponent = (props) => {
   const close = () => {
     setOpen(false);
   };
+  const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
 
   const { title, start_time, end_time, id } = props;
   const user = useSelector(({ User }) => User);
@@ -46,13 +48,18 @@ const BelowComponent = (props) => {
   //       handleClose();
   //     });
   // };
-
-  return (
+  const handleUpcomingBatchesClickOpen = () => {
+    setUpcomingBatchesOpen(true);
+  };
+  const handleUpcomingBatchesClickClose = () => {
+    setUpcomingBatchesOpen(false);
+  };
+  return upcomingBatchesData ? (
     <>
       <Container align="center">
         <Box maxWidth={500} bgcolor="#E9F5E9" mb={10} pt={3} height={280}>
           <Typography align="center" gutterBottom variant="h5">
-            Batch: Ankit_15SEP21
+            {upcomingBatchesData[0]?.title}
           </Typography>
           <Typography
             variant="body1"
@@ -68,7 +75,8 @@ const BelowComponent = (props) => {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            15 Sep 21 - 15 Nov 21
+            {upcomingBatchesData[0]?.start_time.split("T")[0]} -{" "}
+            {upcomingBatchesData[0]?.end_time.split("T")[0]}
           </Typography>
           <Typography
             variant="body1"
@@ -88,7 +96,7 @@ const BelowComponent = (props) => {
           </Typography>
           <Stack alignItems="center" maxWidth={600}>
             <Button variant="contained" onClick={handleClickOpen}>
-              Ankit_15SEP21 Enroll Batch
+              {upcomingBatchesData[0]?.title} Enroll Batch
             </Button>
             <AlertDialog open={open} close={close} />
           </Stack>
@@ -99,16 +107,27 @@ const BelowComponent = (props) => {
               display: "flex",
             }}
           >
-            Can’t start on 15 Sep 21
+            Can’t start on {upcomingBatchesData[0]?.start_time.split("T")[0]}
             {" ? "}
-            <Typography color="primary">
+            <Typography
+              onClick={handleUpcomingBatchesClickOpen}
+              color="primary"
+            >
               {" "}
               Check out our other batches
             </Typography>
+            <CheckMoreBatches
+              open={upcomingBatchesOpen}
+              handleUpcomingBatchesClickOpen={handleUpcomingBatchesClickOpen}
+              handleUpcomingBatchesClickClose={handleUpcomingBatchesClickClose}
+              upcomingBatchesData={upcomingBatchesData}
+            />
           </Typography>
         </Box>
       </Container>
     </>
+  ) : (
+    ""
   );
 };
 export default BelowComponent;
