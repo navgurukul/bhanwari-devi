@@ -131,10 +131,6 @@ input[type="radio"]:checked {
   }
 }
 
-.radio-field-with-validation {
-  margin-bottom: 10px;
-}
-
 .radio-field {
   margin: 30px 12px 30px 12px;
 }
@@ -157,52 +153,11 @@ input.checkbox-field {
   height: 15px;
 }
 
-.optional-field {
-  font-weight: normal;
-  color: grey;
-  font-size: 14px;
-  margin: 0px 0px 24px 4px;
-}
-
-.field-validation {
-  font-weight: normal;
-  color: rgb(214, 58, 58);
-  font-size: 14px;
-  margin: 0px 0px 28px 4px;
-}
-
-.input-field-without-validation {
-  width: 628px;
-  height: 48px;
-  padding-left: 8px;
-  margin: 8px 0 30px 0;
-  font-size: 16px;
-  border: none;
-  border-bottom: 2px solid rgb(192, 195, 196);
-
-  @include breakpoint-mobile {
-    width: 350px;
-  }
-
-  &--short {
-    width: 180px;
-  }
-
-  background: #ffffff;
-  box-sizing: border-box;
-
-  &:focus {
-    outline: none !important;
-    border: 1px solid #3cb728;
-    box-shadow: 0 0 4px #3cb728;
-  }
-}
-
 .input-field {
   width: 628px;
   height: 48px;
   padding-left: 8px;
-  margin: 8px 0 10px 0;
+  margin: 8px 0 24px 0;
   font-size: 16px;
   border: none;
   border-bottom: 2px solid rgb(192, 195, 196);
@@ -223,6 +178,9 @@ input.checkbox-field {
     border: 1px solid #3cb728;
     box-shadow: 0 0 4px #3cb728;
   }
+}
+.input-field--short {
+  width: 18.75rem;
 }
 
 .textarea-field {
@@ -230,7 +188,7 @@ input.checkbox-field {
   padding-left: 8px;
   padding-top: 8px;
   font-size: 16px;
-  margin: 8px 0 10px 0;
+  margin: 8px 0 24px 0;
   resize: none;
   border: none;
   border-bottom: 2px solid rgb(192, 195, 196);
@@ -247,34 +205,6 @@ input.checkbox-field {
     border: 1px solid #3cb728;
     box-shadow: 0 0 4px #3cb728;
   }
-}
-
-.textarea-field-without-validation {
-  width: 628px;
-  padding-left: 8px;
-  padding-top: 8px;
-  font-size: 16px;
-  margin: 8px 0 30px 0;
-  resize: none;
-  border: none;
-  border-bottom: 2px solid rgb(192, 195, 196);
-
-  @include breakpoint-mobile {
-    width: 340px;
-  }
-
-  //TODO: move the color in the root colors.scss file.
-  background: #ffffff;
-
-  &:focus {
-    outline: none !important;
-    border: 1px solid #3cb728;
-    box-shadow: 0 0 4px #3cb728;
-  }
-}
-
-.input-field--short {
-  width: 18.75rem;
 }
 
 .class_main_time {
@@ -289,6 +219,13 @@ input.checkbox-field {
   background: #ffffff;
   margin: 8px 0 24px 0;
   border-radius: 8px;
+}
+
+.optional-field {
+  font-weight: normal;
+  color: grey;
+  font-size: 14px;
+  margin-left: 4px;
 }
 
 .description-for-enrollments {
