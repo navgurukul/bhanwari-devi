@@ -140,42 +140,19 @@ function Admission(props) {
   return (
     <>
       <Container maxWidth="lg" className={classes.admitionContainer}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "spaced-center",
-            alignItems: "spaced-evenly",
-            flexWrap: "wrap",
-          }}
-        >
-          <div
-            style={{
-              minWidth: "50%",
-            }}
-          >
-            <CardMedia>
-              <YouTube
-                className={
-                  !isActive ? classes.admitionVideo : classes.admitionVideo1
-                }
-                videoId={`vuSwndj5cbs`}
-              />
-            </CardMedia>
+        <Grid container spacing={2}>
+          <Grid item xs={12} ms={6} md={6}>
+            <YouTube
+              className={
+                !isActive ? classes.admitionVideo : classes.admitionVideo1
+              }
+              videoId={`vuSwndj5cbs`}
+            />
             <Typography variant="subtitle1" gutterBottom align="center">
               Experience of NG Alumni & Graduates
             </Typography>
-            {/* <hr
-              className={isActive ? classes.admitionHr1 : classes.admitionHr}
-            /> */}
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              minWidth: "50%",
-            }}
-          >
+          </Grid>
+          <Grid item xs={12} ms={6} md={6}>
             <Typography
               variant="h6"
               gutterBottom
@@ -250,7 +227,8 @@ function Admission(props) {
                 Give Admission Test
               </Button>
             </Box>
-            <Grid container className={classes.admitionSpacing}>
+
+            <Grid sx={{ mt: 4 }} container>
               <Grid item xs={12} sm={12} md={6}>
                 <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
                   <Typography variant="h6">Check Test Result</Typography>
@@ -276,8 +254,8 @@ function Admission(props) {
                 </Box>
               </Grid>
             </Grid>
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </Container>
     </>
   );
