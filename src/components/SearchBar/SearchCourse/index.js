@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { actions as courseActions } from "../../Course/redux/action";
 import SearchBar from "..";
 import { Box, TextField, Container } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 
 function SearchCourse(props) {
   //   console.log("props", props);
@@ -40,19 +41,18 @@ function SearchCourse(props) {
   console.log("filteredCourse", filteredCourse);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
-      <Box>
-        {/* <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper> */}
+      <Container sx={{ mt: 5 }} maxWidth="sm">
         <TextField
-          id="standard-basic"
-          variant="filled"
+          id="outlined-basic"
+          label="Search for course..."
+          variant="outlined"
+          fullWidth
           value={search}
           onChange={handleSearchChange}
         />
-      </Box>
+      </Container>
     </Container>
   );
 }

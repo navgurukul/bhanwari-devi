@@ -18,9 +18,11 @@ import {
   Menu,
   Avatar,
   MenuItem,
+  Button,
 } from "@mui/material";
 import HeaderNavLink from "./HeaderNavlink";
 import SearchBar from "../SearchBar";
+import Tooltip from "@mui/material/Tooltip";
 
 const rolesLandingPages = {
   admin: PATHS.PARTNERS,
@@ -206,6 +208,14 @@ function AuthenticatedHeaderOption({
                 pr: rolesList.length < 1 && 2,
               }}
             >
+              <Link to={PATHS.SEARCHED_COURSE}>
+                <Tooltip title="Search the course...">
+                  <Button>
+                    <SearchIcon />
+                  </Button>
+                </Tooltip>
+              </Link>
+
               <HeaderNavLink
                 to={PATHS.ADMISSION}
                 text="Navgurukul Admission"
@@ -285,13 +295,17 @@ function AuthenticatedHeaderOption({
             ) : null}
           </Box>
         )}
-
-        <Box>
-          <Link to={PATHS.SEARCHED_COURSE}>
-            <SearchIcon />
-          </Link>
-        </Box>
-
+        {!(switchView === "student" || merakiStudents || studentView) && (
+          <Box>
+            <Link to={PATHS.SEARCHED_COURSE}>
+              <Tooltip title="Search the course...">
+                <Button>
+                  <SearchIcon />
+                </Button>
+              </Tooltip>
+            </Link>
+          </Box>
+        )}
         <Box
           sx={{
             flexGrow: 0,

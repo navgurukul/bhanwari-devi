@@ -14,6 +14,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import { Redirect } from "react-router-dom";
+import Tooltip from "@mui/material/Tooltip";
 import {
   AppBar,
   Box,
@@ -92,7 +93,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
 
       {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
       <Link to={PATHS.SEARCHED_COURSE}>
-        <SearchIcon />
+        <Tooltip title="Search the course...">
+          <Button>
+            <SearchIcon />
+          </Button>
+        </Tooltip>
       </Link>
 
       {showLoginButton && !leftDrawer && (
