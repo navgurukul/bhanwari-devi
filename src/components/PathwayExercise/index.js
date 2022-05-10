@@ -126,6 +126,26 @@ function PathwayExercise() {
       });
   }, []);
 
+  const LangDropDown = () => {
+    return availableLang?.length === 1 ? (
+      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
+    ) : (
+      <Select
+        disableUnderline
+        value={language}
+        IconComponent={() => null}
+        onChange={(e) => {
+          setLanguage(e.target.value);
+        }}
+        variant="standard"
+      >
+        {availableLang.map((lang) => {
+          return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+        })}
+      </Select>
+    );
+  };
+
   // const Lang = {
   //   en: "English",
   //   mr: "Marathi",
@@ -226,25 +246,7 @@ function PathwayExercise() {
                   onClick={nextClickHandler}
                 />
               </Toolbar>
-              {availableLang?.length === 1 ? (
-                <MenuItem value={availableLang[0]}>
-                  {Lang[availableLang[0]]}
-                </MenuItem>
-              ) : (
-                <Select
-                  disableUnderline
-                  value={language}
-                  IconComponent={() => null}
-                  onChange={(e) => {
-                    setLanguage(e.target.value);
-                  }}
-                  variant="standard"
-                >
-                  {availableLang.map((lang) => {
-                    return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
-                  })}
-                </Select>
-              )}
+              <LangDropDown />
             </Toolbar>
           </div>
           <div className="VisibleInMobile">
@@ -266,25 +268,7 @@ function PathwayExercise() {
                 </Link>
               </Typography>
 
-              {availableLang?.length === 1 ? (
-                <Select
-                  disableUnderline
-                  value={language}
-                  IconComponent={() => null}
-                  onChange={(e) => {
-                    setLanguage(e.target.value);
-                  }}
-                  variant="standard"
-                >
-                  {availableLang.map((lang) => {
-                    return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
-                  })}
-                </Select>
-              ) : (
-                <MenuItem value={availableLang[0]}>
-                  {Lang[availableLang[0]]}
-                </MenuItem>
-              )}
+              <LangDropDown />
             </div>
             <Toolbar>
               <div
