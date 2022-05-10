@@ -200,6 +200,7 @@ function AuthenticatedHeaderOption({
                 toggleDrawer={toggleDrawer}
               />
             </Box>
+
             <Box
               sx={{
                 display: { xs: "block", md: "flex" },
@@ -208,13 +209,15 @@ function AuthenticatedHeaderOption({
                 pr: rolesList.length < 1 && 2,
               }}
             >
-              <Link to={PATHS.SEARCHED_COURSE}>
-                <Tooltip title="Search the course...">
-                  <Button>
-                    <SearchIcon />
-                  </Button>
-                </Tooltip>
-              </Link>
+              {!leftDrawer && (
+                <Link to={PATHS.SEARCHED_COURSE}>
+                  <Tooltip title="Search the course...">
+                    <Button>
+                      <SearchIcon />
+                    </Button>
+                  </Tooltip>
+                </Link>
+              )}
 
               <HeaderNavLink
                 to={PATHS.ADMISSION}
@@ -295,17 +298,18 @@ function AuthenticatedHeaderOption({
             ) : null}
           </Box>
         )}
-        {!(switchView === "student" || merakiStudents || studentView) && (
-          <Box>
-            <Link to={PATHS.SEARCHED_COURSE}>
-              <Tooltip title="Search the course...">
-                <Button>
-                  <SearchIcon />
-                </Button>
-              </Tooltip>
-            </Link>
-          </Box>
-        )}
+        {!(switchView === "student" || merakiStudents || studentView) &&
+          !leftDrawer && (
+            <Box>
+              <Link to={PATHS.SEARCHED_COURSE}>
+                <Tooltip title="Search the course...">
+                  <Button>
+                    <SearchIcon />
+                  </Button>
+                </Tooltip>
+              </Link>
+            </Box>
+          )}
         <Box
           sx={{
             flexGrow: 0,

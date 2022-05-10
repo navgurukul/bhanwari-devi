@@ -80,7 +80,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
           </>
         ))}
       </Box>
-      {/* <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}> */}
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
           <MobileDropDown
@@ -92,13 +91,17 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
       </Box>
 
       {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
-      <Link to={PATHS.SEARCHED_COURSE}>
-        <Tooltip title="Search the course...">
-          <Button>
-            <SearchIcon />
-          </Button>
-        </Tooltip>
-      </Link>
+      {!leftDrawer && (
+        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+          <Link to={PATHS.SEARCHED_COURSE}>
+            <Tooltip title="Search the course...">
+              <Button>
+                <SearchIcon />
+              </Button>
+            </Tooltip>
+          </Link>
+        </Box>
+      )}
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -290,6 +293,15 @@ function Header() {
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <Link to="/">
                 <img src={require("./asset/logo.svg")} loading="lazy" />
+              </Link>
+            </Box>
+            <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+              <Link to={PATHS.SEARCHED_COURSE}>
+                <Tooltip title="Search the course...">
+                  <Button>
+                    <SearchIcon />
+                  </Button>
+                </Tooltip>
               </Link>
             </Box>
             <Box
