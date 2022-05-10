@@ -19,6 +19,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import HeaderNavLink from "./HeaderNavlink";
+import SearchBar from "../SearchBar";
 
 const rolesLandingPages = {
   admin: PATHS.PARTNERS,
@@ -56,7 +57,11 @@ const SwitchView = ({
   );
 };
 
-function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
+function AuthenticatedHeaderOption({
+  toggleDrawer,
+  leftDrawer,
+  handleSearchChange,
+}) {
   const [partnerId, setPartnerId] = useState("");
   const [profile, setProfile] = useState("");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -370,6 +375,10 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             )
           )}
         </Box>
+      </Box>
+
+      <Box sx={{ paddingRight: "20px" }}>
+        <SearchBar handleSearchChange={handleSearchChange} />
       </Box>
 
       {!leftDrawer && (

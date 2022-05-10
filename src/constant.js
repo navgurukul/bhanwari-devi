@@ -30,6 +30,7 @@ export const PATHS = {
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
+  SEARCHED_COURSE: "/search-course",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];

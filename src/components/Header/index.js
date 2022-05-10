@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +10,10 @@ import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import { styled, alpha } from "@mui/material/styles";
+import { Redirect } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -20,13 +24,17 @@ import {
   ThemeProvider,
   SwipeableDrawer,
   Typography,
+  // Search,
 } from "@mui/material";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
+import SearchBar from "../SearchBar";
+import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
-  const [indicator, setIndicator] = React.useState(null);
-  const [dropDownMenu, setDropDownMenu] = React.useState(null);
-  const [selectedMenu, SetSelectedMenu] = React.useState(null);
+const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
+  const [indicator, setIndicator] = useState(null);
+  const [dropDownMenu, setDropDownMenu] = useState(null);
+  const [selectedMenu, SetSelectedMenu] = useState(null);
   const classes = useStyles();
 
   const menuOpenHandler = (event, menu) => {
@@ -81,6 +89,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           />
         ))}
       </Box>
+
+      <SearchBar handleSearchChange={handleSearchChange} />
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -140,10 +150,15 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
 };
 
 function Header() {
+  const query = new URLSearchParams(useLocation().search).get("search");
+  // query ? query : ""
+  const [search, setSearch] = useState(query ? query : "");
+  const history = useHistory();
   const classes = useStyles();
+  const [value, setValue] = useState(false);
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
-  const [leftDrawer, setLeftDrawer] = React.useState(false);
+  const [leftDrawer, setLeftDrawer] = useState(false);
   window.addEventListener("resize", () => {
     if (window.outerWidth > theme.breakpoints.values.md) {
       setLeftDrawer(false);
@@ -159,7 +174,7 @@ function Header() {
     }
     setLeftDrawer(open);
   };
-  const [elevation, setElevation] = React.useState(0);
+  const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
       setElevation(6);
@@ -167,6 +182,53 @@ function Header() {
       setElevation(0);
     }
   });
+
+  const handleSearchChange = (e) => {
+    console.log("e", e.target.value);
+    // history.push(`?search=${e.target.value}`);
+    // e.preventDefault();
+    // setSearch(e.target.value);
+    setValue(e.target.value);
+    // if (e.target.value) {
+    //   console.log("komal", e.target.value);
+    //   return (
+    //     // <Redirect
+    //     //   to={{
+    //     //     pathname: PATHS.SEARCHED_COURSE,
+    //     //     state: e.target.value,
+    //     //   }}
+    //     // />
+    //     <Link
+    //       to={{
+    //         pathname: `/search-course`,
+    //         state: {
+    //           pass: e.target.value,
+    //         },
+    //       }}
+    //     />
+    //   );
+    // }
+  };
+
+  if (value) {
+    console.log("komal", value);
+    return (
+      // <Redirect
+      //   to={{
+      //     pathname: PATHS.SEARCHED_COURSE,
+      //     state: value,
+      //   }}
+      // />
+      <Link
+        to={{
+          pathname: `/search-course`,
+          state: {
+            pass: value,
+          },
+        }}
+      />
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -201,14 +263,25 @@ function Header() {
                 <img src={require("./asset/meraki.svg")} loading="lazy" />
               </Link>
             </Box>
-
             {isAuthenticated ? (
-              <AuthenticatedHeaderOption />
+              <AuthenticatedHeaderOption
+                handleSearchChange={handleSearchChange}
+              />
             ) : (
               <>
-                <PublicMenuOption />
+                <PublicMenuOption handleSearchChange={handleSearchChange} />
               </>
             )}
+            {/* <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search> */}
+            {/* <SearchBar /> */}
           </Toolbar>
         </Container>
       </AppBar>
@@ -217,3 +290,93 @@ function Header() {
 }
 
 export default Header;
+
+// import * as React from "react";
+// import { styled, alpha } from "@mui/material/styles";
+// import AppBar from "@mui/material/AppBar";
+// import Box from "@mui/material/Box";
+// import Toolbar from "@mui/material/Toolbar";
+// import IconButton from "@mui/material/IconButton";
+// import Typography from "@mui/material/Typography";
+// import InputBase from "@mui/material/InputBase";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import SearchIcon from "@mui/icons-material/Search";
+
+// const Search = styled("div")(({ theme }) => ({
+//   position: "relative",
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   "&:hover": {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginLeft: 0,
+//   width: "100%",
+//   [theme.breakpoints.up("sm")]: {
+//     marginLeft: theme.spacing(1),
+//     width: "auto",
+//   },
+// }));
+
+// const SearchIconWrapper = styled("div")(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: "100%",
+//   position: "absolute",
+//   pointerEvents: "none",
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "center",
+// }));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//   color: "inherit",
+//   "& .MuiInputBase-input": {
+//     padding: theme.spacing(1, 1, 1, 0),
+//     // vertical padding + font size from searchIcon
+//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//     transition: theme.transitions.create("width"),
+//     width: "100%",
+//     [theme.breakpoints.up("sm")]: {
+//       width: "12ch",
+//       "&:focus": {
+//         width: "20ch",
+//       },
+//     },
+//   },
+// }));
+
+// export default function SearchAppBar() {
+//   return (
+//     <Box sx={{ flexGrow: 1 }}>
+//       <AppBar position="static">
+//         <Toolbar>
+//           <IconButton
+//             size="large"
+//             edge="start"
+//             color="inherit"
+//             aria-label="open drawer"
+//             sx={{ mr: 2 }}
+//           >
+//             <MenuIcon />
+//           </IconButton>
+//           <Typography
+//             variant="h6"
+//             noWrap
+//             component="div"
+//             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+//           >
+//             MUI
+//           </Typography>
+//           <Search>
+//             <SearchIconWrapper>
+//               <SearchIcon />
+//             </SearchIconWrapper>
+//             <StyledInputBase
+//               placeholder="Search…"
+//               inputProps={{ "aria-label": "search" }}
+//             />
+//           </Search>
+//         </Toolbar>
+//       </AppBar>
+//     </Box>
+//   );
+// }
