@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   admitionVideo1: {
     width: "344px",
-    height: "330px",
+    // height: "330px",
     borderRadius: "8px",
     marginBottom: "40%",
   },
