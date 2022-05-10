@@ -18,6 +18,7 @@ import {
   Card,
 } from "@mui/material";
 import useStyles from "../styles";
+import Tooltip from "@mui/material/Tooltip";
 
 function SearchCourse(props) {
   //   console.log("props", props);
@@ -74,16 +75,18 @@ function SearchCourse(props) {
     });
 
   return (
-    <Container maxWidth="lg">
-      <Box>
+    <Container maxWidth="lg" sx={{ mb: 5 }}>
+      <Container sx={{ mt: 5 }} maxWidth="sm">
         <TextField
-          id="standard-basic"
-          variant="standard"
+          id="outlined-basic"
+          label="Search for course..."
+          variant="outlined"
+          fullWidth
           value={search}
           onChange={handleSearchChange}
         />
-      </Box>
-      <Box className={classes.box}>
+      </Container>
+      <Box className={classes.box} sx={{ mt: 5 }}>
         {search ? (
           <>
             {pathwayTrack &&
@@ -136,7 +139,7 @@ function SearchCourse(props) {
                                 <Typography
                                   align={isActive ? "center" : "left"}
                                   variant="body1"
-                                  // sx={{ mt: "16px" }}
+                                  //   sx={{ mt: "16px" }}
                                 >
                                   {item.name}
                                 </Typography>
@@ -203,12 +206,13 @@ function SearchCourse(props) {
           <Typography
             className={classes.course}
             variant="h5"
-            sx={{ textAlign: isActive && "center" }}
+            sx={{ textAlign: "center" }}
           >
             Search Courses...
           </Typography>
         )}
       </Box>
+      {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
     </Container>
   );
 }
