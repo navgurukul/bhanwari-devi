@@ -10,6 +10,7 @@ import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { sendToken } from "../User/redux/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
   IconButton,
@@ -285,6 +286,12 @@ function AuthenticatedHeaderOption({
           </Box>
         )}
 
+        <Box>
+          <Link to={PATHS.SEARCHED_COURSE}>
+            <SearchIcon />
+          </Link>
+        </Box>
+
         <Box
           sx={{
             flexGrow: 0,
@@ -375,10 +382,6 @@ function AuthenticatedHeaderOption({
             )
           )}
         </Box>
-      </Box>
-
-      <Box sx={{ paddingRight: "20px" }}>
-        <SearchBar handleSearchChange={handleSearchChange} />
       </Box>
 
       {!leftDrawer && (

@@ -49,38 +49,38 @@ function SearchBar({ handleSearchChange }) {
   }));
 
   return (
-    // <Search>
-    // <SearchIconWrapper>
-    //   <SearchIcon />
-    // </SearchIconWrapper>
-    //   <StyledInputBase
-    //     placeholder="Search for course…"
-    //     inputProps={{ "aria-label": "search" }}
-    // // value={search}
-    // // onChange={handleSearchChange}
-    // onChange={(e) => {
-    //   // const value =s
-    //   console.log("e", e.target.value);
-    //   setSearch("abc");
-    //     }}
-    //   />
-    // </Search>
-    <Box>
-      {/* <SearchIconWrapper>
+    <Search>
+      <SearchIconWrapper>
         <SearchIcon />
-      </SearchIconWrapper> */}
-      <TextField
-        id="standard-basic"
-        variant="filled"
-        value={search}
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="Search for course…"
+        inputProps={{ "aria-label": "search" }}
+        // value={search}
         onChange={handleSearchChange}
         // onChange={(e) => {
         //   // const value =s
         //   console.log("e", e.target.value);
-        //   setSearch(e.target.value);
+        //   setSearch("abc");
         // }}
       />
-    </Box>
+    </Search>
+    // <Box>
+    //   <SearchIconWrapper>
+    //     <SearchIcon />
+    //   </SearchIconWrapper>
+    //   <TextField
+    //     id="standard-basic"
+    //     variant="filled"
+    //     value={search}
+    //     onChange={handleSearchChange}
+    //     // onChange={(e) => {
+    //     //   // const value =s
+    //     //   console.log("e", e.target.value);
+    //     //   setSearch(e.target.value);
+    //     // }}
+    //   />
+    // </Box>
   );
 }
 
