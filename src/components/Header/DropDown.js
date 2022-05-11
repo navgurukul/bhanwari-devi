@@ -46,7 +46,7 @@ const students = {
   ],
   About: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
-    { title: "Meraki Team", path: PATHS.MERAKI_TEAM, type: "internal" },
+    { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
   GetInvolved: [
     // {
