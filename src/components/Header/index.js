@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +10,11 @@ import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import { styled, alpha } from "@mui/material/styles";
+import { Redirect } from "react-router-dom";
+import Tooltip from "@mui/material/Tooltip";
 import {
   AppBar,
   Box,
@@ -20,13 +25,17 @@ import {
   ThemeProvider,
   SwipeableDrawer,
   Typography,
+  // Search,
 } from "@mui/material";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
+import SearchBar from "../SearchBar";
+import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
-  const [indicator, setIndicator] = React.useState(null);
-  const [dropDownMenu, setDropDownMenu] = React.useState(null);
-  const [selectedMenu, SetSelectedMenu] = React.useState(null);
+const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
+  const [indicator, setIndicator] = useState(null);
+  const [dropDownMenu, setDropDownMenu] = useState(null);
+  const [selectedMenu, SetSelectedMenu] = useState(null);
   const classes = useStyles();
 
   const menuOpenHandler = (event, menu) => {
@@ -71,7 +80,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </>
         ))}
       </Box>
-      {/* <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}> */}
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {["Learn", "About", "Get Involved"].map((Menu) => (
           <MobileDropDown
@@ -81,6 +89,19 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           />
         ))}
       </Box>
+
+      {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
+      {!leftDrawer && (
+        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+          <Link to={PATHS.SEARCHED_COURSE}>
+            <Tooltip title="Search the course...">
+              <Button>
+                <SearchIcon />
+              </Button>
+            </Tooltip>
+          </Link>
+        </Box>
+      )}
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -140,10 +161,16 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
 };
 
 function Header() {
+  const query = new URLSearchParams(useLocation().search).get("search");
+  // query ? query : ""
+  const [search, setSearch] = useState(query ? query : "");
+  const history = useHistory();
   const classes = useStyles();
+  const [value, setValue] = useState();
+  const [flag, setFlag] = useState(false);
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
-  const [leftDrawer, setLeftDrawer] = React.useState(false);
+  const [leftDrawer, setLeftDrawer] = useState(false);
   window.addEventListener("resize", () => {
     if (window.outerWidth > theme.breakpoints.values.md) {
       setLeftDrawer(false);
@@ -159,7 +186,7 @@ function Header() {
     }
     setLeftDrawer(open);
   };
-  const [elevation, setElevation] = React.useState(0);
+  const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
       setElevation(6);
@@ -167,6 +194,80 @@ function Header() {
       setElevation(0);
     }
   });
+
+  const handleSearchChange = (e) => {
+    console.log("e", e.target.value);
+    // history.push(`?search=${e.target.value}`);
+    // e.preventDefault();
+    // setSearch(e.target.value);
+    setValue(e.target.value);
+    setFlag(true);
+    // if (e.target.value) {
+    //   console.log("komal", e.target.value);
+    //   return (
+    //     // <Redirect
+    //     //   to={{
+    //     //     pathname: PATHS.SEARCHED_COURSE,
+    //     //     state: e.target.value,
+    //     //   }}
+    //     // />
+    //     <Link
+    //       to={{
+    //         pathname: `/search-course`,
+    //         state: {
+    //           pass: e.target.value,
+    //         },
+    //       }}
+    //     />
+    //   );
+    // }
+  };
+
+  // useEffect(() => {
+  //   if (flag) {
+  //     console.log("komal", value);
+  //     return (
+  //       <Redirect
+  //         to={{
+  //           pathname: PATHS.SEARCHED_COURSE,
+  //           state: value,
+  //         }}
+  //       />
+  //       // <Link
+  //       //   to={{
+  //       //     pathname: `/search-course`,
+  //       //     state: {
+  //       //       pass: value,
+  //       //     },
+  //       //   }}
+  //       // />
+  //     );
+  //   }
+  // }, [flag]);
+
+  // const coursePage = () => {
+  //   setFlag(true);
+  // };
+
+  // if (flag) {
+  //   console.log("komal", value);
+  //   return (
+  //     <Redirect
+  //       to={{
+  //         pathname: PATHS.SEARCHED_COURSE,
+  //         state: value,
+  //       }}
+  //     />
+  //     // <Link
+  //     //   to={{
+  //     //     pathname: `/search-course`,
+  //     //     state: {
+  //     //       pass: value,
+  //     //     },
+  //     //   }}
+  //     // />
+  //   );
+  // }
 
   return (
     <ThemeProvider theme={theme}>
@@ -194,6 +295,15 @@ function Header() {
                 <img src={require("./asset/logo.svg")} loading="lazy" />
               </Link>
             </Box>
+            <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+              <Link to={PATHS.SEARCHED_COURSE}>
+                <Tooltip title="Search the course...">
+                  <Button>
+                    <SearchIcon />
+                  </Button>
+                </Tooltip>
+              </Link>
+            </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
             >
@@ -201,14 +311,19 @@ function Header() {
                 <img src={require("./asset/meraki.svg")} loading="lazy" />
               </Link>
             </Box>
-
             {isAuthenticated ? (
-              <AuthenticatedHeaderOption />
+              <AuthenticatedHeaderOption
+                handleSearchChange={handleSearchChange}
+              />
             ) : (
               <>
-                <PublicMenuOption />
+                <PublicMenuOption handleSearchChange={handleSearchChange} />
               </>
             )}
+            {/* <SearchBar /> */}
+            {/* <Link to={PATHS.SEARCHED_COURSE}>
+              <SearchIcon />
+            </Link> */}
           </Toolbar>
         </Container>
       </AppBar>

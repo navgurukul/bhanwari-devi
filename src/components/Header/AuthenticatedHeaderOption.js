@@ -10,6 +10,7 @@ import useStyles from "./styles";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { sendToken } from "../User/redux/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
   IconButton,
@@ -17,8 +18,11 @@ import {
   Menu,
   Avatar,
   MenuItem,
+  Button,
 } from "@mui/material";
 import HeaderNavLink from "./HeaderNavlink";
+import SearchBar from "../SearchBar";
+import Tooltip from "@mui/material/Tooltip";
 
 const rolesLandingPages = {
   admin: PATHS.PARTNERS,
@@ -56,7 +60,11 @@ const SwitchView = ({
   );
 };
 
-function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
+function AuthenticatedHeaderOption({
+  toggleDrawer,
+  leftDrawer,
+  handleSearchChange,
+}) {
   const [partnerId, setPartnerId] = useState("");
   const [profile, setProfile] = useState("");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -192,6 +200,7 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 toggleDrawer={toggleDrawer}
               />
             </Box>
+
             <Box
               sx={{
                 display: { xs: "block", md: "flex" },
@@ -200,6 +209,16 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                 pr: rolesList.length < 1 && 2,
               }}
             >
+              {!leftDrawer && (
+                <Link to={PATHS.SEARCHED_COURSE}>
+                  <Tooltip title="Search the course...">
+                    <Button>
+                      <SearchIcon />
+                    </Button>
+                  </Tooltip>
+                </Link>
+              )}
+
               <HeaderNavLink
                 to={PATHS.ADMISSION}
                 text="Navgurukul Admission"
@@ -279,7 +298,18 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
             ) : null}
           </Box>
         )}
-
+        {!(switchView === "student" || merakiStudents || studentView) &&
+          !leftDrawer && (
+            <Box>
+              <Link to={PATHS.SEARCHED_COURSE}>
+                <Tooltip title="Search the course...">
+                  <Button>
+                    <SearchIcon />
+                  </Button>
+                </Tooltip>
+              </Link>
+            </Box>
+          )}
         <Box
           sx={{
             flexGrow: 0,
