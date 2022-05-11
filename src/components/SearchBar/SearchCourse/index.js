@@ -63,7 +63,7 @@ function SearchCourse(props) {
       }
     });
 
-  const pathwayTrack =
+  let pathwayTrack =
     pathway.data &&
     pathway.data.pathways.map((pathway) => {
       return {
@@ -74,9 +74,18 @@ function SearchCourse(props) {
       };
     });
 
+  let flag = false;
+
   return (
     <Container maxWidth="lg" sx={{ mb: 5 }}>
-      <Container sx={{ mt: 5 }} maxWidth="sm">
+      <Typography
+        className={classes.course}
+        variant="h5"
+        sx={{ textAlign: "center", mt: 5 }}
+      >
+        Search Courses...
+      </Typography>
+      <Container maxWidth="sm">
         <TextField
           id="outlined-basic"
           label="Search for course..."
@@ -91,66 +100,77 @@ function SearchCourse(props) {
           <>
             {pathwayTrack &&
               pathwayTrack.map((pathway, index) => {
-                if (pathway.courses.length == 0) return null;
-                return (
-                  <>
-                    <Typography className={classes.course} variant="h5">
-                      {pathway.name}
-                    </Typography>
-                    <Grid container spacing={3} align="center">
-                      {pathway.courses.map((item, index) => (
-                        <Grid xs={12} md={3} className={classes.courseCard}>
-                          <Link
-                            className={classes.pathwayLink}
-                            to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                              courseId: item.id,
-                              exerciseId: 0,
-                              pathwayId: pathway.id,
-                            })}
-                          >
-                            <Card
-                              className={classes.pathwayCard}
-                              elevation={0}
-                              sx={{ ml: 3, p: "16px" }}
-                            >
-                              <img
-                                className={classes.courseImage}
-                                src={item.logo}
-                                alt="course"
-                              />
-                              <div
-                                className={classes.courseTitleNumber}
-                                disableGutters
+                if (pathway.courses.length == 0) {
+                  if (!flag) {
+                    flag = false;
+                  }
+                  return (pathwayTrack = []);
+                } else {
+                  return (
+                    <>
+                      <Typography className={classes.course} variant="h5">
+                        {pathway.name}
+                      </Typography>
+                      <Grid container spacing={3} align="center">
+                        {pathway.courses.length > 0 &&
+                          pathway.courses.map((item, index) => (
+                            <Grid xs={12} md={3} className={classes.courseCard}>
+                              {(flag = true)}
+                              <Link
+                                className={classes.pathwayLink}
+                                to={interpolatePath(
+                                  PATHS.PATHWAY_COURSE_CONTENT,
+                                  {
+                                    courseId: item.id,
+                                    exerciseId: 0,
+                                    pathwayId: pathway.id,
+                                  }
+                                )}
                               >
-                                <Typography
-                                  align={isActive ? "center" : "left"}
-                                  variant="body2"
-                                  className={classes.courseName}
-                                  sx={{
-                                    mr: "10px",
-                                    padding: isActive
-                                      ? "5px"
-                                      : "5px 0 5px 13px",
-                                    verticalAlign: "top",
-                                  }}
+                                <Card
+                                  className={classes.pathwayCard}
+                                  elevation={0}
+                                  sx={{ ml: 3, p: "16px" }}
                                 >
-                                  {index + 1}
-                                </Typography>
-                                <Typography
-                                  align={isActive ? "center" : "left"}
-                                  variant="body1"
-                                  //   sx={{ mt: "16px" }}
-                                >
-                                  {item.name}
-                                </Typography>
-                              </div>
-                            </Card>
-                          </Link>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </>
-                );
+                                  <img
+                                    className={classes.courseImage}
+                                    src={item.logo}
+                                    alt="course"
+                                  />
+                                  <div
+                                    className={classes.courseTitleNumber}
+                                    disableGutters
+                                  >
+                                    <Typography
+                                      align={isActive ? "center" : "left"}
+                                      variant="body2"
+                                      className={classes.courseName}
+                                      sx={{
+                                        mr: "10px",
+                                        padding: isActive
+                                          ? "5px"
+                                          : "5px 0 5px 13px",
+                                        verticalAlign: "top",
+                                      }}
+                                    >
+                                      {index + 1}
+                                    </Typography>
+                                    <Typography
+                                      align={isActive ? "center" : "left"}
+                                      variant="body1"
+                                      //   sx={{ mt: "16px" }}
+                                    >
+                                      {item.name}
+                                    </Typography>
+                                  </div>
+                                </Card>
+                              </Link>
+                            </Grid>
+                          ))}
+                      </Grid>
+                    </>
+                  );
+                }
               })}
 
             {otherCourses && otherCourses.length > 0 && (
@@ -201,16 +221,17 @@ function SearchCourse(props) {
                 </Grid>
               </>
             )}
+            {!flag && otherCourses && otherCourses.length == 0 && (
+              <Typography
+                className={classes.course}
+                variant="h5"
+                sx={{ textAlign: "center", mt: "100px" }}
+              >
+                No courses found. Try another search.
+              </Typography>
+            )}
           </>
-        ) : (
-          <Typography
-            className={classes.course}
-            variant="h5"
-            sx={{ textAlign: "center" }}
-          >
-            Search Courses...
-          </Typography>
-        )}
+        ) : null}
       </Box>
       {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
     </Container>
