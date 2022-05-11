@@ -48,7 +48,7 @@ const pathwayData = [
   {
     title: "Residential Programmes",
     image: "residential",
-    description: "Interview preparation  to get you job ready",
+    description: "Explore Navgurukul’s on campus Software Engineering courses",
   },
   {
     title: "Miscellaneous Courses",
@@ -77,10 +77,10 @@ const concernsText = [
     description: "Learn through interactive classes and self study material",
   },
   {
-    description: "I have never typed on a computer keyboard before",
+    description: "Get accurate and fast with our typing guru track",
   },
   {
-    description: "I face difficulty in understanding and speaking English",
+    description: "Become confident with our spoken English track",
   },
 ];
 
@@ -246,7 +246,7 @@ function Home() {
               color="textPrimary"
               gutterBottom
             >
-              How Meraki will help you?
+              How can Meraki help you?
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
