@@ -95,7 +95,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
         <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
           <Link to={PATHS.SEARCHED_COURSE}>
             <Tooltip title="Search the course...">
-              <Button>
+              <Button color="dark">
                 <SearchIcon />
               </Button>
             </Tooltip>
@@ -298,7 +298,7 @@ function Header() {
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Link to={PATHS.SEARCHED_COURSE}>
                 <Tooltip title="Search the course...">
-                  <Button>
+                  <Button color="dark">
                     <SearchIcon />
                   </Button>
                 </Tooltip>
@@ -320,10 +320,6 @@ function Header() {
                 <PublicMenuOption handleSearchChange={handleSearchChange} />
               </>
             )}
-            {/* <SearchBar /> */}
-            {/* <Link to={PATHS.SEARCHED_COURSE}>
-              <SearchIcon />
-            </Link> */}
           </Toolbar>
         </Container>
       </AppBar>

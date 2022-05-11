@@ -212,7 +212,7 @@ function AuthenticatedHeaderOption({
               {!leftDrawer && (
                 <Link to={PATHS.SEARCHED_COURSE}>
                   <Tooltip title="Search the course...">
-                    <Button>
+                    <Button color="dark">
                       <SearchIcon />
                     </Button>
                   </Tooltip>
@@ -303,7 +303,7 @@ function AuthenticatedHeaderOption({
             <Box>
               <Link to={PATHS.SEARCHED_COURSE}>
                 <Tooltip title="Search the course...">
-                  <Button>
+                  <Button color="dark">
                     <SearchIcon />
                   </Button>
                 </Tooltip>
