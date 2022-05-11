@@ -166,10 +166,9 @@ function Team() {
             align={!isActive ? "center" : "left"}
             paragraph
           >
-            Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt
-            qui esse pariatur duis deserunt mollit dolore cillum minim tempor
-            enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut
-            voluptate aute id deserunt nisi.
+            We are a collective of full timers and volunteers that form the
+            backbone aiming to bring affordable education to underprivileged
+            girl students across India.
           </Typography>
           <Grid container justify="center" maxWidth="md" mt="40px">
             <Button
