@@ -14,6 +14,8 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
+// const {languageMap} = require("../../pages/CourseContent/languageMap");
+
 import {
   Container,
   Box,
@@ -24,6 +26,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import languageMap from "../../pages/CourseContent/languageMap";
 
 const Exercise = ({
   course,
@@ -64,6 +67,8 @@ function NavigationComponent({
   history,
   params,
 }) {
+  console.log("exerciseId", exerciseId);
+  console.log("index", index);
   return (
     <>
       <img
@@ -98,6 +103,8 @@ function PathwayExercise() {
   const params = useParams();
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
+  const [availableLang, setAvailableLang] = useState(["en"]);
+
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -112,11 +119,42 @@ function PathwayExercise() {
     })
       .then((res) => {
         setCourse(res.data.course.exercises);
+        setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
         console.log("error");
       });
   }, []);
+
+  const LangDropDown = () => {
+    return availableLang?.length === 1 ? (
+      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
+    ) : (
+      <Select
+        disableUnderline
+        value={language}
+        IconComponent={() => null}
+        onChange={(e) => {
+          setLanguage(e.target.value);
+        }}
+        variant="standard"
+      >
+        {availableLang.map((lang) => {
+          return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+        })}
+      </Select>
+    );
+  };
+
+  // const Lang = {
+  //   en: "English",
+  //   mr: "Marathi",
+  //   hi: "Hindi",
+  // };
+
+  const Lang = languageMap;
+
+  console.log("courseId", courseId);
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
@@ -208,19 +246,7 @@ function PathwayExercise() {
                   onClick={nextClickHandler}
                 />
               </Toolbar>
-              <Select
-                IconComponent={() => null}
-                disableUnderline
-                value={language}
-                onChange={(e) => {
-                  setLanguage(e.target.value);
-                }}
-                variant="standard"
-              >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
-              </Select>
+              <LangDropDown />
             </Toolbar>
           </div>
           <div className="VisibleInMobile">
@@ -242,19 +268,7 @@ function PathwayExercise() {
                 </Link>
               </Typography>
 
-              <Select
-                disableUnderline
-                value={language}
-                IconComponent={() => null}
-                onChange={(e) => {
-                  setLanguage(e.target.value);
-                }}
-                variant="standard"
-              >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
-              </Select>
+              <LangDropDown />
             </div>
             <Toolbar>
               <div
