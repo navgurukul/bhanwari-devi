@@ -25,7 +25,7 @@ import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
 import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 import OurStory from "../pages/OurStory";
-import TeamPage from "../pages/TeamPage";
+import Team from "../pages/Team";
 import Partner from "../pages/OurPartner";
 
 // import { ThemeProvider } from "@mui/material/styles";
@@ -34,6 +34,7 @@ import PathwayExercise from "../components/PathwayExercise";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
+import SearchCourse from "../components/SearchBar/SearchCourse";
 
 // import Classes from '../pages/classes'
 
@@ -62,7 +63,7 @@ const Routing = () => {
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
-      <Route exact path={PATHS.MERAKI_TEAM} component={TeamPage} />
+      <Route exact path={PATHS.TEAM} component={Team} />
 
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
@@ -73,6 +74,7 @@ const Routing = () => {
       />
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
+      <Route exact path={PATHS.SEARCHED_COURSE} component={SearchCourse} />
 
       {/* Private routes */}
       {/* <PrivateRoute

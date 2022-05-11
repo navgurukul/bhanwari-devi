@@ -46,15 +46,14 @@ const students = {
   ],
   About: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
-    { title: "Meraki Team", path: PATHS.MERAKI_TEAM, type: "internal" },
+    { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
   GetInvolved: [
-    {
-      title: "Become a Partner",
-      path: PATHS.OUR_PARTNER,
-      type: "internal",
-    },
-    // { title: "Become a Partner", path: "#", type: "internal" },
+    // {
+    //   title: "Become a Partner",
+    //   path: PATHS.OUR_PARTNER,
+    //   type: "internal",
+    // },
     {
       title: "Donate",
       path: "https://www.navgurukul.org/donate",
