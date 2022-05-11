@@ -27,7 +27,6 @@ import OurStory from "../pages/OurStory";
 import Partner from "../pages/PartnerNew";
 
 // import { ThemeProvider } from "@mui/material/styles";
-// import theme from "../theme/theme";
 import PathwayExercise from "../components/PathwayExercise";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
