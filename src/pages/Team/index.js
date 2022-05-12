@@ -168,7 +168,8 @@ function Team() {
           >
             We are a collective of full timers and volunteers that form the
             backbone aiming to bring affordable education to underprivileged
-            girl students across India.
+            students across India by making Tech education available. accessible
+            and usable through our Meraki platform.
           </Typography>
           <Grid container justify="center" maxWidth="md" mt="40px">
             <Button

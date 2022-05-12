@@ -177,6 +177,11 @@ const RevisionClassExerciseComponent = (props) => {
           }}
         >
           {" "}
+          <img
+            className={classes.icons}
+            src={require("./assets/Group.svg")}
+            alt="Students Img"
+          />
           Need help? We got you covered. Enroll in the doubt class on{" "}
           {start_time.finalDate}
           at {start_time.finalTime} - {end_time.finalTime}
