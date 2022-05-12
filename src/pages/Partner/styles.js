@@ -10,9 +10,16 @@ const useStyles = makeStyles((theme) => ({
     height: "100% !important",
     width: "100% !important",
   },
-
-  iconsOfPartner: {
-    color: " #48A145",
+  link1: {
+    textDecorationLine: "none",
+    color: "white",
+  },
+  link2: {
+    textDecorationLine: "none",
+    color: "black",
+  },
+  partnerCardContainer: {
+    height: "60px",
   },
 
   cardsContent: {

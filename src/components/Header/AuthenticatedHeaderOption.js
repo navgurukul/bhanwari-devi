@@ -319,16 +319,12 @@ function AuthenticatedHeaderOption({ toggleDrawer, leftDrawer }) {
                   sx={{ margin: "0px 10px" }}
                   className={switchView === "student" && classes.bgColor}
                 >
-                  {pythonPathwayId && (
-                    <NavLink
-                      to={interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: pythonPathwayId,
-                      })}
-                      className={classes.link}
-                    >
-                      Student
-                    </NavLink>
-                  )}
+                  <NavLink
+                    to={interpolatePath(PATHS.NEWUSER_DASHBOARED)}
+                    className={classes.link}
+                  >
+                    Student
+                  </NavLink>
                 </MenuItem>
                 {rolesList.map((role) => (
                   <SwitchView

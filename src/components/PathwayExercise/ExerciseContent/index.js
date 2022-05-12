@@ -26,6 +26,10 @@ import {
 import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
+import IntroToPython from "../../UpcomingCourse/JoinClass/IntroToPython";
+import CourseEnroll from "../../UpcomingCourse/NotEnrolledinCourse/EnrollInCourse";
+import RevisionClassExerciseComponent from "../../UpcomingCourse/Revision/RevisionClassExerciseComponent";
+import RevisionClassEnroll from "../../UpcomingCourse/Revision/RevisionClassEnroll";
 
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 
@@ -164,7 +168,11 @@ const RenderContent = ({ data }) => {
       </TableContainer>
     );
   }
-
+  if (data.component === "banner") {
+    const value = data.value;
+    const actions = JSON.parse(data.actions[0].data);
+    return <RevisionClassExerciseComponent value={value} actions={actions} />;
+  }
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
@@ -221,7 +229,7 @@ function ExerciseContent({ exerciseId, lang }) {
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
-
+  const [showJoinClass, setShowJoinClass] = useState(true);
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
       setCourse(res.data.course.name);
@@ -231,20 +239,40 @@ function ExerciseContent({ exerciseId, lang }) {
   }, [courseId, exerciseId, lang]);
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ m: "32px 0px" }}>
-        <Typography variant="h5">{course}</Typography>
-        <Typography variant="h6" sx={{ mt: "16px" }}>
-          {exercise && exercise}
-        </Typography>
-        <Box sx={{ mt: 5, mb: 8 }}>
-          {content &&
-            content.map((contentItem, index) => (
-              <RenderContent data={contentItem} key={index} classes={classes} />
-            ))}
-        </Box>
-      </Box>
-    </Container>
+    <Grid container justifyContent={"center"}>
+      <Grid xs={0} item>
+        <Container maxWidth="sm">
+          <Box sx={{ m: "32px 0px" }}>
+            <Typography variant="h5">{course}</Typography>
+
+            <Typography variant="h6" sx={{ mt: "16px" }}>
+              {exercise && exercise}
+            </Typography>
+
+            <Box sx={{ mt: 5, mb: 8 }}>
+              {content &&
+                content.map((contentItem, index) => (
+                  <RenderContent
+                    data={contentItem}
+                    key={index}
+                    classes={classes}
+                  />
+                ))}
+            </Box>
+          </Box>
+        </Container>
+      </Grid>
+      <Grid
+        style={{
+          display: showJoinClass ? "block" : "none",
+        }}
+        item
+      >
+        <IntroToPython />
+        <CourseEnroll />
+        <RevisionClassEnroll />
+      </Grid>
+    </Grid>
   );
 }
 

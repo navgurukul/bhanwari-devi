@@ -67,9 +67,7 @@ function Login(props) {
     volunteer: PATHS.CLASS,
     admin: PATHS.PARTNERS,
     partner: PATHS.PARTNERS,
-    default: interpolatePath(PATHS.PATHWAY_COURSE, {
-      pathwayId: pythonPathwayId,
-    }),
+    default: interpolatePath(PATHS.NEWUSER_DASHBOARED),
   };
 
   if (isAuthenticated) {
