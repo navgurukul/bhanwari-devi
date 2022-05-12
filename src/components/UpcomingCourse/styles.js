@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px 0",
     minHeight: "170px",
   },
+  ButtonInfo: {
+    borderRedius: "90px",
+  },
 }));
 
 export default useStyles;
