@@ -232,9 +232,8 @@ function ExerciseContent({ exerciseId, lang }) {
   const [showJoinClass, setShowJoinClass] = useState(true);
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
-      console.log("res", res.data.course.exercises[exerciseId].name);
       setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId].name);
+      setExercise(res.data.course.exercises[exerciseId]?.name);
       setContent(res.data.course.exercises[exerciseId]?.content);
     });
   }, [courseId, exerciseId, lang]);

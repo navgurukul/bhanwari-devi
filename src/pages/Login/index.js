@@ -86,9 +86,13 @@ function Login(props) {
       return <Redirect to={props.location.state.from.pathname} />;
     }
     return (
-      <Redirect
-        to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
-      />
+      <>
+        {pythonPathwayId && (
+          <Redirect
+            to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
+          />
+        )}
+      </>
     );
   }
 
