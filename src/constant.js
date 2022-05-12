@@ -43,7 +43,27 @@ export const HideFooter = [
   PATHS.PRIVACY_POLICY,
   PATHS.NEWUSER_DASHBOARED,
 ];
-
+const month = {
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "Apr",
+  "05": "May",
+  "06": "Jun",
+  "07": "Jul",
+  "08": "Aug",
+  "09": "Sep",
+  10: "Oct",
+  11: "Nov",
+  12: "Dec",
+};
+export const dateTimeFormat = (date) => {
+  const datePart = date?.split("T")[0].split("-").reverse();
+  const TimePart = date.split("T")[1].split(":");
+  const finalDate = `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} `;
+  const finalTime = `${TimePart[0]} : ${TimePart[1]}`;
+  return { finalTime, finalDate };
+};
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
 
