@@ -169,7 +169,9 @@ const RenderContent = ({ data }) => {
     );
   }
   if (data.component === "banner") {
-    return <RevisionClassExerciseComponent />;
+    const value = data.value;
+    const actions = JSON.parse(data.actions[0].data);
+    return <RevisionClassExerciseComponent value={value} actions={actions} />;
   }
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));

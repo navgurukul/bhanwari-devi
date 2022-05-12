@@ -16,8 +16,9 @@ import CheckMoreBatches from "./CheckMoreBatches";
 import IntroToPython from "./JoinClass/IntroToPython";
 import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
 import RevisionClass from "./Revision/RevisionClassExerciseComponent";
-
+import { useHistory } from "react-router-dom";
 const UpcomingCourse = (props) => {
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -25,13 +26,17 @@ const UpcomingCourse = (props) => {
   // const user = useSelector(({ User }) => User);
   const { upcomingBatchesData } = props;
   const [BatchData, setBatchData] = useState(upcomingBatchesData[0]);
-
+  const user = useSelector(({ User }) => User);
   useEffect(() => {
     setBatchData(upcomingBatchesData[0]);
   }, [upcomingBatchesData]);
 
   const handleClickOpen = () => {
-    setOpen(!open);
+    if (user?.data?.token) {
+      setOpen(!open);
+    } else {
+      history.push(interpolatePath(PATHS.LOGIN));
+    }
   };
 
   const close = () => {
@@ -44,7 +49,6 @@ const UpcomingCourse = (props) => {
     setUpcomingBatchesOpen(false);
   };
   const { title, start_time, end_time, id } = props;
-  const user = useSelector(({ User }) => User);
   // const handelEnrollment = (Id) => {
   //   axios
   //     .post(
@@ -197,7 +201,6 @@ const UpcomingCourse = (props) => {
             </CardContent>
           </Card>
         </Box>
-        <IntroToPython />
       </Container>
     </>
   ) : (
