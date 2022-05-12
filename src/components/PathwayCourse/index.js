@@ -105,6 +105,7 @@ function PathwayCourse() {
       url: `${baseUrl}pathways/${params.pathwayId}/upcomingBatches`,
       headers: {
         accept: "application/json",
+        Authorization: user?.data?.token,
       },
     }).then((res) => {
       setUpcomingBatchesData(res.data);
