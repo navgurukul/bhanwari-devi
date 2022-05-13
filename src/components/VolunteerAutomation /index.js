@@ -3,159 +3,170 @@ import {
   Typography,
   Container,
   Grid,
-  Stack,
   Box,
   Button,
   Card,
   CardContent,
+  CardActions,
 } from "@mui/material";
+import useStyles from "./styles";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-
-import InboxIcon from "@mui/icons-material/Inbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function VolunteerAutomation() {
+  const classes = useStyles();
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
-        <Grid sx={{ background: "yellow" }} item xs={12} ms={6} md={6}>
-          <Typography variant="h5" gutterBottom>
-            Help Students Get their Dream Job in Tech
-          </Typography>
+        <Grid item xs={12} ms={6} md={6}>
+          <Box className={classes.volunteerFlow}>
+            <Typography variant="h5" gutterBottom>
+              Help Students Get their Dream Job in Tech
+            </Typography>
+
+            <Typography sx={{ mt: 4 }}>Why Volunteer?</Typography>
+
+            <Box className={classes.displayIcon} sx={{ mt: 2 }}>
+              <ArrowRightAltIcon />
+              <Typography className={classes.TextContent}>
+                Gain wide network to leverage for advancing your own skills and
+                career prospects.
+              </Typography>
+            </Box>
+
+            <Box className={classes.displayIcon} sx={{ mt: 2 }}>
+              <ArrowRightAltIcon />
+              <Typography className={classes.TextContent}>
+                Help students from low income families to get their first job in
+                tech
+              </Typography>
+            </Box>
+          </Box>
         </Grid>
         <Grid
           item
           xs={12}
           ms={6}
           md={6}
-          sx={{ background: "red", display: { xs: "none", md: "flex" } }}
+          sx={{ display: { xs: "none", md: "flex" } }}
         >
-          <img src={require("./assets/Group.svg")} />
+          <Box sx={{ mt: 5 }}>
+            <img
+              className={classes.volunteerImg}
+              src={require("./assets/Group.svg")}
+            />
+          </Box>
         </Grid>
       </Grid>
 
-      <Typography variant="h5" align="center" gutterBottom>
+      <Typography sx={{ mt: 3 }} variant="h5" align="center" gutterBottom>
         Areas to Volunteer In
       </Typography>
 
-      <Grid container spacing={2}>
+      <Grid sx={{ mt: 3, mb: 15 }} container spacing={2}>
         <Grid item xs={12} ms={6} md={6}>
-          <Card
-            sx={{
-              boxShadow: "4px 4px 0px #E9F5E9",
-              border: "1px solid #48A145",
-            }}
-          >
+          <Card className={classes.volunteerCard}>
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
                 Teaching
               </Typography>
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }} Typography>
+                <Typography className={classes.TextContent} Typography>
                   Python
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }} Typography>
+                <Typography className={classes.TextContent} Typography>
                   Spoken English
                 </Typography>
               </Box>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
+                  {" "}
+                  Expected effort
+                </span>
+                : 2 hours / week for 15 weeks
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Please volunteer only if you are professional who has worked
+                with Python or have great command over English
               </Typography>
             </CardContent>
-            <CardContent>
-              {/* <Grid item xs={12} ms={12} md={4}> */}
-              <Button variant="contained" color="primary">
+            <CardActions sx={{ mt: 11.2 }}>
+              <Button variant="contained" color="primary" fullWidth>
                 Start Now
               </Button>
-              {/* </Grid> */}
-            </CardContent>
+            </CardActions>
           </Card>
         </Grid>
         <Grid item xs={12} ms={6} md={6}>
-          <Card
-            sx={{
-              boxShadow: "4px 4px 0px #DADAEC",
-              border: "1px solid #4548A1",
-            }}
-          >
+          <Card className={classes.volunteerCard1}>
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
                 Tech
               </Typography>
 
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }} Typography>
+                <Typography className={classes.TextContent} Typography>
                   UX/Graphic Design
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }} Typography>
+                <Typography className={classes.TextContent} Typography>
                   Android (Kotlin)
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }} Typography>
+                <Typography className={classes.TextContent} Typography>
                   Front End Dev (React)
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }}>
+                <Typography sclassName={classes.TextContent}>
                   {" "}
                   Back End Dev{" "}
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }}>
+                <Typography className={classes.TextContent}>
                   {" "}
                   Project Management
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex" }}>
+              <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sx={{ paddingLeft: "10px" }}>
+                <Typography className={classes.TextContent}>
                   Curriculum Creation & Translation{" "}
                 </Typography>
               </Box>
-
-              {/* <List>
-                                        <ListItem >
-                                            <ListItemIcon>
-                                                <ArrowRightAltIcon />
-                                            </ListItemIcon>
-                                            <ListItemText primary="UX/Graphic Design" />
-                                            
-                                        </ListItem>
-
-                                        <ListItem >
-                                            <ListItemIcon>
-                                                <ArrowRightAltIcon />
-                                            </ListItemIcon>
-                                            <ListItemText primary="Drafts" />
-
-                                        </ListItem>
-                                    </List> */}
+              <Box sx={{ mt: 1 }}>
+                <Typography variant="body2" color="text.secondary">
+                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
+                    {" "}
+                    Expected effort
+                  </span>
+                  : 4 hours / week for 15 weeks
+                </Typography>
+                <Typography variant="body2">
+                  You will taken to a Google form
+                </Typography>
+              </Box>
             </CardContent>
+            <CardActions>
+              <Button variant="contained" color="secondary" fullWidth>
+                Start Now
+              </Button>
+            </CardActions>
           </Card>
         </Grid>
       </Grid>
-
-      <Box sx={{ mt: 5 }}>kkk</Box>
     </Container>
   );
 }
