@@ -51,6 +51,9 @@ import { dateTimeFormat } from "../../../constant";
 const MoreDetails = (props) => {
   const { open, setOpen } = props;
 
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles();
+
   const toggleDrawer = (changeTo) => (event) => {
     if (
       event &&
@@ -79,7 +82,76 @@ const MoreDetails = (props) => {
           role="presentation"
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
-        ></Box>
+        >
+          <Box m={4}>
+            <Typography variant="h5" mb={2}>
+              Doubt Class
+            </Typography>
+            <Typography variant="h6" mb={1}>
+              Class 1 - Intro to Python
+            </Typography>
+            <Box mb={3}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                style={{
+                  borderRadius: 90,
+                  height: 30,
+                  backgroundColor: "#DADAEC",
+                }}
+              >
+                <Typography variant="body2">Doubt Class</Typography>
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
+              >
+                <Typography variant="body2">Hindi</Typography>
+              </Button>
+            </Box>
+            <Typography variant="body">
+              Clear your doubts related to the first class of Python and other
+              queries during your studies
+            </Typography>
+            <Typography
+              variant="body1"
+              mt={2}
+              style={{
+                display: "flex",
+                padding: "10px 0",
+              }}
+            >
+              <img
+                className={classes.icons}
+                src={require("./assets/calender.svg")}
+                alt="Students Img"
+              />
+              15 Sep 21, 4 PM - 5 PM
+            </Typography>
+            <Typography
+              variant="body1"
+              mb={2}
+              style={{
+                display: "flex",
+              }}
+            >
+              {" "}
+              <img
+                className={classes.icons}
+                src={require("./assets/Group.svg")}
+                alt="Students Img"
+              />
+              Prajakta Kishori
+            </Typography>
+            <Typography variant="body" color="text.secondary" mb={2}>
+              Please join at least 10 mintues before the scheduled time
+            </Typography>
+            <Button variant="contained" fullWidth style={{ marginTop: 20 }}>
+              Enroll
+            </Button>
+          </Box>
+        </Box>
       </SwipeableDrawer>
     </div>
   );
@@ -105,11 +177,6 @@ const RevisionClassExerciseComponent = (props) => {
           }}
         >
           {" "}
-          <img
-            className={classes.icons}
-            src={require("./assets/Group.svg")}
-            alt="Students Img"
-          />
           Need help? We got you covered. Enroll in the doubt class on{" "}
           {start_time.finalDate}
           at {start_time.finalTime} - {end_time.finalTime}
