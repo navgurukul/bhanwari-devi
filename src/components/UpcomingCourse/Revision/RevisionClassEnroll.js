@@ -10,6 +10,7 @@ import useStyles from "../styles";
 import { useSelector } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { METHODS } from "../../../services/api";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -19,7 +20,20 @@ import FormLabel from "@mui/material/FormLabel";
 
 function RevisionClassEnroll() {
   const classes = useStyles();
-
+  const user = useSelector(({ User }) => User);
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}classes/4137/revision`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    }).then((res) => {
+      // setUserEnrolledClasses(res.data);
+      console.log(res.data);
+    });
+  }, []);
   return (
     <Container maxWidth="lg">
       <Box align="right" mt={1} maxWidth={350} mb={10}>

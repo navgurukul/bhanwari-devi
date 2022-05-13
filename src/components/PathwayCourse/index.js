@@ -9,10 +9,10 @@ import { METHODS } from "../../services/api";
 import { PATHS, interpolatePath } from "../../constant";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
-import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import PathwayCard from "./PathwayCards/index";
-
+import { useSelector, useDispatch } from "react-redux";
+import { actions as upcomingClassActions } from "./redux/action";
 import {
   Container,
   Box,
@@ -81,10 +81,16 @@ function PathwayCourse() {
   const pathwayId = params.pathwayId;
   const baseUrl = process.env.REACT_APP_MERAKI_URL;
   const [userEnrolledClasses, setUserEnrolledClasses] = useState(null);
+  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+
+  //  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(upcomingClassActions.getupcomingEnrolledClasses({ pathwayId: pathwayId, authToken :user?.data?.token }));
+  // }, [dispatch, pathwayId]);
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
-  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
 
   useEffect(() => {
     axios({
@@ -96,10 +102,7 @@ function PathwayCourse() {
       },
     }).then((res) => {
       setUserEnrolledClasses(res.data);
-
-      console.log("res.data", res.data);
     });
-
     axios({
       method: METHODS.GET,
       url: `${baseUrl}pathways/${params.pathwayId}/upcomingBatches`,
@@ -168,7 +171,6 @@ function PathwayCourse() {
                 <Grid xs={6} md={6}>
                   <UpcomingCourse upcomingBatchesData={upcomingBatchesData} />
                 </Grid>
-
                 {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
                   <CardMedia
                     component="video"
