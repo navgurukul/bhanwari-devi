@@ -17,8 +17,6 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import useStyles from "./styles";
-import { maxWidth } from "@mui/system";
-
 function SelectTrack() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();

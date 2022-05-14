@@ -33,7 +33,7 @@ import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
 import SearchCourse from "../components/SearchBar/SearchCourse";
-import VolunteerAutomation from "../components/VolunteerAutomation /SelectTrack";
+import VolunteerAutomation from "../components/VolunteerAutomation/Stepper";
 
 const Routing = () => {
   return (
