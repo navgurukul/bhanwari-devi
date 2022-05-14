@@ -58,6 +58,34 @@ export default (state = initialState, action) => {
         },
       };
 
+    case types.GET_UPCOMING_ENROLLED_CLASSES:
+      return {
+        ...state,
+        upcomingEnrolledClasses: {
+          loading: true,
+          error: false,
+          data: null,
+        },
+      };
+    case types.GET_UPCOMING_ENROLLED_CLASSES_RESOLVED:
+      return {
+        ...state,
+        upcomingEnrolledClasses: {
+          loading: false,
+          error: false,
+          data: action.data,
+        },
+      };
+    case types.GET_UPCOMING_ENROLLED_CLASSES_REJECTED:
+      return {
+        ...state,
+        upcomingEnrolledClasses: {
+          loading: false,
+          error: action.error,
+          data: null,
+        },
+      };
+
     default:
       return state;
   }

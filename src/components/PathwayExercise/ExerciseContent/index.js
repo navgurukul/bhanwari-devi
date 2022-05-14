@@ -30,7 +30,6 @@ import IntroToPython from "../../UpcomingCourse/JoinClass/IntroToPython";
 import CourseEnroll from "../../UpcomingCourse/NotEnrolledinCourse/EnrollInCourse";
 import RevisionClassExerciseComponent from "../../UpcomingCourse/Revision/RevisionClassExerciseComponent";
 import RevisionClassEnroll from "../../UpcomingCourse/Revision/RevisionClassEnroll";
-
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 
 const createVisulizeURL = (code, lang, mode) => {
@@ -171,7 +170,12 @@ const RenderContent = ({ data }) => {
   if (data.component === "banner") {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
-    return <RevisionClassExerciseComponent value={value} actions={actions} />;
+    // console.log(actions.is_enrolled);
+    return !actions.is_enrolled ? (
+      <RevisionClassExerciseComponent value={value} actions={actions} />
+    ) : (
+      ""
+    );
   }
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
@@ -229,7 +233,10 @@ function ExerciseContent({ exerciseId, lang }) {
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
+  const pathwayId = params.pathwayId;
   const [showJoinClass, setShowJoinClass] = useState(true);
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
       setCourse(res.data.course.name);
@@ -237,42 +244,84 @@ function ExerciseContent({ exerciseId, lang }) {
       setContent(res.data.course.exercises[exerciseId]?.content);
     });
   }, [courseId, exerciseId, lang]);
+  const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
+  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
 
-  return (
-    <Grid container justifyContent={"center"}>
-      <Grid xs={0} item>
-        <Container maxWidth="sm">
-          <Box sx={{ m: "32px 0px" }}>
-            <Typography variant="h5">{course}</Typography>
+  useEffect(() => {
+    // getupcomingEnrolledClasses
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingEnrolledClasses`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    }).then((res) => {
+      setUserEnrolledClasses(res.data);
+    });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingBatches`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    }).then((res) => {
+      setUpcomingBatchesData(res.data);
+    });
+  }, [params.pathwayId, open]);
 
-            <Typography variant="h6" sx={{ mt: "16px" }}>
-              {exercise && exercise}
-            </Typography>
+  function ExerciseContentMain() {
+    return (
+      <Grid container justifyContent={"center"}>
+        <Grid xs={0} item>
+          <Container maxWidth="sm">
+            <Box sx={{ m: "32px 0px" }}>
+              <Typography variant="h5">{course}</Typography>
 
-            <Box sx={{ mt: 5, mb: 8 }}>
-              {content &&
-                content.map((contentItem, index) => (
-                  <RenderContent
-                    data={contentItem}
-                    key={index}
-                    classes={classes}
-                  />
-                ))}
+              <Typography variant="h6" sx={{ mt: "16px" }}>
+                {exercise && exercise}
+              </Typography>
+
+              <Box sx={{ mt: 5, mb: 8 }}>
+                {content &&
+                  content.map((contentItem, index) => (
+                    <RenderContent
+                      data={contentItem}
+                      key={index}
+                      classes={classes}
+                    />
+                  ))}
+              </Box>
             </Box>
-          </Box>
-        </Container>
+          </Container>
+        </Grid>
+        <Grid
+          style={{
+            display: showJoinClass ? "block" : "none",
+          }}
+          item
+        >
+          <IntroToPython />
+          <RevisionClassEnroll />
+        </Grid>
       </Grid>
-      <Grid
-        style={{
-          display: showJoinClass ? "block" : "none",
-        }}
-        item
-      >
-        <IntroToPython />
-        <CourseEnroll />
-        <RevisionClassEnroll />
-      </Grid>
-    </Grid>
+    );
+  }
+
+  return userEnrolledClasses?.length == 0 &&
+    upcomingBatchesData?.length == 0 ? (
+    <>
+      <ExerciseContentMain />
+    </>
+  ) : userEnrolledClasses?.length == 0 ? (
+    <CourseEnroll
+      upcomingBatchesData={upcomingBatchesData}
+      open={open}
+      setOpen={setOpen}
+    />
+  ) : (
+    <ExerciseContentMain />
   );
 }
 
