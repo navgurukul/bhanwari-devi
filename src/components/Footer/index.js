@@ -10,7 +10,7 @@ import ExternalLink from "../common/ExternalLink";
 const menu = {
   About: [
     { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
-    { title: "Meraki Team", type: "internal", link: PATHS.MERAKI_TEAM },
+    { title: "Meraki Team", type: "internal", link: PATHS.TEAM },
   ],
   LearningTracks: [
     { title: "Python", code: "PRGPYT", type: "internal" },
@@ -29,7 +29,7 @@ const menu = {
     },
   ],
   GetInvolved: [
-    { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
+    // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
 
     {
       title: "Donate",

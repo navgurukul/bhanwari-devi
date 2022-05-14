@@ -48,8 +48,6 @@ function MiscellaneousCourses() {
         !pathwayCourseId.includes(item.id) &&
         item.course_type === "json"
     );
-
-  console.log("otherCourses", otherCourses);
   return (
     <React.Fragment>
       <Container className={classes.pathwayContainer} maxWidth="lg">
@@ -102,8 +100,7 @@ function MiscellaneousCourses() {
                         variant="subtitle1"
                         sx={{
                           p: "10px",
-                          verticalAlign: "middle",
-                          lineHeight: "170px",
+                          mt: "60px",
                         }}
                       >
                         {item.name}

@@ -24,12 +24,13 @@ export const PATHS = {
   ADMISSION: "/admission",
   REDIRECT: "/redirect",
   VOLUNTEER: "/volunteer",
-  MERAKI_TEAM: "/team",
+  TEAM: "/team",
   STATEPARTNER: "/state-dashboard/:clusterId",
   STATE: "/state-dashboard",
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
+  SEARCHED_COURSE: "/search-course",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];

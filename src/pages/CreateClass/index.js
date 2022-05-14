@@ -8,6 +8,7 @@ import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
+import { Container, Button } from "@mui/material";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -114,11 +115,15 @@ function ToggleClassFormModal() {
   }, [calledOnce]);
 
   return (
-    <div>
+    <Container maxWidth="xl" sx={{ mt: "40px" }}>
       {canSpecifyFacilitator && (
-        <button className="create-class-button" onClick={toggleModalOpen}>
+        <Button
+          variant="contained"
+          onClick={toggleModalOpen}
+          sx={{ m: "10px 0 40px 20px" }}
+        >
           CREATE A CLASS
-        </button>
+        </Button>
       )}
       <ClassesList editClass={editClass} isShow={showModal} />
       {showModal && calenderConsent ? (
@@ -149,7 +154,7 @@ function ToggleClassFormModal() {
       )}
 
       {authUrl && (window.location.href = authUrl)}
-    </div>
+    </Container>
   );
 }
 

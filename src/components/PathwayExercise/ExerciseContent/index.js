@@ -223,7 +223,6 @@ function ExerciseContent({ exerciseId, lang }) {
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
-      console.log("res", res.data.course.exercises[exerciseId].name);
       setCourse(res.data.course.name);
       setExercise(res.data.course.exercises[exerciseId]);
       setContent(res.data.course.exercises[exerciseId]?.content);
