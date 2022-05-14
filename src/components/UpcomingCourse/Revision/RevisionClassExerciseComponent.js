@@ -24,7 +24,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { dateTimeFormat } from "../../../constant";
+import { dateTimeFormat, lang } from "../../../constant";
+import AlertDialog from "../dilog";
+import { ConfirmationNumber } from "@material-ui/icons";
 /* {
     "id": 27133,
     "title": "single python class",
@@ -53,7 +55,8 @@ const MoreDetails = (props) => {
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-
+  const { actions, value } = props;
+  console.log(actions, value);
   const toggleDrawer = (changeTo) => (event) => {
     if (
       event &&
@@ -65,8 +68,11 @@ const MoreDetails = (props) => {
 
     setOpen(changeTo);
   };
-
+  const [ConfirmationOpen, setConfirmationOpen] = useState(false);
   const anchorPos = "right";
+  const close = () => {
+    setConfirmationOpen(false);
+  };
   return (
     <div>
       <SwipeableDrawer
@@ -80,7 +86,6 @@ const MoreDetails = (props) => {
             width: anchorPos === "top" || anchorPos === "bottom" ? "auto" : 350,
           }}
           role="presentation"
-          onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
           <Box m={4}>
@@ -88,7 +93,7 @@ const MoreDetails = (props) => {
               Doubt Class
             </Typography>
             <Typography variant="h6" mb={1}>
-              Class 1 - Intro to Python
+              {actions.title}
             </Typography>
             <Box mb={3}>
               <Button
@@ -107,7 +112,7 @@ const MoreDetails = (props) => {
                 color="secondary"
                 style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
               >
-                <Typography variant="body2">Hindi</Typography>
+                <Typography variant="body2">{lang[actions.lang]}</Typography>
               </Button>
             </Box>
             <Typography variant="body">
@@ -115,7 +120,7 @@ const MoreDetails = (props) => {
               queries during your studies
             </Typography>
             <Typography
-              variant="body1"
+              variant="body2"
               mt={2}
               style={{
                 display: "flex",
@@ -127,7 +132,9 @@ const MoreDetails = (props) => {
                 src={require("./assets/calender.svg")}
                 alt="Students Img"
               />
-              15 Sep 21, 4 PM - 5 PM
+              {dateTimeFormat(actions.start_time).finalDate},
+              {dateTimeFormat(actions.start_time).finalTime} -
+              {dateTimeFormat(actions.end_time).finalTime}
             </Typography>
             <Typography
               variant="body1"
@@ -142,17 +149,30 @@ const MoreDetails = (props) => {
                 src={require("./assets/Group.svg")}
                 alt="Students Img"
               />
-              Prajakta Kishori
+              {actions.facilitator_name}
             </Typography>
             <Typography variant="body" color="text.secondary" mb={2}>
               Please join at least 10 mintues before the scheduled time
             </Typography>
-            <Button variant="contained" fullWidth style={{ marginTop: 20 }}>
+            <Button
+              variant="contained"
+              fullWidth
+              style={{ marginTop: 20 }}
+              onClick={() => setConfirmationOpen(true)}
+            >
               Enroll
             </Button>
           </Box>
         </Box>
       </SwipeableDrawer>
+      <AlertDialog
+        open={ConfirmationOpen}
+        close={close}
+        title={actions?.title}
+        start_time={actions?.start_time}
+        end_time={actions?.end_time}
+        id={actions?.id}
+      />
     </div>
   );
 };
@@ -177,26 +197,44 @@ const RevisionClassExerciseComponent = (props) => {
           }}
         >
           {" "}
+          <img
+            className={classes.icons}
+            src={require("./assets/Group.svg")}
+            alt="Students Img"
+          />
           Need help? We got you covered. Enroll in the doubt class on{" "}
           {start_time.finalDate}
           at {start_time.finalTime} - {end_time.finalTime}
         </Typography>
-
-        <Button
-          endIcon={<ArrowForwardIosIcon />}
-          onClick={() => {
-            setOpen(true);
-          }}
-          sx={{
-            width: isActive ? "90%" : "215px",
+        <div
+          style={{
+            width: "100%",
             display: "flex",
             justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
-          View Class Details
-        </Button>
+          <Button
+            endIcon={<ArrowForwardIosIcon />}
+            onClick={() => {
+              setOpen(true);
+            }}
+            sx={{
+              width: isActive ? "90%" : "215px",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            View Class Details
+          </Button>
+        </div>
       </Box>
-      <MoreDetails open={open} setOpen={setOpen} />
+      <MoreDetails
+        open={open}
+        setOpen={setOpen}
+        actions={actions}
+        value={value}
+      />
     </>
   ) : (
     ""

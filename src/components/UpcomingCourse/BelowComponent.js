@@ -4,7 +4,7 @@ import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { PATHS, interpolatePath } from "../../constant";
+import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
 import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./dilog";
@@ -82,8 +82,8 @@ const BelowComponent = (props) => {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            {upcomingBatchesData[0]?.start_time.split("T")[0]} -{" "}
-            {upcomingBatchesData[0]?.end_time.split("T")[0]}
+            {dateTimeFormat(upcomingBatchesData[0]?.start_time).finalDate} -{" "}
+            {dateTimeFormat(upcomingBatchesData[0]?.end_time).finalDate}
           </Typography>
           <Typography
             variant="body1"
@@ -109,8 +109,8 @@ const BelowComponent = (props) => {
               open={open}
               close={close}
               title={upcomingBatchesData[0]?.title}
-              start_time={upcomingBatchesData[0]?.start_time.split("T")[0]}
-              end_time={upcomingBatchesData[0]?.end_time.split("T")[0]}
+              start_time={upcomingBatchesData[0]?.start_time}
+              end_time={upcomingBatchesData[0]?.end_time}
               id={upcomingBatchesData[0]?.id}
             />
           </Stack>
@@ -121,7 +121,8 @@ const BelowComponent = (props) => {
               display: "flex",
             }}
           >
-            Can’t start on {upcomingBatchesData[0]?.start_time.split("T")[0]}
+            Can’t start on{" "}
+            {dateTimeFormat(upcomingBatchesData[0]?.start_time).finalDate}
             {" ? "}
             <Typography
               onClick={handleUpcomingBatchesClickOpen}

@@ -170,7 +170,12 @@ const RenderContent = ({ data }) => {
   if (data.component === "banner") {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
-    return <RevisionClassExerciseComponent value={value} actions={actions} />;
+    // console.log(actions.is_enrolled);
+    return !actions.is_enrolled ? (
+      <RevisionClassExerciseComponent value={value} actions={actions} />
+    ) : (
+      ""
+    );
   }
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));

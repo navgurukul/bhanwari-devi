@@ -4,7 +4,7 @@ import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { PATHS, interpolatePath } from "../../constant";
+import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
 import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./dilog";
@@ -48,77 +48,7 @@ const UpcomingCourse = (props) => {
   const handleUpcomingBatchesClickClose = () => {
     setUpcomingBatchesOpen(false);
   };
-  const { title, start_time, end_time, id } = props;
-  // const handelEnrollment = (Id) => {
-  //   axios
-  //     .post(
-  //       `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
-  //       {},
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: user.data.token,
-  //           "register-to-all": true,
-  //         },
-  //       }
-  //     )
-  //     .then(() => {
-  //       handleClose();
-  //     });
-  // };
 
-  // {
-  //   "id": 27508,
-  //   "title": "revision-3 by muskan",
-  //   "description": "What are computers and what do they do? What is programming? Instances of programming in daily life. Basic definitions.Continue with basic definitions. Why Python? Explore the interface of Python. How to use indentation and comments in the Meraki app.",
-  //   "facilitator_id": 1343,
-  //   "start_time": "2022-05-15T05:56:42.000+05:30",
-  //   "end_time": "2022-05-15T06:56:42.000+05:30",
-  //   "category_id": 3,
-  //   "video_id": null,
-  //   "lang": "hi",
-  //   "type": "batch",
-  //   "meet_link": "https://meet.google.com/har-nxqs-fef",
-  //   "calendar_event_id": "8t8ufp5pme9oegtnkjp7srthnc_20220515T002642Z",
-  //   "material_link": null,
-  //   "max_enrolment": 5,
-  //   "recurring_id": 385,
-  //   "sub_title": "Class 1 - Introduction to Computers, Programming and Python",
-  //   "course_version": "v2",
-  //   "facilitator": {
-  //     "name": "Anand Patel",
-  //     "email": "anandnavgurukul@gmail.com"
-  //   },
-  //   "registrations": [
-  //     {
-  //       "user_id": 1888
-  //     },
-  //     {
-  //       "user_id": 1890
-  //     },
-  //     {
-  //       "user_id": 77
-  //     },
-  //     {
-  //       "user_id": 1899
-  //     },
-  //     {
-  //       "user_id": 2025
-  //     }
-  //   ],
-  //   "parent_class": {
-  //     "id": 385,
-  //     "frequency": "DAILY",
-  //     "occurrence": 28,
-  //     "until": null,
-  //     "on_days": null,
-  //     "calendar_event_id": "8t8ufp5pme9oegtnkjp7srthnc",
-  //     "cohort_room_id": "!SZokxMutQQfbefCOJK:navgurukul.org"
-  //   },
-  //   "rules": {
-  //     "en": "## Rules\n- Join the class atleast\n10 minutes before schedule.\n\n- Watch [this video](https://www.youtube.com/watch?v=QfBnS1Gnw2c) if you are new to\nMeraki, to follow the instructions."
-  //   }
-  // }
   return BatchData ? (
     <>
       <Container maxWidth="lg">
@@ -141,8 +71,8 @@ const UpcomingCourse = (props) => {
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
-                From {BatchData?.start_time.split("T")[0]} -{" "}
-                {BatchData?.end_time.split("T")[0]}
+                From {dateTimeFormat(BatchData?.start_time).finalDate} -{" "}
+                {dateTimeFormat(BatchData?.end_time).finalDate}
               </Typography>
               <Typography
                 variant="body1"
@@ -171,22 +101,19 @@ const UpcomingCourse = (props) => {
                 id={BatchData?.id}
               />
               <Typography
+                style={{ display: "flex" }}
                 mt={2}
                 align="start"
-                style={{
-                  display: "flex",
-                }}
+                variant="body2"
               >
-                Can’t start on {BatchData?.start_time.split("T")[0]}
+                Can’t start on {dateTimeFormat(BatchData?.start_time).finalDate}
                 {" ? "}
-                <Typography
-                  color="primary"
-                  onClick={handleUpcomingBatchesClickOpen}
+                <section
                   className={classes.link}
+                  onClick={handleUpcomingBatchesClickOpen}
                 >
-                  {" "}
                   Check out our other batches
-                </Typography>
+                </section>
                 <CheckMoreBatches
                   open={upcomingBatchesOpen}
                   handleUpcomingBatchesClickOpen={

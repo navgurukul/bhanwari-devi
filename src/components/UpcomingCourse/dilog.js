@@ -13,6 +13,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { dateTimeFormat } from "../../constant";
 
 export default function AlertDialog(props) {
   // const [openDialog, setOpenDialog] = React.useState(false);
@@ -73,7 +74,8 @@ export default function AlertDialog(props) {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            {start_time?.split("T")[0]} - {end_time?.split("T")[0]}
+            {start_time ? dateTimeFormat(start_time).finalDate : ""} -{" "}
+            {end_time ? dateTimeFormat(end_time).finalDate : ""}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>

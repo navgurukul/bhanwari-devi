@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import AlertDialog from "./dilog";
 import { Box } from "@mui/system";
+import { dateTimeFormat } from "../../constant";
 export default function CheckMoreBatches(props) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -62,14 +63,19 @@ export default function CheckMoreBatches(props) {
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
-                {item.start_time?.split("T")[0]} -{" "}
-                {item.end_time?.split("T")[0]}
+                {dateTimeFormat(item.start_time).finalDate} -{" "}
+                {dateTimeFormat(item.end_time).finalDate}
               </Typography>
               <Button
                 fullWidth
                 onClick={() => {
                   handelEnrollment(item.id);
-                  setAlertData(item);
+                  setAlertData({
+                    title: item.title,
+                    start_time: item.start_time,
+                    end_time: item.end_time,
+                    id: item.id,
+                  });
                 }}
                 variant="contained"
               >

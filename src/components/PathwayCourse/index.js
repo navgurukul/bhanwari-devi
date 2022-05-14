@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 
@@ -20,6 +20,7 @@ import {
   Card,
   Typography,
   CardMedia,
+  Button,
 } from "@mui/material";
 import UpcomingCourse from "../UpcomingCourse";
 import BelowComponent from "../UpcomingCourse/BelowComponent";
@@ -82,7 +83,7 @@ function PathwayCourse() {
   const baseUrl = process.env.REACT_APP_MERAKI_URL;
   const [userEnrolledClasses, setUserEnrolledClasses] = useState(null);
   const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
-
+  const history = useHistory();
   //  const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -166,8 +167,37 @@ function PathwayCourse() {
                     <Typography variant="body1">
                       {pathwayCourseData.description}
                     </Typography>
+                    {!user?.data?.token ? (
+                      <>
+                        <Typography
+                          variant="body1"
+                          mt={2}
+                          style={{
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Want to learn through live classes by a teacher?
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          mt={4}
+                          sx={{
+                            margin: "10px 0",
+                            padding: "0px 60px",
+                          }}
+                          onClick={() => {
+                            history.push(PATHS.LOGIN);
+                          }}
+                        >
+                          Log In To Enroll
+                        </Button>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </Card>
                 </Grid>
+
                 <Grid xs={6} md={6}>
                   <UpcomingCourse upcomingBatchesData={upcomingBatchesData} />
                 </Grid>
@@ -276,6 +306,43 @@ function PathwayCourse() {
               />
             </Grid>
           </Grid>
+          {!user?.data?.token ? (
+            <Container align="center">
+              <Box
+                maxWidth={500}
+                bgcolor="#E9F5E9"
+                mb={10}
+                pt={3}
+                height={100}
+                style={{ padding: "15px" }}
+              >
+                <Typography
+                  variant="body1"
+                  mt={2}
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  Want to learn through live classes by a teacher?
+                </Typography>
+                <Button
+                  variant="contained"
+                  mt={4}
+                  sx={{
+                    margin: "10px 0",
+                    padding: "0px 60px",
+                  }}
+                  onClick={() => {
+                    history.push(PATHS.LOGIN);
+                  }}
+                >
+                  Log In To Enroll
+                </Button>
+              </Box>
+            </Container>
+          ) : (
+            ""
+          )}
           {!(userEnrolledClasses?.length > 0) &&
           upcomingBatchesData?.length > 0 ? (
             <BelowComponent upcomingBatchesData={upcomingBatchesData} />
@@ -287,5 +354,4 @@ function PathwayCourse() {
     </>
   );
 }
-
 export default PathwayCourse;
