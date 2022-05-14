@@ -35,35 +35,19 @@ const AssessmentContent = ({
   }
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
-    if (submit) {
+    if (index === 0) {
       setSubmitDisable(true);
-      if (index === 0) {
-        return (
-          <Box sx={{ mt: "32px" }}>
-            <Typography variant="h6" align="center">
-              Output
-            </Typography>
+      return (
+        <Box sx={{ mt: "32px" }}>
+          <Typography variant="h6" align="center">
+            Output
+          </Typography>
 
-            <Box
-              sx={{
-                mt: "32px",
-                bgcolor: correct ? "#E9F5E9" : "#FFE5E3",
-                p: "16px",
-                borderRadius: "8px",
-              }}
-            >
-              <Typography
-                variant="body1"
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
-            </Box>
-          </Box>
-        );
-      } else {
-        return (
           <Box
             sx={{
-              p: "16px 0",
+              mt: "32px",
+              bgcolor: correct ? "#E9F5E9" : "#FFE5E3",
+              p: "16px",
               borderRadius: "8px",
             }}
           >
@@ -72,8 +56,23 @@ const AssessmentContent = ({
               dangerouslySetInnerHTML={{ __html: text }}
             />
           </Box>
-        );
-      }
+        </Box>
+      );
+    }
+    if (index === 2) {
+      return (
+        <Box
+          sx={{
+            p: "16px 0",
+            borderRadius: "8px",
+          }}
+        >
+          <Typography
+            variant="body1"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
+        </Box>
+      );
     } else {
       return (
         <Box
@@ -92,6 +91,7 @@ const AssessmentContent = ({
         </Box>
       );
     }
+    // }
   }
   if (content.component === "options") {
     return (
