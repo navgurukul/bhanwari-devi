@@ -19,6 +19,9 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import SelectTrack from "./SelectTrack";
+import IntroVideo from "./IntroVideo";
+import CodeOfConduct from "./CodeOfConduct";
 
 function VolunteerAutomation() {
   return (
@@ -155,7 +158,10 @@ function VolunteerAutomation() {
         </Grid>
       </Grid>
 
-      <Box sx={{ mt: 5 }}>kkk</Box>
+      <Box sx={{ mt: 5, mb: 15 }}>kkk</Box>
+      <SelectTrack />
+      <IntroVideo />
+      <CodeOfConduct />
     </Container>
   );
 }
