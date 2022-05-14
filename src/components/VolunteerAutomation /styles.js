@@ -23,6 +23,23 @@ const useStyles = makeStyles((theme) => ({
   TextContent: {
     paddingLeft: "10px",
   },
+
+  AttendClassCard: {
+    height: "100%",
+  },
+
+  // classTypeBtn: {
+  //   borderRadius: "100px",
+  //   background: "#E9F5E9",
+  //   color: "#48A145",
+  //   height: "33px",
+  // },
+  // classLangBtn: {
+  //   marginLeft: "10px",
+  //   borderRadius: "100px ",
+  //   height: "33px",
+
+  // }
 }));
 
 export default useStyles;

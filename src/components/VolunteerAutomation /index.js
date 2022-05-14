@@ -126,13 +126,15 @@ function VolunteerAutomation() {
                   Front End Dev (React)
                 </Typography>
               </Box>
+
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography sclassName={classes.TextContent}>
+                <Typography className={classes.TextContent}>
                   {" "}
                   Back End Dev{" "}
                 </Typography>
               </Box>
+
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
                 <Typography className={classes.TextContent}>

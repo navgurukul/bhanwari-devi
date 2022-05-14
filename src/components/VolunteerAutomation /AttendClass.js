@@ -12,9 +12,12 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
+import useStyles from "./styles";
 
 function AttendClass() {
+  const classes = useStyles();
   const dispatch = useDispatch();
+
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
 
   useEffect(() => {
@@ -22,6 +25,16 @@ function AttendClass() {
   }, [dispatch]);
 
   console.log(data);
+
+  const languageMap = {
+    hi: "Hindi",
+    te: "Telugu",
+    en: "English",
+    ta: "Tamil",
+    doubt_class: "Doubt Class",
+    workshop: "Workshop",
+    cohort: "Batch",
+  };
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       <Container maxWidth="md">
@@ -39,7 +52,7 @@ function AttendClass() {
         {data &&
           data.slice(0, 3).map((item) => (
             <Grid item xs={12} ms={6} md={4}>
-              <Card>
+              <Card className={classes.AttendClassCard}>
                 <CardContent>
                   <Typography gutterBottom variant="subtitle1">
                     {item.title}
@@ -47,7 +60,10 @@ function AttendClass() {
                   <Box sx={{ display: "flex", mt: 2 }}>
                     <Button
                       sx={{
-                        borderRadius: "45%",
+                        borderRadius: "100px",
+                        background: "#E9F5E9",
+                        color: "#48A145",
+                        height: "33px",
                       }}
                       variant="contained"
                     >
@@ -56,11 +72,12 @@ function AttendClass() {
                     <Button
                       sx={{
                         marginLeft: "10px",
-                        borderRadius: "45%",
+                        borderRadius: "100px",
+                        height: "33px",
                       }}
                       variant="outlined"
                     >
-                      {item.lang}
+                      {languageMap[item.lang]}
                     </Button>
                   </Box>
 
@@ -95,3 +112,58 @@ function AttendClass() {
 }
 
 export default AttendClass;
+
+{
+  /* <Card className={classes.AttendClassCard}>
+<CardContent>
+  <Typography gutterBottom variant="subtitle1">
+  Class 1 - Intro to Python
+  </Typography>
+  <Box sx={{ display: "flex", mt: 2 }}>
+    <Button
+      sx={{
+        borderRadius: "100px",
+        background: "#E9F5E9",
+        color: "#48A145",
+        height: "33px"
+
+
+      }}
+      variant="contained"
+    >
+      {item.type}
+    </Button>
+    <Button
+      sx={{
+        marginLeft: "10px",
+        borderRadius: "100px",
+        height: "33px",
+      }}
+      variant="outlined"
+    >
+
+      Hindi
+    </Button>
+  </Box>
+
+  <Box sx={{ mt: 2 }}>
+    <Typography>
+    15 Sep 21, 4 PM - 5 PM
+  
+    </Typography>
+  </Box>
+  <Typography sx={{ mt: 2 }} gutterBottom variant="subtitle1">
+  Prajakta Kishori
+  </Typography>
+
+  <Typography gutterBottom variant="body2">
+  Please join at least 10 mintues before the scheduled time
+  </Typography>
+</CardContent>
+<CardActions>
+  <Button  sx={{background: "rgba(0, 0, 0, 0.12)"}}variant="contained"  fullWidth>
+    Starts in 10 hrs: 15 mins
+  </Button>
+</CardActions>
+</Card> */
+}
