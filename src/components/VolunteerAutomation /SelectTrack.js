@@ -1,84 +1,68 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   Container,
   Grid,
   Box,
   Button,
+  Image,
+  CardMedia,
   useMediaQuery,
   Card,
   CardContent,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
-// import { useSelector, useDispatch } from "react-redux";
-// import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
+import { useSelector, useDispatch } from "react-redux";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { CardActionArea } from "@mui/material";
+import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import useStyles from "./styles";
+import { maxWidth } from "@mui/system";
 
 function SelectTrack() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles();
 
-  // const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.Pathways);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(pathwayActions.getPathways());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(pathwayActions.getPathways());
+  }, [dispatch]);
 
   return (
-    <Container maxWidth="lg" align="center">
-      <Box maxWidth={550} mb={3}>
+    <Container maxWidth="lg">
+      <Container maxWidth="sm" mb={3}>
         <Typography variant="h6" align="left" mb={2}>
           Please choose what you’d like to teach
         </Typography>
-        <Typography variant="body1" align="left">
+        <Typography variant="body1" align="left" color="text.secondary">
           We recommend giving about 2 hours per week for about 15 weeks duration
         </Typography>
 
         <Grid container columnSpacing={isActive ? 2 : 0} mt={2} mb={2}>
-          <Grid item xs={6} ms={6} md={6}>
-            <Card
-              sx={{
-                boxShadow: "1px 1px 0px #E9F5E9",
-                border: "1px solid #48A145",
-                maxWidth: 256,
-                height: 171,
-              }}
-            >
-              <CardActionArea>
-                <CardContent>
-                  <img src={require("./assets/course.svg")} />
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-          <Grid item xs={6} ms={6} md={6}>
-            <Card
-              sx={{
-                maxWidth: 256,
-                height: 171,
-              }}
-            >
-              <CardActionArea>
-                <CardContent>
-                  <img src={require("./assets/eng.svg")} />
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
+          {data &&
+            data.pathways &&
+            data.pathways.map((item) => {
+              if (item.name == "Python" || item.name == "Spoken English") {
+                return (
+                  <Grid item xs={6} ms={6} md={6}>
+                    <Card className={classes.TrackCard}>
+                      <Box className={classes.TrackImages}>
+                        <CardMedia component="img" src={item.logo} />
+                        <Typography mt={2}>{item.name}</Typography>
+                      </Box>
+                    </Card>
+                  </Grid>
+                );
+              }
+            })}
         </Grid>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "20px",
-          }}
-        >
+        <Box className={classes.TrackButtonBox}>
           <Button
             variant="text"
             startIcon={<ArrowBackIosIcon />}
-            ml={2}
             sx={{
               color: "#6D6D6D",
             }}
@@ -93,7 +77,7 @@ function SelectTrack() {
             Next Step
           </Button>
         </Box>
-      </Box>
+      </Container>
     </Container>
   );
 }

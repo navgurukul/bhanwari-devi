@@ -1,13 +1,23 @@
 import React from "react";
-import { Typography, Container, Grid, Button, Box, Link } from "@mui/material";
-
+import {
+  Typography,
+  Container,
+  useMediaQuery,
+  Button,
+  Box,
+  Link,
+} from "@mui/material";
+import { breakpoints } from "../../theme/constant";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import useStyles from "./styles";
 
 function CodeOfConduct() {
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles();
   return (
-    <Container maxWidth="lg" align="center">
+    <Container maxWidth="lg">
       <Container maxWidth="sm" mb={3} align="left">
         <Typography variant="h6" mb={2}>
           Code of Conduct
@@ -17,52 +27,58 @@ function CodeOfConduct() {
           is important that you as a volunteer understand and abide by code of
           conduct and privacy policy
         </Typography>
-        <Box sx={{ display: "flex" }} mb={2}>
+        <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
-          <Typography variant="body1" sx={{ paddingLeft: "10px" }}>
+          <Typography variant="body1" className={classes.TextContent}>
             Video during calls are optional. If enabling video, please maintain
             an appropriate dress standard
           </Typography>
         </Box>
-        <Box sx={{ display: "flex" }} mb={2}>
+        <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
-          <Typography variant="body1" sx={{ paddingLeft: "10px" }} Typography>
+          <Typography
+            variant="body1"
+            className={classes.TextContent}
+            Typography
+          >
             Please keep the interactions polite. No abusive language and
             irrelevant material should be shared in speech or writing
           </Typography>
         </Box>
-        <Box sx={{ display: "flex" }} mb={2}>
+        <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
-          <Typography variant="body1" sx={{ paddingLeft: "10px" }} Typography>
+          <Typography
+            variant="body1"
+            className={classes.TextContent}
+            Typography
+          >
             We respect your and students privacy. Please do not share/ask for
             personal contact details
           </Typography>
         </Box>
-        <Box sx={{ display: "flex" }} mb={2}>
+        <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
-          <Typography variant="body1" sx={{ paddingLeft: "10px" }} Typography>
+          <Typography
+            variant="body1"
+            className={classes.TextContent}
+            Typography
+          >
             Raise any concerns witnessed by you to the Meraki team and treat all
             the students with fairness and dignity
           </Typography>
         </Box>
-        <Typography variant="body1" sx={{ paddingLeft: "10px" }} mb={2}>
+        <Typography variant="body1" className={classes.TextContent} mb={2}>
           The above are the most important points to keep in mind. However,
           please feel free to read our detailed
           <Link target="_blank" ml={1}>
             Code of Conduct
           </Link>
         </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "20px",
-          }}
-        >
+        <Box sclassName={classes.TrackButtonBox}>
           <Button
             variant="text"
             startIcon={<ArrowBackIosIcon />}
-            ml={2}
+            ml={4}
             sx={{
               color: "#6D6D6D",
             }}

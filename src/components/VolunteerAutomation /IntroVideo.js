@@ -1,13 +1,24 @@
 import React from "react";
-import { Typography, Container, Box, Button, Card } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Box,
+  useMediaQuery,
+  Button,
+  Card,
+} from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import useStyles from "./styles";
+import { breakpoints } from "../../theme/constant";
 
 function IntroVideo() {
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles();
   return (
     <Container maxWidth="lg" align="center">
       <Container maxWidth="sm" mb={3}>
@@ -26,18 +37,10 @@ function IntroVideo() {
           </CardActionArea>
         </Card>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "20px",
-            marginTop: "20px",
-          }}
-        >
+        <Box className={classes.TrackButtonBox}>
           <Button
             variant="text"
             startIcon={<ArrowBackIosIcon />}
-            ml={2}
             sx={{
               color: "#6D6D6D",
             }}
