@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Box, Typography, Paper, Button } from "@mui/material";
 import useStyles from "./styles";
 import get from "lodash/get";
 import DOMPurify from "dompurify";
-
-import { set } from "date-fns";
-import { ClassNames } from "@emotion/react";
 
 const headingVarients = {};
 
@@ -20,7 +17,16 @@ const headingVarients = {};
     ))
 );
 
-const AssessmentContent = ({ content, answer, setAnswer }) => {
+const AssessmentContent = ({
+  content,
+  answer,
+  setAnswer,
+  setSolution,
+  submit,
+  correct,
+  index,
+  setSubmitDisable,
+}) => {
   const classes = useStyles();
   if (content.component === "header") {
     return headingVarients[content.variant](
@@ -29,26 +35,65 @@ const AssessmentContent = ({ content, answer, setAnswer }) => {
   }
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
-    return (
-      <Box
-        sx={{
-          mt: "32px",
-          bgcolor: "#F7F7F7",
-          // height: "30vh",
-          p: "16px 16px 22px 16px",
-          borderRadius: "8px",
-        }}
-      >
-        <Typography
-          sx={{ m: "2rem 0" }}
-          variant="body1"
-          dangerouslySetInnerHTML={{ __html: text }}
-        />
-      </Box>
-    );
+    if (submit) {
+      setSubmitDisable(true);
+      if (index === 0) {
+        return (
+          <Box sx={{ mt: "32px" }}>
+            <Typography variant="h6" align="center">
+              Output
+            </Typography>
+
+            <Box
+              sx={{
+                mt: "32px",
+                bgcolor: correct ? "#E9F5E9" : "#FFE5E3",
+                p: "16px",
+                borderRadius: "8px",
+              }}
+            >
+              <Typography
+                variant="body1"
+                dangerouslySetInnerHTML={{ __html: text }}
+              />
+            </Box>
+          </Box>
+        );
+      } else {
+        return (
+          <Box
+            sx={{
+              p: "16px 0",
+              borderRadius: "8px",
+            }}
+          >
+            <Typography
+              variant="body1"
+              dangerouslySetInnerHTML={{ __html: text }}
+            />
+          </Box>
+        );
+      }
+    } else {
+      return (
+        <Box
+          sx={{
+            mt: "32px",
+            bgcolor: "#F7F7F7",
+            p: "16px 16px 22px 16px",
+            borderRadius: "8px",
+          }}
+        >
+          <Typography
+            sx={{ m: "2rem 0" }}
+            variant="body1"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
+        </Box>
+      );
+    }
   }
   if (content.component === "options") {
-    console.log(content.value[1]);
     return (
       <Box sx={{ mt: "32px" }}>
         {Object.values(content.value).map((item, index) => {
@@ -57,10 +102,16 @@ const AssessmentContent = ({ content, answer, setAnswer }) => {
               elevation={3}
               sx={{
                 height: "59px",
-                // width: "544px",
                 mb: "16px",
+                cursor: "pointer",
               }}
-              className={answer === index + 1 && classes.option}
+              className={
+                submit
+                  ? correct
+                    ? answer === index + 1 && classes.correctAnswer
+                    : answer === index + 1 && classes.inCorrectAnswer
+                  : answer === index + 1 && classes.option
+              }
               onClick={() => setAnswer(index + 1)}
             >
               <Typography variant="body1" sx={{ p: "16px" }}>
@@ -72,91 +123,85 @@ const AssessmentContent = ({ content, answer, setAnswer }) => {
       </Box>
     );
   }
+  if (content.component === "solution") {
+    setSolution(content.value);
+  }
   return "";
 };
 
 function Assessment({ data }) {
-  const classes = useStyles();
   const [answer, setAnswer] = useState();
-  const options = ["A", "B", "C", "D"];
-  const code = true;
-  console.log("data", data);
-  return (
-    <Container maxWidth="sm" sx={{ align: "center", mb: "32px" }}>
-      {/* <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}> */}
+  const [correct, setCorrect] = useState();
+  const [solution, setSolution] = useState();
+  const [submit, setSubmit] = useState();
+  const [submitDisable, setSubmitDisable] = useState();
 
+  const submitAssessment = () => {
+    setSubmit(true);
+    if (answer == solution) {
+      setCorrect(true);
+    } else {
+      setCorrect(false);
+    }
+  };
+
+  return (
+    <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 58px 0" }}>
       <Typography variant="h6" align="center">
         Find the Output
       </Typography>
-
       {data.map((content) => (
         <AssessmentContent
           content={content}
           answer={answer}
           setAnswer={setAnswer}
+          setSolution={setSolution}
+          submit={submit}
+          correct={correct}
+          setSubmitDisable={setSubmitDisable}
         />
       ))}
 
-      <Button
-        variant="contained"
-        sx={{ width: "256px", p: "8px 16px 8px 16px" }}
-        color={answer ? "primary" : "disable"}
-        align="center"
-      >
-        Submit
-      </Button>
-
-      {/* {code ? (
-        <Box align="center">
-          <Typography variant="h6" align="center">
-            Find the Output
-          </Typography>
-          <Box
-            sx={{
-              mt: "32px",
-              bgcolor: "#F7F7F7",
-              height: "30vh",
-              p: "16px 16px 22px 16px",
-              borderRadius: "8px",
-            }}
-          >
-            <Typography variant="h6">Code</Typography>
-          </Box>
-        </Box>
-      ) : (
-        <Typography variant="h6">
-          What is the output of 2 + 2 and 5 + 9?
-        </Typography>
-      )}
-      <Box sx={{ mt: "32px" }}>
-        {options.map((item) => {
-          return (
-            <Paper
-              elevation={3}
-              sx={{
-                height: "59px",
-                width: "544px",
-                mb: "16px",
-              }}
-              className={answer === item && classes.option}
-              onClick={() => setAnswer(item)}
-            >
-              <Typography variant="body1" sx={{ p: "16px" }}>
-                {item}. Poonam
-              </Typography>
-            </Paper>
-          );
-        })}
+      <Box textAlign="center" sx={{ display: submitDisable && "none" }}>
+        <Button
+          variant="contained"
+          sx={{ width: "256px", p: "8px 16px 8px 16px" }}
+          color={answer ? "primary" : "disable"}
+          onClick={submitAssessment}
+        >
+          Submit
+        </Button>
       </Box>
-      <Button
-        variant="contained"
-        sx={{ width: "256px", p: "8px 16px 8px 16px" }}
-        color={answer ? "primary" : "disable"}
-        align="center"
-      >
-        Submit
-      </Button> */}
-      {/* </Box> */}
+
+      {data.map((content) => {
+        if (content.component === "output") {
+          return (
+            <>
+              {submit
+                ? correct
+                  ? content.value.correct.map((content, index) => (
+                      <AssessmentContent
+                        content={content}
+                        index={index}
+                        correct={correct}
+                        submit={submit}
+                        setSubmitDisable={setSubmitDisable}
+                      />
+                    ))
+                  : content.value.incorrect.map((content, index) => (
+                      <AssessmentContent
+                        content={content}
+                        index={index}
+                        correct={correct}
+                        submit={submit}
+                        setSubmitDisable={setSubmitDisable}
+                      />
+                    ))
+                : null}
+            </>
+          );
+        }
+      })}
     </Container>
   );
 }

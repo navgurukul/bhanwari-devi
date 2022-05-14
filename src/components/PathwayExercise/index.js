@@ -41,7 +41,6 @@ const Exercise = ({
   return (
     <>
       {courseLength.map((exercise, index) => {
-        // console.log("new", exercise);
         return (
           <NavigationComponent
             exercise={exercise}
@@ -67,8 +66,6 @@ function NavigationComponent({
   params,
   exercise,
 }) {
-  console.log("new exercise", exercise);
-  console.log("index", index);
   return (
     <>
       {/* {exercise.content_type === "exercise" && (
@@ -195,9 +192,6 @@ function PathwayExercise() {
         console.log("error");
       });
   }, []);
-
-  // console.log("courseId", courseId);
-  // console.log("course", course);
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
@@ -346,7 +340,6 @@ function PathwayExercise() {
               >
                 {course &&
                   course.map((exercise, index) => {
-                    console.log("exercise", exercise);
                     return (
                       <>
                         <Link

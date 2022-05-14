@@ -232,9 +232,6 @@ function ExerciseContent({ exerciseId, lang }) {
     });
   }, [courseId, exerciseId, lang]);
 
-  // console.log("content", content);
-  console.log("exercise", exercise && exercise);
-
   return (
     <Container maxWidth="sm">
       {exercise && exercise.content_type === "exercise" && (
