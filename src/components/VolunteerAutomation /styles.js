@@ -40,6 +40,26 @@ const useStyles = makeStyles((theme) => ({
   //   height: "33px",
 
   // }
+  TrackCard: {
+    boxShadow: "1px 1px 0px #E9F5E9",
+    maxWidth: 256,
+    height: 171,
+    "&:hover": {
+      border: "1px solid #48A145",
+    },
+  },
+  TrackButtonBox: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginBottom: "20px",
+  },
+  TrackImages: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    flexDirection: "column",
+  },
 }));
 
 export default useStyles;
