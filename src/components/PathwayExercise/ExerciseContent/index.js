@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
-import { METHODS } from "../../../services/api";
-import axios from "axios";
 import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
@@ -253,18 +251,6 @@ function ExerciseContent({ exerciseId, lang }) {
         </Box>
       )}
       {exercise && exercise.content_type === "assessment" && (
-        // <Typography variant="h1">Hi Poonam!</Typography>
-        //   <Box sx={{ mt: 5, mb: 8 }}>
-        //   {content &&
-        //     content.map((contentItem, index) => (
-        //       // <RenderContent
-        //       //   data={contentItem}
-        //       //   key={index}
-        //       //   classes={classes}
-        //       // />
-        //       <Assessment data={contentItem}/>
-        //     ))}
-        // </Box>
         <Assessment data={content} />
       )}
     </Container>

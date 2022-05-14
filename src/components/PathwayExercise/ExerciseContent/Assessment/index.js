@@ -150,17 +150,18 @@ function Assessment({ data }) {
       <Typography variant="h6" align="center">
         Find the Output
       </Typography>
-      {data.map((content) => (
-        <AssessmentContent
-          content={content}
-          answer={answer}
-          setAnswer={setAnswer}
-          setSolution={setSolution}
-          submit={submit}
-          correct={correct}
-          setSubmitDisable={setSubmitDisable}
-        />
-      ))}
+      {data &&
+        data.map((content) => (
+          <AssessmentContent
+            content={content}
+            answer={answer}
+            setAnswer={setAnswer}
+            setSolution={setSolution}
+            submit={submit}
+            correct={correct}
+            setSubmitDisable={setSubmitDisable}
+          />
+        ))}
 
       <Box textAlign="center" sx={{ display: submitDisable && "none" }}>
         <Button
@@ -173,35 +174,36 @@ function Assessment({ data }) {
         </Button>
       </Box>
 
-      {data.map((content) => {
-        if (content.component === "output") {
-          return (
-            <>
-              {submit
-                ? correct
-                  ? content.value.correct.map((content, index) => (
-                      <AssessmentContent
-                        content={content}
-                        index={index}
-                        correct={correct}
-                        submit={submit}
-                        setSubmitDisable={setSubmitDisable}
-                      />
-                    ))
-                  : content.value.incorrect.map((content, index) => (
-                      <AssessmentContent
-                        content={content}
-                        index={index}
-                        correct={correct}
-                        submit={submit}
-                        setSubmitDisable={setSubmitDisable}
-                      />
-                    ))
-                : null}
-            </>
-          );
-        }
-      })}
+      {data &&
+        data.map((content) => {
+          if (content.component === "output") {
+            return (
+              <>
+                {submit
+                  ? correct
+                    ? content.value.correct.map((content, index) => (
+                        <AssessmentContent
+                          content={content}
+                          index={index}
+                          correct={correct}
+                          submit={submit}
+                          setSubmitDisable={setSubmitDisable}
+                        />
+                      ))
+                    : content.value.incorrect.map((content, index) => (
+                        <AssessmentContent
+                          content={content}
+                          index={index}
+                          correct={correct}
+                          submit={submit}
+                          setSubmitDisable={setSubmitDisable}
+                        />
+                      ))
+                  : null}
+              </>
+            );
+          }
+        })}
     </Container>
   );
 }

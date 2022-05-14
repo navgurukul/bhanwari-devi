@@ -33,7 +33,6 @@ import PathwayExercise from "../components/PathwayExercise";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
-import Assessment from "../components/Assessment";
 
 // import Classes from '../pages/classes'
 
@@ -58,7 +57,6 @@ const Routing = () => {
       />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
       <Route path={PATHS.PATHWAY_COURSE_CONTENT} component={PathwayExercise} />
-      <Route path={PATHS.ASSESSMENT} component={Assessment} />
 
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
