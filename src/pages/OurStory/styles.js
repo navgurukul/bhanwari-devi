@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ourStoryHrline: {
     width: "60px",
-    textAlign: "center",
+    align: "center",
     marginBottom: "30px",
   },
   ourStoryHr: {
