@@ -72,6 +72,46 @@ export const dateTimeFormat = (date) => {
   const finalTime = `${TimePart[0]} : ${TimePart[1]}`;
   return { finalTime, finalDate };
 };
+
+export const TimeLeft = (date) => {
+  const datePart = date?.split("T")[0].split("-").reverse();
+  const TimePart = date?.split("T")[1].split(":");
+  // calculate the time left for the event
+  const timeLeft = new Date(
+    `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} ${TimePart[0]}:${
+      TimePart[1]
+    }`
+  );
+  const now = new Date(
+    new Date().toLocaleString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    })
+  );
+  // const now = new Date();
+  const diff = timeLeft - now;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  if (days > 0) {
+    return `${days} days ${hours} hrs ${minutes} mins`;
+  } else if (hours > 0) {
+    return `${hours} hrs ${minutes} mins`;
+  } else if (minutes > 10) {
+    return `${minutes} mins ${seconds} sec`;
+  } else if (minutes <= 10 && minutes > 0) {
+    return "joinNow";
+  } else {
+    return "expired";
+  }
+};
+
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
 

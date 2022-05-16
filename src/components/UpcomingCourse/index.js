@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 // import { Button } from "framework7-react";
 import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
-import IntroToPython from "./JoinClass/IntroToPython";
 import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
 import RevisionClass from "./Revision/RevisionClassExerciseComponent";
 import { useHistory } from "react-router-dom";
