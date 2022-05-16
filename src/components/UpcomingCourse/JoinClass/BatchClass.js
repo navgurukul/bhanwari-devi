@@ -8,16 +8,24 @@ import axios from "axios";
 import useStyles from "../styles";
 import { useSelector } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
+import { dateTimeFormat, TimeLeft } from "../../../constant";
+import RevisionClassEnroll from "../Revision/RevisionClassEnroll";
 
 // import { Button } from "framework7-react";
 
-const IntroToPython = () => {
+const BatchClass = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-
-  return (
+  const { facilitator, start_time, end_time, is_enrolled, meet_link } = props;
+  let [TimeLefts, setTimeLefts] = useState(TimeLeft(start_time));
+  var ONE_MINUTE = 60 * 1000;
+  setInterval(() => {
+    setTimeLefts(TimeLeft(start_time));
+    console.log("TimeChange");
+  }, ONE_MINUTE);
+  return TimeLefts !== "expired" ? (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="l">
         <Box align="right" mt={1} maxWidth={350} mb={10}>
           <Card elevation={2} pl={10}>
             <CardContent>
@@ -35,7 +43,9 @@ const IntroToPython = () => {
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
-                15 Sep 21, 4 PM - 5 PM
+                {dateTimeFormat(start_time).finalDate},{" "}
+                {dateTimeFormat(start_time).finalTime} -{" "}
+                {dateTimeFormat(end_time).finalTime}
               </Typography>
               <Typography
                 variant="body1"
@@ -51,7 +61,7 @@ const IntroToPython = () => {
                   src={require("./assets/Group.svg")}
                   alt="Students Img"
                 />
-                Prajakta Kishori
+                {facilitator}
               </Typography>
               <Typography
                 align="left"
@@ -61,10 +71,24 @@ const IntroToPython = () => {
               >
                 Please join at least 10 mintues before the scheduled time
               </Typography>
+              {TimeLefts == "joinNow" ? (
+                <a
+                  style={{
+                    textDecoration: "none",
+                  }}
+                  href={meet_link}
+                  target="_blank"
+                >
+                  <Button variant="contained" fullWidth>
+                    Join Now
+                  </Button>
+                </a>
+              ) : (
+                <Button disabled={true} variant="contained" fullWidth>
+                  Starts in {TimeLefts}
+                </Button>
+              )}
 
-              <Button variant="contained" fullWidth>
-                join Class
-              </Button>
               <Typography
                 mt={2}
                 align="start"
@@ -77,6 +101,8 @@ const IntroToPython = () => {
         </Box>
       </Container>
     </>
+  ) : (
+    <RevisionClassEnroll />
   );
 };
-export default IntroToPython;
+export default BatchClass;

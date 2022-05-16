@@ -26,7 +26,7 @@ import {
 import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
-import IntroToPython from "../../UpcomingCourse/JoinClass/IntroToPython";
+import BatchClass from "../../UpcomingCourse/JoinClass/BatchClass";
 import CourseEnroll from "../../UpcomingCourse/NotEnrolledinCourse/EnrollInCourse";
 import RevisionClassExerciseComponent from "../../UpcomingCourse/Revision/RevisionClassExerciseComponent";
 import RevisionClassEnroll from "../../UpcomingCourse/Revision/RevisionClassEnroll";
@@ -236,12 +236,13 @@ function ExerciseContent({ exerciseId, lang }) {
   const pathwayId = params.pathwayId;
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [open, setOpen] = useState(false);
-
+  const [courseData, setCourseData] = useState({ content_type: null });
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
       setCourse(res.data.course.name);
       setExercise(res.data.course.exercises[exerciseId]?.name);
       setContent(res.data.course.exercises[exerciseId]?.content);
+      setCourseData(res.data.course.exercises[exerciseId]);
     });
   }, [courseId, exerciseId, lang]);
   const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
@@ -302,13 +303,44 @@ function ExerciseContent({ exerciseId, lang }) {
           }}
           item
         >
-          <IntroToPython />
-          <RevisionClassEnroll />
+          {courseData["content_type"] == "class_topic" && (
+            <>
+              {" "}
+              <BatchClass
+                facilitator={courseData.facilitator.name}
+                start_time={courseData.start_time}
+                end_time={courseData.end_time}
+                is_enrolled={courseData.is_enrolled}
+                meet_link={courseData.meet_link}
+              />
+            </>
+          )}
         </Grid>
       </Grid>
     );
   }
-
+  // {
+  //   "id": 27430,
+  //   "title": "python classes by muskan",
+  //   "sub_title": "Class 7 - Operators Part-1",
+  //   "description": "What are Operators? What are the different types of Operators in Python? In depth explanation of Arithmetic Operators, with examples. Practice Questions and Quizzes",
+  //   "pathway_id": 1,
+  //   "course_id": 375,
+  //   "exercise_id": 4262,
+  //   "start_time": "2022-05-21T05:56:42.000+05:30",
+  //   "end_time": "2022-05-21T06:56:42.000+05:30",
+  //   "lang": "hi",
+  //   "type": "batch",
+  //   "meet_link": "https://meet.google.com/urw-jeew-wzk",
+  //   "facilitator": {
+  //     "name": "Anand Patel",
+  //     "email": "anandnavgurukul@gmail.com"
+  //   },
+  //   "is_enrolled": false,
+  //   "course_name": "Operators",
+  //   "sequence_num": 517,
+  //   "content_type": "class_topic"
+  // }
   return userEnrolledClasses?.length == 0 &&
     upcomingBatchesData?.length == 0 ? (
     <>
