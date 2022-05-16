@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Container, Box, Typography, Paper, Button } from "@mui/material";
 import useStyles from "./styles";
 import get from "lodash/get";
 import DOMPurify from "dompurify";
+import axios from "axios";
+import { METHODS } from "../../../../services/api";
+// ../../services/api
 
 const headingVarients = {};
 
@@ -91,7 +95,6 @@ const AssessmentContent = ({
         </Box>
       );
     }
-    // }
   }
   if (content.component === "options") {
     return (
@@ -129,19 +132,37 @@ const AssessmentContent = ({
   return "";
 };
 
-function Assessment({ data }) {
+function Assessment({ data, exerciseId }) {
+  const user = useSelector(({ User }) => User);
   const [answer, setAnswer] = useState();
   const [correct, setCorrect] = useState();
   const [solution, setSolution] = useState();
   const [submit, setSubmit] = useState();
   const [submitDisable, setSubmitDisable] = useState();
+  const [status, setStatus] = useState();
+
+  useEffect(() => {
+    axios({
+      method: METHODS.POST,
+      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: { assessment_id: exerciseId, status: status },
+    }).then((res) => {
+      console.log("res", res);
+    });
+  }, [status]);
 
   const submitAssessment = () => {
     setSubmit(true);
     if (answer == solution) {
       setCorrect(true);
+      setStatus("Pass");
     } else {
       setCorrect(false);
+      setStatus("Fail");
     }
   };
 
