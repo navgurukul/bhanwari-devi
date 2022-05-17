@@ -307,6 +307,7 @@ function ExerciseContent({ exerciseId, lang }) {
             <>
               {" "}
               <BatchClass
+                id={courseData.id}
                 facilitator={courseData.facilitator.name}
                 start_time={courseData.start_time}
                 end_time={courseData.end_time}
