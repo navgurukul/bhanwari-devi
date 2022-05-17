@@ -60,81 +60,43 @@ const Exercise = ({
   );
 };
 
+function ExerciseImage({
+  selected,
+  contentType,
+  setExerciseId,
+  onClick,
+  index,
+}) {
+  const classes = useStyles();
+  const contentTypeMap = {
+    assessment: selected ? "assessmentSelected" : "assessment",
+    class_topic: selected ? "classTypeSelected" : "classtype",
+    exercise: selected ? "contentTypeSelected" : "contenttype",
+  };
+  return (
+    <img
+      onClick={() => {
+        onClick();
+        setExerciseId(index);
+      }}
+      src={require("./asset/" + contentTypeMap[contentType] + ".svg")}
+      loading="lazy"
+      className={classes.contentImg}
+    />
+  );
+}
+
 function NavigationComponent({
   index,
   exerciseId,
   setExerciseId,
-  classes,
   history,
   params,
   exercise,
 }) {
   return (
     <>
-      {/* {exercise.content_type === "exercise" && (
-        <img
-          onClick={() => {
-            history.push(
-              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })
-            );
-            setExerciseId(index);
-          }}
-          src={
-            exerciseId == index
-              ? `${require("./asset/contentTypeSelectd.svg")}`
-              : `${require("./asset/contenttype.svg")}`
-          }
-          loading="lazy"
-          className={classes.contentImg}
-        />
-      )}
-      {exercise.content_type === "assessment" && (
-        <img
-          onClick={() => {
-            history.push(
-              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })
-            );
-            setExerciseId(index);
-          }}
-          src={
-            exerciseId == index
-              ? `${require("./asset/assessmentSelected.svg")}`
-              : `${require("./asset/assessment.svg")}`
-          }
-          loading="lazy"
-          className={classes.contentImg}
-        />
-      )}
-      {exercise.content_type === "class_topic" && (
-        <img
-          onClick={() => {
-            history.push(
-              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })
-            );
-            setExerciseId(index);
-          }}
-          src={
-            exerciseId == index
-              ? `${require("./asset/classtype.svg")}`
-              : `${require("./asset/classtype.svg")}`
-          }
-          loading="lazy"
-          className={classes.contentImg}
-        />
-      )} */}
-      <img
+      <ExerciseImage
         onClick={() => {
           history.push(
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -143,25 +105,11 @@ function NavigationComponent({
               pathwayId: params.pathwayId,
             })
           );
-          setExerciseId(index);
         }}
-        src={
-          exerciseId == index
-            ? (exercise.content_type === "assessment" &&
-                `${require("./asset/assessmentSelected.svg")}`) ||
-              (exercise.content_type === "class_topic" &&
-                `${require("./asset/classtype.svg")}`) ||
-              (exercise.content_type === "exercise" &&
-                `${require("./asset/contentTypeSelectd.svg")}`)
-            : (exercise.content_type === "assessment" &&
-                `${require("./asset/assessment.svg")}`) ||
-              (exercise.content_type === "class_topic" &&
-                `${require("./asset/classtype.svg")}`) ||
-              (exercise.content_type === "exercise" &&
-                `${require("./asset/contenttype.svg")}`)
-        }
-        loading="lazy"
-        className={classes.contentImg}
+        index={index}
+        selected={exerciseId == index}
+        contentType={exercise.content_type}
+        setExerciseId={setExerciseId}
       />
     </>
   );
@@ -364,25 +312,11 @@ function PathwayExercise() {
                             setExerciseId(index);
                           }}
                         >
-                          <img
-                            onClick={() => setExerciseId(index)}
-                            src={
-                              exerciseId == index
-                                ? (exercise.content_type === "assessment" &&
-                                    `${require("./asset/assessmentSelected.svg")}`) ||
-                                  (exercise.content_type === "class_topic" &&
-                                    `${require("./asset/classtype.svg")}`) ||
-                                  (exercise.content_type === "exercise" &&
-                                    `${require("./asset/contentTypeSelectd.svg")}`)
-                                : (exercise.content_type === "assessment" &&
-                                    `${require("./asset/assessment.svg")}`) ||
-                                  (exercise.content_type === "class_topic" &&
-                                    `${require("./asset/classtype.svg")}`) ||
-                                  (exercise.content_type === "exercise" &&
-                                    `${require("./asset/contenttype.svg")}`)
-                            }
-                            loading="lazy"
-                            className={classes.contentImg}
+                          <ExerciseImage
+                            selected={exerciseId == index}
+                            contentType={exercise.content_type}
+                            index={index}
+                            setExerciseId={setExerciseId}
                           />
                         </Link>
                       </>

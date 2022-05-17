@@ -50,7 +50,7 @@ const AssessmentContent = ({
           <Box
             sx={{
               mt: "32px",
-              bgcolor: correct ? "#E9F5E9" : "#FFE5E3",
+              bgcolor: correct ? "success.light" : "error.light",
               p: "16px",
               borderRadius: "8px",
             }}
@@ -166,8 +166,41 @@ function Assessment({ data, exerciseId }) {
     }
   };
 
+  console.log("data", data);
+  // const submit = true
+  // const data = [
+  //   {
+  //     component: "header",
+  //     value: "Lets dive in with a code sample",
+  //     variant: 3,
+  //   },
+  //   {
+  //     component: "options",
+  //     value: {
+  //       1: "You can have a chocolate",
+  //       2: "You can not have a chocolate",
+  //       3: "Thumbsup",
+  //       4: "None",
+  //     },
+  //   },
+  //   { component: "solution", value: "1" },
+  //   {
+  //     component: "output",
+  //     correct: [
+  //       { component: "text", value: "You got it right" },
+  //       { component: "header", variant: 3, value: "Lets see why" },
+  //       { component: "header", variant: 3, value: "Lets see why" },
+  //     ],
+  //     incorrect: [
+  //       { component: "text", value: "It missed the mark" },
+  //       { component: "header", variant: 3, value: "Lets see why" },
+  //       { component: "header", variant: 3, value: "Lets see why" },
+  //     ],
+  //   },
+  // ];
+
   return (
-    <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 58px 0" }}>
+    <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
       <Typography variant="h6" align="center">
         Find the Output
       </Typography>
@@ -196,6 +229,27 @@ function Assessment({ data, exerciseId }) {
       </Box>
 
       {data &&
+        submit &&
+        data.map((content) => {
+          const dataArr =
+            content.value && correct
+              ? content.value.correct
+              : content.value.incorrect;
+          return (
+            content.component === "output" &&
+            dataArr.map((content, index) => (
+              <AssessmentContent
+                content={content}
+                index={index}
+                correct={correct}
+                submit={submit}
+                setSubmitDisable={setSubmitDisable}
+              />
+            ))
+          );
+        })}
+
+      {/* {data &&
         data.map((content) => {
           if (content.component === "output") {
             return (
@@ -224,7 +278,7 @@ function Assessment({ data, exerciseId }) {
               </>
             );
           }
-        })}
+        })} */}
     </Container>
   );
 }
