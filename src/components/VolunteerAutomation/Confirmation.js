@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Container, Stack, Button } from "@mui/material";
 
-function Confirmation() {
+function Confirmation({ setDisable }) {
+  useEffect(() => {
+    setDisable(false);
+  }, []);
+
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="sm">
       <Typography variant="h6" gutterBottom>
@@ -13,7 +17,7 @@ function Confirmation() {
       </Typography>
 
       <Stack sx={{ mt: 5 }} alignItems="center">
-        <img src={require("./assets/teamsucces.svg")} />
+        <img src={require("./assets/completed_task.svg")} />
       </Stack>
     </Container>
   );

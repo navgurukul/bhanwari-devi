@@ -1,20 +1,10 @@
 import React, { useEffect } from "react";
-import {
-  Typography,
-  Container,
-  useMediaQuery,
-  Button,
-  Box,
-  Link,
-} from "@mui/material";
+import { Typography, Container, useMediaQuery, Box, Link } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import useStyles from "./styles";
 
 function CodeOfConduct({ setDisable }) {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
 
   useEffect(() => {
@@ -22,7 +12,7 @@ function CodeOfConduct({ setDisable }) {
   }, []);
 
   return (
-    <Container maxWidth="lg">
+    <Container sx={{ mt: 6 }} maxWidth="lg">
       <Container maxWidth="sm" mb={3} align="left">
         <Typography variant="h6" mb={2}>
           Code of Conduct
@@ -79,25 +69,6 @@ function CodeOfConduct({ setDisable }) {
             Code of Conduct
           </Link>
         </Typography>
-        <Box sclassName={classes.TrackButtonBox}>
-          <Button
-            variant="text"
-            startIcon={<ArrowBackIosIcon />}
-            ml={4}
-            sx={{
-              color: "#6D6D6D",
-            }}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={<ArrowForwardIosIcon />}
-          >
-            Next Step
-          </Button>
-        </Box>
       </Container>
     </Container>
   );

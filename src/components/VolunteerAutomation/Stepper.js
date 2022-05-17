@@ -39,11 +39,11 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Attend Class",
-      component: <AttendClass />,
+      component: <AttendClass setDisable={setDisable} />,
     },
     {
       label: "Confirmation",
-      component: <Confirmation />,
+      component: <Confirmation setDisable={setDisable} />,
     },
   ];
 
@@ -93,23 +93,31 @@ function HorizontalLinearStepper() {
   console.log("disable", disable);
 
   return (
-    <Container maxWidth="lg">
-      <Stepper activeStep={activeStep}>
-        {steps.map((step, index) => {
-          console.log();
-          const stepProps = {};
-          const labelProps = {};
+    <Container sx={{ mt: 4 }} maxWidth="lg">
+      <div
+        style={{
+          overflowY: "scroll",
+          justifyContent: "space-between",
+          maxWidth: "100%",
+        }}
+      >
+        <Stepper activeStep={activeStep}>
+          {steps.map((step, index) => {
+            console.log();
+            const stepProps = {};
+            const labelProps = {};
 
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={step.label} {...stepProps}>
-              <StepLabel {...labelProps}>{step.label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={step.label} {...stepProps}>
+                <StepLabel {...labelProps}>{step.label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+      </div>
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
@@ -135,33 +143,46 @@ function HorizontalLinearStepper() {
               }
             })}
           </>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              sx={{ color: "#6D6D6D", mr: 1 }}
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              startIcon={<ArrowBackIosIcon />}
+          <Container maxWidth="sm">
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+                pt: 2,
+                pb: 5,
+              }}
             >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            {/* {isStepOptional(activeStep) && (
+              <Button
+                variant="contained"
+                sx={{ color: "#6D6D6D", mr: 4 }}
+                color="inherit"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                startIcon={<ArrowBackIosIcon />}
+              >
+                Back
+              </Button>
+              <Box />
+              {/* {isStepOptional(activeStep) && (
               <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                 Skip
               </Button>
             )} */}
 
-            <Button
-              color="primary"
-              variant="contained"
-              endIcon={<ArrowForwardIosIcon />}
-              onClick={handleNext}
-              disabled={disable}
-            >
-              {activeStep === steps.length - 1 ? "Finish" : " Next Step"}
-            </Button>
-          </Box>
+              <Button
+                color="primary"
+                variant="contained"
+                endIcon={<ArrowForwardIosIcon />}
+                onClick={handleNext}
+                disabled={disable}
+              >
+                {activeStep === steps.length - 1
+                  ? "Go to Dashboard"
+                  : " Next Step"}
+              </Button>
+            </Box>
+          </Container>
         </React.Fragment>
       )}
     </Container>

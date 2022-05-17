@@ -9,7 +9,9 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
+import { PATHS } from "../../constant";
 import useStyles from "./styles";
+import { Link } from "react-router-dom";
 
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
@@ -95,9 +97,16 @@ function VolunteerAutomation() {
               </Typography>
             </CardContent>
             <CardActions sx={{ mt: 11.2 }}>
-              <Button variant="contained" color="primary" fullWidth>
+              {/* <Link href={PATHS.VOLUNTEER_FORM}> */}
+              <Button
+                href={PATHS.VOLUNTEER_FORM}
+                variant="contained"
+                color="primary"
+                fullWidth
+              >
                 Start Now
               </Button>
+              {/* </Link> */}
             </CardActions>
           </Card>
         </Grid>

@@ -33,7 +33,8 @@ import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
 import SearchCourse from "../components/SearchBar/SearchCourse";
-import VolunteerAutomation from "../components/VolunteerAutomation/Stepper";
+import VolunteerAutomation from "../components/VolunteerAutomation";
+import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 
 const Routing = () => {
   return (
@@ -77,6 +78,8 @@ const Routing = () => {
         path={PATHS.VOLUNTEER_AUTOMATION}
         component={VolunteerAutomation}
       />
+
+      <Route exact path={PATHS.VOLUNTEER_FORM} component={VolunteerForm} />
 
       {/* Private routes */}
       {/* <PrivateRoute

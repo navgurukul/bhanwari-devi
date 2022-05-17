@@ -4,17 +4,12 @@ import {
   Container,
   Grid,
   Box,
-  Button,
-  Image,
   CardMedia,
   useMediaQuery,
   Card,
-  CardContent,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import { useSelector, useDispatch } from "react-redux";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import useStyles from "./styles";
 
@@ -30,7 +25,7 @@ function SelectTrack({ setDisable }) {
   }, [dispatch]);
 
   return (
-    <Container maxWidth="lg">
+    <Container sx={{ mt: 6 }} maxWidth="lg">
       <Container maxWidth="sm" mb={3}>
         <Typography variant="h6" align="left" mb={2}>
           Please choose what you’d like to teach
@@ -60,25 +55,6 @@ function SelectTrack({ setDisable }) {
               }
             })}
         </Grid>
-
-        <Box className={classes.TrackButtonBox}>
-          <Button
-            variant="text"
-            startIcon={<ArrowBackIosIcon />}
-            sx={{
-              color: "#6D6D6D",
-            }}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={<ArrowForwardIosIcon />}
-          >
-            Next Step
-          </Button>
-        </Box>
       </Container>
     </Container>
   );

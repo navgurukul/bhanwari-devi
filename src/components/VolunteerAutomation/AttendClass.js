@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import useStyles from "./styles";
 
-function AttendClass() {
+function AttendClass({ setDisable }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -99,7 +99,12 @@ function AttendClass() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button variant="contained" color="primary" fullWidth>
+                  <Button
+                    onClick={() => setDisable(false)}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
                     Enroll
                   </Button>
                 </CardActions>
