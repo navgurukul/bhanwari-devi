@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Box, Typography, Paper, Button } from "@mui/material";
+import { Container, Box, Typography, Paper, Button, Grid } from "@mui/material";
 import useStyles from "./styles";
 import get from "lodash/get";
 import DOMPurify from "dompurify";
@@ -8,16 +8,33 @@ import axios from "axios";
 import { METHODS } from "../../../../services/api";
 // ../../services/api
 
+function UnsafeHTML(props) {
+  const { html, Container, ...otherProps } = props;
+  const sanitizedHTML = DOMPurify.sanitize(html);
+  return (
+    <Container
+      {...otherProps}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
+}
+
 const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
     (headingVarients[index + 1] = (data) => (
-      <Name
+      <UnsafeHTML
+        Container={Name}
         className="heading"
-        dangerouslySetInnerHTML={{ __html: data }}
+        html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
+      // <Name
+      //   className="heading"
+      //   dangerouslySetInnerHTML={{ __html: data }}
+      //   {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+      // />
     ))
 );
 
@@ -30,6 +47,8 @@ const AssessmentContent = ({
   correct,
   index,
   setSubmitDisable,
+  triedAgain,
+  setTriedAgain,
 }) => {
   const classes = useStyles();
   if (content.component === "header") {
@@ -55,29 +74,66 @@ const AssessmentContent = ({
               borderRadius: "8px",
             }}
           >
-            <Typography
+            <UnsafeHTML Container={Typography} variant="body1" html={text} />
+            {/* <Typography
               variant="body1"
               dangerouslySetInnerHTML={{ __html: text }}
-            />
+            /> */}
           </Box>
         </Box>
       );
     }
     if (index === 2) {
-      return (
-        <Box
-          sx={{
-            p: "16px 0",
-            borderRadius: "8px",
-          }}
-        >
-          <Typography
-            variant="body1"
-            dangerouslySetInnerHTML={{ __html: text }}
-          />
-        </Box>
-      );
-    } else {
+      if (triedAgain > 1) {
+        return (
+          <Box
+            sx={{
+              p: "16px 0",
+              borderRadius: "8px",
+            }}
+          >
+            <UnsafeHTML Container={Typography} variant="body1" html={text} />
+            {/* <Typography
+              variant="body1"
+              dangerouslySetInnerHTML={{ __html: text }}
+            /> */}
+          </Box>
+        );
+      } else {
+        // setTriedAgain(true);
+        return (
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Button variant="outlined" fullWidth>
+                See Answer & Explanation
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button variant="outlined" fullWidth>
+                Re-try
+              </Button>
+            </Grid>
+          </Grid>
+        );
+      }
+    }
+    // if (index === 2) {
+    //   return (
+    //     <Box
+    //       sx={{
+    //         p: "16px 0",
+    //         borderRadius: "8px",
+    //       }}
+    //     >
+    //       <UnsafeHTML Container={Typography} variant="body1" html={text} />
+    //       {/* <Typography
+    //         variant="body1"
+    //         dangerouslySetInnerHTML={{ __html: text }}
+    //       /> */}
+    //     </Box>
+    //   );
+    // }
+    else {
       return (
         <Box
           sx={{
@@ -87,11 +143,17 @@ const AssessmentContent = ({
             borderRadius: "8px",
           }}
         >
-          <Typography
+          <UnsafeHTML
+            Container={Typography}
+            sx={{ m: "2rem 0" }}
+            variant="body1"
+            html={text}
+          />
+          {/* <Typography
             sx={{ m: "2rem 0" }}
             variant="body1"
             dangerouslySetInnerHTML={{ __html: text }}
-          />
+          /> */}
         </Box>
       );
     }
@@ -140,6 +202,7 @@ function Assessment({ data, exerciseId }) {
   const [submit, setSubmit] = useState();
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
+  const [triedAgain, setTriedAgain] = useState(0);
 
   useEffect(() => {
     axios({
@@ -163,10 +226,11 @@ function Assessment({ data, exerciseId }) {
     } else {
       setCorrect(false);
       setStatus("Fail");
+      setTriedAgain(triedAgain + 1);
     }
   };
 
-  console.log("data", data);
+  console.log("triedAgain", triedAgain);
   // const submit = true
   // const data = [
   //   {
@@ -244,6 +308,8 @@ function Assessment({ data, exerciseId }) {
                 correct={correct}
                 submit={submit}
                 setSubmitDisable={setSubmitDisable}
+                triedAgain={triedAgain}
+                setTriedAgain={setTriedAgain}
               />
             ))
           );

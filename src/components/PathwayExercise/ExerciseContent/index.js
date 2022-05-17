@@ -45,16 +45,33 @@ const createVisulizeURL = (code, lang, mode) => {
   return url;
 };
 
+function UnsafeHTML(props) {
+  const { html, Container, ...otherProps } = props;
+  const sanitizedHTML = DOMPurify.sanitize(html);
+  return (
+    <Container
+      {...otherProps}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
+}
+
 const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
     (headingVarients[index + 1] = (data) => (
-      <Name
+      <UnsafeHTML
+        Container={Name}
         className="heading"
-        dangerouslySetInnerHTML={{ __html: data }}
+        html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
+      // <Name
+      //   className="heading"
+      //   dangerouslySetInnerHTML={{ __html: data }}
+      //   {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+      // />
     ))
 );
 
