@@ -20,9 +20,9 @@ function VolunteerAutomation() {
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
-        <Grid item xs={12} ms={6} md={6}>
+        <Grid item xs={12} ms={6} md={5}>
           <Box className={classes.volunteerFlow}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h4" gutterBottom>
               Help Students Get their Dream Job in Tech
             </Typography>
 
@@ -52,7 +52,7 @@ function VolunteerAutomation() {
           md={6}
           sx={{ display: { xs: "none", md: "flex" } }}
         >
-          <Box sx={{ mt: 5 }}>
+          <Box>
             <img
               className={classes.volunteerImg}
               src={require("./assets/Group.svg")}

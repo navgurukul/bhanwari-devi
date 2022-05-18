@@ -15,6 +15,8 @@ import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
 
+import "./styles.scss";
+
 function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -95,10 +97,9 @@ function HorizontalLinearStepper() {
   return (
     <Container sx={{ mt: 4 }} maxWidth="lg">
       <div
+        className="example"
         style={{
-          overflowY: "scroll",
-          justifyContent: "space-between",
-          maxWidth: "100%",
+          overflowX: "scroll",
         }}
       >
         <Stepper activeStep={activeStep}>
@@ -112,7 +113,9 @@ function HorizontalLinearStepper() {
             }
             return (
               <Step key={step.label} {...stepProps}>
-                <StepLabel {...labelProps}>{step.label}</StepLabel>
+                <StepLabel sx={{ minWidth: "125px" }} {...labelProps}>
+                  {step.label}
+                </StepLabel>
               </Step>
             );
           })}
