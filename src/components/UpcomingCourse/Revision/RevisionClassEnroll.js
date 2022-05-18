@@ -18,13 +18,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-function RevisionClassEnroll() {
+function RevisionClassEnroll(props) {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
+  const { id } = props;
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}classes/4137/revision`,
+      url: `${process.env.REACT_APP_MERAKI_URL}classes/27892/revision`,
       headers: {
         accept: "application/json",
         Authorization: user?.data?.token,

@@ -16,7 +16,8 @@ import RevisionClassEnroll from "../Revision/RevisionClassEnroll";
 const BatchClass = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  const { facilitator, start_time, end_time, is_enrolled, meet_link } = props;
+  const { facilitator, start_time, end_time, is_enrolled, meet_link, id } =
+    props;
   let [TimeLefts, setTimeLefts] = useState(TimeLeft(start_time));
   var ONE_MINUTE = 60 * 1000;
   setInterval(() => {
@@ -102,7 +103,7 @@ const BatchClass = (props) => {
       </Container>
     </>
   ) : (
-    <RevisionClassEnroll />
+    <RevisionClassEnroll id={id} />
   );
 };
 export default BatchClass;
