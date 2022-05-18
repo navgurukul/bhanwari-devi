@@ -1,7 +1,12 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 import { types, actions } from "./action";
 import { httpStatuses } from "../../../services/auth";
-import { getPathways, getPathwaysCourse } from "./api";
+import {
+  getPathways,
+  getPathwaysCourse,
+  getUpcomingBatches,
+  getupcomingEnrolledClasses,
+} from "./api";
 
 function* handleGetPathways({ data }) {
   const pathwaysResponse = yield call(getPathways, data);
@@ -27,7 +32,47 @@ function* handleGetPathwaysCourse({ data }) {
   }
 }
 
+function* handleGetUpcomingBatches({ data }) {
+  const upcomingBatchesResponse = yield call(getUpcomingBatches, data);
+  if (
+    upcomingBatchesResponse &&
+    httpStatuses.SUCCESS.includes(upcomingBatchesResponse.status)
+  ) {
+    yield put(actions.getUpcomingBatchesResolved(upcomingBatchesResponse.data));
+  } else {
+    yield put(actions.getUpcomingBatchesRejected(upcomingBatchesResponse));
+  }
+}
+
+function* handleGetUpcomingEnrolledClasses({ data }) {
+  const upcomingEnrolledClassesResponse = yield call(
+    getupcomingEnrolledClasses,
+    data
+  );
+  if (
+    upcomingEnrolledClassesResponse &&
+    httpStatuses.SUCCESS.includes(upcomingEnrolledClassesResponse.status)
+  ) {
+    yield put(
+      actions.getupcomingEnrolledClassesResolved(
+        upcomingEnrolledClassesResponse.data
+      )
+    );
+  } else {
+    yield put(
+      actions.getupcomingEnrolledClassesRejected(
+        upcomingEnrolledClassesResponse
+      )
+    );
+  }
+}
+
 export default function* () {
   yield takeLatest(types.GET_PATHWAY_INTENT, handleGetPathways);
   yield takeLatest(types.GET_PATHWAY_COURSE_INTENT, handleGetPathwaysCourse);
+  yield takeLatest(types.GET_UPCOMING_BATCHES_INTENT, handleGetUpcomingBatches);
+  yield takeLatest(
+    types.GET_UPCOMING_ENROLLED_CLASSES_INTENT,
+    handleGetUpcomingEnrolledClasses
+  );
 }
