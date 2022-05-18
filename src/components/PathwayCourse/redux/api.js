@@ -24,27 +24,3 @@ export const getPathwaysCourse = (data) => {
     // headers: HeaderFactory(token),
   });
 };
-
-export const getUpcomingBatches = (data) => {
-  const { pathwayId, authToken } = data;
-  return axios({
-    method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingBatches`,
-    headers: {
-      accept: "application/json",
-      Authorization: authToken,
-    },
-  });
-};
-
-export const getupcomingEnrolledClasses = (data) => {
-  const { pathwayId, authToken } = data;
-  return axios({
-    method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingEnrolledClasses`,
-    headers: {
-      accept: "application/json",
-      Authorization: authToken,
-    },
-  });
-};
