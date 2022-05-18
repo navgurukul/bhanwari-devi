@@ -58,6 +58,62 @@ export default (state = initialState, action) => {
         },
       };
 
+    case types.GET_UPCOMING_BATCHES_INTENT:
+      return {
+        ...state,
+        upcomingBatches: {
+          loading: true,
+          error: false,
+          data: null,
+        },
+      };
+    case types.GET_UPCOMING_BATCHES_INTENT_RESOLVED:
+      return {
+        ...state,
+        upcomingBatches: {
+          loading: false,
+          error: false,
+          data: action.data,
+        },
+      };
+    case types.GET_UPCOMING_BATCHES_INTENT_REJECTED:
+      return {
+        ...state,
+        upcomingBatches: {
+          loading: false,
+          error: action.error,
+          data: null,
+        },
+      };
+
+    case types.GET_UPCOMING_ENROLLED_CLASSES_INTENT:
+      return {
+        ...state,
+        upcomingEnrolledClasses: {
+          loading: true,
+          error: false,
+          data: null,
+        },
+      };
+    case types.GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED:
+      return {
+        ...state,
+        upcomingEnrolledClasses: {
+          loading: false,
+          error: false,
+          data: action.data,
+        },
+      };
+    case types.GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED:
+      return {
+        ...state,
+        upcomingEnrolledClasses: {
+          loading: false,
+          error: action.error,
+          data: null,
+        },
+      };
+
     default:
       return state;
   }
