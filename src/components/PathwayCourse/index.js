@@ -9,10 +9,11 @@ import { METHODS } from "../../services/api";
 import { PATHS, interpolatePath } from "../../constant";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
-import { actions as pathwayActions } from "../PathwayCourse/redux/action";
-import PathwayCard from "./PathwayCards/index";
 import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "./redux/action";
+import { actions as upcomingBatchesActions } from "./redux/action";
 import { actions as upcomingClassActions } from "./redux/action";
+
 import {
   Container,
   Box,
@@ -24,6 +25,7 @@ import {
 } from "@mui/material";
 import UpcomingCourse from "../UpcomingCourse";
 import BelowComponent from "../UpcomingCourse/BelowComponent";
+import PathwayCard from "../../pages/Home/PathwayCard";
 
 const pathways = [
   {
@@ -72,17 +74,26 @@ const pathways = [
 function PathwayCourse() {
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-  const data = useSelector((state) => {
-    return state;
-  });
+
   const { pathwayCourse } = useSelector((state) => state.Pathways);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
   const baseUrl = process.env.REACT_APP_MERAKI_URL;
-  const [userEnrolledClasses, setUserEnrolledClasses] = useState(null);
-  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+  // const [userEnrolledClasses, setUserEnrolledClasses] = useState(null);
+  // const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+  const data = useSelector((state) => {
+    return state;
+  });
+
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
+  const userEnrolledClasses = useSelector((state) => {
+    return state.Pathways?.userEnrolledClasses?.data;
+  });
+  console.log(userEnrolledClasses);
   const history = useHistory();
   //  const dispatch = useDispatch();
 
@@ -94,27 +105,19 @@ function PathwayCourse() {
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${baseUrl}pathways/${params.pathwayId}/upcomingEnrolledClasses`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      setUserEnrolledClasses(res.data);
-    });
-    axios({
-      method: METHODS.GET,
-      url: `${baseUrl}pathways/${params.pathwayId}/upcomingBatches`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      setUpcomingBatchesData(res.data);
-    });
-  }, [pathwayCourse, params.pathwayId]);
+    dispatch(
+      upcomingBatchesActions.getUpcomingBatches({
+        pathwayId: pathwayId,
+        authToken: user?.data?.token,
+      })
+    );
+    dispatch(
+      upcomingClassActions.getupcomingEnrolledClasses({
+        pathwayId: pathwayId,
+        authToken: user?.data?.token,
+      })
+    );
+  }, [dispatch, pathwayId]);
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
@@ -124,6 +127,8 @@ function PathwayCourse() {
         }
       });
     });
+
+  console.log("data", data);
 
   const pathwayCourseData = pathways.find((item) => {
     return item.id == pathwayId;

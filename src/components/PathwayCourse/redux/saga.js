@@ -4,6 +4,7 @@ import { httpStatuses } from "../../../services/auth";
 import {
   getPathways,
   getPathwaysCourse,
+  getUpcomingBatches,
   getupcomingEnrolledClasses,
 } from "./api";
 
@@ -28,6 +29,18 @@ function* handleGetPathwaysCourse({ data }) {
     yield put(actions.getPathwaysCourseResolved(pathwayCourseResponse.data));
   } else {
     yield put(actions.getPathwaysCourseRejected(pathwayCourseResponse));
+  }
+}
+
+function* handleGetUpcomingBatches({ data }) {
+  const upcomingBatchesResponse = yield call(getUpcomingBatches, data);
+  if (
+    upcomingBatchesResponse &&
+    httpStatuses.SUCCESS.includes(upcomingBatchesResponse.status)
+  ) {
+    yield put(actions.getUpcomingBatchesResolved(upcomingBatchesResponse.data));
+  } else {
+    yield put(actions.getUpcomingBatchesRejected(upcomingBatchesResponse));
   }
 }
 
@@ -57,8 +70,9 @@ function* handleGetUpcomingEnrolledClasses({ data }) {
 export default function* () {
   yield takeLatest(types.GET_PATHWAY_INTENT, handleGetPathways);
   yield takeLatest(types.GET_PATHWAY_COURSE_INTENT, handleGetPathwaysCourse);
+  yield takeLatest(types.GET_UPCOMING_BATCHES_INTENT, handleGetUpcomingBatches);
   yield takeLatest(
-    types.GET_UPCOMING_ENROLLED_CLASSES,
+    types.GET_UPCOMING_ENROLLED_CLASSES_INTENT,
     handleGetUpcomingEnrolledClasses
   );
 }

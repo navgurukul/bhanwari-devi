@@ -24,12 +24,15 @@ const UpcomingCourse = (props) => {
   const classes = useStyles();
   // const user = useSelector(({ User }) => User);
   const { upcomingBatchesData } = props;
-  const [BatchData, setBatchData] = useState(upcomingBatchesData[0]);
+  // const [BatchData, setBatchData] = useState(upcomingBatchesData[0]);
   const user = useSelector(({ User }) => User);
-  useEffect(() => {
-    setBatchData(upcomingBatchesData[0]);
-  }, [upcomingBatchesData]);
+  // useEffect(() => {
+  //   setBatchData(upcomingBatchesData[0]);
+  // }, [upcomingBatchesData]);
 
+  const BatchData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data[0];
+  });
   const handleClickOpen = () => {
     if (user?.data?.token) {
       setOpen(!open);
