@@ -5,11 +5,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",
   },
-  // correctAnswer: {
-  //   boxShadow:
-  //     "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",
-  //   background: "#E9F5E9",
-  // },
   correctAnswer: {
     boxShadow:
       "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",

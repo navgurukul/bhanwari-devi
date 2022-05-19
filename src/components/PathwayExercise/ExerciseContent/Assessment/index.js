@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Container, Box, Typography, Paper, Button, Grid } from "@mui/material";
-import useStyles from "./styles";
+import useStyles from "../../styles";
 import get from "lodash/get";
 import DOMPurify from "dompurify";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
-// ../../services/api
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -30,11 +29,6 @@ const headingVarients = {};
         html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
-      // <Name
-      //   className="heading"
-      //   dangerouslySetInnerHTML={{ __html: data }}
-      //   {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
-      // />
     ))
 );
 
@@ -44,6 +38,7 @@ const AssessmentContent = ({
   setAnswer,
   setSolution,
   submit,
+  setSubmit,
   correct,
   index,
   setSubmitDisable,
@@ -52,9 +47,11 @@ const AssessmentContent = ({
 }) => {
   const classes = useStyles();
   if (content.component === "header") {
-    return headingVarients[content.variant](
-      DOMPurify.sanitize(get(content, "value"))
-    );
+    if (triedAgain > 1) {
+      return headingVarients[content.variant](
+        DOMPurify.sanitize(get(content, "value"))
+      );
+    }
   }
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
@@ -75,10 +72,6 @@ const AssessmentContent = ({
             }}
           >
             <UnsafeHTML Container={Typography} variant="body1" html={text} />
-            {/* <Typography
-              variant="body1"
-              dangerouslySetInnerHTML={{ __html: text }}
-            /> */}
           </Box>
         </Box>
       );
@@ -93,47 +86,41 @@ const AssessmentContent = ({
             }}
           >
             <UnsafeHTML Container={Typography} variant="body1" html={text} />
-            {/* <Typography
-              variant="body1"
-              dangerouslySetInnerHTML={{ __html: text }}
-            /> */}
           </Box>
         );
       } else {
-        // setTriedAgain(true);
         return (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={3} mb={10}>
             <Grid item xs={12} sm={6}>
-              <Button variant="outlined" fullWidth>
-                See Answer & Explanation
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => {
+                  setTriedAgain(triedAgain + 1);
+                }}
+              >
+                <Typography variant="subtitle2">
+                  See Answer & Explanation
+                </Typography>
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button variant="outlined" fullWidth>
-                Re-try
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => {
+                  setAnswer();
+                  setSubmit();
+                  setSubmitDisable();
+                }}
+              >
+                <Typography variant="subtitle2">Re-try</Typography>
               </Button>
             </Grid>
           </Grid>
         );
       }
-    }
-    // if (index === 2) {
-    //   return (
-    //     <Box
-    //       sx={{
-    //         p: "16px 0",
-    //         borderRadius: "8px",
-    //       }}
-    //     >
-    //       <UnsafeHTML Container={Typography} variant="body1" html={text} />
-    //       {/* <Typography
-    //         variant="body1"
-    //         dangerouslySetInnerHTML={{ __html: text }}
-    //       /> */}
-    //     </Box>
-    //   );
-    // }
-    else {
+    } else {
       return (
         <Box
           sx={{
@@ -149,11 +136,6 @@ const AssessmentContent = ({
             variant="body1"
             html={text}
           />
-          {/* <Typography
-            sx={{ m: "2rem 0" }}
-            variant="body1"
-            dangerouslySetInnerHTML={{ __html: text }}
-          /> */}
         </Box>
       );
     }
@@ -223,6 +205,7 @@ function Assessment({ data, exerciseId }) {
     if (answer == solution) {
       setCorrect(true);
       setStatus("Pass");
+      setTriedAgain(triedAgain + 2);
     } else {
       setCorrect(false);
       setStatus("Fail");
@@ -230,41 +213,8 @@ function Assessment({ data, exerciseId }) {
     }
   };
 
-  console.log("triedAgain", triedAgain);
-  // const submit = true
-  // const data = [
-  //   {
-  //     component: "header",
-  //     value: "Lets dive in with a code sample",
-  //     variant: 3,
-  //   },
-  //   {
-  //     component: "options",
-  //     value: {
-  //       1: "You can have a chocolate",
-  //       2: "You can not have a chocolate",
-  //       3: "Thumbsup",
-  //       4: "None",
-  //     },
-  //   },
-  //   { component: "solution", value: "1" },
-  //   {
-  //     component: "output",
-  //     correct: [
-  //       { component: "text", value: "You got it right" },
-  //       { component: "header", variant: 3, value: "Lets see why" },
-  //       { component: "header", variant: 3, value: "Lets see why" },
-  //     ],
-  //     incorrect: [
-  //       { component: "text", value: "It missed the mark" },
-  //       { component: "header", variant: 3, value: "Lets see why" },
-  //       { component: "header", variant: 3, value: "Lets see why" },
-  //     ],
-  //   },
-  // ];
-
   return (
-    <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
+    <Container maxWidth="lg" sx={{ align: "center", m: "40px 0 62px 0" }}>
       <Typography variant="h6" align="center">
         Find the Output
       </Typography>
@@ -276,7 +226,9 @@ function Assessment({ data, exerciseId }) {
             setAnswer={setAnswer}
             setSolution={setSolution}
             submit={submit}
+            setSubmit={setSubmit}
             correct={correct}
+            setTriedAgain={setTriedAgain}
             setSubmitDisable={setSubmitDisable}
           />
         ))}
@@ -306,45 +258,16 @@ function Assessment({ data, exerciseId }) {
                 content={content}
                 index={index}
                 correct={correct}
+                setTriedAgain={setTriedAgain}
+                setAnswer={setAnswer}
                 submit={submit}
+                setSubmit={setSubmit}
                 setSubmitDisable={setSubmitDisable}
                 triedAgain={triedAgain}
-                setTriedAgain={setTriedAgain}
               />
             ))
           );
         })}
-
-      {/* {data &&
-        data.map((content) => {
-          if (content.component === "output") {
-            return (
-              <>
-                {submit
-                  ? correct
-                    ? content.value.correct.map((content, index) => (
-                        <AssessmentContent
-                          content={content}
-                          index={index}
-                          correct={correct}
-                          submit={submit}
-                          setSubmitDisable={setSubmitDisable}
-                        />
-                      ))
-                    : content.value.incorrect.map((content, index) => (
-                        <AssessmentContent
-                          content={content}
-                          index={index}
-                          correct={correct}
-                          submit={submit}
-                          setSubmitDisable={setSubmitDisable}
-                        />
-                      ))
-                  : null}
-              </>
-            );
-          }
-        })} */}
     </Container>
   );
 }
