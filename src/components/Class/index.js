@@ -98,7 +98,7 @@ function Class({ classToEdit, indicator }) {
       [UNTIL]: until_data || "",
     };
   }, [classToEdit]);
-
+  const [Selected_partner_id, setSelected_partner_id] = useState();
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
 
@@ -242,7 +242,7 @@ function Class({ classToEdit, indicator }) {
     payload[TIME_CONSTANT.CLASS_END_DATE] = `${moment(classEndTime).format(
       "YYYY-MM-DDTHH:mm:ss"
     )}Z`;
-
+    payload[PARTNER_ID] = Selected_partner_id;
     if (!isEditMode) {
       createClass(payload);
     } else {
@@ -627,23 +627,31 @@ function Class({ classToEdit, indicator }) {
                 // });
                 // changeHandler(newVal.value, setFormFieldsState, formFieldsState);
                 // }}
+
+                isOptionEqualToValue={(option, value) => {
+                  return option.value === value.value;
+                }}
+                onChange={(e, newVal) => {
+                  setSelected_partner_id(newVal.value);
+                }}
+                name={PARTNER_ID}
                 sx={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Search Partner Name"
                     variant="standard"
-                    name={PARTNER_ID}
-                    value={formFieldsState[PARTNER_ID]}
-                    onChange={(e, newVal) => {
-                      // console.log("e", e.target);
-                      // setPartnerName(newVal);
-                      // setFormFieldsState({
-                      //   ...formFieldsState,
-                      //   [PARTNER_ID]: newVal.value,
-                      // });
-                      changeHandler(e, setFormFieldsState, formFieldsState);
-                    }}
+
+                    // onChange={(e, newVal) => {
+                    //   // console.log("e", e.target);
+                    //   // setPartnerName(newVal);
+                    //   // setFormFieldsState({
+                    //   //   ...formFieldsState,
+                    //   //   [PARTNER_ID]: newVal.value,
+                    //   // });
+                    //   console.log(e.target);
+                    //   changeHandler(e, setFormFieldsState, formFieldsState);
+                    // }}
                     // id={}
                   />
                 )}
