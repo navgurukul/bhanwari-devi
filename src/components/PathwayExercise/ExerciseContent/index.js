@@ -395,28 +395,7 @@ function ExerciseContent({ exerciseId, lang }) {
       </Grid>
     );
   }
-  // {
-  //   "id": 27430,
-  //   "title": "python classes by muskan",
-  //   "sub_title": "Class 7 - Operators Part-1",
-  //   "description": "What are Operators? What are the different types of Operators in Python? In depth explanation of Arithmetic Operators, with examples. Practice Questions and Quizzes",
-  //   "pathway_id": 1,
-  //   "course_id": 375,
-  //   "exercise_id": 4262,
-  //   "start_time": "2022-05-21T05:56:42.000+05:30",
-  //   "end_time": "2022-05-21T06:56:42.000+05:30",
-  //   "lang": "hi",
-  //   "type": "batch",
-  //   "meet_link": "https://meet.google.com/urw-jeew-wzk",
-  //   "facilitator": {
-  //     "name": "Anand Patel",
-  //     "email": "anandnavgurukul@gmail.com"
-  //   },
-  //   "is_enrolled": false,
-  //   "course_name": "Operators",
-  //   "sequence_num": 517,
-  //   "content_type": "class_topic"
-  // }
+
   return userEnrolledClasses?.length == 0 &&
     upcomingBatchesData?.length == 0 ? (
     <>

@@ -25,7 +25,7 @@ import {
 } from "@mui/material";
 import UpcomingCourse from "../UpcomingCourse";
 import BelowComponent from "../UpcomingCourse/BelowComponent";
-import PathwayCard from "../../pages/Home/PathwayCard";
+import PathwayCards from "./PathwayCards/index.js";
 
 const pathways = [
   {
@@ -81,8 +81,7 @@ function PathwayCourse() {
   const params = useParams();
   const pathwayId = params.pathwayId;
   const baseUrl = process.env.REACT_APP_MERAKI_URL;
-  // const [userEnrolledClasses, setUserEnrolledClasses] = useState(null);
-  // const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+
   const data = useSelector((state) => {
     return state;
   });
@@ -91,9 +90,8 @@ function PathwayCourse() {
     return state.Pathways?.upcomingBatches?.data;
   });
   const userEnrolledClasses = useSelector((state) => {
-    return state.Pathways?.userEnrolledClasses?.data;
+    return state.Pathways?.upcomingEnrolledClasses?.data;
   });
-  console.log(userEnrolledClasses);
   const history = useHistory();
   //  const dispatch = useDispatch();
 
@@ -105,18 +103,20 @@ function PathwayCourse() {
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    dispatch(
-      upcomingBatchesActions.getUpcomingBatches({
-        pathwayId: pathwayId,
-        authToken: user?.data?.token,
-      })
-    );
-    dispatch(
-      upcomingClassActions.getupcomingEnrolledClasses({
-        pathwayId: pathwayId,
-        authToken: user?.data?.token,
-      })
-    );
+    if (user?.data?.token) {
+      dispatch(
+        upcomingBatchesActions.getUpcomingBatches({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+      dispatch(
+        upcomingClassActions.getupcomingEnrolledClasses({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+    }
   }, [dispatch, pathwayId]);
 
   data.Pathways.data &&
@@ -138,7 +138,7 @@ function PathwayCourse() {
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
         {userEnrolledClasses?.length > 0 ? (
-          <PathwayCard userEnrolledClasses={userEnrolledClasses} />
+          <PathwayCards userEnrolledClasses={userEnrolledClasses} />
         ) : (
           pathwayId &&
           pathwayCourseData && (

@@ -26,20 +26,32 @@ const PathwayCards = (props) => {
   return (
     <>
       <Container maxWidth="xl">
-        <Grid container spacing={4}>
+        <Typography mb={2} mt={2} variant="h5">
+          Upcoming Classes
+        </Typography>
+
+        <div
+          className="pathway-enrolledClass-cards"
+          style={{
+            display: "flex",
+            maxWidth: "100%",
+            overflowX: "scroll",
+          }}
+        >
           {userEnrolledClasses?.slice(0, 3).map((item) => {
             return (
               <Grid item xs={12} sm={4} md={4}>
-                <Card>
+                <Card style={{ minWidth: "300px", margin: "10px" }}>
                   {item.type == "batch" ? (
                     <Box sx={{ borderTop: 5, color: "ForestGreen" }} />
                   ) : (
                     <Box sx={{ borderTop: 5, color: "darkblue" }} />
                   )}
+
                   <CardContent>
                     <Grid container spacing={1}>
                       <Grid item xs={6} md={8}>
-                        <Typography variant="body1" gutterBottom>
+                        <Typography variant="body2" gutterBottom>
                           {item.title}
                         </Typography>
                       </Grid>
@@ -87,7 +99,7 @@ const PathwayCards = (props) => {
               </Grid>
             );
           })}
-        </Grid>
+        </div>
       </Container>
     </>
   );

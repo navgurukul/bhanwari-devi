@@ -17,61 +17,100 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-
+import { dateTimeFormat } from "../../../constant";
+import AlertDialog from "../dilog";
+import BatchClass from "../JoinClass/BatchClass";
 function RevisionClassEnroll(props) {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const { id } = props;
+  const [revisionData, setRevisionData] = useState([]);
+  const [revisionId, setRevisionId] = useState(null);
+  const [open, setOpen] = useState(false);
+  const close = () => [setOpen(false)];
+  const [DataToEnroll, setDataToEnroll] = useState(null);
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}classes/27892/revision`,
+      url: `${process.env.REACT_APP_MERAKI_URL}classes/${id}/revision`,
       headers: {
         accept: "application/json",
         Authorization: user?.data?.token,
       },
     }).then((res) => {
       // setUserEnrolledClasses(res.data);
-      console.log(res.data);
+      const data = res.data;
+      console.log(data);
+      setRevisionData(data);
+      setDataToEnroll(data[0]);
     });
   }, []);
   return (
     <Container maxWidth="lg">
       <Box align="right" mt={1} maxWidth={350} mb={10}>
-        <Card elevation={2} pl={10}>
-          <CardContent>
-            <Typography gutterBottom variant="subtitle1" align="start">
-              Missed the class or need to revise? Enroll in a class from another
-              batch
-            </Typography>
-            <Box display="flex" justifyContent="start">
-              <FormControl>
-                <RadioGroup>
-                  <FormControlLabel
-                    sx={{ fontWeight: 20 }}
-                    value="Ankit_19SEP2"
-                    control={<Radio />}
-                    // you can put your value using {} <- this
-                    label="20 Sep 21, 4 PM - 5 PM"
-                  />
-                  <FormControlLabel
-                    value="Ankit_19SEP21"
-                    control={<Radio />}
-                    label="20 Sep 21, 4 PM - 5 PM"
-                  />
-                  <FormControlLabel
-                    value="Ankit_19SEP1"
-                    control={<Radio />}
-                    label="20 Sep 21, 4 PM - 5 PM"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Box>
-            <Button variant="contained" fullWidth>
-              Enroll
-            </Button>
-          </CardContent>
-        </Card>
+        {DataToEnroll?.is_enrolled ? (
+          <BatchClass
+            id={revisionData[0].id}
+            facilitator={revisionData[0].facilitator.name}
+            start_time={revisionData[0].start_time}
+            end_time={revisionData[0].end_time}
+            meet_link={revisionData[0].meet_link}
+          />
+        ) : (
+          <Card elevation={2} pl={10}>
+            <CardContent>
+              <Typography gutterBottom variant="subtitle1" align="start">
+                Missed the class or need to revise? Enroll in a class from
+                another batch
+              </Typography>
+              <Box display="flex" justifyContent="start">
+                <FormControl>
+                  <RadioGroup>
+                    {revisionData.map((item) => {
+                      return (
+                        <FormControlLabel
+                          sx={{ fontWeight: 20 }}
+                          value={item.id}
+                          onChange={(e) => {
+                            setRevisionId(e.target.value);
+                            setDataToEnroll(item);
+                            console.log(e.target.value);
+                          }}
+                          control={<Radio />}
+                          // you can put your value using {} <- this
+                          label={`${
+                            dateTimeFormat(item.start_time).finalDate
+                          }, ${dateTimeFormat(item.start_time).finalTime} - ${
+                            dateTimeFormat(item.end_time).finalTime
+                          }`}
+                        />
+                      );
+                    })}
+                  </RadioGroup>
+                </FormControl>
+              </Box>
+              <Button
+                disabled={DataToEnroll == null}
+                onClick={() => {
+                  setOpen(true);
+                }}
+                variant="contained"
+                fullWidth
+              >
+                Enroll
+              </Button>
+              <AlertDialog
+                open={open}
+                close={close}
+                id={revisionId}
+                title={DataToEnroll?.title}
+                start_time={DataToEnroll?.start_time}
+                end_time={DataToEnroll?.end_time}
+                registerAll={false}
+              />
+            </CardContent>
+          </Card>
+        )}
       </Box>
     </Container>
   );
