@@ -453,7 +453,7 @@ function Class({ classToEdit, indicator }) {
                   Please choose a pathway
                 </span>
               )}
-              {pathwayId &&
+              {/* {pathwayId &&
                 pathways.map((pathway) => {
                   if (pathwayId == pathway.id) {
                     return (
@@ -492,7 +492,7 @@ function Class({ classToEdit, indicator }) {
                 })}
               {pathwayId && formFieldsState[COURSE_ID] == "" && (
                 <span className="field-validation">Select a course</span>
-              )}
+              )} */}
               {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
                 <>
                   <label htmlFor="exercise_id" className="label-field">
@@ -839,7 +839,7 @@ function Class({ classToEdit, indicator }) {
               </span>
               {formFieldsState[TYPE] === "batch" && (
                 <>
-                  <label htmlFor="on_days" className="label-field">
+                  {/* <label htmlFor="on_days" className="label-field">
                     On days
                   </label>
                   <span>
@@ -1028,7 +1028,7 @@ function Class({ classToEdit, indicator }) {
                   </span>
                   {formFieldsState[ON_DAYS].length == 0 && (
                     <span className="field-validation">Select days</span>
-                  )}
+                  )} */}
                   <label htmlFor={UNTIL} className="label-field">
                     Until
                     <span className="optional-field">
