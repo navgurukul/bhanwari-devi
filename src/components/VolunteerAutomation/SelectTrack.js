@@ -13,16 +13,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import useStyles from "./styles";
 
-function SelectTrack({ setDisable }) {
+function SelectTrack({ setDisable, setPathwayId }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
 
   const { data } = useSelector((state) => state.Pathways);
+
+  const handleChange = async (id) => {
+    setDisable(false);
+    setPathwayId(id);
+  };
+
+  console.log(data, "pathway");
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+  }, []);
 
   return (
     <Container sx={{ mt: 6 }} maxWidth="lg">
@@ -43,7 +50,7 @@ function SelectTrack({ setDisable }) {
                   <Grid item xs={6} ms={6} md={6}>
                     <Card
                       className={classes.TrackCard}
-                      onClick={() => setDisable(false)}
+                      onClick={() => handleChange(item.id)}
                     >
                       <Box className={classes.TrackImages}>
                         <CardMedia component="img" src={item.logo} />

@@ -1,17 +1,12 @@
 import React from "react";
-import {
-  Typography,
-  Container,
-  Grid,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  TextField,
-} from "@mui/material";
+import { Typography, Container, Box, TextField } from "@mui/material";
 
-function VerifyPhoneNo({ setDisable }) {
+function VerifyPhoneNo({ setDisable, setContact, contact }) {
+  const handleChange = async (event) => {
+    setDisable(false);
+    setContact(event.target.value);
+  };
+
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <Typography variant="h6" gutterBottom>
@@ -26,11 +21,10 @@ function VerifyPhoneNo({ setDisable }) {
           label="Phone Number"
           type="number"
           pattern="^[0-9]{10}$"
-          onChange={(e) => {
-            // setMobile(e.target.value);
-            setDisable(false);
-          }}
-          // value={mobile}
+          onChange={handleChange}
+          value={contact}
+          name="contact"
+          id="contact"
           variant="outlined"
           required
           fullWidth

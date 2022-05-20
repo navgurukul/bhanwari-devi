@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Typography, Container, useMediaQuery, Box, Link } from "@mui/material";
-import { breakpoints } from "../../theme/constant";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import useStyles from "./styles";
 

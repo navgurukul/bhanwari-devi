@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -14,22 +14,41 @@ import AttendClass from "./AttendClass";
 import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+// import { versionCode } from "../../constant"
+import { METHODS } from "../../services/api";
 
 import "./styles.scss";
 
 function HorizontalLinearStepper() {
+  const user = useSelector(({ User }) => User);
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [disable, setDisable] = React.useState(true);
 
+  const [contact, setContact] = useState();
+  const [pathwayId, setPathwayId] = useState();
+
+  console.log(contact, "contact");
+  console.log(pathwayId, "pathwayId");
+
   const steps = [
     {
       label: "Verify Phone No.",
-      component: <VerifyPhoneNo setDisable={setDisable} />,
+      component: (
+        <VerifyPhoneNo
+          contact={contact}
+          setContact={setContact}
+          setDisable={setDisable}
+        />
+      ),
     },
     {
       label: "Select Track",
-      component: <SelectTrack setDisable={setDisable} />,
+      component: (
+        <SelectTrack setPathwayId={setPathwayId} setDisable={setDisable} />
+      ),
     },
     {
       label: "Intro Video",
@@ -92,7 +111,28 @@ function HorizontalLinearStepper() {
     setActiveStep(0);
   };
 
-  console.log("disable", disable);
+  const submit = () => {
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers/Automation`,
+      method: METHODS.POST,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+        // versionCode: versionCode,
+      },
+      data: {
+        contact: contact,
+        pathway_id: pathwayId,
+      },
+    }).then(
+      (res) => {
+        console.log(res, "-------");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
 
   return (
     <Container sx={{ mt: 4 }} maxWidth="lg">
@@ -173,7 +213,28 @@ function HorizontalLinearStepper() {
               </Button>
             )} */}
 
-              <Button
+              {activeStep === steps.length - 1 ? (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={submit}
+                >
+                  Go to Dashboard
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={handleNext}
+                  disabled={disable}
+                >
+                  Next Step
+                </Button>
+              )}
+
+              {/* <Button
                 color="primary"
                 variant="contained"
                 endIcon={<ArrowForwardIosIcon />}
@@ -183,7 +244,7 @@ function HorizontalLinearStepper() {
                 {activeStep === steps.length - 1
                   ? "Go to Dashboard"
                   : " Next Step"}
-              </Button>
+              </Button> */}
             </Box>
           </Container>
         </React.Fragment>

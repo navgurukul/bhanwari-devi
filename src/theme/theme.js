@@ -60,6 +60,10 @@ theme = createTheme(theme, {
       light: "#e9f5e9",
       dark: "#3a8137",
     },
+
+    Greey: {
+      main: "rgba(0, 0, 0, 0.12)",
+    },
     text: {
       primary: "#2e2e2e",
       secondary: "#585858",

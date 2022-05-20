@@ -7,15 +7,15 @@ export const types = {
   GET_PATHWAY_COURSE_INTENT_RESOLVED: "GET_PATHWAY_COURSE_INTENT_RESOLVED",
   GET_PATHWAY_COURSE_INTENT_REJECTED: "GET_PATHWAY_COURSE_INTENT_REJECTED",
 
-  GET_UPCOMING_BATCHES_INTENT: "GET_UPCOMING_BATCHES_INTENT",
-  GET_UPCOMING_BATCHES_INTENT_RESOLVED: "GET_UPCOMING_BATCHES_INTENT_RESOLVED",
-  GET_UPCOMING_BATCHES_INTENT_REJECTED: "GET_UPCOMING_BATCHES_INTENT_REJECTED",
+  // GET_UPCOMING_BATCHES_INTENT: "GET_UPCOMING_BATCHES_INTENT",
+  // GET_UPCOMING_BATCHES_INTENT_RESOLVED: "GET_UPCOMING_BATCHES_INTENT_RESOLVED",
+  // GET_UPCOMING_BATCHES_INTENT_REJECTED: "GET_UPCOMING_BATCHES_INTENT_REJECTED",
 
-  GET_UPCOMING_ENROLLED_CLASSES_INTENT: "GET_UPCOMING_ENROLLED_CLASSES_INTENT",
-  GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED:
-    "GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED",
-  GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED:
-    "GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED",
+  // GET_UPCOMING_ENROLLED_CLASSES_INTENT: "GET_UPCOMING_ENROLLED_CLASSES_INTENT",
+  // GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED:
+  //   "GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED",
+  // GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED:
+  //   "GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED",
 };
 
 export const actions = {
@@ -57,41 +57,41 @@ export const actions = {
     };
   },
 
-  getUpcomingBatches(data) {
-    return {
-      type: types.GET_UPCOMING_BATCHES_INTENT,
-      data,
-    };
-  },
-  getUpcomingBatchesResolved(data) {
-    return {
-      type: types.GET_UPCOMING_BATCHES_INTENT_RESOLVED,
-      data,
-    };
-  },
-  getUpcomingBatchesRejected(error) {
-    return {
-      type: types.GET_UPCOMING_BATCHES_INTENT_REJECTED,
-      error,
-    };
-  },
+  // getUpcomingBatches(data) {
+  //   return {
+  //     type: types.GET_UPCOMING_BATCHES_INTENT,
+  //     data,
+  //   };
+  // },
+  // getUpcomingBatchesResolved(data) {
+  //   return {
+  //     type: types.GET_UPCOMING_BATCHES_INTENT_RESOLVED,
+  //     data,
+  //   };
+  // },
+  // getUpcomingBatchesRejected(error) {
+  //   return {
+  //     type: types.GET_UPCOMING_BATCHES_INTENT_REJECTED,
+  //     error,
+  //   };
+  // },
 
-  getupcomingEnrolledClasses(data) {
-    return {
-      type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT,
-      data,
-    };
-  },
-  getupcomingEnrolledClassesResolved(data) {
-    return {
-      type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED,
-      data,
-    };
-  },
-  getupcomingEnrolledClassesRejected(error) {
-    return {
-      type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED,
-      error,
-    };
-  },
+  // getupcomingEnrolledClasses(data) {
+  //   return {
+  //     type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT,
+  //     data,
+  //   };
+  // },
+  // getupcomingEnrolledClassesResolved(data) {
+  //   return {
+  //     type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED,
+  //     data,
+  //   };
+  // },
+  // getupcomingEnrolledClassesRejected(error) {
+  //   return {
+  //     type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED,
+  //     error,
+  //   };
+  // },
 };

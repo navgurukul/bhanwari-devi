@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { actions as classActions } from "../../components/Class/redux/action";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 import {
   Typography,
   Container,
@@ -13,13 +16,15 @@ import {
   CardActions,
 } from "@mui/material";
 import useStyles from "./styles";
+import { dateTimeFormat, TimeLeft } from "../../constant";
 
 function AttendClass({ setDisable }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
 
+  const [enrollId, setEnrollId] = useState(false);
   useEffect(() => {
     dispatch(classActions.getClasses());
   }, [dispatch]);
@@ -31,10 +36,46 @@ function AttendClass({ setDisable }) {
     te: "Telugu",
     en: "English",
     ta: "Tamil",
-    doubt_class: "Doubt Class",
-    workshop: "Workshop",
     cohort: "Batch",
   };
+
+  let sliceData = [];
+  data && data.slice(0, 6).map((item) => sliceData.push(item));
+
+  sliceData &&
+    sliceData.find((item) => {
+      if (item.id == enrollId) {
+        sliceData = [];
+        sliceData.push(item);
+      }
+    });
+
+  const handleSubmit = (Id) => {
+    const notify = () => {
+      toast.success("You have been enrolled to class successfully", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2500,
+      });
+    };
+    axios
+      .post(
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user.data.token,
+            "register-to-all": "false",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+
+        notify();
+      });
+  };
+
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       <Container maxWidth="md">
@@ -49,8 +90,8 @@ function AttendClass({ setDisable }) {
         </Typography>
       </Container>
       <Grid sx={{ mt: 5 }} container spacing={4}>
-        {data &&
-          data.slice(0, 3).map((item) => (
+        {sliceData &&
+          sliceData.map((item) => (
             <Grid item xs={12} ms={6} md={4}>
               <Card className={classes.AttendClassCard}>
                 <CardContent>
@@ -67,7 +108,8 @@ function AttendClass({ setDisable }) {
                       }}
                       variant="contained"
                     >
-                      {item.type}
+                      Batch
+                      {/* {languageMap[item.type]} */}
                     </Button>
                     <Button
                       sx={{
@@ -83,11 +125,11 @@ function AttendClass({ setDisable }) {
 
                   <Box sx={{ mt: 2 }}>
                     <Typography>
-                      {moment(item.start_time).format("DD-MM-YYYY")}
-                      <Typography>
-                        {moment(item.start_time).format("hh:mm a")} -{" "}
-                        {moment(item.end_time).format("hh:mm a")}
-                      </Typography>
+                      {/* {moment(item.start_time).format("DD-MM-YYYY")} */}
+                      {dateTimeFormat(item.start_time).finalDate} ,{" "}
+                      {/* {dateTimeFormat(item.end_time).finalDate} */}
+                      {moment(item.start_time).format("hh:mm a")} -
+                      {moment(item.end_time).format("hh:mm a")}
                     </Typography>
                   </Box>
                   <Typography sx={{ mt: 2 }} gutterBottom variant="subtitle1">
@@ -99,14 +141,51 @@ function AttendClass({ setDisable }) {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button
-                    onClick={() => setDisable(false)}
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                  >
-                    Enroll
-                  </Button>
+                  {sliceData && sliceData.length > 1 ? (
+                    <Button
+                      onClick={() => {
+                        setEnrollId(item.id);
+                        return handleSubmit(item.id);
+                      }}
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                    >
+                      Enroll
+                    </Button>
+                  ) : (
+                    <>
+                      {TimeLeft(item.start_time) == "joinNow" ? (
+                        <a
+                          style={{
+                            textDecoration: "none",
+                          }}
+                          href={item.meet_link}
+                          target="_blank"
+                        >
+                          <Button variant="contained" fullWidth>
+                            Join Now
+                          </Button>
+                        </a>
+                      ) : (
+                        <Button disabled={true} variant="contained" fullWidth>
+                          Starts in {TimeLeft(item.start_time)}
+                        </Button>
+                      )}
+
+                      {/* <Button
+                        // sx={{ background: "rgba(0, 0, 0, 0.12)" }}
+                        // onClick={() => setDisable(false)}
+                        onClick={() => setDisable(false)}
+
+                        variant="contained"
+                        color="Greey"
+                        fullWidth
+                      >
+                        Starts in 10 hrs: 15 mins
+                      </Button> */}
+                    </>
+                  )}
                 </CardActions>
               </Card>
             </Grid>
