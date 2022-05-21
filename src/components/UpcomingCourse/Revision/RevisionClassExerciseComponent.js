@@ -24,9 +24,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { dateTimeFormat, lang } from "../../../constant";
+import { dateTimeFormat, lang, TimeLeft } from "../../../constant";
 import AlertDialog from "../dilog";
 import { ConfirmationNumber } from "@material-ui/icons";
+import DropOut from "../DropOut";
 /* {
     "id": 27133,
     "title": "single python class",
@@ -50,7 +51,7 @@ import { ConfirmationNumber } from "@material-ui/icons";
     "is_enrolled": false
 }*/
 
-const MoreDetails = (props) => {
+export const MoreDetails = (props) => {
   const { open, setOpen } = props;
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -69,9 +70,19 @@ const MoreDetails = (props) => {
     setOpen(changeTo);
   };
   const [ConfirmationOpen, setConfirmationOpen] = useState(false);
+  const [openDropOut, setOpenDropOut] = useState(false);
   const anchorPos = "right";
   const close = () => {
     setConfirmationOpen(false);
+  };
+  let [TimeLefts, setTimeLefts] = useState(TimeLeft(actions.start_time));
+  var ONE_MINUTE = 60 * 1000;
+  setInterval(() => {
+    setTimeLefts(TimeLeft(actions.start_time));
+    console.log("TimeChange");
+  }, ONE_MINUTE);
+  const closeDropOut = () => {
+    setOpenDropOut(false);
   };
   return (
     <div>
@@ -93,7 +104,7 @@ const MoreDetails = (props) => {
               Doubt Class
             </Typography>
             <Typography variant="h6" mb={1}>
-              {actions.title}
+              {actions?.title}
             </Typography>
             <Box mb={3}>
               <Button
@@ -112,7 +123,7 @@ const MoreDetails = (props) => {
                 color="secondary"
                 style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
               >
-                <Typography variant="body2">{lang[actions.lang]}</Typography>
+                <Typography variant="body2">{lang[actions?.lang]}</Typography>
               </Button>
             </Box>
             <Typography variant="body">
@@ -132,9 +143,17 @@ const MoreDetails = (props) => {
                 src={require("./assets/calender.svg")}
                 alt="Students Img"
               />
-              {dateTimeFormat(actions.start_time).finalDate},
-              {dateTimeFormat(actions.start_time).finalTime} -
-              {dateTimeFormat(actions.end_time).finalTime}
+              {actions?.start_time
+                ? dateTimeFormat(actions?.start_time).finalDate
+                : ""}
+              ,
+              {actions?.start_time
+                ? dateTimeFormat(actions?.start_time).finalTime
+                : ""}{" "}
+              -
+              {actions?.end_time
+                ? dateTimeFormat(actions?.end_time).finalTime
+                : ""}
             </Typography>
             <Typography
               variant="body1"
@@ -149,19 +168,68 @@ const MoreDetails = (props) => {
                 src={require("./assets/Group.svg")}
                 alt="Students Img"
               />
-              {actions.facilitator_name}
+              {actions?.facilitator_name}
             </Typography>
             <Typography variant="body" color="text.secondary" mb={2}>
               Please join at least 10 mintues before the scheduled time
             </Typography>
-            <Button
-              variant="contained"
-              fullWidth
-              style={{ marginTop: 20 }}
-              onClick={() => setConfirmationOpen(true)}
-            >
-              Enroll
-            </Button>
+            {actions?.is_enrolled ? (
+              <>
+                {TimeLefts == "joinNow" ? (
+                  <a
+                    style={{
+                      textDecoration: "none",
+                    }}
+                    href={actions?.meet_link}
+                    target="_blank"
+                  >
+                    <Button
+                      variant="contained"
+                      style={{ marginTop: 20 }}
+                      fullWidth
+                    >
+                      Join Now
+                    </Button>
+                  </a>
+                ) : (
+                  <Button
+                    disabled={true}
+                    variant="contained"
+                    sx={{ fontSize: "1rem" }}
+                    fullWidth
+                    style={{ marginTop: 20 }}
+                  >
+                    Starts in {TimeLefts}
+                  </Button>
+                )}
+                <DropOut
+                  open={openDropOut}
+                  close={closeDropOut}
+                  title={actions?.title}
+                  id={actions?.id}
+                />
+                <Typography
+                  align="center"
+                  mt={2}
+                  onClick={() => {
+                    setOpenDropOut(true);
+                  }}
+                  variant="body2"
+                  color="red"
+                >
+                  can`t attend?
+                </Typography>{" "}
+              </>
+            ) : (
+              <Button
+                variant="contained"
+                fullWidth
+                style={{ marginTop: 20 }}
+                onClick={() => setConfirmationOpen(true)}
+              >
+                Enroll
+              </Button>
+            )}
           </Box>
         </Box>
       </SwipeableDrawer>
@@ -185,7 +253,7 @@ const RevisionClassExerciseComponent = (props) => {
   const start_time = dateTimeFormat(actions?.start_time);
   const end_time = dateTimeFormat(actions?.end_time);
 
-  return value == "doubt class" ? (
+  return !actions?.is_enrolled ? (
     <>
       <Box backgroundColor="primary.light" p={2} mt={2}>
         <Typography
@@ -237,7 +305,51 @@ const RevisionClassExerciseComponent = (props) => {
       />
     </>
   ) : (
-    ""
+    <>
+      <MoreDetails
+        open={open}
+        setOpen={setOpen}
+        actions={actions}
+        value={value}
+      />
+
+      <>
+        <Box
+          onClick={() => {
+            setOpen(true);
+          }}
+          fullWidth
+          boxShadow={3}
+          mt={4}
+          p={2}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <svg
+              width="8"
+              height="9"
+              viewBox="0 0 8 9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="4" cy="4.5" r="4" fill="#FFC107" />
+            </svg>
+            <Typography variant="body2" ml={1}>
+              Upcoming Doubt Class
+            </Typography>
+          </Box>
+          <Typography variant="subtitle1" mt={1}>
+            {actions.title}
+          </Typography>
+          <Typography variant="body2" mt={1}>
+            {dateTimeFormat(actions.start_time).finalDate}
+          </Typography>
+          <Typography variant="body2" mt={1}>
+            {dateTimeFormat(actions.start_time).finalTime} to{" "}
+            {dateTimeFormat(actions.end_time).finalTime}
+          </Typography>
+        </Box>
+      </>
+    </>
   );
 };
 export default RevisionClassExerciseComponent;

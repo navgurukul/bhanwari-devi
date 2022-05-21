@@ -146,12 +146,6 @@ function PathwayExercise() {
     );
   };
 
-  // const Lang = {
-  //   en: "English",
-  //   mr: "Marathi",
-  //   hi: "Hindi",
-  // };
-
   const Lang = languageMap;
 
   console.log("courseId", courseId);

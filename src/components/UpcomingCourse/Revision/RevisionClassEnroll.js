@@ -20,6 +20,7 @@ import FormLabel from "@mui/material/FormLabel";
 import { dateTimeFormat } from "../../../constant";
 import AlertDialog from "../dilog";
 import BatchClass from "../JoinClass/BatchClass";
+import DropOut from "../DropOut";
 function RevisionClassEnroll(props) {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
@@ -29,6 +30,8 @@ function RevisionClassEnroll(props) {
   const [open, setOpen] = useState(false);
   const close = () => [setOpen(false)];
   const [DataToEnroll, setDataToEnroll] = useState(null);
+  const [dropOutOpen, setDropOutOpen] = useState(false);
+  const closeDropOut = () => [setDropOutOpen(false)];
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -44,18 +47,37 @@ function RevisionClassEnroll(props) {
       setRevisionData(data);
       setDataToEnroll(data[0]);
     });
-  }, []);
+  }, [dropOutOpen, open]);
   return (
-    <Container maxWidth="lg">
-      <Box align="right" mt={1} maxWidth={350} mb={10}>
+    <Container mt={2} maxWidth="lg">
+      <Box align="right" mt={4} maxWidth={350} mb={10}>
         {DataToEnroll?.is_enrolled ? (
-          <BatchClass
-            id={revisionData[0].id}
-            facilitator={revisionData[0].facilitator.name}
-            start_time={revisionData[0].start_time}
-            end_time={revisionData[0].end_time}
-            meet_link={revisionData[0].meet_link}
-          />
+          <>
+            <BatchClass
+              id={revisionData[0].id}
+              facilitator={revisionData[0].facilitator.name}
+              start_time={revisionData[0].start_time}
+              end_time={revisionData[0].end_time}
+              meet_link={revisionData[0].meet_link}
+            />
+            <Typography
+              variant="body2"
+              color="red"
+              align="center"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setDropOutOpen(true);
+              }}
+            >
+              Can`t attend ?
+            </Typography>
+            <DropOut
+              title={revisionData[0].title}
+              open={dropOutOpen}
+              close={closeDropOut}
+              id={revisionData[0].id}
+            />
+          </>
         ) : (
           <Card elevation={2} pl={10}>
             <CardContent>

@@ -27,7 +27,7 @@ const BatchClass = (props) => {
   return TimeLefts !== "expired" ? (
     <>
       <Container maxWidth="l">
-        <Box align="right" mt={1} maxWidth={350} mb={10}>
+        <Box align="right" mt={5} maxWidth={350} mb={2}>
           <Card elevation={2} pl={10}>
             <CardContent>
               {/* <Typography gutterBottom variant="h5" align="start"></Typography> */}

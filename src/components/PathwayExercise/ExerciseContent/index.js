@@ -28,7 +28,9 @@ import { dateTimeFormat, TimeLeft, versionCode } from "../../../constant";
 import useStyles from "../styles";
 import BatchClass from "../../UpcomingCourse/JoinClass/BatchClass";
 import CourseEnroll from "../../UpcomingCourse/NotEnrolledinCourse/EnrollInCourse";
-import RevisionClassExerciseComponent from "../../UpcomingCourse/Revision/RevisionClassExerciseComponent";
+import RevisionClassExerciseComponent, {
+  MoreDetails,
+} from "../../UpcomingCourse/Revision/RevisionClassExerciseComponent";
 import RevisionClassEnroll from "../../UpcomingCourse/Revision/RevisionClassEnroll";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
@@ -62,7 +64,12 @@ const headingVarients = {};
     ))
 );
 
-const RenderContent = ({ data, exercise }) => {
+const RenderContent = ({
+  data,
+  exercise,
+  enrolledDoubtClassData,
+  setEnrolledDoubtClassData,
+}) => {
   const classes = useStyles();
   if (data.component === "header") {
     return headingVarients[data.variant](
@@ -170,12 +177,19 @@ const RenderContent = ({ data, exercise }) => {
   if (data.component === "banner") {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
+    let alreadyExists = false;
+    if (actions.is_enrolled) {
+      enrolledDoubtClassData.forEach((item) => {
+        if (item.id === actions.id) {
+          alreadyExists = true;
+        }
+      });
+      if (!alreadyExists) {
+        setEnrolledDoubtClassData([...enrolledDoubtClassData, actions]);
+      }
+    }
     // console.log(actions.is_enrolled);
-    return !actions.is_enrolled ? (
-      <RevisionClassExerciseComponent value={value} actions={actions} />
-    ) : (
-      ""
-    );
+    return <RevisionClassExerciseComponent value={value} actions={actions} />;
   }
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
@@ -237,16 +251,22 @@ function ExerciseContent({ exerciseId, lang }) {
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [open, setOpen] = useState(false);
   const [courseData, setCourseData] = useState({ content_type: null });
+  const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
+  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+  const [enrolledDoubtClassData, setEnrolledDoubtClassData] = useState([]);
+
   useEffect(() => {
-    getCourseContent({ courseId, lang, versionCode }).then((res) => {
+    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
       setCourse(res.data.course.name);
       setExercise(res.data.course.exercises[exerciseId]);
       setContent(res.data.course.exercises[exerciseId]?.content);
       setCourseData(res.data.course.exercises[exerciseId]);
     });
   }, [courseId, exerciseId, lang]);
-  const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
-  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+
+  useEffect(() => {
+    console.log(enrolledDoubtClassData);
+  }, [enrolledDoubtClassData]);
 
   useEffect(() => {
     // getupcomingEnrolledClasses
@@ -278,10 +298,6 @@ function ExerciseContent({ exerciseId, lang }) {
         <Grid xs={0} item>
           <Container maxWidth="sm">
             <Box sx={{ m: "32px 0px" }}>
-              {/* <Typography variant="h5">{course}</Typography> */}
-
-              {/* <Typography variant="h6" sx={{ mt: "16px" }}></Typography> */}
-
               <Box>
                 {courseData["content_type"] == "class_topic" && (
                   <>
@@ -366,6 +382,8 @@ function ExerciseContent({ exerciseId, lang }) {
                       exercise={exercise}
                       key={index}
                       classes={classes}
+                      enrolledDoubtClassData={enrolledDoubtClassData}
+                      setEnrolledDoubtClassData={setEnrolledDoubtClassData}
                     />
                   ))}
               </Box>

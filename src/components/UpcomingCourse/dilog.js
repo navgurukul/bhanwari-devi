@@ -28,9 +28,7 @@ export default function AlertDialog(props) {
       .post(
         `${
           process.env.REACT_APP_MERAKI_URL
-        }/classes/${Id}/register?register-all=${
-          !registerAll ? registerAll : true
-        }`,
+        }/classes/${Id}/register?register-all=${registerAll || false}`,
         {},
         {
           headers: {
