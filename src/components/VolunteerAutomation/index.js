@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Container,
@@ -10,13 +10,50 @@ import {
   CardActions,
 } from "@mui/material";
 import { PATHS } from "../../constant";
+import { useSelector, useDispatch } from "react-redux";
+import { METHODS } from "../../services/api";
+import axios from "axios";
 import useStyles from "./styles";
-import { Link } from "react-router-dom";
-
+// import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function VolunteerAutomation() {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
+  const [responsive, setResponsive] = useState();
+
+  console.log(responsive, "responsive");
+
+  // useEffect(() => {
+  //   if(responsive) {
+  //    return <Redirect to={PATHS.VOLUNTEER_FORM} />
+  //     }
+  // }, []);
+
+  const handleClick = () => {
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
+      method: METHODS.POST,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then(
+      (res) => {
+        setResponsive(res.data);
+
+        // if (res) {
+        //   return <Redirect to={PATHS.VOLUNTEER_FORM} />
+        // }
+        // console.log(res, "--- komal----");
+        // return <Redirect to={PATHS.VOLUNTEER_FORM} />
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
@@ -99,7 +136,8 @@ function VolunteerAutomation() {
             <CardActions sx={{ mt: 11.2 }}>
               {/* <Link href={PATHS.VOLUNTEER_FORM}> */}
               <Button
-                href={PATHS.VOLUNTEER_FORM}
+                onClick={handleClick}
+                // href={PATHS.VOLUNTEER_FORM}
                 variant="contained"
                 color="primary"
                 fullWidth

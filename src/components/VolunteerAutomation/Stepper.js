@@ -16,22 +16,21 @@ import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-// import { versionCode } from "../../constant"
 import { METHODS } from "../../services/api";
 
 import "./styles.scss";
+import { parse } from "date-fns";
 
 function HorizontalLinearStepper() {
+  const myData = localStorage.getItem("step");
   const user = useSelector(({ User }) => User);
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(
+    myData ? parseInt(myData) : 0
+  );
   const [skipped, setSkipped] = React.useState(new Set());
   const [disable, setDisable] = React.useState(true);
-
   const [contact, setContact] = useState();
   const [pathwayId, setPathwayId] = useState();
-
-  console.log(contact, "contact");
-  console.log(pathwayId, "pathwayId");
 
   const steps = [
     {
@@ -84,12 +83,18 @@ function HorizontalLinearStepper() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => {
+      localStorage.setItem("step", prevActiveStep + 1);
+      return prevActiveStep + 1;
+    });
     setSkipped(newSkipped);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => {
+      localStorage.setItem("step", prevActiveStep - 1);
+      return prevActiveStep - 1;
+    });
   };
 
   const handleSkip = () => {
@@ -118,7 +123,6 @@ function HorizontalLinearStepper() {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        // versionCode: versionCode,
       },
       data: {
         contact: contact,

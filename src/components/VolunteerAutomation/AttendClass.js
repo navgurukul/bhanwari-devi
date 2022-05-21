@@ -23,8 +23,8 @@ function AttendClass({ setDisable }) {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
-
   const [enrollId, setEnrollId] = useState(false);
+
   useEffect(() => {
     dispatch(classActions.getClasses());
   }, [dispatch]);
@@ -71,7 +71,6 @@ function AttendClass({ setDisable }) {
       )
       .then((res) => {
         console.log(res);
-
         notify();
       });
   };
@@ -163,7 +162,11 @@ function AttendClass({ setDisable }) {
                           href={item.meet_link}
                           target="_blank"
                         >
-                          <Button variant="contained" fullWidth>
+                          <Button
+                            onClick={() => setDisable(false)}
+                            variant="contained"
+                            fullWidth
+                          >
                             Join Now
                           </Button>
                         </a>
@@ -172,18 +175,6 @@ function AttendClass({ setDisable }) {
                           Starts in {TimeLeft(item.start_time)}
                         </Button>
                       )}
-
-                      {/* <Button
-                        // sx={{ background: "rgba(0, 0, 0, 0.12)" }}
-                        // onClick={() => setDisable(false)}
-                        onClick={() => setDisable(false)}
-
-                        variant="contained"
-                        color="Greey"
-                        fullWidth
-                      >
-                        Starts in 10 hrs: 15 mins
-                      </Button> */}
                     </>
                   )}
                 </CardActions>
@@ -196,58 +187,3 @@ function AttendClass({ setDisable }) {
 }
 
 export default AttendClass;
-
-{
-  /* <Card className={classes.AttendClassCard}>
-<CardContent>
-  <Typography gutterBottom variant="subtitle1">
-  Class 1 - Intro to Python
-  </Typography>
-  <Box sx={{ display: "flex", mt: 2 }}>
-    <Button
-      sx={{
-        borderRadius: "100px",
-        background: "#E9F5E9",
-        color: "#48A145",
-        height: "33px"
-
-
-      }}
-      variant="contained"
-    >
-      {item.type}
-    </Button>
-    <Button
-      sx={{
-        marginLeft: "10px",
-        borderRadius: "100px",
-        height: "33px",
-      }}
-      variant="outlined"
-    >
-
-      Hindi
-    </Button>
-  </Box>
-
-  <Box sx={{ mt: 2 }}>
-    <Typography>
-    15 Sep 21, 4 PM - 5 PM
-  
-    </Typography>
-  </Box>
-  <Typography sx={{ mt: 2 }} gutterBottom variant="subtitle1">
-  Prajakta Kishori
-  </Typography>
-
-  <Typography gutterBottom variant="body2">
-  Please join at least 10 mintues before the scheduled time
-  </Typography>
-</CardContent>
-<CardActions>
-  <Button  sx={{background: "rgba(0, 0, 0, 0.12)"}}variant="contained"  fullWidth>
-    Starts in 10 hrs: 15 mins
-  </Button>
-</CardActions>
-</Card> */
-}
