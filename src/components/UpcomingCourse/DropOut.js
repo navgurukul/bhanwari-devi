@@ -20,30 +20,26 @@ export default function DropOut(props) {
 
   const classes = useStyles();
 
-  const { open, close, title, start_time, end_time, id } = props;
+  const { open, close, title, id } = props;
   const user = useSelector(({ User }) => User);
   const handelDropOut = (Id) => {
     axios
-      .post(
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: user.data.token,
-            "register-to-all": true,
-          },
-        }
-      )
+      .delete(`${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: user.data.token,
+          "unregister-all": false,
+        },
+      })
       .then(() => {
-        toast.success("Class Enrolled", {
+        toast.success("Class Dropped", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
         close();
       })
       .catch((err) => {
-        toast.error("Failed To Enroll To Class", {
+        toast.error("Failed To Drop Out of Class", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
@@ -55,26 +51,10 @@ export default function DropOut(props) {
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
           <Typography variant="h6">
-            Awesome! You have taken the first step to being a programmer
+            Are You Sure You want to drop out ?
           </Typography>
           <Typography variant="h6" mt={2}>
             {title}
-          </Typography>
-          <Typography
-            variant="body1"
-            mb={1}
-            style={{
-              display: "flex",
-              padding: "10px 0",
-            }}
-          >
-            <img
-              className={classes.icons}
-              src={require("./assets/calender.svg")}
-              alt="Students Img"
-            />
-            {start_time ? dateTimeFormat(start_time).finalDate : ""} -{" "}
-            {end_time ? dateTimeFormat(end_time).finalDate : ""}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
@@ -85,7 +65,7 @@ export default function DropOut(props) {
             }}
             variant="contained"
           >
-            Confirm Enrollment
+            Confirm DropOut
           </Button>
         </DialogActions>
       </Dialog>

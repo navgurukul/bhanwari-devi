@@ -27,10 +27,10 @@ const BatchClass = (props) => {
   return TimeLefts !== "expired" ? (
     <>
       <Container maxWidth="l">
-        <Box align="right" mt={1} maxWidth={350} mb={10}>
+        <Box align="right" mt={5} maxWidth={350} mb={2}>
           <Card elevation={2} pl={10}>
             <CardContent>
-              <Typography gutterBottom variant="h5" align="start"></Typography>
+              {/* <Typography gutterBottom variant="h5" align="start"></Typography> */}
               <Typography
                 variant="body1"
                 mb={1}
@@ -85,7 +85,12 @@ const BatchClass = (props) => {
                   </Button>
                 </a>
               ) : (
-                <Button disabled={true} variant="contained" fullWidth>
+                <Button
+                  disabled={true}
+                  variant="contained"
+                  sx={{ fontSize: "1rem" }}
+                  fullWidth
+                >
                   Starts in {TimeLefts}
                 </Button>
               )}

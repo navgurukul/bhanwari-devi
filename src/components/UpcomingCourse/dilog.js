@@ -21,18 +21,19 @@ export default function AlertDialog(props) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
 
-  const { open, close, title, start_time, end_time, id } = props;
+  const { open, close, title, start_time, end_time, id, registerAll } = props;
   const user = useSelector(({ User }) => User);
   const handelEnrollment = (Id) => {
     axios
       .post(
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        `${
+          process.env.REACT_APP_MERAKI_URL
+        }/classes/${Id}/register?register-all=${registerAll || false}`,
         {},
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            "register-to-all": true,
           },
         }
       )
