@@ -28,9 +28,9 @@ const getPartnerIdFromUrl = () => {
   return partnerId;
 };
 
-function StudentData() {
+function StudentData(props) {
   const [pageNumber, setPageNumber] = useState(0);
-  const [totalCount, setTotalCount] = useState();
+  const [totalCount, setTotalCount] = useState(0);
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState([]);
   const [slicedStudents, setSlicedStudents] = useState([]);
@@ -304,6 +304,12 @@ function StudentData() {
     return (
       <div className="container-table">
         <h3 className="partner-name">{partneName}</h3>
+        <AddStudent
+          openEditForm={openEditForm}
+          setOpenEditForm={setOpenEditForm}
+          userId={userId}
+          userName={userName}
+        />
         <div className="container-for-search">
           <div>
             <input
@@ -317,7 +323,11 @@ function StudentData() {
               }}
             />
           </div>
+
           <div className="last-item">
+            <label className="student-count">
+              Total No of Students :- {"  "} {totalCount}{" "}
+            </label>
             <ReactPaginate
               previousLabel={<i className="fa fa-angle-left"></i>}
               nextLabel={<i className="fa fa-angle-right"></i>}
@@ -334,7 +344,7 @@ function StudentData() {
           </div>
         </div>
         <div className="slider-label">
-          <label>Total attended classes </label>
+          <label>Classes Enrolled </label>
           <div className="slider">
             <Range
               min={0}
@@ -621,12 +631,12 @@ function StudentData() {
           </tbody>
         </table>
 
-        <AddStudent
+        {/* <AddStudent
           openEditForm={openEditForm}
           setOpenEditForm={setOpenEditForm}
           userId={userId}
           userName={userName}
-        />
+        /> */}
       </div>
     );
   }
