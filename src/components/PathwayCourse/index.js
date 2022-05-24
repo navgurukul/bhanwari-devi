@@ -80,8 +80,7 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
-  const baseUrl = process.env.REACT_APP_MERAKI_URL;
-
+  const [enrolledBatches, setEnrolledBatches] = useState(null);
   const data = useSelector((state) => {
     return state;
   });
@@ -93,11 +92,7 @@ function PathwayCourse() {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
   const history = useHistory();
-  //  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(upcomingClassActions.getupcomingEnrolledClasses({ pathwayId: pathwayId, authToken :user?.data?.token }));
-  // }, [dispatch, pathwayId]);
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
@@ -117,7 +112,27 @@ function PathwayCourse() {
         })
       );
     }
+
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
+      headers: {
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      if (res.data.length > 0) {
+        setEnrolledBatches(res.data);
+      }
+    });
   }, [dispatch, pathwayId]);
+  const reCallAfterEnrolled = () => {
+    dispatch(
+      upcomingClassActions.getupcomingEnrolledClasses({
+        pathwayId: pathwayId,
+        authToken: user?.data?.token,
+      })
+    );
+  };
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
@@ -127,8 +142,6 @@ function PathwayCourse() {
         }
       });
     });
-
-  console.log("data", data);
 
   const pathwayCourseData = pathways.find((item) => {
     return item.id == pathwayId;
@@ -149,7 +162,7 @@ function PathwayCourse() {
                 align="center"
                 className={classes.box}
               >
-                <Grid xs={6} md={6}>
+                <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                   <Card
                     align="left"
                     elevation={0}
@@ -203,7 +216,7 @@ function PathwayCourse() {
                   </Card>
                 </Grid>
 
-                <Grid xs={6} md={6}>
+                <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                   <PathwayCourseBatchEnroll1
                     upcomingBatchesData={upcomingBatchesData}
                   />

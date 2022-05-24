@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./AlertDialog";
-import axios from "axios";
 import { useSelector } from "react-redux";
-// import { Button } from "framework7-react";
-import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
-import CourseEnroll from "./EnrollInCourse/EnrollInCourse";
-import RevisionClass from "./Revision/RevisionClassExerciseComponent";
 import { useHistory } from "react-router-dom";
 const PathwayCourseBatchEnroll1 = (props) => {
   const history = useHistory();
@@ -22,14 +16,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  // const user = useSelector(({ User }) => User);
   const { upcomingBatchesData } = props;
-  // const [BatchData, setBatchData] = useState(upcomingBatchesData[0]);
   const user = useSelector(({ User }) => User);
-  // useEffect(() => {
-  //   setBatchData(upcomingBatchesData[0]);
-  // }, [upcomingBatchesData]);
-
   const BatchData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data[0];
   });
@@ -81,7 +69,6 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 mb={1}
                 style={{
                   display: "flex",
-                  // padding: "10px 0",
                 }}
               >
                 <img
@@ -114,6 +101,9 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 <section
                   className={classes.link}
                   onClick={handleUpcomingBatchesClickOpen}
+                  style={{
+                    cursor: "pointer",
+                  }}
                 >
                   Check out our other batches
                 </section>

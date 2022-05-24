@@ -20,7 +20,7 @@ export default function DropOut(props) {
 
   const classes = useStyles();
 
-  const { open, close, title, id } = props;
+  const { open, close, title, id, unregister_all } = props;
   const user = useSelector(({ User }) => User);
   const handelDropOut = (Id) => {
     axios
@@ -28,7 +28,7 @@ export default function DropOut(props) {
         headers: {
           "Content-Type": "application/json",
           Authorization: user.data.token,
-          "unregister-all": false,
+          "unregister-all": unregister_all || false,
         },
       })
       .then(() => {
