@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
 import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
-import AlertDialog from "./dilog";
+import AlertDialog from "./AlertDialog";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import CheckMoreBatches from "./CheckMoreBatches";
 // import { Button } from "framework7-react";
 
-const BelowComponent = (props) => {
+const PathwayCourseBatchEnroll2 = (props) => {
   const [open, setOpen] = React.useState(false);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -112,6 +112,7 @@ const BelowComponent = (props) => {
               start_time={upcomingBatchesData[0]?.start_time}
               end_time={upcomingBatchesData[0]?.end_time}
               id={upcomingBatchesData[0]?.id}
+              registerAll={true}
             />
           </Stack>
           <Typography
@@ -145,4 +146,4 @@ const BelowComponent = (props) => {
     ""
   );
 };
-export default BelowComponent;
+export default PathwayCourseBatchEnroll2;

@@ -13,7 +13,7 @@ import RevisionClassEnroll from "../Revision/RevisionClassEnroll";
 
 // import { Button } from "framework7-react";
 
-const BatchClass = (props) => {
+const ExerciseBatchClass = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const { facilitator, start_time, end_time, is_enrolled, meet_link, id } =
@@ -111,4 +111,4 @@ const BatchClass = (props) => {
     <RevisionClassEnroll id={id} />
   );
 };
-export default BatchClass;
+export default ExerciseBatchClass;

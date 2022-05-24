@@ -16,7 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { dateTimeFormat } from "../../../constant.js";
 // import { Button } from "framework7-react";
-import AlertDialog from "../dilog.js";
+import AlertDialog from "../AlertDialog.js";
 const NotEnrolledSvg = require("./notEnrolled.svg");
 const CourseEnroll = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -107,6 +107,7 @@ const CourseEnroll = (props) => {
                   end_time={selectedBatchToEnroll.endTime}
                   id={selectedBatchToEnroll.id}
                   close={close}
+                  registerAll={true}
                 />
               </CardContent>
             </Card>

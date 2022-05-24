@@ -7,16 +7,16 @@ import { Link } from "react-router-dom";
 import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
 import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
-import AlertDialog from "./dilog";
+import AlertDialog from "./AlertDialog";
 import axios from "axios";
 import { useSelector } from "react-redux";
 // import { Button } from "framework7-react";
 import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
-import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
+import CourseEnroll from "./EnrollInCourse/EnrollInCourse";
 import RevisionClass from "./Revision/RevisionClassExerciseComponent";
 import { useHistory } from "react-router-dom";
-const UpcomingCourse = (props) => {
+const PathwayCourseBatchEnroll1 = (props) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
@@ -101,6 +101,7 @@ const UpcomingCourse = (props) => {
                 start_time={BatchData?.start_time}
                 end_time={BatchData?.end_time}
                 id={BatchData?.id}
+                registerAll={true}
               />
               <Typography
                 style={{ display: "flex" }}
@@ -136,4 +137,4 @@ const UpcomingCourse = (props) => {
     ""
   );
 };
-export default UpcomingCourse;
+export default PathwayCourseBatchEnroll1;

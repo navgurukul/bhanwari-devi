@@ -26,12 +26,12 @@ import {
 import { dateTimeFormat, TimeLeft, versionCode } from "../../../constant";
 
 import useStyles from "../styles";
-import BatchClass from "../../UpcomingCourse/JoinClass/BatchClass";
-import CourseEnroll from "../../UpcomingCourse/NotEnrolledinCourse/EnrollInCourse";
+import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
+import CourseEnroll from "../../BatchClassComponents/EnrollInCourse/EnrollInCourse";
 import RevisionClassExerciseComponent, {
   MoreDetails,
-} from "../../UpcomingCourse/Revision/RevisionClassExerciseComponent";
-import RevisionClassEnroll from "../../UpcomingCourse/Revision/RevisionClassEnroll";
+} from "../../BatchClassComponents/Revision/RevisionClassExerciseComponent";
+import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 const createVisulizeURL = (code, lang, mode) => {
@@ -399,7 +399,7 @@ function ExerciseContent({ exerciseId, lang }) {
           {courseData["content_type"] == "class_topic" && (
             <>
               {" "}
-              <BatchClass
+              <ExerciseBatchClass
                 id={courseData.id}
                 facilitator={courseData.facilitator.name}
                 start_time={courseData.start_time}

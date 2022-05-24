@@ -18,8 +18,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { dateTimeFormat } from "../../../constant";
-import AlertDialog from "../dilog";
-import BatchClass from "../JoinClass/BatchClass";
+import AlertDialog from "../AlertDialog";
+import BatchClass from "../ExerciseBatchClass/ExerciseBatchClass";
 import DropOut from "../DropOut";
 function RevisionClassEnroll(props) {
   const classes = useStyles();

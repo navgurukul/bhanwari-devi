@@ -25,7 +25,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { dateTimeFormat, lang, TimeLeft } from "../../../constant";
-import AlertDialog from "../dilog";
+import AlertDialog from "../AlertDialog";
 import { ConfirmationNumber } from "@material-ui/icons";
 import DropOut from "../DropOut";
 /* {

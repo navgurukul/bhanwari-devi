@@ -23,8 +23,8 @@ import {
   CardMedia,
   Button,
 } from "@mui/material";
-import UpcomingCourse from "../UpcomingCourse";
-import BelowComponent from "../UpcomingCourse/BelowComponent";
+import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
+import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
 
 const pathways = [
@@ -204,7 +204,9 @@ function PathwayCourse() {
                 </Grid>
 
                 <Grid xs={6} md={6}>
-                  <UpcomingCourse upcomingBatchesData={upcomingBatchesData} />
+                  <PathwayCourseBatchEnroll1
+                    upcomingBatchesData={upcomingBatchesData}
+                  />
                 </Grid>
                 {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
                   <CardMedia
@@ -350,7 +352,9 @@ function PathwayCourse() {
           )}
           {!(userEnrolledClasses?.length > 0) &&
           upcomingBatchesData?.length > 0 ? (
-            <BelowComponent upcomingBatchesData={upcomingBatchesData} />
+            <PathwayCourseBatchEnroll2
+              upcomingBatchesData={upcomingBatchesData}
+            />
           ) : (
             ""
           )}
