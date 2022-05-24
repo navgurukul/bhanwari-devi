@@ -75,6 +75,22 @@ function AttendClass({ setDisable }) {
       });
   };
 
+  var today = new Date();
+  let time;
+  console.log("time", time);
+
+  useEffect(() => {
+    time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    console.log("time", time);
+  }, [time]);
+
+  setTimeout(
+    (time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()),
+    1000
+  );
+
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       <Container maxWidth="md">
@@ -140,6 +156,7 @@ function AttendClass({ setDisable }) {
                   </Typography>
                 </CardContent>
                 <CardActions>
+                  {console.log("timer", TimeLeft(item.start_time))}
                   {sliceData && sliceData.length > 1 ? (
                     <Button
                       onClick={() => {
@@ -173,6 +190,7 @@ function AttendClass({ setDisable }) {
                       ) : (
                         <Button disabled={true} variant="contained" fullWidth>
                           Starts in {TimeLeft(item.start_time)}
+                          {setTimeout(TimeLeft(item.start_time), 1000)}
                         </Button>
                       )}
                     </>

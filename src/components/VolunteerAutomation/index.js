@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Typography,
   Container,
@@ -10,26 +11,16 @@ import {
   CardActions,
 } from "@mui/material";
 import { PATHS } from "../../constant";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import axios from "axios";
 import useStyles from "./styles";
-// import { Link } from "react-router-dom";
-import { Redirect } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function VolunteerAutomation() {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
-  const [responsive, setResponsive] = useState();
-
-  console.log(responsive, "responsive");
-
-  // useEffect(() => {
-  //   if(responsive) {
-  //    return <Redirect to={PATHS.VOLUNTEER_FORM} />
-  //     }
-  // }, []);
+  let history = useHistory();
 
   const handleClick = () => {
     return axios({
@@ -41,19 +32,15 @@ function VolunteerAutomation() {
       },
     }).then(
       (res) => {
-        setResponsive(res.data);
-
-        // if (res) {
-        //   return <Redirect to={PATHS.VOLUNTEER_FORM} />
-        // }
-        // console.log(res, "--- komal----");
-        // return <Redirect to={PATHS.VOLUNTEER_FORM} />
+        console.log("res", res);
+        history.push(PATHS.VOLUNTEER_FORM);
       },
       (error) => {
         console.log(error);
       }
     );
   };
+
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
@@ -134,17 +121,14 @@ function VolunteerAutomation() {
               </Typography>
             </CardContent>
             <CardActions sx={{ mt: 11.2 }}>
-              {/* <Link href={PATHS.VOLUNTEER_FORM}> */}
               <Button
                 onClick={handleClick}
-                // href={PATHS.VOLUNTEER_FORM}
                 variant="contained"
                 color="primary"
                 fullWidth
               >
                 Start Now
               </Button>
-              {/* </Link> */}
             </CardActions>
           </Card>
         </Grid>

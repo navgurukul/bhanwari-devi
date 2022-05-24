@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { PATHS } from "../../constant";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import { StepLabel, StepContent } from "@mui/material";
+import { useHistory } from "react-router-dom";
+import { StepLabel } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
@@ -15,13 +17,14 @@ import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 
 import "./styles.scss";
 import { parse } from "date-fns";
 
 function HorizontalLinearStepper() {
+  let history = useHistory();
   const myData = localStorage.getItem("step");
   const user = useSelector(({ User }) => User);
   const [activeStep, setActiveStep] = React.useState(
@@ -125,18 +128,25 @@ function HorizontalLinearStepper() {
         Authorization: user.data.token,
       },
       data: {
-        contact: contact,
-        pathway_id: pathwayId,
+        // contact: contact,
+        // pathway_id: pathwayId,
+        contact: "8826332326",
+        pathway_id: "1",
       },
     }).then(
       (res) => {
-        console.log(res, "-------");
+        history.push(PATHS.CLASS);
       },
       (error) => {
         console.log(error);
       }
     );
   };
+
+  var today = new Date();
+  let time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  console.log("time", time);
 
   return (
     <Container sx={{ mt: 4 }} maxWidth="lg">

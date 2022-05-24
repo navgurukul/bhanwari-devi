@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     flexDirection: "column",
   },
+  link: {
+    textDecoration: "none",
+  },
 }));
 
 export default useStyles;
