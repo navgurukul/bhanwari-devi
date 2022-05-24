@@ -1,35 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import AlertDialog from "./dilog";
-import axios from "axios";
+import AlertDialog from "./AlertDialog";
 import { useSelector } from "react-redux";
-// import { Button } from "framework7-react";
-import { METHODS } from "../../services/api";
 import CheckMoreBatches from "./CheckMoreBatches";
-import CourseEnroll from "./NotEnrolledinCourse/EnrollInCourse";
-import RevisionClass from "./Revision/RevisionClassExerciseComponent";
 import { useHistory } from "react-router-dom";
-const UpcomingCourse = (props) => {
+const PathwayCourseBatchEnroll1 = (props) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  // const user = useSelector(({ User }) => User);
   const { upcomingBatchesData } = props;
-  // const [BatchData, setBatchData] = useState(upcomingBatchesData[0]);
   const user = useSelector(({ User }) => User);
-  // useEffect(() => {
-  //   setBatchData(upcomingBatchesData[0]);
-  // }, [upcomingBatchesData]);
-
   const BatchData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data[0];
   });
@@ -81,7 +69,6 @@ const UpcomingCourse = (props) => {
                 mb={1}
                 style={{
                   display: "flex",
-                  // padding: "10px 0",
                 }}
               >
                 <img
@@ -101,6 +88,7 @@ const UpcomingCourse = (props) => {
                 start_time={BatchData?.start_time}
                 end_time={BatchData?.end_time}
                 id={BatchData?.id}
+                registerAll={true}
               />
               <Typography
                 style={{ display: "flex" }}
@@ -113,6 +101,9 @@ const UpcomingCourse = (props) => {
                 <section
                   className={classes.link}
                   onClick={handleUpcomingBatchesClickOpen}
+                  style={{
+                    cursor: "pointer",
+                  }}
                 >
                   Check out our other batches
                 </section>
@@ -136,4 +127,4 @@ const UpcomingCourse = (props) => {
     ""
   );
 };
-export default UpcomingCourse;
+export default PathwayCourseBatchEnroll1;

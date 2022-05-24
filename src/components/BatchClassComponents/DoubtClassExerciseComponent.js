@@ -1,55 +1,17 @@
 import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
-import useStyles from "../styles";
-import { useSelector } from "react-redux";
-import { breakpoints } from "../../../theme/constant";
+import useStyles from "./styles";
+import { breakpoints } from "../../theme/constant";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { dateTimeFormat, lang, TimeLeft } from "../../../constant";
-import AlertDialog from "../dilog";
-import { ConfirmationNumber } from "@material-ui/icons";
-import DropOut from "../DropOut";
-/* {
-    "id": 27133,
-    "title": "single python class",
-    "description": "classes",
-    "facilitator_id": 1343,
-    "start_time": "2022-04-15T05:56:42.405+05:30",
-    "end_time": "2022-04-15T06:56:42.405+05:30",
-    "category_id": 3,
-    "video_id": null,
-    "lang": "hi",
-    "type": "doubt_class",
-    "meet_link": "https://meet.google.com/yen-ewvo-rjx",
-    "calendar_event_id": "1k33grb2rao1ijo49e5sg65320",
-    "facilitator_name": null,
-    "facilitator_email": null,
-    "material_link": null,
-    "max_enrolment": 5,
-    "recurring_id": null,
-    "sub_title": null,
-    "course_version": "v2",
-    "is_enrolled": false
-}*/
+
+import { dateTimeFormat, lang, TimeLeft } from "../../constant";
+import AlertDialog from "./AlertDialog";
+import DropOut from "./DropOut";
 
 export const MoreDetails = (props) => {
   const { open, setOpen } = props;
@@ -70,6 +32,7 @@ export const MoreDetails = (props) => {
     setOpen(changeTo);
   };
   const [ConfirmationOpen, setConfirmationOpen] = useState(false);
+
   const [openDropOut, setOpenDropOut] = useState(false);
   const anchorPos = "right";
   const close = () => {
@@ -165,7 +128,7 @@ export const MoreDetails = (props) => {
               {" "}
               <img
                 className={classes.icons}
-                src={require("./assets/Group.svg")}
+                src={require("./Revision/assets/Group.svg")}
                 alt="Students Img"
               />
               {actions?.facilitator_name}
@@ -245,7 +208,7 @@ export const MoreDetails = (props) => {
   );
 };
 
-const RevisionClassExerciseComponent = (props) => {
+const DoubtClassExerciseComponent = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const { actions, value } = props;
@@ -267,7 +230,7 @@ const RevisionClassExerciseComponent = (props) => {
           {" "}
           <img
             className={classes.icons}
-            src={require("./assets/Group.svg")}
+            src={require("./Revision/assets/Group.svg")}
             alt="Students Img"
           />
           Need help? We got you covered. Enroll in the doubt class on{" "}
@@ -323,7 +286,10 @@ const RevisionClassExerciseComponent = (props) => {
           mt={4}
           p={2}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            style={{ margin: "20px 0" }}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
             <svg
               width="8"
               height="9"
@@ -352,4 +318,4 @@ const RevisionClassExerciseComponent = (props) => {
     </>
   );
 };
-export default RevisionClassExerciseComponent;
+export default DoubtClassExerciseComponent;

@@ -11,18 +11,19 @@ import { breakpoints } from "../../theme/constant";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { dateTimeFormat } from "../../constant";
+import { useParams } from "react-router-dom";
+import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
 
 export default function AlertDialog(props) {
-  // const [openDialog, setOpenDialog] = React.useState(false);
-
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-
   const { open, close, title, start_time, end_time, id, registerAll } = props;
   const user = useSelector(({ User }) => User);
+  const params = useParams();
+  const pathwayId = params.pathwayId;
+  const dispatch = useDispatch();
   const handelEnrollment = (Id) => {
     axios
       .post(
@@ -43,6 +44,14 @@ export default function AlertDialog(props) {
           autoClose: 2500,
         });
         close();
+        if (registerAll) {
+          dispatch(
+            upcomingClassActions.getupcomingEnrolledClasses({
+              pathwayId: params.pathwayId,
+              authToken: user?.data?.token,
+            })
+          );
+        }
       })
       .catch((err) => {
         toast.error("Failed To Enroll To Class", {

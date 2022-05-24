@@ -14,7 +14,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
-import AlertDialog from "./dilog";
+import AlertDialog from "./AlertDialog";
 import { Box } from "@mui/system";
 import { dateTimeFormat } from "../../constant";
 export default function CheckMoreBatches(props) {
@@ -90,7 +90,7 @@ export default function CheckMoreBatches(props) {
             start_time={AlertData?.start_time}
             end_time={AlertData?.end_time}
             id={AlertData?.id}
-            registerAll={"false"}
+            registerAll={true}
           />
         </div>
       </Dialog>

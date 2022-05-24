@@ -1,53 +1,29 @@
-import React, { useEffect, useState } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import React from "react";
 import useStyles from "./styles";
-import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { dateTimeFormat } from "../../constant";
+import { Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
-import AlertDialog from "./dilog";
-import axios from "axios";
+import AlertDialog from "./AlertDialog";
 import { useSelector } from "react-redux";
 import CheckMoreBatches from "./CheckMoreBatches";
-// import { Button } from "framework7-react";
 
-const BelowComponent = (props) => {
-  const [open, setOpen] = React.useState(false);
-
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles();
+const PathwayCourseBatchEnroll2 = (props) => {
   const { upcomingBatchesData } = props;
+
+  const user = useSelector(({ User }) => User);
+
+  const [open, setOpen] = React.useState(false);
+  const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
+
+  const classes = useStyles();
 
   const handleClickOpen = () => {
     setOpen(!open);
   };
-
   const close = () => {
     setOpen(false);
   };
-  const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
-
-  const { title, start_time, end_time, id } = props;
-  const user = useSelector(({ User }) => User);
-  // const handelEnrollment = (Id) => {
-  //   axios
-  //     .post(
-  //       `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
-  //       {},
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: user.data.token,
-  //           "register-to-all": true,
-  //         },
-  //       }
-  //     )
-  //     .then(() => {
-  //       handleClose();
-  //     });
-  // };
   const handleUpcomingBatchesClickOpen = () => {
     setUpcomingBatchesOpen(true);
   };
@@ -112,6 +88,7 @@ const BelowComponent = (props) => {
               start_time={upcomingBatchesData[0]?.start_time}
               end_time={upcomingBatchesData[0]?.end_time}
               id={upcomingBatchesData[0]?.id}
+              registerAll={true}
             />
           </Stack>
           <Typography
@@ -127,6 +104,9 @@ const BelowComponent = (props) => {
             <Typography
               onClick={handleUpcomingBatchesClickOpen}
               color="primary"
+              style={{
+                cursor: "pointer",
+              }}
             >
               {" "}
               Check out our other batches
@@ -145,4 +125,4 @@ const BelowComponent = (props) => {
     ""
   );
 };
-export default BelowComponent;
+export default PathwayCourseBatchEnroll2;

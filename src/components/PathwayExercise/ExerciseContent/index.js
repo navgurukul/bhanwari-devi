@@ -26,12 +26,10 @@ import {
 import { dateTimeFormat, TimeLeft, versionCode } from "../../../constant";
 
 import useStyles from "../styles";
-import BatchClass from "../../UpcomingCourse/JoinClass/BatchClass";
-import CourseEnroll from "../../UpcomingCourse/NotEnrolledinCourse/EnrollInCourse";
-import RevisionClassExerciseComponent, {
-  MoreDetails,
-} from "../../UpcomingCourse/Revision/RevisionClassExerciseComponent";
-import RevisionClassEnroll from "../../UpcomingCourse/Revision/RevisionClassEnroll";
+import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
+import CourseEnroll from "../../BatchClassComponents/EnrollInCourse/EnrollInCourse";
+import DoubtClassExerciseComponent from "../../BatchClassComponents/DoubtClassExerciseComponent";
+import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 const createVisulizeURL = (code, lang, mode) => {
@@ -64,12 +62,7 @@ const headingVarients = {};
     ))
 );
 
-const RenderContent = ({
-  data,
-  exercise,
-  enrolledDoubtClassData,
-  setEnrolledDoubtClassData,
-}) => {
+const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   if (data.component === "header") {
     return headingVarients[data.variant](
@@ -177,19 +170,11 @@ const RenderContent = ({
   if (data.component === "banner") {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
-    let alreadyExists = false;
-    if (actions.is_enrolled) {
-      enrolledDoubtClassData.forEach((item) => {
-        if (item.id === actions.id) {
-          alreadyExists = true;
-        }
-      });
-      if (!alreadyExists) {
-        setEnrolledDoubtClassData([...enrolledDoubtClassData, actions]);
-      }
-    }
-    // console.log(actions.is_enrolled);
-    return <RevisionClassExerciseComponent value={value} actions={actions} />;
+    return (
+      <div>
+        <DoubtClassExerciseComponent value={value} actions={actions} />
+      </div>
+    );
   }
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
@@ -253,7 +238,6 @@ function ExerciseContent({ exerciseId, lang }) {
   const [courseData, setCourseData] = useState({ content_type: null });
   const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
   const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
-  const [enrolledDoubtClassData, setEnrolledDoubtClassData] = useState([]);
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
@@ -263,10 +247,6 @@ function ExerciseContent({ exerciseId, lang }) {
       setCourseData(res.data.course.exercises[exerciseId]);
     });
   }, [courseId, exerciseId, lang]);
-
-  useEffect(() => {
-    console.log(enrolledDoubtClassData);
-  }, [enrolledDoubtClassData]);
 
   useEffect(() => {
     // getupcomingEnrolledClasses
@@ -382,8 +362,6 @@ function ExerciseContent({ exerciseId, lang }) {
                       exercise={exercise}
                       key={index}
                       classes={classes}
-                      enrolledDoubtClassData={enrolledDoubtClassData}
-                      setEnrolledDoubtClassData={setEnrolledDoubtClassData}
                     />
                   ))}
               </Box>
@@ -399,7 +377,7 @@ function ExerciseContent({ exerciseId, lang }) {
           {courseData["content_type"] == "class_topic" && (
             <>
               {" "}
-              <BatchClass
+              <ExerciseBatchClass
                 id={courseData.id}
                 facilitator={courseData.facilitator.name}
                 start_time={courseData.start_time}
