@@ -19,7 +19,16 @@ import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
 
 export default function AlertDialog(props) {
   const classes = useStyles();
-  const { open, close, title, start_time, end_time, id, registerAll } = props;
+  const {
+    open,
+    close,
+    title,
+    start_time,
+    end_time,
+    id,
+    registerAll,
+    exerciseReload,
+  } = props;
   const user = useSelector(({ User }) => User);
   const params = useParams();
   const pathwayId = params.pathwayId;
@@ -51,6 +60,7 @@ export default function AlertDialog(props) {
               authToken: user?.data?.token,
             })
           );
+        } else if (exerciseReload) {
         }
       })
       .catch((err) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
 import axios from "axios";
 import get from "lodash/get";
@@ -30,6 +30,8 @@ import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/Ex
 import CourseEnroll from "../../BatchClassComponents/EnrollInCourse/EnrollInCourse";
 import DoubtClassExerciseComponent from "../../BatchClassComponents/DoubtClassExerciseComponent";
 import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
+import { actions as upcomingBatchesActions } from "../..//PathwayCourse/redux/action";
+import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 const createVisulizeURL = (code, lang, mode) => {
@@ -236,9 +238,9 @@ function ExerciseContent({ exerciseId, lang }) {
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [open, setOpen] = useState(false);
   const [courseData, setCourseData] = useState({ content_type: null });
-  const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
-  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
-
+  // const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
+  // const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
       setCourse(res.data.course.name);
@@ -248,28 +250,28 @@ function ExerciseContent({ exerciseId, lang }) {
     });
   }, [courseId, exerciseId, lang]);
 
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
+  const userEnrolledClasses = useSelector((state) => {
+    return state.Pathways?.upcomingEnrolledClasses?.data;
+  });
   useEffect(() => {
     // getupcomingEnrolledClasses
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingEnrolledClasses`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      setUserEnrolledClasses(res.data);
-    });
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingBatches`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      setUpcomingBatchesData(res.data);
-    });
+    if (user?.data?.token) {
+      dispatch(
+        upcomingBatchesActions.getUpcomingBatches({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+      dispatch(
+        upcomingClassActions.getupcomingEnrolledClasses({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+    }
   }, [params.pathwayId, open]);
 
   function ExerciseContentMain() {

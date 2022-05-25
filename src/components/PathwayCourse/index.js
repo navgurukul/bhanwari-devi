@@ -117,7 +117,7 @@ function PathwayCourse() {
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
       headers: {
-        Authorization: user.data.token,
+        Authorization: user?.data?.token,
       },
     }).then((res) => {
       if (res.data.length > 0) {
@@ -125,14 +125,6 @@ function PathwayCourse() {
       }
     });
   }, [dispatch, pathwayId]);
-  const reCallAfterEnrolled = () => {
-    dispatch(
-      upcomingClassActions.getupcomingEnrolledClasses({
-        pathwayId: pathwayId,
-        authToken: user?.data?.token,
-      })
-    );
-  };
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
