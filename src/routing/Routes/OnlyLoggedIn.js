@@ -20,7 +20,6 @@ const OnlyLoggedIn = (passedProps) => {
   // } else if (User && User.user) {
   //   isAuthorized = userHasAccess(User.user, roles || [])
   // }
-
   // if (loading) {
   //   return <Loader />;
   // }

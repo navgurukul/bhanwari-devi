@@ -31,8 +31,8 @@ export const PATHS = {
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
   SEARCHED_COURSE: "/search-course",
+  NEW_PARTNER: "/new-partner",
 };
-
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
 export const HideFooter = [
   PATHS.LOGIN,
@@ -41,8 +41,6 @@ export const HideFooter = [
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
 ];
-
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
-
 export const versionCode = 40;

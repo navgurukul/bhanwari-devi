@@ -111,7 +111,7 @@ function Login(props) {
       <Container className={classes.merakiLogin} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
                 variant="h4"
