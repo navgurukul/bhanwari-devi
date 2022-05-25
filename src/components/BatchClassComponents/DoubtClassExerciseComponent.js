@@ -203,6 +203,7 @@ export const MoreDetails = (props) => {
         start_time={actions?.start_time}
         end_time={actions?.end_time}
         id={actions?.id}
+        exerciseReload={true}
       />
     </div>
   );
