@@ -90,7 +90,40 @@ function AttendClass({ setDisable }) {
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()),
     1000
   );
-
+  const EnrolledAndTimer = ({ item }) => {
+    const [Timer, setTimer] = useState(TimeLeft(item.start_time));
+    const ONE_MINUTE = 60000; //millisecs
+    setInterval(() => {
+      console.log("TimeChanged");
+      setTimer(TimeLeft(item.start_time));
+    }, ONE_MINUTE);
+    console.log("Timer", Timer);
+    return (
+      <>
+        {Timer == "joinNow" ? (
+          <a
+            style={{
+              textDecoration: "none",
+            }}
+            href={item.meet_link}
+            target="_blank"
+          >
+            <Button
+              onClick={() => setDisable(false)}
+              variant="contained"
+              fullWidth
+            >
+              Join Now
+            </Button>
+          </a>
+        ) : (
+          <Button disabled={true} variant="contained" fullWidth>
+            Starts in {Timer}
+          </Button>
+        )}
+      </>
+    );
+  };
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       <Container maxWidth="md">
@@ -156,7 +189,6 @@ function AttendClass({ setDisable }) {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  {console.log("timer", TimeLeft(item.start_time))}
                   {sliceData && sliceData.length > 1 ? (
                     <Button
                       onClick={() => {
@@ -170,30 +202,7 @@ function AttendClass({ setDisable }) {
                       Enroll
                     </Button>
                   ) : (
-                    <>
-                      {TimeLeft(item.start_time) == "joinNow" ? (
-                        <a
-                          style={{
-                            textDecoration: "none",
-                          }}
-                          href={item.meet_link}
-                          target="_blank"
-                        >
-                          <Button
-                            onClick={() => setDisable(false)}
-                            variant="contained"
-                            fullWidth
-                          >
-                            Join Now
-                          </Button>
-                        </a>
-                      ) : (
-                        <Button disabled={true} variant="contained" fullWidth>
-                          Starts in {TimeLeft(item.start_time)}
-                          {setTimeout(TimeLeft(item.start_time), 1000)}
-                        </Button>
-                      )}
-                    </>
+                    <EnrolledAndTimer item={item} />
                   )}
                 </CardActions>
               </Card>
