@@ -33,6 +33,7 @@ export const PATHS = {
   NEWUSER_DASHBOARED: "/user-dashboared",
   PYTHONCOURSE: "/Python-course",
   SEARCHED_COURSE: "/search-course",
+  RETURNINGUSERPAGE: "/Returning-user",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];

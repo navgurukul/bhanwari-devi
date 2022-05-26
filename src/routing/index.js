@@ -10,6 +10,7 @@ import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
+
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import PartnerData from "../components/Dashboard/PartnerData";
 import StudentData from "../components/Dashboard/StudentData";
@@ -32,6 +33,7 @@ import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
 import SearchCourse from "../components/SearchBar/SearchCourse";
+import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 
 // import Classes from '../pages/classes'
 
@@ -77,6 +79,12 @@ const Routing = () => {
         path={PATHS.PYTHONCOURSE}
         component={PythonCourse}
       /> */}
+
+      <Route
+        exact
+        path={PATHS.RETURNINGUSERPAGE}
+        component={ReturningUserPage}
+      />
 
       <Route
         exact
