@@ -51,7 +51,7 @@ const PathwayCards = (props) => {
                   <CardContent>
                     <Grid container spacing={1}>
                       <Grid item xs={6} md={8}>
-                        <Typography variant="body2" gutterBottom>
+                        <Typography variant="h6" gutterBottom>
                           {item.title}
                         </Typography>
                       </Grid>

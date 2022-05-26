@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import { dateTimeFormat } from "../../constant";
 import { useParams } from "react-router-dom";
 import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
-
 export default function AlertDialog(props) {
   const classes = useStyles();
   const {
@@ -78,15 +77,15 @@ export default function AlertDialog(props) {
           <Typography variant="h6">
             Awesome! You have taken the first step to being a programmer
           </Typography>
-          <Typography variant="h6" mt={2}>
-            {title}
+          <Typography variant="h6" mt={4}>
+            Batch:{title}
           </Typography>
           <Typography
             variant="body1"
             mb={1}
             style={{
               display: "flex",
-              padding: "10px 0",
+              padding: "15px 0",
             }}
           >
             <img
@@ -94,12 +93,15 @@ export default function AlertDialog(props) {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            {start_time ? dateTimeFormat(start_time).finalDate : ""} -{" "}
-            {end_time ? dateTimeFormat(end_time).finalDate : ""}
+            {start_time ? dateTimeFormat(start_time).finalDate : ""},{" "}
+            {start_time ? dateTimeFormat(start_time).finalTime : ""}-{" "}
+            {end_time ? dateTimeFormat(end_time).finalTime : ""}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
-          <Button onClick={close}>Back</Button>
+          <Button onClick={close} sx={{ color: "red" }}>
+            Back
+          </Button>
           <Button
             onClick={() => {
               handelEnrollment(id);
