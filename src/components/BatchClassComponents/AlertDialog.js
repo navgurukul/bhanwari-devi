@@ -74,10 +74,10 @@ export default function AlertDialog(props) {
     <div>
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
             Awesome! You have taken the first step to being a programmer
           </Typography>
-          <Typography variant="h6" mt={3}>
+          <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
             Batch:{title}
           </Typography>
           <Typography
@@ -93,15 +93,13 @@ export default function AlertDialog(props) {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            {start_time ? dateTimeFormat(start_time).finalDate : ""},{" "}
+            {start_time ? dateTimeFormat(start_time).finalDate : ""} , {"  "}
             {start_time ? dateTimeFormat(start_time).finalTime : ""}-{" "}
             {end_time ? dateTimeFormat(end_time).finalTime : ""}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
-          <Button onClick={close} sx={{ color: "red" }}>
-            Back
-          </Button>
+          <Button onClick={close}>Back</Button>
           <Button
             onClick={() => {
               handelEnrollment(id);

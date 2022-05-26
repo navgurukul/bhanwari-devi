@@ -51,21 +51,24 @@ export default function DropOut(props) {
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
           <Typography variant="h6">
-            Are You Sure You want to drop out ?
+            Confirm dropping out of the batch
           </Typography>
-          <Typography variant="h6" mt={2}>
-            {title}
+          <Typography variant="body1" mt={2}>
+            If you have missed some classes, you can take revision classes
+            without dropping off
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
-          <Button onClick={close}>Back</Button>
+          <Button onClick={close} color="error">
+            Drop Out
+          </Button>
           <Button
             onClick={() => {
               handelDropOut(id);
             }}
-            variant="contained"
+            color="primary"
           >
-            Confirm DropOut
+            Stay Enrolled
           </Button>
         </DialogActions>
       </Dialog>
