@@ -77,7 +77,7 @@ export default function AlertDialog(props) {
           <Typography variant="h6">
             Awesome! You have taken the first step to being a programmer
           </Typography>
-          <Typography variant="h6" mt={4}>
+          <Typography variant="h6" mt={3}>
             Batch:{title}
           </Typography>
           <Typography
