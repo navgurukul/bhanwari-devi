@@ -142,7 +142,7 @@ function PathwayCourse() {
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
-        {userEnrolledClasses?.length > 0 ? (
+        {enrolledBatches?.length > 0 ? (
           <PathwayCards userEnrolledClasses={userEnrolledClasses} />
         ) : (
           pathwayId &&
@@ -355,8 +355,7 @@ function PathwayCourse() {
           ) : (
             ""
           )}
-          {!(userEnrolledClasses?.length > 0) &&
-          upcomingBatchesData?.length > 0 ? (
+          {!(enrolledBatches?.length > 0) && upcomingBatchesData?.length > 0 ? (
             <PathwayCourseBatchEnroll2
               upcomingBatchesData={upcomingBatchesData}
             />

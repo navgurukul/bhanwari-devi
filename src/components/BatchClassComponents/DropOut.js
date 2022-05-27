@@ -59,15 +59,15 @@ export default function DropOut(props) {
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
-          <Button onClick={close} color="error">
-            Drop Out
-          </Button>
           <Button
             onClick={() => {
               handelDropOut(id);
             }}
-            color="primary"
+            color="error"
           >
+            Drop Out
+          </Button>
+          <Button onClick={close} color="primary">
             Stay Enrolled
           </Button>
         </DialogActions>
