@@ -14,9 +14,9 @@ function ReturningUserPage() {
         <Typography variant="h5" mb={3}>
           My Learning Tracks
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} align="center">
           <Grid xs={4}>
-            <Box align="right" mt={1} maxWidth={350} mb={10}>
+            <Box mt={1} maxWidth={350} mb={10}>
               <Card elevation={2} pl={15}>
                 <CardContent>
                   <Grid container>
