@@ -11,6 +11,7 @@ function ReturningUserPage() {
   return (
     <>
       <Container maxWidth="lg" mt={2}>
+        <Typography variant="h5">My Learning Tracks</Typography>
         <Grid container spacing={2}>
           <Grid xs={4}>
             <Box align="right" mt={1} maxWidth={350} mb={10}>
