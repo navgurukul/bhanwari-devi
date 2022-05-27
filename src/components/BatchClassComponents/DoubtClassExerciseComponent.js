@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Typography } from "@mui/material";
+import { Typography, Card, CardContent } from "@mui/material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "./styles";
@@ -278,7 +278,7 @@ const DoubtClassExerciseComponent = (props) => {
       />
 
       <>
-        <Box
+        {/* <Box
           onClick={() => {
             setOpen(true);
           }}
@@ -301,10 +301,10 @@ const DoubtClassExerciseComponent = (props) => {
               <circle cx="4" cy="4.5" r="4" fill="#FFC107" />
             </svg>
             <Typography variant="body2" ml={1}>
-              Upcoming Doubt Class
+              dfsdfhfsd
             </Typography>
           </Box>
-          <Typography variant="subtitle1" mt={1}>
+          <Typography variant="h5" mt={1}>
             {actions.title}
           </Typography>
           <Typography variant="body2" mt={1}>
@@ -314,6 +314,63 @@ const DoubtClassExerciseComponent = (props) => {
             {dateTimeFormat(actions.start_time).finalTime} to{" "}
             {dateTimeFormat(actions.end_time).finalTime}
           </Typography>
+        </Box> */}
+        <Box backgroundColor="primary.light" p={2} mt={2}>
+          <Typography variant="h5" mt={1} mb={2}>
+            {actions.title}
+          </Typography>
+          {/* <Typography variant="body2" mt={1}>
+            {dateTimeFormat(actions.start_time).finalDate}
+          </Typography>
+          <Typography variant="body2" mt={1}>
+            {dateTimeFormat(actions.start_time).finalTime} to{" "}
+            {dateTimeFormat(actions.end_time).finalTime}
+          </Typography> */}
+          <Typography
+            variant="body1"
+            mb={2}
+            align="left"
+            style={{
+              display: "flex",
+            }}
+          >
+            <img
+              className={classes.icons}
+              src={require("./Revision/assets/calender.svg")}
+              alt="Students Img"
+            />
+            {start_time.finalDate}
+            at {start_time.finalTime} - {end_time.finalTime}
+            <img
+              className={classes.icons}
+              style={{ marginLeft: "10px" }}
+              src={require("./Revision/assets/Group.svg")}
+              alt="Students Img"
+            />
+            Prajakta Kishori
+          </Typography>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              endIcon={<ArrowForwardIosIcon />}
+              onClick={() => {
+                setOpen(true);
+              }}
+              sx={{
+                width: isActive ? "90%" : "215px",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              View Class Details
+            </Button>
+          </div>
         </Box>
       </>
     </>
