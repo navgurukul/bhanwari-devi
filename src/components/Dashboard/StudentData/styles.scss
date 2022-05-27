@@ -84,7 +84,7 @@ tr:hover {
   margin-bottom: 40px;
 }
 
-.filter-clear {
+.filter-clear:enabled {
   background: #83b344;
   margin-left: 20px;
   width: 100px;
@@ -96,6 +96,19 @@ tr:hover {
   border: none;
   cursor: pointer;
 }
+.filter-clear:disabled {
+  background: white;
+  margin-left: 20px;
+  width: 100px;
+  height: 30px;
+  border-radius: 15px;
+  border-color: #83b344;
+  color: #83b344;
+  font-size: 17px;
+  font-weight: "bold";
+  outline: #83b344;
+  cursor: pointer;
+}
 
 .Message {
   font-size: 20px;
@@ -104,7 +117,7 @@ tr:hover {
 .partner-name {
   font-style: normal;
   font-family: Rubik;
-  font-weight: 400;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 768px) {
