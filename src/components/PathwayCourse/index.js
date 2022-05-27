@@ -40,7 +40,7 @@ const pathways = [
   },
   {
     pathway: "Javascript",
-    code: "JVSCPT",
+    code: "JSRPIT",
     description:
       "Learn the nuances and basics of the technology that powers the web. Start with learning what is Javascript and eventually build your own website.",
     outcomes: [
@@ -120,6 +120,7 @@ function PathwayCourse() {
         Authorization: user?.data?.token,
       },
     }).then((res) => {
+      console.log(res.data);
       if (res.data.length > 0) {
         setEnrolledBatches(res.data);
       }
@@ -142,7 +143,7 @@ function PathwayCourse() {
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
-        {enrolledBatches?.length > 0 ? (
+        {enrolledBatches ? (
           <PathwayCards userEnrolledClasses={userEnrolledClasses} />
         ) : (
           pathwayId &&
@@ -355,7 +356,7 @@ function PathwayCourse() {
           ) : (
             ""
           )}
-          {!(enrolledBatches?.length > 0) && upcomingBatchesData?.length > 0 ? (
+          {enrolledBatches && upcomingBatchesData?.length > 0 ? (
             <PathwayCourseBatchEnroll2
               upcomingBatchesData={upcomingBatchesData}
             />
