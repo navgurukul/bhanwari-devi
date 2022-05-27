@@ -63,6 +63,19 @@ const headingVarients = {};
       />
     ))
 );
+const RenderDoubtClass = ({ data, exercise }) => {
+  const classes = useStyles();
+  if (data.component === "banner") {
+    const value = data.value;
+    const actions = JSON.parse(data.actions[0].data);
+    return (
+      <div style={{ position: "relative" }}>
+        <DoubtClassExerciseComponent value={value} actions={actions} />
+      </div>
+    );
+  }
+  return null;
+};
 
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
@@ -169,15 +182,7 @@ const RenderContent = ({ data, exercise }) => {
       </TableContainer>
     );
   }
-  if (data.component === "banner") {
-    const value = data.value;
-    const actions = JSON.parse(data.actions[0].data);
-    return (
-      <div>
-        <DoubtClassExerciseComponent value={value} actions={actions} />
-      </div>
-    );
-  }
+
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
@@ -238,8 +243,8 @@ function ExerciseContent({ exerciseId, lang }) {
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [open, setOpen] = useState(false);
   const [courseData, setCourseData] = useState({ content_type: null });
-  // const [userEnrolledClasses, setUserEnrolledClasses] = useState([]);
-  // const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
+  const [BannerData, setBannerData] = useState([]);
+  const [enrolledBatches, setEnrolledBatches] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
@@ -271,6 +276,18 @@ function ExerciseContent({ exerciseId, lang }) {
           authToken: user?.data?.token,
         })
       );
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
+        headers: {
+          Authorization: user?.data?.token,
+        },
+      }).then((res) => {
+        console.log(res.data);
+        if (res.data.length > 0) {
+          setEnrolledBatches(res.data);
+        }
+      });
     }
   }, [params.pathwayId, open]);
 
@@ -281,7 +298,7 @@ function ExerciseContent({ exerciseId, lang }) {
           <Container maxWidth="sm">
             <Box sx={{ m: "32px 0px" }}>
               <Box>
-                {courseData["content_type"] == "class_topic" && (
+                {courseData?.content_type == "class_topic" && (
                   <>
                     <Box m={4} sx={{ maxWidth: "300px" }}>
                       <Typography variant="h6" mt={2}>
@@ -357,6 +374,22 @@ function ExerciseContent({ exerciseId, lang }) {
                     </Box>
                   </>
                 )}
+
+                {content &&
+                  content.map((contentItem, index) => (
+                    <RenderDoubtClass
+                      data={contentItem}
+                      exercise={exercise}
+                      key={index}
+                      classes={classes}
+                    />
+                  ))}
+                <div
+                  style={{
+                    borderBottom: "1px solid #BDBDBD",
+                    margin: "40px 0px",
+                  }}
+                ></div>
                 {content &&
                   content.map((contentItem, index) => (
                     <RenderContent
@@ -376,7 +409,7 @@ function ExerciseContent({ exerciseId, lang }) {
           }}
           item
         >
-          {courseData["content_type"] == "class_topic" && (
+          {courseData?.content_type == "class_topic" && (
             <>
               {" "}
               <ExerciseBatchClass
@@ -394,12 +427,11 @@ function ExerciseContent({ exerciseId, lang }) {
     );
   }
 
-  return userEnrolledClasses?.length == 0 &&
-    upcomingBatchesData?.length == 0 ? (
+  return enrolledBatches?.length == 0 && upcomingBatchesData?.length == 0 ? (
     <>
       <ExerciseContentMain />
     </>
-  ) : userEnrolledClasses?.length == 0 ? (
+  ) : enrolledBatches?.length == 0 ? (
     <CourseEnroll
       upcomingBatchesData={upcomingBatchesData}
       open={open}
