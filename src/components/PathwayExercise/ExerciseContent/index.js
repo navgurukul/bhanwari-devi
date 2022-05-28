@@ -69,8 +69,14 @@ const RenderDoubtClass = ({ data, exercise }) => {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
     return (
-      <div style={{ position: "relative" }}>
+      <div>
         <DoubtClassExerciseComponent value={value} actions={actions} />
+        <div
+          style={{
+            borderBottom: "1px solid #BDBDBD",
+            margin: "40px 0px",
+          }}
+        ></div>
       </div>
     );
   }
@@ -384,12 +390,7 @@ function ExerciseContent({ exerciseId, lang }) {
                       classes={classes}
                     />
                   ))}
-                <div
-                  style={{
-                    borderBottom: "1px solid #BDBDBD",
-                    margin: "40px 0px",
-                  }}
-                ></div>
+
                 {content &&
                   content.map((contentItem, index) => (
                     <RenderContent
@@ -427,11 +428,11 @@ function ExerciseContent({ exerciseId, lang }) {
     );
   }
 
-  return enrolledBatches?.length == 0 && upcomingBatchesData?.length == 0 ? (
+  return enrolledBatches && upcomingBatchesData?.length == 0 ? (
     <>
       <ExerciseContentMain />
     </>
-  ) : enrolledBatches?.length == 0 ? (
+  ) : !enrolledBatches ? (
     <CourseEnroll
       upcomingBatchesData={upcomingBatchesData}
       open={open}

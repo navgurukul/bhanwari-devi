@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 
 import { breakpoints } from "../../theme/constant";
 import useStyles from "./styles";
@@ -21,8 +21,11 @@ export default function DropOut(props) {
   const classes = useStyles();
 
   const { open, close, title, id, unregister_all } = props;
+  const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
+
   const handelDropOut = (Id) => {
+    setLoading(true);
     axios
       .delete(`${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`, {
         headers: {
@@ -36,6 +39,7 @@ export default function DropOut(props) {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
+        setLoading(false);
         close();
       })
       .catch((err) => {
@@ -65,7 +69,7 @@ export default function DropOut(props) {
             }}
             color="error"
           >
-            Drop Out
+            {loading ? <CircularProgress color="secondary" /> : "Drop Out"}
           </Button>
           <Button onClick={close} color="primary">
             Stay Enrolled

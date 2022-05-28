@@ -6,7 +6,9 @@ import PathwayCard from "../../pages/Home/PathwayCard";
 import { Container, Grid, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-
+import ReturningUserPage from "../ReturningUser/ReturningUserPage";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 const pathwayData = [
   {
     title: "Python",
@@ -47,17 +49,27 @@ const pathwayData = [
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
   const UserName = user.data.user.name;
-
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-
   const dispatch = useDispatch();
+  const [enrolledBatches, setEnrolledBatches] = useState(null);
   const { loading, data } = useSelector((state) => state.Pathways);
-
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
-
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}users/EnrolledBatches`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      if (res.data.length > 0) {
+        setEnrolledBatches(res.data);
+      }
+    });
+  }, []);
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
@@ -70,36 +82,42 @@ const NewUserDashbord = () => {
 
   return (
     <>
-      <Container className={classes.DashboardContainer}>
-        <Typography variant="h5" align="center" mt={4} mb={1}>
-          Hello, {UserName} 👋
-        </Typography>
-        <Typography variant="h6" align="center" mb={5}>
-          Please choose a learning track to begin!
-        </Typography>
-      </Container>
-      <Container maxWidth="lg">
-        <Grid container align="center" rowSpacing={10} mb={10}>
-          {pathwayData.map((item) => (
-            <Grid
-              item
-              xs={12}
-              ms={6}
-              md={4}
-              className={classes.cardGrid}
-              maxHeight={280}
-            >
-              <PathwayCard
-                id={item.id}
-                title={item.title}
-                description={item.description}
-                image={item.image}
-                hover={true}
-              />
+      {!enrolledBatches ? (
+        <>
+          <Container className={classes.DashboardContainer}>
+            <Typography variant="h5" align="center" mt={4} mb={1}>
+              Hello, {UserName} 👋
+            </Typography>
+            <Typography variant="h6" align="center" mb={5}>
+              Please choose a learning track to begin!
+            </Typography>
+          </Container>
+          <Container maxWidth="lg">
+            <Grid container align="center" rowSpacing={10} mb={10}>
+              {pathwayData.map((item) => (
+                <Grid
+                  item
+                  xs={12}
+                  ms={6}
+                  md={4}
+                  className={classes.cardGrid}
+                  maxHeight={280}
+                >
+                  <PathwayCard
+                    id={item.id}
+                    title={item.title}
+                    description={item.description}
+                    image={item.image}
+                    hover={true}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Container>
+          </Container>
+        </>
+      ) : (
+        <ReturningUserPage />
+      )}
     </>
   );
 };
