@@ -12,6 +12,7 @@ import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { useHistory } from "react-router-dom";
+import { interpolatePath, PATHS } from "../../constant";
 
 const CardData = [
   {
@@ -51,7 +52,9 @@ function ReturningUserPage() {
           {CardData.map((item) => (
             <Grid
               onClick={() => {
-                history.push(interpolatePath(PATHS.LOGIN));
+                history.push(
+                  interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: 1 })
+                );
               }}
               xs={4}
             >
