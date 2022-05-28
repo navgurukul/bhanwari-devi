@@ -53,6 +53,12 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
   },
+  backToAllClasses: {
+    lineHeight: 1.5,
+    fontWeight: 700,
+    fontFamily: "Lusitana",
+    fontSize: "1.5rem",
+  },
 }));
 
 export default useStyles;

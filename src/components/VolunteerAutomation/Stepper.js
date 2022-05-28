@@ -30,10 +30,15 @@ function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(
     myData ? parseInt(myData) : 0
   );
+  const isDisabled = JSON.parse(localStorage.getItem("disabled"));
   const [skipped, setSkipped] = React.useState(new Set());
-  const [disable, setDisable] = React.useState(true);
+  const [disable, setDisable] = React.useState(
+    isDisabled == false ? isDisabled : true
+  );
   const [contact, setContact] = useState();
   const [pathwayId, setPathwayId] = useState();
+
+  console.log("isDisabled", isDisabled);
 
   const steps = [
     {
