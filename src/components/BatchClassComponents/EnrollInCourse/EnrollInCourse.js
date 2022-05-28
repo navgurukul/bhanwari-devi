@@ -14,6 +14,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+
 import { dateTimeFormat } from "../../../constant.js";
 // import { Button } from "framework7-react";
 import AlertDialog from "../AlertDialog.js";
@@ -21,8 +22,10 @@ const NotEnrolledSvg = require("./notEnrolled.svg");
 const CourseEnroll = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  const { upcomingBatchesData } = props;
-  const data = upcomingBatchesData.slice(0, 3).map((item) => {
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
+  const data = upcomingBatchesData?.slice(0, 3).map((item) => {
     return {
       id: item.id,
       title: item.title,
@@ -31,8 +34,7 @@ const CourseEnroll = (props) => {
     };
   });
 
-  const [BatchToEnroll, setBatchToEnroll] = useState(data[0].id);
-  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
+  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState();
   const { open, setOpen } = props;
   const close = () => {
     setOpen(false);
@@ -68,8 +70,8 @@ const CourseEnroll = (props) => {
                 </Typography>
                 <Box display="flex" justifyContent="start">
                   <FormControl>
-                    <RadioGroup value={selectedBatchToEnroll.id}>
-                      {data.map((item) => {
+                    <RadioGroup value={selectedBatchToEnroll?.id}>
+                      {data?.map((item) => {
                         return (
                           <>
                             <FormControlLabel
@@ -79,11 +81,11 @@ const CourseEnroll = (props) => {
                               sx={{ fontWeight: 20 }}
                               value={item.id}
                               control={<Radio />}
-                              label={<b>{item.title}</b>}
+                              label={<b>{item?.title}</b>}
                             />
                             <Typography mb={2} ml={3}>
-                              {dateTimeFormat(item.startTime).finalDate} -
-                              {dateTimeFormat(item.endTime).finalDate}
+                              {dateTimeFormat(item?.startTime).finalDate} -
+                              {dateTimeFormat(item?.endTime).finalDate}
                             </Typography>
                           </>
                         );
@@ -98,14 +100,14 @@ const CourseEnroll = (props) => {
                     setOpen(true);
                   }}
                 >
-                  Enroll in {selectedBatchToEnroll.title}
+                  Enroll in {selectedBatchToEnroll?.title}
                 </Button>
                 <AlertDialog
                   open={open}
-                  title={selectedBatchToEnroll.title}
-                  start_time={selectedBatchToEnroll.startTime}
-                  end_time={selectedBatchToEnroll.endTime}
-                  id={selectedBatchToEnroll.id}
+                  title={selectedBatchToEnroll?.title}
+                  start_time={selectedBatchToEnroll?.startTime}
+                  end_time={selectedBatchToEnroll?.endTime}
+                  id={selectedBatchToEnroll?.id}
                   close={close}
                   registerAll={true}
                 />

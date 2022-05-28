@@ -65,7 +65,7 @@ function DropOutIndividualComponent(props) {
 }
 
 function DropOutBatchesProfile() {
-  const [dropOutBatches, setDropOutBatches] = useState([]);
+  const [dropOutBatches, setDropOutBatches] = useState(null);
   const [open, setOpen] = useState(false);
 
   const user = useSelector(({ User }) => User);
@@ -78,7 +78,9 @@ function DropOutBatchesProfile() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setDropOutBatches(res.data);
+      if (res?.data?.length > 0) {
+        setDropOutBatches(res.data);
+      }
     });
   }, [open]);
 
@@ -93,11 +95,12 @@ function DropOutBatchesProfile() {
       }}
     >
       <div>
-        <Typography variant="subtitle1" color="gray">
-          Enrolled Batches
-        </Typography>
-
-        {dropOutBatches.map((dropOutBatch, index) => {
+        {dropOutBatches && (
+          <Typography variant="subtitle1" color="gray">
+            Enrolled Batches
+          </Typography>
+        )}
+        {dropOutBatches?.map((dropOutBatch, index) => {
           return (
             <DropOutIndividualComponent
               key={index}

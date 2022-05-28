@@ -348,7 +348,7 @@ const DoubtClassExerciseComponent = (props) => {
               src={require("./Revision/assets/Group.svg")}
               alt="Students Img"
             />
-            Prajakta Kishori
+            {actions.facilitator_name}
           </Typography>
           <div
             style={{

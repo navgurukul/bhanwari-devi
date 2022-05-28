@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 
 import { breakpoints } from "../../theme/constant";
 import useStyles from "./styles";
@@ -32,7 +32,9 @@ export default function AlertDialog(props) {
   const params = useParams();
   const pathwayId = params.pathwayId;
   const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(false);
   const handelEnrollment = (Id) => {
+    setLoading(true);
     axios
       .post(
         `${
@@ -51,6 +53,8 @@ export default function AlertDialog(props) {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
         });
+        setLoading(false);
+
         close();
         if (registerAll) {
           dispatch(
@@ -63,6 +67,7 @@ export default function AlertDialog(props) {
         }
       })
       .catch((err) => {
+        setLoading(false);
         toast.error("Failed To Enroll To Class", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
@@ -101,12 +106,17 @@ export default function AlertDialog(props) {
         <DialogActions sx={{ mb: 2, mr: 3 }}>
           <Button onClick={close}>Back</Button>
           <Button
+            disabled={loading}
             onClick={() => {
               handelEnrollment(id);
             }}
             variant="contained"
           >
-            Confirm Enrollment
+            {loading ? (
+              <CircularProgress color="secondary" />
+            ) : (
+              " Confirm Enrollment"
+            )}
           </Button>
         </DialogActions>
       </Dialog>
