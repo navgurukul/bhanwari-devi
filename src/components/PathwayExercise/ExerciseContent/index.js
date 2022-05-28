@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
-import { METHODS } from "../../../services/api";
-import axios from "axios";
 import get from "lodash/get";
 import YouTube from "react-youtube";
 import DOMPurify from "dompurify";
 import { useParams } from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
+import Assessment from "../ExerciseContent/Assessment";
 import {
   TableRow,
   TableHead,
@@ -46,16 +45,33 @@ const createVisulizeURL = (code, lang, mode) => {
   return url;
 };
 
+function UnsafeHTML(props) {
+  const { html, Container, ...otherProps } = props;
+  const sanitizedHTML = DOMPurify.sanitize(html);
+  return (
+    <Container
+      {...otherProps}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
+}
+
 const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
     (headingVarients[index + 1] = (data) => (
-      <Name
+      <UnsafeHTML
+        Container={Name}
         className="heading"
-        dangerouslySetInnerHTML={{ __html: data }}
+        html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
+      // <Name
+      //   className="heading"
+      //   dangerouslySetInnerHTML={{ __html: data }}
+      //   {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+      // />
     ))
 );
 
@@ -225,25 +241,34 @@ function ExerciseContent({ exerciseId, lang }) {
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode }).then((res) => {
       setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId]?.name);
+      setExercise(res.data.course.exercises[exerciseId]);
       setContent(res.data.course.exercises[exerciseId]?.content);
     });
   }, [courseId, exerciseId, lang]);
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ m: "32px 0px" }}>
-        <Typography variant="h5">{course}</Typography>
-        <Typography variant="h6" sx={{ mt: "16px" }}>
-          {exercise && exercise}
-        </Typography>
-        <Box sx={{ mt: 5, mb: 8 }}>
-          {content &&
-            content.map((contentItem, index) => (
-              <RenderContent data={contentItem} key={index} classes={classes} />
-            ))}
+      {exercise && exercise.content_type === "exercise" && (
+        <Box sx={{ m: "32px 0px" }}>
+          <Typography variant="h5">{course}</Typography>
+          <Typography variant="h6" sx={{ mt: "16px" }}>
+            {exercise && exercise.name}
+          </Typography>
+          <Box sx={{ mt: 5, mb: 8 }}>
+            {content &&
+              content.map((contentItem, index) => (
+                <RenderContent
+                  data={contentItem}
+                  key={index}
+                  classes={classes}
+                />
+              ))}
+          </Box>
         </Box>
-      </Box>
+      )}
+      {exercise && exercise.content_type === "assessment" && (
+        <Assessment data={content} exerciseId={exercise.id} />
+      )}
     </Container>
   );
 }
