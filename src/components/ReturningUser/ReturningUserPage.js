@@ -11,17 +11,18 @@ function ReturningUserPage() {
   return (
     <>
       <Container maxWidth="lg" mt={2}>
-        <Typography variant="h5" mb={2}>
+        <Typography variant="h5" mb={3}>
           My Learning Tracks
         </Typography>
         <Grid container spacing={2} align="center">
           <Grid xs={4}>
-            <Box mt={1} maxWidth={350} mb={10}>
-              <Card elevation={2} pl={15}>
+            <Box align="right" mt={1} maxWidth={350} mb={10}>
+              <Card elevation={2} pl={10}>
                 <CardContent>
                   <Grid container>
                     <Grid item xs={2}>
                       <img
+                        align="left"
                         src={require("./assets/python.svg")}
                         alt="Students Img"
                       />
@@ -61,7 +62,7 @@ function ReturningUserPage() {
                   </Typography>
                   <Typography
                     style={{ display: "flex" }}
-                    // mt={2}
+                    mt={2}
                     variant="body1"
                   >
                     <Typography
@@ -82,7 +83,7 @@ function ReturningUserPage() {
             <Box align="right" mt={1} maxWidth={350} mb={10}>
               <Card elevation={2} pl={10}>
                 <CardContent>
-                  <Grid container>
+                  <Grid container align="left">
                     <Grid item xs={2}>
                       <img
                         src={require("./assets/typeicon.svg")}
@@ -145,19 +146,19 @@ function ReturningUserPage() {
             <Box align="right" mt={1} maxWidth={350} mb={10}>
               <Card elevation={2} pl={10}>
                 <CardContent>
-                  <Grid container>
+                  <Grid container align="left">
                     <Grid item xs={2}>
                       <img
                         src={require("./assets/jsicon.svg")}
                         alt="Students Img"
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <Typography gutterBottom variant="subtitle1" pt={1}>
-                        Python
+                        Javascript
                       </Typography>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                       <Typography
                         variant="body1"
                         mb={1}
