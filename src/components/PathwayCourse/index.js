@@ -356,7 +356,7 @@ function PathwayCourse() {
           ) : (
             ""
           )}
-          {enrolledBatches && upcomingBatchesData?.length > 0 ? (
+          {!enrolledBatches && upcomingBatchesData?.length > 0 ? (
             <PathwayCourseBatchEnroll2
               upcomingBatchesData={upcomingBatchesData}
             />
