@@ -29,7 +29,7 @@ function ClassList({ editClass, isShow }) {
                 <Typography variant="subtitle1">
                   <Skeleton />
                 </Typography>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle3">
                   <Skeleton />
                 </Typography>
                 <Typography variant="body1">

@@ -73,6 +73,10 @@ theme = createTheme(theme, {
       main: "#000000",
       contrastText: "#FFFFFF",
     },
+    disable: {
+      main: "#91C78F",
+      contrastText: "#FFFFFF",
+    },
     divider: "#DEDEDE",
   },
 
@@ -145,6 +149,15 @@ theme = createTheme(theme, {
       fontWeight: 700,
     },
     subtitle2: {
+      fontSize: "1rem",
+      fontFamily: "Nunito Sans",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.75rem",
+      },
+      fontWeight: 700,
+      lineHeight: 1.5,
+    },
+    subtitle3: {
       fontSize: "0.875rem",
       fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {

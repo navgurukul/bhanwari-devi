@@ -46,6 +46,7 @@ const Exercise = ({
       {courseLength.map((exercise, index) => {
         return (
           <NavigationComponent
+            exercise={exercise}
             params={params}
             history={history}
             index={index + start}
@@ -59,19 +60,43 @@ const Exercise = ({
   );
 };
 
+function ExerciseImage({
+  selected,
+  contentType,
+  setExerciseId,
+  onClick,
+  index,
+}) {
+  const classes = useStyles();
+  const contentTypeMap = {
+    assessment: selected ? "assessmentSelected" : "assessment",
+    class_topic: selected ? "classTypeSelected" : "classtype",
+    exercise: selected ? "contentTypeSelected" : "contenttype",
+  };
+  return (
+    <img
+      onClick={() => {
+        onClick();
+        setExerciseId(index);
+      }}
+      src={require("./asset/" + contentTypeMap[contentType] + ".svg")}
+      loading="lazy"
+      className={classes.contentImg}
+    />
+  );
+}
+
 function NavigationComponent({
   index,
   exerciseId,
   setExerciseId,
-  classes,
   history,
   params,
+  exercise,
 }) {
-  console.log("exerciseId", exerciseId);
-  console.log("index", index);
   return (
     <>
-      <img
+      <ExerciseImage
         onClick={() => {
           history.push(
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -80,15 +105,11 @@ function NavigationComponent({
               pathwayId: params.pathwayId,
             })
           );
-          setExerciseId(index);
         }}
-        src={
-          exerciseId == index
-            ? `${require("./asset/contentTypeSelectd.svg")}`
-            : `${require("./asset/contenttype.svg")}`
-        }
-        loading="lazy"
-        className={classes.contentImg}
+        index={index}
+        selected={exerciseId == index}
+        contentType={exercise.content_type}
+        setExerciseId={setExerciseId}
       />
     </>
   );
@@ -308,15 +329,11 @@ function PathwayExercise() {
                             setExerciseId(index);
                           }}
                         >
-                          <img
-                            onClick={() => setExerciseId(index)}
-                            src={
-                              exerciseId == index
-                                ? `${require("./asset/contentTypeSelectd.svg")}`
-                                : `${require("./asset/contenttype.svg")}`
-                            }
-                            loading="lazy"
-                            className={classes.contentImg}
+                          <ExerciseImage
+                            selected={exerciseId == index}
+                            contentType={exercise.content_type}
+                            index={index}
+                            setExerciseId={setExerciseId}
                           />
                         </Link>
                       </>
