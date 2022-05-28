@@ -13,6 +13,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import { Box, fontSize } from "@mui/system";
 import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 
 function Profile() {
@@ -82,6 +83,7 @@ function Profile() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            flexDirection: isActive ? "column" : "row",
           }}
         >
           <div
@@ -102,7 +104,8 @@ function Profile() {
               display: "flex",
               flexDirection: "column",
               alignItems: "flex-start",
-              justifyContent: "center",
+              // justifyContent: "center",
+              marginLeft: 20,
             }}
           >
             {isEditing ? (
@@ -118,7 +121,7 @@ function Profile() {
             ) : msg ? (
               <Typography>Please wait...</Typography>
             ) : (
-              <Typography variant="h5">
+              <Typography variant={isActive ? "subtitle1" : "h5"}>
                 {userData.name}
                 {isActive && !isEditing && (
                   <Button onClick={() => setIsEditing(true)}>
@@ -127,27 +130,24 @@ function Profile() {
                 )}
               </Typography>
             )}
-            <Typography>{userData.email}</Typography>
-            {isEditing ? (
-              <Button
-                style={{
-                  padding: "0",
-                }}
-                onClick={editProfile}
-              >
-                Save Profile
-              </Button>
-            ) : (
-              <Button
-                style={{
-                  padding: "0",
-                }}
-                variant="text"
-                onClick={() => setIsEditing(true)}
-              >
-                {!isActive && "Edit Profile"}
-              </Button>
-            )}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <Typography>{userData.email}</Typography>
+              {isEditing ? (
+                <Button pt={1} onClick={editProfile}>
+                  Save Profile
+                </Button>
+              ) : (
+                <Button pt={1} onClick={() => setIsEditing(true)}>
+                  {!isActive && "Edit Profile"}
+                </Button>
+              )}
+            </Box>
           </div>
         </div>
       </div>
