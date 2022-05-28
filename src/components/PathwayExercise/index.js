@@ -167,12 +167,6 @@ function PathwayExercise() {
     );
   };
 
-  // const Lang = {
-  //   en: "English",
-  //   mr: "Marathi",
-  //   hi: "Hindi",
-  // };
-
   const Lang = languageMap;
 
   console.log("courseId", courseId);
@@ -205,6 +199,29 @@ function PathwayExercise() {
   };
 
   const [language, setLanguage] = useState("en");
+
+  // to avoid duplication
+  function languageSelectMenu() {
+    const langMenu = availableLang.map((lang) => (
+      <MenuItem value={lang}>{Lang[lang]}</MenuItem>
+    ));
+    return availableLang.length === 1 ? (
+      langMenu
+    ) : (
+      <Select
+        disableUnderline
+        value={language}
+        IconComponent={() => null}
+        onChange={(e) => {
+          setLanguage(e.target.value);
+        }}
+        variant="standard"
+      >
+        {langMenu}
+      </Select>
+    );
+  }
+
   return (
     <>
       <AppBar fullWidth position="sticky" color="background">
