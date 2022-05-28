@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icons: {
     marginRight: "15px",
-    position: "flex-end",
+    position: "flex-start",
   },
   centere: {
     align: "center",
