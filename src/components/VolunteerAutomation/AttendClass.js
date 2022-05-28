@@ -132,12 +132,6 @@ function AttendClass({ setDisable }) {
       },
     }).then(() => {
       notify();
-      // if (!getNotify) {
-      //   notify();
-      //   clearTimeout(timer);
-      //   setLoading(false);
-      // }
-      // dispatch(classActions.dropOutClass(Id));
     });
   };
 
