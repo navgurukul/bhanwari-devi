@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Container, Box, TextField } from "@mui/material";
+import "./styles.scss";
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
   const handleChange = async (event) => {
@@ -26,7 +27,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
           name="contact"
           id="contact"
           variant="outlined"
-          required
+          // required
           fullWidth
         />
       </Box>

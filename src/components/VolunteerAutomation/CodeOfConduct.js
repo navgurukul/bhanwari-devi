@@ -64,7 +64,11 @@ function CodeOfConduct({ setDisable }) {
         <Typography variant="body1" className={classes.TextContent} mb={2}>
           The above are the most important points to keep in mind. However,
           please feel free to read our detailed
-          <Link target="_blank" ml={1}>
+          <Link
+            href="https://www.merakilearn.org/course-content/miscellaneous/218/4"
+            target="_blank"
+            ml={1}
+          >
             Code of Conduct
           </Link>
         </Typography>

@@ -5,6 +5,7 @@ import { actions as classActions } from "../../components/Class/redux/action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Chip from "@mui/material/Chip";
 import { METHODS } from "../../services/api";
 import {
   Typography,
@@ -49,7 +50,7 @@ function AttendClass({ setDisable }) {
   let sliceData = classData || [];
   (sliceData.length == 0 || chooseClassAgain) &&
     data &&
-    data.slice(0, 6).map((item) => {
+    data.slice(0, 3).map((item) => {
       sliceData.push(item);
     });
 
@@ -218,34 +219,19 @@ function AttendClass({ setDisable }) {
             {sliceData &&
               sliceData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
-                  <Card className={classes.AttendClassCard}>
+                  <Card>
                     <CardContent>
                       <Typography gutterBottom variant="subtitle1">
                         {item.title}
                       </Typography>
                       <Box sx={{ display: "flex", mt: 2 }}>
-                        <Button
-                          sx={{
-                            borderRadius: "100px",
-                            background: "#E9F5E9",
-                            color: "#48A145",
-                            height: "33px",
-                          }}
-                          variant="contained"
-                        >
-                          Batch
-                          {/* {languageMap[item.type]} */}
-                        </Button>
-                        <Button
-                          sx={{
-                            marginLeft: "10px",
-                            borderRadius: "100px",
-                            height: "33px",
-                          }}
+                        <Chip color="primary" label="Batch" />
+                        <Chip
+                          color="primary"
+                          sx={{ ml: 1 }}
+                          label={languageMap[item.lang]}
                           variant="outlined"
-                        >
-                          {languageMap[item.lang]}
-                        </Button>
+                        />
                       </Box>
 
                       <Box sx={{ mt: 2 }}>
@@ -287,20 +273,20 @@ function AttendClass({ setDisable }) {
                       )}
                     </CardActions>
                   </Card>
-                  {sliceData && sliceData.length == 1 && (
-                    <Typography
-                      sx={{
-                        mt: "32px",
-                        cursor: "pointer",
-                      }}
-                      color="error"
-                      onClick={() => {
-                        dropOutClass(item);
-                      }}
-                    >
-                      Can't attend on this date?
-                    </Typography>
-                  )}
+                  <Box>
+                    {sliceData && sliceData.length == 1 && (
+                      <Button
+                        sx={{ mt: 5 }}
+                        onClick={() => {
+                          dropOutClass(item);
+                        }}
+                        color="error"
+                        variant="text"
+                      >
+                        Can't attend on this date?
+                      </Button>
+                    )}
+                  </Box>
                 </Grid>
               ))}
           </Grid>
