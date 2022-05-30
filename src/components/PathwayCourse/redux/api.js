@@ -48,3 +48,15 @@ export const getupcomingEnrolledClasses = (data) => {
     },
   });
 };
+
+export const getEnrolledClasses = (data) => {
+  const { pathwayId, authToken } = data;
+  return axios({
+    method: METHODS.GET,
+    url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
+    headers: {
+      accept: "application/json",
+      Authorization: authToken,
+    },
+  });
+};

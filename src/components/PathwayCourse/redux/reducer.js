@@ -30,6 +30,8 @@ export default (state = initialState, action) => {
         data: null,
       };
 
+    //PATHWAY_COURSE
+
     case types.GET_PATHWAY_COURSE_INTENT:
       return {
         ...state,
@@ -57,6 +59,8 @@ export default (state = initialState, action) => {
           data: null,
         },
       };
+
+    //UPCOMING_BATCHES
 
     case types.GET_UPCOMING_BATCHES_INTENT:
       return {
@@ -86,6 +90,8 @@ export default (state = initialState, action) => {
         },
       };
 
+    //UPCOMING_ENROLLED_CLASSES
+
     case types.GET_UPCOMING_ENROLLED_CLASSES_INTENT:
       return {
         ...state,
@@ -108,6 +114,36 @@ export default (state = initialState, action) => {
       return {
         ...state,
         upcomingEnrolledClasses: {
+          loading: false,
+          error: action.error,
+          data: null,
+        },
+      };
+
+    //ENROLLED_CLASSES
+
+    case types.GET_ENROLLED_CLASSES_INTENT:
+      return {
+        ...state,
+        enrolledClasses: {
+          loading: true,
+          error: false,
+          data: null,
+        },
+      };
+    case types.GET_ENROLLED_CLASSES_INTENT_RESOLVED:
+      return {
+        ...state,
+        enrolledClasses: {
+          loading: false,
+          error: false,
+          data: action.data,
+        },
+      };
+    case types.GET_ENROLLED_CLASSES_INTENT_REJECTED:
+      return {
+        ...state,
+        enrolledClasses: {
           loading: false,
           error: action.error,
           data: null,

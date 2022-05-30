@@ -6,6 +6,7 @@ import {
   getPathwaysCourse,
   getUpcomingBatches,
   getupcomingEnrolledClasses,
+  getEnrolledClasses,
 } from "./api";
 
 function* handleGetPathways({ data }) {
@@ -67,6 +68,18 @@ function* handleGetUpcomingEnrolledClasses({ data }) {
   }
 }
 
+function* handleGetEnrolledClasses({ data }) {
+  const enrolledClassesResponse = yield call(getEnrolledClasses, data);
+  if (
+    enrolledClassesResponse &&
+    httpStatuses.SUCCESS.includes(enrolledClassesResponse.status)
+  ) {
+    yield put(actions.getEnrolledClassesResolved(enrolledClassesResponse.data));
+  } else {
+    yield put(actions.getEnrolledClassesRejected(enrolledClassesResponse));
+  }
+}
+
 export default function* () {
   yield takeLatest(types.GET_PATHWAY_INTENT, handleGetPathways);
   yield takeLatest(types.GET_PATHWAY_COURSE_INTENT, handleGetPathwaysCourse);
@@ -75,4 +88,5 @@ export default function* () {
     types.GET_UPCOMING_ENROLLED_CLASSES_INTENT,
     handleGetUpcomingEnrolledClasses
   );
+  yield takeLatest(types.GET_ENROLLED_CLASSES_INTENT, handleGetEnrolledClasses);
 }
