@@ -61,7 +61,7 @@ const CourseEnroll = (props) => {
         >
           <img src={NotEnrolledSvg} />
 
-          <Box align="right" mt={1} maxWidth={350} mb={10}>
+          <Box align="right" mt={1} maxWidth={370} mb={10}>
             <Card elevation={2} pl={10}>
               <CardContent>
                 <Typography gutterBottom variant="body1" align="start">

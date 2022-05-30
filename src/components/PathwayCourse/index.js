@@ -15,6 +15,7 @@ import { actions as upcomingBatchesActions } from "./redux/action";
 import { actions as upcomingClassActions } from "./redux/action";
 import { actions as enrolledClassActions } from "./redux/action";
 
+import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
 import {
   Container,
   Box,
@@ -224,9 +225,13 @@ function PathwayCourse() {
                 </Grid>
 
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
-                  <PathwayCourseBatchEnroll1
-                    upcomingBatchesData={upcomingBatchesData}
-                  />
+                  {upcomingBatchesData ? (
+                    <PathwayCourseBatchEnroll1
+                      upcomingBatchesData={upcomingBatchesData}
+                    />
+                  ) : (
+                    <NoBatchEnroll />
+                  )}
                 </Grid>
                 {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
                   <CardMedia
