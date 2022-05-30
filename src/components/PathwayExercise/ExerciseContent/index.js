@@ -364,18 +364,27 @@ function ExerciseContent({ exerciseId, lang }) {
               />
             ))}
 
-          {content &&
-            content.map((contentItem, index) => (
-              <RenderContent
-                data={contentItem}
-                exercise={exercise}
-                key={index}
-                classes={classes}
-              />
-            ))}
-          {/* {exercise && exercise.content_type === "assessment" && (
+          {exercise && exercise.content_type === "exercise" && (
+            <Box sx={{ m: "32px 0px" }}>
+              <Typography variant="h5">{course}</Typography>
+              <Typography variant="h6" sx={{ mt: "16px" }}>
+                {exercise && exercise.name}
+              </Typography>
+              <Box sx={{ mt: 5, mb: 8 }}>
+                {content &&
+                  content.map((contentItem, index) => (
+                    <RenderContent
+                      data={contentItem}
+                      key={index}
+                      classes={classes}
+                    />
+                  ))}
+              </Box>
+            </Box>
+          )}
+          {exercise && exercise.content_type === "assessment" && (
             <Assessment data={content} exerciseId={exercise.id} />
-          )} */}
+          )}
         </Container>
       </Container>
     );
