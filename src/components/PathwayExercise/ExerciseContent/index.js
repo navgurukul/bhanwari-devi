@@ -33,6 +33,7 @@ import DoubtClassExerciseComponent from "../../BatchClassComponents/DoubtClassEx
 import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
 import { actions as upcomingBatchesActions } from "../..//PathwayCourse/redux/action";
 import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
+import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 const createVisulizeURL = (code, lang, mode) => {
@@ -279,31 +280,6 @@ function ExerciseContent({ exerciseId, lang }) {
     });
   }, [courseId, exerciseId, lang]);
 
-  // return (
-  //   <Container maxWidth="sm">
-  //     {exercise && exercise.content_type === "exercise" && (
-  //       <Box sx={{ m: "32px 0px" }}>
-  //         <Typography variant="h5">{course}</Typography>
-  //         <Typography variant="h6" sx={{ mt: "16px" }}>
-  //           {exercise && exercise.name}
-  //         </Typography>
-  //         <Box sx={{ mt: 5, mb: 8 }}>
-  //           {content &&
-  //             content.map((contentItem, index) => (
-  //               <RenderContent
-  //                 data={contentItem}
-  //                 key={index}
-  //                 classes={classes}
-  //               />
-  //             ))}
-  //         </Box>
-  //       </Box>
-  //     )}
-  // {exercise && exercise.content_type === "assessment" && (
-  //   <Assessment data={content} exerciseId={exercise.id} />
-  // )}
-  //   </Container>
-
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
@@ -338,7 +314,7 @@ function ExerciseContent({ exerciseId, lang }) {
         }
       });
     }
-  }, [params.pathwayId, open]);
+  }, [params.pathwayId]);
 
   function ExerciseContentMain() {
     return (
@@ -348,101 +324,8 @@ function ExerciseContent({ exerciseId, lang }) {
             <Box sx={{ m: "32px 0px" }}>
               <Box>
                 {courseData?.content_type == "class_topic" && (
-                  <>
-                    <Box m={4} sx={{ maxWidth: "300px" }}>
-                      <Typography variant="h6" mt={2}>
-                        {courseData.title}
-                      </Typography>
-                      <Box mt={3}>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          style={{
-                            borderRadius: 90,
-                            height: 30,
-                            backgroundColor: "#E9F5E9",
-                          }}
-                        >
-                          <Typography variant="body2">
-                            {" "}
-                            {courseData.type}
-                          </Typography>
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          style={{
-                            marginLeft: 10,
-                            borderRadius: 90,
-                            height: 30,
-                          }}
-                        >
-                          <Typography variant="body2">
-                            {languageMap[courseData.lang]}
-                          </Typography>
-                        </Button>
-                      </Box>
-                      <Box mt={3}>
-                        <Typography variant="body2">
-                          Clear your doubts related to the first class of Python
-                          and other queries during your studies
-                        </Typography>
-                      </Box>
-                      <Box mt={3}>
-                        <Typography variant="body2">
-                          If you miss the class or need to revise, you can
-                          enroll in an extra class to catch up after{" "}
-                          {dateTimeFormat(courseData.start_time).finalDate}
-                        </Typography>
-                      </Box>
-                      {TimeLeft(courseData.start_time) == "expired" ? (
-                        <>
-                          <Box sx={{ display: "flex" }} mt={3}>
-                            <svg
-                              width="20"
-                              height="21"
-                              viewBox="0 0 20 21"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M10 0.5C15.5228 0.5 20 4.97715 20 10.5C20 16.0228 15.5228 20.5 10 20.5C4.47715 20.5 0 16.0228 0 10.5C0 4.97715 4.47715 0.5 10 0.5ZM13.2197 7.46967L8.75 11.9393L6.78033 9.96967C6.48744 9.67678 6.01256 9.67678 5.71967 9.96967C5.42678 10.2626 5.42678 10.7374 5.71967 11.0303L8.21967 13.5303C8.51256 13.8232 8.98744 13.8232 9.28033 13.5303L14.2803 8.53033C14.5732 8.23744 14.5732 7.76256 14.2803 7.46967C13.9874 7.17678 13.5126 7.17678 13.2197 7.46967Z"
-                                fill="#48A145"
-                              />
-                            </svg>
-
-                            <Typography ml={2} variant="body2">
-                              Completed on{" "}
-                              {dateTimeFormat(courseData.start_time).finalDate}
-                            </Typography>
-                          </Box>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </Box>
-                  </>
+                  <ClassTopic courseData={courseData} />
                 )}
-
-                {/* {content &&
-                  content.map((contentItem, index) => (
-                    <RenderDoubtClass
-                      data={contentItem}
-                      exercise={exercise}
-                      key={index}
-                      classes={classes}
-                    />
-                  ))}
-
-                {content &&
-                  content.map((contentItem, index) => (
-                    <RenderContent
-                      data={contentItem}
-                      exercise={exercise}
-                      key={index}
-                      classes={classes}
-                    />
-                  ))} */}
               </Box>
             </Box>
           </Grid>
@@ -495,7 +378,7 @@ function ExerciseContent({ exerciseId, lang }) {
     );
   }
 
-  return enrolledBatches && upcomingBatchesData?.length == 0 ? (
+  return !enrolledBatches && upcomingBatchesData?.length == 0 ? (
     <>
       <ExerciseContentMain />
     </>

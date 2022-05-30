@@ -276,57 +276,13 @@ const DoubtClassExerciseComponent = (props) => {
         actions={actions}
         value={value}
       />
-
       <>
-        {/* <Box
-          onClick={() => {
-            setOpen(true);
-          }}
-          fullWidth
-          boxShadow={3}
-          mt={4}
-          p={2}
-        >
-          <Box
-            style={{ margin: "20px 0" }}
-            sx={{ display: "flex", alignItems: "center" }}
-          >
-            <svg
-              width="8"
-              height="9"
-              viewBox="0 0 8 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="4" cy="4.5" r="4" fill="#FFC107" />
-            </svg>
-            <Typography variant="body2" ml={1}>
-              dfsdfhfsd
-            </Typography>
-          </Box>
-          <Typography variant="h5" mt={1}>
-            {actions.title}
-          </Typography>
-          <Typography variant="body2" mt={1}>
-            {dateTimeFormat(actions.start_time).finalDate}
-          </Typography>
-          <Typography variant="body2" mt={1}>
-            {dateTimeFormat(actions.start_time).finalTime} to{" "}
-            {dateTimeFormat(actions.end_time).finalTime}
-          </Typography>
-        </Box> */}
         <Box backgroundColor="primary.light" p={2} mt={2}>
           <Typography variant="h6" mt={1} mb={2}>
             {/* {actions.title} */}
             Upcoming Doubt Class
           </Typography>
-          {/* <Typography variant="body2" mt={1}>
-            {dateTimeFormat(actions.start_time).finalDate}
-          </Typography>
-          <Typography variant="body2" mt={1}>
-            {dateTimeFormat(actions.start_time).finalTime} to{" "}
-            {dateTimeFormat(actions.end_time).finalTime}
-          </Typography> */}
+
           <Typography
             variant="body1"
             mb={2}
@@ -374,68 +330,6 @@ const DoubtClassExerciseComponent = (props) => {
           </div>
         </Box>
       </>
-
-      {/* <Box backgroundColor="primary.light" p={2} mt={2}>
-          <Typography variant="h5" mt={1} mb={2}>
-            Upcoming Doubt Class
-          </Typography>
-          {/* <Typography variant="body2" mt={1}>
-            {dateTimeFormat(actions.start_time).finalDate}
-          </Typography>
-          <Typography variant="body2" mt={1}>
-            {dateTimeFormat(actions.start_time).finalTime} to{" "}
-            {dateTimeFormat(actions.end_time).finalTime}
-          </Typography> 
-          <Typography
-            variant="body1"
-            mb={2}
-            align="left"
-            style={{
-              display: "flex",
-            }}
-          >
-            <Box
-            style={{marginLeft: "10px" ,
-            alignItems: "top",
-            // justifyContent : "center"
-          }}>
-                        <img
-              className={classes.icons}
-              
-              src={require("./Revision/assets/Group.svg")}
-              alt="Students Img"
-            />
-          </Box>
-
-
-            Need help? We got you covered. Enroll in the doubt Class on
-            {" "}
-            {start_time.finalDate}
-            at {start_time.finalTime} - {end_time.finalTime}
-          </Typography>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <Button
-              endIcon={<ArrowForwardIosIcon />}
-              onClick={() => {
-                setOpen(true);
-              }}
-              sx={{
-                width: isActive ? "90%" : "215px",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              View Class Details
-            </Button>
-          </div>
-        </Box> */}
     </>
   );
 };
