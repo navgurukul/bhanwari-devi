@@ -120,30 +120,34 @@ const AssessmentContent = ({
           </Grid>
         );
       }
-    } else {
-      return (
-        <Box
-          sx={{
-            mt: "32px",
-            bgcolor: "#F7F7F7",
-            p: "16px 16px 22px 16px",
-            borderRadius: "8px",
-          }}
-        >
-          <UnsafeHTML
-            Container={Typography}
-            sx={{ m: "2rem 0" }}
-            variant="body1"
-            html={text}
-          />
-        </Box>
-      );
     }
   }
+  if (content.component === "questionCode") {
+    const text = DOMPurify.sanitize(get(content, "value"));
+    return (
+      <Box
+        sx={{
+          mt: "32px",
+          bgcolor: "#F7F7F7",
+          p: "16px 16px 22px 16px",
+          borderRadius: "8px",
+        }}
+      >
+        <UnsafeHTML
+          Container={Typography}
+          sx={{ m: "2rem 0" }}
+          variant="body1"
+          html={text}
+        />
+      </Box>
+    );
+  }
+
   if (content.component === "options") {
     return (
       <Box sx={{ mt: "32px" }}>
-        {Object.values(content.value).map((item, index) => {
+        {Object.keys(content.value).map((item, index) => {
+          console.log("item", item);
           return (
             <Paper
               elevation={3}
@@ -155,14 +159,14 @@ const AssessmentContent = ({
               className={
                 submit
                   ? correct
-                    ? answer === index + 1 && classes.correctAnswer
-                    : answer === index + 1 && classes.inCorrectAnswer
-                  : answer === index + 1 && classes.option
+                    ? answer === item && classes.correctAnswer
+                    : answer === item && classes.inCorrectAnswer
+                  : answer === item && classes.option
               }
-              onClick={() => setAnswer(index + 1)}
+              onClick={() => setAnswer(item)}
             >
               <Typography variant="body1" sx={{ p: "16px" }}>
-                {item}
+                {content.value[item]}
               </Typography>
             </Paper>
           );
@@ -212,6 +216,8 @@ function Assessment({ data, exerciseId }) {
       setTriedAgain(triedAgain + 1);
     }
   };
+
+  console.log("data", data);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>

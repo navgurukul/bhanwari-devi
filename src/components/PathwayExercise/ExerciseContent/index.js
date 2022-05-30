@@ -271,6 +271,7 @@ function ExerciseContent({ exerciseId, lang }) {
   const [BannerData, setBannerData] = useState([]);
   const [enrolledBatches, setEnrolledBatches] = useState(null);
   const dispatch = useDispatch();
+
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
       setCourse(res.data.course.name);
@@ -283,9 +284,11 @@ function ExerciseContent({ exerciseId, lang }) {
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
+
   const userEnrolledClasses = useSelector((state) => {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
+
   useEffect(() => {
     // getupcomingEnrolledClasses
     if (user?.data?.token) {
@@ -370,9 +373,9 @@ function ExerciseContent({ exerciseId, lang }) {
                 classes={classes}
               />
             ))}
-          {exercise && exercise.content_type === "assessment" && (
+          {/* {exercise && exercise.content_type === "assessment" && (
             <Assessment data={content} exerciseId={exercise.id} />
-          )}
+          )} */}
         </Container>
       </Container>
     );
