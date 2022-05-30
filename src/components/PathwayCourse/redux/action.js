@@ -16,6 +16,10 @@ export const types = {
     "GET_UPCOMING_ENROLLED_CLASSES_INTENT_RESOLVED",
   GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED:
     "GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED",
+
+  GET_ENROLLED_CLASSES_INTENT: "GET_ENROLLED_CLASSES_INTENT",
+  GET_ENROLLED_CLASSES_INTENT_RESOLVED: "GET_ENROLLED_CLASSES_INTENT_RESOLVED",
+  GET_ENROLLED_CLASSES_INTENT_REJECTED: "GET_ENROLLED_CLASSES_INTENT_REJECTED",
 };
 
 export const actions = {
@@ -38,6 +42,8 @@ export const actions = {
     };
   },
 
+  //getPathwaysCourse
+
   getPathwaysCourse(data) {
     return {
       type: types.GET_PATHWAY_COURSE_INTENT,
@@ -56,6 +62,8 @@ export const actions = {
       error,
     };
   },
+
+  //getUpcomingBatches
 
   getUpcomingBatches(data) {
     return {
@@ -76,6 +84,8 @@ export const actions = {
     };
   },
 
+  //getupcomingEnrolledClasses
+
   getupcomingEnrolledClasses(data) {
     return {
       type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT,
@@ -91,6 +101,27 @@ export const actions = {
   getupcomingEnrolledClassesRejected(error) {
     return {
       type: types.GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED,
+      error,
+    };
+  },
+
+  //getEnrolledClasses
+
+  getEnrolledClasses(data) {
+    return {
+      type: types.GET_ENROLLED_CLASSES_INTENT,
+      data,
+    };
+  },
+  geEnrolledClassesResolved(data) {
+    return {
+      type: types.GET_ENROLLED_CLASSES_INTENT_RESOLVED,
+      data,
+    };
+  },
+  getEnrolledClassesRejected(error) {
+    return {
+      type: types.GET_ENROLLED_CLASSES_INTENT_REJECTED,
       error,
     };
   },
