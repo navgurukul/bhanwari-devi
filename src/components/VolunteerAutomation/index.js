@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
   Typography,
   Container,
@@ -22,23 +23,37 @@ function VolunteerAutomation() {
   const user = useSelector(({ User }) => User);
   let history = useHistory();
 
+  const pathname = window.location.pathname;
+  console.log("pathname", pathname);
+
   const handleClick = () => {
-    return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
-      method: METHODS.POST,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then(
-      (res) => {
-        console.log("res", res);
-        history.push(PATHS.VOLUNTEER_FORM);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    if (user && user.data && user.data.token) {
+      console.log("logged in");
+      return axios({
+        url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
+        method: METHODS.POST,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then(
+        (res) => {
+          console.log("res", res);
+          history.push(PATHS.VOLUNTEER_FORM);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
+      console.log("not logged in");
+      history.push(PATHS.LOGIN, pathname);
+      // history.push({
+      //   pathname: PATHS.LOGIN,
+      //   state: { path: pathname },
+      // });
+      // return <Redirect to={PATHS.LOGIN} />;
+    }
   };
 
   return (

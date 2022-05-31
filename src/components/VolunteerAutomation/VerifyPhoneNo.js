@@ -3,7 +3,16 @@ import { Typography, Container, Box, TextField } from "@mui/material";
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
   const handleChange = async (event) => {
-    setDisable(false);
+    console.log("length", contact && contact.length);
+    if (contact && contact.length === 9) {
+      setDisable(false);
+    }
+    if (contact && contact.length >= 10) {
+      setDisable(true);
+    }
+    if (contact && contact.length < 10) {
+      setDisable(true);
+    }
     setContact(event.target.value);
   };
 

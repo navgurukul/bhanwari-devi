@@ -42,6 +42,7 @@ export const HideFooter = [
   PATHS.PROFILE,
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
+  PATHS.VOLUNTEER_FORM,
 ];
 
 const month = {
