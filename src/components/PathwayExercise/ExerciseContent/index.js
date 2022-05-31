@@ -8,6 +8,8 @@ import DOMPurify from "dompurify";
 import { useParams } from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
+// import { actions as courseActions } from "../../../components/Course/redux/action";
+
 import Assessment from "../ExerciseContent/Assessment";
 import {
   TableRow,
@@ -281,6 +283,11 @@ function ExerciseContent({ exerciseId, lang }) {
     });
   }, [courseId, exerciseId, lang]);
 
+  // const {
+  //   courseContent: { loading, data },
+  //   selectedExercise,
+  // } = useSelector(({ Course }) => Course);
+
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
@@ -304,6 +311,12 @@ function ExerciseContent({ exerciseId, lang }) {
           authToken: user?.data?.token,
         })
       );
+      // dispatch(
+      //   courseActions.getCourseContent({
+      //     courseId: courseId,
+      //     // lang: changeLanguage,
+      //   })
+      // );
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,

@@ -49,7 +49,7 @@ export const getupcomingEnrolledClasses = (data) => {
   });
 };
 
-export const getEnrolledClasses = (data) => {
+export const getEnrolledBatches = (data) => {
   const { pathwayId, authToken } = data;
   return axios({
     method: METHODS.GET,
