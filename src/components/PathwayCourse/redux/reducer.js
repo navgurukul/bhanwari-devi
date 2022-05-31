@@ -120,30 +120,30 @@ export default (state = initialState, action) => {
         },
       };
 
-    //ENROLLED_CLASSES
+    //ENROLLED_BATCHES
 
-    case types.GET_ENROLLED_CLASSES_INTENT:
+    case types.GET_ENROLLED_BATCHES_INTENT:
       return {
         ...state,
-        enrolledClasses: {
+        enrolledBatches: {
           loading: true,
           error: false,
           data: null,
         },
       };
-    case types.GET_ENROLLED_CLASSES_INTENT_RESOLVED:
+    case types.GET_ENROLLED_BATCHES_INTENT_RESOLVED:
       return {
         ...state,
-        enrolledClasses: {
+        enrolledBatches: {
           loading: false,
           error: false,
           data: action.data,
         },
       };
-    case types.GET_ENROLLED_CLASSES_INTENT_REJECTED:
+    case types.GET_ENROLLED_BATCHES_INTENT_REJECTED:
       return {
         ...state,
-        enrolledClasses: {
+        enrolledBatches: {
           loading: false,
           error: action.error,
           data: null,

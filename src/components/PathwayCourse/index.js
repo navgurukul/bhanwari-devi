@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "./redux/action";
 import { actions as upcomingBatchesActions } from "./redux/action";
 import { actions as upcomingClassActions } from "./redux/action";
-import { actions as enrolledClassActions } from "./redux/action";
+import { actions as enrolledBatchesActions } from "./redux/action";
 
 import {
   Container,
@@ -93,11 +93,11 @@ function PathwayCourse() {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
 
-  const enrolledClasses = useSelector((state) => {
+  const enrolledBatchesUsers = useSelector((state) => {
     return state;
   });
 
-  console.log("enrolledClasses", enrolledClasses);
+  console.log("enrolledBatchesUsers", enrolledBatchesUsers);
 
   const history = useHistory();
 
@@ -120,7 +120,7 @@ function PathwayCourse() {
         })
       );
       dispatch(
-        enrolledClassActions.getEnrolledClasses({
+        enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
           authToken: user?.data?.token,
         })

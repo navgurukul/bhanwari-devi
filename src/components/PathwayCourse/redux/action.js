@@ -17,9 +17,9 @@ export const types = {
   GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED:
     "GET_UPCOMING_ENROLLED_CLASSES_INTENT_REJECTED",
 
-  GET_ENROLLED_CLASSES_INTENT: "GET_ENROLLED_CLASSES_INTENT",
-  GET_ENROLLED_CLASSES_INTENT_RESOLVED: "GET_ENROLLED_CLASSES_INTENT_RESOLVED",
-  GET_ENROLLED_CLASSES_INTENT_REJECTED: "GET_ENROLLED_CLASSES_INTENT_REJECTED",
+  GET_ENROLLED_BATCHES_INTENT: "GET_ENROLLED_BATCHES_INTENT",
+  GET_ENROLLED_BATCHES_INTENT_RESOLVED: "GET_ENROLLED_BATCHES_INTENT_RESOLVED",
+  GET_ENROLLED_BATCHES_INTENT_REJECTED: "GET_ENROLLED_BATCHES_INTENT_REJECTED",
 };
 
 export const actions = {
@@ -105,23 +105,23 @@ export const actions = {
     };
   },
 
-  //getEnrolledClasses
+  //getEnrolledBatches
 
-  getEnrolledClasses(data) {
+  getEnrolledBatches(data) {
     return {
-      type: types.GET_ENROLLED_CLASSES_INTENT,
+      type: types.GET_ENROLLED_BATCHES_INTENT,
       data,
     };
   },
-  geEnrolledClassesResolved(data) {
+  getEnrolledBatchesResolved(data) {
     return {
-      type: types.GET_ENROLLED_CLASSES_INTENT_RESOLVED,
+      type: types.GET_ENROLLED_BATCHES_INTENT_RESOLVED,
       data,
     };
   },
-  getEnrolledClassesRejected(error) {
+  getEnrolledBatchesRejected(error) {
     return {
-      type: types.GET_ENROLLED_CLASSES_INTENT_REJECTED,
+      type: types.GET_ENROLLED_BATCHES_INTENT_REJECTED,
       error,
     };
   },
