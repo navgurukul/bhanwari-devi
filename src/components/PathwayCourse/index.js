@@ -95,7 +95,7 @@ function PathwayCourse() {
   });
 
   const enrolledClasses = useSelector((state) => {
-    return state;
+    return state.Pathways?.enrolledClasses?.data;
   });
 
   console.log("enrolledClasses", enrolledClasses);
@@ -154,7 +154,15 @@ function PathwayCourse() {
   const pathwayCourseData = pathways.find((item) => {
     return item.id == pathwayId;
   });
-
+  useEffect(() => {
+    console.log(
+      upcomingBatchesData,
+      userEnrolledClasses,
+      enrolledClasses,
+      pathwayCourse?.data?.courses,
+      "Here"
+    );
+  }, [upcomingBatchesData, userEnrolledClasses, enrolledClasses]);
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
