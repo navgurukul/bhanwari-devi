@@ -66,9 +66,7 @@ const pathways = [
 
 function PathwayCourse() {
   const dispatch = useDispatch();
-  const user = useSelector(({ User }) => User);
   const data = useSelector((state) => {
-    console.log("state", state);
     return state;
   });
   const { pathwayCourse } = useSelector((state) => state.Pathways);
@@ -104,8 +102,6 @@ function PathwayCourse() {
         }
       });
     });
-
-  console.log("data", data);
 
   const pathwayCourseData = pathways.find((item) => {
     return item.id == pathwayId;
