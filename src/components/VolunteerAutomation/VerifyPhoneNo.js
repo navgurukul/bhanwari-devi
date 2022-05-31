@@ -2,15 +2,16 @@ import React from "react";
 import { Typography, Container, Box, TextField } from "@mui/material";
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
+  let number = "";
   const handleChange = async (event) => {
-    console.log("length", contact && contact.length);
-    if (contact && contact.length === 9) {
+    number += event.target.value;
+    if (number.length === 10) {
       setDisable(false);
     }
-    if (contact && contact.length >= 10) {
+    if (number.length > 10) {
       setDisable(true);
     }
-    if (contact && contact.length < 10) {
+    if (number.length < 10) {
       setDisable(true);
     }
     setContact(event.target.value);
