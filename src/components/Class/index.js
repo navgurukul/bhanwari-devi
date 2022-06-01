@@ -84,7 +84,8 @@ function Class({ classToEdit, indicator }) {
       [MAX_ENROLMENT]: max_enrolment || "0",
       [FREQUENCY]: frequency || "",
       [ON_DAYS]: on_days_list || [],
-      [OCCURRENCE]: occurrence_data || "",
+      // [OCCURRENCE]: "28",
+      [OCCURRENCE]: occurrence_data || "28",
       [UNTIL]: until_data || "",
     };
   }, [classToEdit]);
@@ -318,6 +319,7 @@ function Class({ classToEdit, indicator }) {
         }
       }
     }
+    console.log("formFields", formFields);
 
     handleTimeValidationAndCreateClass(formFields);
   };
