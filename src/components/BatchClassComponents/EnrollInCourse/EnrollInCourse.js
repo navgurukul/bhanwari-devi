@@ -20,8 +20,6 @@ import { dateTimeFormat } from "../../../constant.js";
 import AlertDialog from "../AlertDialog.js";
 const NotEnrolledSvg = require("./notEnrolled.svg");
 const CourseEnroll = (props) => {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles();
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
@@ -34,8 +32,11 @@ const CourseEnroll = (props) => {
     };
   });
 
-  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState();
-  const { open, setOpen } = props;
+  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(null);
+  useEffect(() => {
+    console.log(selectedBatchToEnroll);
+  }, [selectedBatchToEnroll]);
+  const [open, setOpen] = useState(false);
   const close = () => {
     setOpen(false);
   };

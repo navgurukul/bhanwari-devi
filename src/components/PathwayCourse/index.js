@@ -82,7 +82,7 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
-  const [enrolledBatches, setEnrolledBatches] = useState(null);
+  // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const data = useSelector((state) => {
     return state;
   });
@@ -94,12 +94,14 @@ function PathwayCourse() {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
 
-  const enrolledBatchesUsers = useSelector((state) => {
-    return state;
+  const enrolledBatches = useSelector((state) => {
+    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
+      return state?.Pathways?.enrolledBatches?.data;
+    } else {
+      return null;
+    }
   });
-
-  console.log("enrolledBatchesUsers", enrolledBatchesUsers);
-
+  console.log("enrolledBatches", enrolledBatches);
   const history = useHistory();
 
   useEffect(() => {
@@ -128,18 +130,18 @@ function PathwayCourse() {
       );
     }
 
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
-      headers: {
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      console.log(res.data);
-      if (res.data.length > 0) {
-        setEnrolledBatches(res.data);
-      }
-    });
+    // axios({
+    //   method: METHODS.GET,
+    //   url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
+    //   headers: {
+    //     Authorization: user?.data?.token,
+    //   },
+    // }).then((res) => {
+    //   console.log(res.data);
+    //   if (res.data.length > 0) {
+    //     setEnrolledBatches(res.data);
+    //   }
+    // });
   }, [dispatch, pathwayId]);
 
   data.Pathways.data &&
@@ -158,11 +160,10 @@ function PathwayCourse() {
     console.log(
       upcomingBatchesData,
       userEnrolledClasses,
-      enrolledClasses,
       pathwayCourse?.data?.courses,
       "Here"
     );
-  }, [upcomingBatchesData, userEnrolledClasses, enrolledClasses]);
+  }, [upcomingBatchesData, userEnrolledClasses]);
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">

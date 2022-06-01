@@ -268,7 +268,6 @@ function ExerciseContent({ exerciseId, lang }) {
   const courseId = params.courseId;
   const pathwayId = params.pathwayId;
   const [showJoinClass, setShowJoinClass] = useState(true);
-  const [open, setOpen] = useState(false);
   const [courseData, setCourseData] = useState({ content_type: null });
   const [BannerData, setBannerData] = useState([]);
   const [enrolledBatches, setEnrolledBatches] = useState(null);
@@ -362,11 +361,7 @@ function ExerciseContent({ exerciseId, lang }) {
                     meet_link={courseData.meet_link}
                   />
                 ) : (
-                  <CourseEnroll
-                    upcomingBatchesData={upcomingBatchesData}
-                    open={open}
-                    setOpen={setOpen}
-                  />
+                  <CourseEnroll />
                 )}
               </>
             )}

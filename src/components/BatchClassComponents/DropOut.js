@@ -27,13 +27,17 @@ export default function DropOut(props) {
   const handelDropOut = (Id) => {
     setLoading(true);
     axios
-      .delete(`${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: user.data.token,
-          "unregister-all": unregister_all || false,
-        },
-      })
+      .delete(
+        `${
+          process.env.REACT_APP_MERAKI_URL
+        }/classes/${Id}/unregister?unregister-all=${unregister_all || false}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user.data.token,
+          },
+        }
+      )
       .then(() => {
         toast.success("Class Dropped", {
           position: toast.POSITION.BOTTOM_RIGHT,
