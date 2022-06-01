@@ -5,17 +5,16 @@ import { PATHS, interpolatePath } from "../../constant";
 import { Typography, CardMedia, CardContent, Card } from "@mui/material";
 
 function PathwayCard({ id, title, description, image, hover }) {
+  console.log(id, title);
   const classes = useStyles();
   return (
     <>
-      {id ||
-      title === "Miscellaneous Courses" ||
-      title === "Residential Programmes" ? (
+      {id || title === "Open Courses" || title === "Residential Programmes" ? (
         <Link
           to={
             id
               ? interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: id })
-              : title === "Miscellaneous Courses"
+              : title === "Open Courses"
               ? PATHS.MISCELLANEOUS_COURSE
               : title === "Residential Programmes" && PATHS.RESIDENTIAL_COURSE
           }

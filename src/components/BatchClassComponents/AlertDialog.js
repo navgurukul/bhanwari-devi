@@ -15,7 +15,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { dateTimeFormat } from "../../constant";
 import { useParams } from "react-router-dom";
+import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
 import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
+
 export default function AlertDialog(props) {
   const classes = useStyles();
   const {
@@ -28,6 +30,7 @@ export default function AlertDialog(props) {
     registerAll,
     exerciseReload,
   } = props;
+  console.log("props", props);
   const user = useSelector(({ User }) => User);
   const params = useParams();
   const pathwayId = params.pathwayId;
@@ -58,8 +61,14 @@ export default function AlertDialog(props) {
         close();
         if (registerAll) {
           dispatch(
+            enrolledBatchesActions.getEnrolledBatches({
+              pathwayId: pathwayId,
+              authToken: user?.data?.token,
+            })
+          );
+          dispatch(
             upcomingClassActions.getupcomingEnrolledClasses({
-              pathwayId: params.pathwayId,
+              pathwayId: pathwayId,
               authToken: user?.data?.token,
             })
           );

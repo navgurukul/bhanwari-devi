@@ -268,7 +268,6 @@ function ExerciseContent({ exerciseId, lang }) {
   const courseId = params.courseId;
   const pathwayId = params.pathwayId;
   const [showJoinClass, setShowJoinClass] = useState(true);
-  const [open, setOpen] = useState(false);
   const [courseData, setCourseData] = useState({ content_type: null });
   const [BannerData, setBannerData] = useState([]);
   const [enrolledBatches, setEnrolledBatches] = useState(null);
@@ -339,9 +338,8 @@ function ExerciseContent({ exerciseId, lang }) {
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
               <Box>
-                {courseData?.content_type == "class_topic" && (
-                  <ClassTopic courseData={courseData} />
-                )}
+                {courseData?.content_type == "class_topic" &&
+                  enrolledBatches && <ClassTopic courseData={courseData} />}
               </Box>
             </Box>
           </Grid>
@@ -353,15 +351,18 @@ function ExerciseContent({ exerciseId, lang }) {
           >
             {courseData?.content_type == "class_topic" && (
               <>
-                {" "}
-                <ExerciseBatchClass
-                  id={courseData.id}
-                  facilitator={courseData.facilitator.name}
-                  start_time={courseData.start_time}
-                  end_time={courseData.end_time}
-                  is_enrolled={courseData.is_enrolled}
-                  meet_link={courseData.meet_link}
-                />
+                {enrolledBatches ? (
+                  <ExerciseBatchClass
+                    id={courseData.id}
+                    facilitator={courseData.facilitator.name}
+                    start_time={courseData.start_time}
+                    end_time={courseData.end_time}
+                    is_enrolled={courseData.is_enrolled}
+                    meet_link={courseData.meet_link}
+                  />
+                ) : (
+                  <CourseEnroll />
+                )}
               </>
             )}
           </Grid>
@@ -403,18 +404,10 @@ function ExerciseContent({ exerciseId, lang }) {
     );
   }
 
-  return !enrolledBatches && upcomingBatchesData?.length == 0 ? (
+  return (
     <>
       <ExerciseContentMain />
     </>
-  ) : !enrolledBatches ? (
-    <CourseEnroll
-      upcomingBatchesData={upcomingBatchesData}
-      open={open}
-      setOpen={setOpen}
-    />
-  ) : (
-    <ExerciseContentMain />
   );
 }
 
