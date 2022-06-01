@@ -64,6 +64,7 @@ theme = createTheme(theme, {
     Greey: {
       main: "rgba(0, 0, 0, 0.12)",
     },
+
     text: {
       primary: "#2e2e2e",
       secondary: "#585858",

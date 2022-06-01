@@ -143,6 +143,7 @@ function HorizontalLinearStepper() {
       },
     }).then(
       (res) => {
+        // console.log(res,'komal')
         history.push(PATHS.CLASS);
       },
       (error) => {

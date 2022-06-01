@@ -10,14 +10,17 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "50px",
   },
   volunteerCard: {
-    boxShadow: "4px 4px 0px #E9F5E9",
+    // boxShadow: "4px 4px 0px #E9F5E9",
     border: "1px solid #48A145",
     height: "100%",
+    padding: "8px",
   },
   volunteerCard1: {
-    boxShadow: "4px 4px 0px #DADAEC",
+    // boxShadow: "4px 4px 0px #DADAEC",
     border: "1px solid #4548A1",
     height: "100%",
+    padding: "8px",
+    marginLeft: "10px",
   },
   displayIcon: {
     display: "flex",
@@ -26,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "10px",
   },
 
-  AttendClassCard: {
-    height: "100%",
+  VolunteerHrline: {
+    width: "200px",
+    height: "4px",
+    background: "#2196F3",
   },
 
   TrackCard: {

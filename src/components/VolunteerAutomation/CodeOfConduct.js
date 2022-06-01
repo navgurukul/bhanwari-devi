@@ -64,27 +64,15 @@ function CodeOfConduct({ setDisable }) {
           </Typography>
         </Box>
         <Typography variant="body1" className={classes.TextContent} mb={2}>
-          {/* <span> */}
           The above are the most important points to keep in mind. However,
           please feel free to read our detailed{" "}
-          {/* <Link
-            to="https://www.merakilearn.org/course-content/miscellaneous/218/4"
-            target="_blank"
-            ml={1}
-          >
-            Code of Conduct
-          </Link> */}
           <ExternalLink
             className={classes.link}
             href="https://www.merakilearn.org/course-content/miscellaneous/218/4"
           >
-            {/* <Typography color="primary"> */}
-            {/* Code of Conduct  */}
-            Volunteering with Meraki
-            {/* </Typography> */}
+            <span style={{ color: "#48a145" }}>Volunteering with Meraki</span>
           </ExternalLink>{" "}
           To proceed to next step
-          {/* </span> */}
         </Typography>
       </Container>
     </Container>
