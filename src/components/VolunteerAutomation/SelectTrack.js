@@ -14,20 +14,15 @@ import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import useStyles from "./styles";
 
 function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
-  const [selectedTrack, setSelectedTrack] = useState();
-  // const [pathwayId, setPathwayId] = useState();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-
   const { data } = useSelector((state) => state.Pathways);
 
   const handleChange = async (id) => {
-    // setSelectedTrack()
     setDisable(false);
     setPathwayId(id);
   };
 
-  console.log(data, "pathway");
   const dispatch = useDispatch();
 
   useEffect(() => {

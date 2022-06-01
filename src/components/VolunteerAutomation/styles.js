@@ -2,7 +2,6 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   volunteerFlow: {
-    // padding: "80px",
     paddingTop: "5px",
   },
   volunteerImg: {
@@ -10,13 +9,11 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "50px",
   },
   volunteerCard: {
-    // boxShadow: "4px 4px 0px #E9F5E9",
     border: "1px solid #48A145",
     height: "100%",
     padding: "8px",
   },
   volunteerCard1: {
-    // boxShadow: "4px 4px 0px #DADAEC",
     border: "1px solid #4548A1",
     height: "100%",
     padding: "8px",
@@ -36,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   TrackCard: {
-    // boxShadow: "1px 1px 0px #E9F5E9",
     maxWidth: 256,
     height: 171,
     "&:hover": {
@@ -49,9 +45,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "1px 1px 0px #E9F5E9",
     maxWidth: 256,
     height: 171,
-    // "&:hover": {
     border: "1px solid #48A145",
-    // },
   },
   TrackButtonBox: {
     display: "flex",

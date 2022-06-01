@@ -50,8 +50,6 @@ function AttendClass({ setDisable }) {
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  console.log(data);
-
   const languageMap = {
     hi: "Hindi",
     te: "Telugu",
@@ -63,13 +61,12 @@ function AttendClass({ setDisable }) {
   const classData = JSON.parse(localStorage.getItem("classes"));
 
   let sliceData = classData || [];
-  (sliceData.length == 0 || chooseClassAgain) &&
+  chooseClassAgain &&
     data &&
     data.slice(0, 6).map((item) => {
       sliceData.push(item);
     });
 
-  console.log("classData", classData);
   !chooseClassAgain &&
     sliceData &&
     sliceData.find((item) => {
@@ -79,8 +76,6 @@ function AttendClass({ setDisable }) {
         localStorage.setItem("classes", JSON.stringify(sliceData));
       }
     });
-
-  console.log("sliceData", sliceData);
 
   const enrollClass = (Class) => {
     setOpen(false);
@@ -106,13 +101,12 @@ function AttendClass({ setDisable }) {
         }
       )
       .then((res) => {
-        console.log(res);
         notify();
       });
   };
 
   const dropOutClass = (Class) => {
-    console.log("Poonam", Class.id);
+    setOpen(false);
     setProceed(false);
     localStorage.setItem("proceed", false);
     setChooseClassAgain(true);
@@ -122,23 +116,6 @@ function AttendClass({ setDisable }) {
         autoClose: 2500,
       });
     };
-    axios
-      .post(
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Class.id}/unregister`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: user.data.token,
-            "register-to-all": "false",
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        notify();
-      });
-
     return axios({
       method: METHODS.DELETE,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Class.id}/unregister`,
@@ -148,19 +125,22 @@ function AttendClass({ setDisable }) {
         "unregister-all": "false",
       },
     }).then(() => {
+      sliceData = [];
+      data &&
+        data.slice(0, 6).map((item) => {
+          sliceData.push(item);
+        });
+      localStorage.setItem("classes", JSON.stringify(sliceData));
       notify();
     });
   };
 
-  console.log("enrollId", enrollId);
   const EnrolledAndTimer = ({ item }) => {
     const [Timer, setTimer] = useState(TimeLeft(item.start_time));
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
-      console.log("TimeChanged");
       setTimer(TimeLeft(item.start_time));
     }, ONE_MINUTE);
-    console.log("Timer", Timer);
     return (
       <>
         {Timer == "joinNow" ? (
@@ -228,18 +208,6 @@ function AttendClass({ setDisable }) {
                 on Meraki
               </Typography>
             </Box>
-
-            {/* <Typography
-            
-              variant="body1"
-              onClick={() => {
-                setProceed(false);
-                localStorage.setItem("proceed", false);
-                setChooseClassAgain(true);
-              }}
-            >
-            enroll to another class
-            </Typography> */}
           </Container>
         </>
       ) : (
@@ -317,9 +285,7 @@ function AttendClass({ setDisable }) {
                     {sliceData && sliceData.length == 1 && (
                       <Button
                         sx={{ mt: 5 }}
-                        onClick={() => {
-                          dropOutClass(item);
-                        }}
+                        onClick={handleClickOpen}
                         color="error"
                         variant="text"
                       >
@@ -327,10 +293,6 @@ function AttendClass({ setDisable }) {
                       </Button>
                     )}
                   </Box>
-
-                  <Button variant="outlined" onClick={handleClickOpen}>
-                    Open alert dialog
-                  </Button>
                   <Dialog
                     open={open}
                     onClose={handleClose}
@@ -348,7 +310,13 @@ function AttendClass({ setDisable }) {
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleClose}>Stay Enrolled</Button>
-                      <Button color="error" onClick={handleClose} autoFocus>
+                      <Button
+                        color="error"
+                        onClick={() => {
+                          dropOutClass(item);
+                        }}
+                        autoFocus
+                      >
                         Drop Out
                       </Button>
                     </DialogActions>

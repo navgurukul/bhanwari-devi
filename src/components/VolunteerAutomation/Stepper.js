@@ -38,8 +38,6 @@ function HorizontalLinearStepper() {
   const [contact, setContact] = useState();
   const [pathwayId, setPathwayId] = useState();
 
-  console.log("isDisabled", isDisabled);
-
   const steps = [
     {
       label: "Verify Phone No.",
@@ -59,7 +57,6 @@ function HorizontalLinearStepper() {
           pathwayId={pathwayId}
           setDisable={setDisable}
         />
-        // <SelectTrack setDisable={setDisable} />
       ),
     },
     {
@@ -110,20 +107,20 @@ function HorizontalLinearStepper() {
     });
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
+  // const handleSkip = () => {
+  //   if (!isStepOptional(activeStep)) {
+  //     // You probably want to guard against something like this,
+  //     // it should never occur unless someone's actively trying to break something.
+  //     throw new Error("You can't skip a step that isn't optional.");
+  //   }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   setSkipped((prevSkipped) => {
+  //     const newSkipped = new Set(prevSkipped.values());
+  //     newSkipped.add(activeStep);
+  //     return newSkipped;
+  //   });
+  // };
 
   const handleReset = () => {
     setActiveStep(0);
@@ -143,7 +140,6 @@ function HorizontalLinearStepper() {
       },
     }).then(
       (res) => {
-        // console.log(res,'komal')
         history.push(PATHS.CLASS);
       },
       (error) => {
@@ -155,7 +151,6 @@ function HorizontalLinearStepper() {
   var today = new Date();
   let time =
     today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  console.log("time", time);
 
   return (
     <Container sx={{ mt: 4 }} maxWidth="lg">
@@ -167,7 +162,6 @@ function HorizontalLinearStepper() {
       >
         <Stepper activeStep={activeStep}>
           {steps.map((step, index) => {
-            console.log();
             const stepProps = {};
             const labelProps = {};
 
@@ -221,7 +215,7 @@ function HorizontalLinearStepper() {
             >
               {activeStep > 0 && (
                 <Button
-                  variant="contained"
+                  variant="text"
                   sx={{ color: "#6D6D6D", mr: 4 }}
                   color="inherit"
                   onClick={handleBack}
@@ -232,11 +226,6 @@ function HorizontalLinearStepper() {
               )}
 
               <Box />
-              {/* {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )} */}
 
               {activeStep === steps.length - 1 ? (
                 <Button
@@ -255,21 +244,9 @@ function HorizontalLinearStepper() {
                   onClick={handleNext}
                   disabled={disable}
                 >
-                  Next Step
+                  Next
                 </Button>
               )}
-
-              {/* <Button
-                color="primary"
-                variant="contained"
-                endIcon={<ArrowForwardIosIcon />}
-                onClick={handleNext}
-                disabled={disable}
-              >
-                {activeStep === steps.length - 1
-                  ? "Go to Dashboard"
-                  : " Next Step"}
-              </Button> */}
             </Box>
           </Container>
         </React.Fragment>

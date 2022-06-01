@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Typography, Container, Box } from "@mui/material";
-import { Link } from "react-router-dom";
 import ExternalLink from "../common/ExternalLink";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import useStyles from "./styles";

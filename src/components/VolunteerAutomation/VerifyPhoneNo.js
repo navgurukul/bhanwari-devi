@@ -37,7 +37,6 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
           name="contact"
           id="contact"
           variant="outlined"
-          // required
           fullWidth
         />
       </Box>

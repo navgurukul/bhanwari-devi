@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Redirect } from "react-router-dom";
 import {
   Typography,
   Container,
@@ -24,11 +23,9 @@ function VolunteerAutomation() {
   let history = useHistory();
 
   const pathname = window.location.pathname;
-  console.log("pathname", pathname);
 
   const handleClick = () => {
     if (user && user.data && user.data.token) {
-      console.log("logged in");
       return axios({
         url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
         method: METHODS.POST,
@@ -46,13 +43,7 @@ function VolunteerAutomation() {
         }
       );
     } else {
-      console.log("not logged in");
       history.push(PATHS.LOGIN, pathname);
-      // history.push({
-      //   pathname: PATHS.LOGIN,
-      //   state: { path: pathname },
-      // });
-      // return <Redirect to={PATHS.LOGIN} />;
     }
   };
 
