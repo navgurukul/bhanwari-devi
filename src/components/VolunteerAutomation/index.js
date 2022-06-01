@@ -62,7 +62,7 @@ function VolunteerAutomation() {
         <Grid item xs={12} ms={6} md={5}>
           <Box className={classes.volunteerFlow}>
             <Typography variant="h4" gutterBottom>
-              Help Students Get their Dream Job in Tech
+              Help Students Get their Dream Job and Build their Career in Tech
             </Typography>
 
             <Typography sx={{ mt: 4 }}>Why Volunteer?</Typography>
@@ -70,16 +70,16 @@ function VolunteerAutomation() {
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography className={classes.TextContent}>
-                Gain wide network to leverage for advancing your own skills and
-                career prospects.
+                Gain experience and wide network to leverage for advancing your
+                own skills and career prospects.
               </Typography>
             </Box>
 
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography className={classes.TextContent}>
-                Help students from low income families to get their first job in
-                tech
+                Support students from low income families to get their first job
+                in tech
               </Typography>
             </Box>
           </Box>
@@ -123,17 +123,18 @@ function VolunteerAutomation() {
                   Spoken English
                 </Typography>
               </Box>
-              <Typography variant="body2" color="text.secondary">
-                <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                  {" "}
-                  Expected effort
-                </span>
-                : 2 hours / week for 15 weeks
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Please volunteer only if you are professional who has worked
-                with Python or have great command over English
-              </Typography>
+              <Box sx={{ mt: "12px" }}>
+                <Typography variant="body1" color="text.secondary">
+                  <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
+                    Expected effort
+                  </span>
+                  : 2 hours / week for 15 weeks
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  Please volunteer only if you are professional who has worked
+                  with Python or have great command over English
+                </Typography>
+              </Box>
             </CardContent>
             <CardActions sx={{ mt: 11.2 }}>
               <Button
@@ -176,33 +177,30 @@ function VolunteerAutomation() {
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
                 <Typography className={classes.TextContent}>
-                  {" "}
-                  Back End Dev{" "}
+                  Back End Dev
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
                 <Typography className={classes.TextContent}>
-                  {" "}
                   Project Management
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
                 <Typography className={classes.TextContent}>
-                  Curriculum Creation & Translation{" "}
+                  Curriculum Creation & Translation
                 </Typography>
               </Box>
-              <Box sx={{ mt: 1 }}>
-                <Typography variant="body2" color="text.secondary">
+              <Box sx={{ mt: "12px" }}>
+                <Typography variant="body1" color="text.secondary">
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    {" "}
                     Expected effort
                   </span>
                   : 4 hours / week for 15 weeks
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body1">
                   You will taken to a Google form
                 </Typography>
               </Box>
