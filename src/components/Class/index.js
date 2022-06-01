@@ -36,6 +36,7 @@ function Class({ classToEdit, indicator }) {
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
+  const [day, setDay] = useState({});
 
   const {
     title,
@@ -88,6 +89,16 @@ function Class({ classToEdit, indicator }) {
       [UNTIL]: until_data || "",
     };
   }, [classToEdit]);
+
+  const days = {
+    MO: "Mon",
+    TU: "Tue",
+    WE: "Wed",
+    TH: "Thu",
+    FR: "Fri",
+    SA: "Sat",
+    SU: "Sun",
+  };
 
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
@@ -239,14 +250,22 @@ function Class({ classToEdit, indicator }) {
     setCheckedState(updatedCheckedState);
   };
 
-  const checkBoxHandler = (e, day, key, field, setField) => {
+  // const checkBoxHandler = (e, day, key, field, setField) => {
+  const checkBoxHandler = (e, days, count, key, field, setField) => {
+    const obj = {
+      [count]: days,
+    };
     if (e.target.checked === true) {
-      const daysList = [...field[key], day];
+      // const daysList = [...field[key], day];
+      const daysList = [...field[key], days];
+      const forDate = Object.assign(day, obj);
       setField(daysList, key);
+      setDay(forDate);
     } else {
       _.remove(field[key], function (del) {
-        return del === day;
+        return del === days;
       });
+      delete day[count];
     }
   };
 
@@ -271,7 +290,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -295,7 +314,22 @@ function Class({ classToEdit, indicator }) {
 
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
-        if (fieldName === "max_enrolment") {
+        const weekDday = Object.values(day);
+        if (fieldName === "start_time") {
+          let incrementedDate = new Date(value);
+          let newDate;
+          var i = 1;
+          while (i <= 7) {
+            incrementedDate = moment(incrementedDate).add(1, "days")._d;
+            let Day = incrementedDate.toString().split(" ")[0];
+            if (days[weekDday[0]] === Day) {
+              newDate = incrementedDate;
+              break;
+            }
+            i = i + 1;
+          }
+          formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+        } else if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
           if (value == 0) {
             delete formFields.max_enrolment;
@@ -545,6 +579,9 @@ function Class({ classToEdit, indicator }) {
               {!formFieldsState[TITLE] && (
                 <span className="field-validation">Title cannot be empty</span>
               )}
+
+              {/* {formFieldsState[PATHWAY_ID] !== 1 && (
+                <> */}
               <label htmlFor="description" className="label-field">
                 Description
               </label>
@@ -576,6 +613,9 @@ function Class({ classToEdit, indicator }) {
                   </span>
                 )
               )}
+              {/* </>
+              )} */}
+
               {canSpecifyFacilitator && (
                 <>
                   <label htmlFor="facilitator_name" className="label-field">
@@ -840,7 +880,7 @@ function Class({ classToEdit, indicator }) {
               </span>
               {formFieldsState[TYPE] === "batch" && (
                 <>
-                  {/* <label htmlFor="on_days" className="label-field">
+                  <label htmlFor="on_days" className="label-field">
                     On days
                   </label>
                   <span>
@@ -853,6 +893,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "MO",
+                            1,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -879,6 +920,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "TU",
+                            2,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -905,6 +947,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "WE",
+                            3,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -931,6 +974,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "TH",
+                            4,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -957,6 +1001,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "FR",
+                            5,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -983,6 +1028,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "SA",
+                            6,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -1009,6 +1055,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "SU",
+                            7,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -1029,7 +1076,7 @@ function Class({ classToEdit, indicator }) {
                   </span>
                   {formFieldsState[ON_DAYS].length == 0 && (
                     <span className="field-validation">Select days</span>
-                  )} */}
+                  )}
                   {/* <label htmlFor={UNTIL} className="label-field">
                     Until
                     <span className="optional-field">
