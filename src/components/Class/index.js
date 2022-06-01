@@ -599,6 +599,7 @@ function Class({ classToEdit, indicator }) {
                     ? "textarea-field"
                     : "textarea-field-without-validation"
                 }
+                disabled={isEditMode && true}
                 required
                 aria-required
               />
