@@ -1030,7 +1030,7 @@ function Class({ classToEdit, indicator }) {
                   {formFieldsState[ON_DAYS].length == 0 && (
                     <span className="field-validation">Select days</span>
                   )} */}
-                  <label htmlFor={UNTIL} className="label-field">
+                  {/* <label htmlFor={UNTIL} className="label-field">
                     Until
                     <span className="optional-field">
                       (either until or occurrence is required)
@@ -1057,7 +1057,7 @@ function Class({ classToEdit, indicator }) {
                   />
                   {!formFieldsState[UNTIL] && !formFieldsState[OCCURRENCE] && (
                     <span className="field-validation">Select date</span>
-                  )}
+                  )} */}
                   <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
                     <span className="optional-field">
