@@ -54,7 +54,12 @@ function HorizontalLinearStepper() {
     {
       label: "Select Track",
       component: (
-        <SelectTrack setPathwayId={setPathwayId} setDisable={setDisable} />
+        <SelectTrack
+          setPathwayId={setPathwayId}
+          pathwayId={pathwayId}
+          setDisable={setDisable}
+        />
+        // <SelectTrack setDisable={setDisable} />
       ),
     },
     {
@@ -133,10 +138,8 @@ function HorizontalLinearStepper() {
         Authorization: user.data.token,
       },
       data: {
-        // contact: contact,
-        // pathway_id: pathwayId,
-        contact: "8826332326",
-        pathway_id: "1",
+        contact: contact,
+        pathway_id: pathwayId,
       },
     }).then(
       (res) => {
@@ -216,16 +219,18 @@ function HorizontalLinearStepper() {
                 pb: 5,
               }}
             >
-              <Button
-                variant="contained"
-                sx={{ color: "#6D6D6D", mr: 4 }}
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                startIcon={<ArrowBackIosIcon />}
-              >
-                Back
-              </Button>
+              {activeStep > 0 && (
+                <Button
+                  variant="contained"
+                  sx={{ color: "#6D6D6D", mr: 4 }}
+                  color="inherit"
+                  onClick={handleBack}
+                  startIcon={<ArrowBackIosIcon />}
+                >
+                  Back
+                </Button>
+              )}
+
               <Box />
               {/* {isStepOptional(activeStep) && (
               <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>

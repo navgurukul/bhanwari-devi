@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Container,
@@ -13,13 +13,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import useStyles from "./styles";
 
-function SelectTrack({ setDisable, setPathwayId }) {
+function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
+  const [selectedTrack, setSelectedTrack] = useState();
+  // const [pathwayId, setPathwayId] = useState();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
 
   const { data } = useSelector((state) => state.Pathways);
 
   const handleChange = async (id) => {
+    // setSelectedTrack()
     setDisable(false);
     setPathwayId(id);
   };
@@ -49,7 +52,11 @@ function SelectTrack({ setDisable, setPathwayId }) {
                 return (
                   <Grid item xs={6} ms={6} md={6}>
                     <Card
-                      className={classes.TrackCard}
+                      className={
+                        pathwayId == item.id
+                          ? classes.selectedTrack
+                          : classes.TrackCard
+                      }
                       onClick={() => handleChange(item.id)}
                     >
                       <Box className={classes.TrackImages}>

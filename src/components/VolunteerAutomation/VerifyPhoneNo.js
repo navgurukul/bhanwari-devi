@@ -3,8 +3,18 @@ import { Typography, Container, Box, TextField } from "@mui/material";
 import "./styles.scss";
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
+  let number = "";
   const handleChange = async (event) => {
-    setDisable(false);
+    number += event.target.value;
+    if (number.length === 10) {
+      setDisable(false);
+    }
+    if (number.length > 10) {
+      setDisable(true);
+    }
+    if (number.length < 10) {
+      setDisable(true);
+    }
     setContact(event.target.value);
   };
 
@@ -15,7 +25,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
       </Typography>
       <Typography variant="body1" gutterBottom>
         We will only use your number to contact you for volunteer related
-        manners. We never share it to any third party
+        matters. We never share it to any third party.
       </Typography>
       <Box sx={{ mt: 4 }}>
         <TextField

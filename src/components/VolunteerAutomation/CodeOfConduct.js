@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
-import { Typography, Container, Box, Link } from "@mui/material";
+import { Typography, Container, Box } from "@mui/material";
+import { Link } from "react-router-dom";
+import ExternalLink from "../common/ExternalLink";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import useStyles from "./styles";
 
@@ -18,8 +20,8 @@ function CodeOfConduct({ setDisable }) {
         </Typography>
         <Typography variant="body1" color="text.secondary" mb={2}>
           We work with girls (mostly minor) from low income families. Hence, it
-          is important that you as a volunteer understand and abide by code of
-          conduct and privacy policy
+          is important that you as a volunteer understand and abide by the code
+          of conduct and privacy policy
         </Typography>
         <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
@@ -35,8 +37,8 @@ function CodeOfConduct({ setDisable }) {
             className={classes.TextContent}
             Typography
           >
-            Please keep the interactions polite. No abusive language and
-            irrelevant material should be shared in speech or writing
+            Please keep the interactions polite. No abusive language and no
+            irrelevant materials should be shared in speech or writing
           </Typography>
         </Box>
         <Box className={classes.displayIcon} mb={2}>
@@ -46,8 +48,8 @@ function CodeOfConduct({ setDisable }) {
             className={classes.TextContent}
             Typography
           >
-            We respect your and students privacy. Please do not share/ask for
-            personal contact details
+            We respect yours and students privacy. Please do not share/ask for
+            personal contact details or social media handles
           </Typography>
         </Box>
         <Box className={classes.displayIcon} mb={2}>
@@ -63,14 +65,14 @@ function CodeOfConduct({ setDisable }) {
         </Box>
         <Typography variant="body1" className={classes.TextContent} mb={2}>
           The above are the most important points to keep in mind. However,
-          please feel free to read our detailed
-          <Link
+          please feel free to read our detailed{" "}
+          <ExternalLink
+            className={classes.link}
             href="https://www.merakilearn.org/course-content/miscellaneous/218/4"
-            target="_blank"
-            ml={1}
           >
-            Code of Conduct
-          </Link>
+            <span style={{ color: "#48a145" }}>Volunteering with Meraki</span>
+          </ExternalLink>{" "}
+          To proceed to next step
         </Typography>
       </Container>
     </Container>

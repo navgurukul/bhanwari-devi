@@ -78,6 +78,15 @@ tr:hover {
   display: flex;
 }
 
+.last-item {
+  display: flex;
+}
+
+.student-count {
+  flex: 1;
+  margin-top: 20px;
+}
+
 .slider {
   width: 1120px;
   margin-left: 50px;
@@ -85,15 +94,17 @@ tr:hover {
 }
 
 .filter-clear {
-  background: #83b344;
+  background: white;
   margin-left: 20px;
   width: 100px;
   height: 30px;
   border-radius: 15px;
-  color: white;
+  border-color: #83b344;
+  color: #83b344;
   font-size: 17px;
   font-weight: "bold";
-  border: none;
+  outline: #83b344;
+  // border: none;
   cursor: pointer;
 }
 

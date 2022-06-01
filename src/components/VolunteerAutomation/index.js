@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
   Typography,
   Container,
@@ -22,23 +23,37 @@ function VolunteerAutomation() {
   const user = useSelector(({ User }) => User);
   let history = useHistory();
 
+  const pathname = window.location.pathname;
+  console.log("pathname", pathname);
+
   const handleClick = () => {
-    return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
-      method: METHODS.POST,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then(
-      (res) => {
-        console.log("res", res);
-        history.push(PATHS.VOLUNTEER_FORM);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    if (user && user.data && user.data.token) {
+      console.log("logged in");
+      return axios({
+        url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
+        method: METHODS.POST,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then(
+        (res) => {
+          console.log("res", res);
+          history.push(PATHS.VOLUNTEER_FORM);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
+      console.log("not logged in");
+      history.push(PATHS.LOGIN, pathname);
+      // history.push({
+      //   pathname: PATHS.LOGIN,
+      //   state: { path: pathname },
+      // });
+      // return <Redirect to={PATHS.LOGIN} />;
+    }
   };
 
   return (
@@ -47,7 +62,7 @@ function VolunteerAutomation() {
         <Grid item xs={12} ms={6} md={5}>
           <Box className={classes.volunteerFlow}>
             <Typography variant="h4" gutterBottom>
-              Help Students Get their Dream Job in Tech
+              Help Students Get their Dream Job and Build their Career in Tech
             </Typography>
 
             <Typography sx={{ mt: 4 }}>
@@ -61,16 +76,16 @@ function VolunteerAutomation() {
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography className={classes.TextContent}>
-                Gain wide network to leverage for advancing your own skills and
-                career prospects.
+                Gain experience and wide network to leverage for advancing your
+                own skills and career prospects.
               </Typography>
             </Box>
 
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography className={classes.TextContent}>
-                Help students from low income families to get their first job in
-                tech
+                Support students from low income families to get their first job
+                in tech
               </Typography>
             </Box>
           </Box>
@@ -192,29 +207,26 @@ function VolunteerAutomation() {
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography variant="subtitle1" className={classes.TextContent}>
-                  {" "}
-                  Back End Dev{" "}
+                <Typography className={classes.TextContent}>
+                  Back End Dev
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography variant="subtitle1" className={classes.TextContent}>
-                  {" "}
+                <Typography className={classes.TextContent}>
                   Project Management
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography variant="subtitle1" className={classes.TextContent}>
-                  Curriculum Creation & Translation{" "}
+                <Typography className={classes.TextContent}>
+                  Curriculum Creation & Translation
                 </Typography>
               </Box>
-              <Box sx={{ mt: 1 }}>
+              <Box sx={{ mt: "12px" }}>
                 <Typography variant="body1" color="text.secondary">
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
-                    {" "}
                     Expected effort
                   </span>
                   : 4 hours / week for 15 weeks

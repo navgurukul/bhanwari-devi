@@ -35,20 +35,24 @@ const useStyles = makeStyles((theme) => ({
     background: "#2196F3",
   },
 
-  nonSelectedCard: {
+  TrackCard: {
+    // boxShadow: "1px 1px 0px #E9F5E9",
+    maxWidth: 256,
+    height: 171,
+    "&:hover": {
+      border: "1px solid #48A145",
+      boxShadow:
+        "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
+    },
+  },
+  selectedTrack: {
     boxShadow: "1px 1px 0px #E9F5E9",
     maxWidth: 256,
     height: 171,
-  },
-
-  selectedCard: {
-    maxWidth: 256,
-    height: 171,
-    boxShadow:
-      "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
+    // "&:hover": {
     border: "1px solid #48A145",
+    // },
   },
-
   TrackButtonBox: {
     display: "flex",
     justifyContent: "flex-end",
