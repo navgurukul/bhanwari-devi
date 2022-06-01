@@ -17,8 +17,14 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import useStyles from "./styles";
 import { dateTimeFormat, TimeLeft } from "../../constant";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 function AttendClass({ setDisable }) {
   const classes = useStyles();
@@ -26,10 +32,19 @@ function AttendClass({ setDisable }) {
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [enrollId, setEnrollId] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const [proceed, setProceed] = useState(
     JSON.parse(localStorage.getItem("proceed")) || false
   );
   const [chooseClassAgain, setChooseClassAgain] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     dispatch(classActions.getClasses());
@@ -50,7 +65,7 @@ function AttendClass({ setDisable }) {
   let sliceData = classData || [];
   (sliceData.length == 0 || chooseClassAgain) &&
     data &&
-    data.slice(0, 3).map((item) => {
+    data.slice(0, 6).map((item) => {
       sliceData.push(item);
     });
 
@@ -68,6 +83,7 @@ function AttendClass({ setDisable }) {
   console.log("sliceData", sliceData);
 
   const enrollClass = (Class) => {
+    setOpen(false);
     setEnrollId(Class.id);
     localStorage.setItem("classes", JSON.stringify([Class]));
     setChooseClassAgain(false);
@@ -180,27 +196,51 @@ function AttendClass({ setDisable }) {
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
         <>
-          <Typography variant="h6">
-            If you attended the class please proceed or
-          </Typography>
-          <Typography
-            // className={classes.backToAllClasses}
-            sx={{
-              cursor: "pointer",
-              //   lineHeight: 1.5,
-              //   fontWeight: 700,
-              //   fontFamily: "Lusitana",
-              //   fontSize: "1.5rem",
-            }}
-            variant="h6"
-            onClick={() => {
-              setProceed(false);
-              localStorage.setItem("proceed", false);
-              setChooseClassAgain(true);
-            }}
-          >
-            choose another class
-          </Typography>
+          <Container maxWidth="sm">
+            <Typography variant="h6">
+              Please choose a class to attend
+            </Typography>
+            <Typography sx={{ mt: 2 }} variant="body1">
+              Attending a class will help you observe how the teacher and
+              students interact with each other. You may also stay a bit after
+              the class to chat with the teacher. Once, completed please return
+              to complete the onboarding
+            </Typography>
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              <span style={{ fontWeight: "bold" }}>Note:</span> In case you
+              missed to attend the previous class, it’s recommended to
+              <Button
+                variant="text"
+                onClick={() => {
+                  setProceed(false);
+                  localStorage.setItem("proceed", false);
+                  setChooseClassAgain(true);
+                }}
+              >
+                enroll to another class
+              </Button>
+              else please proceed
+            </Typography>
+            <Box sx={{ display: "flex", mt: 2 }}>
+              <CheckCircleIcon color="primary" />
+              <Typography sx={{ ml: 2 }}>
+                I have attended and got familiar with how classes are conducted
+                on Meraki
+              </Typography>
+            </Box>
+
+            {/* <Typography
+            
+              variant="body1"
+              onClick={() => {
+                setProceed(false);
+                localStorage.setItem("proceed", false);
+                setChooseClassAgain(true);
+              }}
+            >
+            enroll to another class
+            </Typography> */}
+          </Container>
         </>
       ) : (
         <>
@@ -287,6 +327,32 @@ function AttendClass({ setDisable }) {
                       </Button>
                     )}
                   </Box>
+
+                  <Button variant="outlined" onClick={handleClickOpen}>
+                    Open alert dialog
+                  </Button>
+                  <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      {"Confirm dropping out"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Something urgent came up? Keep an eye for future doubt
+                        classes
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Stay Enrolled</Button>
+                      <Button color="error" onClick={handleClose} autoFocus>
+                        Drop Out
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </Grid>
               ))}
           </Grid>
