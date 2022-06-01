@@ -84,7 +84,6 @@ function Class({ classToEdit, indicator }) {
       [MAX_ENROLMENT]: max_enrolment || "0",
       [FREQUENCY]: frequency || "",
       [ON_DAYS]: on_days_list || [],
-      // [OCCURRENCE]: "28",
       [OCCURRENCE]: occurrence_data || "28",
       [UNTIL]: until_data || "",
     };
@@ -1073,9 +1072,10 @@ function Class({ classToEdit, indicator }) {
                     onChange={(e) =>
                       changeHandler(e, setFormFieldsState, formFieldsState)
                     }
+                    disabled={true}
                     value={formFieldsState[OCCURRENCE]}
                     placeholder="How many recurring classes"
-                    disabled={isEditMode && !indicator ? true : false}
+                    // disabled={isEditMode && !indicator ? true : false}
                     required={
                       formFieldsState[TYPE] === "batch" &&
                       formFieldsState[UNTIL] === ""
