@@ -20,20 +20,24 @@ export default function DropOut(props) {
 
   const classes = useStyles();
 
-  const { open, close, title, id, unregister_all } = props;
+  const { open, close, title, id, unregister_all, setIsEnrolled } = props;
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
   const handelDropOut = (Id) => {
     setLoading(true);
     axios
-      .delete(`${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: user.data.token,
-          "unregister-all": unregister_all || false,
-        },
-      })
+      .delete(
+        `${
+          process.env.REACT_APP_MERAKI_URL
+        }/classes/${Id}/unregister?unregister-all=${unregister_all || false}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user.data.token,
+          },
+        }
+      )
       .then(() => {
         toast.success("Class Dropped", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -41,6 +45,9 @@ export default function DropOut(props) {
         });
         setLoading(false);
         close();
+        if (setIsEnrolled) {
+          setIsEnrolled(false);
+        }
       })
       .catch((err) => {
         toast.error("Failed To Drop Out of Class", {

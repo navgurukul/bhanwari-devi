@@ -10,14 +10,18 @@ import { useSelector } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
 import { dateTimeFormat, TimeLeft } from "../../../constant";
 import RevisionClassEnroll from "../Revision/RevisionClassEnroll";
-
 // import { Button } from "framework7-react";
+import DropOut from "../DropOut";
 
 const ExerciseBatchClass = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
+  const [dropOutOpen, setDropOutOpen] = useState(false);
   const { facilitator, start_time, end_time, is_enrolled, meet_link, id } =
     props;
+  const closeDropOut = () => {
+    setDropOutOpen(false);
+  };
   let [TimeLefts, setTimeLefts] = useState(TimeLeft(start_time));
   var ONE_MINUTE = 60 * 1000;
   setInterval(() => {
@@ -85,23 +89,17 @@ const ExerciseBatchClass = (props) => {
                   </Button>
                 </a>
               ) : (
-                <Button
-                  disabled={true}
-                  variant="contained"
-                  sx={{ fontSize: "1rem" }}
-                  fullWidth
-                >
-                  Starts in {TimeLefts}
-                </Button>
+                <>
+                  <Button
+                    disabled={true}
+                    variant="contained"
+                    sx={{ fontSize: "1rem" }}
+                    fullWidth
+                  >
+                    Starts in {TimeLefts}
+                  </Button>
+                </>
               )}
-
-              <Typography
-                mt={2}
-                align="start"
-                style={{
-                  display: "flex",
-                }}
-              ></Typography>
             </CardContent>
           </Card>
         </Box>

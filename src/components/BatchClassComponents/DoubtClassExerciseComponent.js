@@ -14,7 +14,7 @@ import AlertDialog from "./AlertDialog";
 import DropOut from "./DropOut";
 
 export const MoreDetails = (props) => {
-  const { open, setOpen } = props;
+  const { open, setOpen, isEnrolled, setIsEnrolled } = props;
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -89,12 +89,12 @@ export const MoreDetails = (props) => {
                 <Typography variant="body2">{lang[actions?.lang]}</Typography>
               </Button>
             </Box>
-            <Typography variant="body">
+            <Typography variant="body1">
               Clear your doubts related to the first class of Python and other
               queries during your studies
             </Typography>
             <Typography
-              variant="body2"
+              variant="body"
               mt={2}
               style={{
                 display: "flex",
@@ -133,10 +133,10 @@ export const MoreDetails = (props) => {
               />
               {actions?.facilitator_name}
             </Typography>
-            <Typography variant="body" color="text.secondary" mb={2}>
+            <Typography variant="body1" color="text.secondary" mb={2}>
               Please join at least 10 mintues before the scheduled time
             </Typography>
-            {actions?.is_enrolled ? (
+            {isEnrolled ? (
               <>
                 {TimeLefts == "joinNow" ? (
                   <a
@@ -170,6 +170,7 @@ export const MoreDetails = (props) => {
                   close={closeDropOut}
                   title={actions?.title}
                   id={actions?.id}
+                  setIsEnrolled={setIsEnrolled}
                 />
                 <Typography
                   align="center"
@@ -179,6 +180,7 @@ export const MoreDetails = (props) => {
                   }}
                   variant="body2"
                   color="red"
+                  style={{ cursor: "pointer" }}
                 >
                   can`t attend?
                 </Typography>{" "}
@@ -204,6 +206,7 @@ export const MoreDetails = (props) => {
         end_time={actions?.end_time}
         id={actions?.id}
         exerciseReload={true}
+        setIsEnrolled={setIsEnrolled}
       />
     </div>
   );
@@ -216,8 +219,8 @@ const DoubtClassExerciseComponent = (props) => {
   const [open, setOpen] = useState(false);
   const start_time = dateTimeFormat(actions?.start_time);
   const end_time = dateTimeFormat(actions?.end_time);
-
-  return !actions?.is_enrolled ? (
+  const [isEnrolled, setIsEnrolled] = useState(actions?.is_enrolled);
+  return !isEnrolled ? (
     <>
       <Box backgroundColor="primary.light" p={2} mt={2}>
         <Typography
@@ -266,6 +269,8 @@ const DoubtClassExerciseComponent = (props) => {
         setOpen={setOpen}
         actions={actions}
         value={value}
+        isEnrolled={isEnrolled}
+        setIsEnrolled={setIsEnrolled}
       />
     </>
   ) : (
@@ -275,6 +280,8 @@ const DoubtClassExerciseComponent = (props) => {
         setOpen={setOpen}
         actions={actions}
         value={value}
+        isEnrolled={isEnrolled}
+        setIsEnrolled={setIsEnrolled}
       />
       <>
         <Box backgroundColor="primary.light" p={2} mt={2}>
@@ -304,7 +311,7 @@ const DoubtClassExerciseComponent = (props) => {
               src={require("./Revision/assets/Group.svg")}
               alt="Students Img"
             />
-            {actions.facilitator_name}
+            {/* {actions.facilitator_name} */}
           </Typography>
           <div
             style={{

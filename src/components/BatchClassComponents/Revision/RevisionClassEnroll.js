@@ -19,7 +19,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { dateTimeFormat } from "../../../constant";
 import AlertDialog from "../AlertDialog";
-import BatchClass from "../ExerciseBatchClass/ExerciseBatchClass";
+import ExerciseBatchClass from "../ExerciseBatchClass/ExerciseBatchClass";
 import DropOut from "../DropOut";
 function RevisionClassEnroll(props) {
   const classes = useStyles();
@@ -53,7 +53,7 @@ function RevisionClassEnroll(props) {
       <Box align="right" mt={4} maxWidth={350} mb={10}>
         {DataToEnroll?.is_enrolled ? (
           <>
-            <BatchClass
+            <ExerciseBatchClass
               id={revisionData[0].id}
               facilitator={revisionData[0].facilitator.name}
               start_time={revisionData[0].start_time}
@@ -70,7 +70,7 @@ function RevisionClassEnroll(props) {
               }}
             >
               Can`t attend ?
-            </Typography>
+            </Typography>{" "}
             <DropOut
               title={revisionData[0].title}
               open={dropOutOpen}
@@ -128,7 +128,6 @@ function RevisionClassEnroll(props) {
                 title={DataToEnroll?.title}
                 start_time={DataToEnroll?.start_time}
                 end_time={DataToEnroll?.end_time}
-                registerAll={false}
               />
             </CardContent>
           </Card>

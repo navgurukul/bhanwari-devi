@@ -15,6 +15,7 @@ import { actions as upcomingBatchesActions } from "./redux/action";
 import { actions as upcomingClassActions } from "./redux/action";
 import { actions as enrolledBatchesActions } from "./redux/action";
 
+import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
 import {
   Container,
   Box,
@@ -81,7 +82,7 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
-  const [enrolledBatches, setEnrolledBatches] = useState(null);
+  // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const data = useSelector((state) => {
     return state;
   });
@@ -93,12 +94,14 @@ function PathwayCourse() {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
 
-  const enrolledBatchesUsers = useSelector((state) => {
-    return state;
+  const enrolledBatches = useSelector((state) => {
+    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
+      return state?.Pathways?.enrolledBatches?.data;
+    } else {
+      return null;
+    }
   });
-
-  console.log("enrolledBatchesUsers", enrolledBatchesUsers);
-
+  console.log("enrolledBatches", enrolledBatches);
   const history = useHistory();
 
   useEffect(() => {
@@ -126,19 +129,6 @@ function PathwayCourse() {
         })
       );
     }
-
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
-      headers: {
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      console.log(res.data);
-      if (res.data.length > 0) {
-        setEnrolledBatches(res.data);
-      }
-    });
   }, [dispatch, pathwayId]);
 
   data.Pathways.data &&
@@ -153,7 +143,14 @@ function PathwayCourse() {
   const pathwayCourseData = pathways.find((item) => {
     return item.id == pathwayId;
   });
-
+  useEffect(() => {
+    console.log(
+      upcomingBatchesData,
+      userEnrolledClasses,
+      pathwayCourse?.data?.courses,
+      "Here"
+    );
+  }, [upcomingBatchesData, userEnrolledClasses]);
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
@@ -224,9 +221,13 @@ function PathwayCourse() {
                 </Grid>
 
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
-                  <PathwayCourseBatchEnroll1
-                    upcomingBatchesData={upcomingBatchesData}
-                  />
+                  {upcomingBatchesData ? (
+                    <PathwayCourseBatchEnroll1
+                      upcomingBatchesData={upcomingBatchesData}
+                    />
+                  ) : (
+                    <NoBatchEnroll />
+                  )}
                 </Grid>
                 {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
                   <CardMedia
