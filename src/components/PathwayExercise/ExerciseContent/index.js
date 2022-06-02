@@ -310,12 +310,6 @@ function ExerciseContent({ exerciseId, lang }) {
           authToken: user?.data?.token,
         })
       );
-      // dispatch(
-      //   courseActions.getCourseContent({
-      //     courseId: courseId,
-      //     // lang: changeLanguage,
-      //   })
-      // );
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,

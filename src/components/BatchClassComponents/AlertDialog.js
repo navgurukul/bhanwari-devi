@@ -29,6 +29,7 @@ export default function AlertDialog(props) {
     id,
     registerAll,
     exerciseReload,
+    setIsEnrolled,
   } = props;
   console.log("props", props);
   const user = useSelector(({ User }) => User);
@@ -72,7 +73,8 @@ export default function AlertDialog(props) {
               authToken: user?.data?.token,
             })
           );
-        } else if (exerciseReload) {
+        } else if (setIsEnrolled) {
+          setIsEnrolled(true);
         }
       })
       .catch((err) => {
