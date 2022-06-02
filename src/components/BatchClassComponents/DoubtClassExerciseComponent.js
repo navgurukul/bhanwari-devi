@@ -89,12 +89,12 @@ export const MoreDetails = (props) => {
                 <Typography variant="body2">{lang[actions?.lang]}</Typography>
               </Button>
             </Box>
-            <Typography variant="body">
+            <Typography variant="body1">
               Clear your doubts related to the first class of Python and other
               queries during your studies
             </Typography>
             <Typography
-              variant="body2"
+              variant="body"
               mt={2}
               style={{
                 display: "flex",
@@ -133,7 +133,7 @@ export const MoreDetails = (props) => {
               />
               {actions?.facilitator_name}
             </Typography>
-            <Typography variant="body" color="text.secondary" mb={2}>
+            <Typography variant="body1" color="text.secondary" mb={2}>
               Please join at least 10 mintues before the scheduled time
             </Typography>
             {actions?.is_enrolled ? (
@@ -179,6 +179,7 @@ export const MoreDetails = (props) => {
                   }}
                   variant="body2"
                   color="red"
+                  style={{ cursor: "pointer" }}
                 >
                   can`t attend?
                 </Typography>{" "}
@@ -304,7 +305,7 @@ const DoubtClassExerciseComponent = (props) => {
               src={require("./Revision/assets/Group.svg")}
               alt="Students Img"
             />
-            {actions.facilitator_name}
+            {/* {actions.facilitator_name} */}
           </Typography>
           <div
             style={{
