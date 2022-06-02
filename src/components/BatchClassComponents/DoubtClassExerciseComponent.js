@@ -47,6 +47,22 @@ export const MoreDetails = (props) => {
   const closeDropOut = () => {
     setOpenDropOut(false);
   };
+
+  var langbtn;
+  if (lang[actions?.lang] == undefined) {
+    langbtn = "";
+  } else {
+    langbtn = (
+      <Button
+        variant="outlined"
+        color="secondary"
+        style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
+      >
+        <Typography variant="body2">{lang[actions?.lang]}</Typography>
+      </Button>
+    );
+  }
+
   return (
     <div>
       <SwipeableDrawer
@@ -81,13 +97,7 @@ export const MoreDetails = (props) => {
               >
                 <Typography variant="body2">Doubt Class</Typography>
               </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
-              >
-                <Typography variant="body2">{lang[actions?.lang]}</Typography>
-              </Button>
+              {langbtn}
             </Box>
             <Typography variant="body1">
               Clear your doubts related to the first class of Python and other
@@ -248,6 +258,7 @@ const DoubtClassExerciseComponent = (props) => {
             justifyContent: "flex-end",
             alignItems: "center",
           }}
+          colore
         >
           <Button
             endIcon={<ArrowForwardIosIcon />}
@@ -305,6 +316,7 @@ const DoubtClassExerciseComponent = (props) => {
             />
             {start_time.finalDate}
             at {start_time.finalTime} - {end_time.finalTime}
+            {/* {isActive ? <br></br> : ""} */}
             <img
               className={classes.icons}
               style={{ marginLeft: "10px" }}

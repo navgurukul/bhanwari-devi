@@ -26,7 +26,7 @@ const ExerciseBatchClass = (props) => {
   var ONE_MINUTE = 60 * 1000;
   setInterval(() => {
     setTimeLefts(TimeLeft(start_time));
-    console.log("TimeChange");
+    // console.log("TimeChange");
   }, ONE_MINUTE);
   return TimeLefts !== "expired" ? (
     <>
