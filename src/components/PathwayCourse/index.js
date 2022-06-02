@@ -129,19 +129,6 @@ function PathwayCourse() {
         })
       );
     }
-
-    // axios({
-    //   method: METHODS.GET,
-    //   url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
-    //   headers: {
-    //     Authorization: user?.data?.token,
-    //   },
-    // }).then((res) => {
-    //   console.log(res.data);
-    //   if (res.data.length > 0) {
-    //     setEnrolledBatches(res.data);
-    //   }
-    // });
   }, [dispatch, pathwayId]);
 
   data.Pathways.data &&

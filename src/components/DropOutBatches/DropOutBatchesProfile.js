@@ -80,6 +80,8 @@ function DropOutBatchesProfile() {
     }).then((res) => {
       if (res?.data?.length > 0) {
         setDropOutBatches(res.data);
+      } else {
+        setDropOutBatches(null);
       }
     });
   }, [open]);
