@@ -270,7 +270,7 @@ function ExerciseContent({ exerciseId, lang }) {
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [open, setOpen] = useState(false);
   const [courseData, setCourseData] = useState({ content_type: null });
-  const [BannerData, setBannerData] = useState([]);
+  // const [BannerData, setBannerData] = useState([]);
   const [enrolledBatches, setEnrolledBatches] = useState(null);
   const dispatch = useDispatch();
 
