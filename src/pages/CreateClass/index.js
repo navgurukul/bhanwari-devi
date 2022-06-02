@@ -115,14 +115,14 @@ function ToggleClassFormModal() {
   }, [calledOnce]);
 
   return (
-    <Container maxWidth="xl" sx={{ mt: "40px" }}>
+    <Container maxWidth="lg" sx={{ mt: "40px" }}>
       {canSpecifyFacilitator && (
         <Button
           variant="contained"
           onClick={toggleModalOpen}
-          sx={{ m: "10px 0 40px 20px" }}
+          sx={{ m: "10px 0 40px 30px" }}
         >
-          CREATE A CLASS
+          Create a Batch/Class
         </Button>
       )}
       <ClassesList editClass={editClass} isShow={showModal} />

@@ -21,34 +21,34 @@ function ClassList({ editClass, isShow }) {
   if (loading) {
     // return <Loader pageLoader={true} />;
     return (
-      <Container maxWidth="xl" sx={{ mt: "40px" }}>
-        <Grid container spacing={2}>
-          {Array.from(Array(8)).map((_, index) => (
-            <Grid item xs={2} sm={4} md={3} key={index}>
-              <Card sx={{ p: 4 }}>
-                <Typography variant="subtitle1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="subtitle2">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      // <Container maxWidth="lg" sx={{ mt: "40px" }}>
+      <Grid container spacing={2}>
+        {Array.from(Array(8)).map((_, index) => (
+          <Grid item xs={2} sm={4} md={4} key={index}>
+            <Card sx={{ p: 4 }}>
+              <Typography variant="subtitle1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="subtitle2">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      // </Container>
     );
   }
 
@@ -67,7 +67,7 @@ function ClassList({ editClass, isShow }) {
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
 
   return (
-    <>
+    <Container maxWidth="lg">
       <Grid container spacing={2}>
         {data && data.length > 0 ? (
           <>
@@ -106,7 +106,7 @@ function ClassList({ editClass, isShow }) {
           </div>
         )}
       </Grid>
-    </>
+    </Container>
   );
 }
 export default ClassList;
