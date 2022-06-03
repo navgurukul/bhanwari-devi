@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typography: {
     marginBottom: "200px",
+    align: "center",
   },
   image: {
     margin: "auto",

@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import PublicIcon from "@mui/icons-material/Public";
 import { styled } from "@mui/material/styles";
 import {
+  Stack,
+  Chip,
   Typography,
   Button,
   Container,
@@ -47,16 +49,18 @@ const NewParnter = () => {
             the door of tech industry. Do you work with students that want to
             explore the world of programming? If so, look no further.
           </Typography>
-          <Typography variant="div" sx={{ align: "center" }}>
+          <Stack alignItems="center">
             <Button
+              Width
+              component="span"
+              size="larger"
               variant="contained"
               color="primary"
               mb={10}
-              className={classes.Join_btn}
             >
               Join As a Partner
             </Button>
-          </Typography>
+          </Stack>
         </Container>
         <Container sx={{ mt: 10 }}>
           <Grid container md={12} spacing={{ xs: 2, sm: 4 }}>
@@ -64,18 +68,10 @@ const NewParnter = () => {
               <img src={Image} className={classes.image} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} spacing={4}>
-              <Button
-                size="small"
-                color="warning"
-                variant="contained"
-                sx={{
-                  borderRadius: { xs: 25, sm: 15 },
-                  height: "30px",
-                }}
-              >
-                Featured
-              </Button>
-              <Typography variant="h6">Amazon Future Engineer</Typography>
+              <Chip label="Featured" color="warning" mt={2} />
+              <Typography variant="h6" mt={2}>
+                Amazon Future Engineer
+              </Typography>
               <Typography variant="body1" paragraph sx={{ mt: 2 }}>
                 Amazon Future Engineer is a complete package of
                 childhood-to-career program aimed at increasing access to
@@ -112,58 +108,35 @@ const NewParnter = () => {
                             {partner[item].Name}
                           </Typography>
                           {partner[item].OrganisationType === "Non - Profit" ? (
-                            <Button
-                              variant="contained"
-                              rounded
-                              sx={{
-                                background: "#FFF3CD",
-                                height: "50px",
-                                borderRadius: "20px",
-                                color: "black",
-                              }}
-                            >
-                              {partner[item].OrganisationType}
-                            </Button>
+                            <Chip
+                              label={partner[item].OrganisationType}
+                              mt={2}
+                              sx={{ background: "#FFF3CD" }}
+                            />
                           ) : partner[item].OrganisationType ===
                             "Government" ? (
-                            <Button
+                            <Chip
+                              label={partner[item].OrganisationType}
+                              mt={2}
                               variant="contained"
-                              rounded
-                              sx={{
-                                background: "#DADAEC",
-                                borderRadius: "20px",
-                                color: "black",
-                              }}
-                            >
-                              {partner[item].OrganisationType}
-                            </Button>
+                              sx={{ background: "#DADAEC" }}
+                            />
                           ) : partner[item].OrganisationType ===
                             "Educational Institution" ? (
-                            <Button
+                            <Chip
+                              label={partner[item].OrganisationType}
+                              mt={2}
                               variant="contained"
-                              rounded
-                              sx={{
-                                background: "#D3EAFD",
-                                borderRadius: "20px",
-                                color: "black",
-                              }}
-                            >
-                              {partner[item].OrganisationType}
-                            </Button>
+                              sx={{ background: "#D3EAFD" }}
+                            />
                           ) : partner[item].OrganisationType ===
                             "Community based organisation" ? (
-                            <Button
+                            <Chip
+                              label={partner[item].OrganisationType}
+                              mt={2}
                               variant="contained"
-                              rounded
-                              sx={{
-                                background: "#FFE6E8",
-                                borderRadius: "20px",
-                                color: "black",
-                                fontSize: "small",
-                              }}
-                            >
-                              {partner[item].OrganisationType}
-                            </Button>
+                              sx={{ background: "#FFE6E8" }}
+                            />
                           ) : (
                             ""
                           )}
