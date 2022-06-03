@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
 import { dateTimeFormat, TimeLeft } from "../../../constant";
-
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -27,7 +26,6 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { breakpoints } from "../../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { dateTimeFormat } from "../../../constant";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 toast.configure();
@@ -226,6 +224,7 @@ function ClassCard({ item, editClass, enroll, style }) {
     setInterval(() => {
       setTimer(TimeLeft(item.start_time));
     }, ONE_MINUTE);
+    console.log("Timer", Timer);
     return (
       <>
         {Timer == "joinNow" ? (
@@ -280,14 +279,15 @@ function ClassCard({ item, editClass, enroll, style }) {
               setDropdown(!dropdown);
             }}
           /> */}
-          {/* {rolesList.length < 1 && item.enrolled ? (
+          {rolesList.length == 0 && item.enrolled ? (
             <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
           ) : (
-            rolesList.length > 1 && (
+            rolesList.length >= 1 &&
+            (item.facilitator.email === user.data.user.email || flag) && (
               <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
             )
-          )} */}
-          <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
+          )}
+          {/* <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} /> */}
         </Typography>
         {console.log("dropdownMenu", dropdownMenu)}
         {/* {dropdown && (
@@ -330,19 +330,18 @@ function ClassCard({ item, editClass, enroll, style }) {
               <Typography textAlign="center">{menu.name}</Typography>
             </MenuItem>
           ))} */}
-          {item.facilitator.email === user.data.user.email ||
-            (flag && (
-              <>
-                <MenuItem onClick={() => handleClickOpen(item.id)}>
-                  <Typography textAlign="center">Delete</Typography>
-                </MenuItem>
-                <MenuItem onClick={() => handleEdit(item.id)}>
-                  <Typography textAlign="center">Edit</Typography>
-                </MenuItem>
-              </>
-            ))}
+          {(item.facilitator.email === user.data.user.email || flag) && (
+            <>
+              <MenuItem onClick={() => handleClickOpen(item.id)}>
+                <Typography textAlign="center">Delete</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => handleEdit(item.id)}>
+                <Typography textAlign="center">Edit</Typography>
+              </MenuItem>
+            </>
+          )}
 
-          {!rolesList.includes("admin") && (
+          {!rolesList.includes("volunteer") && (
             <MenuItem onClick={() => handleClickOpenUnenroll(item.id)}>
               <Typography textAlign="center">Dropout</Typography>
             </MenuItem>
@@ -367,27 +366,28 @@ function ClassCard({ item, editClass, enroll, style }) {
           From {dateTimeFormat(BatchData?.start_time).finalDate} -{" "}
           {dateTimeFormat(BatchData?.end_time).finalDate}
         </Typography> */}
-        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+        <Typography variant="body1" sx={{ display: "flex" }}>
           <img
             className={classes.icons}
             src={require("../assets/calendar.svg")}
           />
+          {dateTimeFormat(item.start_time).finalDate}
           {/* {dateTimeFormat(moment(classStartTime).format("DD-MM-YYYY"))} */}
-          {moment(classStartTime).format("DD-MM-YYYY")}
+          {/* {moment(classStartTime).format("DD-MM-YYYY")} */}
         </Typography>
-        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+        <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
           {moment(classStartTime).format("hh:mm a")} -{" "}
           {moment(classEndTime).format("hh:mm a")}
         </Typography>
-        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+        <Typography variant="body1" sx={{ display: "flex" }}>
           <img
             className={classes.icons}
             src={require("../assets/facilitator.svg")}
           />
           {item.facilitator.name}
         </Typography>
-        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+        <Typography variant="body1" sx={{ display: "flex" }}>
           <img
             className={classes.icons}
             src={require("../assets/language.svg")}
@@ -397,7 +397,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         <Grid
           container
           spacing={2}
-          sx={{ mt: "50px" }}
+          sx={{ mt: "10px" }}
           // style={{ display: "flex", flexDirection: "column" }}
         >
           <CardActions>

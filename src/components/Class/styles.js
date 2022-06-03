@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    height: "370px",
+    height: "340px",
     display: "flex",
     maxWidth: "380px",
     flexDirection: "column",
