@@ -11,11 +11,22 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../common/Modal";
 import Loader from "../../common/Loader";
-import { Typography, Card, Grid, Button, Box } from "@mui/material";
+import {
+  Typography,
+  Card,
+  Grid,
+  Button,
+  Box,
+  Select,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { breakpoints } from "../../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { dateTimeFormat } from "../../../constant";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 toast.configure();
 
@@ -29,10 +40,13 @@ function ClassCard({ item, editClass, enroll, style }) {
   const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [items, setItems] = React.useState();
+  const [dropdown, setDropdown] = React.useState(false);
   const user = useSelector(({ User }) => User);
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const languageMap = {
     hi: "Hindi",
@@ -44,6 +58,19 @@ function ClassCard({ item, editClass, enroll, style }) {
     cohort: "Batch",
   };
 
+  const dropdownMenu = [
+    { name: "Delete", function: "handleClickOpen()" },
+    { name: "Edit", function: "handleEdit()" },
+    { name: "Dropout", function: "handleClickOpenUnenroll()" },
+  ];
+  // ["Delete", "Edit", "Dropout"];
+
+  // handleClickOpen handleEdit handleClickOpenUnenroll
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
   const handleClose = () => {
     setShowModal(false);
     setDeleteCohort(false);
@@ -51,6 +78,7 @@ function ClassCard({ item, editClass, enroll, style }) {
 
   const handleEdit = () => {
     setEditShowModal(true);
+    setAnchorElUser(null);
   };
 
   const handleCloseEdit = () => {
@@ -61,6 +89,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const handleClickOpen = () => {
     setShowModal(!showModal);
     setIndicator(false);
+    setAnchorElUser(null);
   };
 
   const handleCloseEnroll = () => {
@@ -78,6 +107,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const handleClickOpenUnenroll = () => {
     setunenrollShowModal(!unenrollShowModal);
     setIndicator(false);
+    setAnchorElUser(null);
   };
 
   const rolesList = user.data.user.rolesList;
@@ -183,6 +213,7 @@ function ClassCard({ item, editClass, enroll, style }) {
       dispatch(classActions.dropOutClass(Id));
     });
   };
+
   return (
     <>
       {" "}
@@ -190,35 +221,139 @@ function ClassCard({ item, editClass, enroll, style }) {
         <Typography
           variant="subtitle1"
           color="primary"
-          className={classes.spacing}
+          // className={classes.buttonGroup2}
+          sx={{
+            display: "flex",
+            // flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+          // className={classes.spacing}
         >
           {languageMap[item.type]}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
+          {/* <MoreVertIcon
+            onClick={() => {
+              setDropdown(!dropdown);
+            }}
+          /> */}
+          {/* {rolesList.length < 1 && item.enrolled ? (
+            <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
+          ) : (
+            rolesList.length > 1 && (
+              <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
+            )
+          )} */}
+          <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
         </Typography>
+        {console.log("dropdownMenu", dropdownMenu)}
+        {/* {dropdown && (
+          <Select
+            disableUnderline
+            value={items}
+            IconComponent={() => null}
+            onChange={(e) => {
+              setItems(e.target.value);
+            }}
+            variant="standard"
+          >
+            {manu.map((m) => {
+              console.log("m", m);
+              return <MenuItem value={m}>{m}</MenuItem>;
+            })}
+          </Select>
+        )} */}
+        <Menu
+          sx={{ mt: "45px" }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={() => {
+            setAnchorElUser(null);
+          }}
+        >
+          {/* {dropdownMenu.map((menu, index) => (
+            // <>{console.log("name", menu.name, "function", menu.function)}</>
+            <MenuItem key={index} onClick={menu.function(item.id)}>
+              <Typography textAlign="center">{menu.name}</Typography>
+            </MenuItem>
+          ))} */}
+          {item.facilitator.email === user.data.user.email ||
+            (flag && (
+              <>
+                <MenuItem onClick={() => handleClickOpen(item.id)}>
+                  <Typography textAlign="center">Delete</Typography>
+                </MenuItem>
+                <MenuItem onClick={() => handleEdit(item.id)}>
+                  <Typography textAlign="center">Edit</Typography>
+                </MenuItem>
+              </>
+            ))}
+
+          {!rolesList.includes("admin") && (
+            <MenuItem onClick={() => handleClickOpenUnenroll(item.id)}>
+              <Typography textAlign="center">Dropout</Typography>
+            </MenuItem>
+          )}
+        </Menu>
         <Typography variant="subtitle1" className={classes.spacing}>
           {item.title}
         </Typography>
-        <Typography className={classes.spacing}>
-          Facilitator : {item.facilitator.name}
+        {/* <Typography
+          variant="body1"
+          mb={1}
+          style={{
+            display: "flex",
+            padding: "10px 0",
+          }}
+        >
+          <img
+            className={classes.icons}
+            src={require("./assets/calender.svg")}
+            alt="Students Img"
+          />
+          From {dateTimeFormat(BatchData?.start_time).finalDate} -{" "}
+          {dateTimeFormat(BatchData?.end_time).finalDate}
+        </Typography> */}
+        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+          <img
+            className={classes.icons}
+            src={require("../assets/calendar.svg")}
+          />
+          {/* {dateTimeFormat(moment(classStartTime).format("DD-MM-YYYY"))} */}
+          {moment(classStartTime).format("DD-MM-YYYY")}
         </Typography>
-        <Typography className={classes.spacing}>
-          Language : {languageMap[item.lang]}
-        </Typography>
-        <Typography className={classes.spacing}>
-          Date:{moment(classStartTime).format("DD-MM-YYYY")}{" "}
-        </Typography>
-        <Typography className={classes.spacing}>
-          Time:{moment(classStartTime).format("hh:mm a")} -{" "}
+        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+          <img className={classes.icons} src={require("../assets/time.svg")} />
+          {moment(classStartTime).format("hh:mm a")} -{" "}
           {moment(classEndTime).format("hh:mm a")}
         </Typography>
-        <Grid
-          container
-          spacing={2}
-          sx={{ mt: "50px" }}
-          // style={{ display: "flex", flexDirection: "column" }}
-        >
+        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+          <img
+            className={classes.icons}
+            src={require("../assets/facilitator.svg")}
+          />
+          {item.facilitator.name}
+        </Typography>
+        <Typography variant="body1" sx={{ display: "flex", padding: "10px 0" }}>
+          <img
+            className={classes.icons}
+            src={require("../assets/language.svg")}
+          />
+          {languageMap[item.lang]}
+        </Typography>
+
+        <Grid container spacing={2} sx={{ mt: "50px" }}>
           <div className={classes.Buttons}>
             {item.enrolled ? (
               loading ? (
@@ -257,7 +392,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             {item.facilitator.email === user.data.user.email || flag ? (
               // <div className="class-card-actions">
               <div className={classes.buttonGroup2}>
-                {/* <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} /> */}
+                <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
                 <EditIcon
                   onClick={() => {
                     handleEdit(item.id);

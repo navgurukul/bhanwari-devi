@@ -125,11 +125,12 @@ function PathwayExercise() {
         console.log("error");
       });
   }, []);
-
+  console.log("availableLang", availableLang);
   const LangDropDown = () => {
-    return availableLang?.length === 1 ? (
-      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
-    ) : (
+    // return availableLang?.length === 1 ? (
+    //   <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
+    // ) : (
+    return (
       <Select
         disableUnderline
         value={language}
