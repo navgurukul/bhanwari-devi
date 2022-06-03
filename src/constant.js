@@ -105,13 +105,15 @@ export const TimeLeft = (date) => {
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    console.log(days, hours, minutes, seconds);
+
     if (days > 0) {
       return `${days} days ${hours} hrs ${minutes} mins`;
-    } else if (hours > 0) {
+    } else if (hours > 0 && days === 0) {
       return `${hours} hrs ${minutes} mins`;
-    } else if (minutes > 10) {
+    } else if (minutes > 10 && days === 0) {
       return `${minutes} mins ${seconds} sec`;
-    } else if (minutes <= 10 && minutes > 0) {
+    } else if (minutes <= 10 && minutes > -60 && days === 0) {
       return "joinNow";
     } else {
       return "expired";

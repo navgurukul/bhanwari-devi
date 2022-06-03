@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
 // import { actions as courseActions } from "../../../components/Course/redux/action";
+import { actions as enrolledBatchesActions } from "../../PathwayCourse/redux/action";
 
 import Assessment from "../ExerciseContent/Assessment";
 import {
@@ -269,8 +270,8 @@ function ExerciseContent({ exerciseId, lang }) {
   const pathwayId = params.pathwayId;
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [courseData, setCourseData] = useState({ content_type: null });
-  // const [BannerData, setBannerData] = useState([]);
-  const [enrolledBatches, setEnrolledBatches] = useState(null);
+  const [BannerData, setBannerData] = useState([]);
+  // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -280,6 +281,12 @@ function ExerciseContent({ exerciseId, lang }) {
       setContent(res.data.course.exercises[exerciseId]?.content);
       setCourseData(res.data.course.exercises[exerciseId]);
     });
+    dispatch(
+      enrolledBatchesActions.getEnrolledBatches({
+        pathwayId: pathwayId,
+        authToken: user?.data?.token,
+      })
+    );
   }, [courseId, exerciseId, lang]);
 
   // const {
@@ -294,7 +301,13 @@ function ExerciseContent({ exerciseId, lang }) {
   const userEnrolledClasses = useSelector((state) => {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
-
+  const enrolledBatches = useSelector((state) => {
+    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
+      return state?.Pathways?.enrolledBatches?.data;
+    } else {
+      return null;
+    }
+  });
   useEffect(() => {
     // getupcomingEnrolledClasses
     if (user?.data?.token) {
@@ -310,18 +323,18 @@ function ExerciseContent({ exerciseId, lang }) {
           authToken: user?.data?.token,
         })
       );
-      axios({
-        method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
-        headers: {
-          Authorization: user?.data?.token,
-        },
-      }).then((res) => {
-        console.log(res.data);
-        if (res.data.length > 0) {
-          setEnrolledBatches(res.data);
-        }
-      });
+      // axios({
+      //   method: METHODS.GET,
+      //   url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
+      //   headers: {
+      //     Authorization: user?.data?.token,
+      //   },
+      // }).then((res) => {
+      //   console.log(res.data);
+      //   if (res.data.length > 0) {
+      //     setEnrolledBatches(res.data);
+      //   }
+      // });
     }
   }, [params.pathwayId]);
 
