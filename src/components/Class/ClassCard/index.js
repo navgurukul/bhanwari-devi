@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
+import { dateTimeFormat, TimeLeft } from "../../../constant";
 
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
@@ -11,7 +12,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../common/Modal";
 import Loader from "../../common/Loader";
-import { Typography, Card, Grid, Button, Box } from "@mui/material";
+import {
+  Typography,
+  Card,
+  Grid,
+  Button,
+  Box,
+  CardActions,
+} from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { breakpoints } from "../../../theme/constant";
@@ -22,14 +30,18 @@ toast.configure();
 function ClassCard({ item, editClass, enroll, style }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [enrollShowModal, setEnrollShowModal] = React.useState(false);
-  const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
-  const [showModal, setShowModal] = React.useState(false);
-  const [editShowModal, setEditShowModal] = React.useState(false);
-  const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [indicator, setIndicator] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [enrollShowModal, setEnrollShowModal] = useState(false);
+  const [unenrollShowModal, setunenrollShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [editShowModal, setEditShowModal] = useState(false);
+  const [deleteCohort, setDeleteCohort] = useState(false);
+  const [indicator, setIndicator] = useState(false);
+  const [loading, setLoading] = useState(false);
   const user = useSelector(({ User }) => User);
+  const [proceed, setProceed] = useState(
+    JSON.parse(localStorage.getItem("proceed")) || false
+  );
+
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -183,6 +195,43 @@ function ClassCard({ item, editClass, enroll, style }) {
       dispatch(classActions.dropOutClass(Id));
     });
   };
+
+  const EnrolledAndTimer = () => {
+    const [Timer, setTimer] = useState(TimeLeft(item.start_time));
+    const ONE_MINUTE = 60000; //millisecs
+    setInterval(() => {
+      setTimer(TimeLeft(item.start_time));
+    }, ONE_MINUTE);
+    return (
+      <>
+        {Timer == "joinNow" ? (
+          <a
+            style={{
+              textDecoration: "none",
+            }}
+            href={item.meet_link}
+            target="_blank"
+          >
+            <Button
+              onClick={() => {
+                setProceed(true);
+                localStorage.setItem("proceed", true);
+                localStorage.setItem("disabled", false);
+              }}
+              variant="contained"
+              fullWidth
+            >
+              Join Now
+            </Button>
+          </a>
+        ) : (
+          <Button disabled={true} variant="contained">
+            Starts in {Timer}
+          </Button>
+        )}
+      </>
+    );
+  };
   return (
     <>
       {" "}
@@ -219,8 +268,8 @@ function ClassCard({ item, editClass, enroll, style }) {
           sx={{ mt: "50px" }}
           // style={{ display: "flex", flexDirection: "column" }}
         >
-          <div className={classes.Buttons}>
-            {item.enrolled ? (
+          <CardActions>
+            {/* {item.enrolled ? (
               loading ? (
                 <div className="loader-button">
                   <Loader />
@@ -250,23 +299,48 @@ function ClassCard({ item, editClass, enroll, style }) {
                   handleClickOpenEnroll(item.id);
                 }}
               >
-                {/* {enroll} */}
+                
+                Enroll
+              </Button>
+            )} */}
+
+            {item.enrolled ? (
+              loading ? (
+                <div className="loader-button">
+                  <Loader />
+                </div>
+              ) : (
+                <EnrolledAndTimer item={item} />
+              )
+            ) : loading ? (
+              <div className="loader-button">
+                <Loader />
+              </div>
+            ) : (
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={() => {
+                  handleClickOpenEnroll(item.id);
+                }}
+              >
                 Enroll
               </Button>
             )}
-            {item.facilitator.email === user.data.user.email || flag ? (
-              // <div className="class-card-actions">
+
+            {/* {item.facilitator.email === user.data.user.email || flag ? (
+              
               <div className={classes.buttonGroup2}>
-                {/* <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} /> */}
+                <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
                 <EditIcon
                   onClick={() => {
                     handleEdit(item.id);
                   }}
                 />
               </div>
-            ) : // </div>
-            null}
-          </div>
+            ) : 
+              null} */}
+          </CardActions>
         </Grid>
       </Card>
       <Box>
