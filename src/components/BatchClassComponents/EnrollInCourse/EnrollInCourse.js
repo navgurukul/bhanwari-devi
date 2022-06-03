@@ -31,7 +31,6 @@ const CourseEnroll = (props) => {
       endTime: item.end_time,
     };
   });
-
   const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(null);
   useEffect(() => {
     console.log(selectedBatchToEnroll);
