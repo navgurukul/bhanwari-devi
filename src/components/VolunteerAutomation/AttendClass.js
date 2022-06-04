@@ -155,7 +155,8 @@ function AttendClass({ setDisable }) {
               onClick={() => {
                 setProceed(true);
                 localStorage.setItem("proceed", true);
-                localStorage.setItem("disabled", false);
+                // handled by useEffect in Stepper with setDisable(false)
+                // localStorage.setItem("disabled", false);
                 setDisable(false);
               }}
               variant="contained"

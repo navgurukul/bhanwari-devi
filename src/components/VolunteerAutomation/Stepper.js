@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PATHS } from "../../constant";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -21,26 +21,28 @@ import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 
 import "./styles.scss";
-import { parse } from "date-fns";
+import { getObjectState, saveObjectState } from "../../common/storage";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
-  const myData = localStorage.getItem("step");
+  const currentState = getObjectState("volunteer_automation", "state");
   const user = useSelector(({ User }) => User);
-  const [activeStep, setActiveStep] = React.useState(
-    myData ? parseInt(myData) : 0
-  );
-  const isDisabled = JSON.parse(localStorage.getItem("disabled"));
+  const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [disable, setDisable] = React.useState(
-    isDisabled == false ? isDisabled : true
-  );
-  const [contact, setContact] = useState();
-  const [pathwayId, setPathwayId] = useState();
+  const [disable, setDisable] = React.useState(currentState.disabled || true);
+  const [contact, setContact] = useState(currentState.contact || '');
+  const [pathwayId, setPathwayId] = useState(currentState.pathwayId || 0);
+  const itemValues = {contact, pathwayId};
+
+  useEffect(() => {
+    currentState.disable = disable;
+    saveObjectState("volunteer_automation", "state", currentState);
+  }, [disable]);
 
   const steps = [
     {
       label: "Verify Phone No.",
+      itemKey: "contact",
       component: (
         <VerifyPhoneNo
           contact={contact}
@@ -51,6 +53,7 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Select Track",
+      itemKey: "pathwayId",
       component: (
         <SelectTrack
           setPathwayId={setPathwayId}
@@ -85,6 +88,16 @@ function HorizontalLinearStepper() {
     return skipped.has(step);
   };
 
+  const setActiveStepHandler = (changeBy, prevActiveStep) => {
+    const itemKey = steps[prevActiveStep]?.itemKey;
+    if (itemKey) {
+      currentState[itemKey] = itemValues[itemKey];
+    }
+    currentState[step] = prevActiveStep + changeBy;
+    saveObjectState("volunteer_automation", "state", currentState);
+    return prevActiveStep + changeBy;
+  };
+
   const handleNext = () => {
     setDisable(true);
     let newSkipped = skipped;
@@ -93,18 +106,12 @@ function HorizontalLinearStepper() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => {
-      localStorage.setItem("step", prevActiveStep + 1);
-      return prevActiveStep + 1;
-    });
+    setActiveStep(setActiveStepHandler.bind(null, 1));
     setSkipped(newSkipped);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => {
-      localStorage.setItem("step", prevActiveStep - 1);
-      return prevActiveStep - 1;
-    });
+    setActiveStep(setActiveStepHandler.bind(null, -1));
   };
 
   // const handleSkip = () => {
@@ -147,10 +154,6 @@ function HorizontalLinearStepper() {
       }
     );
   };
-
-  var today = new Date();
-  let time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
   return (
     <Container sx={{ mt: 4 }} maxWidth="lg">
