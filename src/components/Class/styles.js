@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   spacing: {
-    paddingTop: "17.5px",
+    padding: "12px 0",
   },
   Buttons: {
     width: "90%",

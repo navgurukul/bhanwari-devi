@@ -79,8 +79,8 @@ function ClassList({ editClass, isShow }) {
                     key={index}
                     index={index}
                     editClass={editClass}
-                    enroll="Enroll to class"
-                    style="class-enroll"
+                    // enroll="Enroll to class"
+                    // style="class-enroll"
                   />
                 </Grid>
               );
@@ -93,8 +93,8 @@ function ClassList({ editClass, isShow }) {
                     key={index}
                     index={index}
                     editClass={editClass}
-                    enroll="Enroll to Cohort class"
-                    style="class-enroll-cohort"
+                    // enroll="Enroll to Cohort class"
+                    // style="class-enroll-cohort"
                   />
                 </Grid>
               );

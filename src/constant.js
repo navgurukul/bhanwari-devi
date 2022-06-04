@@ -118,8 +118,8 @@ export const TimeLeft = (date) => {
     } else if (hours > 0 && days === 0) {
       return `${hours} hrs ${minutes} mins`;
     } else if (minutes > 10 && days === 0) {
-      return `${minutes} mins ${seconds} sec`;
-    } else if (minutes <= 10 && days === 0) {
+      return `${minutes} mins`;
+    } else if (minutes <= 10 && minutes > -60) {
       return "joinNow";
     } else {
       return "expired";

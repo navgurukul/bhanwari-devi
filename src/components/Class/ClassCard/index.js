@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -17,20 +17,15 @@ import {
   Grid,
   Button,
   Box,
-  Select,
   Menu,
   MenuItem,
   CardActions,
 } from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditIcon from "@mui/icons-material/Edit";
-import { breakpoints } from "../../../theme/constant";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 toast.configure();
 
-function ClassCard({ item, editClass, enroll, style }) {
+function ClassCard({ item, editClass }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -40,16 +35,10 @@ function ClassCard({ item, editClass, enroll, style }) {
   const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [items, setItems] = React.useState();
-  const [dropdown, setDropdown] = React.useState(false);
   const user = useSelector(({ User }) => User);
-  const [proceed, setProceed] = useState(
-    JSON.parse(localStorage.getItem("proceed")) || false
-  );
 
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
   const classEndTime = item.end_time && item.end_time.replace("Z", "");
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const languageMap = {
@@ -61,15 +50,6 @@ function ClassCard({ item, editClass, enroll, style }) {
     workshop: "Workshop",
     cohort: "Batch",
   };
-
-  const dropdownMenu = [
-    { name: "Delete", function: "handleClickOpen()" },
-    { name: "Edit", function: "handleEdit()" },
-    { name: "Dropout", function: "handleClickOpenUnenroll()" },
-  ];
-  // ["Delete", "Edit", "Dropout"];
-
-  // handleClickOpen handleEdit handleClickOpenUnenroll
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -224,7 +204,6 @@ function ClassCard({ item, editClass, enroll, style }) {
     setInterval(() => {
       setTimer(TimeLeft(item.start_time));
     }, ONE_MINUTE);
-    console.log("Timer", Timer);
     return (
       <>
         {Timer == "joinNow" ? (
@@ -235,15 +214,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             href={item.meet_link}
             target="_blank"
           >
-            <Button
-              onClick={() => {
-                setProceed(true);
-                localStorage.setItem("proceed", true);
-                localStorage.setItem("disabled", false);
-              }}
-              variant="contained"
-              fullWidth
-            >
+            <Button variant="contained" fullWidth>
               Join Now
             </Button>
           </a>
@@ -257,28 +228,19 @@ function ClassCard({ item, editClass, enroll, style }) {
   };
   return (
     <>
-      {" "}
       <Card elevation={2} sx={{ p: 4 }} className={classes.card}>
         <Typography
           variant="subtitle1"
           color="primary"
-          // className={classes.buttonGroup2}
           sx={{
             display: "flex",
-            // flexDirection: "column",
             justifyContent: "space-between",
           }}
-          // className={classes.spacing}
         >
           {languageMap[item.type]}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
-          {/* <MoreVertIcon
-            onClick={() => {
-              setDropdown(!dropdown);
-            }}
-          /> */}
           {rolesList.length == 0 && item.enrolled ? (
             <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
           ) : (
@@ -287,27 +249,9 @@ function ClassCard({ item, editClass, enroll, style }) {
               <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
             )
           )}
-          {/* <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} /> */}
         </Typography>
-        {console.log("dropdownMenu", dropdownMenu)}
-        {/* {dropdown && (
-          <Select
-            disableUnderline
-            value={items}
-            IconComponent={() => null}
-            onChange={(e) => {
-              setItems(e.target.value);
-            }}
-            variant="standard"
-          >
-            {manu.map((m) => {
-              console.log("m", m);
-              return <MenuItem value={m}>{m}</MenuItem>;
-            })}
-          </Select>
-        )} */}
         <Menu
-          sx={{ mt: "45px" }}
+          sx={{ mt: "15px" }}
           id="menu-appbar"
           anchorEl={anchorElUser}
           anchorOrigin={{
@@ -324,25 +268,28 @@ function ClassCard({ item, editClass, enroll, style }) {
             setAnchorElUser(null);
           }}
         >
-          {/* {dropdownMenu.map((menu, index) => (
-            // <>{console.log("name", menu.name, "function", menu.function)}</>
-            <MenuItem key={index} onClick={menu.function(item.id)}>
-              <Typography textAlign="center">{menu.name}</Typography>
-            </MenuItem>
-          ))} */}
           {(item.facilitator.email === user.data.user.email || flag) && (
             <>
-              <MenuItem onClick={() => handleClickOpen(item.id)}>
+              <MenuItem
+                onClick={() => handleClickOpen(item.id)}
+                sx={{ width: 100, margin: "0px 10px" }}
+              >
                 <Typography textAlign="center">Delete</Typography>
               </MenuItem>
-              <MenuItem onClick={() => handleEdit(item.id)}>
+              <MenuItem
+                onClick={() => handleEdit(item.id)}
+                sx={{ width: 100, margin: "0px 10px" }}
+              >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
             </>
           )}
 
           {!rolesList.includes("volunteer") && (
-            <MenuItem onClick={() => handleClickOpenUnenroll(item.id)}>
+            <MenuItem
+              onClick={() => handleClickOpenUnenroll(item.id)}
+              sx={{ width: 120, margin: "0px 10px" }}
+            >
               <Typography textAlign="center">Dropout</Typography>
             </MenuItem>
           )}
@@ -350,30 +297,12 @@ function ClassCard({ item, editClass, enroll, style }) {
         <Typography variant="subtitle1" className={classes.spacing}>
           {item.title}
         </Typography>
-        {/* <Typography
-          variant="body1"
-          mb={1}
-          style={{
-            display: "flex",
-            padding: "10px 0",
-          }}
-        >
-          <img
-            className={classes.icons}
-            src={require("./assets/calender.svg")}
-            alt="Students Img"
-          />
-          From {dateTimeFormat(BatchData?.start_time).finalDate} -{" "}
-          {dateTimeFormat(BatchData?.end_time).finalDate}
-        </Typography> */}
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
             className={classes.icons}
             src={require("../assets/calendar.svg")}
           />
           {dateTimeFormat(item.start_time).finalDate}
-          {/* {dateTimeFormat(moment(classStartTime).format("DD-MM-YYYY"))} */}
-          {/* {moment(classStartTime).format("DD-MM-YYYY")} */}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
@@ -394,48 +323,8 @@ function ClassCard({ item, editClass, enroll, style }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <Grid
-          container
-          spacing={2}
-          sx={{ mt: "10px" }}
-          // style={{ display: "flex", flexDirection: "column" }}
-        >
+        <Grid container spacing={2} sx={{ mt: "10px" }}>
           <CardActions>
-            {/* {item.enrolled ? (
-              loading ? (
-                <div className="loader-button">
-                  <Loader />
-                </div>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="error"
-                  className="class-drop-out"
-                  onClick={() => {
-                    handleClickOpenUnenroll(item.id);
-                  }}
-                >
-                  Drop out
-                </Button>
-              )
-            ) : loading ? (
-              <div className="loader-button">
-                <Loader />
-              </div>
-            ) : (
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={() => {
-                  handleClickOpenEnroll(item.id);
-                }}
-              >
-                
-                Enroll
-              </Button>
-            )} */}
-
             {item.enrolled ? (
               loading ? (
                 <div className="loader-button">
@@ -459,19 +348,6 @@ function ClassCard({ item, editClass, enroll, style }) {
                 Enroll
               </Button>
             )}
-
-            {/* {item.facilitator.email === user.data.user.email || flag ? (
-              
-              <div className={classes.buttonGroup2}>
-                <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} />
-                <EditIcon
-                  onClick={() => {
-                    handleEdit(item.id);
-                  }}
-                />
-              </div>
-            ) : 
-              null} */}
           </CardActions>
         </Grid>
       </Card>
