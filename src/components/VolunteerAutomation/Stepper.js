@@ -25,7 +25,7 @@ import { getObjectState, saveObjectState } from "../../common/storage";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
-  const currentState = getObjectState("volunteer_automation", "state");
+  const currentState = getObjectState("volunteer_automation", "state") || {};
   const user = useSelector(({ User }) => User);
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -93,7 +93,7 @@ function HorizontalLinearStepper() {
     if (itemKey) {
       currentState[itemKey] = itemValues[itemKey];
     }
-    currentState[step] = prevActiveStep + changeBy;
+    currentState.step = prevActiveStep + changeBy;
     saveObjectState("volunteer_automation", "state", currentState);
     return prevActiveStep + changeBy;
   };
