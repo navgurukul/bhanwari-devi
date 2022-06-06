@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Chip from "@mui/material/Chip";
 import { METHODS } from "../../services/api";
+// var intervalToDuration = require('date-fns/intervalToDuration')
+import intervalToDuration from "date-fns/intervalToDuration";
 import {
   Typography,
   Container,
@@ -23,7 +25,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useStyles from "./styles";
-import { dateTimeFormat, TimeLeft } from "../../constant";
+import { TimeLeft, lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, completed }) {
@@ -65,6 +67,8 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
       //&& new Date() < new Date(item.start_time)); // didn't already start
 
   const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
+
+  console.log("sliceData", sliceData);
 
   const enrollClass = (Class) => {
     setOpen(false);
@@ -230,16 +234,14 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
                         <Chip
                           color="primary"
                           sx={{ ml: 1 }}
-                          label={languageMap[item.lang]}
+                          label={lang[item.lang]}
                           variant="outlined"
                         />
                       </Box>
 
                       <Box sx={{ mt: 2 }}>
                         <Typography>
-                          {/* {moment(item.start_time).format("DD-MM-YYYY")} */}
-                          {dateTimeFormat(item.start_time).finalDate} ,{" "}
-                          {/* {dateTimeFormat(item.end_time).finalDate} */}
+                          {moment(item.start_time).format("OD MMM YY")},{" "}
                           {moment(item.start_time).format("hh:mm a")} -
                           {moment(item.end_time).format("hh:mm a")}
                         </Typography>
