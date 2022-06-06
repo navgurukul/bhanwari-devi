@@ -79,7 +79,11 @@ const Routing = () => {
         component={VolunteerAutomation}
       />
 
-      <Route exact path={PATHS.VOLUNTEER_FORM} component={VolunteerForm} />
+      <PrivateRoute
+        exact
+        path={PATHS.VOLUNTEER_FORM}
+        component={VolunteerForm}
+      />
 
       {/* Private routes */}
       {/* <PrivateRoute

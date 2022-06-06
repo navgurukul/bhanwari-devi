@@ -66,13 +66,13 @@ export const lang = {
   ta: "Tamil",
   te: "Telugu",
 };
-export const dateTimeFormat = (date) => {
-  const datePart = date?.split("T")[0].split("-").reverse();
-  const TimePart = date?.split("T")[1].split(":");
-  const finalDate = `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} `;
-  const finalTime = `${TimePart[0]} : ${TimePart[1]}`;
-  return { finalTime, finalDate };
-};
+// export const dateTimeFormat = (date) => {
+//   const datePart = date?.split("T")[0].split("-").reverse();
+//   const TimePart = date?.split("T")[1].split(":");
+//   const finalDate = `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} `;
+//   const finalTime = `${TimePart[0]} : ${TimePart[1]}`;
+//   return { finalTime, finalDate };
+// };
 
 export const TimeLeft = (date) => {
   const datePart = date?.split("T")[0].split("-").reverse();

@@ -21,7 +21,6 @@ import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 
 import "./styles.scss";
-import { parse } from "date-fns";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
