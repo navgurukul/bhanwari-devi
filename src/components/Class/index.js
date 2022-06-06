@@ -127,6 +127,7 @@ function Class({ classToEdit, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "version-code": versionCode,
         "update-all": indicator,
       },
       data: payload,
@@ -279,6 +280,7 @@ function Class({ classToEdit, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "version-code": versionCode,
         role: "volunteer",
       },
       data: {
