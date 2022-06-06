@@ -33,7 +33,7 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   // const [enrollId, setEnrollId] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [proceed, setProceed] = useState(!!completed);
+  const [proceed, setProceed] = useState(!!completed && enrollId == null);
   const [chooseClassAgain, setChooseClassAgain] = useState(false);
   const numOfClassesToShow = 6;
 
@@ -185,6 +185,7 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
                 variant="text"
                 onClick={() => {
                   setProceed(false);
+                  setEnrollId(null);
                   // localStorage.setItem("proceed", false);
                   setChooseClassAgain(true);
                 }}
