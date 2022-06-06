@@ -32,11 +32,11 @@ function AttendClass({ setDisable }) {
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [enrollId, setEnrollId] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [proceed, setProceed] = useState(
     JSON.parse(localStorage.getItem("proceed")) || false
   );
-  const [chooseClassAgain, setChooseClassAgain] = useState(false);
+  const [chooseClassAgain, setChooseClassAgain] = useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -260,7 +260,7 @@ function AttendClass({ setDisable }) {
                       </Typography>
 
                       <Typography gutterBottom variant="body2">
-                        Please join at least 10 mintues before the scheduled
+                        Please join at least 10 minutes before the scheduled
                         time
                       </Typography>
                     </CardContent>

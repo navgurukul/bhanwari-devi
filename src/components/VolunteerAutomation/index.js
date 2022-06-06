@@ -101,7 +101,7 @@ function VolunteerAutomation() {
         Areas to Volunteer In
       </Typography>
 
-      <Grid sx={{ mt: 3, mb: 15 }} container spacing={2}>
+      <Grid sx={{ mt: 3, mb: 15 }} container spacing={4}>
         <Grid item xs={12} ms={6} md={6}>
           <Card elevation={8} className={classes.volunteerCard}>
             <Box>

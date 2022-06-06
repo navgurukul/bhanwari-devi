@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #4548A1",
     height: "100%",
     padding: "8px",
-    marginLeft: "10px",
   },
   displayIcon: {
     display: "flex",
