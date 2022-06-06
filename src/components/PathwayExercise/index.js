@@ -35,6 +35,7 @@ const Exercise = ({
   classes,
   history,
   params,
+  progressTrackId,
 }) => {
   const start = exerciseId > 6 ? exerciseId - 6 : 0;
   const courseLength =
@@ -53,6 +54,7 @@ const Exercise = ({
             exerciseId={exerciseId}
             setExerciseId={setExerciseId}
             classes={classes}
+            progressTrackId={progressTrackId}
           />
         );
       })}
@@ -66,12 +68,20 @@ function ExerciseImage({
   setExerciseId,
   onClick,
   index,
+  progressTrackId,
 }) {
   const classes = useStyles();
+
   const contentTypeMap = {
     assessment: selected ? "assessmentSelected" : "assessment",
     class_topic: selected ? "classTypeSelected" : "classtype",
-    exercise: selected ? "contentTypeSelected" : "contenttype",
+    exercise: selected
+      ? index <= progressTrackId
+        ? "contentTypeRevist"
+        : "contentTypeSelected"
+      : index <= progressTrackId
+      ? "ContentTypeCompleted"
+      : "contenttype",
   };
   return (
     <img
@@ -93,6 +103,7 @@ function NavigationComponent({
   history,
   params,
   exercise,
+  progressTrackId,
 }) {
   return (
     <>
@@ -110,6 +121,7 @@ function NavigationComponent({
         selected={exerciseId == index}
         contentType={exercise.content_type}
         setExerciseId={setExerciseId}
+        progressTrackId={progressTrackId}
       />
     </>
   );
@@ -125,7 +137,7 @@ function PathwayExercise() {
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
   const [availableLang, setAvailableLang] = useState(["en"]);
-
+  const [progressTrackId, setProgressTrackId] = useState(-1);
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -146,6 +158,54 @@ function PathwayExercise() {
         console.log("error");
       });
   }, []);
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+    }).then((res) => {
+      const data = res.data.data;
+      console.log(data);
+      // [
+      //   {
+      //     id: 2,
+      //     user_id: 1902,
+      //     pathway_id: 2,
+      //     course_id: 114,
+      //     course_index: 1,
+      //   },
+      //   {
+      //     id: 1,
+      //     user_id: 1902,
+      //     pathway_id: 1,
+      //     course_id: 370,
+      //     course_index: 1,
+      //   },
+      //   {
+      //     id: 3,
+      //     user_id: 1902,
+      //     pathway_id: 5,
+      //     course_id: 428,
+      //     course_index: 1,
+      //   },
+      // ];
+      const filteredData = data.filter((item) => {
+        if (
+          params.pathwayId == item.pathway_id &&
+          params.courseId == item.course_id
+        ) {
+          return item;
+        }
+      });
+      if (params.exerciseId != 0) {
+        setProgressTrackId(filteredData[0].course_index - 1);
+      }
+    });
+  }, [exerciseId]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -193,7 +253,26 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-
+      console.log(progressTrackId);
+      if (parseInt(params.exerciseId) >= progressTrackId) {
+        console.log("progressTrackId", progressTrackId);
+        console.log("params.exerciseId", params.exerciseId);
+        console.log("exerciseId Tracked");
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            course_index: parseInt(params.exerciseId) + 1,
+          },
+        });
+      }
       setExerciseId(exerciseId + 1);
     }
   };
@@ -266,6 +345,7 @@ function PathwayExercise() {
                       exerciseId={exerciseId + 1}
                       setExerciseId={setExerciseId}
                       classes={classes}
+                      progressTrackId={progressTrackId}
                     />
                   )}
                   <Exercise
@@ -275,6 +355,7 @@ function PathwayExercise() {
                     exerciseId={exerciseId}
                     setExerciseId={setExerciseId}
                     classes={classes}
+                    progressTrackId={progressTrackId}
                   />
                 </div>
 
@@ -334,6 +415,7 @@ function PathwayExercise() {
                             contentType={exercise.content_type}
                             index={index}
                             setExerciseId={setExerciseId}
+                            progressTrackId={progressTrackId}
                           />
                         </Link>
                       </>

@@ -219,14 +219,15 @@ function PathwayCourse() {
                     )}
                   </Card>
                 </Grid>
-
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                   {upcomingBatchesData ? (
                     <PathwayCourseBatchEnroll1
                       upcomingBatchesData={upcomingBatchesData}
                     />
-                  ) : (
+                  ) : user?.data?.token ? (
                     <NoBatchEnroll />
+                  ) : (
+                    ""
                   )}
                 </Grid>
                 {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
