@@ -16,6 +16,7 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import useStyles from "./styles";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { Redirect } from "react-router-dom";
 
 function VolunteerAutomation() {
   const classes = useStyles();
@@ -23,25 +24,31 @@ function VolunteerAutomation() {
   let history = useHistory();
 
   const pathname = window.location.pathname;
+  const rolesList = user && user.data && user.data.user.rolesList;
 
   const handleClick = () => {
     if (user && user.data && user.data.token) {
-      return axios({
-        url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
-        method: METHODS.POST,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-      }).then(
-        (res) => {
-          console.log("res", res);
-          history.push(PATHS.VOLUNTEER_FORM);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      if (rolesList.includes("volunteer")) {
+        history.push(PATHS.VOLUNTEER_FORM);
+        // return <Redirect to={PATHS.CLASS} />;
+      } else {
+        return axios({
+          url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
+          method: METHODS.POST,
+          headers: {
+            accept: "application/json",
+            Authorization: user.data.token,
+          },
+        }).then(
+          (res) => {
+            console.log("res", res);
+            history.push(PATHS.VOLUNTEER_FORM);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     } else {
       history.push(PATHS.LOGIN, pathname);
     }
