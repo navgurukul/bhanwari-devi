@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // const {languageMap} = require("../../pages/CourseContent/languageMap");
 
 import {
@@ -46,7 +47,6 @@ const Exercise = ({
       {courseLength.map((exercise, index) => {
         return (
           <NavigationComponent
-            exercise={exercise}
             params={params}
             history={history}
             index={index + start}
@@ -60,43 +60,19 @@ const Exercise = ({
   );
 };
 
-function ExerciseImage({
-  selected,
-  contentType,
-  setExerciseId,
-  onClick,
-  index,
-}) {
-  const classes = useStyles();
-  const contentTypeMap = {
-    assessment: selected ? "assessmentSelected" : "assessment",
-    class_topic: selected ? "classTypeSelected" : "classtype",
-    exercise: selected ? "contentTypeSelected" : "contenttype",
-  };
-  return (
-    <img
-      onClick={() => {
-        onClick();
-        setExerciseId(index);
-      }}
-      src={require("./asset/" + contentTypeMap[contentType] + ".svg")}
-      loading="lazy"
-      className={classes.contentImg}
-    />
-  );
-}
-
 function NavigationComponent({
   index,
   exerciseId,
   setExerciseId,
+  classes,
   history,
   params,
-  exercise,
 }) {
+  console.log("exerciseId", exerciseId);
+  console.log("index", index);
   return (
     <>
-      <ExerciseImage
+      <img
         onClick={() => {
           history.push(
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -105,11 +81,15 @@ function NavigationComponent({
               pathwayId: params.pathwayId,
             })
           );
+          setExerciseId(index);
         }}
-        index={index}
-        selected={exerciseId == index}
-        contentType={exercise.content_type}
-        setExerciseId={setExerciseId}
+        src={
+          exerciseId == index
+            ? `${require("./asset/contentTypeSelectd.svg")}`
+            : `${require("./asset/contenttype.svg")}`
+        }
+        loading="lazy"
+        className={classes.contentImg}
       />
     </>
   );
@@ -149,7 +129,9 @@ function PathwayExercise() {
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
-      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
+      <MenuItem value={availableLang[0]}>
+        {Lang[availableLang[0]]} <KeyboardArrowDownIcon />{" "}
+      </MenuItem>
     ) : (
       <Select
         disableUnderline
@@ -161,11 +143,25 @@ function PathwayExercise() {
         variant="standard"
       >
         {availableLang.map((lang) => {
-          return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+          return (
+            <MenuItem
+              style={{ borderRadius: "8px" }}
+              sx={{ width: 120, margin: "6px 16px 6px 16px" }}
+              value={lang}
+            >
+              {Lang[lang]}
+            </MenuItem>
+          );
         })}
       </Select>
     );
   };
+
+  // const Lang = {
+  //   en: "English",
+  //   mr: "Marathi",
+  //   hi: "Hindi",
+  // };
 
   const Lang = languageMap;
 
@@ -199,29 +195,6 @@ function PathwayExercise() {
   };
 
   const [language, setLanguage] = useState("en");
-
-  // to avoid duplication
-  function languageSelectMenu() {
-    const langMenu = availableLang.map((lang) => (
-      <MenuItem value={lang}>{Lang[lang]}</MenuItem>
-    ));
-    return availableLang.length === 1 ? (
-      langMenu
-    ) : (
-      <Select
-        disableUnderline
-        value={language}
-        IconComponent={() => null}
-        onChange={(e) => {
-          setLanguage(e.target.value);
-        }}
-        variant="standard"
-      >
-        {langMenu}
-      </Select>
-    );
-  }
-
   return (
     <>
       <AppBar fullWidth position="sticky" color="background">
@@ -234,7 +207,7 @@ function PathwayExercise() {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" component="div">
+              <Typography variant="h6" component="div" pt={1}>
                 <Link
                   style={{ color: "#6D6D6D" }}
                   to={
@@ -253,7 +226,7 @@ function PathwayExercise() {
               <Toolbar>
                 <ArrowBackIosIcon
                   opacity={`${exerciseId !== 0 ? 1 : 0}`}
-                  sx={{ marginRight: 3 }}
+                  sx={{ marginRight: "20px" }}
                   onClick={previousClickHandler}
                 />
                 <div className="gridtopofcourse7">
@@ -329,11 +302,15 @@ function PathwayExercise() {
                             setExerciseId(index);
                           }}
                         >
-                          <ExerciseImage
-                            selected={exerciseId == index}
-                            contentType={exercise.content_type}
-                            index={index}
-                            setExerciseId={setExerciseId}
+                          <img
+                            onClick={() => setExerciseId(index)}
+                            src={
+                              exerciseId == index
+                                ? `${require("./asset/contentTypeSelectd.svg")}`
+                                : `${require("./asset/contenttype.svg")}`
+                            }
+                            loading="lazy"
+                            className={classes.contentImg}
                           />
                         </Link>
                       </>

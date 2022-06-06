@@ -1,7 +1,7 @@
 import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
-
+import Chip from "@mui/material/Chip";
 import {
   Container,
   Box,
@@ -56,14 +56,15 @@ const PathwayCards = (props) => {
                         </Typography>
                       </Grid>
                       <Grid item xs={6} md={4}>
-                        <Button
-                          variant="contained"
+                        <Chip
+                          label={item.type}
+                          variant="caption"
                           sx={
                             item.type === "batch"
                               ? {
                                   borderRadius: { xs: 25, sm: 15 },
                                   height: { xs: 34, sm: 25 },
-                                  fontSize: "11px",
+                                  // fontSize: "11px",
                                   backgroundColor: "#E9F5E9",
                                   color: "green",
                                   "&:hover": {
@@ -73,15 +74,13 @@ const PathwayCards = (props) => {
                               : {
                                   borderRadius: { xs: 25, sm: 15 },
                                   height: { xs: 34, sm: 25 },
-                                  fontSize: "11px",
+                                  // fontSize: "11px",
                                   backgroundColor: "lightsteelblue",
                                   color: "darkblue",
                                 }
                           }
-                          size="small"
-                        >
-                          {item.type}
-                        </Button>
+                          // size="small"
+                        />
                       </Grid>
                     </Grid>
 

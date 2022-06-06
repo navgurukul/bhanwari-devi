@@ -78,7 +78,7 @@ export default function DropOut(props) {
           >
             {loading ? <CircularProgress color="secondary" /> : "Drop Out"}
           </Button>
-          <Button onClick={close} color="primary">
+          <Button onClick={close} sx={{ color: "black" }}>
             Stay Enrolled
           </Button>
         </DialogActions>
