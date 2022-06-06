@@ -9,6 +9,7 @@ import { actions as pathwayActions } from "../../components/PathwayCourse/redux/
 import ReturningUserPage from "../ReturningUser/ReturningUserPage";
 import axios from "axios";
 import { METHODS } from "../../services/api";
+import { versionCode } from "../../constant";
 const pathwayData = [
   {
     title: "Python",
@@ -51,22 +52,25 @@ const NewUserDashbord = () => {
   const UserName = user.data.user.name;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [enrolledBatches, setEnrolledBatches] = useState(null);
+  const [learningTracks, setLearningTracks] = useState(null);
   const { loading, data } = useSelector((state) => state.Pathways);
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}users/EnrolledBatches`,
+      url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
       headers: {
+        "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: user?.data?.token || "",
       },
     }).then((res) => {
-      if (res.data.length > 0) {
-        setEnrolledBatches(res.data);
+      const data = res.data.data;
+      if (data.length > 0) {
+        setLearningTracks(res.data);
       }
     });
   }, []);
@@ -82,7 +86,7 @@ const NewUserDashbord = () => {
 
   return (
     <>
-      {!enrolledBatches ? (
+      {!learningTracks ? (
         <>
           <Container className={classes.DashboardContainer}>
             <Typography variant="h5" align="center" mt={4} mb={1}>
