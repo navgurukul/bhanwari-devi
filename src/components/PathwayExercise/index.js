@@ -169,30 +169,6 @@ function PathwayExercise() {
       },
     }).then((res) => {
       const data = res.data.data;
-      console.log(data);
-      // [
-      //   {
-      //     id: 2,
-      //     user_id: 1902,
-      //     pathway_id: 2,
-      //     course_id: 114,
-      //     course_index: 1,
-      //   },
-      //   {
-      //     id: 1,
-      //     user_id: 1902,
-      //     pathway_id: 1,
-      //     course_id: 370,
-      //     course_index: 1,
-      //   },
-      //   {
-      //     id: 3,
-      //     user_id: 1902,
-      //     pathway_id: 5,
-      //     course_id: 428,
-      //     course_index: 1,
-      //   },
-      // ];
       const filteredData = data.filter((item) => {
         if (
           params.pathwayId == item.pathway_id &&
@@ -201,9 +177,10 @@ function PathwayExercise() {
           return item;
         }
       });
-      if (params.exerciseId != 0) {
-        setProgressTrackId(filteredData[0].course_index - 1);
-      }
+
+      setProgressTrackId(
+        filteredData[0] ? filteredData[0]?.course_index - 1 : -1
+      );
     });
   }, [exerciseId]);
 
@@ -255,9 +232,6 @@ function PathwayExercise() {
       );
       console.log(progressTrackId);
       if (parseInt(params.exerciseId) >= progressTrackId) {
-        console.log("progressTrackId", progressTrackId);
-        console.log("params.exerciseId", params.exerciseId);
-        console.log("exerciseId Tracked");
         axios({
           method: METHODS.POST,
           url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
