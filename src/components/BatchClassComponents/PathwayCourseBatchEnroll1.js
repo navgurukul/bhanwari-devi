@@ -105,7 +105,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
                     cursor: "pointer",
                   }}
                 >
-                  Check out our other batches
+                  {"  "} &nbsp;
+                  <b>Check out our other batches</b>
                 </section>
                 <CheckMoreBatches
                   open={upcomingBatchesOpen}

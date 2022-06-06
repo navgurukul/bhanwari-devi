@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import React from "react";
 import { dateTimeFormat, TimeLeft } from "../../../constant";
@@ -12,18 +12,18 @@ function ClassTopic({ courseData }) {
           {courseData.title}
         </Typography>
         <Box mt={3}>
-          <Button
-            variant="filled"
+          <Chip
+            label={courseData.type}
+            variant="outlined"
             color="primary"
             style={{
               borderRadius: 90,
               height: 30,
               backgroundColor: "#E9F5E9",
             }}
-          >
-            <Typography variant="body2"> {courseData.type}</Typography>
-          </Button>
-          <Button
+          />
+          <Chip
+            label={languageMap[courseData.lang]}
             variant="outlined"
             color="primary"
             style={{
@@ -31,11 +31,7 @@ function ClassTopic({ courseData }) {
               borderRadius: 90,
               height: 30,
             }}
-          >
-            <Typography variant="body2">
-              {languageMap[courseData.lang]}
-            </Typography>
-          </Button>
+          />
         </Box>
         <Box mt={3}>
           <Typography variant="body2">

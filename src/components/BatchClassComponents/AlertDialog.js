@@ -115,7 +115,9 @@ export default function AlertDialog(props) {
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
-          <Button onClick={close}>Back</Button>
+          <Button onClick={close} sx={{ color: "black" }}>
+            Back
+          </Button>
           <Button
             disabled={loading}
             onClick={() => {
