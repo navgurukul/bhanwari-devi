@@ -22,6 +22,7 @@ import {
   CardActions,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ExternalLink from "../../common/ExternalLink";
 
 toast.configure();
 
