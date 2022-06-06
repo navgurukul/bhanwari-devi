@@ -25,19 +25,30 @@ import { getObjectState, saveObjectState } from "../../common/storage";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
-  const currentState = getObjectState("volunteer_automation", "state") || {};
+  const currentState = getObjectState("volunteer_automation", "state") || {
+    completed: []
+  };
   const user = useSelector(({ User }) => User);
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [disable, setDisable] = React.useState(currentState.disabled || true);
-  const [contact, setContact] = useState(currentState.contact || '');
-  const [pathwayId, setPathwayId] = useState(currentState.pathwayId || 0);
-  const itemValues = {contact, pathwayId};
+  const [completed, setCompleted] = React.useState(currentState.completed);
+  const [disable, setDisable] = React.useState(!completed[activeStep]);
+  const [contact, setContact] = useState(currentState.contact);
+  const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
+  const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
+  const itemValues = { contact, enrollId, pathwayId };
 
-  useEffect(() => {
-    currentState.disable = disable;
+  const updateAndSaveState = (setter, key, value) => {
+    setter && setter(value);
+    currentState[key] = value;
     saveObjectState("volunteer_automation", "state", currentState);
-  }, [disable]);
+  };
+
+  const setActiveStepCompleted = () => {
+    const newCompleted = completed.slice();
+    newCompleted[activeStep] = true;
+    updateAndSaveState(setCompleted, "completed", newCompleted);
+  };
 
   const steps = [
     {
@@ -72,7 +83,16 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Attend Class",
-      component: <AttendClass setDisable={setDisable} />,
+      itemKey: "enrollId",
+      component: ( 
+        <AttendClass 
+          setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
+          enrollId={enrollId}
+          setStepCompleted={setActiveStepCompleted}
+          setDisable={setDisable}
+          completed={completed[4]}
+        />
+      ),
     },
     {
       label: "Confirmation",
@@ -90,17 +110,27 @@ function HorizontalLinearStepper() {
 
   const setActiveStepHandler = (changeBy, prevActiveStep) => {
     const itemKey = steps[prevActiveStep]?.itemKey;
-    if (itemKey) {
+    const currentStep = prevActiveStep + changeBy;
+    
+    if (itemKey && !disable) {
+      // button was enabled by Component for this step so it's completed
+      //     and we should therefore update the state for this key
       currentState[itemKey] = itemValues[itemKey];
     }
-    currentState.step = prevActiveStep + changeBy;
-    saveObjectState("volunteer_automation", "state", currentState);
-    return prevActiveStep + changeBy;
+
+    setDisable(!completed[currentStep]);
+
+    updateAndSaveState(null, "step", currentStep);
+    return currentStep;
   };
 
   const handleNext = () => {
-    setDisable(true);
     let newSkipped = skipped;
+    setActiveStepCompleted();
+    // currentState.completed should be present if the user didn't
+    //     alter their localStorage but we'll check anyway to avoid a crash
+    //currentState.completed && (currentState.completed[activeStep] = true);
+
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);

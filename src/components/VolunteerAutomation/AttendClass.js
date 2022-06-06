@@ -26,17 +26,16 @@ import useStyles from "./styles";
 import { dateTimeFormat, TimeLeft } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-function AttendClass({ setDisable }) {
+function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, completed }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
-  const [enrollId, setEnrollId] = useState(false);
+  // const [enrollId, setEnrollId] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [proceed, setProceed] = useState(
-    JSON.parse(localStorage.getItem("proceed")) || false
-  );
+  const [proceed, setProceed] = useState(!!completed);
   const [chooseClassAgain, setChooseClassAgain] = useState(false);
+  const numOfClassesToShow = 6;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,29 +57,19 @@ function AttendClass({ setDisable }) {
     cohort: "Batch",
   };
 
-  const classData = JSON.parse(localStorage.getItem("classes"));
+  const possibleClasses = data?.slice(0, numOfClassesToShow) || [];
+  
+  const enrolledClass =
+      !chooseClassAgain &&
+      possibleClasses.find(item => item.id === enrollId); 
+      //&& new Date() < new Date(item.start_time)); // didn't already start
 
-  let sliceData = classData || [];
-  chooseClassAgain &&
-    data &&
-    data.slice(0, 6).map((item) => {
-      sliceData.push(item);
-    });
-
-  !chooseClassAgain &&
-    sliceData &&
-    sliceData.find((item) => {
-      if (item.id == enrollId) {
-        sliceData = [];
-        sliceData.push(item);
-        localStorage.setItem("classes", JSON.stringify(sliceData));
-      }
-    });
+  const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
 
   const enrollClass = (Class) => {
     setOpen(false);
     setEnrollId(Class.id);
-    localStorage.setItem("classes", JSON.stringify([Class]));
+    // localStorage.setItem("classes", JSON.stringify([Class]));
     setChooseClassAgain(false);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
@@ -108,7 +97,8 @@ function AttendClass({ setDisable }) {
   const dropOutClass = (Class) => {
     setOpen(false);
     setProceed(false);
-    localStorage.setItem("proceed", false);
+    setEnrollId(null);
+    //localStorage.setItem("proceed", false);
     setChooseClassAgain(true);
     const notify = () => {
       toast.success("You have been dropout the class successfully", {
@@ -125,12 +115,14 @@ function AttendClass({ setDisable }) {
         "unregister-all": "false",
       },
     }).then(() => {
+      /*
       sliceData = [];
       data &&
-        data.slice(0, 6).map((item) => {
+        data.slice(0, numOfClassesToShow).map((item) => {
           sliceData.push(item);
         });
       localStorage.setItem("classes", JSON.stringify(sliceData));
+      */
       notify();
     });
   };
@@ -154,9 +146,8 @@ function AttendClass({ setDisable }) {
             <Button
               onClick={() => {
                 setProceed(true);
-                localStorage.setItem("proceed", true);
-                // handled by useEffect in Stepper with setDisable(false)
-                // localStorage.setItem("disabled", false);
+                // localStorage.setItem("proceed", true);
+                setStepCompleted();
                 setDisable(false);
               }}
               variant="contained"
@@ -184,8 +175,8 @@ function AttendClass({ setDisable }) {
             <Typography sx={{ mt: 2 }} variant="body1">
               Attending a class will help you observe how the teacher and
               students interact with each other. You may also stay a bit after
-              the class to chat with the teacher. Once, completed please return
-              to complete the onboarding
+              the class to chat with the teacher. Once completed, please return
+              to complete the onboarding.
             </Typography>
             <Typography variant="body1" sx={{ mt: 2 }}>
               <span style={{ fontWeight: "bold" }}>Note:</span> In case you
@@ -194,7 +185,7 @@ function AttendClass({ setDisable }) {
                 variant="text"
                 onClick={() => {
                   setProceed(false);
-                  localStorage.setItem("proceed", false);
+                  // localStorage.setItem("proceed", false);
                   setChooseClassAgain(true);
                 }}
               >
@@ -261,7 +252,7 @@ function AttendClass({ setDisable }) {
                       </Typography>
 
                       <Typography gutterBottom variant="body2">
-                        Please join at least 10 mintues before the scheduled
+                        Please join at least 10 minutes before the scheduled
                         time
                       </Typography>
                     </CardContent>
