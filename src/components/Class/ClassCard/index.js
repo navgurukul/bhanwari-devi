@@ -207,17 +207,16 @@ function ClassCard({ item, editClass }) {
     return (
       <>
         {Timer == "joinNow" ? (
-          <a
+          <ExternalLink
             style={{
               textDecoration: "none",
             }}
             href={item.meet_link}
-            target="_blank"
           >
             <Button variant="contained" fullWidth>
               Join Now
             </Button>
-          </a>
+          </ExternalLink>
         ) : (
           <Button disabled={true} variant="contained">
             Starts in {Timer}
@@ -241,13 +240,10 @@ function ClassCard({ item, editClass }) {
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
-          {rolesList.length == 0 && item.enrolled ? (
+          {((rolesList.length == 0 && item.enrolled) ||
+            (rolesList.length >= 1 &&
+              (item.facilitator.email === user.data.user.email || flag))) && (
             <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
-          ) : (
-            rolesList.length >= 1 &&
-            (item.facilitator.email === user.data.user.email || flag) && (
-              <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
-            )
           )}
         </Typography>
         <Menu
