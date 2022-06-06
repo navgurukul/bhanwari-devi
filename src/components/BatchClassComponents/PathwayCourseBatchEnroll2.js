@@ -109,7 +109,8 @@ const PathwayCourseBatchEnroll2 = (props) => {
               }}
             >
               {" "}
-              Check out our other batches
+              &nbsp;
+              <b>Check out our other batches</b>
             </Typography>
             <CheckMoreBatches
               open={upcomingBatchesOpen}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Typography, Card, CardContent } from "@mui/material";
+import { Typography, Card, CardContent, Chip } from "@mui/material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "./styles";
@@ -70,7 +70,8 @@ export const MoreDetails = (props) => {
               {actions?.title}
             </Typography>
             <Box mb={3}>
-              <Button
+              <Chip
+                label="Doubt Class"
                 variant="outlined"
                 color="secondary"
                 style={{
@@ -78,16 +79,14 @@ export const MoreDetails = (props) => {
                   height: 30,
                   backgroundColor: "#DADAEC",
                 }}
-              >
-                <Typography variant="body2">Doubt Class</Typography>
-              </Button>
-              <Button
+              />
+
+              <Chip
+                label={lang[actions?.lang]}
                 variant="outlined"
                 color="secondary"
                 style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
-              >
-                <Typography variant="body2">{lang[actions?.lang]}</Typography>
-              </Button>
+              />
             </Box>
             <Typography variant="body1">
               Clear your doubts related to the first class of Python and other
@@ -222,7 +221,12 @@ const DoubtClassExerciseComponent = (props) => {
   const [isEnrolled, setIsEnrolled] = useState(actions?.is_enrolled);
   return !isEnrolled ? (
     <>
-      <Box backgroundColor="primary.light" p={2} mt={2}>
+      <Box
+        backgroundColor="primary.light"
+        p={2}
+        mt={2}
+        sx={{ borderRadius: "20px" }}
+      >
         <Typography
           variant="body1"
           mb={1}

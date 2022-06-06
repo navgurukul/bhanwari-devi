@@ -28,6 +28,7 @@ import {
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
+import { height } from "@mui/system";
 
 const pathways = [
   {
@@ -153,9 +154,30 @@ function PathwayCourse() {
   }, [upcomingBatchesData, userEnrolledClasses]);
   return (
     <>
+      {enrolledBatches ? (
+        <>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              justifyContent: "center",
+              height: "40px",
+              display: "flex",
+              alignItems: "center",
+            }}
+            bgcolor="#E9F5E9"
+          >
+            {enrolledBatches[0]?.title}
+          </Typography>
+        </>
+      ) : (
+        ""
+      )}
+
       <Container className={classes.pathwayContainer} maxWidth="lg">
         {enrolledBatches ? (
-          <PathwayCards userEnrolledClasses={userEnrolledClasses} />
+          <>
+            <PathwayCards userEnrolledClasses={userEnrolledClasses} />
+          </>
         ) : (
           pathwayId &&
           pathwayCourseData && (
@@ -211,7 +233,7 @@ function PathwayCourse() {
                             history.push(PATHS.LOGIN);
                           }}
                         >
-                          Log In To Enroll
+                          Login
                         </Button>
                       </>
                     ) : (
@@ -243,7 +265,7 @@ function PathwayCourse() {
               </Grid>
               <Box className={classes.Box1}>
                 <Typography
-                  variant="h5"
+                  variant="h6"
                   sx={{ textAlign: isActive && "center" }}
                 >
                   Learning Outcomes
@@ -270,7 +292,7 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            variant="h5"
+            variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >
             Courses
@@ -365,7 +387,7 @@ function PathwayCourse() {
                     history.push(PATHS.LOGIN);
                   }}
                 >
-                  Log In To Enroll
+                  Login
                 </Button>
               </Box>
             </Container>
