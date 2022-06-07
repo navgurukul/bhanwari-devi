@@ -67,12 +67,12 @@ function LearningTrackCard(props) {
             })
           );
         }}
-        xs={4}
+        xs={isActive ? 12 : 4}
       >
-        <Box align="right" mt={1} maxWidth={350} mb={10}>
-          <Card elevation={2} pl={10}>
+        <Grid align="right" mt={1} maxWidth={350} mb={2} flexDirection="column">
+          <Card elevation={2} pl={10} sx={{ minHeight: 185 }}>
             <CardContent>
-              <Grid container>
+              <Grid container mb={1}>
                 <Grid item xs={2}>
                   <img
                     style={{
@@ -133,7 +133,7 @@ function LearningTrackCard(props) {
               </Typography>
             </CardContent>
           </Card>
-        </Box>
+        </Grid>
       </Grid>
     </>
   );

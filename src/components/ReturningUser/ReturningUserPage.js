@@ -54,7 +54,7 @@ function ReturningUserPage() {
         <Typography variant="h5" mb={3}>
           My Learning Tracks
         </Typography>
-        <Grid container spacing={2} align="center">
+        <Grid container spacing={1} align="center">
           {learningTracks.map((item) => (
             <LearningTrackCard item={item} />
           ))}
