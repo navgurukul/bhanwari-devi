@@ -9,7 +9,7 @@ import Chip from "@mui/material/Chip";
 import { METHODS } from "../../services/api";
 // var intervalToDuration = require('date-fns/intervalToDuration')
 // import intervalToDuration from "date-fns/intervalToDuration";
-import { format, timeLeft } from "../../common/date";
+import { format, timeLeftFormat } from "../../common/date";
 import {
   Typography,
   Container,
@@ -26,7 +26,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useStyles from "./styles";
-import { TimeLeft, lang } from "../../constant";
+import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 function AttendClass({ setDisable }) {
@@ -137,14 +137,15 @@ function AttendClass({ setDisable }) {
 
   const EnrolledAndTimer = ({ item }) => {
     const timeLeftOptions = {
-      precision: [3, 3, 3, 2, 2, 0],
-      cutoffNum: 10,
-      cutoffText: 'joinNow',
+      precision: [3, 3, 3, 2, 2, 1],
+      cutoffNumArr: [0, 0, 0, 0, 10, 0],
+      cutoffTextArr: ["", "", "", "", "joinNow", ""],
     };
-    const [Timer, setTimer] = useState(timeLeft(item.start_time, timeLeftOptions));
+    const [Timer, setTimer] =
+        useState(timeLeftFormat(item.start_time, timeLeftOptions));
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
-      setTimer(timeLeft(item.start_time, timeLeftOptions));
+      setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
     }, ONE_MINUTE);
     return (
       <>
