@@ -123,6 +123,7 @@ function Class({ classToEdit, indicator }) {
           autoClose: 2500,
         });
         setLoading(false);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(

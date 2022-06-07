@@ -115,7 +115,7 @@ function ToggleClassFormModal() {
   }, [calledOnce]);
 
   return (
-    <Container maxWidth="lg" sx={{ mt: "40px" }}>
+    <Container maxWidth="xl" sx={{ mt: "40px" }}>
       {canSpecifyFacilitator && (
         <Button
           variant="contained"
