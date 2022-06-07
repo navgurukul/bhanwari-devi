@@ -249,7 +249,7 @@ function AttendClass({ setDisable }) {
 
                       <Box sx={{ mt: 2 }}>
                         <Typography>
-                          {format(item.start_time, "dd MMM YY")},{" "}
+                          {format(item.start_time, "dd MMM yy")},{" "}
                           {format(item.start_time, "hh:mm aaa")} -
                           {format(item.end_time, "hh:mm aaa")}
                         </Typography>
