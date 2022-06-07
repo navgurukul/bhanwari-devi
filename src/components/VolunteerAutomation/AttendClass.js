@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
 import { actions as classActions } from "../../components/Class/redux/action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,7 +8,8 @@ import axios from "axios";
 import Chip from "@mui/material/Chip";
 import { METHODS } from "../../services/api";
 // var intervalToDuration = require('date-fns/intervalToDuration')
-import intervalToDuration from "date-fns/intervalToDuration";
+// import intervalToDuration from "date-fns/intervalToDuration";
+import { format, timeLeft } from "../../common/date";
 import {
   Typography,
   Container,
@@ -135,10 +136,15 @@ function AttendClass({ setDisable }) {
   };
 
   const EnrolledAndTimer = ({ item }) => {
-    const [Timer, setTimer] = useState(TimeLeft(item.start_time));
+    const timeLeftOptions = {
+      precision: [3, 3, 3, 2, 2, 0],
+      cutoffNum: 10,
+      cutoffText: 'joinNow',
+    };
+    const [Timer, setTimer] = useState(timeLeft(item.start_time, timeLeftOptions));
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
-      setTimer(TimeLeft(item.start_time));
+      setTimer(timeLeft(item.start_time, timeLeftOptions));
     }, ONE_MINUTE);
     return (
       <>
@@ -243,9 +249,9 @@ function AttendClass({ setDisable }) {
 
                       <Box sx={{ mt: 2 }}>
                         <Typography>
-                          {moment(item.start_time).format("OD MMM YY")},{" "}
-                          {moment(item.start_time).format("hh:mm a")} -
-                          {moment(item.end_time).format("hh:mm a")}
+                          {format(item.start_time, "dd MMM YY")},{" "}
+                          {format(item.start_time, "hh:mm aaa")} -
+                          {format(item.end_time, "hh:mm aaa")}
                         </Typography>
                       </Box>
                       <Typography
