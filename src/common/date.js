@@ -3,8 +3,8 @@ import { format as dateFnsFormat, intervalToDuration} from "date-fns";
 /**
  * Returns the time left until the given date or a warning or expiration if the
  *     date is within a specified amount of time at or before now
- * @param {string|Date} A valid Date string recognized by Date.parse or Date
- *     representing the Date to determine the time remaining
+ * @param {string|Date} date A valid Date string recognized by Date.parse or
+ *     Date representing the Date to determine the time remaining
  * @param {{expiredText: (string|undefined),
  *     precision: (Array<number>|undefined),
  *     cutoffText: (string|undefined),
