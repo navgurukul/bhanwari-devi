@@ -176,7 +176,10 @@ function PathwayCourse() {
       <Container className={classes.pathwayContainer} maxWidth="lg">
         {enrolledBatches ? (
           <>
-            <PathwayCards userEnrolledClasses={userEnrolledClasses} />
+            <PathwayCards
+              userEnrolledClasses={userEnrolledClasses}
+              data={data}
+            />
           </>
         ) : (
           pathwayId &&
