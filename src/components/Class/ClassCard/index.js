@@ -352,7 +352,7 @@ function ClassCard({ item, editClass }) {
         {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
@@ -383,7 +383,7 @@ function ClassCard({ item, editClass }) {
         {editShowModal ? (
           <Modal onClose={handleCloseEdit} className="confirmation-massage">
             <h2>Do you want to edit this class?</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
@@ -417,7 +417,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2>Are you sure you want to enroll?</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
@@ -451,7 +451,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2> Are you sure you want to drop out</h2>
-            {item.type === "cohort" && (
+            {item.type === "batch" && (
               <label>
                 <input
                   type="checkbox"
