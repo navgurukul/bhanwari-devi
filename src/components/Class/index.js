@@ -10,6 +10,8 @@ import Loader from "../common/Loader";
 import Form from "../common/form";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const {
   TITLE,
@@ -23,6 +25,7 @@ const {
   TYPE,
   PATHWAY_ID,
   COURSE_ID,
+  PARTNER_ID,
   EXERCISE_ID,
   MAX_ENROLMENT,
   FREQUENCY,
@@ -35,8 +38,11 @@ function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
+  const [pathwayCode, setPathwayCode] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
   const [day, setDay] = useState({});
+  const [partnerData, setPartnerData] = useState([]);
+  const [Selected_partner_id, setSelected_partner_id] = useState();
 
   const {
     title,
@@ -48,6 +54,7 @@ function Class({ classToEdit, indicator }) {
     end_time,
     pathway_id,
     course_id,
+    partner_id,
     exercise_id,
     max_enrolment,
     frequency,
@@ -166,6 +173,26 @@ function Class({ classToEdit, indicator }) {
     });
   }, []);
 
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
+      headers: {
+        accept: "application/json",
+        "version-code": versionCode,
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      const partners = res.data.partners.map((item, index) => {
+        return {
+          label: item.name,
+          id: item.id,
+        };
+      });
+      setPartnerData(partners);
+    });
+  }, []);
+
   const onCourseChange = (courseId) => {
     if (exercisesForSelectedCourse[courseId]) {
       return;
@@ -224,6 +251,8 @@ function Class({ classToEdit, indicator }) {
       "YYYY-MM-DDTHH:mm:ss"
     )}Z`;
 
+    payload[PARTNER_ID] = Selected_partner_id;
+
     if (!isEditMode) {
       createClass(payload);
     } else {
@@ -232,6 +261,8 @@ function Class({ classToEdit, indicator }) {
   };
 
   const changeHandler = async (e, setField, field) => {
+    console.log("e.target.name", e.target.name);
+    console.log("e.target.value", e.target.value);
     if (e.target.name === "occurrence") {
       setField({ ...field, [e.target.name]: e.target.value, until: "" });
     } else if (e.target.name === "until") {
@@ -293,7 +324,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -315,11 +346,23 @@ function Class({ classToEdit, indicator }) {
       category_id: 3,
     };
 
+    // const days = {
+    //   MO: "Mon",
+    //   TU: "Tue",
+    //   WE: "Wed",
+    //   TH: "Thu",
+    //   FR: "Fri",
+    //   SA: "Sat",
+    //   SU: "Sun",
+    // };
+
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
         const weekDday = Object.values(day);
+        console.log("weekDday", weekDday);
         if (fieldName === "start_time") {
           let incrementedDate = new Date(value);
+          console.log("incrementedDate", incrementedDate);
           let newDate;
           var i = 1;
           while (i <= 7) {
@@ -347,6 +390,7 @@ function Class({ classToEdit, indicator }) {
           formFields[fieldName] = value.split(",");
         }
         // if (fieldName === "pathway_id") {
+        //   // formFields[fieldName] = parseInt(value);
         //   console.log("removing pathway_id from payload");
         //   continue;
         // }
@@ -355,6 +399,8 @@ function Class({ classToEdit, indicator }) {
         }
       }
     }
+    console.log("formFields", formFields);
+
     console.log("formFields", formFields);
 
     handleTimeValidationAndCreateClass(formFields);
@@ -458,7 +504,7 @@ function Class({ classToEdit, indicator }) {
               >
                 <span>
                   {pathways.map((item, index) => {
-                    if (item.code !== "PRCRSE") {
+                    if (item.code == "PRGPYT" || item.code == "SPKENG") {
                       return (
                         <label
                           htmlFor={`pathway-${index}`}
@@ -471,6 +517,8 @@ function Class({ classToEdit, indicator }) {
                             name={PATHWAY_ID}
                             value={item.id}
                             onChange={(e) => {
+                              console.log("item.name", item.code);
+                              setPathwayCode(item.code);
                               setPathwayId(e.target.value);
                               setFormField(item.id, PATHWAY_ID);
                             }}
@@ -491,13 +539,13 @@ function Class({ classToEdit, indicator }) {
                   Please choose a pathway
                 </span>
               )}
-              {/* {pathwayId &&
+              {pathwayCode == "SPKENG" &&
                 pathways.map((pathway) => {
                   if (pathwayId == pathway.id) {
                     return (
                       <React.Fragment key={pathway.id}>
                         <label htmlFor="course_id" className="label-field">
-                          Select Course{" "}
+                          Select Course
                         </label>
                         <select
                           className="input-field"
@@ -524,9 +572,9 @@ function Class({ classToEdit, indicator }) {
                     );
                   }
                 })}
-              {pathwayId && formFieldsState[COURSE_ID] == "" && (
+              {pathwayCode == "SPKENG" && formFieldsState[COURSE_ID] == "" && (
                 <span className="field-validation">Select a course</span>
-              )} */}
+              )}
               {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
                 <>
                   <label htmlFor="exercise_id" className="label-field">
@@ -644,6 +692,26 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={partnerData && partnerData}
+                isOptionEqualToValue={(option, value) => {
+                  return option.id === value.id;
+                }}
+                onChange={(e, newVal) => {
+                  setSelected_partner_id(newVal.id);
+                }}
+                name={PARTNER_ID}
+                sx={{ width: 300, mb: "30px" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Partner Name"
+                    variant="standard"
+                  />
+                )}
+              />
               <label htmlFor="start_time" className="label-field">
                 Date
               </label>

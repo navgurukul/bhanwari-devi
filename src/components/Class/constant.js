@@ -17,6 +17,7 @@ export const CLASS_FIELDS = {
   TYPE: "type",
   PATHWAY_ID: "pathway_id",
   COURSE_ID: "course_id",
+  PARTNER_ID: "partner_id",
   EXERCISE_ID: "exercise_id",
   MAX_ENROLMENT: "max_enrolment",
   FREQUENCY: "frequency",
