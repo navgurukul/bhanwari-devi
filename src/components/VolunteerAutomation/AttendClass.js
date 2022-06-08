@@ -55,14 +55,13 @@ function AttendClass({ setDisable }) {
   const classData = JSON.parse(localStorage.getItem("classes"));
 
   let sliceData = classData || [];
-  chooseClassAgain &&
+  if (chooseClassAgain) {
+    sliceData = [];
     data &&
-    data.slice(0, 6).map((item) => {
-      console.log("item", item);
-      sliceData.push(item);
-    });
-
-  console.log("data", data);
+      data.slice(0, 3).map((item) => {
+        sliceData.push(item);
+      });
+  }
 
   !chooseClassAgain &&
     sliceData &&
@@ -73,8 +72,6 @@ function AttendClass({ setDisable }) {
         localStorage.setItem("classes", JSON.stringify(sliceData));
       }
     });
-
-  console.log("sliceData", sliceData);
 
   const enrollClass = (Class) => {
     setOpen(false);
@@ -126,7 +123,7 @@ function AttendClass({ setDisable }) {
     }).then(() => {
       sliceData = [];
       data &&
-        data.slice(0, 6).map((item) => {
+        data.slice(0, 3).map((item) => {
           sliceData.push(item);
         });
       localStorage.setItem("classes", JSON.stringify(sliceData));
@@ -175,7 +172,7 @@ function AttendClass({ setDisable }) {
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
         <>
-          <Container maxWidth="sm">
+          <Container sx={{ background: "red" }} maxWidth="sm">
             <Typography variant="h6">
               Please choose a class to attend
             </Typography>
@@ -211,7 +208,7 @@ function AttendClass({ setDisable }) {
         </>
       ) : (
         <>
-          <Container maxWidth="md">
+          <Container maxWidth="sm">
             <Typography variant="h6" gutterBottom>
               Please choose a class to attend
             </Typography>
@@ -226,7 +223,7 @@ function AttendClass({ setDisable }) {
             {sliceData &&
               sliceData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
-                  <Card>
+                  <Card className={classes.classCard}>
                     <CardContent>
                       <Typography gutterBottom variant="subtitle1">
                         {item.title}
@@ -248,15 +245,13 @@ function AttendClass({ setDisable }) {
                           {moment(item.end_time).format("hh:mm a")}
                         </Typography>
                       </Box>
+
                       <Typography
                         sx={{ mt: 2 }}
+                        color="text.secondary"
                         gutterBottom
-                        variant="subtitle1"
+                        variant="body1"
                       >
-                        {item.facilitator.name}
-                      </Typography>
-
-                      <Typography gutterBottom variant="body2">
                         Please join at least 10 minutes before the scheduled
                         time
                       </Typography>
@@ -301,12 +296,17 @@ function AttendClass({ setDisable }) {
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText id="alert-dialog-description">
-                        Something urgent came up? Keep an eye for future doubt
-                        classes
+                        <Typography variant="body1">
+                          {" "}
+                          Something urgent came up? Keep an eye for{" "}
+                        </Typography>
+                        future doubt classes
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleClose}>Stay Enrolled</Button>
+                      <Button sx={{ color: "#2E2E2E" }} onClick={handleClose}>
+                        Stay Enrolled
+                      </Button>
                       <Button
                         color="error"
                         onClick={() => {

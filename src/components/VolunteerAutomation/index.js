@@ -56,8 +56,8 @@ function VolunteerAutomation() {
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={2}>
-        <Grid item xs={12} ms={6} md={5}>
+      <Grid container spacing={8}>
+        <Grid item xs={12} ms={6} md={6}>
           <Box className={classes.volunteerFlow}>
             <Typography variant="h4" gutterBottom>
               Help Students Get their Dream Job and Build their Career in Tech
@@ -95,7 +95,7 @@ function VolunteerAutomation() {
           md={6}
           sx={{ display: { xs: "none", md: "flex" } }}
         >
-          <Box>
+          <Box align="right">
             <img
               className={classes.volunteerImg}
               src={require("./assets/Group.svg")}
@@ -104,13 +104,13 @@ function VolunteerAutomation() {
         </Grid>
       </Grid>
 
-      <Typography sx={{ mt: 3 }} variant="h5" align="center" gutterBottom>
+      <Typography sx={{ mt: 5 }} variant="h5" align="center" gutterBottom>
         Areas to Volunteer In
       </Typography>
 
-      <Grid sx={{ mt: 3, mb: 15 }} container spacing={4}>
+      <Grid sx={{ mt: 1, mb: 14 }} container spacing={4}>
         <Grid item xs={12} ms={6} md={6}>
-          <Card elevation={8} className={classes.volunteerCard}>
+          <Card elevation={4} className={classes.volunteerCard}>
             <Box>
               <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
@@ -136,23 +136,23 @@ function VolunteerAutomation() {
                     Spoken English
                   </Typography>
                 </Box>
-                <Typography
-                  sx={{ mt: 2 }}
-                  variant="body1"
-                  color="text.secondary"
-                >
+                <Typography sx={{ mt: 2 }} variant="body1">
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
                     {" "}
                     Expected effort
                   </span>
                   : 2 hours / week for 15 weeks
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography
+                  sx={{ mt: 2 }}
+                  variant="body1"
+                  color="text.secondary"
+                >
                   Please volunteer only if you are professional who has worked
                   with Python or have great command over English
                 </Typography>
               </CardContent>
-              <CardActions sx={{ mt: 12 }}>
+              <CardActions sx={{ mt: 16.8 }}>
                 <Button
                   onClick={handleClick}
                   variant="contained"
@@ -166,7 +166,7 @@ function VolunteerAutomation() {
           </Card>
         </Grid>
         <Grid item xs={12} ms={6} md={6}>
-          <Card elevation={8} className={classes.volunteerCard1}>
+          <Card elevation={4} className={classes.volunteerCard1}>
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
                 Tech
@@ -223,19 +223,29 @@ function VolunteerAutomation() {
                 </Typography>
               </Box>
               <Box sx={{ mt: "12px" }}>
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1">
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
                     Expected effort
                   </span>
                   : 4 hours / week for 15 weeks
                 </Typography>
-                <Typography variant="body1">
+                <Typography
+                  sx={{ mt: 1.5 }}
+                  color="text.secondary"
+                  variant="body1"
+                >
                   You will taken to a Google form
                 </Typography>
               </Box>
             </CardContent>
             <CardActions sx={{ mt: 3 }}>
-              <Button variant="contained" color="secondary" fullWidth>
+              <Button
+                href="https://docs.google.com/forms/d/e/1FAIpQLScHvysncnhJkSMtpdpGl_uPhJWlE81hp6l5m2mvuE1hoxX-dQ/viewform"
+                target="_blank"
+                variant="contained"
+                color="secondary"
+                fullWidth
+              >
                 Start Now
               </Button>
             </CardActions>
