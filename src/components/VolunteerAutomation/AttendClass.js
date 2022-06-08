@@ -37,7 +37,7 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
   const [open, setOpen] = React.useState(false);
   const [proceed, setProceed] = useState(!!completed && enrollId == null);
   const [chooseClassAgain, setChooseClassAgain] = useState(false);
-  const numOfClassesToShow = 6;
+  const numOfClassesToShow = 3;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -67,8 +67,6 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
       //&& new Date() < new Date(item.start_time)); // didn't already start
 
   const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
-
-  console.log("sliceData", sliceData);
 
   const enrollClass = (Class) => {
     setOpen(false);
@@ -172,7 +170,7 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
         <>
-          <Container maxWidth="sm">
+          <Container sx={{ background: "red" }} maxWidth="sm">
             <Typography variant="h6">
               Please choose a class to attend
             </Typography>
@@ -209,7 +207,7 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
         </>
       ) : (
         <>
-          <Container maxWidth="md">
+          <Container maxWidth="sm">
             <Typography variant="h6" gutterBottom>
               Please choose a class to attend
             </Typography>
@@ -224,7 +222,7 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
             {sliceData &&
               sliceData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
-                  <Card>
+                  <Card className={classes.classCard}>
                     <CardContent>
                       <Typography gutterBottom variant="subtitle1">
                         {item.title}
@@ -246,15 +244,13 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
                           {moment(item.end_time).format("hh:mm a")}
                         </Typography>
                       </Box>
+
                       <Typography
                         sx={{ mt: 2 }}
+                        color="text.secondary"
                         gutterBottom
-                        variant="subtitle1"
+                        variant="body1"
                       >
-                        {item.facilitator.name}
-                      </Typography>
-
-                      <Typography gutterBottom variant="body2">
                         Please join at least 10 minutes before the scheduled
                         time
                       </Typography>
@@ -299,12 +295,17 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText id="alert-dialog-description">
-                        Something urgent came up? Keep an eye for future doubt
-                        classes
+                        <Typography variant="body1">
+                          {" "}
+                          Something urgent came up? Keep an eye for{" "}
+                        </Typography>
+                        future doubt classes
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleClose}>Stay Enrolled</Button>
+                      <Button sx={{ color: "#2E2E2E" }} onClick={handleClose}>
+                        Stay Enrolled
+                      </Button>
                       <Button
                         color="error"
                         onClick={() => {
