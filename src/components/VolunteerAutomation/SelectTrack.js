@@ -47,6 +47,7 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
                 return (
                   <Grid item xs={6} ms={6} md={6}>
                     <Card
+                      elevation={2}
                       className={
                         pathwayId == item.id
                           ? classes.selectedTrack

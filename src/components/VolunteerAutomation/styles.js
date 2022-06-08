@@ -11,16 +11,16 @@ const useStyles = makeStyles((theme) => ({
   volunteerCard: {
     border: "1px solid #48A145",
     height: "100%",
-    padding: "8px",
+    padding: "10px",
   },
   volunteerCard1: {
     border: "1px solid #4548A1",
     height: "100%",
-    padding: "8px",
-    marginLeft: "10px",
+    padding: "10px",
   },
   displayIcon: {
     display: "flex",
+    marginTop: "9px",
   },
   TextContent: {
     paddingLeft: "10px",
@@ -67,6 +67,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     fontFamily: "Lusitana",
     fontSize: "1.5rem",
+  },
+  classCard: {
+    padding: "18px ",
+    height: "320px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
 }));
 

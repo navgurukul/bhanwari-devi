@@ -100,10 +100,6 @@ function HorizontalLinearStepper() {
     },
   ];
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -142,25 +138,6 @@ function HorizontalLinearStepper() {
 
   const handleBack = () => {
     setActiveStep(setActiveStepHandler.bind(null, -1));
-  };
-
-  // const handleSkip = () => {
-  //   if (!isStepOptional(activeStep)) {
-  //     // You probably want to guard against something like this,
-  //     // it should never occur unless someone's actively trying to break something.
-  //     throw new Error("You can't skip a step that isn't optional.");
-  //   }
-
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  //   setSkipped((prevSkipped) => {
-  //     const newSkipped = new Set(prevSkipped.values());
-  //     newSkipped.add(activeStep);
-  //     return newSkipped;
-  //   });
-  // };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   const submit = () => {
@@ -211,79 +188,66 @@ function HorizontalLinearStepper() {
           })}
         </Stepper>
       </div>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Reset</Button>
+      <React.Fragment>
+        <>
+          {steps.map((step, index) => {
+            if (activeStep == index) {
+              return (
+                <Box>
+                  <Typography sx={{ mt: 2, mb: 1 }}>
+                    {step.component}
+                  </Typography>
+                </Box>
+              );
+            }
+          })}
+        </>
+        <Container maxWidth="sm">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+              pt: 2,
+              pb: 5,
+            }}
+          >
+            {activeStep > 0 && (
+              <Button
+                variant="text"
+                sx={{ color: "#6D6D6D", mr: 4 }}
+                color="inherit"
+                onClick={handleBack}
+                startIcon={<ArrowBackIosIcon />}
+              >
+                Back
+              </Button>
+            )}
+
+            <Box />
+            {activeStep === steps.length - 1 ? (
+              <Button
+                color="primary"
+                variant="contained"
+                endIcon={<ArrowForwardIosIcon />}
+                onClick={submit}
+              >
+                Go to Dashboard
+              </Button>
+            ) : (
+              <Button
+                color="primary"
+                variant="contained"
+                endIcon={<ArrowForwardIosIcon />}
+                onClick={handleNext}
+                disabled={disable}
+              >
+                Next
+              </Button>
+            )}
           </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <>
-            {steps.map((step, index) => {
-              if (activeStep == index) {
-                return (
-                  <Box>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                      {step.component}
-                    </Typography>
-                  </Box>
-                );
-              }
-            })}
-          </>
-          <Container maxWidth="sm">
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                flexDirection: "row",
-                pt: 2,
-                pb: 5,
-              }}
-            >
-              {activeStep > 0 && (
-                <Button
-                  variant="text"
-                  sx={{ color: "#6D6D6D", mr: 4 }}
-                  color="inherit"
-                  onClick={handleBack}
-                  startIcon={<ArrowBackIosIcon />}
-                >
-                  Back
-                </Button>
-              )}
-
-              <Box />
-
-              {activeStep === steps.length - 1 ? (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  endIcon={<ArrowForwardIosIcon />}
-                  onClick={submit}
-                >
-                  Go to Dashboard
-                </Button>
-              ) : (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  endIcon={<ArrowForwardIosIcon />}
-                  onClick={handleNext}
-                  disabled={disable}
-                >
-                  Next
-                </Button>
-              )}
-            </Box>
-          </Container>
-        </React.Fragment>
-      )}
+        </Container>
+      </React.Fragment>
     </Container>
   );
 }

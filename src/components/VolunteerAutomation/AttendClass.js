@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
 import { actions as classActions } from "../../components/Class/redux/action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,7 +8,8 @@ import axios from "axios";
 import Chip from "@mui/material/Chip";
 import { METHODS } from "../../services/api";
 // var intervalToDuration = require('date-fns/intervalToDuration')
-import intervalToDuration from "date-fns/intervalToDuration";
+// import intervalToDuration from "date-fns/intervalToDuration";
+import { format, timeLeftFormat } from "../../common/date";
 import {
   Typography,
   Container,
@@ -18,6 +19,7 @@ import {
   Card,
   CardContent,
   CardActions,
+  Checkbox,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -25,8 +27,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useStyles from "./styles";
-import { TimeLeft, lang } from "../../constant";
+import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, completed }) {
   const classes = useStyles();
@@ -50,14 +53,6 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
   useEffect(() => {
     dispatch(classActions.getClasses());
   }, [dispatch]);
-
-  const languageMap = {
-    hi: "Hindi",
-    te: "Telugu",
-    en: "English",
-    ta: "Tamil",
-    cohort: "Batch",
-  };
 
   const possibleClasses = data?.slice(0, numOfClassesToShow) || [];
   
@@ -130,10 +125,17 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
   };
 
   const EnrolledAndTimer = ({ item }) => {
-    const [Timer, setTimer] = useState(TimeLeft(item.start_time));
+    const timeLeftOptions = {
+      precision: [3, 3, 3, 2, 2, 1],
+      cutoffNumArr: [0, 0, 0, 0, 10, 0],
+      cutoffTextArr: ["", "", "", "", "joinNow", ""],
+    };
+    const [Timer, setTimer] = useState(
+      timeLeftFormat(item.start_time, timeLeftOptions)
+    );
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
-      setTimer(TimeLeft(item.start_time));
+      setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
     }, ONE_MINUTE);
     return (
       <>
@@ -149,8 +151,9 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
               onClick={() => {
                 setProceed(true);
                 // localStorage.setItem("proceed", true);
-                setStepCompleted();
-                setDisable(false);
+                // setStepCompleted();
+                // localStorage.setItem("disabled", false);
+                // setDisable(false);
               }}
               variant="contained"
               fullWidth
@@ -196,9 +199,17 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
               </Button>
               else please proceed
             </Typography>
-            <Box sx={{ display: "flex", mt: 2 }}>
-              <CheckCircleIcon color="primary" />
-              <Typography sx={{ ml: 2 }}>
+            <Box sx={{ display: "flex" }}>
+              <Checkbox
+                icon={<RadioButtonUncheckedIcon />}
+                checkedIcon={<CheckCircleIcon />}
+                checked={completed}
+                onClick={() => {
+                  setStepCompleted();
+                  setDisable(false);
+                }}
+              />
+              <Typography sx={{ ml: 2, mt: 2 }}>
                 I have attended and got familiar with how classes are conducted
                 on Meraki
               </Typography>
@@ -239,9 +250,9 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
 
                       <Box sx={{ mt: 2 }}>
                         <Typography>
-                          {moment(item.start_time).format("OD MMM YY")},{" "}
-                          {moment(item.start_time).format("hh:mm a")} -
-                          {moment(item.end_time).format("hh:mm a")}
+                          {format(item.start_time, "dd MMM yy")},{" "}
+                          {format(item.start_time, "hh:mm aaa")} -
+                          {format(item.end_time, "hh:mm aaa")}
                         </Typography>
                       </Box>
 
