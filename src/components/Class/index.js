@@ -4,12 +4,14 @@ import moment from "moment";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import { versionCode } from "../../constant";
 import { TIME_CONSTANT, CLASS_FIELDS } from "./constant";
 import Loader from "../common/Loader";
 import Form from "../common/form";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const {
   TITLE,
@@ -21,7 +23,9 @@ const {
   CLASS_END_TIME,
   LANG,
   TYPE,
+  PATHWAY_ID,
   COURSE_ID,
+  PARTNER_ID,
   EXERCISE_ID,
   MAX_ENROLMENT,
   FREQUENCY,
@@ -35,6 +39,8 @@ function Class({ classToEdit, indicator }) {
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
+  const [partnerData, setPartnerData] = useState([]);
+  const [Selected_partner_id, setSelected_partner_id] = useState();
 
   const {
     title,
@@ -44,7 +50,9 @@ function Class({ classToEdit, indicator }) {
     type,
     start_time,
     end_time,
+    pathway_id,
     course_id,
+    partner_id,
     exercise_id,
     max_enrolment,
     frequency,
@@ -77,6 +85,8 @@ function Class({ classToEdit, indicator }) {
       [LANG]: lang || "hi",
       [TYPE]: type || "cohort",
       [COURSE_ID]: course_id || "",
+      [PATHWAY_ID]: pathway_id || "",
+      [PARTNER_ID]: partner_id || "",
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "0",
       [FREQUENCY]: frequency || "",
@@ -142,10 +152,31 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
       headers: {
         accept: "application/json",
+        "version-code": versionCode,
         Authorization: user.data.token,
       },
     }).then((res) => {
       setPathways(res.data.pathways);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
+      headers: {
+        accept: "application/json",
+        "version-code": versionCode,
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      const partners = res.data.partners.map((item, index) => {
+        return {
+          label: item.name,
+          id: item.id,
+        };
+      });
+      setPartnerData(partners);
     });
   }, []);
 
@@ -158,6 +189,7 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
       headers: {
         accept: "application/json",
+        "version-code": versionCode,
         Authorization: user.data.token,
       },
     }).then((res) => {
@@ -206,6 +238,8 @@ function Class({ classToEdit, indicator }) {
       "YYYY-MM-DDTHH:mm:ss"
     )}Z`;
 
+    payload[PARTNER_ID] = Selected_partner_id;
+
     if (!isEditMode) {
       createClass(payload);
     } else {
@@ -214,6 +248,8 @@ function Class({ classToEdit, indicator }) {
   };
 
   const changeHandler = async (e, setField, field) => {
+    console.log("e.target.name", e.target.name);
+    console.log("e.target.value", e.target.value);
     if (e.target.name === "occurrence") {
       setField({ ...field, [e.target.name]: e.target.value, until: "" });
     } else if (e.target.name === "until") {
@@ -303,13 +339,18 @@ function Class({ classToEdit, indicator }) {
           }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
-        } else if (fieldName === pathwayId) {
-          formFields["course_id"] = pathwayId;
+        }
+        if (fieldName === "pathway_id") {
+          // formFields[fieldName] = parseInt(value);
+          console.log("removing pathway_id from payload");
+          continue;
         } else {
           formFields[fieldName] = value;
         }
       }
     }
+
+    console.log("formFields", formFields);
 
     handleTimeValidationAndCreateClass(formFields);
   };
@@ -395,10 +436,12 @@ function Class({ classToEdit, indicator }) {
                           type="radio"
                           className="radio-field radio__input"
                           key={item.id}
-                          name={item.id}
+                          name={PATHWAY_ID}
                           value={item.id}
                           onChange={(e) => {
                             setPathwayId(e.target.value);
+                            console.log(typeof item.id);
+                            setFormField(parseInt(item.id), PATHWAY_ID);
                           }}
                           checked={
                             pathwayId === `${item.id}` ? "checked" : false
@@ -417,7 +460,7 @@ function Class({ classToEdit, indicator }) {
                     return (
                       <React.Fragment key={pathway.id}>
                         <label htmlFor="course_id" className="label-field">
-                          Select Course{" "}
+                          Select Course
                         </label>
                         <select
                           className="input-field"
@@ -535,6 +578,26 @@ function Class({ classToEdit, indicator }) {
                   />
                 </>
               )}
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={partnerData && partnerData}
+                isOptionEqualToValue={(option, value) => {
+                  return option.id === value.id;
+                }}
+                onChange={(e, newVal) => {
+                  setSelected_partner_id(newVal.id);
+                }}
+                name={PARTNER_ID}
+                sx={{ width: 300, mb: "30px" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Partner Name"
+                    variant="standard"
+                  />
+                )}
+              />
               <label htmlFor="start_time" className="label-field">
                 Date
               </label>
