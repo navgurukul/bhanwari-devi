@@ -89,6 +89,7 @@ function PathwayCourse() {
     return item.id == pathwayId;
   });
 
+  console.log("data", data);
   return (
     <>
       <Container className={classes.pathwayContainer} maxWidth="lg">
