@@ -110,6 +110,7 @@ const CourseEnroll = (props) => {
                   id={selectedBatchToEnroll?.id}
                   close={close}
                   registerAll={true}
+                  type="batch"
                 />
               </CardContent>
             </Card>

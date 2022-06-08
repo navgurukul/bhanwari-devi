@@ -89,6 +89,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
               end_time={upcomingBatchesData[0]?.end_time}
               id={upcomingBatchesData[0]?.id}
               registerAll={true}
+              type="batch"
             />
           </Stack>
           <Typography

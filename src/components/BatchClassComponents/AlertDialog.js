@@ -30,6 +30,7 @@ export default function AlertDialog(props) {
     registerAll,
     exerciseReload,
     setIsEnrolled,
+    type,
   } = props;
   console.log("props", props);
   const user = useSelector(({ User }) => User);
@@ -90,12 +91,37 @@ export default function AlertDialog(props) {
     <div>
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
-          <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
-            Awesome! You have taken the first step to being a programmer
-          </Typography>
-          <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
-            Batch:{title}
-          </Typography>
+          {type == "batch" ? (
+            <>
+              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
+                Awesome! You have taken the first step to being a programmer
+              </Typography>
+              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
+                Batch:{title}
+              </Typography>
+            </>
+          ) : type == "DoubtClass" ? (
+            <>
+              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
+                Doubt Class
+              </Typography>
+              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
+                Class : {title}
+              </Typography>
+            </>
+          ) : type == "RevisionClass" ? (
+            <>
+              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
+                Revision Class
+              </Typography>
+              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
+                From:{title}
+              </Typography>
+            </>
+          ) : (
+            ""
+          )}
+
           <Typography
             variant="body1"
             mb={1}
