@@ -68,7 +68,7 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Attend Class",
-      component: <AttendClass setDisable={setDisable} />,
+      component: <AttendClass disable={disable} setDisable={setDisable} />,
     },
     {
       label: "Confirmation",

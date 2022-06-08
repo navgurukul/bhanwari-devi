@@ -68,9 +68,12 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Lusitana",
     fontSize: "1.5rem",
   },
-
   classCard: {
     padding: "18px ",
+    height: "320px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
 }));
 

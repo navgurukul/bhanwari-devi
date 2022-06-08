@@ -1,4 +1,4 @@
-import { format as dateFnsFormat, intervalToDuration} from "date-fns";
+import { format as dateFnsFormat, intervalToDuration } from "date-fns";
 
 /**
  * Returns the time left until the given date or a warning or expiration if the
@@ -14,35 +14,35 @@ import { format as dateFnsFormat, intervalToDuration} from "date-fns";
  *     in [years, months, days, hours, minutes, seconds] is the largest
  *     non-zero unit in the time remaining (e.g., if precision[2] = 3), then
  *     when the time remaining starts with days, days, minutes, and hours will
- *     be displayed.  cutoffTextArr[i] is what's shown if the largest nonzero unit 
- *     is at most cutoffNumArr[i]. 
+ *     be displayed.  cutoffTextArr[i] is what's shown if the largest nonzero unit
+ *     is at most cutoffNumArr[i].
  * @return {string} the time remaining or warning or expiration text
  */
 
 const timeLeftFormat = (
   date,
   {
-    expiredText = 'expired',
+    expiredText = "expired",
     precision = [6, 5, 4, 3, 2, 1],
     cutoffTextArr = [
-      'warning',
-      'warning',
-      'warning',
-      'warning',
-      'warning',
-      'warning',
+      "warning",
+      "warning",
+      "warning",
+      "warning",
+      "warning",
+      "warning",
     ],
     cutoffNumArr = [0, 0, 0, 0, 0, 0],
   } = {
-    expiredText: 'expired',
+    expiredText: "expired",
     precision: [6, 5, 4, 3, 2, 1],
     cutoffTextArr: [
-      'warning',
-      'warning',
-      'warning',
-      'warning',
-      'warning',
-      'warning',
+      "warning",
+      "warning",
+      "warning",
+      "warning",
+      "warning",
+      "warning",
     ],
     cutoffNumArr: [0, 0, 0, 0, 0, 0],
   }
@@ -60,7 +60,7 @@ const timeLeftFormat = (
   });
   const { years, months, days, hours, minutes, seconds } = timeRemaining;
   const units = [years, months, days, hours, minutes, seconds];
-  const abbreviations = ['yr', 'mo', 'day', 'hr', 'min', 'sec'];
+  const abbreviations = ["yr", "mo", "day", "hr", "min", "sec"];
   const indexOfLeadingUnit = units.findIndex((num) => num > 0);
 
   if (units[indexOfLeadingUnit] <= cutoffNumArr[indexOfLeadingUnit]) {
@@ -74,10 +74,10 @@ const timeLeftFormat = (
       .map(
         (num, index) =>
           `${num} ${abbreviations[index + indexOfLeadingUnit]}${
-            num !== 1 ? 's' : ''
+            num !== 1 ? "s" : ""
           }`
       )
-      .join(' ');
+      .join(" ");
   }
 };
 

@@ -19,6 +19,7 @@ import {
   Card,
   CardContent,
   CardActions,
+  Checkbox,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -28,8 +29,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useStyles from "./styles";
 import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
-function AttendClass({ setDisable }) {
+function AttendClass({ disable, setDisable }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
@@ -138,8 +140,9 @@ function AttendClass({ setDisable }) {
       cutoffNumArr: [0, 0, 0, 0, 10, 0],
       cutoffTextArr: ["", "", "", "", "joinNow", ""],
     };
-    const [Timer, setTimer] =
-        useState(timeLeftFormat(item.start_time, timeLeftOptions));
+    const [Timer, setTimer] = useState(
+      timeLeftFormat(item.start_time, timeLeftOptions)
+    );
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
       setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
@@ -158,8 +161,8 @@ function AttendClass({ setDisable }) {
               onClick={() => {
                 setProceed(true);
                 localStorage.setItem("proceed", true);
-                localStorage.setItem("disabled", false);
-                setDisable(false);
+                // localStorage.setItem("disabled", false);
+                // setDisable(false);
               }}
               variant="contained"
               fullWidth
@@ -179,7 +182,7 @@ function AttendClass({ setDisable }) {
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
         <>
-          <Container sx={{ background: "red" }} maxWidth="sm">
+          <Container maxWidth="sm">
             <Typography variant="h6">
               Please choose a class to attend
             </Typography>
@@ -204,9 +207,17 @@ function AttendClass({ setDisable }) {
               </Button>
               else please proceed
             </Typography>
-            <Box sx={{ display: "flex", mt: 2 }}>
-              <CheckCircleIcon color="primary" />
-              <Typography sx={{ ml: 2 }}>
+            <Box sx={{ display: "flex" }}>
+              <Checkbox
+                icon={<RadioButtonUncheckedIcon />}
+                checkedIcon={<CheckCircleIcon />}
+                checked={!disable}
+                onClick={() => {
+                  localStorage.setItem("disabled", false);
+                  setDisable(false);
+                }}
+              />
+              <Typography sx={{ ml: 2, mt: 2 }}>
                 I have attended and got familiar with how classes are conducted
                 on Meraki
               </Typography>
