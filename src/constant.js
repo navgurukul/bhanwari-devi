@@ -45,4 +45,4 @@ export const HideFooter = [
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
 
-export const versionCode = 40;
+export const versionCode = 30;
