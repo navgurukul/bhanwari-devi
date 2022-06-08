@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { dateTimeFormat } from "../../../constant";
+import { Link } from "react-router-dom";
 
 const PathwayCards = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
