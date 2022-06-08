@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   Typography,
   Container,
+  CardActionArea,
+  CardMedia,
   Card,
   CardContent,
   Box,
@@ -69,69 +71,78 @@ function LearningTrackCard(props) {
         }}
         xs={isActive ? 12 : 4}
       >
-        <Grid align="right" mt={1} maxWidth={350} mb={2} flexDirection="column">
+        <Grid
+          align="right"
+          mt={1}
+          maxWidth={350}
+          mb={2}
+          flexDirection="column"
+          className={classes.courseCard}
+        >
           <Card elevation={2} pl={10} sx={{ minHeight: 185 }}>
-            <CardContent>
-              <Grid container mb={1}>
-                <Grid item xs={2}>
-                  <img
-                    style={{
-                      width: "55px",
-                    }}
-                    align="left"
-                    src={PathwayData?.logo}
-                    alt="Students Img"
-                  />
-                </Grid>
-                <Grid item xs={4} mr={1}>
-                  <Typography gutterBottom variant="subtitle1" pt={1}>
-                    {PathwayData?.name}
-                  </Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <Typography
-                    variant="body1"
-                    mb={1}
-                    color="text.secondary"
-                    style={{
-                      align: "right",
-                      display: "flex",
-                      padding: "10px 0",
-                    }}
-                  >
+            <CardActionArea>
+              <CardContent>
+                <Grid container mb={1}>
+                  <Grid item xs={2}>
                     <img
-                      src={require("./assets/Ellipse.svg")}
+                      style={{
+                        width: "55px",
+                      }}
+                      align="left"
+                      src={PathwayData?.logo}
                       alt="Students Img"
-                      style={{ marginRight: "12px" }}
                     />
-                    {PathwayData?.courses?.length} Courses
-                  </Typography>
+                  </Grid>
+                  <Grid item xs={4} mr={1}>
+                    <Typography gutterBottom variant="subtitle1" pt={1}>
+                      {PathwayData?.name}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography
+                      variant="body1"
+                      mb={1}
+                      color="text.secondary"
+                      style={{
+                        align: "right",
+                        display: "flex",
+                        padding: "10px 0",
+                      }}
+                    >
+                      <img
+                        src={require("./assets/Ellipse.svg")}
+                        alt="Students Img"
+                        style={{ marginRight: "12px" }}
+                      />
+                      {PathwayData?.courses?.length} Courses
+                    </Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Typography
-                variant="body1"
-                mb={1}
-                style={{
-                  display: "flex",
-                }}
-              >
-                Ongoing Course
-              </Typography>
-              <Typography style={{ display: "flex" }} mt={2} variant="body1">
                 <Typography
-                  mr="10px"
-                  variant="body2"
-                  className={classes.courseNumber}
+                  variant="body1"
+                  mb={1}
+                  style={{
+                    display: "flex",
+                  }}
                 >
-                  {item.course_index}
+                  Ongoing Course
                 </Typography>
-                {
-                  PathwayData?.courses?.find(
-                    (CourseItem) => CourseItem.id === item.course_id
-                  )?.name
-                }
-              </Typography>
-            </CardContent>
+                <Typography style={{ display: "flex" }} mt={2} variant="body1">
+                  <Typography
+                    mr="10px"
+                    variant="body2"
+                    className={classes.courseNumber}
+                  >
+                    {item.course_index}
+                  </Typography>
+                  {
+                    PathwayData?.courses?.find(
+                      (CourseItem) => CourseItem.id === item.course_id
+                    )?.name
+                  }
+                </Typography>
+              </CardContent>
+            </CardActionArea>
           </Card>
         </Grid>
       </Grid>
