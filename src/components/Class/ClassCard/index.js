@@ -47,9 +47,9 @@ function ClassCard({ item, editClass }) {
     te: "Telugu",
     en: "English",
     ta: "Tamil",
-    doubt_class: "Doubt Class",
-    workshop: "Workshop",
-    cohort: "Batch",
+    // doubt_class: "Doubt Class",
+    // workshop: "Workshop",
+    batch: "Batch",
   };
 
   const handleOpenUserMenu = (event) => {

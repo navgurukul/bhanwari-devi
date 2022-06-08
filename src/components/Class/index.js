@@ -4,7 +4,7 @@ import moment from "moment";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import { versionCode } from "../../constant";
 import { TIME_CONSTANT, CLASS_FIELDS } from "./constant";
 import Loader from "../common/Loader";
 import Form from "../common/form";
@@ -21,6 +21,7 @@ const {
   CLASS_END_TIME,
   LANG,
   TYPE,
+  PATHWAY_ID,
   COURSE_ID,
   EXERCISE_ID,
   MAX_ENROLMENT,
@@ -45,6 +46,7 @@ function Class({ classToEdit, indicator }) {
     type,
     start_time,
     end_time,
+    pathway_id,
     course_id,
     exercise_id,
     max_enrolment,
@@ -78,6 +80,7 @@ function Class({ classToEdit, indicator }) {
       [LANG]: lang || "hi",
       [TYPE]: type || "batch",
       [COURSE_ID]: course_id || "",
+      [PATHWAY_ID]: pathway_id || "",
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "0",
       [FREQUENCY]: frequency || "",
@@ -155,6 +158,7 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
       headers: {
         accept: "application/json",
+        "version-code": versionCode,
         Authorization: user.data.token,
       },
     }).then((res) => {
@@ -171,6 +175,7 @@ function Class({ classToEdit, indicator }) {
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
       headers: {
         accept: "application/json",
+        "version-code": versionCode,
         Authorization: user.data.token,
       },
     }).then((res) => {
@@ -288,7 +293,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        // window.location.reload(1);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
