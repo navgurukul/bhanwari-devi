@@ -19,7 +19,7 @@ import { format as dateFnsFormat, intervalToDuration} from "date-fns";
  * @return {string} the time remaining or warning or expiration text
  */
 
-const timeLeftFormat = (
+export const timeLeftFormat = (
   date,
   {
     expiredText = 'expired',
@@ -81,8 +81,8 @@ const timeLeftFormat = (
   }
 };
 
-const format = (date, format, options) => {
+export const format = (date, format, options) => {
   return dateFnsFormat(new Date(date), format, options);
 };
 
-module.exports = { timeLeftFormat, format };
+// module.exports = { timeLeftFormat, format };
