@@ -43,16 +43,7 @@ function MiscellaneousCourses() {
   const otherCourses =
     data &&
     data.allCourses.filter(
-      (item) =>
-        // {
-        // console.log("item", item);
-        //   if (pathwayCourseId && !pathwayCourseId.includes(item.id)) {
-        //     return item.course_type === "json";
-        //   }
-        // }
-        pathwayCourseId &&
-        !pathwayCourseId.includes(item.id) &&
-        item.course_type === "json"
+      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
     );
 
   return (
