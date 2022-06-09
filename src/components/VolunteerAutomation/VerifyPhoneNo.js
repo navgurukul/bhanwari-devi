@@ -9,8 +9,9 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
     setContact(number);
   };*/
 
-  const handleChange = (number, countryInfo, isValid) => {
-    console.log(number, countryInfo, isValid);
+  const handleChange = (number, countryInfo, phoneType) => {
+    const isValid = !!phoneType;
+    console.log(number, countryInfo, phoneType);
     setDisable(!isValid);
     setContact(number);
     //setContact(number.replace(/[^0-9]/g, "") || "");
@@ -36,7 +37,6 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
           name="contact"
           id="contact"
           variant="outlined"
-          placeholder={123}
           fullWidth
         />
       </Box>
