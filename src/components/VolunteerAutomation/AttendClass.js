@@ -31,17 +31,16 @@ import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
-function AttendClass({ disable, setDisable }) {
+function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, completed }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
-  const [enrollId, setEnrollId] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [proceed, setProceed] = useState(
-    JSON.parse(localStorage.getItem("proceed")) || false
-  );
-  const [chooseClassAgain, setChooseClassAgain] = useState(true);
+  // const [enrollId, setEnrollId] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [proceed, setProceed] = useState(!!completed && enrollId == null);
+  const [chooseClassAgain, setChooseClassAgain] = useState(false);
+  const numOfClassesToShow = 3;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,31 +54,19 @@ function AttendClass({ disable, setDisable }) {
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  const classData = JSON.parse(localStorage.getItem("classes"));
+  const possibleClasses = data?.slice(0, numOfClassesToShow) || [];
+  
+  const enrolledClass =
+      !chooseClassAgain &&
+      possibleClasses.find(item => item.id === enrollId); 
+      //&& new Date() < new Date(item.start_time)); // didn't already start
 
-  let sliceData = classData || [];
-  if (chooseClassAgain) {
-    sliceData = [];
-    data &&
-      data.slice(0, 3).map((item) => {
-        sliceData.push(item);
-      });
-  }
-
-  !chooseClassAgain &&
-    sliceData &&
-    sliceData.find((item) => {
-      if (item.id == enrollId) {
-        sliceData = [];
-        sliceData.push(item);
-        localStorage.setItem("classes", JSON.stringify(sliceData));
-      }
-    });
+  const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
 
   const enrollClass = (Class) => {
     setOpen(false);
     setEnrollId(Class.id);
-    localStorage.setItem("classes", JSON.stringify([Class]));
+    // localStorage.setItem("classes", JSON.stringify([Class]));
     setChooseClassAgain(false);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
@@ -107,7 +94,8 @@ function AttendClass({ disable, setDisable }) {
   const dropOutClass = (Class) => {
     setOpen(false);
     setProceed(false);
-    localStorage.setItem("proceed", false);
+    setEnrollId(null);
+    //localStorage.setItem("proceed", false);
     setChooseClassAgain(true);
     const notify = () => {
       toast.success("You have been dropout the class successfully", {
@@ -124,12 +112,14 @@ function AttendClass({ disable, setDisable }) {
         "unregister-all": "false",
       },
     }).then(() => {
+      /*
       sliceData = [];
       data &&
-        data.slice(0, 3).map((item) => {
+        data.slice(0, numOfClassesToShow).map((item) => {
           sliceData.push(item);
         });
       localStorage.setItem("classes", JSON.stringify(sliceData));
+      */
       notify();
     });
   };
@@ -160,7 +150,8 @@ function AttendClass({ disable, setDisable }) {
             <Button
               onClick={() => {
                 setProceed(true);
-                localStorage.setItem("proceed", true);
+                // localStorage.setItem("proceed", true);
+                // setStepCompleted();
                 // localStorage.setItem("disabled", false);
                 // setDisable(false);
               }}
@@ -182,15 +173,15 @@ function AttendClass({ disable, setDisable }) {
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
         <>
-          <Container maxWidth="sm">
+          <Container sx={{ background: "red" }} maxWidth="sm">
             <Typography variant="h6">
               Please choose a class to attend
             </Typography>
             <Typography sx={{ mt: 2 }} variant="body1">
               Attending a class will help you observe how the teacher and
               students interact with each other. You may also stay a bit after
-              the class to chat with the teacher. Once, completed please return
-              to complete the onboarding
+              the class to chat with the teacher. Once completed, please return
+              to complete the onboarding.
             </Typography>
             <Typography variant="body1" sx={{ mt: 2 }}>
               <span style={{ fontWeight: "bold" }}>Note:</span> In case you
@@ -199,7 +190,8 @@ function AttendClass({ disable, setDisable }) {
                 variant="text"
                 onClick={() => {
                   setProceed(false);
-                  localStorage.setItem("proceed", false);
+                  setEnrollId(null);
+                  // localStorage.setItem("proceed", false);
                   setChooseClassAgain(true);
                 }}
               >
@@ -211,9 +203,9 @@ function AttendClass({ disable, setDisable }) {
               <Checkbox
                 icon={<RadioButtonUncheckedIcon />}
                 checkedIcon={<CheckCircleIcon />}
-                checked={!disable}
+                checked={completed}
                 onClick={() => {
-                  localStorage.setItem("disabled", false);
+                  setStepCompleted();
                   setDisable(false);
                 }}
               />

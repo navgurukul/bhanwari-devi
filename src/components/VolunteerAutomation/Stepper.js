@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PATHS } from "../../constant";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -21,25 +21,39 @@ import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 
 import "./styles.scss";
+import { getObjectState, saveObjectState } from "../../common/storage";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
-  const myData = localStorage.getItem("step");
+  const currentState = getObjectState("volunteer_automation", "state") || {
+    completed: []
+  };
   const user = useSelector(({ User }) => User);
-  const [activeStep, setActiveStep] = React.useState(
-    myData ? parseInt(myData) : 0
-  );
-  const isDisabled = JSON.parse(localStorage.getItem("disabled"));
+  const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [disable, setDisable] = React.useState(
-    isDisabled == false ? isDisabled : true
-  );
-  const [contact, setContact] = useState();
-  const [pathwayId, setPathwayId] = useState();
+  const [completed, setCompleted] = React.useState(currentState.completed);
+  const [disable, setDisable] = React.useState(!completed[activeStep]);
+  const [contact, setContact] = useState(currentState.contact);
+  const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
+  const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
+  const itemValues = { contact, enrollId, pathwayId };
+
+  const updateAndSaveState = (setter, key, value) => {
+    setter && setter(value);
+    currentState[key] = value;
+    saveObjectState("volunteer_automation", "state", currentState);
+  };
+
+  const setActiveStepCompleted = () => {
+    const newCompleted = completed.slice();
+    newCompleted[activeStep] = true;
+    updateAndSaveState(setCompleted, "completed", newCompleted);
+  };
 
   const steps = [
     {
       label: "Verify Phone No.",
+      itemKey: "contact",
       component: (
         <VerifyPhoneNo
           contact={contact}
@@ -50,6 +64,7 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Select Track",
+      itemKey: "pathwayId",
       component: (
         <SelectTrack
           setPathwayId={setPathwayId}
@@ -68,7 +83,16 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Attend Class",
-      component: <AttendClass disable={disable} setDisable={setDisable} />,
+      itemKey: "enrollId",
+      component: ( 
+        <AttendClass 
+          setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
+          enrollId={enrollId}
+          setStepCompleted={setActiveStepCompleted}
+          setDisable={setDisable}
+          completed={completed[4]}
+        />
+      ),
     },
     {
       label: "Confirmation",
@@ -80,26 +104,40 @@ function HorizontalLinearStepper() {
     return skipped.has(step);
   };
 
+  const setActiveStepHandler = (changeBy, prevActiveStep) => {
+    const itemKey = steps[prevActiveStep]?.itemKey;
+    const currentStep = prevActiveStep + changeBy;
+    
+    if (itemKey && !disable) {
+      // button was enabled by Component for this step so it's completed
+      //     and we should therefore update the state for this key
+      currentState[itemKey] = itemValues[itemKey];
+    }
+
+    setDisable(!completed[currentStep]);
+
+    updateAndSaveState(null, "step", currentStep);
+    return currentStep;
+  };
+
   const handleNext = () => {
-    setDisable(true);
     let newSkipped = skipped;
+    setActiveStepCompleted();
+    // currentState.completed should be present if the user didn't
+    //     alter their localStorage but we'll check anyway to avoid a crash
+    //currentState.completed && (currentState.completed[activeStep] = true);
+
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => {
-      localStorage.setItem("step", prevActiveStep + 1);
-      return prevActiveStep + 1;
-    });
+    setActiveStep(setActiveStepHandler.bind(null, 1));
     setSkipped(newSkipped);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => {
-      localStorage.setItem("step", prevActiveStep - 1);
-      return prevActiveStep - 1;
-    });
+    setActiveStep(setActiveStepHandler.bind(null, -1));
   };
 
   const submit = () => {
