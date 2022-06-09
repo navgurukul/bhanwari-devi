@@ -261,8 +261,6 @@ function Class({ classToEdit, indicator }) {
   };
 
   const changeHandler = async (e, setField, field) => {
-    console.log("e.target.name", e.target.name);
-    console.log("e.target.value", e.target.value);
     if (e.target.name === "occurrence") {
       setField({ ...field, [e.target.name]: e.target.value, until: "" });
     } else if (e.target.name === "until") {
@@ -324,7 +322,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        // window.location.reload(1);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -346,35 +344,44 @@ function Class({ classToEdit, indicator }) {
       category_id: 3,
     };
 
-    // const days = {
-    //   MO: "Mon",
-    //   TU: "Tue",
-    //   WE: "Wed",
-    //   TH: "Thu",
-    //   FR: "Fri",
-    //   SA: "Sat",
-    //   SU: "Sun",
-    // };
-
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
         const weekDday = Object.values(day);
-        console.log("weekDday", weekDday);
         if (fieldName === "start_time") {
           let incrementedDate = new Date(value);
-          console.log("incrementedDate", incrementedDate);
-          let newDate;
-          var i = 1;
-          while (i <= 7) {
-            incrementedDate = moment(incrementedDate).add(1, "days")._d;
-            let Day = incrementedDate.toString().split(" ")[0];
-            if (days[weekDday[0]] === Day) {
-              newDate = incrementedDate;
-              break;
+          let onDay = incrementedDate.toString().split(" ")[0];
+          let flag = false;
+          let firstDay = "";
+          for (let i in days) {
+            if (onDay === days[i]) {
+              flag = true;
             }
-            i = i + 1;
+            if (flag) {
+              for (let j of weekDday) {
+                if (days[j] === days[i]) {
+                  firstDay = j;
+                  flag = false;
+                }
+              }
+            }
           }
-          formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+          const index = weekDday.indexOf(firstDay);
+          if (days[firstDay] !== onDay) {
+            let newDate;
+            var i = 1;
+            while (i <= 7) {
+              incrementedDate = moment(incrementedDate).add(1, "days")._d;
+              let Day = incrementedDate.toString().split(" ")[0];
+              if (days[weekDday[index]] === Day) {
+                newDate = incrementedDate;
+                break;
+              }
+              i = i + 1;
+            }
+            formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+          } else {
+            formFields[fieldName] = value;
+          }
         } else if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
           if (value == 0) {
@@ -399,10 +406,6 @@ function Class({ classToEdit, indicator }) {
         }
       }
     }
-    console.log("formFields", formFields);
-
-    console.log("formFields", formFields);
-
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -517,7 +520,6 @@ function Class({ classToEdit, indicator }) {
                             name={PATHWAY_ID}
                             value={item.id}
                             onChange={(e) => {
-                              console.log("item.name", item.code);
                               setPathwayCode(item.code);
                               setPathwayId(e.target.value);
                               setFormField(item.id, PATHWAY_ID);

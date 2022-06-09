@@ -49,7 +49,7 @@ function ClassCard({ item, editClass }) {
     ta: "Tamil",
     // doubt_class: "Doubt Class",
     // workshop: "Workshop",
-    batch: "Batch",
+    cohort: "Batch",
   };
 
   const handleOpenUserMenu = (event) => {
@@ -127,6 +127,7 @@ function ClassCard({ item, editClass }) {
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
     setLoading(true);
+    console.log("28002", Id);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -143,17 +144,19 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     axios
       .post(
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
+        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=true`,
         {},
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            "register-to-all": indicator,
+            // "register-all": true,
           },
         }
       )
-      .then(() => {
+      .then((res) => {
+        console.log("res", res);
         if (!getNotify) {
           notify();
           clearTimeout(timer);
@@ -162,10 +165,11 @@ function ClassCard({ item, editClass }) {
         dispatch(classActions.enrolledClass(Id));
       });
   };
+
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
+    console.log("28002", Id);
     setLoading(true);
-
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -183,13 +187,14 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     return axios({
       method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "unregister-all": indicator,
+        // "unregister-all": indicator,
       },
-    }).then(() => {
+    }).then((res) => {
+      console.log("res", res);
       if (!getNotify) {
         notify();
         clearTimeout(timer);
@@ -199,6 +204,7 @@ function ClassCard({ item, editClass }) {
     });
   };
 
+  console.log("indicator", indicator);
   const EnrolledAndTimer = () => {
     const [Timer, setTimer] = useState(TimeLeft(item.start_time));
     const ONE_MINUTE = 60000; //millisecs
@@ -352,7 +358,7 @@ function ClassCard({ item, editClass }) {
         {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
-            {item.type === "batch" && (
+            {item.type === "cohort" && (
               <label>
                 <input
                   type="checkbox"
@@ -383,7 +389,7 @@ function ClassCard({ item, editClass }) {
         {editShowModal ? (
           <Modal onClose={handleCloseEdit} className="confirmation-massage">
             <h2>Do you want to edit this class?</h2>
-            {item.type === "batch" && (
+            {item.type === "cohort" && (
               <label>
                 <input
                   type="checkbox"
@@ -417,7 +423,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2>Are you sure you want to enroll?</h2>
-            {item.type === "batch" && (
+            {item.type === "cohort" && (
               <label>
                 <input
                   type="checkbox"
@@ -451,7 +457,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2> Are you sure you want to drop out</h2>
-            {item.type === "batch" && (
+            {item.type === "cohort" && (
               <label>
                 <input
                   type="checkbox"
