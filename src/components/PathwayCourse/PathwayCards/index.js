@@ -2,6 +2,7 @@ import React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import Chip from "@mui/material/Chip";
+import { lang as language } from "../../../constant";
 import {
   Container,
   Box,
@@ -17,11 +18,14 @@ import { Link } from "react-router-dom";
 const PathwayCards = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
-  const language = {
-    hi: "Hindi",
-    en: "English",
-    mr: "Marathi",
-  };
+  // const language = {
+  //   hi: "Hindi",
+  //   en: "English",
+  //   mr: "Marathi",
+  // };
+
+  // const language ;
+
   const { userEnrolledClasses } = props;
 
   return (
@@ -43,12 +47,17 @@ const PathwayCards = (props) => {
             return (
               <Grid item xs={12} sm={4} md={4}>
                 <Card style={{ minWidth: "300px", margin: "10px" }}>
-                  {item.type == "batch" ? (
+                  {/* {item.type == "batch" ? (
                     <Box sx={{ borderTop: 5, color: "ForestGreen" }} />
                   ) : (
                     <Box sx={{ borderTop: 5, color: "darkblue" }} />
-                  )}
-
+                  )} */}
+                  <Box
+                    sx={{
+                      borderTop: 5,
+                      color: item.type === "batch" ? "forestgreen" : "darkblue",
+                    }}
+                  />
                   <CardContent>
                     <Grid container spacing={1}>
                       <Grid item xs={6} md={8}>
