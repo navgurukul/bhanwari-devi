@@ -132,4 +132,4 @@ export const TimeLeft = (date) => {
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
 
-export const versionCode = 30;
+export const versionCode = 40;
