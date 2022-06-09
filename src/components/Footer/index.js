@@ -16,7 +16,7 @@ const menu = {
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "Javascript", code: "JVSCPT", type: "internal" },
+    { title: "Javascript", code: "JSRPIT", type: "internal" },
     {
       title: "Residential Programmes",
       type: "internal",

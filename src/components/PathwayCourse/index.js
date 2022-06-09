@@ -30,7 +30,7 @@ const pathways = [
   },
   {
     pathway: "Javascript",
-    code: "JVSCPT",
+    code: "JSRPIT",
     description:
       "Learn the nuances and basics of the technology that powers the web. Start with learning what is Javascript and eventually build your own website.",
     outcomes: [
