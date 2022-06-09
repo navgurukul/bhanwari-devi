@@ -176,7 +176,10 @@ function PathwayCourse() {
       <Container className={classes.pathwayContainer} maxWidth="lg">
         {enrolledBatches ? (
           <>
-            <PathwayCards userEnrolledClasses={userEnrolledClasses} />
+            <PathwayCards
+              userEnrolledClasses={userEnrolledClasses}
+              data={data}
+            />
           </>
         ) : (
           pathwayId &&
@@ -211,7 +214,9 @@ function PathwayCourse() {
                     <Typography variant="body1">
                       {pathwayCourseData.description}
                     </Typography>
-                    {!user?.data?.token ? (
+                    {!user?.data?.token &&
+                    (pathwayCourseData.code == "PRGPYT" ||
+                      pathwayCourseData.code == "SPKENG") ? (
                       <>
                         <Typography
                           variant="body1"

@@ -128,6 +128,7 @@ function RevisionClassEnroll(props) {
                 title={DataToEnroll?.title}
                 start_time={DataToEnroll?.start_time}
                 end_time={DataToEnroll?.end_time}
+                type="RevisionClass"
               />
             </CardContent>
           </Card>

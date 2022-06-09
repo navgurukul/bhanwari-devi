@@ -89,6 +89,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 end_time={BatchData?.end_time}
                 id={BatchData?.id}
                 registerAll={true}
+                type="batch"
               />
               <Typography
                 style={{ display: "flex" }}

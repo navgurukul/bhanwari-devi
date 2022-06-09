@@ -206,6 +206,7 @@ export const MoreDetails = (props) => {
         id={actions?.id}
         exerciseReload={true}
         setIsEnrolled={setIsEnrolled}
+        type="DoubtClass"
       />
     </div>
   );

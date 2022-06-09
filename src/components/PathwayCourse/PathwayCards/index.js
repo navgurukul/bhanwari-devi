@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import Chip from "@mui/material/Chip";
@@ -12,9 +12,11 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { dateTimeFormat } from "../../../constant";
-import { Link } from "react-router-dom";
-
+import { dateTimeFormat, interpolatePath, PATHS } from "../../../constant";
+import { getCourseContent } from "../../Course/redux/api";
+import { useSelector } from "react-redux";
+import { versionCode } from "../../../constant";
+import { useHistory } from "react-router-dom";
 const PathwayCards = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -26,7 +28,103 @@ const PathwayCards = (props) => {
 
   // const language ;
 
-  const { userEnrolledClasses } = props;
+  const history = useHistory();
+  const language = {
+    hi: "Hindi",
+    en: "English",
+    mr: "Marathi",
+  };
+  const { userEnrolledClasses, data } = props;
+  console.log(userEnrolledClasses);
+  function UpcomingClassCardComponent({ item }) {
+    const user = useSelector(({ User }) => User);
+    const [classIndex, setClassIndex] = React.useState(0);
+    useEffect(() => {
+      const courseId = item.course_id;
+      getCourseContent({ courseId, versionCode, user }).then((res) => {
+        console.log(
+          res.data.course.exercises.forEach((ex, index) => {
+            if (ex.id === item.exercise_id) {
+              setClassIndex(index);
+              return;
+            }
+          })
+        );
+      });
+    }, []);
+    return (
+      <Grid item xs={12} sm={4} md={4}>
+        <Card
+          onClick={() => {
+            console.log("clicked");
+            history.push(
+              interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: item.course_id,
+                exerciseId: classIndex,
+                pathwayId: item.pathway_id,
+              })
+            );
+          }}
+          style={{ minWidth: "300px", margin: "10px" }}
+        >
+          {item.type == "batch" ? (
+            <Box sx={{ borderTop: 5, color: "ForestGreen" }} />
+          ) : (
+            <Box sx={{ borderTop: 5, color: "darkblue" }} />
+          )}
+
+          <CardContent>
+            <Grid container spacing={1}>
+              <Grid item xs={6} md={8}>
+                <Typography variant="h6" gutterBottom>
+                  {item.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <Chip
+                  label={item.type}
+                  variant="caption"
+                  sx={
+                    item.type === "batch"
+                      ? {
+                          borderRadius: { xs: 25, sm: 15 },
+                          height: { xs: 34, sm: 25 },
+                          // fontSize: "11px",
+                          backgroundColor: "#E9F5E9",
+                          color: "green",
+                          "&:hover": {
+                            backgroundColor: "#E9F5E9",
+                          },
+                        }
+                      : {
+                          borderRadius: { xs: 25, sm: 15 },
+                          height: { xs: 34, sm: 25 },
+                          // fontSize: "11px",
+                          backgroundColor: "lightsteelblue",
+                          color: "darkblue",
+                        }
+                  }
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={1}>
+              <Grid item xs={8} md={5}>
+                <Typography variant="body2">
+                  {dateTimeFormat(item.start_time).finalDate}
+                </Typography>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Typography variant="body2">
+                  <li>{language[item.lang]}</li>
+                </Typography>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+    );
+  }
 
   return (
     <>
@@ -45,70 +143,9 @@ const PathwayCards = (props) => {
         >
           {userEnrolledClasses?.slice(0, 3).map((item) => {
             return (
-              <Grid item xs={12} sm={4} md={4}>
-                <Card style={{ minWidth: "300px", margin: "10px" }}>
-                  {/* {item.type == "batch" ? (
-                    <Box sx={{ borderTop: 5, color: "ForestGreen" }} />
-                  ) : (
-                    <Box sx={{ borderTop: 5, color: "darkblue" }} />
-                  )} */}
-                  <Box
-                    sx={{
-                      borderTop: 5,
-                      color: item.type === "batch" ? "forestgreen" : "darkblue",
-                    }}
-                  />
-                  <CardContent>
-                    <Grid container spacing={1}>
-                      <Grid item xs={6} md={8}>
-                        <Typography variant="h6" gutterBottom>
-                          {item.title}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6} md={4}>
-                        <Chip
-                          label={item.type}
-                          variant="caption"
-                          sx={
-                            item.type === "batch"
-                              ? {
-                                  borderRadius: { xs: 25, sm: 15 },
-                                  height: { xs: 34, sm: 25 },
-                                  // fontSize: "11px",
-                                  backgroundColor: "#E9F5E9",
-                                  color: "green",
-                                  "&:hover": {
-                                    backgroundColor: "#E9F5E9",
-                                  },
-                                }
-                              : {
-                                  borderRadius: { xs: 25, sm: 15 },
-                                  height: { xs: 34, sm: 25 },
-                                  // fontSize: "11px",
-                                  backgroundColor: "lightsteelblue",
-                                  color: "darkblue",
-                                }
-                          }
-                          // size="small"
-                        />
-                      </Grid>
-                    </Grid>
-
-                    <Grid container spacing={1}>
-                      <Grid item xs={8} md={5}>
-                        <Typography variant="body2">
-                          {dateTimeFormat(item.start_time).finalDate}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                        <Typography variant="body2">
-                          <li>{language[item.lang]}</li>
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </Card>
-              </Grid>
+              <>
+                <UpcomingClassCardComponent item={item} />
+              </>
             );
           })}
         </div>

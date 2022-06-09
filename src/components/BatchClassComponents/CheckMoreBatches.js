@@ -91,6 +91,7 @@ export default function CheckMoreBatches(props) {
             end_time={AlertData?.end_time}
             id={AlertData?.id}
             registerAll={true}
+            type="batch"
           />
         </div>
       </Dialog>
