@@ -88,7 +88,7 @@ function LearningTrackCard(props) {
                       style={{
                         width: "55px",
                       }}
-                      align="left"
+                      // align="left"
                       src={PathwayData?.logo}
                       alt="Students Img"
                     />

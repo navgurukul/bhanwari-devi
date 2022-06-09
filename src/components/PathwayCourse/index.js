@@ -297,6 +297,7 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
+            ml={3}
             variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >
@@ -360,6 +361,9 @@ function PathwayCourse() {
                 src={require("./asset/Layer_1.svg")}
                 alt="certificate icon"
               />
+              <Typography mb={2}>
+                {pathwayCourseData?.pathway} Certificate
+              </Typography>
             </Grid>
           </Grid>
           {!user?.data?.token ? (

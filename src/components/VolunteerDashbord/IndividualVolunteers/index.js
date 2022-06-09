@@ -209,7 +209,8 @@ function VolunteerOverview(props) {
                           .format("kk:mm")}
                       </TableCell>
                       <TableCell>
-                        {item.max_enrollment ? item.max_enrollment : "NA"}
+                        {/* {item.max_enrollment ? item.max_enrollment : "NA"} */}
+                        {item.max_enrollment || "NA"}
                       </TableCell>
                       <TableCell> {languageMap[item.lang]} </TableCell>
                       <TableCell>

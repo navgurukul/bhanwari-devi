@@ -86,7 +86,7 @@ const NewUserDashbord = () => {
 
   return (
     <>
-      {!learningTracks ? (
+      {learningTracks ? (
         <>
           <Container className={classes.DashboardContainer}>
             <Typography variant="h5" align="center" mt={4} mb={1}>
@@ -103,9 +103,9 @@ const NewUserDashbord = () => {
                   item
                   xs={12}
                   ms={6}
-                  md={4}
+                  md={3}
                   className={classes.cardGrid}
-                  maxHeight={280}
+                  maxHeight={220}
                 >
                   <PathwayCard
                     id={item.id}

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import Chip from "@mui/material/Chip";
+import { lang as language } from "../../../constant";
 import {
   Container,
   Box,
@@ -18,6 +19,15 @@ import { versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 const PathwayCards = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
+  // const language = {
+  //   hi: "Hindi",
+  //   en: "English",
+  //   mr: "Marathi",
+  // };
+
+  // const language ;
+
   const history = useHistory();
   const language = {
     hi: "Hindi",
