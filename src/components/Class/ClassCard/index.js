@@ -144,14 +144,14 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     axios
       .post(
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
-        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=true`,
+        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
         {},
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            // "register-all": true,
+            "register-all": indicator,
           },
         }
       )
@@ -187,11 +187,12 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     return axios({
       method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        // "unregister-all": indicator,
+        "unregister-all": indicator,
       },
     }).then((res) => {
       console.log("res", res);
