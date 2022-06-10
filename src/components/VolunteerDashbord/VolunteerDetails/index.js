@@ -433,7 +433,7 @@ function VolunteerDashboard() {
                         item.last_class_date
                         // sortedClasses[sortedClasses.length - 1].start_time
                       ).format("DD-MM-YYYY")*/}
-                      {format(item.last_class_date, "dd-MM-yy")}
+                      {format(item.last_class_date, "dd-MM-yyyy")}
                     </TableCell>
                     <TableCell>
                       {item.classes &&
@@ -843,7 +843,7 @@ function VolunteerDashboard() {
                         item.last_class_date
                         // sortedClasses[sortedClasses.length - 1].start_time
                       ).format("DD-MM-YYYY")*/}
-                      {format(item.last_class_date, "dd-MM-yy")}
+                      {format(item.last_class_date, "dd-MM-yyyy")}
                     </td>
                     <td data-column="Last Class Title">
                       {item.classes &&

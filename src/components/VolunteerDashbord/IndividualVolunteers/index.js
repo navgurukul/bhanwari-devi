@@ -202,7 +202,7 @@ function VolunteerOverview(props) {
                       <TableCell>{item.title}</TableCell>
                       <TableCell>
                         {/*moment.utc(item.end_time).format("DD-MM-YYYY")*/}
-                        {format(item.end_time, "dd-MM-yy")}
+                        {format(item.end_time, "dd-MM-yyyy")}
                       </TableCell>
                       <TableCell>
                         {/*moment
