@@ -1,4 +1,5 @@
 import { format as dateFnsFormat, intervalToDuration } from "date-fns";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 /**
  * Returns the time left until the given date or a warning or expiration if the
@@ -112,7 +113,7 @@ export const dateTimeFormat = (date) => {
  * @return {string} the formatted date string
  */
 export const format = (date, format, options) => {
-  return dateFnsFormat(new Date(date), format, options);
+  return dateFnsFormat(new Date(zonedTimeToUtc(date)), format, options);
 };
 
 // module.exports = { timeLeftFormat, format };

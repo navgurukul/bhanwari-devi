@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
 import star from "../../../asset/ratingIcon.svg";
-import moment from "moment";
+// import moment from "moment";
+import { format } from "../../../common/date";
 import "./styles.scss";
 
 import { useDebounce } from "use-debounce";
@@ -428,10 +429,11 @@ function VolunteerDashboard() {
                     <TableCell>{item.classes.length}</TableCell>
                     <TableCell>{numberOfWeek(item)}</TableCell>
                     <TableCell>
-                      {moment(
+                      {/*moment(
                         item.last_class_date
                         // sortedClasses[sortedClasses.length - 1].start_time
-                      ).format("DD-MM-YYYY")}
+                      ).format("DD-MM-YYYY")*/}
+                      {format(item.last_class_date, "dd-MM-yy")}
                     </TableCell>
                     <TableCell>
                       {item.classes &&
@@ -837,10 +839,11 @@ function VolunteerDashboard() {
                     <td data-column="No.of Classes">{item.classes.length}</td>
                     <td data-column="Engagement Week">{numberOfWeek(item)}</td>
                     <td data-column="Last Class Date">
-                      {moment(
+                      {/*moment(
                         item.last_class_date
                         // sortedClasses[sortedClasses.length - 1].start_time
-                      ).format("DD-MM-YYYY")}
+                      ).format("DD-MM-YYYY")*/}
+                      {format(item.last_class_date, "dd-MM-yy")}
                     </td>
                     <td data-column="Last Class Title">
                       {item.classes &&
