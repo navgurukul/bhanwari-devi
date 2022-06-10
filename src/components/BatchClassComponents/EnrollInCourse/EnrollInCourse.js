@@ -15,7 +15,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-import { dateTimeFormat } from "../../../constant.js";
+// import { dateTimeFormat } from "../../../constant.js";
+import { dateTimeFormat } from "../../../common/date";
 // import { Button } from "framework7-react";
 import AlertDialog from "../AlertDialog.js";
 const NotEnrolledSvg = require("./notEnrolled.svg");

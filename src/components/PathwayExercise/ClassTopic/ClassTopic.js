@@ -1,7 +1,9 @@
 import { Box, Chip, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import React from "react";
-import { dateTimeFormat, TimeLeft } from "../../../constant";
+import { TimeLeft } from "../../../constant";
+// import { dateTimeFormat, TimeLeft } from "../../../constant";
+import { dateTimeFormat } from "../../../common/date";
 import languageMap from "../../../pages/CourseContent/languageMap";
 
 function ClassTopic({ courseData }) {

@@ -66,6 +66,7 @@ export const lang = {
   ta: "Tamil",
   te: "Telugu",
 };
+/*
 export const dateTimeFormat = (date) => {
   try {
     const datePart = date?.split("T")[0].split("-").reverse();
@@ -77,6 +78,7 @@ export const dateTimeFormat = (date) => {
     return { finalTime: "", finalDate: "" };
   }
 };
+*/
 
 export const TimeLeft = (date) => {
   try {
