@@ -43,8 +43,8 @@ const menu = {
     },
     {
       title: "Our Partner",
-      type: "internal",
 
+      type: "internal",
       link: PATHS.NEW_PARTNER,
     },
   ],
