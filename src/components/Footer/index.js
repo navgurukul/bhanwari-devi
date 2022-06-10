@@ -44,6 +44,7 @@ const menu = {
     {
       title: "Our Partner",
       type: "internal",
+
       link: PATHS.NEW_PARTNER,
     },
   ],
