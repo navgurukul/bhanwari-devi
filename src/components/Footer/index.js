@@ -41,6 +41,11 @@ const menu = {
       type: "exernal",
       link: "https://recruiterflow.com/navgurukul/jobs",
     },
+    {
+      title: "Our Partner",
+      type: "internal",
+      link: PATHS.NEW_PARTNER,
+    },
   ],
 };
 
