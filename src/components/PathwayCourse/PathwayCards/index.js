@@ -12,7 +12,9 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { dateTimeFormat, interpolatePath, PATHS } from "../../../constant";
+import { interpolatePath, PATHS } from "../../../constant";
+// import { dateTimeFormat, interpolatePath, PATHS } from "../../../constant";
+import { dateTimeFormat } from "../../../common/date";
 import { getCourseContent } from "../../Course/redux/api";
 import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";

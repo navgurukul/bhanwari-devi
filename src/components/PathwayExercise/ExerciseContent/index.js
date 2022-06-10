@@ -27,7 +27,8 @@ import {
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
-import { dateTimeFormat, TimeLeft, versionCode } from "../../../constant";
+// import { dateTimeFormat, TimeLeft, versionCode } from "../../../constant";
+import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
 import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";

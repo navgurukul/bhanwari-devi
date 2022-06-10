@@ -16,7 +16,8 @@ import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import AlertDialog from "./AlertDialog";
 import { Box } from "@mui/system";
-import { dateTimeFormat } from "../../constant";
+// import { dateTimeFormat } from "../../constant";
+import { dateTimeFormat } from "../../common/date";
 export default function CheckMoreBatches(props) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();

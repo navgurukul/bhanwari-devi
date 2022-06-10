@@ -9,7 +9,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-import { dateTimeFormat, lang, TimeLeft } from "../../constant";
+import { lang, TimeLeft } from "../../constant";
+// import { dateTimeFormat, lang, TimeLeft } from "../../constant";
+import { dateTimeFormat } from "../../common/date";
 import AlertDialog from "./AlertDialog";
 import DropOut from "./DropOut";
 

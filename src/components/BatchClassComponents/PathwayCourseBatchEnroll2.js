@@ -1,7 +1,8 @@
 import React from "react";
 import useStyles from "./styles";
 import { Container, Grid, Typography } from "@mui/material";
-import { dateTimeFormat } from "../../constant";
+// import { dateTimeFormat } from "../../constant";
+import { dateTimeFormat } from "../../common/date";
 import { Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./AlertDialog";
