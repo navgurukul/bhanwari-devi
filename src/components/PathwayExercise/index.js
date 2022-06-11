@@ -27,6 +27,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import languageMap from "../../pages/CourseContent/languageMap";
+import Error from "./CourseCompletion/Error";
 
 const Exercise = ({
   course,
