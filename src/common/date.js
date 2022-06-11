@@ -135,7 +135,7 @@ const formatInTimeZone = (date, timeZone, formatStr) => {
 }
 
 const formatInUtc = (date, formatStr) => {
-  return formatInTimeZone(makeDate, "UTC", formatStr);
+  return formatInTimeZone(date, "UTC", formatStr);
 };
 
 /**
