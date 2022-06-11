@@ -67,7 +67,7 @@ function CodeOfConduct({ setDisable }) {
           please feel free to read our detailed{" "}
           <ExternalLink
             className={classes.link}
-            href="https://www.merakilearn.org/course-content/miscellaneous/218/4"
+            href="https://www.merakilearn.org/course-content/miscellaneous/1/0"
           >
             <span style={{ color: "#48a145" }}>Volunteering with Meraki</span>
           </ExternalLink>{" "}
