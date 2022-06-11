@@ -7,7 +7,10 @@ import { PATHS, interpolatePath } from "../../constant";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
 import { useSelector, useDispatch } from "react-redux";
-import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import { actions as pathwayActions } from "./redux/action";
+// import { actions as upcomingBatchesActions } from "./redux/action";
+// import { actions as upcomingClassActions } from "./redux/action";
+
 import {
   Container,
   Box,
@@ -75,6 +78,21 @@ function PathwayCourse() {
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
+
+  // useEffect(() => {
+  //   dispatch(
+  //     upcomingBatchesActions.getUpcomingBatches({
+  //       pathwayId: pathwayId,
+  //       authToken: user?.data?.token,
+  //     })
+  //   );
+  //   dispatch(
+  //     upcomingClassActions.getupcomingEnrolledClasses({
+  //       pathwayId: pathwayId,
+  //       authToken: user?.data?.token,
+  //     })
+  //   );
+  // }, [dispatch, pathwayId]);
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
