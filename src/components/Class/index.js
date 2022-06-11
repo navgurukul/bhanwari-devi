@@ -38,7 +38,9 @@ function Class({ classToEdit, indicator }) {
   const isEditMode = !_.isEmpty(classToEdit);
   const [loading, setLoading] = useState(false);
   const [pathwayId, setPathwayId] = useState();
+  const [pathwayCode, setPathwayCode] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
+  const [day, setDay] = useState({});
   const [partnerData, setPartnerData] = useState([]);
   const [Selected_partner_id, setSelected_partner_id] = useState();
 
@@ -83,18 +85,27 @@ function Class({ classToEdit, indicator }) {
         ? moment.utc(end_time).add(330, "minute").format("kk:mm")
         : moment().add(60, "minute").format("kk:mm"),
       [LANG]: lang || "hi",
-      [TYPE]: type || "cohort",
+      [TYPE]: type || "batch",
       [COURSE_ID]: course_id || "",
       [PATHWAY_ID]: pathway_id || "",
-      [PARTNER_ID]: partner_id || "",
       [EXERCISE_ID]: exercise_id || "",
       [MAX_ENROLMENT]: max_enrolment || "0",
       [FREQUENCY]: frequency || "",
       [ON_DAYS]: on_days_list || [],
-      [OCCURRENCE]: occurrence_data || "",
+      [OCCURRENCE]: occurrence_data || "28",
       [UNTIL]: until_data || "",
     };
   }, [classToEdit]);
+
+  const days = {
+    MO: "Mon",
+    TU: "Tue",
+    WE: "Wed",
+    TH: "Thu",
+    FR: "Fri",
+    SA: "Sat",
+    SU: "Sun",
+  };
 
   const user = useSelector(({ User }) => User);
   const rolesList = user.data.user.rolesList;
@@ -110,7 +121,7 @@ function Class({ classToEdit, indicator }) {
   const editClass = (payload) => {
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
-    if (classToEdit.type === "cohort") {
+    if (classToEdit.type === "batch") {
       if (indicator === false) {
         delete payload.frequency;
       }
@@ -123,6 +134,7 @@ function Class({ classToEdit, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "version-code": versionCode,
         "update-all": indicator,
       },
       data: payload,
@@ -133,6 +145,7 @@ function Class({ classToEdit, indicator }) {
           autoClose: 2500,
         });
         setLoading(false);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -248,8 +261,6 @@ function Class({ classToEdit, indicator }) {
   };
 
   const changeHandler = async (e, setField, field) => {
-    console.log("e.target.name", e.target.name);
-    console.log("e.target.value", e.target.value);
     if (e.target.name === "occurrence") {
       setField({ ...field, [e.target.name]: e.target.value, until: "" });
     } else if (e.target.name === "until") {
@@ -270,14 +281,22 @@ function Class({ classToEdit, indicator }) {
     setCheckedState(updatedCheckedState);
   };
 
-  const checkBoxHandler = (e, day, key, field, setField) => {
+  // const checkBoxHandler = (e, day, key, field, setField) => {
+  const checkBoxHandler = (e, days, count, key, field, setField) => {
+    const obj = {
+      [count]: days,
+    };
     if (e.target.checked === true) {
-      const daysList = [...field[key], day];
+      // const daysList = [...field[key], day];
+      const daysList = [...field[key], days];
+      const forDate = Object.assign(day, obj);
       setField(daysList, key);
+      setDay(forDate);
     } else {
       _.remove(field[key], function (del) {
-        return del === day;
+        return del === days;
       });
+      delete day[count];
     }
   };
 
@@ -291,6 +310,7 @@ function Class({ classToEdit, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
+        "version-code": versionCode,
         role: "volunteer",
       },
       data: {
@@ -326,32 +346,66 @@ function Class({ classToEdit, indicator }) {
 
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
-        if (fieldName === "max_enrolment") {
+        const weekDday = Object.values(day);
+        if (fieldName === "start_time") {
+          let incrementedDate = new Date(value);
+          let onDay = incrementedDate.toString().split(" ")[0];
+          let flag = false;
+          let firstDay = "";
+          for (let i in days) {
+            if (onDay === days[i]) {
+              flag = true;
+            }
+            if (flag) {
+              for (let j of weekDday) {
+                if (days[j] === days[i]) {
+                  firstDay = j;
+                  flag = false;
+                }
+              }
+            }
+          }
+          const index = weekDday.indexOf(firstDay);
+          if (days[firstDay] !== onDay) {
+            let newDate;
+            var i = 1;
+            while (i <= 7) {
+              incrementedDate = moment(incrementedDate).add(1, "days")._d;
+              let Day = incrementedDate.toString().split(" ")[0];
+              if (days[weekDday[index]] === Day) {
+                newDate = incrementedDate;
+                break;
+              }
+              i = i + 1;
+            }
+            formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+          } else {
+            formFields[fieldName] = value;
+          }
+        } else if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
           if (value == 0) {
             delete formFields.max_enrolment;
           }
         } else if (fieldName === "type") {
-          if (value === "cohort") {
-            formFields = { ...formFields, type: "cohort", frequency: "WEEKLY" };
+          if (value === "batch") {
+            formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
           } else {
             formFields[fieldName] = value;
           }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
         }
-        if (fieldName === "pathway_id") {
-          // formFields[fieldName] = parseInt(value);
-          console.log("removing pathway_id from payload");
-          continue;
-        } else {
+        // if (fieldName === "pathway_id") {
+        //   // formFields[fieldName] = parseInt(value);
+        //   console.log("removing pathway_id from payload");
+        //   continue;
+        // }
+        else {
           formFields[fieldName] = value;
         }
       }
     }
-
-    console.log("formFields", formFields);
-
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -360,7 +414,7 @@ function Class({ classToEdit, indicator }) {
       <h2 className="title">
         {isEditMode
           ? `Update ${
-              initialFormState[TYPE] == "cohort" ? "cohort" : "doubt"
+              initialFormState[TYPE] == "batch" ? "batch" : "doubt"
             } class`
           : "Create Cohort / Doubt Class"}
       </h2>
@@ -370,7 +424,29 @@ function Class({ classToEdit, indicator }) {
         initialFieldsState={initialFormState}
       >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
-          const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
+          // const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
+          let checkEquivalence = true;
+          let disable =
+            formFieldsState[TYPE] &&
+            formFieldsState[PATHWAY_ID] &&
+            formFieldsState[TITLE] &&
+            formFieldsState[DESCRIPTION] &&
+            formFieldsState[DESCRIPTION].length < 555;
+
+          if (formFieldsState[TYPE] === "batch") {
+            if (
+              disable &&
+              formFieldsState[ON_DAYS] &&
+              (formFieldsState[UNTIL] || formFieldsState[OCCURRENCE])
+            ) {
+              checkEquivalence = false;
+            }
+          } else {
+            if (disable) {
+              checkEquivalence = false;
+            }
+          }
+
           return (
             <>
               <label htmlFor="type">Class Type</label>
@@ -381,16 +457,16 @@ function Class({ classToEdit, indicator }) {
                     className="radio-field"
                     name={TYPE}
                     onChange={(e) => {
-                      setFormField("cohort", TYPE);
+                      setFormField("batch", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
                     id="type1"
                     checked={
-                      formFieldsState.type === "cohort" ? "checked" : false
+                      formFieldsState.type === "batch" ? "checked" : false
                     }
                     disabled={
                       isEditMode
-                        ? formFieldsState[TYPE] === "cohort"
+                        ? formFieldsState[TYPE] === "batch"
                           ? false
                           : true
                         : false
@@ -424,37 +500,48 @@ function Class({ classToEdit, indicator }) {
               </span>
 
               <label htmlFor="pathway">Pathway</label>
-              <span>
-                {pathways.map((item, index) => {
-                  if (item.code !== "PRCRSE") {
-                    return (
-                      <label
-                        htmlFor={`pathway-${index}`}
-                        className="radio-pointer"
-                      >
-                        <input
-                          type="radio"
-                          className="radio-field radio__input"
-                          key={item.id}
-                          name={PATHWAY_ID}
-                          value={item.id}
-                          onChange={(e) => {
-                            setPathwayId(e.target.value);
-                            console.log(typeof item.id);
-                            setFormField(parseInt(item.id), PATHWAY_ID);
-                          }}
-                          checked={
-                            pathwayId === `${item.id}` ? "checked" : false
-                          }
-                          id={`pathway-${index}`}
-                        />
-                        {item.name}
-                      </label>
-                    );
-                  }
-                })}
-              </span>
-              {pathwayId &&
+              <div
+                className={
+                  formFieldsState[PATHWAY_ID] && "radio-field-with-validation"
+                }
+              >
+                <span>
+                  {pathways.map((item, index) => {
+                    if (item.code == "PRGPYT" || item.code == "SPKENG") {
+                      return (
+                        <label
+                          htmlFor={`pathway-${index}`}
+                          className="radio-pointer"
+                        >
+                          <input
+                            type="radio"
+                            className="radio-field"
+                            key={item.id}
+                            name={PATHWAY_ID}
+                            value={item.id}
+                            onChange={(e) => {
+                              setPathwayCode(item.code);
+                              setPathwayId(e.target.value);
+                              setFormField(item.id, PATHWAY_ID);
+                            }}
+                            checked={
+                              pathwayId === `${item.id}` ? "checked" : false
+                            }
+                            id={`pathway-${index}`}
+                          />
+                          {item.name}
+                        </label>
+                      );
+                    }
+                  })}
+                </span>
+              </div>
+              {!formFieldsState[PATHWAY_ID] && (
+                <span className="field-validation">
+                  Please choose a pathway
+                </span>
+              )}
+              {pathwayCode == "SPKENG" &&
                 pathways.map((pathway) => {
                   if (pathwayId == pathway.id) {
                     return (
@@ -487,6 +574,9 @@ function Class({ classToEdit, indicator }) {
                     );
                   }
                 })}
+              {pathwayCode == "SPKENG" && formFieldsState[COURSE_ID] == "" && (
+                <span className="field-validation">Select a course</span>
+              )}
               {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
                 <>
                   <label htmlFor="exercise_id" className="label-field">
@@ -531,6 +621,12 @@ function Class({ classToEdit, indicator }) {
                 required
                 aria-required
               />
+              {!formFieldsState[TITLE] && (
+                <span className="field-validation">Title cannot be empty</span>
+              )}
+
+              {/* {formFieldsState[PATHWAY_ID] !== 1 && (
+                <> */}
               <label htmlFor="description" className="label-field">
                 Description
               </label>
@@ -542,10 +638,30 @@ function Class({ classToEdit, indicator }) {
                   changeHandler(e, setFormFieldsState, formFieldsState)
                 }
                 value={formFieldsState[DESCRIPTION]}
-                className="textarea-field"
+                className={
+                  !formFieldsState[DESCRIPTION] ||
+                  formFieldsState[DESCRIPTION].length > 555
+                    ? "textarea-field"
+                    : "textarea-field-without-validation"
+                }
+                disabled={isEditMode && true}
                 required
                 aria-required
               />
+              {!formFieldsState[DESCRIPTION] ? (
+                <span className="field-validation">
+                  Description cannot be empty
+                </span>
+              ) : (
+                formFieldsState[DESCRIPTION].length > 555 && (
+                  <span className="field-validation">
+                    Description cannot be more than 555 character
+                  </span>
+                )
+              )}
+              {/* </>
+              )} */}
+
               {canSpecifyFacilitator && (
                 <>
                   <label htmlFor="facilitator_name" className="label-field">
@@ -828,7 +944,7 @@ function Class({ classToEdit, indicator }) {
                   30
                 </label>
               </span>
-              {formFieldsState[TYPE] === "cohort" && (
+              {formFieldsState[TYPE] === "batch" && (
                 <>
                   <label htmlFor="on_days" className="label-field">
                     On days
@@ -843,6 +959,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "MO",
+                            1,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -869,6 +986,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "TU",
+                            2,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -895,6 +1013,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "WE",
+                            3,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -921,6 +1040,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "TH",
+                            4,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -947,6 +1067,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "FR",
+                            5,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -973,6 +1094,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "SA",
+                            6,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -999,6 +1121,7 @@ function Class({ classToEdit, indicator }) {
                           checkBoxHandler(
                             e,
                             "SU",
+                            7,
                             ON_DAYS,
                             formFieldsState,
                             setFormField
@@ -1017,7 +1140,10 @@ function Class({ classToEdit, indicator }) {
                       SU
                     </label>
                   </span>
-                  <label htmlFor={UNTIL} className="label-field">
+                  {formFieldsState[ON_DAYS].length == 0 && (
+                    <span className="field-validation">Select days</span>
+                  )}
+                  {/* <label htmlFor={UNTIL} className="label-field">
                     Until
                     <span className="optional-field">
                       (either until or occurrence is required)
@@ -1036,12 +1162,15 @@ function Class({ classToEdit, indicator }) {
                     placeholder="Until when recurring classes"
                     disabled={isEditMode && !indicator ? true : false}
                     required={
-                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[TYPE] === "batch" &&
                       formFieldsState[OCCURRENCE] === ""
                         ? true
                         : false
                     }
                   />
+                  {!formFieldsState[UNTIL] && !formFieldsState[OCCURRENCE] && (
+                    <span className="field-validation">Select date</span>
+                  )} */}
                   <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
                     <span className="optional-field">
@@ -1056,11 +1185,12 @@ function Class({ classToEdit, indicator }) {
                     onChange={(e) =>
                       changeHandler(e, setFormFieldsState, formFieldsState)
                     }
+                    disabled={true}
                     value={formFieldsState[OCCURRENCE]}
                     placeholder="How many recurring classes"
-                    disabled={isEditMode && !indicator ? true : false}
+                    // disabled={isEditMode && !indicator ? true : false}
                     required={
-                      formFieldsState[TYPE] === "cohort" &&
+                      formFieldsState[TYPE] === "batch" &&
                       formFieldsState[UNTIL] === ""
                         ? true
                         : false

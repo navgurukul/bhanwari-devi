@@ -21,34 +21,34 @@ function ClassList({ editClass, isShow }) {
   if (loading) {
     // return <Loader pageLoader={true} />;
     return (
-      <Container maxWidth="xl" sx={{ mt: "40px" }}>
-        <Grid container spacing={2}>
-          {Array.from(Array(8)).map((_, index) => (
-            <Grid item xs={2} sm={4} md={3} key={index}>
-              <Card sx={{ p: 4 }}>
-                <Typography variant="subtitle1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="subtitle2">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-                <Typography variant="body1">
-                  <Skeleton />
-                </Typography>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      // <Container maxWidth="lg" sx={{ mt: "40px" }}>
+      <Grid container spacing={2}>
+        {Array.from(Array(8)).map((_, index) => (
+          <Grid item xs={2} sm={4} md={3} key={index}>
+            <Card sx={{ p: 4 }}>
+              <Typography variant="subtitle1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="subtitle2">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      // </Container>
     );
   }
 
@@ -67,34 +67,34 @@ function ClassList({ editClass, isShow }) {
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
 
   return (
-    <>
+    <Container maxWidth="xl">
       <Grid container spacing={2}>
         {data && data.length > 0 ? (
           <>
             {single_classes.map((item, index) => {
               return (
-                <Grid item xs={12} ms={6} md={4} sx={{ mb: 10 }}>
+                <Grid item xs={12} ms={6} md={3} sx={{ mb: 10 }}>
                   <ClassCard
                     item={item}
                     key={index}
                     index={index}
                     editClass={editClass}
-                    enroll="Enroll to class"
-                    style="class-enroll"
+                    // enroll="Enroll to class"
+                    // style="class-enroll"
                   />
                 </Grid>
               );
             })}
             {recurring_classes.map((item, index) => {
               return (
-                <Grid item xs={12} ms={6} md={4} sx={{ mb: 3 }}>
+                <Grid item xs={12} ms={6} md={3} sx={{ mb: 3 }}>
                   <ClassCard
                     item={item}
                     key={index}
                     index={index}
                     editClass={editClass}
-                    enroll="Enroll to Cohort class"
-                    style="class-enroll-cohort"
+                    // enroll="Enroll to Cohort class"
+                    // style="class-enroll-cohort"
                   />
                 </Grid>
               );
@@ -106,7 +106,7 @@ function ClassList({ editClass, isShow }) {
           </div>
         )}
       </Grid>
-    </>
+    </Container>
   );
 }
 export default ClassList;

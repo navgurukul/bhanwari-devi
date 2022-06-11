@@ -20,7 +20,7 @@ import useStyles from "../styles";
 function MiscellaneousCourses() {
   const dispatch = useDispatch();
   const { data } = useSelector(({ Course }) => Course);
-  const pathway = useSelector((state) => state.Pathways);
+  const pathway = useSelector((state) => state);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -33,8 +33,8 @@ function MiscellaneousCourses() {
   }, [dispatch]);
 
   const pathwayCourseId =
-    (pathway.data &&
-      pathway.data.pathways
+    (pathway.Pathways.data &&
+      pathway.Pathways.data.pathways
         .map((pathway) => pathway.courses)
         .flat()
         .map((course) => course.id)) ||
@@ -43,11 +43,9 @@ function MiscellaneousCourses() {
   const otherCourses =
     data &&
     data.allCourses.filter(
-      (item) =>
-        pathwayCourseId &&
-        !pathwayCourseId.includes(item.id) &&
-        item.course_type === "json"
+      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
     );
+
   return (
     <React.Fragment>
       <Container className={classes.pathwayContainer} maxWidth="lg">
