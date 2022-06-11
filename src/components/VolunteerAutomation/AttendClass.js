@@ -31,7 +31,13 @@ import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
-function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, completed }) {
+function AttendClass({
+  setEnrollId,
+  enrollId,
+  setStepCompleted,
+  setDisable,
+  completed,
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
@@ -55,11 +61,10 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
   }, [dispatch]);
 
   const possibleClasses = data?.slice(0, numOfClassesToShow) || [];
-  
+
   const enrolledClass =
-      !chooseClassAgain &&
-      possibleClasses.find(item => item.id === enrollId); 
-      //&& new Date() < new Date(item.start_time)); // didn't already start
+    !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
+  //&& new Date() < new Date(item.start_time)); // didn't already start
 
   const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
 
@@ -173,7 +178,7 @@ function AttendClass({ setEnrollId, enrollId, setStepCompleted, setDisable, comp
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
         <>
-          <Container sx={{ background: "red" }} maxWidth="sm">
+          <Container maxWidth="sm">
             <Typography variant="h6">
               Please choose a class to attend
             </Typography>

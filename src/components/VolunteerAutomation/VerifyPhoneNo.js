@@ -3,19 +3,20 @@ import { Typography, Container, Box, TextField } from "@mui/material";
 import PhoneInput from "../common/PhoneInput";
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
-  /*const handleChange = (event) => {
+  const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
     setDisable(number.length !== 10);
     setContact(number);
-  };*/
-
-  const handleChange = (number, countryInfo, phoneType) => {
-    const isValid = !!phoneType;
-    console.log(number, countryInfo, phoneType);
-    setDisable(!isValid);
-    setContact(number);
-    //setContact(number.replace(/[^0-9]/g, "") || "");
   };
+
+  //International
+  // const handleChange = (number, countryInfo, phoneType) => {
+  //   const isValid = !!phoneType;
+  //   console.log(number, countryInfo, phoneType);
+  //   setDisable(!isValid);
+  //   setContact(number);
+  //   //setContact(number.replace(/[^0-9]/g, "") || "");
+  // };
 
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
@@ -27,11 +28,9 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
         matters. We never share it to any third party.
       </Typography>
       <Box sx={{ mt: 4 }}>
-        {/*<TextField
-          label="Phone Number"*/}
-        {/*onlyCountries={["in"]}
-          disableCountryCode={true}*/}
-        <PhoneInput
+        <TextField
+          label="Phone Number"
+          // <PhoneInput       //International
           onChange={handleChange}
           value={contact}
           name="contact"

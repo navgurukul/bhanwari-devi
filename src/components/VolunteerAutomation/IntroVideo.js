@@ -16,7 +16,7 @@ function IntroVideo({ setDisable }) {
           Our teaching philosophy
         </Typography>
         <ReactPlayer
-          url="https://www.youtube.com/watch?v=ySD_d6oXtbI"
+          url="https://www.youtube.com/watch?v=6J1V3VNFYZU"
           className="react-player"
           playing={false}
           width="100%"
