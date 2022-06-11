@@ -54,6 +54,13 @@ const students = {
     //   path: PATHS.OUR_PARTNER,
     //   type: "internal",
     // },
+
+    {
+      title: "Volunteering with Meraki",
+      path: PATHS.VOLUNTEER_AUTOMATION,
+      type: "internal",
+    },
+
     {
       title: "Donate",
       path: "https://www.navgurukul.org/donate",

@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
 import { dateTimeFormat, TimeLeft } from "../../../constant";
+// import { timeLeftFormat } from "../../common/date";
+import { timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -208,10 +210,10 @@ function ClassCard({ item, editClass }) {
 
   console.log("indicator", indicator);
   const EnrolledAndTimer = () => {
-    const [Timer, setTimer] = useState(TimeLeft(item.start_time));
+    const [Timer, setTimer] = useState(timeLeftFormat(item.start_time));
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
-      setTimer(TimeLeft(item.start_time));
+      setTimer(timeLeftFormat(item.start_time));
     }, ONE_MINUTE);
     return (
       <>
@@ -336,6 +338,7 @@ function ClassCard({ item, editClass }) {
                   <Loader />
                 </div>
               ) : (
+                // <h1>Poonam</h1>
                 <EnrolledAndTimer item={item} />
               )
             ) : loading ? (
