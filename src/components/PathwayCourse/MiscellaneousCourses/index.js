@@ -43,10 +43,7 @@ function MiscellaneousCourses() {
   const otherCourses =
     data &&
     data.allCourses.filter(
-      (item) =>
-        pathwayCourseId &&
-        !pathwayCourseId.includes(item.id) &&
-        item.course_type === "json"
+      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
     );
   return (
     <React.Fragment>

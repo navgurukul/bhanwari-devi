@@ -69,6 +69,7 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data.data;
+      console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);
       }
@@ -86,7 +87,7 @@ const NewUserDashbord = () => {
 
   return (
     <>
-      {learningTracks ? (
+      {!learningTracks ? (
         <>
           <Container className={classes.DashboardContainer}>
             <Typography variant="h5" align="center" mt={4} mb={1}>
