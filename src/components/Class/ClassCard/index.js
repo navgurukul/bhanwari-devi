@@ -3,9 +3,9 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
-import { dateTimeFormat, TimeLeft } from "../../../constant";
+// import { dateTimeFormat, TimeLeft } from "../../../constant";
 // import { timeLeftFormat } from "../../common/date";
-import { timeLeftFormat } from "../../../common/date";
+import { dateTimeFormat, timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
+import ClassJoinTimerButton from "../ClassJoinTimerButton";
 
 toast.configure();
 
@@ -208,6 +209,7 @@ function ClassCard({ item, editClass }) {
   };
 
   console.log("indicator", indicator);
+  /*
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
@@ -240,6 +242,7 @@ function ClassCard({ item, editClass }) {
       </>
     );
   };
+  */
   return (
     <>
       <Card elevation={2} sx={{ p: 4 }} className={classes.card}>
@@ -343,7 +346,11 @@ function ClassCard({ item, editClass }) {
                 </div>
               ) : (
                 // <h1>Poonam</h1>
-                <EnrolledAndTimer item={item} />
+                // <EnrolledAndTimer item={item} />
+                <ClassJoinTimerButton
+                  startTime={item?.start_time}
+                  link={item?.meet_link}
+                />
               )
             ) : loading ? (
               <div className="loader-button">
