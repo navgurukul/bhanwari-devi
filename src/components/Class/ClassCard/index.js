@@ -211,8 +211,9 @@ function ClassCard({ item, editClass }) {
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
-      cutoffNumArr: [0, 0, 0, 0, 10, 0],
-      cutoffTextArr: ["", "", "", "", "joinNow", ""],
+      cutoffNumArr: [0, 0, 0, 0, 10, 60],
+      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
+      expiredText: "joinNow",
     };
     const [Timer, setTimer] = useState(timeLeftFormat(item.start_time, timeLeftOptions));
     const ONE_MINUTE = 60000; //millisecs
