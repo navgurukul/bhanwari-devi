@@ -74,6 +74,7 @@ export const actions = {
   getUpcomingBatchesResolved(data) {
     return {
       type: types.GET_UPCOMING_BATCHES_INTENT_RESOLVED,
+      data,
     };
   },
   getUpcomingBatchesRejected(error) {
@@ -124,15 +125,4 @@ export const actions = {
       error,
     };
   },
-  // getUpcomingBatches(data) {
-  //   return {
-  //     type: types.GET_UPCOMING_BATCHES_INTENT,
-  //     data,
-  //   };
-  // },
-  // getUpcomingBatchesResolved(data) {
-  //   return {
-  //     type: types.GET_UPCOMING_BATCHES_INTENT_RESOLVED,
-  //     data,
-  //   };
 };
