@@ -1,8 +1,7 @@
 import React from "react";
 import useStyles from "./styles";
 import { Container, Grid, Typography } from "@mui/material";
-// import { dateTimeFormat } from "../../constant";
-import { dateTimeFormat } from "../../common/date";
+import { format } from "../../common/date";
 import { Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./AlertDialog";
@@ -59,8 +58,8 @@ const PathwayCourseBatchEnroll2 = (props) => {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            {dateTimeFormat(upcomingBatchesData[0]?.start_time).finalDate} -{" "}
-            {dateTimeFormat(upcomingBatchesData[0]?.end_time).finalDate}
+            {format(upcomingBatchesData[0]?.start_time, "dd MMM yy")} -{" "}
+            {format(upcomingBatchesData[0]?.end_time, "dd MMM yy")}
           </Typography>
           <Typography
             variant="body1"
@@ -101,7 +100,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
             }}
           >
             Can’t start on{" "}
-            {dateTimeFormat(upcomingBatchesData[0]?.start_time).finalDate}
+            {format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
             {" ? "}
             <Typography
               onClick={handleUpcomingBatchesClickOpen}

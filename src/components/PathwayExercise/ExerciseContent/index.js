@@ -27,7 +27,6 @@ import {
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
-// import { dateTimeFormat, TimeLeft, versionCode } from "../../../constant";
 import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
@@ -88,18 +87,24 @@ const headingVarients = {};
 );
 const RenderDoubtClass = ({ data, exercise }) => {
   const classes = useStyles();
-  if (data.component === "banner") {
+  if (data?.component === "banner") {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
+    const { start_time, end_time } = actions;
     return (
       <div>
-        <DoubtClassExerciseComponent value={value} actions={actions} />
-        <div
-          style={{
-            borderBottom: "1px solid #BDBDBD",
-            margin: "40px 0px",
-          }}
-        ></div>
+        {start_time && end_time && (
+          <>
+            <DoubtClassExerciseComponent value={value} actions={actions} />
+
+            <div
+              style={{
+                borderBottom: "1px solid #BDBDBD",
+                margin: "40px 0px",
+              }}
+            ></div>
+          </>
+        )}
       </div>
     );
   }

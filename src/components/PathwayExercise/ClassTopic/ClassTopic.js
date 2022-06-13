@@ -2,8 +2,7 @@ import { Box, Chip, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import React from "react";
 import { TimeLeft } from "../../../constant";
-// import { dateTimeFormat, TimeLeft } from "../../../constant";
-import { dateTimeFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 import languageMap from "../../../pages/CourseContent/languageMap";
 
 function ClassTopic({ courseData }) {
@@ -44,8 +43,7 @@ function ClassTopic({ courseData }) {
         <Box mt={3}>
           <Typography variant="body2">
             If you miss the class or need to revise, you can enroll in an extra
-            class to catch up after{" "}
-            {dateTimeFormat(courseData.start_time).finalDate}
+            class to catch up after {format(courseData.start_time, "dd MMM yy")}
           </Typography>
         </Box>
         {TimeLeft(courseData.start_time) == "expired" ? (
@@ -65,7 +63,7 @@ function ClassTopic({ courseData }) {
               </svg>
 
               <Typography ml={2} variant="body2">
-                Completed on {dateTimeFormat(courseData.start_time).finalDate}
+                Completed on {format(courseData.start_time, "dd MMM yy")}
               </Typography>
             </Box>
           </Box>

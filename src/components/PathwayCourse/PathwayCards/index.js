@@ -13,8 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { interpolatePath, PATHS } from "../../../constant";
-// import { dateTimeFormat, interpolatePath, PATHS } from "../../../constant";
-import { dateTimeFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 import { getCourseContent } from "../../Course/redux/api";
 import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
@@ -113,7 +112,7 @@ const PathwayCards = (props) => {
             <Grid container spacing={1}>
               <Grid item xs={8} md={5}>
                 <Typography variant="body2">
-                  {dateTimeFormat(item.start_time).finalDate}
+                  {format(item.start_time, "dd MMM yy")}
                 </Typography>
               </Grid>
               <Grid item xs={6} md={3}>

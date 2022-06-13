@@ -34,6 +34,8 @@ export const PATHS = {
   PYTHONCOURSE: "/Python-course",
   SEARCHED_COURSE: "/search-course",
   RETURNINGUSERPAGE: "/Returning-user",
+  VOLUNTEER_AUTOMATION: "/volunteer-flow",
+  VOLUNTEER_FORM: "/volunteer-form",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
@@ -44,7 +46,23 @@ export const HideFooter = [
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
   PATHS.NEWUSER_DASHBOARED,
+  PATHS.VOLUNTEER_FORM,
 ];
+
+/*
+export const dateTimeFormat = (date) => {
+  try {
+    const datePart = date?.split("T")[0].split("-").reverse();
+    const TimePart = date?.split("T")[1].split(":");
+    const finalDate = `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} `;
+    const finalTime = `${TimePart[0]} : ${TimePart[1]}`;
+    return { finalTime, finalDate };
+  } catch {
+    return { finalTime: "", finalDate: "" };
+  }
+};
+*/
+
 const month = {
   "01": "Jan",
   "02": "Feb",
@@ -66,7 +84,6 @@ export const lang = {
   ta: "Tamil",
   te: "Telugu",
 };
-/*
 export const dateTimeFormat = (date) => {
   try {
     const datePart = date?.split("T")[0].split("-").reverse();
@@ -78,7 +95,6 @@ export const dateTimeFormat = (date) => {
     return { finalTime: "", finalDate: "" };
   }
 };
-*/
 
 export const TimeLeft = (date) => {
   try {
@@ -107,15 +123,24 @@ export const TimeLeft = (date) => {
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    console.log(days, hours, minutes, seconds);
+    console.log(
+      "days",
+      days,
+      "hours",
+      hours,
+      "minutes",
+      minutes,
+      "seconds",
+      seconds
+    );
 
     if (days > 0) {
       return `${days} days ${hours} hrs ${minutes} mins`;
-    } else if (hours > 0 && days == 0) {
+    } else if (hours > 0 && days === 0) {
       return `${hours} hrs ${minutes} mins`;
-    } else if (minutes > 10 && days == 0) {
-      return `${minutes} mins ${seconds} sec`;
-    } else if (minutes <= 10 && minutes > -60 && days === 0) {
+    } else if (minutes > 10 && days === 0) {
+      return `${minutes} mins`;
+    } else if (minutes <= 10 && minutes > -60) {
       return "joinNow";
     } else {
       return "expired";

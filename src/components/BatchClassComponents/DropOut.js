@@ -13,8 +13,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-// import { dateTimeFormat } from "../../constant";
-import { dateTimeFormat } from "../../common/date";
+import { format } from "../../common/date";
 
 export default function DropOut(props) {
   // const [openDialog, setOpenDialog] = React.useState(false);
