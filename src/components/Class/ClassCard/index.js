@@ -209,10 +209,16 @@ function ClassCard({ item, editClass }) {
 
   console.log("indicator", indicator);
   const EnrolledAndTimer = () => {
-    const [Timer, setTimer] = useState(timeLeftFormat(item.start_time));
+    const timeLeftOptions = {
+      precision: [3, 3, 3, 2, 2, 1],
+      cutoffNumArr: [0, 0, 0, 0, 10, 60],
+      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
+      expiredText: "joinNow",
+    };
+    const [Timer, setTimer] = useState(timeLeftFormat(item.start_time, timeLeftOptions));
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
-      setTimer(timeLeftFormat(item.start_time));
+      setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
     }, ONE_MINUTE);
     return (
       <>
