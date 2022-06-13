@@ -4,8 +4,7 @@ import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
 import { PATHS, interpolatePath } from "../../constant";
-// import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
-import { dateTimeFormat } from "../../common/date";
+import { format } from "../../common/date";
 import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./AlertDialog";
@@ -63,8 +62,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
-                From {dateTimeFormat(BatchData?.start_time).finalDate} -{" "}
-                {dateTimeFormat(BatchData?.end_time).finalDate}
+                From {format(BatchData?.start_time, "dd MMM yy")} -{" "}
+                {format(BatchData?.end_time, "dd MMM yy")}
               </Typography>
               <Typography
                 variant="body1"
@@ -99,7 +98,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 align="start"
                 variant="body2"
               >
-                Can’t start on {dateTimeFormat(BatchData?.start_time).finalDate}
+                Can’t start on {format(BatchData?.start_time, "dd MMM yy")}
                 {" ? "}
                 <section
                   className={classes.link}

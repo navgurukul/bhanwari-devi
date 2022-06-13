@@ -17,8 +17,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-// import { dateTimeFormat } from "../../../constant";
-import { dateTimeFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 import AlertDialog from "../AlertDialog";
 import ExerciseBatchClass from "../ExerciseBatchClass/ExerciseBatchClass";
 import DropOut from "../DropOut";
@@ -101,11 +100,13 @@ function RevisionClassEnroll(props) {
                           }}
                           control={<Radio />}
                           // you can put your value using {} <- this
-                          label={`${
-                            dateTimeFormat(item.start_time).finalDate
-                          }, ${dateTimeFormat(item.start_time).finalTime} - ${
-                            dateTimeFormat(item.end_time).finalTime
-                          }`}
+                          label={`${format(
+                            item.start_time,
+                            "dd MMM yy"
+                          )}, ${format(
+                            item.start_time,
+                            "hh:mm aaa"
+                          )} - ${format(item.end_time, "hh:mm aaa")}`}
                         />
                       );
                     })}

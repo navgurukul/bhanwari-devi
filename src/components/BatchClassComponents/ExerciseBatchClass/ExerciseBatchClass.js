@@ -8,9 +8,8 @@ import axios from "axios";
 import useStyles from "../styles";
 import { useSelector } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
-// import { dateTimeFormat, TimeLeft } from "../../../constant";
 import { TimeLeft } from "../../../constant";
-import { dateTimeFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 import RevisionClassEnroll from "../Revision/RevisionClassEnroll";
 // import { Button } from "framework7-react";
 import DropOut from "../DropOut";
@@ -51,9 +50,9 @@ const ExerciseBatchClass = (props) => {
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
-                {dateTimeFormat(start_time).finalDate},{" "}
-                {dateTimeFormat(start_time).finalTime} -{" "}
-                {dateTimeFormat(end_time).finalTime}
+                {format(start_time, "dd MMM yy")},{" "}
+                {format(start_time, "hh:mm aaa")} -{" "}
+                {format(end_time, "hh:mm aaa")}
               </Typography>
               <Typography
                 variant="body1"

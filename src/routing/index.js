@@ -36,6 +36,8 @@ import SearchCourse from "../components/SearchBar/SearchCourse";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 
 // import Classes from '../pages/classes'
+import VolunteerAutomation from "../components/VolunteerAutomation";
+import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 
 const Routing = () => {
   return (
@@ -94,6 +96,17 @@ const Routing = () => {
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
       <Route exact path={PATHS.SEARCHED_COURSE} component={SearchCourse} />
+      <Route
+        exact
+        path={PATHS.VOLUNTEER_AUTOMATION}
+        component={VolunteerAutomation}
+      />
+
+      <PrivateRoute
+        exact
+        path={PATHS.VOLUNTEER_FORM}
+        component={VolunteerForm}
+      />
 
       {/* Private routes */}
       {/* <PrivateRoute

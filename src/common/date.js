@@ -81,36 +81,6 @@ export const timeLeftFormat = (
   }
 };
 
-/**
- * Provides the local date and time strings of the provided date in Meraki's
- *     standardized format (currently HH : mm and dd MMM, yyyy)
- * @param {Date|string} date A valid Date string recognized by Date.parse
- *     or Date to be formatted
- * @param {string} the string of tokens
- * @param {Object|undefined} an object with options
- * @return {{finalTime: string, finalDate: string}} the formatted date/time
- *     strings or empty strings if the input is null or undefined
- */
-export const dateTimeFormat = (date) => {
-  if (date == null) {
-    return { finalTime: "", finalDate: "" };
-  }
-
-  return {
-    finalTime: format(date, "HH : mm"),
-    finalDate: format(date, "dd MMM, yyyy"),
-  };
-};
-
-/**
- * Wrapper for the date-fns format function
- *     (See: https://date-fns.org/v2.16.1/docs/format#arguments)
- * @param {Date|string} date A valid Date string recognized by Date.parse
- *     or Date to be formatted
- * @param {string} the string of tokens
- * @param {Object|undefined} an object with options
- * @return {string} the formatted date string
- */
 export const format = (date, format, options) => {
   return dateFnsFormat(new Date(date), format, options);
 };
