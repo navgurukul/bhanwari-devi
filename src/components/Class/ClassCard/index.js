@@ -146,14 +146,14 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     axios
       .post(
-        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
+        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
         {},
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            "register-all": indicator,
+            // "register-all": indicator,
           },
         }
       )
@@ -189,12 +189,12 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     return axios({
       method: METHODS.DELETE,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "unregister-all": indicator,
+        // "unregister-all": indicator,
       },
     }).then((res) => {
       console.log("res", res);
@@ -215,7 +215,9 @@ function ClassCard({ item, editClass }) {
       cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
       expiredText: "joinNow",
     };
-    const [Timer, setTimer] = useState(timeLeftFormat(item.start_time, timeLeftOptions));
+    const [Timer, setTimer] = useState(
+      timeLeftFormat(item.start_time, timeLeftOptions)
+    );
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
       setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
