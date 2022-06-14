@@ -60,11 +60,21 @@ function AttendClass({
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  const possibleClasses = data?.slice(0, numOfClassesToShow) || [];
+  const pathwayId = JSON.parse(
+    localStorage.getItem("volunteer_automation--state")
+  )?.pathwayId;
+
+  const classData = data?.filter((item) => item.pathway_v2 == pathwayId) || [];
+
+  const possibleClasses =
+    classData.length === 0
+      ? data?.slice(0, numOfClassesToShow) || []
+      : classData.length >= numOfClassesToShow
+      ? classData?.slice(0, numOfClassesToShow)
+      : classData;
 
   const enrolledClass =
     !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
-  //&& new Date() < new Date(item.start_time)); // didn't already start
 
   const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
 

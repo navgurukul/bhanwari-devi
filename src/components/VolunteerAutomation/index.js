@@ -104,13 +104,22 @@ function VolunteerAutomation() {
         </Grid>
       </Grid>
 
-      <Typography sx={{ mt: 5 }} variant="h5" align="center" gutterBottom>
+      <Typography
+        sx={{ mt: 5, mb: { xs: "16px", md: "32px" } }}
+        variant="h5"
+        align="center"
+        gutterBottom
+      >
         Areas to Volunteer In
       </Typography>
 
-      <Grid sx={{ mt: 1, mb: 14 }} container spacing={4}>
+      <Grid sx={{ mb: 14 }} container spacing={4}>
         <Grid item xs={12} ms={6} md={6}>
-          <Card elevation={4} className={classes.volunteerCard}>
+          <Card
+            elevation={4}
+            className={classes.volunteerCard}
+            // sx={{ p: "16px" }}
+          >
             <Box>
               <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
