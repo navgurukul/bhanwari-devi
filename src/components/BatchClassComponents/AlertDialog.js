@@ -87,41 +87,26 @@ export default function AlertDialog(props) {
         close();
       });
   };
+  const dialougContentMap = {
+    batch: [
+      "Awesome! You have taken the first step to being a programmer",
+      "Batch: " + title,
+    ],
+    DoubtClass: ["Doubt Class", "Class : " + title],
+    RevisionClass: ["Revision Class", "From: " + title],
+  };
   return (
     <div>
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
-          {type == "batch" ? (
-            <>
-              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
-                Awesome! You have taken the first step to being a programmer
-              </Typography>
-              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
-                Batch:{title}
-              </Typography>
-            </>
-          ) : type == "DoubtClass" ? (
-            <>
-              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
-                Doubt Class
-              </Typography>
-              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
-                Class : {title}
-              </Typography>
-            </>
-          ) : type == "RevisionClass" ? (
-            <>
-              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
-                Revision Class
-              </Typography>
-              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
-                From:{title}
-              </Typography>
-            </>
-          ) : (
-            ""
-          )}
-
+          <>
+            <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
+              {dialougContentMap[type][0]}
+            </Typography>
+            <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
+              {dialougContentMap[type][1]}
+            </Typography>
+          </>
           <Typography
             variant="body1"
             mb={1}

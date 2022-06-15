@@ -19,8 +19,6 @@ import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 const PathwayCards = (props) => {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   // const language = {
   //   hi: "Hindi",
   //   en: "English",
@@ -46,7 +44,7 @@ const PathwayCards = (props) => {
         console.log(
           res.data.course.exercises.forEach((ex, index) => {
             if (ex.id === item.exercise_id) {
-              setClassIndex(index);
+              setClassIndex(index + 1);
               return;
             }
           })
