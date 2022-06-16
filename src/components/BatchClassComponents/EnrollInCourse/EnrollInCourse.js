@@ -23,6 +23,7 @@ const CourseEnroll = (props) => {
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
+  const { reloadContent } = props;
   const data = upcomingBatchesData?.slice(0, 3).map((item) => {
     return {
       id: item.id,
@@ -112,6 +113,7 @@ const CourseEnroll = (props) => {
                   close={close}
                   registerAll={true}
                   type="batch"
+                  reloadContent={reloadContent}
                 />
               </CardContent>
             </Card>

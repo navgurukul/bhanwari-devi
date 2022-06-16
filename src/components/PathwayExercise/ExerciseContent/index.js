@@ -294,7 +294,14 @@ function ExerciseContent({ exerciseId, lang }) {
       })
     );
   }, [courseId, exerciseId, lang]);
-
+  const reloadContent = () => {
+    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
+      setCourse(res.data.course.name);
+      setExercise(res.data.course.exercises[exerciseId]);
+      setContent(res.data.course.exercises[exerciseId]?.content);
+      setCourseData(res.data.course.exercises[exerciseId]);
+    });
+  };
   // const {
   //   courseContent: { loading, data },
   //   selectedExercise,
@@ -374,7 +381,7 @@ function ExerciseContent({ exerciseId, lang }) {
                     meet_link={courseData.meet_link}
                   />
                 ) : (
-                  <CourseEnroll />
+                  <CourseEnroll reloadContent={reloadContent} />
                 )}
               </>
             )}

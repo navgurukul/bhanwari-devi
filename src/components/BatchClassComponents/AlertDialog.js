@@ -31,6 +31,7 @@ export default function AlertDialog(props) {
     exerciseReload,
     setIsEnrolled,
     type,
+    reloadContent,
   } = props;
   console.log("props", props);
   const user = useSelector(({ User }) => User);
@@ -77,6 +78,7 @@ export default function AlertDialog(props) {
         } else if (setIsEnrolled) {
           setIsEnrolled(true);
         }
+        reloadContent && reloadContent();
       })
       .catch((err) => {
         setLoading(false);
