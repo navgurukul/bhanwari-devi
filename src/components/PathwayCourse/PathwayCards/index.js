@@ -19,8 +19,6 @@ import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 const PathwayCards = (props) => {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   // const language = {
   //   hi: "Hindi",
   //   en: "English",
@@ -46,7 +44,7 @@ const PathwayCards = (props) => {
         console.log(
           res.data.course.exercises.forEach((ex, index) => {
             if (ex.id === item.exercise_id) {
-              setClassIndex(index);
+              setClassIndex(index + 1);
               return;
             }
           })
@@ -91,10 +89,10 @@ const PathwayCards = (props) => {
                           borderRadius: { xs: 25, sm: 15 },
                           height: { xs: 34, sm: 25 },
                           // fontSize: "11px",
-                          backgroundColor: "#E9F5E9",
-                          color: "green",
+                          backgroundColor: "primary.light",
+                          color: "primary.dark",
                           "&:hover": {
-                            backgroundColor: "#E9F5E9",
+                            backgroundColor: "primary.light",
                           },
                         }
                       : {

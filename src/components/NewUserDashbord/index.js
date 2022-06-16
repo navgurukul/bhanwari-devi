@@ -80,7 +80,7 @@ const NewUserDashbord = () => {
     data.pathways.forEach((pathway) => {
       pathwayData.forEach((item) => {
         if (pathway.code === item.code) {
-          item["id"] = pathway.id;
+          item.id = pathway.id;
         }
       });
     });
