@@ -89,10 +89,10 @@ const PathwayCards = (props) => {
                           borderRadius: { xs: 25, sm: 15 },
                           height: { xs: 34, sm: 25 },
                           // fontSize: "11px",
-                          backgroundColor: "#E9F5E9",
-                          color: "green",
+                          backgroundColor: "primary.light",
+                          color: "primary.dark",
                           "&:hover": {
-                            backgroundColor: "#E9F5E9",
+                            backgroundColor: "primary.light",
                           },
                         }
                       : {

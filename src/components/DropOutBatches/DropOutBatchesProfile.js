@@ -1,4 +1,4 @@
-import { Button, Typography, Grid } from "@mui/material";
+import { Chip, Typography, Grid } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -19,13 +19,12 @@ function DropOutIndividualComponent(props) {
             <Typography variant="subtitle1" color="black">
               {title}
             </Typography>
-            <Button
+            <Chip
               variant="outlined"
+              label={pathway_name}
               color="primary"
               style={{ margin: "10px 2px", borderRadius: 90, height: 30 }}
-            >
-              <Typography variant="body2">{pathway_name}</Typography>
-            </Button>
+            />
           </div>
         </Grid>
         <Grid item>
