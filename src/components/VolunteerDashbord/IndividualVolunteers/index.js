@@ -130,8 +130,7 @@ function VolunteerOverview(props) {
           Total Classes: {volunteerClassData.classes.length}
         </Typography>
         <Typography mb={3}>
-          Associated Partner:{" "}
-          {volunteerClassData.partner ? volunteerClassData.partner : "NA"}
+          Associated Partner: {volunteerClassData.partner || "NA"}
         </Typography>
         <TextField
           InputProps={{

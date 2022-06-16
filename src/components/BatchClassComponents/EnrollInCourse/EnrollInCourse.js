@@ -31,7 +31,7 @@ const CourseEnroll = (props) => {
       endTime: item.end_time,
     };
   });
-  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(null);
+  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
   useEffect(() => {
     console.log(selectedBatchToEnroll);
   }, [selectedBatchToEnroll]);
@@ -78,6 +78,7 @@ const CourseEnroll = (props) => {
                               onClick={() => {
                                 setSelectedBatchToEnroll(item);
                               }}
+                              key={item.id}
                               sx={{ fontWeight: 20 }}
                               value={item.id}
                               control={<Radio />}
@@ -100,7 +101,7 @@ const CourseEnroll = (props) => {
                     setOpen(true);
                   }}
                 >
-                  Enroll in {selectedBatchToEnroll?.title}
+                  Enroll
                 </Button>
                 <AlertDialog
                   open={open}

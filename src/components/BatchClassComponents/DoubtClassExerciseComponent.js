@@ -266,13 +266,16 @@ const DoubtClassExerciseComponent = (props) => {
           </Button>
         </div>
       </Box>
-      <MoreDetails
+      {/* <MoreDetails
         open={open}
         setOpen={setOpen}
         actions={actions}
         value={value}
         isEnrolled={isEnrolled}
         setIsEnrolled={setIsEnrolled}
+      /> */}
+      <MoreDetails
+        {...{ open, setOpen, actions, value, isEnrolled, setIsEnrolled }}
       />
     </>
   ) : (

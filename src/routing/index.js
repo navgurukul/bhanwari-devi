@@ -73,18 +73,18 @@ const Routing = () => {
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
       <PrivateRoute
         exact
-        path={PATHS.NEWUSER_DASHBOARED}
+        path={PATHS.NEW_USER_DASHBOARD}
         component={NewUserDashbord}
       />
       {/* <Route
         exact
-        path={PATHS.PYTHONCOURSE}
+        path={PATHS.PYTHON_COURSE}
         component={PythonCourse}
       /> */}
 
       <Route
         exact
-        path={PATHS.RETURNINGUSERPAGE}
+        path={PATHS.RETURNING_USER_PAGE}
         component={ReturningUserPage}
       />
 
