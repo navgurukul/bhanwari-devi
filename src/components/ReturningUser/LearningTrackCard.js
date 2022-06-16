@@ -64,7 +64,7 @@ function LearningTrackCard(props) {
           history.push(
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
               courseId: item.course_id,
-              exerciseId: item.course_index,
+              exerciseId: item.course_index - 1,
               pathwayId: item.pathway_id,
             })
           );

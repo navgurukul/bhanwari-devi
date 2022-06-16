@@ -27,6 +27,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import languageMap from "../../pages/CourseContent/languageMap";
+import CourseCompletionPage from "./CourseCompletion/CourseCompletionPage";
 
 const Exercise = ({
   course,
@@ -73,8 +74,20 @@ function ExerciseImage({
   const classes = useStyles();
 
   const contentTypeMap = {
-    assessment: selected ? "assessmentSelected" : "assessment",
-    class_topic: selected ? "classTypeSelected" : "classtype",
+    assessment: selected
+      ? index <= progressTrackId
+        ? "contentTypeRevist"
+        : "assessmentSelected"
+      : index <= progressTrackId
+      ? "assessmentCompleted"
+      : "assessment",
+    class_topic: selected
+      ? index <= progressTrackId
+        ? "contentTypeRevist"
+        : "classTypeSelected"
+      : index <= progressTrackId
+      ? "classTypeCompleted"
+      : "classtype",
     exercise: selected
       ? index <= progressTrackId
         ? "contentTypeRevist"
@@ -138,6 +151,8 @@ function PathwayExercise() {
   const courseLength = course && course.length ? course.length : 0;
   const [availableLang, setAvailableLang] = useState(["en"]);
   const [progressTrackId, setProgressTrackId] = useState(-1);
+  const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
+    useState(false);
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -211,6 +226,7 @@ function PathwayExercise() {
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
+      setSuccessfulExerciseCompletion(false);
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -249,6 +265,28 @@ function PathwayExercise() {
         });
       }
       setExerciseId(exerciseId + 1);
+    } else {
+      if (parseInt(params.exerciseId) >= progressTrackId) {
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            course_index: parseInt(params.exerciseId) + 1,
+          },
+        })
+          .then((res) => {
+            setExerciseId(exerciseId + 1);
+            setSuccessfulExerciseCompletion(true);
+          })
+          .catch((err) => {});
+      }
     }
   };
 
@@ -401,7 +439,11 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      <ExerciseContent exerciseId={exerciseId} lang={language} />
+      {successfulExerciseCompletion ? (
+        <CourseCompletionPage />
+      ) : (
+        <ExerciseContent exerciseId={exerciseId} lang={language} />
+      )}
       <Box>
         <Toolbar
           style={{
@@ -429,10 +471,10 @@ function PathwayExercise() {
           </Button>
           <Button
             style={{
-              opacity: `${exerciseId < courseLength - 1 ? 1 : 0}`,
+              opacity: `${exerciseId < courseLength ? 1 : 0}`,
             }}
             endIcon={<ArrowForwardIosIcon />}
-            disabled={!(exerciseId < courseLength - 1)}
+            disabled={!(exerciseId < courseLength)}
             variant="text"
             color="primary"
             onClick={nextClickHandler}
