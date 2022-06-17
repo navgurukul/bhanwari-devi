@@ -51,7 +51,7 @@ function ClassCard({ item, editClass }) {
     ta: "Tamil",
     // doubt_class: "Doubt Class",
     // workshop: "Workshop",
-    cohort: "Batch",
+    // cohort: "Batch",
   };
 
   const handleOpenUserMenu = (event) => {
@@ -254,7 +254,8 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {languageMap[item.type]}
+          {/* {languageMap[item.type]} */}
+          Batch
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
@@ -370,7 +371,7 @@ function ClassCard({ item, editClass }) {
         {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -380,7 +381,7 @@ function ClassCard({ item, editClass }) {
                     setDeleteCohort(true);
                   }}
                 />
-                Delete all classes of this cohort?
+                Delete all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -401,7 +402,7 @@ function ClassCard({ item, editClass }) {
         {editShowModal ? (
           <Modal onClose={handleCloseEdit} className="confirmation-massage">
             <h2>Do you want to edit this class?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -411,7 +412,7 @@ function ClassCard({ item, editClass }) {
                     setIndicator(true);
                   }}
                 />
-                Edit all classes of this cohort?
+                Edit all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -435,7 +436,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2>Are you sure you want to enroll?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -445,7 +446,7 @@ function ClassCard({ item, editClass }) {
                     setIndicator(true);
                   }}
                 />
-                Enroll all classes of this cohort?
+                Enroll all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -469,7 +470,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2> Are you sure you want to drop out</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -479,7 +480,7 @@ function ClassCard({ item, editClass }) {
                     setIndicator(true);
                   }}
                 />
-                Drop all classes of this cohort?
+                Drop all classes of this Batch?
               </label>
             )}
             <div className="wrap">
