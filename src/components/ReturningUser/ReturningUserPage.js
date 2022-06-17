@@ -11,116 +11,52 @@ import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
-import { useHistory } from "react-router-dom";
-import { interpolatePath, PATHS } from "../../constant";
-
-const CardData = [
-  {
-    image: "python",
-    course_Name: "Python",
-    NoOfCourse: "8",
-    NoOfTopic: "1",
-    TopicName: "Introduction To Python",
-  },
-  // {
-  //   image: "typeicon",
-  //   course_Name: "Typing Guru",
-  //   NoOfCourse: "5",
-  //   NoOfTopic: "1",
-  //   TopicName: "Home Row",
-  // },
-  // {
-  //   image: "jsicon",
-  //   course_Name: "Javascript",
-  //   NoOfCourse: "8",
-  //   NoOfTopic: "2",
-  //   TopicName: "JS Variable",
-  // },
-];
+import { useHistory, useParams } from "react-router-dom";
+import { interpolatePath, PATHS, versionCode } from "../../constant";
+import LearningTrackCard from "./LearningTrackCard";
+import axios from "axios";
+import { METHODS } from "../../services/api";
+import { useSelector } from "react-redux";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const history = useHistory();
+  const params = useParams();
+  const user = useSelector(({ User }) => User);
+  const [learningTracks, setLearningTracks] = useState([
+    {
+      image: "python",
+      course_Name: "Python",
+      NoOfCourse: "8",
+      NoOfTopic: "1",
+      TopicName: "Introduction To Python",
+    },
+  ]);
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user?.data?.token || "",
+      },
+    }).then((res) => {
+      const data = res.data.data;
+      setLearningTracks(data);
+    });
+  }, []);
+
   return (
     <>
       <Container maxWidth="lg" mt={2}>
         <Typography variant="h5" mb={3}>
           My Learning Tracks
         </Typography>
-        <Grid container spacing={2} align="center">
-          {CardData.map((item) => (
-            <Grid
-              onClick={() => {
-                history.push(
-                  interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: 1 })
-                );
-              }}
-              xs={4}
-            >
-              <Box align="right" mt={1} maxWidth={350} mb={10}>
-                <Card elevation={2} pl={10}>
-                  <CardContent>
-                    <Grid container>
-                      <Grid item xs={2}>
-                        <img
-                          align="left"
-                          src={require("./assets/" + item.image + ".svg")}
-                          alt="Students Img"
-                        />
-                      </Grid>
-                      <Grid item xs={4} mr={1}>
-                        <Typography gutterBottom variant="subtitle1" pt={1}>
-                          {item.course_Name}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Typography
-                          variant="body1"
-                          mb={1}
-                          color="text.secondary"
-                          style={{
-                            align: "right",
-                            display: "flex",
-                            padding: "10px 0",
-                          }}
-                        >
-                          <img
-                            src={require("./assets/Ellipse.svg")}
-                            alt="Students Img"
-                            style={{ marginRight: "12px" }}
-                          />
-                          {item.NoOfCourse} Courses
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <Typography
-                      variant="body1"
-                      mb={1}
-                      style={{
-                        display: "flex",
-                      }}
-                    >
-                      Ongoing Course
-                    </Typography>
-                    <Typography
-                      style={{ display: "flex" }}
-                      mt={2}
-                      variant="body1"
-                    >
-                      <Typography
-                        mr="10px"
-                        variant="body2"
-                        className={classes.courseNumber}
-                      >
-                        {item.NoOfTopic}
-                      </Typography>
-                      {item.TopicName}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            </Grid>
+        <Grid container spacing={1}>
+          {learningTracks.map((item) => (
+            <LearningTrackCard item={item} />
           ))}
         </Grid>
         {/* <Typography variant="h5">My Open Courses</Typography>

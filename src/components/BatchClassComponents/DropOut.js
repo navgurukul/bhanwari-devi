@@ -13,7 +13,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { dateTimeFormat } from "../../constant";
+import { format } from "../../common/date";
 
 export default function DropOut(props) {
   // const [openDialog, setOpenDialog] = React.useState(false);
@@ -78,7 +78,7 @@ export default function DropOut(props) {
           >
             {loading ? <CircularProgress color="secondary" /> : "Drop Out"}
           </Button>
-          <Button onClick={close} color="primary">
+          <Button onClick={close} sx={{ color: "black" }}>
             Stay Enrolled
           </Button>
         </DialogActions>

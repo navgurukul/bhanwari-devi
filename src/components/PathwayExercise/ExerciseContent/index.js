@@ -27,7 +27,7 @@ import {
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
-import { dateTimeFormat, TimeLeft, versionCode } from "../../../constant";
+import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
 import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
@@ -87,18 +87,24 @@ const headingVarients = {};
 );
 const RenderDoubtClass = ({ data, exercise }) => {
   const classes = useStyles();
-  if (data.component === "banner") {
+  if (data?.component === "banner") {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
+    const { start_time, end_time } = actions;
     return (
       <div>
-        <DoubtClassExerciseComponent value={value} actions={actions} />
-        <div
-          style={{
-            borderBottom: "1px solid #BDBDBD",
-            margin: "40px 0px",
-          }}
-        ></div>
+        {start_time && end_time && (
+          <>
+            <DoubtClassExerciseComponent value={value} actions={actions} />
+
+            <div
+              style={{
+                borderBottom: "1px solid #BDBDBD",
+                margin: "40px 0px",
+              }}
+            ></div>
+          </>
+        )}
       </div>
     );
   }
@@ -288,7 +294,14 @@ function ExerciseContent({ exerciseId, lang }) {
       })
     );
   }, [courseId, exerciseId, lang]);
-
+  const reloadContent = () => {
+    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
+      setCourse(res.data.course.name);
+      setExercise(res.data.course.exercises[exerciseId]);
+      setContent(res.data.course.exercises[exerciseId]?.content);
+      setCourseData(res.data.course.exercises[exerciseId]);
+    });
+  };
   // const {
   //   courseContent: { loading, data },
   //   selectedExercise,
@@ -368,7 +381,7 @@ function ExerciseContent({ exerciseId, lang }) {
                     meet_link={courseData.meet_link}
                   />
                 ) : (
-                  <CourseEnroll />
+                  <CourseEnroll reloadContent={reloadContent} />
                 )}
               </>
             )}

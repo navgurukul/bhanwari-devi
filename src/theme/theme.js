@@ -2,6 +2,7 @@ import { createTheme } from "@mui/material/styles";
 import { breakpoints } from "./constant";
 
 let theme = createTheme();
+
 const shadows = theme.shadows;
 shadows[2] =
   "0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04), 0px 1px 5px rgba(0, 0, 0, 0.08)";
@@ -59,6 +60,11 @@ theme = createTheme(theme, {
       light: "#e9f5e9",
       dark: "#3a8137",
     },
+
+    Greey: {
+      main: "rgba(0, 0, 0, 0.12)",
+    },
+
     text: {
       primary: "#2e2e2e",
       secondary: "#585858",

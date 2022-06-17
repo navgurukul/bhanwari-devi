@@ -130,8 +130,7 @@ function VolunteerOverview(props) {
           Total Classes: {volunteerClassData.classes.length}
         </Typography>
         <Typography mb={3}>
-          Associated Partner:{" "}
-          {volunteerClassData.partner ? volunteerClassData.partner : "NA"}
+          Associated Partner: {volunteerClassData.partner || "NA"}
         </Typography>
         <TextField
           InputProps={{
@@ -209,7 +208,8 @@ function VolunteerOverview(props) {
                           .format("kk:mm")}
                       </TableCell>
                       <TableCell>
-                        {item.max_enrollment ? item.max_enrollment : "NA"}
+                        {/* {item.max_enrollment ? item.max_enrollment : "NA"} */}
+                        {item.max_enrollment || "NA"}
                       </TableCell>
                       <TableCell> {languageMap[item.lang]} </TableCell>
                       <TableCell>

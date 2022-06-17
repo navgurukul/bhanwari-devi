@@ -27,6 +27,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import languageMap from "../../pages/CourseContent/languageMap";
+import CourseCompletionPage from "./CourseCompletion/CourseCompletionPage";
 
 const Exercise = ({
   course,
@@ -35,6 +36,7 @@ const Exercise = ({
   classes,
   history,
   params,
+  progressTrackId,
 }) => {
   const start = exerciseId > 6 ? exerciseId - 6 : 0;
   const courseLength =
@@ -53,6 +55,7 @@ const Exercise = ({
             exerciseId={exerciseId}
             setExerciseId={setExerciseId}
             classes={classes}
+            progressTrackId={progressTrackId}
           />
         );
       })}
@@ -66,12 +69,32 @@ function ExerciseImage({
   setExerciseId,
   onClick,
   index,
+  progressTrackId,
 }) {
   const classes = useStyles();
+
   const contentTypeMap = {
-    assessment: selected ? "assessmentSelected" : "assessment",
-    class_topic: selected ? "classTypeSelected" : "classtype",
-    exercise: selected ? "contentTypeSelected" : "contenttype",
+    assessment: selected
+      ? index <= progressTrackId
+        ? "contentTypeRevist"
+        : "assessmentSelected"
+      : index <= progressTrackId
+      ? "assessmentCompleted"
+      : "assessment",
+    class_topic: selected
+      ? index <= progressTrackId
+        ? "contentTypeRevist"
+        : "classTypeSelected"
+      : index <= progressTrackId
+      ? "classTypeCompleted"
+      : "classtype",
+    exercise: selected
+      ? index <= progressTrackId
+        ? "contentTypeRevist"
+        : "contentTypeSelected"
+      : index <= progressTrackId
+      ? "ContentTypeCompleted"
+      : "contenttype",
   };
   return (
     <img
@@ -93,6 +116,7 @@ function NavigationComponent({
   history,
   params,
   exercise,
+  progressTrackId,
 }) {
   return (
     <>
@@ -110,6 +134,7 @@ function NavigationComponent({
         selected={exerciseId == index}
         contentType={exercise.content_type}
         setExerciseId={setExerciseId}
+        progressTrackId={progressTrackId}
       />
     </>
   );
@@ -125,7 +150,9 @@ function PathwayExercise() {
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
   const [availableLang, setAvailableLang] = useState(["en"]);
-
+  const [progressTrackId, setProgressTrackId] = useState(-1);
+  const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
+    useState(false);
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -146,11 +173,37 @@ function PathwayExercise() {
         console.log("error");
       });
   }, []);
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+    }).then((res) => {
+      const data = res.data.data;
+      const filteredData = data.filter((item) => {
+        if (
+          params.pathwayId == item.pathway_id &&
+          params.courseId == item.course_id
+        ) {
+          return item;
+        }
+      });
+
+      setProgressTrackId(
+        filteredData[0] ? filteredData[0]?.course_index - 1 : -1
+      );
+    });
+  }, [exerciseId]);
 
   const LangDropDown = () => {
-    return availableLang?.length === 1 ? (
-      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
-    ) : (
+    // return availableLang?.length === 1 ? (
+    //   <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
+    // ) : (
+    return (
       <Select
         disableUnderline
         value={language}
@@ -173,6 +226,7 @@ function PathwayExercise() {
 
   const previousClickHandler = () => {
     if (exerciseId > 0) {
+      setSuccessfulExerciseCompletion(false);
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -193,8 +247,46 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-
+      console.log(progressTrackId);
+      if (parseInt(params.exerciseId) >= progressTrackId) {
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            course_index: parseInt(params.exerciseId) + 1,
+          },
+        });
+      }
       setExerciseId(exerciseId + 1);
+    } else {
+      if (parseInt(params.exerciseId) >= progressTrackId) {
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            course_index: parseInt(params.exerciseId) + 1,
+          },
+        })
+          .then((res) => {
+            setExerciseId(exerciseId + 1);
+            setSuccessfulExerciseCompletion(true);
+          })
+          .catch((err) => {});
+      }
     }
   };
 
@@ -266,6 +358,7 @@ function PathwayExercise() {
                       exerciseId={exerciseId + 1}
                       setExerciseId={setExerciseId}
                       classes={classes}
+                      progressTrackId={progressTrackId}
                     />
                   )}
                   <Exercise
@@ -275,6 +368,7 @@ function PathwayExercise() {
                     exerciseId={exerciseId}
                     setExerciseId={setExerciseId}
                     classes={classes}
+                    progressTrackId={progressTrackId}
                   />
                 </div>
 
@@ -334,6 +428,7 @@ function PathwayExercise() {
                             contentType={exercise.content_type}
                             index={index}
                             setExerciseId={setExerciseId}
+                            progressTrackId={progressTrackId}
                           />
                         </Link>
                       </>
@@ -344,7 +439,11 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      <ExerciseContent exerciseId={exerciseId} lang={language} />
+      {successfulExerciseCompletion ? (
+        <CourseCompletionPage />
+      ) : (
+        <ExerciseContent exerciseId={exerciseId} lang={language} />
+      )}
       <Box>
         <Toolbar
           style={{
@@ -372,10 +471,10 @@ function PathwayExercise() {
           </Button>
           <Button
             style={{
-              opacity: `${exerciseId < courseLength - 1 ? 1 : 0}`,
+              opacity: `${exerciseId < courseLength ? 1 : 0}`,
             }}
             endIcon={<ArrowForwardIosIcon />}
-            disabled={!(exerciseId < courseLength - 1)}
+            disabled={!(exerciseId < courseLength)}
             variant="text"
             color="primary"
             onClick={nextClickHandler}

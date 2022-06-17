@@ -28,6 +28,7 @@ import {
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
+import { height } from "@mui/system";
 
 const pathways = [
   {
@@ -153,9 +154,33 @@ function PathwayCourse() {
   }, [upcomingBatchesData, userEnrolledClasses]);
   return (
     <>
+      {enrolledBatches ? (
+        <>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              justifyContent: "center",
+              height: "40px",
+              display: "flex",
+              alignItems: "center",
+            }}
+            bgcolor="#E9F5E9"
+          >
+            {enrolledBatches[0]?.title}
+          </Typography>
+        </>
+      ) : (
+        ""
+      )}
+
       <Container className={classes.pathwayContainer} maxWidth="lg">
         {enrolledBatches ? (
-          <PathwayCards userEnrolledClasses={userEnrolledClasses} />
+          <>
+            <PathwayCards
+              userEnrolledClasses={userEnrolledClasses}
+              data={data}
+            />
+          </>
         ) : (
           pathwayId &&
           pathwayCourseData && (
@@ -189,7 +214,9 @@ function PathwayCourse() {
                     <Typography variant="body1">
                       {pathwayCourseData.description}
                     </Typography>
-                    {!user?.data?.token ? (
+                    {!user?.data?.token &&
+                    (pathwayCourseData.code == "PRGPYT" ||
+                      pathwayCourseData.code == "SPKENG") ? (
                       <>
                         <Typography
                           variant="body1"
@@ -211,7 +238,7 @@ function PathwayCourse() {
                             history.push(PATHS.LOGIN);
                           }}
                         >
-                          Log In To Enroll
+                          Login
                         </Button>
                       </>
                     ) : (
@@ -219,14 +246,17 @@ function PathwayCourse() {
                     )}
                   </Card>
                 </Grid>
-
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                   {upcomingBatchesData ? (
                     <PathwayCourseBatchEnroll1
                       upcomingBatchesData={upcomingBatchesData}
                     />
-                  ) : (
+                  ) : user?.data?.token &&
+                    (pathwayCourseData.code == "PRGPYT" ||
+                      pathwayCourseData.code == "SPKENG") ? (
                     <NoBatchEnroll />
+                  ) : (
+                    ""
                   )}
                 </Grid>
                 {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
@@ -242,7 +272,7 @@ function PathwayCourse() {
               </Grid>
               <Box className={classes.Box1}>
                 <Typography
-                  variant="h5"
+                  variant="h6"
                   sx={{ textAlign: isActive && "center" }}
                 >
                   Learning Outcomes
@@ -269,7 +299,8 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            variant="h5"
+            ml={3}
+            variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >
             Courses
@@ -332,6 +363,9 @@ function PathwayCourse() {
                 src={require("./asset/Layer_1.svg")}
                 alt="certificate icon"
               />
+              <Typography mb={2}>
+                {pathwayCourseData?.pathway} Certificate
+              </Typography>
             </Grid>
           </Grid>
           {!user?.data?.token ? (
@@ -364,7 +398,7 @@ function PathwayCourse() {
                     history.push(PATHS.LOGIN);
                   }}
                 >
-                  Log In To Enroll
+                  Login
                 </Button>
               </Box>
             </Container>

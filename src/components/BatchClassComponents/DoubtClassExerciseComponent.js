@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Typography, Card, CardContent } from "@mui/material";
+import { Typography, Card, CardContent, Chip } from "@mui/material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "./styles";
@@ -9,7 +9,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-import { dateTimeFormat, lang, TimeLeft } from "../../constant";
+import { lang, TimeLeft } from "../../constant";
+import { format } from "../../common/date";
 import AlertDialog from "./AlertDialog";
 import DropOut from "./DropOut";
 
@@ -70,7 +71,8 @@ export const MoreDetails = (props) => {
               {actions?.title}
             </Typography>
             <Box mb={3}>
-              <Button
+              <Chip
+                label="Doubt Class"
                 variant="outlined"
                 color="secondary"
                 style={{
@@ -78,16 +80,14 @@ export const MoreDetails = (props) => {
                   height: 30,
                   backgroundColor: "#DADAEC",
                 }}
-              >
-                <Typography variant="body2">Doubt Class</Typography>
-              </Button>
-              <Button
+              />
+
+              <Chip
+                label={lang[actions?.lang]}
                 variant="outlined"
                 color="secondary"
                 style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
-              >
-                <Typography variant="body2">{lang[actions?.lang]}</Typography>
-              </Button>
+              />
             </Box>
             <Typography variant="body1">
               Clear your doubts related to the first class of Python and other
@@ -107,16 +107,13 @@ export const MoreDetails = (props) => {
                 alt="Students Img"
               />
               {actions?.start_time
-                ? dateTimeFormat(actions?.start_time).finalDate
+                ? format(actions?.start_time, "dd MMM yy")
                 : ""}
               ,
               {actions?.start_time
-                ? dateTimeFormat(actions?.start_time).finalTime
+                ? format(actions?.start_time, "hh:mm aaa")
                 : ""}{" "}
-              -
-              {actions?.end_time
-                ? dateTimeFormat(actions?.end_time).finalTime
-                : ""}
+              -{actions?.end_time ? format(actions?.end_time, "hh:mm aaa") : ""}
             </Typography>
             <Typography
               variant="body1"
@@ -207,6 +204,7 @@ export const MoreDetails = (props) => {
         id={actions?.id}
         exerciseReload={true}
         setIsEnrolled={setIsEnrolled}
+        type="DoubtClass"
       />
     </div>
   );
@@ -217,12 +215,15 @@ const DoubtClassExerciseComponent = (props) => {
   const classes = useStyles();
   const { actions, value } = props;
   const [open, setOpen] = useState(false);
-  const start_time = dateTimeFormat(actions?.start_time);
-  const end_time = dateTimeFormat(actions?.end_time);
   const [isEnrolled, setIsEnrolled] = useState(actions?.is_enrolled);
   return !isEnrolled ? (
     <>
-      <Box backgroundColor="primary.light" p={2} mt={2}>
+      <Box
+        backgroundColor="primary.light"
+        p={2}
+        mt={2}
+        sx={{ borderRadius: "20px" }}
+      >
         <Typography
           variant="body1"
           mb={1}
@@ -238,8 +239,9 @@ const DoubtClassExerciseComponent = (props) => {
             alt="Students Img"
           />
           Need help? We got you covered. Enroll in the doubt class on{" "}
-          {start_time.finalDate}
-          at {start_time.finalTime} - {end_time.finalTime}
+          {format(actions?.start_time, "dd MMM yy")}
+          at {format(actions?.start_time, "hh:mm aaa")} -{" "}
+          {format(actions?.end_time, "hh:mm aaa")}
         </Typography>
         <div
           style={{
@@ -264,13 +266,16 @@ const DoubtClassExerciseComponent = (props) => {
           </Button>
         </div>
       </Box>
-      <MoreDetails
+      {/* <MoreDetails
         open={open}
         setOpen={setOpen}
         actions={actions}
         value={value}
         isEnrolled={isEnrolled}
         setIsEnrolled={setIsEnrolled}
+      /> */}
+      <MoreDetails
+        {...{ open, setOpen, actions, value, isEnrolled, setIsEnrolled }}
       />
     </>
   ) : (
@@ -303,8 +308,9 @@ const DoubtClassExerciseComponent = (props) => {
               src={require("./Revision/assets/calender.svg")}
               alt="Students Img"
             />
-            {start_time.finalDate}
-            at {start_time.finalTime} - {end_time.finalTime}
+            {format(actions?.start_time, "dd MMM yy")}
+            at {format(actions?.start_time, "hh:mm aaa")} -{" "}
+            {format(actions?.end_time, "hh:mm aaa")}
             <img
               className={classes.icons}
               style={{ marginLeft: "10px" }}

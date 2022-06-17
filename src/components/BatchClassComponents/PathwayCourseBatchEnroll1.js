@@ -3,7 +3,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import { Container, Grid, Typography } from "@mui/material";
-import { PATHS, interpolatePath, dateTimeFormat } from "../../constant";
+import { PATHS, interpolatePath } from "../../constant";
+import { format } from "../../common/date";
 import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./AlertDialog";
@@ -61,8 +62,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
-                From {dateTimeFormat(BatchData?.start_time).finalDate} -{" "}
-                {dateTimeFormat(BatchData?.end_time).finalDate}
+                From {format(BatchData?.start_time, "dd MMM yy")} -{" "}
+                {format(BatchData?.end_time, "dd MMM yy")}
               </Typography>
               <Typography
                 variant="body1"
@@ -89,6 +90,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 end_time={BatchData?.end_time}
                 id={BatchData?.id}
                 registerAll={true}
+                type="batch"
               />
               <Typography
                 style={{ display: "flex" }}
@@ -96,7 +98,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 align="start"
                 variant="body2"
               >
-                Can’t start on {dateTimeFormat(BatchData?.start_time).finalDate}
+                Can’t start on {format(BatchData?.start_time, "dd MMM yy")}
                 {" ? "}
                 <section
                   className={classes.link}
@@ -105,7 +107,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
                     cursor: "pointer",
                   }}
                 >
-                  Check out our other batches
+                  {"  "} &nbsp;
+                  <b>Check out our other batches</b>
                 </section>
                 <CheckMoreBatches
                   open={upcomingBatchesOpen}
