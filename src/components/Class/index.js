@@ -145,7 +145,7 @@ function Class({ classToEdit, indicator }) {
           autoClose: 2500,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -322,7 +322,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -347,39 +347,55 @@ function Class({ classToEdit, indicator }) {
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
         const weekDday = Object.values(day);
-        if (fieldName === "start_time") {
-          let incrementedDate = new Date(value);
-          let onDay = incrementedDate.toString().split(" ")[0];
-          let flag = false;
-          let firstDay = "";
-          for (let i in days) {
-            if (onDay === days[i]) {
-              flag = true;
-            }
-            if (flag) {
-              for (let j of weekDday) {
-                if (days[j] === days[i]) {
-                  firstDay = j;
-                  flag = false;
+        let type = "";
+        if (fieldName === "type") {
+          if (value === "batch") {
+            type = "batch";
+            formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
+          } else {
+            formFields[fieldName] = value;
+          }
+        } else if (fieldName === "start_time") {
+          if (type === "batch") {
+            console.log("value", value);
+            let incrementedDate = new Date(value);
+            console.log("incrementedDate", incrementedDate);
+            let onDay = incrementedDate.toString().split(" ")[0];
+            console.log("onDay", onDay);
+            let flag = false;
+            let firstDay = "";
+            for (let i in days) {
+              if (onDay === days[i]) {
+                flag = true;
+              }
+              if (flag) {
+                for (let j of weekDday) {
+                  if (days[j] === days[i]) {
+                    firstDay = j;
+                    flag = false;
+                  }
                 }
               }
             }
-          }
-          const index = weekDday.indexOf(firstDay);
-          if (days[firstDay] !== onDay) {
-            let newDate;
-            var i = 1;
-            while (i <= 7) {
-              incrementedDate = moment(incrementedDate).add(1, "days")._d;
-              let Day = incrementedDate.toString().split(" ")[0];
-              if (days[weekDday[index]] === Day) {
-                newDate = incrementedDate;
-                break;
+            const index = weekDday.indexOf(firstDay);
+            // if (fieldName === "type" && value === "batch") {
+            if (days[firstDay] !== onDay) {
+              console.log("wrong");
+              let newDate;
+              var i = 1;
+              while (i <= 7) {
+                incrementedDate = moment(incrementedDate).add(1, "days")._d;
+                let Day = incrementedDate.toString().split(" ")[0];
+                if (days[weekDday[index]] === Day) {
+                  newDate = incrementedDate;
+                  break;
+                }
+                i = i + 1;
               }
-              i = i + 1;
+              formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
             }
-            formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
           } else {
+            console.log("value 2", value);
             formFields[fieldName] = value;
           }
         } else if (fieldName === "max_enrolment") {
@@ -387,13 +403,15 @@ function Class({ classToEdit, indicator }) {
           if (value == 0) {
             delete formFields.max_enrolment;
           }
-        } else if (fieldName === "type") {
-          if (value === "batch") {
-            formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
-          } else {
-            formFields[fieldName] = value;
-          }
-        } else if (fieldName === "on_days") {
+        }
+        // else if (fieldName === "type") {
+        //   if (value === "batch") {
+        //     formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
+        //   } else {
+        //     formFields[fieldName] = value;
+        //   }
+        // }
+        else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
         }
         // if (fieldName === "pathway_id") {
@@ -406,6 +424,7 @@ function Class({ classToEdit, indicator }) {
         }
       }
     }
+    console.log("formFields", formFields);
     handleTimeValidationAndCreateClass(formFields);
   };
 

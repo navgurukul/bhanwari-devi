@@ -49,7 +49,7 @@ function ClassCard({ item, editClass }) {
     te: "Telugu",
     en: "English",
     ta: "Tamil",
-    // doubt_class: "Doubt Class",
+    doubt_class: "Doubt Class",
     // workshop: "Workshop",
     // cohort: "Batch",
   };
@@ -254,8 +254,9 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {/* {languageMap[item.type]} */}
-          Batch
+          {languageMap[item.type] == "Doubt Class"
+            ? languageMap[item.type]
+            : "Batch"}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
