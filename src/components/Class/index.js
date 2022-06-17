@@ -41,6 +41,7 @@ function Class({ classToEdit, indicator }) {
   const [pathwayCode, setPathwayCode] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
   const [day, setDay] = useState({});
+  const [classType, setClassType] = useState("batch");
   const [partnerData, setPartnerData] = useState([]);
   const [Selected_partner_id, setSelected_partner_id] = useState();
 
@@ -347,21 +348,10 @@ function Class({ classToEdit, indicator }) {
     for (let [fieldName, value] of formData.entries()) {
       if (value) {
         const weekDday = Object.values(day);
-        let type = "";
-        if (fieldName === "type") {
-          if (value === "batch") {
-            type = "batch";
-            formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
-          } else {
-            formFields[fieldName] = value;
-          }
-        } else if (fieldName === "start_time") {
-          if (type === "batch") {
-            console.log("value", value);
+        if (fieldName === "start_time") {
+          if (classType === "batch") {
             let incrementedDate = new Date(value);
-            console.log("incrementedDate", incrementedDate);
             let onDay = incrementedDate.toString().split(" ")[0];
-            console.log("onDay", onDay);
             let flag = false;
             let firstDay = "";
             for (let i in days) {
@@ -378,9 +368,7 @@ function Class({ classToEdit, indicator }) {
               }
             }
             const index = weekDday.indexOf(firstDay);
-            // if (fieldName === "type" && value === "batch") {
             if (days[firstDay] !== onDay) {
-              console.log("wrong");
               let newDate;
               var i = 1;
               while (i <= 7) {
@@ -395,7 +383,6 @@ function Class({ classToEdit, indicator }) {
               formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
             }
           } else {
-            console.log("value 2", value);
             formFields[fieldName] = value;
           }
         } else if (fieldName === "max_enrolment") {
@@ -403,15 +390,13 @@ function Class({ classToEdit, indicator }) {
           if (value == 0) {
             delete formFields.max_enrolment;
           }
-        }
-        // else if (fieldName === "type") {
-        //   if (value === "batch") {
-        //     formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
-        //   } else {
-        //     formFields[fieldName] = value;
-        //   }
-        // }
-        else if (fieldName === "on_days") {
+        } else if (fieldName === "type") {
+          if (value === "batch") {
+            formFields = { ...formFields, type: "batch", frequency: "WEEKLY" };
+          } else {
+            formFields[fieldName] = value;
+          }
+        } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
         }
         // if (fieldName === "pathway_id") {
@@ -424,7 +409,6 @@ function Class({ classToEdit, indicator }) {
         }
       }
     }
-    console.log("formFields", formFields);
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -432,10 +416,9 @@ function Class({ classToEdit, indicator }) {
     <div className="ng-create-class">
       <h2 className="title">
         {isEditMode
-          ? // `Update ${
-            //     initialFormState[TYPE] == "batch" ? "batch" : "doubt"
-            //   } class`
-            "Update a Batch"
+          ? `Update ${
+              initialFormState[TYPE] == "batch" ? "batch" : "doubt"
+            } class`
           : "Create a Batch"}
       </h2>
       <Form
@@ -477,6 +460,7 @@ function Class({ classToEdit, indicator }) {
                     className="radio-field"
                     name={TYPE}
                     onChange={(e) => {
+                      setClassType("batch");
                       setFormField("batch", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
@@ -500,6 +484,7 @@ function Class({ classToEdit, indicator }) {
                     className="radio-field"
                     name={TYPE}
                     onChange={(e) => {
+                      setClassType("doubt_class");
                       setFormField("doubt_class", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
