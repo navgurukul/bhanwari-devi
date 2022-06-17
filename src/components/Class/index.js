@@ -406,6 +406,7 @@ function Class({ classToEdit, indicator }) {
         }
       }
     }
+    console.log("formFields", formFields);
     handleTimeValidationAndCreateClass(formFields);
   };
 
@@ -413,10 +414,11 @@ function Class({ classToEdit, indicator }) {
     <div className="ng-create-class">
       <h2 className="title">
         {isEditMode
-          ? `Update ${
-              initialFormState[TYPE] == "batch" ? "batch" : "doubt"
-            } class`
-          : "Create Cohort / Doubt Class"}
+          ? // `Update ${
+            //     initialFormState[TYPE] == "batch" ? "batch" : "doubt"
+            //   } class`
+            "Update a Batch"
+          : "Create a Batch"}
       </h2>
       <Form
         className="form"
