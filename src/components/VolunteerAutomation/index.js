@@ -29,8 +29,7 @@ function VolunteerAutomation() {
   const handleClick = () => {
     if (user && user.data && user.data.token) {
       if (rolesList.includes("volunteer")) {
-        history.push(PATHS.VOLUNTEER_FORM);
-        // return <Redirect to={PATHS.CLASS} />;
+        history.push(PATHS.CLASS);
       } else {
         return axios({
           url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,

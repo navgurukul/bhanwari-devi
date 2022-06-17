@@ -20,6 +20,7 @@ import {
   CardContent,
   CardActions,
   Checkbox,
+  TextField,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -43,7 +44,8 @@ function AttendClass({
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   // const [enrollId, setEnrollId] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState();
   const [proceed, setProceed] = useState(!!completed && enrollId == null);
   const [chooseClassAgain, setChooseClassAgain] = useState(false);
   const numOfClassesToShow = 3;
@@ -64,7 +66,11 @@ function AttendClass({
     localStorage.getItem("volunteer_automation--state")
   )?.pathwayId;
 
-  const classData = data?.filter((item) => item.pathway_v2 == pathwayId) || [];
+  const classData =
+    data?.filter((item) => {
+      console.log("item", item.start_time.includes(date));
+      return item.pathway_v2 == pathwayId && item.start_time.includes(date);
+    }) || [];
 
   const possibleClasses =
     classData.length === 0
@@ -72,6 +78,17 @@ function AttendClass({
       : classData.length >= numOfClassesToShow
       ? classData?.slice(0, numOfClassesToShow)
       : classData;
+
+  // let possibleClasses = [];
+
+  // useEffect(() => {
+  //   possibleClasses =
+  //     classData.length === 0
+  //       ? data?.slice(0, numOfClassesToShow) || []
+  //       : classData.length >= numOfClassesToShow
+  //       ? classData?.slice(0, numOfClassesToShow)
+  //       : classData;
+  // }, [date]);
 
   const enrolledClass =
     !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
@@ -139,11 +156,19 @@ function AttendClass({
     });
   };
 
+  const datePicker = (e) => {
+    const classDate = format(e.target.value, "dd MMM yy");
+    setDate(e.target.value);
+  };
+
+  console.log("date", date);
+
   const EnrolledAndTimer = ({ item }) => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
-      cutoffNumArr: [0, 0, 0, 0, 10, 0],
-      cutoffTextArr: ["", "", "", "", "joinNow", ""],
+      cutoffNumArr: [0, 0, 0, 0, 10, 60],
+      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
+      expiredText: "joinNow",
     };
     const [Timer, setTimer] = useState(
       timeLeftFormat(item.start_time, timeLeftOptions)
@@ -176,6 +201,10 @@ function AttendClass({
               Join Now
             </Button>
           </a>
+        ) : Timer == "expired" ? (
+          <Button disabled={true} variant="contained" fullWidth>
+            Expired
+          </Button>
         ) : (
           <Button disabled={true} variant="contained" fullWidth>
             Starts in {Timer}
@@ -243,11 +272,25 @@ function AttendClass({
               the class to chat with the teacher. Once, completed please return
               to complete the onboarding
             </Typography>
+            <TextField
+              sx={{ mt: 2 }}
+              type="date"
+              id="outlined-basic"
+              // label="Choose prefered date"
+              variant="outlined"
+              value={date}
+              onChange={(e) => {
+                console.log("e", e.target.value);
+                datePicker(e);
+              }}
+              // defaultValue="Hello World"
+            />
           </Container>
           <Grid sx={{ mt: 5 }} container spacing={4}>
             {sliceData &&
               sliceData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
+                  {console.log("item", item)}
                   <Card className={classes.classCard}>
                     <CardContent>
                       <Typography gutterBottom variant="subtitle1">
