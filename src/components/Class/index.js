@@ -406,7 +406,6 @@ function Class({ classToEdit, indicator }) {
         }
       }
     }
-    console.log("formFields", formFields);
     handleTimeValidationAndCreateClass(formFields);
   };
 
