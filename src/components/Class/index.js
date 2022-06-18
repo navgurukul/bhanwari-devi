@@ -41,6 +41,7 @@ function Class({ classToEdit, indicator }) {
   const [pathwayCode, setPathwayCode] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
   const [day, setDay] = useState({});
+  const [classType, setClassType] = useState("batch");
   const [partnerData, setPartnerData] = useState([]);
   const [Selected_partner_id, setSelected_partner_id] = useState();
 
@@ -348,37 +349,39 @@ function Class({ classToEdit, indicator }) {
       if (value) {
         const weekDday = Object.values(day);
         if (fieldName === "start_time") {
-          let incrementedDate = new Date(value);
-          let onDay = incrementedDate.toString().split(" ")[0];
-          let flag = false;
-          let firstDay = "";
-          for (let i in days) {
-            if (onDay === days[i]) {
-              flag = true;
-            }
-            if (flag) {
-              for (let j of weekDday) {
-                if (days[j] === days[i]) {
-                  firstDay = j;
-                  flag = false;
+          if (classType === "batch") {
+            let incrementedDate = new Date(value);
+            let onDay = incrementedDate.toString().split(" ")[0];
+            let flag = false;
+            let firstDay = "";
+            for (let i in days) {
+              if (onDay === days[i]) {
+                flag = true;
+              }
+              if (flag) {
+                for (let j of weekDday) {
+                  if (days[j] === days[i]) {
+                    firstDay = j;
+                    flag = false;
+                  }
                 }
               }
             }
-          }
-          const index = weekDday.indexOf(firstDay);
-          if (days[firstDay] !== onDay) {
-            let newDate;
-            var i = 1;
-            while (i <= 7) {
-              incrementedDate = moment(incrementedDate).add(1, "days")._d;
-              let Day = incrementedDate.toString().split(" ")[0];
-              if (days[weekDday[index]] === Day) {
-                newDate = incrementedDate;
-                break;
+            const index = weekDday.indexOf(firstDay);
+            if (days[firstDay] !== onDay) {
+              let newDate;
+              var i = 1;
+              while (i <= 7) {
+                incrementedDate = moment(incrementedDate).add(1, "days")._d;
+                let Day = incrementedDate.toString().split(" ")[0];
+                if (days[weekDday[index]] === Day) {
+                  newDate = incrementedDate;
+                  break;
+                }
+                i = i + 1;
               }
-              i = i + 1;
+              formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
             }
-            formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
           } else {
             formFields[fieldName] = value;
           }
@@ -413,10 +416,9 @@ function Class({ classToEdit, indicator }) {
     <div className="ng-create-class">
       <h2 className="title">
         {isEditMode
-          ? // `Update ${
-            //     initialFormState[TYPE] == "batch" ? "batch" : "doubt"
-            //   } class`
-            "Update a Batch"
+          ? `Update ${
+              initialFormState[TYPE] == "batch" ? "batch" : "doubt"
+            } class`
           : "Create a Batch"}
       </h2>
       <Form
@@ -458,6 +460,7 @@ function Class({ classToEdit, indicator }) {
                     className="radio-field"
                     name={TYPE}
                     onChange={(e) => {
+                      setClassType("batch");
                       setFormField("batch", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
@@ -481,6 +484,7 @@ function Class({ classToEdit, indicator }) {
                     className="radio-field"
                     name={TYPE}
                     onChange={(e) => {
+                      setClassType("doubt_class");
                       setFormField("doubt_class", TYPE);
                     }}
                     value={formFieldsState[TYPE]}
