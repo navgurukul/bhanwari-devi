@@ -27,6 +27,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import moment from "moment";
 import useStyles from "./styles";
 import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -38,6 +39,7 @@ function AttendClass({
   setStepCompleted,
   setDisable,
   completed,
+  pathwayId,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -45,7 +47,7 @@ function AttendClass({
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   // const [enrollId, setEnrollId] = useState(false);
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(moment.utc(new Date()).format("YYYY-MM-DD"));
   const [proceed, setProceed] = useState(!!completed && enrollId == null);
   const [chooseClassAgain, setChooseClassAgain] = useState(false);
   const numOfClassesToShow = 3;
@@ -62,33 +64,23 @@ function AttendClass({
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  const pathwayId = JSON.parse(
-    localStorage.getItem("volunteer_automation--state")
-  )?.pathwayId;
+  // const pathwayId = JSON.parse(
+  //   localStorage.getItem("volunteer_automation--state")
+  // )?.pathwayId;
 
   const classData =
     data?.filter((item) => {
-      console.log("item", item.start_time.includes(date));
-      return item.pathway_v2 == pathwayId && item.start_time.includes(date);
+      return item.start_time.includes(date);
+      // return item.pathway_v2 == pathwayId && item.start_time.includes(date);
     }) || [];
 
   const possibleClasses =
     classData.length === 0
       ? data?.slice(0, numOfClassesToShow) || []
-      : classData.length >= numOfClassesToShow
-      ? classData?.slice(0, numOfClassesToShow)
-      : classData;
-
-  // let possibleClasses = [];
-
-  // useEffect(() => {
-  //   possibleClasses =
-  //     classData.length === 0
-  //       ? data?.slice(0, numOfClassesToShow) || []
-  //       : classData.length >= numOfClassesToShow
-  //       ? classData?.slice(0, numOfClassesToShow)
-  //       : classData;
-  // }, [date]);
+      : classData?.slice(0, numOfClassesToShow);
+  // : classData.length >= numOfClassesToShow
+  // ? classData?.slice(0, numOfClassesToShow)
+  // : classData;
 
   const enrolledClass =
     !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
@@ -98,7 +90,6 @@ function AttendClass({
   const enrollClass = (Class) => {
     setOpen(false);
     setEnrollId(Class.id);
-    // localStorage.setItem("classes", JSON.stringify([Class]));
     setChooseClassAgain(false);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
@@ -127,7 +118,6 @@ function AttendClass({
     setOpen(false);
     setProceed(false);
     setEnrollId(null);
-    //localStorage.setItem("proceed", false);
     setChooseClassAgain(true);
     const notify = () => {
       toast.success("You have been dropout the class successfully", {
@@ -144,24 +134,9 @@ function AttendClass({
         "unregister-all": "false",
       },
     }).then(() => {
-      /*
-      sliceData = [];
-      data &&
-        data.slice(0, numOfClassesToShow).map((item) => {
-          sliceData.push(item);
-        });
-      localStorage.setItem("classes", JSON.stringify(sliceData));
-      */
       notify();
     });
   };
-
-  const datePicker = (e) => {
-    const classDate = format(e.target.value, "dd MMM yy");
-    setDate(e.target.value);
-  };
-
-  console.log("date", date);
 
   const EnrolledAndTimer = ({ item }) => {
     const timeLeftOptions = {
@@ -190,10 +165,6 @@ function AttendClass({
             <Button
               onClick={() => {
                 setProceed(true);
-                // localStorage.setItem("proceed", true);
-                // setStepCompleted();
-                // localStorage.setItem("disabled", false);
-                // setDisable(false);
               }}
               variant="contained"
               fullWidth
@@ -276,21 +247,23 @@ function AttendClass({
               sx={{ mt: 2 }}
               type="date"
               id="outlined-basic"
-              // label="Choose prefered date"
               variant="outlined"
               value={date}
               onChange={(e) => {
-                console.log("e", e.target.value);
-                datePicker(e);
+                setDate(e.target.value);
               }}
-              // defaultValue="Hello World"
             />
+            {classData.length === 0 && (
+              <Typography sx={{ mt: 2 }} color="error">
+                There is no class on this date. Please choose another date or
+                enroll with suggested class!
+              </Typography>
+            )}
           </Container>
           <Grid sx={{ mt: 5 }} container spacing={4}>
             {sliceData &&
               sliceData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
-                  {console.log("item", item)}
                   <Card className={classes.classCard}>
                     <CardContent>
                       <Typography gutterBottom variant="subtitle1">
@@ -325,7 +298,7 @@ function AttendClass({
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      {sliceData && sliceData.length > 1 ? (
+                      {!enrollId ? (
                         <Button
                           onClick={() => {
                             enrollClass(item);
@@ -342,7 +315,7 @@ function AttendClass({
                     </CardActions>
                   </Card>
                   <Box>
-                    {sliceData && sliceData.length == 1 && (
+                    {enrollId && (
                       <Button
                         sx={{ mt: 5 }}
                         onClick={handleClickOpen}
