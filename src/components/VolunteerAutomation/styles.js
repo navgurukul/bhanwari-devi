@@ -10,13 +10,13 @@ const useStyles = makeStyles((theme) => ({
   },
   volunteerCard: {
     border: "1px solid #48A145",
-    height: "100%",
-    padding: "10px",
+    // height: "100%",
+    padding: "16px",
   },
   volunteerCard1: {
     border: "1px solid #4548A1",
-    height: "100%",
-    padding: "10px",
+    // height: "100%",
+    padding: "16px",
   },
   displayIcon: {
     display: "flex",

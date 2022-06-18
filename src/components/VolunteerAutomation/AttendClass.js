@@ -20,12 +20,14 @@ import {
   CardContent,
   CardActions,
   Checkbox,
+  TextField,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import moment from "moment";
 import useStyles from "./styles";
 import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -37,13 +39,15 @@ function AttendClass({
   setStepCompleted,
   setDisable,
   completed,
+  pathwayId,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   // const [enrollId, setEnrollId] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(moment.utc(new Date()).format("YYYY-MM-DD"));
   const [proceed, setProceed] = useState(!!completed && enrollId == null);
   const [chooseClassAgain, setChooseClassAgain] = useState(false);
   const numOfClassesToShow = 3;
@@ -60,18 +64,32 @@ function AttendClass({
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  const possibleClasses = data?.slice(0, numOfClassesToShow) || [];
+  // const pathwayId = JSON.parse(
+  //   localStorage.getItem("volunteer_automation--state")
+  // )?.pathwayId;
+
+  const classData =
+    data?.filter((item) => {
+      return item.start_time.includes(date);
+      // return item.pathway_v2 == pathwayId && item.start_time.includes(date);
+    }) || [];
+
+  const possibleClasses =
+    classData.length === 0
+      ? data?.slice(0, numOfClassesToShow) || []
+      : classData?.slice(0, numOfClassesToShow);
+  // : classData.length >= numOfClassesToShow
+  // ? classData?.slice(0, numOfClassesToShow)
+  // : classData;
 
   const enrolledClass =
     !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
-  //&& new Date() < new Date(item.start_time)); // didn't already start
 
   const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
 
   const enrollClass = (Class) => {
     setOpen(false);
     setEnrollId(Class.id);
-    // localStorage.setItem("classes", JSON.stringify([Class]));
     setChooseClassAgain(false);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
@@ -100,7 +118,6 @@ function AttendClass({
     setOpen(false);
     setProceed(false);
     setEnrollId(null);
-    //localStorage.setItem("proceed", false);
     setChooseClassAgain(true);
     const notify = () => {
       toast.success("You have been dropout the class successfully", {
@@ -117,14 +134,6 @@ function AttendClass({
         "unregister-all": "false",
       },
     }).then(() => {
-      /*
-      sliceData = [];
-      data &&
-        data.slice(0, numOfClassesToShow).map((item) => {
-          sliceData.push(item);
-        });
-      localStorage.setItem("classes", JSON.stringify(sliceData));
-      */
       notify();
     });
   };
@@ -132,8 +141,9 @@ function AttendClass({
   const EnrolledAndTimer = ({ item }) => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
-      cutoffNumArr: [0, 0, 0, 0, 10, 0],
-      cutoffTextArr: ["", "", "", "", "joinNow", ""],
+      cutoffNumArr: [0, 0, 0, 0, 10, 60],
+      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
+      expiredText: "joinNow",
     };
     const [Timer, setTimer] = useState(
       timeLeftFormat(item.start_time, timeLeftOptions)
@@ -155,10 +165,6 @@ function AttendClass({
             <Button
               onClick={() => {
                 setProceed(true);
-                // localStorage.setItem("proceed", true);
-                // setStepCompleted();
-                // localStorage.setItem("disabled", false);
-                // setDisable(false);
               }}
               variant="contained"
               fullWidth
@@ -166,6 +172,10 @@ function AttendClass({
               Join Now
             </Button>
           </a>
+        ) : Timer == "expired" ? (
+          <Button disabled={true} variant="contained" fullWidth>
+            Expired
+          </Button>
         ) : (
           <Button disabled={true} variant="contained" fullWidth>
             Starts in {Timer}
@@ -233,6 +243,22 @@ function AttendClass({
               the class to chat with the teacher. Once, completed please return
               to complete the onboarding
             </Typography>
+            <TextField
+              sx={{ mt: 2 }}
+              type="date"
+              id="outlined-basic"
+              variant="outlined"
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
+            />
+            {classData.length === 0 && (
+              <Typography sx={{ mt: 2 }} color="error">
+                There is no class on this date. Please choose another date or
+                enroll with suggested class!
+              </Typography>
+            )}
           </Container>
           <Grid sx={{ mt: 5 }} container spacing={4}>
             {sliceData &&
@@ -272,7 +298,7 @@ function AttendClass({
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      {sliceData && sliceData.length > 1 ? (
+                      {!enrollId ? (
                         <Button
                           onClick={() => {
                             enrollClass(item);
@@ -289,7 +315,7 @@ function AttendClass({
                     </CardActions>
                   </Card>
                   <Box>
-                    {sliceData && sliceData.length == 1 && (
+                    {enrollId && (
                       <Button
                         sx={{ mt: 5 }}
                         onClick={handleClickOpen}
