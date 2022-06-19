@@ -1,4 +1,8 @@
-import { format as dateFnsFormat, intervalToDuration } from "date-fns";
+import {
+  format as dateFnsFormat,
+  differenceInMinutes as minutesDifference,
+  intervalToDuration 
+} from "date-fns";
 import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
 
 /**
@@ -6,7 +10,7 @@ import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
  *    object from the given timestamp.
  * @param {Date|string} date A valid Date string recognized by formatInTimeZone
  *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
- *     or Date to be formatted
+ *     or Date to make a new Date from
  * @return {Date} a copy of the inputted date or a new one from the timestamp
  */
 const makeDateFrom = (date) => {
@@ -116,6 +120,38 @@ export const dateTimeFormat = (date) => {
     finalTime: format(date, "HH : mm"),
     finalDate: format(date, "dd MMM, yyyy"),
   };
+};
+
+/**
+ * Wrapper for date-fns's differenceInMinutes but allows date strings
+ *     (See: https://date-fns.org/v2.28.0/docs/differenceInMinutes)
+ * @param {Date|string} dateLeft A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or left Date in difference
+ * @param {Date|string} dateRight A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or right Date in difference
+ * @returns {number} the signed number of full (rounded towards 0) minutes
+ *     between the given dates (dateLeft - dateRight minutes)
+ */
+const differenceInMinutes = (dateLeft, dateRight) => {
+  return minutesDifference(makeDateFrom(dateLeft), makeDateFrom(dateRight));
+};
+
+/**
+ * Gets the signed number of full (rounded towards 0) minutes from now until
+ *     given date (If the date occurs at least a full minute later, the number
+ *     will be positive; if it occurs at least a full minute earlier, it will
+ *     be negative.)
+ * @param {Date|string} date A valid Date string recognized by formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date to get the minutes until
+ * @returns {number} the number of full minutes from now until date
+ */
+export const minutesUntil = (date) => {
+  return differenceInMinutes(date, new Date());
 };
 
 /**
