@@ -13,7 +13,7 @@ import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
  *     or Date to make a new Date from
  * @return {Date} a copy of the inputted date or a new one from the timestamp
  */
-const makeDateFrom = (date) => {
+export const makeDateFrom = (date) => {
   return typeof date === 'string' ?
       new Date(zonedTimeToUtc(date).toISOString()) :
       date;

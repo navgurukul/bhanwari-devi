@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { timeLeftFormat, minutesUntil } from "../../../common/date";
+import { timeLeftFormat } from "../../../common/date";
 import { Button } from "@mui/material";
 import ExternalLink from "../../common/ExternalLink";
 
 function ClassJoinTimerButton({ startTime, link, joinOnClick }) {
   const ONE_SECOND = 1000; //millisecs
   const ONE_MINUTE = 60 * ONE_SECOND;
-  const CAN_JOIN = "Join Now";
+  const CAN_JOIN_MSG = "Join Now";
   // const TOO_LATE = "less than a minute (too late to join)";
   // const CLASS_PAST_START = "progress or concluded (too late to join)";
   const timeLeftFormatOptions = {
-    // expiredText: CLASS_PAST_START,
+    expiredText: CAN_JOIN_MSG,
     precision: [2, 2, 2, 2, 1, 1],
-    // cutoffTextArr: ["", "", "", "", CAN_JOIN, TOO_LATE],
-    // cutoffNumArr: [0, 0, 0, 0, 10, 60]
+    cutoffTextArr: ["", "", "", "", CAN_JOIN_MSG, CAN_JOIN_MSG],
+    cutoffNumArr: [0, 0, 0, 0, 10, 60]
   };
-  const canJoin = () => minutesUntil(startTime) <= 10;
-  const [joinNow, setJoinNow] = useState(canJoin());
+  // const canJoin = () => minutesUntil(startTime) <= 10;
+  const [timeRemainingMsg, setTimeRemainingMsg] = useState(
+    timeLeftFormat(startTime, timeLeftFormatOptions)
+  );
 
   useEffect(() => {
+    setTimeRemainingMsg(timeLeftFormat(startTime, timeLeftFormatOptions));
     const timer = setInterval(() => {
-      const newJoinNow = canJoin(); 
-      setJoinNow(newJoinNow);
-      if (newJoinNow) {
+      const newTimeRemainingMsg = timeLeftFormat(
+        startTime,
+        timeLeftFormatOptions
+      );
+      setTimeRemainingMsg(newTimeRemainingMsg);
+      if (newTimeRemainingMsg === CAN_JOIN_MSG) {
         clearInterval(timer); // can join so can dispose of timer now
       }
     }, ONE_MINUTE);
@@ -31,7 +37,7 @@ function ClassJoinTimerButton({ startTime, link, joinOnClick }) {
 
   return (
     <>
-      {joinNow ? (
+      {timeRemainingMsg === CAN_JOIN_MSG ? (
         <ExternalLink
           style={{
             textDecoration: "none"
@@ -43,12 +49,12 @@ function ClassJoinTimerButton({ startTime, link, joinOnClick }) {
             fullWidth
             onClick={joinOnClick ? joinOnClick : undefined}
           >
-            {CAN_JOIN}
+            {CAN_JOIN_MSG}
           </Button>
         </ExternalLink>
       ) : (
         <Button disabled={true} variant="contained">
-          Class in {timeLeftFormat(startTime, timeLeftFormatOptions)}
+          Class in {timeRemainingMsg}
         </Button>
       )}
     </>
