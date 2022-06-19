@@ -27,7 +27,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import languageMap from "../../pages/CourseContent/languageMap";
-import CourseCompletionPage from "./CourseCompletion/CourseCompletionPage";
+import CompletionComponent from "./CourseCompletion/CompletionComponent";
 
 const Exercise = ({
   course,
@@ -153,8 +153,9 @@ function PathwayExercise() {
   const [progressTrackId, setProgressTrackId] = useState(-1);
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
+  const currentCourse = params.exerciseId;
+
   useEffect(() => {
-    const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
     axios({
       method: METHODS.GET,
@@ -172,7 +173,7 @@ function PathwayExercise() {
       .catch((err) => {
         console.log("error");
       });
-  }, []);
+  }, [currentCourse]);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -222,8 +223,6 @@ function PathwayExercise() {
 
   const Lang = languageMap;
 
-  console.log("courseId", courseId);
-
   const previousClickHandler = () => {
     if (exerciseId > 0) {
       setSuccessfulExerciseCompletion(false);
@@ -267,6 +266,8 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
     } else {
       if (parseInt(params.exerciseId) >= progressTrackId) {
+        console.log("last exercise");
+
         axios({
           method: METHODS.POST,
           url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
@@ -440,7 +441,9 @@ function PathwayExercise() {
         </Container>
       </AppBar>
       {successfulExerciseCompletion ? (
-        <CourseCompletionPage />
+        <CompletionComponent
+          setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
+        />
       ) : (
         <ExerciseContent exerciseId={exerciseId} lang={language} />
       )}
