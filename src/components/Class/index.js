@@ -41,6 +41,7 @@ function Class({ classToEdit, indicator }) {
   const [pathwayCode, setPathwayCode] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
   const [day, setDay] = useState({});
+  const [matchDay, setMatchDat] = useState(false);
   const [classType, setClassType] = useState("batch");
   const [partnerData, setPartnerData] = useState([]);
   const [Selected_partner_id, setSelected_partner_id] = useState();
@@ -363,10 +364,12 @@ function Class({ classToEdit, indicator }) {
                   if (days[j] === days[i]) {
                     flag = false;
                     firstDay = j;
-                    // break;
+                    setMatchDat(false);
+                    break;
+                  } else {
+                    setMatchDat(true);
                   }
                 }
-                // firstDay = weekDday[0];
               }
             }
             const index = weekDday.indexOf(firstDay);
@@ -1151,6 +1154,11 @@ function Class({ classToEdit, indicator }) {
                   </span>
                   {formFieldsState[ON_DAYS].length == 0 && (
                     <span className="field-validation">Select days</span>
+                  )}
+                  {matchDay && (
+                    <span className="field-validation">
+                      Days does not match to selected date
+                    </span>
                   )}
                   {/* <label htmlFor={UNTIL} className="label-field">
                     Until
