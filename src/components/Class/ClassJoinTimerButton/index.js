@@ -3,7 +3,7 @@ import { timeLeftFormat } from "../../../common/date";
 import { Button } from "@mui/material";
 import ExternalLink from "../../common/ExternalLink";
 
-function ClassJoinTimerButton({ startTime, link, joinOnClick }) {
+function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
   const ONE_SECOND = 1000; //millisecs
   const ONE_MINUTE = 60 * ONE_SECOND;
   const CAN_JOIN_MSG = "Join Now";
