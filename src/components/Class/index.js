@@ -146,7 +146,7 @@ function Class({ classToEdit, indicator }) {
           autoClose: 2500,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -323,7 +323,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -361,10 +361,12 @@ function Class({ classToEdit, indicator }) {
               if (flag) {
                 for (let j of weekDday) {
                   if (days[j] === days[i]) {
-                    firstDay = j;
                     flag = false;
+                    firstDay = j;
+                    // break;
                   }
                 }
+                // firstDay = weekDday[0];
               }
             }
             const index = weekDday.indexOf(firstDay);
@@ -381,6 +383,8 @@ function Class({ classToEdit, indicator }) {
                 i = i + 1;
               }
               formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+            } else {
+              formFields[fieldName] = value;
             }
           } else {
             formFields[fieldName] = value;
@@ -727,9 +731,9 @@ function Class({ classToEdit, indicator }) {
                 type="date"
                 name={START_TIME}
                 value={formFieldsState[START_TIME]}
-                onChange={(e) =>
-                  changeHandler(e, setFormFieldsState, formFieldsState)
-                }
+                onChange={(e) => {
+                  changeHandler(e, setFormFieldsState, formFieldsState);
+                }}
                 id="start_time"
                 required
                 aria-required

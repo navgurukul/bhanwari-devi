@@ -286,12 +286,12 @@ function ClassCard({ item, editClass }) {
         >
           {(item.facilitator.email === user.data.user.email || flag) && (
             <>
-              {/* <MenuItem
+              <MenuItem
                 onClick={() => handleClickOpen(item.id)}
                 sx={{ width: 100, margin: "0px 10px" }}
               >
                 <Typography textAlign="center">Delete</Typography>
-              </MenuItem> */}
+              </MenuItem>
               <MenuItem
                 onClick={() => handleEdit(item.id)}
                 sx={{ width: 100, margin: "0px 10px" }}
