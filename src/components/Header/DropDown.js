@@ -66,7 +66,7 @@ const students = {
     },
     {
       title: "Our Partner",
-      path: PATHS.NEW_PARTNER,
+      path: PATHS.OUR_PARTNER,
       type: "internal",
     },
   ],

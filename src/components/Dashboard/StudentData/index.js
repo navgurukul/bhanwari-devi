@@ -45,7 +45,7 @@ function StudentData(props) {
   const [userId, setUserId] = useState();
   const [partneName, setPartneName] = useState();
   const [userName, setUserName] = useState();
-  const [isDisabled, setDisabled] = useState(true);
+  const [isDisabled, setDisabled] = useState(false);
 
   const loginUser = user.data.user.id;
 
@@ -371,12 +371,13 @@ function StudentData(props) {
           </div>
           {/* {filterVal[1]>0? */}
           <button
+            disabled={isDisabled}
             onClick={() => {
               setFilteredData(false);
               setFilterVal([0, 0]);
+              setDisabled(true);
             }}
             className="filter-clear"
-            disabled={isDisabled}
           >
             clear
           </button>

@@ -26,7 +26,6 @@ import StatePartnerDashboard from "../pages/StatePartner Dashboard";
 import OurStory from "../pages/OurStory";
 import Team from "../pages/Team";
 import Partner from "../pages/OurPartner";
-import NewPartner from "../pages/NewPartner";
 // import { ThemeProvider } from "@mui/material/styles";
 // import theme from "../theme/theme";
 import PathwayExercise from "../components/PathwayExercise";
@@ -71,7 +70,6 @@ const Routing = () => {
         path={PATHS.NAVGURUKUL_INTRODUCE}
         component={NavgurukulIntroduce}
       />
-      <Route exact path={PATHS.NEW_PARTNER} component={NewPartner} />
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
       <Route exact path={PATHS.SEARCHED_COURSE} component={SearchCourse} />

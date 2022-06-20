@@ -6,7 +6,6 @@ export const PATHS = {
   CLASS: "/class",
   COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
-  PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   PATHWAY_COURSE: "/pathway/:pathwayId",
@@ -32,7 +31,6 @@ export const PATHS = {
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
   SEARCHED_COURSE: "/search-course",
-  NEW_PARTNER: "/new-partner",
 };
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
 export const HideFooter = [
