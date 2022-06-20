@@ -41,6 +41,7 @@ function Class({ classToEdit, indicator }) {
   const [pathwayCode, setPathwayCode] = useState();
   const [checkedState, setCheckedState] = useState(new Array(7).fill(false));
   const [day, setDay] = useState({});
+  const [matchDay, setMatchDat] = useState(false);
   const [classType, setClassType] = useState("batch");
   const [partnerData, setPartnerData] = useState([]);
   const [Selected_partner_id, setSelected_partner_id] = useState();
@@ -146,7 +147,7 @@ function Class({ classToEdit, indicator }) {
           autoClose: 2500,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -323,7 +324,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        window.location.reload(1);
+        // window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -361,8 +362,12 @@ function Class({ classToEdit, indicator }) {
               if (flag) {
                 for (let j of weekDday) {
                   if (days[j] === days[i]) {
-                    firstDay = j;
                     flag = false;
+                    firstDay = j;
+                    setMatchDat(false);
+                    break;
+                  } else {
+                    setMatchDat(true);
                   }
                 }
               }
@@ -381,6 +386,8 @@ function Class({ classToEdit, indicator }) {
                 i = i + 1;
               }
               formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+            } else {
+              formFields[fieldName] = value;
             }
           } else {
             formFields[fieldName] = value;
@@ -727,9 +734,9 @@ function Class({ classToEdit, indicator }) {
                 type="date"
                 name={START_TIME}
                 value={formFieldsState[START_TIME]}
-                onChange={(e) =>
-                  changeHandler(e, setFormFieldsState, formFieldsState)
-                }
+                onChange={(e) => {
+                  changeHandler(e, setFormFieldsState, formFieldsState);
+                }}
                 id="start_time"
                 required
                 aria-required
@@ -1147,6 +1154,11 @@ function Class({ classToEdit, indicator }) {
                   </span>
                   {formFieldsState[ON_DAYS].length == 0 && (
                     <span className="field-validation">Select days</span>
+                  )}
+                  {matchDay && (
+                    <span className="field-validation">
+                      Days does not match to selected date
+                    </span>
                   )}
                   {/* <label htmlFor={UNTIL} className="label-field">
                     Until
