@@ -70,8 +70,8 @@ function AttendClass({
 
   const classData =
     data?.filter((item) => {
-      return item.start_time.includes(date);
-      // return item.pathway_v2 == pathwayId && item.start_time.includes(date);
+      // return item.start_time.includes(date);
+      return item.pathway_v2 == pathwayId && item.start_time.includes(date);
     }) || [];
 
   const possibleClasses =
