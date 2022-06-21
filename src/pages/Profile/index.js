@@ -14,6 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import { Box, fontSize } from "@mui/system";
+import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 
 function Profile() {
   const user = useSelector(({ User }) => User);
@@ -66,89 +67,92 @@ function Profile() {
     });
   };
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100%",
-        marginTop: "4rem",
-      }}
-    >
+    <>
       <div
         style={{
+          width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          flexDirection: isActive ? "column" : "row",
+          height: "100%",
+          marginTop: "4rem",
         }}
       >
         <div
-          item
-          xs={12}
-          md={6}
-          align={isActive ? "center" : "right"}
-          sx={{ pr: "16px" }}
-        >
-          <Avatar
-            alt="Remy Sharp"
-            src={userData.profile_picture}
-            sx={{ width: 100, height: 100 }}
-          />
-        </div>
-        <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            // justifyContent: "center",
-            marginLeft: 20,
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: isActive ? "column" : "row",
           }}
         >
-          {isEditing ? (
-            <TextField
-              id="standard-basic"
-              label="name"
-              variant="standard"
-              value={editName}
-              onChange={(e) => {
-                setEditName(e.target.value);
-              }}
+          <div
+            item
+            xs={12}
+            md={6}
+            align={isActive ? "center" : "right"}
+            sx={{ pr: "16px" }}
+          >
+            <Avatar
+              alt="Remy Sharp"
+              src={userData.profile_picture}
+              sx={{ width: 100, height: 100 }}
             />
-          ) : msg ? (
-            <Typography>Please wait...</Typography>
-          ) : (
-            <Typography variant={isActive ? "subtitle1" : "h5"}>
-              {userData.name}
-              {isActive && !isEditing && (
-                <Button onClick={() => setIsEditing(true)}>
-                  <EditIcon />
-                </Button>
-              )}
-            </Typography>
-          )}
-          <Box
-            sx={{
+          </div>
+          <div
+            style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "start",
+              alignItems: "flex-start",
+              // justifyContent: "center",
+              marginLeft: 20,
             }}
           >
-            <Typography>{userData.email}</Typography>
             {isEditing ? (
-              <Button pt={1} onClick={editProfile}>
-                Save Profile
-              </Button>
+              <TextField
+                id="standard-basic"
+                label="name"
+                variant="standard"
+                value={editName}
+                onChange={(e) => {
+                  setEditName(e.target.value);
+                }}
+              />
+            ) : msg ? (
+              <Typography>Please wait...</Typography>
             ) : (
-              <Button pt={1} onClick={() => setIsEditing(true)}>
-                {!isActive && "Edit Profile"}
-              </Button>
+              <Typography variant={isActive ? "subtitle1" : "h5"}>
+                {userData.name}
+                {isActive && !isEditing && (
+                  <Button onClick={() => setIsEditing(true)}>
+                    <EditIcon />
+                  </Button>
+                )}
+              </Typography>
             )}
-          </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <Typography>{userData.email}</Typography>
+              {isEditing ? (
+                <Button pt={1} onClick={editProfile}>
+                  Save Profile
+                </Button>
+              ) : (
+                <Button pt={1} onClick={() => setIsEditing(true)}>
+                  {!isActive && "Edit Profile"}
+                </Button>
+              )}
+            </Box>
+          </div>
         </div>
       </div>
-    </div>
+      <DropOutBatchesProfile />
+    </>
   );
 }
 export default Profile;

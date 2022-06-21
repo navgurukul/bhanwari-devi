@@ -73,6 +73,7 @@ function MiscellaneousCourses() {
             Courses
           </Typography>
           <Grid sx={{ mt: 2 }} container spacing={3} align="center">
+            {console.log(otherCourses)}
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>

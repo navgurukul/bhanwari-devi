@@ -26,7 +26,7 @@ import { getObjectState, saveObjectState } from "../../common/storage";
 function HorizontalLinearStepper() {
   let history = useHistory();
   const currentState = getObjectState("volunteer_automation", "state") || {
-    completed: []
+    completed: [],
   };
   const user = useSelector(({ User }) => User);
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
@@ -84,8 +84,8 @@ function HorizontalLinearStepper() {
     {
       label: "Attend Class",
       itemKey: "enrollId",
-      component: ( 
-        <AttendClass 
+      component: (
+        <AttendClass
           setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
           enrollId={enrollId}
           setStepCompleted={setActiveStepCompleted}
@@ -107,7 +107,7 @@ function HorizontalLinearStepper() {
   const setActiveStepHandler = (changeBy, prevActiveStep) => {
     const itemKey = steps[prevActiveStep]?.itemKey;
     const currentStep = prevActiveStep + changeBy;
-    
+
     if (itemKey && !disable) {
       // button was enabled by Component for this step so it's completed
       //     and we should therefore update the state for this key

@@ -5,7 +5,7 @@ import axios from "axios";
 import useStyles from "../styles";
 // import { dateTimeFormat, TimeLeft } from "../../../constant";
 // import { timeLeftFormat } from "../../common/date";
-import { dateTimeFormat, timeLeftFormat } from "../../../common/date";
+import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -52,7 +52,7 @@ function ClassCard({ item, editClass }) {
     ta: "Tamil",
     // doubt_class: "Doubt Class",
     // workshop: "Workshop",
-    cohort: "Batch",
+    // cohort: "Batch",
   };
 
   const handleOpenUserMenu = (event) => {
@@ -147,14 +147,14 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     axios
       .post(
-        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
+        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
         {},
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            "register-all": indicator,
+            // "register-all": indicator,
           },
         }
       )
@@ -190,12 +190,12 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     return axios({
       method: METHODS.DELETE,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "unregister-all": indicator,
+        // "unregister-all": indicator,
       },
     }).then((res) => {
       console.log("res", res);
@@ -213,10 +213,13 @@ function ClassCard({ item, editClass }) {
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
-      cutoffNumArr: [0, 0, 0, 0, 10, 0],
-      cutoffTextArr: ["", "", "", "", "joinNow", ""],
+      cutoffNumArr: [0, 0, 0, 0, 10, 60],
+      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
+      expiredText: "joinNow",
     };
-    const [Timer, setTimer] = useState(timeLeftFormat(item.start_time, timeLeftOptions));
+    const [Timer, setTimer] = useState(
+      timeLeftFormat(item.start_time, timeLeftOptions)
+    );
     const ONE_MINUTE = 60000; //millisecs
     setInterval(() => {
       setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
@@ -254,7 +257,8 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {languageMap[item.type]}
+          {/* {languageMap[item.type]} */}
+          Batch
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
@@ -316,7 +320,7 @@ function ClassCard({ item, editClass }) {
             className={classes.icons}
             src={require("../assets/calendar.svg")}
           />
-          {dateTimeFormat(item.start_time).finalDate}
+          {format(item.start_time, "dd MMM yy")}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
@@ -374,7 +378,7 @@ function ClassCard({ item, editClass }) {
         {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -384,7 +388,7 @@ function ClassCard({ item, editClass }) {
                     setDeleteCohort(true);
                   }}
                 />
-                Delete all classes of this cohort?
+                Delete all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -405,7 +409,7 @@ function ClassCard({ item, editClass }) {
         {editShowModal ? (
           <Modal onClose={handleCloseEdit} className="confirmation-massage">
             <h2>Do you want to edit this class?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -415,7 +419,7 @@ function ClassCard({ item, editClass }) {
                     setIndicator(true);
                   }}
                 />
-                Edit all classes of this cohort?
+                Edit all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -439,7 +443,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2>Are you sure you want to enroll?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -449,7 +453,7 @@ function ClassCard({ item, editClass }) {
                     setIndicator(true);
                   }}
                 />
-                Enroll all classes of this cohort?
+                Enroll all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -473,7 +477,7 @@ function ClassCard({ item, editClass }) {
             className="confirmation-massage"
           >
             <h2> Are you sure you want to drop out</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -483,7 +487,7 @@ function ClassCard({ item, editClass }) {
                     setIndicator(true);
                   }}
                 />
-                Drop all classes of this cohort?
+                Drop all classes of this Batch?
               </label>
             )}
             <div className="wrap">
