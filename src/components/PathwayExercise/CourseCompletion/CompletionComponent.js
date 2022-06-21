@@ -29,7 +29,7 @@ function CompletionComponent({ setSuccessfulExerciseCompletion }) {
   }, [pathwayCourse]);
 
   return (
-    <>
+    <div style={{ margin: "150px" }}>
       {pathwayCourse && pathwayCourse[nextPathwayIndex] ? (
         <CourseCompletionPage
           data={pathwayCourse}
@@ -39,7 +39,7 @@ function CompletionComponent({ setSuccessfulExerciseCompletion }) {
       ) : (
         <LastCoursePage />
       )}
-    </>
+    </div>
   );
 }
 

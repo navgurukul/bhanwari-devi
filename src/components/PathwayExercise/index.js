@@ -76,14 +76,14 @@ function ExerciseImage({
   const contentTypeMap = {
     assessment: selected
       ? index <= progressTrackId
-        ? "contentTypeRevist"
+        ? "assessmentRevisit"
         : "assessmentSelected"
       : index <= progressTrackId
       ? "assessmentCompleted"
       : "assessment",
     class_topic: selected
       ? index <= progressTrackId
-        ? "contentTypeRevist"
+        ? "classTypeRevisit"
         : "classTypeSelected"
       : index <= progressTrackId
       ? "classTypeCompleted"
