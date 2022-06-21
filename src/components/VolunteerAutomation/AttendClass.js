@@ -64,23 +64,23 @@ function AttendClass({
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  // const pathwayId = JSON.parse(
-  //   localStorage.getItem("volunteer_automation--state")
-  // )?.pathwayId;
+  const selectedPathwayClass =
+    data?.filter((item) => {
+      return item.pathway_v2 == pathwayId;
+    }) || [];
 
   const classData =
     data?.filter((item) => {
-      // return item.start_time.includes(date);
       return item.pathway_v2 == pathwayId && item.start_time.includes(date);
     }) || [];
 
+  console.log("classData", classData);
+  console.log("selectedPathwayClass", selectedPathwayClass);
+
   const possibleClasses =
     classData.length === 0
-      ? data?.slice(0, numOfClassesToShow) || []
+      ? selectedPathwayClass?.slice(0, numOfClassesToShow)
       : classData?.slice(0, numOfClassesToShow);
-  // : classData.length >= numOfClassesToShow
-  // ? classData?.slice(0, numOfClassesToShow)
-  // : classData;
 
   const enrolledClass =
     !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
