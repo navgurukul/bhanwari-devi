@@ -75,6 +75,10 @@ const useStyles = makeStyles((theme) => ({
     // marginBottom : "5px",
     fontSize: "90px",
   },
+  link: {
+    textDecoration: "none",
+    color: "green",
+  },
 }));
 
 export default useStyles;
