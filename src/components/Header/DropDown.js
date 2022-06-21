@@ -31,7 +31,7 @@ const students = {
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing", code: "TYPGRU", type: "internal" },
     { title: "English", code: "SPKENG", type: "internal" },
-    { title: "JavaScript", code: "JVSCPT", type: "internal" },
+    { title: "JavaScript", code: "JSRPIT", type: "internal" },
 
     {
       title: "Residential Programmes",
@@ -54,6 +54,13 @@ const students = {
     //   path: PATHS.OUR_PARTNER,
     //   type: "internal",
     // },
+
+    {
+      title: "Volunteering with Meraki",
+      path: PATHS.VOLUNTEER_AUTOMATION,
+      type: "internal",
+    },
+
     {
       title: "Donate",
       path: "https://www.navgurukul.org/donate",

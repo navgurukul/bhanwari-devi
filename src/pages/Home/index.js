@@ -41,7 +41,7 @@ const pathwayData = [
   },
   {
     title: "Javascript",
-    code: "JVSCPT",
+    code: "JSRPIT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
   },
