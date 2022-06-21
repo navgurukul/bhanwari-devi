@@ -3,8 +3,6 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
-import { dateTimeFormat, TimeLeft } from "../../../constant";
-// import { timeLeftFormat } from "../../common/date";
 import { timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
@@ -25,7 +23,7 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
-
+import { format } from "../../../common/date";
 toast.configure();
 
 function ClassCard({ item, editClass }) {
@@ -318,7 +316,7 @@ function ClassCard({ item, editClass }) {
             className={classes.icons}
             src={require("../assets/calendar.svg")}
           />
-          {dateTimeFormat(item.start_time).finalDate}
+          {format(item.start_time, "dd MMM yy")}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
