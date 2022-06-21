@@ -34,7 +34,7 @@ export const PATHS = {
   PYTHONCOURSE: "/Python-course",
   SEARCHED_COURSE: "/search-course",
   RETURNINGUSERPAGE: "/Returning-user",
-  VOLUNTEER_AUTOMATION: "/volunteer-flow",
+  VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
 };
 
