@@ -84,7 +84,7 @@ function Login(props) {
         data: { referrer: queryString },
       }).then((res) => {});
     }
-    if (props.location.state == "/volunteer-flow") {
+    if (props.location.state == "/volunteer-with-us") {
       console.log("rolesList", rolesList.includes("volunteer"));
       if (rolesList.includes("volunteer")) {
         return <Redirect to={PATHS.CLASS} />;
