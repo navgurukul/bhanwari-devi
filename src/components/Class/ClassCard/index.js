@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
@@ -324,8 +323,8 @@ function ClassCard({ item, editClass }) {
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
-          {moment(classStartTime).format("hh:mm a")} -{" "}
-          {moment(classEndTime).format("hh:mm a")}
+          {format(classStartTime, "hh:mm aaa")} -{" "}
+          {format(classEndTime, "hh:mm aaa")}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
