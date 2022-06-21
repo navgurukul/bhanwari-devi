@@ -27,6 +27,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import languageMap from "../../pages/CourseContent/languageMap";
+import CompletionComponent from "./CourseCompletion/CompletionComponent";
 
 const Exercise = ({
   course,
@@ -73,8 +74,20 @@ function ExerciseImage({
   const classes = useStyles();
 
   const contentTypeMap = {
-    assessment: selected ? "assessmentSelected" : "assessment",
-    class_topic: selected ? "classTypeSelected" : "classtype",
+    assessment: selected
+      ? index <= progressTrackId
+        ? "assessmentRevisit"
+        : "assessmentSelected"
+      : index <= progressTrackId
+      ? "assessmentCompleted"
+      : "assessment",
+    class_topic: selected
+      ? index <= progressTrackId
+        ? "classTypeRevisit"
+        : "classTypeSelected"
+      : index <= progressTrackId
+      ? "classTypeCompleted"
+      : "classtype",
     exercise: selected
       ? index <= progressTrackId
         ? "contentTypeRevist"
@@ -138,8 +151,11 @@ function PathwayExercise() {
   const courseLength = course && course.length ? course.length : 0;
   const [availableLang, setAvailableLang] = useState(["en"]);
   const [progressTrackId, setProgressTrackId] = useState(-1);
+  const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
+    useState(false);
+  const currentCourse = params.exerciseId;
+
   useEffect(() => {
-    const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
     axios({
       method: METHODS.GET,
@@ -157,7 +173,7 @@ function PathwayExercise() {
       .catch((err) => {
         console.log("error");
       });
-  }, []);
+  }, [currentCourse]);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -185,9 +201,10 @@ function PathwayExercise() {
   }, [exerciseId]);
 
   const LangDropDown = () => {
-    return availableLang?.length === 1 ? (
-      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
-    ) : (
+    // return availableLang?.length === 1 ? (
+    //   <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
+    // ) : (
+    return (
       <Select
         disableUnderline
         value={language}
@@ -206,10 +223,9 @@ function PathwayExercise() {
 
   const Lang = languageMap;
 
-  console.log("courseId", courseId);
-
   const previousClickHandler = () => {
     if (exerciseId > 0) {
+      setSuccessfulExerciseCompletion(false);
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -248,6 +264,30 @@ function PathwayExercise() {
         });
       }
       setExerciseId(exerciseId + 1);
+    } else {
+      if (parseInt(params.exerciseId) >= progressTrackId) {
+        console.log("last exercise");
+
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            course_index: parseInt(params.exerciseId) + 1,
+          },
+        })
+          .then((res) => {
+            setExerciseId(exerciseId + 1);
+            setSuccessfulExerciseCompletion(true);
+          })
+          .catch((err) => {});
+      }
     }
   };
 
@@ -400,7 +440,13 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      <ExerciseContent exerciseId={exerciseId} lang={language} />
+      {successfulExerciseCompletion ? (
+        <CompletionComponent
+          setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
+        />
+      ) : (
+        <ExerciseContent exerciseId={exerciseId} lang={language} />
+      )}
       <Box>
         <Toolbar
           style={{
@@ -428,10 +474,10 @@ function PathwayExercise() {
           </Button>
           <Button
             style={{
-              opacity: `${exerciseId < courseLength - 1 ? 1 : 0}`,
+              opacity: `${exerciseId < courseLength ? 1 : 0}`,
             }}
             endIcon={<ArrowForwardIosIcon />}
-            disabled={!(exerciseId < courseLength - 1)}
+            disabled={!(exerciseId < courseLength)}
             variant="text"
             color="primary"
             onClick={nextClickHandler}

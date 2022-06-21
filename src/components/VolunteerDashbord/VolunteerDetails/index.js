@@ -266,11 +266,12 @@ function VolunteerDashboard() {
               <Select variant="standard" sx={{ m: 1, minWidth: 300 }}>
                 <Box>
                   <MenuItem value="All Time">All Time</MenuItem>
-                  <MenuItem value="Past 1 week">Past 1 week</MenuItem>
-                  <MenuItem value="Past 4 week">Past 4 week</MenuItem>
-                  <MenuItem value="Past 8 week">Past 8 week</MenuItem>
-                  <MenuItem value="Past 12 week">Past 12 week</MenuItem>
-
+                  {[1, 4, 8, 12].map((num) => {
+                    const description = "Past" + num + "weeks";
+                    return (
+                      <MenuItem value={description}>{description}</MenuItem>
+                    );
+                  })}
                   <Typography
                     onClick={(e) => {
                       setSlicedVolunteer(filterweek(setLangue, setRating));

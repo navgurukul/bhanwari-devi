@@ -13,8 +13,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-// import { dateTimeFormat } from "../../constant";
-import { dateTimeFormat } from "../../common/date";
+import { format } from "../../common/date";
 import { useParams } from "react-router-dom";
 import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
 import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
@@ -32,6 +31,7 @@ export default function AlertDialog(props) {
     exerciseReload,
     setIsEnrolled,
     type,
+    reloadContent,
   } = props;
   console.log("props", props);
   const user = useSelector(({ User }) => User);
@@ -78,6 +78,7 @@ export default function AlertDialog(props) {
         } else if (setIsEnrolled) {
           setIsEnrolled(true);
         }
+        reloadContent && reloadContent();
       })
       .catch((err) => {
         setLoading(false);
@@ -88,41 +89,26 @@ export default function AlertDialog(props) {
         close();
       });
   };
+  const dialougContentMap = {
+    batch: [
+      "Awesome! You have taken the first step to being a programmer",
+      "Batch: " + title,
+    ],
+    DoubtClass: ["Doubt Class", "Class : " + title],
+    RevisionClass: ["Revision Class", "From: " + title],
+  };
   return (
     <div>
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
-          {type == "batch" ? (
-            <>
-              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
-                Awesome! You have taken the first step to being a programmer
-              </Typography>
-              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
-                Batch:{title}
-              </Typography>
-            </>
-          ) : type == "DoubtClass" ? (
-            <>
-              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
-                Doubt Class
-              </Typography>
-              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
-                Class : {title}
-              </Typography>
-            </>
-          ) : type == "RevisionClass" ? (
-            <>
-              <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
-                Revision Class
-              </Typography>
-              <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
-                From:{title}
-              </Typography>
-            </>
-          ) : (
-            ""
-          )}
-
+          <>
+            <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
+              {dialougContentMap[type][0]}
+            </Typography>
+            <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
+              {dialougContentMap[type][1]}
+            </Typography>
+          </>
           <Typography
             variant="body1"
             mb={1}
@@ -136,9 +122,9 @@ export default function AlertDialog(props) {
               src={require("./assets/calender.svg")}
               alt="Students Img"
             />
-            {start_time ? dateTimeFormat(start_time).finalDate : ""} , {"  "}
-            {start_time ? dateTimeFormat(start_time).finalTime : ""}-{" "}
-            {end_time ? dateTimeFormat(end_time).finalTime : ""}
+            {start_time ? format(start_time, "dd MMM yy") : ""} , {"  "}
+            {start_time ? format(start_time, "hh:mm aaa") : ""}-{" "}
+            {end_time ? format(end_time, "hh:mm aaa") : ""}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>

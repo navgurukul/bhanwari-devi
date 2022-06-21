@@ -69,6 +69,7 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data.data;
+      console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);
       }
@@ -79,14 +80,14 @@ const NewUserDashbord = () => {
     data.pathways.forEach((pathway) => {
       pathwayData.forEach((item) => {
         if (pathway.code === item.code) {
-          item["id"] = pathway.id;
+          item.id = pathway.id;
         }
       });
     });
 
   return (
     <>
-      {learningTracks ? (
+      {!learningTracks ? (
         <>
           <Container className={classes.DashboardContainer}>
             <Typography variant="h5" align="center" mt={4} mb={1}>

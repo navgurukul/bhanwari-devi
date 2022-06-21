@@ -120,9 +120,9 @@ function ToggleClassFormModal() {
         <Button
           variant="contained"
           onClick={toggleModalOpen}
-          sx={{ m: "10px 0 40px 20px" }}
+          sx={{ m: "10px 0 40px 30px" }}
         >
-          CREATE A CLASS
+          Create a Batch/Class
         </Button>
       )}
       <ClassesList editClass={editClass} isShow={showModal} />

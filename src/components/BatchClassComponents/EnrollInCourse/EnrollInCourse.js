@@ -15,8 +15,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-// import { dateTimeFormat } from "../../../constant.js";
-import { dateTimeFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 // import { Button } from "framework7-react";
 import AlertDialog from "../AlertDialog.js";
 const NotEnrolledSvg = require("./notEnrolled.svg");
@@ -24,6 +23,7 @@ const CourseEnroll = (props) => {
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
+  const { reloadContent } = props;
   const data = upcomingBatchesData?.slice(0, 3).map((item) => {
     return {
       id: item.id,
@@ -32,7 +32,7 @@ const CourseEnroll = (props) => {
       endTime: item.end_time,
     };
   });
-  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(null);
+  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
   useEffect(() => {
     console.log(selectedBatchToEnroll);
   }, [selectedBatchToEnroll]);
@@ -79,14 +79,15 @@ const CourseEnroll = (props) => {
                               onClick={() => {
                                 setSelectedBatchToEnroll(item);
                               }}
+                              key={item.id}
                               sx={{ fontWeight: 20 }}
                               value={item.id}
                               control={<Radio />}
                               label={<b>{item?.title}</b>}
                             />
                             <Typography mb={2} ml={3}>
-                              {dateTimeFormat(item?.startTime).finalDate} -
-                              {dateTimeFormat(item?.endTime).finalDate}
+                              {format(item?.startTime, "dd MMM yy")} -
+                              {format(item?.endTime, "dd MMM yy")}
                             </Typography>
                           </>
                         );
@@ -101,7 +102,7 @@ const CourseEnroll = (props) => {
                     setOpen(true);
                   }}
                 >
-                  Enroll in {selectedBatchToEnroll?.title}
+                  Enroll
                 </Button>
                 <AlertDialog
                   open={open}
@@ -112,6 +113,7 @@ const CourseEnroll = (props) => {
                   close={close}
                   registerAll={true}
                   type="batch"
+                  reloadContent={reloadContent}
                 />
               </CardContent>
             </Card>

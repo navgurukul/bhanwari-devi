@@ -251,7 +251,9 @@ function PathwayCourse() {
                     <PathwayCourseBatchEnroll1
                       upcomingBatchesData={upcomingBatchesData}
                     />
-                  ) : user?.data?.token ? (
+                  ) : user?.data?.token &&
+                    (pathwayCourseData.code == "PRGPYT" ||
+                      pathwayCourseData.code == "SPKENG") ? (
                     <NoBatchEnroll />
                   ) : (
                     ""

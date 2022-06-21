@@ -46,6 +46,7 @@ const AssessmentContent = ({
   setTriedAgain,
 }) => {
   const classes = useStyles();
+  console.log("content", content);
   if (content.component === "header") {
     if (triedAgain > 1) {
       return headingVarients[content.variant](
@@ -146,8 +147,8 @@ const AssessmentContent = ({
   if (content.component === "options") {
     return (
       <Box sx={{ mt: "32px" }}>
-        {Object.keys(content.value).map((item, index) => {
-          console.log("item", item);
+        {Object.values(content.value).map((item, index) => {
+          console.log("item", item.value);
           return (
             <Paper
               elevation={3}
@@ -159,14 +160,14 @@ const AssessmentContent = ({
               className={
                 submit
                   ? correct
-                    ? answer === item && classes.correctAnswer
-                    : answer === item && classes.inCorrectAnswer
-                  : answer === item && classes.option
+                    ? answer === item.id && classes.correctAnswer
+                    : answer === item.id && classes.inCorrectAnswer
+                  : answer === item.id && classes.option
               }
-              onClick={() => setAnswer(item)}
+              onClick={() => setAnswer(item.id)}
             >
               <Typography variant="body1" sx={{ p: "16px" }}>
-                {content.value[item]}
+                {item.value}
               </Typography>
             </Paper>
           );

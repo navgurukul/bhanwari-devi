@@ -10,8 +10,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 import { lang, TimeLeft } from "../../constant";
-// import { dateTimeFormat, lang, TimeLeft } from "../../constant";
-import { dateTimeFormat } from "../../common/date";
+import { format } from "../../common/date";
 import AlertDialog from "./AlertDialog";
 import DropOut from "./DropOut";
 
@@ -108,16 +107,13 @@ export const MoreDetails = (props) => {
                 alt="Students Img"
               />
               {actions?.start_time
-                ? dateTimeFormat(actions?.start_time).finalDate
+                ? format(actions?.start_time, "dd MMM yy")
                 : ""}
               ,
               {actions?.start_time
-                ? dateTimeFormat(actions?.start_time).finalTime
+                ? format(actions?.start_time, "hh:mm aaa")
                 : ""}{" "}
-              -
-              {actions?.end_time
-                ? dateTimeFormat(actions?.end_time).finalTime
-                : ""}
+              -{actions?.end_time ? format(actions?.end_time, "hh:mm aaa") : ""}
             </Typography>
             <Typography
               variant="body1"
@@ -219,8 +215,6 @@ const DoubtClassExerciseComponent = (props) => {
   const classes = useStyles();
   const { actions, value } = props;
   const [open, setOpen] = useState(false);
-  const start_time = dateTimeFormat(actions?.start_time);
-  const end_time = dateTimeFormat(actions?.end_time);
   const [isEnrolled, setIsEnrolled] = useState(actions?.is_enrolled);
   return !isEnrolled ? (
     <>
@@ -245,8 +239,9 @@ const DoubtClassExerciseComponent = (props) => {
             alt="Students Img"
           />
           Need help? We got you covered. Enroll in the doubt class on{" "}
-          {start_time.finalDate}
-          at {start_time.finalTime} - {end_time.finalTime}
+          {format(actions?.start_time, "dd MMM yy")}
+          at {format(actions?.start_time, "hh:mm aaa")} -{" "}
+          {format(actions?.end_time, "hh:mm aaa")}
         </Typography>
         <div
           style={{
@@ -271,13 +266,16 @@ const DoubtClassExerciseComponent = (props) => {
           </Button>
         </div>
       </Box>
-      <MoreDetails
+      {/* <MoreDetails
         open={open}
         setOpen={setOpen}
         actions={actions}
         value={value}
         isEnrolled={isEnrolled}
         setIsEnrolled={setIsEnrolled}
+      /> */}
+      <MoreDetails
+        {...{ open, setOpen, actions, value, isEnrolled, setIsEnrolled }}
       />
     </>
   ) : (
@@ -310,8 +308,9 @@ const DoubtClassExerciseComponent = (props) => {
               src={require("./Revision/assets/calender.svg")}
               alt="Students Img"
             />
-            {start_time.finalDate}
-            at {start_time.finalTime} - {end_time.finalTime}
+            {format(actions?.start_time, "dd MMM yy")}
+            at {format(actions?.start_time, "hh:mm aaa")} -{" "}
+            {format(actions?.end_time, "hh:mm aaa")}
             <img
               className={classes.icons}
               style={{ marginLeft: "10px" }}

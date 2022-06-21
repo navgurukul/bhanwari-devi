@@ -13,15 +13,12 @@ import {
   Typography,
 } from "@mui/material";
 import { interpolatePath, PATHS } from "../../../constant";
-// import { dateTimeFormat, interpolatePath, PATHS } from "../../../constant";
-import { dateTimeFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 import { getCourseContent } from "../../Course/redux/api";
 import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 const PathwayCards = (props) => {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   // const language = {
   //   hi: "Hindi",
   //   en: "English",
@@ -47,7 +44,7 @@ const PathwayCards = (props) => {
         console.log(
           res.data.course.exercises.forEach((ex, index) => {
             if (ex.id === item.exercise_id) {
-              setClassIndex(index);
+              setClassIndex(index + 1);
               return;
             }
           })
@@ -92,10 +89,10 @@ const PathwayCards = (props) => {
                           borderRadius: { xs: 25, sm: 15 },
                           height: { xs: 34, sm: 25 },
                           // fontSize: "11px",
-                          backgroundColor: "#E9F5E9",
-                          color: "green",
+                          backgroundColor: "primary.light",
+                          color: "primary.dark",
                           "&:hover": {
-                            backgroundColor: "#E9F5E9",
+                            backgroundColor: "primary.light",
                           },
                         }
                       : {
@@ -113,7 +110,7 @@ const PathwayCards = (props) => {
             <Grid container spacing={1}>
               <Grid item xs={8} md={5}>
                 <Typography variant="body2">
-                  {dateTimeFormat(item.start_time).finalDate}
+                  {format(item.start_time, "dd MMM yy")}
                 </Typography>
               </Grid>
               <Grid item xs={6} md={3}>
