@@ -9,12 +9,14 @@ function CourseCompletionPage(props) {
   const { data, nextPathwayIndex, setSuccessfulExerciseCompletion } = props;
   const params = useParams();
   const history = useHistory();
+
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   return (
     <>
       <Container maxWidth="lg" align="center">
-        <Box>
+        <Box mt={8}>
           <img src={require("../asset/specialdeals.svg")} />
-          <Typography variant="h6" width="400px" mt={3} mb={4}>
+          <Typography variant="h6" mt={3} mb={4}>
             Congratulations! You completed {data?.[nextPathwayIndex - 1]?.name}
           </Typography>
           <Button
