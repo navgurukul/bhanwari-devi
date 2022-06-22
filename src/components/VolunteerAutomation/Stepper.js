@@ -88,6 +88,7 @@ function HorizontalLinearStepper() {
         <AttendClass
           setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
           enrollId={enrollId}
+          pathwayId={pathwayId}
           setStepCompleted={setActiveStepCompleted}
           setDisable={setDisable}
           completed={completed[4]}

@@ -13,9 +13,9 @@ function LastCoursePage() {
   return (
     <>
       <Container maxWidth="lg" align="center">
-        <Box>
+        <Box mt={8}>
           <img src={require("../asset/specialdeals.svg")} alt="icon" />
-          <Typography variant="h6" width="400px" mt={3} mb={4}>
+          <Typography variant="h6" mt={3} mb={4}>
             Congratulations! You completed the track
           </Typography>
           <Button
