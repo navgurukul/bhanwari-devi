@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
-import { timeLeftFormat } from "../../../common/date";
+// import { dateTimeFormat, TimeLeft } from "../../../constant";
+// import { timeLeftFormat } from "../../common/date";
+import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -23,7 +24,8 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
-import { format } from "../../../common/date";
+import ClassJoinTimerButton from "../ClassJoinTimerButton";
+
 toast.configure();
 
 function ClassCard({ item, editClass }) {
@@ -38,8 +40,8 @@ function ClassCard({ item, editClass }) {
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
-  const classStartTime = item.start_time && item.start_time.replace("Z", "");
-  const classEndTime = item.end_time && item.end_time.replace("Z", "");
+  const classStartTime = item.start_time;// && item.start_time.replace("Z", "");
+  const classEndTime = item.end_time;// && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const languageMap = {
@@ -206,6 +208,7 @@ function ClassCard({ item, editClass }) {
   };
 
   console.log("indicator", indicator);
+  /*
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
@@ -241,6 +244,7 @@ function ClassCard({ item, editClass }) {
       </>
     );
   };
+  */
   return (
     <>
       <Card elevation={2} sx={{ p: 4 }} className={classes.card}>
@@ -320,8 +324,8 @@ function ClassCard({ item, editClass }) {
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
-          {moment(classStartTime).format("hh:mm a")} -{" "}
-          {moment(classEndTime).format("hh:mm a")}
+          {format(classStartTime, "hh:mm aaa")} -{" "}
+          {format(classEndTime, "hh:mm aaa")}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
@@ -346,7 +350,11 @@ function ClassCard({ item, editClass }) {
                 </div>
               ) : (
                 // <h1>Poonam</h1>
-                <EnrolledAndTimer item={item} />
+                // <EnrolledAndTimer item={item} />
+                <ClassJoinTimerButton
+                  startTime={item?.start_time}
+                  link={item?.meet_link}
+                />
               )
             ) : loading ? (
               <div className="loader-button">

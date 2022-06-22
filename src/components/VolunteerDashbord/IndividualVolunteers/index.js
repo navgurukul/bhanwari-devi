@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
 import { PATHS } from "../../../constant";
-import moment from "moment";
+// import moment from "moment";
+import { format } from "../../../common/date";
 import ReactPaginate from "react-paginate";
 import { useDebounce } from "use-debounce";
 import { BsArrowUpDown } from "react-icons/bs";
@@ -199,13 +200,15 @@ function VolunteerOverview(props) {
                     <TableRow key={item.id}>
                       <TableCell>{item.title}</TableCell>
                       <TableCell>
-                        {moment.utc(item.end_time).format("DD-MM-YYYY")}
+                        {/*moment.utc(item.end_time).format("DD-MM-YYYY")*/}
+                        {format(item.end_time, "dd-MM-yyyy")}
                       </TableCell>
                       <TableCell>
-                        {moment
+                        {/*moment
                           .utc(item.start_time)
                           .add(330, "minute")
-                          .format("kk:mm")}
+                          .format("kk:mm")*/}
+                        {format(item.start_time, "kk:mm")}
                       </TableCell>
                       <TableCell>
                         {/* {item.max_enrollment ? item.max_enrollment : "NA"} */}

@@ -32,6 +32,7 @@ import useStyles from "./styles";
 import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import ClassJoinTimerButton from "../Class/ClassJoinTimerButton";
 
 function AttendClass({
   setEnrollId,
@@ -138,6 +139,7 @@ function AttendClass({
     });
   };
 
+/*
   const EnrolledAndTimer = ({ item }) => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
@@ -184,6 +186,7 @@ function AttendClass({
       </>
     );
   };
+  */
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
@@ -310,7 +313,17 @@ function AttendClass({
                           Enroll
                         </Button>
                       ) : (
-                        <EnrolledAndTimer item={item} />
+                        <ClassJoinTimerButton
+                          startTime={item?.start_time}
+                          link={item?.meet_link}
+                          joinOnClick={() => {
+                            setProceed(true);
+                            // localStorage.setItem("proceed", true);
+                            // setStepCompleted();
+                            // localStorage.setItem("disabled", false);
+                            // setDisable(false);
+                          }}
+                        />
                       )}
                     </CardActions>
                   </Card>
