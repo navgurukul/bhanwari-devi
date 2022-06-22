@@ -13,7 +13,7 @@ function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
     expiredText: CAN_JOIN_MSG,
     precision: [2, 2, 2, 2, 1, 1],
     cutoffTextArr: ["", "", "", "", CAN_JOIN_MSG, CAN_JOIN_MSG],
-    cutoffNumArr: [0, 0, 0, 0, 10, 60]
+    cutoffNumArr: [0, 0, 0, 0, 10, 60],
   };
   // const canJoin = () => minutesUntil(startTime) <= 10;
   const [timeRemainingMsg, setTimeRemainingMsg] = useState(
@@ -40,7 +40,7 @@ function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
       {timeRemainingMsg === CAN_JOIN_MSG ? (
         <ExternalLink
           style={{
-            textDecoration: "none"
+            textDecoration: "none",
           }}
           href={link}
         >
@@ -53,8 +53,8 @@ function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
           </Button>
         </ExternalLink>
       ) : (
-        <Button disabled={true} variant="contained">
-          Class in {timeRemainingMsg}
+        <Button fullWidth disabled={true} variant="contained">
+          Starts in {timeRemainingMsg}
         </Button>
       )}
     </>

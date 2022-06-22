@@ -13,7 +13,7 @@ import { format } from "../../../common/date";
 import RevisionClassEnroll from "../Revision/RevisionClassEnroll";
 // import { Button } from "framework7-react";
 import DropOut from "../DropOut";
-
+import ClassJoinTimerButton from "../../Class/ClassJoinTimerButton";
 const ExerciseBatchClass = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -27,8 +27,6 @@ const ExerciseBatchClass = (props) => {
   var ONE_MINUTE = 60 * 1000;
   setInterval(() => {
     setTimeLefts(TimeLeft(start_time));
-    console.log("TimeChange");
-    console.log(start_time);
   }, ONE_MINUTE);
   return TimeLefts !== "expired" ? (
     <>
@@ -78,30 +76,7 @@ const ExerciseBatchClass = (props) => {
               >
                 Please join at least 10 mintues before the scheduled time
               </Typography>
-              {TimeLefts == "joinNow" ? (
-                <a
-                  style={{
-                    textDecoration: "none",
-                  }}
-                  href={meet_link}
-                  target="_blank"
-                >
-                  <Button variant="contained" fullWidth>
-                    Join Now
-                  </Button>
-                </a>
-              ) : (
-                <>
-                  <Button
-                    disabled={true}
-                    variant="contained"
-                    sx={{ fontSize: "1rem" }}
-                    fullWidth
-                  >
-                    Starts in {TimeLefts}
-                  </Button>
-                </>
-              )}
+              <ClassJoinTimerButton startTime={start_time} link={meet_link} />
             </CardContent>
           </Card>
         </Box>
