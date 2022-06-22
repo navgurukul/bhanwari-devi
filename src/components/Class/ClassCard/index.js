@@ -49,7 +49,7 @@ function ClassCard({ item, editClass }) {
     te: "Telugu",
     en: "English",
     ta: "Tamil",
-    // doubt_class: "Doubt Class",
+    doubt_class: "Doubt Class",
     // workshop: "Workshop",
     // cohort: "Batch",
   };
@@ -256,8 +256,9 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {/* {languageMap[item.type]} */}
-          Batch
+          {languageMap[item.type] == "Doubt Class"
+            ? languageMap[item.type]
+            : "Batch"}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
@@ -287,12 +288,12 @@ function ClassCard({ item, editClass }) {
         >
           {(item.facilitator.email === user.data.user.email || flag) && (
             <>
-              {/* <MenuItem
+              <MenuItem
                 onClick={() => handleClickOpen(item.id)}
                 sx={{ width: 100, margin: "0px 10px" }}
               >
                 <Typography textAlign="center">Delete</Typography>
-              </MenuItem> */}
+              </MenuItem>
               <MenuItem
                 onClick={() => handleEdit(item.id)}
                 sx={{ width: 100, margin: "0px 10px" }}
