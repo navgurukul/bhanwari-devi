@@ -72,8 +72,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "16px",
   },
   certificateLogo: {
-    // marginBottom : "5px",
     fontSize: "90px",
+  },
+  link: {
+    color: "green",
   },
 }));
 
