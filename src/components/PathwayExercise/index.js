@@ -126,7 +126,7 @@ function PathwayExercise() {
         console.log("error");
       });
   }, []);
-
+  console.log("availableLang", availableLang);
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
       <MenuItem value={availableLang[0]}>
