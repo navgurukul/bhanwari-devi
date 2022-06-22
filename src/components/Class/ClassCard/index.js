@@ -40,8 +40,8 @@ function ClassCard({ item, editClass }) {
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
-  const classStartTime = item.start_time && item.start_time.replace("Z", "");
-  const classEndTime = item.end_time && item.end_time.replace("Z", "");
+  const classStartTime = item.start_time;// && item.start_time.replace("Z", "");
+  const classEndTime = item.end_time;// && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const languageMap = {
