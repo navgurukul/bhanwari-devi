@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // const {languageMap} = require("../../pages/CourseContent/languageMap");
 
 import {
@@ -127,10 +128,11 @@ function PathwayExercise() {
   }, []);
   console.log("availableLang", availableLang);
   const LangDropDown = () => {
-    // return availableLang?.length === 1 ? (
-    //   <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
-    // ) : (
-    return (
+    return availableLang?.length === 1 ? (
+      <MenuItem value={availableLang[0]}>
+        {Lang[availableLang[0]]} <KeyboardArrowDownIcon />{" "}
+      </MenuItem>
+    ) : (
       <Select
         disableUnderline
         value={language}
@@ -141,7 +143,15 @@ function PathwayExercise() {
         variant="standard"
       >
         {availableLang.map((lang) => {
-          return <MenuItem value={lang}>{Lang[lang]}</MenuItem>;
+          return (
+            <MenuItem
+              style={{ borderRadius: "8px" }}
+              sx={{ width: 120, margin: "6px 16px 6px 16px" }}
+              value={lang}
+            >
+              {Lang[lang]}
+            </MenuItem>
+          );
         })}
       </Select>
     );
@@ -197,7 +207,7 @@ function PathwayExercise() {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" component="div">
+              <Typography variant="h6" component="div" pt={1}>
                 <Link
                   style={{ color: "#6D6D6D" }}
                   to={
@@ -216,7 +226,7 @@ function PathwayExercise() {
               <Toolbar>
                 <ArrowBackIosIcon
                   opacity={`${exerciseId !== 0 ? 1 : 0}`}
-                  sx={{ marginRight: 3 }}
+                  sx={{ marginRight: "20px" }}
                   onClick={previousClickHandler}
                 />
                 <div className="gridtopofcourse7">
