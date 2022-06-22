@@ -14,7 +14,7 @@ import { actions as pathwayActions } from "./redux/action";
 import { actions as upcomingBatchesActions } from "./redux/action";
 import { actions as upcomingClassActions } from "./redux/action";
 import { actions as enrolledBatchesActions } from "./redux/action";
-
+import ExternalLink from "../common/ExternalLink";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
 import {
   Container,
@@ -24,10 +24,12 @@ import {
   Typography,
   CardMedia,
   Button,
+  Se,
 } from "@mui/material";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
+import YouTube from "react-youtube";
 import { height } from "@mui/system";
 
 const pathways = [
@@ -152,6 +154,11 @@ function PathwayCourse() {
       "Here"
     );
   }, [upcomingBatchesData, userEnrolledClasses]);
+
+  const handleVideo = () => {
+    return <YouTube className={"youtube-video"} videoId="DDFvJmC3J5M" />;
+  };
+
   return (
     <>
       {enrolledBatches ? (
@@ -214,6 +221,35 @@ function PathwayCourse() {
                     <Typography variant="body1">
                       {pathwayCourseData.description}
                     </Typography>
+
+                    <ExternalLink
+                      style={{
+                        textDecoration: "none",
+                      }}
+                      href={"https://youtu.be/DDFvJmC3J5M"}
+                    >
+                      <Typography
+                        style={{ display: "flex" }}
+                        mt={2}
+                        align="start"
+                        variant="body2"
+                      >
+                        <img
+                          src={require("./asset/ComputerScreen.svg")}
+                          alt="MonitorScreen Img"
+                        />
+                        <section
+                          className={classes.link}
+                          onClick={handleVideo}
+                          style={{
+                            cursor: "pointer",
+                          }}
+                        >
+                          {"  "} &nbsp; &nbsp;
+                          <b>What's it all about?</b>
+                        </section>
+                      </Typography>
+                    </ExternalLink>
                     {!user?.data?.token &&
                     (pathwayCourseData.code == "PRGPYT" ||
                       pathwayCourseData.code == "SPKENG") ? (
