@@ -143,16 +143,13 @@ const OurPartner = () => {
                             {`${partner[item].City} , ${partner[item].State}`}
                           </Typography>
                         </CardContent>
-                        <CardActions sx={{ height: "10px" }}>
-                          {partner[item].Url !== null ? (
-                            <IconButton>
-                              <Link href={partner[item].Url} target="_blank">
-                                <PublicIcon variant="outlined" />
-                              </Link>
-                            </IconButton>
-                          ) : (
-                            ""
-                          )}
+                        <CardActions sx={{ height: "8px" }}>
+                          <IconButton>
+                            <Link href={partner[item].Url} target="_blank">
+                              <PublicIcon variant="outlined" />
+                            </Link>
+                          </IconButton>
+
                           {/* {!partner[item].Linkedin Id === null?(
                           <IconButton>
                             <Link href={partner[item].Linkedin Id}>
