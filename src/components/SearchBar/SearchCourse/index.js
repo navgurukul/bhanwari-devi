@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { actions as courseActions } from "../../Course/redux/action";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
-import SearchBar from "..";
 import { breakpoints } from "../../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Link } from "react-router-dom";
@@ -18,10 +17,8 @@ import {
   Card,
 } from "@mui/material";
 import useStyles from "../styles";
-import Tooltip from "@mui/material/Tooltip";
 
 function SearchCourse(props) {
-  //   console.log("props", props);
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();

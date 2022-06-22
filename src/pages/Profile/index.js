@@ -5,8 +5,7 @@ import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, TextField, Typography, Button } from "@mui/material";
-import { Box, fontSize } from "@mui/system";
+import { Avatar, TextField, Typography, Button, Box } from "@mui/material";
 
 function Profile() {
   const user = useSelector(({ User }) => User);

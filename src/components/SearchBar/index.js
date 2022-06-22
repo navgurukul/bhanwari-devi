@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
-import { Box, TextField } from "@mui/material";
 
 function SearchBar({ handleSearchChange }) {
-  const [search, setSearch] = useState();
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
