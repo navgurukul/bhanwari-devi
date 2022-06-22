@@ -5,14 +5,7 @@ import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  Container,
-  Grid,
-  Avatar,
-  TextField,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Avatar, TextField, Typography, Button } from "@mui/material";
 import { Box, fontSize } from "@mui/system";
 
 function Profile() {
