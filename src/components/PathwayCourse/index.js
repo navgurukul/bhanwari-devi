@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
-import { METHODS } from "../../services/api";
-
 import { PATHS, interpolatePath } from "../../constant";
 import { useParams } from "react-router-dom";
 import { breakpoints } from "../../theme/constant";
@@ -29,13 +26,12 @@ import {
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
-import YouTube from "react-youtube";
-import { height } from "@mui/system";
 
 const pathways = [
   {
     pathway: "Python",
     code: "PRGPYT",
+    yotubevideo: "https://youtu.be/DDFvJmC3J5M",
     description:
       "Learn the basics and become comfortable in one of the most popular programming languages Python.",
     outcomes: [
@@ -46,6 +42,7 @@ const pathways = [
   {
     pathway: "Javascript",
     code: "JSRPIT",
+    yotubevideo: "https://youtu.be/EC7UaTE9Z2Q",
     description:
       "Learn the nuances and basics of the technology that powers the web. Start with learning what is Javascript and eventually build your own website.",
     outcomes: [
@@ -56,6 +53,8 @@ const pathways = [
   {
     pathway: "Typing Guru",
     code: "TYPGRU",
+    yotubevideo: "https://youtu.be/HQ9IYtBJO0U",
+
     description:
       "The typing track allows you to practice keyboard typing in a adaptive manner. You require a keyboard if on Android or use your laptop keyboard.",
     outcomes: [
@@ -66,6 +65,7 @@ const pathways = [
   {
     pathway: "Spoken English & Grammar",
     code: "SPKENG",
+    yotubevideo: "https://youtu.be/g05oD3i67_A",
     description:
       "English is a great tool needed to navigate the tech world and also in an International setting. Whether you are a total beginner or already know some English, prepare for the challenge with our Spoken English classes and online courses.",
     outcomes: [
@@ -79,7 +79,6 @@ const pathways = [
 function PathwayCourse() {
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-
   const { pathwayCourse } = useSelector((state) => state.Pathways);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -155,10 +154,6 @@ function PathwayCourse() {
     );
   }, [upcomingBatchesData, userEnrolledClasses]);
 
-  const handleVideo = () => {
-    return <YouTube className={"youtube-video"} videoId="DDFvJmC3J5M" />;
-  };
-
   return (
     <>
       {enrolledBatches ? (
@@ -226,7 +221,7 @@ function PathwayCourse() {
                       style={{
                         textDecoration: "none",
                       }}
-                      href={"https://youtu.be/DDFvJmC3J5M"}
+                      href={pathwayCourseData.yotubevideo}
                     >
                       <Typography
                         style={{ display: "flex" }}
@@ -240,7 +235,7 @@ function PathwayCourse() {
                         />
                         <section
                           className={classes.link}
-                          onClick={handleVideo}
+                          // onClick={handleVideo}
                           style={{
                             cursor: "pointer",
                           }}
@@ -295,16 +290,6 @@ function PathwayCourse() {
                     ""
                   )}
                 </Grid>
-                {/* <Grid xs={12} md={6} sx={{ pl: 2 }}>
-                  <CardMedia
-                    component="video"
-                    autoPlay
-                    controls
-                    height="260"
-                    src="https://www.youtube.com/watch?v=Doo1T5WabEU"
-                    sx={{ width: isActive ? 380 : 480 }}
-                  />
-                </Grid> */}
               </Grid>
               <Box className={classes.Box1}>
                 <Typography
@@ -380,7 +365,6 @@ function PathwayCourse() {
                         <Typography
                           align={isActive ? "center" : "left"}
                           variant="body1"
-                          // sx={{ mt: "16px" }}
                         >
                           {item.name}
                         </Typography>
