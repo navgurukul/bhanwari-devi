@@ -44,6 +44,20 @@ function ClassList({ editClass, isShow }) {
         placeholder="Enter Class Name"
         value={filterText}
         sx={{ margin: "15px 0 0 10px" }}
+        onPaste={(e) => {
+          e.preventDefault();
+          setFilterText(e.clipboardData.getData("text"));
+
+          let filtered_recurring_classes = filter(
+            recurring_classes,
+            (item) =>
+              item.title
+                .toLowerCase()
+                .indexOf(e.clipboardData.getData("text").toLowerCase()) > -1
+          );
+
+          set_recurring_classes_data_set(filtered_recurring_classes);
+        }}
         onChange={(e) => {
           setFilterText(e.target.value);
           if (filterText?.length > 0) {
