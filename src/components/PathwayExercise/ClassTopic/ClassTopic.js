@@ -1,8 +1,8 @@
 import { Box, Chip, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import React from "react";
-import { TimeLeft } from "../../../constant";
-import { format } from "../../../common/date";
+// import { TimeLeft } from "../../../constant";
+import { isBeforeNow, format } from "../../../common/date";
 import languageMap from "../../../pages/CourseContent/languageMap";
 
 function ClassTopic({ courseData }) {
@@ -46,7 +46,7 @@ function ClassTopic({ courseData }) {
             class to catch up after {format(courseData.start_time, "dd MMM yy")}
           </Typography>
         </Box>
-        {TimeLeft(courseData.start_time) == "expired" ? (
+        {isBeforeNow(courseData.start_time) && (
           <Box>
             <Box sx={{ display: "flex" }} mt={3}>
               <svg
@@ -67,8 +67,6 @@ function ClassTopic({ courseData }) {
               </Typography>
             </Box>
           </Box>
-        ) : (
-          ""
         )}
       </Box>
     </>

@@ -1,5 +1,6 @@
 import {
   format as dateFnsFormat,
+  isBefore as comesBefore,
   differenceInMinutes as minutesDifference,
   intervalToDuration 
 } from "date-fns";
@@ -17,6 +18,35 @@ export const makeDateFrom = (date) => {
   return typeof date === 'string' ?
       new Date(zonedTimeToUtc(date).toISOString()) :
       date;
+};
+
+/**
+ * Wrapper for date-fns's isBefore but allows date strings
+ *     (See: https://date-fns.org/v2.28.0/docs/isBefore)
+ * @param {Date|string} date A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date that should be before the other one to return true
+ * @param {Date|string} dateToCompare A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date to compare with
+ * @return {Boolean} true exactly when the first date is before the second date
+ */
+export const isBefore = (date, dateToCompare) => {
+  return comesBefore(makeDateFrom(date), makeDateFrom(dateToCompare));
+};
+
+/**
+ * Returns true if the given date was in the past
+ * @param {Date|string} date A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date that should be before now to return true
+ * @return {Boolean} true exactly when date occurs before now
+ */
+export const isBeforeNow = (date) => {
+  return comesBefore(date, new Date());
 };
 
 /**
@@ -69,7 +99,7 @@ export const timeLeftFormat = (
   const targetDate = makeDateFrom(date);
   const now = makeDateFrom(new Date());
 
-  if (targetDate <= now) {
+  if (isBefore(targetDate, now)) {
     return expiredText;
   }
 
@@ -133,7 +163,7 @@ export const dateTimeFormat = (date) => {
  *     formatInTimeZone
  *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
  *     or right Date in difference
- * @returns {number} the signed number of full (rounded towards 0) minutes
+ * @return {number} the signed number of full (rounded towards 0) minutes
  *     between the given dates (dateLeft - dateRight minutes)
  */
 const differenceInMinutes = (dateLeft, dateRight) => {
