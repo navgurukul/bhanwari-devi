@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import { actions as classActions } from "../redux/action";
-import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 import { Grid, Container, Typography, Card, Skeleton } from "@mui/material";

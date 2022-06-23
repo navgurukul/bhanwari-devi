@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import useStyles from "./styles";
@@ -11,14 +11,7 @@ import { actions as pathwayActions } from "./redux/action";
 // import { actions as upcomingBatchesActions } from "./redux/action";
 // import { actions as upcomingClassActions } from "./redux/action";
 
-import {
-  Container,
-  Box,
-  Grid,
-  Card,
-  Typography,
-  CardMedia,
-} from "@mui/material";
+import { Container, Box, Grid, Card, Typography } from "@mui/material";
 
 const pathways = [
   {
