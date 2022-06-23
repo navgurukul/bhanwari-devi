@@ -25,7 +25,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const [showModal, setShowModal] = React.useState(false);
   const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [indicator, setIndicator] = React.useState(false);
+  const [indicator, setIndicator] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
   const classStartTime = item.start_time && item.start_time.replace("Z", "");
@@ -339,10 +339,11 @@ function ClassCard({ item, editClass, enroll, style }) {
               <label>
                 <input
                   type="checkbox"
+                  defaultChecked={indicator}
                   align="center"
                   className="cohort-class"
                   onClick={() => {
-                    setIndicator(true);
+                    setIndicator(!indicator);
                   }}
                 />
                 Enroll all classes of this cohort?
