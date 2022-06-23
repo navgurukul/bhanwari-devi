@@ -14,6 +14,9 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+// const {languageMap} = require("../../pages/CourseContent/languageMap");
+
 import {
   Container,
   Box,
@@ -24,6 +27,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import languageMap from "../../pages/CourseContent/languageMap";
 
 const Exercise = ({
   course,
@@ -100,6 +104,8 @@ function PathwayExercise() {
   const params = useParams();
   const courseId = params.courseId;
   const courseLength = course && course.length ? course.length : 0;
+  const [availableLang, setAvailableLang] = useState(["en"]);
+
   useEffect(() => {
     const currentCourse = params.exerciseId;
     setExerciseId(parseInt(currentCourse));
@@ -114,11 +120,50 @@ function PathwayExercise() {
     })
       .then((res) => {
         setCourse(res.data.course.exercises);
+        setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
         console.log("error");
       });
   }, []);
+  console.log("availableLang", availableLang);
+  const LangDropDown = () => {
+    return availableLang?.length === 1 ? (
+      <MenuItem value={availableLang[0]}>
+        {Lang[availableLang[0]]} <KeyboardArrowDownIcon />{" "}
+      </MenuItem>
+    ) : (
+      <Select
+        disableUnderline
+        value={language}
+        IconComponent={() => null}
+        onChange={(e) => {
+          setLanguage(e.target.value);
+        }}
+        variant="standard"
+      >
+        {availableLang.map((lang) => {
+          return (
+            <MenuItem
+              style={{ borderRadius: "8px" }}
+              sx={{ width: 120, margin: "6px 16px 6px 16px" }}
+              value={lang}
+            >
+              {Lang[lang]}
+            </MenuItem>
+          );
+        })}
+      </Select>
+    );
+  };
+
+  // const Lang = {
+  //   en: "English",
+  //   mr: "Marathi",
+  //   hi: "Hindi",
+  // };
+
+  const Lang = languageMap;
 
   console.log("courseId", courseId);
 
@@ -162,7 +207,7 @@ function PathwayExercise() {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" component="div">
+              <Typography variant="h6" component="div" pt={1}>
                 <Link
                   style={{ color: "#6D6D6D" }}
                   to={
@@ -181,7 +226,7 @@ function PathwayExercise() {
               <Toolbar>
                 <ArrowBackIosIcon
                   opacity={`${exerciseId !== 0 ? 1 : 0}`}
-                  sx={{ marginRight: 3 }}
+                  sx={{ marginRight: "20px" }}
                   onClick={previousClickHandler}
                 />
                 <div className="gridtopofcourse7">
@@ -212,19 +257,7 @@ function PathwayExercise() {
                   onClick={nextClickHandler}
                 />
               </Toolbar>
-              <Select
-                IconComponent={() => null}
-                disableUnderline
-                value={language}
-                onChange={(e) => {
-                  setLanguage(e.target.value);
-                }}
-                variant="standard"
-              >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
-              </Select>
+              <LangDropDown />
             </Toolbar>
           </div>
           <div className="VisibleInMobile">
@@ -246,19 +279,7 @@ function PathwayExercise() {
                 </Link>
               </Typography>
 
-              <Select
-                disableUnderline
-                value={language}
-                IconComponent={() => null}
-                onChange={(e) => {
-                  setLanguage(e.target.value);
-                }}
-                variant="standard"
-              >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">Hindi</MenuItem>
-                <MenuItem value="mr">Marathi</MenuItem>
-              </Select>
+              <LangDropDown />
             </div>
             <Toolbar>
               <div

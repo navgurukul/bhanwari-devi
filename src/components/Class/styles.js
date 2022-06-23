@@ -2,9 +2,9 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    height: "350px",
+    height: "340px",
     display: "flex",
-    maxWidth: "300px",
+    maxWidth: "380px",
     flexDirection: "column",
     justifyContent: "space-between",
     margin: "0px 4px 0px 4px",
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   spacing: {
-    padding: "5px 0px",
+    padding: "12px 0",
   },
   Buttons: {
     width: "90%",
@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gridGap: "10px",
+  },
+  icons: {
+    marginRight: "15px",
+    // position: "flex-start",
   },
 }));
 

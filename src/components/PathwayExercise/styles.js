@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contentImg: {
     padding: 5,
+    marginRight: 5,
   },
 
   contentNumber: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contentImg: {
     padding: 5,
+    marginRight: 5,
   },
   codeBackground: {
     background: "#E5E5E5",
