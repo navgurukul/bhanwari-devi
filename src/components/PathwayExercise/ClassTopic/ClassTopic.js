@@ -47,7 +47,7 @@ function ClassTopic({ courseData }) {
             class to catch up after {format(courseData.start_time, "dd MMM yy")}
           </Typography>
         </Box>
-        <BeforeOrAfter date={courseData.start_time} && before={(
+        <BeforeOrAfter date={courseData.start_time} before={(
           <Box>
             <Box sx={{ display: "flex" }} mt={3}>
               <svg
