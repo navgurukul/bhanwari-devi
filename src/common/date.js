@@ -46,7 +46,7 @@ export const isBefore = (date, dateToCompare) => {
  * @return {Boolean} true exactly when date occurs before now
  */
 export const isBeforeNow = (date) => {
-  return comesBefore(date, new Date());
+  return isBefore(date, new Date());
 };
 
 /**
