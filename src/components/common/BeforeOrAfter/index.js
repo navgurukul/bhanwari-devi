@@ -11,10 +11,11 @@ import { isBeforeNow, millisecondsUntil } from "../../../common/date";
  *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
  *     or Date for which to base which Component to show, defaults to now
  */
-function BeforeOrAfter({ before="", after="", date=new Date()}) {
-  const [isBefore, setIsBefore] = useState(isBeforeNow(date));
+function BeforeOrAfter({ before = "", after = "", date = new Date() }) {
+  const [isBefore, setIsBefore] = useState(!isBeforeNow(date));
 
   useEffect(() => {
+    setIsBefore(!isBeforeNow(date));
     if (isBefore) {
       const timer = setTimeout(() => {
         setIsBefore(false);

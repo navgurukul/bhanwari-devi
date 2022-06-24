@@ -19,39 +19,38 @@ describe("BeforeOrAfter", () => {
           date={
             new Date(new Date().setSeconds(new Date().getSeconds() + testTime))
           }
-          before={<div>before</div>} 
+          before={<div>before</div>}
           after={<div>after</div>}
         />
       );
 
       if (testTime !== 0) {
-        expect(getByText("div")).toBe(testTime < 0 ? "before" : "after");
+        expect(
+          getByText(testTime > 0 ? "before" : "after")
+        ).toBeInTheDocument();
       }
     });
   };
 
-  it("Should show before element before given date", () => {
-    checkBeforeOrAfter(
-      [
-        Math.floor(Math.random() * 60) + 5,
-        7 * HOUR,
-        DAY + 3 * HOUR + 5 * MINUTE,
-        2 * YEAR + HOUR,
-        YEAR,
-        Math.floor(Math.random() * 60) * MINUTE
-      ]
-    );
+  it("Should show before element if given date is in the future", () => {
+    checkBeforeOrAfter([
+      Math.floor(Math.random() * 60) + 5,
+      7 * HOUR,
+      DAY + 3 * HOUR + 5 * MINUTE,
+      2 * YEAR + HOUR,
+      YEAR,
+      Math.floor(Math.random() * 59 + 1) * MINUTE
+    ]);
+  });
 
-  it("Should show after element after given date", () => {
-    checkBeforeOrAfter(
-      [
-        -Math.floor(Math.random() * 60) + 5,
-        -7 * HOUR,
-        -(DAY + 3 * HOUR + 5 * MINUTE),
-        -(2 * YEAR + HOUR),
-        -YEAR,
-        -Math.floor(Math.random() * 60) * MINUTE
-      ]
-    );
+  it("Should show after element if given date is in the past", () => {
+    checkBeforeOrAfter([
+      -(Math.floor(Math.random() * 60) + 5),
+      -7 * HOUR,
+      -(DAY + 3 * HOUR + 5 * MINUTE),
+      -(2 * YEAR + HOUR),
+      -YEAR,
+      -Math.floor(Math.random() * 59 + 1) * MINUTE
+    ]);
   });
 });

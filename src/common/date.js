@@ -3,7 +3,7 @@ import {
   isBefore as comesBefore,
   differenceInMinutes as minutesDifference,
   differenceInMilliseconds as msDifference,
-  intervalToDuration 
+  intervalToDuration
 } from "date-fns";
 import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
 
@@ -16,9 +16,9 @@ import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
  * @return {Date} a copy of the inputted date or a new one from the timestamp
  */
 export const makeDateFrom = (date) => {
-  return typeof date === 'string' ?
-      new Date(zonedTimeToUtc(date).toISOString()) :
-      date;
+  return typeof date === "string"
+    ? new Date(zonedTimeToUtc(date).toISOString())
+    : date;
 };
 
 /**
@@ -106,7 +106,7 @@ export const timeLeftFormat = (
 
   const timeRemaining = intervalToDuration({
     start: now,
-    end: targetDate,
+    end: targetDate
   });
   const { years, months, days, hours, minutes, seconds } = timeRemaining;
   const units = [years, months, days, hours, minutes, seconds];
@@ -213,7 +213,7 @@ const differenceInMilliseconds = (dateLeft, dateRight) => {
  * @returns {number} the (signed) number of milliseconds from now until date
  */
 export const millisecondsUntil = (date) => {
-  return differenceInSeconds(date, new Date());
+  return differenceInMilliseconds(date, new Date());
 };
 
 /**
@@ -226,11 +226,11 @@ export const millisecondsUntil = (date) => {
  */
 const serializeForBackEnd = (date) => {
   return makeDateFrom(date).toISOString();
-}
+};
 
 const formatInTimeZone = (date, timeZone, formatStr) => {
   return ftz(makeDateFrom(date), timeZone, formatStr);
-}
+};
 
 const formatInUtc = (date, formatStr) => {
   return formatInTimeZone(date, "UTC", formatStr);
