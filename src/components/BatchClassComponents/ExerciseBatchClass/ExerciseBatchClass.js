@@ -13,9 +13,10 @@ import { format } from "../../../common/date";
 import RevisionClassEnroll from "../Revision/RevisionClassEnroll";
 // import { Button } from "framework7-react";
 import DropOut from "../DropOut";
+import BeforeOrAfter from "../../common/BeforeOrAfter";
 import ClassJoinTimerButton from "../../Class/ClassJoinTimerButton";
+
 const ExerciseBatchClass = (props) => {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const [dropOutOpen, setDropOutOpen] = useState(false);
   const { facilitator, start_time, end_time, is_enrolled, meet_link, id } =
@@ -23,13 +24,8 @@ const ExerciseBatchClass = (props) => {
   const closeDropOut = () => {
     setDropOutOpen(false);
   };
-  let [TimeLefts, setTimeLefts] = useState(TimeLeft(start_time));
-  var ONE_MINUTE = 60 * 1000;
-  setInterval(() => {
-    setTimeLefts(TimeLeft(start_time));
-  }, ONE_MINUTE);
-  return TimeLefts !== "expired" ? (
-    <>
+
+  return <BeforeOrAfter date={start_time} before = {(
       <Container maxWidth="l">
         <Box align="right" mt={5} maxWidth={350} mb={2}>
           <Card elevation={2} pl={10}>
@@ -81,9 +77,9 @@ const ExerciseBatchClass = (props) => {
           </Card>
         </Box>
       </Container>
-    </>
-  ) : (
-    <RevisionClassEnroll id={id} />
-  );
+    )}
+    after = {<RevisionClassEnroll id={id} />}
+  />;
 };
+
 export default ExerciseBatchClass;

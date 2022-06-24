@@ -2,6 +2,7 @@ import {
   format as dateFnsFormat,
   isBefore as comesBefore,
   differenceInMinutes as minutesDifference,
+  differenceInMilliseconds as msDifference,
   intervalToDuration 
 } from "date-fns";
 import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
@@ -182,6 +183,37 @@ const differenceInMinutes = (dateLeft, dateRight) => {
  */
 export const minutesUntil = (date) => {
   return differenceInMinutes(date, new Date());
+};
+
+/**
+ * Wrapper for date-fns's differenceInMilliseconds but allows date strings
+ *     (See: https://date-fns.org/v2.28.0/docs/differenceInMilliseconds)
+ * @param {Date|string} dateLeft A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or left Date in difference
+ * @param {Date|string} dateRight A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or right Date in difference
+ * @return {number} the signed number of full milliseconds between the given
+ *     dates (dateLeft - dateRight seconds)
+ */
+const differenceInMilliseconds = (dateLeft, dateRight) => {
+  return msDifference(makeDateFrom(dateLeft), makeDateFrom(dateRight));
+};
+
+/**
+ * Gets the signed number of milliseconds from now until given date (If the
+ *     date occurs at least a millisecond later, the number will be positive;
+ *     if it occurs at least a millisecond earlier, it will be negative.)
+ * @param {Date|string} date A valid Date string recognized by formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date to get the milliseconds until
+ * @returns {number} the (signed) number of milliseconds from now until date
+ */
+export const millisecondsUntil = (date) => {
+  return differenceInSeconds(date, new Date());
 };
 
 /**
