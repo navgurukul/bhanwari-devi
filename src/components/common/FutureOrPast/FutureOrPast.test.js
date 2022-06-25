@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { render } from "@testing-library/react";
-import BeforeOrAfter from "./";
+import FutureOrPast from "./";
 // jest.setSystemTime
 
-describe("BeforeOrAfter", () => {
+describe("FutureOrPast", () => {
   const MINUTE = 60; // in seconds
   const HOUR = 60 * MINUTE;
   const DAY = 24 * HOUR;
   const YEAR = 365 * DAY;
 
-  const checkBeforeOrAfter = (testTimes) => {
-    const { rerender, getByText } = render(<BeforeOrAfter />);
+  const checkFutureOrPast = (testTimes) => {
+    const { rerender, getByText } = render(<FutureOrPast />);
 
     testTimes.forEach((testTime) => {
       rerender(
-        <BeforeOrAfter
+        <FutureOrPast
           //startTime="2022-06-21T03:25:00.000+05:30"
           date={
             new Date(new Date().setSeconds(new Date().getSeconds() + testTime))
           }
-          before={<div>before</div>}
-          after={<div>after</div>}
+          future={<div>future</div>}
+          past={<div>past</div>}
         />
       );
 
       if (testTime !== 0) {
         expect(
-          getByText(testTime > 0 ? "before" : "after")
+          getByText(testTime > 0 ? "future" : "past")
         ).toBeInTheDocument();
       }
     });
   };
 
-  it("Should show before element if given date is in the future", () => {
-    checkBeforeOrAfter([
+  it("Should show future element if given date is in the future", () => {
+    checkFutureOrPast([
       Math.floor(Math.random() * 60) + 5,
       7 * HOUR,
       DAY + 3 * HOUR + 5 * MINUTE,
@@ -43,8 +43,8 @@ describe("BeforeOrAfter", () => {
     ]);
   });
 
-  it("Should show after element if given date is in the past", () => {
-    checkBeforeOrAfter([
+  it("Should show past element if given date is in the past", () => {
+    checkFutureOrPast([
       -(Math.floor(Math.random() * 60) + 5),
       -7 * HOUR,
       -(DAY + 3 * HOUR + 5 * MINUTE),
