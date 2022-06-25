@@ -37,8 +37,8 @@ describe("FutureOrPast", () => {
       Math.floor(Math.random() * 60) + 5,
       7 * HOUR,
       DAY + 3 * HOUR + 5 * MINUTE,
-      2 * YEAR + HOUR,
-      YEAR,
+      2 * DAY + HOUR,
+      7 * DAY,
       Math.floor(Math.random() * 59 + 1) * MINUTE
     ]);
   });
@@ -48,8 +48,8 @@ describe("FutureOrPast", () => {
       -(Math.floor(Math.random() * 60) + 5),
       -7 * HOUR,
       -(DAY + 3 * HOUR + 5 * MINUTE),
-      -(2 * YEAR + HOUR),
-      -YEAR,
+      -(2 * DAY + HOUR),
+      -7 * DAY,
       -Math.floor(Math.random() * 59 + 1) * MINUTE
     ]);
   });
