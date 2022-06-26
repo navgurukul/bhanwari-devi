@@ -11,7 +11,7 @@ function CompletionComponent({ setSuccessfulExerciseCompletion }) {
 
   const dispatch = useDispatch();
 
-  const pathwayCourse = useSelector(
+  const pathwayCourses = useSelector(
     (state) => state?.Pathways?.pathwayCourse?.data?.courses
   );
   const [nextPathwayIndex, setNextPathwayIndex] = React.useState();
@@ -20,19 +20,19 @@ function CompletionComponent({ setSuccessfulExerciseCompletion }) {
   }, [dispatch, params.pathwayId]);
 
   useEffect(() => {
-    var index = pathwayCourse?.forEach((element, i) => {
-      if (element.id == courseID) {
-        setNextPathwayIndex(i + 1);
-        return i + 1;
-      }
-    });
-  }, [pathwayCourse]);
+    const currentIndex = pathwayCourses?.findIndex(
+      (course) => course.id == courseID
+    );
+    if (currentIndex !== -1) {
+      setNextPathwayIndex(currentIndex + 1);
+    }
+  }, [pathwayCourses]);
 
   return (
     <div>
-      {pathwayCourse && pathwayCourse[nextPathwayIndex] ? (
+      {pathwayCourses && pathwayCourses[nextPathwayIndex] ? (
         <CourseCompletionPage
-          data={pathwayCourse}
+          data={pathwayCourses}
           nextPathwayIndex={nextPathwayIndex}
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
