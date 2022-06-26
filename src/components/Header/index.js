@@ -31,12 +31,18 @@ import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 import SearchBar from "../SearchBar";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { getTranslationKey } from "../../common/language";
+import { LanguageProvider } from "../../common/context";
+import MSG_ALL_LANG from "../../msg";
 
 const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
   const classes = useStyles();
+  const { language } = useContext(LanguageProvider);
+  const MSG = MSG_ALL_LANG[language];
 
   const menuOpenHandler = (event, menu) => {
     setIndicator(event.currentTarget);
@@ -64,7 +70,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
               sx={{ color: "black" }}
               key={index}
             >
-              <Typography variant="subtitle1">{menu}</Typography>
+              <Typography variant="subtitle1">
+                {MSG[getTranslationKey(menu)]}
+              </Typography>
               {selectedMenu === menu && indicator ? (
                 <ExpandLessIcon />
               ) : (
