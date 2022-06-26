@@ -169,8 +169,8 @@ function AuthenticatedHeaderOption({
               />
 
               <HeaderNavLink
-                to={PATHS.CLASS}
-                text="Classes"
+                to={PATHS.NEWUSER_DASHBOARED}
+                text="Dashboard"
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
@@ -190,8 +190,8 @@ function AuthenticatedHeaderOption({
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
-                to={PATHS.CLASS}
-                text="Classes"
+                to={PATHS.NEWUSER_DASHBOARED}
+                text="Dashboard"
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink

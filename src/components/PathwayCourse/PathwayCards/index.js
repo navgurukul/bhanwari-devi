@@ -41,14 +41,10 @@ const PathwayCards = (props) => {
     useEffect(() => {
       const courseId = item.course_id;
       getCourseContent({ courseId, versionCode, user }).then((res) => {
-        console.log(
-          res.data.course.exercises.forEach((ex, index) => {
-            if (ex.id === item.exercise_id) {
-              setClassIndex(index + 1);
-              return;
-            }
-          })
+        const index = res.data.course.exercises.findIndex(
+          (ex) => ex.id === item.exercise_id
         );
+        setClassIndex(index + 1);
       });
     }, []);
     return (
@@ -66,11 +62,12 @@ const PathwayCards = (props) => {
           }}
           style={{ minWidth: "300px", margin: "10px" }}
         >
-          {item.type == "batch" ? (
-            <Box sx={{ borderTop: 5, color: "ForestGreen" }} />
-          ) : (
-            <Box sx={{ borderTop: 5, color: "darkblue" }} />
-          )}
+          <Box
+            sx={{
+              borderTop: 5,
+              color: item.type === "batch" ? "forestgreen" : "darkblue",
+            }}
+          />
 
           <CardContent>
             <Grid container spacing={1}>
