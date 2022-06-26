@@ -13,6 +13,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { useContext } from "react";
+import { getTranslationKey } from "../../common/language";
+import { LanguageProvider } from "../../common/context";
 
 import {
   Typography,
@@ -78,6 +81,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
+  const { language, MSG } = useContext(LanguageProvider);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -101,7 +105,9 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
         id="panel1a-header"
         sx={{ width: 380 }}
       >
-        <Typography variant="subtitle1">{Menu}</Typography>
+        <Typography variant="subtitle1">
+          {MSG[getTranslationKey(Menu)]}
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
         {students[Menu.split(" ").join("")].map((menu, index) => {

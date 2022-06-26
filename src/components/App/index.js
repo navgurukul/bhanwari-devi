@@ -8,10 +8,12 @@ import { ThemeProvider } from "@mui/material/styles";
 import { LanguageProvider } from "../../common/context";
 import { useLanguage } from "../../common/language";
 import theme from "../../theme/theme";
+import MSG from "../../msg";
 
 import "./styles.scss";
 
 function App() {
+  const language = useLanguage();
   const showHeader = !useRouteMatch({
     path: HideHeader,
   });
@@ -22,7 +24,8 @@ function App() {
   return (
     <LanguageProvider.Provider
       value={{
-        language: useLanguage()
+        language,
+        MSG: MSG[language]
       }}
     >
       <ThemeProvider theme={theme}>
