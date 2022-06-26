@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { LanguageProvider } from "./context";
 import { useQuery } from "./url";
 import { lang } from "../constant";
 import en from "../msg/en";
@@ -11,6 +13,10 @@ export const useLanguage = () => {
   } else {
     return "en"; // default to English
   }
+};
+
+export const useLanguageConstants = () => {
+  return useContext(LanguageProvider);
 };
 
 export const getTranslationKey = (englishText) => {
