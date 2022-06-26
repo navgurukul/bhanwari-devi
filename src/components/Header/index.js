@@ -31,8 +31,9 @@ import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 import SearchBar from "../SearchBar";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Message from "../common/Message";
 // import { useContext } from "react";
-import { useLanguageConstants, getTranslationKey } from "../../common/language";
+// import { useLanguageConstants, getTranslationKey } from "../../common/language";
 // import { LanguageProvider } from "../../common/context";
 
 const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
@@ -40,7 +41,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
   const classes = useStyles();
-  const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
+  // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
   const menuOpenHandler = (event, menu) => {
     setIndicator(event.currentTarget);
@@ -69,7 +70,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
               key={index}
             >
               <Typography variant="subtitle1">
-                {MSG[getTranslationKey(menu)]}
+                {/*MSG[getTranslationKey(menu)]*/}
+                <Message>{menu}</Message>
               </Typography>
               {selectedMenu === menu && indicator ? (
                 <ExpandLessIcon />

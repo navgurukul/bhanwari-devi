@@ -13,8 +13,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
 import LaunchIcon from "@mui/icons-material/Launch";
+import Message from "../common/Message";
 // import { useContext } from "react";
-import { useLanguageConstants, getTranslationKey } from "../../common/language";
+// import { useLanguageConstants, getTranslationKey } from "../../common/language";
 // import { LanguageProvider } from "../../common/context";
 
 import {
@@ -81,7 +82,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
-  const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
+  // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -106,7 +107,8 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
         sx={{ width: 380 }}
       >
         <Typography variant="subtitle1">
-          {MSG[getTranslationKey(Menu)]}
+          {/*MSG[getTranslationKey(Menu)]*/}
+          <Message>{Menu}</Message>
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
