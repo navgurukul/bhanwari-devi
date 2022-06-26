@@ -15,7 +15,6 @@ const PathwayCourseBatchEnroll1 = (props) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const { upcomingBatchesData } = props;
   const user = useSelector(({ User }) => User);

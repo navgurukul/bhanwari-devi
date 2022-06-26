@@ -1,7 +1,9 @@
 import {
   format as dateFnsFormat,
+  isBefore as comesBefore,
   differenceInMinutes as minutesDifference,
-  intervalToDuration 
+  differenceInMilliseconds as msDifference,
+  intervalToDuration
 } from "date-fns";
 import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
 
@@ -14,9 +16,38 @@ import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
  * @return {Date} a copy of the inputted date or a new one from the timestamp
  */
 export const makeDateFrom = (date) => {
-  return typeof date === 'string' ?
-      new Date(zonedTimeToUtc(date).toISOString()) :
-      date;
+  return typeof date === "string"
+    ? new Date(zonedTimeToUtc(date).toISOString())
+    : date;
+};
+
+/**
+ * Wrapper for date-fns's isBefore but allows date strings
+ *     (See: https://date-fns.org/v2.28.0/docs/isBefore)
+ * @param {Date|string} date A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date that should be before the other one to return true
+ * @param {Date|string} dateToCompare A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date to compare with
+ * @return {Boolean} true exactly when the first date is before the second date
+ */
+export const isBefore = (date, dateToCompare) => {
+  return comesBefore(makeDateFrom(date), makeDateFrom(dateToCompare));
+};
+
+/**
+ * Returns true if the given date was in the past
+ * @param {Date|string} date A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date that should be before now to return true
+ * @return {Boolean} true exactly when date occurs before now
+ */
+export const isBeforeNow = (date) => {
+  return isBefore(date, new Date());
 };
 
 /**
@@ -69,13 +100,13 @@ export const timeLeftFormat = (
   const targetDate = makeDateFrom(date);
   const now = makeDateFrom(new Date());
 
-  if (targetDate <= now) {
+  if (isBefore(targetDate, now)) {
     return expiredText;
   }
 
   const timeRemaining = intervalToDuration({
     start: now,
-    end: targetDate,
+    end: targetDate
   });
   const { years, months, days, hours, minutes, seconds } = timeRemaining;
   const units = [years, months, days, hours, minutes, seconds];
@@ -133,7 +164,7 @@ export const dateTimeFormat = (date) => {
  *     formatInTimeZone
  *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
  *     or right Date in difference
- * @returns {number} the signed number of full (rounded towards 0) minutes
+ * @return {number} the signed number of full (rounded towards 0) minutes
  *     between the given dates (dateLeft - dateRight minutes)
  */
 const differenceInMinutes = (dateLeft, dateRight) => {
@@ -155,6 +186,37 @@ export const minutesUntil = (date) => {
 };
 
 /**
+ * Wrapper for date-fns's differenceInMilliseconds but allows date strings
+ *     (See: https://date-fns.org/v2.28.0/docs/differenceInMilliseconds)
+ * @param {Date|string} dateLeft A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or left Date in difference
+ * @param {Date|string} dateRight A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or right Date in difference
+ * @return {number} the signed number of full milliseconds between the given
+ *     dates (dateLeft - dateRight seconds)
+ */
+const differenceInMilliseconds = (dateLeft, dateRight) => {
+  return msDifference(makeDateFrom(dateLeft), makeDateFrom(dateRight));
+};
+
+/**
+ * Gets the signed number of milliseconds from now until given date (If the
+ *     date occurs at least a millisecond later, the number will be positive;
+ *     if it occurs at least a millisecond earlier, it will be negative.)
+ * @param {Date|string} date A valid Date string recognized by formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date to get the milliseconds until
+ * @returns {number} the (signed) number of milliseconds from now until date
+ */
+export const millisecondsUntil = (date) => {
+  return differenceInMilliseconds(date, new Date());
+};
+
+/**
  * Returns a timestamp of the given date in the required back-end format
  * @param {Date|string} date A valid Date string recognized by formatInTimeZone
  *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
@@ -164,11 +226,11 @@ export const minutesUntil = (date) => {
  */
 const serializeForBackEnd = (date) => {
   return makeDateFrom(date).toISOString();
-}
+};
 
 const formatInTimeZone = (date, timeZone, formatStr) => {
   return ftz(makeDateFrom(date), timeZone, formatStr);
-}
+};
 
 const formatInUtc = (date, formatStr) => {
   return formatInTimeZone(date, "UTC", formatStr);
