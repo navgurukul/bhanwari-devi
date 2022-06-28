@@ -189,12 +189,12 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     return axios({
       method: METHODS.DELETE,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "unregister-to-all": indicator,
+        // "unregister-to-all": indicator,
       },
     }).then((res) => {
       console.log("res", res);
