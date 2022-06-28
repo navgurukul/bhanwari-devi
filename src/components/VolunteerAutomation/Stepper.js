@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { PATHS } from "../../constant";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -192,7 +192,9 @@ function HorizontalLinearStepper() {
       <React.Fragment>
         <>
           {steps.map((step, index) => {
-            if (activeStep == index) {
+            console.log(typeof index, "index");
+            console.log(typeof activeStep, "type");
+            if (activeStep === index) {
               return (
                 <Box>
                   <Typography sx={{ mt: 2, mb: 1 }}>

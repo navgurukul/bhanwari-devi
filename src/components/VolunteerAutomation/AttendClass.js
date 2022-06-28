@@ -154,13 +154,14 @@ function AttendClass({
     }, ONE_MINUTE);
     return (
       <>
-        {Timer == "joinNow" ? (
+        {Timer === "joinNow" ? (
           <a
             style={{
               textDecoration: "none",
             }}
             href={item.meet_link}
             target="_blank"
+            rel="noopener noreferrer"
           >
             <Button
               onClick={() => {
@@ -172,7 +173,7 @@ function AttendClass({
               Join Now
             </Button>
           </a>
-        ) : Timer == "expired" ? (
+        ) : Timer === "expired" ? (
           <Button disabled={true} variant="contained" fullWidth>
             Expired
           </Button>
@@ -243,17 +244,19 @@ function AttendClass({
               the class to chat with the teacher. Once, completed please return
               to complete the onboarding
             </Typography>
-            <TextField
-              sx={{ mt: 2 }}
-              type="date"
-              id="outlined-basic"
-              variant="outlined"
-              value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-              }}
-            />
-            {classData.length === 0 && (
+            {!enrollId && (
+              <TextField
+                sx={{ mt: 2 }}
+                type="date"
+                id="outlined-basic"
+                variant="outlined"
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              />
+            )}
+            {classData.length === 0 && !enrollId && (
               <Typography sx={{ mt: 2 }} color="error">
                 There is no class on this date. Please choose another date or
                 enroll with suggested class!
