@@ -7,14 +7,7 @@ import { breakpoints } from "../../../theme/constant";
 
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../../constant";
-import {
-  Container,
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Container, Box, Grid, Card, Typography } from "@mui/material";
 import useStyles from "../styles";
 
 function MiscellaneousCourses() {

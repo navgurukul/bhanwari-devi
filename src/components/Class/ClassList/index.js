@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import { actions as classActions } from "../redux/action";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
