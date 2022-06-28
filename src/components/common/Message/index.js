@@ -1,9 +1,9 @@
 import { useLanguageConstants, getTranslationKey } from "../../../common/language";
 
-function Message({ constantName, children }) {
+function Message({ constantKey, children }) {
   const { language, MSG } = useLanguageConstants();
-  if (constantName) {
-    return MSG[constantName];
+  if (constantKey) {
+    return MSG[constantKey];
   } else {
     const key = getTranslationKey(children);
     return key ? MSG[key] : children;

@@ -23,6 +23,8 @@ import {
 import HeaderNavLink from "./HeaderNavlink";
 import SearchBar from "../SearchBar";
 import Tooltip from "@mui/material/Tooltip";
+import Message from "../common/Message";
+import { LEARN_KEY, MENU_ITEMS } from "./constant";
 
 const rolesLandingPages = {
   admin: PATHS.PARTNERS,
@@ -89,11 +91,8 @@ function AuthenticatedHeaderOption({
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  let pythonPathwayId;
-  pathway.data &&
-    pathway.data.pathways.forEach((pathway) => {
-      if (pathway.code === "PRGPYT") pythonPathwayId = pathway.id;
-    });
+  const pythonPathwayId =
+      pathway.data?.pathways.find((pathway) => pathway.code === "PRGPYT")?.id;
 
   const partnerGroupId = user.data.user.partner_group_id;
 
@@ -158,11 +157,13 @@ function AuthenticatedHeaderOption({
               }}
             >
               <MenuItem onClick={handleOpenLearn}>
-                <Typography variant="subtitle1">Learn</Typography>
+                <Typography variant="subtitle1">
+                  <Message constantKey={MENU_ITEMS[LEARN_KEY].msgKey} />
+                </Typography>
                 {learn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </MenuItem>
               <DropDown
-                dropDown="Learn"
+                dropDown={LEARN_KEY}
                 indicator={learn}
                 handleClose={handleCloseLearn}
                 toggleDrawer={toggleDrawer}
@@ -170,7 +171,7 @@ function AuthenticatedHeaderOption({
 
               <HeaderNavLink
                 to={PATHS.NEWUSER_DASHBOARED}
-                text="Dashboard"
+                text={<Message constantKey="DASHBOARD" />}
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
@@ -185,13 +186,13 @@ function AuthenticatedHeaderOption({
               }}
             >
               <MobileDropDown
-                Menu="Learn"
+                menuKey={LEARN_KEY}
                 handleClose={handleCloseLearn}
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
                 to={PATHS.NEWUSER_DASHBOARED}
-                text="Dashboard"
+                text={<Message constantKey="DASHBOARD" />}
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
@@ -248,12 +249,12 @@ function AuthenticatedHeaderOption({
               <>
                 <HeaderNavLink
                   to={PATHS.USER}
-                  text="Students"
+                  text={<Message constantKey="STUDENTS" />}
                   toggleDrawer={toggleDrawer}
                 />
                 <HeaderNavLink
                   to={PATHS.VOLUNTEER}
-                  text="Volunteers"
+                  text={<Message constantKey="VOLUNTEERS" />}
                   toggleDrawer={toggleDrawer}
                 />
                 <HeaderNavLink
@@ -264,7 +265,7 @@ function AuthenticatedHeaderOption({
                 {canSpecifyPartnerGroupId && (
                   <HeaderNavLink
                     to={`${PATHS.STATE}/${partnerGroupId}`}
-                    text="Dashboard"
+                    text={<Message constantKey="DASHBOARD" />}
                     toggleDrawer={toggleDrawer}
                   />
                 )}
@@ -291,7 +292,7 @@ function AuthenticatedHeaderOption({
                       ? `${PATHS.STATE}/${partnerGroupId}`
                       : `${PATHS.PARTNERS}/${partnerId}`
                   }
-                  text="Dashboard"
+                  text={<Message constantKey="DASHBOARD" />}
                   toggleDrawer={toggleDrawer}
                 />
               </>

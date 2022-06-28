@@ -49,6 +49,72 @@ export const HideFooter = [
   PATHS.VOLUNTEER_FORM,
 ];
 
+export const PATHWAYS_INFO = [
+  {
+    title: "Python",
+    code: "PRGPYT",
+    image: "python",
+    video_link: "https://youtu.be/DDFvJmC3J5M",
+    description: "Get familiar with programming with bite sized lessons",
+    outcomes: [
+      "Get equipped to build small projects like calculator or to-do list",
+      "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
+    ],
+    type: "internal",
+  },
+  {
+    title: "Typing",
+    code: "TYPGRU",
+    video_link: "https://youtu.be/HQ9IYtBJO0U",
+    image: "typing",
+    description: "Learn to type with pinpoint accuracy and speed.",
+    outcomes: [
+      "Reach a typing speed of up to 30 to 40 words per minute",
+      "Be able to type long text with minimal inaccuracies",
+    ],
+    type: "internal",
+  },
+  {
+    title: "Spoken English", // or English (DropDown.js)
+    code: "SPKENG",
+    image: "language",
+    video_link: "https://youtu.be/g05oD3i67_A",
+    description: "Master English with easy to understand courses",
+    outcomes: [
+      "Start speaking English without fear in about 6 months",
+      "Be able to read, write, listen and speak English with fluency",
+      "Be able to give oral presentations, talk to friends and prospective colleagues",
+    ],
+    type: "internal",
+  },
+  {
+    title: "JavaScript", // "Web Development" (New User Dashboard)
+    code: "JSRPIT",
+    image: "web-development",
+    video_link: "https://youtu.be/EC7UaTE9Z2Q",
+    description: "Learn the basics of tech that powers the web",
+    outcomes: [
+      "Build your first web page and power it with the interactive language of Javascript",
+      "Build your basics of HTML, CSS and Javascript to prepare for advanced web development courses",
+    ],
+    type: "internal",
+  },
+  {
+    title: "Residential Programmes",
+    image: "residential",
+    description: "Explore Navgurukul’s on campus Software Engineering courses",
+    type: "internal",
+    link: PATHS.RESIDENTIAL_COURSE,
+  },
+  {
+    title: "Open Courses", // or Miscellaneous Courses (Dropdown, Footer)
+    image: "misc",
+    description: "Courses on Android, Game dev projects and more",
+    type: "internal",
+    link: PATHS.MISCELLANEOUS_COURSE,
+  },
+];
+
 /*
 export const dateTimeFormat = (date) => {
   try {

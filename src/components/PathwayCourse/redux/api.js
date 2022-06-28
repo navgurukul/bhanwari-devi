@@ -1,6 +1,6 @@
 import axios from "axios";
 import { METHODS } from "../../../services/api";
-import { versionCode } from "../../../constant";
+import { versionCode, PATHWAYS_INFO } from "../../../constant";
 
 export const getPathways = () => {
   return axios({
@@ -10,6 +10,39 @@ export const getPathways = () => {
       "version-code": versionCode,
     },
     // headers: HeaderFactory(token),
+  }).then((response) => {
+    if (!response?.data?.pathways) {
+      return response;
+    }
+    // Augment pathways data from back-end with new data to simulate it all
+    //     coming from the back-end
+    // quick way to copy exported constant since it's being modified
+    const frontEndPathwayData = JSON.parse(JSON.stringify(PATHWAYS_INFO));
+    const backEndPathwayData = response?.data?.pathways || [];
+    const feCodeToIndexMap = frontEndPathwayData.reduce(
+      (codeMap, pathway, index) => {
+        if (pathway.code) {
+          codeMap[pathway.code] = index;
+        }
+        return codeMap;
+      },
+      {}
+    );
+
+    response.data.pathways = backEndPathwayData.reduce((pathwayData, pathway) => {
+      const indexOfPathway = feCodeToIndexMap[pathway.code];
+      if (indexOfPathway != undefined) {
+        pathwayData[indexOfPathway] = {
+          ...pathway,
+          ...pathwayData[indexOfPathway],
+        };
+      } else {
+        pathwayData.push(pathway);
+      }
+      return pathwayData;
+    }, frontEndPathwayData);
+
+    return response;
   });
 };
 
