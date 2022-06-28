@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { actions as classActions } from "../redux/action";
-import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 import { Grid, Container, Typography, Card, Skeleton } from "@mui/material";
@@ -19,9 +18,7 @@ function ClassList({ editClass, isShow }) {
   }, [dispatch, isShow]);
 
   if (loading) {
-    // return <Loader pageLoader={true} />;
     return (
-      // <Container maxWidth="lg" sx={{ mt: "40px" }}>
       <Grid container spacing={2}>
         {Array.from(Array(8)).map((_, index) => (
           <Grid item xs={2} sm={4} md={3} key={index}>
@@ -48,7 +45,6 @@ function ClassList({ editClass, isShow }) {
           </Grid>
         ))}
       </Grid>
-      // </Container>
     );
   }
 

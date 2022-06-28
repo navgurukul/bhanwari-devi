@@ -3,8 +3,7 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
-import { dateTimeFormat, TimeLeft } from "../../../constant";
-// import { timeLeftFormat } from "../../common/date";
+import { dateTimeFormat } from "../../../constant";
 import { timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
@@ -224,7 +223,7 @@ function ClassCard({ item, editClass }) {
     }, ONE_MINUTE);
     return (
       <>
-        {Timer == "joinNow" ? (
+        {Timer === "joinNow" ? (
           <ExternalLink
             style={{
               textDecoration: "none",
@@ -254,13 +253,13 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {languageMap[item.type] == "Doubt Class"
+          {languageMap[item.type] === "Doubt Class"
             ? languageMap[item.type]
             : "Batch"}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
-          {((rolesList.length == 0 && item.enrolled) ||
+          {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
               (item.facilitator.email === user.data.user.email || flag))) && (
             <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
