@@ -210,6 +210,33 @@ export const MoreDetails = (props) => {
   );
 };
 
+const ClassDetails = ({ setOpen, isActive }) => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+      }}
+    >
+      <Button
+        endIcon={<ArrowForwardIosIcon />}
+        onClick={() => {
+          setOpen(true);
+        }}
+        sx={{
+          width: isActive ? "90%" : "215px",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        View Class Details
+      </Button>
+    </div>
+  );
+};
+
 const DoubtClassExerciseComponent = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -243,7 +270,8 @@ const DoubtClassExerciseComponent = (props) => {
           at {format(actions?.start_time, "hh:mm aaa")} -{" "}
           {format(actions?.end_time, "hh:mm aaa")}
         </Typography>
-        <div
+        <ClassDetails setOpen={setOpen} isActive={isActive} />
+        {/* <div
           style={{
             width: "100%",
             display: "flex",
@@ -264,7 +292,7 @@ const DoubtClassExerciseComponent = (props) => {
           >
             View Class Details
           </Button>
-        </div>
+        </div> */}
       </Box>
       {/* <MoreDetails
         open={open}
@@ -319,7 +347,8 @@ const DoubtClassExerciseComponent = (props) => {
             />
             {/* {actions.facilitator_name} */}
           </Typography>
-          <div
+          <ClassDetails setOpen={setOpen} isActive={isActive} />
+          {/* <div
             style={{
               width: "100%",
               display: "flex",
@@ -340,7 +369,7 @@ const DoubtClassExerciseComponent = (props) => {
             >
               View Class Details
             </Button>
-          </div>
+          </div> */}
         </Box>
       </>
     </>

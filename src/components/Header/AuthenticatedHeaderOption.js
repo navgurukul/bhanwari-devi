@@ -350,7 +350,7 @@ function AuthenticatedHeaderOption({
                   className={switchView === "student" && classes.bgColor}
                 >
                   <NavLink
-                    to={interpolatePath(PATHS.NEWUSER_DASHBOARED)}
+                    to={interpolatePath(PATHS.NEW_USER_DASHBOARED)}
                     className={classes.link}
                   >
                     Student
