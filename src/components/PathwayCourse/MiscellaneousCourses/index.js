@@ -35,7 +35,7 @@ function MiscellaneousCourses() {
   const pathwayCourseId =
     (pathway.Pathways.data &&
       pathway.Pathways.data.pathways
-        .map((pathway) => pathway.courses)
+        .map((pathway) => pathway.courses || [])
         .flat()
         .map((course) => course.id)) ||
     [];
