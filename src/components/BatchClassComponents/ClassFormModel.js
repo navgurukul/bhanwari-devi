@@ -1,34 +1,61 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import {
   Typography,
-  Chip,
   Grid,
   Button,
   Box,
   Modal,
-  TextField,
   Stack,
+  Autocomplete,
   Checkbox,
   FormGroup,
   Radio,
   RadioGroup,
+  TextField,
   FormControl,
   FormControlLabel,
   FormLabel,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
-import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import moment from "moment";
 
-export default function ClassFormModel() {
-  const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
+function ClassFormModel() {
+  const [batchName, setBatchName] = useState("");
+  const [date, setDate] = useState(moment.utc(new Date()).format("YYYY-MM-DD"));
+  const [startTime, setStartTime] = React.useState(
+    new Date("2018-01-01T00:00:00.000Z")
+  );
+  const [endTime, setEndTime] = React.useState(
+    new Date("2018-01-01T00:00:00.000Z")
+  );
+  const [selectedLang, setSelectedLang] = useState("");
+  const [day, setDay] = useState([]);
+  const [capEnrollmentData, setcapEnrollmentData] = useState("");
+  const [newPartnerList, setNewPartnerList] = useState([]);
 
   const rootRef = React.useRef(null);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles();
 
-  const handleDelete = (value) => {
-    setValue(" ");
+  const days = ["MO", "TU", "WE", "TH", "FR", "SU"];
+  const language = ["English", "Hindi", "Telugu", "Tamil"];
+  const capEnrollment = ["No Limit", "10", "20", "30"];
+  const partnerList = ["p1", "p2", "p3"];
+
+  // console.log(batchName,date,startTime,endTime,selectedLang,day,capEnrollmentData,newPartnerList);
+
+  const handleDaySelection = (checkedDay) => {
+    const index = day.indexOf(checkedDay.target.value);
+    if (index === -1) {
+      setDay([...day, checkedDay.target.value]);
+    } else {
+      setDay(
+        day.filter((selectedDay) => selectedDay !== checkedDay.target.value)
+      );
+    }
   };
 
   return (
@@ -68,30 +95,54 @@ export default function ClassFormModel() {
             Create Batch
           </Typography>
           <div>
-            <TextField fullWidth label="Batch Name" defaultValue="Ankit_2022" />
-            <Typography variant="body2" color="text.secondary" mb={3} mt={2}>
+            <TextField
+              fullWidth
+              label="Batch Name"
+              defaultValue="Ankit_2022"
+              value={batchName}
+              onChange={(e) => {
+                setBatchName(e.target.value);
+              }}
+            />
+
+            <Typography variant="body2" color="text.secondary" mb={3} mt={3}>
               We will automatically create 28 classes for a Python batch with
               titles and descriptions
             </Typography>
           </div>
           <div>
-            <TextField fullWidth label="For me" defaultValue="DVE" />
-            <Chip label="DITI1" onDelete={handleDelete} sx={{ mt: 2 }} />
-            <Typography variant="body2" color="text.secondary" mt={2}>
+            <Stack>
+              <Autocomplete
+                multiple
+                value={newPartnerList}
+                options={partnerList}
+                getOptionLabel={(option) => option}
+                onChange={(event, value) => setNewPartnerList(value)}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="For Partner"
+                  />
+                )}
+              />
+            </Stack>
+            <Typography variant="body2" color="text.secondary" mt={3}>
               This batch will be visible to students of only these partner
             </Typography>
           </div>
-          {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack spacing={3}>
-              <DesktopDatePicker
-                label="Date desktop"
-                inputFormat="MM/dd/yyyy"
-                value={value}
-                onChange={handleChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </Stack>
-          </LocalizationProvider> */}
+          <TextField
+            sx={{ mt: 3 }}
+            type="date"
+            variant="outlined"
+            value={date}
+            label="Start Date"
+            fullWidth
+            onChange={(e) => {
+              setDate(e.target.value);
+            }}
+          />
           <div>
             <FormLabel component="legend">
               <Typography
@@ -104,87 +155,94 @@ export default function ClassFormModel() {
               </Typography>
             </FormLabel>
             <FormGroup aria-label="position" row>
-              <FormControlLabel
-                value="MO"
-                control={<Checkbox />}
-                label="MO"
-                labelPlacement="MO"
-              />
-              <FormControlLabel
-                value="Tu"
-                control={<Checkbox />}
-                label="TU"
-                labelPlacement="TU"
-              />
+              {days.map((item) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={item}
+                      checked={day.includes(item)}
+                      onChange={handleDaySelection}
+                    />
+                  }
+                  label={item}
+                  labelPlacement={item}
+                />
+              ))}
             </FormGroup>
           </div>
-          <Grid mt={3}>
-            <TextField
-              type="time"
-              placeholder="Start Time"
-              defaultValue="07:30"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-              sx={{ width: 235 }}
-            />
-            <TextField
-              type="time"
-              placeholder="Start Time"
-              defaultValue="07:30"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-              sx={{ width: 235, ml: 3 }}
-            />
+          <Grid container mt={2} spacing={2}>
+            <Grid item xs={isActive ? 12 : 6}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Stack spacing={3}>
+                  <DesktopTimePicker
+                    label="Start Time"
+                    value={startTime}
+                    onChange={(newStartTime) => {
+                      setStartTime(newStartTime);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </Stack>
+              </LocalizationProvider>
+            </Grid>
+            <Grid item xs={isActive ? 12 : 6}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Stack spacing={3}>
+                  <DesktopTimePicker
+                    label="End-Time"
+                    value={endTime}
+                    // defaultValue = "End-Time"
+                    onChange={(newEndTime) => {
+                      setEndTime(newEndTime);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </Stack>
+              </LocalizationProvider>
+            </Grid>
           </Grid>
           <div>
-            <FormControl sx={{ mt: 2 }}>
-              <FormLabel>Language</FormLabel>
-              <RadioGroup row>
-                <FormControlLabel
-                  value="English"
-                  control={<Radio />}
-                  label="English"
-                />
-                <FormControlLabel
-                  value="Hindi"
-                  control={<Radio />}
-                  label="Hindi"
-                />
-                <FormControlLabel
-                  value="Telugu"
-                  control={<Radio />}
-                  label="Telugu"
-                />
-                <FormControlLabel
-                  value="Tamil"
-                  control={<Radio />}
-                  label="Tamil"
-                />
-              </RadioGroup>
-            </FormControl>
+            <Box display="flex" justifyContent="start">
+              <FormControl>
+                <FormLabel sx={{ mt: 3, mb: 2 }}>Language</FormLabel>
+                <RadioGroup value={selectedLang?.index} row>
+                  {language?.map((item) => {
+                    return (
+                      <FormControlLabel
+                        key={item}
+                        sx={{ fontWeight: 20 }}
+                        value={item}
+                        control={<Radio />}
+                        onClick={() => {
+                          setSelectedLang(item);
+                        }}
+                        label={item}
+                      />
+                    );
+                  })}
+                </RadioGroup>
+              </FormControl>
+            </Box>
           </div>
           <div>
             <FormControl sx={{ mb: 4, mt: 2 }}>
-              <RadioGroup row>
+              <RadioGroup row value={capEnrollmentData?.index}>
                 <Typography variant="body1" pt={1} pr={2}>
                   Cap enrollments at
                 </Typography>
-                <FormControlLabel
-                  value="No Limit"
-                  control={<Radio />}
-                  label="No Limit"
-                />
-                <FormControlLabel value="10" control={<Radio />} label="10" />
-                <FormControlLabel value="20" control={<Radio />} label="20" />
-                <FormControlLabel value="30" control={<Radio />} label="30" />
+                {capEnrollment?.map((item) => {
+                  return (
+                    <FormControlLabel
+                      key={item}
+                      value={item}
+                      control={<Radio />}
+                      label={item}
+                      onClick={() => {
+                        setcapEnrollmentData(item);
+                      }}
+                    />
+                  );
+                })}
               </RadioGroup>
             </FormControl>
           </div>
@@ -196,3 +254,5 @@ export default function ClassFormModel() {
     </Box>
   );
 }
+
+export default ClassFormModel;
