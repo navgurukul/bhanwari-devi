@@ -33,6 +33,123 @@ import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
+const ClassCardContainer = ({
+  sliceData,
+  cSize,
+  classes,
+  enrollId,
+  enrollClass,
+  EnrolledAndTimer,
+  handleClickOpen,
+  open,
+  handleClose,
+  dropOutClass,
+}) => {
+  return (
+    <Grid sx={{ mt: 5 }} container spacing={4}>
+      {sliceData &&
+        sliceData.map((item) => (
+          <Grid item xs={12} ms={6} md={cSize}>
+            <Card className={classes.classCard}>
+              <CardContent>
+                <Typography gutterBottom variant="subtitle1">
+                  {item.title}
+                </Typography>
+                <Box sx={{ display: "flex", mt: 2 }}>
+                  <Chip color="primary" label="Batch" />
+                  <Chip
+                    color="primary"
+                    sx={{ ml: 1 }}
+                    label={lang[item.lang]}
+                    variant="outlined"
+                  />
+                </Box>
+
+                <Box sx={{ mt: 2 }}>
+                  <Typography>
+                    {format(item.start_time, "dd MMM yy")},{" "}
+                    {format(item.start_time, "hh:mm aaa")} -
+                    {format(item.end_time, "hh:mm aaa")}
+                  </Typography>
+                </Box>
+
+                <Typography
+                  sx={{ mt: 2 }}
+                  color="text.secondary"
+                  gutterBottom
+                  variant="body1"
+                >
+                  Please join at least 10 minutes before the scheduled time
+                </Typography>
+              </CardContent>
+              <CardActions>
+                {!enrollId ? (
+                  <Button
+                    onClick={() => {
+                      enrollClass(item);
+                    }}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Enroll
+                  </Button>
+                ) : (
+                  <EnrolledAndTimer item={item} />
+                )}
+              </CardActions>
+            </Card>
+            <Box>
+              {enrollId && (
+                <Button
+                  sx={{ mt: 5 }}
+                  onClick={handleClickOpen}
+                  color="error"
+                  variant="text"
+                >
+                  Can't attend on this date?
+                </Button>
+              )}
+            </Box>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Confirm dropping out"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  <Typography variant="body1">
+                    {" "}
+                    Something urgent came up? Keep an eye for{" "}
+                  </Typography>
+                  future doubt classes
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button sx={{ color: "#2E2E2E" }} onClick={handleClose}>
+                  Stay Enrolled
+                </Button>
+                <Button
+                  color="error"
+                  onClick={() => {
+                    dropOutClass(item);
+                  }}
+                  autoFocus
+                >
+                  Drop Out
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Grid>
+        ))}
+    </Grid>
+  );
+};
+
 function AttendClass({
   setEnrollId,
   enrollId,
@@ -64,28 +181,35 @@ function AttendClass({
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  const selectedPathwayClass =
-    data?.filter((item) => {
-      return item.pathway_v2 == pathwayId;
-    }) || [];
+  // const pathwayId = JSON.parse(
+  //   localStorage.getItem("volunteer_automation--state")
+  // )?.pathwayId;
 
   const classData =
     data?.filter((item) => {
-      return item.pathway_v2 == pathwayId && item.start_time.includes(date);
+      return item.start_time.includes(date);
+      // return item.pathway_v2 == pathwayId && item.start_time.includes(date);
     }) || [];
-
-  console.log("classData", classData);
-  console.log("selectedPathwayClass", selectedPathwayClass);
 
   const possibleClasses =
     classData.length === 0
-      ? selectedPathwayClass?.slice(0, numOfClassesToShow)
+      ? data?.slice(0, numOfClassesToShow) || []
       : classData?.slice(0, numOfClassesToShow);
+  // : classData.length >= numOfClassesToShow
+  // ? classData?.slice(0, numOfClassesToShow)
+  // : classData;
 
   const enrolledClass =
     !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
 
   const sliceData = (enrolledClass && [enrolledClass]) || possibleClasses;
+
+  let cSize = 4;
+  if (sliceData.length === 1) {
+    cSize = 8;
+  } else {
+    cSize = 4;
+  }
 
   const enrollClass = (Class) => {
     setOpen(false);
@@ -154,13 +278,14 @@ function AttendClass({
     }, ONE_MINUTE);
     return (
       <>
-        {Timer == "joinNow" ? (
+        {Timer === "joinNow" ? (
           <a
             style={{
               textDecoration: "none",
             }}
             href={item.meet_link}
             target="_blank"
+            rel="noopener noreferrer"
           >
             <Button
               onClick={() => {
@@ -172,7 +297,7 @@ function AttendClass({
               Join Now
             </Button>
           </a>
-        ) : Timer == "expired" ? (
+        ) : Timer === "expired" ? (
           <Button disabled={true} variant="contained" fullWidth>
             Expired
           </Button>
@@ -184,6 +309,7 @@ function AttendClass({
       </>
     );
   };
+
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
@@ -206,7 +332,6 @@ function AttendClass({
                 onClick={() => {
                   setProceed(false);
                   setEnrollId(null);
-                  // localStorage.setItem("proceed", false);
                   setChooseClassAgain(true);
                 }}
               >
@@ -215,15 +340,7 @@ function AttendClass({
               else please proceed
             </Typography>
             <Box sx={{ display: "flex" }}>
-              <Checkbox
-                icon={<RadioButtonUncheckedIcon />}
-                checkedIcon={<CheckCircleIcon />}
-                checked={completed}
-                onClick={() => {
-                  setStepCompleted();
-                  setDisable(false);
-                }}
-              />
+              <Checkbox />
               <Typography sx={{ ml: 2, mt: 2 }}>
                 I have attended and got familiar with how classes are conducted
                 on Meraki
@@ -243,125 +360,53 @@ function AttendClass({
               the class to chat with the teacher. Once, completed please return
               to complete the onboarding
             </Typography>
-            <TextField
-              sx={{ mt: 2 }}
-              type="date"
-              id="outlined-basic"
-              variant="outlined"
-              value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-              }}
-            />
-            {classData.length === 0 && (
+            {!enrollId && (
+              <TextField
+                sx={{ mt: 2 }}
+                type="date"
+                id="outlined-basic"
+                variant="outlined"
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              />
+            )}
+            {classData.length === 0 && !enrollId && (
               <Typography sx={{ mt: 2 }} color="error">
                 There is no class on this date. Please choose another date or
                 enroll with suggested class!
               </Typography>
             )}
+            {sliceData.length === 1 && (
+              <ClassCardContainer
+                sliceData={sliceData}
+                cSize={cSize}
+                classes={classes}
+                enrollId={enrollId}
+                enrollClass={enrollClass}
+                EnrolledAndTimer={EnrolledAndTimer}
+                handleClickOpen={handleClickOpen}
+                open={open}
+                handleClose={handleClose}
+                dropOutClass={dropOutClass}
+              />
+            )}
           </Container>
-          <Grid sx={{ mt: 5 }} container spacing={4}>
-            {sliceData &&
-              sliceData.map((item) => (
-                <Grid item xs={12} ms={6} md={4}>
-                  <Card className={classes.classCard}>
-                    <CardContent>
-                      <Typography gutterBottom variant="subtitle1">
-                        {item.title}
-                      </Typography>
-                      <Box sx={{ display: "flex", mt: 2 }}>
-                        <Chip color="primary" label="Batch" />
-                        <Chip
-                          color="primary"
-                          sx={{ ml: 1 }}
-                          label={lang[item.lang]}
-                          variant="outlined"
-                        />
-                      </Box>
-
-                      <Box sx={{ mt: 2 }}>
-                        <Typography>
-                          {format(item.start_time, "dd MMM yy")},{" "}
-                          {format(item.start_time, "hh:mm aaa")} -
-                          {format(item.end_time, "hh:mm aaa")}
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        sx={{ mt: 2 }}
-                        color="text.secondary"
-                        gutterBottom
-                        variant="body1"
-                      >
-                        Please join at least 10 minutes before the scheduled
-                        time
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      {!enrollId ? (
-                        <Button
-                          onClick={() => {
-                            enrollClass(item);
-                          }}
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                        >
-                          Enroll
-                        </Button>
-                      ) : (
-                        <EnrolledAndTimer item={item} />
-                      )}
-                    </CardActions>
-                  </Card>
-                  <Box>
-                    {enrollId && (
-                      <Button
-                        sx={{ mt: 5 }}
-                        onClick={handleClickOpen}
-                        color="error"
-                        variant="text"
-                      >
-                        Can't attend on this date?
-                      </Button>
-                    )}
-                  </Box>
-                  <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                  >
-                    <DialogTitle id="alert-dialog-title">
-                      {"Confirm dropping out"}
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        <Typography variant="body1">
-                          {" "}
-                          Something urgent came up? Keep an eye for{" "}
-                        </Typography>
-                        future doubt classes
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button sx={{ color: "#2E2E2E" }} onClick={handleClose}>
-                        Stay Enrolled
-                      </Button>
-                      <Button
-                        color="error"
-                        onClick={() => {
-                          dropOutClass(item);
-                        }}
-                        autoFocus
-                      >
-                        Drop Out
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </Grid>
-              ))}
-          </Grid>
+          {sliceData.length > 1 && (
+            <ClassCardContainer
+              sliceData={sliceData}
+              cSize={cSize}
+              classes={classes}
+              enrollId={enrollId}
+              enrollClass={enrollClass}
+              EnrolledAndTimer={EnrolledAndTimer}
+              handleClickOpen={handleClickOpen}
+              open={open}
+              handleClose={handleClose}
+              dropOutClass={dropOutClass}
+            />
+          )}
         </>
       )}
     </Container>
