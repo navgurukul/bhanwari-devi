@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as classActions } from "../redux/action";
+import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 import {
@@ -78,7 +79,7 @@ function ClassList({ editClass, isShow }) {
         size="small"
         placeholder="Enter Class Name"
         value={filterText}
-        sx={{ margin: "15px 0 0 10px" }}
+        sx={{ ml: "30px", display: "block" }}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));

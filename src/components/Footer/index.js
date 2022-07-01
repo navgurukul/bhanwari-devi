@@ -28,10 +28,11 @@ const menu = {
       link: PATHS.MISCELLANEOUS_COURSE,
     },
   ],
+
   GetInvolved: [
     // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
     {
-      title: "Volunteering with Meraki",
+      title: "Volunteer With Us",
       type: "internal",
       link: PATHS.VOLUNTEER_AUTOMATION,
     },

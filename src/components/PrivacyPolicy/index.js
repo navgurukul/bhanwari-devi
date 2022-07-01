@@ -11,7 +11,6 @@ function PrivacyPolicy() {
         <Typography sx={{ textAlign: "center" }} variant="h5">
           Privacy Policy
         </Typography>
-        <hr color="primary" className={classes.underline} />
         <Typography variant="body1" sx={{ mt: "40px" }}>
           NavGurukul Foundation for Social Welfare built the Meraki app as an
           Open Source app. This service is provided by NavGurukul Foundation for
@@ -33,10 +32,9 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
+        <Typography variant="subtitle1">
           Information Collection and Use
         </Typography>
-        <hr color="primary" className={classes.underline} />
         <Typography variant="body1" sx={{ mt: "40px" }}>
           For a better experience, while using our service, we may require you
           to provide us with certain personally identifiable information,
@@ -62,10 +60,8 @@ function PrivacyPolicy() {
         </Box>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
-          Log Data
-        </Typography>
-        <hr color="primary" className={classes.underline} />
+        <Typography variant="subtitle1">Log Data</Typography>
+
         <Typography variant="body1" sx={{ mt: "40px" }}>
           We want to inform you that whenever you use our service, in the case
           of an error in the app we collect data and information (through third
@@ -77,10 +73,7 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
-          Cookies
-        </Typography>
-        <hr color="primary" className={classes.underline} />
+        <Typography variant="subtitle1">Cookies</Typography>
         <Typography variant="body1" sx={{ mt: "40px" }}>
           Cookies are files with a small amount of data that are commonly used
           as anonymous unique identifiers. These are sent to your browser from
@@ -97,10 +90,8 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
-          Service Providers
-        </Typography>
-        <hr color="primary" className={classes.underline} />
+        <Typography variant="subtitle1">Service Providers</Typography>
+
         <Typography variant="body1" sx={{ mt: "40px" }}>
           We may employ third-party companies and individuals due to the
           following reasons:-
@@ -124,10 +115,8 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
-          Security
-        </Typography>
-        <hr color="primary" className={classes.underline} />
+        <Typography variant="subtitle1">Security</Typography>
+
         <Typography variant="body1" sx={{ mt: "40px" }}>
           We value your trust in providing us your personal information, thus we
           are striving to use commercially acceptable means of protecting it.
@@ -137,10 +126,8 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
-          Links to Other Sites
-        </Typography>
-        <hr color="primary" className={classes.underline} />
+        <Typography variant="subtitle1">Links to Other Sites</Typography>
+
         <Typography variant="body1" sx={{ mt: "40px" }}>
           This service may contain links to other sites. If you click on a
           third-party link, you will be directed to that site. Note that these
@@ -151,10 +138,8 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
-          Children’s Privacy
-        </Typography>
-        <hr color="primary" className={classes.underline} />
+        <Typography variant="subtitle1">Children’s Privacy</Typography>
+
         <Typography variant="body1" sx={{ mt: "40px" }}>
           These services do not address anyone under the age of 13. We do not
           knowingly collect personally identifiable information from children
@@ -166,10 +151,10 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
+        <Typography variant="subtitle1">
           Changes to this Privacy Policy
         </Typography>
-        <hr color="primary" className={classes.underline} />
+
         <Typography variant="body1" sx={{ mt: "40px" }}>
           We may update our privacy policy from time to time. Thus, you are
           advised to review this page periodically for any changes. We will
@@ -178,10 +163,8 @@ function PrivacyPolicy() {
         </Typography>
       </Box>
       <Box sx={{ mt: "80px" }}>
-        <Typography sx={{ textAlign: "center" }} variant="h5">
-          Contact Us
-        </Typography>
-        <hr color="primary" className={classes.underline} />
+        <Typography variant="subtitle1">Contact Us</Typography>
+
         <Typography variant="body1" sx={{ mt: "40px" }}>
           If you have any questions or suggestions about our privacy policy, do
           not hesitate to contact us at{" "}

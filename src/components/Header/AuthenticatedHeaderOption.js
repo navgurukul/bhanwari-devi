@@ -393,8 +393,11 @@ function AuthenticatedHeaderOption({
                   className={classes.link}
                 >
                   {studentView
-                    ? `Switch to ${rolesList[0]} View`
-                    : "Switch to student View"}
+                    ? `Switch To ${
+                        rolesList[0].charAt(0).toUpperCase() +
+                        rolesList[0].slice(1, 9)
+                      } View`
+                    : "Switch To Student View"}
                 </NavLink>
               </MenuItem>
             )

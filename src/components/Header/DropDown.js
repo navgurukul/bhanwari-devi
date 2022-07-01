@@ -56,7 +56,7 @@ const students = {
     // },
 
     {
-      title: "Volunteering with Meraki",
+      title: "Volunteer With Us",
       path: PATHS.VOLUNTEER_AUTOMATION,
       type: "internal",
     },
