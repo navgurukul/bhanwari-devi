@@ -84,7 +84,7 @@ function Login(props) {
         data: { referrer: queryString },
       }).then((res) => {});
     }
-    if (props.location.state == "/volunteer-flow") {
+    if (props.location.state === "/volunteer-flow") {
       console.log("rolesList", rolesList.includes("volunteer"));
       if (rolesList.includes("volunteer")) {
         return <Redirect to={PATHS.CLASS} />;
@@ -177,7 +177,7 @@ function Login(props) {
             md={6}
             sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
           >
-            <img src={require("./assets/background.svg")} />
+            <img src={require("./assets/background.svg")} alt="img" />
           </Grid>
         </Grid>
       </Container>

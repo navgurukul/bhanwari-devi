@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
@@ -56,7 +56,7 @@ function Class({ classToEdit, indicator }) {
     end_time,
     pathway_id,
     course_id,
-    partner_id,
+    // partner_id,
     exercise_id,
     max_enrolment,
     frequency,

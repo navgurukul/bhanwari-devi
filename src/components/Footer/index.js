@@ -245,7 +245,7 @@ function Footer() {
                 variant="body2"
                 sx={{ textAlign: { sm: "left", md: "right" } }}
               >
-                Made with ❤️ for our students{" "}
+                Made with <span>❤️</span> for our students{" "}
               </Typography>
             </Grid>
           </Grid>
