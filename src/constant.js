@@ -33,6 +33,7 @@ export const PATHS = {
   SEARCHED_COURSE: "/search-course",
   VOLUNTEER_AUTOMATION: "/volunteer-flow",
   VOLUNTEER_FORM: "/volunteer-form",
+  CLASS_FORM: "/class-form-model",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];

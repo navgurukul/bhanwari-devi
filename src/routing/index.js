@@ -35,6 +35,7 @@ import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCours
 import SearchCourse from "../components/SearchBar";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
+import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {
   return (
@@ -45,6 +46,7 @@ const Routing = () => {
       <Route exact path={PATHS.HOME_PATH} component={Home} />
       <Route exact path={PATHS.COURSE} component={Course} />
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
+      <Route exact path={PATHS.CLASS_FORM} component={ClassFormModel} />
       <Route
         exact
         path={PATHS.MISCELLANEOUS_COURSE}
