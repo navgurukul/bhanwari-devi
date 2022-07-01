@@ -49,7 +49,10 @@ const OurPartner = () => {
             explore the world of programming? If so, look no further.
           </Typography>
           <Stack alignItems="center">
-            <Link href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform">
+            <Link
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
+              target="_blank"
+            >
               <Button
                 Width
                 component="span"
