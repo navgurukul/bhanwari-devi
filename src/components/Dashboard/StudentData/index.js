@@ -28,9 +28,9 @@ const getPartnerIdFromUrl = () => {
   return partnerId;
 };
 
-function StudentData(props) {
+function StudentData() {
   const [pageNumber, setPageNumber] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState();
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState([]);
   const [slicedStudents, setSlicedStudents] = useState([]);
@@ -45,7 +45,7 @@ function StudentData(props) {
   const [userId, setUserId] = useState();
   const [partneName, setPartneName] = useState();
   const [userName, setUserName] = useState();
-
+  const [isDisabled, setDisabled] = useState(true);
   const loginUser = user.data.user.id;
 
   const limit = 10;
@@ -230,6 +230,7 @@ function StudentData(props) {
   const handleChange = (value) => {
     setFilteredData(true);
     setFilterVal(value);
+    setDisabled(false);
   };
 
   const removeStudent = (id) => {
@@ -304,12 +305,6 @@ function StudentData(props) {
     return (
       <div className="container-table">
         <h3 className="partner-name">{partneName}</h3>
-        <AddStudent
-          openEditForm={openEditForm}
-          setOpenEditForm={setOpenEditForm}
-          userId={userId}
-          userName={userName}
-        />
         <div className="container-for-search">
           <div>
             <input
@@ -323,11 +318,7 @@ function StudentData(props) {
               }}
             />
           </div>
-
           <div className="last-item">
-            <label className="student-count">
-              Total No of Students :- {"  "} {totalCount}{" "}
-            </label>
             <ReactPaginate
               previousLabel={<i className="fa fa-angle-left"></i>}
               nextLabel={<i className="fa fa-angle-right"></i>}
@@ -344,7 +335,7 @@ function StudentData(props) {
           </div>
         </div>
         <div className="slider-label">
-          <label>Classes Enrolled </label>
+          <label>Total attended classes </label>
           <div className="slider">
             <Range
               min={0}
@@ -372,6 +363,7 @@ function StudentData(props) {
               setFilteredData(false);
               setFilterVal([0, 0]);
             }}
+            disabled={isDisabled}
             className="filter-clear"
           >
             clear
@@ -631,12 +623,12 @@ function StudentData(props) {
           </tbody>
         </table>
 
-        {/* <AddStudent
+        <AddStudent
           openEditForm={openEditForm}
           setOpenEditForm={setOpenEditForm}
           userId={userId}
           userName={userName}
-        /> */}
+        />
       </div>
     );
   }

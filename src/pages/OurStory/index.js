@@ -8,9 +8,8 @@ const OurStory = () => {
     <>
       <Container maxWidth="lg" sx={{ mt: 7, mb: 7 }}>
         <Container maxWidth="md">
-          <Typography variant="h5" align="center">
+          <Typography variant="h5" align="center" mb={"35px"}>
             Our Story
-            <hr color="primary" className={classes.ourStoryHrline} />
           </Typography>
           <Typography variant="body1" paragraph>
             Meraki is part of Navgurukul Foundation for Social Welfare. It

@@ -169,8 +169,8 @@ function AuthenticatedHeaderOption({
               />
 
               <HeaderNavLink
-                to={PATHS.CLASS}
-                text="Classes"
+                to={PATHS.NEWUSER_DASHBOARED}
+                text="Dashboard"
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
@@ -190,8 +190,8 @@ function AuthenticatedHeaderOption({
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
-                to={PATHS.CLASS}
-                text="Classes"
+                to={PATHS.NEWUSER_DASHBOARED}
+                text="Dashboard"
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
@@ -349,16 +349,12 @@ function AuthenticatedHeaderOption({
                   sx={{ margin: "0px 10px" }}
                   className={switchView === "student" && classes.bgColor}
                 >
-                  {pythonPathwayId && (
-                    <NavLink
-                      to={interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: pythonPathwayId,
-                      })}
-                      className={classes.link}
-                    >
-                      Student
-                    </NavLink>
-                  )}
+                  <NavLink
+                    to={interpolatePath(PATHS.NEWUSER_DASHBOARED)}
+                    className={classes.link}
+                  >
+                    Student
+                  </NavLink>
                 </MenuItem>
                 {rolesList.map((role) => (
                   <SwitchView
@@ -393,11 +389,8 @@ function AuthenticatedHeaderOption({
                   className={classes.link}
                 >
                   {studentView
-                    ? `Switch To ${
-                        rolesList[0].charAt(0).toUpperCase() +
-                        rolesList[0].slice(1, 9)
-                      } View`
-                    : "Switch To Student View"}
+                    ? `Switch to ${rolesList[0]} View`
+                    : "Switch to student View"}
                 </NavLink>
               </MenuItem>
             )

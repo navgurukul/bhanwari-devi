@@ -79,7 +79,7 @@ function ClassList({ editClass, isShow }) {
         size="small"
         placeholder="Enter Class Name"
         value={filterText}
-        sx={{ ml: "30px", display: "block" }}
+        sx={{ margin: "15px 0 0 10px" }}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));

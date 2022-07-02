@@ -32,6 +32,7 @@ import useStyles from "./styles";
 import { lang } from "../../constant";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import ClassJoinTimerButton from "../Class/ClassJoinTimerButton";
 
 function AttendClass({
   setEnrollId,
@@ -64,23 +65,23 @@ function AttendClass({
     dispatch(classActions.getClasses());
   }, [dispatch]);
 
-  // const pathwayId = JSON.parse(
-  //   localStorage.getItem("volunteer_automation--state")
-  // )?.pathwayId;
+  const selectedPathwayClass =
+    data?.filter((item) => {
+      return item.pathway_v2 == pathwayId;
+    }) || [];
 
   const classData =
     data?.filter((item) => {
-      return item.start_time.includes(date);
-      // return item.pathway_v2 == pathwayId && item.start_time.includes(date);
+      return item.pathway_v2 == pathwayId && item.start_time.includes(date);
     }) || [];
+
+  console.log("classData", classData);
+  console.log("selectedPathwayClass", selectedPathwayClass);
 
   const possibleClasses =
     classData.length === 0
-      ? data?.slice(0, numOfClassesToShow) || []
+      ? selectedPathwayClass?.slice(0, numOfClassesToShow)
       : classData?.slice(0, numOfClassesToShow);
-  // : classData.length >= numOfClassesToShow
-  // ? classData?.slice(0, numOfClassesToShow)
-  // : classData;
 
   const enrolledClass =
     !chooseClassAgain && possibleClasses.find((item) => item.id === enrollId);
@@ -138,6 +139,7 @@ function AttendClass({
     });
   };
 
+  /*
   const EnrolledAndTimer = ({ item }) => {
     const timeLeftOptions = {
       precision: [3, 3, 3, 2, 2, 1],
@@ -185,6 +187,7 @@ function AttendClass({
       </>
     );
   };
+  */
   return (
     <Container sx={{ mt: 5, mb: 15 }} maxWidth="lg">
       {proceed ? (
@@ -313,7 +316,17 @@ function AttendClass({
                           Enroll
                         </Button>
                       ) : (
-                        <EnrolledAndTimer item={item} />
+                        <ClassJoinTimerButton
+                          startTime={item?.start_time}
+                          link={item?.meet_link}
+                          joinOnClick={() => {
+                            setProceed(true);
+                            // localStorage.setItem("proceed", true);
+                            // setStepCompleted();
+                            // localStorage.setItem("disabled", false);
+                            // setDisable(false);
+                          }}
+                        />
                       )}
                     </CardActions>
                   </Card>

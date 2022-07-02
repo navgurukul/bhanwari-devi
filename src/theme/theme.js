@@ -31,9 +31,10 @@ theme = createTheme(theme, {
     },
     secondary: {
       //Violet
-      main: "#4548a1",
-      light: "#dadaec",
-      dark: "#373a81",
+      main: "#FFCC00",
+      light: "#FFF5CC",
+      dark: "#CCA300",
+      contrastText: "#2E2E2E",
     },
     error: {
       //Red
@@ -79,18 +80,22 @@ theme = createTheme(theme, {
       main: "#000000",
       contrastText: "#FFFFFF",
     },
+    disable: {
+      main: "#91C78F",
+      contrastText: "#FFFFFF",
+    },
     divider: "#DEDEDE",
   },
 
   typography: {
-    fontFamily: "Nunito Sans , Lusitana",
+    fontFamily: "Noto Sans",
 
     fontSize: 18,
     h1: {
       fontWeight: 700,
       fontSize: "6rem",
       lineHeight: 1.3,
-      fontFamily: "Lusitana",
+      fontFamily: "Noto Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "4.875rem",
       },
@@ -98,7 +103,7 @@ theme = createTheme(theme, {
     h2: {
       fontSize: "4.5rem",
       lineHeight: 1.3,
-      fontFamily: "Lusitana",
+      fontFamily: "Noto Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "3.625rem",
       },
@@ -110,7 +115,7 @@ theme = createTheme(theme, {
         fontSize: "2.75rem",
       },
       fontWeight: 700,
-      fontFamily: "Lusitana",
+      fontFamily: "Noto Sans",
       lineHeight: 1.3,
     },
     h4: {
@@ -119,7 +124,7 @@ theme = createTheme(theme, {
       [theme.breakpoints.down("sm")]: {
         fontSize: "	2rem",
       },
-      fontFamily: "Lusitana",
+      fontFamily: "Noto Sans",
       lineHeight: 1.3,
     },
 
@@ -130,7 +135,7 @@ theme = createTheme(theme, {
         fontSize: "	1.5rem",
       },
       lineHeight: 1.5,
-      fontFamily: "Lusitana",
+      fontFamily: "Noto Sans",
     },
     h6: {
       fontSize: "1.5rem",
@@ -139,11 +144,11 @@ theme = createTheme(theme, {
       },
       lineHeight: 1.5,
       fontWeight: 700,
-      fontFamily: "Lusitana",
+      fontFamily: "Noto Sans",
     },
     subtitle1: {
       fontSize: "1.125rem",
-      fontFamily: "Nunito Sans",
+      fontFamily: "Noto Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
@@ -151,8 +156,17 @@ theme = createTheme(theme, {
       fontWeight: 700,
     },
     subtitle2: {
+      fontSize: "1rem",
+      fontFamily: "Noto Sans",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.75rem",
+      },
+      fontWeight: 700,
+      lineHeight: 1.5,
+    },
+    subtitle3: {
       fontSize: "0.875rem",
-      fontFamily: "Nunito Sans",
+      fontFamily: "Noto Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
@@ -161,7 +175,7 @@ theme = createTheme(theme, {
     },
     body1: {
       fontSize: "1.125rem",
-      fontFamily: "Nunito Sans",
+      fontFamily: "Noto Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
@@ -172,12 +186,12 @@ theme = createTheme(theme, {
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
-      fontFamily: "Nunito Sans ",
+      fontFamily: "Noto Sans",
       lineHeight: 1.5,
     },
     button: {
       fontSize: "1.125rem",
-      fontFamily: "Nunito Sans",
+      fontFamily: "Noto Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
@@ -187,14 +201,14 @@ theme = createTheme(theme, {
     },
     caption: {
       fontSize: "0.75rem",
-      fontFamily: "Nunito Sans",
+      fontFamily: "Noto Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
       lineHeight: 1.5,
     },
     overline: {
-      fontFamily: "Nunito Sans",
+      fontFamily: "Noto Sans",
       fontSize: "0.75rem",
       lineHeight: 1.5,
       [theme.breakpoints.down("sm")]: {
