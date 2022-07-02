@@ -3,12 +3,13 @@ import { useHistory } from "react-router-dom";
 import CreateClassComponent from "../../components/Class";
 import ClassesList from "../../components/Class/ClassList";
 import { useSelector } from "react-redux";
-import Modal from "../../components/common/Modal";
+// import Modal from "../../components/common/Modal";
 import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
-import { Container, Button } from "@mui/material";
+import { Container, Button, Modal } from "@mui/material";
+import ClassForm from "../../components/Class/ClassForm";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +18,8 @@ function ToggleClassFormModal() {
   const [showConsentModal, setShowConsentModal] = useState(false);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
 
   const rolesList = user.data.user.rolesList;
   const canSpecifyFacilitator =
@@ -127,12 +130,18 @@ function ToggleClassFormModal() {
       )}
       <ClassesList editClass={editClass} isShow={showModal} />
       {showModal && calenderConsent ? (
-        <Modal onClose={toggleModalOpen}>
-          <CreateClassComponent
+        <Modal
+          open={showModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={{ overflow: "scroll" }}
+        >
+          <ClassForm setShowModal={setShowModal} />
+          {/* <CreateClassComponent
             classToEdit={classToEdit}
             indicator={indicator}
             toggleModalOpen={toggleModalOpen}
-          />
+          /> */}
         </Modal>
       ) : (
         showConsentModal && (
