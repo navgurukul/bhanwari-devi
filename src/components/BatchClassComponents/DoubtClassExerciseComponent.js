@@ -70,7 +70,7 @@ export const MoreDetails = (props) => {
             <Typography variant="h6" mb={1}>
               {actions?.title}
             </Typography>
-            <Box mb={3}>
+            <Box mb={2}>
               <Chip
                 label="Doubt Class"
                 variant="outlined"

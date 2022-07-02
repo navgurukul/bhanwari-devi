@@ -12,7 +12,7 @@ function ClassTopic({ courseData }) {
         <Typography variant="h6" mt={2}>
           {courseData.title}
         </Typography>
-        <Box mt={3}>
+        <Box mt={2}>
           <Chip
             label={courseData.type}
             variant="outlined"
@@ -20,7 +20,7 @@ function ClassTopic({ courseData }) {
             style={{
               borderRadius: 90,
               height: 30,
-              backgroundColor: "#E9F5E9"
+              backgroundColor: "#E9F5E9",
             }}
           />
           <Chip
@@ -30,17 +30,17 @@ function ClassTopic({ courseData }) {
             style={{
               marginLeft: 10,
               borderRadius: 90,
-              height: 30
+              height: 30,
             }}
           />
         </Box>
-        <Box mt={3}>
+        <Box mt={2}>
           <Typography variant="body2">
             Clear your doubts related to the first class of Python and other
             queries during your studies
           </Typography>
         </Box>
-        <Box mt={3}>
+        <Box mt={2}>
           <Typography variant="body2">
             If you miss the class or need to revise, you can enroll in an extra
             class to catch up after {format(courseData.start_time, "dd MMM yy")}
@@ -50,7 +50,7 @@ function ClassTopic({ courseData }) {
           date={courseData.start_time}
           past={
             <Box>
-              <Box sx={{ display: "flex" }} mt={3}>
+              <Box sx={{ display: "flex" }} mt={2}>
                 <svg
                   width="20"
                   height="21"
