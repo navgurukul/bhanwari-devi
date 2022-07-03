@@ -13,7 +13,7 @@ function LastCoursePage() {
   return (
     <>
       <Container maxWidth="lg" align="center">
-        <Box mt={8}>
+      <Box sx={{ mb: isActive && 5, mt: isActive ? 8 : 25 }}>
           <img src={require("../asset/specialdeals.svg")} alt="icon" />
           <Typography variant="h6" mt={3} mb={4}>
             Congratulations! You completed the track
