@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   Container,
@@ -28,7 +28,6 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, []);
-
   return (
     <Container sx={{ mt: 6 }} maxWidth="lg">
       <Container maxWidth="sm" mb={3}>
