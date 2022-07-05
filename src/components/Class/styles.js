@@ -31,7 +31,19 @@ const useStyles = makeStyles((theme) => ({
   },
   icons: {
     marginRight: "15px",
-    // position: "flex-start",
+  },
+
+  ModelBox: {
+    margin: "80px",
+    padding: "32px",
+    borderRadius: "8px",
+  },
+  successModel: {
+    alignItems: "center",
+    align: "center",
+  },
+  FormCloseIcon: {
+    cursor: "pointer",
   },
 }));
 
