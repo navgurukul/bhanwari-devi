@@ -448,17 +448,7 @@ function PathwayExercise() {
         <ExerciseContent exerciseId={exerciseId} lang={language} />
       )}
       <Box>
-        <Toolbar
-          style={{
-            width: "97%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            position: "fixed",
-            bottom: 0,
-            background: "#fff",
-          }}
-        >
+        <Toolbar className={classes.bottomRow}>
           <Button
             variant="text"
             color="dark"

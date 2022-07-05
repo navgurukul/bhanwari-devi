@@ -238,7 +238,7 @@ const RenderContent = ({ data, exercise }) => {
               __html: codeContent,
             }}
           />
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="flex-end" mt={2}>
             <Button
               variant="contained"
               color="dark"
@@ -400,7 +400,7 @@ function ExerciseContent({ exerciseId, lang }) {
 
           {exercise && exercise.content_type === "exercise" && (
             <Box sx={{ m: "32px 0px" }}>
-              <Typography variant="h5">{course}</Typography>
+              {/* <Typography variant="h5">{course}</Typography> */}
               <Typography variant="h6" sx={{ mt: "16px" }}>
                 {exercise && exercise.name}
               </Typography>

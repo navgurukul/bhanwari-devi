@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#E5E5E5",
     padding: 16,
     margin: "15px 0",
+    borderRadius: "8px",
   },
   codeWrap: {
     whiteSpace: "pre-wrap",
@@ -55,6 +56,17 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "0px 1px 2px #F44336, 0px 2px 1px #F44336, 0px 1px 5px #F44336 !important",
     background: "#FFE5E3 !important",
+  },
+  bottomRow: {
+    width: "97%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    position: "fixed",
+    bottom: 0,
+    background: "#fff",
+    boxShadow:
+      "0px -1px 2px rgba(0, 0, 0, 0.06), 0px -2px 2px rgba(0, 0, 0, 0.04), 0px -1px 5px rgba(0, 0, 0, 0.08)",
   },
 }));
 
