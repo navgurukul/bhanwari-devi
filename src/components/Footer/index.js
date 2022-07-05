@@ -31,7 +31,7 @@ const menu = {
   GetInvolved: [
     // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
     {
-      title: "Volunteering with Meraki",
+      title: "Volunteer with Us",
       type: "internal",
       link: PATHS.VOLUNTEER_AUTOMATION,
     },
