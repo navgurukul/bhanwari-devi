@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Container, Box, TextField } from "@mui/material";
-import PhoneInput from "../common/PhoneInput";
+// import PhoneInput from "../common/PhoneInput";
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
   const handleChange = (event) => {

@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
-import { Link } from "react-router-dom";
-import { PATHS } from "../../constant";
-import { hasOneFrom } from "../../common/utils";
-import { Redirect } from "react-router-dom";
 import "./style.scss";
 import Dashboard from "./Dashboard";
 

@@ -177,7 +177,7 @@ function Login(props) {
             md={6}
             sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
           >
-            <img src={require("./assets/background.svg")} />
+            <img src={require("./assets/background.svg")} alt="img" />
           </Grid>
         </Grid>
       </Container>
