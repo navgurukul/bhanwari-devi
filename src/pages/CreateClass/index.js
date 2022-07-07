@@ -8,8 +8,17 @@ import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
-import { Container, Button, Modal } from "@mui/material";
+import {
+  Container,
+  Button,
+  Modal,
+  Box,
+  Stack,
+  Typography,
+} from "@mui/material";
 import ClassForm from "../../components/Class/ClassForm";
+import useStyles from "./styles";
+import SuccessModel from "../../components/Class/SuccessModel";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -20,6 +29,8 @@ function ToggleClassFormModal() {
   const user = useSelector(({ User }) => User);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const [openSuccessfullModal, setOpenSuccessfullModal] = useState(false);
+  const [isEditMode, setIsEditMode] = React.useState(false);
 
   const rolesList = user.data.user.rolesList;
   const canSpecifyFacilitator =
@@ -36,8 +47,10 @@ function ToggleClassFormModal() {
     CalenderConsent();
   };
 
+  //here can check
   const editClass = (classId, indicator) => {
     setClassToEdit(data.find((classData) => classData.id === classId));
+    setIsEditMode(true);
     setShowModal(true);
     setIndicator(indicator);
   };
@@ -128,7 +141,11 @@ function ToggleClassFormModal() {
           Create a Batch/Class
         </Button>
       )}
-      <ClassesList editClass={editClass} isShow={showModal} />
+      <ClassesList
+        editClass={editClass}
+        isShow={showModal}
+        // setIsEditMode={setIsEditMode}
+      />
       {showModal && calenderConsent ? (
         <Modal
           open={showModal}
@@ -136,7 +153,13 @@ function ToggleClassFormModal() {
           aria-describedby="modal-modal-description"
           style={{ overflow: "scroll" }}
         >
-          <ClassForm setShowModal={setShowModal} />
+          <ClassForm
+            isEditMode={isEditMode}
+            indicator={indicator}
+            classToEdit={classToEdit}
+            setShowModal={setShowModal}
+            setOpenSuccessfullModal={setOpenSuccessfullModal}
+          />
           {/* <CreateClassComponent
             classToEdit={classToEdit}
             indicator={indicator}
@@ -160,6 +183,17 @@ function ToggleClassFormModal() {
             </div>
           </Modal>
         )
+      )}
+
+      {openSuccessfullModal && (
+        <Modal
+          open={openSuccessfullModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={{ overflow: "scroll" }}
+        >
+          <SuccessModel />
+        </Modal>
       )}
 
       {authUrl && (window.location.href = authUrl)}
