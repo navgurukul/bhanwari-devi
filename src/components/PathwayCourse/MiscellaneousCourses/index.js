@@ -7,14 +7,7 @@ import { breakpoints } from "../../../theme/constant";
 
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../../constant";
-import {
-  Container,
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Container, Box, Grid, Card, Typography } from "@mui/material";
 import useStyles from "../styles";
 
 function MiscellaneousCourses() {
@@ -53,7 +46,7 @@ function MiscellaneousCourses() {
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0}>
               <Typography
-                variant="h5"
+                variant="h4"
                 align={isActive ? "center" : "left"}
                 sx={{ pb: "16px" }}
               >
@@ -69,7 +62,7 @@ function MiscellaneousCourses() {
         </Grid>
 
         <Box sx={{ mt: 3 }}>
-          <Typography variant="h5" align={isActive ? "center" : "left"}>
+          <Typography variant="h6" align={isActive ? "center" : "left"}>
             Courses
           </Typography>
           <Grid sx={{ mt: 2 }} container spacing={3} align="center">

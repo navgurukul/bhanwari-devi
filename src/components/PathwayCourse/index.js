@@ -159,13 +159,9 @@ function PathwayCourse() {
       {enrolledBatches ? (
         <>
           <Typography
-            sx={{
-              fontWeight: "bold",
-              justifyContent: "center",
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-            }}
+            align="center"
+            className={classes.classTitle}
+            variant="subtitle1"
             bgcolor="#E9F5E9"
           >
             {enrolledBatches[0]?.title}
@@ -294,7 +290,7 @@ function PathwayCourse() {
               <Box className={classes.Box1}>
                 <Typography
                   variant="h6"
-                  sx={{ textAlign: isActive && "center" }}
+                  sx={{ ml: 2, textAlign: isActive && "center" }}
                 >
                   Learning Outcomes
                 </Typography>
@@ -374,20 +370,20 @@ function PathwayCourse() {
                 </Grid>
               ))}
           </Grid>
-          <Grid align="center">
-            <Grid className={classes.certificateLogo}>
+          {/* <Grid  sx={{mb:15}}align="center">
+            <Grid sx={{mb:3}} >
               <img src={require("./asset/separator.svg")} alt="icon" />
             </Grid>
-            <Grid className={classes.certificateLogo}>
+            <Grid>
               <img
-                src={require("./asset/Layer_1.svg")}
+                src={require("./asset/certificate.svg")}
                 alt="certificate icon"
               />
-              <Typography mb={2}>
-                {pathwayCourseData?.pathway} Certificate
+              <Typography sx={{mt:2}} variant="body1" mb={2}>
+                {pathwayCourseData?.pathway} Certificate (Locked)
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
           {!user?.data?.token ? (
             <Container align="center">
               <Box
