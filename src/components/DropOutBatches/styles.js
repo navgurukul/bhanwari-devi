@@ -1,10 +1,29 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
+
 const useStyles = makeStyles((theme) => ({
-  dropChip: {
-    backgroundColor: "#fffacd",
-    margin: "10px 0px",
-    borderRadius: 90,
-    height: 30,
-  },
+    cardDrop:{
+        margin:"20px",
+        minWidth:"352px"
+    },
+    cardContent:{
+        height:"145px"
+    },
+    cardChip:{
+        height:"10px",
+        margin:"12px 0px",
+        borderRadius:"10px",
+    },
+    cardImg:{
+        display:"flex",
+        
+    },
+    dropbatchDiv:{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        alignItems: "center",
+        marginTop:"22vh"
+    },
+    
 }));
 export default useStyles;

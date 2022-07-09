@@ -72,7 +72,7 @@ function Profile() {
     <>
       <div className={classes.backGround}>
         <div
-          style={{ flexDirection: isActive ? "column" : "row" }}
+          sx={{ flexDirection: isActive ? "column" : "row" }}
           className={classes.profileDiv}
         >
           <div
@@ -85,7 +85,7 @@ function Profile() {
             <Avatar
               alt="Remy Sharp"
               src={userData.profile_picture}
-              style={{ height: 100, width: 100 }}
+              sx={{ height: 100, width: 100 }}
             />
 
             <div className={classes.editText}>

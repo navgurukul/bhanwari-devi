@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
     position: "relative",
   },
   profileBox: {
-    marginTop: "83vh",
+    marginTop: "85vh",
     position: "absolute",
   },
   profileDiv: {
@@ -24,12 +24,14 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginLeft: 20,
+    
   },
   saveEdit: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    marginTop:'10px'
   },
+  
 }));
 export default useStyles;

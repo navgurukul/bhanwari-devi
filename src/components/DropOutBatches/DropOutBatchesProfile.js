@@ -28,29 +28,30 @@ function DropOutIndividualComponent(props) {
 
   return (
     <>
-      <Card style={{ minWidth: "300px", margin: "15px" }}>
-        <CardContent sx={{ height: "145px" }}>
+      <Card className={classes.cardDrop}>
+        <CardContent className={classes.cardContent}>
           <Chip
             variant="filled"
             label={pathway_name}
-            style={{
+            // backgroundColor="lemonchiffon"
+            sx={{
               background: "lemonchiffon",
-              margin: "10px 0px",
-              borderRadius: 90,
-              height: 30,
             }}
-            className={classes.dropChip}
+            className={classes.cardChip}            
           />
           <Typography variant="subtitle1" color="black">
             {title}
           </Typography>
-          <Typography variant="body1" sx={{ display: "flex", mt: "15px" }}>
+          <Typography variant="body1" mt={2} className={classes.cardImg}>
             <img
               src={require("./assest/calendar.svg")}
-              style={{ marginRight: "10px" }}
+              
             />
+            <Typography variant="body1" ml={1} >
             From {format(start_time, "dd MMM yy")} -{" "}
             {format(end_time, "dd MMM yy")}
+            </Typography>
+           
           </Typography>
         </CardContent>
         <CardActions>
@@ -58,7 +59,8 @@ function DropOutIndividualComponent(props) {
             onClick={() => {
               setOpen(true);
             }}
-            sx={{ color: "red" }}
+            color="error"
+           
           >
             Drop Out
           </Button>
@@ -79,7 +81,7 @@ function DropOutBatchesProfile() {
   const [dropOutBatches, setDropOutBatches] = useState(null);
   const [open, setOpen] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
+  const classes = useStyles();
   const user = useSelector(({ User }) => User);
   useEffect(() => {
     axios({
@@ -100,30 +102,24 @@ function DropOutBatchesProfile() {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        alignItems: "center",
-        marginTop: isActive ? "130px" : "200px",
-      }}
+      
+      className={classes.dropbatchDiv}
     >
       <div>
         {dropOutBatches && (
           <Typography
             variant="subtitle1"
             color="gray"
-            style={{
-              margin: "15px",
-            }}
+            ml={2}
           >
             Enrolled Batches
           </Typography>
         )}
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           {dropOutBatches?.map((dropOutBatch, index) => {
+            
             return (
-              <Grid item xs={12} sm={6} md={6}>
+              <Grid item xs={12} sm={6} md={6} >
                 <DropOutIndividualComponent
                   key={index}
                   title={dropOutBatch.title}
