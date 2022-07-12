@@ -24,26 +24,11 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Container,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import moment from "moment";
 import _ from "lodash";
-
-// const SuccessModel = () => {
-//   const classes = useStyles();
-//   return (
-//     <Stack align="center" className={classes.successModel}>
-//       <Box className={classes.ModelBox} sx={{ bgcolor: "background.paper" }}>
-//         <img alt="img" src={require("./assets/ClassCreated.svg")} />
-//         <Typography variant="body1" mt={4}>
-//           The batch has been created successfully
-//         </Typography>
-//       </Box>
-//     </Stack>
-//   );
-// };
 
 function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
   const [classFields, setClassFields] = useState({
