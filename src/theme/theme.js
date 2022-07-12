@@ -1,8 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 import { breakpoints } from "./constant";
-
 let theme = createTheme();
-
 const shadows = theme.shadows;
 shadows[2] =
   "0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04), 0px 1px 5px rgba(0, 0, 0, 0.08)";
@@ -10,92 +8,82 @@ shadows[8] =
   "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)";
 shadows[8] =
   "0px 24px 38px rgba(0, 0, 0, 0.06), 0px 9px 46px rgba(0, 0, 0, 0.04), 0px 11px 15px rgba(0, 0, 0, 0.08)";
-
 theme = createTheme(theme, {
   breakpoints,
   palette: {
     mode: "light",
     default: {
-      // main: "#ffffff",
+      // main: "#FFFFFF",
       // contrastText: "#000000",
-      light: "#0066ff",
+      light: "#0066FF",
       main: "#fff",
       // dark: will be calculated from palette.secondary.main,
-      contrastText: "#ffcc00",
+      contrastText: "#FFCC00",
     },
     primary: {
       //Green
-      main: "#48a145",
-      light: "#e9f5e9",
-      dark: "#3a8137",
+      main: "#48A145",
+      light: "#E9F5E9",
+      dark: "#3A8137",
     },
     secondary: {
       //Violet
-      main: "#FFCC00",
-      light: "#FFF5CC",
-      dark: "#CCA300",
-      contrastText: "#2E2E2E",
+      main: "#4548A1",
+      light: "#DADAEC",
+      dark: "#373A81",
     },
     error: {
       //Red
-      main: "#f44336",
-      light: "#ffe5e3",
-      dark: "#c3362b",
+      main: "#F44336",
+      light: "#FFE5E3",
+      dark: "#C3362B",
     },
     warning: {
       //Yellow
-      main: "#ffc107",
-      contrastText: "#2e2e2e",
-      light: "#fff3cd",
-      dark: "#cc9a06",
+      main: "#FFC107",
+      contrastText: "#2E2E2E",
+      light: "#FFF3CD",
+      dark: "#CC9A06",
     },
     info: {
       //Blue
-      main: "#2196f3",
-      dark: "#1a78c2",
-      light: "#d3eafd",
+      main: "#2196F3",
+      dark: "#1A78C2",
+      light: "#D3EAFD",
     },
     success: {
       //Green as primary
-      main: "#48a145",
-      light: "#e9f5e9",
-      dark: "#3a8137",
+      main: "#48A145",
+      light: "#E9F5E9",
+      dark: "#3A8137",
     },
-
     Greey: {
       main: "rgba(0, 0, 0, 0.12)",
     },
-
     text: {
-      primary: "#2e2e2e",
+      primary: "#2E2E2E",
       secondary: "#585858",
       disabled: "#949494",
       hint: "#949494",
     },
     background: {
       default: "#FFFFFF",
-      paper: "#ffffff",
+      paper: "#FFFFFF",
     },
     dark: {
       main: "#000000",
       contrastText: "#FFFFFF",
     },
-    disable: {
-      main: "#91C78F",
-      contrastText: "#FFFFFF",
-    },
     divider: "#DEDEDE",
   },
-
   typography: {
-    fontFamily: "Noto Sans",
-
+    fontFamily: "Nunito Sans , Lusitana",
     fontSize: 18,
     h1: {
       fontWeight: 700,
       fontSize: "6rem",
       lineHeight: 1.3,
-      fontFamily: "Noto Sans",
+      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "4.875rem",
       },
@@ -103,7 +91,7 @@ theme = createTheme(theme, {
     h2: {
       fontSize: "4.5rem",
       lineHeight: 1.3,
-      fontFamily: "Noto Sans",
+      fontFamily: "Lusitana",
       [theme.breakpoints.down("sm")]: {
         fontSize: "3.625rem",
       },
@@ -115,40 +103,39 @@ theme = createTheme(theme, {
         fontSize: "2.75rem",
       },
       fontWeight: 700,
-      fontFamily: "Noto Sans",
+      fontFamily: "Lusitana",
       lineHeight: 1.3,
     },
     h4: {
       fontWeight: 700,
       fontSize: "2.625rem",
       [theme.breakpoints.down("sm")]: {
-        fontSize: "	2rem",
+        fontSize: " 2rem",
       },
-      fontFamily: "Noto Sans",
+      fontFamily: "Lusitana",
       lineHeight: 1.3,
     },
-
     h5: {
       fontWeight: 700,
       fontSize: "2rem",
       [theme.breakpoints.down("sm")]: {
-        fontSize: "	1.5rem",
+        fontSize: " 1.5rem",
       },
       lineHeight: 1.5,
-      fontFamily: "Noto Sans",
+      fontFamily: "Lusitana",
     },
     h6: {
       fontSize: "1.5rem",
       [theme.breakpoints.down("sm")]: {
-        fontSize: "	1.125rem",
+        fontSize: " 1.125rem",
       },
       lineHeight: 1.5,
       fontWeight: 700,
-      fontFamily: "Noto Sans",
+      fontFamily: "Lusitana",
     },
     subtitle1: {
       fontSize: "1.125rem",
-      fontFamily: "Noto Sans",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
@@ -156,17 +143,8 @@ theme = createTheme(theme, {
       fontWeight: 700,
     },
     subtitle2: {
-      fontSize: "1rem",
-      fontFamily: "Noto Sans",
-      [theme.breakpoints.down("sm")]: {
-        fontSize: "0.75rem",
-      },
-      fontWeight: 700,
-      lineHeight: 1.5,
-    },
-    subtitle3: {
       fontSize: "0.875rem",
-      fontFamily: "Noto Sans",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
@@ -175,7 +153,7 @@ theme = createTheme(theme, {
     },
     body1: {
       fontSize: "1.125rem",
-      fontFamily: "Noto Sans",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
@@ -186,12 +164,12 @@ theme = createTheme(theme, {
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
-      fontFamily: "Noto Sans",
+      fontFamily: "Nunito Sans ",
       lineHeight: 1.5,
     },
     button: {
       fontSize: "1.125rem",
-      fontFamily: "Noto Sans",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.875rem",
       },
@@ -201,14 +179,14 @@ theme = createTheme(theme, {
     },
     caption: {
       fontSize: "0.75rem",
-      fontFamily: "Noto Sans",
+      fontFamily: "Nunito Sans",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
       lineHeight: 1.5,
     },
     overline: {
-      fontFamily: "Noto Sans",
+      fontFamily: "Nunito Sans",
       fontSize: "0.75rem",
       lineHeight: 1.5,
       [theme.breakpoints.down("sm")]: {
@@ -218,7 +196,6 @@ theme = createTheme(theme, {
   },
   shadows,
 });
-
 theme.components = {
   MuiCardMedia: {
     defaultProps: {
@@ -228,7 +205,6 @@ theme.components = {
       root: { width: 64 },
     },
   },
-
   MuiButton: {
     styleOverrides: {
       root: {
@@ -237,7 +213,6 @@ theme.components = {
       },
     },
   },
-
   MuiMenuItem: {
     styleOverrides: {
       root: {
@@ -250,7 +225,6 @@ theme.components = {
       },
     },
   },
-
   MuiTableRow: {
     styleOverrides: {
       root: {
@@ -263,12 +237,10 @@ theme.components = {
       },
     },
   },
-
   MuiCard: {
     styleOverrides: {
       root: {
         borderRadius: 8,
-
         // "&:hover": {
         //   boxShadow:
         //     "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
@@ -277,5 +249,4 @@ theme.components = {
     },
   },
 };
-
 export default theme;
