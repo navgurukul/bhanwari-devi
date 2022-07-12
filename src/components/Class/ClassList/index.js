@@ -76,6 +76,7 @@ function ClassList({ editClass, isShow }) {
         size="small"
         placeholder="Enter Class Name"
         value={filterText}
+        label="Enter Class Name"
         sx={{ margin: "15px 0 0 10px" }}
         onPaste={(e) => {
           e.preventDefault();
