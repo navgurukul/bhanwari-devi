@@ -154,14 +154,6 @@ const OurPartner = () => {
                               <PublicIcon variant="outlined" />
                             </Link>
                           </IconButton>
-
-                          {/* {!partner[item].Linkedin Id === null?(
-                          <IconButton>
-                            <Link href={partner[item].Linkedin Id}>
-                              <PublicIcon/>
-                            </Link>
-                          </IconButton>
-                        ):("")} */}
                         </CardActions>
                       </Card>
                     )}
