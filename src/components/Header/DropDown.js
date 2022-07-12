@@ -92,9 +92,6 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   console.log("DP", data?.pathways);
   data?.pathways && (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
 
-  data?.pathways &&
-      (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
-
 /*
   data &&
     data.pathways &&

@@ -49,6 +49,41 @@ export const HideFooter = [
   PATHS.VOLUNTEER_FORM,
 ];
 
+export const LEARN_KEY = 'LEARN';
+export const ABOUT_KEY = 'ABOUT';
+export const GET_INVOLVED_KEY = 'GET_INVOLVED';
+
+export const MENU_ITEMS = {
+  [ABOUT_KEY]: [
+    { titleMsgKey: "OUR_STORY", path: PATHS.OUR_STORY, type: "internal" },
+    { titleMsgKey: "MERAKI_TEAM", path: PATHS.TEAM, type: "internal" },
+  ],
+  [GET_INVOLVED_KEY]: [
+    // {
+    //   title: "Become a Partner",
+    //   path: PATHS.OUR_PARTNER,
+    //   type: "internal",
+    // },
+
+    {
+      titleMsgKey: "VOLUNTEER_WITH_US",
+      path: PATHS.VOLUNTEER_AUTOMATION,
+      type: "internal",
+    },
+
+    {
+      titleMsgKey: "DONATE",
+      path: "https://www.navgurukul.org/donate",
+      type: "external",
+    },
+    {
+      titleMsgKey: "CAREERS",
+      path: "https://recruiterflow.com/navgurukul/jobs",
+      type: "external",
+    },
+  ],
+};
+
 export const PATHWAYS_INFO = [
   {
     title: "Python",
