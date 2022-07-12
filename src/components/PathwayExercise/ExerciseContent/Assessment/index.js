@@ -57,7 +57,6 @@ const AssessmentContent = ({
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
-      setSubmitDisable(true);
       return (
         <Box sx={{ mt: "32px" }}>
           <Typography variant="h6" align="center">
@@ -146,7 +145,7 @@ const AssessmentContent = ({
 
   if (content.component === "options") {
     return (
-      <Box sx={{ mt: "32px" }}>
+      <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           console.log("item", item.value);
           return (
@@ -211,10 +210,12 @@ function Assessment({ data, exerciseId }) {
       setCorrect(true);
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
+      setSubmitDisable(true);
     } else {
       setCorrect(false);
       setStatus("Fail");
       setTriedAgain(triedAgain + 1);
+      setSubmitDisable(true);
     }
   };
 
