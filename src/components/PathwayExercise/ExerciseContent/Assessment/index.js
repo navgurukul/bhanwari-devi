@@ -98,6 +98,7 @@ const AssessmentContent = ({
                 fullWidth
                 onClick={() => {
                   setTriedAgain(triedAgain + 1);
+                  setSubmitDisable(true);
                 }}
               >
                 <Typography variant="subtitle2">
@@ -112,7 +113,7 @@ const AssessmentContent = ({
                 onClick={() => {
                   setAnswer();
                   setSubmit();
-                  setSubmitDisable();
+                  setSubmitDisable(false);
                 }}
               >
                 <Typography variant="subtitle2">Re-try</Typography>
@@ -146,7 +147,7 @@ const AssessmentContent = ({
 
   if (content.component === "options") {
     return (
-      <Box sx={{ mt: "32px" }}>
+      <Box sx={{ margin: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           console.log("item", item.value);
           return (
@@ -206,15 +207,16 @@ function Assessment({ data, exerciseId }) {
   }, [status]);
 
   const submitAssessment = () => {
-    setSubmit(true);
     if (answer == solution) {
       setCorrect(true);
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
+      setSubmitDisable(true);
     } else {
       setCorrect(false);
       setStatus("Fail");
       setTriedAgain(triedAgain + 1);
+      setSubmitDisable(true);
     }
   };
 
