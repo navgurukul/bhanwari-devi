@@ -1,57 +1,71 @@
-import { Chip, Typography, Grid } from "@mui/material";
+import {
+  Chip,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+} from "@mui/material";
 import axios from "axios";
+import { format } from "../../common/date";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import DropOut from "../BatchClassComponents/DropOut";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
+import useStyles from "./styles";
 
 function DropOutIndividualComponent(props) {
-  const { title, id, pathway_name, open, setOpen } = props;
+  const { title, id, pathway_name, open, setOpen, start_time, end_time } =
+    props;
+  const classes = useStyles();
+
   const close = () => {
     setOpen(false);
   };
 
   return (
     <>
-      <Grid container spacing={4}>
-        <Grid item>
-          <div>
-            <Typography variant="subtitle1" color="black">
-              {title}
-            </Typography>
-            <Chip
-              variant="outlined"
-              label={pathway_name}
-              color="primary"
-              style={{ margin: "10px 2px", borderRadius: 90, height: 30 }}
-            />
-          </div>
-        </Grid>
-        <Grid item>
-          <div
-            style={{
-              margin: "10px 20px",
-              cursor: "pointer",
+      <Card className={classes.cardDrop}>
+        <CardContent className={classes.cardContent}>
+          <Chip
+            variant="filled"
+            label={pathway_name}
+            // backgroundColor="lemonchiffon"
+            sx={{
+              background: "lemonchiffon",
             }}
+            className={classes.cardChip}            
+          />
+          <Typography variant="subtitle1" color="black">
+            {title}
+          </Typography>
+          <Typography variant="body1" mt={2} className={classes.cardImg}>
+            <img
+              src={require("./assest/calendar.svg")}
+              
+            />
+            <Typography variant="body1" ml={1} >
+            From {format(start_time, "dd MMM yy")} -{" "}
+            {format(end_time, "dd MMM yy")}
+            </Typography>
+           
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button
             onClick={() => {
               setOpen(true);
             }}
+            color="error"
+           
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
-                fill="#BDBDBD"
-              />
-            </svg>
-          </div>
-        </Grid>
-      </Grid>
+            Drop Out
+          </Button>
+        </CardActions>
+      </Card>
       <DropOut
         open={open}
         close={close}
@@ -66,7 +80,8 @@ function DropOutIndividualComponent(props) {
 function DropOutBatchesProfile() {
   const [dropOutBatches, setDropOutBatches] = useState(null);
   const [open, setOpen] = useState(false);
-
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles();
   const user = useSelector(({ User }) => User);
   useEffect(() => {
     axios({
@@ -87,32 +102,38 @@ function DropOutBatchesProfile() {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        alignItems: "center",
-        margin: "40px 0",
-      }}
+      
+      className={classes.dropbatchDiv}
     >
       <div>
         {dropOutBatches && (
-          <Typography variant="subtitle1" color="gray">
+          <Typography
+            variant="subtitle1"
+            color="gray"
+            ml={2}
+          >
             Enrolled Batches
           </Typography>
         )}
-        {dropOutBatches?.map((dropOutBatch, index) => {
-          return (
-            <DropOutIndividualComponent
-              key={index}
-              title={dropOutBatch.title}
-              id={dropOutBatch.id}
-              pathway_name={dropOutBatch.pathway_name}
-              open={open}
-              setOpen={setOpen}
-            />
-          );
-        })}
+        <Grid container spacing={2}>
+          {dropOutBatches?.map((dropOutBatch, index) => {
+            
+            return (
+              <Grid item xs={12} sm={6} md={6} >
+                <DropOutIndividualComponent
+                  key={index}
+                  title={dropOutBatch.title}
+                  id={dropOutBatch.id}
+                  start_time={dropOutBatch.start_time}
+                  end_time={dropOutBatch.end_time}
+                  pathway_name={dropOutBatch.pathway_name}
+                  open={open}
+                  setOpen={setOpen}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
       </div>
     </div>
   );
