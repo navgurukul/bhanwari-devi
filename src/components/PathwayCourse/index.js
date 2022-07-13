@@ -289,11 +289,26 @@ function PathwayCourse() {
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                   {upcomingBatchesData ? (
                     loading ? (
-                      <Skeleton
-                        variant="rectangular"
-                        width={400}
-                        height={258}
-                      />
+                      <Card sx={{ p: 4 }}>
+                        <Typography variant="subtitle1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="subtitle2">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                      </Card>
                     ) : (
                       <PathwayCourseBatchEnroll1
                         upcomingBatchesData={upcomingBatchesData}
