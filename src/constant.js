@@ -34,7 +34,6 @@ export const PATHS = {
   VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
 };
-
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
 export const HideFooter = [
   PATHS.LOGIN,
@@ -134,5 +133,4 @@ export const TimeLeft = (date) => {
 
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
-
 export const versionCode = 40;

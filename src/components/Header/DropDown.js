@@ -60,7 +60,11 @@ const students = {
       path: PATHS.VOLUNTEER_AUTOMATION,
       type: "internal",
     },
-
+    {
+      title: "Our Partner",
+      path: PATHS.OUR_PARTNER,
+      type: "internal",
+    },
     {
       title: "Donate",
       path: "https://www.navgurukul.org/donate",
@@ -70,6 +74,11 @@ const students = {
       title: "Careers",
       path: "https://recruiterflow.com/navgurukul/jobs",
       type: "external",
+    },
+    {
+      title: "Our Partner",
+      path: PATHS.OUR_PARTNER,
+      type: "internal",
     },
   ],
 };

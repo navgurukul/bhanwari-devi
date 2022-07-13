@@ -69,7 +69,6 @@ function ClassList({ editClass, isShow }) {
   const _ = require("lodash");
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
   var classData = recurring_classes_data_set || recurring_classes;
-
   return (
     <>
       <TextField

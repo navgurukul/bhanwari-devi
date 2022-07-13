@@ -35,6 +35,12 @@ const menu = {
       type: "internal",
       link: PATHS.VOLUNTEER_AUTOMATION,
     },
+    {
+      title: "Our Partner",
+      type: "internal",
+
+      link: PATHS.OUR_PARTNER,
+    },
 
     {
       title: "Donate",
@@ -43,8 +49,14 @@ const menu = {
     },
     {
       title: "Careers",
-      type: "exernal",
+      type: "external",
       link: "https://recruiterflow.com/navgurukul/jobs",
+    },
+    {
+      title: "Our Partner",
+      type: "internal",
+
+      link: PATHS.OUR_PARTNER,
     },
   ],
 };
