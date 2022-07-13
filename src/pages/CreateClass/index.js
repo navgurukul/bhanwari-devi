@@ -9,8 +9,12 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
 import { Container, Button } from "@mui/material";
+import { breakpoints } from "../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function ToggleClassFormModal() {
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const [showModal, setShowModal] = useState(false);
   const [classToEdit, setClassToEdit] = useState({});
   const [indicator, setIndicator] = useState(false);
@@ -120,7 +124,7 @@ function ToggleClassFormModal() {
         <Button
           variant="contained"
           onClick={toggleModalOpen}
-          sx={{ m: "10px 0 40px 30px" }}
+          sx={{ m: isActive? "0px 0 20px 10px":"10px 0 40px 30px", width:isActive?"360px":"240px"  }}
         >
           Create a Batch/Class
         </Button>

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as classActions } from "../redux/action";
 import ClassCard from "../ClassCard";
+import { breakpoints } from "../../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import "./styles.scss";
 import {
   Grid,
@@ -13,6 +16,8 @@ import {
 } from "@mui/material";
 
 function ClassList({ editClass, isShow }) {
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const dispatch = useDispatch();
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
@@ -77,7 +82,9 @@ function ClassList({ editClass, isShow }) {
         placeholder="Enter Class Name"
         value={filterText}
         label="Enter Class Name"
-        sx={{ margin: "15px 0 0 32px" }}
+        multiline
+        rows={1.1}
+        sx={{ margin:isActive? "0px 0px 20px 10px":"12px 0px 10px 32px",  width: isActive?"360px":"250px"}}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));
