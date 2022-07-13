@@ -1,37 +1,17 @@
 import { makeStyles } from "@material-ui/styles";
-import Image from "./assest/profilebackground.jpg";
 const useStyles = makeStyles(() => ({
-  backGround: {
-    backgroundImage: `url(${Image})`,
-    minwidth: "100%",
-    justifyContent: "center",
-    textAlign: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    minHeight: "35vh",
-    position: "relative",
-  },
   profileBox: {
-    marginTop: "85vh",
-    position: "absolute",
+    transform: "translateY(-50px)",
   },
-  profileDiv: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+  imageContainer: {
+    width: "100%",
   },
-  editText: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    
+
+  bgImage: {
+    width: "100%",
+    objectFit: "cover",
+    height: "290px",
+    backgroundColor: "pink",
   },
-  saveEdit: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginTop:'10px'
-  },
-  
 }));
 export default useStyles;

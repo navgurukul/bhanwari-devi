@@ -6,15 +6,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import {
-  Container,
-  Grid,
   Avatar,
   TextField,
   Typography,
   Button,
+  Container,
 } from "@mui/material";
 import useStyles from "./styles";
-import { Box } from "@mui/system";
 import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 
 function Profile() {
@@ -70,65 +68,51 @@ function Profile() {
   };
   return (
     <>
-      <div className={classes.backGround}>
-        <div
-          sx={{ flexDirection: isActive ? "column" : "row" }}
-          className={classes.profileDiv}
-        >
-          <div
-            item
-            xs={12}
-            md={6}
-            className={classes.profileBox}
-            align="center"
-          >
-            <Avatar
-              alt="Remy Sharp"
-              src={userData.profile_picture}
-              sx={{ height: 100, width: 100 }}
-            />
-
-            <div className={classes.editText}>
-              {isEditing ? (
-                <TextField
-                  id="standard-basic"
-                  label="name"
-                  variant="standard"
-                  value={editName}
-                  onChange={(e) => {
-                    setEditName(e.target.value);
-                  }}
-                />
-              ) : msg ? (
-                <Typography>Please wait...</Typography>
-              ) : (
-                <Typography variant={isActive ? "subtitle1" : "h6"}>
-                  {userData.name}
-                  {isActive && !isEditing && (
-                    <Button onClick={() => setIsEditing(true)}>
-                      <EditIcon />
-                    </Button>
-                  )}
-                </Typography>
-              )}
-              <Box className={classes.saveEdit}>
-                <Typography textAlign="center">{userData.email}</Typography>
-                {isEditing ? (
-                  <Button pt={1} onClick={editProfile}>
-                    Save Profile
-                  </Button>
-                ) : (
-                  <Button pt={1} onClick={() => setIsEditing(true)}>
-                    {!isActive && "Edit Profile"}
-                  </Button>
-                )}
-              </Box>
-            </div>
-          </div>
-        </div>
+      <div className={classes.imageContainer}>
+        <img className={classes.bgImage} src={require("./assest/bg.png")} />
       </div>
-
-      <DropOutBatchesProfile />
+      <Container maxWidth="lg">
+        <div item xs={12} md={6} className={classes.profileBox} align="center">
+          <Avatar
+            alt="Remy Sharp"
+            src={userData.profile_picture}
+            sx={{ height: 100, width: 100 }}
+          />
+          {isEditing ? (
+            <TextField
+              id="standard-basic"
+              label="name"
+              variant="standard"
+              value={editName}
+              onChange={(e) => {
+                setEditName(e.target.value);
+              }}
+            />
+          ) : msg ? (
+            <Typography>Please wait...</Typography>
+          ) : (
+            <Typography variant={isActive ? "subtitle1" : "h6"}>
+              {userData.name}
+              {isActive && !isEditing && (
+                <Button onClick={() => setIsEditing(true)}>
+                  <EditIcon />
+                </Button>
+              )}
+            </Typography>
+          )}
+          <Typography align="center">{userData.email}</Typography>
+          {isEditing ? (
+            <Button pt={1} onClick={editProfile}>
+              Save Profile
+            </Button>
+          ) : (
+            <Button pt={1} onClick={() => setIsEditing(true)}>
+              {!isActive && "Edit Profile"}
+            </Button>
+          )}
+        </div>
+        <DropOutBatchesProfile />
+      </Container>
     </>
   );
 }
