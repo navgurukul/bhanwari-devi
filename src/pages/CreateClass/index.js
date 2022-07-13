@@ -124,7 +124,11 @@ function ToggleClassFormModal() {
         <Button
           variant="contained"
           onClick={toggleModalOpen}
-          sx={{ m: isActive? "0px 0 20px 10px":"10px 0 40px 30px", width:isActive?"360px":"240px"  }}
+          sx={{
+            m: isActive ? "0px 0 20px 10px" : "10px 0 40px 25px",
+            width: isActive ? "360px" : "230px",
+          }}
+          className="createBtn"
         >
           Create a Batch/Class
         </Button>
