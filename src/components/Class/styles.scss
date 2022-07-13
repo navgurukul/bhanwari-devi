@@ -290,6 +290,7 @@ input[type="radio"]:checked {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 32px;
   @include breakpoint-mobile {
     width: 100%;
   }
@@ -301,6 +302,7 @@ input[type="radio"]:checked {
 
   .title {
     width: 100%;
+
     display: flex;
     justify-content: center;
     text-transform: uppercase;
