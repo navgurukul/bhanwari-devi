@@ -49,6 +49,8 @@ function ChangeRole({
   //     transparency of the list item
   return roleLandingPage ? (
     <MenuItem
+      component={NavLink}
+      to={roleLandingPage}
       onClick={() => {
         setRoleView(role.key);
         localStorage.setItem(SELECTED_ROLE_KEY, role.key);
@@ -56,14 +58,13 @@ function ChangeRole({
       }}
       sx={styles}
       className={roleView === role.key && classes.bgColor}
+      className={classes.link}
     >
-      <NavLink to={roleLandingPage} className={classes.link}>
-        {
-          isToggle ? 
-           <Message constantKey="SWITCH_TO_VIEW" args={[roleStr]} />
-           : roleStr  
-        }
-      </NavLink>
+      {
+        isToggle ? 
+         <Message constantKey="SWITCH_TO_VIEW" args={[roleStr]} />
+         : roleStr  
+      }
     </MenuItem>
   ) : (
     ""
