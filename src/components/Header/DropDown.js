@@ -75,11 +75,6 @@ const students = {
       path: "https://recruiterflow.com/navgurukul/jobs",
       type: "external",
     },
-    {
-      title: "Our Partner",
-      path: PATHS.OUR_PARTNER,
-      type: "internal",
-    },
   ],
 };
 
