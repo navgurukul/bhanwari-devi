@@ -3,22 +3,13 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { CircularProgress, Typography } from "@mui/material";
-
-import { breakpoints } from "../../theme/constant";
-import useStyles from "./styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { CircularProgress, Box, Typography } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { format } from "../../common/date";
 
 export default function DropOut(props) {
   // const [openDialog, setOpenDialog] = React.useState(false);
-
-  const classes = useStyles();
 
   const { open, close, title, id, unregister_all, setIsEnrolled } = props;
   const [loading, setLoading] = React.useState(false);
@@ -58,7 +49,7 @@ export default function DropOut(props) {
       });
   };
   return (
-    <div>
+    <Box>
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
           <Typography variant="h6">
@@ -78,11 +69,11 @@ export default function DropOut(props) {
           >
             {loading ? <CircularProgress color="secondary" /> : "Drop Out"}
           </Button>
-          <Button onClick={close} sx={{ color: "black" }}>
+          <Button onClick={close} color="dark">
             Stay Enrolled
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }

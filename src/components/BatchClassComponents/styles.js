@@ -20,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: "green",
+    cursor: "pointer",
   },
   MoreBatchWrap: {
     display: "flex",
     flexDirection: "column",
     padding: "25px",
-    width: "448px",
   },
   MoreBatchCard: {
     display: "flex",
@@ -36,6 +36,22 @@ const useStyles = makeStyles((theme) => ({
   },
   ButtonInfo: {
     borderRedius: "90px",
+  },
+  FlexedContant: {
+    display: "flex",
+  },
+  BatchEnroll2Box: {
+    maxWidth: 500,
+    mb: 10,
+    pt: 3,
+    height: 280,
+    padding: "15px",
+  },
+  BatchEnroll2DateNDegree: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "10px 0",
+    mb: 1,
   },
 }));
 

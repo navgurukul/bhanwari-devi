@@ -1,19 +1,11 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import { Typography } from "@mui/material";
-import { toast } from "react-toastify";
 import { breakpoints } from "../../theme/constant";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import axios from "axios";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import Card from "@mui/material/Card";
 import AlertDialog from "./AlertDialog";
 import { Box } from "@mui/system";
 import { format } from "../../common/date";
@@ -40,7 +32,10 @@ export default function CheckMoreBatches(props) {
   return (
     <>
       <Dialog open={open} onClose={handleUpcomingBatchesClickClose}>
-        <div className={classes.MoreBatchWrap}>
+        <Box
+          className={classes.MoreBatchWrap}
+          width={isActive ? "290px" : "448px"}
+        >
           <Typography variant="h5" align="start">
             More Batches
           </Typography>
@@ -52,11 +47,8 @@ export default function CheckMoreBatches(props) {
               </Typography>
               <Typography
                 variant="body1"
-                mt={1}
-                style={{
-                  display: "flex",
-                  padding: "10px 0",
-                }}
+                mt={2}
+                className={classes.FlexedContant}
               >
                 <img
                   className={classes.icons}
@@ -93,7 +85,7 @@ export default function CheckMoreBatches(props) {
             registerAll={true}
             type="batch"
           />
-        </div>
+        </Box>
       </Dialog>
     </>
   );
