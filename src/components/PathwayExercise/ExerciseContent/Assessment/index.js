@@ -44,6 +44,7 @@ const AssessmentContent = ({
   setSubmitDisable,
   triedAgain,
   setTriedAgain,
+  submitDisable,
 }) => {
   const classes = useStyles();
   console.log("content", content);
@@ -142,6 +143,17 @@ const AssessmentContent = ({
       </Box>
     );
   }
+  if (content.component === "questionExpression") {
+    const text = DOMPurify.sanitize(get(content, "value"));
+    return (
+      <UnsafeHTML
+        Container={Typography}
+        sx={{ m: "2rem 0", fontWeight: 700, fontSize: "1.2rem" }}
+        variant="body1"
+        html={text}
+      />
+    );
+  }
 
   if (content.component === "options") {
     return (
@@ -163,7 +175,8 @@ const AssessmentContent = ({
                     : answer === item.id && classes.inCorrectAnswer
                   : answer === item.id && classes.option
               }
-              onClick={() => setAnswer(item.id)}
+              // onClick={() => setAnswer(item.id)}
+              onClick={() => !submitDisable && setAnswer(item.id)}
             >
               <Typography variant="body1" sx={{ p: "16px" }}>
                 {item.value}
@@ -238,6 +251,7 @@ function Assessment({ data, exerciseId }) {
             correct={correct}
             setTriedAgain={setTriedAgain}
             setSubmitDisable={setSubmitDisable}
+            submitDisable={submitDisable}
           />
         ))}
 
@@ -272,6 +286,7 @@ function Assessment({ data, exerciseId }) {
                 setSubmit={setSubmit}
                 setSubmitDisable={setSubmitDisable}
                 triedAgain={triedAgain}
+                submitDisable={submitDisable}
               />
             ))
           );
