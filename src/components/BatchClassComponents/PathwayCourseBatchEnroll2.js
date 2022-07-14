@@ -34,25 +34,13 @@ const PathwayCourseBatchEnroll2 = (props) => {
   return upcomingBatchesData ? (
     <>
       <Container align="center">
-        <Box
-          maxWidth={500}
-          bgcolor="#E9F5E9"
-          mb={10}
-          pt={3}
-          height={280}
-          style={{ padding: "15px" }}
-        >
+        <Box className={classes.BatchEnroll2Box} bgcolor="success.light">
           <Typography align="center" gutterBottom variant="h5">
             {upcomingBatchesData[0]?.title}
           </Typography>
           <Typography
             variant="body1"
-            mb={1}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: "10px 0",
-            }}
+            className={classes.BatchEnroll2DateNDegree}
           >
             <img
               className={classes.icons}
@@ -64,12 +52,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
           </Typography>
           <Typography
             variant="body1"
-            mb={1}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: "10px 0",
-            }}
+            className={classes.BatchEnroll2DateNDegree}
           >
             <img
               className={classes.icons}
@@ -93,13 +76,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
               type="batch"
             />
           </Stack>
-          <Typography
-            mt={2}
-            align="start"
-            style={{
-              display: "flex",
-            }}
-          >
+          <Typography mt={2} align="start" className={classes.FlexedContant}>
             Can’t start on{" "}
             {format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
             {" ? "}

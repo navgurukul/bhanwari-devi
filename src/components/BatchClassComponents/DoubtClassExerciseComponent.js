@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Typography, Card, CardContent, Chip } from "@mui/material";
+import { Typography, Chip } from "@mui/material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-
 import { lang, TimeLeft } from "../../constant";
 import { format } from "../../common/date";
 import AlertDialog from "./AlertDialog";
@@ -93,14 +91,7 @@ export const MoreDetails = (props) => {
               Clear your doubts related to the first class of Python and other
               queries during your studies
             </Typography>
-            <Typography
-              variant="body"
-              mt={2}
-              style={{
-                display: "flex",
-                padding: "10px 0",
-              }}
-            >
+            <Typography variant="body" mt={2} className={classes.FlexedContant}>
               <img
                 className={classes.icons}
                 src={require("./assets/calender.svg")}
@@ -118,9 +109,7 @@ export const MoreDetails = (props) => {
             <Typography
               variant="body1"
               mb={2}
-              style={{
-                display: "flex",
-              }}
+              className={classes.FlexedContant}
             >
               {" "}
               <img

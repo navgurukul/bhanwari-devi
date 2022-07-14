@@ -3,13 +3,8 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import { CircularProgress, Typography } from "@mui/material";
-
-import { breakpoints } from "../../theme/constant";
 import useStyles from "./styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -102,21 +97,14 @@ export default function AlertDialog(props) {
       <Dialog open={open} onClose={close}>
         <DialogContent sx={{ maxWidth: 370 }}>
           <>
-            <Typography variant="h6" sx={{ fontFamily: "Lusitana" }}>
+            <Typography variant="h6" mb={2}>
               {dialougContentMap[type][0]}
             </Typography>
-            <Typography variant="h6" mt={2} sx={{ fontFamily: "Lusitana" }}>
+            <Typography variant="h6" my={2}>
               {dialougContentMap[type][1]}
             </Typography>
           </>
-          <Typography
-            variant="body1"
-            mb={1}
-            style={{
-              display: "flex",
-              padding: "15px 0",
-            }}
-          >
+          <Typography variant="body1" mb={2} className={classes.FlexedContant}>
             <img
               className={classes.icons}
               src={require("./assets/calender.svg")}
@@ -128,7 +116,7 @@ export default function AlertDialog(props) {
           </Typography>
         </DialogContent>
         <DialogActions sx={{ mb: 2, mr: 3 }}>
-          <Button onClick={close} sx={{ color: "black" }}>
+          <Button onClick={close} color="dark">
             Back
           </Button>
           <Button
