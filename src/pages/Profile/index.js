@@ -69,9 +69,9 @@ function Profile() {
   };
   return (
     <>
-      <div className={classes.imageContainer}>
+      {/* <div className={classes.imageContainer}>
         <img className={classes.bgImage} src={require("./assest/bg.png")} />
-      </div>
+      </div> */}
       <Container maxWidth="lg">
         <div item xs={12} md={6} className={classes.profileBox} align="center">
           <Avatar
