@@ -53,11 +53,11 @@ function SearchCourse() {
   const otherCourses =
     data &&
     data.allCourses.filter((item) => {
-      if (search && item.course_type === "json") {
-        if (pathwayCourseId && !pathwayCourseId.includes(item.id)) {
-          return item.name.toLowerCase().includes(search.toLowerCase());
-        }
+      // if (search && item.course_type === "json") {
+      if (pathwayCourseId && !pathwayCourseId.includes(item.id)) {
+        return item.name.toLowerCase().includes(search.toLowerCase());
       }
+      // }
     });
 
   let pathwayTrack =
