@@ -75,7 +75,7 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
   const defaultRole = roles.find(role => role.assignedRole) ||
       roles[0];
   const [roleView, setRoleView] = React.useState(
-    localStorage.getItem(SELECTED_ROLE_KEY) || defaultRole
+    localStorage.getItem(SELECTED_ROLE_KEY) || defaultRole?.key
   );
   const [dropDown, setDropDown] = React.useState(null);
   const otherRole = 
