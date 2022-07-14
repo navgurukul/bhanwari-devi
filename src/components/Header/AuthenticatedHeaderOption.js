@@ -52,7 +52,7 @@ const savedRolesToKeysMap = Object.keys(ROLES)
 const SELECTED_ROLE_KEY = "selectedRole";
 
 const rolesLandingPages = {
-  [STUDENT]: PATHS.NEWUSER_DASHBOARED,
+  [STUDENT]: PATHS.NEW_USER_DASHBOARED,
   [ADMIN]: PATHS.PARTNERS,
   [VOLUNTEER]: PATHS.CLASS,
   [PARTNER]: PATHS.PARTNERS,

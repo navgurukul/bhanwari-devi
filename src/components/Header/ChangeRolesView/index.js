@@ -23,12 +23,14 @@ import {
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
 
+/*
 const rolesLandingPages = {
   [STUDENT]: PATHS.NEW_USER_DASHBOARED,
   [ADMIN]: PATHS.PARTNERS,
   [VOLUNTEER]: PATHS.CLASS,
   [PARTNER]: PATHS.PARTNERS,
 };
+*/
 
 const SELECTED_ROLE_KEY = "selectedRole";
 
