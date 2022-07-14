@@ -108,6 +108,11 @@ function PathwayCourse() {
   });
   console.log("upcomingBatchesData", upcomingBatchesData);
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 10000);
+  }, [pathwayId]);
+  useEffect(() => {
     if (
       enrolledBatches?.length > 0 ||
       userEnrolledClasses?.length > 0 ||
@@ -287,7 +292,9 @@ function PathwayCourse() {
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
-                  {upcomingBatchesData ? (
+                  {user?.data?.token &&
+                  (pathwayCourseData.code == "PRGPYT" ||
+                    pathwayCourseData.code == "SPKENG") ? (
                     loading ? (
                       <Card sx={{ p: 4 }}>
                         <Typography variant="subtitle1">
@@ -309,17 +316,15 @@ function PathwayCourse() {
                           <Skeleton />
                         </Typography>
                       </Card>
-                    ) : (
+                    ) : upcomingBatchesData?.length > 0 ? (
                       <PathwayCourseBatchEnroll1
                         upcomingBatchesData={upcomingBatchesData}
                       />
+                    ) : (
+                      <NoBatchEnroll />
                     )
-                  ) : user?.data?.token &&
-                    (pathwayCourseData.code == "PRGPYT" ||
-                      pathwayCourseData.code == "SPKENG") ? (
-                    <NoBatchEnroll />
                   ) : (
-                    ""
+                    <></>
                   )}
                 </Grid>
               </Grid>

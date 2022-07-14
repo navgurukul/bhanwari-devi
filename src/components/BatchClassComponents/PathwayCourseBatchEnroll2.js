@@ -7,6 +7,7 @@ import { Box } from "@mui/system";
 import AlertDialog from "./AlertDialog";
 import { useSelector } from "react-redux";
 import CheckMoreBatches from "./CheckMoreBatches";
+import NoBatchEnroll from "./NoBatchEnroll";
 
 const PathwayCourseBatchEnroll2 = (props) => {
   const { upcomingBatchesData } = props;
@@ -79,7 +80,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
           </Typography>
           <Stack alignItems="center" maxWidth={600}>
             <Button variant="contained" onClick={handleClickOpen}>
-              {upcomingBatchesData[0]?.title} Enroll Batch
+              Enroll Batch
             </Button>
             <AlertDialog
               open={open}
@@ -124,7 +125,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
       </Container>
     </>
   ) : (
-    ""
+    <NoBatchEnroll />
   );
 };
 export default PathwayCourseBatchEnroll2;
