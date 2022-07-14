@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 2,
   },
   pathwayContainer: {
-    marginTop: 40,
+    marginTop: 55,
     marginBottom: 48,
   },
   mobileVideo: {
@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     height: "24px",
     borderRadius: "50%",
   },
+  classTitle: {
+    padding: "16px",
+  },
   openCourse: {
     background: "#EEF1F5",
     m: "15px",
@@ -70,6 +73,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "baseline",
     paddingTop: "16px",
+  },
+
+  link: {
+    color: "green",
+  },
+
+  UpcomingCard: {
+    height: "90%",
+    cursor: "pointer",
   },
 }));
 
