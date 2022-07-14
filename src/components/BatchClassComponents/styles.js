@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 0",
     mb: 1,
   },
+  ExerciseBatchClassCard: {
+    maxWidth: 350,
+  },
 }));
 
 export default useStyles;
