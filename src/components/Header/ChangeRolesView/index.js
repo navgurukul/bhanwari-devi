@@ -24,7 +24,7 @@ import {
 } from "../constant";
 
 const rolesLandingPages = {
-  [STUDENT]: PATHS.NEWUSER_DASHBOARED,
+  [STUDENT]: PATHS.NEW_USER_DASHBOARED,
   [ADMIN]: PATHS.PARTNERS,
   [VOLUNTEER]: PATHS.CLASS,
   [PARTNER]: PATHS.PARTNERS,
