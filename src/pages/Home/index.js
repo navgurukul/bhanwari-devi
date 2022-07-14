@@ -332,7 +332,7 @@ function Home() {
           <Container
             maxWidth="false"
             className={isActive ? classes.ResMerakiEntry : classes.MerakiEntry}
-            sx={{ p: 5, background: "#E9F5E9" }}
+            sx={{ p: 5, background: "#FAFAFA" }}
           >
             <Container maxWidth="md">
               <MerakiEntry

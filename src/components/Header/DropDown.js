@@ -56,7 +56,7 @@ const students = {
     // },
 
     {
-      title: "Volunteer with Us",
+      title: "Volunteer With Us",
       path: PATHS.VOLUNTEER_AUTOMATION,
       type: "internal",
     },
