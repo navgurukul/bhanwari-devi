@@ -43,7 +43,7 @@ const menu = {
     },
     {
       title: "Careers",
-      type: "exernal",
+      type: "external",
       link: "https://recruiterflow.com/navgurukul/jobs",
     },
   ],
