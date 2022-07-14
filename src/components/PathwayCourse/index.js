@@ -110,7 +110,7 @@ function PathwayCourse() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 10000);
+    }, 18000);
   }, [pathwayId]);
   useEffect(() => {
     if (
