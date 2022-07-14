@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import Chip from "@mui/material/Chip";
-import { lang as language } from "../../../constant";
 import {
   Container,
   Box,
   Grid,
   Card,
+  Stack,
   Button,
   CardContent,
   Typography,
@@ -18,6 +18,7 @@ import { getCourseContent } from "../../Course/redux/api";
 import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
+import useStyles from "../styles";
 const PathwayCards = (props) => {
   // const language = {
   //   hi: "Hindi",
@@ -35,7 +36,12 @@ const PathwayCards = (props) => {
   };
   const { userEnrolledClasses, data } = props;
   console.log(userEnrolledClasses);
+
   function UpcomingClassCardComponent({ item }) {
+    const classes = useStyles();
+    const isActive = useMediaQuery(
+      "(max-width:" + breakpoints.values.sm + "px)"
+    );
     const user = useSelector(({ User }) => User);
     const [classIndex, setClassIndex] = React.useState(0);
     useEffect(() => {
@@ -50,6 +56,8 @@ const PathwayCards = (props) => {
     return (
       <Grid item xs={12} sm={4} md={4}>
         <Card
+          className={classes.UpcomingCard}
+          elevation={4}
           onClick={() => {
             console.log("clicked");
             history.push(
@@ -60,7 +68,10 @@ const PathwayCards = (props) => {
               })
             );
           }}
-          style={{ minWidth: "300px", margin: "10px" }}
+          style={{
+            minWidth: isActive ? "290px" : "350",
+            marginRight: isActive ? "500px" : "40px",
+          }}
         >
           <Box
             sx={{
@@ -70,52 +81,41 @@ const PathwayCards = (props) => {
           />
 
           <CardContent>
-            <Grid container spacing={1}>
-              <Grid item xs={6} md={8}>
-                <Typography variant="h6" gutterBottom>
-                  {item.title}
-                </Typography>
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <Chip
-                  label={item.type}
-                  variant="caption"
-                  sx={
-                    item.type === "batch"
-                      ? {
-                          borderRadius: { xs: 25, sm: 15 },
-                          height: { xs: 34, sm: 25 },
-                          // fontSize: "11px",
+            <Stack direction="row" spacing={1}>
+              <Typography variant="body1" gutterBottom>
+                {item.title}
+              </Typography>
+              <Chip
+                label={item.type}
+                variant="caption"
+                sx={
+                  item.type === "batch"
+                    ? {
+                        borderRadius: { xs: 25, sm: 15 },
+                        height: { xs: 34, sm: 25 },
+                        backgroundColor: "primary.light",
+                        color: "primary.dark",
+                        "&:hover": {
                           backgroundColor: "primary.light",
-                          color: "primary.dark",
-                          "&:hover": {
-                            backgroundColor: "primary.light",
-                          },
-                        }
-                      : {
-                          borderRadius: { xs: 25, sm: 15 },
-                          height: { xs: 34, sm: 25 },
-                          // fontSize: "11px",
-                          backgroundColor: "lightsteelblue",
-                          color: "darkblue",
-                        }
-                  }
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={1}>
-              <Grid item xs={8} md={5}>
-                <Typography variant="body2">
-                  {format(item.start_time, "dd MMM yy")}
-                </Typography>
-              </Grid>
-              <Grid item xs={6} md={3}>
-                <Typography variant="body2">
-                  <li>{language[item.lang]}</li>
-                </Typography>
-              </Grid>
-            </Grid>
+                        },
+                      }
+                    : {
+                        borderRadius: { xs: 25, sm: 15 },
+                        height: { xs: 34, sm: 25 },
+                        backgroundColor: "lightsteelblue",
+                        color: "darkblue",
+                      }
+                }
+              />
+            </Stack>
+            <Stack sx={{ mt: 1 }} direction="row" spacing={1}>
+              <Typography variant="body2">
+                {format(item.start_time, "dd MMM yy")}
+              </Typography>
+              <Typography variant="body2">
+                <li>{language[item.lang]}</li>
+              </Typography>
+            </Stack>
           </CardContent>
         </Card>
       </Grid>
@@ -124,8 +124,8 @@ const PathwayCards = (props) => {
 
   return (
     <>
-      <Container maxWidth="xl">
-        <Typography mb={2} mt={2} variant="h5">
+      <Container maxWidth="lg">
+        <Typography mb={2} mt={2} variant="h6">
           Upcoming Classes
         </Typography>
 

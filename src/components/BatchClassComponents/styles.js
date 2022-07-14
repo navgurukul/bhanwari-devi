@@ -56,6 +56,30 @@ const useStyles = makeStyles((theme) => ({
   ExerciseBatchClassCard: {
     maxWidth: 350,
   },
+  EnrollInCourseBox1: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100vw",
+    flexWrap: "wrap",
+    marginTop: "50px",
+  },
+  EnrollInCourseBox2: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  EnrollInCourseCard: {
+    align: "right",
+    mt: 1,
+    maxWidth: 370,
+    mb: 10,
+  },
+  EnrollInCourseFormBox: {
+    display: "flex",
+    justifyContent: "start",
+  },
 }));
 
 export default useStyles;

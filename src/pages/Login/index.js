@@ -117,7 +117,7 @@ function Login(props) {
       <Container className={classes.merakiLogin} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
                 variant="h4"
@@ -175,7 +175,7 @@ function Login(props) {
             md={6}
             sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
           >
-            <img src={require("./assets/background.svg")} />
+            <img src={require("./assets/background.svg")} alt="img" />
           </Grid>
         </Grid>
       </Container>

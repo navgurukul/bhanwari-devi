@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { CardContent, Card, Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
 import useStyles from "../styles";
 import { useSelector } from "react-redux";
-import { breakpoints } from "../../../theme/constant";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-
 import { format } from "../../../common/date";
-// import { Button } from "framework7-react";
 import AlertDialog from "../AlertDialog.js";
+
 const NotEnrolledSvg = require("./notEnrolled.svg");
 const CourseEnroll = (props) => {
+  const classes = useStyles();
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
@@ -41,34 +35,17 @@ const CourseEnroll = (props) => {
   };
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100vw",
-          flexWrap: "wrap",
-          marginTop: "50px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
+      <Box className={classes.EnrollInCourseBox1}>
+        <Box className={classes.EnrollInCourseBox2}>
           <img src={NotEnrolledSvg} />
-
-          <Box align="right" mt={1} maxWidth={370} mb={10}>
+          <Box className={classes.EnrollInCourseCard}>
             <Card elevation={2} pl={10}>
               <CardContent>
                 <Typography gutterBottom variant="body1" align="start">
                   It seems you are not part of a batch. Please enroll in a batch
                   to attend the live classes.
                 </Typography>
-                <Box display="flex" justifyContent="start">
+                <Box className={classes.EnrollInCourseFormBox}>
                   <FormControl>
                     <RadioGroup value={selectedBatchToEnroll?.id}>
                       {data?.map((item) => {
@@ -79,7 +56,6 @@ const CourseEnroll = (props) => {
                                 setSelectedBatchToEnroll(item);
                               }}
                               key={item.id}
-                              sx={{ fontWeight: 20 }}
                               value={item.id}
                               control={<Radio />}
                               label={<b>{item?.title}</b>}
@@ -117,8 +93,8 @@ const CourseEnroll = (props) => {
               </CardContent>
             </Card>
           </Box>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 };

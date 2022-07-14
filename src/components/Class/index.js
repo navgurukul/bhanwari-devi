@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
@@ -56,7 +56,7 @@ function Class({ classToEdit, indicator }) {
     end_time,
     pathway_id,
     course_id,
-    partner_id,
+    // partner_id,
     exercise_id,
     max_enrolment,
     frequency,
@@ -147,7 +147,7 @@ function Class({ classToEdit, indicator }) {
           autoClose: 2500,
         });
         setLoading(false);
-        // window.location.reload(1);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -324,7 +324,7 @@ function Class({ classToEdit, indicator }) {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setLoading(false);
-        // window.location.reload(1);
+        window.location.reload(1);
       },
       (error) => {
         toast.error(
@@ -553,7 +553,7 @@ function Class({ classToEdit, indicator }) {
                   Please choose a pathway
                 </span>
               )}
-              {pathwayCode == "SPKENG" &&
+              {formFieldsState[TYPE] === "doubt_class" &&
                 pathways.map((pathway) => {
                   if (pathwayId == pathway.id) {
                     return (
@@ -586,9 +586,11 @@ function Class({ classToEdit, indicator }) {
                     );
                   }
                 })}
-              {pathwayCode == "SPKENG" && formFieldsState[COURSE_ID] == "" && (
-                <span className="field-validation">Select a course</span>
-              )}
+              {formFieldsState[TYPE] === "doubt_class" &&
+                pathwayId &&
+                formFieldsState[COURSE_ID] == "" && (
+                  <span className="field-validation">Select a course</span>
+                )}
               {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
                 <>
                   <label htmlFor="exercise_id" className="label-field">

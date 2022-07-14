@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
@@ -9,7 +9,6 @@ import {
   Box,
   Grid,
   Card,
-  CardContent,
   Typography,
   Button,
   Stack,

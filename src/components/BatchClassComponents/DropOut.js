@@ -9,8 +9,6 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function DropOut(props) {
-  // const [openDialog, setOpenDialog] = React.useState(false);
-
   const { open, close, title, id, unregister_all, setIsEnrolled } = props;
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);

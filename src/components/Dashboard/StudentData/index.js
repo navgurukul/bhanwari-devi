@@ -358,16 +358,20 @@ function StudentData() {
               }}
             />
           </div>
+          {/* {filterVal[1]>0? */}
           <button
+            disabled={isDisabled}
             onClick={() => {
               setFilteredData(false);
               setFilterVal([0, 0]);
+              setDisabled(true);
             }}
             disabled={isDisabled}
             className="filter-clear"
           >
             clear
           </button>
+          {/* :""} */}
         </div>
         <table className="student-overview-table">
           <thead>
