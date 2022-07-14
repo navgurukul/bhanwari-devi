@@ -12,6 +12,7 @@ import {
   Button,
   Container,
 } from "@mui/material";
+import { Box, fontSize } from "@mui/system";
 import useStyles from "./styles";
 import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 

@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   cardDrop: {
     margin: "20px",
-    minWidth: "352px",
+    minWidth: "300px",
   },
   cardContent: {
     height: "145px",
