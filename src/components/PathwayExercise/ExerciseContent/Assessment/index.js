@@ -44,6 +44,7 @@ const AssessmentContent = ({
   setSubmitDisable,
   triedAgain,
   setTriedAgain,
+  submitDisable,
 }) => {
   const classes = useStyles();
   console.log("content", content);
@@ -57,7 +58,6 @@ const AssessmentContent = ({
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
-      setSubmitDisable(true);
       return (
         <Box sx={{ mt: "32px" }}>
           <Typography variant="h6" align="center">
@@ -143,10 +143,21 @@ const AssessmentContent = ({
       </Box>
     );
   }
+  if (content.component === "questionExpression") {
+    const text = DOMPurify.sanitize(get(content, "value"));
+    return (
+      <UnsafeHTML
+        Container={Typography}
+        sx={{ m: "2rem 0", fontWeight: 700, fontSize: "1.2rem" }}
+        variant="body1"
+        html={text}
+      />
+    );
+  }
 
   if (content.component === "options") {
     return (
-      <Box sx={{ mt: "32px" }}>
+      <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           console.log("item", item.value);
           return (
@@ -164,7 +175,8 @@ const AssessmentContent = ({
                     : answer === item.id && classes.inCorrectAnswer
                   : answer === item.id && classes.option
               }
-              onClick={() => setAnswer(item.id)}
+              // onClick={() => setAnswer(item.id)}
+              onClick={() => !submitDisable && setAnswer(item.id)}
             >
               <Typography variant="body1" sx={{ p: "16px" }}>
                 {item.value}
@@ -211,10 +223,12 @@ function Assessment({ data, exerciseId }) {
       setCorrect(true);
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
+      setSubmitDisable(true);
     } else {
       setCorrect(false);
       setStatus("Fail");
       setTriedAgain(triedAgain + 1);
+      setSubmitDisable(true);
     }
   };
 
@@ -237,6 +251,7 @@ function Assessment({ data, exerciseId }) {
             correct={correct}
             setTriedAgain={setTriedAgain}
             setSubmitDisable={setSubmitDisable}
+            submitDisable={submitDisable}
           />
         ))}
 
@@ -271,6 +286,7 @@ function Assessment({ data, exerciseId }) {
                 setSubmit={setSubmit}
                 setSubmitDisable={setSubmitDisable}
                 triedAgain={triedAgain}
+                submitDisable={submitDisable}
               />
             ))
           );

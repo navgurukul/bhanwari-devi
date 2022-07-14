@@ -1,4 +1,3 @@
-import { alignProperty } from "@mui/material/styles/cssUtils";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
