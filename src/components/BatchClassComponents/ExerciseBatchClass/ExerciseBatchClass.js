@@ -19,14 +19,8 @@ import ClassJoinTimerButton from "../../Class/ClassJoinTimerButton";
 const ExerciseBatchClass = (props) => {
   const classes = useStyles();
   const [dropOutOpen, setDropOutOpen] = useState(false);
-  const {
-    facilitator,
-    start_time,
-    end_time,
-    is_enrolled,
-    meet_link,
-    id
-  } = props;
+  const { facilitator, start_time, end_time, is_enrolled, meet_link, id } =
+    props;
   const closeDropOut = () => {
     setDropOutOpen(false);
   };
@@ -45,7 +39,7 @@ const ExerciseBatchClass = (props) => {
                   mb={1}
                   style={{
                     display: "flex",
-                    padding: "10px 0"
+                    padding: "10px 0",
                   }}
                 >
                   <img
@@ -61,7 +55,7 @@ const ExerciseBatchClass = (props) => {
                   variant="body1"
                   mb={1}
                   style={{
-                    display: "flex"
+                    display: "flex",
                     // padding: "10px 0",
                   }}
                 >

@@ -3,7 +3,7 @@ import {
   isBefore as comesBefore,
   differenceInMinutes as minutesDifference,
   differenceInMilliseconds as msDifference,
-  intervalToDuration
+  intervalToDuration,
 } from "date-fns";
 import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
 
@@ -106,7 +106,7 @@ export const timeLeftFormat = (
 
   const timeRemaining = intervalToDuration({
     start: now,
-    end: targetDate
+    end: targetDate,
   });
   const { years, months, days, hours, minutes, seconds } = timeRemaining;
   const units = [years, months, days, hours, minutes, seconds];

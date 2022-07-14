@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "none",
       opacity: "1",
       zIndex: "2",
-      boxShadow: "none",
+      // boxShadow: "none",
     },
   },
   team_cardImg: {

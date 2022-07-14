@@ -5,15 +5,7 @@ import Tippy from "@tippyjs/react";
 import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
 import Twitter from "../../components/common/SocialMediaIcons/Twitter";
-import {
-  Container,
-  Grid,
-  Typography,
-  Button,
-  Box,
-  Stack,
-  CssBaseline,
-} from "@mui/material";
+import { Container, Grid, Typography, Button, Box } from "@mui/material";
 import useStyles from "./styles";
 
 function shuffleArray(arr) {

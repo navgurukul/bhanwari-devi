@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,9 +11,6 @@ import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
-import { styled, alpha } from "@mui/material/styles";
-import { Redirect } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import {
   AppBar,
@@ -25,14 +22,10 @@ import {
   ThemeProvider,
   SwipeableDrawer,
   Typography,
-  // Search,
 } from "@mui/material";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
-import SearchBar from "../SearchBar";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
-const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
+const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
@@ -90,7 +83,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer, handleSearchChange }) => {
         ))}
       </Box>
 
-      {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
       {!leftDrawer && (
         <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
           <Link to={PATHS.SEARCHED_COURSE}>
@@ -135,7 +127,11 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
         <Toolbar disableGutters>
           <Box className={classes.RightBox}>
             <Link to="/">
-              <img src={require("./asset/logo.svg")} loading="lazy" />
+              <img
+                src={require("./asset/logo.svg")}
+                loading="lazy"
+                alt="logo"
+              />
             </Link>
           </Box>
           <Box className={classes.crossIcon}>
@@ -161,13 +157,7 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
 };
 
 function Header() {
-  const query = new URLSearchParams(useLocation().search).get("search");
-  // query ? query : ""
-  const [search, setSearch] = useState(query ? query : "");
-  const history = useHistory();
   const classes = useStyles();
-  const [value, setValue] = useState();
-  const [flag, setFlag] = useState(false);
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = useState(false);
@@ -195,80 +185,6 @@ function Header() {
     }
   });
 
-  const handleSearchChange = (e) => {
-    console.log("e", e.target.value);
-    // history.push(`?search=${e.target.value}`);
-    // e.preventDefault();
-    // setSearch(e.target.value);
-    setValue(e.target.value);
-    setFlag(true);
-    // if (e.target.value) {
-    //   console.log("komal", e.target.value);
-    //   return (
-    //     // <Redirect
-    //     //   to={{
-    //     //     pathname: PATHS.SEARCHED_COURSE,
-    //     //     state: e.target.value,
-    //     //   }}
-    //     // />
-    //     <Link
-    //       to={{
-    //         pathname: `/search-course`,
-    //         state: {
-    //           pass: e.target.value,
-    //         },
-    //       }}
-    //     />
-    //   );
-    // }
-  };
-
-  // useEffect(() => {
-  //   if (flag) {
-  //     console.log("komal", value);
-  //     return (
-  //       <Redirect
-  //         to={{
-  //           pathname: PATHS.SEARCHED_COURSE,
-  //           state: value,
-  //         }}
-  //       />
-  //       // <Link
-  //       //   to={{
-  //       //     pathname: `/search-course`,
-  //       //     state: {
-  //       //       pass: value,
-  //       //     },
-  //       //   }}
-  //       // />
-  //     );
-  //   }
-  // }, [flag]);
-
-  // const coursePage = () => {
-  //   setFlag(true);
-  // };
-
-  // if (flag) {
-  //   console.log("komal", value);
-  //   return (
-  //     <Redirect
-  //       to={{
-  //         pathname: PATHS.SEARCHED_COURSE,
-  //         state: value,
-  //       }}
-  //     />
-  //     // <Link
-  //     //   to={{
-  //     //     pathname: `/search-course`,
-  //     //     state: {
-  //     //       pass: value,
-  //     //     },
-  //     //   }}
-  //     // />
-  //   );
-  // }
-
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="sticky" color="background" elevation={elevation}>
@@ -276,7 +192,11 @@ function Header() {
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
-                <img src={require("./asset/menu.svg")} loading="lazy" />
+                <img
+                  src={require("./asset/menu.svg")}
+                  loading="lazy"
+                  alt="menu"
+                />
               </Box>
               <SwipeableDrawer
                 anchor="left"
@@ -292,7 +212,11 @@ function Header() {
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <Link to="/">
-                <img src={require("./asset/logo.svg")} loading="lazy" />
+                <img
+                  src={require("./asset/logo.svg")}
+                  loading="lazy"
+                  alt="logo"
+                />
               </Link>
             </Box>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
@@ -308,16 +232,18 @@ function Header() {
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
             >
               <Link to="/">
-                <img src={require("./asset/meraki.svg")} loading="lazy" />
+                <img
+                  src={require("./asset/meraki.svg")}
+                  loading="lazy"
+                  alt="meraki"
+                />
               </Link>
             </Box>
             {isAuthenticated ? (
-              <AuthenticatedHeaderOption
-                handleSearchChange={handleSearchChange}
-              />
+              <AuthenticatedHeaderOption />
             ) : (
               <>
-                <PublicMenuOption handleSearchChange={handleSearchChange} />
+                <PublicMenuOption />
               </>
             )}
           </Toolbar>

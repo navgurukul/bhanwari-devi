@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import get from "lodash/get";
 import { useLocation } from "react-router-dom";
 
 import { actions as courseActions } from "./redux/action";
