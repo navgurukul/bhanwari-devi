@@ -72,7 +72,7 @@ function RevisionClassEnroll(props) {
               id={revisionData[0].id}
             />
           </>
-        ) : (
+        ) : revisionData.length > 0 ? (
           <Card elevation={2} pl={10}>
             <CardContent>
               <Typography gutterBottom variant="subtitle1" align="start">
@@ -127,6 +127,10 @@ function RevisionClassEnroll(props) {
                 type="RevisionClass"
               />
             </CardContent>
+          </Card>
+        ) : (
+          <Card elevation={2} sx={{ p: "40px" }}>
+            <Typography>No revision classes available At This Moment</Typography>
           </Card>
         )}
       </Box>
