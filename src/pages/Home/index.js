@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   CssBaseline,
@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
@@ -333,7 +332,7 @@ function Home() {
           <Container
             maxWidth="false"
             className={isActive ? classes.ResMerakiEntry : classes.MerakiEntry}
-            sx={{ p: 5, background: "#E9F5E9" }}
+            sx={{ p: 5, background: "#FAFAFA" }}
           >
             <Container maxWidth="md">
               <MerakiEntry

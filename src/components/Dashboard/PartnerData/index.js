@@ -12,7 +12,6 @@ import { PATHS } from "../../../constant";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router-dom";
-import StudentData from "../StudentData";
 
 toast.configure();
 

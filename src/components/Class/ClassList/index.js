@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as classActions } from "../redux/action";
+import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
 import {

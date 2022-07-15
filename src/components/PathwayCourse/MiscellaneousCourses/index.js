@@ -46,7 +46,7 @@ function MiscellaneousCourses() {
           <Grid xs={12} md={6}>
             <Card align="left" elevation={0}>
               <Typography
-                variant="h5"
+                variant="h4"
                 align={isActive ? "center" : "left"}
                 sx={{ pb: "16px" }}
               >
@@ -62,10 +62,11 @@ function MiscellaneousCourses() {
         </Grid>
 
         <Box sx={{ mt: 3 }}>
-          <Typography variant="h5" align={isActive ? "center" : "left"}>
+          <Typography variant="h6" align={isActive ? "center" : "left"}>
             Courses
           </Typography>
           <Grid sx={{ mt: 2 }} container spacing={3} align="center">
+            {console.log(otherCourses)}
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid key={index} xs={12} sm={6} md={3}>

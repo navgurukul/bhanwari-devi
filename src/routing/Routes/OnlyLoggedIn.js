@@ -10,7 +10,6 @@ const OnlyLoggedIn = (passedProps) => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("Token");
 
-
   if (token && (!user || !user.isAuthenticated)) {
     // Registered user attempting to log in by using redirect token;
     //     let's send the token to our back-end to get profile data
