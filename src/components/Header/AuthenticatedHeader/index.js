@@ -40,7 +40,7 @@ function AuthenticatedHeader({
               />
 
               <HeaderNavLink
-                to={PATHS.NEWUSER_DASHBOARED}
+                to={PATHS.NEW_USER_DASHBOARED}
                 text={<Message constantKey="DASHBOARD" />}
                 toggleDrawer={toggleDrawer}
               />
@@ -61,7 +61,7 @@ function AuthenticatedHeader({
                 toggleDrawer={toggleDrawer}
               />
               <HeaderNavLink
-                to={PATHS.NEWUSER_DASHBOARED}
+                to={PATHS.NEW_USER_DASHBOARED}
                 text={<Message constantKey="DASHBOARD" />}
                 toggleDrawer={toggleDrawer}
               />

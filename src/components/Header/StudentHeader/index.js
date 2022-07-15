@@ -30,7 +30,7 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
   return (
     <>
       <HeaderNavLink
-        to={PATHS.NEWUSER_DASHBOARED}
+        to={PATHS.NEW_USER_DASHBOARED}
         text={<Message constantKey="DASHBOARD" />}
         toggleDrawer={toggleDrawer}
       />
