@@ -143,17 +143,17 @@ const AssessmentContent = ({
       </Box>
     );
   }
-  if (content.component === "questionExpression") {
-    const text = DOMPurify.sanitize(get(content, "value"));
-    return (
-      <UnsafeHTML
-        Container={Typography}
-        sx={{ m: "2rem 0", fontWeight: 700, fontSize: "1.2rem" }}
-        variant="body1"
-        html={text}
-      />
-    );
-  }
+  // if (content.component === "questionExpression") {
+  //   const text = DOMPurify.sanitize(get(content, "value"));
+  //   return (
+  //     <UnsafeHTML
+  //       Container={Typography}
+  //       sx={{ m: "2rem 0", fontWeight: 700, fontSize: "1.2rem" }}
+  //       variant="body1"
+  //       html={text}
+  //     />
+  //   );
+  // }
 
   if (content.component === "options") {
     return (
