@@ -154,10 +154,10 @@ function PathwayExercise() {
   const [progressTrackId, setProgressTrackId] = useState(-1);
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
-  const currentCourse = params.exerciseId;
+  const currentCourse = params.courseId;
 
   useEffect(() => {
-    setExerciseId(parseInt(currentCourse));
+    setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
