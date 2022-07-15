@@ -311,7 +311,7 @@ function ExerciseContent({ exerciseId, lang }) {
         authToken: user?.data?.token,
       })
     );
-  }, [courseId]);
+  }, [courseId,lang]);
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
