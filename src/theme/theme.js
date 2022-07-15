@@ -1,6 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 import { breakpoints } from "./constant";
+
 let theme = createTheme();
+
 const shadows = theme.shadows;
 shadows[2] =
   "0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04), 0px 1px 5px rgba(0, 0, 0, 0.08)";
@@ -8,69 +10,70 @@ shadows[8] =
   "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)";
 shadows[8] =
   "0px 24px 38px rgba(0, 0, 0, 0.06), 0px 9px 46px rgba(0, 0, 0, 0.04), 0px 11px 15px rgba(0, 0, 0, 0.08)";
+
 theme = createTheme(theme, {
   breakpoints,
   palette: {
     mode: "light",
     default: {
-      // main: "#FFFFFF",
+      // main: "#ffffff",
       // contrastText: "#000000",
-      light: "#0066FF",
+      light: "#0066ff",
       main: "#fff",
       // dark: will be calculated from palette.secondary.main,
-      contrastText: "#FFCC00",
+      contrastText: "#ffcc00",
     },
     primary: {
       //Green
-      main: "#48A145",
-      light: "#E9F5E9",
-      dark: "#3A8137",
+      main: "#48a145",
+      light: "#e9f5e9",
+      dark: "#3a8137",
     },
     secondary: {
       //Violet
-      main: '#FFCC00',
-      light: '#FFF5CC',
-      dark: '#CCA300',
-      contrastText: '#2E2E2E',
-      
+      main: "#4548a1",
+      light: "#dadaec",
+      dark: "#373a81",
     },
     error: {
       //Red
-      main: "#F44336",
-      light: "#FFE5E3",
-      dark: "#C3362B",
+      main: "#f44336",
+      light: "#ffe5e3",
+      dark: "#c3362b",
     },
     warning: {
       //Yellow
-      main: "#FFC107",
-      contrastText: "#2E2E2E",
-      light: "#FFF3CD",
-      dark: "#CC9A06",
+      main: "#ffc107",
+      contrastText: "#2e2e2e",
+      light: "#fff3cd",
+      dark: "#cc9a06",
     },
     info: {
       //Blue
-      main: "#2196F3",
-      dark: "#1A78C2",
-      light: "#D3EAFD",
+      main: "#2196f3",
+      dark: "#1a78c2",
+      light: "#d3eafd",
     },
     success: {
       //Green as primary
-      main: "#48A145",
-      light: "#E9F5E9",
-      dark: "#3A8137",
+      main: "#48a145",
+      light: "#e9f5e9",
+      dark: "#3a8137",
     },
+
     Greey: {
       main: "rgba(0, 0, 0, 0.12)",
     },
+
     text: {
-      primary: "#2E2E2E",
+      primary: "#2e2e2e",
       secondary: "#585858",
       disabled: "#949494",
       hint: "#949494",
     },
     background: {
       default: "#FFFFFF",
-      paper: "#FFFFFF",
+      paper: "#ffffff",
     },
     dark: {
       main: "#000000",
@@ -78,8 +81,10 @@ theme = createTheme(theme, {
     },
     divider: "#DEDEDE",
   },
+
   typography: {
     fontFamily: "Nunito Sans , Lusitana",
+
     fontSize: 18,
     h1: {
       fontWeight: 700,
@@ -112,16 +117,17 @@ theme = createTheme(theme, {
       fontWeight: 700,
       fontSize: "2.625rem",
       [theme.breakpoints.down("sm")]: {
-        fontSize: " 2rem",
+        fontSize: "	2rem",
       },
       fontFamily: "Lusitana",
       lineHeight: 1.3,
     },
+
     h5: {
       fontWeight: 700,
       fontSize: "2rem",
       [theme.breakpoints.down("sm")]: {
-        fontSize: " 1.5rem",
+        fontSize: "	1.5rem",
       },
       lineHeight: 1.5,
       fontFamily: "Lusitana",
@@ -129,7 +135,7 @@ theme = createTheme(theme, {
     h6: {
       fontSize: "1.5rem",
       [theme.breakpoints.down("sm")]: {
-        fontSize: " 1.125rem",
+        fontSize: "	1.125rem",
       },
       lineHeight: 1.5,
       fontWeight: 700,
@@ -198,6 +204,7 @@ theme = createTheme(theme, {
   },
   shadows,
 });
+
 theme.components = {
   MuiCardMedia: {
     defaultProps: {
@@ -207,6 +214,7 @@ theme.components = {
       root: { width: 64 },
     },
   },
+
   MuiButton: {
     styleOverrides: {
       root: {
@@ -215,6 +223,7 @@ theme.components = {
       },
     },
   },
+
   MuiMenuItem: {
     styleOverrides: {
       root: {
@@ -227,6 +236,7 @@ theme.components = {
       },
     },
   },
+
   MuiTableRow: {
     styleOverrides: {
       root: {
@@ -239,10 +249,12 @@ theme.components = {
       },
     },
   },
+
   MuiCard: {
     styleOverrides: {
       root: {
         borderRadius: 8,
+
         // "&:hover": {
         //   boxShadow:
         //     "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
@@ -251,4 +263,5 @@ theme.components = {
     },
   },
 };
+
 export default theme;
