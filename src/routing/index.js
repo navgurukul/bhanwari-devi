@@ -6,8 +6,8 @@ import Home from "../pages/Home";
 import { PATHS } from "../constant";
 import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
-import Course from "../pages/Course";
-import CourseContent from "../pages/CourseContent";
+// import Course from "../pages/Course";
+// import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
 
@@ -44,7 +44,7 @@ const Routing = () => {
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
-      <Route exact path={PATHS.COURSE} component={Course} />
+      {/* <Route exact path={PATHS.COURSE} component={Course} /> */}
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       <Route
         exact
@@ -56,7 +56,7 @@ const Routing = () => {
         path={PATHS.RESIDENTIAL_COURSE}
         component={ResidentialCourse}
       />
-      <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
+      {/* <Route path={PATHS.COURSE_CONTENT} component={CourseContent} /> */}
       <PrivateRoute
         path={PATHS.PATHWAY_COURSE_CONTENT}
         component={PathwayExercise}
