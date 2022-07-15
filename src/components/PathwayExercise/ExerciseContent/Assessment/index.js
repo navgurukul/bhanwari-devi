@@ -175,8 +175,8 @@ const AssessmentContent = ({
                     : answer === item.id && classes.inCorrectAnswer
                   : answer === item.id && classes.option
               }
-              // onClick={() => setAnswer(item.id)}
-              onClick={() => !submitDisable && setAnswer(item.id)}
+              onClick={() => setAnswer(item.id)}
+              // onClick={() => !submitDisable && setAnswer(item.id)}
             >
               <Typography variant="body1" sx={{ p: "16px" }}>
                 {item.value}
