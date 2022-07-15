@@ -259,7 +259,8 @@ function Assessment({ data, exerciseId }) {
         <Button
           variant="contained"
           sx={{ width: "256px", p: "8px 16px 8px 16px" }}
-          color={answer ? "primary" : "disable"}
+          color={answer ? "primary" : "secondary"}
+          disabled={!answer}
           onClick={submitAssessment}
         >
           Submit
