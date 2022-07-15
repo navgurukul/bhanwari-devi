@@ -15,6 +15,7 @@ import { format } from "../../../common/date";
 import AlertDialog from "../AlertDialog";
 import ExerciseBatchClass from "../ExerciseBatchClass/ExerciseBatchClass";
 import DropOut from "../DropOut";
+const NoRevisionClassImage = require("./assets/NoRevision.svg");
 function RevisionClassEnroll(props) {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
@@ -129,9 +130,15 @@ function RevisionClassEnroll(props) {
             </CardContent>
           </Card>
         ) : (
-          <Card elevation={2} sx={{ p: "40px" }}>
-            <Typography>No revision classes available At This Moment</Typography>
-          </Card>
+          <>
+            <img src={NoRevisionClassImage} alt="meraki" />
+            <Card elevation={2} sx={{ p: "10px" }}>
+              <Typography>
+                Looks like there are no revision class. We will keep looking for
+                them and inform you as they come
+              </Typography>
+            </Card>
+          </>
         )}
       </Box>
     </Container>
