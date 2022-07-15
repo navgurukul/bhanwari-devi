@@ -6,7 +6,6 @@ import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
 import Twitter from "../../components/common/SocialMediaIcons/Twitter";
 import { Container, Grid, Typography, Button, Box } from "@mui/material";
-import { PATHS } from "../../constant";
 import useStyles from "./styles";
 
 function shuffleArray(arr) {
@@ -108,7 +107,7 @@ function Team() {
       maxWidth="lg"
       sx={isActive ? { padding: 0, marginTop: "24px" } : { marginTop: "40px" }}
     >
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <Box
           className={classes.team_conainerLeft}
           sx={
@@ -164,7 +163,7 @@ function Team() {
             students across India by making Tech education available. accessible
             and usable through our Meraki platform.
           </Typography>
-          <Grid container justifyContent="center" maxWidth="md" mt="40px">
+          <Grid container justify="center" maxWidth="md" mt="40px">
             <Button
               variant="contained"
               color="primary"
@@ -179,19 +178,16 @@ function Team() {
             >
               Join Us
             </Button>
-
             <Button
               variant="outlined"
               color="primary"
-              href={PATHS.VOLUNTEER_AUTOMATION}
-              // href="https://docs.google.com/forms/d/e/1FAIpQLScHvysncnhJkSMtpdpGl_uPhJWlE81hp6l5m2mvuE1hoxX-dQ/viewform"
-              // target="_blank"
-              target="_self"
+              href="https://docs.google.com/forms/d/e/1FAIpQLScHvysncnhJkSMtpdpGl_uPhJWlE81hp6l5m2mvuE1hoxX-dQ/viewform"
+              target="_blank"
               spacing={2}
               container
               className={!isActive ? classes.team_btn : classes.team_btn1}
             >
-              Volunteer With Us
+              Volunteer at Meraki
             </Button>
           </Grid>
         </Box>

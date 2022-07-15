@@ -65,7 +65,9 @@ function Login(props) {
     volunteer: PATHS.CLASS,
     admin: PATHS.PARTNERS,
     partner: PATHS.PARTNERS,
-    default: interpolatePath(PATHS.NEWUSER_DASHBOARED),
+    default: interpolatePath(PATHS.PATHWAY_COURSE, {
+      pathwayId: pythonPathwayId,
+    }),
   };
 
   console.log("rolesList", rolesList);

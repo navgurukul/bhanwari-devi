@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     justifContent: "space-between",
     transition: "all ease-in 0.2s",
     pointerEvents: "none",
-    marginBottom: "6rem",
+    marginBottom: "14.375rem",
   },
   team_responsiveContainer: { marginTop: "5rem", padding: "0" },
   team_infoResponsiveContainer: {
