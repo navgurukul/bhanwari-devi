@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
+    marginBottom: "16px",
   },
   team_mobileCardImg: {
     borderRadius: "50%",
@@ -108,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
+    marginBottom: "16px",
   },
   team_cardTitle: {
     fontWeight: "bold",

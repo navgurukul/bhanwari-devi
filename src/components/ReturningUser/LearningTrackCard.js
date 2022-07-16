@@ -79,7 +79,7 @@ function LearningTrackCard(props) {
           flexDirection="column"
           className={classes.courseCard}
         >
-          <Card elevation={2} pl={10} sx={{ minHeight: 185 }}>
+          <Card elevation={2} pl={10}>
             <CardActionArea>
               <CardContent>
                 <Grid container mb={1}>
