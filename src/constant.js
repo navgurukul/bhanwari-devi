@@ -4,9 +4,9 @@ export const PATHS = {
   HOME_PATH: "/",
   LOGIN: "/login",
   CLASS: "/class",
-  COURSE: "/course",
+  // COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
-  COURSE_CONTENT: "/course/:courseId",
+  // COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   PATHWAY_COURSE: "/pathway/:pathwayId",
   RESIDENTIAL_COURSE: "/residential-course",
@@ -30,10 +30,7 @@ export const PATHS = {
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
-  NEWUSER_DASHBOARED: "/user-dashboared",
-  PYTHONCOURSE: "/Python-course",
   SEARCHED_COURSE: "/search-course",
-  RETURNINGUSERPAGE: "/Returning-user",
   VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
 };
@@ -44,23 +41,8 @@ export const HideFooter = [
   PATHS.PROFILE,
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
-  PATHS.NEWUSER_DASHBOARED,
   PATHS.VOLUNTEER_FORM,
 ];
-
-/*
-export const dateTimeFormat = (date) => {
-  try {
-    const datePart = date?.split("T")[0].split("-").reverse();
-    const TimePart = date?.split("T")[1].split(":");
-    const finalDate = `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} `;
-    const finalTime = `${TimePart[0]} : ${TimePart[1]}`;
-    return { finalTime, finalDate };
-  } catch {
-    return { finalTime: "", finalDate: "" };
-  }
-};
-*/
 
 const month = {
   "01": "Jan",

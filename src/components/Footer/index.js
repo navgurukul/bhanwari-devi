@@ -28,11 +28,10 @@ const menu = {
       link: PATHS.MISCELLANEOUS_COURSE,
     },
   ],
-
   GetInvolved: [
     // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
     {
-      title: "Volunteer With Us",
+      title: "Volunteer with Us",
       type: "internal",
       link: PATHS.VOLUNTEER_AUTOMATION,
     },
