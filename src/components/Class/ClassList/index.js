@@ -68,7 +68,7 @@ function ClassList({ editClass, isShow }) {
 
   return (
     <Container maxWidth="xl">
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mb={5}>
         {data && data.length > 0 ? (
           <>
             {single_classes.map((item, index) => {

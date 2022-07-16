@@ -65,7 +65,7 @@ const PathwayCards = (props) => {
           <Box
             sx={{
               borderTop: 5,
-              color: item.type === "batch" ? "forestgreen" : "darkblue",
+              color: item.type === "batch" ? "forestgreen" : "forestgreen",
             }}
           />
 
@@ -96,8 +96,8 @@ const PathwayCards = (props) => {
                           borderRadius: { xs: 25, sm: 15 },
                           height: { xs: 34, sm: 25 },
                           // fontSize: "11px",
-                          backgroundColor: "lightsteelblue",
-                          color: "darkblue",
+                          backgroundColor: "primary.light",
+                          color: "primary.dark",
                         }
                   }
                 />
