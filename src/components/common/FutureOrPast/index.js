@@ -22,7 +22,7 @@ function FutureOrPast({ future = "", past = "", date = new Date() }) {
     if (isInFuture && msUntilDate <= 2**31 - 1) {
       const timer = setTimeout(() => {
         setIsInFuture(false);
-      }, msUntilDate);  
+      }, msUntilDate);
       return () => clearTimeout(timer); // cleans up on unmount
     }
   }, [date]);
