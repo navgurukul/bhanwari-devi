@@ -236,9 +236,6 @@ function Assessment({ data, exerciseId }) {
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
-      <Typography variant="h6" align="center">
-        Find the Output
-      </Typography>
       {data &&
         data.map((content) => (
           <AssessmentContent
@@ -259,7 +256,8 @@ function Assessment({ data, exerciseId }) {
         <Button
           variant="contained"
           sx={{ width: "256px", p: "8px 16px 8px 16px" }}
-          color={answer ? "primary" : "disable"}
+          color={answer ? "primary" : "secondary"}
+          disabled={!answer}
           onClick={submitAssessment}
         >
           Submit

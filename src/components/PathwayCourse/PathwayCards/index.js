@@ -83,7 +83,7 @@ const PathwayCards = (props) => {
           <CardContent>
             <Stack direction="row" spacing={1}>
               <Typography variant="body1" gutterBottom>
-                {item.title}
+                {item.sub_title || item.title}
               </Typography>
               <Chip
                 label={item.type}

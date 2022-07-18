@@ -44,7 +44,7 @@ const Routing = () => {
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
-      <Route exact path={PATHS.COURSE} component={Course} />
+      {/* <Route exact path={PATHS.COURSE} component={Course} /> */}
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       <Route
         exact

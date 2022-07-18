@@ -10,7 +10,7 @@ function ClassTopic({ courseData }) {
     <>
       <Box m={4} sx={{ maxWidth: "300px" }}>
         <Typography variant="h6" mt={2}>
-          {courseData.title}
+          {courseData.sub_title || courseData.title}
         </Typography>
         <Box mt={2}>
           <Chip
@@ -77,3 +77,4 @@ function ClassTopic({ courseData }) {
 }
 
 export default ClassTopic;
+// adding This Changes

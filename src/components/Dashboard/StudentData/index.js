@@ -366,7 +366,7 @@ function StudentData() {
               setFilterVal([0, 0]);
               setDisabled(true);
             }}
-            disabled={isDisabled}
+            // disabled={isDisabled}
             className="filter-clear"
           >
             clear

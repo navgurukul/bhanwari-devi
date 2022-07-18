@@ -105,10 +105,10 @@ const RenderContent = ({ data }) => {
     if (data.decoration && data.decoration.type === "number") {
       return (
         <div className="list">
-          <p
+          {/* <p
             className="number"
             dangerouslySetInnerHTML={{ __html: data.decoration.value }}
-          />
+          /> */}
           <p className="paragraph" dangerouslySetInnerHTML={{ __html: text }} />
         </div>
       );

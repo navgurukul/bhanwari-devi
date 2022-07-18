@@ -276,36 +276,8 @@ function ExerciseContent({ exerciseId, lang }) {
   const pathwayId = params.pathwayId;
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [courseData, setCourseData] = useState({ content_type: null });
-  const [BannerData, setBannerData] = useState([]);
-  // const [enrolledBatches, setEnrolledBatches] = useState(null);
+  const [cashedData, setCashedData] = useState([]);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId]);
-      setContent(res.data.course.exercises[exerciseId]?.content);
-      setCourseData(res.data.course.exercises[exerciseId]);
-    });
-    dispatch(
-      enrolledBatchesActions.getEnrolledBatches({
-        pathwayId: pathwayId,
-        authToken: user?.data?.token,
-      })
-    );
-  }, [courseId, exerciseId, lang]);
-  const reloadContent = () => {
-    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId]);
-      setContent(res.data.course.exercises[exerciseId]?.content);
-      setCourseData(res.data.course.exercises[exerciseId]);
-    });
-  };
-  // const {
-  //   courseContent: { loading, data },
-  //   selectedExercise,
-  // } = useSelector(({ Course }) => Course);
 
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
@@ -314,6 +286,38 @@ function ExerciseContent({ exerciseId, lang }) {
   const userEnrolledClasses = useSelector((state) => {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
+
+  const reloadContent = () => {
+    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
+      setCourse(res.data.course.name);
+      setExercise(res.data.course.exercises[exerciseId]);
+      setContent(res.data.course.exercises[exerciseId]?.content);
+      setCourseData(res.data.course.exercises[exerciseId]);
+      setCashedData(res.data.course.exercises);
+    });
+  };
+
+  useEffect(() => {
+    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
+      setCourse(res.data.course.name);
+      setExercise(res.data.course.exercises[params.exerciseId]);
+      setContent(res.data.course.exercises[params.exerciseId]?.content);
+      setCourseData(res.data.course.exercises[params.exerciseId]);
+      setCashedData(res.data.course.exercises);
+    });
+    dispatch(
+      enrolledBatchesActions.getEnrolledBatches({
+        pathwayId: pathwayId,
+        authToken: user?.data?.token,
+      })
+    );
+  }, [courseId,lang]);
+  useEffect(() => {
+    setExercise(cashedData?.[params.exerciseId]);
+    setContent(cashedData?.[params.exerciseId]?.content);
+    setCourseData(cashedData?.[params.exerciseId]);
+  }, [params.exerciseId]);
+
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
       return state?.Pathways?.enrolledBatches?.data;
@@ -336,18 +340,6 @@ function ExerciseContent({ exerciseId, lang }) {
           authToken: user?.data?.token,
         })
       );
-      // axios({
-      //   method: METHODS.GET,
-      //   url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
-      //   headers: {
-      //     Authorization: user?.data?.token,
-      //   },
-      // }).then((res) => {
-      //   console.log(res.data);
-      //   if (res.data.length > 0) {
-      //     setEnrolledBatches(res.data);
-      //   }
-      // });
     }
   }, [params.pathwayId]);
 
