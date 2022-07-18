@@ -44,7 +44,13 @@ function RevisionClassEnroll(props) {
   }, [dropOutOpen, open]);
   return (
     <Container mt={2} maxWidth="lg">
-      <Box align="right" mt={4} maxWidth={350} mb={10}>
+      <Box
+        // align="right"
+        // mt={4} maxWidth={350}
+        // mb={10}
+        className={classes.RevisionClassEnrollBox}
+        // style={{marginTop : 4, maxWidth: 350, mb :10}}
+      >
         {DataToEnroll?.is_enrolled ? (
           <>
             <ExerciseBatchClass

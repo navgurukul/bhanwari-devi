@@ -80,6 +80,56 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "start",
   },
+  // DoubtClassChip:{
+  //   borderRadius: 90,
+  //   height: 30,
+  // },
+  // DoubtClassLangChip: {
+  //   marginLeft: 10,
+  //   borderRadius: 90,
+  //   height: 30
+  // },
+  // DropOut: {
+  //   marginTop: "16px" ,
+  //   cursor: "pointer",
+  //   display:"flex",
+  //   align:"center"
+  //  },
+  //   NeedHelpBox:{
+  //     padding : "16px",
+  //     marginTop : "16px",
+  //     borderRadius: "20px"
+  // },
+  // NeedHelpBoxContant :{
+  //     marginBottom : "8px" ,
+  //     display: "flex",
+  // },
+  // NeedHelpButtonBox:{
+  //   width: "100%",
+  //   display: "flex",
+  //   justifyContent: "flex-end",
+  //   alignItems: "center",
+  // },
+  // NotEnrolledViewClassDetailButton:{
+  //   width: isActive ? "90%" : "215px",
+  //   display: "flex",
+  //   justifyContent: "flex-end",
+  // },
+  EnrolledViewClassDetailBox: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  EnrolledViewClassDetailButton: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  RevisionClassEnrollBox: {
+    marginTop: 4,
+    maxWidth: 350,
+    mb: 10,
+  },
 }));
 
 export default useStyles;
