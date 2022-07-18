@@ -79,7 +79,7 @@ function DropOutBatchesProfile() {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}users/EnrolledBatches`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/EnrolledBatches`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,

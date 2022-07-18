@@ -29,7 +29,7 @@ export const getUpcomingBatches = (data) => {
   const { pathwayId, authToken } = data;
   return axios({
     method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingBatches`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
     headers: {
       accept: "application/json",
       Authorization: authToken,
@@ -41,7 +41,7 @@ export const getupcomingEnrolledClasses = (data) => {
   const { pathwayId, authToken } = data;
   return axios({
     method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/upcomingEnrolledClasses`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingEnrolledClasses`,
     headers: {
       accept: "application/json",
       Authorization: authToken,
@@ -53,7 +53,7 @@ export const getEnrolledBatches = (data) => {
   const { pathwayId, authToken } = data;
   return axios({
     method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}pathways/${pathwayId}/enrolledBatches`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/enrolledBatches`,
     headers: {
       accept: "application/json",
       Authorization: authToken,
