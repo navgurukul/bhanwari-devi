@@ -49,7 +49,7 @@ function Admission(props) {
   const generateTestLink = async () => {
     try {
       const mobile = `0${userDetails.mobileNumber}`;
-      const dataURL = `${process.env.REACT_APP_CHANAKYA_BASE_URL}helpline/register_exotel_call`;
+      const dataURL = `${process.env.REACT_APP_CHANAKYA_BASE_URL}/helpline/register_exotel_call`;
       const response = await axios.get(dataURL, {
         params: {
           ngCallType: "getEnrolmentKey",
@@ -69,7 +69,7 @@ function Admission(props) {
         .map((key) => `${key}=${params[key]}`)
         .join("&");
 
-      const url = `${process.env.REACT_APP_TEST_URL}${enrolmentKey}?${queryString}`;
+      const url = `${process.env.REACT_APP_TEST_URL}/${enrolmentKey}?${queryString}`;
 
       window.open(url, "_blank");
       return response;
@@ -119,7 +119,7 @@ function Admission(props) {
         const response = data.data.data;
         const stage = response.pendingInterviewStage;
         const url =
-          `${process.env.REACT_APP_ADMISSIONS_URL}check_duplicate/` +
+          `${process.env.REACT_APP_ADMISSIONS_URL}/check_duplicate/` +
           new URLSearchParams({
             Name: `${firstName}${middleName}${lastName}`,
             Number: mobileNumber,
@@ -267,7 +267,7 @@ function Admission(props) {
                   />
                   <Button variant="contained" color="primary">
                     <ExternalLink
-                      href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
+                      href={`${process.env.REACT_APP_ADMISSIONS_URL}/status/${mobile}`}
                       style={{ color: "white", textDecoration: "none" }}
                     >
                       Check Result

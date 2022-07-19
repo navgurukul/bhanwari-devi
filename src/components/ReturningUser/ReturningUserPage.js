@@ -36,7 +36,7 @@ function ReturningUserPage() {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",

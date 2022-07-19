@@ -30,7 +30,7 @@ function RevisionClassEnroll(props) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}classes/${id}/revision`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${id}/revision`,
       headers: {
         accept: "application/json",
         Authorization: user?.data?.token,
