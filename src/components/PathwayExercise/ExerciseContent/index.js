@@ -328,12 +328,12 @@ function ExerciseContent({ exerciseId, lang }) {
           authToken: user?.data?.token,
         })
       );
-      // dispatch(
-      //   upcomingBatchesActions.getUpcomingBatches({
-      //     pathwayId: pathwayId,
-      //     authToken: user?.data?.token,
-      //   })
-      // );
+      dispatch(
+        upcomingBatchesActions.getUpcomingBatches({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
       // dispatch(
       //   upcomingClassActions.getupcomingEnrolledClasses({
       //     pathwayId: pathwayId,
