@@ -279,13 +279,13 @@ function ExerciseContent({ exerciseId, lang }) {
   const [cashedData, setCashedData] = useState([]);
   const dispatch = useDispatch();
 
-  const upcomingBatchesData = useSelector((state) => {
-    return state.Pathways?.upcomingBatches?.data;
-  });
+  // const upcomingBatchesData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
 
-  const userEnrolledClasses = useSelector((state) => {
-    return state.Pathways?.upcomingEnrolledClasses?.data;
-  });
+  // const userEnrolledClasses = useSelector((state) => {
+  //   return state.Pathways?.upcomingEnrolledClasses?.data;
+  // });
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
@@ -305,13 +305,7 @@ function ExerciseContent({ exerciseId, lang }) {
       setCourseData(res.data.course.exercises[params.exerciseId]);
       setCashedData(res.data.course.exercises);
     });
-    dispatch(
-      enrolledBatchesActions.getEnrolledBatches({
-        pathwayId: pathwayId,
-        authToken: user?.data?.token,
-      })
-    );
-  }, [courseId,lang]);
+  }, [courseId, lang]);
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
@@ -329,17 +323,23 @@ function ExerciseContent({ exerciseId, lang }) {
     // getupcomingEnrolledClasses
     if (user?.data?.token) {
       dispatch(
-        upcomingBatchesActions.getUpcomingBatches({
+        enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
           authToken: user?.data?.token,
         })
       );
-      dispatch(
-        upcomingClassActions.getupcomingEnrolledClasses({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
+      // dispatch(
+      //   upcomingBatchesActions.getUpcomingBatches({
+      //     pathwayId: pathwayId,
+      //     authToken: user?.data?.token,
+      //   })
+      // );
+      // dispatch(
+      //   upcomingClassActions.getupcomingEnrolledClasses({
+      //     pathwayId: pathwayId,
+      //     authToken: user?.data?.token,
+      //   })
+      // );
     }
   }, [params.pathwayId]);
 
