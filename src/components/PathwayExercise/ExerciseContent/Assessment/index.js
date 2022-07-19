@@ -136,7 +136,8 @@ const AssessmentContent = ({
       >
         <UnsafeHTML
           Container={Typography}
-          sx={{ m: "2rem 0" }}
+          // sx={{ m: "2rem 0" }}
+          sx={{ m: "16px" }}
           variant="body1"
           html={text}
         />

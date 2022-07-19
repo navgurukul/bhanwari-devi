@@ -76,7 +76,7 @@ const PathwayCards = (props) => {
           <Box
             sx={{
               borderTop: 5,
-              color: item.type === "batch" ? "forestgreen" : "darkblue",
+              color: item.type === "batch" ? "forestgreen" : "forestgreen",
             }}
           />
 
@@ -97,25 +97,34 @@ const PathwayCards = (props) => {
                         color: "primary.dark",
                         "&:hover": {
                           backgroundColor: "primary.light",
+                          color: "primary.dark",
+                          "&:hover": {
+                            backgroundColor: "primary.light",
+                          },
                         },
                       }
                     : {
                         borderRadius: { xs: 25, sm: 15 },
                         height: { xs: 34, sm: 25 },
-                        backgroundColor: "lightsteelblue",
-                        color: "darkblue",
+                        // fontSize: "11px",
+                        backgroundColor: "secondary.main",
+                        color: "primary.dark",
                       }
                 }
               />
             </Stack>
-            <Stack sx={{ mt: 1 }} direction="row" spacing={1}>
-              <Typography variant="body2">
-                {format(item.start_time, "dd MMM yy")}
-              </Typography>
-              <Typography variant="body2">
-                <li>{language[item.lang]}</li>
-              </Typography>
-            </Stack>
+            <Grid container spacing={1}>
+              <Grid item xs={8} md={5}>
+                <Typography variant="body2">
+                  {format(item.start_time, "dd MMM yy")}
+                </Typography>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Typography variant="body2">
+                  <li>{language[item.lang]}</li>
+                </Typography>
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
       </Grid>

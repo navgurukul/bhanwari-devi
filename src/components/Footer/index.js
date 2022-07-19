@@ -3,7 +3,7 @@ import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
-import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
@@ -57,12 +57,10 @@ const menu = {
   ],
 };
 
-
-
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
   const classes = useStyles();
-  
+
   return (
     <>
       <Typography
@@ -106,9 +104,9 @@ const MenuList = (menuItem) => {
                 <Typography
                   variant="body2"
                   color="text.primary"
-                  className={classes.CureerNDoner}
+                  className={classes.CareerNDoner}
                 >
-                  {item.title} <LaunchOutlinedIcon sx={{pl : "5px"}}/>
+                  {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
                 </Typography>
               </ExternalLink>
             );

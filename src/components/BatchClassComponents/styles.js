@@ -81,27 +81,27 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "start",
   },
- 
+
   DoubtClassLangChip: {
     marginLeft: 10,
     borderRadius: 90,
-    height: 30
+    height: 30,
   },
   DropOut: {
-    display:"flex",
+    display: "flex",
     cursor: "pointer",
-    justifyContent : "center"   
-   },
-  DoubtClassInfoSections:{
-      padding : "16px",
-      marginTop : "16px",
-      borderRadius: "20px"
+    justifyContent: "center",
   },
-  NeedHelpBoxContant : {
+  DoubtClassInfoSections: {
+    padding: "16px",
+    marginTop: "16px",
+    borderRadius: "20px",
+  },
+  NeedHelpBoxContant: {
     display: "flex",
     mb: 1,
   },
-  ViewClassDetailButtonBox:{
+  ViewClassDetailButtonBox: {
     width: "100%",
     display: "flex",
     justifyContent: "flex-end",
@@ -112,12 +112,15 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 350,
     align: "right",
     display: "flex",
-    justifyContent:"center"    
+    justifyContent: "center",
   },
-  ReviseCardDates:{
-  display:"flex",
-  justifyContent:"start"
-  }
+  ReviseCardDates: {
+    display: "flex",
+    justifyContent: "start",
+  },
+  UnAvailableRevisionClass: {
+    padding: "8px",
+  },
 }));
 
 export default useStyles;

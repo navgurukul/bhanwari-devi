@@ -45,8 +45,7 @@ function RevisionClassEnroll(props) {
   }, [dropOutOpen, open]);
   return (
     <Container mt={2} maxWidth="lg">
-      <Box
-        className={classes.RevisionClassEnrollBox} >
+      <Box className={classes.RevisionClassEnrollBox}>
         {DataToEnroll?.is_enrolled ? (
           <>
             <ExerciseBatchClass
@@ -80,7 +79,7 @@ function RevisionClassEnroll(props) {
                 Missed the class or need to revise? Enroll in a class from
                 another batch
               </Typography>
-              <Box className= {classes.ReviseCardDates}>
+              <Box className={classes.ReviseCardDates}>
                 <FormControl>
                   <RadioGroup>
                     {revisionData.map((item) => {
@@ -131,12 +130,14 @@ function RevisionClassEnroll(props) {
           </Card>
         ) : (
           <>
-            <Card elevation={2} p = {2} >
+            <Card elevation={2} className={classes.UnAvailableRevisionClass}>
               <img src={NoRevisionClassImage} alt="meraki" />
-              <Typography pt = {1}>
+              {/* <Card elevation = {}> */}
+              <Typography className={classes.UnAvailableRevisionClass}>
                 Looks like there are no revision class. We will keep looking for
                 them and inform you as they come
               </Typography>
+              {/* </Card> */}
             </Card>
           </>
         )}

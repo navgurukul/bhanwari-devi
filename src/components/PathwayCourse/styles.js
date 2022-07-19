@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   course: {
-    paddingBottom: 40,
+    paddingBottom: 16,
   },
   courseCard: {
     marginBottom: 10,
