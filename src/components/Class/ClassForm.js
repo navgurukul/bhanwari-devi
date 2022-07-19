@@ -36,6 +36,7 @@ const SuccessModel = () => {
           The batch has been created successfully
         </Typography>
       </Box>
+      Please join at least 10 mintues before the scheduled time
     </Stack>
   );
 };
@@ -53,6 +54,7 @@ function ClassForm({ setShowModal }) {
     max_enrolment: "",
   });
   const [isClicked, setIsClicked] = useState(false);
+  const [display, setDisplay] = useState(false);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -64,7 +66,7 @@ function ClassForm({ setShowModal }) {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
   };
 
-  console.log("classFields", classFields);
+  // console.log("classFields", classFields);
 
   const handleDaySelection = (e) => {
     const index = classFields.onDays.indexOf(e.target.value);
@@ -85,6 +87,20 @@ function ClassForm({ setShowModal }) {
     setIsClicked(true);
     // This function will be calling by clicking on create batch button,
     // created class successfully modal should open when click on create batch button
+  };
+
+  const handleFocus = (event) => {
+    event.preventDefault();
+    const { target } = event;
+    // const extensionStarts = target.value;
+    // setDisplay(extensionStarts);
+    if (classFields.title === "") {
+      setDisplay(true);
+    }
+
+    // console.log( extensionStarts);
+    // error={extensionStarts && classFields.title === ""}
+    // helperText={classFields.title === "" ? 'Add some data' : ' '}
   };
 
   return (
@@ -122,6 +138,12 @@ function ClassForm({ setShowModal }) {
               onChange={(e) => {
                 changeHandler(e);
               }}
+              onFocus={handleFocus}
+              error={display && classFields.title === ""}
+              // error={ classFields.title === ""}
+              helperText={
+                display && (classFields.title === "" ? "Add some data" : " ")
+              }
             />
 
             <Typography variant="body2" color="text.secondary" mb={3} mt={3}>
