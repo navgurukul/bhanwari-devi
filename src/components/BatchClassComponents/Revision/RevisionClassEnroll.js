@@ -46,12 +46,7 @@ function RevisionClassEnroll(props) {
   return (
     <Container mt={2} maxWidth="lg">
       <Box
-        // align="right"
-        // mt={4} maxWidth={350}
-        // mb={10}
-        className={classes.RevisionClassEnrollBox}
-        // style={{marginTop : 4, maxWidth: 350, mb :10}}
-      >
+        className={classes.RevisionClassEnrollBox} >
         {DataToEnroll?.is_enrolled ? (
           <>
             <ExerciseBatchClass
@@ -63,9 +58,8 @@ function RevisionClassEnroll(props) {
             />
             <Typography
               variant="body2"
-              color="red"
-              align="center"
-              style={{ cursor: "pointer" }}
+              color="error.main"
+              className={classes.DropOut}
               onClick={() => {
                 setDropOutOpen(true);
               }}
@@ -86,7 +80,7 @@ function RevisionClassEnroll(props) {
                 Missed the class or need to revise? Enroll in a class from
                 another batch
               </Typography>
-              <Box display="flex" justifyContent="start">
+              <Box className= {classes.ReviseCardDates}>
                 <FormControl>
                   <RadioGroup>
                     {revisionData.map((item) => {
@@ -137,9 +131,9 @@ function RevisionClassEnroll(props) {
           </Card>
         ) : (
           <>
-            <img src={NoRevisionClassImage} alt="meraki" />
-            <Card elevation={2} sx={{ p: "10px" }}>
-              <Typography>
+            <Card elevation={2} p = {2} >
+              <img src={NoRevisionClassImage} alt="meraki" />
+              <Typography pt = {1}>
                 Looks like there are no revision class. We will keep looking for
                 them and inform you as they come
               </Typography>

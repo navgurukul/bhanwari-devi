@@ -74,19 +74,13 @@ export const MoreDetails = (props) => {
                 variant="outlined"
                 color="secondary"
                 sx={{ bgcolor: "secondary.light" }}
-                // className={classes.DoubtClassChip}
-                // style={{
-                //   borderRadius: 90,
-                //   height: 30,
-                // }}
               />
 
               <Chip
                 label={lang[actions?.lang]}
                 variant="outlined"
                 color="secondary"
-                // className={classes.DoubtClassLangChip}
-                // style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
+                className={classes.DoubtClassLangChip}
               />
             </Box>
             <Typography variant="body1">
@@ -159,19 +153,13 @@ export const MoreDetails = (props) => {
                   setIsEnrolled={setIsEnrolled}
                 />
                 <Typography
-                  // mt={2}
+                  mt={2}
                   onClick={() => {
                     setOpenDropOut(true);
                   }}
                   variant="body2"
                   color="error.main"
-                  //   className={classes.DropOut}
-                  //   style={{
-                  //   marginTop: "16px" ,
-                  //   cursor: "pointer",
-                  //   display:"flex",
-                  //   align:"center"
-                  //  }}
+                  className={classes.DropOut}
                 >
                   can`t attend?
                 </Typography>{" "}
@@ -213,16 +201,11 @@ const DoubtClassExerciseComponent = (props) => {
     <>
       <Box
         backgroundColor="primary.light"
-        // className={classes.NeedHelpBox}
-        // style = {{padding : "16px", marginTop : "16px", borderRadius: "20px" }}
-      >
+        className={classes.DoubtClassInfoSections}
+        >
         <Typography
           variant="body1"
-          // className={classes.NeedHelpBoxContant}
-          // style={{
-          //   marginBottom : "8px" ,
-          //   display: "flex",
-          // }}
+          className={classes.NeedHelpBoxContant}
         >
           {" "}
           <img
@@ -236,25 +219,13 @@ const DoubtClassExerciseComponent = (props) => {
           {format(actions?.end_time, "hh:mm aaa")}
         </Typography>
         <Box
-        // className={classes.NeedHelpButtonBox}
-        //   style={{
-        //     width: "100%",
-        //     display: "flex",
-        //     justifyContent: "flex-end",
-        //     alignItems: "center",
-        //   }}
+        className={classes.ViewClassDetailButtonBox}
         >
           <Button
             endIcon={<ArrowForwardIosIcon />}
             onClick={() => {
               setOpen(true);
             }}
-            // className={classes.NotEnrolledViewClassDetailButton}
-            // style ={{
-            //   width: isActive ? "90%" : "215px",
-            //   display: "flex",
-            //   justifyContent: "flex-end",
-            // }}
           >
             View Class Details
           </Button>
@@ -283,7 +254,8 @@ const DoubtClassExerciseComponent = (props) => {
         setIsEnrolled={setIsEnrolled}
       />
       <>
-        <Box backgroundColor="primary.light" p={2} mt={2}>
+        <Box backgroundColor="primary.light" p={2} mt={2} 
+        className={classes.DoubtClassInfoSections}>
           <Typography variant="h6" mt={1} mb={2}>
             Upcoming Doubt Class
           </Typography>
@@ -310,26 +282,13 @@ const DoubtClassExerciseComponent = (props) => {
             {/* {actions.facilitator_name} */}
           </Typography>
           <Box
-            className={classes.EnrolledViewClassDetailBox}
-            // style={{
-            //   width: "100%",
-            //   display: "flex",
-            //   justifyContent: "flex-end",
-            //   alignItems: "center",
-            // }}
-          >
+            className={classes.ViewClassDetailButtonBox}>
             <Button
               endIcon={<ArrowForwardIosIcon />}
               onClick={() => {
                 setOpen(true);
               }}
-              width={isActive ? "90%" : "215px"}
-              className={classes.EnrolledViewClassDetailButton}
-              // sx={{
-              //   display: "flex",
-              //   justifyContent: "flex-end",
-              // }}
-            >
+              width={isActive ? "90%" : "215px"} >
               View Class Details
             </Button>
           </Box>

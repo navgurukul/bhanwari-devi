@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import { display } from "@mui/system";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -80,56 +81,43 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "start",
   },
-  // DoubtClassChip:{
-  //   borderRadius: 90,
-  //   height: 30,
-  // },
-  // DoubtClassLangChip: {
-  //   marginLeft: 10,
-  //   borderRadius: 90,
-  //   height: 30
-  // },
-  // DropOut: {
-  //   marginTop: "16px" ,
-  //   cursor: "pointer",
-  //   display:"flex",
-  //   align:"center"
-  //  },
-  //   NeedHelpBox:{
-  //     padding : "16px",
-  //     marginTop : "16px",
-  //     borderRadius: "20px"
-  // },
-  // NeedHelpBoxContant :{
-  //     marginBottom : "8px" ,
-  //     display: "flex",
-  // },
-  // NeedHelpButtonBox:{
-  //   width: "100%",
-  //   display: "flex",
-  //   justifyContent: "flex-end",
-  //   alignItems: "center",
-  // },
-  // NotEnrolledViewClassDetailButton:{
-  //   width: isActive ? "90%" : "215px",
-  //   display: "flex",
-  //   justifyContent: "flex-end",
-  // },
-  EnrolledViewClassDetailBox: {
+ 
+  DoubtClassLangChip: {
+    marginLeft: 10,
+    borderRadius: 90,
+    height: 30
+  },
+  DropOut: {
+    display:"flex",
+    cursor: "pointer",
+    justifyContent : "center"   
+   },
+  DoubtClassInfoSections:{
+      padding : "16px",
+      marginTop : "16px",
+      borderRadius: "20px"
+  },
+  NeedHelpBoxContant : {
+    display: "flex",
+    mb: 1,
+  },
+  ViewClassDetailButtonBox:{
     width: "100%",
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
   },
-  EnrolledViewClassDetailButton: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
   RevisionClassEnrollBox: {
-    marginTop: 4,
+    marginTop: "32px",
     maxWidth: 350,
-    mb: 10,
+    align: "right",
+    display: "flex",
+    justifyContent:"center"    
   },
+  ReviseCardDates:{
+  display:"flex",
+  justifyContent:"start"
+  }
 }));
 
 export default useStyles;
