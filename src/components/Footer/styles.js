@@ -26,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
   },
+  CareerNDoner: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    "&:hover": {
+      color: "#48a145",
+    },
+  },
 }));
 
 export default useStyles;

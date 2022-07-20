@@ -50,8 +50,8 @@ function ReturningUserPage() {
 
   return (
     <>
-      <Container maxWidth="lg" mt={2}>
-        <Typography variant="h5" mb={3}>
+      <Container maxWidth="lg">
+        <Typography variant="h5" mb={3} mt={5}>
           My Learning Tracks
         </Typography>
         <Grid container spacing={1}>

@@ -3,6 +3,7 @@ import { Grid, Box, Container, List, Typography, Divider } from "@mui/material";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
@@ -37,7 +38,7 @@ const menu = {
       link: PATHS.VOLUNTEER_AUTOMATION,
     },
     {
-      title: "Our Partner",
+      title: "Our Partners",
       type: "internal",
 
       link: PATHS.OUR_PARTNER,
@@ -59,6 +60,7 @@ const menu = {
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
   const classes = useStyles();
+
   return (
     <>
       <Typography
@@ -83,6 +85,9 @@ const MenuList = (menuItem) => {
                 }
                 className={classes.link}
               >
+                {/* {if (item?.title === "Donate"){
+                    
+                  }} */}
                 <Typography
                   variant="body2"
                   color="text.primary"
@@ -99,10 +104,9 @@ const MenuList = (menuItem) => {
                 <Typography
                   variant="body2"
                   color="text.primary"
-                  sx={{ pb: "5px" }}
-                  className={classes.hover}
+                  className={classes.CareerNDoner}
                 >
-                  {item.title}
+                  {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
                 </Typography>
               </ExternalLink>
             );
