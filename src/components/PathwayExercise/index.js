@@ -178,7 +178,7 @@ function PathwayExercise() {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
@@ -260,7 +260,7 @@ function PathwayExercise() {
       if (parseInt(params.exerciseId) >= progressTrackId) {
         axios({
           method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
           headers: {
             "version-code": versionCode,
             accept: "application/json",
@@ -280,7 +280,7 @@ function PathwayExercise() {
 
         axios({
           method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}progressTracking/learningTrackStatus`,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
           headers: {
             "version-code": versionCode,
             accept: "application/json",
