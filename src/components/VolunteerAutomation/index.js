@@ -16,7 +16,6 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import useStyles from "./styles";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { Redirect } from "react-router-dom";
 
 function VolunteerAutomation() {
   const classes = useStyles();
@@ -97,6 +96,7 @@ function VolunteerAutomation() {
           <Box align="right">
             <img
               className={classes.volunteerImg}
+              alt="img"
               src={require("./assets/Group.svg")}
             />
           </Box>
@@ -114,11 +114,7 @@ function VolunteerAutomation() {
 
       <Grid sx={{ mb: 14 }} container spacing={4}>
         <Grid item xs={12} ms={6} md={6}>
-          <Card
-            elevation={4}
-            className={classes.volunteerCard}
-            // sx={{ p: "16px" }}
-          >
+          <Card elevation={4} className={classes.volunteerCard}>
             <Box>
               <CardContent>
                 <Typography gutterBottom variant="h6" component="div">

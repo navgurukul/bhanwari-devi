@@ -23,7 +23,7 @@ import Admission from "../pages/Navgurukul/merakiAdmission";
 import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
-import StatePartnerDashboard from "../pages/StatePartner Dashboard";
+import StatePartnerDashboard from "../pages/StatePartnerDashboard";
 import OurStory from "../pages/OurStory";
 import NewUserDashbord from "../components/NewUserDashbord";
 import Team from "../pages/Team";
@@ -32,10 +32,8 @@ import PathwayExercise from "../components/PathwayExercise/";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
-import SearchCourse from "../components/SearchBar/SearchCourse";
+import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
-
-// import Classes from '../pages/classes'
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 

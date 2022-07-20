@@ -1,26 +1,21 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { CardMedia, CardContent, Card, Button, Stack } from "@mui/material";
+import { Container, Typography } from "@mui/material";
+import { CardContent, Card, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import useStyles from "../styles";
 import { useSelector } from "react-redux";
-import { breakpoints } from "../../../theme/constant";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { METHODS } from "../../../services/api";
-
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import { format } from "../../../common/date";
 import AlertDialog from "../AlertDialog";
 import ExerciseBatchClass from "../ExerciseBatchClass/ExerciseBatchClass";
 import DropOut from "../DropOut";
+const NoRevisionClassImage = require("./assets/NoRevision.svg");
 function RevisionClassEnroll(props) {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
@@ -78,7 +73,7 @@ function RevisionClassEnroll(props) {
               id={revisionData[0].id}
             />
           </>
-        ) : (
+        ) : revisionData.length > 0 ? (
           <Card elevation={2} pl={10}>
             <CardContent>
               <Typography gutterBottom variant="subtitle1" align="start">
@@ -134,6 +129,16 @@ function RevisionClassEnroll(props) {
               />
             </CardContent>
           </Card>
+        ) : (
+          <>
+            <img src={NoRevisionClassImage} alt="meraki" />
+            <Card elevation={2} sx={{ p: "10px" }}>
+              <Typography>
+                Looks like there are no revision class. We will keep looking for
+                them and inform you as they come
+              </Typography>
+            </Card>
+          </>
         )}
       </Box>
     </Container>

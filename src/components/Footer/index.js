@@ -28,12 +28,19 @@ const menu = {
       link: PATHS.MISCELLANEOUS_COURSE,
     },
   ],
+
   GetInvolved: [
     // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
     {
-      title: "Volunteer with Us",
+      title: "Volunteer With Us",
       type: "internal",
       link: PATHS.VOLUNTEER_AUTOMATION,
+    },
+    {
+      title: "Our Partner",
+      type: "internal",
+
+      link: PATHS.OUR_PARTNER,
     },
 
     {
@@ -43,7 +50,7 @@ const menu = {
     },
     {
       title: "Careers",
-      type: "exernal",
+      type: "external",
       link: "https://recruiterflow.com/navgurukul/jobs",
     },
   ],
@@ -239,7 +246,7 @@ function Footer() {
                 variant="body2"
                 sx={{ textAlign: { sm: "left", md: "right" } }}
               >
-                Made with ❤️ for our students{" "}
+                Made with <span>❤️</span> for our students{" "}
               </Typography>
             </Grid>
           </Grid>

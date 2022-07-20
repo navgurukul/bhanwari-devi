@@ -25,9 +25,7 @@ describe("FutureOrPast", () => {
       );
 
       if (testTime !== 0) {
-        expect(
-          getByText(testTime > 0 ? "future" : "past")
-        ).toBeInTheDocument();
+        expect(getByText(testTime > 0 ? "future" : "past")).toBeInTheDocument();
       }
     });
   };
@@ -39,7 +37,7 @@ describe("FutureOrPast", () => {
       DAY + 3 * HOUR + 5 * MINUTE,
       2 * DAY + HOUR,
       7 * DAY,
-      Math.floor(Math.random() * 59 + 1) * MINUTE
+      Math.floor(Math.random() * 59 + 1) * MINUTE,
     ]);
   });
 
@@ -50,7 +48,7 @@ describe("FutureOrPast", () => {
       -(DAY + 3 * HOUR + 5 * MINUTE),
       -(2 * DAY + HOUR),
       -7 * DAY,
-      -Math.floor(Math.random() * 59 + 1) * MINUTE
+      -Math.floor(Math.random() * 59 + 1) * MINUTE,
     ]);
   });
 });

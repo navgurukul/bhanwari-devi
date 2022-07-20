@@ -85,16 +85,18 @@ tr:hover {
 }
 
 .filter-clear:enabled {
-  background: #83b344;
+  background: green;
   margin-left: 20px;
   width: 100px;
   height: 30px;
   border-radius: 15px;
-  color: white;
+  border-color: #83b344;
+  color: #83b344;
   font-size: 17px;
   font-weight: "bold";
-  border: none;
+  outline: #83b344;
   cursor: pointer;
+  color: white;
 }
 .filter-clear:disabled {
   background: white;

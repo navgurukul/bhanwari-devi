@@ -36,12 +36,12 @@ function ClassCard({ item, editClass }) {
   const [showModal, setShowModal] = React.useState(false);
   const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [indicator, setIndicator] = React.useState(false);
+  const [indicator, setIndicator] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
 
-  const classStartTime = item.start_time;// && item.start_time.replace("Z", "");
-  const classEndTime = item.end_time;// && item.end_time.replace("Z", "");
+  const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
+  const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const languageMap = {
@@ -85,6 +85,7 @@ function ClassCard({ item, editClass }) {
   };
   const handleClickOpenEnroll = () => {
     setEnrollShowModal(!enrollShowModal);
+    setIndicator(false);
   };
 
   const handleCloseUnenroll = () => {
@@ -146,14 +147,14 @@ function ClassCard({ item, editClass }) {
     }, 10000);
     axios
       .post(
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
-        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
+        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
+        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
         {},
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            // "register-all": indicator,
+            "register-to-all": indicator,
           },
         }
       )
@@ -194,7 +195,7 @@ function ClassCard({ item, editClass }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        // "unregister-all": indicator,
+        // "unregister-to-all": indicator,
       },
     }).then((res) => {
       console.log("res", res);
@@ -225,7 +226,7 @@ function ClassCard({ item, editClass }) {
     }, ONE_MINUTE);
     return (
       <>
-        {Timer == "joinNow" ? (
+        {Timer === "joinNow" ? (
           <ExternalLink
             style={{
               textDecoration: "none",
@@ -247,7 +248,7 @@ function ClassCard({ item, editClass }) {
   */
   return (
     <>
-      <Card elevation={2} sx={{ p: 4 }} className={classes.card}>
+      <Card elevation={2} sx={{ p: 4 }} className={classes.card} sx={{ mt: 5 }}>
         <Typography
           variant="subtitle1"
           color="primary"
@@ -256,13 +257,13 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {languageMap[item.type] == "Doubt Class"
+          {languageMap[item.type] === "Doubt Class"
             ? languageMap[item.type]
             : "Batch"}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
-          {((rolesList.length == 0 && item.enrolled) ||
+          {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
               (item.facilitator.email === user.data.user.email || flag))) && (
             <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
@@ -447,10 +448,11 @@ function ClassCard({ item, editClass }) {
               <label>
                 <input
                   type="checkbox"
+                  defaultChecked={indicator}
                   align="center"
                   className="cohort-class"
                   onClick={() => {
-                    setIndicator(true);
+                    setIndicator(!indicator);
                   }}
                 />
                 Enroll all classes of this Batch?

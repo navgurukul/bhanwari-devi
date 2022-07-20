@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     justifContent: "space-between",
     transition: "all ease-in 0.2s",
     pointerEvents: "none",
-    marginBottom: "14.375rem",
+    marginBottom: "6rem",
   },
   team_responsiveContainer: { marginTop: "5rem", padding: "0" },
   team_infoResponsiveContainer: {
@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "none",
       opacity: "1",
       zIndex: "2",
-      boxShadow: "none",
+      // boxShadow: "none",
     },
   },
   team_cardImg: {

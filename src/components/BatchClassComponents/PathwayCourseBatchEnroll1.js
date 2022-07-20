@@ -1,8 +1,6 @@
 import React from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
-import { breakpoints } from "../../theme/constant";
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { PATHS, interpolatePath } from "../../constant";
 import { format } from "../../common/date";
 import { CardContent, Card, Button } from "@mui/material";
@@ -11,6 +9,7 @@ import AlertDialog from "./AlertDialog";
 import { useSelector } from "react-redux";
 import CheckMoreBatches from "./CheckMoreBatches";
 import { useHistory } from "react-router-dom";
+
 const PathwayCourseBatchEnroll1 = (props) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
@@ -42,19 +41,16 @@ const PathwayCourseBatchEnroll1 = (props) => {
   return BatchData ? (
     <>
       <Container maxWidth="lg">
-        <Box align="right" mt={1} maxWidth={500} mb={10}>
+        <Box mt={1} maxWidth={500} mb={10}>
           <Card elevation={2} pl={10}>
             <CardContent>
-              <Typography gutterBottom variant="h5" align="start">
+              <Typography variant="h5" align="start">
                 {BatchData?.title}
               </Typography>
               <Typography
                 variant="body1"
-                mb={1}
-                style={{
-                  display: "flex",
-                  padding: "10px 0",
-                }}
+                my={2}
+                className={classes.FlexedContant}
               >
                 <img
                   className={classes.icons}
@@ -66,10 +62,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
               </Typography>
               <Typography
                 variant="body1"
-                mb={1}
-                style={{
-                  display: "flex",
-                }}
+                mb={2}
+                className={classes.FlexedContant}
               >
                 <img
                   className={classes.icons}
@@ -92,7 +86,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 type="batch"
               />
               <Typography
-                style={{ display: "flex" }}
+                className={classes.FlexedContant}
                 mt={2}
                 align="start"
                 variant="body2"
@@ -102,9 +96,6 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 <section
                   className={classes.link}
                   onClick={handleUpcomingBatchesClickOpen}
-                  style={{
-                    cursor: "pointer",
-                  }}
                 >
                   {"  "} &nbsp;
                   <b>Check out our other batches</b>

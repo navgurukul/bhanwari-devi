@@ -41,7 +41,7 @@ describe("ClassJoinTimerButton", () => {
         DAY + 3 * HOUR + 5 * MINUTE,
         2 * YEAR + HOUR,
         YEAR,
-        11 * MINUTE + Math.floor(Math.random() * 60)
+        11 * MINUTE + Math.floor(Math.random() * 60),
       ],
       true
     );
@@ -67,7 +67,7 @@ describe("ClassJoinTimerButton", () => {
         -5 * MINUTE + Math.floor(Math.random() * 60),
         -30 * MINUTE + Math.floor(Math.random() * 60),
         Math.floor(Math.random() * 60),
-        9 * MINUTE + Math.floor(Math.random() * 60)
+        9 * MINUTE + Math.floor(Math.random() * 60),
       ],
       false
     );

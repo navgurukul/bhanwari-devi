@@ -22,10 +22,12 @@ import {
   CardMedia,
   Button,
   Se,
+  Skeleton,
 } from "@mui/material";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
+import { useState } from "react";
 
 const pathways = [
   {
@@ -84,6 +86,7 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
+  const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const data = useSelector((state) => {
     return state;
@@ -103,7 +106,21 @@ function PathwayCourse() {
       return null;
     }
   });
-  console.log("enrolledBatches", enrolledBatches);
+  console.log("upcomingBatchesData", upcomingBatchesData);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 18000);
+  }, [pathwayId]);
+  useEffect(() => {
+    if (
+      enrolledBatches?.length > 0 ||
+      userEnrolledClasses?.length > 0 ||
+      upcomingBatchesData?.length > 0
+    ) {
+      setLoading(false);
+    }
+  }, [upcomingBatchesData, enrolledBatches, userEnrolledClasses]);
   const history = useHistory();
 
   useEffect(() => {
@@ -111,9 +128,10 @@ function PathwayCourse() {
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
+    setLoading(true);
     if (user?.data?.token) {
       dispatch(
-        upcomingBatchesActions.getUpcomingBatches({
+        enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
           authToken: user?.data?.token,
         })
@@ -125,7 +143,7 @@ function PathwayCourse() {
         })
       );
       dispatch(
-        enrolledBatchesActions.getEnrolledBatches({
+        upcomingBatchesActions.getUpcomingBatches({
           pathwayId: pathwayId,
           authToken: user?.data?.token,
         })
@@ -274,16 +292,39 @@ function PathwayCourse() {
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
-                  {upcomingBatchesData ? (
-                    <PathwayCourseBatchEnroll1
-                      upcomingBatchesData={upcomingBatchesData}
-                    />
-                  ) : user?.data?.token &&
-                    (pathwayCourseData.code == "PRGPYT" ||
-                      pathwayCourseData.code == "SPKENG") ? (
-                    <NoBatchEnroll />
+                  {user?.data?.token &&
+                  (pathwayCourseData.code == "PRGPYT" ||
+                    pathwayCourseData.code == "SPKENG") ? (
+                    loading ? (
+                      <Card sx={{ p: 4 }}>
+                        <Typography variant="subtitle1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="subtitle2">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                        <Typography variant="body1">
+                          <Skeleton />
+                        </Typography>
+                      </Card>
+                    ) : upcomingBatchesData?.length > 0 ? (
+                      <PathwayCourseBatchEnroll1
+                        upcomingBatchesData={upcomingBatchesData}
+                      />
+                    ) : (
+                      <NoBatchEnroll />
+                    )
                   ) : (
-                    ""
+                    <></>
                   )}
                 </Grid>
               </Grid>

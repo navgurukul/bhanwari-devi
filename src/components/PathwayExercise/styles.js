@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contentImg: {
     padding: 5,
+    marginRight: 5,
   },
 
   contentNumber: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contentImg: {
     padding: 5,
+    marginRight: 5,
   },
   codeBackground: {
     background: "#E5E5E5",
@@ -62,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    position: "fixed",
-    bottom: 0,
+    position: "fixed !important",
+    bottom: "0px",
     background: "#fff",
     boxShadow:
       "0px -1px 2px rgba(0, 0, 0, 0.06), 0px -2px 2px rgba(0, 0, 0, 0.04), 0px -1px 5px rgba(0, 0, 0, 0.08)",

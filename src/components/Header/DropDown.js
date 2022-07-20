@@ -56,11 +56,15 @@ const students = {
     // },
 
     {
-      title: "Volunteer with Us",
+      title: "Volunteer With Us",
       path: PATHS.VOLUNTEER_AUTOMATION,
       type: "internal",
     },
-
+    {
+      title: "Our Partner",
+      path: PATHS.OUR_PARTNER,
+      type: "internal",
+    },
     {
       title: "Donate",
       path: "https://www.navgurukul.org/donate",
