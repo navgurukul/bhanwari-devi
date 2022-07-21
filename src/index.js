@@ -8,6 +8,7 @@ import App from "./components/App/index.js";
 import { DeviceProvider } from "./common/context";
 import * as serviceWorker from "./serviceWorker";
 import { getIsMobile } from "./common/utils";
+import ScrollToTop from "./components/ScrollTotOP.js";
 
 // To learn redux and redux saga
 // https://www.codementor.io/@rajjeet/step-by-step-how-to-add-redux-saga-to-a-react-redux-app-11xqieyj67
@@ -21,7 +22,9 @@ ReactDOM.render(
             isMobile: getIsMobile(),
           }}
         >
-          <App />
+          <ScrollToTop>
+            <App />
+          </ScrollToTop>
         </DeviceProvider.Provider>
       </BrowserRouter>
     </Provider>
