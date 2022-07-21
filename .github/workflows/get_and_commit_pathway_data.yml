@@ -1,0 +1,32 @@
+name: Get and commit updated pathway data
+on:
+  schedule:
+    # run at the beginning of every hour
+    - cron:  '0 * * * *'
+  push:
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get updated pathway data
+        id: get_pathway_data
+        run: |
+          statusCode=$(curl $REACT_APP_MERAKI_URL/pathways?courseType=json -o src/data/pathway_data.json -w "%{http_code}")
+          echo "::set-output name=status_code::$statusCode"
+          if [ $statusCode -eq "200" ]; then echo "success"; else exit 0; fi
+        env:
+          REACT_APP_MERAKI_URL: https://api.merakilearn.org
+      - name: Commit pathway data
+        run: |
+          if [[ ${{ steps.get_pathway_data.outputs.status_code }} != 200 ]]; then exit 0; fi
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add src/data/pathway_data.json
+          # https://stackoverflow.com/a/25149786 for git status --porcelain
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "Update pathway data on $(date)"
+            git push
+          else
+            echo "No new changes"
+          fi
