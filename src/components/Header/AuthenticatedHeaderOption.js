@@ -23,6 +23,7 @@ import {
 import HeaderNavLink from "./HeaderNavlink";
 import SearchBar from "../SearchBar";
 import Tooltip from "@mui/material/Tooltip";
+import { getInitialState } from "lint-staged/lib/state";
 
 const rolesLandingPages = {
   admin: PATHS.PARTNERS,
@@ -157,7 +158,10 @@ function AuthenticatedHeaderOption({
                 },
               }}
             >
-              <MenuItem onClick={handleOpenLearn}>
+              <MenuItem
+                onClick={handleOpenLearn}
+                onMouseEnter={handleOpenLearn}
+              >
                 <Typography variant="subtitle1">Learn</Typography>
                 {learn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </MenuItem>

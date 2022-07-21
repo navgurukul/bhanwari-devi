@@ -73,25 +73,25 @@ export const MoreDetails = (props) => {
                 label="Doubt Class"
                 variant="outlined"
                 color="secondary"
-                style={{
-                  borderRadius: 90,
-                  height: 30,
-                  backgroundColor: "#DADAEC",
-                }}
+                sx={{ bgcolor: "secondary.light" }}
               />
 
               <Chip
                 label={lang[actions?.lang]}
                 variant="outlined"
                 color="secondary"
-                style={{ marginLeft: 10, borderRadius: 90, height: 30 }}
+                className={classes.DoubtClassLangChip}
               />
             </Box>
             <Typography variant="body1">
               Clear your doubts related to the first class of Python and other
               queries during your studies
             </Typography>
-            <Typography variant="body" mt={2} className={classes.FlexedContant}>
+            <Typography
+              variant="body1"
+              mt={2}
+              className={classes.FlexedContant}
+            >
               <img
                 className={classes.icons}
                 src={require("./assets/calender.svg")}
@@ -128,9 +128,9 @@ export const MoreDetails = (props) => {
                   <a
                     style={{
                       textDecoration: "none",
+                      target: "_blank",
                     }}
                     href={actions?.meet_link}
-                    target="_blank"
                   >
                     <Button
                       variant="contained"
@@ -141,13 +141,7 @@ export const MoreDetails = (props) => {
                     </Button>
                   </a>
                 ) : (
-                  <Button
-                    disabled={true}
-                    variant="contained"
-                    sx={{ fontSize: "1rem" }}
-                    fullWidth
-                    style={{ marginTop: 20 }}
-                  >
+                  <Button disabled={true} variant="contained" fullWidth>
                     Starts in {TimeLefts}
                   </Button>
                 )}
@@ -159,14 +153,13 @@ export const MoreDetails = (props) => {
                   setIsEnrolled={setIsEnrolled}
                 />
                 <Typography
-                  align="center"
                   mt={2}
                   onClick={() => {
                     setOpenDropOut(true);
                   }}
                   variant="body2"
-                  color="red"
-                  style={{ cursor: "pointer" }}
+                  color="error.main"
+                  className={classes.DropOut}
                 >
                   can`t attend?
                 </Typography>{" "}
@@ -175,7 +168,6 @@ export const MoreDetails = (props) => {
               <Button
                 variant="contained"
                 fullWidth
-                style={{ marginTop: 20 }}
                 onClick={() => setConfirmationOpen(true)}
               >
                 Enroll
@@ -209,17 +201,11 @@ const DoubtClassExerciseComponent = (props) => {
     <>
       <Box
         backgroundColor="primary.light"
-        p={2}
-        mt={2}
-        sx={{ borderRadius: "20px" }}
-      >
+        className={classes.DoubtClassInfoSections}
+        >
         <Typography
           variant="body1"
-          mb={1}
-          align="left"
-          style={{
-            display: "flex",
-          }}
+          className={classes.NeedHelpBoxContant}
         >
           {" "}
           <img
@@ -232,28 +218,18 @@ const DoubtClassExerciseComponent = (props) => {
           at {format(actions?.start_time, "hh:mm aaa")} -{" "}
           {format(actions?.end_time, "hh:mm aaa")}
         </Typography>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
+        <Box
+        className={classes.ViewClassDetailButtonBox}
         >
           <Button
             endIcon={<ArrowForwardIosIcon />}
             onClick={() => {
               setOpen(true);
             }}
-            sx={{
-              width: isActive ? "90%" : "215px",
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
           >
             View Class Details
           </Button>
-        </div>
+        </Box>
       </Box>
       {/* <MoreDetails
         open={open}
@@ -278,19 +254,16 @@ const DoubtClassExerciseComponent = (props) => {
         setIsEnrolled={setIsEnrolled}
       />
       <>
-        <Box backgroundColor="primary.light" p={2} mt={2}>
+        <Box backgroundColor="primary.light" p={2} mt={2} 
+        className={classes.DoubtClassInfoSections}>
           <Typography variant="h6" mt={1} mb={2}>
-            {/* {actions.title} */}
             Upcoming Doubt Class
           </Typography>
-
           <Typography
             variant="body1"
             mb={2}
             align="left"
-            style={{
-              display: "flex",
-            }}
+            className={classes.FlexedContant}
           >
             <img
               className={classes.icons}
@@ -308,28 +281,17 @@ const DoubtClassExerciseComponent = (props) => {
             />
             {/* {actions.facilitator_name} */}
           </Typography>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
+          <Box
+            className={classes.ViewClassDetailButtonBox}>
             <Button
               endIcon={<ArrowForwardIosIcon />}
               onClick={() => {
                 setOpen(true);
               }}
-              sx={{
-                width: isActive ? "90%" : "215px",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
+              width={isActive ? "90%" : "215px"} >
               View Class Details
             </Button>
-          </div>
+          </Box>
         </Box>
       </>
     </>

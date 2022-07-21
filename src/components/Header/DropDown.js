@@ -201,6 +201,7 @@ export const DropDown = ({
       }}
       open={Boolean(indicator)}
       onClose={handleClose}
+      MenuListProps={{ onMouseLeave: handleClose }}
     >
       {dropDown &&
         students[dropDown].map((menu, index) => {
