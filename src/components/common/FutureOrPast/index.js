@@ -15,11 +15,14 @@ function FutureOrPast({ future = "", past = "", date = new Date() }) {
   const [isInFuture, setIsInFuture] = useState(!isBeforeNow(date));
 
   useEffect(() => {
+    const msUntilDate = millisecondsUntil(date);
     setIsInFuture(!isBeforeNow(date));
-    if (isInFuture) {
+    // Don't set timer if it's too far in future:
+    //     https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#maximum_delay_value
+    if (isInFuture && msUntilDate <= 2**31 - 1) {
       const timer = setTimeout(() => {
         setIsInFuture(false);
-      }, millisecondsUntil(date));
+      }, msUntilDate);
       return () => clearTimeout(timer); // cleans up on unmount
     }
   }, [date]);
