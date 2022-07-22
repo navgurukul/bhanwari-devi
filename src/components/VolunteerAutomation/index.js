@@ -238,7 +238,7 @@ function VolunteerAutomation() {
                   color="text.secondary"
                   variant="body1"
                 >
-                  You will taken to a Google form
+                  You will be redirected to a Google form
                 </Typography>
               </Box>
             </CardContent>

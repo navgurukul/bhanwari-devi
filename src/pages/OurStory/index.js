@@ -13,7 +13,7 @@ const OurStory = () => {
             <hr color="primary" className={classes.ourStoryHrline} />
           </Typography>
           <Typography variant="body1" paragraph>
-            Meraki is part of Navgurukul Foundation for Social Welfare. It
+            Meraki is part of Navgurukul Foundation for Social Welfare. It was
             started in 2020 as an effort to bring low cost online tech education
             to students from low income families across India. Navgurukul
             already runs successful campus programmes across India and Meraki is
