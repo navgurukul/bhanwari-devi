@@ -23,9 +23,8 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
-
+  const [LoadBatches, setLoadBatches] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -35,6 +34,12 @@ function Profile() {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      // get values of
+      // res.data.user.UserEnrolledInBatches.map((item) =>
+      //   console.log(item.isEnrolled)
+      // );
+  console.log(user.data);
+      console.log(res.data);
       setUserData(res.data.user);
       setEditName(res.data.user.name ? res.data.user.name : "");
     });
