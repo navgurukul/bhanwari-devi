@@ -82,6 +82,14 @@ const useStyles = makeStyles((theme) => ({
   UpcomingCard: {
     height: "90%",
     cursor: "pointer",
+    "&:hover": {
+      boxShadow:
+        "0px 12px 20px rgba(0, 0, 0, 0.06), 0px 12px 20px rgba(0, 0, 0, 0.04), 0px 12px 20px rgba(0, 0, 0, 0.08)",
+    },
+  },
+  cardContent: {
+    height: "60px",
+    overflow: "hidden",
   },
 }));
 

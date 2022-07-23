@@ -50,6 +50,7 @@ const PathwayCards = (props) => {
         const index = res.data.course.exercises.findIndex(
           (ex) => ex.id === item.exercise_id
         );
+
         setClassIndex(index + 1);
       });
     }, []);
@@ -57,7 +58,7 @@ const PathwayCards = (props) => {
       <Grid item xs={12} sm={4} md={4}>
         <Card
           className={classes.UpcomingCard}
-          elevation={4}
+          elevation={2}
           onClick={() => {
             console.log("clicked");
             history.push(
@@ -76,12 +77,21 @@ const PathwayCards = (props) => {
           <Box
             sx={{
               borderTop: 5,
-              color: item.type === "batch" ? "forestgreen" : "forestgreen",
+              color:
+                item.type === "batch" ||
+                item.type === "revision" ||
+                item.type === "cohort"
+                  ? "primary.main"
+                  : "secondary.main",
             }}
           />
 
           <CardContent>
-            <Stack direction="row" spacing={1}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              className={classes.cardContent}
+            >
               <Typography variant="body1" gutterBottom>
                 {item.sub_title || item.title}
               </Typography>
@@ -89,7 +99,9 @@ const PathwayCards = (props) => {
                 label={item.type}
                 variant="caption"
                 sx={
-                  item.type === "batch"
+                  item.type === "batch" ||
+                  item.type === "revision" ||
+                  item.type === "cohort"
                     ? {
                         borderRadius: { xs: 25, sm: 15 },
                         height: { xs: 34, sm: 25 },
@@ -107,22 +119,20 @@ const PathwayCards = (props) => {
                         borderRadius: { xs: 25, sm: 15 },
                         height: { xs: 34, sm: 25 },
                         // fontSize: "11px",
-                        backgroundColor: "secondary.main",
-                        color: "primary.dark",
+                        backgroundColor: "secondary.light",
+                        color: "secondary.dark",
                       }
                 }
               />
             </Stack>
             <Grid container spacing={1}>
-              <Grid item xs={8} md={5}>
+              <Grid item xs={2} md={3}>
                 <Typography variant="body2">
                   {format(item.start_time, "dd MMM yy")}
                 </Typography>
               </Grid>
-              <Grid item xs={6} md={3}>
-                <Typography variant="body2">
-                  <li>{language[item.lang]}</li>
-                </Typography>
+              <Grid item>
+                <Typography variant="body2">{language[item.lang]}</Typography>
               </Grid>
             </Grid>
           </CardContent>

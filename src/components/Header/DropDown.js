@@ -30,7 +30,7 @@ const students = {
   Learn: [
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing", code: "TYPGRU", type: "internal" },
-    { title: "English", code: "SPKENG", type: "internal" },
+    { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "JavaScript", code: "JSRPIT", type: "internal" },
 
     {

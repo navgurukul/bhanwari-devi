@@ -42,7 +42,7 @@ function MiscellaneousCourses() {
   return (
     <React.Fragment>
       <Container className={classes.pathwayContainer} maxWidth="lg">
-        <Grid container spacing={2}>
+        <Grid container>
           <Grid xs={12}>
             <Card align="left" elevation={0}>
               <Typography
@@ -52,7 +52,11 @@ function MiscellaneousCourses() {
               >
                 Miscellaneous Courses
               </Typography>
-              <Typography variant="body1" align={isActive ? "center" : "left"}>
+              <Typography
+                variant="body1"
+                maxWidth={"sm"}
+                align={isActive ? "center" : "left"}
+              >
                 Do you want to delve into Android, Game Development, Web Dev
                 Basics or just some fun projects? Check out these courses for a
                 sneak peak into these exciting fields.
@@ -61,15 +65,15 @@ function MiscellaneousCourses() {
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: 3 }}>
-          <Typography variant="h6" align={isActive ? "center" : "left"}>
+        <Box sx={{ mt: 10 }}>
+          <Typography variant="h5" align={isActive ? "center" : "left"}>
             Courses
           </Typography>
-          <Grid sx={{ mt: 2 }} container spacing={3} align="center">
+          <Grid sx={{ mt: 2 }} container spacing={2}>
             {console.log(otherCourses)}
             {otherCourses &&
               otherCourses.map((item, index) => (
-                <Grid key={index} xs={12} sm={6} md={3}>
+                <Grid item key={index} xs={12} sm={6} md={3}>
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -85,14 +89,17 @@ function MiscellaneousCourses() {
                         background: "#EEF1F5",
                         m: "15px",
                         height: "190px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
                     >
                       <Typography
                         align="center"
                         variant="subtitle1"
                         sx={{
-                          p: "10px",
-                          mt: "60px",
+                          px: "10px",
                         }}
                       >
                         {item.name}

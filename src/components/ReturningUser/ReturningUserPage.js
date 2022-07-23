@@ -59,35 +59,7 @@ function ReturningUserPage() {
             <LearningTrackCard item={item} />
           ))}
         </Grid>
-        {/* <Typography variant="h5">My Open Courses</Typography>
-        <Grid sx={{ mt: 2 }} container spacing={3} align="center">
-          {CardData.map((item, index) => (
-            <Grid key={index} xs={12} sm={6} md={3}>
-              <Link>
-                <Card
-                  elevation={0}
-                  className={classes.pathwayCard}
-                  sx={{
-                    background: "#EEF1F5",
-                    m: "15px",
-                    height: "190px",
-                  }}
-                >
-                  <Typography
-                    align="center"
-                    variant="subtitle1"
-                    sx={{
-                      p: "10px",
-                      mt: "60px",
-                    }}
-                  >
-                    {item.name}
-                  </Typography>
-                </Card>
-              </Link>
-            </Grid>
-          ))}
-        </Grid> */}
+
       </Container>
     </>
   );
