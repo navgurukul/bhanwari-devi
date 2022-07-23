@@ -173,7 +173,7 @@ function Home() {
           </Container>
 
           {/* Section 2  */}
-
+{/* 
           <Container sx={{ mt: 4, display: { xs: "none", md: "flex" } }}>
             <Grid container justifyContent="space-between">
               <Grid container item xs={4} justifyContent="flex-start">
@@ -204,7 +204,7 @@ function Home() {
                 <img src={require("./assets/graphic.svg")} />
               </Grid>
             </Grid>
-          </Container>
+          </Container> */}
 
           {/* Section 3  */}
 
