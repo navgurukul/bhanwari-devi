@@ -62,9 +62,7 @@ function LearningTrackCard(props) {
       <Grid
         onClick={() => {
           history.push(
-            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-              courseId: item.course_id,
-              exerciseId: item.course_index - 1,
+            interpolatePath(PATHS.PATHWAY_COURSE, {
               pathwayId: item.pathway_id,
             })
           );
@@ -82,8 +80,8 @@ function LearningTrackCard(props) {
           <Card elevation={2} pl={10}>
             <CardActionArea>
               <CardContent>
-                <Grid container mb={1}>
-                  <Grid item xs={2}>
+                <Grid container mb={1} maxHeight={60}>
+                  <Grid item>
                     <img
                       style={{
                         width: "55px",
@@ -93,8 +91,13 @@ function LearningTrackCard(props) {
                       alt="Students Img"
                     />
                   </Grid>
-                  <Grid item xs={4} mr={1}>
-                    <Typography gutterBottom variant="subtitle1" pt={1}>
+                  <Grid item mx={2}>
+                    <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      pt={1}
+                      maxWidth={75}
+                    >
                       {PathwayData?.name}
                     </Typography>
                   </Grid>
@@ -104,7 +107,7 @@ function LearningTrackCard(props) {
                       mb={1}
                       color="text.secondary"
                       style={{
-                        align: "right",
+                        align: "left",
                         display: "flex",
                         padding: "10px 0",
                       }}
@@ -112,7 +115,7 @@ function LearningTrackCard(props) {
                       <img
                         src={require("./assets/Ellipse.svg")}
                         alt="Students Img"
-                        style={{ marginRight: "12px" }}
+                        style={{ margin: "0px 4px" }}
                       />
                       {PathwayData?.courses?.length} Courses
                     </Typography>

@@ -203,14 +203,12 @@ function PathwayExercise() {
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
-      <MenuItem value={availableLang[0]}>
-        {Lang[availableLang[0]]} <KeyboardArrowDownIcon />{" "}
-      </MenuItem>
+      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
     ) : (
       <Select
         disableUnderline
         value={language}
-        IconComponent={() => null}
+        // IconComponent={() => null}
         onChange={(e) => {
           setLanguage(e.target.value);
         }}
@@ -327,7 +325,7 @@ function PathwayExercise() {
 
   return (
     <>
-      <AppBar fullWidth position="sticky" color="background">
+      <AppBar fullWidth position="sticky" color="background" elevation={2}>
         <Container maxWidth>
           <div className="hideInMobile">
             <Toolbar
