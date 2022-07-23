@@ -28,8 +28,8 @@ function ClassList({ editClass, isShow }) {
   if (loading) {
     return (
       <Grid container spacing={2}>
-        {Array.from(Array(8)).map((_, index) => (
-          <Grid item xs={2} sm={4} md={3} key={index}>
+        {Array.from(Array(6)).map((_, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
             <Card sx={{ p: 4 }}>
               <Typography variant="subtitle1">
                 <Skeleton />
@@ -76,7 +76,7 @@ function ClassList({ editClass, isShow }) {
         size="small"
         placeholder="Enter Class Name"
         value={filterText}
-        sx={{ margin: "15px 0 0 10px" }}
+        sx={{ margin: "12px 0 0 15px", width: "70%", borderRadius: "8px"}}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));
@@ -105,13 +105,13 @@ function ClassList({ editClass, isShow }) {
         }}
       />
       <>
-        <Grid container spacing={2}>
+        <Grid container spacing={"32px"}>
           {data && data.length > 0 ? (
             <>
               {!filterText?.length > 0
                 ? single_classes.map((item, index) => {
                     return (
-                      <Grid item xs={12} ms={6} md={3} sx={{ mb: 10 }}>
+                      <Grid item xs={12} ms={6} md={4} sx={{ mb: 10 }}>
                         <ClassCard
                           item={item}
                           key={index}
@@ -126,7 +126,7 @@ function ClassList({ editClass, isShow }) {
                 : ""}
               {classData.map((item, index) => {
                 return (
-                  <Grid item xs={12} ms={6} md={3} sx={{ mb: 3 }}>
+                  <Grid item xs={12} ms={6} md={4} sx={{ mb: 3 }}>
                     <ClassCard
                       item={item}
                       key={index}
