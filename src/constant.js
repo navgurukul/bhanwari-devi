@@ -13,6 +13,7 @@ export const PATHS = {
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
   USER: "/user",
+  USER_UPDATE: "/user/update",
   PROFILE: "/profile",
   PRIVACY_POLICY: "/privacy",
   AFE: "/amazon-future-engineer",

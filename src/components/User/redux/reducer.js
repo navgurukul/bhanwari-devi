@@ -31,6 +31,18 @@ export default (state = initialState, action) => {
         data: null,
       };
 
+    case types.POLL_FOR_SERVER_USER_UPDATE:
+      return {
+        ...state,
+        data: { ...state.data, waitingForUpdate: true },
+      };
+
+    case types.ON_SERVER_USER_UPDATE:
+      return {
+        ...state,
+        data: action.data,
+      };
+
     default:
       return state;
   }

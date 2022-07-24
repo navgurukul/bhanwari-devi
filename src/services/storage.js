@@ -16,7 +16,13 @@ export function getUserInitialState() {
 }
 
 export const userStateMiddleware = (store) => (next) => (action) => {
-  if (action.type === types.ON_USER_SIGN_INTENT_RESOLVED) {
+  if (
+    [
+      types.ON_USER_SIGN_INTENT_RESOLVED,
+      types.POLL_FOR_SERVER_USER_UPDATE,
+      types.ON_SERVER_USER_UPDATE,
+    ].includes(action.type)
+  ) {
     let result = next(action);
     const authState = store.getState().User;
     localStorage.setItem(AUTH_KEY, JSON.stringify(authState));
