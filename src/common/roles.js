@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export const ADMIN_ROLE_KEY = "ADMIN";
 export const STUDENT_ROLE_KEY = "STUDENT";
@@ -68,8 +68,8 @@ export const useRoles = () => {
   );
 
   // special case for partner role
-  const partnerId = user.data.user.partner_id;
-  const partnerGroupId = user.data.user.partner_group_id;
+  // const partnerId = user.data.user.partner_id;
+  // const partnerGroupId = user.data.user.partner_group_id;
   ROLES[PARTNER_ROLE_KEY].properties.partnerId = user.data.user.partner_id;
   ROLES[PARTNER_ROLE_KEY].properties.partnerGroupId =
     user.data.user.partner_group_id;
