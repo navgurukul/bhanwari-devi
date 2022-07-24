@@ -39,6 +39,7 @@ import { actions as upcomingClassActions } from "../../PathwayCourse/redux/actio
 import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
+import ExerciseContentLoading from "./ExerciseContentLoading";
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
@@ -277,8 +278,13 @@ function ExerciseContent({ exerciseId, lang }) {
   const [showJoinClass, setShowJoinClass] = useState(true);
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (cashedData?.length > 0) {
+      setLoading(false);
+    }
+  }, [cashedData]);
   // const upcomingBatchesData = useSelector((state) => {
   //   return state.Pathways?.upcomingBatches?.data;
   // });
@@ -416,11 +422,7 @@ function ExerciseContent({ exerciseId, lang }) {
     );
   }
 
-  return (
-    <>
-      <ExerciseContentMain />
-    </>
-  );
+  return <>{!loading ? <ExerciseContentMain /> : <ExerciseContentLoading />}</>;
 }
 
 export default ExerciseContent;
