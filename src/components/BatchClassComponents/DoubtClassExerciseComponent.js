@@ -191,6 +191,33 @@ export const MoreDetails = (props) => {
   );
 };
 
+const ClassDetails = ({ setOpen, isActive }) => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+      }}
+    >
+      <Button
+        endIcon={<ArrowForwardIosIcon />}
+        onClick={() => {
+          setOpen(true);
+        }}
+        sx={{
+          width: isActive ? "90%" : "215px",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        View Class Details
+      </Button>
+    </div>
+  );
+};
+
 const DoubtClassExerciseComponent = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -202,11 +229,8 @@ const DoubtClassExerciseComponent = (props) => {
       <Box
         backgroundColor="primary.light"
         className={classes.DoubtClassInfoSections}
-        >
-        <Typography
-          variant="body1"
-          className={classes.NeedHelpBoxContant}
-        >
+      >
+        <Typography variant="body1" className={classes.NeedHelpBoxContant}>
           {" "}
           <img
             className={classes.icons}
@@ -218,8 +242,15 @@ const DoubtClassExerciseComponent = (props) => {
           at {format(actions?.start_time, "hh:mm aaa")} -{" "}
           {format(actions?.end_time, "hh:mm aaa")}
         </Typography>
-        <Box
-        className={classes.ViewClassDetailButtonBox}
+
+        <ClassDetails setOpen={setOpen} isActive={isActive} />
+        {/* <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
         >
           <Button
             endIcon={<ArrowForwardIosIcon />}
@@ -229,9 +260,8 @@ const DoubtClassExerciseComponent = (props) => {
           >
             View Class Details
           </Button>
-        </Box>
-      </Box>
-      {/* <MoreDetails
+        </div> */}
+        {/* <MoreDetails
         open={open}
         setOpen={setOpen}
         actions={actions}
@@ -239,9 +269,10 @@ const DoubtClassExerciseComponent = (props) => {
         isEnrolled={isEnrolled}
         setIsEnrolled={setIsEnrolled}
       /> */}
-      <MoreDetails
-        {...{ open, setOpen, actions, value, isEnrolled, setIsEnrolled }}
-      />
+        <MoreDetails
+          {...{ open, setOpen, actions, value, isEnrolled, setIsEnrolled }}
+        />
+      </Box>
     </>
   ) : (
     <>
@@ -254,8 +285,12 @@ const DoubtClassExerciseComponent = (props) => {
         setIsEnrolled={setIsEnrolled}
       />
       <>
-        <Box backgroundColor="primary.light" p={2} mt={2} 
-        className={classes.DoubtClassInfoSections}>
+        <Box
+          backgroundColor="primary.light"
+          p={2}
+          mt={2}
+          className={classes.DoubtClassInfoSections}
+        >
           <Typography variant="h6" mt={1} mb={2}>
             Upcoming Doubt Class
           </Typography>
@@ -281,8 +316,15 @@ const DoubtClassExerciseComponent = (props) => {
             />
             {/* {actions.facilitator_name} */}
           </Typography>
-          <Box
-            className={classes.ViewClassDetailButtonBox}>
+          <ClassDetails setOpen={setOpen} isActive={isActive} />
+          {/* <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
             <Button
               endIcon={<ArrowForwardIosIcon />}
               onClick={() => {
@@ -291,7 +333,7 @@ const DoubtClassExerciseComponent = (props) => {
               width={isActive ? "90%" : "215px"} >
               View Class Details
             </Button>
-          </Box>
+          </div> */}
         </Box>
       </>
     </>
