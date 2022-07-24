@@ -5,8 +5,8 @@ import {
   differenceInMilliseconds as msDifference,
   intervalToDuration,
 } from "date-fns";
-import { zonedTimeToUtc, formatInTimeZone as ftz } from "date-fns-tz";
-
+import { zonedTimeToUtc } from "date-fns-tz";
+// import {formatInTimeZone as ftz} from "date-fns-tz";
 /**
  * Returns a copy of the given date if supplied a Date object input or a Date
  *    object from the given timestamp.
@@ -224,17 +224,17 @@ export const millisecondsUntil = (date) => {
  * @return {string} the serialized date (currently YYYY-MM-DDTHH:mm:ss.sssZ)
  *     See: https://tc39.es/ecma262/#sec-date-time-string-format
  */
-const serializeForBackEnd = (date) => {
-  return makeDateFrom(date).toISOString();
-};
+// const serializeForBackEnd = (date) => {
+//   return makeDateFrom(date).toISOString();
+// };
 
-const formatInTimeZone = (date, timeZone, formatStr) => {
-  return ftz(makeDateFrom(date), timeZone, formatStr);
-};
+// const formatInTimeZone = (date, timeZone, formatStr) => {
+//   return ftz(makeDateFrom(date), timeZone, formatStr);
+// };
 
-const formatInUtc = (date, formatStr) => {
-  return formatInTimeZone(date, "UTC", formatStr);
-};
+// const formatInUtc = (date, formatStr) => {
+//   return formatInTimeZone(date, "UTC", formatStr);
+// };
 
 /**
  * Wrapper for the date-fns format function but allows date strings

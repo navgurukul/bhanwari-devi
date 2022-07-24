@@ -6,7 +6,7 @@ import Home from "../pages/Home";
 import { PATHS } from "../constant";
 import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
-import Course from "../pages/Course";
+// import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
@@ -71,18 +71,18 @@ const Routing = () => {
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
       <PrivateRoute
         exact
-        path={PATHS.NEWUSER_DASHBOARED}
+        path={PATHS.NEW_USER_DASHBOARED}
         component={NewUserDashbord}
       />
       {/* <Route
         exact
-        path={PATHS.PYTHONCOURSE}
+        path={PATHS.PYTHON_COURSE}
         component={PythonCourse}
       /> */}
 
       <Route
         exact
-        path={PATHS.RETURNINGUSERPAGE}
+        path={PATHS.RETURNING_USER_PAGE}
         component={ReturningUserPage}
       />
 
