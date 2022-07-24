@@ -251,7 +251,7 @@ function ClassCard({ item, editClass }) {
       <Card elevation={2} sx={{ p: 4 }} className={classes.card} sx={{ mt: 5 }}>
         <Typography
           variant="subtitle1"
-          color="primary"
+          color="#6D6D6D"
           sx={{
             display: "flex",
             justifyContent: "space-between",
@@ -266,7 +266,11 @@ function ClassCard({ item, editClass }) {
           {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
               (item.facilitator.email === user.data.user.email || flag))) && (
-            <MoreVertIcon onClick={handleOpenUserMenu} sx={{ p: 0 }} />
+            <MoreVertIcon
+              style={{ color: "#BDBDBD", cursor: "pointer" }}
+              onClick={handleOpenUserMenu}
+              sx={{ p: 0 }}
+            />
           )}
         </Typography>
         <Menu
@@ -297,7 +301,7 @@ function ClassCard({ item, editClass }) {
               </MenuItem>
               <MenuItem
                 onClick={() => handleEdit(item.id)}
-                sx={{ width: 100, margin: "0px 10px" }}
+                sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}
               >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
