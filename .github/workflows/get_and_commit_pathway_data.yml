@@ -32,7 +32,7 @@ jobs:
             exit 0 
           fi
         env:
-          REACT_APP_MERAKI_URL: https://api.merakilearn.org
+          REACT_APP_MERAKI_URL: https://dev-api.merakilearn.org
       - name: Join back- and front-end pathway data
         id: join_pathway_data
         run: |
