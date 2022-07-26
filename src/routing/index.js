@@ -71,7 +71,7 @@ const Routing = () => {
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
       <PrivateRoute
         exact
-        path={PATHS.NEW_USER_DASHBOARED}
+        path={PATHS.NEW_USER_DASHBOARD}
         component={NewUserDashbord}
       />
       {/* <Route

@@ -30,10 +30,10 @@ export const PATHS = {
   VOLUNTEER_OVERVIEW: "/volunteer/:volunteerId",
   OUR_PARTNER: "/our-partner",
   OUR_STORY: "/our-story",
-  NEW_USER_DASHBOARED: "/user-dashboared",
-  PYTHON_COURSE: "/Python-course",
+  NEW_USER_DASHBOARD: "/user-dashboard",
+  PYTHON_COURSE: "/python-course",
   SEARCHED_COURSE: "/search-course",
-  RETURNING_USER_PAGE: "/Returning-user",
+  RETURNING_USER_PAGE: "/returning-user",
   VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
 };
@@ -44,7 +44,7 @@ export const HideFooter = [
   PATHS.PROFILE,
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
-  PATHS.NEW_USER_DASHBOARED,
+  PATHS.NEW_USER_DASHBOARD,
   PATHS.VOLUNTEER_FORM,
 ];
 

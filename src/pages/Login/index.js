@@ -65,7 +65,7 @@ function Login(props) {
     volunteer: PATHS.CLASS,
     admin: PATHS.PARTNERS,
     partner: PATHS.PARTNERS,
-    default: interpolatePath(PATHS.NEW_USER_DASHBOARED),
+    default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
   };
 
   console.log("rolesList", rolesList);

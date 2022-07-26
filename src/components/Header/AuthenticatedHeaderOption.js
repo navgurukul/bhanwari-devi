@@ -45,7 +45,7 @@ const savedRolesToKeysMap = Object.keys(ROLES).reduce((roleKeyMap, roleKey) => {
 const SELECTED_ROLE_KEY = "selectedRole";
 
 const rolesLandingPages = {
-  [STUDENT]: PATHS.NEW_USER_DASHBOARED,
+  [STUDENT]: PATHS.NEW_USER_DASHBOARD,
   [ADMIN]: PATHS.PARTNERS,
   [VOLUNTEER]: PATHS.CLASS,
   [PARTNER]: PATHS.PARTNERS,
