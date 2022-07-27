@@ -34,7 +34,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import moment from "moment";
 import _ from "lodash";
 
-function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
+function ClassForm({
+  isEditMode,
+  setShowModal,
+  classToEdit,
+  indicator,
+  formType,
+}) {
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: "",
@@ -43,12 +49,24 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
     on_days: [],
     start_time: new Date("2018-01-01T00:00:00.000Z"),
     end_time: new Date("2018-01-01T00:00:00.000Z"),
-    lang: "",
-    max_enrolment: "",
+    lang: "en",
+    max_enrolment: "No Limit",
     frequency: "WEEKLY",
     description: "abc",
-    type: "batch",
+    type: formType,
     pathway_id: "1",
+    //doubt class fields
+    //type
+    course_id: "",
+    exercise_id: "",
+    description: "",
+
+    //title
+    //description
+    //start time
+    //end time
+    //lang
+    //max_enrolment
   });
 
   // const isEditMode = !_.isEmpty(classFields);
@@ -57,8 +75,9 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
   const [Selected_partner_id, setSelected_partner_id] = useState();
   const [createBatch, setCreateBatch] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedExercise, setSelectedExercise] = useState("");
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
-    {}
+    []
   );
 
   // const [openModal, setOpenModal] = useState(false);
@@ -88,10 +107,12 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
     });
 
   const selectedCourseLabel = courses.find(
-    (item) => item.value === selectedCourse
+    (item) => item.value === classFields.course_id
   );
 
-  console.log(courses, "courses");
+  const selectedExerciseLabel = exercisesForSelectedCourse.find(
+    (item) => item.id === classFields.exercise_id
+  );
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -145,6 +166,12 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
 
   useEffect(() => {
     console.log("exercisesForSelectedCourse", exercisesForSelectedCourse);
+    console.log(
+      exercisesForSelectedCourse.length > 0
+        ? exercisesForSelectedCourse[0].name
+        : "",
+      "exercisesForSelectedCourse length"
+    );
   }, [exercisesForSelectedCourse]);
 
   console.log("partnerData", partnerData);
@@ -242,8 +269,9 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
   };
 
   const onCourseChange = (courseId) => {
-    setSelectedCourse(courseId);
-    if (exercisesForSelectedCourse[courseId]) {
+    setClassFields({ ...classFields, course_id: courseId });
+
+    if (exercisesForSelectedCourse.length > 0) {
       return;
     }
     axios({
@@ -255,12 +283,27 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setExercisesForSelectedCourse({
-        ...exercisesForSelectedCourse,
-        [courseId]: res.data.course.exercises,
-      });
+      const filteredExercises = res.data.course.exercises.filter(
+        (exercise) => exercise.content_type === "exercise"
+      );
+      setExercisesForSelectedCourse(filteredExercises);
     });
   };
+
+  const onExerciseChange = (exerciseId) => {
+    setClassFields({ ...classFields, exercise_id: exerciseId });
+  };
+
+  const checkForDoubtClass =
+    classFields.type === "doubt_class" &&
+    classFields.course_id !== "" &&
+    classFields.exercise_id !== "" &&
+    classFields.title !== "" &&
+    classFields.description !== "" &&
+    classFields.start_time !== "" &&
+    classFields.end_time !== ""
+      ? false
+      : true;
 
   const submitHandle = () => {
     //taking hours and minues from the time
@@ -315,9 +358,50 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
     // }
   };
 
+  const submitDoubtClass = () => {
+    classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
+    classFields.end_time = `${classFields.end_time.getHours()}:${classFields.end_time.getMinutes()}`;
+
+    console.log("classFields.start_time", classFields.start_time);
+
+    //combining time and date
+    const classStartTime = moment(
+      `${classFields.date} ${classFields.start_time}`
+    );
+    const classEndTime = moment(`${classFields.date} ${classFields.end_time}`);
+
+    console.log("classStartTime", classStartTime);
+    console.log("classEndTime", classEndTime);
+    // if (classStartTime.valueOf() >= classEndTime.valueOf()) {
+    //   // toast.error("Class end time must be later than class start time.", {
+    //   //   position: toast.POSITION.BOTTOM_RIGHT,
+    //   // });
+    //   console.log("Class end time must be later than class start time.");
+    //   // Making the class end time field focused, so user can edit it.
+    //   console.log("focus", document.getElementById(classFields.end_time));
+    //   // return document.getElementById(classFields.end_time).focus();
+    // }
+
+    if (classFields.partner_id.length === 0) delete classFields.partner_id;
+
+    //deleting date as we have combined with time and we don't want date separately
+    delete classFields.date;
+    // delete classFields[date];
+
+    //adding combined date and time to start_time and end_time
+    classFields.start_time = `${moment(classStartTime).format(
+      "YYYY-MM-DDTHH:mm:ss"
+    )}Z`;
+    classFields.end_time = `${moment(classEndTime).format(
+      "YYYY-MM-DDTHH:mm:ss"
+    )}Z`;
+
+    console.log("classFields", classFields);
+  };
+
   return (
     <>
-      {createBatch ? (
+      {classFields.type === "batch" ? (
         <Stack alignItems="center">
           <Box
             className={classes.ModelBox}
@@ -394,6 +478,9 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
             <TextField
               sx={{ mt: 3 }}
               type="date"
+              inputProps={{
+                min: classFields?.date,
+              }}
               variant="outlined"
               value={classFields.date}
               name="date"
@@ -569,15 +656,29 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                label="Exercises"
-              ></Select>
+                label="Courses"
+                disabled={exercisesForSelectedCourse.length === 0}
+                value={selectedExerciseLabel?.label}
+                onChange={(e) => {
+                  onExerciseChange(e.target.value);
+                }}
+              >
+                {exercisesForSelectedCourse &&
+                  exercisesForSelectedCourse.map((exercise) => {
+                    return (
+                      <MenuItem key={exercise.id} value={exercise.id}>
+                        {exercise.name}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
             </FormControl>
 
             <TextField
               sx={{ mt: 3 }}
               type="text"
-              value={classFields.name}
-              name="Class Title"
+              value={classFields?.title}
+              name="title"
               label="Class Title"
               fullWidth
               onChange={(e) => {
@@ -588,9 +689,17 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
             <TextField
               sx={{ mt: 3 }}
               type="text"
-              value={classFields.name}
-              name="Description"
+              value={classFields?.description}
+              name="description"
               label="Description"
+              error={classFields?.description?.length > 555}
+              helperText={
+                classFields?.description?.length > 555
+                  ? `Word limit exceeded by ${
+                      classFields?.description?.length - 555
+                    } characters`
+                  : ""
+              }
               multiline
               rows={3}
               fullWidth
@@ -603,6 +712,9 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
               sx={{ mt: 3 }}
               type="date"
               variant="outlined"
+              inputProps={{
+                min: classFields?.date,
+              }}
               value={classFields.date}
               name="date"
               label="Start Date"
@@ -660,6 +772,7 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
                         <FormControlLabel
                           key={item}
                           value={item}
+                          checked={item === "en"}
                           name="lang"
                           control={<Radio />}
                           onChange={(e) => {
@@ -682,10 +795,11 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
                   return (
                     <FormControlLabel
                       key={item}
-                      value={item}
+                      value={classFields?.max_enrolment}
                       name="max_enrolment"
                       control={<Radio />}
                       label={item}
+                      checked={item === "No Limit"}
                       sx={{ mr: 2 }}
                       onChange={(e) => {
                         changeHandler(e);
@@ -696,7 +810,12 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
                 })}
               </RadioGroup>
             </FormControl>
-            <Button variant="contained" fullWidth onClick={submitHandle}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={submitDoubtClass}
+              disabled={checkForDoubtClass}
+            >
               Create Class
             </Button>
           </Box>
