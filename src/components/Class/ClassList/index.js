@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { actions as classActions } from "../redux/action";
 import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
-import {
-  Grid,
-  Container,
-  Typography,
-  Card,
-  Skeleton,
-  TextField,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 
 function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
-  const [recurring_classes_data_set, set_recurring_classes_data_set] =
-    useState(null);
+
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
-  const [filterText, setFilterText] = useState(null);
+
   useEffect(() => {
     if (isShow === false) {
       dispatch(classActions.getClasses());
@@ -26,34 +19,7 @@ function ClassList({ editClass, isShow }) {
   }, [dispatch, isShow]);
 
   if (loading) {
-    return (
-      <Grid container spacing={2}>
-        {Array.from(Array(6)).map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card sx={{ p: 4 }}>
-              <Typography variant="subtitle1">
-                <Skeleton />
-              </Typography>
-              <Typography variant="subtitle2">
-                <Skeleton />
-              </Typography>
-              <Typography variant="body1">
-                <Skeleton />
-              </Typography>
-              <Typography variant="body1">
-                <Skeleton />
-              </Typography>
-              <Typography variant="body1">
-                <Skeleton />
-              </Typography>
-              <Typography variant="body1">
-                <Skeleton />
-              </Typography>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    );
+    return <Loader pageLoader={true} />;
   }
 
   let recurring_classes_data = [];
@@ -69,14 +35,14 @@ function ClassList({ editClass, isShow }) {
 
   const _ = require("lodash");
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
-  var classData = recurring_classes_data_set || recurring_classes;
+
   return (
     <>
       <TextField
         size="small"
         placeholder="Enter Class Name"
         value={filterText}
-        sx={{ margin: "12px 0 0 15px", width: "70%", borderRadius: "8px"}}
+        sx={{ margin: "12px 0 0 15px", width: "70%", borderRadius: "8px" }}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));
