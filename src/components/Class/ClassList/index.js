@@ -24,7 +24,7 @@ function ClassList({ editClass, isShow }) {
     return (
       <Grid container spacing={2}>
         {Array.from(Array(6)).map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={12} sm={6} md={3} key={index}>
             <Card sx={{ p: 4 }}>
               <Typography variant="subtitle1">
                 <Skeleton />
@@ -107,7 +107,7 @@ function ClassList({ editClass, isShow }) {
               {!filterText?.length > 0
                 ? single_classes.map((item, index) => {
                     return (
-                      <Grid item xs={12} ms={6} md={4} sx={{ mb: 10 }}>
+                      <Grid item xs={12} ms={6} md={3} sx={{ mb: 10 }}>
                         <ClassCard
                           item={item}
                           key={index}
@@ -122,7 +122,7 @@ function ClassList({ editClass, isShow }) {
                 : ""}
               {classData.map((item, index) => {
                 return (
-                  <Grid item xs={12} ms={6} md={4} sx={{ mb: 3 }}>
+                  <Grid item xs={12} ms={6} md={3} sx={{ mb: 3 }}>
                     <ClassCard
                       item={item}
                       key={index}
