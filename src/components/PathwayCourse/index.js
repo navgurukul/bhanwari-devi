@@ -108,9 +108,11 @@ function PathwayCourse() {
   });
   
   const loading = useSelector((state) => {
-    return (state?.Pathways?.enrolledBatches?.loading || 
-      state?.Pathways?.upcomingBatchesData?.loading) &&
-      !(upcomingBatchesData?.length > 0) && !(enrolledBatches?.length > 0)
+    const upcomingBatchesState = state?.Pathways?.upcomingBatches;
+    const enrolledBatchesState = state?.Pathways?.enrolledBatches;
+    return (!upcomingBatchesState || !enrolledBatchesState ||
+      upcomingBatchesState.loading || enrolledBatchesState.loading) &&
+      !(upcomingBatchesData?.length > 0) && !(enrolledBatches?.length > 0);
   });
   
   console.log("upcomingBatchesData", upcomingBatchesData);
