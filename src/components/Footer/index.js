@@ -11,13 +11,13 @@ import ExternalLink from "../common/ExternalLink";
 const menu = {
   About: [
     { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
-    { title: "Meraki Team", type: "internal", link: PATHS.TEAM },
+    { title: "Meraki Team", type: "internal", link: PATHS.MERAKI_TEAM },
   ],
   LearningTracks: [
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "Javascript", code: "JSRPIT", type: "internal" },
+    { title: "Javascript", code: "JVSCPT", type: "internal" },
     {
       title: "Residential Programmes",
       type: "internal",
@@ -51,7 +51,7 @@ const menu = {
     },
     {
       title: "Careers",
-      type: "external",
+      type: "exernal",
       link: "https://recruiterflow.com/navgurukul/jobs",
     },
   ],
@@ -251,7 +251,7 @@ function Footer() {
                 variant="body2"
                 sx={{ textAlign: { sm: "left", md: "right" } }}
               >
-                Made with <span>❤️</span> for our students{" "}
+                Made with ❤️ for our students{" "}
               </Typography>
             </Grid>
           </Grid>

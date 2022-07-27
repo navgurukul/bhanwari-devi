@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { actions as classActions } from "../redux/action";
 import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
 import "./styles.scss";
-import {
-  Grid,
-  Container,
-  Typography,
-  Card,
-  Skeleton,
-  TextField,
-} from "@mui/material";
+import { Grid, TextField, Typography, Skeleton, Card } from "@mui/material";
 
 function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
+
+  const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
-  const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [filterText, setFilterText] = useState(null);
   useEffect(() => {
     if (isShow === false) {
@@ -70,13 +65,14 @@ function ClassList({ editClass, isShow }) {
   const _ = require("lodash");
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
   var classData = recurring_classes_data_set || recurring_classes;
+
   return (
     <>
       <TextField
         size="small"
         placeholder="Enter Class Name"
         value={filterText}
-        sx={{ margin: "12px 0 0 15px", width: "70%", borderRadius: "8px"}}
+        sx={{ margin: "12px 0 0 15px", width: "70%", borderRadius: "8px" }}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));

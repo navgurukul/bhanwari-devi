@@ -14,6 +14,7 @@ import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
@@ -40,14 +41,14 @@ const pathwayData = [
   },
   {
     title: "Javascript",
-    code: "JSRPIT",
+    code: "JVSCPT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
   },
   {
     title: "Residential Programmes",
     image: "residential",
-    description: "Explore Navgurukul’s on campus Software Engineering courses",
+    description: "Interview preparation  to get you job ready",
   },
   {
     title: "Miscellaneous Courses",
@@ -76,10 +77,10 @@ const concernsText = [
     description: "Learn through interactive classes and self study material",
   },
   {
-    description: "Get accurate and fast with our typing guru track",
+    description: "I have never typed on a computer keyboard before",
   },
   {
-    description: "Become confident with our spoken English track",
+    description: "I face difficulty in understanding and speaking English",
   },
 ];
 
@@ -173,7 +174,7 @@ function Home() {
           </Container>
 
           {/* Section 2  */}
-{/* 
+          {/* 
           <Container sx={{ mt: 4, display: { xs: "none", md: "flex" } }}>
             <Grid container justifyContent="space-between">
               <Grid container item xs={4} justifyContent="flex-start">
@@ -245,7 +246,7 @@ function Home() {
               color="textPrimary"
               gutterBottom
             >
-              How can Meraki help you?
+              How Meraki will help you?
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
@@ -282,7 +283,7 @@ function Home() {
           </Container>
           {/* Section 6  */}
 
-          {/* <Container maxWidth="md" sx={{ mt: 9 }}>
+          <Container maxWidth="md" sx={{ mt: 9 }}>
             <Typography
               variant="h5"
               component="h2"
@@ -303,7 +304,7 @@ function Home() {
             <Typography align="center" color="textPrimary" gutterBottom>
               Partners Across India
             </Typography>
-            <Grid sx={{ mt: 1 }} container spacing={2}>
+            {/* <Grid sx={{ mt: 1 }} container spacing={2}>
               {[
                 "Wipro",
                 "Infosys",
@@ -320,14 +321,15 @@ function Home() {
                   />
                 </Grid>
               ))}
-            </Grid>
+            </Grid> */}
             <Stack sx={{ mt: 3 }} alignItems="center">
+              {/* <Button href={PATHS.OUR_PARTNER}> */}
               <Button href={PATHS.OUR_PARTNER}>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
               </Button>
             </Stack>
-          </Container> */}
+          </Container>
           {/* Section 7  */}
           <Container
             maxWidth="false"

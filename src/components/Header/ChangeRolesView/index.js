@@ -96,10 +96,10 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
     //}
   }, [roleView]);
 
-  React.useEffect(() => {
-    const roleData = roles.find((role) => role.key === roleView);
-    roleData?.landingPage && history.push(roleData.landingPage);
-  }, []);
+  // React.useEffect(() => {
+  //   const roleData = roles.find((role) => role.key === roleView);
+  //   roleData?.landingPage && history.push(roleData.landingPage);
+  // }, []);
 
   return (
     <Box
