@@ -334,8 +334,8 @@ function StudentData() {
             />
           </div>
         </div>
-        <div className="slider-label">
-          <label>Total attended classes </label>
+        {/* <div className="slider-label"> */}
+        {/* <label>Total attended classes </label>
           <div className="slider">
             <Range
               min={0}
@@ -357,9 +357,9 @@ function StudentData() {
                 40: `${30}+`,
               }}
             />
-          </div>
-          {/* {filterVal[1]>0? */}
-          <button
+          </div> */}
+        {/* {filterVal[1]>0? */}
+        {/* <button
             disabled={isDisabled}
             onClick={() => {
               setFilteredData(false);
@@ -370,9 +370,9 @@ function StudentData() {
             className="filter-clear"
           >
             clear
-          </button>
-          {/* :""} */}
-        </div>
+          </button> */}
+        {/* :""} */}
+        {/* </div> */}
         <table className="student-overview-table">
           <thead>
             <tr>
@@ -394,7 +394,7 @@ function StudentData() {
                   <BsArrowUpDown />
                 </button>
               </th>
-              <th>
+              {/* <th>
                 Classes Enrolled to
                 <button
                   className={sort_class}
@@ -402,7 +402,7 @@ function StudentData() {
                 >
                   <BsArrowUpDown />
                 </button>
-              </th>
+              </th> */}
               <th>
                 Last Class Title
                 <button
@@ -422,7 +422,7 @@ function StudentData() {
                 </button>
               </th>
               <th>Last Class Time</th>
-              <th>
+              {/* <th>
                 Average Rating
                 <button
                   className={sort_class}
@@ -430,7 +430,7 @@ function StudentData() {
                 >
                   <BsArrowUpDown />
                 </button>
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -460,10 +460,10 @@ function StudentData() {
                       <td data-column="Enrolled On">
                         {item.formatted_created_at}
                       </td>
-                      <td data-column="Total classes ">
+                      {/* <td data-column="Total classes ">
                         {" "}
                         {item.classes_registered.length}
-                      </td>
+                      </td> */}
 
                       <td data-column="Last class title">
                         {item.classes_registered &&
@@ -498,7 +498,7 @@ function StudentData() {
                             ]["formatted_end_time"]
                           : "NA"}
                       </td>
-                      <td data-column="Avg rating ">
+                      {/* <td data-column="Avg rating ">
                         {[1, 2, 3, 4, 5].map((star) => {
                           return Math.ceil(item.averageRating) > 0 &&
                             star <= Math.ceil(item.averageRating) ? (
@@ -513,7 +513,7 @@ function StudentData() {
                             ></span>
                           );
                         })}
-                      </td>
+                      </td> */}
                     </tr>
                   );
                 })
@@ -543,10 +543,10 @@ function StudentData() {
                       <td data-column="Enrolled On">
                         {item.formatted_created_at}
                       </td>
-                      <td data-column="Total classes ">
+                      {/* <td data-column="Total classes ">
                         {" "}
                         {item.classes_registered.length}
-                      </td>
+                      </td> */}
 
                       <td data-column="Last class title">
                         {item.classes_registered &&
@@ -581,7 +581,7 @@ function StudentData() {
                             ]["formatted_end_time"]
                           : "NA"}
                       </td>
-                      <td data-column="Avg rating ">
+                      {/* <td data-column="Avg rating ">
                         {[1, 2, 3, 4, 5].map((star) => {
                           return Math.ceil(item.averageRating) > 0 &&
                             star <= Math.ceil(item.averageRating) ? (
@@ -596,7 +596,7 @@ function StudentData() {
                             ></span>
                           );
                         })}
-                      </td>
+                      </td> */}
                       {hasOneFrom(user.data.user.rolesList, [
                         "partner_edit",
                         "partner",

@@ -169,7 +169,7 @@ function StudentClassData(props) {
                 <BsArrowUpDown />
               </button>
             </th>
-            <th>
+            {/* <th>
               Class Rating
               <button
                 className={sort_class}
@@ -177,7 +177,7 @@ function StudentClassData(props) {
               >
                 <BsArrowUpDown />
               </button>
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
@@ -190,7 +190,7 @@ function StudentClassData(props) {
                   <td data-column="Facilitator">{item.facilitator_name}</td>
                   <td data-column="Language">{languageMap[item.lang]}</td>
                   <td data-column="Date">{item.formatted_start_time}</td>
-                  <td data-column="Class Rating">
+                  {/* <td data-column="Class Rating">
                     {[1, 2, 3, 4, 5].map((star) => {
                       return item.feedback.feedback > 0 &&
                         star <= item.feedback.feedback ? (
@@ -205,7 +205,7 @@ function StudentClassData(props) {
                         ></span>
                       );
                     })}
-                  </td>
+                  </td> */}
                 </tr>
               );
             })
