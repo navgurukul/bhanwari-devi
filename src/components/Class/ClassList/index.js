@@ -23,13 +23,19 @@ function ClassList({ editClass, isShow }) {
   if (loading) {
     return (
       <Grid container spacing={2}>
-        {Array.from(Array(6)).map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+        {Array.from(Array(8)).map((_, index) => (
+          <Grid item xs={12} sm={6} md={3} key={index}>
             <Card sx={{ p: 4 }}>
               <Typography variant="subtitle1">
                 <Skeleton />
               </Typography>
               <Typography variant="subtitle2">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
                 <Skeleton />
               </Typography>
               <Typography variant="body1">
@@ -70,9 +76,11 @@ function ClassList({ editClass, isShow }) {
     <>
       <TextField
         size="small"
-        placeholder="Enter Class Name"
+        variant="outlined"
+        label="Enter Class Name"
+        placeholder=""
         value={filterText}
-        sx={{ margin: "12px 0 0 15px", width: "70%", borderRadius: "8px" }}
+        sx={{ margin: "12px 0 0 32px", width: "70%", borderRadius: "8px" }}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));
@@ -107,7 +115,7 @@ function ClassList({ editClass, isShow }) {
               {!filterText?.length > 0
                 ? single_classes.map((item, index) => {
                     return (
-                      <Grid item xs={12} ms={6} md={4} sx={{ mb: 10 }}>
+                      <Grid item xs={12} ms={6} md={3} sx={{ mb: 0 }}>
                         <ClassCard
                           item={item}
                           key={index}
@@ -122,7 +130,7 @@ function ClassList({ editClass, isShow }) {
                 : ""}
               {classData.map((item, index) => {
                 return (
-                  <Grid item xs={12} ms={6} md={4} sx={{ mb: 3 }}>
+                  <Grid item xs={12} ms={6} md={3} sx={{ mb: 0 }}>
                     <ClassCard
                       item={item}
                       key={index}
