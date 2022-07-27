@@ -70,7 +70,9 @@ function ClassList({ editClass, isShow }) {
     <>
       <TextField
         size="small"
-        placeholder="Enter Class Name"
+        variant="outlined"
+        label="Enter Class Name"
+        placeholder=""
         value={filterText}
         sx={{ margin: "12px 0 0 15px", width: "70%", borderRadius: "8px" }}
         onPaste={(e) => {
