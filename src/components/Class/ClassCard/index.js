@@ -346,7 +346,7 @@ function ClassCard({ item, editClass }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <Grid container spacing={2} sx={{ mt: "10px" }}>
+        <Grid container spacing={2} sx={{ mt: "10px", ml: "1px" }}>
           <CardActions>
             {item.enrolled ? (
               loading ? (
