@@ -86,7 +86,7 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const data = useSelector((state) => {
     return state;
@@ -106,7 +106,17 @@ function PathwayCourse() {
       return null;
     }
   });
+  
+  const loading = useSelector((state) => {
+    const upcomingBatchesState = state?.Pathways?.upcomingBatches;
+    const enrolledBatchesState = state?.Pathways?.enrolledBatches;
+    return (!upcomingBatchesState || !enrolledBatchesState ||
+      upcomingBatchesState.loading || enrolledBatchesState.loading) &&
+      !(upcomingBatchesData?.length > 0) && !(enrolledBatches?.length > 0);
+  });
+  
   console.log("upcomingBatchesData", upcomingBatchesData);
+  /*
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -121,6 +131,7 @@ function PathwayCourse() {
       setLoading(false);
     }
   }, [upcomingBatchesData, enrolledBatches, userEnrolledClasses]);
+  */
   const history = useHistory();
 
   useEffect(() => {
@@ -128,7 +139,7 @@ function PathwayCourse() {
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     if (user?.data?.token) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
