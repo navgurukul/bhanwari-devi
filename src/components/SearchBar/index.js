@@ -47,12 +47,12 @@ function SearchCourse() {
       pathway.data.pathways
         .map((pathway) => pathway.courses)
         .flat()
-        .map((course) => course.id)) ||
+        .map((course) => course?.id)) ||
     [];
 
   const otherCourses =
     data &&
-    data.allCourses.filter((item) => {
+    data?.allCourses?.filter((item) => {
       // if (search && item.course_type === "json") {
       if (pathwayCourseId && !pathwayCourseId.includes(item.id)) {
         return item.name.toLowerCase().includes(search.toLowerCase());
@@ -65,7 +65,7 @@ function SearchCourse() {
     pathway.data.pathways.map((pathway) => {
       return {
         ...pathway,
-        courses: pathway.courses.filter((course) => {
+        courses: pathway?.courses?.filter((course) => {
           return course.name.toLowerCase().includes(search.toLowerCase());
         }),
       };
@@ -97,7 +97,7 @@ function SearchCourse() {
           <>
             {pathwayTrack &&
               pathwayTrack.map((pathway, index) => {
-                if (pathway.courses.length == 0) {
+                if (pathway?.courses?.length == 0) {
                   if (!flag) {
                     flag = false;
                   }
@@ -109,7 +109,7 @@ function SearchCourse() {
                         {pathway.name}
                       </Typography>
                       <Grid container spacing={3} align="center">
-                        {pathway.courses.length > 0 &&
+                        {pathway?.courses?.length > 0 &&
                           pathway.courses.map((item, index) => (
                             <Grid xs={12} md={3} className={classes.courseCard}>
                               {(flag = true)}
