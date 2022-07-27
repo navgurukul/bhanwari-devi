@@ -23,13 +23,19 @@ function ClassList({ editClass, isShow }) {
   if (loading) {
     return (
       <Grid container spacing={2}>
-        {Array.from(Array(6)).map((_, index) => (
+        {Array.from(Array(8)).map((_, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
             <Card sx={{ p: 4 }}>
               <Typography variant="subtitle1">
                 <Skeleton />
               </Typography>
               <Typography variant="subtitle2">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
                 <Skeleton />
               </Typography>
               <Typography variant="body1">
