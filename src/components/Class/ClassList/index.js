@@ -107,7 +107,7 @@ function ClassList({ editClass, isShow }) {
               {!filterText?.length > 0
                 ? single_classes.map((item, index) => {
                     return (
-                      <Grid item xs={12} ms={6} md={3} sx={{ mb: 10 }}>
+                      <Grid item xs={12} ms={6} md={3} sx={{ mb: 0 }}>
                         <ClassCard
                           item={item}
                           key={index}
@@ -122,7 +122,7 @@ function ClassList({ editClass, isShow }) {
                 : ""}
               {classData.map((item, index) => {
                 return (
-                  <Grid item xs={12} ms={6} md={3} sx={{ mb: 3 }}>
+                  <Grid item xs={12} ms={6} md={3} sx={{ mb: 0 }}>
                     <ClassCard
                       item={item}
                       key={index}
