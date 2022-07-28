@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 2,
   },
   pathwayContainer: {
-    marginTop: 40,
+    marginTop: 55,
     marginBottom: 48,
   },
   mobileVideo: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   course: {
-    paddingBottom: 40,
+    paddingBottom: 16,
   },
   courseCard: {
     marginBottom: 10,
@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     width: "24px",
     height: "24px",
     borderRadius: "50%",
+  },
+  classTitle: {
+    padding: "16px",
   },
   openCourse: {
     background: "#EEF1F5",
@@ -70,6 +73,23 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "baseline",
     paddingTop: "16px",
+  },
+
+  link: {
+    color: "green",
+  },
+
+  UpcomingCard: {
+    height: "90%",
+    cursor: "pointer",
+    "&:hover": {
+      boxShadow:
+        "0px 12px 20px rgba(0, 0, 0, 0.06), 0px 12px 20px rgba(0, 0, 0, 0.04), 0px 12px 20px rgba(0, 0, 0, 0.08)",
+    },
+  },
+  cardContent: {
+    height: "60px",
+    overflow: "hidden",
   },
 }));
 

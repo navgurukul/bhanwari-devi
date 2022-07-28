@@ -13,6 +13,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
 import LaunchIcon from "@mui/icons-material/Launch";
+import Message from "../common/Message";
+import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
+// import { useContext } from "react";
+// import { useLanguageConstants, getTranslationKey } from "../../common/language";
+// import { LanguageProvider } from "../../common/context";
 
 import {
   Typography,
@@ -27,11 +32,11 @@ import {
 
 const students = {
   image: [python, typing, language, web, residential, random],
-  Learn: [
+  [LEARN_KEY]: [
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing", code: "TYPGRU", type: "internal" },
-    { title: "English", code: "SPKENG", type: "internal" },
-    { title: "JavaScript", code: "JVSCPT", type: "internal" },
+    { title: "Spoken English", code: "SPKENG", type: "internal" },
+    { title: "JavaScript", code: "JSRPIT", type: "internal" },
 
     {
       title: "Residential Programmes",
@@ -44,19 +49,29 @@ const students = {
       type: "internal",
     },
   ],
-  About: [
+  [ABOUT_KEY]: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
-    { title: "Meraki Team", path: PATHS.MERAKI_TEAM, type: "internal" },
+    { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
-  GetInvolved: [
+  [GET_INVOLVED_KEY]: [
+    // {
+    //   title: "Become a Partner",
+    //   path: PATHS.OUR_PARTNER,
+    //   type: "internal",
+    // },
+
     {
-      title: "Become a Partner",
+      title: <Message constantKey="VOLUNTEER_WITH_US" />,
+      path: PATHS.VOLUNTEER_AUTOMATION,
+      type: "internal",
+    },
+    {
+      title: "Our Partner",
       path: PATHS.OUR_PARTNER,
       type: "internal",
     },
-    // { title: "Become a Partner", path: "#", type: "internal" },
     {
-      title: "Donate",
+      title: <Message constantKey="DONATE" />,
       path: "https://www.navgurukul.org/donate",
       type: "external",
     },
@@ -68,15 +83,21 @@ const students = {
   ],
 };
 
-export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
+export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
+  // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
+  console.log("DP", data?.pathways);
+  data?.pathways &&
+    (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
+
+  /*
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
@@ -86,7 +107,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
         }
       });
     });
-
+*/
   return (
     <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
       <AccordionSummary
@@ -95,10 +116,13 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
         id="panel1a-header"
         sx={{ width: 380 }}
       >
-        <Typography variant="subtitle1">{Menu}</Typography>
+        <Typography variant="subtitle1">
+          {/*MSG[getTranslationKey(Menu)]*/}
+          <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {students[Menu.split(" ").join("")].map((menu, index) => {
+        {students[menuKey].map((menu, index) => {
           if (menu.type === "internal") {
             return (
               <Link
@@ -113,7 +137,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                 onClick={toggleDrawer && toggleDrawer(false)}
               >
                 <MenuItem key={index} onClick={handleClose}>
-                  {Menu === "Learn" && (
+                  {menuKey === LEARN_KEY && (
                     <img src={students.image[index]} alt="course logo" />
                   )}
                   <CardContent>
@@ -132,7 +156,7 @@ export const MobileDropDown = ({ Menu, handleClose, toggleDrawer }) => {
                 onClick={toggleDrawer && toggleDrawer(false)}
               >
                 <MenuItem key={index} onClick={handleClose}>
-                  {Menu === "Learn" && (
+                  {menuKey === LEARN_KEY && (
                     <img src={students.image[index]} alt="course logo" />
                   )}
                   <CardContent>
@@ -165,6 +189,7 @@ export const DropDown = ({
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
+  /*
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
@@ -174,6 +199,7 @@ export const DropDown = ({
         }
       });
     });
+*/
 
   return (
     <Menu
@@ -191,6 +217,7 @@ export const DropDown = ({
       }}
       open={Boolean(indicator)}
       onClose={handleClose}
+      MenuListProps={{ onMouseLeave: handleClose }}
     >
       {dropDown &&
         students[dropDown].map((menu, index) => {
@@ -213,22 +240,22 @@ export const DropDown = ({
                     onClick={handleClose}
                     sx={{
                       padding:
-                        dropDown === "Learn" ? "30px 6px 30px 6px" : "10px",
+                        dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px",
                       margin: "6px 16px 6px 16px",
                     }}
                   >
-                    {dropDown === "Learn" && (
+                    {dropDown === LEARN_KEY && (
                       <img src={students.image[index]} alt="course logo" />
                     )}
                     <Typography
                       textAlign="center"
-                      sx={{ paddingLeft: dropDown === "Learn" && 2 }}
+                      sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
                     >
                       {menu.title}
                     </Typography>
                   </MenuItem>
                 </Link>
-                {dropDown === "Learn" && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY && index == 4 && <Divider />}
               </>
             );
           } else {
@@ -244,11 +271,11 @@ export const DropDown = ({
                     onClick={handleClose}
                     sx={{
                       padding:
-                        dropDown === "Learn" ? "30px 6px 30px 6px" : "10px",
+                        dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px",
                       margin: "6px 16px 6px 16px",
                     }}
                   >
-                    {dropDown === "Learn" && (
+                    {dropDown === LEARN_KEY && (
                       <img src={students.image[index]} alt="course logo" />
                     )}
                     <Typography textAlign="center" sx={{ paddingRight: 1 }}>
@@ -257,7 +284,7 @@ export const DropDown = ({
                     <LaunchIcon />
                   </MenuItem>
                 </ExternalLink>
-                {dropDown === "Learn" && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY && index == 4 && <Divider />}
               </>
             );
           }

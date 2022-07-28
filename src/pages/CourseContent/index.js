@@ -3,7 +3,6 @@ import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { PATHS } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
 import get from "lodash/get";
-
 import { actions as courseActions } from "../../components/Course/redux/action";
 import GoForwardArrow from "../../components/Course/Content/GoForwardArrow";
 import Exercise from "../../components/Course/Content/Exercise";

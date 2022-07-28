@@ -2,20 +2,20 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    height: "350px",
+    height: "394px",
     display: "flex",
-    maxWidth: "300px",
+    maxWidth: "352px",
     flexDirection: "column",
     justifyContent: "space-between",
     margin: "0px 4px 0px 4px",
-    padding: "15px",
+    padding: "16px",
     "&:hover": {
       boxShadow:
         "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
     },
   },
   spacing: {
-    padding: "5px 0px",
+    padding: "12px 0",
   },
   Buttons: {
     width: "90%",
@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gridGap: "10px",
+  },
+  icons: {
+    marginRight: "15px",
+    // position: "flex-start",
   },
 }));
 

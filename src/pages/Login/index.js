@@ -9,7 +9,6 @@ import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-// ../PathwayCourse/redux/action
 import { Typography, Container, Grid, Stack, Box, Button } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
@@ -23,7 +22,6 @@ function Login(props) {
   const updateQueryString = (value) => {
     setqueryString(value);
   };
-
   const { loading, data } = useSelector(({ User }) => User);
   const rolesList = data !== null && data.user.rolesList;
   const isAuthenticated = data && data.isAuthenticated;
@@ -67,10 +65,10 @@ function Login(props) {
     volunteer: PATHS.CLASS,
     admin: PATHS.PARTNERS,
     partner: PATHS.PARTNERS,
-    default: interpolatePath(PATHS.PATHWAY_COURSE, {
-      pathwayId: pythonPathwayId,
-    }),
+    default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
   };
+
+  console.log("rolesList", rolesList);
 
   if (isAuthenticated) {
     if (queryString) {
@@ -84,13 +82,25 @@ function Login(props) {
         data: { referrer: queryString },
       }).then((res) => {});
     }
+    if (props.location.state == "/volunteer-with-us") {
+      console.log("rolesList", rolesList.includes("volunteer"));
+      if (rolesList.includes("volunteer")) {
+        return <Redirect to={PATHS.CLASS} />;
+      } else {
+        return <Redirect to={PATHS.VOLUNTEER_FORM} />;
+      }
+    }
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;
     }
     return (
-      <Redirect
-        to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
-      />
+      <>
+        {pythonPathwayId && (
+          <Redirect
+            to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
+          />
+        )}
+      </>
     );
   }
 
@@ -107,7 +117,7 @@ function Login(props) {
       <Container className={classes.merakiLogin} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
                 variant="h4"
@@ -165,7 +175,7 @@ function Login(props) {
             md={6}
             sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
           >
-            <img src={require("./assets/background.svg")} />
+            <img src={require("./assets/background.svg")} alt="img" />
           </Grid>
         </Grid>
       </Container>

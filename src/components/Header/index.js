@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +10,8 @@ import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import Tooltip from "@mui/material/Tooltip";
 import {
   AppBar,
   Box,
@@ -22,17 +24,26 @@ import {
   Typography,
 } from "@mui/material";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
+import SearchBar from "../SearchBar";
+import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Message from "../common/Message";
+import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
+// import { useContext } from "react";
+// import { useLanguageConstants, getTranslationKey } from "../../common/language";
+// import { LanguageProvider } from "../../common/context";
 
 const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
-  const [indicator, setIndicator] = React.useState(null);
-  const [dropDownMenu, setDropDownMenu] = React.useState(null);
-  const [selectedMenu, SetSelectedMenu] = React.useState(null);
+  const [indicator, setIndicator] = useState(null);
+  const [dropDownMenu, setDropDownMenu] = useState(null);
+  const [selectedMenu, SetSelectedMenu] = useState(null);
   const classes = useStyles();
+  // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
-  const menuOpenHandler = (event, menu) => {
+  const menuOpenHandler = (event, menuKey) => {
     setIndicator(event.currentTarget);
-    setDropDownMenu(menu.split(" ").join(""));
-    SetSelectedMenu(menu);
+    setDropDownMenu(menuKey);
+    SetSelectedMenu(menuKey);
   };
 
   const showLoginButton = !useRouteMatch({
@@ -46,17 +57,20 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        {["Learn", "About", "Get Involved"].map((menu, index) => (
+        {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <>
             <MenuItem
               onClick={(e) => {
-                menuOpenHandler(e, menu);
+                menuOpenHandler(e, menuKey);
               }}
               sx={{ color: "black" }}
               key={index}
             >
-              <Typography variant="subtitle1">{menu}</Typography>
-              {selectedMenu === menu && indicator ? (
+              <Typography variant="subtitle1">
+                {/*MSG[getTranslationKey(menu)]*/}
+                <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
+              </Typography>
+              {selectedMenu === menuKey && indicator ? (
                 <ExpandLessIcon />
               ) : (
                 <ExpandMoreIcon />
@@ -71,16 +85,27 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </>
         ))}
       </Box>
-      {/* <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}> */}
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
-        {["Learn", "About", "Get Involved"].map((Menu) => (
+        {PUBLIC_MENU_KEYS.map((menuKey) => (
           <MobileDropDown
-            Menu={Menu}
+            menuKey={menuKey}
             handleClose={menuCloseHandler}
             toggleDrawer={toggleDrawer}
           />
         ))}
       </Box>
+
+      {!leftDrawer && (
+        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+          <Link to={PATHS.SEARCHED_COURSE}>
+            <Tooltip title="Search the course...">
+              <Button color="dark">
+                <SearchIcon />
+              </Button>
+            </Tooltip>
+          </Link>
+        </Box>
+      )}
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -114,7 +139,11 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
         <Toolbar disableGutters>
           <Box className={classes.RightBox}>
             <Link to="/">
-              <img src={require("./asset/logo.svg")} loading="lazy" />
+              <img
+                src={require("./asset/logo.svg")}
+                loading="lazy"
+                alt="logo"
+              />
             </Link>
           </Box>
           <Box className={classes.crossIcon}>
@@ -143,7 +172,7 @@ function Header() {
   const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
-  const [leftDrawer, setLeftDrawer] = React.useState(false);
+  const [leftDrawer, setLeftDrawer] = useState(false);
   window.addEventListener("resize", () => {
     if (window.outerWidth > theme.breakpoints.values.md) {
       setLeftDrawer(false);
@@ -159,7 +188,7 @@ function Header() {
     }
     setLeftDrawer(open);
   };
-  const [elevation, setElevation] = React.useState(0);
+  const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
       setElevation(6);
@@ -175,7 +204,11 @@ function Header() {
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
-                <img src={require("./asset/menu.svg")} loading="lazy" />
+                <img
+                  src={require("./asset/menu.svg")}
+                  loading="lazy"
+                  alt="menu"
+                />
               </Box>
               <SwipeableDrawer
                 anchor="left"
@@ -191,17 +224,33 @@ function Header() {
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <Link to="/">
-                <img src={require("./asset/logo.svg")} loading="lazy" />
+                <img
+                  src={require("./asset/logo.svg")}
+                  loading="lazy"
+                  alt="logo"
+                />
+              </Link>
+            </Box>
+            <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+              <Link to={PATHS.SEARCHED_COURSE}>
+                <Tooltip title="Search the course...">
+                  <Button color="dark">
+                    <SearchIcon />
+                  </Button>
+                </Tooltip>
               </Link>
             </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
             >
               <Link to="/">
-                <img src={require("./asset/meraki.svg")} loading="lazy" />
+                <img
+                  src={require("./asset/meraki.svg")}
+                  loading="lazy"
+                  alt="meraki"
+                />
               </Link>
             </Box>
-
             {isAuthenticated ? (
               <AuthenticatedHeaderOption />
             ) : (

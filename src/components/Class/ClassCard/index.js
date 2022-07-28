@@ -1,9 +1,10 @@
-import React from "react";
-import moment from "moment";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
-
+// import { dateTimeFormat, TimeLeft } from "../../../constant";
+// import { timeLeftFormat } from "../../common/date";
+import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -11,13 +12,23 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../common/Modal";
 import Loader from "../../common/Loader";
-import { Typography, Card, Grid, Button, Box } from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditIcon from "@mui/icons-material/Edit";
+import {
+  Typography,
+  Card,
+  Grid,
+  Button,
+  Box,
+  Menu,
+  MenuItem,
+  CardActions,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ExternalLink from "../../common/ExternalLink";
+import ClassJoinTimerButton from "../ClassJoinTimerButton";
 
 toast.configure();
 
-function ClassCard({ item, editClass, enroll, style }) {
+function ClassCard({ item, editClass }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -25,11 +36,13 @@ function ClassCard({ item, editClass, enroll, style }) {
   const [showModal, setShowModal] = React.useState(false);
   const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [indicator, setIndicator] = React.useState(false);
+  const [indicator, setIndicator] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
-  const classStartTime = item.start_time && item.start_time.replace("Z", "");
-  const classEndTime = item.end_time && item.end_time.replace("Z", "");
+
+  const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
+  const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const languageMap = {
     hi: "Hindi",
@@ -37,8 +50,12 @@ function ClassCard({ item, editClass, enroll, style }) {
     en: "English",
     ta: "Tamil",
     doubt_class: "Doubt Class",
-    workshop: "Workshop",
-    cohort: "Batch",
+    // workshop: "Workshop",
+    // cohort: "Batch",
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -48,6 +65,7 @@ function ClassCard({ item, editClass, enroll, style }) {
 
   const handleEdit = () => {
     setEditShowModal(true);
+    setAnchorElUser(null);
   };
 
   const handleCloseEdit = () => {
@@ -58,6 +76,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const handleClickOpen = () => {
     setShowModal(!showModal);
     setIndicator(false);
+    setAnchorElUser(null);
   };
 
   const handleCloseEnroll = () => {
@@ -66,6 +85,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   };
   const handleClickOpenEnroll = () => {
     setEnrollShowModal(!enrollShowModal);
+    setIndicator(false);
   };
 
   const handleCloseUnenroll = () => {
@@ -75,6 +95,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   const handleClickOpenUnenroll = () => {
     setunenrollShowModal(!unenrollShowModal);
     setIndicator(false);
+    setAnchorElUser(null);
   };
 
   const rolesList = user.data.user.rolesList;
@@ -109,6 +130,7 @@ function ClassCard({ item, editClass, enroll, style }) {
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
     setLoading(true);
+    console.log("28002", Id);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -125,6 +147,7 @@ function ClassCard({ item, editClass, enroll, style }) {
     }, 10000);
     axios
       .post(
+        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
         `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
         {},
         {
@@ -135,7 +158,8 @@ function ClassCard({ item, editClass, enroll, style }) {
           },
         }
       )
-      .then(() => {
+      .then((res) => {
+        console.log("res", res);
         if (!getNotify) {
           notify();
           clearTimeout(timer);
@@ -144,10 +168,11 @@ function ClassCard({ item, editClass, enroll, style }) {
         dispatch(classActions.enrolledClass(Id));
       });
   };
+
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
+    console.log("28002", Id);
     setLoading(true);
-
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -165,13 +190,15 @@ function ClassCard({ item, editClass, enroll, style }) {
     }, 10000);
     return axios({
       method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "unregister-all": indicator,
+        // "unregister-to-all": indicator,
       },
-    }).then(() => {
+    }).then((res) => {
+      console.log("res", res);
       if (!getNotify) {
         notify();
         clearTimeout(timer);
@@ -180,60 +207,159 @@ function ClassCard({ item, editClass, enroll, style }) {
       dispatch(classActions.dropOutClass(Id));
     });
   };
+
+  console.log("indicator", indicator);
+  /*
+  const EnrolledAndTimer = () => {
+    const timeLeftOptions = {
+      precision: [3, 3, 3, 2, 2, 1],
+      cutoffNumArr: [0, 0, 0, 0, 10, 60],
+      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
+      expiredText: "joinNow",
+    };
+    const [Timer, setTimer] = useState(
+      timeLeftFormat(item.start_time, timeLeftOptions)
+    );
+    const ONE_MINUTE = 60000; //millisecs
+    setInterval(() => {
+      setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
+    }, ONE_MINUTE);
+    return (
+      <>
+        {Timer === "joinNow" ? (
+          <ExternalLink
+            style={{
+              textDecoration: "none",
+            }}
+            href={item.meet_link}
+          >
+            <Button variant="contained" fullWidth>
+              Join Now
+            </Button>
+          </ExternalLink>
+        ) : (
+          <Button disabled={true} variant="contained">
+            Starts in {Timer}
+          </Button>
+        )}
+      </>
+    );
+  };
+  */
   return (
     <>
-      {" "}
-      <Card elevation={2} sx={{ p: 4 }} className={classes.card}>
+      <Card elevation={2} sx={{ p: 4 }} className={classes.card} sx={{ mt: 5 }}>
         <Typography
           variant="subtitle1"
-          color="primary"
-          className={classes.spacing}
+          color="#6D6D6D"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
-          {languageMap[item.type]}
+          {languageMap[item.type] === "Doubt Class"
+            ? languageMap[item.type]
+            : "Batch"}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
           )}
+          {((rolesList.length === 0 && item.enrolled) ||
+            (rolesList.length >= 1 &&
+              (item.facilitator.email === user.data.user.email || flag))) && (
+            <MoreVertIcon
+              style={{ color: "#BDBDBD", cursor: "pointer" }}
+              onClick={handleOpenUserMenu}
+              sx={{ p: 0 }}
+            />
+          )}
         </Typography>
+        <Menu
+          sx={{ mt: "15px" }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={() => {
+            setAnchorElUser(null);
+          }}
+        >
+          {(item.facilitator.email === user.data.user.email || flag) && (
+            <>
+              <MenuItem
+                onClick={() => handleEdit(item.id)}
+                sx={{ width: 100, margin: "0px 10px" }}
+              >
+                <Typography textAlign="center">Edit</Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleClickOpen(item.id)}
+                sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}
+              >
+                <Typography textAlign="center">Delete</Typography>
+              </MenuItem>
+            </>
+          )}
+
+          {!rolesList.includes("volunteer") && (
+            <MenuItem
+              onClick={() => handleClickOpenUnenroll(item.id)}
+              sx={{ width: 120, margin: "0px 10px" }}
+            >
+              <Typography textAlign="center">Dropout</Typography>
+            </MenuItem>
+          )}
+        </Menu>
         <Typography variant="subtitle1" className={classes.spacing}>
           {item.title}
         </Typography>
-        <Typography className={classes.spacing}>
-          Facilitator : {item.facilitator.name}
+        <Typography variant="body1" sx={{ display: "flex" }}>
+          <img
+            className={classes.icons}
+            src={require("../assets/calendar.svg")}
+          />
+          {format(item.start_time, "dd MMM yy")}
         </Typography>
-        <Typography className={classes.spacing}>
-          Language : {languageMap[item.lang]}
+        <Typography variant="body1" sx={{ display: "flex" }}>
+          <img className={classes.icons} src={require("../assets/time.svg")} />
+          {format(classStartTime, "hh:mm aaa")} -{" "}
+          {format(classEndTime, "hh:mm aaa")}
         </Typography>
-        <Typography className={classes.spacing}>
-          Date:{moment(classStartTime).format("DD-MM-YYYY")}{" "}
+        <Typography variant="body1" sx={{ display: "flex" }}>
+          <img
+            className={classes.icons}
+            src={require("../assets/facilitator.svg")}
+          />
+          {item.facilitator.name}
         </Typography>
-        <Typography className={classes.spacing}>
-          Time:{moment(classStartTime).format("hh:mm a")} -{" "}
-          {moment(classEndTime).format("hh:mm a")}
+        <Typography variant="body1" sx={{ display: "flex" }}>
+          <img
+            className={classes.icons}
+            src={require("../assets/language.svg")}
+          />
+          {languageMap[item.lang]}
         </Typography>
-        <Grid
-          container
-          spacing={2}
-          sx={{ mt: "50px" }}
-          // style={{ display: "flex", flexDirection: "column" }}
-        >
-          <div className={classes.Buttons}>
+        <Grid container spacing={2} sx={{ mt: "10px", ml: "1px" }}>
+          <CardActions>
             {item.enrolled ? (
               loading ? (
                 <div className="loader-button">
                   <Loader />
                 </div>
               ) : (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="error"
-                  className="class-drop-out"
-                  onClick={() => {
-                    handleClickOpenUnenroll(item.id);
-                  }}
-                >
-                  Drop out
-                </Button>
+                // <h1>Poonam</h1>
+                // <EnrolledAndTimer item={item} />
+                <ClassJoinTimerButton
+                  startTime={item?.start_time}
+                  link={item?.meet_link}
+                />
               )
             ) : loading ? (
               <div className="loader-button">
@@ -247,30 +373,17 @@ function ClassCard({ item, editClass, enroll, style }) {
                   handleClickOpenEnroll(item.id);
                 }}
               >
-                {/* {enroll} */}
                 Enroll
               </Button>
             )}
-            {item.facilitator.email === user.data.user.email || flag ? (
-              // <div className="class-card-actions">
-              <div className={classes.buttonGroup2}>
-                {/* <DeleteForeverIcon onClick={() => handleClickOpen(item.id)} /> */}
-                <EditIcon
-                  onClick={() => {
-                    handleEdit(item.id);
-                  }}
-                />
-              </div>
-            ) : // </div>
-            null}
-          </div>
+          </CardActions>
         </Grid>
       </Card>
       <Box>
         {showModal ? (
           <Modal onClose={handleClickOpen} className="confirmation-massage">
             <h2>Are you sure you want to delete this class?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -280,7 +393,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                     setDeleteCohort(true);
                   }}
                 />
-                Delete all classes of this cohort?
+                Delete all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -301,7 +414,7 @@ function ClassCard({ item, editClass, enroll, style }) {
         {editShowModal ? (
           <Modal onClose={handleCloseEdit} className="confirmation-massage">
             <h2>Do you want to edit this class?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -311,7 +424,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                     setIndicator(true);
                   }}
                 />
-                Edit all classes of this cohort?
+                Edit all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -335,17 +448,18 @@ function ClassCard({ item, editClass, enroll, style }) {
             className="confirmation-massage"
           >
             <h2>Are you sure you want to enroll?</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
+                  defaultChecked={indicator}
                   align="center"
                   className="cohort-class"
                   onClick={() => {
-                    setIndicator(true);
+                    setIndicator(!indicator);
                   }}
                 />
-                Enroll all classes of this cohort?
+                Enroll all classes of this Batch?
               </label>
             )}
             <div className="wrap">
@@ -369,7 +483,7 @@ function ClassCard({ item, editClass, enroll, style }) {
             className="confirmation-massage"
           >
             <h2> Are you sure you want to drop out</h2>
-            {item.type === "cohort" && (
+            {(item.type === "cohort" || item.type === "batch") && (
               <label>
                 <input
                   type="checkbox"
@@ -379,7 +493,7 @@ function ClassCard({ item, editClass, enroll, style }) {
                     setIndicator(true);
                   }}
                 />
-                Drop all classes of this cohort?
+                Drop all classes of this Batch?
               </label>
             )}
             <div className="wrap">

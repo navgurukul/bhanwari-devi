@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   CssBaseline,
@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
@@ -174,7 +174,7 @@ function Home() {
           </Container>
 
           {/* Section 2  */}
-
+          {/* 
           <Container sx={{ mt: 4, display: { xs: "none", md: "flex" } }}>
             <Grid container justifyContent="space-between">
               <Grid container item xs={4} justifyContent="flex-start">
@@ -205,7 +205,7 @@ function Home() {
                 <img src={require("./assets/graphic.svg")} />
               </Grid>
             </Grid>
-          </Container>
+          </Container> */}
 
           {/* Section 3  */}
 
@@ -334,7 +334,7 @@ function Home() {
           <Container
             maxWidth="false"
             className={isActive ? classes.ResMerakiEntry : classes.MerakiEntry}
-            sx={{ p: 5, background: "#E9F5E9" }}
+            sx={{ p: 5, background: "#FAFAFA" }}
           >
             <Container maxWidth="md">
               <MerakiEntry

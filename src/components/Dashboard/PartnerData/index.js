@@ -25,6 +25,8 @@ function PartnerDashboard() {
   const [sort_class, setSortClass] = useState("sorter");
   const [debouncedText] = useDebounce(searchTerm, 400);
   const [message, setMessage] = useState("");
+  const [isDisabled, setDisabled] = useState(false);
+
   const user = useSelector(({ User }) => User);
   const limit = 15;
 

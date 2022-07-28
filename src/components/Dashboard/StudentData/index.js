@@ -45,7 +45,7 @@ function StudentData() {
   const [userId, setUserId] = useState();
   const [partneName, setPartneName] = useState();
   const [userName, setUserName] = useState();
-
+  const [isDisabled, setDisabled] = useState(true);
   const loginUser = user.data.user.id;
 
   const limit = 10;
@@ -230,6 +230,7 @@ function StudentData() {
   const handleChange = (value) => {
     setFilteredData(true);
     setFilterVal(value);
+    setDisabled(false);
   };
 
   const removeStudent = (id) => {
@@ -357,15 +358,20 @@ function StudentData() {
               }}
             />
           </div>
+          {/* {filterVal[1]>0? */}
           <button
+            disabled={isDisabled}
             onClick={() => {
               setFilteredData(false);
               setFilterVal([0, 0]);
+              setDisabled(true);
             }}
+            // disabled={isDisabled}
             className="filter-clear"
           >
             clear
           </button>
+          {/* :""} */}
         </div>
         <table className="student-overview-table">
           <thead>

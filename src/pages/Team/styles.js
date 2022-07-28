@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   team_fontNunito: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   team_hrline: {
     width: "160px",
-    height: "8px",
+    height: "5px",
     margin: "0",
   },
   team_conainerLeft: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     justifContent: "space-between",
     transition: "all ease-in 0.2s",
     pointerEvents: "none",
-    marginBottom: "14.375rem",
+    marginBottom: "6rem",
   },
   team_responsiveContainer: { marginTop: "5rem", padding: "0" },
   team_infoResponsiveContainer: {
@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: "none",
   },
   team_descriptionPopup: {
+    paddingTop: "16px",
     pointerEvents: "all",
     boxShadow:
       "0px 4px 5px rgba(46, 46, 46, 0.06),0px 1px 10px rgba(46, 46, 46, 0.04), 0px 2px 4px rgba(46, 46, 46, 0.08)",
@@ -85,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "none",
       opacity: "1",
       zIndex: "2",
-      boxShadow: "none",
+      // boxShadow: "none",
     },
   },
   team_cardImg: {
@@ -97,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
+    marginBottom: "16px",
   },
   team_mobileCardImg: {
     borderRadius: "50%",
@@ -107,12 +109,12 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
+    marginBottom: "16px",
   },
   team_cardTitle: {
     fontWeight: "bold",
     marginTop: "12px",
     marginBottom: "10px",
-    // marginRight: "1rem",
   },
   team_cardDescription: {
     color: "#6D6D6D",

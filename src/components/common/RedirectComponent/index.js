@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import axios from "axios";
 import { getQueryVariable } from "../../../common/utils";
-import { METHODS } from "../../../services/api";
 import { PATHS } from "../../../constant";
 import { sendToken } from "../../User/redux/api";
 

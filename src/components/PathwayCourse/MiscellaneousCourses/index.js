@@ -7,20 +7,13 @@ import { breakpoints } from "../../../theme/constant";
 
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../../constant";
-import {
-  Container,
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Container, Box, Grid, Card, Typography } from "@mui/material";
 import useStyles from "../styles";
 
 function MiscellaneousCourses() {
   const dispatch = useDispatch();
   const { data } = useSelector(({ Course }) => Course);
-  const pathway = useSelector((state) => state.Pathways);
+  const pathway = useSelector((state) => state);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -33,9 +26,9 @@ function MiscellaneousCourses() {
   }, [dispatch]);
 
   const pathwayCourseId =
-    (pathway.data &&
-      pathway.data.pathways
-        .map((pathway) => pathway.courses)
+    (pathway.Pathways.data &&
+      pathway.Pathways.data.pathways
+        .map((pathway) => pathway.courses || [])
         .flat()
         .map((course) => course.id)) ||
     [];
@@ -43,27 +36,27 @@ function MiscellaneousCourses() {
   const otherCourses =
     data &&
     data.allCourses.filter(
-      (item) =>
-        pathwayCourseId &&
-        !pathwayCourseId.includes(item.id) &&
-        item.course_type === "json"
+      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
     );
 
-  console.log("otherCourses", otherCourses);
   return (
     <React.Fragment>
       <Container className={classes.pathwayContainer} maxWidth="lg">
-        <Grid container spacing={2}>
-          <Grid xs={12} md={6}>
+        <Grid container>
+          <Grid xs={12}>
             <Card align="left" elevation={0}>
               <Typography
-                variant="h5"
+                variant="h4"
                 align={isActive ? "center" : "left"}
                 sx={{ pb: "16px" }}
               >
                 Miscellaneous Courses
               </Typography>
-              <Typography variant="body1" align={isActive ? "center" : "left"}>
+              <Typography
+                variant="body1"
+                maxWidth={"sm"}
+                align={isActive ? "center" : "left"}
+              >
                 Do you want to delve into Android, Game Development, Web Dev
                 Basics or just some fun projects? Check out these courses for a
                 sneak peak into these exciting fields.
@@ -72,15 +65,15 @@ function MiscellaneousCourses() {
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: 10 }}>
           <Typography variant="h5" align={isActive ? "center" : "left"}>
             Courses
           </Typography>
-          <Grid sx={{ mt: 2 }} container spacing={3} align="center">
+          <Grid sx={{ mt: 2 }} container spacing={2}>
+            {console.log(otherCourses)}
             {otherCourses &&
               otherCourses.map((item, index) => (
-                <Grid key={index} xs={12} sm={6} md={3}>
-                  {console.log("item.id", item.id)}
+                <Grid item key={index} xs={12} sm={6} md={3}>
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -96,15 +89,17 @@ function MiscellaneousCourses() {
                         background: "#EEF1F5",
                         m: "15px",
                         height: "190px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
                     >
                       <Typography
                         align="center"
                         variant="subtitle1"
                         sx={{
-                          p: "10px",
-                          verticalAlign: "middle",
-                          lineHeight: "170px",
+                          px: "10px",
                         }}
                       >
                         {item.name}

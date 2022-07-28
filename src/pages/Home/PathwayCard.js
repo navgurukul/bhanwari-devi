@@ -5,6 +5,7 @@ import { PATHS, interpolatePath } from "../../constant";
 import { Typography, CardMedia, CardContent, Card } from "@mui/material";
 
 function PathwayCard({ id, title, description, image, hover }) {
+  console.log(id, title);
   const classes = useStyles();
   return (
     <>
@@ -35,7 +36,7 @@ function PathwayCard({ id, title, description, image, hover }) {
             <CardContent>
               <Typography
                 gutterBottom
-                variant="h6"
+                variant="subtitle1"
                 align="center"
                 component="div"
               >
@@ -62,7 +63,7 @@ function PathwayCard({ id, title, description, image, hover }) {
           <CardContent>
             <Typography
               gutterBottom
-              variant="h6"
+              variant="subtitle1"
               align="center"
               component="div"
             >
