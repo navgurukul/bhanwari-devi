@@ -96,7 +96,7 @@ export const getUpcomingBatches = (data) => {
     classesStartingFromLastWeek.forEach(c => {
       // map old to new pathway for Python (fix, very hacky)
       const cPathwayId = c.pathway_v2 || ({"39": 1})[c.pathway_v1] || c.pathway_v1 || c.pathway_id;
-      if (c.recurring_id && !recurringIds.has(c.recurring_id) && cPathwayId === pathwayId) {
+      if (c.recurring_id && !recurringIds.has(c.recurring_id) && cPathwayId == pathwayId) {
         recurringIds.add(c.recurring_id);
         new Date(c.start_time) < new Date() && upcomingBatchClasses.push(c); 
       }
