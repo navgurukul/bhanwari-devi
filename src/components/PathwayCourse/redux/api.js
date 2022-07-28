@@ -105,7 +105,8 @@ export const getUpcomingBatches = (data) => {
     upcomingBatchClasses.map(c => classesStartingFromLastWeekRev.find(d => c.recurring_id === d.recurring_id))
       .forEach((c, index) => upcomingBatchClasses[index].end_batch_time = c.end_time);
     
-    return upcomingBatchClasses;
+    response.data = upcomingBatchClasses;
+    return response;
   });  
 };
 
