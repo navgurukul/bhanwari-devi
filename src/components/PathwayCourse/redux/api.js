@@ -75,7 +75,7 @@ export const getUpcomingBatches = (data) => {
   */
   return axios({
     method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes/all?startDate='+new Date(new Date().valueOf() - 7*24*60*60*1000).valueOf()`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/classes/all?startDate=${new Date(new Date().valueOf() - 7*24*60*60*1000).valueOf()}`,
     headers: {
       accept: "application/json",
       Authorization: authToken,
