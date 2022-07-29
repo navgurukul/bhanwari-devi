@@ -49,13 +49,13 @@ const AssessmentContent = ({
 }) => {
   const classes = useStyles();
   console.log("content", content);
-  // if (content.component === "header") {
-  //   if (triedAgain > 1 || selected_option) {
-  //     return headingVarients[content.variant](
-  //       DOMPurify.sanitize(get(content, "value"))
-  //     );
-  //   }
-  // }
+  if (content.component === "header") {
+    if (triedAgain > 1 || selected_option) {
+      return headingVarients[content.variant](
+        DOMPurify.sanitize(get(content, "value"))
+      );
+    }
+  }
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
@@ -196,8 +196,8 @@ const AssessmentContent = ({
   return "";
 };
 
-function Assessment({ data, exerciseId }) {
-  const selected_option = 2;
+function Assessment({ data, assessmentId, selected_option }) {
+  // const selected_option = 2;
   // data[3];
   // .value.attempt_status.selected_option;
   const user = useSelector(({ User }) => User);
@@ -218,7 +218,7 @@ function Assessment({ data, exerciseId }) {
         Authorization: user.data.token,
       },
       data: {
-        assessment_id: exerciseId,
+        assessment_id: assessmentId,
         status: status,
         selected_option: answer,
       },
