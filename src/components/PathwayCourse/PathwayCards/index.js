@@ -72,6 +72,7 @@ const PathwayCards = (props) => {
           style={{
             minWidth: isActive ? "290px" : "350",
             marginRight: isActive ? "500px" : "40px",
+            marginLeft: "15px",
           }}
         >
           <Box
@@ -143,8 +144,8 @@ const PathwayCards = (props) => {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Typography mb={2} mt={2} variant="h6">
+      <Container style={{ padding: "0" }} maxWidth="lg">
+        <Typography style={{ marginLeft: "15px" }} mb={2} mt={2} variant="h6">
           Upcoming Classes
         </Typography>
 
@@ -154,6 +155,7 @@ const PathwayCards = (props) => {
             display: "flex",
             maxWidth: "100%",
             overflowX: "scroll",
+            paddingBottom: "10px",
           }}
         >
           {userEnrolledClasses?.slice(0, 3).map((item) => {
