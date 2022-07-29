@@ -415,7 +415,7 @@ function ExerciseContent({ exerciseId, lang }) {
             </Box>
           )}
           {exercise && exercise.content_type === "assessment" && (
-            <Assessment data={content} exerciseId={exercise.id} />
+            <Assessment data={content} assessmentId={exercise.id} />
           )}
         </Container>
       </Container>

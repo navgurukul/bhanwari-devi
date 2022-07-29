@@ -34,6 +34,7 @@ const headingVarients = {};
 
 const AssessmentContent = ({
   content,
+  selected_option,
   answer,
   setAnswer,
   setSolution,
@@ -48,13 +49,13 @@ const AssessmentContent = ({
 }) => {
   const classes = useStyles();
   console.log("content", content);
-  if (content.component === "header") {
-    if (triedAgain > 1) {
-      return headingVarients[content.variant](
-        DOMPurify.sanitize(get(content, "value"))
-      );
-    }
-  }
+  // if (content.component === "header") {
+  //   if (triedAgain > 1 || selected_option) {
+  //     return headingVarients[content.variant](
+  //       DOMPurify.sanitize(get(content, "value"))
+  //     );
+  //   }
+  // }
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
@@ -78,7 +79,7 @@ const AssessmentContent = ({
       );
     }
     if (index === 2) {
-      if (triedAgain > 1) {
+      if (triedAgain > 1 || selected_option) {
         return (
           <Box
             sx={{
@@ -170,8 +171,9 @@ const AssessmentContent = ({
                 cursor: "pointer",
               }}
               className={
-                submit
-                  ? correct
+                submit || selected_option
+                  ? // || selected_option
+                    correct
                     ? answer === item.id && classes.correctAnswer
                     : answer === item.id && classes.inCorrectAnswer
                   : answer === item.id && classes.option
@@ -195,10 +197,13 @@ const AssessmentContent = ({
 };
 
 function Assessment({ data, exerciseId }) {
+  const selected_option = 2;
+  // data[3];
+  // .value.attempt_status.selected_option;
   const user = useSelector(({ User }) => User);
-  const [answer, setAnswer] = useState();
+  const [answer, setAnswer] = useState(selected_option || "");
   const [correct, setCorrect] = useState();
-  const [solution, setSolution] = useState();
+  const [solution, setSolution] = useState(data[2].value || "");
   const [submit, setSubmit] = useState();
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
@@ -212,11 +217,17 @@ function Assessment({ data, exerciseId }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-      data: { assessment_id: exerciseId, status: status },
+      data: {
+        assessment_id: exerciseId,
+        status: status,
+        selected_option: answer,
+      },
     }).then((res) => {
-      console.log("res", res);
+      console.log("Assessment res", res);
     });
   }, [status]);
+
+  console.log("data", data);
 
   const submitAssessment = () => {
     setSubmit(true);
@@ -233,7 +244,47 @@ function Assessment({ data, exerciseId }) {
     }
   };
 
+  useEffect(() => {
+    // useEffect(() => {
+    //   axios({
+    //     method: METHODS.GET,
+    //     url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${assessmentId}/student/result`,
+    //     headers: {
+    //       accept: "application/json",
+    //       Authorization: user.data.token,
+    //     },
+    //   }).then((res) => {
+    //     console.log("Assessment get api", res);
+    //     setselectedOption(res.data.selected_option);
+    //     setAnswer(res.data.selected_option);
+    //     if (res.data.attempt_status == "CORRECT") {
+    //       setSubmit(true);
+    //       setCorrect(true);
+    //     } else {
+    //       setCorrect(false);
+    //     }
+    //     // setCorrect(res.data.attempt_status == "CORRECT" ? true : false);
+    //   });
+    if (selected_option) {
+      if (answer == solution) {
+        setSubmit(true);
+        setCorrect(true);
+        setSubmitDisable(true);
+      } else {
+        setCorrect(false);
+        setSubmit(true);
+        setSubmitDisable(true);
+      }
+    }
+  }, []);
+
+  // if (selected_option) {
+  //   setSubmit(true);
+  console.log("selected_option", selected_option);
+  console.log("answer", answer);
   console.log("data", data);
+  //   // && data.value.attempt_status.selected_option
+  // }
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
@@ -266,7 +317,9 @@ function Assessment({ data, exerciseId }) {
       </Box>
 
       {data &&
-        submit &&
+        (submit || selected_option) &&
+        // data[3].value.attempt_status.selected_option &&
+        // submit &&
         data.map((content) => {
           const dataArr =
             content.value && correct
@@ -277,6 +330,7 @@ function Assessment({ data, exerciseId }) {
             dataArr.map((content, index) => (
               <AssessmentContent
                 content={content}
+                selected_option={selected_option}
                 index={index}
                 correct={correct}
                 setTriedAgain={setTriedAgain}
