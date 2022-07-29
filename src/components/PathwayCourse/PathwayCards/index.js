@@ -147,6 +147,7 @@ const PathwayCards = (props) => {
               />
               <Grid item>
                 <Typography
+                  // aman this style should be in the css file and refactor it
                   style={{ color: "#6D6D6D", fontSize: "13px" }}
                   variant="body2"
                 >
