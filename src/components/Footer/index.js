@@ -91,7 +91,7 @@ const MenuList = (menuItem) => {
                 <Typography
                   variant="body2"
                   color="text.primary"
-                  sx={{ pb: "5px" }}
+                  sx={{ pb: "8px" }}
                   className={classes.hover}
                 >
                   {item.title}

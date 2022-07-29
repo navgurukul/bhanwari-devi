@@ -35,7 +35,8 @@ function PathwayCard({ id, title, description, image, hover }) {
             )}
             <CardContent>
               <Typography
-                gutterBottom
+                pb={2}
+                // gutterBottom
                 variant="subtitle1"
                 align="center"
                 component="div"

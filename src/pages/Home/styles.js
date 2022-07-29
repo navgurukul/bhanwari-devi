@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "32px",
-    paddingBottom: "10px",
+    padding: "32px 32px 8px 32px",
     "&:hover": {
       boxShadow:
         "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
