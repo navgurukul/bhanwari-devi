@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // const {languageMap} = require("../../pages/CourseContent/languageMap");
 
@@ -208,7 +209,7 @@ function PathwayExercise() {
       <Select
         disableUnderline
         value={language}
-        // IconComponent={() => null}
+        IconComponent={() => <KeyboardArrowDownIcon />}
         onChange={(e) => {
           setLanguage(e.target.value);
         }}
@@ -408,7 +409,6 @@ function PathwayExercise() {
                   <CloseIcon />
                 </Link>
               </Typography>
-
               <LangDropDown />
             </div>
             <Toolbar>
