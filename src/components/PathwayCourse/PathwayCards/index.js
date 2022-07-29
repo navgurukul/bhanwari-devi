@@ -130,7 +130,7 @@ const PathwayCards = (props) => {
             <Grid container spacing={1}>
               <Grid item xs={2} md={3}>
                 <Typography
-                  style={{ color: "#6D6D6D", fontSize: "14px" }}
+                  style={{ color: "#6D6D6D", fontSize: "13px" }}
                   variant="body2"
                 >
                   {format(item.start_time, "dd MMM yy")}
@@ -147,7 +147,7 @@ const PathwayCards = (props) => {
               />
               <Grid item>
                 <Typography
-                  style={{ color: "#6D6D6D", fontSize: "14px" }}
+                  style={{ color: "#6D6D6D", fontSize: "13px" }}
                   variant="body2"
                 >
                   {language[item.lang]}
