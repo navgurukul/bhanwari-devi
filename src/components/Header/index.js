@@ -191,7 +191,7 @@ function Header() {
   const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      setElevation(6);
+      setElevation(9);
     } else {
       setElevation(0);
     }
