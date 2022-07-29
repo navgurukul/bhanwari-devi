@@ -33,22 +33,30 @@ import _ from "lodash";
 function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
   const [classFields, setClassFields] = useState({
     category_id: 3,
-    title: "",
-    partner_id: [],
-    date: moment.utc(new Date()).format("YYYY-MM-DD"),
-    on_days: [],
-    start_time: new Date("2018-01-01T00:00:00.000Z"),
-    end_time: new Date("2018-01-01T00:00:00.000Z"),
-    lang: "",
-    max_enrolment: "",
-    frequency: "WEEKLY",
-    description: "abc",
-    type: "batch",
-    pathway_id: "1",
+    title: classToEdit.title || "",
+    partner_id: classToEdit.partner_id || [],
+    date:
+      // moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD") ||
+      moment.utc(new Date()).format("YYYY-MM-DD"),
+    on_days: classToEdit.parent_class ? classToEdit.parent_class.on_days : [],
+    start_time: classToEdit.start_time || new Date("2018-01-01T00:00:00.000Z"),
+    end_time: classToEdit.end_time || new Date("2018-01-01T00:00:00.000Z"),
+    lang: classToEdit.lang || "en",
+    max_enrolment:
+      classToEdit.max_enrolment == null
+        ? "No Limit"
+        : classToEdit.max_enrolment || "10",
+    frequency: classToEdit.parent_class
+      ? classToEdit.parent_class.frequency
+      : "WEEKLY",
+    description: classToEdit.description || "abc",
+    type: classToEdit.type || "batch",
+    pathway_id: classToEdit.pathway_id || "1",
   });
   // const isEditMode = !_.isEmpty(classFields);
   // const isEditMode = false;
   const [display, setDisplay] = useState(false);
+  const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
   const [Selected_partner_id, setSelected_partner_id] = useState();
 
@@ -57,17 +65,27 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
+  // const days = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
   const capEnrollment = ["No Limit", 10, 20, 30];
   const partnerList = ["p1", "p2", "p3"];
+  const days = {
+    MO: "Mon",
+    TU: "Tue",
+    WE: "Wed",
+    TH: "Thu",
+    FR: "Fri",
+    SA: "Sat",
+    SU: "Sun",
+  };
 
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
   };
 
   console.log("classFields", classFields);
-  console.log("Selected_partner_id", Selected_partner_id);
-  console.log("isEditMode", isEditMode);
+  console.log("classToEdit", classToEdit);
+  // console.log("Selected_partner_id", Selected_partner_id);
+  // console.log("isEditMode", isEditMode);
 
   const handleDaySelection = (e) => {
     const index = classFields.on_days.indexOf(e.target.value);
@@ -94,7 +112,7 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       const partners = res.data.partners.map((item, index) => {
         return {
           label: item.name,
@@ -105,7 +123,7 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
     });
   }, []);
 
-  console.log("partnerData", partnerData);
+  // console.log("partnerData", partnerData);
 
   const convertToIST = (d) => {
     const b = d.split(/\D+/);
@@ -117,7 +135,6 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
   };
 
   const createClass = (payload) => {
-    console.log("Poonam");
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
     // setLoading(true);
@@ -200,6 +217,67 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
   };
 
   const submitHandle = () => {
+    const weekDday = Object.values(classFields.on_days);
+    console.log("weekDday", weekDday);
+    if (classFields.partner_id.length === 0) delete classFields.partner_id;
+    if (classFields.max_enrolment === "No Limit")
+      delete classFields.max_enrolment;
+    if (classFields.type === "batch") {
+      let incrementedDate = new Date(classFields.date);
+      console.log("incrementedDate", incrementedDate);
+      let onDay = incrementedDate.toString().split(" ")[0];
+      console.log("onDay", onDay);
+      let flag = false;
+      let firstDay = "";
+      for (let i in days) {
+        if (onDay === days[i]) {
+          flag = true;
+        }
+        if (flag) {
+          for (let j of weekDday) {
+            if (days[j] === days[i]) {
+              flag = false;
+              firstDay = j;
+              setMatchDay(false);
+              break;
+            } else {
+              setMatchDay(true);
+            }
+          }
+        }
+      }
+      console.log("firstDay", firstDay);
+      const index = weekDday.indexOf(firstDay);
+      console.log("index", index);
+      if (days[firstDay] !== onDay) {
+        let newDate;
+        var i = 1;
+        while (i <= 7) {
+          incrementedDate = moment(incrementedDate).add(1, "days")._d;
+          let Day = incrementedDate.toString().split(" ")[0];
+          if (days[weekDday[index]] === Day) {
+            newDate = incrementedDate;
+            break;
+          }
+          i = i + 1;
+        }
+        console.log("newDate", newDate);
+        console.log(
+          "moment.utc(newDate).format('YYYY-MM-DD')",
+          moment.utc(newDate).format("YYYY-MM-DD")
+        );
+        classFields.date = moment.utc(newDate).format("YYYY-MM-DD");
+        console.log("new classFields.date", classFields.date);
+        // formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+      } else {
+        classFields.date = classFields.date;
+        // formFields[fieldName] = value;
+      }
+    } else {
+      classFields.date = classFields.date;
+      // formFields[fieldName] = value;
+    }
+
     //taking hours and minues from the time
     classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
     classFields.end_time = `${classFields.end_time.getHours()}:${classFields.end_time.getMinutes()}`;
@@ -214,17 +292,17 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
 
     console.log("classStartTime", classStartTime);
     console.log("classEndTime", classEndTime);
-    // if (classStartTime.valueOf() >= classEndTime.valueOf()) {
-    //   // toast.error("Class end time must be later than class start time.", {
-    //   //   position: toast.POSITION.BOTTOM_RIGHT,
-    //   // });
-    //   console.log("Class end time must be later than class start time.");
-    //   // Making the class end time field focused, so user can edit it.
-    //   console.log("focus", document.getElementById(classFields.end_time));
-    //   // return document.getElementById(classFields.end_time).focus();
-    // }
+    if (classStartTime.valueOf() >= classEndTime.valueOf()) {
+      //   // toast.error("Class end time must be later than class start time.", {
+      //   //   position: toast.POSITION.BOTTOM_RIGHT,
+      //   // });
+      console.log("Class end time must be later than class start time.");
+      //   // Making the class end time field focused, so user can edit it.
+      //   console.log("focus", document.getElementById(classFields.end_time));
+      //   // return document.getElementById(classFields.end_time).focus();
+    }
 
-    if (classFields.partner_id.length === 0) delete classFields.partner_id;
+    // if (classFields.partner_id.length === 0) delete classFields.partner_id;
 
     //deleting date as we have combined with time and we don't want date separately
     delete classFields.date;
@@ -279,7 +357,11 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
           <Grid container mb={4}>
             <Grid item xs={11}>
               <Typography variant="h6" component="h2">
-                Create Batch
+                {isEditMode
+                  ? `Update ${
+                      classFields.type == "batch" ? "Batch" : "Doubt Class"
+                    }`
+                  : `Create Batch`}
               </Typography>
             </Grid>
             <Grid item xs={1} className={classes.FormCloseIcon}>
@@ -366,7 +448,7 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
             </Typography>
           </FormLabel>
           <FormGroup aria-label="position" row>
-            {days.map((item) => (
+            {Object.keys(days).map((item) => (
               <FormControlLabel
                 control={
                   <Checkbox
@@ -428,6 +510,7 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
                         value={item}
                         name="lang"
                         control={<Radio />}
+                        checked={classFields.lang.includes(item)}
                         onChange={(e) => {
                           changeHandler(e);
                         }}
@@ -451,6 +534,7 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
                     value={item}
                     name="max_enrolment"
                     control={<Radio />}
+                    // checked={classFields.max_enrolment.includes(item)}
                     label={item}
                     onChange={(e) => {
                       changeHandler(e);
@@ -461,7 +545,12 @@ function ClassForm({ isEditMode, setShowModal, classToEdit, indicator }) {
             </RadioGroup>
           </FormControl>
           <Button variant="contained" fullWidth onClick={submitHandle}>
-            Create Batch
+            {isEditMode
+              ? `Update ${
+                  classFields.type == "batch" ? "Batch" : "Doubt Class"
+                }`
+              : `Create Batch`}
+            {/* Create Batch */}
           </Button>
         </Box>
       </Stack>
