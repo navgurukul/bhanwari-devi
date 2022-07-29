@@ -51,7 +51,7 @@ function ClassForm({
     end_time: new Date().setHours(new Date().getHours() + 1),
     lang: "en",
     max_enrolment: 0,
-    frequency: "WEEKLY",
+    frequency: "DAILY",
     description: "abc",
     type: formType,
     pathway_id: 1,
@@ -59,7 +59,6 @@ function ClassForm({
     //type
     course_id: null,
     exercise_id: null,
-    description: null,
 
     //title
     //description
@@ -146,6 +145,10 @@ function ClassForm({
       setClassFields({ ...classFields, ["on_days"]: dayDeleted });
     }
   };
+
+  useEffect(() => {
+    console.log("id", classFields.partner_id);
+  }, [classFields.partner_id]);
 
   useEffect(() => {
     axios({
@@ -330,10 +333,10 @@ function ClassForm({
       "YYYY-MM-DDTHH:mm:ss"
     )}Z`;
 
-    var doubtClassFields;
+    var fieldsToSend;
 
     if (classFields.type === "doubt_class") {
-      doubtClassFields = {
+      fieldsToSend = {
         course_id: classFields.course_id,
         exercise_id: classFields.exercise_id,
         category_id: classFields.category_id,
@@ -346,12 +349,27 @@ function ClassForm({
         type: classFields.type,
         max_enrolment: classFields.max_enrolment,
       };
+    } else if (classFields.type === "batch") {
+      fieldsToSend = {
+        title: classFields.title,
+        description: classFields.description,
+        start_time: classFields.start_time,
+        end_time: classFields.end_time,
+        partner_id: classFields.partner_id,
+        category_id: classFields.category_id,
+        pathway_id: classFields.pathway_id,
+        lang: classFields.lang,
+        max_enrolment: classFields.max_enrolment,
+        frequency: classFields.frequency,
+        type: classFields.type,
+        on_days: classFields.on_days,
+      };
     }
 
     if (!isEditMode) {
-      createClass(doubtClassFields);
+      createClass(fieldsToSend);
     } else {
-      editClass(classFields);
+      editClass(fieldsToSend);
     }
 
     // if (true) {
