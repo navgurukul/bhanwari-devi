@@ -247,8 +247,13 @@ export const millisecondsUntil = (date) => {
  * @return {string} the formatted date string in the user's local time zone
  */
 export const format = (date, formatStr, options) => {
-  const dateToFormat = makeDateFrom(date);
-  return dateFnsFormat(dateToFormat, formatStr, options);
+  if (date) {
+    const dateToFormat = makeDateFrom(date);
+
+    return dateFnsFormat(dateToFormat, formatStr, options);
+  } else {
+    return "";
+  }
 };
 
 // module.exports = { timeLeftFormat, format };

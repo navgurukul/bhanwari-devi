@@ -209,7 +209,13 @@ function PathwayExercise() {
       <Select
         disableUnderline
         value={language}
-        IconComponent={() => <KeyboardArrowDownIcon />}
+        IconComponent={() => (
+          <KeyboardArrowDownIcon
+            style={{
+              marginLeft: "-20px",
+            }}
+          />
+        )}
         onChange={(e) => {
           setLanguage(e.target.value);
         }}
