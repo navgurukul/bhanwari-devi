@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import Chip from "@mui/material/Chip";
+import CircleIcon from "@mui/icons-material/Circle";
 import {
   Container,
   Box,
@@ -128,12 +129,29 @@ const PathwayCards = (props) => {
             </Stack>
             <Grid container spacing={1}>
               <Grid item xs={2} md={3}>
-                <Typography variant="body2">
+                <Typography
+                  style={{ color: "#6D6D6D", fontSize: "14px" }}
+                  variant="body2"
+                >
                   {format(item.start_time, "dd MMM yy")}
                 </Typography>
               </Grid>
+              <CircleIcon
+                style={{
+                  color: "#6D6D6D",
+                  width: "4px",
+                  height: "4px",
+                  marginTop: "16px",
+                  left: "66px",
+                }}
+              />
               <Grid item>
-                <Typography variant="body2">{language[item.lang]}</Typography>
+                <Typography
+                  style={{ color: "#6D6D6D", fontSize: "14px" }}
+                  variant="body2"
+                >
+                  {language[item.lang]}
+                </Typography>
               </Grid>
             </Grid>
           </CardContent>
