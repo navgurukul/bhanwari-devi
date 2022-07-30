@@ -38,7 +38,7 @@ function Profile() {
       // res.data.user.UserEnrolledInBatches.map((item) =>
       //   console.log(item.isEnrolled)
       // );
-  console.log(user.data);
+      console.log(user.data);
       console.log(res.data);
       setUserData(res.data.user);
       setEditName(res.data.user.name ? res.data.user.name : "");

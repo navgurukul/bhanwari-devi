@@ -19,7 +19,7 @@ function FutureOrPast({ future = "", past = "", date = new Date() }) {
     setIsInFuture(!isBeforeNow(date));
     // Don't set timer if it's too far in future:
     //     https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#maximum_delay_value
-    if (isInFuture && msUntilDate <= 2**31 - 1) {
+    if (isInFuture && msUntilDate <= 2 ** 31 - 1) {
       const timer = setTimeout(() => {
         setIsInFuture(false);
       }, msUntilDate);

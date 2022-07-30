@@ -25,7 +25,7 @@ function PrivacyPolicy() {
           and improving the service. We will not use or share your information
           with anyone except as described in this privacy policy.
         </Typography>
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           The terms used in this privacy policy have the same meanings as in our
           terms and conditions, which is accessible at Meraki unless otherwise
           defined in this privacy policy.
@@ -35,7 +35,7 @@ function PrivacyPolicy() {
         <Typography variant="subtitle1">
           Information Collection and Use
         </Typography>
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           For a better experience, while using our service, we may require you
           to provide us with certain personally identifiable information,
           including but not limited to Email Address, Name, Profile Picture
@@ -45,7 +45,7 @@ function PrivacyPolicy() {
           you. Link to privacy policy of third party service providers used by
           the app.
         </Typography>
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           The app does use third party services that may collect information
           used to identify you. Link to privacy policy of third party service
           providers used by the app.
@@ -74,7 +74,7 @@ function PrivacyPolicy() {
       </Box>
       <Box sx={{ mt: "32px" }}>
         <Typography variant="subtitle1">Cookies</Typography>
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           Cookies are files with a small amount of data that are commonly used
           as anonymous unique identifiers. These are sent to your browser from
           the websites that you visit and are stored on your devices internal
@@ -92,7 +92,7 @@ function PrivacyPolicy() {
       <Box sx={{ mt: "32px" }}>
         <Typography variant="subtitle1">Service Providers</Typography>
 
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           We may employ third-party companies and individuals due to the
           following reasons:-
           {[
@@ -107,7 +107,7 @@ function PrivacyPolicy() {
             </Box>
           ))}
         </Typography>
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           We want to inform users of this service that these third parties have
           access to your personal information. The reason is to perform the
           tasks assigned to them on our behalf. However, they are obligated not
@@ -128,7 +128,7 @@ function PrivacyPolicy() {
       <Box sx={{ mt: "32px" }}>
         <Typography variant="subtitle1">Links to Other Sites</Typography>
 
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           This service may contain links to other sites. If you click on a
           third-party link, you will be directed to that site. Note that these
           external sites are not operated by us. Therefore, we strongly advise
@@ -140,7 +140,7 @@ function PrivacyPolicy() {
       <Box sx={{ mt: "32px" }}>
         <Typography variant="subtitle1">Children’s Privacy</Typography>
 
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           These services do not address anyone under the age of 13. We do not
           knowingly collect personally identifiable information from children
           under 13 years of age. In the case we discover that a child under 13
@@ -155,7 +155,7 @@ function PrivacyPolicy() {
           Changes to this Privacy Policy
         </Typography>
 
-        <Typography variant="body1" sx={{ mt: "16px"  }}>
+        <Typography variant="body1" sx={{ mt: "16px" }}>
           We may update our privacy policy from time to time. Thus, you are
           advised to review this page periodically for any changes. We will
           notify you of any changes by posting the new privacy policy on this
