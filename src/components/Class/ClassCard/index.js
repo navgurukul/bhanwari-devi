@@ -248,7 +248,7 @@ function ClassCard({ item, editClass }) {
   */
   return (
     <>
-      <Card elevation={2} sx={{ p: 4 }} className={classes.card} sx={{ mt: 5 }}>
+      <Card elevation={2} sx={{ p: 4 }} className={classes.card} sx={{ mt: 1 }}>
         <Typography
           variant="subtitle1"
           color="#6D6D6D"

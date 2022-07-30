@@ -141,7 +141,7 @@ function ClassList({ editClass, isShow }) {
                 : ""}
               {classData.map((item, index) => {
                 return (
-                  <Grid item xs={12} ms={6} md={3} sx={{ mb: 0 }}>
+                  <Grid item xs={12} ms={6} md={3} sx={{ mb: "0px" }}>
                     <ClassCard
                       item={item}
                       key={index}
