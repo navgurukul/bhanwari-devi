@@ -49,10 +49,14 @@ function ClassForm({
       // moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD") ||
       moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class ? classToEdit.parent_class.on_days : [],
-    start_time: classToEdit.start_time || new Date("2018-01-01T00:00:00.000Z"),
-    end_time: classToEdit.end_time || new Date("2018-01-01T00:00:00.000Z"),
+    // start_time: classToEdit.start_time || new Date("2018-01-01T00:00:00.000Z"),
+    // end_time: classToEdit.end_time || new Date("2018-01-01T00:00:00.000Z"),
     // start_time: new Date(),
-    // end_time: new Date().setHours(new Date().getHours() + 1)
+    // end_time: new Date().setHours(new Date().getHours() + 1),
+    start_time: classToEdit.start_time || new Date(),
+    end_time:
+      classToEdit.end_time ||
+      new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
     lang: classToEdit.lang || "en",
     max_enrolment:
       classToEdit.max_enrolment == null
@@ -204,6 +208,7 @@ function ClassForm({
         console.log("res", res);
         // setShowModal(false);
         // setOpenSuccessfullModal(true)
+        //Call Successfull create class modal here.
       },
       (error) => {
         console.log("error", error);
