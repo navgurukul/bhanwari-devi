@@ -248,7 +248,7 @@ function ClassCard({ item, editClass }) {
   */
   return (
     <>
-      <Card elevation={2} sx={{ p: 4 }} className={classes.card} sx={{ mt: 1 }}>
+      <Card elevation={2} className={classes.card} sx={{ mt: 1 }}>
         <Typography
           variant="subtitle1"
           color="#6D6D6D"
@@ -317,8 +317,12 @@ function ClassCard({ item, editClass }) {
             </MenuItem>
           )}
         </Menu>
-        <Typography variant="subtitle1" className={classes.spacing}>
-          {item.title}
+        <Typography variant="subtitle1">{item.title}</Typography>
+        <Typography
+          sx={{ fontSize: "18px", fontWeight: "400" }}
+          variant="subtitle2"
+        >
+          {item.sub_title}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
