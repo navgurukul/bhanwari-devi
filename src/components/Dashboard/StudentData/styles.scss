@@ -78,22 +78,27 @@ tr:hover {
   display: flex;
 }
 
-.last-item {
-  display: flex;
-}
-
-.student-count {
-  flex: 1;
-  margin-top: 20px;
-}
-
 .slider {
   width: 1120px;
   margin-left: 50px;
   margin-bottom: 40px;
 }
 
-.filter-clear {
+.filter-clear:enabled {
+  background: green;
+  margin-left: 20px;
+  width: 100px;
+  height: 30px;
+  border-radius: 15px;
+  border-color: #83b344;
+  color: #83b344;
+  font-size: 17px;
+  font-weight: "bold";
+  outline: #83b344;
+  cursor: pointer;
+  color: white;
+}
+.filter-clear:disabled {
   background: white;
   margin-left: 20px;
   width: 100px;
@@ -104,7 +109,6 @@ tr:hover {
   font-size: 17px;
   font-weight: "bold";
   outline: #83b344;
-  // border: none;
   cursor: pointer;
 }
 
@@ -115,7 +119,7 @@ tr:hover {
 .partner-name {
   font-style: normal;
   font-family: Rubik;
-  font-weight: 400;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 768px) {

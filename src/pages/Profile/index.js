@@ -5,17 +5,26 @@ import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, TextField, Typography, Button, Box } from "@mui/material";
+import {
+  Avatar,
+  TextField,
+  Typography,
+  Button,
+  Container,
+} from "@mui/material";
+import { Box, fontSize } from "@mui/system";
+import useStyles from "./styles";
+import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 
 function Profile() {
+  const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
-
+  const [LoadBatches, setLoadBatches] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -25,6 +34,12 @@ function Profile() {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      // get values of
+      // res.data.user.UserEnrolledInBatches.map((item) =>
+      //   console.log(item.isEnrolled)
+      // );
+      console.log(user.data);
+      console.log(res.data);
       setUserData(res.data.user);
       setEditName(res.data.user.name ? res.data.user.name : "");
     });
@@ -58,46 +73,17 @@ function Profile() {
     });
   };
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100%",
-        marginTop: "4rem",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: isActive ? "column" : "row",
-        }}
-      >
-        <div
-          item
-          xs={12}
-          md={6}
-          align={isActive ? "center" : "right"}
-          sx={{ pr: "16px" }}
-        >
+    <>
+      {/* <div className={classes.imageContainer}>
+        <img className={classes.bgImage} src={require("./assest/bg.png")} />
+      </div> */}
+      <Container maxWidth="lg">
+        <div item xs={12} md={6} className={classes.profileBox} align="center">
           <Avatar
             alt="Remy Sharp"
             src={userData.profile_picture}
-            sx={{ width: 100, height: 100 }}
+            sx={{ height: 100, width: 100 }}
           />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            // justifyContent: "center",
-            marginLeft: 20,
-          }}
-        >
           {isEditing ? (
             <TextField
               id="standard-basic"
@@ -111,7 +97,7 @@ function Profile() {
           ) : msg ? (
             <Typography>Please wait...</Typography>
           ) : (
-            <Typography variant={isActive ? "subtitle1" : "h5"}>
+            <Typography variant={isActive ? "subtitle1" : "h6"}>
               {userData.name}
               {isActive && !isEditing && (
                 <Button onClick={() => setIsEditing(true)}>
@@ -120,27 +106,20 @@ function Profile() {
               )}
             </Typography>
           )}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "start",
-            }}
-          >
-            <Typography>{userData.email}</Typography>
-            {isEditing ? (
-              <Button pt={1} onClick={editProfile}>
-                Save Profile
-              </Button>
-            ) : (
-              <Button pt={1} onClick={() => setIsEditing(true)}>
-                {!isActive && "Edit Profile"}
-              </Button>
-            )}
-          </Box>
+          <Typography align="center">{userData.email}</Typography>
+          {isEditing ? (
+            <Button pt={1} onClick={editProfile}>
+              Save Profile
+            </Button>
+          ) : (
+            <Button pt={1} onClick={() => setIsEditing(true)}>
+              {!isActive && "Edit Profile"}
+            </Button>
+          )}
         </div>
-      </div>
-    </div>
+        <DropOutBatchesProfile />
+      </Container>
+    </>
   );
 }
 export default Profile;

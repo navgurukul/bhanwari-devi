@@ -65,9 +65,7 @@ function Login(props) {
     volunteer: PATHS.CLASS,
     admin: PATHS.PARTNERS,
     partner: PATHS.PARTNERS,
-    default: interpolatePath(PATHS.PATHWAY_COURSE, {
-      pathwayId: pythonPathwayId,
-    }),
+    default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
   };
 
   console.log("rolesList", rolesList);
@@ -84,7 +82,7 @@ function Login(props) {
         data: { referrer: queryString },
       }).then((res) => {});
     }
-    if (props.location.state === "/volunteer-flow") {
+    if (props.location.state == "/volunteer-with-us") {
       console.log("rolesList", rolesList.includes("volunteer"));
       if (rolesList.includes("volunteer")) {
         return <Redirect to={PATHS.CLASS} />;
@@ -119,7 +117,7 @@ function Login(props) {
       <Container className={classes.merakiLogin} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
                 variant="h4"

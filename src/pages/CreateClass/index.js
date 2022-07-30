@@ -133,7 +133,7 @@ function ToggleClassFormModal() {
   }, [calledOnce]);
 
   return (
-    <Container maxWidth="xl" sx={{ mt: "40px" }}>
+    <Container maxWidth="xl" sx={{ mt: "40px", width: "100%" }}>
       {canSpecifyFacilitator && (
         <span>
           <Button
