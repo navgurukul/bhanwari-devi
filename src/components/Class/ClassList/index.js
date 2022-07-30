@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
 import { actions as classActions } from "../redux/action";
 import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
@@ -77,10 +79,19 @@ function ClassList({ editClass, isShow }) {
       <TextField
         size="small"
         variant="outlined"
-        label="Enter Class Name"
+        label="Search for classes"
         placeholder=""
         value={filterText}
         sx={{ margin: "12px 0 0 32px", width: "80%", borderRadius: "8px" }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment>
+              <IconButton>
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
         onPaste={(e) => {
           e.preventDefault();
           setFilterText(e.clipboardData.getData("text"));
