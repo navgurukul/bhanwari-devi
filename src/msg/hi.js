@@ -1,0 +1,28 @@
+const hi = {};
+hi.LEARN = "सीखें";
+hi.ABOUT = "के बारे में";
+hi.GET_INVOLVED = "उलझना";
+hi.OUR_STORY = "हमारी कहानी";
+hi.DASHBOARD = "डैशबोर्ड";
+hi.SWITCH_VIEWS = "दृष्टिकोण स्विच करें";
+hi.SWITCH_TO_VIEW = "%1 के दृष्टिकोण पर स्विच करें";
+hi.STUDENT = "छात्र";
+hi.VOLUNTEER = "स्वयंसेवक";
+hi.ADMIN = "एडमिन";
+hi.PARTNER = "साथी";
+hi.STUDENTS = "छात्र";
+hi.VOLUNTEERS = "स्वयंसेवक";
+hi.PARTNERS = "साथी";
+hi.DONATE = "दान करें";
+hi.VOLUNTEER_WITH_US = "हमारे साथ स्वयंसेवक करें";
+hi.MERAKI_TEAM = "मेराकी टीम";
+hi.MENTOR = "गुरु"; // "पथप्रदर्शक";
+hi.NAVGURUKUL_ADMISSION = "नवगुरुकुल प्रवेश";
+hi.OPPORTUNITIES = "अवसर";
+hi.CLASSES = "कक्षाएं";
+hi.SEARCH_FOR_COURSES = "पाठ्यक्रमों के लिए खोजें...";
+hi.CAREERS = "करियर";
+hi.PROFILE = "प्रोफ़ाइल";
+hi.LOGOUT = "लॉगआउट";
+
+export default hi;

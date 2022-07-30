@@ -151,9 +151,11 @@ function VolunteerDashboard() {
         searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     const slicedData = data.slice(pageNumber * limit, (pageNumber + 1) * limit);
-    // setVolunteer(data);
+    // setVolunteer(data)
     setSlicedVolunteer(slicedData);
   }, [debouncedText, pageNumber]);
+
+  console.log("Testing");
 
   return (
     <>

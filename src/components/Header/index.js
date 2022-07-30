@@ -24,17 +24,26 @@ import {
   Typography,
 } from "@mui/material";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
+import SearchBar from "../SearchBar";
+import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Message from "../common/Message";
+import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
+// import { useContext } from "react";
+// import { useLanguageConstants, getTranslationKey } from "../../common/language";
+// import { LanguageProvider } from "../../common/context";
 
 const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
   const classes = useStyles();
+  // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
-  const menuOpenHandler = (event, menu) => {
+  const menuOpenHandler = (event, menuKey) => {
     setIndicator(event.currentTarget);
-    setDropDownMenu(menu.split(" ").join(""));
-    SetSelectedMenu(menu);
+    setDropDownMenu(menuKey);
+    SetSelectedMenu(menuKey);
   };
 
   const showLoginButton = !useRouteMatch({
@@ -48,17 +57,20 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        {["Learn", "About", "Get Involved"].map((menu, index) => (
+        {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <>
             <MenuItem
               onClick={(e) => {
-                menuOpenHandler(e, menu);
+                menuOpenHandler(e, menuKey);
               }}
               sx={{ color: "black" }}
               key={index}
             >
-              <Typography variant="subtitle1">{menu}</Typography>
-              {selectedMenu === menu && indicator ? (
+              <Typography variant="subtitle1">
+                {/*MSG[getTranslationKey(menu)]*/}
+                <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
+              </Typography>
+              {selectedMenu === menuKey && indicator ? (
                 <ExpandLessIcon />
               ) : (
                 <ExpandMoreIcon />
@@ -74,9 +86,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         ))}
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
-        {["Learn", "About", "Get Involved"].map((Menu) => (
+        {PUBLIC_MENU_KEYS.map((menuKey) => (
           <MobileDropDown
-            Menu={Menu}
+            menuKey={menuKey}
             handleClose={menuCloseHandler}
             toggleDrawer={toggleDrawer}
           />
@@ -179,7 +191,7 @@ function Header() {
   const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      setElevation(6);
+      setElevation(9);
     } else {
       setElevation(0);
     }

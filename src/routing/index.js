@@ -6,10 +6,11 @@ import Home from "../pages/Home";
 import { PATHS } from "../constant";
 import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
-import Course from "../pages/Course";
+// import Course from "../pages/Course";
 import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
+
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import PartnerData from "../components/Dashboard/PartnerData";
 import StudentData from "../components/Dashboard/StudentData";
@@ -24,15 +25,15 @@ import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
 import StatePartnerDashboard from "../pages/StatePartnerDashboard";
 import OurStory from "../pages/OurStory";
+import NewUserDashbord from "../components/NewUserDashbord";
 import Team from "../pages/Team";
 import Partner from "../pages/OurPartner";
-
-// import { ThemeProvider } from "@mui/material/styles";
-import PathwayExercise from "../components/PathwayExercise";
+import PathwayExercise from "../components/PathwayExercise/";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
 import SearchCourse from "../components/SearchBar";
+import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
@@ -44,7 +45,7 @@ const Routing = () => {
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
-      <Route exact path={PATHS.COURSE} component={Course} />
+      {/* <Route exact path={PATHS.COURSE} component={Course} /> */}
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       {/* <Route exact path={PATHS.CLASS_FORM} component={ClassFormModel} /> */}
       <Route
@@ -58,7 +59,10 @@ const Routing = () => {
         component={ResidentialCourse}
       />
       <Route path={PATHS.COURSE_CONTENT} component={CourseContent} />
-      <Route path={PATHS.PATHWAY_COURSE_CONTENT} component={PathwayExercise} />
+      <PrivateRoute
+        path={PATHS.PATHWAY_COURSE_CONTENT}
+        component={PathwayExercise}
+      />
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
@@ -67,6 +71,23 @@ const Routing = () => {
 
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
+      <PrivateRoute
+        exact
+        path={PATHS.NEW_USER_DASHBOARD}
+        component={NewUserDashbord}
+      />
+      {/* <Route
+        exact
+        path={PATHS.PYTHON_COURSE}
+        component={PythonCourse}
+      /> */}
+
+      <Route
+        exact
+        path={PATHS.RETURNING_USER_PAGE}
+        component={ReturningUserPage}
+      />
+
       <Route
         exact
         path={PATHS.NAVGURUKUL_INTRODUCE}

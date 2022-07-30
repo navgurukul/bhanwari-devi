@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     justifContent: "space-between",
     transition: "all ease-in 0.2s",
     pointerEvents: "none",
-    marginBottom: "14.375rem",
+    marginBottom: "6rem",
   },
   team_responsiveContainer: { marginTop: "5rem", padding: "0" },
   team_infoResponsiveContainer: {
@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
+    marginBottom: "16px",
   },
   team_mobileCardImg: {
     borderRadius: "50%",
@@ -108,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
+    marginBottom: "16px",
   },
   team_cardTitle: {
     fontWeight: "bold",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
 import axios from "axios";
 import get from "lodash/get";
@@ -8,6 +8,10 @@ import DOMPurify from "dompurify";
 import { useParams } from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
+// import { actions as courseActions } from "../../../components/Course/redux/action";
+import { actions as enrolledBatchesActions } from "../../PathwayCourse/redux/action";
+
+import Assessment from "../ExerciseContent/Assessment";
 import {
   TableRow,
   TableHead,
@@ -26,9 +30,16 @@ import {
 import { versionCode } from "../../../constant";
 
 import useStyles from "../styles";
-
+import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
+import CourseEnroll from "../../BatchClassComponents/EnrollInCourse/EnrollInCourse";
+import DoubtClassExerciseComponent from "../../BatchClassComponents/DoubtClassExerciseComponent";
+import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
+import { actions as upcomingBatchesActions } from "../..//PathwayCourse/redux/action";
+import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
+import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
-
+import languageMap from "../../../pages/CourseContent/languageMap";
+import ExerciseContentLoading from "./ExerciseContentLoading";
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
@@ -46,20 +57,62 @@ const createVisulizeURL = (code, lang, mode) => {
   return url;
 };
 
+function UnsafeHTML(props) {
+  const { html, Container, ...otherProps } = props;
+  const sanitizedHTML = DOMPurify.sanitize(html);
+  return (
+    <Container
+      {...otherProps}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
+}
+
 const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
     (headingVarients[index + 1] = (data) => (
-      <Name
+      <UnsafeHTML
+        Container={Name}
         className="heading"
-        dangerouslySetInnerHTML={{ __html: data }}
+        html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
+      // <Name
+      //   className="heading"
+      //   dangerouslySetInnerHTML={{ __html: data }}
+      //   {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+      // />
     ))
 );
+const RenderDoubtClass = ({ data, exercise }) => {
+  const classes = useStyles();
+  if (data?.component === "banner") {
+    const value = data.value;
+    const actions = JSON.parse(data.actions[0].data);
+    const { start_time, end_time } = actions;
+    return (
+      <div>
+        {start_time && end_time && (
+          <>
+            <DoubtClassExerciseComponent value={value} actions={actions} />
 
-const RenderContent = ({ data }) => {
+            <div
+              style={{
+                borderBottom: "1px solid #BDBDBD",
+                margin: "40px 0px",
+              }}
+            ></div>
+          </>
+        )}
+      </div>
+    );
+  }
+  return null;
+};
+
+const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   if (data.component === "header") {
     return headingVarients[data.variant](
@@ -186,7 +239,7 @@ const RenderContent = ({ data }) => {
               __html: codeContent,
             }}
           />
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="flex-end" mt={2}>
             <Button
               variant="contained"
               color="dark"
@@ -221,31 +274,155 @@ function ExerciseContent({ exerciseId, lang }) {
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
+  const pathwayId = params.pathwayId;
+  const [showJoinClass, setShowJoinClass] = useState(true);
+  const [courseData, setCourseData] = useState({ content_type: null });
+  const [cashedData, setCashedData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (cashedData?.length > 0) {
+      setLoading(false);
+    }
+  }, [cashedData]);
+  // const upcomingBatchesData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
+
+  // const userEnrolledClasses = useSelector((state) => {
+  //   return state.Pathways?.upcomingEnrolledClasses?.data;
+  // });
+
+  const reloadContent = () => {
+    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
+      setCourse(res.data.course.name);
+      setExercise(res.data.course.exercises[exerciseId]);
+      setContent(res.data.course.exercises[exerciseId]?.content);
+      setCourseData(res.data.course.exercises[exerciseId]);
+      setCashedData(res.data.course.exercises);
+    });
+  };
 
   useEffect(() => {
-    getCourseContent({ courseId, lang, versionCode }).then((res) => {
+    getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
       setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId]?.name);
-      setContent(res.data.course.exercises[exerciseId]?.content);
+      setExercise(res.data.course.exercises[params.exerciseId]);
+      setContent(res.data.course.exercises[params.exerciseId]?.content);
+      setCourseData(res.data.course.exercises[params.exerciseId]);
+      setCashedData(res.data.course.exercises);
     });
-  }, [courseId, exerciseId, lang]);
+  }, [courseId, lang]);
+  useEffect(() => {
+    setExercise(cashedData?.[params.exerciseId]);
+    setContent(cashedData?.[params.exerciseId]?.content);
+    setCourseData(cashedData?.[params.exerciseId]);
+  }, [params.exerciseId]);
 
-  return (
-    <Container maxWidth="sm">
-      <Box sx={{ m: "32px 0px" }}>
-        <Typography variant="h5">{course}</Typography>
-        <Typography variant="h6" sx={{ mt: "16px" }}>
-          {exercise && exercise}
-        </Typography>
-        <Box sx={{ mt: 5, mb: 8 }}>
+  const enrolledBatches = useSelector((state) => {
+    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
+      return state?.Pathways?.enrolledBatches?.data;
+    } else {
+      return null;
+    }
+  });
+  useEffect(() => {
+    // getupcomingEnrolledClasses
+    if (user?.data?.token) {
+      dispatch(
+        enrolledBatchesActions.getEnrolledBatches({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+      dispatch(
+        upcomingBatchesActions.getUpcomingBatches({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+      // dispatch(
+      //   upcomingClassActions.getupcomingEnrolledClasses({
+      //     pathwayId: pathwayId,
+      //     authToken: user?.data?.token,
+      //   })
+      // );
+    }
+  }, [params.pathwayId]);
+
+  function ExerciseContentMain() {
+    return (
+      <Container maxWidth="lg">
+        <Grid container justifyContent={"center"}>
+          <Grid xs={0} item>
+            <Box sx={{ m: "32px 0px" }}>
+              <Box>
+                {courseData?.content_type == "class_topic" &&
+                  enrolledBatches && <ClassTopic courseData={courseData} />}
+              </Box>
+            </Box>
+          </Grid>
+          <Grid
+            style={{
+              display: showJoinClass ? "block" : "none",
+            }}
+            item
+          >
+            {courseData?.content_type == "class_topic" && (
+              <>
+                {enrolledBatches ? (
+                  <ExerciseBatchClass
+                    id={courseData.id}
+                    facilitator={courseData.facilitator.name}
+                    start_time={courseData.start_time}
+                    end_time={courseData.end_batch_time}
+                    is_enrolled={courseData.is_enrolled}
+                    meet_link={courseData.meet_link}
+                  />
+                ) : (
+                  <CourseEnroll reloadContent={reloadContent} />
+                )}
+              </>
+            )}
+          </Grid>
+        </Grid>
+        <Container maxWidth="sm">
           {content &&
             content.map((contentItem, index) => (
-              <RenderContent data={contentItem} key={index} classes={classes} />
+              <RenderDoubtClass
+                data={contentItem}
+                exercise={exercise}
+                key={index}
+                classes={classes}
+              />
             ))}
-        </Box>
-      </Box>
-    </Container>
-  );
+
+          {exercise && exercise.content_type === "exercise" && (
+            <Box sx={{ m: "32px 0px" }}>
+              {/* <Typography variant="h5">{course}</Typography> */}
+              <Typography variant="h6" sx={{ mt: "16px" }}>
+                {exercise && exercise.name}
+              </Typography>
+              <Box sx={{ mt: 5, mb: 8 }}>
+                {content &&
+                  content.map((contentItem, index) => (
+                    <RenderContent
+                      data={contentItem}
+                      key={index}
+                      classes={classes}
+                    />
+                  ))}
+              </Box>
+            </Box>
+          )}
+          {exercise && exercise.content_type === "assessment" && (
+            <Assessment data={content} exerciseId={exercise.id} />
+          )}
+        </Container>
+      </Container>
+    );
+  }
+
+  return <>{!loading ? <ExerciseContentMain /> : <ExerciseContentLoading />}</>;
 }
 
 export default ExerciseContent;
