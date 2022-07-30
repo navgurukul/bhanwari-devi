@@ -1,21 +1,5 @@
 import React from "react";
-import {
-  Typography,
-  Grid,
-  Button,
-  Box,
-  Stack,
-  Autocomplete,
-  Checkbox,
-  FormGroup,
-  Radio,
-  RadioGroup,
-  TextField,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Container,
-} from "@mui/material";
+import { Typography, Box, Stack } from "@mui/material";
 import useStyles from "./styles";
 
 function SuccessModel() {
