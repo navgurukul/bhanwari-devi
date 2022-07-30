@@ -33,6 +33,7 @@ import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import moment from "moment";
 import _ from "lodash";
+import SuccessModel from "./SuccessModel";
 
 function ClassForm({
   isEditMode,
@@ -41,13 +42,14 @@ function ClassForm({
   indicator,
   formType,
 }) {
+  const user = useSelector(({ User }) => User);
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit.title || "",
     partner_id: classToEdit.partner_id || [],
-    date:
-      // moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD") ||
-      moment.utc(new Date()).format("YYYY-MM-DD"),
+    date: classToEdit.start_time
+      ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
+      : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class.on_days.split(",")
       : [],
@@ -75,9 +77,17 @@ function ClassForm({
     frequency: classToEdit.parent_class
       ? classToEdit.parent_class.frequency
       : "WEEKLY",
-    description: classToEdit.description || "abc",
+    description: classToEdit.description
+      ? classToEdit.description
+      : formType === "batch"
+      ? "abc"
+      : "",
     type: classToEdit.type || formType,
-    pathway_id: classToEdit.pathway_id || "1",
+    pathway_id:
+      classToEdit.pathway_id ||
+      classToEdit.pathway_v2 ||
+      user.data.user.pathway_id ||
+      "1",
   });
 
   // const isEditMode = !_.isEmpty(classFields);
@@ -92,9 +102,9 @@ function ClassForm({
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // const [openModal, setOpenModal] = useState(false);
-  const user = useSelector(({ User }) => User);
 
   //getting pathway courses
   const dispatch = useDispatch();
@@ -219,6 +229,14 @@ function ClassForm({
         // setShowModal(false);
         // setOpenSuccessfullModal(true)
         //Call Successfull create class modal here.
+
+        if (res.status === 200) {
+          setShowSuccessModal(true);
+          setTimeout(() => {
+            setShowSuccessModal(false);
+            setShowModal(false);
+          }, 2000);
+        }
       },
       (error) => {
         console.log("error", error);
@@ -299,8 +317,11 @@ function ClassForm({
     const weekDday = Object.values(classFields.on_days);
     console.log("weekDday", weekDday);
     if (classFields.partner_id.length === 0) delete classFields.partner_id;
-    if (classFields.max_enrolment === "No Limit")
-      delete classFields.max_enrolment;
+    // var max_enrolment;
+    // if (classFields.max_enrolment === "No Limit") {
+    //   setClassFields({ ...classFields, max_enrolment: null });
+    // }
+
     if (classFields.type === "batch") {
       let incrementedDate = new Date(classFields.date);
       console.log("incrementedDate", incrementedDate);
@@ -408,7 +429,6 @@ function ClassForm({
         end_time: classFields.end_time,
         lang: classFields.lang,
         type: classFields.type,
-        max_enrolment: classFields.max_enrolment,
       };
     } else if (classFields.type === "batch") {
       fieldsToSend = {
@@ -420,7 +440,6 @@ function ClassForm({
         category_id: classFields.category_id,
         pathway_id: classFields.pathway_id,
         lang: classFields.lang,
-        max_enrolment: classFields.max_enrolment,
         frequency: classFields.frequency,
         type: classFields.type,
         on_days: classFields.on_days,
@@ -428,8 +447,16 @@ function ClassForm({
     }
 
     if (!isEditMode) {
+      if (classFields.max_enrolment != "No Limit") {
+        //add max_enrolment field only if it is not No Limit
+        fieldsToSend.max_enrolment = classFields.max_enrolment;
+      }
       createClass(fieldsToSend);
     } else {
+      if (classFields.max_enrolment != "No Limit") {
+        //add max_enrolment field only if it is not No Limit
+        fieldsToSend.max_enrolment = classFields.max_enrolment;
+      }
       editClass(fieldsToSend);
     }
 
@@ -449,388 +476,395 @@ function ClassForm({
 
   return (
     <>
-      <Stack alignItems="center">
-        <Box
-          className={classes.ModelBox}
-          sx={{
-            width: { xs: 330, md: 500 },
-            bgcolor: "background.paper",
-          }}
-        >
-          <Grid container mb={4}>
-            <Grid item xs={11}>
-              <Typography variant="h6" component="h2">
-                {isEditMode
-                  ? `Update ${
-                      classFields.type == "batch" ? "Batch" : "Doubt Class"
-                    }`
-                  : `Create ${
-                      classFields.type == "batch" ? "Batch" : "Doubt Class"
-                    }`}
-              </Typography>
+      {showSuccessModal ? (
+        <SuccessModel />
+      ) : (
+        <Stack alignItems="center">
+          <Box
+            className={classes.ModelBox}
+            sx={{
+              width: { xs: 330, md: 500 },
+              bgcolor: "background.paper",
+            }}
+          >
+            <Grid container mb={4}>
+              <Grid item xs={11}>
+                <Typography variant="h6" component="h2">
+                  {isEditMode
+                    ? `Update ${
+                        classFields.type == "batch" ? "Batch" : "Doubt Class"
+                      }`
+                    : `Create ${
+                        classFields.type == "batch" ? "Batch" : "Doubt Class"
+                      }`}
+                </Typography>
+              </Grid>
+              <Grid item xs={1} className={classes.FormCloseIcon}>
+                <CloseIcon
+                  color="text.secondary"
+                  open
+                  onClick={() => {
+                    setShowModal(false);
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={1} className={classes.FormCloseIcon}>
-              <CloseIcon
-                color="text.secondary"
-                open
-                onClick={() => {
-                  setShowModal(false);
-                }}
-              />
-            </Grid>
-          </Grid>
-          {/* <Grid>
-            <Grid item xs={1} className={classes.FormCloseIcon}>
-              <CloseIcon
-                color="text.secondary"
-                open
-                onClick={() => {
-                  setShowModal(false);
-                }}
-              />
-            </Grid>
-          </Grid> */}
-          {classFields.type !== "batch" && (
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Courses</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Courses"
-                value={selectedCourseLabel?.label}
-                onChange={(e) => {
-                  onCourseChange(e.target.value);
-                }}
-              >
-                {courses.map((course) => {
-                  return (
-                    <MenuItem key={course.value} value={course.value}>
-                      {course.label}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          )}
-          {classFields.type !== "batch" && (
-            <FormControl
-              fullWidth
-              sx={{
-                mt: 3,
+            {/* <Grid>
+          <Grid item xs={1} className={classes.FormCloseIcon}>
+            <CloseIcon
+              color="text.secondary"
+              open
+              onClick={() => {
+                setShowModal(false);
               }}
-              //   onFocus={handleFocus}
-              //   error={display && classFields.title === ""}
-              //   // error={ classFields.title === ""}
-              //   helperText={
-              //     display && (classFields.title === "" ? "Add some data" : " ")
-              //   }
-              // />
-            >
-              <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Courses"
-                disabled={exercisesForSelectedCourse.length === 0}
-                value={selectedExerciseLabel?.label}
-                onChange={(e) => {
-                  onExerciseChange(e.target.value);
-                }}
-              >
-                {exercisesForSelectedCourse &&
-                  exercisesForSelectedCourse.map((exercise) => {
+            />
+          </Grid>
+        </Grid> */}
+            {classFields.type !== "batch" && (
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Courses</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Courses"
+                  value={selectedCourseLabel?.label}
+                  onChange={(e) => {
+                    onCourseChange(e.target.value);
+                  }}
+                >
+                  {courses.map((course) => {
                     return (
-                      <MenuItem key={exercise.id} value={exercise.id}>
-                        {exercise.name}
+                      <MenuItem key={course.value} value={course.value}>
+                        {course.label}
                       </MenuItem>
                     );
                   })}
-              </Select>
-            </FormControl>
-          )}
-          <TextField
-            sx={{ mt: 3 }}
-            fullWidth
-            label={`${
-              classFields.type === "batch" ? "Batch Name" : "Class Title"
-            }`}
-            name="title"
-            value={classFields.title}
-            onChange={(e) => {
-              changeHandler(e);
-            }}
-          />
-
-          {classFields.type === "batch" && (
-            <Typography variant="body2" color="text.secondary" mb={3} mt={3}>
-              We will automatically create 28 classes for a Python batch with
-              titles and descriptions
-            </Typography>
-          )}
-          {classFields.type === "batch" && (
-            <Stack>
-              <Autocomplete
-                multiple
-                // value={classFields.partner_id}
-                name="partner_id"
-                options={partnerData}
-                isOptionEqualToValue={(option, value) => {
-                  return option.id === value.id;
+                </Select>
+              </FormControl>
+            )}
+            {classFields.type !== "batch" && (
+              <FormControl
+                fullWidth
+                sx={{
+                  mt: 3,
                 }}
-                onChange={(e, newVal) => {
-                  // setClassFields({
-                  //   ...classFields,
-                  //   ["partner_id"]: [...classFields.partner_id, newVal.id],
-                  // });
-
-                  setClassFields({
-                    ...classFields,
-                    ["partner_id"]: newVal.map((item) => item.id),
-                  });
-                }}
-                // getOptionLabel={(option) => option}
-                // onChange={(event, value) => {
-                //   setClassFields({ ...classFields, ["partner_id"]: value });
-                // [...classFields.on_days, e.target.value]
-                // }}
-                freeSolo
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="For Partner"
-                  />
-                )}
-              />
-            </Stack>
-          )}
-          {classFields.type === "batch" && (
-            <Typography variant="body2" color="text.secondary" mt={3}>
-              This batch will be visible to students of only these partner
-            </Typography>
-          )}
-          {classFields.type !== "batch" && (
+                //   onFocus={handleFocus}
+                //   error={display && classFields.title === ""}
+                //   // error={ classFields.title === ""}
+                //   helperText={
+                //     display && (classFields.title === "" ? "Add some data" : " ")
+                //   }
+                // />
+              >
+                <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Courses"
+                  disabled={exercisesForSelectedCourse.length === 0}
+                  value={selectedExerciseLabel?.label}
+                  onChange={(e) => {
+                    onExerciseChange(e.target.value);
+                  }}
+                >
+                  {exercisesForSelectedCourse &&
+                    exercisesForSelectedCourse.map((exercise) => {
+                      return (
+                        <MenuItem key={exercise.id} value={exercise.id}>
+                          {exercise.name}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+            )}
             <TextField
               sx={{ mt: 3 }}
-              type="text"
-              value={classFields?.description}
-              name="description"
-              label="Description"
-              error={classFields?.description?.length > 555}
-              helperText={
-                classFields?.description?.length > 555
-                  ? `Word limit exceeded by ${
-                      classFields?.description?.length - 555
-                    } characters`
-                  : ""
-              }
-              multiline
-              rows={3}
+              fullWidth
+              label={`${
+                classFields.type === "batch" ? "Batch Name" : "Class Title"
+              }`}
+              name="title"
+              value={classFields.title}
+              onChange={(e) => {
+                changeHandler(e);
+              }}
+            />
+
+            {classFields.type === "batch" && (
+              <Typography variant="body2" color="text.secondary" mb={3} mt={3}>
+                We will automatically create 28 classes for a Python batch with
+                titles and descriptions
+              </Typography>
+            )}
+            {classFields.type === "batch" && (
+              <Stack>
+                <Autocomplete
+                  multiple
+                  // value={classFields.partner_id}
+                  name="partner_id"
+                  options={partnerData}
+                  isOptionEqualToValue={(option, value) => {
+                    return option.id === value.id;
+                  }}
+                  onChange={(e, newVal) => {
+                    // setClassFields({
+                    //   ...classFields,
+                    //   ["partner_id"]: [...classFields.partner_id, newVal.id],
+                    // });
+
+                    setClassFields({
+                      ...classFields,
+                      ["partner_id"]: newVal.map((item) => item.id),
+                    });
+                  }}
+                  // getOptionLabel={(option) => option}
+                  // onChange={(event, value) => {
+                  //   setClassFields({ ...classFields, ["partner_id"]: value });
+                  // [...classFields.on_days, e.target.value]
+                  // }}
+                  freeSolo
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="For Partner"
+                    />
+                  )}
+                />
+              </Stack>
+            )}
+            {classFields.type === "batch" && (
+              <Typography variant="body2" color="text.secondary" mt={3}>
+                This batch will be visible to students of only these partner
+              </Typography>
+            )}
+            {classFields.type !== "batch" && (
+              <TextField
+                sx={{ mt: 3 }}
+                type="text"
+                value={classFields?.description}
+                name="description"
+                label="Description"
+                error={classFields?.description?.length > 555}
+                helperText={
+                  classFields?.description?.length > 555
+                    ? `Word limit exceeded by ${
+                        classFields?.description?.length - 555
+                      } characters`
+                    : ""
+                }
+                multiline
+                rows={3}
+                fullWidth
+                onChange={(e) => {
+                  changeHandler(e);
+                }}
+              />
+            )}
+            <TextField
+              sx={{ mt: 3 }}
+              type="date"
+              variant="outlined"
+              inputProps={{
+                min: classFields?.date,
+              }}
+              value={classFields.date}
+              name="date"
+              label="Start Date"
               fullWidth
               onChange={(e) => {
                 changeHandler(e);
               }}
             />
-          )}
-          <TextField
-            sx={{ mt: 3 }}
-            type="date"
-            variant="outlined"
-            inputProps={{
-              min: classFields?.date,
-            }}
-            value={classFields.date}
-            name="date"
-            label="Start Date"
-            fullWidth
-            onChange={(e) => {
-              changeHandler(e);
-            }}
-          />
-          {classFields.type === "batch" && (
-            <>
-              <FormLabel component="legend">
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ pt: 3 }}
-                  mb={2}
-                >
-                  Schedule on days
-                </Typography>
-              </FormLabel>
-              {/* )}
-          {classFields.type === "batch" && ( */}
-              <FormGroup aria-label="position" row>
-                {Object.keys(days).map((item) => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={item}
-                        checked={classFields.on_days.includes(item)}
-                        onChange={handleDaySelection}
-                      />
-                    }
-                    label={item}
-                    labelPlacement={item}
-                  />
-                ))}
-              </FormGroup>
-            </>
-          )}
-          <Grid container mt={2} spacing={2}>
-            <Grid item xs={isActive ? 12 : 6}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Stack spacing={3}>
-                  <DesktopTimePicker
-                    label="Start Time"
-                    value={classFields.start_time}
-                    onChange={(startTime) => {
-                      setClassFields({
-                        ...classFields,
-                        ["start_time"]: startTime,
-                      });
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </Stack>
-              </LocalizationProvider>
-            </Grid>
-            {/* From here */}
-            {/* <Box display="flex" justifyContent="start">
-            <FormControl>
-              <FormLabel sx={{ mt: 3, mb: 2 }}>Language</FormLabel>
-              <RadioGroup value={classFields.lang?.index} row>
-                {Object.keys(lang)?.map((item) => {
-                  if (item !== "mr") {
-                    return (
-                      <FormControlLabel
-                        key={item}
-                        value={item}
-                        name="lang"
-                        control={<Radio />}
-                        checked={classFields.lang.includes(item)}
-                        onChange={(e) => {
-                          changeHandler(e);
-                        }}
-                        label={lang[item]}
-                      />
-                    );
-                  }
-                })}
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <FormControl sx={{ mb: 4, mt: 2 }}>
-            <RadioGroup row>
-              <Typography variant="body1" pt={1} pr={2}>
-                Cap enrollments at
-              </Typography>
-              {capEnrollment?.map((item) => {
-                return (
-                  <FormControlLabel
-                    key={item}
-                    value={item}
-                    name="max_enrolment"
-                    control={<Radio />}
-                    // checked={classFields.max_enrolment.includes(item)}
-                    label={item}
-                    onChange={(e) => {
-                      changeHandler(e);
-                    }}
-                  />
-                );
+            {classFields.type === "batch" && (
+              <>
+                <FormLabel component="legend">
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ pt: 3 }}
+                    mb={2}
+                  >
+                    Schedule on days
+                  </Typography>
+                </FormLabel>
+                {/* )}
+        {classFields.type === "batch" && ( */}
+                <FormGroup aria-label="position" row>
+                  {Object.keys(days).map((item) => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value={item}
+                          checked={classFields.on_days.includes(item)}
+                          onChange={handleDaySelection}
+                        />
+                      }
+                      label={item}
+                      labelPlacement={item}
+                    />
+                  ))}
+                </FormGroup>
+              </>
+            )}
+            <Grid container mt={2} spacing={2}>
+              <Grid item xs={isActive ? 12 : 6}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Stack spacing={3}>
+                    <DesktopTimePicker
+                      label="Start Time"
+                      value={classFields.start_time}
+                      onChange={(startTime) => {
+                        setClassFields({
+                          ...classFields,
+                          ["start_time"]: startTime,
+                        });
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+              </Grid>
+              {/* From here */}
+              {/* <Box display="flex" justifyContent="start">
+          <FormControl>
+            <FormLabel sx={{ mt: 3, mb: 2 }}>Language</FormLabel>
+            <RadioGroup value={classFields.lang?.index} row>
+              {Object.keys(lang)?.map((item) => {
+                if (item !== "mr") {
+                  return (
+                    <FormControlLabel
+                      key={item}
+                      value={item}
+                      name="lang"
+                      control={<Radio />}
+                      checked={classFields.lang.includes(item)}
+                      onChange={(e) => {
+                        changeHandler(e);
+                      }}
+                      label={lang[item]}
+                    />
+                  );
+                }
               })}
             </RadioGroup>
           </FormControl>
-          <Button variant="contained" fullWidth onClick={submitHandle}>
-            {isEditMode
-              ? `Update ${
-                  classFields.type == "batch" ? "Batch" : "Doubt Class"
-                }`
-              : `Create Batch`}
-            
-          </Button> */}
-            {/* To here      */}
-            <Grid item xs={isActive ? 12 : 6}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Stack spacing={3}>
-                  <DesktopTimePicker
-                    label="End-Time"
-                    value={classFields.end_time}
-                    onChange={(endTime) => {
-                      setClassFields({
-                        ...classFields,
-                        ["end_time"]: endTime,
-                      });
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </Stack>
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
-          <Box display="flex" justifyContent="start">
-            <FormControl>
-              <Typography variant="body2" pt={1} pr={2} mt={2}>
-                Language
-              </Typography>
-              <RadioGroup value={classFields.lang?.index} row>
-                {Object.keys(lang)?.map((item) => {
-                  if (item !== "mr") {
-                    return (
-                      <FormControlLabel
-                        key={item}
-                        value={item}
-                        // checked={item === "en"}
-                        name="lang"
-                        control={<Radio />}
-                        checked={classFields.lang.includes(item)}
-                        onChange={(e) => {
-                          changeHandler(e);
-                        }}
-                        label={lang[item]}
-                      />
-                    );
-                  }
-                })}
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <FormControl sx={{ mb: 4, mt: 2 }}>
-            <Typography variant="body2" fullwidth pt={1} pr={2}>
+        </Box>
+        <FormControl sx={{ mb: 4, mt: 2 }}>
+          <RadioGroup row>
+            <Typography variant="body1" pt={1} pr={2}>
               Cap enrollments at
             </Typography>
-            <RadioGroup row>
-              {capEnrollment?.map((item) => {
-                return (
-                  <FormControlLabel
-                    key={item}
-                    value={item}
-                    name="max_enrolment"
-                    control={<Radio />}
-                    // checked={classFields.max_enrolment.includes(item)}
-                    //issue with max_enrolment default value
-                    onChange={(e) => {
-                      changeHandler(e);
-                    }}
-                    label={item}
-                  />
-                );
-              })}
-            </RadioGroup>
-          </FormControl>
-          <Button variant="contained" fullWidth onClick={submitHandle}>
-            {isEditMode
-              ? `Update ${
-                  classFields.type == "batch" ? "Batch" : "Doubt Class"
-                }`
-              : `Create ${
-                  classFields.type == "batch" ? "Batch" : "Doubt Class"
-                }`}
-          </Button>
-        </Box>
-      </Stack>
+            {capEnrollment?.map((item) => {
+              return (
+                <FormControlLabel
+                  key={item}
+                  value={item}
+                  name="max_enrolment"
+                  control={<Radio />}
+                  // checked={classFields.max_enrolment.includes(item)}
+                  label={item}
+                  onChange={(e) => {
+                    changeHandler(e);
+                  }}
+                />
+              );
+            })}
+          </RadioGroup>
+        </FormControl>
+        <Button variant="contained" fullWidth onClick={submitHandle}>
+          {isEditMode
+            ? `Update ${
+                classFields.type == "batch" ? "Batch" : "Doubt Class"
+              }`
+            : `Create Batch`}
+          
+        </Button> */}
+              {/* To here      */}
+              <Grid item xs={isActive ? 12 : 6}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Stack spacing={3}>
+                    <DesktopTimePicker
+                      label="End-Time"
+                      value={classFields.end_time}
+                      onChange={(endTime) => {
+                        setClassFields({
+                          ...classFields,
+                          ["end_time"]: endTime,
+                        });
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+            <Box display="flex" justifyContent="start">
+              <FormControl>
+                <Typography variant="body2" pt={1} pr={2} mt={2}>
+                  Language
+                </Typography>
+                <RadioGroup value={classFields.lang?.index} row>
+                  {Object.keys(lang)?.map((item) => {
+                    if (item !== "mr") {
+                      return (
+                        <FormControlLabel
+                          key={item}
+                          value={item}
+                          // checked={item === "en"}
+                          name="lang"
+                          control={<Radio />}
+                          checked={classFields.lang.includes(item)}
+                          onChange={(e) => {
+                            changeHandler(e);
+                          }}
+                          label={lang[item]}
+                        />
+                      );
+                    }
+                  })}
+                </RadioGroup>
+              </FormControl>
+            </Box>
+            <FormControl sx={{ mb: 4, mt: 2 }}>
+              <Typography variant="body2" fullwidth pt={1} pr={2}>
+                Cap enrollments at
+              </Typography>
+              <RadioGroup row>
+                {capEnrollment?.map((item) => {
+                  return (
+                    <FormControlLabel
+                      key={item}
+                      value={item}
+                      name="max_enrolment"
+                      control={<Radio />}
+                      checked={
+                        classFields.max_enrolment &&
+                        classFields.max_enrolment.includes(item)
+                      }
+                      //issue with max_enrolment default value
+                      onChange={(e) => {
+                        changeHandler(e);
+                      }}
+                      label={item}
+                    />
+                  );
+                })}
+              </RadioGroup>
+            </FormControl>
+            <Button variant="contained" fullWidth onClick={submitHandle}>
+              {isEditMode
+                ? `Update ${
+                    classFields.type == "batch" ? "Batch" : "Doubt Class"
+                  }`
+                : `Create ${
+                    classFields.type == "batch" ? "Batch" : "Doubt Class"
+                  }`}
+            </Button>
+          </Box>
+        </Stack>
+      )}
     </>
   );
 }

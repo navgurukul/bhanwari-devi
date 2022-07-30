@@ -22,6 +22,7 @@ import SuccessModel from "../../components/Class/SuccessModel";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
+  const [formType, setFormType] = useState("batch");
   const [classToEdit, setClassToEdit] = useState({});
   const [indicator, setIndicator] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
@@ -42,6 +43,7 @@ function ToggleClassFormModal() {
   const url = window.location.href;
 
   const toggleModalOpen = () => {
+    // setFormType();
     setClassToEdit({});
     setShowModal(!showModal);
     CalenderConsent();
@@ -133,13 +135,28 @@ function ToggleClassFormModal() {
   return (
     <Container maxWidth="xl" sx={{ mt: "40px" }}>
       {canSpecifyFacilitator && (
-        <Button
-          variant="contained"
-          onClick={toggleModalOpen}
-          sx={{ m: "10px 0 40px 30px" }}
-        >
-          Create a Batch/Class
-        </Button>
+        <span>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setFormType("batch");
+              toggleModalOpen();
+            }}
+            sx={{ m: "10px 0 20px 30px" }}
+          >
+            Create a Batch
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setFormType("doubt_class");
+              toggleModalOpen();
+            }}
+            sx={{ m: "10px 0px 20px 10px" }}
+          >
+            Create Doubt Class
+          </Button>
+        </span>
       )}
       <ClassesList
         editClass={editClass}
@@ -157,6 +174,7 @@ function ToggleClassFormModal() {
             isEditMode={isEditMode}
             indicator={indicator}
             classToEdit={classToEdit}
+            formType={formType}
             setShowModal={setShowModal}
             setOpenSuccessfullModal={setOpenSuccessfullModal}
           />
