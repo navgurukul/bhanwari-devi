@@ -346,38 +346,36 @@ function ClassCard({ item, editClass }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <Grid container spacing={2} sx={{ mt: "10px", ml: "1px" }}>
-          <CardActions>
-            {item.enrolled ? (
-              loading ? (
-                <div className="loader-button">
-                  <Loader />
-                </div>
-              ) : (
-                // <h1>Poonam</h1>
-                // <EnrolledAndTimer item={item} />
-                <ClassJoinTimerButton
-                  startTime={item?.start_time}
-                  link={item?.meet_link}
-                />
-              )
-            ) : loading ? (
+        <CardActions style={{ padding: "0px" }}>
+          {item.enrolled ? (
+            loading ? (
               <div className="loader-button">
                 <Loader />
               </div>
             ) : (
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={() => {
-                  handleClickOpenEnroll(item.id);
-                }}
-              >
-                Enroll
-              </Button>
-            )}
-          </CardActions>
-        </Grid>
+              // <h1>Poonam</h1>
+              // <EnrolledAndTimer item={item} />
+              <ClassJoinTimerButton
+                startTime={item?.start_time}
+                link={item?.meet_link}
+              />
+            )
+          ) : loading ? (
+            <div className="loader-button">
+              <Loader />
+            </div>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={() => {
+                handleClickOpenEnroll(item.id);
+              }}
+            >
+              Enroll
+            </Button>
+          )}
+        </CardActions>
       </Card>
       <Box>
         {showModal ? (
