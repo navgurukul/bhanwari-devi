@@ -28,6 +28,7 @@ import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatc
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
 import { useState } from "react";
+import { isStudentOnly } from "../User/redux/selectors";
 
 const pathways = [
   {
@@ -80,6 +81,7 @@ const pathways = [
 
 function PathwayCourse() {
   const user = useSelector(({ User }) => User);
+  const isStudentOnlyRole = useSelector(isStudentOnly);
   const dispatch = useDispatch();
   const { pathwayCourse } = useSelector((state) => state.Pathways);
   const classes = useStyles();
@@ -161,6 +163,7 @@ function PathwayCourse() {
       dispatch(
         upcomingBatchesActions.getUpcomingBatches({
           pathwayId: pathwayId,
+          isStudent: isStudentOnlyRole,
           authToken: user?.data?.token,
         })
       );

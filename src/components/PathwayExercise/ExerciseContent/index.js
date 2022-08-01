@@ -40,6 +40,8 @@ import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
+import { isStudentOnly } from "../../User/redux/selectors";
+
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
@@ -268,6 +270,7 @@ const RenderContent = ({ data, exercise }) => {
 
 function ExerciseContent({ exerciseId, lang }) {
   const user = useSelector(({ User }) => User);
+  const isStudentOnlyRole = useSelector(isStudentOnly);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
   const [exercise, setExercise] = useState();
@@ -337,6 +340,7 @@ function ExerciseContent({ exerciseId, lang }) {
       dispatch(
         upcomingBatchesActions.getUpcomingBatches({
           pathwayId: pathwayId,
+          isStudent: isStudentOnlyRole,
           authToken: user?.data?.token,
         })
       );

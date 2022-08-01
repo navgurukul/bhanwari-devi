@@ -73,6 +73,19 @@ export const getUpcomingBatches = (data) => {
     },
   });
   */
+  if (data.isStudent) {
+    // Change this to NG repository data file once API token added to secrets
+    return axios({
+      "https://raw.githubusercontent.com/jschanker/githubactions-testing/main/data/upcoming-batches.json"
+    }).then((response) => {
+      if (!Array.isArray(response?.data)) {
+        return response;
+      } else {
+        // only get batches from specified pathway
+        response.data = response.data[pathwayId];
+      }
+    });
+  }
   return axios({
     method: METHODS.GET,
     url: `${process.env.REACT_APP_MERAKI_URL}/classes/all?startDate=${new Date(

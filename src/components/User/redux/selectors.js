@@ -52,6 +52,11 @@ const savedRolesToKeysMap = Object.keys(ROLES).reduce((roleKeyMap, roleKey) => {
   return roleKeyMap;
 }, {});
 
+export const isStudentOnly = ({ User }) => 
+  !(User.data?.user.rolesList || []).find(
+    (savedRole) => savedRolesToKeysMap[savedRole] !== STUDENT_ROLE_KEY
+  );
+
 /**
  * Selector to get user roles
  * @return {Array.<{key: string, msgKey: string, assignedRole:boolean, properties: Object}>}
