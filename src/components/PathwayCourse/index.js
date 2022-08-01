@@ -106,15 +106,20 @@ function PathwayCourse() {
       return null;
     }
   });
-  
+
   const loading = useSelector((state) => {
     const upcomingBatchesState = state?.Pathways?.upcomingBatches;
     const enrolledBatchesState = state?.Pathways?.enrolledBatches;
-    return (!upcomingBatchesState || !enrolledBatchesState ||
-      upcomingBatchesState.loading || enrolledBatchesState.loading) &&
-      !(upcomingBatchesData?.length > 0) && !(enrolledBatches?.length > 0);
+    return (
+      (!upcomingBatchesState ||
+        !enrolledBatchesState ||
+        upcomingBatchesState.loading ||
+        enrolledBatchesState.loading) &&
+      !(upcomingBatchesData?.length > 0) &&
+      !(enrolledBatches?.length > 0)
+    );
   });
-  
+
   console.log("upcomingBatchesData", upcomingBatchesData);
   /*
   useEffect(() => {

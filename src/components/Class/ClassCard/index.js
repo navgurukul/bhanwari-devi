@@ -432,6 +432,7 @@ function ClassCard({ item, editClass }) {
             <div className="wrap">
               <button
                 onClick={() => {
+                  setEditShowModal(false);
                   return editClass(item.id, indicator);
                 }}
                 className="agree-btn"

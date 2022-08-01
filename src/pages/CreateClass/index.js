@@ -3,20 +3,35 @@ import { useHistory } from "react-router-dom";
 import CreateClassComponent from "../../components/Class";
 import ClassesList from "../../components/Class/ClassList";
 import { useSelector } from "react-redux";
-import Modal from "../../components/common/Modal";
+// import Modal from "../../components/common/Modal";
 import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
-import { Container, Button } from "@mui/material";
+import {
+  Container,
+  Button,
+  Modal,
+  Box,
+  Stack,
+  Typography,
+} from "@mui/material";
+import ClassForm from "../../components/Class/ClassForm";
+import useStyles from "./styles";
+import SuccessModel from "../../components/Class/SuccessModel";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
+  const [formType, setFormType] = useState("batch");
   const [classToEdit, setClassToEdit] = useState({});
   const [indicator, setIndicator] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const [openSuccessfullModal, setOpenSuccessfullModal] = useState(false);
+  const [isEditMode, setIsEditMode] = React.useState(false);
 
   const rolesList = user.data.user.rolesList;
   const canSpecifyFacilitator =
@@ -28,13 +43,16 @@ function ToggleClassFormModal() {
   const url = window.location.href;
 
   const toggleModalOpen = () => {
+    // setFormType();
     setClassToEdit({});
     setShowModal(!showModal);
     CalenderConsent();
   };
 
+  //here can check
   const editClass = (classId, indicator) => {
     setClassToEdit(data.find((classData) => classData.id === classId));
+    setIsEditMode(true);
     setShowModal(true);
     setIndicator(indicator);
   };
@@ -125,14 +143,31 @@ function ToggleClassFormModal() {
           Create Batch
         </Button>
       )}
-      <ClassesList editClass={editClass} isShow={showModal} />
+      <ClassesList
+        editClass={editClass}
+        isShow={showModal}
+        // setIsEditMode={setIsEditMode}
+      />
       {showModal && calenderConsent ? (
-        <Modal onClose={toggleModalOpen}>
-          <CreateClassComponent
+        <Modal
+          open={showModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={{ overflow: "scroll" }}
+        >
+          <ClassForm
+            isEditMode={isEditMode}
+            indicator={indicator}
+            classToEdit={classToEdit}
+            formType={formType}
+            setShowModal={setShowModal}
+            setOpenSuccessfullModal={setOpenSuccessfullModal}
+          />
+          {/* <CreateClassComponent
             classToEdit={classToEdit}
             indicator={indicator}
             toggleModalOpen={toggleModalOpen}
-          />
+          /> */}
         </Modal>
       ) : (
         showConsentModal && (
@@ -151,6 +186,17 @@ function ToggleClassFormModal() {
             </div>
           </Modal>
         )
+      )}
+
+      {openSuccessfullModal && (
+        <Modal
+          open={openSuccessfullModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={{ overflow: "scroll" }}
+        >
+          <SuccessModel />
+        </Modal>
       )}
 
       {authUrl && (window.location.href = authUrl)}
