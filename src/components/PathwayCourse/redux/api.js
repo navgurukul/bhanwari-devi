@@ -91,10 +91,8 @@ export const getUpcomingBatches = (data) => {
     //  In that case, upcoming batches are batches for which no classes starting from 1 week ago
     //  have met prior to now
     const classesStartingFromLastWeek = response.data;
-    const classesStartingFromLastWeekRev = classesStartingFromLastWeek
-      .slice()
-      .reverse();
-    const recurringIds = new Set();
+    // map from recurring ids to the end (or start) time of the last class with that id
+    const recurringIdToLastClassTimeMap = new Map();
     const upcomingBatchClasses = [];
 
     classesStartingFromLastWeek.forEach((c) => {
@@ -103,22 +101,20 @@ export const getUpcomingBatches = (data) => {
         c.pathway_v2 || { 39: 1 }[c.pathway_v1] || c.pathway_v1 || c.pathway_id;
       if (
         c.recurring_id &&
-        !recurringIds.has(c.recurring_id) &&
         cPathwayId == pathwayId
       ) {
-        recurringIds.add(c.recurring_id);
-        new Date(c.start_time) > new Date() && upcomingBatchClasses.push(c);
-      }
+        const latestTime = c.end_time || c.start_time;
+        if (!recurringIdToLastClassTimeMap.has(c.recurring_id)) {
+          new Date(latestTime) > new Date() &&
+            upcomingBatchClasses.push(c);
+        }
+        recurringIdToLastClassTimeMap.set(c.recurring_id, latestTime);
+      }  
     });
 
     upcomingBatchClasses
-      .map((c) =>
-        classesStartingFromLastWeekRev.find(
-          (d) => c.recurring_id === d.recurring_id
-        )
-      )
       .forEach(
-        (c, index) => (upcomingBatchClasses[index].end_batch_time = c.end_time)
+        (c) => (c.end_batch_time = recurringIdToLastClassTimeMap.get(c.recurring_id))
       );
 
     response.data = upcomingBatchClasses;
