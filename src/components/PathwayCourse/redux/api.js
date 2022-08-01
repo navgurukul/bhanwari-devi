@@ -83,6 +83,7 @@ export const getUpcomingBatches = (data) => {
       } else {
         // only get batches from specified pathway
         response.data = response.data[pathwayId];
+        return response;
       }
     });
   }
