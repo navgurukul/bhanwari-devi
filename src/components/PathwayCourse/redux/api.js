@@ -75,9 +75,9 @@ export const getUpcomingBatches = (data) => {
   */
   if (data.isStudent) {
     // Change this to NG repository data file once API token added to secrets
-    return axios({
+    return axios(
       "https://raw.githubusercontent.com/jschanker/githubactions-testing/main/data/upcoming-batches.json"
-    }).then((response) => {
+    ).then((response) => {
       if (!Array.isArray(response?.data)) {
         return response;
       } else {
