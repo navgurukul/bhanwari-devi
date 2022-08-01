@@ -1,0 +1,55 @@
+name: Get and commit upcoming batch data for students
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # if [ $statusCode -eq "200" ]; then echo "success"; else echo "failure"; fi
+    - cron:  '12 * * * *'
+  push:
+jobs:
+  get_and_commit_student_upcoming_batch_data:
+    runs-on: ubuntu-latest
+    env:
+      class_auth_key: ${{ secrets.CLASS_API_TOKEN }}
+      UPCOMING_BATCH_SCRIPT_FILE_PATH: "data_scripts/get_upcoming_batches_from_classes.js"
+      CLASS_DATA_FILE_PATH: "data/classes_from_past_week.json"
+      UPCOMING_BATCH_OUTPUT_FILE_PATH: "data/student_upcoming_batches.json"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get and store updated class data starting from past week
+        id: get_class_data
+        run: |
+          startTime=$(node -e "console.log(new Date(new Date().valueOf() - 7*24*60*60*1000).valueOf())")
+          echo "Getting classes starting from $startTime"
+          statusCode=$(curl $REACT_APP_MERAKI_URL/classes/all?startDate=$startTime -H "Authorization: $class_auth_key" -o $CLASS_DATA_FILE_PATH -w "%{http_code}")
+          echo "::set-output name=status_code::$statusCode"
+          if [ $statusCode -eq "200" ]; then
+            echo "Successfully retrieved class data"
+          else
+            echo "Failed to get class data with error $statusCode"
+            exit 0 
+          fi
+        env:
+          REACT_APP_MERAKI_URL: https://dev-api.merakilearn.org
+      - name: Get and store upcoming batch data
+        id: batch_data
+        run: |
+          # echo "TODO..."
+          # npm install @actions/core
+          # npm install fs - built-in module doesn't need to be installed
+          node $UPCOMING_BATCH_SCRIPT_FILE_PATH $CLASS_DATA_FILE_PATH $UPCOMING_BATCH_OUTPUT_FILE_PATH
+      - name: Commit class and batch data
+        run: |
+          if [[ ${{ steps.get_class_data.outputs.status_code }} != 200 ]]; then exit 0; fi
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add $CLASS_DATA_FILE_PATH
+          git add $UPCOMING_BATCH_OUTPUT_FILE_PATH
+          # https://stackoverflow.com/a/25149786 for git status --porcelain
+          # https://git-scm.com/docs/git-status#Documentation/git-status.txt--ultmodegt to ignore untracked files
+          if [[ `git status -uno --porcelain` ]]; then
+            git commit -m "Updated class data on $(date)"
+            git push
+            echo "Successfully saved class data and upcoming batches"
+          else
+            echo "No new changes"
+          fi
