@@ -78,7 +78,7 @@ export const getUpcomingBatches = (data) => {
     return axios(
       "https://raw.githubusercontent.com/jschanker/githubactions-testing/main/data/upcoming-batches.json"
     ).then((response) => {
-      if (response?.data) {
+      if (!response?.data) {
         return response;
       } else {
         // only get batches from specified pathway
