@@ -91,6 +91,7 @@ function ClassForm({
   );
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showError, setShowError] = useState({
     batch: true,
     partner: true,
@@ -180,6 +181,34 @@ function ClassForm({
       });
     }
   }, [classFields.date]);
+
+  useEffect(() => {
+    if (
+      classFields.title !== "" &&
+      classFields.partner_id.length > 0 &&
+      classFields.on_days.length > 0 &&
+      classFields.start_time <= classFields.end_time
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [
+    classFields.title,
+    classFields.partner_id.length,
+    classFields.on_days.length,
+    classFields.start_time,
+    classFields.end_time,
+  ]);
+
+  useEffect(() => {
+    if (classFields.start_time > classFields.end_time) {
+      setClassFields({
+        ...classFields,
+        ["end_time"]: classFields.start_time,
+      });
+    }
+  }, [classFields.start_time, classFields.end_time]);
 
   const courses =
     data.Pathways.data &&
@@ -775,11 +804,10 @@ function ClassForm({
                       value={item}
                       name="max_enrolment"
                       control={<Radio />}
-                      // checked={
-                      //   classFields.max_enrolment &&
-                      //   classFields.max_enrolment.includes(item)
-                      // }
-                      //issue with max_enrolment default value
+                      checked={
+                        classFields.max_enrolment &&
+                        classFields.max_enrolment.includes(item)
+                      }
                       onChange={(e) => {
                         changeHandler(e);
                       }}
@@ -789,7 +817,12 @@ function ClassForm({
                 })}
               </RadioGroup>
             </FormControl>
-            <Button variant="contained" fullWidth onClick={submitHandle}>
+            <Button
+              style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
+              variant="contained"
+              fullWidth
+              onClick={submitHandle}
+            >
               {(isEditMode ? "Update " : "Create ") +
                 (classFields.type == "batch" ? "Batch" : "Doubt Class")}
             </Button>
