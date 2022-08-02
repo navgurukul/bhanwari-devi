@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const [classDataFilePath, batchOutputFilePath] = process.argv.slice(2);
+const [classDataFilePath, batchOutputFilePathPrefix] = process.argv.slice(2);
 const classesStartingFromLastWeek =
   JSON.parse(fs.readFileSync(classDataFilePath, 'utf8')) || [];
 
@@ -13,32 +13,49 @@ if (classesStartingFromLastWeek.length === 0) {
 //  In that case, upcoming batches are batches for which no classes starting from 1 week ago
 //  have met prior to now.
 
-const pathwayUpcomingBatches = {};
+const partnerIdToPathwaysUpcomingBatchesMap = new Map();
 // map from recurring ids to the end (or start) time of the last class with that id
 const recurringIdToLastClassTimeMap = new Map();
 
 classesStartingFromLastWeek.forEach((c) => {
+  // Assume no partner with id of 0; this will be for the null case
+  const cPartnerId = c.partner_id || 0;
   // map old to new pathway for Python (fix, very hacky)
   const cPathwayId =
     c.pathway_v2 || { 39: 1 }[c.pathway_v1] || c.pathway_v1 || c.pathway_id;
   if (c.recurring_id && cPathwayId) {
-    pathwayUpcomingBatches[cPathwayId] ||= [];
+    if (!partnerIdToPathwaysUpcomingBatchesMap.has(cPartnerId)) {
+      partnerIdToPathwaysUpcomingBatchesMap.set(cPartnerId, {});
+    }
+    const pathwaysUpcomingBatches =
+      partnerIdToPathwayUpcomingBatchesMap.get(cPartnerId);
+    pathwaysUpcomingBatches[cPathwayId] ||= [];
     const latestTime = c.end_time || c.start_time;
     if (!recurringIdToLastClassTimeMap.has(c.recurring_id)) {
       new Date(latestTime) > new Date() &&
-        pathwayUpcomingBatches[cPathwayId].push(c);
+        pathwaysUpcomingBatches[cPathwayId].push(c);
     }
     recurringIdToLastClassTimeMap.set(c.recurring_id, latestTime);
   }
 });
 
-Object.values(pathwayUpcomingBatches).forEach((upcomingBatches) =>
-  upcomingBatches.forEach(
-    (c) => (c.end_batch_time = recurringIdToLastClassTimeMap.get(c.recurring_id))
-  )
-);
+partnerIdToPathwaysUpcomingBatchesMap.forEach((pathwaysUpcomingBatches) => {
+  Object.values(pathwaysUpcomingBatches).forEach((upcomingBatches) =>
+    upcomingBatches.forEach(
+      (c) => (c.end_batch_time = recurringIdToLastClassTimeMap.get(c.recurring_id))
+    )
+  );
+});
 
-fs.writeFileSync(
+partnerIdToPathwaysUpcomingBatchesMap.forEach((pathwaysUpcomingBatches, partnerId) => {
+  // maybe allow other extensions in the future
+  const extension = batchOutputFilePath.match(/.json$|.txt$|.html$/)?.[0] || "";
+  const batchesOutputFilePath =
+    batchOutputFilePathPrefix.substring(0, batchOutputFilePathPrefix.length - extension.length) +
+    "_" +
+    partnerId +
+    extension;
+fs.writeFile(
   batchOutputFilePath,
   JSON.stringify(pathwayUpcomingBatches),
   'utf-8'
