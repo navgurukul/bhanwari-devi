@@ -162,6 +162,24 @@ function ClassForm({
     }
   }, [classFields.partner_id.length]);
 
+  useEffect(() => {
+    if (classFields.date === moment().format("YYYY-MM-DD")) {
+      setClassFields({
+        ...classFields,
+        ["start_time"]: classToEdit.start_time
+          ? new Date(classToEdit.start_time)
+          : new Date(),
+      });
+
+      setClassFields({
+        ...classFields,
+        ["end_time"]: classToEdit.end_time
+          ? new Date(classToEdit.end_time)
+          : new Date(),
+      });
+    }
+  }, [classFields.date]);
+
   const courses =
     data.Pathways.data &&
     data.Pathways.data.pathways[0] &&
@@ -690,6 +708,11 @@ function ClassForm({
                             [prop]: time,
                           });
                         }}
+                        minTime={
+                          classFields.date === moment().format("YYYY-MM-DD")
+                            ? new Date()
+                            : null
+                        }
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </Stack>
