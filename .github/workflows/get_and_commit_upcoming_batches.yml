@@ -43,7 +43,7 @@ jobs:
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add $CLASS_DATA_FILE_PATH
-          git add $UPCOMING_BATCH_OUTPUT_FILE_PATH
+          git add data/*.json
           # https://stackoverflow.com/a/25149786 for git status --porcelain
           # https://git-scm.com/docs/git-status#Documentation/git-status.txt--ultmodegt to ignore untracked files
           if [[ `git status -uno --porcelain` ]]; then
