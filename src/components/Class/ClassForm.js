@@ -87,6 +87,7 @@ function ClassForm({
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
+  const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   //getting pathway courses
@@ -190,7 +191,7 @@ function ClassForm({
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
     return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}classes`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
       method: METHODS.POST,
       headers: {
         accept: "application/json",
@@ -206,6 +207,7 @@ function ClassForm({
         console.log("res", res);
         if (res.status === 200) {
           setShowSuccessModal(true);
+          setSuccessModalMsg("created");
           setTimeout(() => {
             setShowSuccessModal(false);
             setShowModal(false);
@@ -223,7 +225,7 @@ function ClassForm({
     payload.end_time = convertToIST(payload.end_time);
     return axios({
       method: METHODS.PUT,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${classToEdit.id}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${classToEdit.id}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -236,6 +238,14 @@ function ClassForm({
         console.log("res", res);
         //We can also change the Successfull edit class modal here.
         //Need to change the text from create to edit
+        if (res.status === 200) {
+          setShowSuccessModal(true);
+          setSuccessModalMsg("edited");
+          setTimeout(() => {
+            setShowSuccessModal(false);
+            setShowModal(false);
+          }, 2000);
+        }
       },
       (error) => {
         console.log("error", error);
@@ -341,7 +351,7 @@ function ClassForm({
     }
 
     //deleting partner_id when it's length is 0
-    // if (classFields.partner_id.length === 0) delete classFields.partner_id;
+    if (classFields.partner_id.length === 0) delete classFields.partner_id;
 
     //deleting date as we have combined with time and we don't want date separately
     delete classFields.date;
@@ -355,50 +365,36 @@ function ClassForm({
       "YYYY-MM-DDTHH:mm:ss"
     )}Z`;
 
-    var fieldsToSend;
-
+    const commonFields = [
+      "title",
+      "description",
+      "start_time",
+      "end_time",
+      "category_id",
+      "pathway_id",
+      "lang",
+      "type",
+    ];
+    let payload;
     if (classFields.type === "doubt_class") {
-      fieldsToSend = {
-        course_id: classFields.course_id,
-        exercise_id: classFields.exercise_id,
-        category_id: classFields.category_id,
-        pathway_id: classFields.pathway_id,
-        title: classFields.title,
-        description: classFields.description,
-        start_time: classFields.start_time,
-        end_time: classFields.end_time,
-        lang: classFields.lang,
-        type: classFields.type,
-      };
+      payload = _.pick(classFields, [
+        ...commonFields,
+        "course_id",
+        "exercise_id",
+      ]);
     } else if (classFields.type === "batch") {
-      fieldsToSend = {
-        title: classFields.title,
-        description: classFields.description,
-        start_time: classFields.start_time,
-        end_time: classFields.end_time,
-        partner_id: classFields.partner_id,
-        category_id: classFields.category_id,
-        pathway_id: classFields.pathway_id,
-        lang: classFields.lang,
-        frequency: classFields.frequency,
-        type: classFields.type,
-        on_days: classFields.on_days,
-      };
+      payload = _.pick(classFields, [
+        ...commonFields,
+        "partner_id",
+        "frequency",
+        "on_days",
+      ]);
     }
-
-    if (!isEditMode) {
-      if (classFields.max_enrolment != "No Limit") {
-        //add max_enrolment field only if it is not No Limit
-        fieldsToSend.max_enrolment = classFields.max_enrolment;
-      }
-      createClass(fieldsToSend);
-    } else {
-      if (classFields.max_enrolment != "No Limit") {
-        //add max_enrolment field only if it is not No Limit
-        fieldsToSend.max_enrolment = classFields.max_enrolment;
-      }
-      editClass(fieldsToSend);
+    if (classFields.max_enrolment != "No Limit") {
+      //add max_enrolment field only if it is not No Limit
+      payload.max_enrolment = classFields.max_enrolment;
     }
+    (!isEditMode ? createClass : editClass)(payload);
   };
 
   const handleFocus = (event) => {
@@ -412,7 +408,10 @@ function ClassForm({
   return (
     <>
       {showSuccessModal ? (
-        <SuccessModel />
+        <SuccessModel
+          successModalMsg={successModalMsg}
+          classType={classFields.type}
+        />
       ) : (
         <Stack alignItems="center">
           <Box
@@ -425,13 +424,8 @@ function ClassForm({
             <Grid container mb={4}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
-                  {isEditMode
-                    ? `Update ${
-                        classFields.type == "batch" ? "Batch" : "Doubt Class"
-                      }`
-                    : `Create ${
-                        classFields.type == "batch" ? "Batch" : "Doubt Class"
-                      }`}
+                  {(isEditMode ? "Update " : "Create ") +
+                    (classFields.type == "batch" ? "Batch" : "Doubt Class")}
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.FormCloseIcon}>
@@ -471,6 +465,7 @@ function ClassForm({
                 fullWidth
                 sx={{
                   mt: 3,
+                  mb: 4,
                 }}
               >
                 <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
@@ -496,7 +491,7 @@ function ClassForm({
               </FormControl>
             )}
             <TextField
-              sx={{ mt: 3 }}
+              // sx={{ mt: 4 }}
               fullWidth
               label={`${
                 classFields.type === "batch" ? "Batch Name" : "Class Title"
@@ -509,7 +504,7 @@ function ClassForm({
             />
 
             {classFields.type === "batch" && (
-              <Typography variant="body2" color="text.secondary" mb={3} mt={3}>
+              <Typography variant="body2" color="text.secondary" mb={4} mt={2}>
                 We will automatically create 28 classes for a Python batch with
                 titles and descriptions
               </Typography>
@@ -542,13 +537,13 @@ function ClassForm({
               </Stack>
             )}
             {classFields.type === "batch" && (
-              <Typography variant="body2" color="text.secondary" mt={3}>
+              <Typography variant="body2" color="text.secondary" mb={4} mt={2}>
                 This batch will be visible to students of only these partner
               </Typography>
             )}
             {classFields.type !== "batch" && (
               <TextField
-                sx={{ mt: 3 }}
+                sx={{ mt: 3, mb: 4 }}
                 type="text"
                 value={classFields?.description}
                 name="description"
@@ -570,7 +565,7 @@ function ClassForm({
               />
             )}
             <TextField
-              sx={{ mt: 3 }}
+              // sx={{ mb: 4 }}
               type="date"
               variant="outlined"
               inputProps={{
@@ -590,8 +585,8 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ pt: 3 }}
-                    mb={2}
+                    sx={{ mt: 4 }}
+                    // mb={1}
                   >
                     Schedule on days
                   </Typography>
@@ -614,44 +609,37 @@ function ClassForm({
               </>
             )}
             <Grid container mt={2} spacing={2}>
-              <Grid item xs={isActive ? 12 : 6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Stack spacing={3}>
-                    <DesktopTimePicker
-                      label="Start Time"
-                      value={classFields.start_time}
-                      onChange={(startTime) => {
-                        setClassFields({
-                          ...classFields,
-                          ["start_time"]: startTime,
-                        });
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </Stack>
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={isActive ? 12 : 6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Stack spacing={3}>
-                    <DesktopTimePicker
-                      label="End-Time"
-                      value={classFields.end_time}
-                      onChange={(endTime) => {
-                        setClassFields({
-                          ...classFields,
-                          ["end_time"]: endTime,
-                        });
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </Stack>
-                </LocalizationProvider>
-              </Grid>
+              {[
+                { label: "Start Time", prop: "start_time" },
+                { label: "End Time", prop: "end_time" },
+              ].map(({ label, prop }) => (
+                <Grid item xs={isActive ? 12 : 6}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <Stack spacing={3}>
+                      <DesktopTimePicker
+                        label={label}
+                        value={classFields[prop]}
+                        onChange={(time) => {
+                          setClassFields({
+                            ...classFields,
+                            [prop]: time,
+                          });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Grid>
+              ))}
             </Grid>
             <Box display="flex" justifyContent="start">
               <FormControl>
-                <Typography variant="body2" pt={1} pr={2} mt={2}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  pr={2}
+                  mt={4}
+                >
                   Language
                 </Typography>
                 <RadioGroup value={classFields.lang?.index} row>
@@ -675,8 +663,14 @@ function ClassForm({
                 </RadioGroup>
               </FormControl>
             </Box>
-            <FormControl sx={{ mb: 4, mt: 2 }}>
-              <Typography variant="body2" fullwidth pt={1} pr={2}>
+            <FormControl sx={{ mb: 4, mt: 4 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                fullwidth
+                pt={1}
+                pr={2}
+              >
                 Cap enrollments at
               </Typography>
               <RadioGroup row>
@@ -687,10 +681,10 @@ function ClassForm({
                       value={item}
                       name="max_enrolment"
                       control={<Radio />}
-                      checked={
-                        classFields.max_enrolment &&
-                        classFields.max_enrolment.includes(item)
-                      }
+                      // checked={
+                      //   classFields.max_enrolment &&
+                      //   classFields.max_enrolment.includes(item)
+                      // }
                       //issue with max_enrolment default value
                       onChange={(e) => {
                         changeHandler(e);
@@ -702,13 +696,8 @@ function ClassForm({
               </RadioGroup>
             </FormControl>
             <Button variant="contained" fullWidth onClick={submitHandle}>
-              {isEditMode
-                ? `Update ${
-                    classFields.type == "batch" ? "Batch" : "Doubt Class"
-                  }`
-                : `Create ${
-                    classFields.type == "batch" ? "Batch" : "Doubt Class"
-                  }`}
+              {(isEditMode ? "Update " : "Create ") +
+                (classFields.type == "batch" ? "Batch" : "Doubt Class")}
             </Button>
           </Box>
         </Stack>

@@ -58,12 +58,12 @@ theme = createTheme(theme, {
       light: "#E9F5E9",
       dark: "#3A8137",
     },
-    Greey: {
+    grey: {
       main: "rgba(0, 0, 0, 0.12)",
     },
     text: {
       primary: "#2E2E2E",
-      secondary: "#585858",
+      secondary: "#6D6D6D",
       disabled: "#949494",
       hint: "#949494",
     },
@@ -162,6 +162,14 @@ theme = createTheme(theme, {
     },
     body2: {
       fontSize: "1rem", //0.875rem
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.75rem",
+      },
+      fontFamily: "Nunito Sans ",
+      lineHeight: 1.5,
+    },
+    body3: {
+      fontSize: "0.875rem", //0.875rem
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },

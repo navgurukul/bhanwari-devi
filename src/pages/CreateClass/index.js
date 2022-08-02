@@ -142,17 +142,17 @@ function ToggleClassFormModal() {
               setFormType("batch");
               toggleModalOpen();
             }}
-            sx={{ m: "10px 0 20px 30px" }}
+            sx={{ m: "10px 16px 20px 30px" }}
           >
-            Create a Batch
+            Create Batch
           </Button>
           <Button
-            variant="contained"
+            variant="outlined"
             onClick={() => {
               setFormType("doubt_class");
               toggleModalOpen();
             }}
-            sx={{ m: "10px 0px 20px 10px" }}
+            sx={{ m: "10px 16px 20px 10px" }}
           >
             Create Doubt Class
           </Button>
