@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import CloseIcon from "@material-ui/icons/Close";
 import { lang } from "../../constant";
@@ -89,7 +90,14 @@ function ClassForm({
   );
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
+  const [showError, setShowError] = useState({
+    batch: true,
+    partner: true,
+  });
+  const [helperText, setHelperText] = useState({
+    batch: "Please enter a batch name",
+    partner: "Please select one or more partners",
+  });
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
@@ -102,6 +110,57 @@ function ClassForm({
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
   }, [dispatch, 1]);
+
+  useEffect(() => {
+    if (classFields.type == "batch" && classFields.title !== "") {
+      setShowError((prev) => {
+        return { ...prev, batch: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, batch: "" };
+      });
+    } else if (classFields.type == "batch" && classFields.title === "") {
+      setShowError((prev) => {
+        return { ...prev, batch: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, batch: "Please enter a batch name" };
+      });
+    } else {
+      setShowError(
+        setShowError(() => {
+          return { partner: "", batch: "" };
+        })
+      );
+    }
+  }, [classFields.title]);
+
+  useEffect(() => {
+    if (classFields.type == "batch" && classFields.partner_id.length > 0) {
+      setShowError((prev) => {
+        return { ...prev, partner: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "" };
+      });
+    } else if (
+      classFields.type == "batch" &&
+      classFields.partner_id.length === 0
+    ) {
+      setShowError((prev) => {
+        return { ...prev, partner: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "Please select one or more partners" };
+      });
+    } else {
+      setShowError(
+        setShowError(() => {
+          return { partner: "", batch: "" };
+        })
+      );
+    }
+  }, [classFields.partner_id.length]);
 
   const courses =
     data.Pathways.data &&
@@ -492,12 +551,15 @@ function ClassForm({
             )}
             <TextField
               // sx={{ mt: 4 }}
+              error={showError.batch}
+              id="outlined-error-helper-text"
               fullWidth
               label={`${
                 classFields.type === "batch" ? "Batch Name" : "Class Title"
               }`}
               name="title"
               value={classFields.title}
+              helperText={helperText.batch}
               onChange={(e) => {
                 changeHandler(e);
               }}
@@ -529,6 +591,9 @@ function ClassForm({
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      id="outlined-error-helper-text"
+                      error={showError.partner}
+                      helperText={helperText.partner}
                       variant="outlined"
                       label="For Partner"
                     />
@@ -569,7 +634,7 @@ function ClassForm({
               type="date"
               variant="outlined"
               inputProps={{
-                min: classFields?.date,
+                min: moment().format("YYYY-MM-DD"),
               }}
               value={classFields.date}
               name="date"

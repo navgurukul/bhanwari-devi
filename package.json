@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.11.4",
     "@mui/icons-material": "^5.4.2",
+    "@mui/lab": "^5.0.0-alpha.93",
     "@mui/material": "^5.4.3",
     "@mui/styled-engine-sc": "^5.4.2",
     "@mui/styles": "^5.5.1",
