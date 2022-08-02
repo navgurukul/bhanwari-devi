@@ -10,6 +10,7 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
+import { FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
 import {
   Typography,
@@ -689,6 +690,11 @@ function ClassForm({
                     />
                   ))}
                 </FormGroup>
+                {classFields.on_days.length === 0 ? (
+                  <FormHelperText sx={{ color: "red" }} id="my-helper-text">
+                    Please select atleast one day
+                  </FormHelperText>
+                ) : null}
               </>
             )}
             <Grid container mt={2} spacing={2}>
