@@ -32,6 +32,7 @@ import {
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import moment from "moment";
+import { formatInUtc } from "../../common/date";
 import _ from "lodash";
 import SuccessModel from "./SuccessModel";
 
@@ -329,7 +330,8 @@ function ClassForm({
           }
           i = i + 1;
         }
-        classFields.date = moment.utc(newDate).format("YYYY-MM-DD");
+        // classFields.date = moment.utc(newDate).format("YYYY-MM-DD");
+        classFields.date = formatInUtc(newDate, "yyyy-MM-dd");
       } else {
         classFields.date = classFields.date;
       }
