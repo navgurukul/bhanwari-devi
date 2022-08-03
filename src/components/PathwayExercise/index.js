@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // const {languageMap} = require("../../pages/CourseContent/languageMap");
 
@@ -203,12 +204,30 @@ function PathwayExercise() {
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
-      <MenuItem value={availableLang[0]}>{Lang[availableLang[0]]}</MenuItem>
+      <MenuItem
+        style={{
+          position: "relative",
+          right: "-30px",
+        }}
+        value={availableLang[0]}
+      >
+        {Lang[availableLang[0]]}
+      </MenuItem>
     ) : (
       <Select
+        style={{
+          position: "relative",
+          right: "-30px",
+        }}
         disableUnderline
         value={language}
-        // IconComponent={() => null}
+        IconComponent={() => (
+          <KeyboardArrowDownIcon
+            style={{
+              marginLeft: "-20px",
+            }}
+          />
+        )}
         onChange={(e) => {
           setLanguage(e.target.value);
         }}
@@ -335,7 +354,15 @@ function PathwayExercise() {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" component="div" pt={1}>
+              <Typography
+                variant="h6"
+                component="div"
+                pt={1}
+                style={{
+                  position: "relative",
+                  left: "-30px",
+                }}
+              >
                 <Link
                   style={{ color: "#6D6D6D" }}
                   to={
@@ -408,7 +435,6 @@ function PathwayExercise() {
                   <CloseIcon />
                 </Link>
               </Typography>
-
               <LangDropDown />
             </div>
             <Toolbar>
@@ -473,6 +499,8 @@ function PathwayExercise() {
           <Button
             style={{
               opacity: `${exerciseId < courseLength ? 1 : 0}`,
+              position: "relative",
+              right: "-10px",
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}

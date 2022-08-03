@@ -41,7 +41,7 @@ const pathwayData = [
   },
   {
     title: "Javascript",
-    code: "JVSCPT",
+    code: "JSRPIT",
     image: "web-development",
     description: "Learn the basics of tech that powers the web",
   },
@@ -220,7 +220,6 @@ function Home() {
               Explore the Learning Tracks
             </Typography>
           </Container>
-
           <Container className={classes.cardGrid} maxWidth="lg">
             <Grid container spacing={4}>
               {pathwayData.map((item) => (

@@ -44,7 +44,6 @@ function ClassForm({
   formType,
 }) {
   const user = useSelector(({ User }) => User);
-
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit.title || "",
@@ -55,6 +54,16 @@ function ClassForm({
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class.on_days.split(",")
       : [],
+    // start_time: classToEdit.start_time || new Date("2018-01-01T00:00:00.000Z"),
+    // end_time: classToEdit.end_time || new Date("2018-01-01T00:00:00.000Z"),
+    // start_time: new Date(),
+    // end_time: new Date().setHours(new Date().getHours() + 1),
+    // ...............................................
+    // start_time: new Date(classToEdit.start_time) || new Date(),
+    // end_time:
+    //   new Date(classToEdit.end_time) ||
+    //   new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
+    // ..................................................
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
       : new Date(),
