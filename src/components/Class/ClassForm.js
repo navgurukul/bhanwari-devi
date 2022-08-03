@@ -298,18 +298,20 @@ function ClassForm({
       let flag = false;
       let firstDay = "";
       for (let i in days) {
-        if (onDay === days[i]) {
-          flag = true;
-        }
-        if (flag) {
-          for (let j of weekDday) {
-            if (days[j] === days[i]) {
-              flag = false;
-              firstDay = j;
-              setMatchDay(false);
-              break;
-            } else {
-              setMatchDay(true);
+        for (let k in days) {
+          if (onDay === days[k]) {
+            flag = true;
+          }
+          if (flag) {
+            for (let j of weekDday) {
+              if (days[j] === days[k]) {
+                flag = false;
+                firstDay = j;
+                setMatchDay(false);
+                break;
+              } else {
+                setMatchDay(true);
+              }
             }
           }
         }
