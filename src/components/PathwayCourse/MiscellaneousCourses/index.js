@@ -69,7 +69,7 @@ function MiscellaneousCourses() {
           <Typography variant="h5" align={isActive ? "center" : "left"}>
             Courses
           </Typography>
-          <Grid sx={{ mt: 2 }} container spacing={2}>
+          <Grid sx={{ mt: "16px" }} container spacing={2}>
             {console.log(otherCourses)}
             {otherCourses &&
               otherCourses.map((item, index) => (

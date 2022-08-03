@@ -56,7 +56,7 @@ export default function CheckMoreBatches(props) {
                   alt="Students Img"
                 />
                 {format(item.start_time, "dd MMM yy")} -{" "}
-                {format(item.end_time, "dd MMM yy")}
+                {format(item.end_batch_time, "dd MMM yy")}
               </Typography>
               <Button
                 fullWidth
@@ -65,7 +65,7 @@ export default function CheckMoreBatches(props) {
                   setAlertData({
                     title: item.title,
                     start_time: item.start_time,
-                    end_time: item.end_time,
+                    end_time: item.end_batch_time,
                     id: item.id,
                   });
                 }}
@@ -80,7 +80,7 @@ export default function CheckMoreBatches(props) {
             close={close}
             title={AlertData?.title}
             start_time={AlertData?.start_time}
-            end_time={AlertData?.end_time}
+            end_time={AlertData?.end_batch_time}
             id={AlertData?.id}
             registerAll={true}
             type="batch"

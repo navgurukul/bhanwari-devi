@@ -7,6 +7,7 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
+import { PATHS, interpolatePath } from "../../constant";
 import axios from "axios";
 import { format } from "../../common/date";
 import React, { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import DropOut from "../BatchClassComponents/DropOut";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import useStyles from "./styles";
+import { Link } from "react-router-dom";
 
 function DropOutIndividualComponent(props) {
   const classes = useStyles();
@@ -27,46 +29,53 @@ function DropOutIndividualComponent(props) {
 
   return (
     <>
-      <Card className={classes.cardDrop}>
-        <CardContent className={classes.cardContent}>
-          <Chip
-            variant="filled"
-            label={pathway_name}
-            // backgroundColor="lemonchiffon"
-            sx={{
-              background: "lemonchiffon",
-            }}
-            className={classes.cardChip}
-          />
-          <Typography variant="subtitle1" color="black">
-            {title}
-          </Typography>
-          <Typography variant="body1" mt={2} className={classes.cardImg}>
-            {/* <img src={require("./assest/calendar.svg")} /> */}
-            <Typography variant="body1" ml={1}>
-              From {format(start_time, "dd MMM yy")} -{" "}
-              {format(end_time, "dd MMM yy")}
+      <Link
+        className={classes.link}
+        to={interpolatePath(PATHS.PATHWAY_COURSE, {
+          pathwayId: 1,
+        })}
+      >
+        <Card className={classes.cardDrop}>
+          <CardContent className={classes.cardContent}>
+            <Chip
+              variant="filled"
+              label={pathway_name}
+              // backgroundColor="lemonchiffon"
+              sx={{
+                background: "lemonchiffon",
+              }}
+              className={classes.cardChip}
+            />
+            <Typography variant="subtitle1" color="black">
+              {title}
             </Typography>
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button
-            onClick={() => {
-              setOpen(true);
-            }}
-            color="error"
-          >
-            Drop Out
-          </Button>
-        </CardActions>
-      </Card>
-      <DropOut
-        open={open}
-        close={close}
-        title={title}
-        id={id}
-        unregister_all={true}
-      />
+            <Typography variant="body1" mt={2} className={classes.cardImg}>
+              {/* <img src={require("./assest/calendar.svg")} /> */}
+              <Typography variant="body1" ml={1}>
+                From {format(start_time, "dd MMM yy")} -{" "}
+                {format(end_time, "dd MMM yy")}
+              </Typography>
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              onClick={() => {
+                setOpen(true);
+              }}
+              color="error"
+            >
+              Drop Out
+            </Button>
+          </CardActions>
+        </Card>
+        <DropOut
+          open={open}
+          close={close}
+          title={title}
+          id={id}
+          unregister_all={true}
+        />
+      </Link>
     </>
   );
 }
@@ -93,6 +102,10 @@ function DropOutBatchesProfile() {
     });
   }, [open]);
 
+  // if (dropOutBatches !== null) {
+  //   dropOutBatches.map((item) => {console.log(item.pathway_id)})
+  // }
+
   return (
     <div
       style={{
@@ -105,11 +118,11 @@ function DropOutBatchesProfile() {
     >
       <div>
         {dropOutBatches && (
-          <Typography variant="subtitle1" color="gray">
+          <Typography variant="subtitle1" color="text.secondary" ml={3}>
             Enrolled Batches
           </Typography>
         )}
-        <Grid container spacing={2}>
+        <Grid container>
           {dropOutBatches?.map((dropOutBatch, index) => {
             return (
               <Grid item xs={12} sm={6} md={6}>

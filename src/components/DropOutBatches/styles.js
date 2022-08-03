@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme) => ({
   cardDrop: {
     margin: "20px",
     minWidth: "300px",
+    cursor: "pointer",
   },
   cardContent: {
     height: "145px",
@@ -21,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
     alignItems: "center",
+  },
+  link: {
+    textDecoration: "none",
+    color: "black",
   },
 }));
 export default useStyles;

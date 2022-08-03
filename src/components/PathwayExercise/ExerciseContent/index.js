@@ -374,7 +374,7 @@ function ExerciseContent({ exerciseId, lang }) {
                     id={courseData.id}
                     facilitator={courseData.facilitator.name}
                     start_time={courseData.start_time}
-                    end_time={courseData.end_time}
+                    end_time={courseData.end_batch_time}
                     is_enrolled={courseData.is_enrolled}
                     meet_link={courseData.meet_link}
                   />

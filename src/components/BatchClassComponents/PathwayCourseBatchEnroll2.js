@@ -48,7 +48,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
               alt="Students Img"
             />
             {format(upcomingBatchesData[0]?.start_time, "dd MMM yy")} -{" "}
-            {format(upcomingBatchesData[0]?.end_time, "dd MMM yy")}
+            {format(upcomingBatchesData[0]?.end_batch_time, "dd MMM yy")}
           </Typography>
           <Typography
             variant="body1"
@@ -70,7 +70,7 @@ const PathwayCourseBatchEnroll2 = (props) => {
               close={close}
               title={upcomingBatchesData[0]?.title}
               start_time={upcomingBatchesData[0]?.start_time}
-              end_time={upcomingBatchesData[0]?.end_time}
+              end_time={upcomingBatchesData[0]?.end_batch_time}
               id={upcomingBatchesData[0]?.id}
               registerAll={true}
               type="batch"
