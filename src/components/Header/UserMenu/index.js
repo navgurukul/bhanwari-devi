@@ -62,11 +62,27 @@ function UserMenu() {
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem
             onClick={handleCloseUserMenu}
-            sx={{ width: 120, margin: "0px 10px" }}
+            sx={{ width: 150, margin: "0px 13px" }}
           >
             <Typography textAlign="center">
               <Message constantKey="PROFILE" />
             </Typography>
+          </MenuItem>
+        </NavLink>
+        <NavLink to={PATHS.ADMISSION} className={classes.link}>
+          <MenuItem
+            onClick={handleCloseUserMenu}
+            sx={{ width: 150, margin: "0px 13px" }}
+          >
+            <Typography textAlign="center">NG Admissions</Typography>
+          </MenuItem>
+        </NavLink>
+        <NavLink to={PATHS.OPPORTUNITIES} className={classes.link}>
+          <MenuItem
+            onClick={handleCloseUserMenu}
+            sx={{ width: 150, margin: "0px 13px" }}
+          >
+            <Typography textAlign="center">Opportunities</Typography>
           </MenuItem>
         </NavLink>
         <Link
@@ -75,7 +91,7 @@ function UserMenu() {
         >
           <MenuItem
             onClick={handleCloseUserMenu}
-            sx={{ width: 120, margin: "0px 10px" }}
+            sx={{ width: 150, margin: "0px 13px" }}
           >
             <Typography textAlign="center" color="error">
               <Message constantKey="LOGOUT" />
