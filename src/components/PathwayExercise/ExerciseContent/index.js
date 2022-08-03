@@ -266,7 +266,7 @@ const RenderContent = ({ data, exercise }) => {
   return "";
 };
 
-function ExerciseContent({ exerciseId, lang }) {
+function ExerciseContent({ exerciseId, lang, isAssessment, setIsAssessment }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -350,6 +350,13 @@ function ExerciseContent({ exerciseId, lang }) {
   }, [params.pathwayId]);
 
   function ExerciseContentMain() {
+    useEffect(() => {
+      if (exercise?.content_type === "assessment") {
+        setIsAssessment(true);
+      } else {
+        setIsAssessment(false);
+      }
+    }, [params.exerciseId]);
     return (
       <Container maxWidth="lg">
         <Grid container justifyContent={"center"}>

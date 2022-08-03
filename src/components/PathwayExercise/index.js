@@ -156,7 +156,7 @@ function PathwayExercise() {
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
   const currentCourse = params.courseId;
-
+  const [isAssessment, setIsAssessment] = useState(false);
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
     axios({
@@ -275,20 +275,22 @@ function PathwayExercise() {
       );
       console.log(progressTrackId);
       if (parseInt(params.exerciseId) >= progressTrackId) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization: user.data?.token || "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            course_index: parseInt(params.exerciseId) + 1,
-          },
-        });
+        if (!isAssessment) {
+          axios({
+            method: METHODS.POST,
+            url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+            headers: {
+              "version-code": versionCode,
+              accept: "application/json",
+              Authorization: user.data?.token || "",
+            },
+            data: {
+              pathway_id: params.pathwayId,
+              course_id: params.courseId,
+              course_index: parseInt(params.exerciseId) + 1,
+            },
+          });
+        }
       }
       setExerciseId(exerciseId + 1);
     } else {
@@ -315,6 +317,21 @@ function PathwayExercise() {
           })
           .catch((err) => {});
       }
+    }
+  };
+
+  const nextArrowClickHandler = () => {
+    if (exerciseId < courseLength - 1) {
+      history.push(
+        interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          courseId: params.courseId,
+          exerciseId: exerciseId + 1,
+          pathwayId: params.pathwayId,
+        })
+      );
+      console.log(progressTrackId);
+
+      setExerciseId(exerciseId + 1);
     }
   };
 
@@ -411,7 +428,7 @@ function PathwayExercise() {
                 <ArrowForwardIosIcon
                   opacity={`${exerciseId < courseLength - 1 ? 1 : 0}`}
                   sx={{ marginLeft: 3 }}
-                  onClick={nextClickHandler}
+                  onClick={nextArrowClickHandler}
                 />
               </Toolbar>
               <LangDropDown />
@@ -479,7 +496,12 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <ExerciseContent exerciseId={exerciseId} lang={language} />
+        <ExerciseContent
+          exerciseId={exerciseId}
+          lang={language}
+          setIsAssessment={setIsAssessment}
+          isAssessment={isAssessment}
+        />
       )}
       <Box>
         <Toolbar className={classes.bottomRow}>
