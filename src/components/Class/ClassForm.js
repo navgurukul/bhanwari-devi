@@ -165,24 +165,6 @@ function ClassForm({
   }, [classFields.partner_id.length]);
 
   useEffect(() => {
-    if (classFields.date === moment().format("YYYY-MM-DD")) {
-      setClassFields({
-        ...classFields,
-        ["start_time"]: classToEdit.start_time
-          ? new Date(classToEdit.start_time)
-          : new Date(),
-      });
-
-      setClassFields({
-        ...classFields,
-        ["end_time"]: classToEdit.end_time
-          ? new Date(classToEdit.end_time)
-          : new Date(),
-      });
-    }
-  }, [classFields.date]);
-
-  useEffect(() => {
     if (
       classFields.title !== "" &&
       classFields.partner_id.length > 0 &&
