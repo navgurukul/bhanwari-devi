@@ -59,7 +59,6 @@ function ReturningUserPage() {
             <LearningTrackCard item={item} />
           ))}
         </Grid>
-
       </Container>
     </>
   );

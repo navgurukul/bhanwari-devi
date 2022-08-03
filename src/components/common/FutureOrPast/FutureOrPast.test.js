@@ -9,7 +9,7 @@ describe("FutureOrPast", () => {
   const HOUR = 60 * MINUTE;
   const DAY = 24 * HOUR;
   const YEAR = 365 * DAY;
-  const MAX_DELAY = 2**31 - 1;
+  const MAX_DELAY = 2 ** 31 - 1;
 
   const checkFutureOrPast = (testTimes) => {
     const { rerender, getByText } = render(<FutureOrPast />);
@@ -20,7 +20,9 @@ describe("FutureOrPast", () => {
           //startTime="2022-06-21T03:25:00.000+05:30"
           date={
             new Date(
-              new Date().setMilliseconds(new Date().getMilliseconds() + testTime)
+              new Date().setMilliseconds(
+                new Date().getMilliseconds() + testTime
+              )
             )
           }
           future={<div>future</div>}

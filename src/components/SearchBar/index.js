@@ -38,7 +38,7 @@ function SearchCourse() {
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
-  
+
   // useEffect(() => setSearch(query || ""), [query]);
 
   const handleSearchChange = (e) => {
@@ -48,11 +48,10 @@ function SearchCourse() {
   };
 
   const pathwayCourseIds =
-    (pathway.data?.pathways
+    pathway.data?.pathways
       .map((pathway) => pathway.courses || [])
       .flat()
-      .map((course) => course.id)) ||
-    [];
+      .map((course) => course.id) || [];
 
   const otherCourseResults = data?.allCourses.filter((item) => {
     return (
