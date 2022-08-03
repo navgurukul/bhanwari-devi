@@ -186,8 +186,7 @@ function ClassForm({
     if (
       classFields.title !== "" &&
       classFields.partner_id.length > 0 &&
-      classFields.on_days.length > 0 &&
-      classFields.start_time <= classFields.end_time
+      classFields.on_days.length > 0
     ) {
       setButtonDisabled(false);
     } else {
@@ -200,15 +199,6 @@ function ClassForm({
     classFields.start_time,
     classFields.end_time,
   ]);
-
-  useEffect(() => {
-    if (classFields.start_time > classFields.end_time) {
-      setClassFields({
-        ...classFields,
-        ["end_time"]: classFields.start_time,
-      });
-    }
-  }, [classFields.start_time, classFields.end_time]);
 
   const courses =
     data.Pathways.data &&
