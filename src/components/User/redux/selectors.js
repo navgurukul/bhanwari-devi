@@ -57,6 +57,8 @@ export const isStudentOnly = ({ User }) =>
     (savedRole) => savedRolesToKeysMap[savedRole] !== STUDENT_ROLE_KEY
   );
 
+export const selectPartnerId = ({ User }) => User.data?.user.partner_id;
+
 /**
  * Selector to get user roles
  * @return {Array.<{key: string, msgKey: string, assignedRole:boolean, properties: Object}>}

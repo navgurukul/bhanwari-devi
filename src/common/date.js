@@ -4,9 +4,10 @@ import {
   differenceInMinutes as minutesDifference,
   differenceInMilliseconds as msDifference,
   intervalToDuration,
+  subDays as subtractDays,
 } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
-// import {formatInTimeZone as ftz} from "date-fns-tz";
+import { formatInTimeZone as ftz } from "date-fns-tz";
 /**
  * Returns a copy of the given date if supplied a Date object input or a Date
  *    object from the given timestamp.
@@ -228,13 +229,29 @@ export const millisecondsUntil = (date) => {
 //   return makeDateFrom(date).toISOString();
 // };
 
-// const formatInTimeZone = (date, timeZone, formatStr) => {
-//   return ftz(makeDateFrom(date), timeZone, formatStr);
-// };
+const formatInTimeZone = (date, timeZone, formatStr) => {
+  return ftz(makeDateFrom(date), timeZone, formatStr);
+};
 
-// const formatInUtc = (date, formatStr) => {
-//   return formatInTimeZone(date, "UTC", formatStr);
-// };
+export const formatInUtc = (date, formatStr) => {
+  return formatInTimeZone(date, "UTC", formatStr);
+};
+
+/**
+ * Wrapper for date-fns's subDays but allows date strings
+ *     (See: https://date-fns.org/v2.28.0/docs/subDays)
+ * @param {Date|string} date A valid Date string recognized by
+ *     formatInTimeZone
+ *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
+ *     or Date to subtract days from
+ * @param {number} amount the amount of days to be subtracted. Positive
+ *     decimals will be rounded using Math.floor, decimals less than zero will
+ *     be rounded using Math.ceil.
+ * @return {Date} the new date with the days subtracted
+ */
+export const subDays = (date, amount) => {
+  return subtractDays(makeDateFrom(date), amount);
+};
 
 /**
  * Wrapper for the date-fns format function but allows date strings

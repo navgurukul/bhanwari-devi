@@ -1,5 +1,6 @@
 name: Get and commit upcoming batch data for students
 on:
+  repository_dispatch:
   schedule:
     # * is a special character in YAML so you have to quote this string
     # if [ $statusCode -eq "200" ]; then echo "success"; else echo "failure"; fi
@@ -20,7 +21,8 @@ jobs:
         run: |
           startTime=$(node -e "console.log(new Date(new Date().valueOf() - 7*24*60*60*1000).valueOf())")
           echo "Getting classes starting from $startTime"
-          statusCode=$(curl $REACT_APP_MERAKI_URL/classes/all?startDate=$startTime -H "Authorization: $class_auth_key" -o $CLASS_DATA_FILE_PATH -w "%{http_code}")
+          # statusCode=$(curl $REACT_APP_MERAKI_URL/classes/all?startDate=$startTime -H "Authorization: $class_auth_key" -o $CLASS_DATA_FILE_PATH -w "%{http_code}")
+          statusCode=$(curl $REACT_APP_MERAKI_URL/classes/all?startDate=$startTime -o $CLASS_DATA_FILE_PATH -w "%{http_code}")
           echo "::set-output name=status_code::$statusCode"
           if [ $statusCode -eq "200" ]; then
             echo "Successfully retrieved class data"

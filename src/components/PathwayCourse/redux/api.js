@@ -1,6 +1,7 @@
 import axios from "axios";
 import { METHODS } from "../../../services/api";
 import { versionCode, PATHWAYS_INFO } from "../../../constant";
+import { isBeforeNow, subDays } from "../../../common/date";
 
 export const getPathways = () => {
   return axios({
@@ -73,66 +74,72 @@ export const getUpcomingBatches = (data) => {
     },
   });
   */
-  if (data.isStudent) {
-    // Change this to NG repository data file once API token added to secrets
-    return axios(
-      "https://raw.githubusercontent.com/jschanker/githubactions-testing/main/data/upcoming-batches.json"
-    ).then((response) => {
-      if (!response?.data) {
-        return response;
-      } else {
-        // only get batches from specified pathway
-        response.data = response.data[pathwayId];
-        return response;
-      }
-    });
-  }
-  return axios({
-    method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes/all?startDate=${new Date(
-      new Date().valueOf() - 7 * 24 * 60 * 60 * 1000
-    ).valueOf()}`,
-    headers: {
-      accept: "application/json",
-      Authorization: authToken,
-    },
-  }).then((response) => {
-    if (!Array.isArray(response?.data)) {
+  // 0 is used for batches with null partner_id's
+  // Change this to NG repository data file once unprotected class endpoint
+  //   added
+  const filePath =
+    'https://raw.githubusercontent.com/jschanker/githubactions-testing/main/' +
+    'data/upcoming-batches_' + (parseInt(partnerId) || 0) + '.json';
+  // if (data.isStudent) {
+  return axios(filePath).then((response) => {
+    if (!response?.data) {
+      return response;
+    } else {
+      // only get batches from specified pathway whose first class hasn't ended
+      response.data = response.data[pathwayId]?.filter(
+        c => !isBeforeNow(c.end_time || c.start_time)
+      );
       return response;
     }
-    // Assume they're sorted by time from nearest in the future from back-end and
-    //  that batch classes scheduled to meet at least once per week (and haven't been canceled).
-    //  In that case, upcoming batches are batches for which no classes starting from 1 week ago
-    //  have met prior to now
-    const classesStartingFromLastWeek = response.data;
-    // map from recurring ids to the end (or start) time of the last class with that id
-    const recurringIdToLastClassTimeMap = new Map();
-    const upcomingBatchClasses = [];
+  }).catch(e => {
+    // static file for this partner's batches is not available, make API call
+    return axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/all?startDate=${
+        subDays(new Date(), 7).valueOf()
+      }`,
+      headers: {
+        accept: "application/json",
+        Authorization: authToken,
+      },
+    }).then((response) => {
+      if (!Array.isArray(response?.data)) {
+        return response;
+      }
+      // Assume they're sorted by time from nearest in the future from back-end and
+      //  that batch classes scheduled to meet at least once per week (and haven't been canceled).
+      //  In that case, upcoming batches are batches for which no classes starting from 1 week ago
+      //  have met prior to now
+      const classesStartingFromLastWeek = response.data;
+      // map from recurring ids to the end (or start) time of the last class with that id
+      const recurringIdToLastClassTimeMap = new Map();
+      const upcomingBatchClasses = [];
 
-    classesStartingFromLastWeek.forEach((c) => {
-      // map old to new pathway for Python (fix, very hacky)
-      const cPathwayId =
-        c.pathway_v2 || { 39: 1 }[c.pathway_v1] || c.pathway_v1 || c.pathway_id;
-      if (
-        c.recurring_id &&
-        cPathwayId == pathwayId
-      ) {
-        const latestTime = c.end_time || c.start_time;
-        if (!recurringIdToLastClassTimeMap.has(c.recurring_id)) {
-          new Date(latestTime) > new Date() &&
-            upcomingBatchClasses.push(c);
-        }
-        recurringIdToLastClassTimeMap.set(c.recurring_id, latestTime);
-      }  
+      classesStartingFromLastWeek.forEach((c) => {
+        // map old to new pathway for Python (fix, very hacky)
+        const cPathwayId =
+          c.pathway_v2 || { 39: 1 }[c.pathway_v1] || c.pathway_v1 || c.pathway_id;
+        if (
+          c.recurring_id &&
+          cPathwayId == pathwayId
+        ) {
+          const latestTime = c.end_time || c.start_time;
+          if (!recurringIdToLastClassTimeMap.has(c.recurring_id)) {
+            new Date(latestTime) > new Date() &&
+              upcomingBatchClasses.push(c);
+          }
+          recurringIdToLastClassTimeMap.set(c.recurring_id, latestTime);
+        }  
+      });
+
+      upcomingBatchClasses
+        .forEach(
+          (c) => (c.end_batch_time = recurringIdToLastClassTimeMap.get(c.recurring_id))
+        );
+
+      response.data = upcomingBatchClasses;
+      return response;
     });
-
-    upcomingBatchClasses
-      .forEach(
-        (c) => (c.end_batch_time = recurringIdToLastClassTimeMap.get(c.recurring_id))
-      );
-
-    response.data = upcomingBatchClasses;
-    return response;
   });
 };
 
