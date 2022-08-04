@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import CloseIcon from "@material-ui/icons/Close";
 import { lang } from "../../constant";
@@ -9,6 +10,7 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
+import { FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
 import {
   Typography,
@@ -90,7 +92,15 @@ function ClassForm({
   );
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [showError, setShowError] = useState({
+    batch: true,
+    partner: true,
+  });
+  const [helperText, setHelperText] = useState({
+    batch: "Please enter a batch name",
+    partner: "Please select one or more partners",
+  });
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
@@ -103,6 +113,75 @@ function ClassForm({
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
   }, [dispatch, 1]);
+
+  useEffect(() => {
+    if (classFields.type == "batch" && classFields.title !== "") {
+      setShowError((prev) => {
+        return { ...prev, batch: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, batch: "" };
+      });
+    } else if (classFields.type == "batch" && classFields.title === "") {
+      setShowError((prev) => {
+        return { ...prev, batch: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, batch: "Please enter a batch name" };
+      });
+    } else {
+      setShowError(
+        setShowError(() => {
+          return { partner: "", batch: "" };
+        })
+      );
+    }
+  }, [classFields.title]);
+
+  useEffect(() => {
+    if (classFields.type == "batch" && classFields.partner_id.length > 0) {
+      setShowError((prev) => {
+        return { ...prev, partner: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "" };
+      });
+    } else if (
+      classFields.type == "batch" &&
+      classFields.partner_id.length === 0
+    ) {
+      setShowError((prev) => {
+        return { ...prev, partner: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "Please select one or more partners" };
+      });
+    } else {
+      setShowError(
+        setShowError(() => {
+          return { partner: "", batch: "" };
+        })
+      );
+    }
+  }, [classFields.partner_id.length]);
+
+  useEffect(() => {
+    if (
+      classFields.title !== "" &&
+      classFields.partner_id.length > 0 &&
+      classFields.on_days.length > 0
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [
+    classFields.title,
+    classFields.partner_id.length,
+    classFields.on_days.length,
+    classFields.start_time,
+    classFields.end_time,
+  ]);
 
   const courses =
     data.Pathways.data &&
@@ -496,12 +575,15 @@ function ClassForm({
             )}
             <TextField
               // sx={{ mt: 4 }}
+              error={showError.batch}
+              id="outlined-error-helper-text"
               fullWidth
               label={`${
                 classFields.type === "batch" ? "Batch Name" : "Class Title"
               }`}
               name="title"
               value={classFields.title}
+              helperText={helperText.batch}
               onChange={(e) => {
                 changeHandler(e);
               }}
@@ -533,6 +615,9 @@ function ClassForm({
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      id="outlined-error-helper-text"
+                      error={showError.partner}
+                      helperText={helperText.partner}
                       variant="outlined"
                       label="For Partner"
                     />
@@ -573,7 +658,7 @@ function ClassForm({
               type="date"
               variant="outlined"
               inputProps={{
-                min: classFields?.date,
+                min: moment().format("YYYY-MM-DD"),
               }}
               value={classFields.date}
               name="date"
@@ -610,6 +695,11 @@ function ClassForm({
                     />
                   ))}
                 </FormGroup>
+                {classFields.on_days.length === 0 ? (
+                  <FormHelperText sx={{ color: "red" }} id="my-helper-text">
+                    Please select atleast one day
+                  </FormHelperText>
+                ) : null}
               </>
             )}
             <Grid container mt={2} spacing={2}>
@@ -629,6 +719,11 @@ function ClassForm({
                             [prop]: time,
                           });
                         }}
+                        minTime={
+                          classFields.date === moment().format("YYYY-MM-DD")
+                            ? new Date()
+                            : null
+                        }
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </Stack>
@@ -685,11 +780,10 @@ function ClassForm({
                       value={item}
                       name="max_enrolment"
                       control={<Radio />}
-                      // checked={
-                      //   classFields.max_enrolment &&
-                      //   classFields.max_enrolment.includes(item)
-                      // }
-                      //issue with max_enrolment default value
+                      checked={
+                        classFields.max_enrolment &&
+                        classFields.max_enrolment.includes(item)
+                      }
                       onChange={(e) => {
                         changeHandler(e);
                       }}
@@ -699,7 +793,12 @@ function ClassForm({
                 })}
               </RadioGroup>
             </FormControl>
-            <Button variant="contained" fullWidth onClick={submitHandle}>
+            <Button
+              style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
+              variant="contained"
+              fullWidth
+              onClick={submitHandle}
+            >
               {(isEditMode ? "Update " : "Create ") +
                 (classFields.type == "batch" ? "Batch" : "Doubt Class")}
             </Button>
