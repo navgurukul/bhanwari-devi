@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import Chip from "@mui/material/Chip";
+import CircleIcon from "@mui/icons-material/Circle";
 import {
   Container,
   Box,
@@ -72,6 +73,7 @@ const PathwayCards = (props) => {
           style={{
             minWidth: isActive ? "290px" : "350",
             marginRight: isActive ? "500px" : "40px",
+            marginLeft: "15px",
           }}
         >
           <Box
@@ -127,12 +129,30 @@ const PathwayCards = (props) => {
             </Stack>
             <Grid container spacing={1}>
               <Grid item xs={2} md={3}>
-                <Typography variant="body2">
+                <Typography
+                  style={{ color: "#6D6D6D", fontSize: "13px" }}
+                  variant="body2"
+                >
                   {format(item.start_time, "dd MMM yy")}
                 </Typography>
               </Grid>
+              <CircleIcon
+                style={{
+                  color: "#6D6D6D",
+                  width: "4px",
+                  height: "4px",
+                  marginTop: "16px",
+                  left: "66px",
+                }}
+              />
               <Grid item>
-                <Typography variant="body2">{language[item.lang]}</Typography>
+                <Typography
+                  // aman this style should be in the css file and refactor it
+                  style={{ color: "#6D6D6D", fontSize: "13px" }}
+                  variant="body2"
+                >
+                  {language[item.lang]}
+                </Typography>
               </Grid>
             </Grid>
           </CardContent>
@@ -143,8 +163,8 @@ const PathwayCards = (props) => {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Typography mb={2} mt={2} variant="h6">
+      <Container style={{ padding: "0" }} maxWidth="lg">
+        <Typography style={{ marginLeft: "15px" }} mb={2} mt={2} variant="h6">
           Upcoming Classes
         </Typography>
 
@@ -154,6 +174,7 @@ const PathwayCards = (props) => {
             display: "flex",
             maxWidth: "100%",
             overflowX: "scroll",
+            paddingBottom: "10px",
           }}
         >
           {userEnrolledClasses?.slice(0, 3).map((item) => {

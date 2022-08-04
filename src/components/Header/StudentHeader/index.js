@@ -1,13 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { DropDown, MobileDropDown } from "../DropDown";
-import {
-  Box,
-  Typography,
-  // Menu,
-  MenuItem,
-  Button,
-} from "@mui/material";
+import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import HeaderNavLink from "../HeaderNavlink";
@@ -102,7 +96,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
       >
         {!leftDrawer && <SearchHeader />}
 
-        <HeaderNavLink
+        {/* <HeaderNavLink
           to={PATHS.ADMISSION}
           text={<Message constantKey="NAVGURUKUL_ADMISSION" />}
           toggleDrawer={toggleDrawer}
@@ -111,7 +105,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           to={PATHS.OPPORTUNITIES}
           text={<Message constantKey="OPPORTUNITIES" />}
           toggleDrawer={toggleDrawer}
-        />
+        /> */}
       </Box>
     </>
   );
