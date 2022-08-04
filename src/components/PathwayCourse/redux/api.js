@@ -63,7 +63,7 @@ export const getPathwaysCourse = (data) => {
 };
 
 export const getUpcomingBatches = (data) => {
-  const { pathwayId, authToken } = data;
+  const { pathwayId, partnerId, authToken } = data;
   /*
   return axios({
     method: METHODS.GET,
