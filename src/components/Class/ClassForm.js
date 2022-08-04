@@ -94,12 +94,17 @@ function ClassForm({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showError, setShowError] = useState({
-    batch: true,
-    partner: true,
+    batch: false,
+    partner: false,
+    days: false,
   });
   const [helperText, setHelperText] = useState({
     batch: "Please enter a batch name",
     partner: "Please select one or more partners",
+  });
+  const [onInput, setOnInput] = useState({
+    batch: false,
+    partner: false,
   });
   //getting pathway courses
   const dispatch = useDispatch();
@@ -115,53 +120,42 @@ function ClassForm({
   }, [dispatch, 1]);
 
   useEffect(() => {
-    if (classFields.type == "batch" && classFields.title !== "") {
-      setShowError((prev) => {
-        return { ...prev, batch: false };
-      });
-      setHelperText((prev) => {
-        return { ...prev, batch: "" };
-      });
-    } else if (classFields.type == "batch" && classFields.title === "") {
-      setShowError((prev) => {
-        return { ...prev, batch: true };
-      });
-      setHelperText((prev) => {
-        return { ...prev, batch: "Please enter a batch name" };
-      });
-    } else {
-      setShowError(
-        setShowError(() => {
-          return { partner: "", batch: "" };
-        })
-      );
+    if (classFields.type == "batch") {
+      if (onInput.batch === true && classFields.title === "") {
+        setShowError((prev) => {
+          return { ...prev, batch: true };
+        });
+        setHelperText((prev) => {
+          return { ...prev, batch: "Please enter a batch name" };
+        });
+      } else {
+        setShowError((prev) => {
+          return { ...prev, batch: false };
+        });
+        setHelperText((prev) => {
+          return { ...prev, batch: "" };
+        });
+      }
     }
   }, [classFields.title]);
 
   useEffect(() => {
-    if (classFields.type == "batch" && classFields.partner_id.length > 0) {
-      setShowError((prev) => {
-        return { ...prev, partner: false };
-      });
-      setHelperText((prev) => {
-        return { ...prev, partner: "" };
-      });
-    } else if (
-      classFields.type == "batch" &&
-      classFields.partner_id.length === 0
-    ) {
-      setShowError((prev) => {
-        return { ...prev, partner: true };
-      });
-      setHelperText((prev) => {
-        return { ...prev, partner: "Please select one or more partners" };
-      });
-    } else {
-      setShowError(
-        setShowError(() => {
-          return { partner: "", batch: "" };
-        })
-      );
+    if (classFields.type == "batch") {
+      if (onInput.partner && classFields.partner_id.length === 0) {
+        setShowError((prev) => {
+          return { ...prev, partner: true };
+        });
+        setHelperText((prev) => {
+          return { ...prev, partner: "Please select one or more partners" };
+        });
+      } else {
+        setShowError((prev) => {
+          return { ...prev, partner: false };
+        });
+        setHelperText((prev) => {
+          return { ...prev, partner: "" };
+        });
+      }
     }
   }, [classFields.partner_id.length]);
 
@@ -576,6 +570,11 @@ function ClassForm({
             <TextField
               // sx={{ mt: 4 }}
               error={showError.batch}
+              onClick={() => {
+                setOnInput((prev) => {
+                  return { ...prev, batch: true };
+                });
+              }}
               id="outlined-error-helper-text"
               fullWidth
               label={`${
@@ -617,6 +616,11 @@ function ClassForm({
                       {...params}
                       id="outlined-error-helper-text"
                       error={showError.partner}
+                      onClick={() => {
+                        setOnInput((prev) => {
+                          return { ...prev, partner: true };
+                        });
+                      }}
                       helperText={helperText.partner}
                       variant="outlined"
                       label="For Partner"
@@ -690,12 +694,17 @@ function ClassForm({
                           onChange={handleDaySelection}
                         />
                       }
+                      onClick={() => {
+                        setOnInput((prev) => {
+                          return { ...prev, days: true };
+                        });
+                      }}
                       label={item}
                       labelPlacement={item}
                     />
                   ))}
                 </FormGroup>
-                {classFields.on_days.length === 0 ? (
+                {classFields.on_days.length === 0 && onInput.days ? (
                   <FormHelperText sx={{ color: "red" }} id="my-helper-text">
                     Please select atleast one day
                   </FormHelperText>
