@@ -21,6 +21,7 @@ import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
 import useStyles from "./styles";
 import SuccessModel from "../../components/Class/SuccessModel";
+import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -135,11 +136,23 @@ function ToggleClassFormModal() {
       });
     }
   }, [calledOnce]);
-
+  const [newVolunteer, setNewVolunteer] = useState(false);
+  useEffect(() => {
+    const newVol = localStorage.getItem("isNewVolunteer");
+    if (newVol == "false") {
+      setNewVolunteer(false);
+    } else {
+      setNewVolunteer(true);
+    }
+  }, [newVolunteer]);
   return (
     <Container maxWidth="lg" sx={{ mt: "40px", width: "90%" }}>
       {canSpecifyFacilitator && (
         <span>
+          {newVolunteer && (
+            <NewVolunteerCard setNewVolunteer={setNewVolunteer} />
+          )}
+
           <Box sx={{ display: "flex", direction: "row" }}>
             <Button
               variant="contained"

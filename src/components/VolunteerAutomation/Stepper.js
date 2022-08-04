@@ -81,20 +81,20 @@ function HorizontalLinearStepper() {
       label: "Code of Conduct",
       component: <CodeOfConduct setDisable={setDisable} />,
     },
-    {
-      label: "Attend Class",
-      itemKey: "enrollId",
-      component: (
-        <AttendClass
-          setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
-          enrollId={enrollId}
-          pathwayId={pathwayId}
-          setStepCompleted={setActiveStepCompleted}
-          setDisable={setDisable}
-          completed={completed[4]}
-        />
-      ),
-    },
+    // {
+    //   label: "Attend Class",
+    //   itemKey: "enrollId",
+    //   component: (
+    //     <AttendClass
+    //       setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
+    //       enrollId={enrollId}
+    //       pathwayId={pathwayId}
+    //       setStepCompleted={setActiveStepCompleted}
+    //       setDisable={setDisable}
+    //       completed={completed[4]}
+    //     />
+    //   ),
+    // },
     {
       label: "Confirmation",
       component: <Confirmation setDisable={setDisable} />,
@@ -155,6 +155,7 @@ function HorizontalLinearStepper() {
       },
     }).then(
       (res) => {
+        localStorage.setItem("isNewVolunteer", true);
         history.push(PATHS.CLASS);
       },
       (error) => {
