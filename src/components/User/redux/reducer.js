@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: true,
         error: false,
-        data: null,
+        // data: null,
       };
     case types.ON_USER_REFRESH_DATA_SUCCESS:
       return {
