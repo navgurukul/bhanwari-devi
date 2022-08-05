@@ -17,7 +17,7 @@ import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { METHODS } from "../../services/api";
 import { actions } from "../User/redux/action";
 
@@ -30,7 +30,7 @@ function HorizontalLinearStepper() {
     completed: [],
   };
   const user = useSelector(({ User }) => User);
-  const dispatch = React.useDispatch();
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [completed, setCompleted] = React.useState(currentState.completed);
