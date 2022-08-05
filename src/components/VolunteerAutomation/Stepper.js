@@ -30,6 +30,7 @@ function HorizontalLinearStepper() {
     completed: [],
   };
   const user = useSelector(({ User }) => User);
+  const roles = user.data?.user.roles; // TODO: Use selector for this
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -45,6 +46,12 @@ function HorizontalLinearStepper() {
     currentState[key] = value;
     saveObjectState("volunteer_automation", "state", currentState);
   };
+  
+  React.useEffect(() => {
+    if (roles.includes("volunteer")) {
+      history.push(PATHS.CLASS);
+    }
+  }, [roles]);
 
   const setActiveStepCompleted = () => {
     const newCompleted = completed.slice();
@@ -158,7 +165,7 @@ function HorizontalLinearStepper() {
     }).then(
       (res) => {
         localStorage.setItem("isNewVolunteer", true);
-        history.push(PATHS.CLASS);
+        // history.push(PATHS.CLASS);
         dispatch(actions.onUserRefreshDataIntent({token: user.data.token}));
       },
       (error) => {
