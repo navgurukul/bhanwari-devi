@@ -139,10 +139,10 @@ function ToggleClassFormModal() {
   const [newVolunteer, setNewVolunteer] = useState(false);
   useEffect(() => {
     const newVol = localStorage.getItem("isNewVolunteer");
-    if (newVol == "false") {
-      setNewVolunteer(false);
-    } else {
+    if (newVol == "true" && newVol != null) {
       setNewVolunteer(true);
+    } else {
+      setNewVolunteer(false);
     }
   }, [newVolunteer]);
   return (
