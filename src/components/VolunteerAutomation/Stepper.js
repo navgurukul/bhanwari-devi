@@ -46,7 +46,7 @@ function HorizontalLinearStepper() {
     currentState[key] = value;
     saveObjectState("volunteer_automation", "state", currentState);
   };
-  
+
   React.useEffect(() => {
     if (roles?.includes("volunteer")) {
       history.push(PATHS.CLASS);
@@ -164,6 +164,8 @@ function HorizontalLinearStepper() {
       },
     }).then(
       (res) => {
+        localStorage.setItem("isNewVolunteer", true);
+        history.push(PATHS.CLASS);
         return axios({
           url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
           method: METHODS.POST,
@@ -174,9 +176,10 @@ function HorizontalLinearStepper() {
         }).then(
           (res) => {
             console.log("res", res);
-            localStorage.setItem("isNewVolunteer", true);
-            // history.push(PATHS.CLASS);
-            dispatch(actions.onUserRefreshDataIntent({token: user.data.token}));
+
+            dispatch(
+              actions.onUserRefreshDataIntent({ token: user.data.token })
+            );
           },
           (error) => {
             console.log(error);
