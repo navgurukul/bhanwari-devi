@@ -104,7 +104,7 @@ const MenuList = (menuItem) => {
                 <Typography
                   variant="body2"
                   color="text.primary"
-                  my={1}
+                  mb={1}
                   className={classes.CareerNDoner}
                 >
                   {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
