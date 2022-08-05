@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
+import { breakpoints } from "../../../theme/constant";
 import { actions as classActions } from "../redux/action";
 import Loader from "../../common/Loader";
 import ClassCard from "../ClassCard";
@@ -96,15 +94,10 @@ function ClassList({ editClass, isShow }) {
         }}
         placeholder="Enter Batch or Class Name"
         value={filterText}
-        sx={{ margin: "12px 0 0 32px", width: "80%", borderRadius: "8px" }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment>
-              <IconButton>
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
+        sx={{
+          margin: isActive ? "12px 0 0 4px" : "12px 0 0 2px",
+          width: isActive ? "97%" : "99%",
+          borderRadius: "8px",
         }}
         onPaste={(e) => {
           e.preventDefault();
@@ -155,7 +148,7 @@ function ClassList({ editClass, isShow }) {
                 : ""}
               {classData.map((item, index) => {
                 return (
-                  <Grid item xs={12} ms={6} md={3} sx={{ mb: "0px" }}>
+                  <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
                     <ClassCard
                       item={item}
                       key={index}
