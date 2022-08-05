@@ -25,6 +25,7 @@ function* handleUserData({ data }) {
 function* refreshUserData({ data }) {
   const res = yield call(sendToken, data);
   if (res.status === 200) {
+    res.data.token = data.token;
     const mappedUserData = { ...res.data, isAuthenticated: true };
     yield put(actions.onUserRefreshDataSuccess(mappedUserData));
   } else {
