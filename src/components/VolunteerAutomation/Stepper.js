@@ -158,15 +158,30 @@ function HorizontalLinearStepper() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-      data: { // TODO: This data isn't saved in the back-end
+      data: {
         contact: contact,
         pathway_id: pathwayId,
       },
     }).then(
       (res) => {
-        localStorage.setItem("isNewVolunteer", true);
-        // history.push(PATHS.CLASS);
-        dispatch(actions.onUserRefreshDataIntent({token: user.data.token}));
+        return axios({
+          url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
+          method: METHODS.POST,
+          headers: {
+            accept: "application/json",
+            Authorization: user.data.token,
+          },
+        }).then(
+          (res) => {
+            console.log("res", res);
+            localStorage.setItem("isNewVolunteer", true);
+            // history.push(PATHS.CLASS);
+            dispatch(actions.onUserRefreshDataIntent({token: user.data.token}));
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       },
       (error) => {
         console.log(error);
