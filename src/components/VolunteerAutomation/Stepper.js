@@ -17,8 +17,9 @@ import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { METHODS } from "../../services/api";
+import { actions } from "../User/redux/action";
 
 import "./styles.scss";
 import { getObjectState, saveObjectState } from "../../common/storage";
@@ -29,6 +30,8 @@ function HorizontalLinearStepper() {
     completed: [],
   };
   const user = useSelector(({ User }) => User);
+  const roles = user?.data?.user.rolesList; // TODO: Use selector for this
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [completed, setCompleted] = React.useState(currentState.completed);
@@ -43,6 +46,12 @@ function HorizontalLinearStepper() {
     currentState[key] = value;
     saveObjectState("volunteer_automation", "state", currentState);
   };
+
+  React.useEffect(() => {
+    if (roles?.includes("volunteer")) {
+      history.push(PATHS.CLASS);
+    }
+  }, [roles]);
 
   const setActiveStepCompleted = () => {
     const newCompleted = completed.slice();
@@ -81,20 +90,20 @@ function HorizontalLinearStepper() {
       label: "Code of Conduct",
       component: <CodeOfConduct setDisable={setDisable} />,
     },
-    {
-      label: "Attend Class",
-      itemKey: "enrollId",
-      component: (
-        <AttendClass
-          setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
-          enrollId={enrollId}
-          pathwayId={pathwayId}
-          setStepCompleted={setActiveStepCompleted}
-          setDisable={setDisable}
-          completed={completed[4]}
-        />
-      ),
-    },
+    // {
+    //   label: "Attend Class",
+    //   itemKey: "enrollId",
+    //   component: (
+    //     <AttendClass
+    //       setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
+    //       enrollId={enrollId}
+    //       pathwayId={pathwayId}
+    //       setStepCompleted={setActiveStepCompleted}
+    //       setDisable={setDisable}
+    //       completed={completed[4]}
+    //     />
+    //   ),
+    // },
     {
       label: "Confirmation",
       component: <Confirmation setDisable={setDisable} />,
@@ -155,7 +164,27 @@ function HorizontalLinearStepper() {
       },
     }).then(
       (res) => {
+        localStorage.setItem("isNewVolunteer", true);
         history.push(PATHS.CLASS);
+        return axios({
+          url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
+          method: METHODS.POST,
+          headers: {
+            accept: "application/json",
+            Authorization: user.data.token,
+          },
+        }).then(
+          (res) => {
+            console.log("res", res);
+
+            dispatch(
+              actions.onUserRefreshDataIntent({ token: user.data.token })
+            );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       },
       (error) => {
         console.log(error);

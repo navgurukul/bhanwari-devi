@@ -12,13 +12,16 @@ import {
   Container,
   Button,
   Modal,
+  useMediaQuery,
   Box,
   Stack,
   Typography,
 } from "@mui/material";
+import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
 import useStyles from "./styles";
 import SuccessModel from "../../components/Class/SuccessModel";
+import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +35,8 @@ function ToggleClassFormModal() {
   const handleOpen = () => setOpen(true);
   const [openSuccessfullModal, setOpenSuccessfullModal] = useState(false);
   const [isEditMode, setIsEditMode] = React.useState(false);
+
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const rolesList = user.data.user.rolesList;
   const canSpecifyFacilitator =
@@ -131,17 +136,48 @@ function ToggleClassFormModal() {
       });
     }
   }, [calledOnce]);
-
+  const [newVolunteer, setNewVolunteer] = useState(false);
+  useEffect(() => {
+    const newVol = localStorage.getItem("isNewVolunteer");
+    if (newVol == "false") {
+      setNewVolunteer(false);
+    } else {
+      setNewVolunteer(true);
+    }
+  }, [newVolunteer]);
   return (
-    <Container maxWidth="xl" sx={{ mt: "40px", width: "100%" }}>
+    <Container maxWidth="lg" sx={{ mt: "40px", width: "90%" }}>
       {canSpecifyFacilitator && (
-        <Button
-          variant="contained"
-          onClick={toggleModalOpen}
-          sx={{ m: "10px 0 40px 0px", width: "256px", height: "48px" }}
-        >
-          Create Batch
-        </Button>
+        <span>
+          {newVolunteer && (
+            <NewVolunteerCard setNewVolunteer={setNewVolunteer} />
+          )}
+
+          <Box sx={{ display: "flex", direction: "row" }}>
+            <Button
+              variant="contained"
+              style={{ width: isActive ? "50%" : "18%" }}
+              onClick={() => {
+                setFormType("batch");
+                toggleModalOpen();
+              }}
+              sx={{ m: "10px 16px 20px 5px" }}
+            >
+              Create Batch
+            </Button>
+            <Button
+              variant="outlined"
+              style={{ width: isActive ? "50%" : "18%" }}
+              onClick={() => {
+                setFormType("doubt_class");
+                toggleModalOpen();
+              }}
+              sx={{ m: "10px 8px 20px 10px" }}
+            >
+              Create Doubt Class
+            </Button>
+          </Box>
+        </span>
       )}
       <ClassesList
         editClass={editClass}

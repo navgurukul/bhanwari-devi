@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import CloseIcon from "@material-ui/icons/Close";
 import { lang } from "../../constant";
@@ -9,6 +10,7 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
+import { FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
 import {
   Typography,
@@ -32,6 +34,7 @@ import {
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import moment from "moment";
+import { formatInUtc } from "../../common/date";
 import _ from "lodash";
 import SuccessModel from "./SuccessModel";
 
@@ -53,16 +56,6 @@ function ClassForm({
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class.on_days.split(",")
       : [],
-    // start_time: classToEdit.start_time || new Date("2018-01-01T00:00:00.000Z"),
-    // end_time: classToEdit.end_time || new Date("2018-01-01T00:00:00.000Z"),
-    // start_time: new Date(),
-    // end_time: new Date().setHours(new Date().getHours() + 1),
-    // ...............................................
-    // start_time: new Date(classToEdit.start_time) || new Date(),
-    // end_time:
-    //   new Date(classToEdit.end_time) ||
-    //   new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
-    // ..................................................
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
       : new Date(),
@@ -90,32 +83,104 @@ function ClassForm({
       "1",
   });
 
-  // const isEditMode = !_.isEmpty(classFields);
-  // const isEditMode = false;
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
-  const [Selected_partner_id, setSelected_partner_id] = useState([]);
-  const [createBatch, setCreateBatch] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedExercise, setSelectedExercise] = useState("");
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
+  const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-  // const [openModal, setOpenModal] = useState(false);
-
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [showError, setShowError] = useState({
+    batch: true,
+    partner: true,
+  });
+  const [helperText, setHelperText] = useState({
+    batch: "Please enter a batch name",
+    partner: "Please select one or more partners",
+  });
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
     return state;
   });
-  // const { pathwayCourse } = useSelector((state) => state.Pathways);
+
+  console.log("classFields", classFields);
+  console.log("classToEdit", classToEdit);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
   }, [dispatch, 1]);
+
+  useEffect(() => {
+    if (classFields.type == "batch" && classFields.title !== "") {
+      setShowError((prev) => {
+        return { ...prev, batch: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, batch: "" };
+      });
+    } else if (classFields.type == "batch" && classFields.title === "") {
+      setShowError((prev) => {
+        return { ...prev, batch: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, batch: "Please enter a batch name" };
+      });
+    } else {
+      setShowError(
+        setShowError(() => {
+          return { partner: "", batch: "" };
+        })
+      );
+    }
+  }, [classFields.title]);
+
+  useEffect(() => {
+    if (classFields.type == "batch" && classFields.partner_id.length > 0) {
+      setShowError((prev) => {
+        return { ...prev, partner: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "" };
+      });
+    } else if (
+      classFields.type == "batch" &&
+      classFields.partner_id.length === 0
+    ) {
+      setShowError((prev) => {
+        return { ...prev, partner: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, partner: "Please select one or more partners" };
+      });
+    } else {
+      setShowError(
+        setShowError(() => {
+          return { partner: "", batch: "" };
+        })
+      );
+    }
+  }, [classFields.partner_id.length]);
+
+  useEffect(() => {
+    if (
+      classFields.title !== "" &&
+      classFields.partner_id.length > 0 &&
+      classFields.on_days.length > 0
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [
+    classFields.title,
+    classFields.partner_id.length,
+    classFields.on_days.length,
+    classFields.start_time,
+    classFields.end_time,
+  ]);
 
   const courses =
     data.Pathways.data &&
@@ -138,7 +203,6 @@ function ClassForm({
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const capEnrollment = ["No Limit", 10, 20, 30];
-  const partnerList = ["p1", "p2", "p3"];
   const days = {
     MO: "Mon",
     TU: "Tue",
@@ -152,11 +216,6 @@ function ClassForm({
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
   };
-
-  console.log("classFields", classFields);
-  console.log("classToEdit", classToEdit);
-  // console.log("Selected_partner_id", Selected_partner_id);
-  // console.log("isEditMode", isEditMode);
 
   const handleDaySelection = (e) => {
     const index = classFields.on_days.indexOf(e.target.value);
@@ -210,9 +269,8 @@ function ClassForm({
   const createClass = (payload) => {
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
-    // setLoading(true);
     return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}classes`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
       method: METHODS.POST,
       headers: {
         accept: "application/json",
@@ -226,12 +284,9 @@ function ClassForm({
     }).then(
       (res) => {
         console.log("res", res);
-        // setShowModal(false);
-        // setOpenSuccessfullModal(true)
-        //Call Successfull create class modal here.
-
         if (res.status === 200) {
           setShowSuccessModal(true);
+          setSuccessModalMsg("created");
           setTimeout(() => {
             setShowSuccessModal(false);
             setShowModal(false);
@@ -247,16 +302,9 @@ function ClassForm({
   const editClass = (payload) => {
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
-    // if (classToEdit.type === "batch") {
-    //   if (indicator === false) {
-    //     delete payload.frequency;
-    //   }
-    // }
-
-    // setLoading(true);
     return axios({
       method: METHODS.PUT,
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/classes/${classToEdit.id}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${classToEdit.id}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -269,6 +317,14 @@ function ClassForm({
         console.log("res", res);
         //We can also change the Successfull edit class modal here.
         //Need to change the text from create to edit
+        if (res.status === 200) {
+          setShowSuccessModal(true);
+          setSuccessModalMsg("edited");
+          setTimeout(() => {
+            setShowSuccessModal(false);
+            setShowModal(false);
+          }, 2000);
+        }
       },
       (error) => {
         console.log("error", error);
@@ -315,40 +371,31 @@ function ClassForm({
 
   const submitHandle = () => {
     const weekDday = Object.values(classFields.on_days);
-    console.log("weekDday", weekDday);
-    if (classFields.partner_id.length === 0) delete classFields.partner_id;
-    // var max_enrolment;
-    // if (classFields.max_enrolment === "No Limit") {
-    //   setClassFields({ ...classFields, max_enrolment: null });
-    // }
-
     if (classFields.type === "batch") {
       let incrementedDate = new Date(classFields.date);
-      console.log("incrementedDate", incrementedDate);
       let onDay = incrementedDate.toString().split(" ")[0];
-      console.log("onDay", onDay);
       let flag = false;
       let firstDay = "";
       for (let i in days) {
-        if (onDay === days[i]) {
-          flag = true;
-        }
-        if (flag) {
-          for (let j of weekDday) {
-            if (days[j] === days[i]) {
-              flag = false;
-              firstDay = j;
-              setMatchDay(false);
-              break;
-            } else {
-              setMatchDay(true);
+        for (let k in days) {
+          if (onDay === days[k]) {
+            flag = true;
+          }
+          if (flag) {
+            for (let j of weekDday) {
+              if (days[j] === days[k]) {
+                flag = false;
+                firstDay = j;
+                setMatchDay(false);
+                break;
+              } else {
+                setMatchDay(true);
+              }
             }
           }
         }
       }
-      console.log("firstDay", firstDay);
       const index = weekDday.indexOf(firstDay);
-      console.log("index", index);
       if (days[firstDay] !== onDay) {
         let newDate;
         var i = 1;
@@ -361,21 +408,13 @@ function ClassForm({
           }
           i = i + 1;
         }
-        console.log("newDate", newDate);
-        console.log(
-          "moment.utc(newDate).format('YYYY-MM-DD')",
-          moment.utc(newDate).format("YYYY-MM-DD")
-        );
-        classFields.date = moment.utc(newDate).format("YYYY-MM-DD");
-        console.log("new classFields.date", classFields.date);
-        // formFields[fieldName] = moment.utc(newDate).format("YYYY-MM-DD");
+        // classFields.date = moment.utc(newDate).format("YYYY-MM-DD");
+        classFields.date = formatInUtc(newDate, "yyyy-MM-dd");
       } else {
         classFields.date = classFields.date;
-        // formFields[fieldName] = value;
       }
     } else {
       classFields.date = classFields.date;
-      // formFields[fieldName] = value;
     }
 
     //taking hours and minues from the time
@@ -389,19 +428,12 @@ function ClassForm({
     );
     const classEndTime = moment(`${classFields.date} ${classFields.end_time}`);
 
-    console.log("classStartTime", classStartTime);
-    console.log("classEndTime", classEndTime);
     if (classStartTime.valueOf() >= classEndTime.valueOf()) {
-      //   // toast.error("Class end time must be later than class start time.", {
-      //   //   position: toast.POSITION.BOTTOM_RIGHT,
-      //   // });
       console.log("Class end time must be later than class start time.");
-      //   // Making the class end time field focused, so user can edit it.
-      //   console.log("focus", document.getElementById(classFields.end_time));
-      //   // return document.getElementById(classFields.end_time).focus();
     }
 
-    // if (classFields.partner_id.length === 0) delete classFields.partner_id;
+    //deleting partner_id when it's length is 0
+    if (classFields.partner_id.length === 0) delete classFields.partner_id;
 
     //deleting date as we have combined with time and we don't want date separately
     delete classFields.date;
@@ -415,55 +447,36 @@ function ClassForm({
       "YYYY-MM-DDTHH:mm:ss"
     )}Z`;
 
-    var fieldsToSend;
-
+    const commonFields = [
+      "title",
+      "description",
+      "start_time",
+      "end_time",
+      "category_id",
+      "pathway_id",
+      "lang",
+      "type",
+    ];
+    let payload;
     if (classFields.type === "doubt_class") {
-      fieldsToSend = {
-        course_id: classFields.course_id,
-        exercise_id: classFields.exercise_id,
-        category_id: classFields.category_id,
-        pathway_id: classFields.pathway_id,
-        title: classFields.title,
-        description: classFields.description,
-        start_time: classFields.start_time,
-        end_time: classFields.end_time,
-        lang: classFields.lang,
-        type: classFields.type,
-      };
+      payload = _.pick(classFields, [
+        ...commonFields,
+        "course_id",
+        "exercise_id",
+      ]);
     } else if (classFields.type === "batch") {
-      fieldsToSend = {
-        title: classFields.title,
-        description: classFields.description,
-        start_time: classFields.start_time,
-        end_time: classFields.end_time,
-        partner_id: classFields.partner_id,
-        category_id: classFields.category_id,
-        pathway_id: classFields.pathway_id,
-        lang: classFields.lang,
-        frequency: classFields.frequency,
-        type: classFields.type,
-        on_days: classFields.on_days,
-      };
+      payload = _.pick(classFields, [
+        ...commonFields,
+        "partner_id",
+        "frequency",
+        "on_days",
+      ]);
     }
-
-    if (!isEditMode) {
-      if (classFields.max_enrolment != "No Limit") {
-        //add max_enrolment field only if it is not No Limit
-        fieldsToSend.max_enrolment = classFields.max_enrolment;
-      }
-      createClass(fieldsToSend);
-    } else {
-      if (classFields.max_enrolment != "No Limit") {
-        //add max_enrolment field only if it is not No Limit
-        fieldsToSend.max_enrolment = classFields.max_enrolment;
-      }
-      editClass(fieldsToSend);
+    if (classFields.max_enrolment != "No Limit") {
+      //add max_enrolment field only if it is not No Limit
+      payload.max_enrolment = classFields.max_enrolment;
     }
-
-    // if (true) {
-    //   setShowModal(false);
-    //   setOpenSuccessfullModal(true);
-    // }
+    (!isEditMode ? createClass : editClass)(payload);
   };
 
   const handleFocus = (event) => {
@@ -477,7 +490,10 @@ function ClassForm({
   return (
     <>
       {showSuccessModal ? (
-        <SuccessModel />
+        <SuccessModel
+          successModalMsg={successModalMsg}
+          classType={classFields.type}
+        />
       ) : (
         <Stack alignItems="center">
           <Box
@@ -490,13 +506,8 @@ function ClassForm({
             <Grid container mb={4}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
-                  {isEditMode
-                    ? `Update ${
-                        classFields.type == "batch" ? "Batch" : "Doubt Class"
-                      }`
-                    : `Create ${
-                        classFields.type == "batch" ? "Batch" : "Doubt Class"
-                      }`}
+                  {(isEditMode ? "Update " : "Create ") +
+                    (classFields.type == "batch" ? "Batch" : "Doubt Class")}
                 </Typography>
               </Grid>
               <Grid item xs={1} className={classes.FormCloseIcon}>
@@ -509,17 +520,6 @@ function ClassForm({
                 />
               </Grid>
             </Grid>
-            {/* <Grid>
-          <Grid item xs={1} className={classes.FormCloseIcon}>
-            <CloseIcon
-              color="text.secondary"
-              open
-              onClick={() => {
-                setShowModal(false);
-              }}
-            />
-          </Grid>
-        </Grid> */}
             {classFields.type !== "batch" && (
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Courses</InputLabel>
@@ -547,14 +547,8 @@ function ClassForm({
                 fullWidth
                 sx={{
                   mt: 3,
+                  mb: 4,
                 }}
-                //   onFocus={handleFocus}
-                //   error={display && classFields.title === ""}
-                //   // error={ classFields.title === ""}
-                //   helperText={
-                //     display && (classFields.title === "" ? "Add some data" : " ")
-                //   }
-                // />
               >
                 <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
                 <Select
@@ -579,20 +573,23 @@ function ClassForm({
               </FormControl>
             )}
             <TextField
-              sx={{ mt: 3 }}
+              // sx={{ mt: 4 }}
+              error={showError.batch}
+              id="outlined-error-helper-text"
               fullWidth
               label={`${
                 classFields.type === "batch" ? "Batch Name" : "Class Title"
               }`}
               name="title"
               value={classFields.title}
+              helperText={helperText.batch}
               onChange={(e) => {
                 changeHandler(e);
               }}
             />
 
             {classFields.type === "batch" && (
-              <Typography variant="body2" color="text.secondary" mb={3} mt={3}>
+              <Typography variant="body2" color="text.secondary" mb={4} mt={2}>
                 We will automatically create 28 classes for a Python batch with
                 titles and descriptions
               </Typography>
@@ -608,25 +605,18 @@ function ClassForm({
                     return option.id === value.id;
                   }}
                   onChange={(e, newVal) => {
-                    // setClassFields({
-                    //   ...classFields,
-                    //   ["partner_id"]: [...classFields.partner_id, newVal.id],
-                    // });
-
                     setClassFields({
                       ...classFields,
                       ["partner_id"]: newVal.map((item) => item.id),
                     });
                   }}
-                  // getOptionLabel={(option) => option}
-                  // onChange={(event, value) => {
-                  //   setClassFields({ ...classFields, ["partner_id"]: value });
-                  // [...classFields.on_days, e.target.value]
-                  // }}
                   freeSolo
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      id="outlined-error-helper-text"
+                      error={showError.partner}
+                      helperText={helperText.partner}
                       variant="outlined"
                       label="For Partner"
                     />
@@ -635,13 +625,13 @@ function ClassForm({
               </Stack>
             )}
             {classFields.type === "batch" && (
-              <Typography variant="body2" color="text.secondary" mt={3}>
+              <Typography variant="body2" color="text.secondary" mb={4} mt={2}>
                 This batch will be visible to students of only these partner
               </Typography>
             )}
             {classFields.type !== "batch" && (
               <TextField
-                sx={{ mt: 3 }}
+                sx={{ mt: 3, mb: 4 }}
                 type="text"
                 value={classFields?.description}
                 name="description"
@@ -663,11 +653,11 @@ function ClassForm({
               />
             )}
             <TextField
-              sx={{ mt: 3 }}
+              // sx={{ mb: 4 }}
               type="date"
               variant="outlined"
               inputProps={{
-                min: classFields?.date,
+                min: moment().format("YYYY-MM-DD"),
               }}
               value={classFields.date}
               name="date"
@@ -683,14 +673,12 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ pt: 3 }}
-                    mb={2}
+                    sx={{ mt: 4 }}
+                    // mb={1}
                   >
                     Schedule on days
                   </Typography>
                 </FormLabel>
-                {/* )}
-        {classFields.type === "batch" && ( */}
                 <FormGroup aria-label="position" row>
                   {Object.keys(days).map((item) => (
                     <FormControlLabel
@@ -706,103 +694,50 @@ function ClassForm({
                     />
                   ))}
                 </FormGroup>
+                {classFields.on_days.length === 0 ? (
+                  <FormHelperText sx={{ color: "red" }} id="my-helper-text">
+                    Please select atleast one day
+                  </FormHelperText>
+                ) : null}
               </>
             )}
             <Grid container mt={2} spacing={2}>
-              <Grid item xs={isActive ? 12 : 6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Stack spacing={3}>
-                    <DesktopTimePicker
-                      label="Start Time"
-                      value={classFields.start_time}
-                      onChange={(startTime) => {
-                        setClassFields({
-                          ...classFields,
-                          ["start_time"]: startTime,
-                        });
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </Stack>
-                </LocalizationProvider>
-              </Grid>
-              {/* From here */}
-              {/* <Box display="flex" justifyContent="start">
-          <FormControl>
-            <FormLabel sx={{ mt: 3, mb: 2 }}>Language</FormLabel>
-            <RadioGroup value={classFields.lang?.index} row>
-              {Object.keys(lang)?.map((item) => {
-                if (item !== "mr") {
-                  return (
-                    <FormControlLabel
-                      key={item}
-                      value={item}
-                      name="lang"
-                      control={<Radio />}
-                      checked={classFields.lang.includes(item)}
-                      onChange={(e) => {
-                        changeHandler(e);
-                      }}
-                      label={lang[item]}
-                    />
-                  );
-                }
-              })}
-            </RadioGroup>
-          </FormControl>
-        </Box>
-        <FormControl sx={{ mb: 4, mt: 2 }}>
-          <RadioGroup row>
-            <Typography variant="body1" pt={1} pr={2}>
-              Cap enrollments at
-            </Typography>
-            {capEnrollment?.map((item) => {
-              return (
-                <FormControlLabel
-                  key={item}
-                  value={item}
-                  name="max_enrolment"
-                  control={<Radio />}
-                  // checked={classFields.max_enrolment.includes(item)}
-                  label={item}
-                  onChange={(e) => {
-                    changeHandler(e);
-                  }}
-                />
-              );
-            })}
-          </RadioGroup>
-        </FormControl>
-        <Button variant="contained" fullWidth onClick={submitHandle}>
-          {isEditMode
-            ? `Update ${
-                classFields.type == "batch" ? "Batch" : "Doubt Class"
-              }`
-            : `Create Batch`}
-          
-        </Button> */}
-              {/* To here      */}
-              <Grid item xs={isActive ? 12 : 6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Stack spacing={3}>
-                    <DesktopTimePicker
-                      label="End-Time"
-                      value={classFields.end_time}
-                      onChange={(endTime) => {
-                        setClassFields({
-                          ...classFields,
-                          ["end_time"]: endTime,
-                        });
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </Stack>
-                </LocalizationProvider>
-              </Grid>
+              {[
+                { label: "Start Time", prop: "start_time" },
+                { label: "End Time", prop: "end_time" },
+              ].map(({ label, prop }) => (
+                <Grid item xs={isActive ? 12 : 6}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <Stack spacing={3}>
+                      <DesktopTimePicker
+                        label={label}
+                        value={classFields[prop]}
+                        onChange={(time) => {
+                          setClassFields({
+                            ...classFields,
+                            [prop]: time,
+                          });
+                        }}
+                        minTime={
+                          classFields.date === moment().format("YYYY-MM-DD")
+                            ? new Date()
+                            : null
+                        }
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Grid>
+              ))}
             </Grid>
             <Box display="flex" justifyContent="start">
               <FormControl>
-                <Typography variant="body2" pt={1} pr={2} mt={2}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  pr={2}
+                  mt={4}
+                >
                   Language
                 </Typography>
                 <RadioGroup value={classFields.lang?.index} row>
@@ -812,7 +747,6 @@ function ClassForm({
                         <FormControlLabel
                           key={item}
                           value={item}
-                          // checked={item === "en"}
                           name="lang"
                           control={<Radio />}
                           checked={classFields.lang.includes(item)}
@@ -827,8 +761,14 @@ function ClassForm({
                 </RadioGroup>
               </FormControl>
             </Box>
-            <FormControl sx={{ mb: 4, mt: 2 }}>
-              <Typography variant="body2" fullwidth pt={1} pr={2}>
+            <FormControl sx={{ mb: 4, mt: 4 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                fullwidth
+                pt={1}
+                pr={2}
+              >
                 Cap enrollments at
               </Typography>
               <RadioGroup row>
@@ -843,7 +783,6 @@ function ClassForm({
                         classFields.max_enrolment &&
                         classFields.max_enrolment.includes(item)
                       }
-                      //issue with max_enrolment default value
                       onChange={(e) => {
                         changeHandler(e);
                       }}
@@ -853,14 +792,14 @@ function ClassForm({
                 })}
               </RadioGroup>
             </FormControl>
-            <Button variant="contained" fullWidth onClick={submitHandle}>
-              {isEditMode
-                ? `Update ${
-                    classFields.type == "batch" ? "Batch" : "Doubt Class"
-                  }`
-                : `Create ${
-                    classFields.type == "batch" ? "Batch" : "Doubt Class"
-                  }`}
+            <Button
+              style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
+              variant="contained"
+              fullWidth
+              onClick={submitHandle}
+            >
+              {(isEditMode ? "Update " : "Create ") +
+                (classFields.type == "batch" ? "Batch" : "Doubt Class")}
             </Button>
           </Box>
         </Stack>

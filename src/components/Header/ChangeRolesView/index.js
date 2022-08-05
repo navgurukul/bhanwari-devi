@@ -54,7 +54,7 @@ function ChangeRole({
       }}
       sx={styles}
       className={roleView === role.key && classes.bgColor}
-      className={classes.link}
+      // className={classes.link}
     >
       {isToggle ? (
         <Message constantKey="SWITCH_TO_VIEW" args={[roleStr]} />

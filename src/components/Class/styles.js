@@ -45,6 +45,21 @@ const useStyles = makeStyles((theme) => ({
   FormCloseIcon: {
     cursor: "pointer",
   },
+  NewVolunteerCardContainer: {
+    width: "100%",
+    padding: "16px",
+    border: "1px solid #CCA300",
+    borderRadius: "8px",
+    margin: "16px 0",
+  },
+  NewVolunteerCardHeader: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  NewVolunteerCardCloseIcon: {
+    cursor: "pointer",
+  },
 }));
 
 export default useStyles;

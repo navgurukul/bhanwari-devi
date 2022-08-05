@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Box, Stack } from "@mui/material";
 import useStyles from "./styles";
 
-function SuccessModel() {
+function SuccessModel({ successModalMsg, classType }) {
   const classes = useStyles();
   return (
     <div
@@ -17,7 +17,9 @@ function SuccessModel() {
         <Box className={classes.ModelBox} sx={{ bgcolor: "background.paper" }}>
           <img alt="img" src={require("./assets/ClassCreated.svg")} />
           <Typography variant="body1" mt={4}>
-            The batch has been created successfully
+            {`The ${
+              classType == "batch" ? classType : "doubt class"
+            } has been ${successModalMsg} successfully`}
           </Typography>
         </Box>
       </Stack>
