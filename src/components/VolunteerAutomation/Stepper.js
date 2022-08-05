@@ -30,7 +30,7 @@ function HorizontalLinearStepper() {
     completed: [],
   };
   const user = useSelector(({ User }) => User);
-  const roles = user?.data?.user.roles; // TODO: Use selector for this
+  const roles = user?.data?.user.rolesList; // TODO: Use selector for this
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
