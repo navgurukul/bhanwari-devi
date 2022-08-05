@@ -38,6 +38,6 @@ function* handleLogout() {
 
 export default function* () {
   yield takeLatest(types.ON_USER_SIGN_INTENT, handleUserData);
-  yield takeLatest(types.ON_USER_REFRESH_DATA_SUCCESS, refreshUserData);
+  yield takeLatest(types.ON_USER_REFRESH_DATA_INTENT, refreshUserData);
   yield takeLatest(types.ON_LOGOUT_INTENT, handleLogout);
 }
