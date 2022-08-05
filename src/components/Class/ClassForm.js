@@ -94,17 +94,26 @@ function ClassForm({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showError, setShowError] = useState({
-    batch: false,
+    title: false,
     partner: false,
     days: false,
+    course: false,
+    exercise: false,
+    description: false,
   });
   const [helperText, setHelperText] = useState({
-    batch: "Please enter a batch name",
-    partner: "Please select one or more partners",
+    title: "",
+    partner: "",
+    course: "",
+    exercise: "",
+    description: "",
   });
   const [onInput, setOnInput] = useState({
-    batch: false,
+    title: false,
     partner: false,
+    course: false,
+    exercise: false,
+    description: false,
   });
   //getting pathway courses
   const dispatch = useDispatch();
@@ -119,26 +128,30 @@ function ClassForm({
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
   }, [dispatch, 1]);
 
+  //For title error field (batch and doubt class)
   useEffect(() => {
-    if (classFields.type == "batch") {
-      if (onInput.batch === true && classFields.title === "") {
-        setShowError((prev) => {
-          return { ...prev, batch: true };
-        });
-        setHelperText((prev) => {
-          return { ...prev, batch: "Please enter a batch name" };
-        });
-      } else {
-        setShowError((prev) => {
-          return { ...prev, batch: false };
-        });
-        setHelperText((prev) => {
-          return { ...prev, batch: "" };
-        });
-      }
+    if (onInput.title === true && classFields.title === "") {
+      setShowError((prev) => {
+        return { ...prev, title: true };
+      });
+      setHelperText((prev) => {
+        if (classFields.type === "batch") {
+          return { ...prev, title: "Please enter a batch name" };
+        } else {
+          return { ...prev, title: "Please enter a class title" };
+        }
+      });
+    } else {
+      setShowError((prev) => {
+        return { ...prev, title: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, title: "" };
+      });
     }
   }, [classFields.title]);
 
+  //For partner error field (batch only)
   useEffect(() => {
     if (classFields.type == "batch") {
       if (onInput.partner && classFields.partner_id.length === 0) {
@@ -157,24 +170,117 @@ function ClassForm({
         });
       }
     }
-  }, [classFields.partner_id.length]);
+  }, [classFields.partner_id?.length]);
 
+  //For course error field (doubt class only)
   useEffect(() => {
-    if (
-      classFields.title !== "" &&
-      classFields.partner_id.length > 0 &&
-      classFields.on_days.length > 0
-    ) {
-      setButtonDisabled(false);
+    if (onInput.course && !classFields.course_id) {
+      setShowError((prev) => {
+        return { ...prev, course: true };
+      });
+      setHelperText((prev) => {
+        return { ...prev, course: "Please select a course" };
+      });
     } else {
-      setButtonDisabled(true);
+      setShowError((prev) => {
+        return { ...prev, course: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, course: "" };
+      });
+    }
+  }, [classFields.course_id, onInput.course]);
+
+  //For exercise error field (doubt class only)
+  useEffect(() => {
+    if (onInput.exercise && !classFields.exercise_id && classFields.course_id) {
+      setShowError((prev) => {
+        return { ...prev, exercise: true };
+      });
+      setHelperText((prev) => {
+        return {
+          ...prev,
+          exercise: "Please select an exercise for the above course",
+        };
+      });
+    } else {
+      setShowError((prev) => {
+        return { ...prev, exercise: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, exercise: "" };
+      });
+    }
+  }, [classFields.exercise_id, onInput.exercise]);
+
+  //For description error field (doubt class only)
+  useEffect(() => {
+    if (onInput.description && !classFields.description) {
+      setShowError((prev) => {
+        return { ...prev, description: true };
+      });
+      setHelperText((prev) => {
+        return {
+          ...prev,
+          description: "Please enter a short description of the class",
+        };
+      });
+    } else if (onInput.description && classFields.description.length > 555) {
+      setShowError((prev) => {
+        return { ...prev, description: true };
+      });
+      setHelperText((prev) => {
+        return {
+          ...prev,
+          description: `Word limit exceeded by ${
+            classFields.description.length - 555
+          } characters`,
+        };
+      });
+    } else {
+      setShowError((prev) => {
+        return { ...prev, description: false };
+      });
+      setHelperText((prev) => {
+        return { ...prev, description: "" };
+      });
+    }
+  }, [classFields.description]);
+
+  //For disabled button (batch and doubt class)
+  useEffect(() => {
+    if (classFields.type === "batch") {
+      if (
+        classFields.title !== "" &&
+        classFields.partner_id.length > 0 &&
+        classFields.on_days.length > 0
+      ) {
+        setButtonDisabled(false);
+      } else {
+        setButtonDisabled(true);
+      }
+    } else {
+      if (
+        classFields.title !== "" &&
+        classFields.course_id &&
+        classFields.exercise_id &&
+        classFields.description &&
+        classFields.description.length < 555
+      ) {
+        setButtonDisabled(false);
+      } else {
+        setButtonDisabled(true);
+      }
     }
   }, [
     classFields.title,
-    classFields.partner_id.length,
-    classFields.on_days.length,
+    classFields.partner_id?.length,
+    classFields.on_days?.length,
     classFields.start_time,
     classFields.end_time,
+    classFields.course_id,
+    classFields.exercise_id,
+    classFields.description,
   ]);
 
   const courses =
@@ -516,12 +622,17 @@ function ClassForm({
               </Grid>
             </Grid>
             {classFields.type !== "batch" && (
-              <FormControl fullWidth>
+              <FormControl error={showError.course} fullWidth>
                 <InputLabel id="demo-simple-select-label">Courses</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Courses"
+                  onClick={() => {
+                    setOnInput((prev) => {
+                      return { ...prev, course: true };
+                    });
+                  }}
                   value={selectedCourseLabel?.label}
                   onChange={(e) => {
                     onCourseChange(e.target.value);
@@ -535,10 +646,12 @@ function ClassForm({
                     );
                   })}
                 </Select>
+                <FormHelperText>{helperText.course}</FormHelperText>
               </FormControl>
             )}
             {classFields.type !== "batch" && (
               <FormControl
+                error={showError.exercise}
                 fullWidth
                 sx={{
                   mt: 3,
@@ -550,6 +663,11 @@ function ClassForm({
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Courses"
+                  onClick={() => {
+                    setOnInput((prev) => {
+                      return { ...prev, exercise: true };
+                    });
+                  }}
                   disabled={exercisesForSelectedCourse.length === 0}
                   value={selectedExerciseLabel?.label}
                   onChange={(e) => {
@@ -565,14 +683,15 @@ function ClassForm({
                       );
                     })}
                 </Select>
+                <FormHelperText>{helperText.exercise}</FormHelperText>
               </FormControl>
             )}
             <TextField
               // sx={{ mt: 4 }}
-              error={showError.batch}
+              error={showError.title}
               onClick={() => {
                 setOnInput((prev) => {
-                  return { ...prev, batch: true };
+                  return { ...prev, title: true };
                 });
               }}
               id="outlined-error-helper-text"
@@ -582,7 +701,7 @@ function ClassForm({
               }`}
               name="title"
               value={classFields.title}
-              helperText={helperText.batch}
+              helperText={helperText.title}
               onChange={(e) => {
                 changeHandler(e);
               }}
@@ -641,14 +760,13 @@ function ClassForm({
                 value={classFields?.description}
                 name="description"
                 label="Description"
-                error={classFields?.description?.length > 555}
-                helperText={
-                  classFields?.description?.length > 555
-                    ? `Word limit exceeded by ${
-                        classFields?.description?.length - 555
-                      } characters`
-                    : ""
-                }
+                error={showError.description}
+                onClick={() => {
+                  setOnInput((prev) => {
+                    return { ...prev, description: true };
+                  });
+                }}
+                helperText={helperText.description}
                 multiline
                 rows={3}
                 fullWidth
@@ -704,7 +822,7 @@ function ClassForm({
                     />
                   ))}
                 </FormGroup>
-                {classFields.on_days.length === 0 && onInput.days ? (
+                {classFields.on_days?.length === 0 && onInput.days ? (
                   <FormHelperText sx={{ color: "red" }} id="my-helper-text">
                     Please select atleast one day
                   </FormHelperText>
