@@ -19,6 +19,7 @@ import IntroVideo from "./IntroVideo";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
+import { actions } from "../User/redux/action";
 
 import "./styles.scss";
 import { getObjectState, saveObjectState } from "../../common/storage";
@@ -29,6 +30,7 @@ function HorizontalLinearStepper() {
     completed: [],
   };
   const user = useSelector(({ User }) => User);
+  const dispatch = React.useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [completed, setCompleted] = React.useState(currentState.completed);
@@ -157,6 +159,7 @@ function HorizontalLinearStepper() {
       (res) => {
         localStorage.setItem("isNewVolunteer", true);
         history.push(PATHS.CLASS);
+        dispatch(actions.onUserRefreshDataIntent({token: user.data.token}));
       },
       (error) => {
         console.log(error);
