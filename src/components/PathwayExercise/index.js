@@ -305,7 +305,20 @@ function PathwayExercise() {
       }
     }
   };
+  const nextArrowClickHandler = () => {
+    if (exerciseId < courseLength - 1) {
+      history.push(
+        interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          courseId: params.courseId,
+          exerciseId: exerciseId + 1,
+          pathwayId: params.pathwayId,
+        })
+      );
+      console.log(progressTrackId);
 
+      setExerciseId(exerciseId + 1);
+    }
+  };
   const [language, setLanguage] = useState("en");
 
   // to avoid duplication
@@ -391,7 +404,7 @@ function PathwayExercise() {
                 <ArrowForwardIosIcon
                   opacity={`${exerciseId < courseLength - 1 ? 1 : 0}`}
                   sx={{ marginLeft: 3 }}
-                  onClick={nextClickHandler}
+                  onClick={nextArrowClickHandler}
                 />
               </Toolbar>
               <LangDropDown />
