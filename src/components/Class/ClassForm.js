@@ -46,7 +46,6 @@ function ClassForm({
   formType,
 }) {
   const user = useSelector(({ User }) => User);
-
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit.title || "",

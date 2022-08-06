@@ -22,11 +22,23 @@ function* handleUserData({ data }) {
   }
 }
 
+function* refreshUserData({ data }) {
+  const res = yield call(sendToken, data);
+  if (res.status === 200) {
+    res.data.token = data.token;
+    const mappedUserData = { ...res.data, isAuthenticated: true };
+    yield put(actions.onUserRefreshDataSuccess(mappedUserData));
+  } else {
+    yield put(actions.onUserRefreshDataFailure(res));
+  }
+}
+
 function* handleLogout() {
   yield (window.location.pathname = PATHS.LOGIN);
 }
 
 export default function* () {
   yield takeLatest(types.ON_USER_SIGN_INTENT, handleUserData);
+  yield takeLatest(types.ON_USER_REFRESH_DATA_INTENT, refreshUserData);
   yield takeLatest(types.ON_LOGOUT_INTENT, handleLogout);
 }
