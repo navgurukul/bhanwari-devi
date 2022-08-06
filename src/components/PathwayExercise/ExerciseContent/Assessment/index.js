@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Box, Typography, Paper, Button, Grid } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  Paper,
+  Button,
+  Grid,
+  selectClasses,
+} from "@mui/material";
 import useStyles from "../../styles";
 import get from "lodash/get";
 import DOMPurify from "dompurify";
@@ -194,7 +202,7 @@ const AssessmentContent = ({
   return "";
 };
 
-function Assessment({ data, exerciseId }) {
+function Assessment({ data, exerciseId, courseData, setCourseData }) {
   const user = useSelector(({ User }) => User);
   const [answer, setAnswer] = useState();
   const [correct, setCorrect] = useState();
@@ -203,20 +211,26 @@ function Assessment({ data, exerciseId }) {
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
-
+  console.log("data");
   useEffect(() => {
-    axios({
-      method: METHODS.POST,
-      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-      data: { assessment_id: exerciseId, status: status },
-    }).then((res) => {
-      console.log("res", res);
-    });
-  }, [status]);
+    if (courseData?.attempt_status?.selected_option) {
+      setAnswer(courseData.attempt_status.selected_option);
+      if (
+        courseData?.attempt_status?.selected_option ===
+        courseData?.content?.[2]?.value
+      ) {
+        setCorrect(true);
+        setStatus("pass");
+      } else {
+        setCorrect(false);
+        setStatus("fail");
+      }
+      setTriedAgain(2);
+
+      setSubmit(true);
+      setSubmitDisable(true);
+    }
+  }, []);
 
   const submitAssessment = () => {
     setSubmit(true);
@@ -225,15 +239,43 @@ function Assessment({ data, exerciseId }) {
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
       setSubmitDisable(true);
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+        data: {
+          assessment_id: exerciseId,
+          selected_option: answer,
+          status: "Pass",
+        },
+      }).then((res) => {
+        console.log("res", res);
+      });
     } else {
       setCorrect(false);
       setStatus("Fail");
       setTriedAgain(triedAgain + 1);
       setSubmitDisable(true);
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+        data: {
+          assessment_id: exerciseId,
+          selected_option: answer,
+          status: "Fail",
+        },
+      }).then((res) => {
+        console.log("res", res);
+      });
     }
   };
-
-  console.log("data", data);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
