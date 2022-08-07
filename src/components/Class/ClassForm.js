@@ -114,7 +114,6 @@ function ClassForm({
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
   }, [dispatch, 1]);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (classFields.type == "batch" && classFields.title !== "") {
       setShowError((prev) => {
@@ -184,9 +183,6 @@ function ClassForm({
     classFields.end_time,
   ]);
 
-=======
-  //
->>>>>>> cc8a128 (change in courses)
   const courses =
     data.Pathways.data &&
     data.Pathways.data.pathways[0] &&
@@ -210,32 +206,6 @@ function ClassForm({
   const selectedExerciseLabel = exercisesForSelectedCourse.find(
     (item) => item.id === classFields.exercise_id
   );
-<<<<<<< HEAD
-=======
-  const handleDiabled = () => {
-    if (
-      (classFields.type === "doubt_class" &&
-        classFields.course_id !== "" &&
-        classFields.exercise_id !== "" &&
-        classFields.title !== "" &&
-        classFields.description !== "" &&
-        classFields.start_time !== "" &&
-        classFields.end_time !== "" &&
-        classFields.max_enrolment != "No Limit") ||
-      (classFields.type === "batch" &&
-        classFields.title !== "" &&
-        classFields.date !== "" &&
-        classFields.partner_id.length !== 0 &&
-        classFields.start_time !== "" &&
-        classFields.end_time !== "" &&
-        classFields.max_enrolment != "No Limit")
-    ) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  };
->>>>>>> cc8a128 (change in courses)
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
