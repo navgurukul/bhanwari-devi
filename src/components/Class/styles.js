@@ -1,3 +1,4 @@
+import { ListItemSecondaryAction } from "@material-ui/core";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   FormCloseIcon: {
     cursor: "pointer",
+    color: "gray",
   },
 }));
 

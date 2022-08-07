@@ -192,6 +192,7 @@ function ClassForm({
         value: item.id,
       };
     });
+  console.log(data.Pathways.data.pathways, "data");
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id
@@ -513,7 +514,6 @@ function ClassForm({
               </Grid>
               <Grid item xs={1} className={classes.FormCloseIcon}>
                 <CloseIcon
-                  color="text.secondary"
                   open
                   onClick={() => {
                     setShowModal(false);
