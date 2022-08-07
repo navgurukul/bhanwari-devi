@@ -114,6 +114,7 @@ function ClassForm({
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
   }, [dispatch, 1]);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (classFields.type == "batch" && classFields.title !== "") {
       setShowError((prev) => {
@@ -183,6 +184,9 @@ function ClassForm({
     classFields.end_time,
   ]);
 
+=======
+  //
+>>>>>>> cc8a128 (change in courses)
   const courses =
     data.Pathways.data &&
     data.Pathways.data.pathways[0] &&
@@ -192,7 +196,12 @@ function ClassForm({
         value: item.id,
       };
     });
-  console.log(data.Pathways.data.pathways, "data");
+  console.log(
+    data.Pathways &&
+      data.Pathways.pathwayCourse &&
+      data.Pathways.pathwayCourse.data &&
+      data.Pathways.pathwayCourse.data.courses
+  );
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id
@@ -201,6 +210,32 @@ function ClassForm({
   const selectedExerciseLabel = exercisesForSelectedCourse.find(
     (item) => item.id === classFields.exercise_id
   );
+<<<<<<< HEAD
+=======
+  const handleDiabled = () => {
+    if (
+      (classFields.type === "doubt_class" &&
+        classFields.course_id !== "" &&
+        classFields.exercise_id !== "" &&
+        classFields.title !== "" &&
+        classFields.description !== "" &&
+        classFields.start_time !== "" &&
+        classFields.end_time !== "" &&
+        classFields.max_enrolment != "No Limit") ||
+      (classFields.type === "batch" &&
+        classFields.title !== "" &&
+        classFields.date !== "" &&
+        classFields.partner_id.length !== 0 &&
+        classFields.start_time !== "" &&
+        classFields.end_time !== "" &&
+        classFields.max_enrolment != "No Limit")
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  };
+>>>>>>> cc8a128 (change in courses)
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -514,6 +549,7 @@ function ClassForm({
               </Grid>
               <Grid item xs={1} className={classes.FormCloseIcon}>
                 <CloseIcon
+                  color="text.grey"
                   open
                   onClick={() => {
                     setShowModal(false);
@@ -533,13 +569,16 @@ function ClassForm({
                     onCourseChange(e.target.value);
                   }}
                 >
-                  {courses.map((course) => {
-                    return (
-                      <MenuItem key={course.value} value={course.value}>
-                        {course.label}
-                      </MenuItem>
-                    );
-                  })}
+                  {data.Pathways &&
+                    data.Pathways.pathwayCourse &&
+                    data.Pathways.pathwayCourse.data &&
+                    data.Pathways.pathwayCourse.data.courses.map((course) => {
+                      return (
+                        <MenuItem key={course.id} value={course.id}>
+                          {course.name}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </FormControl>
             )}
