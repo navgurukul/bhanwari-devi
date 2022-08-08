@@ -29,13 +29,13 @@ function DropOutIndividualComponent(props) {
 
   return (
     <>
-      <Link
-        className={classes.link}
-        to={interpolatePath(PATHS.PATHWAY_COURSE, {
-          pathwayId: 1,
-        })}
-      >
-        <Card className={classes.cardDrop}>
+      <Card className={classes.cardDrop}>
+        <Link
+          className={classes.link}
+          to={interpolatePath(PATHS.PATHWAY_COURSE, {
+            pathwayId: 1,
+          })}
+        >
           <CardContent className={classes.cardContent}>
             <Chip
               variant="filled"
@@ -57,25 +57,25 @@ function DropOutIndividualComponent(props) {
               </Typography>
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button
-              onClick={() => {
-                setOpen(true);
-              }}
-              color="error"
-            >
-              Drop Out
-            </Button>
-          </CardActions>
-        </Card>
-        <DropOut
-          open={open}
-          close={close}
-          title={title}
-          id={id}
-          unregister_all={true}
-        />
-      </Link>
+        </Link>
+        <CardActions>
+          <Button
+            onClick={() => {
+              setOpen(true);
+            }}
+            color="error"
+          >
+            Drop Out
+          </Button>
+        </CardActions>
+      </Card>
+      <DropOut
+        open={open}
+        close={close}
+        title={title}
+        id={id}
+        unregister_all={true}
+      />
     </>
   );
 }
