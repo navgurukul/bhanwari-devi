@@ -12,6 +12,7 @@ import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
 import { FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
+import Loader from "../common/Loader";
 import {
   Typography,
   Grid,
@@ -46,7 +47,6 @@ function ClassForm({
   formType,
 }) {
   const user = useSelector(({ User }) => User);
-
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit.title || "",
@@ -90,6 +90,7 @@ function ClassForm({
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
+  const [loading, setLoading] = useState(false);
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -368,6 +369,7 @@ function ClassForm({
   };
 
   const createClass = (payload) => {
+    setLoading(true);
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
     return axios({
@@ -386,6 +388,7 @@ function ClassForm({
       (res) => {
         console.log("res", res);
         if (res.status === 200) {
+          setLoading(false);
           setShowSuccessModal(true);
           setSuccessModalMsg("created");
           setTimeout(() => {
@@ -395,12 +398,14 @@ function ClassForm({
         }
       },
       (error) => {
+        setLoading(false);
         console.log("error", error);
       }
     );
   };
 
   const editClass = (payload) => {
+    setLoading(true);
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
     return axios({
@@ -419,6 +424,7 @@ function ClassForm({
         //We can also change the Successfull edit class modal here.
         //Need to change the text from create to edit
         if (res.status === 200) {
+          setLoading(false);
           setShowSuccessModal(true);
           setSuccessModalMsg("edited");
           setTimeout(() => {
@@ -428,6 +434,7 @@ function ClassForm({
         }
       },
       (error) => {
+        setLoading(false);
         console.log("error", error);
       }
     );
@@ -920,15 +927,19 @@ function ClassForm({
                 })}
               </RadioGroup>
             </FormControl>
-            <Button
-              style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
-              variant="contained"
-              fullWidth
-              onClick={submitHandle}
-            >
-              {(isEditMode ? "Update " : "Create ") +
-                (classFields.type == "batch" ? "Batch" : "Doubt Class")}
-            </Button>
+            {loading ? (
+              <Loader />
+            ) : (
+              <Button
+                style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
+                variant="contained"
+                fullWidth
+                onClick={submitHandle}
+              >
+                {(isEditMode ? "Update " : "Create ") +
+                  (classFields.type == "batch" ? "Batch" : "Doubt Class")}
+              </Button>
+            )}
           </Box>
         </Stack>
       )}

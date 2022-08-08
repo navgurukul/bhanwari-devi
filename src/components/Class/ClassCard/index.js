@@ -317,8 +317,12 @@ function ClassCard({ item, editClass }) {
             </MenuItem>
           )}
         </Menu>
-        <Typography variant="subtitle1" className={classes.spacing}>
-          {item.title}
+        <Typography variant="subtitle1">{item.title}</Typography>
+        <Typography
+          sx={{ fontSize: "18px", fontWeight: "400" }}
+          variant="subtitle2"
+        >
+          {item.sub_title}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
@@ -346,38 +350,36 @@ function ClassCard({ item, editClass }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <Grid container spacing={2} sx={{ mt: "10px", ml: "1px" }}>
-          <CardActions>
-            {item.enrolled ? (
-              loading ? (
-                <div className="loader-button">
-                  <Loader />
-                </div>
-              ) : (
-                // <h1>Poonam</h1>
-                // <EnrolledAndTimer item={item} />
-                <ClassJoinTimerButton
-                  startTime={item?.start_time}
-                  link={item?.meet_link}
-                />
-              )
-            ) : loading ? (
+        <CardActions style={{ padding: "0px" }}>
+          {item.enrolled ? (
+            loading ? (
               <div className="loader-button">
                 <Loader />
               </div>
             ) : (
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={() => {
-                  handleClickOpenEnroll(item.id);
-                }}
-              >
-                Enroll
-              </Button>
-            )}
-          </CardActions>
-        </Grid>
+              // <h1>Poonam</h1>
+              // <EnrolledAndTimer item={item} />
+              <ClassJoinTimerButton
+                startTime={item?.start_time}
+                link={item?.meet_link}
+              />
+            )
+          ) : loading ? (
+            <div className="loader-button">
+              <Loader />
+            </div>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={() => {
+                handleClickOpenEnroll(item.id);
+              }}
+            >
+              Enroll
+            </Button>
+          )}
+        </CardActions>
       </Card>
       <Box>
         {showModal ? (
