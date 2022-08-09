@@ -10,9 +10,9 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
-import { FormHelperText } from "@mui/material";
+import { CircularProgress, FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
-import Loader from "../common/Loader";
+
 import {
   Typography,
   Grid,
@@ -928,7 +928,9 @@ function ClassForm({
               </RadioGroup>
             </FormControl>
             {loading ? (
-              <Loader />
+              <div style={{ textAlign: "center" }}>
+                <CircularProgress color="primary" />
+              </div>
             ) : (
               <Button
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
