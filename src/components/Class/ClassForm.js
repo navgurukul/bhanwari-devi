@@ -620,7 +620,6 @@ function ClassForm({
               </Grid>
               <Grid item xs={1} className={classes.FormCloseIcon}>
                 <CloseIcon
-                  color="text.secondary"
                   open
                   onClick={() => {
                     setShowModal(false);
@@ -645,13 +644,16 @@ function ClassForm({
                     onCourseChange(e.target.value);
                   }}
                 >
-                  {courses.map((course) => {
-                    return (
-                      <MenuItem key={course.value} value={course.value}>
-                        {course.label}
-                      </MenuItem>
-                    );
-                  })}
+                  {data.Pathways &&
+                    data.Pathways.pathwayCourse &&
+                    data.Pathways.pathwayCourse.data &&
+                    data.Pathways.pathwayCourse.data.courses.map((course) => {
+                      return (
+                        <MenuItem key={course.id} value={course.id}>
+                          {course.name}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
                 <FormHelperText>{helperText.course}</FormHelperText>
               </FormControl>
