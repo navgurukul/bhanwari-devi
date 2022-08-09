@@ -618,7 +618,12 @@ function ClassForm({
                     (classFields.type == "batch" ? "Batch" : "Doubt Class")}
                 </Typography>
               </Grid>
-              <Grid item xs={1} className={classes.FormCloseIcon}>
+              <Grid
+                color="text.secondary"
+                item
+                xs={1}
+                className={classes.FormCloseIcon}
+              >
                 <CloseIcon
                   open
                   onClick={() => {

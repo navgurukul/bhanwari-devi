@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
   FormCloseIcon: {
     cursor: "pointer",
-    color: "grey",
   },
   NewVolunteerCardContainer: {
     width: "100%",
