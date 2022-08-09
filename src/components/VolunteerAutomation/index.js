@@ -23,29 +23,14 @@ function VolunteerAutomation() {
   let history = useHistory();
 
   const pathname = window.location.pathname;
-  const rolesList = user && user.data && user.data.user.rolesList;
+  const rolesList = user?.data?.user.rolesList; // TODO: Use selector
 
   const handleClick = () => {
-    if (user && user.data && user.data.token) {
+    if (rolesList) {
       if (rolesList.includes("volunteer")) {
         history.push(PATHS.CLASS);
       } else {
-        return axios({
-          url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
-          method: METHODS.POST,
-          headers: {
-            accept: "application/json",
-            Authorization: user.data.token,
-          },
-        }).then(
-          (res) => {
-            console.log("res", res);
-            history.push(PATHS.VOLUNTEER_FORM);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+        history.push(PATHS.VOLUNTEER_FORM);
       }
     } else {
       history.push(PATHS.LOGIN, pathname);

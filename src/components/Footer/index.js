@@ -11,13 +11,14 @@ import ExternalLink from "../common/ExternalLink";
 const menu = {
   About: [
     { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
-    { title: "Meraki Team", type: "internal", link: PATHS.MERAKI_TEAM },
+    { title: "Meraki Team", type: "internal", link: PATHS.TEAM },
   ],
   LearningTracks: [
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "Javascript", code: "JVSCPT", type: "internal" },
+    // Changed the code for javascript JVSCPT => JSRPIT
+    { title: "Javascript", code: "JSRPIT", type: "internal" },
     {
       title: "Residential Programmes",
       type: "internal",
@@ -104,7 +105,7 @@ const MenuList = (menuItem) => {
                 <Typography
                   variant="body2"
                   color="text.primary"
-                  my={1}
+                  mb={1}
                   className={classes.CareerNDoner}
                 >
                   {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />

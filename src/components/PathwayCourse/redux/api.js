@@ -4,6 +4,9 @@ import { versionCode, PATHWAYS_INFO } from "../../../constant";
 import { isBeforeNow, subDays } from "../../../common/date";
 
 export const getPathways = () => {
+  return axios("https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
+    "f9053b384ce8b82443a2c0133ee10f052c2907c1/src/data/pathway_data_v40.json");
+  /*
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
     method: METHODS.GET,
@@ -48,6 +51,7 @@ export const getPathways = () => {
 
     return response;
   });
+  */
 };
 
 export const getPathwaysCourse = (data) => {
