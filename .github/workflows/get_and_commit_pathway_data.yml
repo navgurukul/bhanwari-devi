@@ -5,28 +5,53 @@ on:
     - cron:  '0 * * * *'
   push:
 jobs:
-  report:
+  save_updated_data:
     runs-on: ubuntu-latest
+    env:
+      FRONT_END_DATA_FILE_PATH: src/data/front-end_pathway_data_v40.json
+      BACK_END_DATA_FILE_PATH: src/data/back-end_pathway_data_v40.json
+      JOINED_DATA_FILE_PATH: src/data/pathway_data_v40.json
+      JOIN_SCRIPT_PATH: data_scripts/combine_and_store_pathway_data.js
+      VERSION: 40
     steps:
       - uses: actions/checkout@v3
-      - name: Get updated pathway data
+      - name: Get and store updated back-end pathway data
         id: get_pathway_data
         run: |
-          statusCode=$(curl $REACT_APP_MERAKI_URL/pathways?courseType=json -o src/data/pathway_data.json -w "%{http_code}")
+          statusCode=$(curl $REACT_APP_MERAKI_URL/pathways?courseType=json -H "version-code: $VERSION" -o $BACK_END_DATA_FILE_PATH -w "%{http_code}")
           echo "::set-output name=status_code::$statusCode"
-          if [ $statusCode -eq "200" ]; then echo "success"; else exit 0; fi
+          if [ $statusCode -eq "200" ]; then
+            echo "::set-output name=status_code::$statusCode"
+            # backEndData=$(cat $BACK_END_DATA_FILE_PATH)
+            # frontEndData=$(cat $FRONT_END_DATA_FILE_PATH)
+            # echo "::set-output name=front_end_data::$frontEndData"
+            # echo "::set-output name=back_end_data::$backEndData"
+            echo "Successfully retrieved back-end pathway data"
+          else
+            echo "Failed to get back-end pathway data with error $statusCode"
+            exit 0 
+          fi
         env:
-          REACT_APP_MERAKI_URL: https://api.merakilearn.org
+          REACT_APP_MERAKI_URL: https://dev-api.merakilearn.org
+      - name: Join back- and front-end pathway data
+        id: join_pathway_data
+        run: |
+          # npm install @actions/core
+          # npm install fs - built-in module doesn't need to be installed
+          node $JOIN_SCRIPT_PATH $FRONT_END_DATA_FILE_PATH $BACK_END_DATA_FILE_PATH $JOINED_DATA_FILE_PATH
       - name: Commit pathway data
         run: |
           if [[ ${{ steps.get_pathway_data.outputs.status_code }} != 200 ]]; then exit 0; fi
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add src/data/pathway_data.json
+          git add $BACK_END_DATA_FILE_PATH
+          git add $JOINED_DATA_FILE_PATH
           # https://stackoverflow.com/a/25149786 for git status --porcelain
-          if [[ `git status --porcelain` ]]; then
+          # https://git-scm.com/docs/git-status#Documentation/git-status.txt--ultmodegt to ignore untracked files
+          if [[ `git status -uno --porcelain` ]]; then
             git commit -m "Update pathway data on $(date)"
             git push
+            echo "Successfully saved pathway data"
           else
             echo "No new changes"
           fi
