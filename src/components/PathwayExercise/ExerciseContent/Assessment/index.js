@@ -213,24 +213,32 @@ function Assessment({ data, exerciseId, courseData, setCourseData }) {
   const [triedAgain, setTriedAgain] = useState(0);
   console.log("data");
   useEffect(() => {
-    if (courseData?.attempt_status?.selected_option) {
-      setAnswer(courseData.attempt_status.selected_option);
-      if (
-        courseData?.attempt_status?.selected_option ===
-        courseData?.content?.[2]?.value
-      ) {
-        setCorrect(true);
-        setStatus("pass");
-      } else {
-        setCorrect(false);
-        setStatus("fail");
-      }
-      setTriedAgain(2);
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      if (res.data.attempt_status != "NOT_ATTEMPTED") {
+        if (res?.data?.selected_option) {
+          setAnswer(res?.data?.selected_option);
+          if (res?.data?.selected_option === courseData?.content?.[2]?.value) {
+            setCorrect(true);
+            setStatus("pass");
+          } else {
+            setCorrect(false);
+            setStatus("fail");
+          }
+          setTriedAgain(2);
 
-      setSubmit(true);
-      setSubmitDisable(true);
-    }
-  }, []);
+          setSubmit(true);
+          setSubmitDisable(true);
+        }
+      }
+    });
+  }, [exerciseId]);
 
   const submitAssessment = () => {
     setSubmit(true);
