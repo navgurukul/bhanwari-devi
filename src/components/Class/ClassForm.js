@@ -10,9 +10,9 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
-import { FormHelperText } from "@mui/material";
+import { CircularProgress, FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
-import Loader from "../common/Loader";
+
 import {
   Typography,
   Grid,
@@ -59,7 +59,7 @@ function ClassForm({
       : [],
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
-      : new Date(),
+      : new Date(new Date().setSeconds(0)),
     end_time: classToEdit.end_time
       ? new Date(classToEdit.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
@@ -862,7 +862,7 @@ function ClassForm({
                         }}
                         minTime={
                           classFields.date === moment().format("YYYY-MM-DD")
-                            ? new Date()
+                            ? new Date(new Date().setSeconds(0))
                             : null
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -935,7 +935,9 @@ function ClassForm({
               </RadioGroup>
             </FormControl>
             {loading ? (
-              <Loader />
+              <div style={{ textAlign: "center" }}>
+                <CircularProgress color="primary" />
+              </div>
             ) : (
               <Button
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
