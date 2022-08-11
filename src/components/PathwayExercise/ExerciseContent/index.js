@@ -41,6 +41,7 @@ import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawer";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
+import MobileDrawer from "./MobileDrawer";
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
@@ -421,7 +422,14 @@ function ExerciseContent({ exerciseId, lang }) {
           </Typography>
         </div>
         <Container maxWidth="sm">
-          <PersistentDrawerLeft
+          {/* <PersistentDrawerLeft
+            selected={selected}
+            setSelected={setSelected}
+            list={contentList}
+            open={openDrawer}
+            setOpen={setOpenDrawer}
+          /> */}
+          <MobileDrawer
             selected={selected}
             setSelected={setSelected}
             list={contentList}
