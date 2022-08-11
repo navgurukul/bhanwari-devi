@@ -1,12 +1,10 @@
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
 import List from "@mui/material/List";
 import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListItem from "@mui/material/ListItem";
 import { Typography } from "@mui/material";
@@ -35,9 +33,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 function PersistentDrawerLeft({ open, setOpen }) {
-  const theme = useTheme();
-  console.log(open);
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
