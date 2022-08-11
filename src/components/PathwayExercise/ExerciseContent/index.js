@@ -350,10 +350,21 @@ function ExerciseContent({ exerciseId, lang }) {
       // );
     }
   }, [params.pathwayId]);
-
+  const contentList = [
+    "Class 1 - Intro to Python",
+    "How to Begin the Course",
+    "Why",
+    "Indentation",
+    "Basics Booleans",
+    "What do Computers do?",
+    "What is Programming?",
+    "Basic Definitions Introduction",
+    "Basic Definitions Part 1",
+  ];
   function ExerciseContentMain() {
     const [openDrawer, setOpenDrawer] = useState(false);
-    console.log(openDrawer);
+    const [selected, setSelected] = useState(0);
+
     return (
       <Container maxWidth="lg">
         <Grid container justifyContent={"center"}>
@@ -410,7 +421,13 @@ function ExerciseContent({ exerciseId, lang }) {
           </Typography>
         </div>
         <Container maxWidth="sm">
-          <PersistentDrawerLeft open={openDrawer} setOpen={setOpenDrawer} />
+          <PersistentDrawerLeft
+            selected={selected}
+            setSelected={setSelected}
+            list={contentList}
+            open={openDrawer}
+            setOpen={setOpenDrawer}
+          />
 
           {content &&
             content.map((contentItem, index) => (

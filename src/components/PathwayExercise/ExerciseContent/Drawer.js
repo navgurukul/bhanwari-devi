@@ -11,18 +11,6 @@ import { Typography } from "@mui/material";
 
 const drawerWidth = 300;
 
-const list = [
-  "Class 1 - Intro to Python",
-  "How to Begin the Course",
-  "Why",
-  "Indentation",
-  "Basics Booleans",
-  "What do Computers do?",
-  "What is Programming?",
-  "Basic Definitions Introduction",
-  "Basic Definitions Part 1",
-];
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -32,7 +20,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function PersistentDrawerLeft({ open, setOpen }) {
+function PersistentDrawerLeft({ open, setOpen, list, setSelected, selected }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -72,12 +60,12 @@ function PersistentDrawerLeft({ open, setOpen }) {
           </ListItem>
           {list.map((text, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => setSelected(index)}>
                 <Typography
                   style={{
                     fontSize: "14px",
                     lineHeight: "21px",
-                    color: "#6D6D6D",
+                    color: index === selected ? "#48A145" : "#6D6D6D",
                   }}
                   variant="caption"
                 >
