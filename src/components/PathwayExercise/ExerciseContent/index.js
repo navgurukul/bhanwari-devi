@@ -10,7 +10,6 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
 // import { actions as courseActions } from "../../../components/Course/redux/action";
 import { actions as enrolledBatchesActions } from "../../PathwayCourse/redux/action";
-
 import Assessment from "../ExerciseContent/Assessment";
 import {
   TableRow,
@@ -40,6 +39,8 @@ import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
+import PersistentDrawerLeft from "./Drawer";
+import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
@@ -86,6 +87,7 @@ const headingVarients = {};
       // />
     ))
 );
+
 const RenderDoubtClass = ({ data, exercise }) => {
   const classes = useStyles();
   if (data?.component === "banner") {
@@ -350,6 +352,8 @@ function ExerciseContent({ exerciseId, lang }) {
   }, [params.pathwayId]);
 
   function ExerciseContentMain() {
+    const [openDrawer, setOpenDrawer] = useState(false);
+    console.log(openDrawer);
     return (
       <Container maxWidth="lg">
         <Grid container justifyContent={"center"}>
@@ -385,7 +389,29 @@ function ExerciseContent({ exerciseId, lang }) {
             )}
           </Grid>
         </Grid>
+        <div
+          onClick={() => setOpenDrawer(true)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+            position: "absolute",
+            left: "24px",
+          }}
+        >
+          <TextSnippetOutlinedIcon
+            style={{ color: "#6D6D6D", width: "20px", height: "28px" }}
+          />
+          <Typography
+            style={{ color: "#6D6D6D", fontSize: "12px", marginLeft: "8px" }}
+            type="overline"
+          >
+            CONTENT LIST
+          </Typography>
+        </div>
         <Container maxWidth="sm">
+          <PersistentDrawerLeft open={openDrawer} setOpen={setOpenDrawer} />
+
           {content &&
             content.map((contentItem, index) => (
               <RenderDoubtClass
