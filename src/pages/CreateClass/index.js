@@ -156,7 +156,7 @@ function ToggleClassFormModal() {
           <Box sx={{ display: "flex", direction: "row" }}>
             <Button
               variant="contained"
-              style={{ width: isActive ? "50%" : "18%" }}
+              style={{ width: isActive ? "50%" : "19%" }}
               onClick={() => {
                 setFormType("batch");
                 toggleModalOpen();
@@ -167,7 +167,7 @@ function ToggleClassFormModal() {
             </Button>
             <Button
               variant="outlined"
-              style={{ width: isActive ? "50%" : "18%" }}
+              style={{ width: isActive ? "50%" : "19%" }}
               onClick={() => {
                 setFormType("doubt_class");
                 toggleModalOpen();
