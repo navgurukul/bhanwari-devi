@@ -271,7 +271,7 @@ const RenderContent = ({ data, exercise }) => {
   return "";
 };
 
-function ExerciseContent({ exerciseId, lang, contentListNew }) {
+function ExerciseContent({ exerciseId, lang, contentList }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -285,7 +285,7 @@ function ExerciseContent({ exerciseId, lang, contentListNew }) {
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  console.log(contentListNew);
+  console.log(contentList);
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -354,17 +354,7 @@ function ExerciseContent({ exerciseId, lang, contentListNew }) {
       // );
     }
   }, [params.pathwayId]);
-  const contentList = [
-    "Class 1 - Intro to Python",
-    "How to Begin the Course",
-    "Why",
-    "Indentation",
-    "Basics Booleans",
-    "What do Computers do?",
-    "What is Programming?",
-    "Basic Definitions Introduction",
-    "Basic Definitions Part 1",
-  ];
+
   function ExerciseContentMain() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [selected, setSelected] = useState(0);
@@ -416,7 +406,7 @@ function ExerciseContent({ exerciseId, lang, contentListNew }) {
             <PersistentDrawerLeft
               selected={selected}
               setSelected={setSelected}
-              list={contentListNew}
+              list={contentList}
               open={openDrawer}
               setOpen={setOpenDrawer}
             />
@@ -424,12 +414,12 @@ function ExerciseContent({ exerciseId, lang, contentListNew }) {
             <MobileDrawer
               selected={selected}
               setSelected={setSelected}
-              list={contentListNew}
+              list={contentList}
               open={openDrawer}
               setOpen={setOpenDrawer}
             />
           )}
-          {/* {content &&
+          {content &&
             content.map((contentItem, index) => (
               <RenderDoubtClass
                 data={contentItem}
@@ -437,18 +427,34 @@ function ExerciseContent({ exerciseId, lang, contentListNew }) {
                 key={index}
                 classes={classes}
               />
-            ))} */}
+            ))}
 
-          {/*Removed Block */}
-
-          {/* {exercise && exercise.content_type === "assessment" && (
+          {exercise && exercise.content_type === "exercise" && (
+            <Box sx={{ m: "32px 0px" }}>
+              {/* <Typography variant="h5">{course}</Typography> */}
+              <Typography variant="h6" sx={{ mt: "16px" }}>
+                {exercise && exercise.name}
+              </Typography>
+              <Box sx={{ mt: 5, mb: 8 }}>
+                {content &&
+                  content.map((contentItem, index) => (
+                    <RenderContent
+                      data={contentItem}
+                      key={index}
+                      classes={classes}
+                    />
+                  ))}
+              </Box>
+            </Box>
+          )}
+          {exercise && exercise.content_type === "assessment" && (
             <Assessment
               data={content}
               exerciseId={exercise.id}
               courseData={courseData}
               setCourseData={setCourseData}
             />
-          )} */}
+          )}
         </Container>
       </Container>
     );
