@@ -18,6 +18,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 function ClassList({ editClass, isShow }) {
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
@@ -30,6 +31,10 @@ function ClassList({ editClass, isShow }) {
   }, [dispatch, isShow]);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const pathway_id = user.data.user.pathway_id;
+  const pathway_id = 1;
+
+  console.log("pathway_id", pathway_id);
 
   if (loading) {
     return (
@@ -72,10 +77,12 @@ function ClassList({ editClass, isShow }) {
   let single_classes = [];
   data &&
     data.forEach((item) => {
-      if (item.recurring_id) {
-        recurring_classes_data.push(item);
-      } else {
-        single_classes.push(item);
+      if (pathway_id == item.pathway_v2) {
+        if (item.recurring_id) {
+          recurring_classes_data.push(item);
+        } else {
+          single_classes.push(item);
+        }
       }
     });
 
