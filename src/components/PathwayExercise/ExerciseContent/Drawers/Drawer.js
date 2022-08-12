@@ -8,7 +8,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListItem from "@mui/material/ListItem";
 import { Typography, useMediaQuery } from "@mui/material";
-import breakpoints from "./DrawerBreakpoints";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -62,7 +61,7 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected, selected }) {
               </Typography>
             </ListItemButton>
           </ListItem>
-          {list.map((text, index) => (
+          {list.map((obj, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton onClick={() => setSelected(index)}>
                 <Typography
@@ -73,7 +72,11 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected, selected }) {
                   }}
                   variant="caption"
                 >
-                  {text}
+                  {obj.name
+                    ? obj.name
+                    : obj.course_name
+                    ? obj.course_name
+                    : "N/A"}
                 </Typography>
               </ListItemButton>
             </ListItem>

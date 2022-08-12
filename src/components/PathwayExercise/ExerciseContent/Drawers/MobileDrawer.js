@@ -94,7 +94,7 @@ function MobileDrawer(props) {
                 </Typography>
               </ListItemButton>
             </ListItem>
-            {list.map((text, index) => (
+            {list.map((obj, index) => (
               <ListItem key={index} disablePadding>
                 <ListItemButton onClick={clickOnTitle(index)}>
                   <Typography
@@ -105,7 +105,11 @@ function MobileDrawer(props) {
                     }}
                     variant="caption"
                   >
-                    {text}
+                    {obj.name
+                      ? obj.name
+                      : obj.course_name
+                      ? obj.course_name
+                      : "N/A"}
                   </Typography>
                 </ListItemButton>
               </ListItem>

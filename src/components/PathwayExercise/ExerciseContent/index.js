@@ -271,7 +271,7 @@ const RenderContent = ({ data, exercise }) => {
   return "";
 };
 
-function ExerciseContent({ exerciseId, lang }) {
+function ExerciseContent({ exerciseId, lang, contentListNew }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -285,7 +285,7 @@ function ExerciseContent({ exerciseId, lang }) {
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  console.log(content);
+  console.log(contentListNew);
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -416,7 +416,7 @@ function ExerciseContent({ exerciseId, lang }) {
             <PersistentDrawerLeft
               selected={selected}
               setSelected={setSelected}
-              list={contentList}
+              list={contentListNew}
               open={openDrawer}
               setOpen={setOpenDrawer}
             />
@@ -424,12 +424,12 @@ function ExerciseContent({ exerciseId, lang }) {
             <MobileDrawer
               selected={selected}
               setSelected={setSelected}
-              list={contentList}
+              list={contentListNew}
               open={openDrawer}
               setOpen={setOpenDrawer}
             />
           )}
-          {content &&
+          {/* {content &&
             content.map((contentItem, index) => (
               <RenderDoubtClass
                 data={contentItem}
@@ -437,34 +437,18 @@ function ExerciseContent({ exerciseId, lang }) {
                 key={index}
                 classes={classes}
               />
-            ))}
+            ))} */}
 
-          {exercise && exercise.content_type === "exercise" && (
-            <Box sx={{ m: "32px 0px" }}>
-              {/* <Typography variant="h5">{course}</Typography> */}
-              <Typography variant="h6" sx={{ mt: "16px" }}>
-                {exercise && exercise.name}
-              </Typography>
-              <Box sx={{ mt: 5, mb: 8 }}>
-                {content &&
-                  content.map((contentItem, index) => (
-                    <RenderContent
-                      data={contentItem}
-                      key={index}
-                      classes={classes}
-                    />
-                  ))}
-              </Box>
-            </Box>
-          )}
-          {exercise && exercise.content_type === "assessment" && (
+          {/*Removed Block */}
+
+          {/* {exercise && exercise.content_type === "assessment" && (
             <Assessment
               data={content}
               exerciseId={exercise.id}
               courseData={courseData}
               setCourseData={setCourseData}
             />
-          )}
+          )} */}
         </Container>
       </Container>
     );

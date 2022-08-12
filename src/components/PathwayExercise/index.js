@@ -492,7 +492,11 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <ExerciseContent exerciseId={exerciseId} lang={language} />
+        <ExerciseContent
+          contentListNew={course}
+          exerciseId={exerciseId}
+          lang={language}
+        />
       )}
       <Box>
         <Toolbar className={classes.bottomRow}>
