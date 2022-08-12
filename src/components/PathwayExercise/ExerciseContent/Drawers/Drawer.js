@@ -22,8 +22,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 function PersistentDrawerLeft({ open, setOpen, list, setSelected, selected }) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
-  console.log(desktop);
-  console.log(laptop);
+
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
 
   const handleDrawerClose = () => {

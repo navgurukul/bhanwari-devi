@@ -41,8 +41,8 @@ import ClassTopic from "../ClassTopic/ClassTopic";
 import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
-import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
 import MobileDrawer from "./Drawers/MobileDrawer";
+import ContentListText from "./Drawers/ContentListText";
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
@@ -285,6 +285,7 @@ function ExerciseContent({ exerciseId, lang }) {
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  console.log(content);
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -365,8 +366,9 @@ function ExerciseContent({ exerciseId, lang }) {
     "Basic Definitions Part 1",
   ];
   function ExerciseContentMain() {
-    const [openDrawer, setOpenDrawer] = useState(true);
+    const [openDrawer, setOpenDrawer] = useState(false);
     const [selected, setSelected] = useState(0);
+    const desktop = useMediaQuery("(min-width: 900px)");
 
     return (
       <Container maxWidth="lg">
@@ -403,42 +405,30 @@ function ExerciseContent({ exerciseId, lang }) {
             )}
           </Grid>
         </Grid>
-        <div
-          onClick={() => setOpenDrawer(true)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer",
-            position: "absolute",
-            left: "24px",
-          }}
-        >
-          <TextSnippetOutlinedIcon
-            style={{ color: "#6D6D6D", width: "20px", height: "28px" }}
-          />
-          <Typography
-            style={{ color: "#6D6D6D", fontSize: "12px", marginLeft: "8px" }}
-            type="overline"
-          >
-            CONTENT LIST
-          </Typography>
-        </div>
+        {desktop && (
+          <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
+        )}
         <Container maxWidth="sm">
-          <PersistentDrawerLeft
-            selected={selected}
-            setSelected={setSelected}
-            list={contentList}
-            open={openDrawer}
-            setOpen={setOpenDrawer}
-          />
-          {/* <MobileDrawer
-            selected={selected}
-            setSelected={setSelected}
-            list={contentList}
-            open={openDrawer}
-            setOpen={setOpenDrawer}
-          /> */}
-
+          {!desktop && (
+            <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
+          )}
+          {desktop ? (
+            <PersistentDrawerLeft
+              selected={selected}
+              setSelected={setSelected}
+              list={contentList}
+              open={openDrawer}
+              setOpen={setOpenDrawer}
+            />
+          ) : (
+            <MobileDrawer
+              selected={selected}
+              setSelected={setSelected}
+              list={contentList}
+              open={openDrawer}
+              setOpen={setOpenDrawer}
+            />
+          )}
           {content &&
             content.map((contentItem, index) => (
               <RenderDoubtClass
