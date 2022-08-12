@@ -23,6 +23,7 @@ import {
   Box,
   Button,
   Grid,
+  useMediaQuery,
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
@@ -39,9 +40,10 @@ import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
-import PersistentDrawerLeft from "./Drawer";
+import PersistentDrawerLeft from "./Drawers/Drawer";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
-import MobileDrawer from "./MobileDrawer";
+import MobileDrawer from "./Drawers/MobileDrawer";
+
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
@@ -363,7 +365,7 @@ function ExerciseContent({ exerciseId, lang }) {
     "Basic Definitions Part 1",
   ];
   function ExerciseContentMain() {
-    const [openDrawer, setOpenDrawer] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(true);
     const [selected, setSelected] = useState(0);
 
     return (
@@ -422,20 +424,20 @@ function ExerciseContent({ exerciseId, lang }) {
           </Typography>
         </div>
         <Container maxWidth="sm">
-          {/* <PersistentDrawerLeft
-            selected={selected}
-            setSelected={setSelected}
-            list={contentList}
-            open={openDrawer}
-            setOpen={setOpenDrawer}
-          /> */}
-          <MobileDrawer
+          <PersistentDrawerLeft
             selected={selected}
             setSelected={setSelected}
             list={contentList}
             open={openDrawer}
             setOpen={setOpenDrawer}
           />
+          {/* <MobileDrawer
+            selected={selected}
+            setSelected={setSelected}
+            list={contentList}
+            open={openDrawer}
+            setOpen={setOpenDrawer}
+          /> */}
 
           {content &&
             content.map((contentItem, index) => (

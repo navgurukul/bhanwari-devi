@@ -7,9 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListItem from "@mui/material/ListItem";
-import { Typography } from "@mui/material";
-
-const drawerWidth = 300;
+import { Typography, useMediaQuery } from "@mui/material";
+import breakpoints from "./DrawerBreakpoints";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -21,6 +20,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 function PersistentDrawerLeft({ open, setOpen, list, setSelected, selected }) {
+  const desktop = useMediaQuery("(min-width: 1050px)");
+  const laptop = useMediaQuery("(min-width: 1000px)");
+  console.log(desktop);
+  console.log(laptop);
+  let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
