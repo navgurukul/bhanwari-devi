@@ -114,7 +114,10 @@ function Login(props) {
 
   return (
     <>
-      <Container className={classes.merakiLogin} maxWidth="lg">
+      <Container
+        className={isActive ? classes.resMerakilogin : classes.merakiLogin}
+        maxWidth="lg"
+      >
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
             <Container maxWidth="md">
@@ -148,7 +151,7 @@ function Login(props) {
                         style={{
                           backgroundColor: "white",
                           color: "black",
-                          width: "max-content",
+                          width: isActive ? "100%" : "max-content",
                           margin: "10px 0",
                           fontSize: "18px",
                         }}

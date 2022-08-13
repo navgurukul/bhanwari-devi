@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme) => ({
   merakiLogin: {
     marginTop: "60px",
   },
+  resMerakilogin: {
+    marginTop: "184px",
+  },
   googleLogin: {
     justifyContent: "center",
     alignItems: "center",

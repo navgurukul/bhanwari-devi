@@ -153,7 +153,7 @@ function Team() {
           </Box>
           <hr color="primary" className={classes.team_hrline} />
         </Box>
-        <Box mt="40px">
+        <Box mt={isActive ? "32px" : "40px"}>
           <Typography
             variant="body1"
             align={!isActive ? "center" : "left"}
@@ -164,7 +164,12 @@ function Team() {
             students across India by making Tech education available. accessible
             and usable through our Meraki platform.
           </Typography>
-          <Grid container justifyContent="center" maxWidth="md" mt="40px">
+          <Grid
+            container
+            justifyContent="center"
+            maxWidth="md"
+            mt={isActive ? 0 : "40px"}
+          >
             <Button
               variant="contained"
               color="primary"
@@ -249,7 +254,7 @@ function Team() {
               ? classes.team_infoCardContaier
               : classes.team_infoResponsiveContainer
           }
-          sx={{ marginTop: 4 }}
+          sx={{ marginTop: isActive ? 2 : 4 }}
         >
           <Grid container>
             {teamData ? (
@@ -282,6 +287,7 @@ function Team() {
                       >
                         <Box
                           className={`${classes.team_cardDetails} card-details`}
+                          pt={isActive ? "0px 0px" : "30px 0px"}
                         >
                           <img
                             className={
