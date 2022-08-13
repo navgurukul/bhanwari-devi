@@ -14,6 +14,8 @@ import get from "lodash/get";
 import DOMPurify from "dompurify";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
+import { useParams } from "react-router-dom";
+import { versionCode } from "../../../../constant";
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -202,28 +204,29 @@ const AssessmentContent = ({
   return "";
 };
 
-function Assessment({ data, exerciseId, courseData, setCourseData }) {
+function Assessment({ data, exerciseId, attempt_status, courseData }) {
   const user = useSelector(({ User }) => User);
   const [answer, setAnswer] = useState();
   const [correct, setCorrect] = useState();
   const [solution, setSolution] = useState();
   const [submit, setSubmit] = useState();
   const [submitDisable, setSubmitDisable] = useState();
-  const [status, setStatus] = useState();
+  // const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
-  console.log("data");
+  const params = useParams();
+  console.log("data in Assessment", data);
+  console.log("courseData in Assessment", courseData);
+
   useEffect(() => {
-    if (courseData?.attempt_status?.selected_option) {
-      setAnswer(courseData.attempt_status.selected_option);
-      if (
-        courseData?.attempt_status?.selected_option ===
-        courseData?.content?.[2]?.value
-      ) {
+    if (attempt_status?.selected_option) {
+      setAnswer(attempt_status.selected_option);
+      // setTriedAgain(attempt_status?.attempt_count);
+      if (attempt_status.selected_option === data[2].value) {
         setCorrect(true);
-        setStatus("pass");
+        // setStatus("pass");
       } else {
         setCorrect(false);
-        setStatus("fail");
+        // setStatus("fail");
       }
       setTriedAgain(2);
 
@@ -238,19 +241,19 @@ function Assessment({ data, exerciseId, courseData, setCourseData }) {
           Authorization: user.data.token,
         },
       }).then((res) => {
+        console.log("res", res);
         if (res.data.attempt_status != "NOT_ATTEMPTED") {
           if (res?.data?.selected_option) {
             setAnswer(res?.data?.selected_option);
-            if (
-              res?.data?.selected_option === courseData?.content?.[2]?.value
-            ) {
+            if (res?.data?.selected_option === data[2].value) {
               setCorrect(true);
-              setStatus("pass");
+              // setStatus("pass");
             } else {
               setCorrect(false);
-              setStatus("fail");
+              // setStatus("fail");
+              setTriedAgain(attempt_status?.attempt_count);
             }
-            setTriedAgain(2);
+            // setTriedAgain(2);
 
             setSubmit(true);
             setSubmitDisable(true);
@@ -260,49 +263,54 @@ function Assessment({ data, exerciseId, courseData, setCourseData }) {
     }
   }, [exerciseId]);
 
+  console.log("attempt_count", attempt_status?.attempt_count);
+  console.log("attempt_status?.attempt_count", attempt_status?.attempt_count);
+
   const submitAssessment = () => {
     setSubmit(true);
+    // setTriedAgain(attempt_status?.attempt_count);
     if (answer == solution) {
       setCorrect(true);
-      setStatus("Pass");
+      // setStatus("Pass");
       setTriedAgain(triedAgain + 2);
       setSubmitDisable(true);
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-        data: {
-          assessment_id: exerciseId,
-          selected_option: answer,
-          status: "Pass",
-        },
-      }).then((res) => {
-        console.log("res", res);
-      });
     } else {
       setCorrect(false);
-      setStatus("Fail");
+      // setStatus("Fail");
       setTriedAgain(triedAgain + 1);
       setSubmitDisable(true);
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-        data: {
-          assessment_id: exerciseId,
-          selected_option: answer,
-          status: "Fail",
-        },
-      }).then((res) => {
-        console.log("res", res);
-      });
     }
+
+    axios({
+      method: METHODS.POST,
+      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        assessment_id: exerciseId,
+        selected_option: answer,
+        status: answer == solution ? "Pass" : "Fail",
+      },
+    }).then((res) => {
+      console.log("res", res);
+    });
+
+    axios({
+      method: METHODS.POST,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+      data: {
+        pathway_id: params.pathwayId,
+        course_id: params.courseId,
+        course_index: parseInt(params.exerciseId) + 1,
+      },
+    });
   };
 
   return (

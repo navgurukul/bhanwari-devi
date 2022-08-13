@@ -418,8 +418,9 @@ function ExerciseContent({ exerciseId, lang }) {
             <Assessment
               data={content}
               exerciseId={exercise.id}
+              attempt_status={exercise.attempt_status}
               courseData={courseData}
-              setCourseData={setCourseData}
+              // setCourseData={setCourseData}
             />
           )}
         </Container>
