@@ -9,7 +9,7 @@ export const getPathways = () => {
   return axios(
     "https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
     branchDataSource +
-    "f9053b384ce8b82443a2c0133ee10f052c2907c1/src/data/pathway_data_v40.json"
+    "/src/data/pathway_data_v40.json"
   ).catch((err) => {
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
