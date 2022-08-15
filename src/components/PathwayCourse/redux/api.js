@@ -3,54 +3,59 @@ import { METHODS } from "../../../services/api";
 import { versionCode, PATHWAYS_INFO } from "../../../constant";
 
 export const getPathways = () => {
-  return axios("https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
-    "f9053b384ce8b82443a2c0133ee10f052c2907c1/src/data/pathway_data_v40.json");
-  /*
-  return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
-    method: METHODS.GET,
-    headers: {
-      "version-code": versionCode,
-    },
-    // headers: HeaderFactory(token),
-  }).then((response) => {
-    if (!response?.data?.pathways) {
+  const branchDataSource =
+    process.env.REACT_APP_MERAKI_URL.startsWith("https://dev") ? "dev" : "main";
+  
+  return axios(
+    "https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
+    branchDataSource +
+    "/src/data/pathway_data_v40.json"
+  ).catch((err) => {
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
+      method: METHODS.GET,
+      headers: {
+        "version-code": versionCode,
+      },
+      // headers: HeaderFactory(token),
+    }).then((response) => {
+      if (!response?.data?.pathways) {
+        return response;
+      }
+      // Augment pathways data from back-end with new data to simulate it all
+      //     coming from the back-end
+      // quick way to copy exported constant since it's being modified
+      const frontEndPathwayData = JSON.parse(JSON.stringify(PATHWAYS_INFO));
+      const backEndPathwayData = response?.data?.pathways || [];
+      const feCodeToIndexMap = frontEndPathwayData.reduce(
+        (codeMap, pathway, index) => {
+          if (pathway.code) {
+            codeMap[pathway.code] = index;
+          }
+          return codeMap;
+        },
+        {}
+      );
+
+      response.data.pathways = backEndPathwayData.reduce(
+        (pathwayData, pathway) => {
+          const indexOfPathway = feCodeToIndexMap[pathway.code];
+          if (indexOfPathway != undefined) {
+            pathwayData[indexOfPathway] = {
+              ...pathway,
+              ...pathwayData[indexOfPathway],
+            };
+          } else {
+            pathwayData.push(pathway);
+          }
+          return pathwayData;
+        },
+        frontEndPathwayData
+      );
+
       return response;
-    }
-    // Augment pathways data from back-end with new data to simulate it all
-    //     coming from the back-end
-    // quick way to copy exported constant since it's being modified
-    const frontEndPathwayData = JSON.parse(JSON.stringify(PATHWAYS_INFO));
-    const backEndPathwayData = response?.data?.pathways || [];
-    const feCodeToIndexMap = frontEndPathwayData.reduce(
-      (codeMap, pathway, index) => {
-        if (pathway.code) {
-          codeMap[pathway.code] = index;
-        }
-        return codeMap;
-      },
-      {}
-    );
-
-    response.data.pathways = backEndPathwayData.reduce(
-      (pathwayData, pathway) => {
-        const indexOfPathway = feCodeToIndexMap[pathway.code];
-        if (indexOfPathway != undefined) {
-          pathwayData[indexOfPathway] = {
-            ...pathway,
-            ...pathwayData[indexOfPathway],
-          };
-        } else {
-          pathwayData.push(pathway);
-        }
-        return pathwayData;
-      },
-      frontEndPathwayData
-    );
-
-    return response;
+    });
   });
-  */
 };
 
 export const getPathwaysCourse = (data) => {
