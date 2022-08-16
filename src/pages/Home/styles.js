@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
   ResMerakiEntry: {
     marginTop: "20px",
+    padding: "24px 16px",
   },
 
   LearningBtn: {

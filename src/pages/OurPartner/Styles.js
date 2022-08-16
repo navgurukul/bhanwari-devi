@@ -15,5 +15,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     maxHeight: "100%",
   },
+  btnPartner: {
+    alignItems: "center",
+  },
 }));
 export default useStyles;

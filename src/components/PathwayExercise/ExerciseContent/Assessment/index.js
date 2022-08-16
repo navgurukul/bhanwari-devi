@@ -14,6 +14,7 @@ import get from "lodash/get";
 import DOMPurify from "dompurify";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
+import Stack from "@mui/material/Stack";
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -173,9 +174,11 @@ const AssessmentContent = ({
             <Paper
               elevation={3}
               sx={{
-                height: "59px",
+                // height: "59px",
+                height: "auto",
                 mb: "16px",
                 cursor: "pointer",
+                p: "16px",
               }}
               className={
                 submit
@@ -187,9 +190,12 @@ const AssessmentContent = ({
               // onClick={() => setAnswer(item.id)}
               onClick={() => !submitDisable && setAnswer(item.id)}
             >
-              <Typography variant="body1" sx={{ p: "16px" }}>
-                {item.value}
-              </Typography>
+              <Stack direction="row" gap={1}>
+                <Typography variant="body1">
+                  {item.value.slice(0, 2)}
+                </Typography>
+                <Typography variant="body1">{item.value.slice(2)}</Typography>
+              </Stack>
             </Paper>
           );
         })}
