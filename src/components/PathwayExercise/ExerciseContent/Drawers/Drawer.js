@@ -8,6 +8,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListItem from "@mui/material/ListItem";
 import { Typography, useMediaQuery } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
+import { interpolatePath, PATHS } from "../../../../constant";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -18,11 +20,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function PersistentDrawerLeft({ open, setOpen, list, setSelected, selected }) {
+function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
-
+  const params = useParams();
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
+  const selected = parseInt(params.exerciseId);
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -61,15 +64,23 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected, selected }) {
               </Typography>
             </ListItemButton>
           </ListItem>
-          {list.map((obj, index) => (
+          {list?.map((obj, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton onClick={() => setSelected(index)}>
                 <Typography
                   style={{
                     fontSize: "14px",
                     lineHeight: "21px",
-                    color: index === selected ? "#48A145" : "#6D6D6D",
+                    color: selected == index ? "#48A145" : "#6D6D6D",
+                    textDecoration: "none",
+                    boxShadow: "none",
                   }}
+                  component={Link}
+                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                    courseId: params.courseId,
+                    exerciseId: index,
+                    pathwayId: params.pathwayId,
+                  })}
                   variant="caption"
                 >
                   {obj.name

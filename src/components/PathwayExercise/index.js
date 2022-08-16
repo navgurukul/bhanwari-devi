@@ -493,7 +493,7 @@ function PathwayExercise() {
         />
       ) : (
         <ExerciseContent
-          contentListNew={course}
+          contentList={course}
           exerciseId={exerciseId}
           lang={language}
         />

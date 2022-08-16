@@ -284,8 +284,9 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const dispatch = useDispatch();
-  console.log(contentList);
+
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -356,8 +357,7 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
   }, [params.pathwayId]);
 
   function ExerciseContentMain() {
-    const [openDrawer, setOpenDrawer] = useState(false);
-    const [selected, setSelected] = useState(0);
+    const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
 
     return (
@@ -404,7 +404,6 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
           )}
           {desktop ? (
             <PersistentDrawerLeft
-              selected={selected}
               setSelected={setSelected}
               list={contentList}
               open={openDrawer}
@@ -412,7 +411,6 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
             />
           ) : (
             <MobileDrawer
-              selected={selected}
               setSelected={setSelected}
               list={contentList}
               open={openDrawer}

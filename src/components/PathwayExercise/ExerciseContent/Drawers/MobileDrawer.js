@@ -4,11 +4,12 @@ import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { ListItem, ListItemButton, List } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
+import { interpolatePath, PATHS } from "../../../../constant";
 
 const drawerBleeding = 56;
 
@@ -25,7 +26,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 function MobileDrawer(props) {
-  const { window, open, setOpen, list, setSelected, selected } = props;
+  const params = useParams();
+  const { window, open, setOpen, list, setSelected } = props;
+  const selected = parseInt(params.exerciseId);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -94,7 +97,7 @@ function MobileDrawer(props) {
                 </Typography>
               </ListItemButton>
             </ListItem>
-            {list.map((obj, index) => (
+            {list?.map((obj, index) => (
               <ListItem key={index} disablePadding>
                 <ListItemButton onClick={clickOnTitle(index)}>
                   <Typography
@@ -102,8 +105,16 @@ function MobileDrawer(props) {
                       fontSize: "14px",
                       lineHeight: "21px",
                       color: index === selected ? "#48A145" : "#6D6D6D",
+                      textDecoration: "none",
+                      boxShadow: "none",
                     }}
                     variant="caption"
+                    component={Link}
+                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                      exerciseId: index,
+                      courseId: params.courseId,
+                      pathwayId: params.pathwayId,
+                    })}
                   >
                     {obj.name
                       ? obj.name
