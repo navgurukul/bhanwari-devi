@@ -97,7 +97,12 @@ function MerakiEntry(props) {
       >
         With Meraki, begin your programming journey for free today
       </Typography>
-      <Grid sx={{ mt: 3 }} container spacing={2} justifyContent="center">
+      <Grid
+        sx={{ mt: isActive ? 2 : 3 }}
+        container
+        spacing={2}
+        justifyContent="center"
+      >
         <Grid alignItems="right" item xs={12} ms={12} md={4}>
           <Link to={PATHS.LOGIN} className={classes.link}>
             <Button
@@ -221,7 +226,7 @@ function Home() {
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
-            <Grid container spacing={4}>
+            <Grid container spacing={isActive ? 2 : 4}>
               {pathwayData.map((item) => (
                 <Grid item xs={12} ms={6} md={4}>
                   <PathwayCard
@@ -237,7 +242,7 @@ function Home() {
           </Container>
 
           {/* Section 4 */}
-          <Container sx={{ mt: 8 }} maxWidth="sm">
+          <Container sx={{ mt: isActive ? 6 : 8 }} maxWidth="sm">
             <Typography
               variant="h5"
               component="h6"
@@ -249,7 +254,7 @@ function Home() {
             </Typography>
           </Container>
           <Container className={classes.cardGrid} maxWidth="lg">
-            <Grid container spacing={4}>
+            <Grid container spacing={isActive ? 2 : 4}>
               {merakiConcerns.map((item, index) => (
                 <Grid item xs={12} ms={6} md={4}>
                   <PathwayCard
@@ -293,7 +298,7 @@ function Home() {
               Our Partners
             </Typography>
             <Typography
-              sx={{ mt: 4 }}
+              sx={{ mt: isActive ? 2 : 4 }}
               variant="h2"
               align="center"
               color="primary"
@@ -333,7 +338,7 @@ function Home() {
           <Container
             maxWidth="false"
             className={isActive ? classes.ResMerakiEntry : classes.MerakiEntry}
-            sx={{ p: 5, background: "#FAFAFA" }}
+            sx={{ background: "#FAFAFA" }}
           >
             <Container maxWidth="md">
               <MerakiEntry
@@ -346,7 +351,10 @@ function Home() {
 
           {/* Section 8  */}
 
-          <Container sx={{ mt: 6, mb: 6 }} maxWidth="sm">
+          <Container
+            sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
+            maxWidth="sm"
+          >
             <Typography
               variant="h5"
               component="h6"
@@ -357,7 +365,7 @@ function Home() {
               Have Questions?
             </Typography>
             <Typography
-              sx={{ mt: 3 }}
+              sx={{ mt: isActive ? 2 : 3 }}
               align="center"
               color="textPrimary"
               gutterBottom
