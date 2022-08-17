@@ -76,18 +76,21 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
                     boxShadow: "none",
                   }}
                   component={Link}
-                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                    courseId: params.courseId,
-                    exerciseId: index,
-                    pathwayId: params.pathwayId,
-                  })}
                   variant="caption"
                 >
-                  {obj.name
-                    ? obj.name
-                    : obj.course_name
-                    ? obj.course_name
-                    : "N/A"}
+                  <Link
+                    style={{
+                      color: selected == index ? "#48A145" : "#6D6D6D",
+                      textDecoration: "none",
+                    }}
+                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                      courseId: params.courseId,
+                      exerciseId: index,
+                      pathwayId: params.pathwayId,
+                    })}
+                  >
+                    {obj?.name || obj?.sub_title || obj?.content_type || "N/A"}
+                  </Link>
                 </Typography>
               </ListItemButton>
             </ListItem>
