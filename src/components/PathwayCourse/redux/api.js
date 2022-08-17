@@ -5,7 +5,7 @@ import { versionCode, PATHWAYS_INFO } from "../../../constant";
 export const getPathways = () => {
   const branchDataSource =
     process.env.REACT_APP_MERAKI_URL.startsWith("https://dev") ? "dev" : "main";
-  
+  //update
   return axios(
     "https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
     branchDataSource +
