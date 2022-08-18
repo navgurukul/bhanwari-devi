@@ -55,11 +55,13 @@ const AssessmentContent = ({
   triedAgain,
   setTriedAgain,
   submitDisable,
+  remainingAttempts,
+  setRemainingAttempts,
 }) => {
   const classes = useStyles();
   console.log("content", content);
   if (content.component === "header") {
-    if (triedAgain > 1) {
+    if (remainingAttempts === 0) {
       return headingVarients[content.variant](
         DOMPurify.sanitize(get(content, "value"))
       );
@@ -88,7 +90,7 @@ const AssessmentContent = ({
       );
     }
     if (index === 2) {
-      if (triedAgain > 1) {
+      if (remainingAttempts === 0) {
         return (
           <Box
             sx={{
@@ -107,7 +109,7 @@ const AssessmentContent = ({
                 variant="outlined"
                 fullWidth
                 onClick={() => {
-                  setTriedAgain(triedAgain + 1);
+                  setRemainingAttempts(0);
                 }}
               >
                 <Typography variant="subtitle2">
@@ -115,19 +117,21 @@ const AssessmentContent = ({
                 </Typography>
               </Button>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => {
-                  setAnswer();
-                  setSubmit();
-                  setSubmitDisable();
-                }}
-              >
-                <Typography variant="subtitle2">Re-try</Typography>
-              </Button>
-            </Grid>
+            {remainingAttempts > 0 && (
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  onClick={() => {
+                    setAnswer();
+                    setSubmit();
+                    setSubmitDisable();
+                  }}
+                >
+                  <Typography variant="subtitle2">Re-try</Typography>
+                </Button>
+              </Grid>
+            )}
           </Grid>
         );
       }
@@ -211,25 +215,31 @@ function Assessment({ data, exerciseId, attempt_status, courseData }) {
   const [solution, setSolution] = useState();
   const [submit, setSubmit] = useState();
   const [submitDisable, setSubmitDisable] = useState();
+  const [remainingAttempts, setRemainingAttempts] = useState(2);
   // const [status, setStatus] = useState();
-  const [triedAgain, setTriedAgain] = useState(0);
   const params = useParams();
-  console.log("data in Assessment", data);
-  console.log("courseData in Assessment", courseData);
+
+  useEffect(() => {
+    if (attempt_status?.attempt_count >= 2) {
+      setSubmitDisable(true);
+      setRemainingAttempts(0);
+    } else if (attempt_status?.attempt_count < 2) {
+      setSubmitDisable(false);
+      setRemainingAttempts(2 - attempt_status.attempt_count);
+    }
+  }, []);
 
   useEffect(() => {
     if (attempt_status?.selected_option) {
       setAnswer(attempt_status.selected_option);
-      // setTriedAgain(attempt_status?.attempt_count);
       if (attempt_status.selected_option === data[2].value) {
         setCorrect(true);
+        setRemainingAttempts(0);
         // setStatus("pass");
       } else {
         setCorrect(false);
         // setStatus("fail");
       }
-      setTriedAgain(2);
-
       setSubmit(true);
       setSubmitDisable(true);
     } else {
@@ -247,14 +257,13 @@ function Assessment({ data, exerciseId, attempt_status, courseData }) {
             setAnswer(res?.data?.selected_option);
             if (res?.data?.selected_option === data[2].value) {
               setCorrect(true);
+              setRemainingAttempts(0);
               // setStatus("pass");
             } else {
               setCorrect(false);
               // setStatus("fail");
-              setTriedAgain(attempt_status?.attempt_count);
+              setRemainingAttempts((prev) => prev - 1);
             }
-            // setTriedAgain(2);
-
             setSubmit(true);
             setSubmitDisable(true);
           }
@@ -265,19 +274,16 @@ function Assessment({ data, exerciseId, attempt_status, courseData }) {
 
   console.log("attempt_count", attempt_status?.attempt_count);
   console.log("attempt_status?.attempt_count", attempt_status?.attempt_count);
-
+  console.log("attempt_status", attempt_status);
   const submitAssessment = () => {
     setSubmit(true);
-    // setTriedAgain(attempt_status?.attempt_count);
     if (answer == solution) {
       setCorrect(true);
       // setStatus("Pass");
-      setTriedAgain(triedAgain + 2);
       setSubmitDisable(true);
     } else {
       setCorrect(false);
       // setStatus("Fail");
-      setTriedAgain(triedAgain + 1);
       setSubmitDisable(true);
     }
 
@@ -294,6 +300,16 @@ function Assessment({ data, exerciseId, attempt_status, courseData }) {
         status: answer == solution ? "Pass" : "Fail",
       },
     }).then((res) => {
+      if (res?.data?.attempt_count >= 2) {
+        setRemainingAttempts(0);
+        setSubmitDisable(true);
+      } else if (res?.data?.attempt_count < 2) {
+        if (res.data.status === "Pass") {
+          setRemainingAttempts(0);
+        } else if (res.data.status === "Fail") {
+          setRemainingAttempts((prev) => prev - 1);
+        }
+      }
       console.log("res", res);
     });
 
@@ -325,7 +341,6 @@ function Assessment({ data, exerciseId, attempt_status, courseData }) {
             submit={submit}
             setSubmit={setSubmit}
             correct={correct}
-            setTriedAgain={setTriedAgain}
             setSubmitDisable={setSubmitDisable}
             submitDisable={submitDisable}
           />
@@ -357,12 +372,12 @@ function Assessment({ data, exerciseId, attempt_status, courseData }) {
                 content={content}
                 index={index}
                 correct={correct}
-                setTriedAgain={setTriedAgain}
                 setAnswer={setAnswer}
                 submit={submit}
                 setSubmit={setSubmit}
                 setSubmitDisable={setSubmitDisable}
-                triedAgain={triedAgain}
+                remainingAttempts={remainingAttempts}
+                setRemainingAttempts={setRemainingAttempts}
                 submitDisable={submitDisable}
               />
             ))
