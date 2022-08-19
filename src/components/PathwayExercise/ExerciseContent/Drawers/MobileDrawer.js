@@ -29,6 +29,7 @@ function MobileDrawer(props) {
   const params = useParams();
   const { window, open, setOpen, list, setSelected } = props;
   const selected = parseInt(params.exerciseId);
+  const courseName = list[0]?.course_name.toUpperCase();
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -93,7 +94,7 @@ function MobileDrawer(props) {
             <ListItem disablePadding>
               <ListItemButton>
                 <Typography style={{ fontWeight: "400" }} variant="subtitle2">
-                  INTRODUCTION TO PYTHON
+                  {courseName}
                 </Typography>
               </ListItemButton>
             </ListItem>
