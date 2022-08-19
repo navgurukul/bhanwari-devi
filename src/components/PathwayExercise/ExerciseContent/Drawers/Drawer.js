@@ -21,7 +21,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
+function PersistentDrawerLeft({
+  open,
+  setOpen,
+  list,
+  setSelected,
+  setExerciseId,
+}) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
@@ -33,6 +39,14 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const ref1 = React.useRef();
+  React.useEffect(() => {
+    if (ref1.current) {
+      ref1.current.scrollIntoView({
+        block: "center",
+      });
+    }
+  }, []);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -43,7 +57,7 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
         open={open}
         PaperProps={{ style: { border: "none" } }}
       >
-        <div style={{ paddingBottom: "20px" }}>
+        <div style={{ paddingBottom: "20px", marginLeft: "30px" }}>
           <DrawerHeader style={{ marginTop: "70px" }}>
             <IconButton
               style={{ marginRight: "85%" }}
@@ -64,8 +78,17 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
               </ListItemButton>
             </ListItem>
             {list?.map((obj, index) => (
-              <ListItem key={index} disablePadding>
-                <ListItemButton onClick={() => setSelected(index)}>
+              <ListItem
+                key={index}
+                disablePadding
+                ref={index === selected ? ref1 : null}
+              >
+                <ListItemButton
+                  onClick={() => {
+                    setSelected(index);
+                    setExerciseId(index);
+                  }}
+                >
                   <Typography
                     className={classes.ListItemsTypography}
                     component={Link}

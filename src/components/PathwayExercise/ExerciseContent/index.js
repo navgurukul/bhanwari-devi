@@ -271,7 +271,7 @@ const RenderContent = ({ data, exercise }) => {
   return "";
 };
 
-function ExerciseContent({ exerciseId, lang, contentList }) {
+function ExerciseContent({ exerciseId, lang, contentList, setExerciseId }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -409,6 +409,7 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
               list={contentList}
               open={openDrawer}
               setOpen={setOpenDrawer}
+              setExerciseId={setExerciseId}
             />
           ) : (
             <MobileDrawer

@@ -496,6 +496,7 @@ function PathwayExercise() {
           contentList={course}
           exerciseId={exerciseId}
           lang={language}
+          setExerciseId={setExerciseId}
         />
       )}
       <Box>
