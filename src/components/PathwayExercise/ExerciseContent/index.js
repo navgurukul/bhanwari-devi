@@ -371,6 +371,9 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
               </Box>
             </Box>
           </Grid>
+          {desktop && (
+            <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
+          )}
           <Grid
             style={{
               display: showJoinClass ? "block" : "none",
@@ -395,9 +398,7 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
             )}
           </Grid>
         </Grid>
-        {desktop && (
-          <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
-        )}
+
         <Container maxWidth="sm">
           {!desktop && (
             <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />

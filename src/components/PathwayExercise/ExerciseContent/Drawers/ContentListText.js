@@ -13,6 +13,7 @@ export default function ContentListText(props) {
         cursor: "pointer",
         position: desktop ? "absolute" : "static",
         left: "24px",
+        marginTop: desktop ? "24px" : "none",
       }}
     >
       <AssignmentOutlinedIcon
