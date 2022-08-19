@@ -41,6 +41,8 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
             width: drawerWidth,
             boxSizing: "border-box",
           },
+          overflow: "hidden",
+          "& ::-webkit-scrollbar": { display: "none" },
           zIndex: 0,
         }}
         variant="persistent"
