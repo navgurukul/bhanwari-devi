@@ -50,54 +50,59 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
         open={open}
         PaperProps={{ style: { border: "none" } }}
       >
-        <DrawerHeader style={{ marginTop: "70px" }}>
-          <IconButton
-            style={{ marginRight: "85%" }}
-            onClick={handleDrawerClose}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-        </DrawerHeader>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <Typography style={{ fontWeight: "400" }} variant="subtitle2">
-                INTRODUCTION TO PYTHON
-              </Typography>
-            </ListItemButton>
-          </ListItem>
-          {list?.map((obj, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => setSelected(index)}>
-                <Typography
-                  style={{
-                    fontSize: "14px",
-                    lineHeight: "21px",
-                    color: selected == index ? "#48A145" : "#6D6D6D",
-                    textDecoration: "none",
-                    boxShadow: "none",
-                  }}
-                  component={Link}
-                  variant="caption"
-                >
-                  <Link
-                    style={{
-                      color: selected == index ? "#48A145" : "#6D6D6D",
-                      textDecoration: "none",
-                    }}
-                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                      courseId: params.courseId,
-                      exerciseId: index,
-                      pathwayId: params.pathwayId,
-                    })}
-                  >
-                    {obj?.name || obj?.sub_title || obj?.content_type || "N/A"}
-                  </Link>
+        <div style={{ paddingBottom: "20px" }}>
+          <DrawerHeader style={{ marginTop: "70px" }}>
+            <IconButton
+              style={{ marginRight: "85%" }}
+              onClick={handleDrawerClose}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </DrawerHeader>
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <Typography style={{ fontWeight: "400" }} variant="subtitle2">
+                  INTRODUCTION TO PYTHON
                 </Typography>
               </ListItemButton>
             </ListItem>
-          ))}
-        </List>
+            {list?.map((obj, index) => (
+              <ListItem key={index} disablePadding>
+                <ListItemButton onClick={() => setSelected(index)}>
+                  <Typography
+                    style={{
+                      fontSize: "14px",
+                      lineHeight: "21px",
+                      color: selected == index ? "#48A145" : "#6D6D6D",
+                      textDecoration: "none",
+                      boxShadow: "none",
+                    }}
+                    component={Link}
+                    variant="caption"
+                  >
+                    <Link
+                      style={{
+                        color: selected == index ? "#48A145" : "#6D6D6D",
+                        textDecoration: "none",
+                      }}
+                      to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                        courseId: params.courseId,
+                        exerciseId: index,
+                        pathwayId: params.pathwayId,
+                      })}
+                    >
+                      {obj?.name ||
+                        obj?.sub_title ||
+                        obj?.content_type ||
+                        "N/A"}
+                    </Link>
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </div>
       </Drawer>
     </Box>
   );
