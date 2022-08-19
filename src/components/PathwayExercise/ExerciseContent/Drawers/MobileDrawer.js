@@ -10,6 +10,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { ListItem, ListItemButton, List } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
+import useStyles from "./styles";
 
 const drawerBleeding = 56;
 
@@ -23,6 +24,13 @@ const Root = styled("div")(({ theme }) => ({
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
+  position: "absolute",
+  top: -drawerBleeding + 50,
+  borderTopLeftRadius: 8,
+  borderTopRightRadius: 8,
+  visibility: "visible",
+  right: 0,
+  left: 0,
 }));
 
 function MobileDrawer(props) {
@@ -30,7 +38,7 @@ function MobileDrawer(props) {
   const { window, open, setOpen, list, setSelected } = props;
   const selected = parseInt(params.exerciseId);
   const courseName = list[0]?.course_name.toUpperCase();
-
+  const classes = useStyles();
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -39,7 +47,7 @@ function MobileDrawer(props) {
     setOpen(false);
     setSelected(index);
   };
-  // This is used only for the example
+
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -67,17 +75,8 @@ function MobileDrawer(props) {
           keepMounted: true,
         }}
       >
-        <StyledBox
-          sx={{
-            position: "absolute",
-            top: -drawerBleeding + 50,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            visibility: "visible",
-            right: 0,
-            left: 0,
-          }}
-        >
+        {/*For rounded corners*/}
+        <StyledBox>
           <Typography sx={{ p: 2, color: "transparent" }}>
             51 results
           </Typography>
@@ -93,7 +92,10 @@ function MobileDrawer(props) {
           <List>
             <ListItem disablePadding>
               <ListItemButton>
-                <Typography style={{ fontWeight: "400" }} variant="subtitle2">
+                <Typography
+                  className={classes.courseNameTypography}
+                  variant="subtitle2"
+                >
                   {courseName}
                 </Typography>
               </ListItemButton>
@@ -103,12 +105,9 @@ function MobileDrawer(props) {
                 <ListItemButton onClick={clickOnTitle(index)}>
                   <Typography
                     style={{
-                      fontSize: "14px",
-                      lineHeight: "21px",
                       color: index === selected ? "#48A145" : "#6D6D6D",
-                      textDecoration: "none",
-                      boxShadow: "none",
                     }}
+                    className={classes.ListItemsTypography}
                     variant="caption"
                     component={Link}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

@@ -10,6 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import { Typography, useMediaQuery } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
+import useStyles from "./styles";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -27,7 +28,8 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
   const courseName = list[0]?.course_name.toUpperCase();
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
-  console.log(list);
+  const classes = useStyles({ desktop, laptop, drawerWidth });
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -35,17 +37,7 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-          overflow: "hidden",
-          "& ::-webkit-scrollbar": { display: "none" },
-          zIndex: 0,
-        }}
+        className={classes.DesktopDrawer}
         variant="persistent"
         anchor="left"
         open={open}
@@ -63,7 +55,10 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
           <List>
             <ListItem disablePadding>
               <ListItemButton>
-                <Typography style={{ fontWeight: "400" }} variant="subtitle2">
+                <Typography
+                  className={classes.courseNameTypography}
+                  variant="subtitle2"
+                >
                   {courseName}
                 </Typography>
               </ListItemButton>
@@ -72,21 +67,15 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
               <ListItem key={index} disablePadding>
                 <ListItemButton onClick={() => setSelected(index)}>
                   <Typography
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: "21px",
-                      color: selected == index ? "#48A145" : "#6D6D6D",
-                      textDecoration: "none",
-                      boxShadow: "none",
-                    }}
+                    className={classes.ListItemsTypography}
                     component={Link}
                     variant="caption"
                   >
                     <Link
                       style={{
                         color: selected == index ? "#48A145" : "#6D6D6D",
-                        textDecoration: "none",
                       }}
+                      className={classes.ListItemLink}
                       to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
                         courseId: params.courseId,
                         exerciseId: index,
