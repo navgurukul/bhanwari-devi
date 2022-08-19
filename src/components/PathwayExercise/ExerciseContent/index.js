@@ -362,6 +362,9 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
 
     return (
       <Container maxWidth="lg">
+        {!desktop && (
+          <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
+        )}
         <Grid container justifyContent={"center"}>
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
@@ -400,9 +403,6 @@ function ExerciseContent({ exerciseId, lang, contentList }) {
         </Grid>
 
         <Container maxWidth="sm">
-          {!desktop && (
-            <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
-          )}
           {desktop ? (
             <PersistentDrawerLeft
               setSelected={setSelected}
