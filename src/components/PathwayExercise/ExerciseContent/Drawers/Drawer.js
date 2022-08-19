@@ -24,9 +24,10 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
+  const courseName = list[0]?.course_name.toUpperCase();
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
-
+  console.log(list);
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -63,7 +64,7 @@ function PersistentDrawerLeft({ open, setOpen, list, setSelected }) {
             <ListItem disablePadding>
               <ListItemButton>
                 <Typography style={{ fontWeight: "400" }} variant="subtitle2">
-                  INTRODUCTION TO PYTHON
+                  {courseName}
                 </Typography>
               </ListItemButton>
             </ListItem>
