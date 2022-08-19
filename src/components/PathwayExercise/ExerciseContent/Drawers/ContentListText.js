@@ -1,29 +1,22 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import useStyles from "./styles";
 
 export default function ContentListText(props) {
   const { setOpenDrawer, desktop } = props;
+  const textStyle = { color: "#6D6D6D", fontSize: "12px", marginLeft: "8px" };
+  const iconStyle = { position: desktop ? "absolute" : "static" };
+  const classes = useStyles();
+
   return (
     <div
       onClick={() => setOpenDrawer(true)}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        cursor: "pointer",
-        position: desktop ? "absolute" : "static",
-        left: "24px",
-        marginLeft: "10px",
-        marginTop: "24px",
-      }}
+      style={iconStyle}
+      className={classes.ContentListDiv}
     >
-      <AssignmentOutlinedIcon
-        style={{ color: "#6D6D6D", width: "20px", height: "28px" }}
-      />
-      <Typography
-        style={{ color: "#6D6D6D", fontSize: "12px", marginLeft: "8px" }}
-        type="overline"
-      >
+      <AssignmentOutlinedIcon className={classes.ContentListIcon} />
+      <Typography style={textStyle} type="overline">
         CONTENT LIST
       </Typography>
     </div>

@@ -27,6 +27,21 @@ const useStyles = makeStyles((theme) => ({
   courseNameTypography: {
     fontWeight: "400",
   },
+
+  //Content List text
+  ContentListDiv: {
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    left: "24px",
+    marginLeft: "10px",
+    marginTop: "24px",
+  },
+  ContentListIcon: {
+    color: "#6D6D6D",
+    width: "20px",
+    height: "28px",
+  },
 }));
 
 export default useStyles;
