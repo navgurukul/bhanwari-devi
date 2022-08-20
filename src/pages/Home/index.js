@@ -287,7 +287,7 @@ function Home() {
           </Container>
           {/* Section 6  */}
 
-          <Container maxWidth="md" sx={{ mt: 9 }}>
+          {/* <Container maxWidth="md" sx={{ mt: 9 }}>
             <Typography
               variant="h5"
               component="h2"
@@ -308,7 +308,7 @@ function Home() {
             <Typography align="center" color="textPrimary" gutterBottom>
               Partners Across India
             </Typography>
-            {/* <Grid sx={{ mt: 1 }} container spacing={2}>
+            <Grid sx={{ mt: 1 }} container spacing={2}>
               {[
                 "Wipro",
                 "Infosys",
@@ -325,15 +325,14 @@ function Home() {
                   />
                 </Grid>
               ))}
-            </Grid> */}
+            </Grid>
             <Stack sx={{ mt: 3 }} alignItems="center">
-              {/* <Button href={PATHS.OUR_PARTNER}> */}
               <Button href={PATHS.OUR_PARTNER}>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
               </Button>
             </Stack>
-          </Container>
+          </Container> */}
           {/* Section 7  */}
           <Container
             maxWidth="false"
@@ -351,7 +350,7 @@ function Home() {
 
           {/* Section 8  */}
 
-          <Container
+          {/* <Container
             sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
             maxWidth="sm"
           >
@@ -430,7 +429,7 @@ function Home() {
                 </Typography>
               </Grid>
             </Grid>
-          </Container>
+          </Container> */}
         </div>
       </main>
     </>
