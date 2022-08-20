@@ -413,7 +413,7 @@ function Home() {
                         color: "#48a145",
                         fontStyle: "normal",
                       }}
-                      href="tel:+918891300300"
+                      href="https://wa.me/918891300300"
                     >
                       {" "}
                       +91 8891300300
