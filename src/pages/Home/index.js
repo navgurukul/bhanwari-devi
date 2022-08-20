@@ -337,7 +337,7 @@ function Home() {
           <Container
             maxWidth="false"
             className={isActive ? classes.ResMerakiEntry : classes.MerakiEntry}
-            sx={{ background: "#FAFAFA" }}
+            // sx={{ background: "#FAFAFA" }}
           >
             <Container maxWidth="md">
               <MerakiEntry
@@ -397,7 +397,7 @@ function Home() {
                       }}
                       href="mailto:team@meraki.org"
                     >
-                      team@meraki.org
+                      team@merakilearn.org
                     </ExternalLink>
                   </address>
                 </Typography>
