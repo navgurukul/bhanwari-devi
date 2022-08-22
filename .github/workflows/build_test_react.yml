@@ -7,7 +7,7 @@ name: Build and Test React App
 on:
   # Triggers the workflow on push (to given branches) or pull request events
   push:
-    branches: ["main", "dev", "classBatch", "chore-feat/header-refactoring-and-language-support"]
+    branches: ["main", "dev", "gh-action-store-student-class-and-upcoming-batch-data"]
   pull_request:
     types: [opened, reopened]
 

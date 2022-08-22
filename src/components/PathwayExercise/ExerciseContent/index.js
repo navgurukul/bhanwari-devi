@@ -40,6 +40,8 @@ import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
+// import { isStudentOnly } from "../../User/redux/selectors";
+import { selectPartnerId } from "../../User/redux/selectors";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
@@ -273,6 +275,8 @@ const RenderContent = ({ data, exercise }) => {
 
 function ExerciseContent({ exerciseId, lang, contentList, setExerciseId }) {
   const user = useSelector(({ User }) => User);
+  // const isStudentOnlyRole = useSelector(isStudentOnly);
+  const partnerId = useSelector(selectPartnerId);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
   const [exercise, setExercise] = useState();
@@ -337,13 +341,15 @@ function ExerciseContent({ exerciseId, lang, contentList, setExerciseId }) {
     if (user?.data?.token) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
-          pathwayId: pathwayId,
+          pathwayId,
           authToken: user?.data?.token,
         })
       );
       dispatch(
         upcomingBatchesActions.getUpcomingBatches({
-          pathwayId: pathwayId,
+          pathwayId,
+          // isStudent: isStudentOnlyRole,
+          partnerId,
           authToken: user?.data?.token,
         })
       );
