@@ -10,7 +10,6 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
 // import { actions as courseActions } from "../../../components/Course/redux/action";
 import { actions as enrolledBatchesActions } from "../../PathwayCourse/redux/action";
-
 import Assessment from "../ExerciseContent/Assessment";
 import {
   TableRow,
@@ -24,6 +23,7 @@ import {
   Box,
   Button,
   Grid,
+  useMediaQuery,
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
@@ -42,6 +42,9 @@ import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
 // import { isStudentOnly } from "../../User/redux/selectors";
 import { selectPartnerId } from "../../User/redux/selectors";
+import PersistentDrawerLeft from "./Drawers/Drawer";
+import MobileDrawer from "./Drawers/MobileDrawer";
+import ContentListText from "./Drawers/ContentListText";
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
@@ -89,6 +92,7 @@ const headingVarients = {};
       // />
     ))
 );
+
 const RenderDoubtClass = ({ data, exercise }) => {
   const classes = useStyles();
   if (data?.component === "banner") {
@@ -269,7 +273,7 @@ const RenderContent = ({ data, exercise }) => {
   return "";
 };
 
-function ExerciseContent({ exerciseId, lang }) {
+function ExerciseContent({ exerciseId, lang, contentList, setExerciseId }) {
   const user = useSelector(({ User }) => User);
   // const isStudentOnlyRole = useSelector(isStudentOnly);
   const partnerId = useSelector(selectPartnerId);
@@ -284,7 +288,9 @@ function ExerciseContent({ exerciseId, lang }) {
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -357,8 +363,14 @@ function ExerciseContent({ exerciseId, lang }) {
   }, [params.pathwayId]);
 
   function ExerciseContentMain() {
+    const [selected, setSelected] = useState(params.exerciseId);
+    const desktop = useMediaQuery("(min-width: 900px)");
+
     return (
       <Container maxWidth="lg">
+        {!desktop && (
+          <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
+        )}
         <Grid container justifyContent={"center"}>
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
@@ -368,6 +380,9 @@ function ExerciseContent({ exerciseId, lang }) {
               </Box>
             </Box>
           </Grid>
+          {desktop && (
+            <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
+          )}
           <Grid
             style={{
               display: showJoinClass ? "block" : "none",
@@ -392,7 +407,24 @@ function ExerciseContent({ exerciseId, lang }) {
             )}
           </Grid>
         </Grid>
+
         <Container maxWidth="sm">
+          {desktop ? (
+            <PersistentDrawerLeft
+              setSelected={setSelected}
+              list={contentList}
+              open={openDrawer}
+              setOpen={setOpenDrawer}
+              setExerciseId={setExerciseId}
+            />
+          ) : (
+            <MobileDrawer
+              setSelected={setSelected}
+              list={contentList}
+              open={openDrawer}
+              setOpen={setOpenDrawer}
+            />
+          )}
           {content &&
             content.map((contentItem, index) => (
               <RenderDoubtClass

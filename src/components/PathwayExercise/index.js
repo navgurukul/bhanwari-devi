@@ -40,11 +40,11 @@ const Exercise = ({
   params,
   progressTrackId,
 }) => {
-  const start = exerciseId > 6 ? exerciseId - 6 : 0;
+  const start = exerciseId > 6 ? exerciseId - (exerciseId % 7) : 0;
   const courseLength =
     course && course.length && exerciseId < 7
       ? course.slice(start, 7)
-      : course.slice(start, exerciseId + 1);
+      : course.slice(start, start + 7);
   return (
     <>
       {courseLength.map((exercise, index) => {
@@ -492,7 +492,12 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <ExerciseContent exerciseId={exerciseId} lang={language} />
+        <ExerciseContent
+          contentList={course}
+          exerciseId={exerciseId}
+          lang={language}
+          setExerciseId={setExerciseId}
+        />
       )}
       <Box>
         <Toolbar className={classes.bottomRow}>

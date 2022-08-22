@@ -24,15 +24,7 @@ function ReturningUserPage() {
   const history = useHistory();
   const params = useParams();
   const user = useSelector(({ User }) => User);
-  const [learningTracks, setLearningTracks] = useState([
-    {
-      image: "python",
-      course_Name: "Python",
-      NoOfCourse: "8",
-      NoOfTopic: "1",
-      TopicName: "Introduction To Python",
-    },
-  ]);
+  const [learningTracks, setLearningTracks] = useState([]);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -43,7 +35,7 @@ function ReturningUserPage() {
         Authorization: user?.data?.token || "",
       },
     }).then((res) => {
-      const data = res.data.data;
+      const data = res.data.data; 
       setLearningTracks(data);
     });
   }, []);

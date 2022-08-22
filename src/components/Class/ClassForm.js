@@ -10,9 +10,9 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
-import { FormHelperText } from "@mui/material";
+import { CircularProgress, FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
-import Loader from "../common/Loader";
+
 import {
   Typography,
   Grid,
@@ -59,7 +59,7 @@ function ClassForm({
       : [],
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
-      : new Date(),
+      : new Date(new Date().setSeconds(0)),
     end_time: classToEdit.end_time
       ? new Date(classToEdit.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
@@ -618,9 +618,13 @@ function ClassForm({
                     (classFields.type == "batch" ? "Batch" : "Doubt Class")}
                 </Typography>
               </Grid>
-              <Grid item xs={1} className={classes.FormCloseIcon}>
+              <Grid
+                color="text.secondary"
+                item
+                xs={1}
+                className={classes.FormCloseIcon}
+              >
                 <CloseIcon
-                  color="text.secondary"
                   open
                   onClick={() => {
                     setShowModal(false);
@@ -645,13 +649,16 @@ function ClassForm({
                     onCourseChange(e.target.value);
                   }}
                 >
-                  {courses.map((course) => {
-                    return (
-                      <MenuItem key={course.value} value={course.value}>
-                        {course.label}
-                      </MenuItem>
-                    );
-                  })}
+                  {data.Pathways &&
+                    data.Pathways.pathwayCourse &&
+                    data.Pathways.pathwayCourse.data &&
+                    data.Pathways.pathwayCourse.data.courses.map((course) => {
+                      return (
+                        <MenuItem key={course.id} value={course.id}>
+                          {course.name}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
                 <FormHelperText>{helperText.course}</FormHelperText>
               </FormControl>
@@ -855,7 +862,7 @@ function ClassForm({
                         }}
                         minTime={
                           classFields.date === moment().format("YYYY-MM-DD")
-                            ? new Date()
+                            ? new Date(new Date().setSeconds(0))
                             : null
                         }
                         renderInput={(params) => <TextField {...params} />}
@@ -928,7 +935,9 @@ function ClassForm({
               </RadioGroup>
             </FormControl>
             {loading ? (
-              <Loader />
+              <div style={{ textAlign: "center" }}>
+                <CircularProgress color="primary" />
+              </div>
             ) : (
               <Button
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
