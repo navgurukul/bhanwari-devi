@@ -13,6 +13,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SelectTrack from "./SelectTrack";
 import Confirmation from "./Confirmation";
 import AttendClass from "./AttendClass";
+import Availability from "./ Availability";
 import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
@@ -82,6 +83,11 @@ function HorizontalLinearStepper() {
         />
       ),
     },
+    {
+      label: "Your Availability",
+      component: <Availability />,
+    },
+
     {
       label: "Intro Video",
       component: <IntroVideo setDisable={setDisable} />,
