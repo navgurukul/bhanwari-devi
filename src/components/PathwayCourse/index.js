@@ -145,7 +145,7 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    if (user?.data?.token) {
+    if (user?.data?.token && Number.isInteger(pathwayId)) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
