@@ -8,9 +8,10 @@ const useStyles = makeStyles(() => ({
   },
   contentWrapper: {
     display: "flex",
-    width: "100%",
+    width: "80%",
     border: "1px red none",
     justifyContent: "spaced-center",
+    margin: "auto",
   },
   admissionVideo: {
     width: "544px",
