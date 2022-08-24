@@ -334,7 +334,7 @@ function ExerciseContent({ exerciseId, lang, contentList, setExerciseId }) {
   });
   useEffect(() => {
     // getupcomingEnrolledClasses
-    if (user?.data?.token) {
+    if (user?.data?.token && Number.isInteger(pathwayId)) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
