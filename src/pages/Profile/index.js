@@ -72,15 +72,20 @@ function Profile() {
       });
     });
   };
+  console.log("userData.profile_picture", userData);
   return (
     <>
       {/* <div className={classes.imageContainer}>
         <img className={classes.bgImage} src={require("./assest/bg.png")} />
       </div> */}
+      {/* <img
+        src="https://lh3.googleusercontent.com/a-/AOh14Gia7GolSruCwBw51D68IbuLSWZYEBcekXc8Ssjw=s96-c"
+        alt="profile"
+      /> */}
       <Container maxWidth="lg">
         <div item xs={12} md={6} className={classes.profileBox} align="center">
           <Avatar
-            alt="Remy Sharp"
+            alt={userData.name}
             src={userData.profile_picture}
             sx={{ height: 100, width: 100 }}
           />
