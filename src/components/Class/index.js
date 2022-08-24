@@ -225,7 +225,6 @@ function Class({ classToEdit, indicator }) {
   };
 
   const handleTimeValidationAndCreateClass = (payload) => {
-    console.log("payload", payload);
     const classStartTime = moment(
       `${payload[TIME_CONSTANT.CLASS_START_DATE]} ${
         payload[TIME_CONSTANT.CLASS_START_TIME]
@@ -754,7 +753,6 @@ function Class({ classToEdit, indicator }) {
                     type="time"
                     name={CLASS_START_TIME}
                     onChange={(e) => {
-                      console.log("e", e.target.value);
                       changeHandler(e, setFormFieldsState, formFieldsState);
                     }}
                     value={formFieldsState[CLASS_START_TIME]}

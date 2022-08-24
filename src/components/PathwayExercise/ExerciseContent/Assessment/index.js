@@ -56,7 +56,6 @@ const AssessmentContent = ({
   submitDisable,
 }) => {
   const classes = useStyles();
-  console.log("content", content);
   if (content.component === "header") {
     if (triedAgain > 1) {
       return headingVarients[content.variant](
@@ -169,7 +168,6 @@ const AssessmentContent = ({
     return (
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
-          console.log("item", item.value);
           return (
             <Paper
               elevation={3}
@@ -217,7 +215,6 @@ function Assessment({ data, exerciseId, courseData, setCourseData }) {
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
-  console.log("data");
   useEffect(() => {
     if (courseData?.attempt_status?.selected_option) {
       setAnswer(courseData.attempt_status.selected_option);

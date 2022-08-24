@@ -53,7 +53,6 @@ function LearningTrackCard(props) {
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
       setPathwayData(res.data);
-      console.log(res.data);
     });
   }, [item]);
 

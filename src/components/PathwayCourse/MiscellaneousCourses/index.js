@@ -70,7 +70,6 @@ function MiscellaneousCourses() {
             Courses
           </Typography>
           <Grid sx={{ mt: "16px" }} container spacing={2}>
-            {console.log(otherCourses)}
             {otherCourses &&
               otherCourses.map((item, index) => (
                 <Grid item key={index} xs={12} sm={6} md={3}>

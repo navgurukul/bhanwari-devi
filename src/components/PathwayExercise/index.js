@@ -273,7 +273,6 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(progressTrackId);
       if (parseInt(params.exerciseId) >= progressTrackId) {
         axios({
           method: METHODS.POST,
@@ -326,8 +325,6 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(progressTrackId);
-
       setExerciseId(exerciseId + 1);
     }
   };

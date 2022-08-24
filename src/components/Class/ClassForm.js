@@ -122,9 +122,6 @@ function ClassForm({
     return state;
   });
 
-  console.log("classFields", classFields);
-  console.log("classToEdit", classToEdit);
-
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
   }, [dispatch, 1]);
@@ -335,10 +332,6 @@ function ClassForm({
   };
 
   useEffect(() => {
-    console.log("id", classFields.partner_id);
-  }, [classFields.partner_id]);
-
-  useEffect(() => {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
@@ -348,7 +341,6 @@ function ClassForm({
         Authorization: user.data.token,
       },
     }).then((res) => {
-      // console.log("res", res);
       const partners = res.data.partners.map((item, index) => {
         return {
           label: item.name,
@@ -386,7 +378,6 @@ function ClassForm({
       },
     }).then(
       (res) => {
-        console.log("res", res);
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
@@ -420,9 +411,6 @@ function ClassForm({
       data: payload,
     }).then(
       (res) => {
-        console.log("res", res);
-        //We can also change the Successfull edit class modal here.
-        //Need to change the text from create to edit
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);

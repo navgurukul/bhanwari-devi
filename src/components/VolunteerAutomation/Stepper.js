@@ -221,8 +221,6 @@ function HorizontalLinearStepper() {
       <React.Fragment>
         <>
           {steps.map((step, index) => {
-            console.log(typeof index, "index");
-            console.log(typeof activeStep, "type");
             if (activeStep === index) {
               return (
                 <Box>

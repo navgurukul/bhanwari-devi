@@ -36,7 +36,6 @@ const PathwayCards = (props) => {
     mr: "Marathi",
   };
   const { userEnrolledClasses, data } = props;
-  console.log(userEnrolledClasses);
 
   function UpcomingClassCardComponent({ item }) {
     const classes = useStyles();
