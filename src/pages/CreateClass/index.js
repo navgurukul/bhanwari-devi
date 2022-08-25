@@ -8,6 +8,7 @@ import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
+import useStyles from "./styles";
 import {
   Container,
   Button,
@@ -19,7 +20,7 @@ import {
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
-import useStyles from "./styles";
+
 import SuccessModel from "../../components/Class/SuccessModel";
 import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
 
@@ -35,6 +36,7 @@ function ToggleClassFormModal() {
   const handleOpen = () => setOpen(true);
   const [openSuccessfullModal, setOpenSuccessfullModal] = useState(false);
   const [isEditMode, setIsEditMode] = React.useState(false);
+  const classes = useStyles();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -153,26 +155,26 @@ function ToggleClassFormModal() {
             <NewVolunteerCard setNewVolunteer={setNewVolunteer} />
           )}
 
-          <Box sx={{ display: "flex", direction: "row" }}>
+          <Box sx={{ display: isActive ? "block" : "flex", direction: "row" }}>
             <Button
               variant="contained"
-              style={{ width: isActive ? "50%" : "19%" }}
+              style={{ width: isActive ? "100%" : "19%" }}
               onClick={() => {
                 setFormType("batch");
                 toggleModalOpen();
               }}
-              sx={{ m: "10px 16px 20px 5px" }}
+              sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px" }}
             >
               Create Batch
             </Button>
             <Button
               variant="outlined"
-              style={{ width: isActive ? "50%" : "19%" }}
+              style={{ width: isActive ? "100%" : "19%" }}
               onClick={() => {
                 setFormType("doubt_class");
                 toggleModalOpen();
               }}
-              sx={{ m: "10px 8px 20px 10px" }}
+              sx={{ m: !isActive ? "10px 8px 20px 10px" : "16px 0px " }}
             >
               Create Doubt Class
             </Button>

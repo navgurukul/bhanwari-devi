@@ -139,7 +139,12 @@ function Admission(props) {
 
   return (
     <>
-      <Container maxWidth="lg" className={classes.admitionContainer}>
+      <Container
+        maxWidth="lg"
+        className={
+          isActive ? classes.admitionContaine1 : classes.admitionContainer
+        }
+      >
         <div
           style={{
             display: "flex",
@@ -181,6 +186,7 @@ function Admission(props) {
               gutterBottom
               align="190%"
               className={isActive && classes.admitionSpacing1}
+              mb={isActive ? 2 : 0}
             >
               Software Engineering Scholarship Test
             </Typography>
@@ -203,7 +209,7 @@ function Admission(props) {
                 name="firstName"
                 onChange={changeHandler}
                 id="firstName"
-                variant="outlined"
+                variant={isActive ? "standard" : "outlined"}
                 required
               />
 
@@ -214,7 +220,7 @@ function Admission(props) {
                 name="middleName"
                 onChange={changeHandler}
                 id="middleName"
-                variant="outlined"
+                variant={isActive ? "standard" : "outlined"}
               />
               <TextField
                 label="Last Name"
@@ -223,7 +229,7 @@ function Admission(props) {
                 name="lastName"
                 onChange={changeHandler}
                 id="lastName"
-                variant="outlined"
+                variant={isActive ? "standard" : "outlined"}
                 required
               />
 
@@ -235,7 +241,7 @@ function Admission(props) {
                 name="mobileNumber"
                 onChange={changeHandler}
                 id="mobileNumber"
-                variant="outlined"
+                variant={isActive ? "standard" : "outlined"}
                 required
               />
 
@@ -250,7 +256,11 @@ function Admission(props) {
                 Give Admission Test
               </Button>
             </Box>
-            <Grid container className={classes.admitionSpacing}>
+            <Grid
+              container
+              className={classes.admitionSpacing}
+              mt={isActive ? "32px" : "47px"}
+            >
               <Grid item xs={12} sm={12} md={6}>
                 <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
                   <Typography variant="h6">Check Test Result</Typography>
@@ -262,7 +272,7 @@ function Admission(props) {
                       setMobile(e.target.value);
                     }}
                     value={mobile}
-                    variant="outlined"
+                    variant={isActive ? "standard" : "outlined"}
                     required
                   />
                   <Button variant="contained" color="primary">
