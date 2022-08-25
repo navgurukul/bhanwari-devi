@@ -137,134 +137,137 @@ function Admission(props) {
   };
   return (
     <>
-      <div className={classes.contentWrapper}>
-        <div className={classes.videoWrapper}>
-          <CardMedia>
-            <YouTube
-              className={
-                !isActive ? classes.admissionVideo : classes.admissionVideo
-              }
-              videoId={`vuSwndj5cbs`}
-            />
-          </CardMedia>
-          <Typography variant="subtitle1" gutterBottom align="center">
-            Experience of NG Alumni & Graduates
-          </Typography>
-        </div>
+      <Container maxWidth="lg" className={classes.container}>
+        <div className={classes.contentWrapper}>
+          <div className={classes.videoWrapper}>
+            <CardMedia>
+              <YouTube
+                className={
+                  !isActive ? classes.admissionVideo : classes.admissionVideo
+                }
+                style={{ maxHeight: "360px", width: "544px" }}
+                videoId={`vuSwndj5cbs`}
+              />
+            </CardMedia>
+            <Typography variant="subtitle1" gutterBottom align="center">
+              Experience of NG Alumni & Graduates
+            </Typography>
+          </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            minWidth: "50%",
-          }}
-          className="formWrapper"
-        >
-          <Typography
-            variant="h6"
-            gutterBottom
-            align="190%"
-            className={isActive && classes.admitionSpacing1}
-          >
-            Software Engineering Scholarship Test
-          </Typography>
-          <Box
-            component="form"
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { sm: "1fr 1fr" },
-              gap: 3,
-              width: "100%",
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minWidth: "50%",
             }}
-            className={
-              isActive ? classes.admitionBottom1 : classes.admitionBottom
-            }
+            className="formWrapper"
           >
-            <TextField
-              label="First Name"
-              type="text"
-              value={userDetails.firstName}
-              name="firstName"
-              onChange={changeHandler}
-              id="firstName"
-              variant="outlined"
-              required
-            />
-
-            <TextField
-              label="Middel Name(Optional)"
-              type="text"
-              value={userDetails.middleName}
-              name="middleName"
-              onChange={changeHandler}
-              id="middleName"
-              variant="outlined"
-            />
-            <TextField
-              label="Last Name"
-              type="text"
-              value={userDetails.lastName}
-              name="lastName"
-              onChange={changeHandler}
-              id="lastName"
-              variant="outlined"
-              required
-            />
-
-            <TextField
-              label="Mobile Number"
-              type="number"
-              pattern="^[0-9]{10}$"
-              value={userDetails.mobileNumber}
-              name="mobileNumber"
-              onChange={changeHandler}
-              id="mobileNumber"
-              variant="outlined"
-              required
-            />
-
-            <Button
-              variant="contained"
-              color="primary"
-              className={
-                !isActive ? classes.admitionBtn1 : classes.admitionBtn2
-              }
-              onClick={giveTest}
+            <Typography
+              variant="h6"
+              gutterBottom
+              align="190%"
+              className={isActive && classes.admitionSpacing1}
             >
-              Give Admission Test
-            </Button>
-          </Box>
-          <Grid container className={classes.admitionSpacing}>
-            <Grid item xs={12} sm={12} md={6}>
-              <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
-                <Typography variant="h6">Check Test Result</Typography>
-                <TextField
-                  label="Mobile Number"
-                  type="number"
-                  pattern="^[0-9]{10}$"
-                  onChange={(e) => {
-                    setMobile(e.target.value);
-                  }}
-                  value={mobile}
-                  variant="outlined"
-                  required
-                />
-                <Button variant="contained" color="primary">
-                  <ExternalLink
-                    href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
-                    style={{
-                      color: "white",
-                      textDecoration: "none",
+              Software Engineering Scholarship Test
+            </Typography>
+            <Box
+              component="form"
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { sm: "1fr 1fr" },
+                gap: 3,
+                width: "100%",
+              }}
+              className={
+                isActive ? classes.admitionBottom1 : classes.admitionBottom
+              }
+            >
+              <TextField
+                label="First Name"
+                type="text"
+                value={userDetails.firstName}
+                name="firstName"
+                onChange={changeHandler}
+                id="firstName"
+                variant="outlined"
+                required
+              />
+
+              <TextField
+                label="Middel Name(Optional)"
+                type="text"
+                value={userDetails.middleName}
+                name="middleName"
+                onChange={changeHandler}
+                id="middleName"
+                variant="outlined"
+              />
+              <TextField
+                label="Last Name"
+                type="text"
+                value={userDetails.lastName}
+                name="lastName"
+                onChange={changeHandler}
+                id="lastName"
+                variant="outlined"
+                required
+              />
+
+              <TextField
+                label="Mobile Number"
+                type="number"
+                pattern="^[0-9]{10}$"
+                value={userDetails.mobileNumber}
+                name="mobileNumber"
+                onChange={changeHandler}
+                id="mobileNumber"
+                variant="outlined"
+                required
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                className={
+                  !isActive ? classes.admitionBtn1 : classes.admitionBtn2
+                }
+                onClick={giveTest}
+              >
+                Give Admission Test
+              </Button>
+            </Box>
+            <Grid container className={classes.admitionSpacing}>
+              <Grid item xs={12} sm={12} md={6}>
+                <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
+                  <Typography variant="h6">Check Test Result</Typography>
+                  <TextField
+                    label="Mobile Number"
+                    type="number"
+                    pattern="^[0-9]{10}$"
+                    onChange={(e) => {
+                      setMobile(e.target.value);
                     }}
-                  >
-                    Check Result
-                  </ExternalLink>
-                </Button>
-              </Box>
+                    value={mobile}
+                    variant="outlined"
+                    required
+                  />
+                  <Button variant="contained" color="primary">
+                    <ExternalLink
+                      href={`${process.env.REACT_APP_ADMISSIONS_URL}status/${mobile}`}
+                      style={{
+                        color: "white",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Check Result
+                    </ExternalLink>
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
         </div>
-      </div>
+      </Container>
     </>
   );
 }

@@ -8,14 +8,19 @@ const useStyles = makeStyles(() => ({
   },
   contentWrapper: {
     display: "flex",
-    width: "80%",
+    width: "100%",
     border: "1px red none",
     justifyContent: "spaced-center",
-    margin: "auto",
+  },
+  cardMedia: {
+    width: "544px",
+    maxHeight: "360px",
+    borderRadius: "8px",
+    marginBottom: "50%",
   },
   admissionVideo: {
     width: "544px",
-    height: "360px",
+    maxHeight: "360px",
     borderRadius: "8px",
     marginBottom: "50%",
   },
