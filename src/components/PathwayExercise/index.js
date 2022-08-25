@@ -72,36 +72,41 @@ function ExerciseImage({
   onClick,
   index,
   progressTrackId,
+  id,
 }) {
   const classes = useStyles();
-
+  console.log(id);
+  console.log(
+    progressTrackId.assessments,
+    progressTrackId.classes,
+    progressTrackId.exercises
+  );
   const contentTypeMap = {
     assessment: selected
-      ? index <= progressTrackId
+      ? progressTrackId.assessments.includes(id)
         ? "assessmentRevisit"
         : "assessmentSelected"
-      : index <= progressTrackId
+      : progressTrackId.assessments.includes(id)
       ? "assessmentCompleted"
       : "assessment",
     class_topic: selected
-      ? index <= progressTrackId
+      ? progressTrackId.classes.includes(id)
         ? "classTypeRevisit"
         : "classTypeSelected"
-      : index <= progressTrackId
+      : progressTrackId.classes.includes(id)
       ? "classTypeCompleted"
       : "classtype",
     exercise: selected
-      ? index <= progressTrackId
+      ? progressTrackId.exercises.includes(id)
         ? "contentTypeRevist"
         : "contentTypeSelected"
-      : index <= progressTrackId
+      : progressTrackId.exercises.includes(id)
       ? "ContentTypeCompleted"
       : "contenttype",
   };
   return (
     <img
       onClick={() => {
-        onClick();
         setExerciseId(index);
       }}
       src={require("./asset/" + contentTypeMap[contentType] + ".svg")}
@@ -455,6 +460,7 @@ function PathwayExercise() {
                           }}
                         >
                           <ExerciseImage
+                            id={exercise.id}
                             selected={exerciseId == index}
                             contentType={exercise.content_type}
                             index={index}
