@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import useStyles from "./styles";
-import { breakpoints } from "../../theme/constant";
 import PathwayCard from "../../pages/Home/PathwayCard";
 import { Container, Grid, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -90,23 +88,23 @@ const NewUserDashbord = () => {
       {!learningTracks ? (
         <>
           <Container className={classes.DashboardContainer}>
-            <Typography variant="h5" align="center" mt={4} mb={1}>
+            <Typography variant="h5" align="center" mt={4} mb={3}>
               Hello, {UserName} 👋
             </Typography>
-            <Typography variant="h6" align="center" mb={5}>
+            <Typography variant="h6" align="center" mb={2}>
               Please choose a learning track to begin!
             </Typography>
           </Container>
           <Container maxWidth="lg">
-            <Grid container align="center" rowSpacing={10} mb={10}>
+            <Grid container align="center" rowSpacing={6} mb={10}>
               {pathwayData.map((item) => (
                 <Grid
                   item
-                  xs={12}
+                  xs={6}
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={220}
+                  maxHeight={190}
                 >
                   <PathwayCard
                     id={item.id}
