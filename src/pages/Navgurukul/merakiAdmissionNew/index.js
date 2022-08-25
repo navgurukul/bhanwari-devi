@@ -239,7 +239,9 @@ function Admission(props) {
             <Grid container className={classes.admitionSpacing}>
               <Grid item xs={12} sm={12} md={6}>
                 <Box component="form" sx={{ display: "grid", gap: 2.5 }}>
-                  <Typography variant="h6">Check Test Result</Typography>
+                  <Typography sx={{ color: "#222 !important" }} variant="h6">
+                    Check Test Result
+                  </Typography>
                   <TextField
                     label="Mobile Number"
                     type="number"
