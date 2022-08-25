@@ -177,6 +177,7 @@ function Admission(props) {
                 gridTemplateColumns: { sm: "1fr 1fr" },
                 gap: 3,
                 width: "100%",
+                background: "transparent !important",
               }}
               className={
                 isActive ? classes.admitionBottom1 : classes.admitionBottom
