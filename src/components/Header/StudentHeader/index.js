@@ -58,7 +58,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           },
         }}
       >
-        <MenuItem onClick={handleOpenLearn}>
+        <MenuItem onClick={handleOpenLearn} onMouseEnter={handleOpenLearn}>
           <Typography variant="subtitle1">
             <Message constantKey={MENU_ITEMS[LEARN_KEY].msgKey} />
           </Typography>
