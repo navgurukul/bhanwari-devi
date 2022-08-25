@@ -13,8 +13,8 @@ import Button from "@mui/material/Button";
 import ExternalLink from "../../../components/common/ExternalLink";
 
 function Admission(props) {
-  const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles({ isActive });
 
   const [userDetails, setUserDetails] = useState({
     firstName: "",
@@ -143,7 +143,7 @@ function Admission(props) {
             <CardMedia>
               <YouTube
                 className={
-                  !isActive ? classes.admissionVideo : classes.admissionVideo
+                  !isActive ? classes.admissionVideo : classes.admissionVideo1
                 }
                 style={{ maxHeight: "360px", width: "544px" }}
                 videoId={`vuSwndj5cbs`}

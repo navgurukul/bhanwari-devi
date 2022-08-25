@@ -9,6 +9,7 @@ const useStyles = makeStyles(() => ({
   contentWrapper: {
     display: "flex",
     width: "100%",
+    flexDirection: (props) => (props.isActive ? "column" : "row"),
     border: "1px red none",
     justifyContent: "spaced-center",
   },
@@ -23,6 +24,12 @@ const useStyles = makeStyles(() => ({
     maxHeight: "360px",
     borderRadius: "8px",
     marginBottom: "50%",
+  },
+  admissionVideo1: {
+    width: "344px",
+    height: "330px",
+    borderRadius: "8px",
+    marginBottom: "40%",
   },
   videoWrapper: {
     display: "flex",
