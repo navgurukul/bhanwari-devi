@@ -14,7 +14,6 @@ import { useParams } from "react-router-dom";
 import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
-
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // const {languageMap} = require("../../pages/CourseContent/languageMap");
 
@@ -30,6 +29,7 @@ import {
 } from "@mui/material";
 import languageMap from "../../pages/CourseContent/languageMap";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
+import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 
 const Exercise = ({
   course,
@@ -50,6 +50,7 @@ const Exercise = ({
       {courseLength.map((exercise, index) => {
         return (
           <NavigationComponent
+            key={index}
             exercise={exercise}
             params={params}
             history={history}
@@ -64,57 +65,6 @@ const Exercise = ({
     </>
   );
 };
-
-function ExerciseImage({
-  selected,
-  contentType,
-  setExerciseId,
-  onClick,
-  index,
-  progressTrackId,
-  id,
-}) {
-  const classes = useStyles();
-  console.log(id);
-  console.log(
-    progressTrackId.assessments,
-    progressTrackId.classes,
-    progressTrackId.exercises
-  );
-  const contentTypeMap = {
-    assessment: selected
-      ? progressTrackId.assessments.includes(id)
-        ? "assessmentRevisit"
-        : "assessmentSelected"
-      : progressTrackId.assessments.includes(id)
-      ? "assessmentCompleted"
-      : "assessment",
-    class_topic: selected
-      ? progressTrackId.classes.includes(id)
-        ? "classTypeRevisit"
-        : "classTypeSelected"
-      : progressTrackId.classes.includes(id)
-      ? "classTypeCompleted"
-      : "classtype",
-    exercise: selected
-      ? progressTrackId.exercises.includes(id)
-        ? "contentTypeRevist"
-        : "contentTypeSelected"
-      : progressTrackId.exercises.includes(id)
-      ? "ContentTypeCompleted"
-      : "contenttype",
-  };
-  return (
-    <img
-      onClick={() => {
-        setExerciseId(index);
-      }}
-      src={require("./asset/" + contentTypeMap[contentType] + ".svg")}
-      loading="lazy"
-      className={classes.contentImg}
-    />
-  );
-}
 
 function NavigationComponent({
   index,
