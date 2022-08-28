@@ -78,6 +78,7 @@ function NavigationComponent({
   return (
     <>
       <ExerciseImage
+        id={exercise.id}
         onClick={() => {
           history.push(
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
