@@ -7,6 +7,8 @@ import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 
 const menu = {
   About: [
@@ -146,6 +148,8 @@ function Footer() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
 
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
@@ -163,7 +167,7 @@ function Footer() {
   return (
     <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
-        <Grid container spacing={2} sx={{ mt: "50px" }}>
+        <Grid container spacing={2} sx={{ mt: isActive ? 0 : "50px" }}>
           <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>

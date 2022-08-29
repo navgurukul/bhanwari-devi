@@ -19,10 +19,13 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 
 const OurPartner = () => {
   const classes = useStyles();
   const [partner, setPartner] = useState([]);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios
@@ -38,7 +41,7 @@ const OurPartner = () => {
     <>
       <Container maxWidth="lg">
         <Container maxWidth="md">
-          <Typography variant="h5" align="center">
+          <Typography variant="h5" align="center" mt={isActive ? 3 : 0}>
             Our Partners
           </Typography>
           <hr className={classes.underline} />
@@ -66,7 +69,7 @@ const OurPartner = () => {
             </Link>
           </Stack>
         </Container>
-        <Container sx={{ mt: 10 }}>
+        <Container sx={{ mt: isActive ? 6 : 10 }}>
           <Grid container md={12} spacing={{ xs: 2, sm: 4 }}>
             <Grid item xs={12} sm={6} md={6}>
               <img src={Image} className={classes.image} />
@@ -83,9 +86,11 @@ const OurPartner = () => {
                 underserved and underrepresented communities. Amazon has
                 partnered with Meraki to further our cause.
               </Typography>
-              <Button ml={6} href={PATHS.AFE}>
-                Learn More <ArrowForwardIosIcon />{" "}
-              </Button>
+              <Stack sx={{ alignItems: isActive ? "center" : "start" }}>
+                <Button ml={6} href={PATHS.AFE}>
+                  Learn More <ArrowForwardIosIcon />{" "}
+                </Button>
+              </Stack>
             </Grid>
           </Grid>
         </Container>
@@ -94,7 +99,7 @@ const OurPartner = () => {
             Partner List{" "}
           </Typography>
           <hr className={classes.underline} />
-          <Grid container spacing={3}>
+          <Grid container spacing={isActive ? 2 : 3}>
             {Object.keys(partner).map((item) => {
               return (
                 <Grid item xs={12} sm={6} md={4}>
@@ -102,8 +107,16 @@ const OurPartner = () => {
                     partner[item].OrganisationType !== null &&
                     !partner[item].State !== null &&
                     !partner[item].City !== null && (
-                      <Card sx={{ minWidth: 275, height: 250, mb: 4 }}>
-                        <CardContent sx={{ height: "170px" }}>
+                      <Card
+                        sx={{
+                          minWidth: 275,
+                          height: isActive ? 185 : 250,
+                          mb: isActive ? 0 : 4,
+                        }}
+                      >
+                        <CardContent
+                          sx={{ height: isActive ? "125px" : "170px" }}
+                        >
                           <Typography
                             variant="subtitle1"
                             color="text.secondary"
