@@ -72,7 +72,8 @@ function ToggleClassFormModal() {
       },
     })
       .then((res) => {
-        setCalenderConsent(true);
+        res.data.success ? setCalenderConsent(true) : setCalenderConsent(false);
+        setShowConsentModal(true);
       })
       .catch((err) => {
         setCalenderConsent(false);
@@ -207,19 +208,24 @@ function ToggleClassFormModal() {
         </Modal>
       ) : (
         showConsentModal && (
-          <Modal onClose={handleClose} className="confirmation-for-consent">
+          <Modal
+            onClose={handleClose}
+            // className="confirmation-for-consent"
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
             <h2>
               Meraki needs access to your calendar to create classes. <br />
               Do you want to go ahead?
             </h2>
-            <div className="wrap">
+            {/* <div className="wrap">
               <button onClick={codeGenerate} className="delete-btn">
                 Yes
               </button>
               <button onClick={handleClose} className="cancel-btn">
                 No
               </button>
-            </div>
+            </div> */}
           </Modal>
         )
       )}
