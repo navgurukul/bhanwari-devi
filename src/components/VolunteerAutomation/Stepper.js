@@ -41,6 +41,23 @@ function HorizontalLinearStepper() {
   const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const itemValues = { contact, enrollId, pathwayId };
+  // const [availability, setAvailability] = React.useState({
+  //   durarion: "",
+  //   on_days: [],
+  //   time: [],
+  // });
+  const [availability, setAvailability] = React.useState(
+    currentState.availability || {
+      hours_per_week: "",
+      available_on_days: [],
+      available_on_time: {},
+      // available_on_time: {
+      //   first_time: "",
+      //   second_time: "",
+      //   third_time: "",
+      // },
+    }
+  );
 
   const updateAndSaveState = (setter, key, value) => {
     setter && setter(value);
@@ -85,7 +102,13 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Your Availability",
-      component: <Availability />,
+      component: (
+        <Availability
+          setAvailability={setAvailability}
+          availability={availability}
+          setDisable={setDisable}
+        />
+      ),
     },
 
     {
@@ -115,6 +138,12 @@ function HorizontalLinearStepper() {
       component: <Confirmation setDisable={setDisable} />,
     },
   ];
+
+  console.log("data", {
+    contact: contact,
+    pathway_id: pathwayId,
+    ...availability,
+  });
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -167,6 +196,7 @@ function HorizontalLinearStepper() {
       data: {
         contact: contact,
         pathway_id: pathwayId,
+        ...availability,
       },
     }).then(
       (res) => {

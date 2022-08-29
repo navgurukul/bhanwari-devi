@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -18,12 +18,12 @@ import moment from "moment";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import itLocale from "date-fns/locale/it";
 
-function Availability() {
-  const [value, setValue] = React.useState(undefined);
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+function Availability({ setAvailability, availability, setDisable }) {
+  // const [availability, setAvailability] = React.useState({
+  //   durarion: "",
+  //   on_days: [],
+  //   time: [],
+  // });
 
   const days = {
     MO: "Mon",
@@ -34,6 +34,41 @@ function Availability() {
     SA: "Sat",
     SU: "Sun",
   };
+
+  const handleChange = (e) => {
+    setAvailability({ ...availability, [e.target.name]: e.target.value });
+  };
+
+  const handleDaySelection = (e) => {
+    const index = availability.available_on_days.indexOf(e.target.value);
+    if (index === -1) {
+      setAvailability({
+        ...availability,
+        ["available_on_days"]: [
+          ...availability.available_on_days,
+          e.target.value,
+        ],
+      });
+    } else {
+      const dayDeleted = availability.available_on_days.filter(
+        (selectedDay) => selectedDay !== e.target.value
+      );
+      setAvailability({ ...availability, ["available_on_days"]: dayDeleted });
+    }
+  };
+
+  useEffect(() => {
+    if (
+      availability.hours_per_week &&
+      availability.available_on_days.length > 0
+      // &&
+      // availability.available_on_time.length > 0
+    ) {
+      setDisable(false);
+    }
+  }, [availability]);
+
+  console.log("availability", availability);
 
   return (
     <Container sx={{ mt: 6 }} maxWidth="sm">
@@ -47,9 +82,9 @@ function Availability() {
       <Box sx={{ mt: 4 }}>
         <TextField
           label="Volunteering Duration (In Weeks)"
-          //   onChange={}
-          //   value={}
-          name="contact"
+          onChange={(e) => handleChange(e)}
+          value={availability.hours_per_week}
+          name="hours_per_week"
           id="contact"
           variant="outlined"
           fullWidth
@@ -72,15 +107,15 @@ function Availability() {
             control={
               <Checkbox
                 value={item}
-                //   checked={classFields.on_days.includes(item)}
-                //   onChange={handleDaySelection}
+                checked={availability.available_on_days.includes(item)}
+                onChange={handleDaySelection}
               />
             }
-            //   onClick={() => {
-            //     setOnInput((prev) => {
-            //       return { ...prev, days: true };
-            //     });
-            //   }}
+            // onClick={() => {
+            //   setOnInput((prev) => {
+            //     return { ...prev, days: true };
+            //   });
+            // }}
             label={item}
             labelPlacement={item}
           />
@@ -89,29 +124,39 @@ function Availability() {
 
       <Box sx={{ mt: 3 }}>
         <Typography variant="body2" color="textSecondary">
-          {" "}
           Please provide 3 preferred start times in a day (Classes are of 1
           hour)
         </Typography>
         <Grid container mt={2} spacing={0}>
           {[
-            { label: "First Start Time" },
-            { label: "Second Start Time" },
-            { label: "Third Start Time" },
-          ].map(({ label }) => (
+            { label: "First Start Time", prop: "first_time" },
+            { label: "Second Start Time", prop: "second_time" },
+            { label: "Third Start Time", prop: "third_time" },
+          ].map(({ label, prop }) => (
             <Grid sx={{ mt: 2 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DesktopTimePicker
                   label={label}
-                  // value={classFields[prop]}
+                  value={availability.available_on_time[prop]}
                   // onChange={(time) => {
-                  //   setClassFields({
-                  //     ...classFields,
+                  //   setAvailability({
+                  //     ...availability,
                   //     [prop]: time,
                   //   });
                   // }}
+                  onChange={(time) => {
+                    console.log("time", time);
+                    // let time =  time.getHours() + ":" + time.getMinutes()
+                    setAvailability({
+                      ...availability,
+                      ["available_on_time"]: {
+                        ...availability.available_on_time,
+                        [prop]: time,
+                      },
+                    });
+                  }}
                   // minTime={
-                  //   classFields.date === moment().format("YYYY-MM-DD")
+                  //   availability.date === moment().format("YYYY-MM-DD")
                   //     ? new Date(new Date().setSeconds(0))
                   //     : null
                   // }
