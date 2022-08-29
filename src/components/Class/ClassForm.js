@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -121,9 +121,6 @@ function ClassForm({
   const data = useSelector((state) => {
     return state;
   });
-
-  console.log("classFields", classFields);
-  console.log("classToEdit", classToEdit);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
@@ -348,7 +345,6 @@ function ClassForm({
         Authorization: user.data.token,
       },
     }).then((res) => {
-      // console.log("res", res);
       const partners = res.data.partners.map((item, index) => {
         return {
           label: item.name,
@@ -386,7 +382,6 @@ function ClassForm({
       },
     }).then(
       (res) => {
-        console.log("res", res);
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
@@ -399,7 +394,6 @@ function ClassForm({
       },
       (error) => {
         setLoading(false);
-        console.log("error", error);
       }
     );
   };
@@ -420,7 +414,6 @@ function ClassForm({
       data: payload,
     }).then(
       (res) => {
-        console.log("res", res);
         //We can also change the Successfull edit class modal here.
         //Need to change the text from create to edit
         if (res.status === 200) {
@@ -435,7 +428,6 @@ function ClassForm({
       },
       (error) => {
         setLoading(false);
-        console.log("error", error);
       }
     );
   };
@@ -537,7 +529,6 @@ function ClassForm({
     const classEndTime = moment(`${classFields.date} ${classFields.end_time}`);
 
     if (classStartTime.valueOf() >= classEndTime.valueOf()) {
-      console.log("Class end time must be later than class start time.");
     }
 
     //deleting partner_id when it's length is 0
@@ -611,7 +602,7 @@ function ClassForm({
               bgcolor: "background.paper",
             }}
           >
-            <Grid container mb={4}>
+            <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
                   {(isEditMode ? "Update " : "Create ") +
@@ -722,7 +713,12 @@ function ClassForm({
             />
 
             {classFields.type === "batch" && (
-              <Typography variant="body2" color="text.secondary" mb={4} mt={2}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                mb={isActive ? 3 : 4}
+                mt={2}
+              >
                 We will automatically create 28 classes for a Python batch with
                 titles and descriptions
               </Typography>
@@ -763,7 +759,12 @@ function ClassForm({
               </Stack>
             )}
             {classFields.type === "batch" && (
-              <Typography variant="body2" color="text.secondary" mb={4} mt={2}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                mb={isActive ? 3 : 4}
+                mt={2}
+              >
                 This batch will be visible to students of only these partner
               </Typography>
             )}
@@ -810,8 +811,7 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mt: 4 }}
-                    // mb={1}
+                    sx={{ mt: isActive ? 3 : 4, mb: isActive && 2 }}
                   >
                     Schedule on days
                   </Typography>
@@ -882,7 +882,10 @@ function ClassForm({
                 >
                   Language
                 </Typography>
-                <RadioGroup value={classFields.lang?.index} row>
+                <RadioGroup
+                  value={classFields.lang?.index}
+                  row={isActive ? false : true}
+                >
                   {Object.keys(lang)?.map((item) => {
                     if (item !== "mr") {
                       return (
@@ -913,7 +916,7 @@ function ClassForm({
               >
                 Cap enrollments at
               </Typography>
-              <RadioGroup row>
+              <RadioGroup row={isActive ? false : true}>
                 {capEnrollment?.map((item) => {
                   return (
                     <FormControlLabel
