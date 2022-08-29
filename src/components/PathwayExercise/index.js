@@ -416,10 +416,11 @@ function PathwayExercise() {
                             id={exercise.id}
                             selected={exerciseId == index}
                             contentType={exercise.content_type}
-                            title={
+                            exerciseName={
                               exercise.name ||
                               exercise.sub_title ||
-                              exercise.content_type
+                              exercise.content_type ||
+                              "N/A"
                             }
                             index={index}
                             setExerciseId={setExerciseId}
