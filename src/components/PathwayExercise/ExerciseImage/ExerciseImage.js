@@ -1,5 +1,7 @@
 import React from "react";
+import { useHistory, useParams } from "react-router-dom";
 import useStyles from "../styles";
+import { PATHS, interpolatePath, versionCode } from "../../../constant";
 
 export default function ExerciseImage({
   selected,
@@ -11,6 +13,7 @@ export default function ExerciseImage({
   id,
 }) {
   const classes = useStyles();
+  const history = useHistory();
   // console.log(progressTrackId);
   // console.log(id);
   // console.log(
@@ -18,7 +21,7 @@ export default function ExerciseImage({
   //   progressTrackId.classes,
   //   progressTrackId.exercises
   // );
-
+  const params = useParams();
   const contentTypeMap = {
     assessment: selected
       ? progressTrackId.assessments.includes(id)
@@ -55,6 +58,13 @@ export default function ExerciseImage({
   return (
     <img
       onClick={() => {
+        history.push(
+          interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId: params.courseId,
+            exerciseId: index,
+            pathwayId: params.pathwayId,
+          })
+        );
         setExerciseId(index);
       }}
       src={require(`../asset/${contentTypeMap[contentType]}.svg`)}

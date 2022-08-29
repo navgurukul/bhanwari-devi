@@ -235,6 +235,8 @@ function PathwayExercise() {
       });
       setExerciseId(exerciseId + 1);
     } else {
+      setExerciseId(exerciseId + 1);
+      setSuccessfulExerciseCompletion(true);
       axios({
         method: METHODS.POST,
         url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
@@ -249,10 +251,7 @@ function PathwayExercise() {
           course_index: parseInt(params.exerciseId) + 1,
         },
       })
-        .then((res) => {
-          setExerciseId(exerciseId + 1);
-          setSuccessfulExerciseCompletion(true);
-        })
+        .then((res) => {})
         .catch((err) => {});
     }
   };
@@ -437,6 +436,7 @@ function PathwayExercise() {
           exerciseId={exerciseId}
           lang={language}
           setExerciseId={setExerciseId}
+          setProgressTrackId={setProgressTrackId}
         />
       )}
       <Box>
