@@ -41,21 +41,11 @@ function HorizontalLinearStepper() {
   const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const itemValues = { contact, enrollId, pathwayId };
-  // const [availability, setAvailability] = React.useState({
-  //   durarion: "",
-  //   on_days: [],
-  //   time: [],
-  // });
   const [availability, setAvailability] = React.useState(
     currentState.availability || {
       hours_per_week: "",
       available_on_days: [],
       available_on_time: {},
-      // available_on_time: {
-      //   first_time: "",
-      //   second_time: "",
-      //   third_time: "",
-      // },
     }
   );
 
