@@ -75,10 +75,14 @@ function NavigationComponent({
   exercise,
   progressTrackId,
 }) {
+  console.log(exercise);
   return (
     <>
       <ExerciseImage
         id={exercise.id}
+        exerciseName={
+          exercise.name || exercise.sub_title || exercise.content_type || "N/A"
+        }
         onClick={() => {
           history.push(
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

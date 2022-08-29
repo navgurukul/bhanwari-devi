@@ -12,6 +12,7 @@ export default function ExerciseImage({
   index,
   progressTrackId,
   id,
+  exerciseName,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -48,7 +49,7 @@ export default function ExerciseImage({
   };
 
   return (
-    <Tooltip>
+    <Tooltip title={exerciseName}>
       <img
         onClick={() => {
           history.push(
