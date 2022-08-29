@@ -5,6 +5,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     align: "center",
   },
+  confirmationModal: {
+    marginTop: "300px",
+    padding: "20px",
+    borderRadius: "8px",
+  },
 }));
 
 export default useStyles;

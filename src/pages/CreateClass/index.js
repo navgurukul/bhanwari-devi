@@ -35,6 +35,7 @@ function ToggleClassFormModal() {
   const handleOpen = () => setOpen(true);
   const [openSuccessfullModal, setOpenSuccessfullModal] = useState(false);
   const [isEditMode, setIsEditMode] = React.useState(false);
+  const classes = useStyles();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -50,7 +51,7 @@ function ToggleClassFormModal() {
   const toggleModalOpen = () => {
     // setFormType();
     setClassToEdit({});
-    setShowModal(!showModal);
+    // setShowModal(!showModal);
     CalenderConsent();
   };
 
@@ -70,15 +71,23 @@ function ToggleClassFormModal() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    })
-      .then((res) => {
-        res.data.success ? setCalenderConsent(true) : setCalenderConsent(false);
-        setShowConsentModal(true);
-      })
-      .catch((err) => {
+    }).then((res) => {
+      console.log("res calendar token", res);
+      // setCalenderConsent(true);
+      // setShowModal(true);
+      if (res.data.success) {
+        setCalenderConsent(true);
+        setShowModal(true);
+      } else {
         setCalenderConsent(false);
         setShowConsentModal(true);
-      });
+        setShowModal(false);
+      }
+    });
+    // .catch((err) => {
+    //   setCalenderConsent(false);
+    //   setShowConsentModal(true);
+    // });
   };
 
   const handleClose = () => {
@@ -209,23 +218,46 @@ function ToggleClassFormModal() {
       ) : (
         showConsentModal && (
           <Modal
-            onClose={handleClose}
+            open={showConsentModal}
+            // onClose={handleClose}
             // className="confirmation-for-consent"
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <h2>
-              Meraki needs access to your calendar to create classes. <br />
-              Do you want to go ahead?
-            </h2>
-            {/* <div className="wrap">
-              <button onClick={codeGenerate} className="delete-btn">
-                Yes
-              </button>
-              <button onClick={handleClose} className="cancel-btn">
-                No
-              </button>
-            </div> */}
+            <Stack alignItems="center">
+              <Box
+                className={classes.confirmationModal}
+                sx={{
+                  bgcolor: "background.paper",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h6" align="center">
+                  Meraki needs access to your calendar to create classes. <br />
+                  Do you want to go ahead?
+                </Typography>
+                <Stack alignItems="center">
+                  <Box sx={{ display: "flex", mt: "10px" }}>
+                    <Button
+                      onClick={codeGenerate}
+                      color="error"
+                      variant="contained"
+                      sx={{ mr: "15px", width: "100px" }}
+                    >
+                      Yes
+                    </Button>
+                    <Button
+                      onClick={handleClose}
+                      color="grey"
+                      variant="contained"
+                      sx={{ width: "100px" }}
+                    >
+                      No
+                    </Button>
+                  </Box>
+                </Stack>
+              </Box>
+            </Stack>
           </Modal>
         )
       )}
