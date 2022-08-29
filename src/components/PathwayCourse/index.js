@@ -145,7 +145,11 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    if (user?.data?.token) {
+    console.log(
+      "Pathwayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      pathwayId
+    );
+    if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
