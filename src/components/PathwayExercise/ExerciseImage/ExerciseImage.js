@@ -47,8 +47,6 @@ export default function ExerciseImage({
       : "contenttype",
   };
 
-  console.log(stitle);
-
   return (
     <Tooltip>
       <img
