@@ -75,7 +75,6 @@ function NavigationComponent({
   exercise,
   progressTrackId,
 }) {
-  console.log(exercise);
   return (
     <>
       <ExerciseImage
