@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import useStyles from "../styles";
 import { PATHS, interpolatePath, versionCode } from "../../../constant";
+import { Tooltip } from "@mui/material";
 
 export default function ExerciseImage({
   selected,
@@ -11,6 +12,7 @@ export default function ExerciseImage({
   index,
   progressTrackId,
   id,
+  exerciseName,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -46,30 +48,23 @@ export default function ExerciseImage({
       : "contenttype",
   };
 
-  console.log(
-    "For id",
-    id,
-    " ",
-    progressTrackId.assessments.includes(id),
-    " and file ",
-    contentTypeMap[contentType]
-  );
-
   return (
-    <img
-      onClick={() => {
-        history.push(
-          interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-            courseId: params.courseId,
-            exerciseId: index,
-            pathwayId: params.pathwayId,
-          })
-        );
-        setExerciseId(index);
-      }}
-      src={require(`../asset/${contentTypeMap[contentType]}.svg`)}
-      loading="lazy"
-      className={classes.contentImg}
-    />
+    <Tooltip title={exerciseName}>
+      <img
+        onClick={() => {
+          history.push(
+            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+              courseId: params.courseId,
+              exerciseId: index,
+              pathwayId: params.pathwayId,
+            })
+          );
+          setExerciseId(index);
+        }}
+        src={require(`../asset/${contentTypeMap[contentType]}.svg`)}
+        loading="lazy"
+        className={classes.contentImg}
+      />
+    </Tooltip>
   );
 }

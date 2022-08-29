@@ -79,6 +79,9 @@ function NavigationComponent({
     <>
       <ExerciseImage
         id={exercise.id}
+        exerciseName={
+          exercise.name || exercise.sub_title || exercise.content_type || "N/A"
+        }
         onClick={() => {
           history.push(
             interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -413,6 +416,12 @@ function PathwayExercise() {
                             id={exercise.id}
                             selected={exerciseId == index}
                             contentType={exercise.content_type}
+                            exerciseName={
+                              exercise.name ||
+                              exercise.sub_title ||
+                              exercise.content_type ||
+                              "N/A"
+                            }
                             index={index}
                             setExerciseId={setExerciseId}
                             progressTrackId={progressTrackId}
