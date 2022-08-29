@@ -271,7 +271,13 @@ const RenderContent = ({ data, exercise }) => {
   return "";
 };
 
-function ExerciseContent({ exerciseId, lang, contentList, setExerciseId }) {
+function ExerciseContent({
+  exerciseId,
+  lang,
+  contentList,
+  setExerciseId,
+  setProgressTrackId,
+}) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -457,6 +463,7 @@ function ExerciseContent({ exerciseId, lang, contentList, setExerciseId }) {
               exerciseId={exercise.id}
               courseData={courseData}
               setCourseData={setCourseData}
+              setProgressTrackId={setProgressTrackId}
             />
           )}
         </Container>
