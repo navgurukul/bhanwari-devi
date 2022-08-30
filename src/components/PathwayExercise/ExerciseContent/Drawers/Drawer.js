@@ -57,15 +57,15 @@ function PersistentDrawerLeft({
         open={open}
         PaperProps={{ style: { border: "none" } }}
       >
-        <div style={{ paddingBottom: "20px", marginLeft: "30px" }}>
-          <DrawerHeader style={{ marginTop: "70px" }}>
+        <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
+          <ListItem disablePadding style={{ marginTop: "100px" }}>
             <IconButton
               style={{ marginRight: "85%" }}
               onClick={handleDrawerClose}
             >
               <ArrowBackIcon />
             </IconButton>
-          </DrawerHeader>
+          </ListItem>
           <List>
             <ListItem disablePadding>
               <ListItemButton>
