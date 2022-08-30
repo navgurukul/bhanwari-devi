@@ -92,6 +92,7 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Your Availability",
+      itemKey: "availability",
       component: (
         <Availability
           setAvailability={setAvailability}
