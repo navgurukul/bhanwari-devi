@@ -95,7 +95,7 @@ function ClassList({ editClass, isShow }) {
         placeholder="Enter Batch or Class Name"
         value={filterText}
         sx={{
-          margin: isActive ? "12px 0 0 4px" : "12px 0 0 2px",
+          margin: isActive ? "0px 0 0 4px" : "12px 0 0 2px",
           width: isActive ? "97%" : "99%",
           borderRadius: "8px",
         }}
@@ -127,7 +127,7 @@ function ClassList({ editClass, isShow }) {
         }}
       />
       <>
-        <Grid container spacing={"16px"}>
+        <Grid container spacing={isActive ? "0px" : "16px"}>
           {data && data.length > 0 ? (
             <>
               {!filterText?.length > 0
