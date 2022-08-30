@@ -209,7 +209,12 @@ function PathwayCourse() {
         ""
       )}
 
-      <Container className={classes.pathwayContainer} maxWidth="lg">
+      <Container
+        className={classes.pathwayContainer}
+        mt={isActive ? 0 : 55}
+        mb={isActive ? 32 : 48}
+        maxWidth="lg"
+      >
         {enrolledBatches ? (
           <>
             <PathwayCards
@@ -232,6 +237,7 @@ function PathwayCourse() {
                     align="left"
                     elevation={0}
                     className={classes.titleCard}
+                    mb={isActive ? 16 : 30}
                   >
                     <Typography
                       variant="body2"
@@ -297,7 +303,7 @@ function PathwayCourse() {
                           mt={4}
                           sx={{
                             margin: "10px 0",
-                            padding: "0px 60px",
+                            padding: isActive ? "0px 130px" : "0px 60px",
                           }}
                           onClick={() => {
                             history.push(PATHS.LOGIN);
@@ -377,7 +383,7 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            ml={3}
+            ml={4}
             variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >
@@ -399,7 +405,7 @@ function PathwayCourse() {
                     <Card
                       className={classes.pathwayCard}
                       elevation={0}
-                      sx={{ ml: 3, p: "16px" }}
+                      sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
                     >
                       <img
                         className={classes.courseImage}
@@ -450,10 +456,10 @@ function PathwayCourse() {
               <Box
                 maxWidth={500}
                 bgcolor="#E9F5E9"
-                mb={10}
+                mb={isActive ? 1 : 10}
                 pt={3}
                 height={100}
-                style={{ padding: "15px" }}
+                style={{ padding: isActive ? "24px" : "15px" }}
               >
                 <Typography
                   variant="body1"
@@ -469,7 +475,7 @@ function PathwayCourse() {
                   mt={4}
                   sx={{
                     margin: "10px 0",
-                    padding: "0px 60px",
+                    padding: isActive ? "0px 110px" : "0px 60px",
                   }}
                   onClick={() => {
                     history.push(PATHS.LOGIN);
