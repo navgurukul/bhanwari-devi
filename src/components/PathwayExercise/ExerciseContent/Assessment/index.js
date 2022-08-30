@@ -155,6 +155,8 @@ const AssessmentContent = ({
   }
   if (content.component === "questionExpression") {
     const text = DOMPurify.sanitize(get(content, "value"));
+    console.log("content", content);
+    console.log("text", text);
     return (
       <UnsafeHTML
         Container={Typography}
@@ -169,12 +171,11 @@ const AssessmentContent = ({
     return (
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
-          console.log("item", item.value);
+          const text = DOMPurify.sanitize(item.value.slice(2));
           return (
             <Paper
               elevation={3}
               sx={{
-                // height: "59px",
                 height: "auto",
                 mb: "16px",
                 cursor: "pointer",
@@ -194,7 +195,11 @@ const AssessmentContent = ({
                 <Typography variant="body1">
                   {item.value.slice(0, 2)}
                 </Typography>
-                <Typography variant="body1">{item.value.slice(2)}</Typography>
+                <UnsafeHTML
+                  Container={Typography}
+                  variant="body1"
+                  html={text}
+                />
               </Stack>
             </Paper>
           );
