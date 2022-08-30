@@ -113,7 +113,10 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
     >
       {roles.length > 2 ? (
         <>
-          <MenuItem onClick={handleOpenSwitchView}>
+          <MenuItem
+            onClick={handleOpenSwitchView}
+            onMouseEnter={handleOpenSwitchView}
+          >
             <Typography variant="subtitle1">
               <Message constantKey="SWITCH_VIEWS" />
             </Typography>
@@ -135,13 +138,15 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
             open={Boolean(dropDown)}
             onClose={handleCloseSwitchView}
           >
-            {roles.map((role) => (
-              <ChangeRole
-                handleCloseSwitchView={handleCloseSwitchView}
-                role={role}
-                {...commonProps}
-              />
-            ))}
+            <div onMouseLeave={handleCloseSwitchView}>
+              {roles.map((role) => (
+                <ChangeRole
+                  handleCloseSwitchView={handleCloseSwitchView}
+                  role={role}
+                  {...commonProps}
+                />
+              ))}
+            </div>
           </Menu>
         </>
       ) : (

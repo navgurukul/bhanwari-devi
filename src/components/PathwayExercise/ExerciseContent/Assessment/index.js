@@ -14,6 +14,7 @@ import get from "lodash/get";
 import DOMPurify from "dompurify";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
+import { useParams } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 
 function UnsafeHTML(props) {
@@ -208,7 +209,13 @@ const AssessmentContent = ({
   return "";
 };
 
-function Assessment({ data, exerciseId, courseData, setCourseData }) {
+function Assessment({
+  data,
+  exerciseId,
+  courseData,
+  setCourseData,
+  setProgressTrackId,
+}) {
   const user = useSelector(({ User }) => User);
   const [answer, setAnswer] = useState();
   const [correct, setCorrect] = useState();
@@ -217,7 +224,8 @@ function Assessment({ data, exerciseId, courseData, setCourseData }) {
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
-  console.log("data");
+  const params = useParams();
+  console.log("data", courseData);
   useEffect(() => {
     if (courseData?.attempt_status?.selected_option) {
       setAnswer(courseData.attempt_status.selected_option);
@@ -268,6 +276,20 @@ function Assessment({ data, exerciseId, courseData, setCourseData }) {
 
   const submitAssessment = () => {
     setSubmit(true);
+    axios({
+      method: METHODS.POST,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+      data: {
+        pathway_id: params.pathwayId,
+        course_id: params.courseId,
+        exercise_id: courseData.id,
+      },
+    });
+
     if (answer == solution) {
       setCorrect(true);
       setStatus("Pass");
