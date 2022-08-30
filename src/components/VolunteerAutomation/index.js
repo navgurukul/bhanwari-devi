@@ -122,7 +122,6 @@ function VolunteerAutomation() {
                   <Typography
                     variant="subtitle1"
                     className={classes.TextContent}
-                    Typography
                   >
                     Spoken English
                   </Typography>
@@ -165,63 +164,39 @@ function VolunteerAutomation() {
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   UX/Graphic Design
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Android (Kotlin)
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Front End Dev (React)
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Back End Dev
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Project Management
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Curriculum Creation & Translation
                 </Typography>
               </Box>
