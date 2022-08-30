@@ -21,12 +21,85 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
+function Item({
+  progressTrackId,
+  setSelected,
+  selected,
+  index,
+  ref1,
+  setExerciseId,
+  classes,
+  params,
+  contentType,
+  id,
+  title,
+}) {
+  const [completed, setCompleted] = React.useState(false);
+
+  const ItemStyle = {
+    color: selected === index || completed ? "#48A145" : "#6D6D6D",
+    fontWeight: selected === index ? "bold" : "",
+  };
+
+  React.useEffect(() => {
+    if (contentType === "assessment") {
+      if (progressTrackId?.assessments.includes(id)) {
+        setCompleted(true);
+      }
+    } else if (contentType === "class_topic") {
+      if (progressTrackId?.classes.includes(id)) {
+        setCompleted(true);
+      }
+    } else if (contentType === "exercise") {
+      if (progressTrackId?.exercises.includes(id)) {
+        setCompleted(true);
+      }
+    }
+  }, [progressTrackId]);
+
+  return (
+    <>
+      <ListItem
+        key={index}
+        disablePadding
+        ref={index === selected ? ref1 : null}
+      >
+        <ListItemButton
+          onClick={() => {
+            setSelected(index);
+            setExerciseId(index);
+          }}
+        >
+          <Typography
+            className={classes.ListItemsTypography}
+            component={Link}
+            variant="caption"
+          >
+            <Link
+              style={ItemStyle}
+              className={classes.ListItemLink}
+              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: index,
+                pathwayId: params.pathwayId,
+              })}
+            >
+              {title}
+            </Link>
+          </Typography>
+        </ListItemButton>
+      </ListItem>
+    </>
+  );
+}
+
 function PersistentDrawerLeft({
   open,
   setOpen,
   list,
   setSelected,
   setExerciseId,
+  progressTrackId,
 }) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
@@ -78,41 +151,20 @@ function PersistentDrawerLeft({
               </ListItemButton>
             </ListItem>
             {list?.map((obj, index) => (
-              <ListItem
+              <Item
                 key={index}
-                disablePadding
-                ref={index === selected ? ref1 : null}
-              >
-                <ListItemButton
-                  onClick={() => {
-                    setSelected(index);
-                    setExerciseId(index);
-                  }}
-                >
-                  <Typography
-                    className={classes.ListItemsTypography}
-                    component={Link}
-                    variant="caption"
-                  >
-                    <Link
-                      style={{
-                        color: selected == index ? "#48A145" : "#6D6D6D",
-                      }}
-                      className={classes.ListItemLink}
-                      to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                        courseId: params.courseId,
-                        exerciseId: index,
-                        pathwayId: params.pathwayId,
-                      })}
-                    >
-                      {obj?.name ||
-                        obj?.sub_title ||
-                        obj?.content_type ||
-                        "N/A"}
-                    </Link>
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
+                progressTrackId={progressTrackId}
+                setSelected={setSelected}
+                selected={selected}
+                index={index}
+                ref1={ref1}
+                setExerciseId={setExerciseId}
+                classes={classes}
+                params={params}
+                contentType={obj.content_type}
+                id={obj.id}
+                title={obj.name || obj.sub_title || obj.content_type || "N/A"}
+              />
             ))}
           </List>
         </div>

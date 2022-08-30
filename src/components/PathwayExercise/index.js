@@ -446,6 +446,7 @@ function PathwayExercise() {
           lang={language}
           setExerciseId={setExerciseId}
           setProgressTrackId={setProgressTrackId}
+          progressTrackId={progressTrackId}
         />
       )}
       <Box>

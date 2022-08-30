@@ -277,6 +277,7 @@ function ExerciseContent({
   contentList,
   setExerciseId,
   setProgressTrackId,
+  progressTrackId,
 }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
@@ -420,6 +421,7 @@ function ExerciseContent({
               open={openDrawer}
               setOpen={setOpenDrawer}
               setExerciseId={setExerciseId}
+              progressTrackId={progressTrackId}
             />
           ) : (
             <MobileDrawer
@@ -427,6 +429,7 @@ function ExerciseContent({
               list={contentList}
               open={openDrawer}
               setOpen={setOpenDrawer}
+              progressTrackId={progressTrackId}
             />
           )}
           {content &&
