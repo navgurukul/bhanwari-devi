@@ -280,6 +280,7 @@ function ExerciseContent({
   contentList,
   setExerciseId,
   setProgressTrackId,
+  progressTrackId,
 }) {
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
@@ -295,7 +296,7 @@ function ExerciseContent({
   const [loading, setLoading] = useState(true);
   const [openDrawer, setOpenDrawer] = useState(false);
   const dispatch = useDispatch();
-
+  console.log("SetOpen", openDrawer);
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -425,6 +426,7 @@ function ExerciseContent({
               open={openDrawer}
               setOpen={setOpenDrawer}
               setExerciseId={setExerciseId}
+              progressTrackId={progressTrackId}
             />
           ) : (
             <MobileDrawer
@@ -432,6 +434,7 @@ function ExerciseContent({
               list={contentList}
               open={openDrawer}
               setOpen={setOpenDrawer}
+              progressTrackId={progressTrackId}
             />
           )}
           {content &&

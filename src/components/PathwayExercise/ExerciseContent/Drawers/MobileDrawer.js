@@ -33,19 +33,79 @@ const StyledBox = styled(Box)(({ theme }) => ({
   left: 0,
 }));
 
+function Item({
+  progressTrackId,
+  selected,
+  index,
+  setOpen,
+  setSelected,
+  classes,
+  params,
+  contentType,
+  id,
+  title,
+}) {
+  const [completed, setCompleted] = React.useState(false);
+
+  const ItemStyle = {
+    color: selected === index || completed ? "#48A145" : "#6D6D6D",
+    fontWeight: selected === index ? "bold" : "",
+  };
+  const clickOnTitle = (index) => () => {
+    setSelected(index);
+    setOpen(false);
+  };
+  React.useEffect(() => {
+    if (contentType === "assessment") {
+      if (progressTrackId?.assessments.includes(id)) {
+        setCompleted(true);
+      }
+    } else if (contentType === "class_topic") {
+      if (progressTrackId?.classes.includes(id)) {
+        setCompleted(true);
+      }
+    } else if (contentType === "exercise") {
+      if (progressTrackId?.exercises.includes(id)) {
+        setCompleted(true);
+      }
+    }
+  }, [progressTrackId]);
+
+  return (
+    <>
+      <ListItem key={index} disablePadding>
+        <ListItemButton onClick={clickOnTitle(index)}>
+          <Typography
+            className={classes.ListItemsTypography}
+            component={Link}
+            variant="caption"
+          >
+            <Link
+              style={ItemStyle}
+              className={classes.ListItemLink}
+              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: index,
+                pathwayId: params.pathwayId,
+              })}
+            >
+              {title}
+            </Link>
+          </Typography>
+        </ListItemButton>
+      </ListItem>
+    </>
+  );
+}
+
 function MobileDrawer(props) {
   const params = useParams();
-  const { window, open, setOpen, list, setSelected } = props;
+  const { window, open, setOpen, list, setSelected, progressTrackId } = props;
   const selected = parseInt(params.exerciseId);
   const courseName = list[0]?.course_name.toUpperCase();
   const classes = useStyles();
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
-  };
-
-  const clickOnTitle = (index) => () => {
-    setOpen(false);
-    setSelected(index);
   };
 
   const container =
@@ -101,29 +161,19 @@ function MobileDrawer(props) {
               </ListItemButton>
             </ListItem>
             {list?.map((obj, index) => (
-              <ListItem key={index} disablePadding>
-                <ListItemButton onClick={clickOnTitle(index)}>
-                  <Typography
-                    style={{
-                      color: index === selected ? "#48A145" : "#6D6D6D",
-                    }}
-                    className={classes.ListItemsTypography}
-                    variant="caption"
-                    component={Link}
-                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                      exerciseId: index,
-                      courseId: params.courseId,
-                      pathwayId: params.pathwayId,
-                    })}
-                  >
-                    {obj.name
-                      ? obj.name
-                      : obj.course_name
-                      ? obj.course_name
-                      : "N/A"}
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
+              <Item
+                key={index}
+                progressTrackId={progressTrackId}
+                setSelected={setSelected}
+                selected={selected}
+                setOpen={setOpen}
+                index={index}
+                classes={classes}
+                params={params}
+                contentType={obj.content_type}
+                id={obj.id}
+                title={obj.name || obj.sub_title || obj.content_type || "N/A"}
+              />
             ))}
           </List>
         </StyledBox>
