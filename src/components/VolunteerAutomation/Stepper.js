@@ -40,7 +40,6 @@ function HorizontalLinearStepper() {
   const [contact, setContact] = useState(currentState.contact);
   const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
-  const itemValues = { contact, enrollId, pathwayId, availability };
   const [availability, setAvailability] = React.useState(
     currentState.availability || {
       hours_per_week: "",
@@ -48,6 +47,7 @@ function HorizontalLinearStepper() {
       available_on_time: {},
     }
   );
+  const itemValues = { contact, enrollId, pathwayId, availability };
 
   const updateAndSaveState = (setter, key, value) => {
     setter && setter(value);
