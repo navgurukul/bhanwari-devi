@@ -163,7 +163,7 @@ function ToggleClassFormModal() {
                 setFormType("batch");
                 toggleModalOpen();
               }}
-              sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px" }}
+              sx={{ m: !isActive ? "10px 16px 20px 5px" : " 0px 0px " }}
             >
               Create Batch
             </Button>
