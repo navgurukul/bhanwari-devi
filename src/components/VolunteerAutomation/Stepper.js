@@ -92,6 +92,7 @@ function HorizontalLinearStepper() {
     },
     {
       label: "Your Availability",
+      itemKey: "availability",
       component: (
         <Availability
           setAvailability={setAvailability}
@@ -100,7 +101,6 @@ function HorizontalLinearStepper() {
         />
       ),
     },
-
     {
       label: "Intro Video",
       component: <IntroVideo setDisable={setDisable} />,
