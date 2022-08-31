@@ -282,7 +282,7 @@ function Home() {
           </Container>
           {/* Section 6  */}
 
-          <Container maxWidth="md" sx={{ mt: 9 }}>
+          {/* <Container maxWidth="md" sx={{ mt: 9 }}>
             <Typography
               variant="h5"
               component="h2"
@@ -302,8 +302,8 @@ function Home() {
             </Typography>
             <Typography align="center" color="textPrimary" gutterBottom>
               Partners Across India
-            </Typography>
-            {/* <Grid sx={{ mt: 1 }} container spacing={2}>
+            </Typography> */}
+          {/* <Grid sx={{ mt: 1 }} container spacing={2}>
               {[
                 "Wipro",
                 "Infosys",
@@ -321,14 +321,14 @@ function Home() {
                 </Grid>
               ))}
             </Grid> */}
-            <Stack sx={{ mt: 3 }} alignItems="center">
-              {/* <Button href={PATHS.OUR_PARTNER}> */}
-              <Button href={PATHS.OUR_PARTNER}>
+          {/* <Stack sx={{ mt: 3 }} alignItems="center"> */}
+          {/* <Button href={PATHS.OUR_PARTNER}> */}
+          {/* <Button href={PATHS.OUR_PARTNER}>
                 See all our partners
                 <ArrowForwardIosIcon sx={{ padding: "2px" }} />
-              </Button>
-            </Stack>
-          </Container>
+              </Button> */}
+          {/* </Stack> */}
+          {/* </Container> */}
           {/* Section 7  */}
           <Container
             maxWidth="false"
@@ -365,7 +365,7 @@ function Home() {
               Connect with us anytime for more information
             </Typography>
             <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
-              <Grid item>
+              {/* <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
                   <address
                     style={{
@@ -394,7 +394,7 @@ function Home() {
                     </ExternalLink>
                   </address>
                 </Typography>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
                   <address>
