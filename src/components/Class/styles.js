@@ -60,6 +60,19 @@ const useStyles = makeStyles((theme) => ({
   NewVolunteerCardCloseIcon: {
     cursor: "pointer",
   },
+
+  successModel: {
+    alignItems: "center",
+    align: "center",
+  },
+  ModalBox: {
+    // width:"100%",
+    // margin :'20px',
+    backgroundColor: "red",
+    // marginTop: "300px",
+    // padding: "20px",
+    // borderRadius: "8px",
+  },
 }));
 
 export default useStyles;

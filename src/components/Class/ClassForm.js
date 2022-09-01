@@ -921,10 +921,10 @@ function ClassForm({
                       value={item}
                       name="max_enrolment"
                       control={<Radio />}
-                      checked={
-                        classFields.max_enrolment &&
-                        classFields.max_enrolment.includes(item)
-                      }
+                      // checked={
+                      //   classFields.max_enrolment &&
+                      //   classFields.max_enrolment.includes(item)
+                      // }
                       onChange={(e) => {
                         changeHandler(e);
                       }}

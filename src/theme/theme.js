@@ -261,5 +261,18 @@ theme.components = {
       },
     },
   },
+
+  MuiDialog: {
+    styleOverrides: {
+      root: {
+        borderRadius: 20,
+        backgroundColor: "red",
+        // "&:hover": {
+        //   boxShadow:
+        //     "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
+        // },
+      },
+    },
+  },
 };
 export default theme;
