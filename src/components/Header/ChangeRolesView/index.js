@@ -114,8 +114,13 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
       {roles.length > 2 ? (
         <>
           <MenuItem
+            onMouseEnter={() => {
+              const mobile = window.innerWidth < 768;
+              if (!mobile) {
+                handleOpenSwitchView();
+              }
+            }}
             onClick={handleOpenSwitchView}
-            onMouseEnter={handleOpenSwitchView}
           >
             <Typography variant="subtitle1">
               <Message constantKey="SWITCH_VIEWS" />
