@@ -17,6 +17,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
+import { isTouchScreen } from "../../../common/utils"; 
 
 /*
 const rolesLandingPages = {
@@ -114,10 +115,9 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
       {roles.length > 2 ? (
         <>
           <MenuItem
-            onMouseEnter={() => {
-              const mobile = window.innerWidth < 768;
-              if (!mobile) {
-                handleOpenSwitchView();
+            onMouseEnter={(e) => {
+              if (!isTouchScreen()) {
+                handleOpenSwitchView(e);
               }
             }}
             onClick={handleOpenSwitchView}
