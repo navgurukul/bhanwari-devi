@@ -23,11 +23,14 @@ import {
   Button,
   Se,
   Skeleton,
+  LinearProgress,
 } from "@mui/material";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
 import { useState } from "react";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 
 const pathways = [
   {
@@ -86,6 +89,7 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
+  const [completedPortionJason, setCompletedPortionJason] = useState({});
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const data = useSelector((state) => {
@@ -168,6 +172,25 @@ function PathwayCourse() {
           authToken: user?.data?.token,
         })
       );
+
+      // /pathways/{pathwayId}/completePortion
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      }).then((response) => {
+        console.log("response", response);
+        response.data.pathway.map((item) => {
+          setCompletedPortionJason((prevState) => ({
+            ...prevState,
+            [item.course_id]: item.completed_portion,
+          }));
+        });
+        console.log("completedPortionJason", completedPortionJason);
+      });
     }
   }, [dispatch, pathwayId]);
 
@@ -411,6 +434,11 @@ function PathwayCourse() {
                         className={classes.courseImage}
                         src={item.logo}
                         alt="course"
+                      />
+                      <LinearProgress
+                        className={classes.progressBar}
+                        variant="determinate"
+                        value={parseInt(completedPortionJason[item.id])}
                       />
                       <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
