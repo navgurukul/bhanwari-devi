@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: "none",
     marginBottom: "6rem",
   },
-  team_responsiveContainer: { marginTop: "5rem", padding: "0" },
+  team_responsiveContainer: { marginTop: "4rem", padding: "0" },
   team_infoResponsiveContainer: {
     padding: "0",
     marginTop: "1rem",
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   team_cardDetails: {
     position: "relative",
     border: "none",
-    padding: "30px 0px",
+    marginBottom: "16px",
     display: "flex",
     flexDirection: "column",
     cursor: "pointer",
