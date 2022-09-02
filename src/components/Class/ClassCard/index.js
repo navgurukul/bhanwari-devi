@@ -442,40 +442,16 @@ function ClassCard({ item, editClass }) {
           </Dialog>
         ) : null}
         {editShowModal ? (
-          // <Modal onClose={handleCloseEdit} className="confirmation-massage">
-          //   <h2>Do you want to edit this class?</h2>
-          //   {(item.type === "cohort" || item.type === "batch") && (
-          //     <label>
-          //       <input
-          //         type="checkbox"
-          //         align="center"
-          //         className="cohort-class"
-          //         onClick={() => {
-          //           setIndicator(true);
-          //         }}
-          //       />
-          //       Edit all classes of this Batch?
-          //     </label>
-          //   )}
-          //   <div className="wrap">
-          //     <button
-          //       onClick={() => {
-          //         setEditShowModal(false);
-          //         return editClass(item.id, indicator);
-          //       }}
-          //       className="agree-btn"
-          //     >
-          //       Yes
-          //     </button>
-          //     <button onClick={handleCloseEdit} className="cancel-btn">
-          //       Cancel
-          //     </button>
-          //   </div>
-          // </Modal>
           <Dialog
             open={editShowModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            PaperProps={{
+              style: {
+                minWidth: "35%",
+                borderRadius: 8,
+              },
+            }}
           >
             <DialogTitle>
               <Typography variant="h6" align="center">
@@ -527,43 +503,16 @@ function ClassCard({ item, editClass }) {
         ) : null}
 
         {enrollShowModal ? (
-          // <Modal
-          //   onClose={() => handleCloseEnroll()}
-          //   className="confirmation-massage"
-          // >
-          //   <h2>Are you sure you want to enroll?</h2>
-          //   {(item.type === "cohort" || item.type === "batch") && (
-          //     <label>
-          //       <input
-          //         type="checkbox"
-          //         defaultChecked={indicator}
-          //         align="center"
-          //         className="cohort-class"
-          //   onClick={() => {
-          //     setIndicator(!indicator);
-          //   }}
-          // />
-          //       Enroll all classes of this Batch?
-          //     </label>
-          //   )}
-          //   <div className="wrap">
-          //     <button
-          //       onClick={() => {
-          //         return handleSubmit(item.id);
-          //       }}
-          //       className="agree-btn"
-          //     >
-          //       Yes
-          //     </button>
-          //     <button onClick={handleCloseEnroll} className="cancel-btn">
-          //       Cancel
-          //     </button>
-          //   </div>
-          // </Modal>
           <Dialog
             open={() => enrollShowModal()}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            PaperProps={{
+              style: {
+                minWidth: "35%",
+                borderRadius: 8,
+              },
+            }}
           >
             <DialogTitle>
               <Typography variant="h6" align="center">
@@ -613,42 +562,16 @@ function ClassCard({ item, editClass }) {
           </Dialog>
         ) : null}
         {unenrollShowModal ? (
-          // <Modal
-          //   onClose={() => handleCloseUnenroll()}
-          //   className="confirmation-massage"
-          // >
-          //   <h2> Are you sure you want to drop out</h2>
-          //   {(item.type === "cohort" || item.type === "batch") && (
-          //     <label>
-          //       <input
-          //         type="checkbox"
-          //         align="center"
-          //         className="cohort-class"
-          //         onClick={() => {
-          //           setIndicator(true);
-          //         }}
-          //       />
-          //       Drop all classes of this Batch?
-          //     </label>
-          //   )}
-          //   <div className="wrap">
-          //     <button
-          //       onClick={() => {
-          //         return handleDropOut(item.id);
-          //       }}
-          //       className="delete-btn"
-          //     >
-          //       Yes
-          //     </button>
-          //     <button onClick={handleCloseUnenroll} className="cancel-btn">
-          //       Cancel
-          //     </button>
-          //   </div>
-          // </Modal>
           <Dialog
             open={() => unenrollShowModal()}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            PaperProps={{
+              style: {
+                minWidth: "35%",
+                borderRadius: 8,
+              },
+            }}
           >
             <DialogTitle>
               <Typography variant="h6" align="center">
