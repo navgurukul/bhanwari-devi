@@ -91,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
     height: "60px",
     overflow: "hidden",
   },
+  progressBar: {
+    width: "95%",
+  },
 }));
 
 export default useStyles;

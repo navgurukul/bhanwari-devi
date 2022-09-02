@@ -251,7 +251,7 @@ function PathwayExercise() {
         data: {
           pathway_id: params.pathwayId,
           course_id: params.courseId,
-          course_index: parseInt(params.exerciseId) + 1,
+          exercise_id: course[exerciseId].id,
         },
       })
         .then((res) => {})
