@@ -70,6 +70,12 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "0px -1px 2px rgba(0, 0, 0, 0.06), 0px -2px 2px rgba(0, 0, 0, 0.04), 0px -1px 5px rgba(0, 0, 0, 0.08)",
   },
+  scrollContainer: {
+    "&::-webkit-scrollbar": { display: "none" },
+    overflowX: "scroll",
+    width: "325px",
+    whiteSpace: "nowrap",
+  },
 }));
 
 export default useStyles;
