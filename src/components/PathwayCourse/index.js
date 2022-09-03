@@ -438,7 +438,7 @@ function PathwayCourse() {
                       <LinearProgress
                         className={classes.progressBar}
                         variant="determinate"
-                        value={parseInt(completedPortionJason[item.id])}
+                        value={parseInt(completedPortionJason[item.id])||0}
                       />
                       <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
