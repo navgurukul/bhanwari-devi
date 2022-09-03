@@ -227,7 +227,9 @@ function PathwayCourse() {
                   <Card
                     align="left"
                     elevation={0}
-                    className={classes.titleCard}
+                    className={
+                      isActive ? classes.titleCardMob : classes.titleCard
+                    }
                   >
                     <Typography
                       variant="body2"
