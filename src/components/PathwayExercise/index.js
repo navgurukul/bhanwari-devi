@@ -40,11 +40,17 @@ const Exercise = ({
   params,
   progressTrackId,
 }) => {
-  const start = exerciseId > 6 ? exerciseId - (exerciseId % 7) : 0;
-  const courseLength =
-    course && course.length && exerciseId < 7
-      ? course.slice(start, 7)
-      : course.slice(start, start + 7);
+  const courseLength = course;
+  const imageRef = React.useRef();
+
+  useEffect(() => {
+    if (imageRef.current) {
+      imageRef.current.scrollIntoView({
+        block: "center",
+      });
+    }
+  }, [imageRef.current]);
+
   return (
     <>
       {courseLength.map((exercise, index) => {
@@ -54,7 +60,8 @@ const Exercise = ({
             exercise={exercise}
             params={params}
             history={history}
-            index={index + start}
+            index={index}
+            imageRef={exerciseId === index ? imageRef : null}
             exerciseId={exerciseId}
             setExerciseId={setExerciseId}
             classes={classes}
@@ -74,6 +81,7 @@ function NavigationComponent({
   params,
   exercise,
   progressTrackId,
+  imageRef,
 }) {
   return (
     <>
@@ -92,6 +100,7 @@ function NavigationComponent({
           );
         }}
         index={index}
+        imageRef={imageRef}
         selected={exerciseId == index}
         contentType={exercise.content_type}
         setExerciseId={setExerciseId}
@@ -115,6 +124,7 @@ function PathwayExercise() {
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
   const currentCourse = params.courseId;
+  const scrollRef = React.useRef();
 
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
@@ -334,11 +344,16 @@ function PathwayExercise() {
               </Typography>
               <Toolbar>
                 <ArrowBackIosIcon
-                  opacity={`${exerciseId !== 0 ? 1 : 0}`}
-                  sx={{ marginRight: "20px" }}
-                  onClick={previousClickHandler}
+                  sx={{ marginRight: "20px", cursor: "pointer" }}
+                  onClick={() => {
+                    scrollRef.current.scrollBy({
+                      right: 0,
+                      left: -40,
+                      behavior: "smooth",
+                    });
+                  }}
                 />
-                <div className="gridtopofcourse7">
+                <div ref={scrollRef} className={classes.scrollContainer}>
                   {exerciseId >
                   (
                     <Exercise
@@ -363,9 +378,14 @@ function PathwayExercise() {
                 </div>
 
                 <ArrowForwardIosIcon
-                  opacity={`${exerciseId < courseLength - 1 ? 1 : 0}`}
-                  sx={{ marginLeft: 3 }}
-                  onClick={nextArrowClickHandler}
+                  sx={{ marginLeft: 3, cursor: "pointer" }}
+                  onClick={() => {
+                    scrollRef.current.scrollBy({
+                      right: 0,
+                      left: 40,
+                      behavior: "smooth",
+                    });
+                  }}
                 />
               </Toolbar>
               <LangDropDown />

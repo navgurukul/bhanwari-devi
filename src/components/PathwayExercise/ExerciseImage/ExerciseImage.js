@@ -13,6 +13,7 @@ export default function ExerciseImage({
   progressTrackId,
   id,
   exerciseName,
+  imageRef,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -61,6 +62,7 @@ export default function ExerciseImage({
           );
           setExerciseId(index);
         }}
+        ref={imageRef}
         src={require(`../asset/${contentTypeMap[contentType]}.svg`)}
         loading="lazy"
         className={classes.contentImg}
