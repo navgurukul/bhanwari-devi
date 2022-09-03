@@ -215,6 +215,10 @@ function PathwayCourse() {
     );
   }, [upcomingBatchesData, userEnrolledClasses]);
 
+  const cardStyle = {
+    height: "290px",
+  };
+
   return (
     <>
       {enrolledBatches ? (
@@ -428,17 +432,13 @@ function PathwayCourse() {
                     <Card
                       className={classes.pathwayCard}
                       elevation={0}
+                      style={cardStyle}
                       sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
                     >
                       <img
                         className={classes.courseImage}
                         src={item.logo}
                         alt="course"
-                      />
-                      <LinearProgress
-                        className={classes.progressBar}
-                        variant="determinate"
-                        value={parseInt(completedPortionJason[item.id])||0}
                       />
                       <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
@@ -460,6 +460,11 @@ function PathwayCourse() {
                           {item.name}
                         </Typography>
                       </div>
+                      <LinearProgress
+                        className={classes.progressBar}
+                        variant="determinate"
+                        value={parseInt(completedPortionJason[item.id]) || 0}
+                      />
                     </Card>
                   </Link>
                 </Grid>

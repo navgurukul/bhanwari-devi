@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
   },
   progressBar: {
     width: "95%",
+    marginTop: "20px",
   },
 }));
 
