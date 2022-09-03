@@ -57,7 +57,10 @@ function ChangeRole({
           localStorage.getItem(ID_TO_SELECTED_ROLE_MAP_KEY)
         ) || {};
         idToSelectedRoleMap[uid] = role.key;
-        localStorage.setItem(ID_TO_SELECTED_ROLE_MAP_KEY, idToSelectedRoleMap);
+        localStorage.setItem(
+          ID_TO_SELECTED_ROLE_MAP_KEY,
+          JSON.stringify(idToSelectedRoleMap)
+        );
         !isToggle && handleCloseSwitchView();
       }}
       sx={styles}
