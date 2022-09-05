@@ -348,7 +348,7 @@ function PathwayExercise() {
                   onClick={() => {
                     scrollRef.current.scrollBy({
                       right: 0,
-                      left: -40,
+                      left: -60,
                       behavior: "smooth",
                     });
                   }}
@@ -382,7 +382,7 @@ function PathwayExercise() {
                   onClick={() => {
                     scrollRef.current.scrollBy({
                       right: 0,
-                      left: 40,
+                      left: 60,
                       behavior: "smooth",
                     });
                   }}
