@@ -40,7 +40,11 @@ function UserMenu() {
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+      <IconButton
+        onClick={handleOpenUserMenu}
+        onMouseEnter={handleOpenUserMenu}
+        sx={{ p: 0 }}
+      >
         <Avatar alt="Remy Sharp" src={profilePict} />
       </IconButton>
       <Menu
@@ -58,6 +62,7 @@ function UserMenu() {
         }}
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
+        onMouseLeave={handleCloseUserMenu}
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem

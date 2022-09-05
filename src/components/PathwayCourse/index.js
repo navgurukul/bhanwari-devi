@@ -13,6 +13,8 @@ import { actions as upcomingClassActions } from "./redux/action";
 import { actions as enrolledBatchesActions } from "./redux/action";
 import ExternalLink from "../common/ExternalLink";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
+import { CardContent } from "@mui/material";
+
 import {
   Container,
   Box,
@@ -21,13 +23,16 @@ import {
   Typography,
   CardMedia,
   Button,
-  Se,
+  CardActions,
   Skeleton,
+  LinearProgress,
 } from "@mui/material";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
 import { useState } from "react";
+import axios from "axios";
+import { METHODS } from "../../services/api";
 
 const pathways = [
   {
@@ -86,6 +91,7 @@ function PathwayCourse() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const params = useParams();
   const pathwayId = params.pathwayId;
+  const [completedPortionJason, setCompletedPortionJason] = useState({});
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const data = useSelector((state) => {
@@ -145,7 +151,11 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    if (user?.data?.token) {
+    console.log(
+      "Pathwayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      pathwayId
+    );
+    if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
@@ -164,6 +174,25 @@ function PathwayCourse() {
           authToken: user?.data?.token,
         })
       );
+
+      // /pathways/{pathwayId}/completePortion
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      }).then((response) => {
+        console.log("response", response);
+        response.data.pathway.map((item) => {
+          setCompletedPortionJason((prevState) => ({
+            ...prevState,
+            [item.course_id]: item.completed_portion,
+          }));
+        });
+        console.log("completedPortionJason", completedPortionJason);
+      });
     }
   }, [dispatch, pathwayId]);
 
@@ -205,7 +234,12 @@ function PathwayCourse() {
         ""
       )}
 
-      <Container className={classes.pathwayContainer} maxWidth="lg">
+      <Container
+        className={classes.pathwayContainer}
+        mt={isActive ? 0 : 55}
+        mb={isActive ? 32 : 48}
+        maxWidth="lg"
+      >
         {enrolledBatches ? (
           <>
             <PathwayCards
@@ -227,9 +261,8 @@ function PathwayCourse() {
                   <Card
                     align="left"
                     elevation={0}
-                    className={
-                      isActive ? classes.titleCardMob : classes.titleCard
-                    }
+                    className={classes.titleCard}
+                    mb={isActive ? 16 : 30}
                   >
                     <Typography
                       variant="body2"
@@ -295,7 +328,7 @@ function PathwayCourse() {
                           mt={4}
                           sx={{
                             margin: "10px 0",
-                            padding: "0px 60px",
+                            padding: isActive ? "0px 130px" : "0px 60px",
                           }}
                           onClick={() => {
                             history.push(PATHS.LOGIN);
@@ -375,7 +408,7 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            ml={3}
+            ml={4}
             variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >
@@ -397,33 +430,52 @@ function PathwayCourse() {
                     <Card
                       className={classes.pathwayCard}
                       elevation={0}
-                      sx={{ ml: 3, p: "16px" }}
+                      sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
                     >
                       <img
                         className={classes.courseImage}
                         src={item.logo}
                         alt="course"
                       />
-                      <div className={classes.courseTitleNumber} disableGutters>
-                        <Typography
-                          align={isActive ? "center" : "left"}
-                          variant="body2"
-                          className={classes.courseName}
-                          sx={{
-                            mr: "10px",
-                            padding: isActive ? "5px" : "5px 0 5px 13px",
-                            verticalAlign: "top",
-                          }}
+                      <CardContent
+                        sx={{
+                          height: isActive ? "60px" : "70px",
+                          p: isActive ? "0px" : "0px 8px 0px 0px",
+                        }}
+                      >
+                        <div
+                          className={classes.courseTitleNumber}
+                          disableGutters
                         >
-                          {index + 1}
-                        </Typography>
-                        <Typography
-                          align={isActive ? "center" : "left"}
-                          variant="body1"
-                        >
-                          {item.name}
-                        </Typography>
-                      </div>
+                          <Typography
+                            align={isActive ? "center" : "left"}
+                            variant="body2"
+                            className={classes.courseName}
+                            sx={{
+                              mr: "10px",
+                              padding: isActive ? "5px" : "5px 0 5px 13px",
+                              verticalAlign: "top",
+                            }}
+                          >
+                            {index + 1}
+                          </Typography>
+                          <Typography
+                            align={isActive ? "center" : "left"}
+                            variant="body1"
+                          >
+                            {item.name}
+                          </Typography>
+                        </div>
+                      </CardContent>
+                      <CardActions
+                        sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                      >
+                        <LinearProgress
+                          className={classes.progressBar}
+                          variant="determinate"
+                          value={parseInt(completedPortionJason[item.id]) || 0}
+                        />
+                      </CardActions>
                     </Card>
                   </Link>
                 </Grid>
@@ -448,10 +500,10 @@ function PathwayCourse() {
               <Box
                 maxWidth={500}
                 bgcolor="#E9F5E9"
-                mb={10}
+                mb={isActive ? 1 : 10}
                 pt={3}
                 height={100}
-                style={{ padding: "15px" }}
+                style={{ padding: isActive ? "24px" : "15px" }}
               >
                 <Typography
                   variant="body1"
@@ -467,7 +519,7 @@ function PathwayCourse() {
                   mt={4}
                   sx={{
                     margin: "10px 0",
-                    padding: "0px 60px",
+                    padding: isActive ? "0px 110px" : "0px 60px",
                   }}
                   onClick={() => {
                     history.push(PATHS.LOGIN);

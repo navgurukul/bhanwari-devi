@@ -138,7 +138,7 @@ const PathwayCards = (props) => {
                 />
               </Stack>
               <Grid container spacing={1}>
-                <Grid item xs={2} md={3}>
+                <Grid item xs={4} md={3}>
                   <Typography
                     style={{ color: "#6D6D6D", fontSize: "13px" }}
                     variant="body2"
@@ -158,7 +158,7 @@ const PathwayCards = (props) => {
                 <Grid item>
                   <Typography
                     // aman this style should be in the css file and refactor it
-                    style={{ color: "#6D6D6D", fontSize: "13px" }}
+                    style={{ color: "#6D6D6D", fontSize: "13px", pl: "30px" }}
                     variant="body2"
                   >
                     {language[item.lang]}

@@ -63,14 +63,14 @@ const NewUserDashbord = () => {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/ongoingTopic`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
         Authorization: user?.data?.token || "",
       },
     }).then((res) => {
-      const data = res.data.data;
+      const data = res.data;
       console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);

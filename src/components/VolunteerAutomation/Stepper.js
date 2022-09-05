@@ -13,6 +13,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SelectTrack from "./SelectTrack";
 import Confirmation from "./Confirmation";
 import AttendClass from "./AttendClass";
+import Availability from "./ Availability";
 import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
@@ -39,7 +40,14 @@ function HorizontalLinearStepper() {
   const [contact, setContact] = useState(currentState.contact);
   const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
-  const itemValues = { contact, enrollId, pathwayId };
+  const [availability, setAvailability] = React.useState(
+    currentState.availability || {
+      hours_per_week: "",
+      available_on_days: [],
+      available_on_time: {},
+    }
+  );
+  const itemValues = { contact, enrollId, pathwayId, availability };
 
   const updateAndSaveState = (setter, key, value) => {
     setter && setter(value);
@@ -83,6 +91,17 @@ function HorizontalLinearStepper() {
       ),
     },
     {
+      label: "Your Availability",
+      itemKey: "availability",
+      component: (
+        <Availability
+          setAvailability={setAvailability}
+          availability={availability}
+          setDisable={setDisable}
+        />
+      ),
+    },
+    {
       label: "Intro Video",
       component: <IntroVideo setDisable={setDisable} />,
     },
@@ -109,6 +128,12 @@ function HorizontalLinearStepper() {
       component: <Confirmation setDisable={setDisable} />,
     },
   ];
+
+  console.log("data", {
+    contact: contact,
+    pathway_id: pathwayId,
+    ...availability,
+  });
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -161,6 +186,7 @@ function HorizontalLinearStepper() {
       data: {
         contact: contact,
         pathway_id: pathwayId,
+        ...availability,
       },
     }).then(
       (res) => {
