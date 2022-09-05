@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     // marginBottom: 30,
     marginLeft: 16,
   },
+  titleCardMob: {
+    marginBottom: 30,
+  },
   flex: {
     display: "flex",
     padding: "16px 0 16px 0",
