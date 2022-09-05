@@ -39,6 +39,8 @@ import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 
+import NewVolulterDashboard from "../components/NewVolulterDashboard";
+
 const Routing = () => {
   return (
     <>
@@ -93,6 +95,13 @@ const Routing = () => {
         path={PATHS.NAVGURUKUL_INTRODUCE}
         component={NavgurukulIntroduce}
       />
+
+      <Route
+        exact
+        path={PATHS.NEW_VOLUNINTEER_DASHBOARD}
+        component={NewVolulterDashboard}
+      />
+
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
       <Route exact path={PATHS.SEARCHED_COURSE} component={SearchCourse} />

@@ -36,6 +36,7 @@ export const PATHS = {
   RETURNINGUSERPAGE: "/Returning-user",
   VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
+  NEW_VOLUNINTEER_DASHBOARD: "/volunteer-dashboard",
 };
 
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
