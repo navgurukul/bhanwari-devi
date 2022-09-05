@@ -57,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   pathwayCard: {
+    minWidth: "250px",
+    height: "310px",
     margin: "16px 0",
     "&:hover": {
       boxShadow:

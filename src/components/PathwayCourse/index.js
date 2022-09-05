@@ -13,6 +13,8 @@ import { actions as upcomingClassActions } from "./redux/action";
 import { actions as enrolledBatchesActions } from "./redux/action";
 import ExternalLink from "../common/ExternalLink";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
+import { CardContent } from "@mui/material";
+
 import {
   Container,
   Box,
@@ -21,7 +23,7 @@ import {
   Typography,
   CardMedia,
   Button,
-  Se,
+  CardActions,
   Skeleton,
   LinearProgress,
 } from "@mui/material";
@@ -435,31 +437,45 @@ function PathwayCourse() {
                         src={item.logo}
                         alt="course"
                       />
-                      <LinearProgress
-                        className={classes.progressBar}
-                        variant="determinate"
-                        value={parseInt(completedPortionJason[item.id])||0}
-                      />
-                      <div className={classes.courseTitleNumber} disableGutters>
-                        <Typography
-                          align={isActive ? "center" : "left"}
-                          variant="body2"
-                          className={classes.courseName}
-                          sx={{
-                            mr: "10px",
-                            padding: isActive ? "5px" : "5px 0 5px 13px",
-                            verticalAlign: "top",
-                          }}
+                      <CardContent
+                        sx={{
+                          height: isActive ? "60px" : "70px",
+                          p: isActive ? "0px" : "0px 8px 0px 0px",
+                        }}
+                      >
+                        <div
+                          className={classes.courseTitleNumber}
+                          disableGutters
                         >
-                          {index + 1}
-                        </Typography>
-                        <Typography
-                          align={isActive ? "center" : "left"}
-                          variant="body1"
-                        >
-                          {item.name}
-                        </Typography>
-                      </div>
+                          <Typography
+                            align={isActive ? "center" : "left"}
+                            variant="body2"
+                            className={classes.courseName}
+                            sx={{
+                              mr: "10px",
+                              padding: isActive ? "5px" : "5px 0 5px 13px",
+                              verticalAlign: "top",
+                            }}
+                          >
+                            {index + 1}
+                          </Typography>
+                          <Typography
+                            align={isActive ? "center" : "left"}
+                            variant="body1"
+                          >
+                            {item.name}
+                          </Typography>
+                        </div>
+                      </CardContent>
+                      <CardActions
+                        sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                      >
+                        <LinearProgress
+                          className={classes.progressBar}
+                          variant="determinate"
+                          value={parseInt(completedPortionJason[item.id]) || 0}
+                        />
+                      </CardActions>
                     </Card>
                   </Link>
                 </Grid>
