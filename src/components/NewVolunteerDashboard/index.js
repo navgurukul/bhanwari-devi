@@ -140,7 +140,7 @@ function NewVolunteerDashboard(props) {
             }}
             fullWidth
             type="text"
-            placeholder=" Name, Batch, Class Title..."
+            placeholder="Name, Batch, Class Title..."
             variant="standard"
             value={debouncedText}
             onChange={(e) => {
@@ -149,9 +149,14 @@ function NewVolunteerDashboard(props) {
           />
         </Grid>
         <Grid item xs={3}>
-          <Button variant="outlined">
+          <Button
+            variant="outlined"
+            sx={{
+              fontWeight: "600",
+            }}
+          >
             Generate Report
-            <DownloadIcon color="primary" sx={{ marginLeft: "10px" }} />
+            <DownloadIcon sx={{ marginLeft: "10px" }} />
           </Button>
         </Grid>
       </Grid>
