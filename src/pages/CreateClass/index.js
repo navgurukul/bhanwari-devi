@@ -107,7 +107,7 @@ function ToggleClassFormModal() {
     });
   };
 
-  console.log("authUrl", authUrl);
+  // console.log("authUrl", authUrl);
 
   const calledOnce = useRef(false);
   const history = useHistory();
