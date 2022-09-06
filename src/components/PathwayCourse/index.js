@@ -121,22 +121,7 @@ function PathwayCourse() {
   });
 
   console.log("upcomingBatchesData", upcomingBatchesData);
-  /*
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 10000);
-  }, [pathwayId]);
-  useEffect(() => {
-    if (
-      enrolledBatches?.length > 0 ||
-      userEnrolledClasses?.length > 0 ||
-      upcomingBatchesData?.length > 0
-    ) {
-      setLoading(false);
-    }
-  }, [upcomingBatchesData, enrolledBatches, userEnrolledClasses]);
-  */
+
   const history = useHistory();
 
   useEffect(() => {
@@ -152,12 +137,17 @@ function PathwayCourse() {
           authToken: user?.data?.token,
         })
       );
+    }
+  }, [dispatch, pathwayId]);
+  useEffect(() => {
+    if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
         upcomingClassActions.getupcomingEnrolledClasses({
           pathwayId: pathwayId,
           authToken: user?.data?.token,
         })
       );
+    } else {
       dispatch(
         upcomingBatchesActions.getUpcomingBatches({
           pathwayId: pathwayId,
@@ -165,7 +155,7 @@ function PathwayCourse() {
         })
       );
     }
-  }, [dispatch, pathwayId]);
+  }, [enrolledBatches]);
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
@@ -179,18 +169,10 @@ function PathwayCourse() {
   const pathwayCourseData = pathways.find((item) => {
     return item.id == pathwayId;
   });
-  useEffect(() => {
-    console.log(
-      upcomingBatchesData,
-      userEnrolledClasses,
-      pathwayCourse?.data?.courses,
-      "Here"
-    );
-  }, [upcomingBatchesData, userEnrolledClasses]);
 
   return (
     <>
-      {enrolledBatches ? (
+      {enrolledBatches && !loading ? (
         <>
           <Typography
             align="center"
