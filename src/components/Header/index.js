@@ -23,12 +23,25 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import {
+  PUBLIC_MENU_KEYS,
+  // LEARN_KEY,
+  MENU_ITEMS,
+  // ROLES,
+  ADMIN_ROLE_KEY as ADMIN,
+  PARTNER_ROLE_KEY as PARTNER,
+  // PARTNER_VIEW_ROLE_KEY as PARTNER_VIEW,
+  // PARTNER_EDIT_ROLE_KEY as PARTNER_EDIT,
+  STUDENT_ROLE_KEY as STUDENT,
+  VOLUNTEER_ROLE_KEY as VOLUNTEER,
+} from "./constant";
+import { selectRolesData } from "../User/redux/selectors";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 import SearchBar from "../SearchBar";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
-import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
+// import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
 // import { LanguageProvider } from "../../common/context";
@@ -171,6 +184,10 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
 function Header() {
   const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
+  const user = useSelector(({ User }) => User);
+
+  const roles = useSelector(selectRolesData);
+  const [role, setRole] = React.useState(null);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = useState(false);
   window.addEventListener("resize", () => {
@@ -178,6 +195,26 @@ function Header() {
       setLeftDrawer(false);
     }
   });
+
+  const partnerGroupId = user.data.user.partner_group_id;
+  const partnerId = user.data.user.partner_id;
+
+  const rolesLandingPages = {
+    [STUDENT]: PATHS.NEW_USER_DASHBOARD,
+    [ADMIN]: PATHS.PARTNERS,
+    [VOLUNTEER]: PATHS.CLASS,
+    [PARTNER]: partnerGroupId
+      ? `${PATHS.STATE}/${partnerGroupId}`
+      : `${PATHS.PARTNERS}/${partnerId}`,
+  };
+
+  let defalutPage = "/";
+  roles.map((userRole) => {
+    if (userRole.key === role) {
+      defalutPage = rolesLandingPages[userRole.key];
+    }
+  });
+
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
@@ -223,7 +260,7 @@ function Header() {
               </SwipeableDrawer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <Link to="/">
+              <Link to={defalutPage}>
                 <img
                   src={require("./asset/logo.svg")}
                   loading="lazy"
@@ -243,7 +280,7 @@ function Header() {
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
             >
-              <Link to="/">
+              <Link to={defalutPage}>
                 <img
                   src={require("./asset/meraki.svg")}
                   loading="lazy"
@@ -252,7 +289,7 @@ function Header() {
               </Link>
             </Box>
             {isAuthenticated ? (
-              <AuthenticatedHeaderOption />
+              <AuthenticatedHeaderOption setRole={setRole} role={role} />
             ) : (
               <>
                 <PublicMenuOption />
