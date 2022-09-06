@@ -15,9 +15,12 @@ import {
   TableHead,
   TextField,
   Container,
-  TableFooter,
+  Toolbar,
   Grid,
+  Button,
 } from "@mui/material";
+
+import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { format } from "../../common/date";
@@ -29,25 +32,18 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { useDebounce } from "use-debounce";
 
 function NewVolunteerDashboard(props) {
-  const { onSelectAllClick, numSelected, rowCount } = props;
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selctedPathway, setSelectedPathway] = useState("");
   const [slicedVolunteer, setSlicedVolunteer] = useState([]);
-
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
   const [selected, setSelected] = React.useState([]);
-  // const [page, setPage] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [pageNumber, setPageNumber] = React.useState(5);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
-
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isSelected = (name) => selected.indexOf(name) !== -1;
-
   if (selctedPathway) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }
@@ -123,28 +119,39 @@ function NewVolunteerDashboard(props) {
       (rowsPerPage + 1) * limit
     );
     // setVolunteer(data);
-    setCacheVolunteer(slicedData);
+    setVolunteer(slicedData);
   }, [debouncedText, rowsPerPage]);
 
   return (
-    <Container>
-      <TextField
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon sx={{ color: "black" }} />
-            </InputAdornment>
-          ),
-        }}
-        fullWidth={1}
-        type="text"
-        placeholder=" Name, Class, Title, Language"
-        variant="standard"
-        value={debouncedText}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
-      />
+    <Container maxWidth="lg">
+      <Grid container spacing={3}>
+        <Grid item xs={9}>
+          <TextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "black" }} />
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
+            type="text"
+            placeholder=" Name, Class, Title, Language"
+            variant="standard"
+            value={debouncedText}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <Button variant="outlined">
+            Generate Report
+            <DownloadIcon color="primary" sx={{ marginLeft: "10px" }} />
+          </Button>
+        </Grid>
+      </Grid>
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="simple table">
           <TableHead>
@@ -152,9 +159,13 @@ function NewVolunteerDashboard(props) {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  indeterminate={numSelected > 0 && numSelected < rowCount}
-                  checked={rowCount > 0 && numSelected === rowCount}
-                  onChange={onSelectAllClick}
+                  indeterminate={
+                    selected.length > 0 && selected.length < volunteer.length
+                  }
+                  checked={
+                    volunteer.length > 0 && selected.length === volunteer.length
+                  }
+                  onChange={handleSelectAllClick}
                   inputProps={{
                     "aria-label": "select all desserts",
                   }}
@@ -190,7 +201,7 @@ function NewVolunteerDashboard(props) {
               volunteer
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item, index) => {
-                  const isItemSelected = isSelected(volunteer.name);
+                  const isItemSelected = isSelected(item.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   const sortedClasses =
@@ -205,11 +216,11 @@ function NewVolunteerDashboard(props) {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, volunteer.name)}
+                      onClick={(event) => handleClick(event, item.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={volunteer.name}
+                      key={item.name}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
