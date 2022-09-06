@@ -123,8 +123,46 @@ function PathwayExercise() {
   const [progressTrackId, setProgressTrackId] = useState(-1);
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
+  const [showArrow, setShowArrow] = useState({ left: false, right: true });
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
+
+  const onScroll = () => {
+    const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
+    const scrollTop = scrollRef.current.scrollTop;
+    const maxScrollLeft =
+      scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+    console.log(
+      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
+    );
+    if (!showArrow.left) {
+      if (scrollY > 0) {
+        setShowArrow((prev) => {
+          return { ...prev, left: true };
+        });
+      }
+    } else if (showArrow.left) {
+      if (scrollY === 0) {
+        setShowArrow((prev) => {
+          return { ...prev, left: false };
+        });
+      }
+    }
+
+    if (showArrow.right) {
+      if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
+        setShowArrow((prev) => {
+          return { ...prev, right: false };
+        });
+      }
+    } else if (!showArrow.right) {
+      if (Math.ceil(scrollY) < maxScrollLeft - 2) {
+        setShowArrow((prev) => {
+          return { ...prev, right: true };
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
@@ -344,6 +382,7 @@ function PathwayExercise() {
               </Typography>
               <Toolbar>
                 <ArrowBackIosIcon
+                  opacity={!showArrow.left && 0}
                   sx={{ marginRight: "20px", cursor: "pointer" }}
                   onClick={() => {
                     scrollRef.current.scrollBy({
@@ -353,7 +392,11 @@ function PathwayExercise() {
                     });
                   }}
                 />
-                <div ref={scrollRef} className={classes.scrollContainer}>
+                <div
+                  onScroll={onScroll}
+                  ref={scrollRef}
+                  className={classes.scrollContainer}
+                >
                   {exerciseId >
                   (
                     <Exercise
@@ -378,6 +421,7 @@ function PathwayExercise() {
                 </div>
 
                 <ArrowForwardIosIcon
+                  opacity={!showArrow.right && 0}
                   sx={{ marginLeft: 3, cursor: "pointer" }}
                   onClick={() => {
                     scrollRef.current.scrollBy({
