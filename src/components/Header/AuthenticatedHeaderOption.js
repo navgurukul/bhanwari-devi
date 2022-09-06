@@ -52,6 +52,8 @@ const rolesLandingPages = {
 };
 
 function AuthenticatedHeaderOption({
+  setRole,
+  role,
   toggleDrawer,
   leftDrawer,
   handleSearchChange,
@@ -66,7 +68,7 @@ function AuthenticatedHeaderOption({
     landingPage: rolesLandingPages[role.key],
   }));
 
-  const [role, setRole] = React.useState(null);
+  // const [role, setRole] = React.useState(null);
   // const user = useSelector(({ User }) => User);
   const isUniqueRole = roles.length === 1;
   // const dispatch = useDispatch();
