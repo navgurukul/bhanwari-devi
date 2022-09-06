@@ -148,12 +148,14 @@ function PathwayCourse() {
         })
       );
     } else {
-      dispatch(
-        upcomingBatchesActions.getUpcomingBatches({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
+      if (user?.data?.token) {
+        dispatch(
+          upcomingBatchesActions.getUpcomingBatches({
+            pathwayId: pathwayId,
+            authToken: user?.data?.token,
+          })
+        );
+      }
     }
   }, [enrolledBatches]);
 
