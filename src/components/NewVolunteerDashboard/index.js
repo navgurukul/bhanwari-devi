@@ -128,7 +128,7 @@ function NewVolunteerDashboard(props) {
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         <Grid item xs={9}>
           <TextField
             InputProps={{
@@ -153,6 +153,7 @@ function NewVolunteerDashboard(props) {
             variant="outlined"
             sx={{
               fontWeight: "600",
+              fontSize: "14px",
             }}
           >
             Generate Report
@@ -162,7 +163,7 @@ function NewVolunteerDashboard(props) {
       </Grid>
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="simple table">
+        <Table sx={{ minWidth: 700 }}>
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">
@@ -181,32 +182,36 @@ function NewVolunteerDashboard(props) {
                 />
               </TableCell>
               <TableCell>
-                <Typography sx={{ fontWeight: "bold" }}>Name</Typography>
+                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                  Name
+                </Typography>
               </TableCell>
-              <TableCell align="center">
-                <Typography sx={{ fontWeight: "bold" }}>
+              <TableCell align="left">
+                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
                   Last Class Batch
                 </Typography>
               </TableCell>
-              <TableCell align="center">
-                <Typography sx={{ fontWeight: "bold" }}>
+              <TableCell align="left">
+                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
                   Last Class Title
                 </Typography>
               </TableCell>
-              <TableCell align="center">
-                <Typography sx={{ fontWeight: "bold" }}>
+              <TableCell align="left">
+                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
                   Last Class Date
                 </Typography>
               </TableCell>
-              <TableCell align="center">
-                <Typography sx={{ fontWeight: "bold" }}>
+              <TableCell align="left">
+                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
                   Class Language
                 </Typography>
               </TableCell>
-              <TableCell align="center">
-                <Typography sx={{ fontWeight: "bold" }}>Status</Typography>
+              <TableCell align="left">
+                <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                  Status
+                </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <MoreVertIcon />
               </TableCell>
             </TableRow>
@@ -247,24 +252,32 @@ function NewVolunteerDashboard(props) {
                           }}
                         />
                       </TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>
+                      <TableCell sx={{ fontWeight: "400", fontSize: "14px" }}>
+                        {item.name}
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: "400", fontSize: "14px" }}>
+                        {/*
                         {item.classes &&
                         item.classes.length > 0 &&
                         item.classes[item.classes.length - 1]["batch"] != ""
                           ? item.classes[item.classes.length - 1]["batch"]
                           : "-"}
+                        */}
+                        DVET Nashik Python
                       </TableCell>
 
-                      <TableCell data-column="Last Class Title">
+                      <TableCell
+                        data-column="Last Class Title"
+                        sx={{ fontWeight: "400", fontSize: "14px" }}
+                      >
                         {item.classes &&
                         item.classes.length > 0 &&
                         item.classes[item.classes.length - 1]["title"] != ""
                           ? item.classes[item.classes.length - 1]["title"]
                           : "-"}
                       </TableCell>
-                      <TableCell>
-                        {format(item.last_class_date, "dd-MM-yyyy")}
+                      <TableCell sx={{ fontWeight: "400", fontSize: "14px" }}>
+                        {format(item.last_class_date, "dd MMM, yyyy")}
                       </TableCell>
                       <TableCell data-column="Last class lang">
                         {item.classes &&
@@ -275,7 +288,10 @@ function NewVolunteerDashboard(props) {
                             ]
                           : "-"}
                       </TableCell>
-                      <TableCell data-column="Status">
+                      <TableCell
+                        data-column="Status"
+                        sx={{ fontWeight: "400", fontSize: "14px" }}
+                      >
                         <div
                           style={{
                             width: "100%",
@@ -289,7 +305,10 @@ function NewVolunteerDashboard(props) {
                           Active
                         </div>
                       </TableCell>
-                      <TableCell data-column="three dots">
+                      <TableCell
+                        data-column="three dots"
+                        sx={{ fontWeight: "400", fontSize: "14px" }}
+                      >
                         <MoreVertIcon />
                       </TableCell>
                     </TableRow>
