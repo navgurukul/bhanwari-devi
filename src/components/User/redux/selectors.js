@@ -57,7 +57,7 @@ const savedRolesToKeysMap = Object.keys(ROLES).reduce((roleKeyMap, roleKey) => {
  * @return {Array.<{key: string, msgKey: string, assignedRole:boolean, properties: Object}>}
  */
 export const selectRolesData = ({ User }) => {
-  const rolesList = (User.data.user.rolesList || []).map(
+  const rolesList = (User?.data?.user?.rolesList || []).map(
     (savedRole) => savedRolesToKeysMap[savedRole] || savedRole
   );
   const unassignedDefaultRoles = DEFAULT_ROLES.filter(
@@ -65,11 +65,11 @@ export const selectRolesData = ({ User }) => {
   );
 
   // special case for partner role
-  const partnerId = User.data.user.partner_id;
-  const partnerGroupId = User.data.user.partner_group_id;
-  ROLES[PARTNER_ROLE_KEY].properties.partnerId = User.data.user.partner_id;
+  const partnerId = User?.data?.user?.partner_id;
+  const partnerGroupId = User?.data?.user?.partner_group_id;
+  ROLES[PARTNER_ROLE_KEY].properties.partnerId = User?.data?.user?.partner_id;
   ROLES[PARTNER_ROLE_KEY].properties.partnerGroupId =
-    User.data.user.partner_group_id;
+    User?.data?.user?.partner_group_id;
 
   return unassignedDefaultRoles
     .map((roleKey) => ({

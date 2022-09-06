@@ -196,8 +196,8 @@ function Header() {
     }
   });
 
-  const partnerGroupId = user.data.user.partner_group_id;
-  const partnerId = user.data.user.partner_id;
+  const partnerGroupId = user?.data?.user?.partner_group_id;
+  const partnerId = user?.data?.user?.partner_id;
 
   const rolesLandingPages = {
     [STUDENT]: PATHS.NEW_USER_DASHBOARD,
