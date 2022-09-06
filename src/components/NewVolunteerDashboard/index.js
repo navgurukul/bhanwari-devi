@@ -27,9 +27,12 @@ import TablePagination from "@mui/material/TablePagination";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useDebounce } from "use-debounce";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CircleIcon from "@mui/icons-material/Circle";
 
 function NewVolunteerDashboard(props) {
   const { onSelectAllClick, numSelected, rowCount } = props;
+  console.log(onSelectAllClick, "onSelectAllClick");
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selctedPathway, setSelectedPathway] = useState("");
@@ -138,7 +141,7 @@ function NewVolunteerDashboard(props) {
         }}
         fullWidth={1}
         type="text"
-        placeholder=" Name, Class, Title, Language"
+        placeholder=" Name, Batch, Class Title..."
         variant="standard"
         value={debouncedText}
         onChange={(e) => {
@@ -161,27 +164,33 @@ function NewVolunteerDashboard(props) {
                 />
               </TableCell>
               <TableCell>
-                <Typography sx={{ fontWeight: "bold" }}>Name</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}>Name</Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <Typography sx={{ fontWeight: "bold" }}>
                   Last Class Batch
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <Typography sx={{ fontWeight: "bold" }}>
                   Last Class Title
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <Typography sx={{ fontWeight: "bold" }}>
                   Last Class Date
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <Typography sx={{ fontWeight: "bold" }}>
                   Class Language
                 </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography sx={{ fontWeight: "bold" }}>Status</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <MoreVertIcon />
               </TableCell>
             </TableRow>
           </TableHead>
@@ -248,6 +257,23 @@ function NewVolunteerDashboard(props) {
                               item.classes[item.classes.length - 1]["lang"]
                             ]
                           : "-"}
+                      </TableCell>
+                      <TableCell data-column="Status">
+                        <div
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-around",
+                          }}
+                        >
+                          <CircleIcon sx={{ fontSize: 12 }} color="success" />
+                          Active
+                        </div>
+                      </TableCell>
+                      <TableCell data-column="three dots">
+                        <MoreVertIcon />
                       </TableCell>
                     </TableRow>
                   );
