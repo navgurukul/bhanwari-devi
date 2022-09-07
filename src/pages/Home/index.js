@@ -461,6 +461,7 @@ function Home() {
                   </Typography>
                 </Grid>
             </Grid>
+          </div>
           </Container> */}
         </div>
       </main>
