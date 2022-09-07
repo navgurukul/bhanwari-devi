@@ -117,17 +117,14 @@
 .message-header {
   display: flex;
   margin-bottom: 8px;
+  margin-top: 4px;
   justify-content: flex-end;
-
-  &-other {
-    justify-content: flex-start;
-  }
 }
 
 .message-time {
   margin-right: 16px;
-  color: gray;
-  font-size: 13px;
+  color: #6d6d6d;
+  font-size: 12px;
 
   &-other {
     margin-left: 16px;
