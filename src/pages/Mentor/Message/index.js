@@ -121,13 +121,15 @@ export default ({
             <div className="message-time">
               {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
             </div>
-            <div
-              className={`chat-message-sender ${
-                isSelf ? "chat-message-sender-self" : ""
-              }`}
-            >
-              {senderName}
-            </div>
+            {!isSelf && (
+              <div
+                className={`chat-message-sender ${
+                  isSelf ? "chat-message-sender-self" : ""
+                }`}
+              >
+                {senderName}
+              </div>
+            )}
           </div>
           <div
             onMouseOver={handleMouseOver}
@@ -197,9 +199,9 @@ export default ({
           </div>
           {formattedMessage.options && renderOptions(formattedMessage.options)}
         </div>
-        {isSelf && senderName && (
+        {/*isSelf && senderName && (
           <Avatar name={senderName} style={{ marginLeft: 12 }} />
-        )}
+        )*/}
       </div>
     );
   }
