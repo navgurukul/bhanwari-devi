@@ -265,8 +265,9 @@ function Home() {
                   <Stack sx={{ mt: 2 }} alignItems="center">
                     <img src={require("./assets/down-swirly.svg")} />
                   </Stack>
-                  <Box sx={{ mt: 3 }}>
+                  <Box sx={{ my: isActive ? 3 : 4 }}>
                     <PathwayCard
+                      hover={false}
                       description={concernsText[index].description}
                     />
                   </Box>
@@ -350,12 +351,11 @@ function Home() {
 
           {/* Section 8  */}
 
-          {
-            <Container
-              sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
-              maxWidth="sm"
-            >
-              <Typography
+          {/* <Container
+            sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
+            maxWidth="sm"
+          >
+     <Typography
                 variant="h5"
                 component="h6"
                 align="center"
@@ -407,6 +407,32 @@ function Home() {
                     </ExternalLink>
                   </address>
                 </Typography>
+              </Grid>
+              <Grid item>
+                <Typography align="center" color="primary" gutterBottom>
+                  <address>
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Via Whatsapp:
+                    </span>
+                    <ExternalLink
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                        fontStyle: "normal",
+                      }}
+                      href="tel:+918891300300"
+                    >
+                      {" "}
+                      +91 8891300300
+                    </ExternalLink>
+                  </address>
+                </Typography>
               </Grid> */}
                 <Grid item>
                   <Typography align="center" color="primary" gutterBottom>
@@ -434,9 +460,8 @@ function Home() {
                     </address>
                   </Typography>
                 </Grid>
-              </Grid>
-            </Container>
-          }
+            </Grid>
+          </Container> */}
         </div>
       </main>
     </>

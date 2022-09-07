@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
+import { breakpoints } from "../../../theme/constant";
+
 // import { dateTimeFormat, TimeLeft } from "../../../constant";
 // import { timeLeftFormat } from "../../common/date";
 import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
@@ -22,6 +24,8 @@ import {
   MenuItem,
   CardActions,
 } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
@@ -43,6 +47,8 @@ function ClassCard({ item, editClass }) {
   const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const languageMap = {
     hi: "Hindi",
@@ -248,7 +254,11 @@ function ClassCard({ item, editClass }) {
   */
   return (
     <>
-      <Card elevation={2} sx={{ p: 4, mt: 5 }} className={classes.card}>
+      <Card
+        elevation={2}
+        sx={{ p: 4, mt: isActive ? 4 : 5 }}
+        className={classes.card}
+      >
         <Typography
           variant="subtitle1"
           color="#6D6D6D"

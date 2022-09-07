@@ -82,7 +82,7 @@ function Profile() {
           <Avatar
             alt="Remy Sharp"
             src={userData.profile_picture}
-            sx={{ height: 100, width: 100 }}
+            sx={{ height: 100, width: 100, mt: isActive ? 3 : 0 }}
           />
           {isEditing ? (
             <TextField
@@ -97,7 +97,7 @@ function Profile() {
           ) : msg ? (
             <Typography>Please wait...</Typography>
           ) : (
-            <Typography variant={isActive ? "subtitle1" : "h6"}>
+            <Typography mt={2} variant={isActive ? "body1" : "h6"}>
               {userData.name}
               {isActive && !isEditing && (
                 <Button onClick={() => setIsEditing(true)}>
@@ -106,9 +106,11 @@ function Profile() {
               )}
             </Typography>
           )}
-          <Typography align="center">{userData.email}</Typography>
+          <Typography mt={1} align="center">
+            {userData.email}
+          </Typography>
           {isEditing ? (
-            <Button pt={1} onClick={editProfile}>
+            <Button pt={2} onClick={editProfile}>
               Save Profile
             </Button>
           ) : (

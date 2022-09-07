@@ -5,6 +5,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "60px",
     marginBottom: "70px",
   },
+  admitionContaine1: {
+    marginTop: "32px",
+    marginBottom: "32px",
+  },
   admitionSpacing1: {
     paddingTop: "20px",
   },
@@ -33,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     color: "grey",
   },
   admitionSpacing: {
-    marginTop: "47px",
+    // marginTop: "47px",
   },
   admitionBottom: {
     paddingBottom: "2%",
