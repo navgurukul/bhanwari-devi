@@ -2,6 +2,7 @@ import { Box, Icon, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import ReplyIcon from "@mui/icons-material/Reply";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMemberName } from "../utils";
 import "./styles.scss";
@@ -50,10 +51,6 @@ export default ({
     <>
       {replyMessage && (
         <div className="reply-message">
-          {/* <i
-            className="fa fa-times close-reply-message"
-            
-          /> */}
           <CloseIcon
             onClick={() => {
               activateReplyToMessageState(null);
@@ -62,7 +59,7 @@ export default ({
           />
           <div className="reply-to">
             <span>Reply to</span>
-            <i className="fa fa-reply reply-to-icon" />
+            <ReplyIcon className={classes.replyToIcon} />
           </div>
           <div className="reply-message-content">
             <Avatar name={replyMessageSenderName} style={{ marginRight: 12 }} />
@@ -76,17 +73,6 @@ export default ({
         </div>
       )}
       <Box className={classes.inputContainer}>
-        {/* <input
-          type="text"
-          ref={inputRef}
-          className="chat-input"
-          placeholder="Enter a message..."
-          value={value}
-          onKeyDown={onKeyDown}
-          onChange={(e) => {
-            onChange(e.target.value);
-          }}
-        /> */}
         <TextField
           type="text"
           className={classes.textField}
@@ -99,16 +85,11 @@ export default ({
             onChange(e.target.value);
           }}
         />
-
         <ArrowCircleRightIcon
           color="primary"
           onClick={sendMessage}
           className={classes.arrowIcon}
         />
-        {/* <i
-          className="fa fa-arrow-circle-left chat-input-icon"
-          onClick={sendMessage}
-        /> */}
       </Box>
     </>
   );

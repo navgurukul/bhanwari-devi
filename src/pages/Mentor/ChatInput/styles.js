@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
     width: "48px !important",
     cursor: "pointer",
   },
+
+  /*REPLY SECTION*/
   closeReplyMessage: {
     position: "absolute",
     right: "24px",
@@ -28,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
     transform: "translateY(-50%)",
     fontSize: "24px",
     cursor: "pointer",
+  },
+  replyToIcon: {
+    marginLeft: "8px",
+    fontSize: "11px",
   },
 }));
 
