@@ -10,6 +10,7 @@ import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
 import { Typography } from "@material-ui/core";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
@@ -186,7 +187,7 @@ export default ({
             ></span>
             {isMessageActionsMenuOpen && messageActions.length > 0 && (
               <div className="actions-dropdown-trigger-container">
-                <button
+                {/* <button
                   className="actions-dropdown-trigger"
                   onClick={() => {
                     setIsMessageActionsDropdownOpen(
@@ -195,7 +196,15 @@ export default ({
                   }}
                 >
                   <i className="fa fa-chevron-down" />
-                </button>
+                </button> */}
+                <ExpandMoreIcon
+                  className="actions-dropdown-trigger"
+                  onClick={() => {
+                    setIsMessageActionsDropdownOpen(
+                      !isMessageActionsDropdownOpen
+                    );
+                  }}
+                />
                 <Dropdown
                   isOpen={isMessageActionsDropdownOpen}
                   options={messageActions}
