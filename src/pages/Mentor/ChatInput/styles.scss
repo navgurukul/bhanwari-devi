@@ -4,12 +4,14 @@
   position: relative;
   display: flex;
   align-items: center;
-
+  justify-content: space-between;
   @media screen and (max-width: 768px) {
     padding: 16px;
   }
 }
-
+.MuiOutlinedInput-root {
+  border-radius: "100px !important";
+}
 .chat-input {
   flex: 1;
   border: 1px solid #f5f5f5;

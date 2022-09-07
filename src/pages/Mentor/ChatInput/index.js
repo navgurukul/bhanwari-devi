@@ -1,7 +1,10 @@
+import { Box, Icon, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { getMemberName } from "../utils";
 import "./styles.scss";
+import useStyles from "./styles";
 
 export default ({
   onNewMessage,
@@ -12,6 +15,7 @@ export default ({
 }) => {
   const [value, onChange] = useState("");
   const inputRef = useRef(null);
+  const classes = useStyles();
 
   useEffect(() => {
     if (replyMessage) {
@@ -40,7 +44,7 @@ export default ({
     );
     replyMessageSenderName = getMemberName(member);
   }
-
+  console.log(classes);
   return (
     <>
       {replyMessage && (
@@ -66,8 +70,8 @@ export default ({
           </div>
         </div>
       )}
-      <div className="chat-input-container">
-        <input
+      <Box className={classes.inputContainer}>
+        {/* <input
           type="text"
           ref={inputRef}
           className="chat-input"
@@ -77,12 +81,30 @@ export default ({
           onChange={(e) => {
             onChange(e.target.value);
           }}
+        /> */}
+        <TextField
+          type="text"
+          className={classes.textField}
+          variant="outlined"
+          ref={inputRef}
+          placeholder="Enter a message..."
+          value={value}
+          onKeyDown={onKeyDown}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
         />
-        <i
+
+        <ArrowCircleRightIcon
+          color="primary"
+          onClick={sendMessage}
+          className={classes.arrowIcon}
+        />
+        {/* <i
           className="fa fa-arrow-circle-left chat-input-icon"
           onClick={sendMessage}
-        />
-      </div>
+        /> */}
+      </Box>
     </>
   );
 };
