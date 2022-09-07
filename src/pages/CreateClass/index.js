@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import CreateClassComponent from "../../components/Class";
 import ClassesList from "../../components/Class/ClassList";
 import { useSelector } from "react-redux";
-// import Modal from "../../components/common/Modal";
 import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
@@ -16,6 +15,9 @@ import {
   Box,
   Stack,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
@@ -72,9 +74,6 @@ function ToggleClassFormModal() {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log("res calendar token", res);
-      // setCalenderConsent(true);
-      // setShowModal(true);
       if (res.data.success) {
         setCalenderConsent(true);
         setShowModal(true);
@@ -84,10 +83,6 @@ function ToggleClassFormModal() {
         setShowModal(false);
       }
     });
-    // .catch((err) => {
-    //   setCalenderConsent(false);
-    //   setShowConsentModal(true);
-    // });
   };
 
   const handleClose = () => {
@@ -219,48 +214,46 @@ function ToggleClassFormModal() {
         </Modal>
       ) : (
         showConsentModal && (
-          <Modal
+          <Dialog
             open={showConsentModal}
-            // onClose={handleClose}
-            // className="confirmation-for-consent"
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            PaperProps={{
+              style: {
+                minWidth: "45%",
+                borderRadius: 8,
+              },
+            }}
           >
+            <DialogTitle>
+              <Typography variant="h6" align="center">
+                Meraki needs access to your calendar to create classes. <br />
+                Do you want to go ahead?
+              </Typography>
+            </DialogTitle>
             <Stack alignItems="center">
-              <Box
-                className={classes.confirmationModal}
-                sx={{
-                  bgcolor: "background.paper",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant="h6" align="center">
-                  Meraki needs access to your calendar to create classes. <br />
-                  Do you want to go ahead?
-                </Typography>
-                <Stack alignItems="center">
-                  <Box sx={{ display: "flex", mt: "10px" }}>
-                    <Button
-                      onClick={codeGenerate}
-                      color="error"
-                      variant="contained"
-                      sx={{ mr: "15px", width: "100px" }}
-                    >
-                      Yes
-                    </Button>
-                    <Button
-                      onClick={handleClose}
-                      color="grey"
-                      variant="contained"
-                      sx={{ width: "100px" }}
-                    >
-                      No
-                    </Button>
-                  </Box>
-                </Stack>
-              </Box>
+              <DialogActions>
+                <Box sx={{ display: "flex", mb: 2 }}>
+                  <Button
+                    onClick={codeGenerate}
+                    color="error"
+                    variant="contained"
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={handleClose}
+                    color="grey"
+                    variant="contained"
+                    sx={{ width: "100px" }}
+                  >
+                    No
+                  </Button>
+                </Box>
+              </DialogActions>
             </Stack>
-          </Modal>
+          </Dialog>
         )
       )}
 

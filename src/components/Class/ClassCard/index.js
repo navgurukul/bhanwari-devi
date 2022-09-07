@@ -10,13 +10,7 @@ import { actions as classActions } from "../redux/action";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Modal from "../../common/Modal";
 import Loader from "../../common/Loader";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import {
   Typography,
@@ -29,6 +23,9 @@ import {
   MenuItem,
   Checkbox,
   CardActions,
+  Dialog,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
@@ -390,7 +387,6 @@ function ClassCard({ item, editClass }) {
       <Box>
         {showModal ? (
           <Dialog
-            className={classes.Modal}
             open={showModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
