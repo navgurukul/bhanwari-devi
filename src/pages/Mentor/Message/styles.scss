@@ -91,7 +91,7 @@
 .chat-message-container {
   display: flex;
   margin: 12px 0;
-
+  padding: 8px !important;
   &-other {
     align-self: flex-start;
   }
