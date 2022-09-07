@@ -208,7 +208,13 @@ function Team() {
             : `${classes.team_responsiveContainer}`
         }
       >
-        <Grid container style={{ justifyContent: "center" }}>
+        <Grid
+          container
+          style={{
+            justifyContent: isActive ? "space-around" : "center",
+            marginInlineStart: isActive ? "15px" : {},
+          }}
+        >
           <Typography
             onClick={() => {
               setMembers({ volunteers: false, teamMembers: true });

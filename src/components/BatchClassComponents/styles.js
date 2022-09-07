@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
   },
   UnAvailableRevisionClass: {
     padding: "8px",
+    marginBottom: "35px",
   },
 }));
 

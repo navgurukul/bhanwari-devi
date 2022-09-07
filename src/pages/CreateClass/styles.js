@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     align: "center",
   },
+  createCard: {
+    margin: "10px 16px 20px 5px",
+  },
 }));
 
 export default useStyles;
