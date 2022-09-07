@@ -2,6 +2,7 @@ import { Box, Icon, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import CloseIcon from "@mui/icons-material/Close";
 import { getMemberName } from "../utils";
 import "./styles.scss";
 import useStyles from "./styles";
@@ -49,11 +50,15 @@ export default ({
     <>
       {replyMessage && (
         <div className="reply-message">
-          <i
+          {/* <i
             className="fa fa-times close-reply-message"
+            
+          /> */}
+          <CloseIcon
             onClick={() => {
               activateReplyToMessageState(null);
             }}
+            className={classes.closeReplyMessage}
           />
           <div className="reply-to">
             <span>Reply to</span>

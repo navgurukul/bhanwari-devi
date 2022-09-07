@@ -21,6 +21,14 @@ const useStyles = makeStyles((theme) => ({
     width: "48px !important",
     cursor: "pointer",
   },
+  closeReplyMessage: {
+    position: "absolute",
+    right: "24px",
+    top: "20%",
+    transform: "translateY(-50%)",
+    fontSize: "24px",
+    cursor: "pointer",
+  },
 }));
 
 export default useStyles;
