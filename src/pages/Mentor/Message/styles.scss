@@ -102,8 +102,9 @@
 }
 
 .chat-message-sender {
-  font-size: 13px;
-  color: gray;
+  font-size: 14px;
+  color: #48a145;
+  line-height: 21px;
 
   &-self {
     text-align: right;

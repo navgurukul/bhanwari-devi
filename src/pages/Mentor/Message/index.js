@@ -9,6 +9,7 @@ import createDOMPurify from "dompurify";
 import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
+import { Typography } from "@material-ui/core";
 
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
@@ -121,15 +122,6 @@ export default ({
             <div className="message-time">
               {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
             </div>
-            {!isSelf && (
-              <div
-                className={`chat-message-sender ${
-                  isSelf ? "chat-message-sender-self" : ""
-                }`}
-              >
-                {senderName}
-              </div>
-            )}
           </div>
           <div
             onMouseOver={handleMouseOver}
@@ -139,6 +131,16 @@ export default ({
               setIsMessageActionsDropdownOpen(false);
             }}
           >
+            {!isSelf && (
+              <Typography
+                className={`chat-message-sender ${
+                  isSelf ? "chat-message-sender-self" : ""
+                }`}
+                style={{ fontWeight: "600" }}
+              >
+                {senderName}
+              </Typography>
+            )}
             {replyToMessage && (
               <div className="reply-to-container">
                 <div className="reply-to-header">
