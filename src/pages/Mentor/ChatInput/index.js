@@ -46,25 +46,25 @@ export default ({
     );
     replyMessageSenderName = getMemberName(member);
   }
-  console.log(classes);
+
   return (
     <>
       {replyMessage && (
-        <div className="reply-message">
+        <div className={classes.replyMessage}>
           <CloseIcon
             onClick={() => {
               activateReplyToMessageState(null);
             }}
             className={classes.closeReplyMessage}
           />
-          <div className="reply-to">
+          <div className={classes.replyTo}>
             <span>Reply to</span>
             <ReplyIcon className={classes.replyToIcon} />
           </div>
-          <div className="reply-message-content">
+          <div className={classes.replyMessageContent}>
             <Avatar name={replyMessageSenderName} style={{ marginRight: 12 }} />
             <div>
-              <div className="reply-message-sender-name">
+              <div className={classes.replyMessageSenderName}>
                 {replyMessageSenderName}
               </div>
               <div>{replyMessage.content.body}</div>
