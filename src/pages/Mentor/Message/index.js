@@ -10,7 +10,7 @@ import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
 import { Typography } from "@material-ui/core";
-
+import useStyles from "./styles";
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
 
@@ -40,7 +40,7 @@ export default ({
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
-
+  const classes = useStyles();
   const formatMessage = (message) => {
     switch (message.content.msgtype) {
       case "org.matrix.options":
@@ -136,7 +136,7 @@ export default ({
                 className={`chat-message-sender ${
                   isSelf ? "chat-message-sender-self" : ""
                 }`}
-                style={{ fontWeight: "600" }}
+                style={{ fontWeight: "bolder" }}
               >
                 {senderName}
               </Typography>
@@ -172,6 +172,7 @@ export default ({
               </div>
             )}
             <span
+              className={classes.messageContent}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(
                   LinkifyHtml(formattedMessage.value, {
