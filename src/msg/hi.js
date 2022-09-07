@@ -4,6 +4,7 @@ hi.ABOUT = "के बारे में";
 hi.GET_INVOLVED = "उलझना";
 hi.OUR_STORY = "हमारी कहानी";
 hi.DASHBOARD = "डैशबोर्ड";
+hi.STATEPARTNER = "स्टेटपार्टनर";
 hi.SWITCH_VIEWS = "दृष्टिकोण स्विच करें";
 hi.SWITCH_TO_VIEW = "%1 के दृष्टिकोण पर स्विच करें";
 hi.STUDENT = "छात्र";

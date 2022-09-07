@@ -143,6 +143,8 @@ function HorizontalLinearStepper() {
     const itemKey = steps[prevActiveStep]?.itemKey;
     const currentStep = prevActiveStep + changeBy;
 
+    console.log("currentStep", currentStep);
+
     if (itemKey && !disable) {
       // button was enabled by Component for this step so it's completed
       //     and we should therefore update the state for this key

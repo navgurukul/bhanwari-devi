@@ -450,9 +450,9 @@ function ExerciseContent({
           {exercise && exercise.content_type === "exercise" && (
             <Box sx={{ m: "32px 0px" }}>
               {/* <Typography variant="h5">{course}</Typography> */}
-              <Typography variant="h6" sx={{ mt: "16px" }}>
+              {/* <Typography variant="h6" sx={{ mt: "16px" }}>
                 {exercise && exercise.name}
-              </Typography>
+              </Typography> */}
               <Box sx={{ mt: 5, mb: 8 }}>
                 {content &&
                   content.map((contentItem, index) => (
