@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
+import useStyles from "./style";
 import { PATHS } from "../../constant";
 import { useSelector } from "react-redux";
 import {
@@ -18,7 +18,9 @@ import {
   Toolbar,
   Grid,
   Button,
+  Collapse,
 } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
@@ -34,7 +36,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CircleIcon from "@mui/icons-material/Circle";
 
 function NewVolunteerDashboard(props) {
+  const classes = useStyles();
   const { onSelectAllClick, numSelected, rowCount } = props;
+  const [open, setOpen] = React.useState(true);
+
   console.log(onSelectAllClick, "onSelectAllClick");
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
@@ -105,6 +110,7 @@ function NewVolunteerDashboard(props) {
       setCacheVolunteer(res.data);
     });
   }, []);
+  console.log(volunteer);
 
   const languageMap = {
     hi: "Hindi",
@@ -162,9 +168,9 @@ function NewVolunteerDashboard(props) {
       </Grid>
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="simple table">
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
+            <TableRow className={classes.tablecontainerow}>
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
@@ -178,6 +184,7 @@ function NewVolunteerDashboard(props) {
                   inputProps={{
                     "aria-label": "select all desserts",
                   }}
+                  onClick={!open}
                 />
               </TableCell>
               <TableCell>
@@ -229,70 +236,165 @@ function NewVolunteerDashboard(props) {
                     sortedClasses[sortedClasses.length - 1].start_time;
 
                   return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, item.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={item.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>
-                        {item.classes &&
-                        item.classes.length > 0 &&
-                        item.classes[item.classes.length - 1]["batch"] != ""
-                          ? item.classes[item.classes.length - 1]["batch"]
-                          : "-"}
-                      </TableCell>
+                    <>
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, item.name)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={item.name}
+                        selected={isItemSelected}
+                        className={classes.tablebodyrow}
+                      >
+                        <TableCell padding="checkbox" sx={{ border: "none" }}>
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                            onClick={() => setOpen(open)}
+                            aria-label="expand row"
+                          />
+                        </TableCell>
+                        <TableCell sx={{ border: "none" }}>
+                          {item.name}
+                        </TableCell>
+                        <TableCell sx={{ border: "none" }}>
+                          {item.classes &&
+                          item.classes.length > 0 &&
+                          item.classes[item.classes.length - 1]["batch"] != ""
+                            ? item.classes[item.classes.length - 1]["batch"]
+                            : "-"}
+                        </TableCell>
 
-                      <TableCell data-column="Last Class Title">
-                        {item.classes &&
-                        item.classes.length > 0 &&
-                        item.classes[item.classes.length - 1]["title"] != ""
-                          ? item.classes[item.classes.length - 1]["title"]
-                          : "-"}
-                      </TableCell>
-                      <TableCell>
-                        {format(item.last_class_date, "dd-MM-yyyy")}
-                      </TableCell>
-                      <TableCell data-column="Last class lang">
-                        {item.classes &&
-                        item.classes.length > 0 &&
-                        item.classes[item.classes.length - 1]["lang"] != ""
-                          ? languageMap[
-                              item.classes[item.classes.length - 1]["lang"]
-                            ]
-                          : "-"}
-                      </TableCell>
-                      <TableCell data-column="Status">
-                        <div
-                          style={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-around",
-                          }}
+                        <TableCell
+                          data-column="Last Class Title"
+                          sx={{ border: "none" }}
                         >
-                          <CircleIcon sx={{ fontSize: 12 }} color="success" />
-                          Active
-                        </div>
-                      </TableCell>
-                      <TableCell data-column="three dots">
-                        <MoreVertIcon />
-                      </TableCell>
-                    </TableRow>
+                          {item.classes &&
+                          item.classes.length > 0 &&
+                          item.classes[item.classes.length - 1]["title"] != ""
+                            ? item.classes[item.classes.length - 1]["title"]
+                            : "-"}
+                        </TableCell>
+                        <TableCell sx={{ border: "none" }}>
+                          {format(item.last_class_date, "dd-MM-yyyy")}
+                        </TableCell>
+                        <TableCell
+                          data-column="Last class lang"
+                          sx={{ border: "none" }}
+                        >
+                          {item.classes &&
+                          item.classes.length > 0 &&
+                          item.classes[item.classes.length - 1]["lang"] != ""
+                            ? languageMap[
+                                item.classes[item.classes.length - 1]["lang"]
+                              ]
+                            : "-"}
+                        </TableCell>
+                        <TableCell data-column="Status" sx={{ border: "none" }}>
+                          <div
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-around",
+                            }}
+                          >
+                            <CircleIcon sx={{ fontSize: 12 }} color="success" />
+                            Active
+                          </div>
+                        </TableCell>
+                        <TableCell
+                          data-column="three dots"
+                          sx={{ border: "none" }}
+                        >
+                          <MoreVertIcon />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        {isItemSelected || isItemSelected > 0 ? (
+                          <TableCell
+                            style={{ paddingBottom: 0, paddingTop: 0 }}
+                            colSpan={12}
+                          >
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                              <Box sx={{ margin: 1 }}>
+                                <Typography
+                                  variant="h6"
+                                  gutterBottom
+                                  component="div"
+                                  sx={{ display: "flex" }}
+                                >
+                                  <Avatar src="/broken-image.jpg" />
+                                  {item.name}
+                                </Typography>
+                                <Table size="small" aria-label="purchases">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell sx={{ fontWeight: "bold" }}>
+                                        Email
+                                      </TableCell>
+                                      <TableCell sx={{ fontWeight: "bold" }}>
+                                        Phone
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ fontWeight: "bold" }}
+                                      >
+                                        Duration (In Weeks)
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ fontWeight: "bold" }}
+                                      >
+                                        Days Available
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ fontWeight: "bold" }}
+                                      >
+                                        Preferred Time Slots
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell
+                                        component="th"
+                                        scope="row"
+                                        sx={{ border: "none" }}
+                                      >
+                                        {item.email}
+                                      </TableCell>
+                                      <TableCell sx={{ border: "none" }}>
+                                        {item.phone}
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ border: "none" }}
+                                      ></TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ border: "none" }}
+                                      ></TableCell>
+                                      <TableCell
+                                        sx={{ border: "none" }}
+                                      ></TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </Box>
+                            </Collapse>
+                          </TableCell>
+                        ) : (
+                          ""
+                        )}
+                      </TableRow>
+                    </>
                   );
                 })
             ) : (
