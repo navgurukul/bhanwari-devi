@@ -3,9 +3,15 @@ import React from "react";
 // import { TimeLeft } from "../../../constant";
 import { format } from "../../../common/date";
 import FutureOrPast from "../../common/FutureOrPast";
-import languageMap from "../../../pages/CourseContent/languageMap";
 
 function ClassTopic({ courseData }) {
+  const languageMap = {
+    hi: "Hindi",
+    en: "English",
+    te: "Telugu",
+    ta: "Tamil",
+    mr: "Marathi",
+  };
   return (
     <>
       <Box m={4} sx={{ maxWidth: "300px" }}>
@@ -77,4 +83,3 @@ function ClassTopic({ courseData }) {
 }
 
 export default ClassTopic;
-// adding This Changes
