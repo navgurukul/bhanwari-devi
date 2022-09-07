@@ -2,20 +2,20 @@
   padding: 16px;
   border-radius: 12px;
   line-height: 1.4;
-  border-bottom-left-radius: 0;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  // border-bottom-left-radius: 0;
+  // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   font-weight: 500;
   padding-right: 48px;
   position: relative;
 
   &-other {
     align-self: flex-start;
-    background-color: #f6f8fa;
+    background-color: #fafafa;
   }
 
   &-self {
     align-self: flex-end;
-    background-color: #e8e8e8;
+    background-color: #e9f5e9;
   }
 
   &-action {
