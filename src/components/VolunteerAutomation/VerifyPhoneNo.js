@@ -21,9 +21,9 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <Typography variant="h6" gutterBottom>
-        Please let us verify your phone number
+        Please provide your phone number.
       </Typography>
-      <Typography variant="body1" gutterBottom>
+      <Typography variant="body1" gutterBottom color="text.secondary">
         We will only use your number to contact you for volunteer related
         matters. We never share it to any third party.
       </Typography>
