@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import useStyles from "./style";
 import { PATHS } from "../../constant";
 import { useSelector } from "react-redux";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 import {
   Box,
   Table,
@@ -63,6 +65,7 @@ function NewVolunteerDashboard(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   {
     /* ------------------------- Functions for Status Modal Starts Here ------------------------- */
@@ -203,7 +206,7 @@ function NewVolunteerDashboard(props) {
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }}>
             <TableHead>
-              <TableRow>
+              <TableRow className={classes.tablecontainerow}>
                 <TableCell padding="checkbox">
                   <Checkbox
                     color="primary"
@@ -218,6 +221,7 @@ function NewVolunteerDashboard(props) {
                     inputProps={{
                       "aria-label": "select all desserts",
                     }}
+                    onClick={() => setOpen(open)}
                   />
                 </TableCell>
                 <TableCell>
@@ -291,6 +295,7 @@ function NewVolunteerDashboard(props) {
                               inputProps={{
                                 "aria-labelledby": labelId,
                               }}
+                              onClick={() => setOpen(open)}
                             />
                           </TableCell>
                           <TableCell
