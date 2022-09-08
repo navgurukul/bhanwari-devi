@@ -51,46 +51,42 @@ export default ({
           <ExitToAppOutlinedIcon className="exit" />
         </div>
         <div className="messages" onScroll={onScroll} ref={messagesRef}>
-          <div className="messages-content">
-            {messages &&
-              messages
-                .filter((message) => message.type === "m.room.message")
-                .map((message, index) => {
-                  let shouldDisplayDayMarker = false;
-                  if (messages[index - 1]) {
-                    shouldDisplayDayMarker = getAreDatesOnDifferentDays(
-                      messages[index - 1].origin_server_ts,
-                      message.origin_server_ts
-                    );
-                  } else {
-                    shouldDisplayDayMarker = true;
-                  }
-                  const member = members.find(
-                    (member) => member.sender === message.sender
+          {messages &&
+            messages
+              .filter((message) => message.type === "m.room.message")
+              .map((message, index) => {
+                let shouldDisplayDayMarker = false;
+                if (messages[index - 1]) {
+                  shouldDisplayDayMarker = getAreDatesOnDifferentDays(
+                    messages[index - 1].origin_server_ts,
+                    message.origin_server_ts
                   );
+                } else {
+                  shouldDisplayDayMarker = true;
+                }
+                const member = members.find(
+                  (member) => member.sender === message.sender
+                );
 
-                  return (
-                    <React.Fragment key={message.event_id}>
-                      {shouldDisplayDayMarker && (
-                        <div className="messages-day-marker">
-                          {format(new Date(message.origin_server_ts), "do MMM")}
-                        </div>
-                      )}
-                      <Message
-                        deleteMessage={deleteMessage}
-                        members={members}
-                        onSendMessage={onSendMessage}
-                        activateReplyToMessageState={
-                          activateReplyToMessageState
-                        }
-                        senderName={getMemberName(member)}
-                        message={message}
-                        isSelf={message.sender.indexOf(selfChatId) > -1}
-                      />
-                    </React.Fragment>
-                  );
-                })}
-          </div>
+                return (
+                  <React.Fragment key={message.event_id}>
+                    {shouldDisplayDayMarker && (
+                      <div className="messages-day-marker">
+                        {format(new Date(message.origin_server_ts), "do MMM")}
+                      </div>
+                    )}
+                    <Message
+                      deleteMessage={deleteMessage}
+                      members={members}
+                      onSendMessage={onSendMessage}
+                      activateReplyToMessageState={activateReplyToMessageState}
+                      senderName={getMemberName(member)}
+                      message={message}
+                      isSelf={message.sender.indexOf(selfChatId) > -1}
+                    />
+                  </React.Fragment>
+                );
+              })}
         </div>
       </Container>
     </>
