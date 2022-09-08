@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
+import useStyles from "./style";
 import { PATHS } from "../../constant";
 import { useSelector } from "react-redux";
 import {
@@ -24,7 +24,9 @@ import {
   FormControlLabel,
   RadioGroup,
   FormLabel,
+  Collapse,
 } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
 import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
@@ -45,8 +47,12 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Radio from "@mui/material/Radio";
 
 function NewVolunteerDashboard(props) {
+  const classes = useStyles();
   const { onSelectAllClick, numSelected, rowCount } = props;
 
+  const [open, setOpen] = React.useState(true);
+
+  console.log(onSelectAllClick, "onSelectAllClick");
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selctedPathway, setSelectedPathway] = useState("");
@@ -132,6 +138,7 @@ function NewVolunteerDashboard(props) {
       setCacheVolunteer(res.data);
     });
   }, []);
+  console.log(volunteer);
 
   const languageMap = {
     hi: "Hindi",
@@ -274,8 +281,9 @@ function NewVolunteerDashboard(props) {
                         tabIndex={-1}
                         key={item.name}
                         selected={isItemSelected}
+                        className={classes.tablebodyrow}
                       >
-                        <TableCell padding="checkbox">
+                        <TableCell padding="checkbox" sx={{ border: "none" }}>
                           <Checkbox
                             color="primary"
                             checked={isItemSelected}
@@ -284,10 +292,22 @@ function NewVolunteerDashboard(props) {
                             }}
                           />
                         </TableCell>
-                        <TableCell sx={{ fontWeight: "400", fontSize: "14px" }}>
+                        <TableCell
+                          sx={{
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            border: "none",
+                          }}
+                        >
                           {item.name}
                         </TableCell>
-                        <TableCell sx={{ fontWeight: "400", fontSize: "14px" }}>
+                        <TableCell
+                          sx={{
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            border: "none",
+                          }}
+                        >
                           {/*
                         {item.classes &&
                         item.classes.length > 0 &&
@@ -300,7 +320,11 @@ function NewVolunteerDashboard(props) {
 
                         <TableCell
                           data-column="Last Class Title"
-                          sx={{ fontWeight: "400", fontSize: "14px" }}
+                          sx={{
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            border: "none",
+                          }}
                         >
                           {item.classes &&
                           item.classes.length > 0 &&
@@ -308,10 +332,19 @@ function NewVolunteerDashboard(props) {
                             ? item.classes[item.classes.length - 1]["title"]
                             : "-"}
                         </TableCell>
-                        <TableCell sx={{ fontWeight: "400", fontSize: "14px" }}>
+                        <TableCell
+                          sx={{
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            border: "none",
+                          }}
+                        >
                           {format(item.last_class_date, "dd MMM, yyyy")}
                         </TableCell>
-                        <TableCell data-column="Last class lang">
+                        <TableCell
+                          data-column="Last class lang"
+                          sx={{ border: "none" }}
+                        >
                           {item.classes &&
                           item.classes.length > 0 &&
                           item.classes[item.classes.length - 1]["lang"] != ""
@@ -322,7 +355,11 @@ function NewVolunteerDashboard(props) {
                         </TableCell>
                         <TableCell
                           data-column="Status"
-                          sx={{ fontWeight: "400", fontSize: "14px" }}
+                          sx={{
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            border: "none",
+                          }}
                         >
                           <div
                             style={{
@@ -343,7 +380,11 @@ function NewVolunteerDashboard(props) {
                         </TableCell>
                         <TableCell
                           data-column="three dots"
-                          sx={{ fontWeight: "400", fontSize: "14px" }}
+                          sx={{
+                            fontWeight: "400",
+                            fontSize: "14px",
+                            border: "none",
+                          }}
                         >
                           <MoreVertIcon />
                         </TableCell>
