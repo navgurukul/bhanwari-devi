@@ -133,9 +133,9 @@ function NewVolunteerDashboard(props) {
   }, [debouncedText, rowsPerPage]);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="xl">
       <Grid container spacing={3}>
-        <Grid item xs={9}>
+        <Grid item={9}>
           <TextField
             InputProps={{
               startAdornment: (
@@ -262,11 +262,12 @@ function NewVolunteerDashboard(props) {
                           {item.name}
                         </TableCell>
                         <TableCell sx={{ border: "none" }}>
-                          {item.classes &&
+                          {/* {item.classes &&
                           item.classes.length > 0 &&
                           item.classes[item.classes.length - 1]["batch"] != ""
                             ? item.classes[item.classes.length - 1]["batch"]
-                            : "-"}
+                            : "-"} */}
+                          -
                         </TableCell>
 
                         <TableCell
@@ -371,19 +372,25 @@ function NewVolunteerDashboard(props) {
                                         {item.email}
                                       </TableCell>
                                       <TableCell sx={{ border: "none" }}>
-                                        {item.phone}
+                                        -
                                       </TableCell>
                                       <TableCell
                                         align="right"
                                         sx={{ border: "none" }}
-                                      ></TableCell>
+                                      >
+                                        -
+                                      </TableCell>
                                       <TableCell
                                         align="right"
                                         sx={{ border: "none" }}
-                                      ></TableCell>
-                                      <TableCell
-                                        sx={{ border: "none" }}
-                                      ></TableCell>
+                                      >
+                                        {" "}
+                                        -
+                                      </TableCell>
+                                      <TableCell sx={{ border: "none" }}>
+                                        {" "}
+                                        -{" "}
+                                      </TableCell>
                                     </TableRow>
                                   </TableBody>
                                 </Table>
