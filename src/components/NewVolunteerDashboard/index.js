@@ -273,122 +273,212 @@ function NewVolunteerDashboard(props) {
                       sortedClasses[sortedClasses.length - 1].start_time;
 
                     return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, item.name)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={item.name}
-                        selected={isItemSelected}
-                        className={classes.tablebodyrow}
-                      >
-                        <TableCell padding="checkbox" sx={{ border: "none" }}>
-                          <Checkbox
-                            color="primary"
-                            checked={isItemSelected}
-                            inputProps={{
-                              "aria-labelledby": labelId,
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontWeight: "400",
-                            fontSize: "14px",
-                            border: "none",
-                          }}
+                      <>
+                        <TableRow
+                          hover
+                          onClick={(event) => handleClick(event, item.name)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={item.name}
+                          selected={isItemSelected}
+                          className={classes.tablebodyrow}
                         >
-                          {item.name}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontWeight: "400",
-                            fontSize: "14px",
-                            border: "none",
-                          }}
-                        >
-                          {/*
-                        {item.classes &&
-                        item.classes.length > 0 &&
-                        item.classes[item.classes.length - 1]["batch"] != ""
-                          ? item.classes[item.classes.length - 1]["batch"]
-                          : "-"}
-                        */}
-                          DVET Nashik Python
-                        </TableCell>
-
-                        <TableCell
-                          data-column="Last Class Title"
-                          sx={{
-                            fontWeight: "400",
-                            fontSize: "14px",
-                            border: "none",
-                          }}
-                        >
-                          {item.classes &&
-                          item.classes.length > 0 &&
-                          item.classes[item.classes.length - 1]["title"] != ""
-                            ? item.classes[item.classes.length - 1]["title"]
-                            : "-"}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontWeight: "400",
-                            fontSize: "14px",
-                            border: "none",
-                          }}
-                        >
-                          {format(item.last_class_date, "dd MMM, yyyy")}
-                        </TableCell>
-                        <TableCell
-                          data-column="Last class lang"
-                          sx={{ border: "none" }}
-                        >
-                          {item.classes &&
-                          item.classes.length > 0 &&
-                          item.classes[item.classes.length - 1]["lang"] != ""
-                            ? languageMap[
-                                item.classes[item.classes.length - 1]["lang"]
-                              ]
-                            : "-"}
-                        </TableCell>
-                        <TableCell
-                          data-column="Status"
-                          sx={{
-                            fontWeight: "400",
-                            fontSize: "14px",
-                            border: "none",
-                          }}
-                        >
-                          <div
-                            style={{
-                              width: "100%",
-                              display: "flex",
-                              flexDirection: "row",
-                              alignItems: "center",
-                              justifyContent: "space-around",
-                            }}
-                            onClick={() => {
-                              setStatusName(item.name);
-                              setStatusDialog(true);
+                          <TableCell padding="checkbox" sx={{ border: "none" }}>
+                            <Checkbox
+                              color="primary"
+                              checked={isItemSelected}
+                              inputProps={{
+                                "aria-labelledby": labelId,
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "400",
+                              fontSize: "14px",
+                              border: "none",
                             }}
                           >
-                            <CircleIcon sx={{ fontSize: 12 }} color="success" />
-                            {status}
-                          </div>
-                        </TableCell>
-                        <TableCell
-                          data-column="three dots"
-                          sx={{
-                            fontWeight: "400",
-                            fontSize: "14px",
-                            border: "none",
-                          }}
-                        >
-                          <MoreVertIcon />
-                        </TableCell>
-                      </TableRow>
+                            {item.name}
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "400",
+                              fontSize: "14px",
+                              border: "none",
+                            }}
+                          >
+                            {/*
+                      {item.classes &&
+                      item.classes.length > 0 &&
+                      item.classes[item.classes.length - 1]["batch"] != ""
+                        ? item.classes[item.classes.length - 1]["batch"]
+                        : "-"}
+                      */}
+                            DVET Nashik Python
+                          </TableCell>
+
+                          <TableCell
+                            data-column="Last Class Title"
+                            sx={{
+                              fontWeight: "400",
+                              fontSize: "14px",
+                              border: "none",
+                            }}
+                          >
+                            {item.classes &&
+                            item.classes.length > 0 &&
+                            item.classes[item.classes.length - 1]["title"] != ""
+                              ? item.classes[item.classes.length - 1]["title"]
+                              : "-"}
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "400",
+                              fontSize: "14px",
+                              border: "none",
+                            }}
+                          >
+                            {format(item.last_class_date, "dd MMM, yyyy")}
+                          </TableCell>
+                          <TableCell
+                            data-column="Last class lang"
+                            sx={{ border: "none" }}
+                          >
+                            {item.classes &&
+                            item.classes.length > 0 &&
+                            item.classes[item.classes.length - 1]["lang"] != ""
+                              ? languageMap[
+                                  item.classes[item.classes.length - 1]["lang"]
+                                ]
+                              : "-"}
+                          </TableCell>
+                          <TableCell
+                            data-column="Status"
+                            sx={{
+                              fontWeight: "400",
+                              fontSize: "14px",
+                              border: "none",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-around",
+                              }}
+                              onClick={() => {
+                                setStatusName(item.name);
+                                setStatusDialog(true);
+                              }}
+                            >
+                              <CircleIcon
+                                sx={{ fontSize: 12 }}
+                                color="success"
+                              />
+                              {status}
+                            </div>
+                          </TableCell>
+                          <TableCell
+                            data-column="three dots"
+                            sx={{
+                              fontWeight: "400",
+                              fontSize: "14px",
+                              border: "none",
+                            }}
+                          >
+                            <MoreVertIcon />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          {isItemSelected || isItemSelected > 0 ? (
+                            <TableCell
+                              style={{ paddingBottom: 0, paddingTop: 0 }}
+                              colSpan={12}
+                            >
+                              <Collapse in={open} timeout="auto" unmountOnExit>
+                                <Box sx={{ margin: 1 }}>
+                                  <Typography
+                                    variant="h6"
+                                    gutterBottom
+                                    component="div"
+                                    sx={{ display: "flex" }}
+                                  >
+                                    <Avatar src="/broken-image.jpg" />
+                                    {item.name}
+                                  </Typography>
+                                  <Table size="small" aria-label="purchases">
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell sx={{ fontWeight: "bold" }}>
+                                          Email
+                                        </TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }}>
+                                          Phone
+                                        </TableCell>
+                                        <TableCell
+                                          align="right"
+                                          sx={{ fontWeight: "bold" }}
+                                        >
+                                          Duration (In Weeks)
+                                        </TableCell>
+                                        <TableCell
+                                          align="right"
+                                          sx={{ fontWeight: "bold" }}
+                                        >
+                                          Days Available
+                                        </TableCell>
+                                        <TableCell
+                                          align="right"
+                                          sx={{ fontWeight: "bold" }}
+                                        >
+                                          Preferred Time Slots
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      <TableRow>
+                                        <TableCell
+                                          component="th"
+                                          scope="row"
+                                          sx={{ border: "none" }}
+                                        >
+                                          {item.email}
+                                        </TableCell>
+                                        <TableCell sx={{ border: "none" }}>
+                                          -
+                                        </TableCell>
+                                        <TableCell
+                                          align="right"
+                                          sx={{ border: "none" }}
+                                        >
+                                          -
+                                        </TableCell>
+                                        <TableCell
+                                          align="right"
+                                          sx={{ border: "none" }}
+                                        >
+                                          {" "}
+                                          -
+                                        </TableCell>
+                                        <TableCell sx={{ border: "none" }}>
+                                          {" "}
+                                          -{" "}
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableBody>
+                                  </Table>
+                                </Box>
+                              </Collapse>
+                            </TableCell>
+                          ) : (
+                            ""
+                          )}
+                        </TableRow>
+                      </>
                     );
                   })
               ) : (
