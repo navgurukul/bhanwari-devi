@@ -24,12 +24,12 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
         Please provide your phone number.
       </Typography>
       <Typography variant="body1" gutterBottom color="text.secondary">
-        We will only use your number to contact you for volunteer related
-        matters. We never share it to any third party.
+        We only use your number to contact you for volunteer-related matters. We
+        never share it with any third party.
       </Typography>
       <Box sx={{ mt: 4 }}>
         <TextField
-          label="Phone Number"
+          label="Ten Digit phone Number"
           // <PhoneInput       //International
           onChange={handleChange}
           value={contact}

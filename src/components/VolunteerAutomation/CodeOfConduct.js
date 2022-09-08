@@ -18,15 +18,15 @@ function CodeOfConduct({ setDisable }) {
           Code of Conduct
         </Typography>
         <Typography variant="body1" color="text.secondary" mb={2}>
-          We work with girls (mostly minor) from low income families. Hence, it
-          is important that you as a volunteer understand and abide by the code
-          of conduct and privacy policy
+          We work with girls (primarily minors) from low-income families. Hence,
+          as a volunteer, you must understand and abide by the code of conduct
+          and privacy policy.
         </Typography>
         <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
           <Typography variant="body1" className={classes.TextContent}>
-            Video during calls are optional. If enabling video, please maintain
-            an appropriate dress standard
+            Video during calls is optional. If enabling video, please maintain
+            an appropriate dress standard.
           </Typography>
         </Box>
         <Box className={classes.displayIcon} mb={2}>
@@ -36,8 +36,8 @@ function CodeOfConduct({ setDisable }) {
             className={classes.TextContent}
             Typography
           >
-            Please keep the interactions polite. No abusive language and no
-            irrelevant materials should be shared in speech or writing
+            Please keep the interactions polite. No one should convey abusive
+            language and irrelevant material in speech or writing.
           </Typography>
         </Box>
         <Box className={classes.displayIcon} mb={2}>
@@ -47,8 +47,8 @@ function CodeOfConduct({ setDisable }) {
             className={classes.TextContent}
             Typography
           >
-            We respect yours and students privacy. Please do not share/ask for
-            personal contact details or social media handles
+            We respect your and the student's privacy. Please do not share/ask
+            for personal contact details.
           </Typography>
         </Box>
         <Box className={classes.displayIcon} mb={2}>
@@ -58,8 +58,8 @@ function CodeOfConduct({ setDisable }) {
             className={classes.TextContent}
             Typography
           >
-            Raise any concerns witnessed by you to the Meraki team and treat all
-            the students with fairness and dignity
+            Raise any concerns you witness to the Meraki team and treat all
+            students fairly and equally.
           </Typography>
         </Box>
         <Typography variant="body1" className={classes.TextContent} mb={2}>
