@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   },
   textField: {
     boxSizing: "border-box",
-    width: "90%",
+    width: "100%",
     borderRadius: "100px !important",
     "& .MuiOutlinedInput-root": {
       borderRadius: "100px !important",
