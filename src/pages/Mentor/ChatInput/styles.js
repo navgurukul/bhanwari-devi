@@ -33,6 +33,16 @@ const useStyles = makeStyles(() => ({
     },
   },
 
+  attachmentIcon: {
+    height: "22px",
+    width: "11px",
+    color: "#6D6D6D",
+  },
+  smileyIcon: {
+    height: "20px",
+    width: "20px",
+    color: "#6D6D6D",
+  },
   /*REPLY SECTION*/
   closeReplyMessage: {
     position: "absolute",

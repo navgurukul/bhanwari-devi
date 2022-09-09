@@ -1,4 +1,4 @@
-import { Box, TextField } from "@material-ui/core";
+import { Box, InputAdornment, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
 import ReplyIcon from "@mui/icons-material/Reply";
@@ -6,6 +6,23 @@ import CloseIcon from "@mui/icons-material/Close";
 import { getMemberName } from "../utils";
 import "./styles.scss";
 import useStyles from "./styles";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+
+const InputAdorns = {
+  startAdornment: [
+    <InputAdornment key="1" position="start">
+      {<AttachFileIcon style={{ color: "#6D6D6D", cursor: "pointer" }} />}
+    </InputAdornment>,
+    <InputAdornment key="2" position="start">
+      {
+        <SentimentSatisfiedAltIcon
+          style={{ color: "#6D6D6D", cursor: "pointer" }}
+        />
+      }
+    </InputAdornment>,
+  ],
+};
 
 export default ({
   onNewMessage,
@@ -77,12 +94,12 @@ export default ({
           className={classes.textField}
           variant="outlined"
           ref={inputRef}
-          placeholder="Enter a message..."
           value={value}
           onKeyDown={onKeyDown}
           onChange={(e) => {
             onChange(e.target.value);
           }}
+          InputProps={InputAdorns}
         />
         <img
           src={require("../assets/message-arrow.svg")}
