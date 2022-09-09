@@ -11,6 +11,7 @@ import { MATRIX_DOMAIN, fetchMessages, redactEvent, getMembers } from "./utils";
 import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
+import ChatNameBar from "./ChatNameBar";
 
 let PAGINATION_THRESHOLD = 200;
 
@@ -313,6 +314,7 @@ const Mentor = () => {
     return (
       <>
         <div className="room-chat">
+          <ChatNameBar />
           <Messages
             messages={roomMessages[selectedRoomId]}
             selfChatId={chat_id}

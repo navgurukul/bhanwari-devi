@@ -28,29 +28,8 @@ export default ({
 
   return (
     <>
-      <Container className="messages-container">
-        <div className="chat-name-bar">
-          <div className="chat-left-wrapper">
-            <Typography
-              style={{ fontWeight: 600 }}
-              className="chat-name"
-              variant="subtitle1"
-            >
-              DVET Pune Batch 1 Beginners
-            </Typography>
-            <CircleIcon className="dot" />
-            <Typography
-              style={{ fontWeight: 400, color: "#6D6D6D" }}
-              className="chat-name"
-              variant="body1"
-            >
-              40 Students
-            </Typography>
-            <InfoOutlinedIcon className="info" />
-          </div>
-          <ExitToAppOutlinedIcon className="exit" />
-        </div>
-        <div className="messages" onScroll={onScroll} ref={messagesRef}>
+      <Container className="messages">
+        <div className="messages-content" onScroll={onScroll} ref={messagesRef}>
           {messages &&
             messages
               .filter((message) => message.type === "m.room.message")
