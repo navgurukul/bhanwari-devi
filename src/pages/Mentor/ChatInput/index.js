@@ -1,7 +1,12 @@
+import { Box, Icon, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import ReplyIcon from "@mui/icons-material/Reply";
+import CloseIcon from "@mui/icons-material/Close";
 import { getMemberName } from "../utils";
 import "./styles.scss";
+import useStyles from "./styles";
 
 export default ({
   onNewMessage,
@@ -12,6 +17,7 @@ export default ({
 }) => {
   const [value, onChange] = useState("");
   const inputRef = useRef(null);
+  const classes = useStyles();
 
   useEffect(() => {
     if (replyMessage) {
@@ -44,21 +50,21 @@ export default ({
   return (
     <>
       {replyMessage && (
-        <div className="reply-message">
-          <i
-            className="fa fa-times close-reply-message"
+        <div className={classes.replyMessage}>
+          <CloseIcon
             onClick={() => {
               activateReplyToMessageState(null);
             }}
+            className={classes.closeReplyMessage}
           />
-          <div className="reply-to">
+          <div className={classes.replyTo}>
             <span>Reply to</span>
-            <i className="fa fa-reply reply-to-icon" />
+            <ReplyIcon className={classes.replyToIcon} />
           </div>
-          <div className="reply-message-content">
+          <div className={classes.replyMessageContent}>
             <Avatar name={replyMessageSenderName} style={{ marginRight: 12 }} />
             <div>
-              <div className="reply-message-sender-name">
+              <div className={classes.replyMessageSenderName}>
                 {replyMessageSenderName}
               </div>
               <div>{replyMessage.content.body}</div>
@@ -66,11 +72,12 @@ export default ({
           </div>
         </div>
       )}
-      <div className="chat-input-container">
-        <input
+      <Box className={classes.inputContainer}>
+        <TextField
           type="text"
+          className={classes.textField}
+          variant="outlined"
           ref={inputRef}
-          className="chat-input"
           placeholder="Enter a message..."
           value={value}
           onKeyDown={onKeyDown}
@@ -78,11 +85,12 @@ export default ({
             onChange(e.target.value);
           }}
         />
-        <i
-          className="fa fa-arrow-circle-left chat-input-icon"
+        <ArrowCircleRightIcon
+          color="primary"
           onClick={sendMessage}
+          className={classes.arrowIcon}
         />
-      </div>
+      </Box>
     </>
   );
 };

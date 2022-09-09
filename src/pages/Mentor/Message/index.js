@@ -9,7 +9,9 @@ import createDOMPurify from "dompurify";
 import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
-
+import { Typography } from "@material-ui/core";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import useStyles from "./styles";
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
 
@@ -39,7 +41,7 @@ export default ({
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
-
+  const classes = useStyles();
   const formatMessage = (message) => {
     switch (message.content.msgtype) {
       case "org.matrix.options":
@@ -112,23 +114,19 @@ export default ({
         }`}
       >
         {!isSelf && senderName && (
-          <Avatar name={senderName} style={{ marginRight: 12 }} />
+          <Avatar
+            name={senderName}
+            style={{ height: "40px", width: "40px", marginRight: 12 }}
+          />
         )}
         <div>
-          <div
+          {/* <div
             className={`message-header ${isSelf ? "" : "message-header-other"}`}
           >
             <div className="message-time">
               {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
             </div>
-            <div
-              className={`chat-message-sender ${
-                isSelf ? "chat-message-sender-self" : ""
-              }`}
-            >
-              {senderName}
-            </div>
-          </div>
+          </div> */}
           <div
             onMouseOver={handleMouseOver}
             className={getMessageClass("", isSelf)}
@@ -137,6 +135,16 @@ export default ({
               setIsMessageActionsDropdownOpen(false);
             }}
           >
+            {!isSelf && (
+              <Typography
+                className={`chat-message-sender ${
+                  isSelf ? "chat-message-sender-self" : ""
+                }`}
+                style={{ fontWeight: "bolder" }}
+              >
+                {senderName}
+              </Typography>
+            )}
             {replyToMessage && (
               <div className="reply-to-container">
                 <div className="reply-to-header">
@@ -168,6 +176,7 @@ export default ({
               </div>
             )}
             <span
+              className={classes.messageContent}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(
                   LinkifyHtml(formattedMessage.value, {
@@ -178,7 +187,7 @@ export default ({
             ></span>
             {isMessageActionsMenuOpen && messageActions.length > 0 && (
               <div className="actions-dropdown-trigger-container">
-                <button
+                {/* <button
                   className="actions-dropdown-trigger"
                   onClick={() => {
                     setIsMessageActionsDropdownOpen(
@@ -187,7 +196,15 @@ export default ({
                   }}
                 >
                   <i className="fa fa-chevron-down" />
-                </button>
+                </button> */}
+                <ExpandMoreIcon
+                  className="actions-dropdown-trigger"
+                  onClick={() => {
+                    setIsMessageActionsDropdownOpen(
+                      !isMessageActionsDropdownOpen
+                    );
+                  }}
+                />
                 <Dropdown
                   isOpen={isMessageActionsDropdownOpen}
                   options={messageActions}
@@ -196,10 +213,17 @@ export default ({
             )}
           </div>
           {formattedMessage.options && renderOptions(formattedMessage.options)}
+          <div
+            className={`message-header ${isSelf ? "" : "message-header-other"}`}
+          >
+            <div className="message-time">
+              {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
+            </div>
+          </div>
         </div>
-        {isSelf && senderName && (
+        {/*isSelf && senderName && (
           <Avatar name={senderName} style={{ marginLeft: 12 }} />
-        )}
+        )*/}
       </div>
     );
   }

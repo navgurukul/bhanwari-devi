@@ -33,7 +33,17 @@
   flex-direction: column;
   max-height: calc(100vh - 112px);
   overflow: auto;
-
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  a:link {
+    color: #48a145;
+    background-color: transparent;
+  }
+  a:visited {
+    color: #48a145;
+    background-color: transparent;
+  }
   @media screen and (max-width: 768px) {
     max-height: calc(100vh - 104px);
   }
