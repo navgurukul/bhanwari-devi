@@ -284,7 +284,9 @@ const Mentor = () => {
           role="navigation"
           style={{
             Height: "100vh",
-            overflowY: "scroll",
+            overflowY: "hidden",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <div
