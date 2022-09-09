@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useStyles from "./style";
 import { useSelector } from "react-redux";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 import {
   Box,
   Table,
@@ -29,7 +31,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { useDebounce } from "use-debounce";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CircleIcon from "@mui/icons-material/Circle";
-
 import GenerateReport from "./GenerateReport";
 import ChangeStatusModal from "./ChangeStatusModal";
 
@@ -48,6 +49,11 @@ function NewVolunteerDashboard(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
+  {
+    /* ------------------------- Functions for Status Modal Starts Here ------------------------- */
+  }
   const [statusDialog, setStatusDialog] = useState(false);
   const [status, setStatus] = useState("Active");
   const [statusName, setStatusName] = useState("");
@@ -177,7 +183,7 @@ function NewVolunteerDashboard(props) {
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }}>
             <TableHead>
-              <TableRow>
+              <TableRow className={classes.tablecontainerow}>
                 <TableCell padding="checkbox">
                   <Checkbox
                     color="primary"
@@ -192,41 +198,76 @@ function NewVolunteerDashboard(props) {
                     inputProps={{
                       "aria-label": "select all desserts",
                     }}
+                    onClick={() => setOpen(open)}
                   />
                 </TableCell>
-                <TableCell>
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Name
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Last Class Batch
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Last Class Title
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Last Class Date
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Class Language
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Status
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <MoreVertIcon />
-                </TableCell>
+                {selected.length > 0 ? (
+                  <>
+                    <TableCell>
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        {selected.length} rows are selected
+                      </Typography>
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        setStatusDialog(true);
+                      }}
+                    >
+                      <Typography
+                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        color="primary"
+                      >
+                        Status
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell colSpan={5}>
+                      <Typography
+                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        color="error"
+                      >
+                        Delete
+                      </Typography>
+                    </TableCell>
+                  </>
+                ) : (
+                  <>
+                    <TableCell>
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Name
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Last Class Batch
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Last Class Title
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Last Class Date
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Class Language
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Status
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <MoreVertIcon />
+                    </TableCell>
+                  </>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -265,6 +306,7 @@ function NewVolunteerDashboard(props) {
                               inputProps={{
                                 "aria-labelledby": labelId,
                               }}
+                              onClick={() => setOpen(open)}
                             />
                           </TableCell>
                           <TableCell
