@@ -45,29 +45,30 @@ export default ({
   const classes = useStyles();
 
   return (
-    <ListItem className={isSelected && classes.list} onClick={onSelect}>
-      <Grid container>
-        <Grid item xs={2}>
-          <Avatar name={name} />
-        </Grid>
-        <Grid item xs={8}>
-          <Box className={classes.roomText}>
-            <Typography variant="subtitle1">{name}</Typography>
-            <Box>
-              {subtitle ? (
-                <Typography variant="body2" color="textSecondary">
-                  {renderSubtitle()}
-                </Typography>
-              ) : (
-                ""
-              )}
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={2}>
-          <Box className={classes.msgNo}>10</Box>
-        </Grid>
-      </Grid>
+    <ListItem
+      className={isSelected ? classes.listItemSelected : classes.listItem}
+      onClick={onSelect}
+    >
+      <Avatar style={{ height: "48px", width: "48px" }} name={name} />
+      <Box className={classes.roomText}>
+        <Typography
+          className={classes.title}
+          style={{ fontWeight: 600 }}
+          variant="subtitle1"
+        >
+          {name}
+        </Typography>
+        <Typography
+          className={classes.subtitle}
+          variant="body2"
+          color="textSecondary"
+        >
+          {subtitle ? renderSubtitle() : "This is the new way to do..."}
+        </Typography>
+      </Box>
+      <Box className={classes.messageNumberCircle}>
+        <Typography className={classes.messageNumber}>10</Typography>
+      </Box>
     </ListItem>
 
     //   <div

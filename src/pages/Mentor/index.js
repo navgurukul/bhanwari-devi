@@ -287,12 +287,15 @@ const Mentor = () => {
             overflowY: "scroll",
           }}
         >
-          <div className={classes.batchGroupsContainer}>
+          <div
+            style={{ backgroundColor: "#FFF" }}
+            className={classes.batchGroupsContainer}
+          >
             <Typography
               className={classes.batchGroupsName}
               style={{ fontWeight: 600 }}
             >
-              Hello World
+              Batch Groups
             </Typography>
           </div>
           <ul className="rooms-navs-container">
