@@ -1,7 +1,6 @@
-import { Box, Icon, TextField } from "@material-ui/core";
+import { Box, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ReplyIcon from "@mui/icons-material/Reply";
 import CloseIcon from "@mui/icons-material/Close";
 import { getMemberName } from "../utils";
@@ -85,10 +84,10 @@ export default ({
             onChange(e.target.value);
           }}
         />
-        <ArrowCircleRightIcon
-          color="primary"
-          onClick={sendMessage}
+        <img
+          src={require("../assets/message-arrow.svg")}
           className={classes.arrowIcon}
+          onClick={sendMessage}
         />
       </Box>
     </>

@@ -6,17 +6,20 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-around",
+
     "@media screen and (max-width: 768px)": {
       padding: "16px",
     },
   },
   textField: {
+    boxSizing: "border-box",
     width: "90%",
-    height: "48px !important",
     borderRadius: "100px !important",
     "& .MuiOutlinedInput-root": {
       borderRadius: "100px !important",
+    },
+    "& .MuiInputBase-input": {
+      outline: "none",
     },
   },
 
@@ -24,6 +27,7 @@ const useStyles = makeStyles(() => ({
     height: "48px !important",
     width: "48px !important",
     cursor: "pointer",
+    marginLeft: "15px",
     "@media screen and (max-width: 768px)": {
       right: "30px",
     },
