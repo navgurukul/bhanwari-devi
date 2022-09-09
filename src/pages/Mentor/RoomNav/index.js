@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Avatar from "../../../components/common/Avatar";
-import Dropdown from "../../../components/common/Dropdown";
-import format from "date-fns/format";
-import { leaveRoom } from "../utils";
 import "./styles.scss";
 import { Box, Typography, Grid } from "@material-ui/core";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import useStyles from "./Styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { breakpoints } from "../../../theme/constant";
+import useStyles from "./styles.js";
 import ListItem from "@mui/material/ListItem";
-import { display, width } from "@mui/system";
+
+// import Dropdown from "../../../components/common/Dropdown";
+// import format from "date-fns/format";
+// import { leaveRoom } from "../utils";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
+// import useMediaQuery from "@mui/material/useMediaQuery";
+// import { breakpoints } from "../../../theme/constant";
+// import { display, width } from "@mui/system";
 
 export default ({
   name,
@@ -20,26 +21,26 @@ export default ({
   roomId,
   accessToken,
 }) => {
-  const [isMessageActionsDropdownOpen, setIsMessageActionsDropdownOpen] =
-    useState(false);
+  // const [isMessageActionsDropdownOpen, setIsMessageActionsDropdownOpen] =
+  //   useState(false);
   const subtitle = lastMessage ? lastMessage.text : "";
 
   const renderSubtitle = () => {
     return subtitle.length > 30 ? subtitle.slice(0, 27) + "..." : subtitle;
   };
 
-  const roomActions = [
-    {
-      label: "Leave room",
-      value: "leave room",
-      onClick: () => {
-        leaveRoom({
-          roomId,
-          accessToken,
-        });
-      },
-    },
-  ];
+  // const roomActions = [
+  //   {
+  //     label: "Leave room",
+  //     value: "leave room",
+  //     onClick: () => {
+  //       leaveRoom({
+  //         roomId,
+  //         accessToken,
+  //       });
+  //     },
+  //   },
+  // ];
   // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
 

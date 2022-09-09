@@ -12,6 +12,8 @@ import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
 import ChatNameBar from "./ChatNameBar";
+import { Typography } from "@material-ui/core";
+import useStyles from "./styles";
 
 let PAGINATION_THRESHOLD = 200;
 
@@ -33,6 +35,7 @@ const Mentor = () => {
   });
   const [isInitializingClient, setInitializaingClient] = useState(true);
   const [roomMessages, setRoomMessage] = useState({});
+  const classes = useStyles();
 
   const onSendMessage = (message, roomId) => {
     const messageObj = {
@@ -284,6 +287,14 @@ const Mentor = () => {
             overflowY: "scroll",
           }}
         >
+          <div className={classes.batchGroupsContainer}>
+            <Typography
+              className={classes.batchGroupsName}
+              style={{ fontWeight: 600 }}
+            >
+              Hello World
+            </Typography>
+          </div>
           <ul className="rooms-navs-container">
             {rooms.map((room) => {
               return (
