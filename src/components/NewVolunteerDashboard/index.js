@@ -224,39 +224,73 @@ function NewVolunteerDashboard(props) {
                     onClick={() => setOpen(open)}
                   />
                 </TableCell>
-                <TableCell>
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Name
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Last Class Batch
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Last Class Title
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Last Class Date
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Class Language
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                    Status
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <MoreVertIcon />
-                </TableCell>
+                {selected.length > 0 ? (
+                  <>
+                    <TableCell>
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        {selected.length} rows are selected
+                      </Typography>
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        setStatusDialog(true);
+                      }}
+                    >
+                      <Typography
+                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        color="primary"
+                      >
+                        Status
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell colSpan={5}>
+                      <Typography
+                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        color="error"
+                      >
+                        Delete
+                      </Typography>
+                    </TableCell>
+                  </>
+                ) : (
+                  <>
+                    <TableCell>
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Name
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Last Class Batch
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Last Class Title
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Last Class Date
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Class Language
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                        Status
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="left">
+                      <MoreVertIcon />
+                    </TableCell>
+                  </>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
