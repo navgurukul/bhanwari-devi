@@ -36,12 +36,8 @@ import CourseEnroll from "../../BatchClassComponents/EnrollInCourse/EnrollInCour
 import DoubtClassExerciseComponent from "../../BatchClassComponents/DoubtClassExerciseComponent";
 import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
 import { actions as upcomingBatchesActions } from "../..//PathwayCourse/redux/action";
-import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
-
-
+// import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
 import ClassTopic from "../ClassTopic/ClassTopic";
-// import { Container, Box, Typography, Button, Grid } from "@mui/material";
-import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
@@ -371,7 +367,6 @@ function ExerciseContent({
   }, [params.pathwayId]);
 
   function ExerciseContentMain() {
-
     const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
 
@@ -381,9 +376,8 @@ function ExerciseContent({
           <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
         )}
         <Grid container justifyContent={"center"}>
-
           <Grid xs={0} item>
-            <Box sx={{ m:  "32px 0px" }}>
+            <Box sx={{ m: "32px 0px" }}>
               <Box>
                 {courseData?.content_type == "class_topic" &&
                   enrolledBatches && <ClassTopic courseData={courseData} />}

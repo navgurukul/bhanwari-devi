@@ -21,15 +21,15 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <Typography variant="h6" gutterBottom>
-        Please let us verify your phone number
+        Please provide your phone number.
       </Typography>
-      <Typography variant="body1" gutterBottom>
-        We will only use your number to contact you for volunteer related
-        matters. We never share it to any third party.
+      <Typography variant="body1" gutterBottom color="text.secondary">
+        We only use your number to contact you for volunteer-related matters. We
+        never share it with any third party.
       </Typography>
       <Box sx={{ mt: 4 }}>
         <TextField
-          label="Phone Number"
+          label="Ten Digit phone Number"
           // <PhoneInput       //International
           onChange={handleChange}
           value={contact}
