@@ -399,7 +399,7 @@ function NewVolunteerDashboard(props) {
                           </TableCell>
                         </TableRow>
                         <TableRow>
-                          {isItemSelected || isItemSelected > 0 ? (
+                          {open > 0 ? (
                             <TableCell
                               style={{ paddingBottom: 0, paddingTop: 0 }}
                               colSpan={12}
