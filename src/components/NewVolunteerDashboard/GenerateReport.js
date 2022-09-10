@@ -10,11 +10,24 @@ import {
   IconButton,
   Radio,
   RadioGroup,
+  TextField,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { Dayjs } from "dayjs";
+
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import moment from "moment";
+
 const GenerateReport = (props) => {
   const { generateDialog, setGenerateDialog } = props;
+  const [value, setValue] = React.useState("1");
+
+  const valuee = document.querySelector('[name="duration"]:checked');
+  const widthOfMoal = value === "custom" ? "602px" : "458px";
+
   return (
     <Dialog
       open={generateDialog}
@@ -32,8 +45,8 @@ const GenerateReport = (props) => {
           padding: "32px",
           gap: "32px",
 
+          height: `${widthOfMoal}`,
           width: "420px",
-          height: "458px",
 
           borderRadius: "8px",
         }}
@@ -74,30 +87,67 @@ const GenerateReport = (props) => {
             marginLeft: "30px",
           }}
         >
-          <FormControl>
+          <FormControl name="duration">
             <FormLabel id="demo-radio-buttons-group-label">
               Choose Duration
             </FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="active"
+              value={value}
               name="radio-buttons-group"
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
             >
               <FormControlLabel
-                value="active"
+                value="1"
                 control={<Radio />}
                 label="Last 1 month"
               />
               <FormControlLabel
-                value="inactive"
+                value="3"
                 control={<Radio />}
                 label="Last 3 months"
               />
               <FormControlLabel
-                value="droopedout"
+                value="custom"
                 control={<Radio />}
                 label="Custom"
               />
+              {value === "custom" && (
+                <div>
+                  <TextField
+                    // sx={{ mb: 4 }}
+                    type="date"
+                    variant="outlined"
+                    inputProps={{
+                      min: moment().format("YYYY-MM-DD"),
+                    }}
+                    name="date"
+                    label="Start Date"
+                    value={moment().format("YYYY-MM-DD")}
+                    sx={{
+                      marginTop: "16px",
+                    }}
+                    fullWidth
+                  />
+                  <TextField
+                    // sx={{ mb: 4 }}
+                    type="date"
+                    variant="outlined"
+                    inputProps={{
+                      min: moment().format("YYYY-MM-DD"),
+                    }}
+                    name="date"
+                    label="To Date"
+                    value={moment().format("YYYY-MM-DD")}
+                    sx={{
+                      marginTop: "16px",
+                    }}
+                    fullWidth
+                  />
+                </div>
+              )}
             </RadioGroup>
           </FormControl>
         </div>

@@ -18,6 +18,8 @@ import {
   Grid,
   Button,
   Collapse,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -33,6 +35,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CircleIcon from "@mui/icons-material/Circle";
 import GenerateReport from "./GenerateReport";
 import ChangeStatusModal from "./ChangeStatusModal";
+import MenuItem from "@mui/material/MenuItem";
+import MenuComponent from "./MenuComponent";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { Select } from "@material-ui/core";
 
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
@@ -51,11 +57,15 @@ function NewVolunteerDashboard(props) {
   const [debouncedText] = useDebounce(searchTerm);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
+  const [filter, setFilter] = useState(false);
+  const [statusFilter, setStatusFilter] = useState(1);
+  const [langFilter, setLangFilter] = useState(1);
+
   {
     /* ------------------------- Functions for Status Modal Starts Here ------------------------- */
   }
   const [statusDialog, setStatusDialog] = useState(false);
-  const [status, setStatus] = useState("Active");
+  const [status, setStatus] = useState("Newly Onboarded");
   const [statusName, setStatusName] = useState("");
   const [generateDialog, setGenerateDialog] = useState(false);
 
@@ -143,8 +153,20 @@ function NewVolunteerDashboard(props) {
   return (
     <div>
       <Container maxWidth="lg">
-        <Grid container spacing={1}>
-          <Grid item xs={9}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            marginTop: "20px",
+          }}
+        >
+          <Grid
+            item
+            sx={{
+              width: "930px",
+              height: "48px",
+            }}
+          >
             <TextField
               InputProps={{
                 startAdornment: (
@@ -152,6 +174,7 @@ function NewVolunteerDashboard(props) {
                     <SearchIcon sx={{ color: "black" }} />
                   </InputAdornment>
                 ),
+                style: { fontSize: "14px" },
               }}
               fullWidth
               type="text"
@@ -163,7 +186,13 @@ function NewVolunteerDashboard(props) {
               }}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid
+            item
+            sx={{
+              position: "relative",
+              bottom: "15px",
+            }}
+          >
             <Button
               variant="outlined"
               sx={{
@@ -180,11 +209,224 @@ function NewVolunteerDashboard(props) {
           </Grid>
         </Grid>
 
-        <TableContainer component={Paper}>
+        <Grid
+          container
+          sx={{
+            height: "32px",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "flex-start",
+            padding: "0px",
+            gap: "16px",
+          }}
+          xs={6}
+        >
+          <Grid item>
+            <Button
+              variant="contained"
+              sx={{
+                borderRadius: "100px",
+                backgroundColor: "#48A145",
+                height: "32px",
+                color: "white",
+                fontWeight: 700,
+                fontSize: "14px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "16px",
+              }}
+            >
+              Python (40)
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              sx={{
+                borderRadius: "100px",
+                border: "1px solid #6D6D6D",
+                height: "32px",
+                color: "#6D6D6D",
+                fontWeight: 400,
+                fontSize: "14px",
+                boxSizing: "border-box",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Spoken English (20)
+            </Button>
+          </Grid>
+          <Grid
+            item
+            sx={{
+              boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              height: "32px",
+              position: "relative",
+              right: "10px",
+            }}
+            onClick={() => {
+              setFilter(!filter);
+              console.log(filter);
+              console.log("clicked");
+            }}
+          >
+            <Button
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                width: "77px",
+              }}
+            >
+              <FilterAltIcon
+                color={`${filter ? "primary" : "dark"}`}
+                sx={{
+                  height: "16px",
+                }}
+              />
+              <Typography
+                sx={{
+                  fontWeight: "700",
+                  fontSize: "14px",
+                  color: `${filter ? "#48A145" : "black"}`,
+                }}
+              >
+                Filter
+              </Typography>
+            </Button>
+          </Grid>
+        </Grid>
+
+        {filter && (
+          <Grid
+            container
+            xs={12}
+            sx={{
+              marginTop: "15px",
+            }}
+          >
+            <Grid
+              item
+              sx={{
+                fontSize: "14px",
+                fontWeight: "400",
+              }}
+            >
+              <FormControl variant="standard" sx={{ width: "254px" }}>
+                <InputLabel
+                  shrink={true}
+                  id="demo-simple-select-standard-label"
+                  sx={{
+                    position: "relative",
+                    bottom: "8px",
+                    fontSize: "14px",
+                    fontWeight: "400",
+                  }}
+                >
+                  Status
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={statusFilter}
+                  onChange={(e) => {
+                    setStatusFilter(e.target.value);
+                  }}
+                  label="Status"
+                  notched
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                  }}
+                  PaperProps={{
+                    style: {
+                      height: "48px",
+                      width: "254px",
+                    },
+                  }}
+                >
+                  <MenuItem value={1}>All</MenuItem>
+                  <MenuItem value={2}>Newly Onboarded</MenuItem>
+                  <MenuItem value={3}>Active</MenuItem>
+                  <MenuItem value={4}>Inactive</MenuItem>
+                  <MenuItem value={5}>Dropped Out</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                marginLeft: "20px",
+              }}
+            >
+              <FormControl
+                variant="standard"
+                sx={{ width: "254px", fontSize: "14px", fontWeight: "400" }}
+              >
+                <InputLabel
+                  shrink={true}
+                  id="demo-simple-select-standard-label"
+                  sx={{
+                    position: "relative",
+                    bottom: "8px",
+                    fontSize: "14px",
+                    fontWeight: "400",
+                  }}
+                >
+                  Language
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={langFilter}
+                  onChange={(e) => {
+                    setLangFilter(e.target.value);
+                  }}
+                  label="Language"
+                  notched
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                  }}
+                >
+                  <MenuItem value={1} s>
+                    All
+                  </MenuItem>
+                  <MenuItem value={2}>English</MenuItem>
+                  <MenuItem value={3}>Hindi</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        )}
+
+        <TableContainer
+          component={Paper}
+          sx={{
+            width: "1120px",
+            boxShadow: "none",
+            borderBottom: "2px solid rgba(163, 163, 163, 0.4) !important",
+          }}
+        >
           <Table sx={{ minWidth: 700 }}>
             <TableHead>
               <TableRow className={classes.tablecontainerow}>
-                <TableCell padding="checkbox">
+                <TableCell
+                  padding="checkbox"
+                  sx={{
+                    width: "56px",
+                  }}
+                >
                   <Checkbox
                     color="primary"
                     indeterminate={
@@ -205,11 +447,17 @@ function NewVolunteerDashboard(props) {
                   <>
                     <TableCell>
                       <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
-                        {selected.length} rows are selected
+                        {selected.length}{" "}
+                        {selected.length === 1 ? "row is " : "rows are "}
+                        selected
                       </Typography>
                     </TableCell>
                     <TableCell
                       onClick={() => {
+                        const valueToDisplay = `Total ${selected.length} ${
+                          selected.length === 1 ? "row is " : "rows are "
+                        } selected`;
+                        setStatusName(valueToDisplay);
                         setStatusDialog(true);
                       }}
                     >
@@ -217,7 +465,7 @@ function NewVolunteerDashboard(props) {
                         sx={{ fontWeight: "600", fontSize: "14px" }}
                         color="primary"
                       >
-                        Status
+                        Change Statuses
                       </Typography>
                     </TableCell>
 
@@ -249,21 +497,46 @@ function NewVolunteerDashboard(props) {
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                      <Typography
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "14px",
+                        }}
+                      >
                         Last Class Date
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                      <Typography
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "14px",
+                        }}
+                      >
                         Class Language
                       </Typography>
                     </TableCell>
-                    <TableCell align="left">
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        width: "140px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "14px",
+                        }}
+                      >
                         Status
                       </Typography>
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "#BDBDBD",
+                      }}
+                    >
                       <MoreVertIcon />
                     </TableCell>
                   </>
@@ -375,28 +648,31 @@ function NewVolunteerDashboard(props) {
                             sx={{
                               fontWeight: "400",
                               fontSize: "14px",
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "flex-start",
+                              width: "140px",
                               border: "none",
                             }}
                           >
-                            <div
-                              style={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "space-around",
+                            <CircleIcon
+                              sx={{
+                                fontSize: 12,
+                                color: "#2196F3",
+                                width: "8px",
+                                height: "8px",
+                                marginLeft: 0,
                               }}
-                              onClick={() => {
-                                setStatusName(item.name);
-                                setStatusDialog(true);
+                            />
+                            <p
+                              style={{
+                                marginLeft: "5px",
+                                height: "21px",
                               }}
                             >
-                              <CircleIcon
-                                sx={{ fontSize: 12 }}
-                                color="success"
-                              />
                               {status}
-                            </div>
+                            </p>
                           </TableCell>
                           <TableCell
                             data-column="three dots"
@@ -404,9 +680,14 @@ function NewVolunteerDashboard(props) {
                               fontWeight: "400",
                               fontSize: "14px",
                               border: "none",
+                              color: "#BDBDBD",
                             }}
                           >
-                            <MoreVertIcon />
+                            <MenuComponent
+                              itemname={item.name}
+                              setStatusName={setStatusName}
+                              setStatusDialog={setStatusDialog}
+                            />
                           </TableCell>
                         </TableRow>
                         <TableRow>
@@ -513,6 +794,10 @@ function NewVolunteerDashboard(props) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            position: "relative",
+            right: "20px",
+          }}
         />
       </Container>
 

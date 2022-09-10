@@ -74,12 +74,14 @@ const ChangeStatusModal = (props) => {
             marginLeft: "22px",
           }}
         >
-          <AccountCircleIcon
-            sx={{
-              height: "48px",
-              width: "48px",
-            }}
-          />
+          {!statusName.includes("Total", 0) && (
+            <AccountCircleIcon
+              sx={{
+                height: "48px",
+                width: "48px",
+              }}
+            />
+          )}
           <span
             style={{
               fontSize: "18px",
