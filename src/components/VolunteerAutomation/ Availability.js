@@ -19,12 +19,6 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import itLocale from "date-fns/locale/it";
 
 function Availability({ setAvailability, availability, setDisable }) {
-  // const [availability, setAvailability] = React.useState({
-  //   durarion: "",
-  //   on_days: [],
-  //   time: [],
-  // });
-
   const days = {
     MO: "Mon",
     TU: "Tue",
@@ -76,7 +70,7 @@ function Availability({ setAvailability, availability, setDisable }) {
         Please tell us your availability to teach
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
-        We recommend giving about 3 hours per week for about 15 weeks duration
+        We recommend giving nearly 3 hours per week for about 15 weeks duration.
       </Typography>
 
       <Box sx={{ mt: 4 }}>
