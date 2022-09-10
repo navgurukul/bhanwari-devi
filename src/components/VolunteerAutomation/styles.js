@@ -21,9 +21,11 @@ const useStyles = makeStyles((theme) => ({
   displayIcon: {
     display: "flex",
     marginTop: "9px",
+    color: "#6D6D6D",
   },
   TextContent: {
     paddingLeft: "10px",
+    color: "#000000",
   },
 
   VolunteerHrline: {

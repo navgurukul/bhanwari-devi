@@ -113,7 +113,7 @@ function ResidentialProgramme() {
         </Grid>
       </Box>
 
-      <Stack sx={{ mt: 8 }} alignItems="center">
+      <Stack sx={{ mt: isActive ? 4 : 8 }} alignItems="center">
         <Typography variant="h6">Have you completed the overview?</Typography>
         <Link
           style={{

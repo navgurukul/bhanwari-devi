@@ -9,16 +9,18 @@ import {
   Card,
   CardContent,
   CardActions,
+  useMediaQuery,
 } from "@mui/material";
 import { PATHS } from "../../constant";
 import { useSelector } from "react-redux";
-import { METHODS } from "../../services/api";
-import axios from "axios";
 import useStyles from "./styles";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { breakpoints } from "../../theme/constant";
 
 function VolunteerAutomation() {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const user = useSelector(({ User }) => User);
   let history = useHistory();
 
@@ -60,7 +62,7 @@ function VolunteerAutomation() {
             </Box>
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
-              <Typography className={classes.TextContent}>
+              <Typography variant="body1" pl="10px" color="text.primary">
                 Support students from low income families to get their first job
                 in tech.
               </Typography>
@@ -85,7 +87,7 @@ function VolunteerAutomation() {
       </Grid>
 
       <Typography
-        sx={{ mt: 5, mb: { xs: "16px", md: "32px" } }}
+        sx={{ mt: { xs: "48px", md: "40px" }, mb: { xs: "16px", md: "32px" } }}
         variant="h5"
         align="center"
         gutterBottom
@@ -93,7 +95,7 @@ function VolunteerAutomation() {
         Areas to Volunteer In
       </Typography>
 
-      <Grid sx={{ mb: 14 }} container spacing={4}>
+      <Grid container spacing={4}>
         <Grid item xs={12} ms={6} md={6}>
           <Card elevation={4} className={classes.volunteerCard}>
             <Box>
@@ -116,7 +118,6 @@ function VolunteerAutomation() {
                   <Typography
                     variant="subtitle1"
                     className={classes.TextContent}
-                    Typography
                   >
                     Spoken English
                   </Typography>
@@ -137,7 +138,7 @@ function VolunteerAutomation() {
                   with Python or has an excellent command of English.
                 </Typography>
               </CardContent>
-              <CardActions sx={{ mt: 16.8 }}>
+              <CardActions sx={{ mt: isActive ? 0 : 13.8 }}>
                 <Button
                   onClick={handleClick}
                   variant="contained"
@@ -158,55 +159,43 @@ function VolunteerAutomation() {
               </Typography>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   UX/Graphic Design
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Android (Kotlin)
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Front End Dev (React)
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography className={classes.TextContent}>
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Back End Dev
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography className={classes.TextContent}>
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Project Management
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography className={classes.TextContent}>
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Curriculum Creation & Translation
                 </Typography>
               </Box>
-              <Box sx={{ mt: "12px" }}>
+              <Box sx={{ mt: isActive ? "16px" : "12px" }}>
                 <Typography variant="body1">
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
                     Expected effort
@@ -222,7 +211,7 @@ function VolunteerAutomation() {
                 </Typography>
               </Box>
             </CardContent>
-            <CardActions sx={{ mt: 3 }}>
+            <CardActions>
               <Button
                 href="https://docs.google.com/forms/d/e/1FAIpQLScHvysncnhJkSMtpdpGl_uPhJWlE81hp6l5m2mvuE1hoxX-dQ/viewform"
                 target="_blank"
