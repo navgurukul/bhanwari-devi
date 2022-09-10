@@ -45,28 +45,24 @@ function VolunteerAutomation() {
             <Typography variant="h4" gutterBottom>
               Help Students Get their Dream Job and Build their Career in Tech
             </Typography>
-
             <Typography sx={{ mt: 4 }}>
               <hr align="left" className={classes.VolunteerHrline} />
             </Typography>
-
             <Typography variant="h6" sx={{ mt: 4 }}>
               Why Volunteer?
             </Typography>
-
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography className={classes.TextContent}>
-                Gain experience and wide network to leverage for advancing your
-                own skills and career prospects.
+                Gain a wide network to leverage for advancing your skills and
+                career prospects.
               </Typography>
             </Box>
-
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography className={classes.TextContent}>
                 Support students from low income families to get their first job
-                in tech
+                in tech.
               </Typography>
             </Box>
           </Box>
@@ -137,8 +133,8 @@ function VolunteerAutomation() {
                   variant="body1"
                   color="text.secondary"
                 >
-                  Please volunteer only if you are professional who has worked
-                  with Python or have great command over English
+                  Please volunteer only if you are a professional who has worked
+                  with Python or has an excellent command of English.
                 </Typography>
               </CardContent>
               <CardActions sx={{ mt: 16.8 }}>
@@ -160,7 +156,6 @@ function VolunteerAutomation() {
               <Typography gutterBottom variant="h6" component="div">
                 Tech
               </Typography>
-
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
                 <Typography
@@ -223,7 +218,7 @@ function VolunteerAutomation() {
                   color="text.secondary"
                   variant="body1"
                 >
-                  You will taken to a Google form
+                  You will be taken to a Google form.
                 </Typography>
               </Box>
             </CardContent>
