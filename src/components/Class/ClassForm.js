@@ -282,14 +282,15 @@ function ClassForm({
   ]);
 
   const courses =
-    data.Pathways.data &&
-    data.Pathways.data.pathways[0] &&
-    data.Pathways.data.pathways[0].courses.map((item) => {
-      return {
-        label: item.name,
-        value: item.id,
-      };
-    }) || [];
+    (data.Pathways.data &&
+      data.Pathways.data.pathways[0] &&
+      data.Pathways.data.pathways[0].courses.map((item) => {
+        return {
+          label: item.name,
+          value: item.id,
+        };
+      })) ||
+    [];
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id

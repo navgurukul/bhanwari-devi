@@ -15,8 +15,6 @@ import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-// const {languageMap} = require("../../pages/CourseContent/languageMap");
-
 import {
   Container,
   Box,
@@ -27,9 +25,16 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import languageMap from "../../pages/CourseContent/languageMap";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
+
+const languageMap = {
+  hi: "Hindi",
+  en: "English",
+  te: "Telugu",
+  ta: "Tamil",
+  mr: "Marathi",
+};
 
 const Exercise = ({
   course,
