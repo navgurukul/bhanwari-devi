@@ -65,7 +65,7 @@ function MiscellaneousCourses() {
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: 10 }}>
+        <Box sx={{ mt: isActive ? 5 : 10 }}>
           <Typography variant="h5" align={isActive ? "center" : "left"}>
             Courses
           </Typography>
@@ -87,7 +87,7 @@ function MiscellaneousCourses() {
                       className={classes.pathwayCard}
                       sx={{
                         background: "#EEF1F5",
-                        m: "15px",
+                        m: isActive ? "0px" : "15px",
                         height: "190px",
                         display: "flex",
                         flexDirection: "column",

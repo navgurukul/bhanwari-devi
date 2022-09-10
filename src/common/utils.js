@@ -15,6 +15,15 @@ const getIsMobile = () => {
   return check;
 };
 
+const isTouchScreen = () => {
+  // https://stackoverflow.com/a/4819886
+  return (
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+  );
+};
+
 const getQueryVariable = (queryVars) => {
   var query = window.location.search.substring(1);
   var vars = query.split("&");
@@ -28,4 +37,4 @@ const getQueryVariable = (queryVars) => {
 
 const hasOneFrom = (arr1, arr2) => arr2.some((item) => arr1.includes(item));
 
-module.exports = { getIsMobile, getQueryVariable, hasOneFrom };
+module.exports = { getIsMobile, getQueryVariable, hasOneFrom, isTouchScreen };

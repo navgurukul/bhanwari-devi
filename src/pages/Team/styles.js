@@ -46,7 +46,11 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: "none",
     marginBottom: "6rem",
   },
-  team_responsiveContainer: { marginTop: "4rem", padding: "0" },
+  team_responsiveContainer: {
+    marginTop: "61px",
+    // marginTop: "4rem",
+    padding: "0",
+  },
   team_infoResponsiveContainer: {
     padding: "0",
     marginTop: "1rem",

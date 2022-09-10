@@ -49,7 +49,7 @@ function Opportunities() {
   return (
     <>
       <Container maxWidth="lg">
-        <Grid container columnSpacing={2} mb={8} mt={5}>
+        <Grid container columnSpacing={2} mb={8} mt={4}>
           <Grid item xs={12}>
             <Typography variant="h5">
               Curated list of opportunities to skyrocket your career
@@ -61,7 +61,10 @@ function Opportunities() {
             </Grid>
             <Grid container>
               <Grid xs={12} sm={4} md={4}>
-                <Card elevation={2} className={classes.cards}>
+                <Card
+                  elevation={2}
+                  className={isActive ? classes.mobileCards : classes.cards}
+                >
                   <CardContent>
                     <Grid container>
                       <Grid item xs={7} sm={9} md={9} mr={{ xs: 5, sm: 0 }}>
@@ -69,7 +72,13 @@ function Opportunities() {
                           NavGurukul One-Year Residential Programmme
                         </Typography>
                       </Grid>
-                      <Grid item xs={3} sm={1} md={3}>
+                      <Grid
+                        item
+                        xs={3}
+                        sm={1}
+                        md={3}
+                        style={{ display: "flex", justifyContent: "right" }}
+                      >
                         <Chip
                           label="Featured"
                           variant="caption"
@@ -99,7 +108,10 @@ function Opportunities() {
                 </Card>
               </Grid>
               <Grid item xs={12} sm={4} md={4} pt={{ xs: 2, sm: 0 }}>
-                <Card elevation={2} className={classes.cards}>
+                <Card
+                  elevation={2}
+                  className={isActive ? classes.mobileCards : classes.cards}
+                >
                   <CardContent>
                     <Typography variant="subtitle1">
                       HyperVerge Fellowships

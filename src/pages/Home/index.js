@@ -265,8 +265,9 @@ function Home() {
                   <Stack sx={{ mt: 2 }} alignItems="center">
                     <img src={require("./assets/down-swirly.svg")} />
                   </Stack>
-                  <Box sx={{ mt: 3 }}>
+                  <Box sx={{ my: isActive ? 3 : 4 }}>
                     <PathwayCard
+                      hover={false}
                       description={concernsText[index].description}
                     />
                   </Box>

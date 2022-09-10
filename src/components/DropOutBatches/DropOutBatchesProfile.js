@@ -21,6 +21,8 @@ import { Link } from "react-router-dom";
 
 function DropOutIndividualComponent(props) {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const { title, id, pathway_name, open, setOpen, start_time, end_time } =
     props;
   const close = () => {
@@ -83,6 +85,7 @@ function DropOutIndividualComponent(props) {
 function DropOutBatchesProfile() {
   const [dropOutBatches, setDropOutBatches] = useState(null);
   const [open, setOpen] = useState(false);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const user = useSelector(({ User }) => User);
   useEffect(() => {
@@ -113,7 +116,7 @@ function DropOutBatchesProfile() {
         flexDirection: "column",
         width: "100%",
         alignItems: "center",
-        margin: "40px 0",
+        margin: isActive ? "16px 0px" : "40px 0",
       }}
     >
       <div>
