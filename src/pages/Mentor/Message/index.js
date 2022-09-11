@@ -80,15 +80,6 @@ export default ({
 
   if (formattedMessage) {
     let messageActions = [];
-    if (isSelf) {
-      messageActions.push({
-        label: "Delete message",
-        value: "delete",
-        onClick: () => {
-          deleteMessage(message.event_id);
-        },
-      });
-    }
 
     if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
       messageActions.push({
@@ -105,6 +96,26 @@ export default ({
       "content['m.relates_to']['m.in_reply_to']"
     );
 
+    if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
+      messageActions.push({
+        label: "Copy",
+        value: "copy",
+        onClick: () => {
+          navigator.clipboard.writeText(message.content?.body);
+        },
+      });
+    }
+
+    if (isSelf) {
+      messageActions.push({
+        className: "DropdownDelete",
+        label: "Delete",
+        value: "delete",
+        onClick: () => {
+          deleteMessage(message.event_id);
+        },
+      });
+    }
     return (
       <div
         className={`chat-message-container ${

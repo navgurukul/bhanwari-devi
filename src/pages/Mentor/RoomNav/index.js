@@ -2,7 +2,7 @@ import React from "react";
 import Avatar from "../../../components/common/Avatar";
 import "./styles.scss";
 import { Box, Typography, Grid } from "@material-ui/core";
-import useStyles from "./styles.js";
+import useStyles from "./Styles.js";
 import ListItem from "@mui/material/ListItem";
 
 // import Dropdown from "../../../components/common/Dropdown";
