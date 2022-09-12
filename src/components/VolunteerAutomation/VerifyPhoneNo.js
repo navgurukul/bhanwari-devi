@@ -25,14 +25,7 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_messagingSenderId,
   appId: process.env.REACT_APP_appId,
 };
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDNyh5_lBDfVmPNeI9ahLn41ek0ra3dvoE",
-//   authDomain: "expenseit-82590.firebaseapp.com",
-//   projectId: "expenseit-82590",
-//   storageBucket: "expenseit-82590.appspot.com",
-//   messagingSenderId: "178332335583",
-//   appId: "1:178332335583:web:94709b49c3b57dc8a6186a",
-// };
+
 const appVerifier = window.recaptchaVerifier;
 const app = initializeApp(firebaseConfig);
 
