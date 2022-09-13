@@ -41,11 +41,21 @@ const OurPartner = () => {
     <>
       <Container maxWidth="lg">
         <Container maxWidth="md">
-          <Typography variant="h5" align="center" mt={isActive ? 3 : 0}>
+          <Typography
+            variant="h5"
+            align="center"
+            mt={isActive ? 3 : 0}
+            mb={isActive && 2}
+          >
             Our Partners
           </Typography>
-          <hr className={classes.underline} />
-          <Typography variant="body1" className={classes.typography} mb={4}>
+          {!isActive && <hr className={classes.underline} />}
+
+          <Typography
+            variant="body1"
+            className={classes.typography}
+            mb={isActive ? 2 : 4}
+          >
             Meraki has partnered with individual schools, NGOs and state
             governments to provide students from low income families a step in
             the door of tech industry. Do you work with students that want to
@@ -57,12 +67,12 @@ const OurPartner = () => {
               target="_blank"
             >
               <Button
-                Width
                 component="span"
                 size="larger"
                 variant="contained"
                 color="primary"
                 mb={10}
+                style={{ width: isActive && "355px" }}
               >
                 Join As a Partner
               </Button>
@@ -94,11 +104,11 @@ const OurPartner = () => {
             </Grid>
           </Grid>
         </Container>
-        <Container sx={{ mt: 10 }}>
-          <Typography variant="h4" align="center">
+        <Container sx={{ mt: isActive ? 8 : 10 }}>
+          <Typography variant="h4" align="center" mb={isActive && 2}>
             Partner List{" "}
           </Typography>
-          <hr className={classes.underline} />
+          {!isActive && <hr className={classes.underline} />}
           <Grid container spacing={isActive ? 2 : 3}>
             {Object.keys(partner).map((item) => {
               return (
@@ -111,16 +121,17 @@ const OurPartner = () => {
                         sx={{
                           minWidth: 275,
                           height: isActive ? 185 : 250,
-                          mb: isActive ? 0 : 4,
+                          mb: isActive ? 1 : 4,
                         }}
                       >
                         <CardContent
-                          sx={{ height: isActive ? "125px" : "170px" }}
+                          sx={{ height: isActive ? "110px" : "170px" }}
                         >
                           <Typography
                             variant="subtitle1"
                             color="text.secondary"
                             gutterBottom
+                            mb={1}
                           >
                             {partner[item].Name}
                           </Typography>

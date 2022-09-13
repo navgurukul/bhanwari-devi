@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ModelBox: {
     margin: "80px",
-    padding: "32px",
+    padding: "16px",
     borderRadius: "8px",
   },
   successModel: {
