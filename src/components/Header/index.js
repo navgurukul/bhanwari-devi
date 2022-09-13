@@ -170,6 +170,8 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
           <AuthenticatedHeaderOption
             toggleDrawer={toggleDrawer}
             leftDrawer={leftDrawer}
+            setRole={setRole}
+            role={role}
           />
         ) : (
           <PublicMenuOption
