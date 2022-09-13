@@ -137,7 +137,7 @@ function VolunteerAutomation() {
                   with Python or has an excellent command of English.
                 </Typography>
               </CardContent>
-              <CardActions sx={{ mt: 16.8 }}>
+              <CardActions sx={{ mt: 12.9 }}>
                 <Button
                   onClick={handleClick}
                   variant="contained"
