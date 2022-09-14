@@ -9,6 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import { selectRolesData } from "../../components/User/redux/selectors";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
@@ -19,6 +20,13 @@ import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
+import { useHistory } from "react-router-dom";
+import {
+  ADMIN_ROLE_KEY as ADMIN,
+  PARTNER_ROLE_KEY as PARTNER,
+  STUDENT_ROLE_KEY as STUDENT,
+  VOLUNTEER_ROLE_KEY as VOLUNTEER,
+} from "../../components/Header/constant";
 
 const pathwayData = [
   {
@@ -85,8 +93,38 @@ const concernsText = [
 ];
 
 function MerakiEntry(props) {
+  const user = useSelector(({ User }) => User);
+  const roles = useSelector(selectRolesData);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
+  const history = useHistory();
+
+  const partnerGroupId = user?.data?.user?.partner_group_id;
+  const partnerId = user?.data?.user?.partner_id;
+  const role = user?.data?.user?.rolesList;
+
+  const rolesLandingPages = {
+    [STUDENT]: PATHS.NEW_USER_DASHBOARD,
+    [ADMIN]: PATHS.PARTNERS,
+    [VOLUNTEER]: PATHS.CLASS,
+    [PARTNER]: partnerGroupId
+      ? `${PATHS.STATE}/${partnerGroupId}`
+      : `${PATHS.PARTNERS}/${partnerId}`,
+  };
+
+  let defalutPage = "/";
+  roles.map((userRole) => {
+    if (role?.length == 0) {
+      defalutPage = "/pathway/1";
+    } else if (role && userRole.key === role[0].toUpperCase()) {
+      defalutPage = rolesLandingPages[userRole.key];
+    }
+  });
+
+  useEffect(() => {
+    history.push(defalutPage);
+  }, [defalutPage]);
+
   return (
     <div>
       <Typography
