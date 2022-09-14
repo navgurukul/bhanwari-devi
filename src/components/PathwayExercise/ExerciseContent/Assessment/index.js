@@ -229,6 +229,7 @@ function Assessment({
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
+  const [pageLoad, setPageLoad] = useState(false);
   const params = useParams();
   console.log("data", courseData);
 
@@ -302,6 +303,7 @@ function Assessment({
       },
     }).then((res) => {
       console.log("res", res);
+      setPageLoad(true);
       if (
         res?.data?.attempt_status === "CORRECT" ||
         res?.data?.attempt_count == 2
@@ -331,62 +333,64 @@ function Assessment({
   }, [exerciseId]);
 
   return (
-    <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
-      {data &&
-        data.map((content) => (
-          <AssessmentContent
-            content={content}
-            answer={answer}
-            setAnswer={setAnswer}
-            setSolution={setSolution}
-            submit={submit}
-            setSubmit={setSubmit}
-            correct={correct}
-            setTriedAgain={setTriedAgain}
-            setSubmitDisable={setSubmitDisable}
-            submitDisable={submitDisable}
-          />
-        ))}
+    pageLoad && (
+      <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
+        {data &&
+          data.map((content) => (
+            <AssessmentContent
+              content={content}
+              answer={answer}
+              setAnswer={setAnswer}
+              setSolution={setSolution}
+              submit={submit}
+              setSubmit={setSubmit}
+              correct={correct}
+              setTriedAgain={setTriedAgain}
+              setSubmitDisable={setSubmitDisable}
+              submitDisable={submitDisable}
+            />
+          ))}
 
-      <Box textAlign="center" sx={{ display: submitDisable && "none" }}>
-        <Button
-          variant="contained"
-          sx={{ width: "256px", p: "8px 16px 8px 16px" }}
-          color={answer ? "primary" : "secondary"}
-          disabled={!answer}
-          onClick={submitAssessment}
-        >
-          Submit
-        </Button>
-      </Box>
+        <Box textAlign="center" sx={{ display: submitDisable && "none" }}>
+          <Button
+            variant="contained"
+            sx={{ width: "256px", p: "8px 16px 8px 16px" }}
+            color={answer ? "primary" : "secondary"}
+            disabled={!answer}
+            onClick={submitAssessment}
+          >
+            Submit
+          </Button>
+        </Box>
 
-      {data &&
-        submit &&
-        data.map((content) => {
-          const dataArr =
-            content.value && correct
-              ? content.value.correct
-              : content.value.incorrect;
-          console.log("dataArr", dataArr);
-          return (
-            content.component === "output" &&
-            dataArr.map((content, index) => (
-              <AssessmentContent
-                content={content}
-                index={index}
-                correct={correct}
-                setTriedAgain={setTriedAgain}
-                setAnswer={setAnswer}
-                submit={submit}
-                setSubmit={setSubmit}
-                setSubmitDisable={setSubmitDisable}
-                triedAgain={triedAgain}
-                submitDisable={submitDisable}
-              />
-            ))
-          );
-        })}
-    </Container>
+        {data &&
+          submit &&
+          data.map((content) => {
+            const dataArr =
+              content.value && correct
+                ? content.value.correct
+                : content.value.incorrect;
+            console.log("dataArr", dataArr);
+            return (
+              content.component === "output" &&
+              dataArr.map((content, index) => (
+                <AssessmentContent
+                  content={content}
+                  index={index}
+                  correct={correct}
+                  setTriedAgain={setTriedAgain}
+                  setAnswer={setAnswer}
+                  submit={submit}
+                  setSubmit={setSubmit}
+                  setSubmitDisable={setSubmitDisable}
+                  triedAgain={triedAgain}
+                  submitDisable={submitDisable}
+                />
+              ))
+            );
+          })}
+      </Container>
+    )
   );
 }
 
