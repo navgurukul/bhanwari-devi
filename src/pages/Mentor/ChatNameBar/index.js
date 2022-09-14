@@ -28,9 +28,8 @@ export default function ChatNameBar() {
         >
           40 Students
         </Typography>
-        <InfoOutlinedIcon className={classes.chatInfo} />
       </div>
-      <ExitToAppOutlinedIcon className={classes.chatExit} />
+      <InfoOutlinedIcon className={classes.chatInfo} />
     </div>
   );
 }

@@ -29,7 +29,6 @@ const useStyles = makeStyles(() => ({
     height: "20px",
     color: "#2196f3",
     cursor: "pointer",
-    marginLeft: "10px",
   },
   chatExit: {
     color: "#f44336",
