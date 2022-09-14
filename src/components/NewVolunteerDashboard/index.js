@@ -198,56 +198,20 @@ function NewVolunteerDashboard(props) {
           <Grid item>
             <Button
               variant="contained"
-              sx={{
-                borderRadius: "100px",
-                backgroundColor: "#48A145",
-                height: "32px",
-                color: "white",
-                fontWeight: 700,
-                fontSize: "14px",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "16px",
-              }}
+              className={classes.python}
+              //
             >
               Python (40)
             </Button>
           </Grid>
           <Grid item>
-            <Button
-              variant="outlined"
-              className={classes.learningTrack2}
-              sx={{
-                borderRadius: "100px",
-                border: "1px solid #6D6D6D",
-                height: "32px",
-                color: "#6D6D6D",
-                fontWeight: 400,
-                fontSize: "14px",
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <Button variant="outlined" className={classes.learningTrack2}>
               Spoken English (20)
             </Button>
           </Grid>
           <Grid
             item
-            sx={{
-              boxSizing: "border-box",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              height: "32px",
-              position: "relative",
-              right: "10px",
-            }}
+            className={classes.filterIcon}
             onClick={() => {
               setFilter(!filter);
               console.log(filter);
@@ -255,13 +219,14 @@ function NewVolunteerDashboard(props) {
             }}
           >
             <Button
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                width: "77px",
-              }}
+              // sx={{
+              //   display: "flex",
+              //   flexDirection: "row",
+              //   justifyContent: "flex-start",
+              //   alignItems: "center",
+              //   width: "77px",
+              // }}
+              className={classes.tableBtn}
             >
               <FilterAltIcon
                 color={`${filter ? "primary" : "dark"}`}
@@ -351,6 +316,7 @@ function NewVolunteerDashboard(props) {
                 <InputLabel
                   shrink={true}
                   id="demo-simple-select-standard-label"
+                  className={classes.inputLabel}
                   sx={{
                     position: "relative",
                     bottom: "8px",
@@ -385,14 +351,7 @@ function NewVolunteerDashboard(props) {
           </Grid>
         )}
 
-        <TableContainer
-          component={Paper}
-          sx={{
-            width: "1120px",
-            boxShadow: "none",
-            borderBottom: "2px solid rgba(163, 163, 163, 0.4) !important",
-          }}
-        >
+        <TableContainer component={Paper} className={classes.tablecontainer}>
           <Table sx={{ minWidth: 700 }}>
             <TableHead>
               <TableRow className={classes.tablecontainerow}>
@@ -420,7 +379,7 @@ function NewVolunteerDashboard(props) {
                 {selected.length > 0 ? (
                   <>
                     <TableCell>
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                      <Typography className={classes.tablecellHead}>
                         {selected.length}{" "}
                         {selected.length === 1 ? "row is " : "rows are "}
                         selected
@@ -436,7 +395,7 @@ function NewVolunteerDashboard(props) {
                       }}
                     >
                       <Typography
-                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        className={classes.tablecellHead}
                         color="primary"
                       >
                         Change Statuses
@@ -455,33 +414,28 @@ function NewVolunteerDashboard(props) {
                 ) : (
                   <>
                     <TableCell>
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                      <Typography className={classes.tablecellHead}>
                         Name
                       </Typography>
                     </TableCell>
 
                     <TableCell align="left">
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                      <Typography className={classes.tablecellHead}>
                         Last Class Batch
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                      <Typography className={classes.tablecellHead}>
                         Last Class Title
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                      <Typography className={classes.tablecellHead}>
                         Last Class Date
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      <Typography
-                        sx={{
-                          fontWeight: "600",
-                          fontSize: "14px",
-                        }}
-                      >
+                      <Typography className={classes.tablecellHead}>
                         Class Language
                       </Typography>
                     </TableCell>
@@ -491,12 +445,7 @@ function NewVolunteerDashboard(props) {
                         width: "140px",
                       }}
                     >
-                      <Typography
-                        sx={{
-                          fontWeight: "600",
-                          fontSize: "14px",
-                        }}
-                      >
+                      <Typography className={classes.tablecellHead}>
                         Status
                       </Typography>
                     </TableCell>
@@ -642,15 +591,7 @@ function NewVolunteerDashboard(props) {
                               border: "none",
                             }}
                           >
-                            <CircleIcon
-                              sx={{
-                                fontSize: 12,
-                                color: "#2196F3",
-                                width: "8px",
-                                height: "8px",
-                                marginLeft: 0,
-                              }}
-                            />
+                            <CircleIcon className={classes.circleIcon} />
                             <p
                               style={{
                                 marginLeft: "5px",
@@ -689,15 +630,7 @@ function NewVolunteerDashboard(props) {
                                     height: "135px",
                                   }}
                                 >
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      alignItems: "center",
-                                      marginTop: "20px",
-                                      marginLeft: "14px",
-                                    }}
-                                  >
+                                  <div className={classes.collapse}>
                                     <Avatar
                                       src="/broken-image.jpg"
                                       style={{
@@ -778,48 +711,28 @@ function NewVolunteerDashboard(props) {
                                         <TableCell
                                           component="th"
                                           scope="row"
-                                          sx={{
-                                            fontWeight: 400,
-                                            fontSize: "14px",
-                                            border: "none",
-                                          }}
+                                          className={classes.tableFont}
                                         >
                                           {item.email}
                                         </TableCell>
                                         <TableCell
                                           align="right"
-                                          sx={{
-                                            fontWeight: 400,
-                                            fontSize: "14px",
-                                            border: "none",
-                                          }}
+                                          className={classes.tableFont}
                                         >
                                           +914545454545
                                         </TableCell>
                                         <TableCell
-                                          sx={{
-                                            fontWeight: 400,
-                                            fontSize: "14px",
-                                            border: "none",
-                                          }}
+                                          className={classes.tableFont}
                                         >
                                           20
                                         </TableCell>
                                         <TableCell
-                                          sx={{
-                                            fontWeight: 400,
-                                            fontSize: "14px",
-                                            border: "none",
-                                          }}
+                                          className={classes.tableFont}
                                         >
                                           MO, TU, WE, TH, FR, SA, SU
                                         </TableCell>
                                         <TableCell
-                                          sx={{
-                                            fontWeight: 400,
-                                            fontSize: "14px",
-                                            border: "none",
-                                          }}
+                                          className={classes.tableFont}
                                         >
                                           11:00 AM, 2:00 PM, 5:00 PM
                                         </TableCell>

@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
+import useStyles from "./style";
 import { Dayjs } from "dayjs";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -22,6 +22,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
 
 const GenerateReport = (props) => {
+  const classes = useStyles();
   const { generateDialog, setGenerateDialog } = props;
   const [value, setValue] = React.useState("1");
 
@@ -39,15 +40,9 @@ const GenerateReport = (props) => {
     >
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          padding: "32px",
-          gap: "32px",
           height: `${widthOfMoal}`,
-          width: "420px",
-          borderRadius: "8px",
         }}
+        className={classes.dialogTypo}
       >
         <DialogTitle id="id">
           <Box
@@ -183,17 +178,7 @@ const GenerateReport = (props) => {
         <Button
           variant="contained"
           color="primary"
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "8px 16px",
-            gap: "10px",
-            margin: "auto",
-            width: "356px",
-            height: "48px",
-          }}
+          className={classes.dialogBtn}
         >
           Download
         </Button>

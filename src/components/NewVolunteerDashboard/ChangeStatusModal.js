@@ -11,10 +11,13 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import useStyles from "./style";
+
 import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const ChangeStatusModal = (props) => {
+  const classes = useStyles();
   const { statusDialog, setStatusDialog, statusName } = props;
   return (
     <Dialog
@@ -66,14 +69,7 @@ const ChangeStatusModal = (props) => {
             </Box>
           </Box>
         </DialogTitle>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            marginLeft: "22px",
-          }}
-        >
+        <div className={classes.dialogStatus}>
           {!statusName.includes("Total", 0) && (
             <AccountCircleIcon
               sx={{
@@ -126,7 +122,7 @@ const ChangeStatusModal = (props) => {
         <Button
           variant="contained"
           color="primary"
-          style={{
+          sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
@@ -137,6 +133,7 @@ const ChangeStatusModal = (props) => {
             width: "356px",
             height: "48px",
           }}
+          className={classes.dialogButton}
         >
           Confirm Status
         </Button>

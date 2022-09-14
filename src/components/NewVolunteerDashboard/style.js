@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     bottom: "15px",
   },
+  // ..........filter................
   filters: {
     height: "32px",
     display: "flex",
@@ -16,6 +17,61 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     padding: "0px",
     gap: "16px",
+  },
+  python: {
+    borderRadius: "100px !important",
+    backgroundColor: "#48A145",
+    maxHeight: "32px",
+    color: "white",
+    fontWeight: "700 !important",
+    fontSize: "14px !important",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "16px",
+  },
+  learningTrack2: {
+    borderRadius: "100px !important",
+    border: "1px solid #6D6D6D",
+    maxHeight: "32px",
+    color: "#6D6D6D",
+    fontWeight: "400 !important",
+    fontSize: "14px !important",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tableBtn: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    maxWidth: "77px",
+  },
+
+  filterIcon: {
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    maxHeight: "32px",
+    position: "relative",
+    right: "10px",
+  },
+  tablecellHead: {
+    fontWeight: "600 !important",
+    fontSize: "14px !important",
+  },
+
+  tablecontainer: {
+    // width: "1120px",
+    maxWidth: "1120px",
+    boxShadow: "none",
+    borderBottom: "2px solid rgba(163, 163, 163, 0.4) !important",
   },
   tablecontainerow: {
     backgroundColor: "white !important",
@@ -26,6 +82,26 @@ const useStyles = makeStyles((theme) => ({
   },
   tablebodyrowSelected: {
     backgroundColor: "#E9F5E9 !important",
+  },
+
+  circleIcon: {
+    fontSize: 12,
+    color: "#2196F3",
+    maxHeight: "8px",
+    maxWidth: "8px",
+    marginLeft: 0,
+  },
+  collapse: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: "20px",
+    marginLeft: "14px",
+  },
+  tableFont: {
+    fontWeight: 400,
+    fontSize: "14px !important",
+    border: "none",
   },
 
   /// menu component
@@ -39,6 +115,58 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "0px 4px 4px rgba(0, 0, 0, 0.06), 0px 8px 12px rgba(0, 0, 0, 0.04), 0px 4px 24px rgba(0, 0, 0, 0.08)",
     borderRadius: "8px",
+  },
+  menuTypography: {
+    maxHeight: "48px",
+    maxWidth: "128px",
+    display: "flex",
+    flexDirection: "row",
+
+    color: "black",
+    fontWeight: "400",
+    fontSize: "14px !important",
+    cursor: "pointer",
+    margin: "auto",
+  },
+  // ....................Generate Report..............
+  dialogTypo: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "32px",
+    gap: "32px",
+    // height: `${widthOfMoal}`,
+    width: "420px",
+    borderRadius: "8px",
+  },
+  dialogBtn: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "8px 16px",
+    gap: "10px",
+    margin: "auto",
+    width: "396px",
+    height: "48px",
+  },
+  // ..................changestatusmodal....................
+  dialogStatus: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: "22px",
+  },
+  dialogButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "8px 16px",
+    gap: "10px",
+    margin: "auto",
+    width: "356px",
+    height: "48px",
   },
 }));
 

@@ -60,6 +60,7 @@ const MenuComponent = (props) => {
               fontSize: "14px",
               cursor: "pointer",
             }}
+            className={classes.menuTypography}
             onClick={() => {
               setStatusName(itemname);
               setStatusDialog(true);
