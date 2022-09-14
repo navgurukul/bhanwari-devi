@@ -208,7 +208,7 @@ function Header() {
     [VOLUNTEER]: PATHS.CLASS,
     [PARTNER]: partnerGroupId
       ? `${PATHS.STATE}/${partnerGroupId}`
-      : `${PATHS.PARTNERS}/${partnerId}`,
+      : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
 
   const roleKey = roles.map((userRole) => userRole.key).find(key => key === role);
