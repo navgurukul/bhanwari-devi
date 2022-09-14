@@ -44,10 +44,8 @@ const GenerateReport = (props) => {
           alignItems: "flex-start",
           padding: "32px",
           gap: "32px",
-
           height: `${widthOfMoal}`,
           width: "420px",
-
           borderRadius: "8px",
         }}
       >
@@ -124,7 +122,7 @@ const GenerateReport = (props) => {
                       min: moment().format("YYYY-MM-DD"),
                     }}
                     name="date"
-                    label="Start Date"
+                    label="From Date"
                     value={moment().format("YYYY-MM-DD")}
                     sx={{
                       marginTop: "16px",

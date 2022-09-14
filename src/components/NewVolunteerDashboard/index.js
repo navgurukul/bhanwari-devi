@@ -61,9 +61,6 @@ function NewVolunteerDashboard(props) {
   const [statusFilter, setStatusFilter] = useState(1);
   const [langFilter, setLangFilter] = useState(1);
 
-  {
-    /* ------------------------- Functions for Status Modal Starts Here ------------------------- */
-  }
   const [statusDialog, setStatusDialog] = useState(false);
   const [status, setStatus] = useState("Newly Onboarded");
   const [statusName, setStatusName] = useState("");
@@ -153,6 +150,7 @@ function NewVolunteerDashboard(props) {
   return (
     <div>
       <Container maxWidth="lg">
+        {/* HEADER */}
         <Grid
           container
           spacing={2}
@@ -160,13 +158,7 @@ function NewVolunteerDashboard(props) {
             marginTop: "20px",
           }}
         >
-          <Grid
-            item
-            sx={{
-              width: "930px",
-              height: "48px",
-            }}
-          >
+          <Grid item className={classes.searchBar}>
             <TextField
               InputProps={{
                 startAdornment: (
@@ -186,19 +178,10 @@ function NewVolunteerDashboard(props) {
               }}
             />
           </Grid>
-          <Grid
-            item
-            sx={{
-              position: "relative",
-              bottom: "15px",
-            }}
-          >
+          <Grid item className={classes.generateReport}>
             <Button
               variant="outlined"
-              sx={{
-                fontWeight: "600",
-                fontSize: "14px",
-              }}
+              sx={{ fontWeight: "600", fontSize: "14px" }}
               onClick={() => {
                 setGenerateDialog(true);
               }}
@@ -208,19 +191,10 @@ function NewVolunteerDashboard(props) {
             </Button>
           </Grid>
         </Grid>
+        {/* END HEADER */}
 
-        <Grid
-          container
-          sx={{
-            height: "32px",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            padding: "0px",
-            gap: "16px",
-          }}
-          xs={6}
-        >
+        {/* FILTERS */}
+        <Grid container className={classes.filters} xs={6}>
           <Grid item>
             <Button
               variant="contained"
@@ -244,6 +218,7 @@ function NewVolunteerDashboard(props) {
           <Grid item>
             <Button
               variant="outlined"
+              className={classes.learningTrack2}
               sx={{
                 borderRadius: "100px",
                 border: "1px solid #6D6D6D",
@@ -570,7 +545,11 @@ function NewVolunteerDashboard(props) {
                           tabIndex={-1}
                           key={item.name}
                           selected={isItemSelected}
-                          className={classes.tablebodyrow}
+                          className={
+                            isItemSelected
+                              ? classes.tablebodyrowSelected
+                              : classes.tablebodyrow
+                          }
                         >
                           <TableCell padding="checkbox" sx={{ border: "none" }}>
                             <Checkbox
@@ -697,40 +676,90 @@ function NewVolunteerDashboard(props) {
                               colSpan={12}
                             >
                               <Collapse in={open} timeout="auto" unmountOnExit>
-                                <Box sx={{ margin: 1 }}>
-                                  <Typography
-                                    variant="h6"
-                                    gutterBottom
-                                    component="div"
-                                    sx={{ display: "flex" }}
+                                <Box
+                                  sx={{
+                                    height: "135px",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                      marginTop: "20px",
+                                      marginLeft: "14px",
+                                    }}
                                   >
-                                    <Avatar src="/broken-image.jpg" />
-                                    {item.name}
-                                  </Typography>
-                                  <Table size="small" aria-label="purchases">
+                                    <Avatar
+                                      src="/broken-image.jpg"
+                                      style={{
+                                        width: "32px",
+                                        height: "32px",
+                                      }}
+                                    />
+                                    <Typography
+                                      sx={{
+                                        fontWeight: 600,
+                                        fontSize: "14px",
+                                        marginLeft: "8px",
+                                      }}
+                                    >
+                                      {item.name}
+                                    </Typography>
+                                  </div>
+                                  <Table
+                                    size="small"
+                                    aria-label="purchases"
+                                    sx={{
+                                      marginTop: "10px",
+                                    }}
+                                  >
                                     <TableHead>
-                                      <TableRow>
-                                        <TableCell sx={{ fontWeight: "bold" }}>
+                                      <TableRow
+                                        sx={{
+                                          borderBottom:
+                                            "1.2px solid rgba(163, 163, 163, 0.4)",
+                                          paddingBottom: "50px",
+                                        }}
+                                      >
+                                        <TableCell
+                                          sx={{
+                                            fontWeight: 600,
+                                            fontSize: "14px",
+                                          }}
+                                        >
                                           Email
-                                        </TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }}>
-                                          Phone
                                         </TableCell>
                                         <TableCell
                                           align="right"
-                                          sx={{ fontWeight: "bold" }}
+                                          sx={{
+                                            fontWeight: 600,
+                                            fontSize: "14px",
+                                          }}
+                                        >
+                                          Phone
+                                        </TableCell>
+                                        <TableCell
+                                          sx={{
+                                            fontWeight: 600,
+                                            fontSize: "14px",
+                                          }}
                                         >
                                           Duration (In Weeks)
                                         </TableCell>
                                         <TableCell
-                                          align="right"
-                                          sx={{ fontWeight: "bold" }}
+                                          sx={{
+                                            fontWeight: 600,
+                                            fontSize: "14px",
+                                          }}
                                         >
                                           Days Available
                                         </TableCell>
                                         <TableCell
-                                          align="right"
-                                          sx={{ fontWeight: "bold" }}
+                                          sx={{
+                                            fontWeight: 600,
+                                            fontSize: "14px",
+                                          }}
                                         >
                                           Preferred Time Slots
                                         </TableCell>
@@ -741,29 +770,50 @@ function NewVolunteerDashboard(props) {
                                         <TableCell
                                           component="th"
                                           scope="row"
-                                          sx={{ border: "none" }}
+                                          sx={{
+                                            fontWeight: 400,
+                                            fontSize: "14px",
+                                            border: "none",
+                                          }}
                                         >
                                           {item.email}
                                         </TableCell>
-                                        <TableCell sx={{ border: "none" }}>
-                                          -
-                                        </TableCell>
                                         <TableCell
                                           align="right"
-                                          sx={{ border: "none" }}
+                                          sx={{
+                                            fontWeight: 400,
+                                            fontSize: "14px",
+                                            border: "none",
+                                          }}
                                         >
-                                          -
+                                          +914545454545
                                         </TableCell>
                                         <TableCell
-                                          align="right"
-                                          sx={{ border: "none" }}
+                                          sx={{
+                                            fontWeight: 400,
+                                            fontSize: "14px",
+                                            border: "none",
+                                          }}
                                         >
-                                          {" "}
-                                          -
+                                          20
                                         </TableCell>
-                                        <TableCell sx={{ border: "none" }}>
-                                          {" "}
-                                          -{" "}
+                                        <TableCell
+                                          sx={{
+                                            fontWeight: 400,
+                                            fontSize: "14px",
+                                            border: "none",
+                                          }}
+                                        >
+                                          MO, TU, WE, TH, FR, SA, SU
+                                        </TableCell>
+                                        <TableCell
+                                          sx={{
+                                            fontWeight: 400,
+                                            fontSize: "14px",
+                                            border: "none",
+                                          }}
+                                        >
+                                          11:00 AM, 2:00 PM, 5:00 PM
                                         </TableCell>
                                       </TableRow>
                                     </TableBody>

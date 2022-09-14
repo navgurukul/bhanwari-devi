@@ -1,12 +1,13 @@
 import React from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box } from "@mui/system";
+import useStyles from "./style";
 
 const MenuComponent = (props) => {
+  const classes = useStyles();
   const { itemname, setStatusName, setStatusDialog } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -45,20 +46,7 @@ const MenuComponent = (props) => {
           },
         }}
       >
-        <Box
-          style={{
-            width: "128px",
-            height: "96px",
-
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            padding: "0px",
-            boxShadow:
-              "0px 4px 4px rgba(0, 0, 0, 0.06), 0px 8px 12px rgba(0, 0, 0, 0.04), 0px 4px 24px rgba(0, 0, 0, 0.08)",
-            borderRadius: "8px",
-          }}
-        >
+        <Box className={classes.menuContainer}>
           <Typography
             sx={{
               width: "128px",
