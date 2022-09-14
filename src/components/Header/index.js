@@ -211,7 +211,8 @@ function Header() {
       : `${PATHS.PARTNERS}/${partnerId}`,
   };
 
-  const defaultPage = rolesLandingPages[roles.find((userRole) => userRole.key === role)] || "/";
+  const roleKey = roles.map((userRole) => userRole.key).find(key => key === role);
+  const defaultPage = rolesLandingPages[roleKey] || "/";
 
   const toggleDrawer = (open) => (event) => {
     if (
