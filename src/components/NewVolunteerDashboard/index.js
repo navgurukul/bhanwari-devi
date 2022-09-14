@@ -334,6 +334,8 @@ function NewVolunteerDashboard(props) {
                             />
                           </TableCell>
                           <TableCell
+                            component="th"
+                            scope="row"
                             hover
                             color="primary"
                             sx={{
@@ -347,6 +349,7 @@ function NewVolunteerDashboard(props) {
                             tabIndex={-1}
                             onClick={() => setOpen(!open)}
                           >
+                            {open}
                             {item.name}
                           </TableCell>
                           <TableCell
@@ -442,89 +445,85 @@ function NewVolunteerDashboard(props) {
                         </TableRow>
 
                         <TableRow>
-                          {open ? (
-                            <TableCell
-                              style={{ paddingBottom: 0, paddingTop: 0 }}
-                              colSpan={12}
-                            >
-                              <Collapse in={open} timeout="auto" unmountOnExit>
-                                <Box sx={{ margin: 1 }}>
-                                  <Typography
-                                    variant="h6"
-                                    gutterBottom
-                                    component="div"
-                                    sx={{ display: "flex" }}
-                                  >
-                                    <Avatar src="/broken-image.jpg" />
-                                    {item.name}
-                                  </Typography>
-                                  <Table size="small" aria-label="purchases">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell sx={{ fontWeight: "bold" }}>
-                                          Email
-                                        </TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }}>
-                                          Phone
-                                        </TableCell>
-                                        <TableCell
-                                          align="right"
-                                          sx={{ fontWeight: "bold" }}
-                                        >
-                                          Duration (In Weeks)
-                                        </TableCell>
-                                        <TableCell
-                                          align="right"
-                                          sx={{ fontWeight: "bold" }}
-                                        >
-                                          Days Available
-                                        </TableCell>
-                                        <TableCell
-                                          align="right"
-                                          sx={{ fontWeight: "bold" }}
-                                        >
-                                          Preferred Time Slots
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      <TableRow>
-                                        <TableCell
-                                          component="th"
-                                          scope="row"
-                                          sx={{ border: "none" }}
-                                        >
-                                          {item.email}
-                                        </TableCell>
-                                        <TableCell sx={{ border: "none" }}>
-                                          -
-                                        </TableCell>
-                                        <TableCell
-                                          align="right"
-                                          sx={{ border: "none" }}
-                                        >
-                                          -
-                                        </TableCell>
-                                        <TableCell
-                                          align="right"
-                                          sx={{ border: "none" }}
-                                        >
-                                          {" "}
-                                          -
-                                        </TableCell>
-                                        <TableCell sx={{ border: "none" }}>
-                                          {" "}
-                                          -{" "}
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  </Table>
-                                </Box>
-                              </Collapse>
-                            </TableCell>
-                          ) : (
-                            ""
-                          )}
+                          <TableCell
+                            style={{ paddingBottom: 0, paddingTop: 0 }}
+                            colSpan={12}
+                          >
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                              <Box sx={{ margin: 1 }}>
+                                <Typography
+                                  variant="h6"
+                                  gutterBottom
+                                  component="div"
+                                  sx={{ display: "flex" }}
+                                >
+                                  <Avatar src="/broken-image.jpg" />
+                                  {item.name}
+                                </Typography>
+                                <Table size="small" aria-label="purchases">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell sx={{ fontWeight: "bold" }}>
+                                        Email
+                                      </TableCell>
+                                      <TableCell sx={{ fontWeight: "bold" }}>
+                                        Phone
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ fontWeight: "bold" }}
+                                      >
+                                        Duration (In Weeks)
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ fontWeight: "bold" }}
+                                      >
+                                        Days Available
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ fontWeight: "bold" }}
+                                      >
+                                        Preferred Time Slots
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow>
+                                      <TableCell
+                                        component="th"
+                                        scope="row"
+                                        sx={{ border: "none" }}
+                                      >
+                                        {item.email}
+                                      </TableCell>
+                                      <TableCell sx={{ border: "none" }}>
+                                        -
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ border: "none" }}
+                                      >
+                                        -
+                                      </TableCell>
+                                      <TableCell
+                                        align="right"
+                                        sx={{ border: "none" }}
+                                      >
+                                        {" "}
+                                        -
+                                      </TableCell>
+                                      <TableCell sx={{ border: "none" }}>
+                                        {" "}
+                                        -{" "}
+                                      </TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </Box>
+                            </Collapse>
+                          </TableCell>
                         </TableRow>
                       </>
                     );
