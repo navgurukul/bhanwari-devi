@@ -48,7 +48,6 @@ function UserMenu() {
           }
         }}
         onClick={handleOpenUserMenu}
-        onMouseEnter={handleOpenUserMenu}
         sx={{ p: 0 }}
       >
         <Avatar alt="Remy Sharp" src={profilePict} />
