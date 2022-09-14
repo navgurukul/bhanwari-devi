@@ -415,7 +415,6 @@ function NewVolunteerDashboard(props) {
                     inputProps={{
                       "aria-label": "select all desserts",
                     }}
-                    onClick={() => setOpen(open)}
                   />
                 </TableCell>
                 {selected.length > 0 ? (
@@ -472,12 +471,7 @@ function NewVolunteerDashboard(props) {
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      <Typography
-                        sx={{
-                          fontWeight: "600",
-                          fontSize: "14px",
-                        }}
-                      >
+                      <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
                         Last Class Date
                       </Typography>
                     </TableCell>
@@ -538,11 +532,6 @@ function NewVolunteerDashboard(props) {
                     return (
                       <>
                         <TableRow
-                          hover
-                          onClick={(event) => handleClick(event, item.name)}
-                          role="checkbox"
-                          aria-checked={isItemSelected}
-                          tabIndex={-1}
                           key={item.name}
                           selected={isItemSelected}
                           className={
@@ -551,23 +540,41 @@ function NewVolunteerDashboard(props) {
                               : classes.tablebodyrow
                           }
                         >
-                          <TableCell padding="checkbox" sx={{ border: "none" }}>
+                          <TableCell
+                            hover
+                            onClick={(event) => handleClick(event, item.name)}
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
+                            selected={isItemSelected}
+                            padding="checkbox"
+                            sx={{ border: "none" }}
+                          >
                             <Checkbox
                               color="primary"
                               checked={isItemSelected}
                               inputProps={{
                                 "aria-labelledby": labelId,
                               }}
-                              onClick={() => setOpen(open)}
                             />
                           </TableCell>
                           <TableCell
+                            component="th"
+                            scope="row"
+                            hover
+                            color="primary"
                             sx={{
                               fontWeight: "400",
                               fontSize: "14px",
                               border: "none",
+                              "&:hover": {
+                                backgroundColor: "primary.light !important",
+                              },
                             }}
+                            tabIndex={-1}
+                            onClick={() => setOpen(!open)}
                           >
+                            {open}
                             {item.name}
                           </TableCell>
                           <TableCell
@@ -669,6 +676,7 @@ function NewVolunteerDashboard(props) {
                             />
                           </TableCell>
                         </TableRow>
+
                         <TableRow>
                           {isItemSelected || isItemSelected > 0 ? (
                             <TableCell
