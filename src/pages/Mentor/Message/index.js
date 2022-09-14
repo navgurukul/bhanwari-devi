@@ -224,8 +224,10 @@ export default ({
             )}
           </div>
           {formattedMessage.options && renderOptions(formattedMessage.options)}
-          <div className={classes.messageHeader}>
-            <div className={classes.messageTime}>
+          <div
+            className={`message-header ${isSelf ? "" : "message-header-other"}`}
+          >
+            <div className="message-time">
               {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
             </div>
           </div>

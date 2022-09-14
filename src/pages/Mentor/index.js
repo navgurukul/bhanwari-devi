@@ -300,7 +300,7 @@ const Mentor = () => {
               Batch Groups
             </Typography>
           </div>
-          <ul className={classes.roomsNavsContainer}>
+          <ul className="rooms-navs-container">
             {rooms.map((room) => {
               return (
                 <RoomNav
@@ -329,7 +329,7 @@ const Mentor = () => {
   const renderChat = () => {
     return (
       <>
-        <div className={classes.roomChat}>
+        <div className="room-chat">
           <ChatNameBar />
           <Messages
             messages={roomMessages[selectedRoomId]}
@@ -370,7 +370,7 @@ const Mentor = () => {
   };
 
   return (
-    <div className={classes.chatContainer}>
+    <div className="chat-container">
       {isInitializingClient ? (
         <Loader />
       ) : (
