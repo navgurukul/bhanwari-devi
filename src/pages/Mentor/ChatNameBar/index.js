@@ -11,9 +11,6 @@ export default function ChatNameBar() {
 
   const classes = useStyles({ desktop, laptop, mobile });
 
-  console.log("desktop ", desktop);
-  console.log("laptop ", laptop);
-  console.log("mobile ", mobile);
   return (
     <div className={classes.chatNameBar}>
       <div className={classes.chatLeftWrapper}>

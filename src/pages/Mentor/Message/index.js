@@ -9,7 +9,7 @@ import createDOMPurify from "dompurify";
 import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
-import { Typography } from "@material-ui/core";
+import { Typography, useMediaQuery } from "@material-ui/core";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 const window = new JSDOM("").window;
@@ -41,7 +41,11 @@ export default ({
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
-  const classes = useStyles();
+  const desktop = useMediaQuery("(min-width: 1200px)");
+  const laptop = useMediaQuery("(min-width: 769px) and (max-width: 1199px)");
+  const mobile = useMediaQuery("(max-width: 768px)");
+  const classes = useStyles({ desktop, laptop, mobile });
+
   const formatMessage = (message) => {
     switch (message.content.msgtype) {
       case "org.matrix.options":
