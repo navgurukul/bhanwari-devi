@@ -2,15 +2,15 @@ import React from "react";
 import Avatar from "../../../components/common/Avatar";
 import "./styles.scss";
 import { Box, Typography, Grid } from "@material-ui/core";
-import useStyles from "./styles.js";
+import useStyles from "./Styles.js";
 import ListItem from "@mui/material/ListItem";
 
 // import Dropdown from "../../../components/common/Dropdown";
 // import format from "date-fns/format";
 // import { leaveRoom } from "../utils";
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-// import { breakpoints } from "../../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../../theme/constant";
 // import { display, width } from "@mui/system";
 
 export default ({
@@ -41,7 +41,7 @@ export default ({
   //     },
   //   },
   // ];
-  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
 
   return (
@@ -50,7 +50,11 @@ export default ({
       onClick={onSelect}
     >
       <Avatar style={{ height: "48px", width: "48px" }} name={name} />
-      <Box className={classes.roomText}>
+      <Box
+        className={classes.roomText}
+        sx={{ width: isActive && 400 }}
+        pt={!isActive && "10px"}
+      >
         <Typography
           className={classes.title}
           style={{ fontWeight: 600 }}
