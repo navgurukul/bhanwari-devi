@@ -294,6 +294,7 @@ function Assessment({
   };
 
   useEffect(() => {
+    setPageLoad(true);
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
