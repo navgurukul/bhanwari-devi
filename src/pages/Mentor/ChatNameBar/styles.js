@@ -10,11 +10,16 @@ const useStyles = makeStyles(() => ({
     boxSizing: "border-box",
     position: "sticky",
   },
+
   chatLeftWrapper: {
     display: "flex",
-    width: "40%",
-    alignItems: "center",
+    flexDirection: (props) => (props.desktop ? "row" : "column"),
+    width: (props) =>
+      props.desktop ? "40%" : props.laptop ? "60%" : props.mobile ? "80%" : "",
+    alignItems: (props) => props.desktop && "center",
+    justifyContent: (props) => !props.desktop && "center",
   },
+
   chatName: {
     fontSize: "18px",
   },
