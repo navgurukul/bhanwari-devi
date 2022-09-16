@@ -35,7 +35,8 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
           Please choose what you’d like to teach
         </Typography>
         <Typography variant="body1" align="left" color="text.secondary">
-          We recommend giving about 2 hours per week for about 15 weeks duration
+          We run the learning tracks in a batch format with multiple live
+          classes.
         </Typography>
 
         <Grid container columnSpacing={isActive ? 2 : 0} mt={2} mb={2}>

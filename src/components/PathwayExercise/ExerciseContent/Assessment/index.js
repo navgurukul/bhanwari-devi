@@ -156,6 +156,8 @@ const AssessmentContent = ({
   }
   if (content.component === "questionExpression") {
     const text = DOMPurify.sanitize(get(content, "value"));
+    console.log("content", content);
+    console.log("text", text);
     return (
       <UnsafeHTML
         Container={Typography}
@@ -170,12 +172,11 @@ const AssessmentContent = ({
     return (
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
-          console.log("item", item.value);
+          const text = DOMPurify.sanitize(item.value.slice(2));
           return (
             <Paper
               elevation={3}
               sx={{
-                // height: "59px",
                 height: "auto",
                 mb: "16px",
                 cursor: "pointer",
@@ -195,7 +196,11 @@ const AssessmentContent = ({
                 <Typography variant="body1">
                   {item.value.slice(0, 2)}
                 </Typography>
-                <Typography variant="body1">{item.value.slice(2)}</Typography>
+                <UnsafeHTML
+                  Container={Typography}
+                  variant="body1"
+                  html={text}
+                />
               </Stack>
             </Paper>
           );
@@ -224,56 +229,11 @@ function Assessment({
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
+  const [pageLoad, setPageLoad] = useState(false);
   const params = useParams();
   console.log("data", courseData);
-  useEffect(() => {
-    if (courseData?.attempt_status?.selected_option) {
-      setAnswer(courseData.attempt_status.selected_option);
-      if (
-        courseData?.attempt_status?.selected_option ===
-        courseData?.content?.[2]?.value
-      ) {
-        setCorrect(true);
-        setStatus("pass");
-      } else {
-        setCorrect(false);
-        setStatus("fail");
-      }
-      setTriedAgain(2);
 
-      setSubmit(true);
-      setSubmitDisable(true);
-    } else {
-      axios({
-        method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-      }).then((res) => {
-        if (res.data.attempt_status != "NOT_ATTEMPTED") {
-          if (res?.data?.selected_option) {
-            setAnswer(res?.data?.selected_option);
-            if (
-              res?.data?.selected_option === courseData?.content?.[2]?.value
-            ) {
-              setCorrect(true);
-              setStatus("pass");
-            } else {
-              setCorrect(false);
-              setStatus("fail");
-            }
-            setTriedAgain(2);
-
-            setSubmit(true);
-            setSubmitDisable(true);
-          }
-        }
-      });
-    }
-  }, [exerciseId]);
-
+  // Assessment submit handler
   const submitAssessment = () => {
     setSubmit(true);
     axios({
@@ -333,62 +293,105 @@ function Assessment({
     }
   };
 
+  useEffect(() => {
+    setPageLoad(true);
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      console.log("res", res);
+      setPageLoad(true);
+      if (
+        res?.data?.attempt_status === "CORRECT" ||
+        res?.data?.attempt_count == 2
+      ) {
+        if (res?.data?.attempt_status === "CORRECT") {
+          setAnswer(res?.data?.selected_option);
+          setCorrect(true);
+          setStatus("pass");
+          setTriedAgain(2);
+          setSubmitDisable(true);
+          setSubmit(true);
+        } else if (res?.data?.attempt_status === "INCORRECT") {
+          setCorrect(false);
+          setTriedAgain(2);
+          setAnswer(res?.data?.selected_option);
+          setStatus("fail");
+          setSubmitDisable(true);
+          setSubmit(true);
+        }
+      } else if (res?.data?.attempt_count == 1) {
+        setSubmitDisable(true);
+        setAnswer(res?.data?.selected_option);
+        setSubmit(true);
+        setTriedAgain(res?.data?.attempt_count);
+      }
+    });
+  }, [exerciseId]);
+
   return (
-    <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
-      {data &&
-        data.map((content) => (
-          <AssessmentContent
-            content={content}
-            answer={answer}
-            setAnswer={setAnswer}
-            setSolution={setSolution}
-            submit={submit}
-            setSubmit={setSubmit}
-            correct={correct}
-            setTriedAgain={setTriedAgain}
-            setSubmitDisable={setSubmitDisable}
-            submitDisable={submitDisable}
-          />
-        ))}
+    pageLoad && (
+      <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
+        {data &&
+          data.map((content) => (
+            <AssessmentContent
+              content={content}
+              answer={answer}
+              setAnswer={setAnswer}
+              setSolution={setSolution}
+              submit={submit}
+              setSubmit={setSubmit}
+              correct={correct}
+              setTriedAgain={setTriedAgain}
+              setSubmitDisable={setSubmitDisable}
+              submitDisable={submitDisable}
+            />
+          ))}
 
-      <Box textAlign="center" sx={{ display: submitDisable && "none" }}>
-        <Button
-          variant="contained"
-          sx={{ width: "256px", p: "8px 16px 8px 16px" }}
-          color={answer ? "primary" : "secondary"}
-          disabled={!answer}
-          onClick={submitAssessment}
-        >
-          Submit
-        </Button>
-      </Box>
+        <Box textAlign="center" sx={{ display: submitDisable && "none" }}>
+          <Button
+            variant="contained"
+            sx={{ width: "256px", p: "8px 16px 8px 16px" }}
+            color={answer ? "primary" : "secondary"}
+            disabled={!answer}
+            onClick={submitAssessment}
+          >
+            Submit
+          </Button>
+        </Box>
 
-      {data &&
-        submit &&
-        data.map((content) => {
-          const dataArr =
-            content.value && correct
-              ? content.value.correct
-              : content.value.incorrect;
-          return (
-            content.component === "output" &&
-            dataArr.map((content, index) => (
-              <AssessmentContent
-                content={content}
-                index={index}
-                correct={correct}
-                setTriedAgain={setTriedAgain}
-                setAnswer={setAnswer}
-                submit={submit}
-                setSubmit={setSubmit}
-                setSubmitDisable={setSubmitDisable}
-                triedAgain={triedAgain}
-                submitDisable={submitDisable}
-              />
-            ))
-          );
-        })}
-    </Container>
+        {data &&
+          submit &&
+          data.map((content) => {
+            const dataArr =
+              content.value && correct
+                ? content.value.correct
+                : content.value.incorrect;
+            console.log("dataArr", dataArr);
+            return (
+              content.component === "output" &&
+              dataArr.map((content, index) => (
+                <AssessmentContent
+                  content={content}
+                  index={index}
+                  correct={correct}
+                  setTriedAgain={setTriedAgain}
+                  setAnswer={setAnswer}
+                  submit={submit}
+                  setSubmit={setSubmit}
+                  setSubmitDisable={setSubmitDisable}
+                  triedAgain={triedAgain}
+                  submitDisable={submitDisable}
+                />
+              ))
+            );
+          })}
+      </Container>
+    )
   );
 }
 
