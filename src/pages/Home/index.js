@@ -125,6 +125,8 @@ function MerakiEntry(props) {
     history.push(defalutPage);
   }, [defalutPage]);
 
+  console.log("Testing deployment in vercel");
+
   return (
     <div>
       <Typography
