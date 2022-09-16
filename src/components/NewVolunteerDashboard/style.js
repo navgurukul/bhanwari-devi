@@ -86,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
 
   circleIcon: {
     fontSize: 12,
-    color: "#2196F3",
     maxHeight: "8px",
     maxWidth: "8px",
     marginLeft: 0,

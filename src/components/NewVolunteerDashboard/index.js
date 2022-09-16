@@ -115,13 +115,14 @@ function NewVolunteerDashboard(props) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+      url: `${process.env.REACT_APP_MERAKI_URL}volunteers`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then((res) => {
       setVolunteer(res.data);
+
       setCacheVolunteer(res.data);
     });
   }, []);
@@ -218,16 +219,7 @@ function NewVolunteerDashboard(props) {
               console.log("clicked");
             }}
           >
-            <Button
-              // sx={{
-              //   display: "flex",
-              //   flexDirection: "row",
-              //   justifyContent: "flex-start",
-              //   alignItems: "center",
-              //   width: "77px",
-              // }}
-              className={classes.tableBtn}
-            >
+            <Button className={classes.tableBtn}>
               <FilterAltIcon
                 color={`${filter ? "primary" : "dark"}`}
                 sx={{
@@ -523,7 +515,6 @@ function NewVolunteerDashboard(props) {
                             tabIndex={-1}
                             onClick={() => setOpen(!open)}
                           >
-                            {open}
                             {item.name}
                           </TableCell>
                           <TableCell
@@ -591,14 +582,33 @@ function NewVolunteerDashboard(props) {
                               border: "none",
                             }}
                           >
-                            <CircleIcon className={classes.circleIcon} />
+                            <CircleIcon
+                              className={classes.circleIcon}
+                              sx={{
+                                color: `${
+                                  item.status === "active"
+                                    ? "#48A145"
+                                    : item.status === "inactive"
+                                    ? "#FFCC00"
+                                    : item.status === "droppedout"
+                                    ? "#F44336"
+                                    : "#2196F3"
+                                }`,
+                              }}
+                            />
                             <p
                               style={{
                                 marginLeft: "5px",
                                 height: "21px",
                               }}
                             >
-                              {status}
+                              {item.status === "active"
+                                ? "Active"
+                                : item.status === "inactive"
+                                ? "In Active"
+                                : item.status === "droppedout"
+                                ? "Dropped Out"
+                                : "Newly Onboarded"}
                             </p>
                           </TableCell>
                           <TableCell
