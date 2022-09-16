@@ -5,10 +5,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     align: "center",
   },
-  confirmationModal: {
-    marginTop: "300px",
-    padding: "20px",
-    borderRadius: "8px",
+  createCard: {
+    margin: "10px 16px 20px 5px",
   },
 }));
 

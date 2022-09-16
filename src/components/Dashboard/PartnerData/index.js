@@ -183,7 +183,7 @@ function PartnerDashboard() {
                 </th>
                 <th>Meraki - Android Link</th>
                 <th>Meraki - Web Link</th>
-                {/* <th>Partner specific url</th> */}
+                <th>Partner specific url</th>
               </tr>
             </thead>
             <tbody>
@@ -264,7 +264,7 @@ function PartnerDashboard() {
                         </div>
                       </td>
                     )}
-                    {/* <td data-column="Meraki Link">
+                    <td data-column="Meraki Link">
                       <a
                         className="meraki_link"
                         target="_blank"
@@ -284,7 +284,7 @@ function PartnerDashboard() {
                       >
                         <i className="clipboard fa fa-copy"></i>
                       </CopyToClipboard>
-                    </td> */}
+                    </td>
                   </tr>
                 );
               })}

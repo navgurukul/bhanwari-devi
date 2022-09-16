@@ -597,30 +597,29 @@ function StudentData() {
                           );
                         })}
                       </td>
-                      {((hasOneFrom(user.data.user.rolesList, [
+                      {hasOneFrom(user.data.user.rolesList, [
                         "partner_edit",
                         "partner",
                       ]) &&
-                        user.data.user.partner_id == id) ||
-                        hasOneFrom(user.data.user.rolesList, ["admin"])) && (
-                        <td data-column="Delete">
-                          <i
-                            className="class-card-action-icon class-card-edit fa fa-edit"
-                            onClick={() => {
-                              setOpenEditForm(true);
-                              setUserId(item.id);
-                              setUserName(item.name);
-                            }}
-                          />
-                          {loginUser == item.id ? null : (
+                        user.data.user.partner_id == id && (
+                          <td data-column="Delete">
                             <i
-                              style={{ marginLeft: "20px" }}
-                              className="class-card-action-icon fa fa-trash"
-                              onClick={() => removeStudent(item.id)}
+                              className="class-card-action-icon class-card-edit fa fa-edit"
+                              onClick={() => {
+                                setOpenEditForm(true);
+                                setUserId(item.id);
+                                setUserName(item.name);
+                              }}
                             />
-                          )}
-                        </td>
-                      )}
+                            {loginUser == item.id ? null : (
+                              <i
+                                style={{ marginLeft: "20px" }}
+                                className="class-card-action-icon fa fa-trash"
+                                onClick={() => removeStudent(item.id)}
+                              />
+                            )}
+                          </td>
+                        )}
                     </tr>
                   );
                 })}

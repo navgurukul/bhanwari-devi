@@ -17,7 +17,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
-import { isTouchScreen } from "../../../common/utils";
+import { isTouchScreen } from "../../../common/utils"; 
 
 /*
 const rolesLandingPages = {
@@ -53,8 +53,9 @@ function ChangeRole({
       onClick={() => {
         setRoleView(role.key);
         // localStorage.setItem(SELECTED_ROLE_KEY, role.key);
-        const idToSelectedRoleMap =
-          JSON.parse(localStorage.getItem(ID_TO_SELECTED_ROLE_MAP_KEY)) || {};
+        const idToSelectedRoleMap = JSON.parse(
+          localStorage.getItem(ID_TO_SELECTED_ROLE_MAP_KEY)
+        ) || {};
         idToSelectedRoleMap[uid] = role.key;
         localStorage.setItem(
           ID_TO_SELECTED_ROLE_MAP_KEY,
@@ -82,9 +83,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
   const lastSelectedRoleKey = JSON.parse(
     localStorage.getItem(ID_TO_SELECTED_ROLE_MAP_KEY)
   )?.[uid]; // || localStorage.getItem(SELECTED_ROLE_KEY);
-  const hasLastSelectedRole = roles.some(
-    (role) => role.key === lastSelectedRoleKey
-  );
+  const hasLastSelectedRole = roles.some((role) => role.key === lastSelectedRoleKey);
   const [roleView, setRoleView] = React.useState(
     hasLastSelectedRole ? lastSelectedRoleKey : defaultRole?.key
   );

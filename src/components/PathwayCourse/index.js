@@ -127,7 +127,22 @@ function PathwayCourse() {
   });
 
   console.log("upcomingBatchesData", upcomingBatchesData);
-
+  /*
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 10000);
+  }, [pathwayId]);
+  useEffect(() => {
+    if (
+      enrolledBatches?.length > 0 ||
+      userEnrolledClasses?.length > 0 ||
+      upcomingBatchesData?.length > 0
+    ) {
+      setLoading(false);
+    }
+  }, [upcomingBatchesData, enrolledBatches, userEnrolledClasses]);
+  */
   const history = useHistory();
 
   useEffect(() => {
@@ -147,6 +162,20 @@ function PathwayCourse() {
           authToken: user?.data?.token,
         })
       );
+      dispatch(
+        upcomingClassActions.getupcomingEnrolledClasses({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+      dispatch(
+        upcomingBatchesActions.getUpcomingBatches({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+
+      // /pathways/{pathwayId}/completePortion
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
@@ -162,28 +191,10 @@ function PathwayCourse() {
             [item.course_id]: item.completed_portion,
           }));
         });
+        console.log("completedPortionJason", completedPortionJason);
       });
     }
   }, [dispatch, pathwayId]);
-  useEffect(() => {
-    if (user?.data?.token && enrolledBatches?.length > 0) {
-      dispatch(
-        upcomingClassActions.getupcomingEnrolledClasses({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
-    } else {
-      if (user?.data?.token) {
-        dispatch(
-          upcomingBatchesActions.getUpcomingBatches({
-            pathwayId: pathwayId,
-            authToken: user?.data?.token,
-          })
-        );
-      }
-    }
-  }, [enrolledBatches]);
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
@@ -197,10 +208,18 @@ function PathwayCourse() {
   const pathwayCourseData = pathways.find((item) => {
     return item.id == pathwayId;
   });
+  useEffect(() => {
+    console.log(
+      upcomingBatchesData,
+      userEnrolledClasses,
+      pathwayCourse?.data?.courses,
+      "Here"
+    );
+  }, [upcomingBatchesData, userEnrolledClasses]);
 
   return (
     <>
-      {enrolledBatches && !loading ? (
+      {enrolledBatches ? (
         <>
           <Typography
             align="center"

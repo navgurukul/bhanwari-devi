@@ -9,7 +9,6 @@ import {
   Box,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { selectRolesData } from "../../components/User/redux/selectors";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
@@ -20,13 +19,6 @@ import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
-import { useHistory } from "react-router-dom";
-import {
-  ADMIN_ROLE_KEY as ADMIN,
-  PARTNER_ROLE_KEY as PARTNER,
-  STUDENT_ROLE_KEY as STUDENT,
-  VOLUNTEER_ROLE_KEY as VOLUNTEER,
-} from "../../components/Header/constant";
 
 const pathwayData = [
   {
@@ -93,38 +85,8 @@ const concernsText = [
 ];
 
 function MerakiEntry(props) {
-  const user = useSelector(({ User }) => User);
-  const roles = useSelector(selectRolesData);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  const history = useHistory();
-
-  const partnerGroupId = user?.data?.user?.partner_group_id;
-  const partnerId = user?.data?.user?.partner_id;
-  const role = user?.data?.user?.rolesList;
-
-  const rolesLandingPages = {
-    [STUDENT]: PATHS.NEW_USER_DASHBOARD,
-    [ADMIN]: PATHS.PARTNERS,
-    [VOLUNTEER]: PATHS.CLASS,
-    [PARTNER]: partnerGroupId
-      ? `${PATHS.STATE}/${partnerGroupId}`
-      : `${PATHS.PARTNERS}/${partnerId}`,
-  };
-
-  let defalutPage = "/";
-  roles.map((userRole) => {
-    if (role?.length == 0) {
-      defalutPage = "/pathway/1";
-    } else if (role && userRole.key === role[0].toUpperCase()) {
-      defalutPage = rolesLandingPages[userRole.key];
-    }
-  });
-
-  useEffect(() => {
-    history.push(defalutPage);
-  }, [defalutPage]);
-
   return (
     <div>
       <Typography
@@ -389,35 +351,29 @@ function Home() {
 
           {/* Section 8  */}
 
-          {
-            <Container
-              sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
-              maxWidth="sm"
+          {/* <Container
+            sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
+            maxWidth="sm"
+          >
+            <Typography
+              variant="h5"
+              component="h6"
+              align="center"
+              color="textPrimary"
+              gutterBottom
             >
-              <Typography
-                variant="h5"
-                component="h6"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                Have Questions?
-              </Typography>
-              <Typography
-                sx={{ mt: isActive ? 2 : 3 }}
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                Connect with us anytime for more information
-              </Typography>
-              <Grid
-                sx={{ mt: 1 }}
-                container
-                spacing={2}
-                justifyContent="center"
-              >
-                {/* <Grid item>
+              Have Questions?
+            </Typography>
+            <Typography
+              sx={{ mt: isActive ? 2 : 3 }}
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              Connect with us anytime for more information
+            </Typography>
+            <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
+              <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
                   <address
                     style={{
@@ -446,36 +402,35 @@ function Home() {
                     </ExternalLink>
                   </address>
                 </Typography>
-              </Grid> */}
-                <Grid item>
-                  <Typography align="center" color="primary" gutterBottom>
-                    <address>
-                      <span
-                        style={{
-                          color: "#2E2E2E",
-                          fontWeight: "bold",
-                          fontStyle: "normal",
-                        }}
-                      >
-                        Via Whatsapp:
-                      </span>
-                      <ExternalLink
-                        style={{
-                          textDecoration: "none",
-                          color: "#48a145",
-                          fontStyle: "normal",
-                        }}
-                        href="https://wa.me/918891300300"
-                      >
-                        {" "}
-                        +91 8891300300
-                      </ExternalLink>
-                    </address>
-                  </Typography>
-                </Grid>
               </Grid>
-            </Container>
-          }
+              <Grid item>
+                <Typography align="center" color="primary" gutterBottom>
+                  <address>
+                    <span
+                      style={{
+                        color: "#2E2E2E",
+                        fontWeight: "bold",
+                        fontStyle: "normal",
+                      }}
+                    >
+                      Via Whatsapp:
+                    </span>
+                    <ExternalLink
+                      style={{
+                        textDecoration: "none",
+                        color: "#48a145",
+                        fontStyle: "normal",
+                      }}
+                      href="tel:+918891300300"
+                    >
+                      {" "}
+                      +91 8891300300
+                    </ExternalLink>
+                  </address>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Container> */}
         </div>
       </main>
     </>

@@ -1,0 +1,44 @@
+@import "../../../sass/colors.scss";
+@import "../../../sass/mixins.scss";
+
+.ng-search {
+  display: flex;
+  margin: auto;
+  margin-bottom: 20px;
+
+  @include breakpoint-tablet {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  > input {
+    width: 100%;
+    border: 3px solid #83b344;
+    border-right: none;
+    padding: 5px;
+    height: 40px;
+    border-radius: 8px 0 0 8px;
+    font-size: 20px;
+    outline: none;
+    padding-left: 15px;
+    @include breakpoint-mobile {
+      font-size: 17px;
+    }
+  }
+
+  > input:focus {
+    color: black;
+    font-size: 18px;
+  }
+
+  > button {
+    width: 70px;
+    font-size: 25px;
+    height: 56px;
+    border: 1px solid #83b344;
+    background: #83b344;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+  }
+}

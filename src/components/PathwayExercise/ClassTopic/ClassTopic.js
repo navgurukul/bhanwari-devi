@@ -3,17 +3,11 @@ import React from "react";
 // import { TimeLeft } from "../../../constant";
 import { format } from "../../../common/date";
 import FutureOrPast from "../../common/FutureOrPast";
+import languageMap from "../../../pages/CourseContent/languageMap";
 import { breakpoints } from "../../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 function ClassTopic({ courseData }) {
-  const languageMap = {
-    hi: "Hindi",
-    en: "English",
-    te: "Telugu",
-    ta: "Tamil",
-    mr: "Marathi",
-  };
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   return (
     <>
@@ -86,3 +80,4 @@ function ClassTopic({ courseData }) {
 }
 
 export default ClassTopic;
+// adding This Changes

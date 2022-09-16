@@ -4,7 +4,6 @@ en.ABOUT = "About";
 en.GET_INVOLVED = "Get Involved";
 en.OUR_STORY = "Our Story";
 en.DASHBOARD = "Dashboard";
-en.STATEPARTNER = "State Partners";
 en.SWITCH_VIEWS = "Switch Views";
 en.SWITCH_TO_VIEW = "Switch to %1 View";
 en.STUDENT = "Student";

@@ -12,22 +12,17 @@ import { actions as classActions } from "../redux/action";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Modal from "../../common/Modal";
 import Loader from "../../common/Loader";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import {
   Typography,
   Card,
   Grid,
   Button,
   Box,
-  Stack,
   Menu,
   MenuItem,
-  Checkbox,
   CardActions,
-  Dialog,
-  DialogTitle,
-  DialogActions,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -323,7 +318,7 @@ function ClassCard({ item, editClass }) {
             </>
           )}
 
-          {!rolesList.includes("volunteer") && item.enrolled && (
+          {!rolesList.includes("volunteer") && (
             <MenuItem
               onClick={() => handleClickOpenUnenroll(item.id)}
               sx={{ width: 120, margin: "0px 10px" }}
@@ -372,6 +367,8 @@ function ClassCard({ item, editClass }) {
                 <Loader />
               </div>
             ) : (
+              // <h1>Poonam</h1>
+              // <EnrolledAndTimer item={item} />
               <ClassJoinTimerButton
                 startTime={item?.start_time}
                 link={item?.meet_link}
@@ -396,235 +393,136 @@ function ClassCard({ item, editClass }) {
       </Card>
       <Box>
         {showModal ? (
-          <Dialog
-            open={showModal}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to delete this class?
-              </Typography>
-            </DialogTitle>
+          <Modal onClose={handleClickOpen} className="confirmation-massage">
+            <h2>Are you sure you want to delete this class?</h2>
             {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
+              <label>
+                <input
+                  type="checkbox"
                   align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setDeleteCohort(true);
-                      }}
-                    />
-                  }
-                  label="Delete all classes of this Batch?"
+                  className="cohort-class"
+                  onClick={() => {
+                    setDeleteCohort(true);
+                  }}
                 />
-              </Stack>
+                Delete all classes of this Batch?
+              </label>
             )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return deleteHandler(item.id);
-                    }}
-                    color="error"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleClose}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    No
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return deleteHandler(item.id);
+                }}
+                className="delete-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleClose} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
         ) : null}
         {editShowModal ? (
-          <Dialog
-            open={editShowModal}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Do you want to edit this class?
-              </Typography>
-            </DialogTitle>
-
+          <Modal onClose={handleCloseEdit} className="confirmation-massage">
+            <h2>Do you want to edit this class?</h2>
             {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
+              <label>
+                <input
+                  type="checkbox"
                   align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                      }}
-                    />
-                  }
-                  label=" Edit all classes of this Batch?"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
                 />
-              </Stack>
+                Edit all classes of this Batch?
+              </label>
             )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      setEditShowModal(false);
-                      return editClass(item.id, indicator);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseEdit}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  setEditShowModal(false);
+                  return editClass(item.id, indicator);
+                }}
+                className="agree-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseEdit} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
         ) : null}
-
         {enrollShowModal ? (
-          <Dialog
-            open={() => enrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
+          <Modal
+            onClose={() => handleCloseEnroll()}
+            className="confirmation-massage"
           >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to enroll?
-              </Typography>
-            </DialogTitle>
-
+            <h2>Are you sure you want to enroll?</h2>
             {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
+              <label>
+                <input
+                  type="checkbox"
+                  defaultChecked={indicator}
                   align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(!indicator);
-                      }}
-                    />
-                  }
-                  label=" Enroll all classes of this Batch?"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(!indicator);
+                  }}
                 />
-              </Stack>
+                Enroll all classes of this Batch?
+              </label>
             )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleSubmit(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseEnroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return handleSubmit(item.id);
+                }}
+                className="agree-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseEnroll} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
         ) : null}
         {unenrollShowModal ? (
-          <Dialog
-            open={() => unenrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
+          <Modal
+            onClose={() => handleCloseUnenroll()}
+            className="confirmation-massage"
           >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to drop out
-              </Typography>
-            </DialogTitle>
-
+            <h2> Are you sure you want to drop out</h2>
             {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
+              <label>
+                <input
+                  type="checkbox"
                   align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                      }}
-                    />
-                  }
-                  label=" Drop all classes of this Batch?"
+                  className="cohort-class"
+                  onClick={() => {
+                    setIndicator(true);
+                  }}
                 />
-              </Stack>
+                Drop all classes of this Batch?
+              </label>
             )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleDropOut(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseUnenroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
+            <div className="wrap">
+              <button
+                onClick={() => {
+                  return handleDropOut(item.id);
+                }}
+                className="delete-btn"
+              >
+                Yes
+              </button>
+              <button onClick={handleCloseUnenroll} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </Modal>
         ) : null}
       </Box>
     </>
