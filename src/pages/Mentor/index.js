@@ -353,7 +353,7 @@ const Mentor = () => {
             members={members[selectedRoomId] || []}
           />
         </div>
-        {isMobile && selectedRoomId && (
+        {/*isMobile && selectedRoomId && (
           <FloatingIcon
             onClick={() => {
               setSelectedRoomId(null);
@@ -364,7 +364,7 @@ const Mentor = () => {
               left: 16,
             }}
           />
-        )}
+        )*/}
       </>
     );
   };

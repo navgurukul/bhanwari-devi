@@ -5,8 +5,9 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    height: "59px",
-    padding: "16px 32px 16px 32px",
+    height: (props) => (props.desktop ? "59px" : "82px"),
+    padding: (props) =>
+      props.desktop ? "16px 32px 16px 24px" : "16px 16px 16px 24px",
     boxSizing: "border-box",
     position: "sticky",
   },
@@ -16,7 +17,8 @@ const useStyles = makeStyles(() => ({
     flexDirection: (props) => (props.desktop ? "row" : "column"),
     width: (props) =>
       props.desktop ? "40%" : props.laptop ? "60%" : props.mobile ? "80%" : "",
-    alignItems: (props) => props.desktop && "center",
+    alignItems: (props) => (props.desktop ? "center" : "space-between"),
+    marginLeft: (props) => props.mobile && "24px",
     justifyContent: (props) => !props.desktop && "center",
   },
 
@@ -40,6 +42,11 @@ const useStyles = makeStyles(() => ({
     cursor: "pointer",
     width: "18px",
     height: "18px",
+  },
+
+  backIcon: {
+    width: "12px !important",
+    height: "16px !important",
   },
 }));
 

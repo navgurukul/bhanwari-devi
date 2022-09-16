@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, useMediaQuery } from "@material-ui/core";
 import CircleIcon from "@mui/icons-material/Circle";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import useStyles from "./styles";
 
 export default function ChatNameBar() {
@@ -13,6 +14,7 @@ export default function ChatNameBar() {
 
   return (
     <div className={classes.chatNameBar}>
+      {mobile && <ArrowBackIosNewIcon className={classes.backIcon} />}
       <div className={classes.chatLeftWrapper}>
         <Typography
           style={{ fontWeight: 600, fontSize: !desktop && "14px" }}
@@ -32,6 +34,7 @@ export default function ChatNameBar() {
             fontWeight: 400,
             color: "#6D6D6D",
             fontSize: !desktop && "14px",
+            marginTop: !desktop && "6px",
           }}
           className={classes.chatName}
           variant="body1"
