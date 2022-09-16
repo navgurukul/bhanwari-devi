@@ -5,7 +5,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import useStyles from "./styles";
 
-export default function ChatNameBar() {
+export default function ChatNameBar({ onBack }) {
   const desktop = useMediaQuery("(min-width: 1200px)");
   const laptop = useMediaQuery("(min-width: 769px) and (max-width: 1199px)");
   const mobile = useMediaQuery("(max-width: 768px)");
@@ -14,7 +14,9 @@ export default function ChatNameBar() {
 
   return (
     <div className={classes.chatNameBar}>
-      {mobile && <ArrowBackIosNewIcon className={classes.backIcon} />}
+      {mobile && (
+        <ArrowBackIosNewIcon onClick={onBack} className={classes.backIcon} />
+      )}
       <div className={classes.chatLeftWrapper}>
         <Typography
           style={{ fontWeight: 600, fontSize: !desktop && "14px" }}

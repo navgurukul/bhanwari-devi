@@ -330,7 +330,11 @@ const Mentor = () => {
     return (
       <>
         <div className="room-chat">
-          <ChatNameBar />
+          <ChatNameBar
+            onBack={() => {
+              setSelectedRoomId(null);
+            }}
+          />
           <Messages
             messages={roomMessages[selectedRoomId]}
             selfChatId={chat_id}
