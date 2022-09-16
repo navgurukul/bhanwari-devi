@@ -133,7 +133,6 @@ const ChangeStatusModal = (props) => {
             width: "356px",
             height: "48px",
           }}
-          className={classes.dialogButton}
         >
           Confirm Status
         </Button>

@@ -196,11 +196,7 @@ function NewVolunteerDashboard(props) {
         {/* FILTERS */}
         <Grid container className={classes.filters} xs={6}>
           <Grid item>
-            <Button
-              variant="contained"
-              className={classes.python}
-              //
-            >
+            <Button variant="contained" className={classes.python}>
               Python (40)
             </Button>
           </Grid>
@@ -218,16 +214,7 @@ function NewVolunteerDashboard(props) {
               console.log("clicked");
             }}
           >
-            <Button
-              // sx={{
-              //   display: "flex",
-              //   flexDirection: "row",
-              //   justifyContent: "flex-start",
-              //   alignItems: "center",
-              //   width: "77px",
-              // }}
-              className={classes.tableBtn}
-            >
+            <Button className={classes.tableBtn}>
               <FilterAltIcon
                 color={`${filter ? "primary" : "dark"}`}
                 sx={{
@@ -255,13 +242,7 @@ function NewVolunteerDashboard(props) {
               marginTop: "15px",
             }}
           >
-            <Grid
-              item
-              sx={{
-                fontSize: "14px",
-                fontWeight: "400",
-              }}
-            >
+            <Grid item className={classes.tableFont}>
               <FormControl variant="standard" sx={{ width: "254px" }}>
                 <InputLabel
                   shrink={true}
@@ -284,10 +265,7 @@ function NewVolunteerDashboard(props) {
                   }}
                   label="Status"
                   notched
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                  }}
+                  className={classes.tableFont}
                   PaperProps={{
                     style: {
                       height: "48px",
@@ -335,10 +313,7 @@ function NewVolunteerDashboard(props) {
                   }}
                   label="Language"
                   notched
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                  }}
+                  className={classes.tableFont}
                 >
                   <MenuItem value={1} s>
                     All
@@ -466,7 +441,7 @@ function NewVolunteerDashboard(props) {
                 volunteer
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item, index) => {
-                    const isItemSelected = isSelected(item.name);
+                    const isItemSelected = isSelected(item.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     const sortedClasses =
@@ -481,17 +456,18 @@ function NewVolunteerDashboard(props) {
                     return (
                       <>
                         <TableRow
-                          key={item.name}
+                          key={item.id}
                           selected={isItemSelected}
                           className={
                             isItemSelected
                               ? classes.tablebodyrowSelected
                               : classes.tablebodyrow
                           }
+                          onClick={() => setOpen(!open)}
                         >
                           <TableCell
                             hover
-                            onClick={(event) => handleClick(event, item.name)}
+                            onClick={(event) => handleClick(event, item.id)}
                             role="checkbox"
                             aria-checked={isItemSelected}
                             tabIndex={-1}
@@ -505,6 +481,7 @@ function NewVolunteerDashboard(props) {
                               inputProps={{
                                 "aria-labelledby": labelId,
                               }}
+                              onClick={() => setOpen(false)}
                             />
                           </TableCell>
                           <TableCell
@@ -512,27 +489,13 @@ function NewVolunteerDashboard(props) {
                             scope="row"
                             hover
                             color="primary"
-                            sx={{
-                              fontWeight: "400",
-                              fontSize: "14px",
-                              border: "none",
-                              "&:hover": {
-                                backgroundColor: "primary.light !important",
-                              },
-                            }}
+                            className={classes.tablebodyCell}
                             tabIndex={-1}
-                            onClick={() => setOpen(!open)}
                           >
                             {open}
                             {item.name}
                           </TableCell>
-                          <TableCell
-                            sx={{
-                              fontWeight: "400",
-                              fontSize: "14px",
-                              border: "none",
-                            }}
-                          >
+                          <TableCell className={classes.tablebodyCell}>
                             {/*
                       {item.classes &&
                       item.classes.length > 0 &&
@@ -545,11 +508,7 @@ function NewVolunteerDashboard(props) {
 
                           <TableCell
                             data-column="Last Class Title"
-                            sx={{
-                              fontWeight: "400",
-                              fontSize: "14px",
-                              border: "none",
-                            }}
+                            className={classes.tablebodyCell}
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
@@ -557,13 +516,7 @@ function NewVolunteerDashboard(props) {
                               ? item.classes[item.classes.length - 1]["title"]
                               : "-"}
                           </TableCell>
-                          <TableCell
-                            sx={{
-                              fontWeight: "400",
-                              fontSize: "14px",
-                              border: "none",
-                            }}
-                          >
+                          <TableCell className={classes.tablebodyCell}>
                             {format(item.last_class_date, "dd MMM, yyyy")}
                           </TableCell>
                           <TableCell
@@ -603,10 +556,8 @@ function NewVolunteerDashboard(props) {
                           </TableCell>
                           <TableCell
                             data-column="three dots"
+                            className={classes.tablebodyCell}
                             sx={{
-                              fontWeight: "400",
-                              fontSize: "14px",
-                              border: "none",
                               color: "#BDBDBD",
                             }}
                           >
@@ -664,43 +615,28 @@ function NewVolunteerDashboard(props) {
                                         }}
                                       >
                                         <TableCell
-                                          sx={{
-                                            fontWeight: 600,
-                                            fontSize: "14px",
-                                          }}
+                                          className={classes.tablecellHead}
                                         >
                                           Email
                                         </TableCell>
                                         <TableCell
                                           align="right"
-                                          sx={{
-                                            fontWeight: 600,
-                                            fontSize: "14px",
-                                          }}
+                                          className={classes.tablecellHead}
                                         >
                                           Phone
                                         </TableCell>
                                         <TableCell
-                                          sx={{
-                                            fontWeight: 600,
-                                            fontSize: "14px",
-                                          }}
+                                          className={classes.tablecellHead}
                                         >
                                           Duration (In Weeks)
                                         </TableCell>
                                         <TableCell
-                                          sx={{
-                                            fontWeight: 600,
-                                            fontSize: "14px",
-                                          }}
+                                          className={classes.tablecellHead}
                                         >
                                           Days Available
                                         </TableCell>
                                         <TableCell
-                                          sx={{
-                                            fontWeight: 600,
-                                            fontSize: "14px",
-                                          }}
+                                          className={classes.tablecellHead}
                                         >
                                           Preferred Time Slots
                                         </TableCell>
@@ -711,28 +647,28 @@ function NewVolunteerDashboard(props) {
                                         <TableCell
                                           component="th"
                                           scope="row"
-                                          className={classes.tableFont}
+                                          className={classes.tablebodyCell}
                                         >
                                           {item.email}
                                         </TableCell>
                                         <TableCell
                                           align="right"
-                                          className={classes.tableFont}
+                                          className={classes.tablebodyCell}
                                         >
                                           +914545454545
                                         </TableCell>
                                         <TableCell
-                                          className={classes.tableFont}
+                                          className={classes.tablebodyCell}
                                         >
                                           20
                                         </TableCell>
                                         <TableCell
-                                          className={classes.tableFont}
+                                          className={classes.tablebodyCell}
                                         >
                                           MO, TU, WE, TH, FR, SA, SU
                                         </TableCell>
                                         <TableCell
-                                          className={classes.tableFont}
+                                          className={classes.tablebodyCell}
                                         >
                                           11:00 AM, 2:00 PM, 5:00 PM
                                         </TableCell>

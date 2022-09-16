@@ -48,18 +48,18 @@ const MenuComponent = (props) => {
       >
         <Box className={classes.menuContainer}>
           <Typography
-            sx={{
-              width: "128px",
-              height: "48px",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "black",
-              fontWeight: "400",
-              fontSize: "14px",
-              cursor: "pointer",
-            }}
+            // sx={{
+            //   width: "128px",
+            //   height: "48px",
+            //   display: "flex",
+            //   flexDirection: "row",
+            //   alignItems: "center",
+            //   justifyContent: "center",
+            //   color: "black",
+            //   fontWeight: "400",
+            //   fontSize: "14px",
+            //   cursor: "pointer",
+            // }}
             className={classes.menuTypography}
             onClick={() => {
               setStatusName(itemname);
@@ -68,22 +68,7 @@ const MenuComponent = (props) => {
           >
             Change Status
           </Typography>
-          <Typography
-            sx={{
-              width: "128px",
-              height: "48px",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#F44336",
-              fontWeight: "400",
-              fontSize: "14px",
-              cursor: "pointer",
-            }}
-          >
-            Delete
-          </Typography>
+          <Typography className={classes.menuBtn}>Delete</Typography>
         </Box>
       </Menu>
     </div>
