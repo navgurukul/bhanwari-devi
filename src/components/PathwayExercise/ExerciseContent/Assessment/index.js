@@ -220,6 +220,7 @@ function Assessment({
   courseData,
   setCourseData,
   setProgressTrackId,
+  res
 }) {
   const user = useSelector(({ User }) => User);
   const [answer, setAnswer] = useState();
@@ -295,43 +296,35 @@ function Assessment({
 
   useEffect(() => {
     setPageLoad(true);
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
+
       console.log("res", res);
       setPageLoad(true);
       if (
-        res?.data?.attempt_status === "CORRECT" ||
-        res?.data?.attempt_count == 2
+        res?.attempt_status === "CORRECT" ||
+        res?.attempt_count == 2
       ) {
-        if (res?.data?.attempt_status === "CORRECT") {
-          setAnswer(res?.data?.selected_option);
+        if (res?.attempt_status === "CORRECT") {
+          setAnswer(res?.selected_option);
           setCorrect(true);
           setStatus("pass");
           setTriedAgain(2);
           setSubmitDisable(true);
           setSubmit(true);
-        } else if (res?.data?.attempt_status === "INCORRECT") {
+        } else if (res?.attempt_status === "INCORRECT") {
           setCorrect(false);
           setTriedAgain(2);
-          setAnswer(res?.data?.selected_option);
+          setAnswer(res?.selected_option);
           setStatus("fail");
           setSubmitDisable(true);
           setSubmit(true);
         }
-      } else if (res?.data?.attempt_count == 1) {
+      } else if (res?.attempt_count == 1) {
         setSubmitDisable(true);
         setAnswer(res?.data?.selected_option);
         setSubmit(true);
         setTriedAgain(res?.data?.attempt_count);
       }
-    });
-  }, [exerciseId]);
+  }, [res]);
 
   return (
     pageLoad && (
