@@ -62,6 +62,14 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     right: "10px",
   },
+  inputLabelfil: {
+    position: "relative",
+    bottom: "8px",
+    fontSize: "14px !important",
+    fontWeight: "400",
+  },
+
+  // .....................table....................
   tablecellHead: {
     fontWeight: "600 !important",
     fontSize: "14px !important",
@@ -83,7 +91,11 @@ const useStyles = makeStyles((theme) => ({
   tablebodyrowSelected: {
     backgroundColor: "#E9F5E9 !important",
   },
-
+  tablebodyCell: {
+    fontWeight: "400 !important",
+    fontSize: "14px !important",
+    border: "none",
+  },
   circleIcon: {
     fontSize: 12,
     maxHeight: "8px",
@@ -100,7 +112,6 @@ const useStyles = makeStyles((theme) => ({
   tableFont: {
     fontWeight: 400,
     fontSize: "14px !important",
-    border: "none",
   },
 
   /// menu component
@@ -109,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
     height: "96px",
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
+    // alignItems: "flex-start",
     padding: "0px",
     boxShadow:
       "0px 4px 4px rgba(0, 0, 0, 0.06), 0px 8px 12px rgba(0, 0, 0, 0.04), 0px 4px 24px rgba(0, 0, 0, 0.08)",
@@ -120,12 +131,27 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "128px",
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: "20px",
 
     color: "black",
     fontWeight: "400",
     fontSize: "14px !important",
     cursor: "pointer",
-    margin: "auto",
+  },
+  menuBtn: {
+    maxWidth: "128px",
+    maxHeight: "48px",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#F44336",
+    fontWeight: "400 !important",
+    fontSize: "14px !important",
+    cursor: "pointer",
+    paddingTop: "20px",
   },
   // ....................Generate Report..............
   dialogTypo: {
@@ -155,17 +181,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: "22px",
-  },
-  dialogButton: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "8px 16px",
-    gap: "10px",
-    margin: "auto",
-    width: "356px",
-    height: "48px",
   },
 }));
 
