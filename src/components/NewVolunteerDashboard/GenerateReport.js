@@ -12,6 +12,8 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./style";
 import { Dayjs } from "dayjs";
@@ -28,6 +30,7 @@ const GenerateReport = (props) => {
 
   const valuee = document.querySelector('[name="duration"]:checked');
   const widthOfMoal = value === "custom" ? "602px" : "458px";
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   return (
     <Dialog
@@ -42,7 +45,7 @@ const GenerateReport = (props) => {
         style={{
           height: `${widthOfMoal}`,
         }}
-        className={classes.dialogTypo}
+        className={isActive ? classes.dialogresponsie : classes.dialogTypo}
       >
         <DialogTitle id="id">
           <Box
@@ -50,14 +53,14 @@ const GenerateReport = (props) => {
             alignItems="center"
             justifyContent="space-between"
             sx={{
-              width: "356px",
+              width: isActive ? "260px" : "356px",
             }}
           >
             <Box
               flexGrow={1}
               sx={{
                 fontWeight: "600",
-                fontSize: "24px",
+                fontSize: isActive ? "18px" : "24px",
               }}
             >
               Generate Report
@@ -125,7 +128,6 @@ const GenerateReport = (props) => {
                     fullWidth
                   />
                   <TextField
-                    // sx={{ mb: 4 }}
                     type="date"
                     variant="outlined"
                     inputProps={{
@@ -178,7 +180,7 @@ const GenerateReport = (props) => {
         <Button
           variant="contained"
           color="primary"
-          className={classes.dialogBtn}
+          className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
         >
           Download
         </Button>

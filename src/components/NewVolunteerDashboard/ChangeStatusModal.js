@@ -15,9 +15,13 @@ import useStyles from "./style";
 
 import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 
 const ChangeStatusModal = (props) => {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const { statusDialog, setStatusDialog, statusName } = props;
   return (
     <Dialog
@@ -28,32 +32,21 @@ const ChangeStatusModal = (props) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          padding: "32px",
-          gap: "32px",
-          width: "420px",
-          height: "405px",
-          borderRadius: "8px",
-        }}
-      >
+      <div className={isActive ? classes.dialogresponsie : classes.dialogTypo}>
         <DialogTitle id="id">
           <Box
             display="flex"
             alignItems="center"
             justifyContent="space-between"
             sx={{
-              width: "356px",
+              width: isActive ? "260px" : "356px",
             }}
           >
             <Box
               flexGrow={1}
               sx={{
                 fontWeight: "600",
-                fontSize: "24px",
+                fontSize: isActive ? "18px" : "24px",
               }}
             >
               Change Status
@@ -122,17 +115,7 @@ const ChangeStatusModal = (props) => {
         <Button
           variant="contained"
           color="primary"
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "8px 16px",
-            gap: "10px",
-            margin: "auto",
-            width: "356px",
-            height: "48px",
-          }}
+          className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
         >
           Confirm Status
         </Button>
