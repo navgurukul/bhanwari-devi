@@ -159,7 +159,7 @@ function NewVolunteerDashboard(props) {
             marginTop: "20px",
           }}
         >
-          <Grid item className={classes.searchBar}>
+          <Grid item className={classes.searchBar} xs={isActive && 11}>
             <TextField
               InputProps={{
                 startAdornment: (
@@ -179,10 +179,15 @@ function NewVolunteerDashboard(props) {
               }}
             />
           </Grid>
-          <Grid item className={classes.generateReport}>
+          <Grid item className={classes.generateReport} xs={isActive && 11}>
             <Button
+              fullWidth
               variant="outlined"
-              sx={{ fontWeight: "600", fontSize: "14px" }}
+              sx={{
+                fontWeight: "600",
+                fontSize: "14px",
+                marginTop: isActive && 2,
+              }}
               onClick={() => {
                 setGenerateDialog(true);
               }}
@@ -195,7 +200,7 @@ function NewVolunteerDashboard(props) {
         {/* END HEADER */}
 
         {/* FILTERS */}
-        <Grid container className={classes.filters} xs={6}>
+        <Grid container className={classes.filters} mb={2}>
           <Grid item>
             <Button variant="contained" className={classes.python}>
               Python (40)
@@ -229,7 +234,7 @@ function NewVolunteerDashboard(props) {
                   color: `${filter ? "#48A145" : "black"}`,
                 }}
               >
-                Filter
+                {!isActive && "Filter"}
               </Typography>
             </Button>
           </Grid>
@@ -390,7 +395,10 @@ function NewVolunteerDashboard(props) {
                 ) : (
                   <>
                     <TableCell>
-                      <Typography className={classes.tablecellHead}>
+                      <Typography
+                        className={classes.tablecellHead}
+                        position="sticky"
+                      >
                         Name
                       </Typography>
                     </TableCell>
@@ -437,6 +445,7 @@ function NewVolunteerDashboard(props) {
                 )}
               </TableRow>
             </TableHead>
+
             <TableBody>
               {volunteer && volunteer.length > 0 ? (
                 volunteer
