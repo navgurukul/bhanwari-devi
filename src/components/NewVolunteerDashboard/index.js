@@ -51,6 +51,7 @@ function NewVolunteerDashboard(props) {
   const [slicedVolunteer, setSlicedVolunteer] = useState([]);
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
   const [selected, setSelected] = React.useState([]);
+  const [rowSelected, setRowSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
@@ -67,7 +68,7 @@ function NewVolunteerDashboard(props) {
   const [generateDialog, setGenerateDialog] = useState(false);
 
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
   if (selctedPathway) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }
@@ -90,10 +91,9 @@ function NewVolunteerDashboard(props) {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
+  const handleClick = (event, name, type) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
-
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -106,8 +106,27 @@ function NewVolunteerDashboard(props) {
         selected.slice(selectedIndex + 1)
       );
     }
-
     setSelected(newSelected);
+  };
+
+  const handleRowSelect = (event, name) => {
+    const selectedIndex = rowSelected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(rowSelected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(rowSelected.slice(1));
+    } else if (selectedIndex === rowSelected.length - 1) {
+      newSelected = newSelected.concat(rowSelected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        rowSelected.slice(0, selectedIndex),
+        rowSelected.slice(selectedIndex + 1)
+      );
+    }
+
+    setRowSelected(newSelected);
   };
 
   const user = useSelector(({ User }) => User);
@@ -442,7 +461,7 @@ function NewVolunteerDashboard(props) {
                 volunteer
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item, index) => {
-                    const isItemSelected = isSelected(item.id);
+                    const selectedRow = isRowSelected(item.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     const sortedClasses =
@@ -458,31 +477,26 @@ function NewVolunteerDashboard(props) {
                       <>
                         <TableRow
                           key={item.id}
-                          selected={isItemSelected}
+                          selected={selectedRow}
                           className={
-                            isItemSelected
+                            selectedRow
                               ? classes.tablebodyrowSelected
                               : classes.tablebodyrow
                           }
-                          onClick={() => setOpen(!open)}
                         >
                           <TableCell
                             hover
                             onClick={(event) => handleClick(event, item.id)}
                             role="checkbox"
-                            aria-checked={isItemSelected}
                             tabIndex={-1}
-                            selected={isItemSelected}
                             padding="checkbox"
                             sx={{ border: "none" }}
                           >
                             <Checkbox
                               color="primary"
-                              checked={isItemSelected}
                               inputProps={{
                                 "aria-labelledby": labelId,
                               }}
-                              onClick={() => setOpen(false)}
                             />
                           </TableCell>
                           <TableCell
@@ -492,10 +506,14 @@ function NewVolunteerDashboard(props) {
                             color="primary"
                             className={classes.tablebodyCell}
                             tabIndex={-1}
+                            onClick={(event) => handleRowSelect(event, item.id)}
                           >
                             {item.name}
                           </TableCell>
-                          <TableCell className={classes.tablebodyCell}>
+                          <TableCell
+                            className={classes.tablebodyCell}
+                            onClick={(event) => handleRowSelect(event, item.id)}
+                          >
                             {/*
                       {item.classes &&
                       item.classes.length > 0 &&
@@ -509,6 +527,7 @@ function NewVolunteerDashboard(props) {
                           <TableCell
                             data-column="Last Class Title"
                             className={classes.tablebodyCell}
+                            onClick={(event) => handleRowSelect(event, item.id)}
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
@@ -516,12 +535,16 @@ function NewVolunteerDashboard(props) {
                               ? item.classes[item.classes.length - 1]["title"]
                               : "-"}
                           </TableCell>
-                          <TableCell className={classes.tablebodyCell}>
+                          <TableCell
+                            className={classes.tablebodyCell}
+                            onClick={(event) => handleRowSelect(event, item.id)}
+                          >
                             {format(item.last_class_date, "dd MMM, yyyy")}
                           </TableCell>
                           <TableCell
                             data-column="Last class lang"
                             sx={{ border: "none" }}
+                            onClick={(event) => handleRowSelect(event, item.id)}
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
@@ -543,6 +566,7 @@ function NewVolunteerDashboard(props) {
                               width: "140px",
                               border: "none",
                             }}
+                            onClick={(event) => handleRowSelect(event, item.id)}
                           >
                             <CircleIcon
                               className={classes.circleIcon}
@@ -589,7 +613,7 @@ function NewVolunteerDashboard(props) {
                         </TableRow>
 
                         <TableRow>
-                          {isItemSelected || isItemSelected > 0 ? (
+                          {selectedRow || selectedRow > 0 ? (
                             <TableCell
                               style={{ paddingBottom: 0, paddingTop: 0 }}
                               colSpan={12}
