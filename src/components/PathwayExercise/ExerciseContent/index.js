@@ -38,7 +38,6 @@ import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionCla
 import { actions as upcomingBatchesActions } from "../..//PathwayCourse/redux/action";
 import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
 
-
 import ClassTopic from "../ClassTopic/ClassTopic";
 // import { Container, Box, Typography, Button, Grid } from "@mui/material";
 import languageMap from "../../../pages/CourseContent/languageMap";
@@ -295,6 +294,7 @@ function ExerciseContent({
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
   console.log("SetOpen", openDrawer);
   useEffect(() => {
@@ -334,6 +334,20 @@ function ExerciseContent({
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
+  useEffect(() => {
+    if (exercise?.content_type === "assessment") {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setAssessmentResult(res.data);
+      });
+    }
+  }, [exerciseId, exercise?.content_type]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -361,17 +375,10 @@ function ExerciseContent({
           authToken: user?.data?.token,
         })
       );
-      // dispatch(
-      //   upcomingClassActions.getupcomingEnrolledClasses({
-      //     pathwayId: pathwayId,
-      //     authToken: user?.data?.token,
-      //   })
-      // );
     }
   }, [params.pathwayId]);
 
   function ExerciseContentMain() {
-
     const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
 
@@ -381,9 +388,8 @@ function ExerciseContent({
           <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
         )}
         <Grid container justifyContent={"center"}>
-
           <Grid xs={0} item>
-            <Box sx={{ m:  "32px 0px" }}>
+            <Box sx={{ m: "32px 0px" }}>
               <Box>
                 {courseData?.content_type == "class_topic" &&
                   enrolledBatches && <ClassTopic courseData={courseData} />}
@@ -467,6 +473,7 @@ function ExerciseContent({
           )}
           {exercise && exercise.content_type === "assessment" && (
             <Assessment
+              res={assessmentResult}
               data={content}
               exerciseId={exercise.id}
               courseData={courseData}

@@ -215,6 +215,7 @@ function Assessment({
   courseData,
   setCourseData,
   setProgressTrackId,
+  res,
 }) {
   const user = useSelector(({ User }) => User);
   const [answer, setAnswer] = useState();
@@ -333,6 +334,31 @@ function Assessment({
     }
   };
 
+  useEffect(() => {
+    if (res?.attempt_status === "CORRECT" || res?.attempt_count == 2) {
+      if (res?.attempt_status === "CORRECT") {
+        setAnswer(res?.selected_option);
+        setCorrect(true);
+        setStatus("pass");
+        setTriedAgain(2);
+        setSubmitDisable(true);
+        setSubmit(true);
+      } else if (res?.attempt_status === "INCORRECT") {
+        setCorrect(false);
+        setTriedAgain(2);
+        setAnswer(res?.selected_option);
+        setStatus("fail");
+        setSubmitDisable(true);
+        setSubmit(true);
+      }
+    } else if (res?.attempt_count == 1) {
+      setSubmitDisable(true);
+      setAnswer(res?.data?.selected_option);
+      setSubmit(true);
+      setTriedAgain(res?.data?.attempt_count);
+    }
+  }, [res]);
+
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
       {data &&
@@ -370,6 +396,7 @@ function Assessment({
             content.value && correct
               ? content.value.correct
               : content.value.incorrect;
+          console.log("dataArr", dataArr);
           return (
             content.component === "output" &&
             dataArr.map((content, index) => (
