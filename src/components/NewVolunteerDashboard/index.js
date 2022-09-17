@@ -248,8 +248,11 @@ function NewVolunteerDashboard(props) {
               marginTop: "15px",
             }}
           >
-            <Grid item className={classes.tableFont}>
-              <FormControl variant="standard" sx={{ width: "254px" }}>
+            <Grid item xs={isActive && 3} className={classes.tableFont}>
+              <FormControl
+                variant="standard"
+                // sx={{ width: !isActive ? "254px" : "170px" }}
+              >
                 <InputLabel
                   shrink={true}
                   id="demo-simple-select-standard-label"
@@ -288,6 +291,7 @@ function NewVolunteerDashboard(props) {
               </FormControl>
             </Grid>
             <Grid
+              xs={isActive && 3}
               item
               sx={{
                 marginLeft: "20px",
@@ -295,7 +299,13 @@ function NewVolunteerDashboard(props) {
             >
               <FormControl
                 variant="standard"
-                sx={{ width: "254px", fontSize: "14px", fontWeight: "400" }}
+                align="right"
+                sx={{
+                  width: "254px",
+                  // width: !isActive ? "254px" : "170px",
+                  fontSize: "14px",
+                  fontWeight: "400",
+                }}
               >
                 <InputLabel
                   shrink={true}
@@ -395,10 +405,7 @@ function NewVolunteerDashboard(props) {
                 ) : (
                   <>
                     <TableCell>
-                      <Typography
-                        className={classes.tablecellHead}
-                        position="sticky"
-                      >
+                      <Typography className={classes.tablecellHead}>
                         Name
                       </Typography>
                     </TableCell>
@@ -445,7 +452,6 @@ function NewVolunteerDashboard(props) {
                 )}
               </TableRow>
             </TableHead>
-
             <TableBody>
               {volunteer && volunteer.length > 0 ? (
                 volunteer
@@ -483,7 +489,12 @@ function NewVolunteerDashboard(props) {
                             tabIndex={-1}
                             selected={isItemSelected}
                             padding="checkbox"
-                            sx={{ border: "none" }}
+                            sx={{
+                              border: "none",
+                              position: "sticky",
+                              left: 0,
+                              backgroundColor: "white",
+                            }}
                           >
                             <Checkbox
                               color="primary"
@@ -495,6 +506,11 @@ function NewVolunteerDashboard(props) {
                             />
                           </TableCell>
                           <TableCell
+                            style={{
+                              position: "sticky",
+                              left: "50px",
+                              backgroundColor: "white",
+                            }}
                             component="th"
                             scope="row"
                             hover
@@ -516,7 +532,7 @@ function NewVolunteerDashboard(props) {
                           </TableCell>
 
                           <TableCell
-                            data-column="Last Class Title"
+                            // data-column="Last Class Title"
                             className={classes.tablebodyCell}
                           >
                             {item.classes &&
@@ -529,7 +545,7 @@ function NewVolunteerDashboard(props) {
                             {format(item.last_class_date, "dd MMM, yyyy")}
                           </TableCell>
                           <TableCell
-                            data-column="Last class lang"
+                            // data-column="Last class lang"
                             sx={{ border: "none" }}
                           >
                             {item.classes &&
@@ -541,7 +557,7 @@ function NewVolunteerDashboard(props) {
                               : "-"}
                           </TableCell>
                           <TableCell
-                            data-column="Status"
+                            // data-column="Status"
                             sx={{
                               fontWeight: "400",
                               fontSize: "14px",
@@ -583,7 +599,7 @@ function NewVolunteerDashboard(props) {
                             </p>
                           </TableCell>
                           <TableCell
-                            data-column="three dots"
+                            // data-column="three dots"
                             className={classes.tablebodyCell}
                             sx={{
                               color: "#BDBDBD",
