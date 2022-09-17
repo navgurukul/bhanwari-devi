@@ -33,6 +33,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
+import ContentEdit from "../components/PathwayExercise/ContentEdit";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {
@@ -51,6 +52,12 @@ const Routing = () => {
         exact
         path={PATHS.RESIDENTIAL_COURSE}
         component={ResidentialCourse}
+      />
+
+      <Route
+        exact
+        path={PATHS.PATHWAY_COURSE_CONTENT_EDIT}
+        component={ContentEdit}
       />
 
       <Route exact path={PATHS.LOGIN} component={Login} />
