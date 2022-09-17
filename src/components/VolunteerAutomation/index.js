@@ -55,9 +55,9 @@ function VolunteerAutomation() {
             </Typography>
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
-              <Typography variant="body1" pl="10px" color="text.primary">
-                Gain experience and wide network to leverage for advancing your
-                own skills and career prospects.
+              <Typography className={classes.TextContent}>
+                Gain a wide network to leverage for advancing your skills and
+                career prospects.
               </Typography>
             </Box>
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
