@@ -12,7 +12,7 @@ import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
 import ChatNameBar from "./ChatNameBar";
-import { Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import useStyles from "./styles";
 
 let PAGINATION_THRESHOLD = 200;
@@ -289,7 +289,7 @@ const Mentor = () => {
             flexDirection: "column",
           }}
         >
-          <div
+          <Box
             style={{ backgroundColor: "#FFF" }}
             className={classes.batchGroupsContainer}
           >
@@ -299,7 +299,7 @@ const Mentor = () => {
             >
               Batch Groups
             </Typography>
-          </div>
+          </Box>
           <ul className="rooms-navs-container">
             {rooms.map((room) => {
               return (

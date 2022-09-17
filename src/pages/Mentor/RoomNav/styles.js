@@ -6,6 +6,7 @@ const useStyles = makeStyles(() => ({
     marginRight: "10px",
     minWidth: "50%",
     textAlign: "left",
+    paddingTop: "0 !important",
   },
 
   listItem: {

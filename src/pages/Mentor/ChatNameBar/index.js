@@ -19,7 +19,7 @@ export default function ChatNameBar({ onBack }) {
       )}
       <div className={classes.chatLeftWrapper}>
         <Typography
-          style={{ fontWeight: 600, fontSize: !desktop && "14px" }}
+          style={{ fontWeight: 600, fontSize: mobile && "14px" }}
           className={classes.chatName}
           variant="subtitle1"
         >
@@ -36,7 +36,7 @@ export default function ChatNameBar({ onBack }) {
             fontWeight: 400,
             color: "#6D6D6D",
             fontSize: !desktop && "14px",
-            marginTop: !desktop && "6px",
+            marginTop: mobile && "6px",
           }}
           className={classes.chatName}
           variant="body1"
