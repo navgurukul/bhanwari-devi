@@ -230,7 +230,6 @@ function Assessment({
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
-  const [pageLoad, setPageLoad] = useState(false);
   const params = useParams();
   console.log("data", courseData);
 
@@ -295,10 +294,7 @@ function Assessment({
   };
 
   useEffect(() => {
-    setPageLoad(true);
 
-      console.log("res", res);
-      setPageLoad(true);
       if (
         res?.attempt_status === "CORRECT" ||
         res?.attempt_count == 2
@@ -327,7 +323,6 @@ function Assessment({
   }, [res]);
 
   return (
-    pageLoad && (
       <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
         {data &&
           data.map((content) => (
@@ -384,7 +379,6 @@ function Assessment({
             );
           })}
       </Container>
-    )
   );
 }
 

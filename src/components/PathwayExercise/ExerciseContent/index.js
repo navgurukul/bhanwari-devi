@@ -330,21 +330,24 @@ function ExerciseContent({
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
-          if (exercise?.content_type === "assessment") {
-        axios({
-          method: METHODS.GET,
-          url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
-          headers: {
-            accept: "application/json",
-            Authorization: user.data.token,
-          },
-        }).then((res) => {
-          setAssessmentResult(res.data);
 
-        });
-      }
   }, [params.exerciseId]);
+  useEffect(() => {
+    if (exercise?.content_type === "assessment") {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setAssessmentResult(res.data);
 
+      });
+    }
+  }, [exerciseId, exercise?.content_type]);
+        
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
       return state?.Pathways?.enrolledBatches?.data;
