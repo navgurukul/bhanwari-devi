@@ -9,6 +9,17 @@ import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
+// import { selectRolesData } from "../../components/User/redux/selectors";
+/*
+import {
+  ADMIN_ROLE_KEY as ADMIN,
+  PARTNER_ROLE_KEY as PARTNER,
+  // PARTNER_VIEW_ROLE_KEY as PARTNER_VIEW,
+  // PARTNER_EDIT_ROLE_KEY as PARTNER_EDIT,
+  STUDENT_ROLE_KEY as STUDENT,
+  VOLUNTEER_ROLE_KEY as VOLUNTEER,
+} from "../../components/Header/constant";
+*/
 import { Typography, Container, Grid, Stack, Box, Button } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
@@ -18,13 +29,15 @@ import { breakpoints } from "../../theme/constant";
 function Login(props) {
   const [queryString, setqueryString] = useState(null);
   const dispatch = useDispatch();
-  const pathway = useSelector((state) => state.Pathways);
+  // const pathway = useSelector((state) => state.Pathways);
   const updateQueryString = (value) => {
     setqueryString(value);
   };
   const { loading, data } = useSelector(({ User }) => User);
-  const rolesList = data !== null && data.user.rolesList;
+  // const rolesList = data !== null && data.user.rolesList;
   const isAuthenticated = data && data.isAuthenticated;
+  // const roles = isAuthenticated ? useSelector(selectRolesData) : null;
+  // const volunteerRole = roles.find(role => role.key === VOLUNTEER);
 
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
@@ -43,9 +56,11 @@ function Login(props) {
     // dispatch(userActions.onUserUpdate(referrer));
   }
 
+  /*
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
+  */
 
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
@@ -56,11 +71,14 @@ function Login(props) {
     console.log("onGoogle login fail", errorResponse);
   };
 
+  /*
   const pythonPathway =
     pathway.data &&
     pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
   const pythonPathwayId = pythonPathway && pythonPathway.id;
+  */
 
+  /*
   const rolesLandingPages = {
     volunteer: PATHS.CLASS,
     admin: PATHS.PARTNERS,
@@ -69,6 +87,8 @@ function Login(props) {
   };
 
   console.log("rolesList", rolesList);
+  */
+  // console.log("Roles with landing pages", roles);
 
   if (isAuthenticated) {
     if (queryString) {
@@ -82,35 +102,42 @@ function Login(props) {
         data: { referrer: queryString },
       }).then((res) => {});
     }
-    if (props.location.state == "/volunteer-with-us") {
-      console.log("rolesList", rolesList.includes("volunteer"));
-      if (rolesList.includes("volunteer")) {
-        return <Redirect to={PATHS.CLASS} />;
+    /*
+    if (props.location.state === PATHS.VOLUNTEER_AUTOMATION) {
+      // console.log("rolesList", rolesList.includes("volunteer"));
+      if (volunteerRole) {
+        return <Redirect to={volunteerRole.landingPage} />;
       } else {
         return <Redirect to={PATHS.VOLUNTEER_FORM} />;
       }
     }
+    */
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;
     }
     return (
       <>
-        {pythonPathwayId && (
+        {/*pythonPathwayId && (
           <Redirect
             to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
           />
-        )}
+        )*/}
       </>
     );
   }
 
+  /* 
+  // Can delete since the return statements can't be reached
   if (rolesList != false) {
+    // This means user is authenticated so it already returned above
     if (!(rolesList.includes("partner") || rolesList.includes("admin"))) {
       return <Redirect to={PATHS.COURSE} />;
     }
   } else if (rolesList.length == 0) {
+    // can never get here, if rolesList is false, its length is undefined which is not 0
     return <Redirect to={PATHS.COURSE} />;
   }
+  */
 
   return (
     <>
