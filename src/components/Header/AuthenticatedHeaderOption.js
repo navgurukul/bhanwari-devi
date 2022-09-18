@@ -37,17 +37,21 @@ import SearchHeader from "./SearchHeader";
 import ChangeRolesView from "./ChangeRolesView";
 import { selectRolesData, selectUserId } from "../User/redux/selectors";
 
+/*
 const savedRolesToKeysMap = Object.keys(ROLES).reduce((roleKeyMap, roleKey) => {
   roleKeyMap[ROLES[roleKey].savedValue] = roleKey;
   return roleKeyMap;
 }, {});
+*/
 
+/*
 const rolesLandingPages = {
   [STUDENT]: PATHS.NEW_USER_DASHBOARD,
   [ADMIN]: PATHS.PARTNERS,
   [VOLUNTEER]: PATHS.CLASS,
   [PARTNER]: PATHS.PARTNERS,
 };
+*/
 
 function AuthenticatedHeaderOption({
   setRole,
@@ -57,23 +61,26 @@ function AuthenticatedHeaderOption({
   handleSearchChange,
 }) {
   //const [RoleSpecificHeader, setRoleSpecificHeader] = React.useState(null);
-  const roles = useSelector(selectRolesData);
+  const rolesWithLandingPages = useSelector(selectRolesData);
   const uid = useSelector(selectUserId);
   // const history = useHistory();
   // const location = useLocation();
 
+  /*
   const rolesWithLandingPages = roles.map((role) => ({
     ...role,
     landingPage: rolesLandingPages[role.key],
   }));
+  */
 
   // const [role, setRole] = React.useState(null);
   // const user = useSelector(({ User }) => User);
-  const isUniqueRole = roles.length === 1;
+  const isUniqueRole = rolesWithLandingPages.length === 1;
   // const dispatch = useDispatch();
   // const pathway = useSelector((state) => state.Pathways);
 
   // special case for partner landing page
+  /*
   const partnerRole = rolesWithLandingPages.find(
     (role) => role.key === PARTNER
   );
@@ -84,6 +91,7 @@ function AuthenticatedHeaderOption({
       partnerRole.landingPage = `${PATHS.PARTNERS}/${partnerRole.properties.partnerId}`;
     }
   }
+  */
 
   /*
   useEffect(() => {
