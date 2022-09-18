@@ -1,3 +1,5 @@
+import { PATHS } from "../../../constant";
+
 export const ADMIN_ROLE_KEY = "ADMIN";
 export const STUDENT_ROLE_KEY = "STUDENT";
 export const VOLUNTEER_ROLE_KEY = "VOLUNTEER";
@@ -10,16 +12,19 @@ const ROLES = {
     msgKey: ADMIN_ROLE_KEY,
     savedValue: "admin",
     isDefault: false,
+    landingPage: PATHS.PARTNERS,
   },
   [STUDENT_ROLE_KEY]: {
     msgKey: STUDENT_ROLE_KEY,
     savedValue: "student",
     isDefault: true,
+    landingPage: PATHS.NEW_USER_DASHBOARD,
   },
   [VOLUNTEER_ROLE_KEY]: {
     msgKey: VOLUNTEER_ROLE_KEY,
     savedValue: "volunteer",
     isDefault: false,
+    landingPage: PATHS.CLASS,
   },
   [PARTNER_ROLE_KEY]: {
     msgKey: PARTNER_ROLE_KEY,
@@ -29,6 +34,7 @@ const ROLES = {
       partnerId: null,
       partnerGroupId: null,
     },
+    landingPage: PATHS.PARTNERS,
   },
   [PARTNER_VIEW_ROLE_KEY]: {
     msgKey: PARTNER_ROLE_KEY,
@@ -67,9 +73,11 @@ export const selectRolesData = ({ User }) => {
   // special case for partner role
   const partnerId = User?.data?.user?.partner_id;
   const partnerGroupId = User?.data?.user?.partner_group_id;
-  ROLES[PARTNER_ROLE_KEY].properties.partnerId = User?.data?.user?.partner_id;
-  ROLES[PARTNER_ROLE_KEY].properties.partnerGroupId =
-    User?.data?.user?.partner_group_id;
+  ROLES[PARTNER_ROLE_KEY].properties.partnerId = partnerId;
+  ROLES[PARTNER_ROLE_KEY].properties.partnerGroupId = partnerGroupId;
+  ROLES[PARTNER_ROLE_KEY].landingPage = partnerGroupId
+      ? `${PATHS.STATE}/${partnerGroupId}`
+      : `${PATHS.PARTNERS}/${partnerId || ""}`,
 
   return unassignedDefaultRoles
     .map((roleKey) => ({
@@ -77,6 +85,7 @@ export const selectRolesData = ({ User }) => {
       msgKey: ROLES[roleKey].msgKey,
       assignedRole: false,
       properties: ROLES[roleKey].properties || null,
+      landingPage: ROLES[roleKey].landingPage,
     }))
     .concat(
       rolesList.map((roleKey) => ({
@@ -84,6 +93,7 @@ export const selectRolesData = ({ User }) => {
         msgKey: ROLES[roleKey].msgKey,
         assignedRole: true,
         properties: ROLES[roleKey].properties || null,
+        landingPage: ROLES[roleKey].landingPage,
       }))
     );
 };
