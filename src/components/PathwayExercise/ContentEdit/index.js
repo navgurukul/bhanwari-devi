@@ -77,6 +77,20 @@ function ContentEdit() {
           />
           <br />
           <br /></>
+        }else if (e.component==="questionCode"){
+          return <>
+          <h5>Code</h5>
+          <input
+            value={course[index].value}
+            style={{ width: "500px", height: "30px" }}
+            onChange={e=>{
+              var temp = [...course]
+              temp[index].value = e.target.value
+              setCourse(temp)
+            }}
+          />
+          <br />
+          <br /></>
         }else if (e.component==="options"){
           return <>
           <h5>options</h5>
