@@ -241,17 +241,11 @@ function NewVolunteerDashboard(props) {
         </Grid>
 
         {filter && (
-          <Grid
-            container
-            xs={12}
-            sx={{
-              marginTop: "15px",
-            }}
-          >
-            <Grid item xs={isActive && 3} className={classes.tableFont}>
+          <Grid container my={2}>
+            <Grid item xs={isActive && 6} className={classes.tableFont}>
               <FormControl
                 variant="standard"
-                // sx={{ width: !isActive ? "254px" : "170px" }}
+                sx={{ width: !isActive ? "254px" : "170px" }}
               >
                 <InputLabel
                   shrink={true}
@@ -291,18 +285,16 @@ function NewVolunteerDashboard(props) {
               </FormControl>
             </Grid>
             <Grid
-              xs={isActive && 3}
+              xs={isActive && 6}
               item
               sx={{
-                marginLeft: "20px",
+                marginLeft: !isActive && "20px",
               }}
             >
               <FormControl
                 variant="standard"
-                align="right"
                 sx={{
-                  width: "254px",
-                  // width: !isActive ? "254px" : "170px",
+                  width: !isActive ? "254px" : "170px",
                   fontSize: "14px",
                   fontWeight: "400",
                 }}
