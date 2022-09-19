@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, useMediaQuery } from "@material-ui/core";
 import CircleIcon from "@mui/icons-material/Circle";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import useStyles from "./styles";
 
-export default function ChatNameBar({ onBack }) {
+export default function ChatNameBar({ onBack, rooms, selectedRoomId }) {
   const desktop = useMediaQuery("(min-width: 1200px)");
   const laptop = useMediaQuery("(min-width: 769px) and (max-width: 1199px)");
   const mobile = useMediaQuery("(max-width: 768px)");
 
+  const [roomName, setRoomName] = React.useState("");
   const classes = useStyles({ desktop, laptop, mobile });
+
+  React.useEffect(() => {
+    rooms.map((room) => {
+      if (room.roomId === selectedRoomId) {
+        setRoomName(room.name);
+      }
+    });
+  }, [selectedRoomId]);
 
   return (
     <div className={classes.chatNameBar}>
@@ -23,7 +32,7 @@ export default function ChatNameBar({ onBack }) {
           className={classes.chatName}
           variant="subtitle1"
         >
-          DVET Pune Batch 1 Beginners
+          {roomName}
         </Typography>
         {desktop && (
           <CircleIcon

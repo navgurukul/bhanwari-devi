@@ -4,9 +4,6 @@ import format from "date-fns/format";
 import { getMemberName, getAreDatesOnDifferentDays } from "../utils";
 import "./styles.scss";
 import { Container, Typography } from "@material-ui/core";
-import CircleIcon from "@mui/icons-material/Circle";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 
 export default ({
   messages,

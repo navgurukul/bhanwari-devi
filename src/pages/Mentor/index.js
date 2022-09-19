@@ -331,6 +331,8 @@ const Mentor = () => {
       <>
         <div className="room-chat">
           <ChatNameBar
+            rooms={rooms}
+            selectedRoomId={selectedRoomId}
             onBack={() => {
               setSelectedRoomId(null);
             }}
