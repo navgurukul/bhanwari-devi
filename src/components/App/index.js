@@ -9,8 +9,12 @@ import { LanguageProvider } from "../../common/context";
 import { useLanguage } from "../../common/language";
 import theme from "../../theme/theme";
 import MSG from "../../msg";
-
 import "./styles.scss";
+import { createGenerateClassName, StylesProvider } from "@material-ui/core";
+
+const generateClassName = createGenerateClassName({
+  seed: "meraki1",
+});
 
 function App() {
   const language = useLanguage();
@@ -22,23 +26,25 @@ function App() {
   });
 
   return (
-    <LanguageProvider.Provider
-      value={{
-        language,
-        MSG: MSG[language],
-      }}
-    >
-      <ThemeProvider theme={theme}>
-        <div className="layout">
-          {showHeader ? <Header /> : ""}
-          <div className="content">
-            {" "}
-            <Routing />{" "}
+    <StylesProvider generateClassName={generateClassName}>
+      <LanguageProvider.Provider
+        value={{
+          language,
+          MSG: MSG[language],
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <div className="layout">
+            {showHeader ? <Header /> : ""}
+            <div className="content">
+              {" "}
+              <Routing />{" "}
+            </div>
+            {showFooter ? <Footer /> : ""}
           </div>
-          {showFooter ? <Footer /> : ""}
-        </div>
-      </ThemeProvider>
-    </LanguageProvider.Provider>
+        </ThemeProvider>
+      </LanguageProvider.Provider>
+    </StylesProvider>
   );
 }
 
