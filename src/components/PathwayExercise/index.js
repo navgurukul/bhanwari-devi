@@ -25,6 +25,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 
@@ -503,6 +504,46 @@ function PathwayExercise() {
             </Toolbar>
           </div>
         </Container>
+      </AppBar>
+      <AppBar
+        fullWidth
+        position="sticky"
+        color="info"
+        // sx={{ background: "info.light" }}
+        // color="#D3EAFD"
+        elevation={2}
+      >
+        <Box>
+          <Container maxWidth sx={{ background: "info.light" }}>
+            <Box sx={{ flexGrow: 1 }}></Box>
+            <Toolbar
+              sx={{
+                // flexGrow: 1,
+                // display: "flex",
+                // justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <EditIcon />
+              <Typography>Want to update the content?</Typography>
+              <Button
+                sx={{ color: "white" }}
+                onClick={() => {
+                  // history.push(PATHS.PATHWAY_COURSE_CONTENT_EDIT);
+                  history.push(
+                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
+                      courseId: params.courseId,
+                      exerciseId: params.exerciseId,
+                      pathwayId: params.pathwayId,
+                    })
+                  );
+                }}
+              >
+                Start Editing
+              </Button>
+            </Toolbar>
+          </Container>
+        </Box>
       </AppBar>
       {successfulExerciseCompletion ? (
         <CompletionComponent

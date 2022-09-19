@@ -4,6 +4,14 @@ import { useSelector } from "react-redux";
 import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import {
+  Container,
+  TextField,
+  Box,
+  Button,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 function ContentEdit() {
   const user = useSelector(({ User }) => User);
@@ -13,12 +21,7 @@ function ContentEdit() {
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
 
-  console.log("params", params);
-
-  let name = "name";
-
   useEffect(() => {
-    // setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
@@ -31,7 +34,6 @@ function ContentEdit() {
       .then((res) => {
         console.log("res", res);
         setCourse(res.data.course.exercises[exerciseId].content);
-        // setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
         console.log("error");
@@ -41,94 +43,68 @@ function ContentEdit() {
   console.log("course", course);
 
   return (
-    <>
-      <input
-        value={course && course[0]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
+    <Container maxWidth="sm" sx={{ mt: 5 }}>
+      {course && (
+        <TextField
+          id="outlined-basic"
+          label="Outlined"
+          variant="outlined"
+          name="title"
+          // value={courseId}
+          value={course[0]?.value}
+          fullWidth
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
+        />
+      )}
       {course &&
         course[1]?.value.map((item) => {
           console.log("item", item);
           return (
-            <>
-              <br />
-              <br />
-              <input
-                value={item.value}
-                style={{ width: "500px", height: "30px" }}
-              />
-            </>
+            <TextField
+              id="outlined-basic"
+              label="Outlined"
+              variant="outlined"
+              name="title"
+              value={item.value}
+              fullWidth
+              sx={{ marginTop: "10px", marginBottom: "10px" }}
+            />
           );
         })}
-      {/* <input
-        value={course && course[1]?.value[0]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <input
-        value={course && course[1]?.value[1]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <input
-        value={course && course[1]?.value[2]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <input
-        value={course && course[1]?.value[3]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <h5>{course && course[2]?.component}</h5> */}
-      {/* <br />
-      <input
-        value={course && course[2]?.value}
-        style={{ width: "500px", height: "30px" }}
-      /> */}
-      <br />
-      <br />
-      <h5>Explanation</h5>
-      <br />
-      <h5>Correct</h5>
+      <Typography>Explanation</Typography>
+      <Typography>Correct</Typography>
       {course &&
         course[3]?.value?.correct.map((item) => {
           return (
-            <>
-              <br />
-              <br />
-              <input
-                value={item.value}
-                style={{ width: "500px", height: "30px" }}
-              />
-            </>
+            <TextField
+              id="outlined-basic"
+              label="Outlined"
+              variant="outlined"
+              name="title"
+              value={item.value}
+              fullWidth
+              sx={{ marginTop: "10px", marginBottom: "10px" }}
+            />
           );
         })}
-      <br />
-      <h5>Incorrect</h5>
+      <Typography>Incorrect</Typography>
       {course &&
         course[3]?.value?.incorrect.map((item) => {
           return (
-            <>
-              <br />
-              <br />
-              <input
-                value={item.value}
-                style={{ width: "500px", height: "30px" }}
-              />
-            </>
+            <TextField
+              id="outlined-basic"
+              label="Outlined"
+              variant="outlined"
+              name="title"
+              value={item.value}
+              fullWidth
+              sx={{ marginTop: "10px", marginBottom: "10px" }}
+            />
           );
         })}
-      <br />
-      <br />
-      <button>Submit</button>
-    </>
+
+      <Button variant="contained">Submit</Button>
+    </Container>
   );
 }
 
