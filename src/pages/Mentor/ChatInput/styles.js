@@ -16,11 +16,8 @@ const useStyles = makeStyles(
       boxSizing: "border-box",
       width: "100%",
       borderRadius: "100px !important",
-      "& .MuiOutlinedInput-root": {
+      [`& fieldset`]: {
         borderRadius: "100px !important",
-      },
-      "& .MuiInputBase-input": {
-        outline: "none",
       },
     },
 
