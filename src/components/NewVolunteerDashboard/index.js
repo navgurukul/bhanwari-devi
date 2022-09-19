@@ -178,7 +178,7 @@ function NewVolunteerDashboard(props) {
             marginTop: "20px",
           }}
         >
-          <Grid item className={classes.searchBar}>
+          <Grid item className={classes.searchBar} xs={isActive && 11}>
             <TextField
               InputProps={{
                 startAdornment: (
@@ -198,10 +198,15 @@ function NewVolunteerDashboard(props) {
               }}
             />
           </Grid>
-          <Grid item className={classes.generateReport}>
+          <Grid item className={classes.generateReport} xs={isActive && 11}>
             <Button
+              fullWidth
               variant="outlined"
-              sx={{ fontWeight: "600", fontSize: "14px" }}
+              sx={{
+                fontWeight: "600",
+                fontSize: "14px",
+                marginTop: isActive && 2,
+              }}
               onClick={() => {
                 setGenerateDialog(true);
               }}
@@ -214,7 +219,7 @@ function NewVolunteerDashboard(props) {
         {/* END HEADER */}
 
         {/* FILTERS */}
-        <Grid container className={classes.filters} xs={6}>
+        <Grid container className={classes.filters} mb={2}>
           <Grid item>
             <Button variant="contained" className={classes.python}>
               Python (40)
@@ -248,22 +253,19 @@ function NewVolunteerDashboard(props) {
                   color: `${filter ? "#48A145" : "black"}`,
                 }}
               >
-                Filter
+                {!isActive && "Filter"}
               </Typography>
             </Button>
           </Grid>
         </Grid>
 
         {filter && (
-          <Grid
-            container
-            xs={12}
-            sx={{
-              marginTop: "15px",
-            }}
-          >
-            <Grid item className={classes.tableFont}>
-              <FormControl variant="standard" sx={{ width: "254px" }}>
+          <Grid container my={2}>
+            <Grid item xs={isActive && 6} className={classes.tableFont}>
+              <FormControl
+                variant="standard"
+                sx={{ width: !isActive ? "254px" : "170px" }}
+              >
                 <InputLabel
                   shrink={true}
                   id="demo-simple-select-standard-label"
@@ -302,14 +304,19 @@ function NewVolunteerDashboard(props) {
               </FormControl>
             </Grid>
             <Grid
+              xs={isActive && 6}
               item
               sx={{
-                marginLeft: "20px",
+                marginLeft: !isActive && "20px",
               }}
             >
               <FormControl
                 variant="standard"
-                sx={{ width: "254px", fontSize: "14px", fontWeight: "400" }}
+                sx={{
+                  width: !isActive ? "254px" : "170px",
+                  fontSize: "14px",
+                  fontWeight: "400",
+                }}
               >
                 <InputLabel
                   shrink={true}
@@ -490,7 +497,12 @@ function NewVolunteerDashboard(props) {
                             role="checkbox"
                             tabIndex={-1}
                             padding="checkbox"
-                            sx={{ border: "none" }}
+                            sx={{
+                              border: "none",
+                              position: "sticky",
+                              left: 0,
+                              backgroundColor: "white",
+                            }}
                           >
                             <Checkbox
                               color="primary"
@@ -500,6 +512,11 @@ function NewVolunteerDashboard(props) {
                             />
                           </TableCell>
                           <TableCell
+                            style={{
+                              position: "sticky",
+                              left: "50px",
+                              backgroundColor: "white",
+                            }}
                             component="th"
                             scope="row"
                             hover
@@ -525,7 +542,7 @@ function NewVolunteerDashboard(props) {
                           </TableCell>
 
                           <TableCell
-                            data-column="Last Class Title"
+                            // data-column="Last Class Title"
                             className={classes.tablebodyCell}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
@@ -542,7 +559,7 @@ function NewVolunteerDashboard(props) {
                             {format(item.last_class_date, "dd MMM, yyyy")}
                           </TableCell>
                           <TableCell
-                            data-column="Last class lang"
+                            // data-column="Last class lang"
                             sx={{ border: "none" }}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
@@ -555,7 +572,7 @@ function NewVolunteerDashboard(props) {
                               : "-"}
                           </TableCell>
                           <TableCell
-                            data-column="Status"
+                            // data-column="Status"
                             sx={{
                               fontWeight: "400",
                               fontSize: "14px",
@@ -598,7 +615,7 @@ function NewVolunteerDashboard(props) {
                             </p>
                           </TableCell>
                           <TableCell
-                            data-column="three dots"
+                            // data-column="three dots"
                             className={classes.tablebodyCell}
                             sx={{
                               color: "#BDBDBD",

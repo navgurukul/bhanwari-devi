@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
   // ..........filter................
   filters: {
     height: "32px",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
+    // display: "flex",
+    // flexDirection: "row",
+    // alignItems: "flex-start",
     padding: "0px",
     gap: "16px",
   },
