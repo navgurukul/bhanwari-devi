@@ -154,6 +154,7 @@ function PathwayExercise() {
       }
     }
 
+    console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
         setShowArrow((prev) => {
