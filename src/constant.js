@@ -6,6 +6,8 @@ export const PATHS = {
   CLASS: "/class",
   COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
+  PATHWAY_COURSE_CONTENT_EDIT:
+    "/course-content-edit/:pathwayId/:courseId/:exerciseId",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   PATHWAY_COURSE: "/pathway/:pathwayId",
