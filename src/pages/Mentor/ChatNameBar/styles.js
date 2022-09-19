@@ -20,13 +20,13 @@ const useStyles = makeStyles(
       flexDirection: (props) => (props.desktop ? "row" : "column"),
       width: (props) =>
         props.desktop
-          ? "40%"
+          ? "70%"
           : props.laptop
           ? "60%"
           : props.mobile
           ? "80%"
           : "",
-      alignItems: (props) => (props.desktop ? "center" : "space-between"),
+      alignItems: (props) => (props.desktop ? "center" : "flex-start"),
       marginLeft: (props) => props.mobile && "24px",
       justifyContent: (props) => !props.desktop && "center",
     },
