@@ -9,14 +9,32 @@ function ContentEdit() {
   const user = useSelector(({ User }) => User);
   const params = useParams();
   const [course, setCourse] = useState([]);
-
+  const [id, setId]= useState();
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
 
   console.log("params", params);
 
   let name = "name";
-
+  const putApiAssessmentCall = () => {
+    const stringifiedCourse = JSON.stringify(course,null,0)
+    console.log(id,stringifiedCourse,"cc")
+    axios({
+      method: METHODS.PUT,
+      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${id}`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+      data: {
+      "content": stringifiedCourse
+      }
+    })
+      .then((res) => {
+        console.log(res,"res")
+      })
+  }
   useEffect(() => {
     // setExerciseId(parseInt(params.exerciseId));
     axios({
@@ -30,104 +48,101 @@ function ContentEdit() {
     })
       .then((res) => {
         console.log("res", res);
+        setId(res.data.course.exercises[exerciseId].id)
         setCourse(res.data.course.exercises[exerciseId].content);
         // setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
         console.log("error");
       });
-  }, [courseId, exerciseId]);
+  }, [courseId, exerciseId]); 
 
   console.log("course", course);
 
   return (
     <>
-      <input
-        value={course && course[0]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      {course &&
-        course[1]?.value.map((item) => {
-          console.log("item", item);
-          return (
+    {
+      course && course.map((e,index)=>{
+        if (e.component==="questionExpression"){
+          return <>
+          <h5>Question</h5>
+          <input
+            value={course[index].value}
+            style={{ width: "500px", height: "30px" }}
+            onChange={e=>{
+              var temp = [...course]
+              temp[index].value = e.target.value
+              setCourse(temp)
+            }}
+          />
+          <br />
+          <br /></>
+        }else if (e.component==="options"){
+          return <>
+          <h5>options</h5>
+          {e.value.map((options,optionIndex)=>{
+            return <>
+            <input
+              value={options.value}
+              style={{ width: "500px", height: "30px" }}
+
+            onChange={e=>{
+              var temp = [...course]
+              temp[index].value[optionIndex].value = e.target.value
+              setCourse(temp)
+            }}
+            />
+            <br />
+            <br /></>
+          })}</>
+        }else if (e.component==="solution"){
+          return <>
+
+          <h5>solution</h5>
+          <input
+            value={course[index].value}
+            style={{ width: "500px", height: "30px" }}
+            onChange={e=>{
+              var temp = [...course]
+              temp[index].value = e.target.value
+              setCourse(temp)
+            }}
+          />
+          <br />
+          <br /></>
+
+        }else if (e.component==="output"){
+          return Object.keys(course[index].value).map((sol,index1)=>{
+            return <>
+            <h5>{sol} Explaination</h5>
+            
+            {course[index].value[sol].map((solution,index2)=>{
+
+          return (  
             <>
               <br />
               <br />
               <input
-                value={item.value}
+                value={solution.value}
                 style={{ width: "500px", height: "30px" }}
+                onChange={e=>{
+                  var temp = [...course]
+                  temp[index].value[sol][index2].value = e.target.value
+                  setCourse(temp) 
+                }}
               />
             </>
           );
-        })}
-      {/* <input
-        value={course && course[1]?.value[0]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <input
-        value={course && course[1]?.value[1]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <input
-        value={course && course[1]?.value[2]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <input
-        value={course && course[1]?.value[3]?.value}
-        style={{ width: "500px", height: "30px" }}
-      />
-      <br />
-      <br />
-      <h5>{course && course[2]?.component}</h5> */}
-      {/* <br />
-      <input
-        value={course && course[2]?.value}
-        style={{ width: "500px", height: "30px" }}
-      /> */}
-      <br />
-      <br />
-      <h5>Explanation</h5>
-      <br />
-      <h5>Correct</h5>
-      {course &&
-        course[3]?.value?.correct.map((item) => {
-          return (
-            <>
-              <br />
-              <br />
-              <input
-                value={item.value}
-                style={{ width: "500px", height: "30px" }}
-              />
+            })}
             </>
-          );
-        })}
-      <br />
-      <h5>Incorrect</h5>
-      {course &&
-        course[3]?.value?.incorrect.map((item) => {
-          return (
-            <>
-              <br />
-              <br />
-              <input
-                value={item.value}
-                style={{ width: "500px", height: "30px" }}
-              />
-            </>
-          );
-        })}
+          })
+
+        }
+      })
+    }
       <br />
       <br />
-      <button>Submit</button>
+      <button onClick={e=>putApiAssessmentCall()}>Submit</button>
     </>
   );
 }
