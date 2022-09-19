@@ -25,7 +25,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 
@@ -515,7 +515,6 @@ function PathwayExercise() {
       >
         <Box>
           <Container maxWidth sx={{ background: "info.light" }}>
-            <Box sx={{ flexGrow: 1 }}></Box>
             <Toolbar
               sx={{
                 // flexGrow: 1,
@@ -524,12 +523,15 @@ function PathwayExercise() {
                 alignItems: "center",
               }}
             >
-              <EditIcon />
-              <Typography>Want to update the content?</Typography>
+              <ModeEditOutlineOutlinedIcon
+                sx={{ color: "#000000", marginRight: "5px" }}
+              />
+              <Typography sx={{ color: "#000000" }}>
+                Want to update the content?
+              </Typography>
               <Button
-                sx={{ color: "white" }}
+                sx={{ color: "#000000" }}
                 onClick={() => {
-                  // history.push(PATHS.PATHWAY_COURSE_CONTENT_EDIT);
                   history.push(
                     interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
                       courseId: params.courseId,
