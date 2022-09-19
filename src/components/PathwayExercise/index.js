@@ -133,6 +133,8 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
 
+  const editor = "editor-role";
+
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
@@ -505,48 +507,45 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      <AppBar
-        fullWidth
-        position="sticky"
-        color="info"
-        // sx={{ background: "info.light" }}
-        // color="#D3EAFD"
-        elevation={2}
-      >
-        <Box>
-          <Container maxWidth sx={{ background: "info.light" }}>
-            <Toolbar
-              sx={{
-                // flexGrow: 1,
-                // display: "flex",
-                // justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <ModeEditOutlineOutlinedIcon
-                sx={{ color: "#000000", marginRight: "5px" }}
-              />
-              <Typography sx={{ color: "#000000" }}>
-                Want to update the content?
-              </Typography>
-              <Button
-                sx={{ color: "#000000" }}
-                onClick={() => {
-                  history.push(
-                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
-                      courseId: params.courseId,
-                      exerciseId: params.exerciseId,
-                      pathwayId: params.pathwayId,
-                    })
-                  );
-                }}
-              >
-                Start Editing
-              </Button>
-            </Toolbar>
-          </Container>
-        </Box>
-      </AppBar>
+      {editor && (
+        <AppBar
+          fullWidth
+          position="sticky"
+          sx={{ bgcolor: "info.light" }}
+          elevation={2}
+        >
+          <Box>
+            <Container maxWidth>
+              <Toolbar sx={{ alignItems: "center" }}>
+                <Box sx={{ flexGrow: 1 }} />
+                <ModeEditOutlineOutlinedIcon
+                  className={classes.edit}
+                  sx={{ mr: "11px" }}
+                />
+                <Typography className={classes.edit}>
+                  Want to update the content?
+                </Typography>
+                <Button
+                  sx={{ color: "#000000", ml: "24px" }}
+                  className={classes.edit}
+                  onClick={() => {
+                    history.push(
+                      interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
+                        courseId: params.courseId,
+                        exerciseId: params.exerciseId,
+                        pathwayId: params.pathwayId,
+                      })
+                    );
+                  }}
+                >
+                  Start Editing
+                </Button>
+                <Box sx={{ flexGrow: 1 }} />
+              </Toolbar>
+            </Container>
+          </Box>
+        </AppBar>
+      )}
       {successfulExerciseCompletion ? (
         <CompletionComponent
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}

@@ -76,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
     width: "325px",
     whiteSpace: "nowrap",
   },
+  edit: {
+    color: "#000000",
+  },
 }));
 
 export default useStyles;
