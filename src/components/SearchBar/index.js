@@ -26,6 +26,7 @@ function SearchCourse() {
   // const query = new URLSearchParams(useLocation().search).get("search");
   // const query = useSearchQuery();
   const [search, setSearch] = useState("");
+  const [focus, setFocus] = useState(true);
   useSearchQuery(setSearch);
   const history = useHistory();
   const classes = useStyles();
@@ -85,14 +86,20 @@ function SearchCourse() {
         Search Courses...
       </Typography>
       <Container maxWidth="sm">
-        <TextField
-          id="outlined-basic"
-          label="Search for course..."
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={handleSearchChange}
-        />
+        {focus && (
+          <TextField
+            label="Search for course..."
+            variant="outlined"
+            inputRef={(input) => {
+              if (input != null) {
+                input.focus();
+              }
+            }}
+            fullWidth
+            value={search}
+            onChange={handleSearchChange}
+          />
+        )}
       </Container>
       <Box className={classes.box} sx={{ mt: 5 }}>
         {search ? (

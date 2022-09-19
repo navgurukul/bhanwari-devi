@@ -362,46 +362,86 @@ function Home() {
               color="textPrimary"
               gutterBottom
             >
-              Have Questions?
-            </Typography>
-            <Typography
-              sx={{ mt: isActive ? 2 : 3 }}
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              Connect with us anytime for more information
-            </Typography>
-            <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
-              <Grid item>
-                <Typography align="center" color="primary" gutterBottom>
-                  <address
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "#2E2E2E",
-                        fontWeight: "bold",
-                        fontStyle: "normal",
-                      }}
-                    >
-                      Via email:{" "}
-                    </span>
+              <Typography
+                variant="h5"
+                component="h6"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                Have Questions?
+              </Typography>
+              <Typography
+                sx={{ mt: isActive ? 2 : 3 }}
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                Connect with us anytime for more information
+              </Typography>
+              <Grid
+                sx={{ mt: 1 }}
+                container
+                spacing={2}
+                justifyContent="center"
+              >
+                <Grid item>
+                  <Typography align="center" color="primary" gutterBottom>
+                    <address
 
-                    <ExternalLink
                       style={{
                         textDecoration: "none",
-                        color: "#48a145",
-                        fontStyle: "normal",
                       }}
-                      href="mailto:team@meraki.org"
                     >
-                      team@merakilearn.org
-                    </ExternalLink>
-                  </address>
-                </Typography>
+                      <span
+                        style={{
+                          color: "#2E2E2E",
+                          fontWeight: "bold",
+                          fontStyle: "normal",
+                        }}
+                      >
+                        Via Email:{" "}
+                      </span>
+
+                      <ExternalLink
+                        style={{
+                          textDecoration: "none",
+                          color: "#48a145",
+                          fontStyle: "normal",
+                        }}
+                        href="mailto:merakilearn@navgurukul.org"
+                      >
+                        merakilearn@navgurukul.org
+                      </ExternalLink>
+                    </address>
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography align="center" color="primary" gutterBottom>
+                    <address>
+                      <span
+                        style={{
+                          color: "#2E2E2E",
+                          fontWeight: "bold",
+                          fontStyle: "normal",
+                        }}
+                      >
+                        Via Whatsapp:
+                      </span>
+                      <ExternalLink
+                        style={{
+                          textDecoration: "none",
+                          color: "#48a145",
+                          fontStyle: "normal",
+                        }}
+                        href="https://wa.me/918891300300"
+                      >
+                        {" "}
+                        +91 8891300300
+                      </ExternalLink>
+                    </address>
+                  </Typography>
+                </Grid>
               </Grid>
               <Grid item>
                 <Typography align="center" color="primary" gutterBottom>
