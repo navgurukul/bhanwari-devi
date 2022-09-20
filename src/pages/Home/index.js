@@ -417,36 +417,36 @@ function Home() {
                 spacing={2}
                 justifyContent="center"
               >
-                {/* <Grid item>
-                <Typography align="center" color="primary" gutterBottom>
-                  <address
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "#2E2E2E",
-                        fontWeight: "bold",
-                        fontStyle: "normal",
-                      }}
-                    >
-                      Via email:{" "}
-                    </span>
-
-                    <ExternalLink
+                <Grid item>
+                  <Typography align="center" color="primary" gutterBottom>
+                    <address
                       style={{
                         textDecoration: "none",
-                        color: "#48a145",
-                        fontStyle: "normal",
                       }}
-                      href="mailto:team@meraki.org"
                     >
-                      team@merakilearn.org
-                    </ExternalLink>
-                  </address>
-                </Typography>
-              </Grid> */}
+                      <span
+                        style={{
+                          color: "#2E2E2E",
+                          fontWeight: "bold",
+                          fontStyle: "normal",
+                        }}
+                      >
+                        Via Email:{" "}
+                      </span>
+
+                      <ExternalLink
+                        style={{
+                          textDecoration: "none",
+                          color: "#48a145",
+                          fontStyle: "normal",
+                        }}
+                        href="mailto:merakilearn@navgurukul.org"
+                      >
+                        merakilearn@navgurukul.org
+                      </ExternalLink>
+                    </address>
+                  </Typography>
+                </Grid>
                 <Grid item>
                   <Typography align="center" color="primary" gutterBottom>
                     <address>

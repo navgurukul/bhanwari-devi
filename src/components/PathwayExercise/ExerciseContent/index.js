@@ -291,6 +291,7 @@ function ExerciseContent({
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
   console.log("SetOpen", openDrawer);
   useEffect(() => {
@@ -330,6 +331,20 @@ function ExerciseContent({
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
+  useEffect(() => {
+    if (exercise?.content_type === "assessment") {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setAssessmentResult(res.data);
+      });
+    }
+  }, [exerciseId, exercise?.content_type]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -357,12 +372,6 @@ function ExerciseContent({
           authToken: user?.data?.token,
         })
       );
-      // dispatch(
-      //   upcomingClassActions.getupcomingEnrolledClasses({
-      //     pathwayId: pathwayId,
-      //     authToken: user?.data?.token,
-      //   })
-      // );
     }
   }, [params.pathwayId]);
 
@@ -461,6 +470,7 @@ function ExerciseContent({
           )}
           {exercise && exercise.content_type === "assessment" && (
             <Assessment
+              res={assessmentResult}
               data={content}
               exerciseId={exercise.id}
               courseData={courseData}
