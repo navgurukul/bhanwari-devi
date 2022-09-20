@@ -57,16 +57,13 @@ function NewVolunteerDashboard(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   const [filter, setFilter] = useState(false);
   const [statusFilter, setStatusFilter] = useState(1);
   const [langFilter, setLangFilter] = useState(1);
-
   const [statusDialog, setStatusDialog] = useState(false);
   const [status, setStatus] = useState("Newly Onboarded");
   const [statusName, setStatusName] = useState("");
   const [generateDialog, setGenerateDialog] = useState(false);
-
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
   if (selctedPathway) {
@@ -81,7 +78,6 @@ function NewVolunteerDashboard(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = volunteer.map((n) => n.name);
@@ -90,7 +86,6 @@ function NewVolunteerDashboard(props) {
     }
     setSelected([]);
   };
-
   const handleClick = (event, name, type) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -108,7 +103,6 @@ function NewVolunteerDashboard(props) {
     }
     setSelected(newSelected);
   };
-
   const handleRowSelect = (event, name) => {
     const selectedIndex = rowSelected.indexOf(name);
     let newSelected = [];
@@ -125,7 +119,6 @@ function NewVolunteerDashboard(props) {
         rowSelected.slice(selectedIndex + 1)
       );
     }
-
     setRowSelected(newSelected);
   };
 
@@ -141,12 +134,10 @@ function NewVolunteerDashboard(props) {
       },
     }).then((res) => {
       setVolunteer(res.data);
-
       setCacheVolunteer(res.data);
     });
   }, []);
   console.log(volunteer);
-
   const languageMap = {
     hi: "Hindi",
     te: "Telugu",
@@ -352,15 +343,22 @@ function NewVolunteerDashboard(props) {
             </Grid>
           </Grid>
         )}
-
         <TableContainer component={Paper} className={classes.tablecontainer}>
-          <Table sx={{ minWidth: 700 }}>
+          <Table>
             <TableHead>
-              <TableRow className={classes.tablecontainerow}>
+              <TableRow
+                sx={{
+                  position: "sticky",
+                  top: 0,
+                }}
+                className={classes.tablecontainerow}
+              >
                 <TableCell
-                  padding="checkbox"
                   sx={{
-                    width: "56px",
+                    position: "sticky",
+                    left: 0,
+                    backgroundColor: "white",
+                    zIndex: 800,
                   }}
                 >
                   <Checkbox
@@ -380,7 +378,7 @@ function NewVolunteerDashboard(props) {
                 </TableCell>
                 {selected.length > 0 ? (
                   <>
-                    <TableCell>
+                    <TableCell align="center">
                       <Typography className={classes.tablecellHead}>
                         {selected.length}{" "}
                         {selected.length === 1 ? "row is " : "rows are "}
@@ -404,7 +402,7 @@ function NewVolunteerDashboard(props) {
                       </Typography>
                     </TableCell>
 
-                    <TableCell colSpan={5}>
+                    <TableCell colSpan={5} align="left">
                       <Typography
                         sx={{ fontWeight: "600", fontSize: "14px" }}
                         color="error"
@@ -415,12 +413,18 @@ function NewVolunteerDashboard(props) {
                   </>
                 ) : (
                   <>
-                    <TableCell>
+                    <TableCell
+                      sx={{
+                        position: "sticky",
+                        left: "50px",
+                        backgroundColor: "white",
+                        zIndex: 800,
+                      }}
+                    >
                       <Typography className={classes.tablecellHead}>
                         Name
                       </Typography>
                     </TableCell>
-
                     <TableCell align="left">
                       <Typography className={classes.tablecellHead}>
                         Last Class Batch
@@ -451,12 +455,7 @@ function NewVolunteerDashboard(props) {
                         Status
                       </Typography>
                     </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{
-                        color: "#BDBDBD",
-                      }}
-                    >
+                    <TableCell align="center" sx={{ color: "#BDBDBD" }}>
                       <MoreVertIcon />
                     </TableCell>
                   </>
@@ -502,7 +501,10 @@ function NewVolunteerDashboard(props) {
                               position: "sticky",
                               left: 0,
                               backgroundColor: "white",
+                              zIndex: 800,
+                              whiteSpace: "nowrap",
                             }}
+                            align="center"
                           >
                             <Checkbox
                               color="primary"
@@ -516,6 +518,7 @@ function NewVolunteerDashboard(props) {
                               position: "sticky",
                               left: "50px",
                               backgroundColor: "white",
+                              zIndex: 800,
                             }}
                             component="th"
                             scope="row"
@@ -531,13 +534,6 @@ function NewVolunteerDashboard(props) {
                             className={classes.tablebodyCell}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
-                            {/*
-                      {item.classes &&
-                      item.classes.length > 0 &&
-                      item.classes[item.classes.length - 1]["batch"] != ""
-                        ? item.classes[item.classes.length - 1]["batch"]
-                        : "-"}
-                      */}
                             DVET Nashik Python
                           </TableCell>
 
@@ -628,7 +624,6 @@ function NewVolunteerDashboard(props) {
                             />
                           </TableCell>
                         </TableRow>
-
                         <TableRow>
                           {selectedRow || selectedRow > 0 ? (
                             <TableCell
@@ -761,19 +756,14 @@ function NewVolunteerDashboard(props) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          sx={{
-            position: "relative",
-            right: "20px",
-          }}
+          sx={{ position: "relative", right: "20px" }}
         />
       </Container>
-
       <ChangeStatusModal
         statusName={statusName}
         setStatusDialog={setStatusDialog}
         statusDialog={statusDialog}
       />
-
       <GenerateReport
         generateDialog={generateDialog}
         setGenerateDialog={setGenerateDialog}
