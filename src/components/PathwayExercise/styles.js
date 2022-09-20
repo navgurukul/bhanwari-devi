@@ -79,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
   edit: {
     color: "#000000",
   },
+  editField: {
+    margin: "10px 0px",
+  },
 }));
 
 export default useStyles;

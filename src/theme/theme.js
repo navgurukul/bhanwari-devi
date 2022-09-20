@@ -63,7 +63,8 @@ theme = createTheme(theme, {
       dark: "#3A8137",
     },
     grey: {
-      main: "rgba(0, 0, 0, 0.12)",
+      main: "#BDBDBD",
+      // main: "rgba(0, 0, 0, 0.12)",
     },
     text: {
       primary: "#2E2E2E",
@@ -248,6 +249,16 @@ theme.components = {
           boxShadow: "0px 0px 0px",
         },
       },
+    },
+  },
+  MuiTextareaAutosize: {
+    styleOverrides: {
+      root: {
+        "&$focused": {
+          color: "red !important",
+        },
+      },
+      focused: {},
     },
   },
 };
