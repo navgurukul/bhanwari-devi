@@ -32,20 +32,31 @@ const useStyles = makeStyles(
     },
 
     chatName: {
-      fontSize: "18px",
+      fontWeight: 600,
+      fontSize: (props) => (props.mobile ? "14px" : "18px"),
     },
+
+    studentNumber: {
+      fontWeight: 400,
+      color: "#6D6D6D",
+      fontSize: (props) => !props.desktop && "14px",
+      marginTop: (props) => props.mobile && "6px",
+    },
+
     chatDot: {
       color: "#6d6d6d",
-      width: "4px",
-      height: "4px",
-      margin: "0 8px 0 8px",
+      width: "4px !important",
+      height: "4px !important",
+      margin: "0 8px",
     },
+
     chatInfo: {
       width: "20px",
       height: "20px",
       color: "#2196f3",
       cursor: "pointer",
     },
+
     chatExit: {
       color: "#f44336",
       cursor: "pointer",

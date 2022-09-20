@@ -5,7 +5,7 @@ const useStyles = makeStyles(
     batchGroupsContainer: {
       boxSizing: "border-box",
       height: "59px",
-      padding: "16px 16px 16px 16px",
+      padding: "16px",
       position: "sticky",
       backgroundColor: "#FFF !important",
       borderTop: "1px solid #ddd",

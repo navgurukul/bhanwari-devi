@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Typography, useMediaQuery } from "@material-ui/core";
 import CircleIcon from "@mui/icons-material/Circle";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -16,7 +16,7 @@ export default function ChatNameBar({ onBack, rooms, selectedRoomId }) {
   React.useEffect(() => {
     rooms.map((room) => {
       if (room.roomId === selectedRoomId) {
-        setRoomName(room.name);
+        setRoomName(room.name ? room.name : "");
       }
     });
   }, [selectedRoomId]);
@@ -27,29 +27,11 @@ export default function ChatNameBar({ onBack, rooms, selectedRoomId }) {
         <ArrowBackIosNewIcon onClick={onBack} className={classes.backIcon} />
       )}
       <div className={classes.chatLeftWrapper}>
-        <Typography
-          style={{ fontWeight: 600, fontSize: mobile && "14px" }}
-          className={classes.chatName}
-          variant="subtitle1"
-        >
+        <Typography className={classes.chatName} variant="subtitle1">
           {roomName}
         </Typography>
-        {desktop && (
-          <CircleIcon
-            style={{ width: "4px", height: "4px" }}
-            className={classes.chatDot}
-          />
-        )}
-        <Typography
-          style={{
-            fontWeight: 400,
-            color: "#6D6D6D",
-            fontSize: !desktop && "14px",
-            marginTop: mobile && "6px",
-          }}
-          className={classes.chatName}
-          variant="body1"
-        >
+        {desktop && <CircleIcon className={classes.chatDot} />}
+        <Typography className={classes.studentNumber} variant="body1">
           40 Students
         </Typography>
       </div>

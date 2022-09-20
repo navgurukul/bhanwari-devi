@@ -42,7 +42,7 @@ export default ({
   //   },
   // ];
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles();
+  const classes = useStyles({ isActive });
 
   return (
     <ListItem
@@ -50,16 +50,8 @@ export default ({
       onClick={onSelect}
     >
       <Avatar style={{ height: "48px", width: "48px" }} name={name} />
-      <Box
-        className={classes.roomText}
-        sx={{ width: isActive && 400 }}
-        pt={!isActive && "10px"}
-      >
-        <Typography
-          className={classes.title}
-          style={{ fontWeight: 600 }}
-          variant="subtitle1"
-        >
+      <Box className={classes.roomText} pt={!isActive && "10px"}>
+        <Typography className={classes.title} variant="subtitle1">
           {name}
         </Typography>
         <Typography

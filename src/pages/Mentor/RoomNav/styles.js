@@ -7,7 +7,8 @@ const useStyles = makeStyles(
       marginRight: "10px",
       minWidth: "50%",
       textAlign: "left",
-      paddingTop: "0 !important",
+      paddingTop: "0",
+      width: (props) => props.isActive && 400,
     },
 
     listItem: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles(
       padding: "16px 32px",
       cursor: "pointer",
       display: "flex",
-      justifyContent: "space-between !important",
+      justifyContent: "space-between",
     },
 
     listItemSelected: {
@@ -27,14 +28,15 @@ const useStyles = makeStyles(
       backgroundColor: "#E9F5E9",
     },
     title: {
-      fontSize: "16px !important",
+      fontSize: "16px",
+      fontWeight: "600",
       color: "#2E2E2E",
-      lineHeight: "24px !important",
+      lineHeight: "24px",
     },
     subtitle: {
-      fontSize: "14px !important",
+      fontSize: "14px",
       color: "#6D6D6D",
-      lineHeight: "21px !important",
+      lineHeight: "21px",
     },
     /*GREEN CIRCLE*/
     messageNumberCircle: {
@@ -49,7 +51,7 @@ const useStyles = makeStyles(
       alignItems: "center",
     },
     messageNumber: {
-      fontSize: "12px !important",
+      fontSize: "12px",
       margin: "auto",
     },
   }),
