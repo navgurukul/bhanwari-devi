@@ -18,12 +18,31 @@ function ContentEdit() {
   const params = useParams();
   const [course, setCourse] = useState([]);
   const [id, setId] = useState();
+  const [courseType, setCourseType] = useState();
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
 
   console.log("params", params);
 
   let name = "name";
+  const putApiExercisesCall = () => {
+    const stringifiedCourse = JSON.stringify(course, null, 0);
+    console.log(id, stringifiedCourse, "cc");
+    axios({
+      method: METHODS.PUT,
+      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+      data: {
+        content: stringifiedCourse,
+      },
+    }).then((res) => {
+      console.log(res, "res");
+    });
+  }
   const putApiAssessmentCall = () => {
     const stringifiedCourse = JSON.stringify(course, null, 0);
     console.log(id, stringifiedCourse, "cc");
@@ -54,6 +73,7 @@ function ContentEdit() {
     })
       .then((res) => {
         console.log("res", res);
+        setCourseType(res.data.course.exercises[exerciseId].content_type)
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
       })
@@ -66,7 +86,7 @@ function ContentEdit() {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 5 }}>
-      {course &&
+      {courseType === "assessment"? <>{course &&
         course.map((e, index) => {
           if (e.component === "questionExpression") {
             return (
@@ -148,7 +168,7 @@ function ContentEdit() {
                 />
               </>
             );
-          } else if (e.component === "Output") {
+          } else if (e.component === "output") {
             return Object.keys(course[index].value).map((sol, index1) => {
               return (
                 <>
@@ -176,9 +196,120 @@ function ContentEdit() {
             });
           }
         })}
+        
       <Button variant="contained" onClick={(e) => putApiAssessmentCall()}>
         Submit
       </Button>
+        </>:<>{course &&
+        course.map((e, index) => {
+          if (e.component === "header") {
+            return (
+              <>
+                <Typography>Header</Typography>
+                <TextField
+                  id="outlined-basic"
+                  label="Header"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ marginTop: "10px", marginBottom: "10px" }}
+                  value={course[index].value}
+                  onChange={(e) => {
+                    var temp = [...course];
+                    temp[index].value = e.target.value;
+                    setCourse(temp);
+                  }}
+                />
+              </>
+            );
+          } else if (e.component === "code") {
+            return (
+              <>
+                <Typography>Code</Typography>
+                <TextField
+                  id="outlined-basic"
+                  label="Code"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ marginTop: "10px", marginBottom: "10px" }}
+                  value={course[index].value}
+                  onChange={(e) => {
+                    var temp = [...course];
+                    temp[index].value = e.target.value;
+                    setCourse(temp);
+                  }}
+                />
+              </>
+            );
+          } else if (e.component === "text") {
+            return (
+              <>
+                <Typography>Text</Typography>
+               
+                    <TextField
+                      id="outlined-basic"
+                      label="Text"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      value={course[index].value}
+                      onChange={(e) => {
+                        var temp = [...course];
+                        temp[index].value = e.target.value;
+                        setCourse(temp);
+                      }}
+                    />
+                
+              </>
+            );
+          } else if (e.component === "youtube") {
+            return (
+              <>
+                <Typography>Youtube</Typography>
+               
+                    <TextField
+                      id="outlined-basic"
+                      label="Youtube"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      value={course[index].value}
+                      onChange={(e) => {
+                        var temp = [...course];
+                        temp[index].value = e.target.value;
+                        setCourse(temp);
+                      }}
+                    />
+                
+              </>
+            );
+          } else if (e.component === "image") {
+            return (
+              <>
+                <Typography>Image</Typography>
+               
+                    <TextField
+                      id="outlined-basic"
+                      label="Image"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      value={course[index].value}
+                      onChange={(e) => {
+                        var temp = [...course];
+                        temp[index].value = e.target.value;
+                        setCourse(temp);
+                      }}
+                    />
+                
+              </>
+            );
+          } 
+        })}
+        
+      <Button variant="contained" onClick={(e) => putApiExercisesCall()}>
+        Submit
+      </Button>
+        </>}
     </Container>
   );
 }
