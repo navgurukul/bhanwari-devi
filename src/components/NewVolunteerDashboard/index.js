@@ -159,7 +159,11 @@ function NewVolunteerDashboard(props) {
             marginTop: "20px",
           }}
         >
-          <Grid item className={classes.searchBar} xs={isActive && 11}>
+          <Grid
+            item
+            className={classes.searchBar}
+            // xs={isActive && 12}
+          >
             <TextField
               InputProps={{
                 startAdornment: (
@@ -179,7 +183,7 @@ function NewVolunteerDashboard(props) {
               }}
             />
           </Grid>
-          <Grid item className={classes.generateReport} xs={isActive && 11}>
+          <Grid item className={classes.generateReport} xs={isActive && 12}>
             <Button
               fullWidth
               variant="outlined"
@@ -220,7 +224,7 @@ function NewVolunteerDashboard(props) {
               console.log("clicked");
             }}
           >
-            <Button className={classes.tableBtn}>
+            <Box className={classes.tableBtn}>
               <FilterAltIcon
                 color={`${filter ? "primary" : "dark"}`}
                 sx={{
@@ -236,7 +240,7 @@ function NewVolunteerDashboard(props) {
               >
                 {!isActive && "Filter"}
               </Typography>
-            </Button>
+            </Box>
           </Grid>
         </Grid>
 
