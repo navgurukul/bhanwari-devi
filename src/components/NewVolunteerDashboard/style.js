@@ -164,6 +164,14 @@ const useStyles = makeStyles((theme) => ({
     width: "420px",
     borderRadius: "8px",
   },
+  dialogresponsie: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "32px",
+    gap: "32px",
+    borderRadius: "20px",
+  },
   dialogBtn: {
     display: "flex",
     flexDirection: "row",
@@ -171,9 +179,18 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: "8px 16px",
     gap: "10px",
-    margin: "auto",
     width: "396px",
     height: "48px",
+    left: 20,
+  },
+
+  dialogresBtn: {
+    width: "264px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    left: 20,
   },
   // ..................changestatusmodal....................
   dialogStatus: {
