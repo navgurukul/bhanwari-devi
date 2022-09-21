@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
   // ..........filter................
   filters: {
     height: "32px",
-    // display: "flex",
-    // flexDirection: "row",
-    // alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
     padding: "0px",
     gap: "16px",
   },
@@ -60,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     maxHeight: "32px",
     position: "relative",
-    right: "10px",
+    // right: "10px",
+    paddingTop: "6px",
   },
   inputLabelfil: {
     position: "relative",
