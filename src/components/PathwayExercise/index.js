@@ -15,12 +15,14 @@ import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { breakpoints } from "../../theme/constant";
 import {
   Container,
   Box,
   AppBar,
   Toolbar,
   Typography,
+  useMediaQuery,
   Button,
   Select,
   MenuItem,
@@ -348,6 +350,7 @@ function PathwayExercise() {
       </Select>
     );
   }
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   return (
     <>
@@ -519,7 +522,10 @@ function PathwayExercise() {
         />
       )}
       <Box>
-        <Toolbar className={classes.bottomRow}>
+        <Toolbar
+          className={classes.bottomRow}
+          sx={{ width: !isActive ? "97%" : "100%" }}
+        >
           <Button
             variant="text"
             color="dark"
