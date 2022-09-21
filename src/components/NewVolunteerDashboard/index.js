@@ -356,7 +356,7 @@ function NewVolunteerDashboard(props) {
                 <TableCell
                   sx={{
                     position: "sticky",
-                    left: 0,
+                    left: -1,
                     backgroundColor: "white",
                     zIndex: 800,
                   }}
@@ -416,7 +416,7 @@ function NewVolunteerDashboard(props) {
                     <TableCell
                       sx={{
                         position: "sticky",
-                        left: "50px",
+                        left: "74px",
                         backgroundColor: "white",
                         zIndex: 800,
                       }}
@@ -496,11 +496,15 @@ function NewVolunteerDashboard(props) {
                             role="checkbox"
                             tabIndex={-1}
                             padding="checkbox"
+                            className={
+                              selectedRow
+                                ? classes.tablebodyrowSelected
+                                : classes.tablebodyrow
+                            }
                             sx={{
                               border: "none",
                               position: "sticky",
-                              left: 0,
-                              backgroundColor: "white",
+                              left: -1,
                               zIndex: 800,
                               whiteSpace: "nowrap",
                             }}
@@ -516,15 +520,17 @@ function NewVolunteerDashboard(props) {
                           <TableCell
                             style={{
                               position: "sticky",
-                              left: "50px",
+                              left: "74px",
                               backgroundColor: "white",
                               zIndex: 800,
                             }}
                             component="th"
                             scope="row"
-                            hover
-                            color="primary"
-                            className={classes.tablebodyCell}
+                            className={
+                              classes.tablebodyCell && selectedRow
+                                ? classes.tablebodyrowSelected
+                                : classes.tablebodyrow
+                            }
                             tabIndex={-1}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
@@ -756,7 +762,7 @@ function NewVolunteerDashboard(props) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          sx={{ position: "relative", right: "20px" }}
+          sx={{ position: "relative", right: isActive ? "0px" : "40px" }}
         />
       </Container>
       <ChangeStatusModal

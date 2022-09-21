@@ -159,6 +159,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     padding: "32px",
+
     gap: "32px",
     // height: `${widthOfMoal}`,
     width: "420px",
@@ -171,6 +172,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "32px",
     gap: "32px",
     borderRadius: "20px",
+    margin: "0px",
   },
   dialogBtn: {
     display: "flex",
@@ -185,7 +187,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   dialogresBtn: {
-    width: "264px",
+    width: "255px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
