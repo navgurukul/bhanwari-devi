@@ -47,6 +47,16 @@ function ContentEdit() {
     });
   };
   const putApiAssessmentCall = () => {
+    //delete the component which value is empty string or empty list
+    const needToBeRemovedIndex = []
+    for( var i in course){
+      if (course[i].value.length===0){
+        needToBeRemovedIndex.push(i)
+      }
+    }
+    for (var index of needToBeRemovedIndex){
+      course.splice(index,1)
+    }
     const stringifiedCourse = JSON.stringify(course, null, 0);
     console.log(id, stringifiedCourse, "cc");
     axios({
@@ -76,9 +86,29 @@ function ContentEdit() {
     })
       .then((res) => {
         console.log("res", res);
-        setCourseType(res.data.course.exercises[exerciseId].content_type);
+        const course_type = res.data.course.exercises[exerciseId].content_type
+        setCourseType(course_type);
+        if (course_type==="assessment"){
+          if (res.data.course.exercises[exerciseId].content[0].component!=="questionExpression"){
+          res.data.course.exercises[exerciseId].content.splice(0,0,{
+              "component": "questionExpression",
+              "type": "python",
+              "title": "",
+              "value": ""
+          })
+          }
+          if (res.data.course.exercises[exerciseId].content[1].component!=="questionCode"){
+            res.data.course.exercises[exerciseId].content.splice(1,0,{
+              "component": "questionCode",
+              "type": "python",
+              "title": "",
+              "value": ""
+          })
+          }
+        }
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
+        
       })
       .catch((err) => {
         console.log("error");
@@ -95,7 +125,7 @@ function ContentEdit() {
             course.map((e, index) => {
               if (e.component === "questionExpression") {
                 return (
-                  <>
+                  <Box>
                     <Typography>Question</Typography>
                     {/* <TextField
                       id="outlined-basic"
@@ -128,11 +158,11 @@ function ContentEdit() {
                         setCourse(temp);
                       }}
                     />
-                  </>
+                  </Box>
                 );
               } else if (e.component === "questionCode") {
                 return (
-                  <>
+                  <Box>
                     <Typography>Code</Typography>
                     <TextField
                       id="outlined-basic"
@@ -148,11 +178,11 @@ function ContentEdit() {
                         setCourse(temp);
                       }}
                     />
-                  </>
+                  </Box>
                 );
               } else if (e.component === "options") {
                 return (
-                  <>
+                  <Box>
                     <Typography>Options</Typography>
                     {e.value.map((options, optionIndex) => {
                       return (
@@ -173,7 +203,7 @@ function ContentEdit() {
                         />
                       );
                     })}
-                  </>
+                  </Box>
                 );
               } else if (e.component === "solution") {
                 return (
