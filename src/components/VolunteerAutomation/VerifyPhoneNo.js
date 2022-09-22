@@ -56,7 +56,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
   const [otp, setOtp] = React.useState("");
   const [startOtp, setStartOtp] = React.useState(false);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
-  const [Timer, setTimer] = React.useState(null);
+  const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
   const auth = getAuth();
   const setupRecaptcha = () => {
@@ -74,7 +74,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
 
   const countTimer = () => {
     setIsStartTimer(true);
-    let countDownDate = new Date().getTime() + 10000;
+    let countDownDate = new Date().getTime() + 300000;
     let x = setInterval(function () {
       let now = new Date().getTime();
       let distance = countDownDate - now;
