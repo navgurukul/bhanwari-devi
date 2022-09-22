@@ -9,6 +9,7 @@ import { PATHS } from "../../../constant";
 function AdminHeader({ leftDrawer, toggleDrawer }) {
   const user = useSelector(({ User }) => User);
   const partnerGroupId = user.data.user.partner_group_id;
+  const admin = user.data.user.rolesList.indexOf("admin") > -1;
 
   return (
     <>
@@ -36,7 +37,7 @@ function AdminHeader({ leftDrawer, toggleDrawer }) {
           text={<Message constantKey="PARTNERS" />}
           toggleDrawer={toggleDrawer}
         />
-        {partnerGroupId && (
+        {/* {partnerGroupId ? (
           <HeaderNavLink
             to={`${PATHS.STATE}/${partnerGroupId}`}
             text={
@@ -46,7 +47,20 @@ function AdminHeader({ leftDrawer, toggleDrawer }) {
             }
             toggleDrawer={toggleDrawer}
           />
-        )}
+        ) : (
+          admin && (
+            <HeaderNavLink
+              to={`${PATHS.STATE}/24`}
+              text={<Message constantKey="STATEPARTNER" />}
+              toggleDrawer={toggleDrawer}
+            />
+          )
+        )} */}
+        <HeaderNavLink
+          to={`${PATHS.STATE}/23`}
+          text={<Message constantKey="STATEPARTNER" />}
+          toggleDrawer={toggleDrawer}
+        />
       </Box>
       {!leftDrawer && <SearchHeader />}
     </>
