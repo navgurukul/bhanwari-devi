@@ -27,27 +27,11 @@ const Popup = (props) => {
         <Typography variant="subtitle1" className={classes.team_cardTitle}>
           {props.Name}
         </Typography>
-        {props.linkedin ? (
-          <a
-            href={props.linkedin}
-            target="_blank"
-            className={classes.team_socialIcon}
-          >
-            <LinkedIn />
-          </a>
-        ) : (
-          <></>
+        {props.linkedin && (
+          <LinkedIn className={classes.team_socialIcon} href={props.linkedin} />
         )}
-        {props.twitter ? (
-          <a
-            href={props.twitter}
-            target="_blank"
-            className={classes.team_socialIcon}
-          >
-            <Twitter />
-          </a>
-        ) : (
-          <></>
+        {props.twitter && (
+          <Twitter className={classes.team_socialIcon} href={props.twitter} />
         )}
       </Box>
 
@@ -99,6 +83,7 @@ function Team() {
       }
       return item;
     }
+    return null;
   });
 
   const name = "Awaiting Member's Name";
@@ -263,8 +248,8 @@ function Team() {
           sx={{ marginTop: isActive ? 2 : 4 }}
         >
           <Grid container>
-            {teamData ? (
-              shuffleArray(teamData).map((item) => {
+            {teamData &&
+              shuffleArray(teamData).map((item, idx) => {
                 if (
                   (condition === "volunteers" &&
                     item.Association === "Volunteer") ||
@@ -272,7 +257,7 @@ function Team() {
                     item.Association !== "Volunteer")
                 ) {
                   return (
-                    <Grid item xs={6} sm={6} md={3}>
+                    <Grid key={idx} item xs={6} sm={6} md={3}>
                       <Tippy
                         animation="fade"
                         interactive="true"
@@ -322,10 +307,7 @@ function Team() {
                     </Grid>
                   );
                 }
-              })
-            ) : (
-              <></>
-            )}
+              })}
           </Grid>
         </Container>
       </Container>

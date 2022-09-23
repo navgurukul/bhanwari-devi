@@ -1,9 +1,9 @@
 import React from "react";
 
-function LinkedIn() {
+function LinkedIn({ href, className }) {
   return (
-    <div className="linkedin">
-      <a target="_blank">
+    <div className={className}>
+      <a href={href} target="_blank" rel="noopener noreferrer">
         <svg
           width="32"
           height="32"
