@@ -3,13 +3,16 @@ import { METHODS } from "../../../services/api";
 import { versionCode, PATHWAYS_INFO } from "../../../constant";
 
 export const getPathways = () => {
-  const branchDataSource =
-    process.env.REACT_APP_MERAKI_URL.startsWith("https://dev") ? "dev" : "main";
+  const branchDataSource = process.env.REACT_APP_MERAKI_URL.startsWith(
+    "https://dev"
+  )
+    ? "dev"
+    : "main";
   //update
   return axios(
     "https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
-    branchDataSource +
-    "/src/data/pathway_data_v40.json"
+      branchDataSource +
+      "/src/data/pathway_data_v40.json"
   ).catch((err) => {
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,
@@ -40,7 +43,7 @@ export const getPathways = () => {
       response.data.pathways = backEndPathwayData.reduce(
         (pathwayData, pathway) => {
           const indexOfPathway = feCodeToIndexMap[pathway.code];
-          if (indexOfPathway != undefined) {
+          if (indexOfPathway !== undefined) {
             pathwayData[indexOfPathway] = {
               ...pathway,
               ...pathwayData[indexOfPathway],
@@ -113,7 +116,7 @@ export const getUpcomingBatches = (data) => {
       if (
         c.recurring_id &&
         !recurringIds.has(c.recurring_id) &&
-        cPathwayId == pathwayId
+        cPathwayId === pathwayId
       ) {
         recurringIds.add(c.recurring_id);
         new Date(c.start_time) > new Date() && upcomingBatchClasses.push(c);

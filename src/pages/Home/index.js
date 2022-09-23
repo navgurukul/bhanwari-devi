@@ -4,7 +4,6 @@ import {
   CssBaseline,
   Container,
   Button,
-  Card,
   Stack,
   Box,
 } from "@mui/material";
@@ -15,7 +14,6 @@ import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
@@ -114,7 +112,7 @@ function MerakiEntry(props) {
 
   let defalutPage = "/";
   roles.map((userRole) => {
-    if (role?.length == 0) {
+    if (role?.length === 0) {
       defalutPage = "/pathway/1";
     } else if (role && userRole.key === role[0].toUpperCase()) {
       defalutPage = rolesLandingPages[userRole.key];
@@ -175,7 +173,7 @@ function MerakiEntry(props) {
 
 function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  // const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
   const dispatch = useDispatch();
   const { loading, data } = useSelector((state) => state.Pathways);

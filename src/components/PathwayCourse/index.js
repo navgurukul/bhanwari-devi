@@ -21,7 +21,6 @@ import {
   Grid,
   Card,
   Typography,
-  CardMedia,
   Button,
   CardActions,
   Skeleton,
@@ -126,8 +125,6 @@ function PathwayCourse() {
     );
   });
 
-  console.log("upcomingBatchesData", upcomingBatchesData);
-
   const history = useHistory();
 
   useEffect(() => {
@@ -136,10 +133,6 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    console.log(
-      "Pathwayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-      pathwayId
-    );
     if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
@@ -155,7 +148,6 @@ function PathwayCourse() {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        console.log("response", response);
         response.data.pathway.map((item) => {
           setCompletedPortionJason((prevState) => ({
             ...prevState,
@@ -195,7 +187,7 @@ function PathwayCourse() {
     });
 
   const pathwayCourseData = pathways.find((item) => {
-    return item.id == pathwayId;
+    return item.id === pathwayId;
   });
 
   return (
@@ -292,8 +284,8 @@ function PathwayCourse() {
                       </Typography>
                     </ExternalLink>
                     {!user?.data?.token &&
-                    (pathwayCourseData.code == "PRGPYT" ||
-                      pathwayCourseData.code == "SPKENG") ? (
+                    (pathwayCourseData.code === "PRGPYT" ||
+                      pathwayCourseData.code === "SPKENG") ? (
                       <>
                         <Typography
                           variant="body1"
@@ -325,8 +317,8 @@ function PathwayCourse() {
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                   {user?.data?.token &&
-                  (pathwayCourseData.code == "PRGPYT" ||
-                    pathwayCourseData.code == "SPKENG") ? (
+                  (pathwayCourseData.code === "PRGPYT" ||
+                    pathwayCourseData.code === "SPKENG") ? (
                     loading ? (
                       <Card sx={{ p: 4 }}>
                         <Typography variant="subtitle1">

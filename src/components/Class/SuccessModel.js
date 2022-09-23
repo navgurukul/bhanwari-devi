@@ -18,7 +18,7 @@ function SuccessModel({ successModalMsg, classType }) {
           <img alt="img" src={require("./assets/ClassCreated.svg")} />
           <Typography variant="body1" mt={4}>
             {`The ${
-              classType == "batch" ? classType : "doubt class"
+              classType === "batch" ? classType : "doubt class"
             } has been ${successModalMsg} successfully`}
           </Typography>
         </Box>

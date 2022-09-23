@@ -22,10 +22,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginTop: "32px",
   },
-  contentImg: {
-    padding: 5,
-    marginRight: 5,
-  },
   codeBackground: {
     background: "#E5E5E5",
     padding: 16,

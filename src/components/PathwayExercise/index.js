@@ -107,7 +107,7 @@ function NavigationComponent({
         }}
         index={index}
         imageRef={imageRef}
-        selected={exerciseId == index}
+        selected={exerciseId === index}
         contentType={exercise.content_type}
         setExerciseId={setExerciseId}
         progressTrackId={progressTrackId}
@@ -140,9 +140,6 @@ function PathwayExercise() {
     const scrollTop = scrollRef.current.scrollTop;
     const maxScrollLeft =
       scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-    console.log(
-      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
-    );
     if (!showArrow.left) {
       if (scrollY > 0) {
         setShowArrow((prev) => {
@@ -187,9 +184,7 @@ function PathwayExercise() {
         setCourse(res.data.course.exercises);
         setAvailableLang(res.data.course.lang_available);
       })
-      .catch((err) => {
-        console.log("error");
-      });
+      .catch((err) => {});
   }, [currentCourse]);
   useEffect(() => {
     axios({
@@ -323,8 +318,6 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(progressTrackId);
-
       setExerciseId(exerciseId + 1);
     }
   };
@@ -376,9 +369,9 @@ function PathwayExercise() {
                 <Link
                   style={{ color: "#6D6D6D" }}
                   to={
-                    params.pathwayId == "miscellaneous"
+                    params.pathwayId === "miscellaneous"
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
-                      : params.pathwayId == "residential"
+                      : params.pathwayId === "residential"
                       ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
                       : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
@@ -449,9 +442,9 @@ function PathwayExercise() {
                 <Link
                   style={{ color: "#6D6D6D" }}
                   to={
-                    params.pathwayId == "miscellaneous"
+                    params.pathwayId === "miscellaneous"
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
-                      : params.pathwayId == "residential"
+                      : params.pathwayId === "residential"
                       ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
                       : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
@@ -486,7 +479,7 @@ function PathwayExercise() {
                         >
                           <ExerciseImage
                             id={exercise.id}
-                            selected={exerciseId == index}
+                            selected={exerciseId === index}
                             contentType={exercise.content_type}
                             exerciseName={
                               exercise.name ||

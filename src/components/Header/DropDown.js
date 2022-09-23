@@ -93,7 +93,6 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  console.log("DP", data?.pathways);
   data?.pathways &&
     (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
 
@@ -183,7 +182,7 @@ export const DropDown = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.Pathways);
+  // const { data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());

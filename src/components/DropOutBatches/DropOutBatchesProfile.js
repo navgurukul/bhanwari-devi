@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 
 function DropOutIndividualComponent(props) {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const { title, id, pathway_name, open, setOpen, start_time, end_time } =
     props;

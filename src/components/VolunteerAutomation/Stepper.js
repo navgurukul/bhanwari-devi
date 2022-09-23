@@ -17,15 +17,13 @@ import {
   Toolbar,
   Typography,
   Button,
-  Select,
-  MenuItem,
   IconButton,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SelectTrack from "./SelectTrack";
 import Confirmation from "./Confirmation";
-import AttendClass from "./AttendClass";
+// import AttendClass from "./AttendClass";
 import Availability from "./ Availability";
 import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
@@ -152,11 +150,11 @@ function HorizontalLinearStepper() {
     },
   ];
 
-  console.log("data", {
-    contact: contact,
-    pathway_id: pathwayId,
-    ...availability,
-  });
+  // console.log("data", {
+  //   contact: contact,
+  //   pathway_id: pathwayId,
+  //   ...availability,
+  // });
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -165,8 +163,6 @@ function HorizontalLinearStepper() {
   const setActiveStepHandler = (changeBy, prevActiveStep) => {
     const itemKey = steps[prevActiveStep]?.itemKey;
     const currentStep = prevActiveStep + changeBy;
-
-    console.log("currentStep", currentStep);
 
     if (itemKey && !disable) {
       // button was enabled by Component for this step so it's completed
@@ -226,20 +222,14 @@ function HorizontalLinearStepper() {
           },
         }).then(
           (res) => {
-            console.log("res", res);
-
             dispatch(
               actions.onUserRefreshDataIntent({ token: user.data.token })
             );
           },
-          (error) => {
-            console.log(error);
-          }
+          (error) => {}
         );
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
   };
 
@@ -312,8 +302,6 @@ function HorizontalLinearStepper() {
         <React.Fragment>
           <>
             {steps.map((step, index) => {
-              console.log(typeof index, "index");
-              console.log(typeof activeStep, "type");
               if (activeStep === index) {
                 return (
                   <Box>

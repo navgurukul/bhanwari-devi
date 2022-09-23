@@ -21,7 +21,7 @@ function CompletionComponent({ setSuccessfulExerciseCompletion }) {
 
   useEffect(() => {
     const currentIndex = pathwayCourses?.findIndex(
-      (course) => course.id == courseID
+      (course) => course.id === courseID
     );
     if (currentIndex !== -1) {
       setNextPathwayIndex(currentIndex + 1);

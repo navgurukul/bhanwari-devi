@@ -82,7 +82,7 @@ const OurPartner = () => {
         <Container sx={{ mt: isActive ? 6 : 10 }}>
           <Grid container md={12} spacing={{ xs: 2, sm: 4 }}>
             <Grid item xs={12} sm={6} md={6}>
-              <img src={Image} className={classes.image} />
+              <img src={Image} alt="Partner" className={classes.image} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} spacing={4}>
               <Chip label="Featured" color="warning" mt={2} />

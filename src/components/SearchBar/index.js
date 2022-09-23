@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { actions as courseActions } from "../Course/redux/action";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";

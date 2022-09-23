@@ -102,7 +102,7 @@ function VolunteerDashboard() {
     week("All");
     language("All");
     return cacheVolunteer.filter(
-      (el) => rating === "All" || rating == el.avg_rating
+      (el) => rating === "All" || rating === el.avg_rating
     );
   }
 
@@ -119,8 +119,8 @@ function VolunteerDashboard() {
     rating("All");
     return cacheVolunteer.filter(
       (el) =>
-        language == "All" ||
-        language == languageMap[el.classes[el.classes.length - 1].lang]
+        language === "All" ||
+        language === languageMap[el.classes[el.classes.length - 1].lang]
     );
   }
 
@@ -154,8 +154,6 @@ function VolunteerDashboard() {
     // setVolunteer(data)
     setSlicedVolunteer(slicedData);
   }, [debouncedText, pageNumber]);
-
-  console.log("Testing");
 
   return (
     <>
@@ -297,7 +295,7 @@ function VolunteerDashboard() {
             <div className="filter">
               <span>Language</span>
               <button onClick={(e) => handleDropdown(e)("language")}>
-                {language == "All" ? "All Languages" : language}
+                {language === "All" ? "All Languages" : language}
               </button>
               {dropdowns.language ? (
                 <div className="dropdown">
@@ -306,7 +304,7 @@ function VolunteerDashboard() {
                       onClick={(e) => {
                         setLangue("All");
                       }}
-                      className={language == "All" ? "checked" : ""}
+                      className={language === "All" ? "checked" : ""}
                       value="All"
                     >
                       All
@@ -315,7 +313,7 @@ function VolunteerDashboard() {
                       onClick={(e) => {
                         setLangue("English");
                       }}
-                      className={language == "English" ? "checked" : ""}
+                      className={language === "English" ? "checked" : ""}
                       value="English"
                     >
                       English
@@ -324,7 +322,7 @@ function VolunteerDashboard() {
                       onClick={(e) => {
                         setLangue("Hindi");
                       }}
-                      className={language == "Hindi" ? "checked" : ""}
+                      className={language === "Hindi" ? "checked" : ""}
                       value="Hindi"
                     >
                       Hindi
@@ -367,10 +365,10 @@ function VolunteerDashboard() {
                       className={rating === 4 ? "checked" : ""}
                       value="4 Stars"
                     >
-                      <img src={star} />
-                      <img src={star} />
-                      <img src={star} />
-                      <img src={star} />& Above
+                      <img src={star} alt="Ratings" />
+                      <img src={star} alt="Ratings" />
+                      <img src={star} alt="Ratings" />
+                      <img src={star} alt="Ratings" />& Above
                     </li>
                     <li
                       onClick={() => {
@@ -379,9 +377,9 @@ function VolunteerDashboard() {
                       className={rating === 3 ? "checked" : ""}
                       value="3 Stars"
                     >
-                      <img src={star} />
-                      <img src={star} />
-                      <img src={star} />
+                      <img src={star} alt="Ratings" />
+                      <img src={star} alt="Ratings" />
+                      <img src={star} alt="Ratings" />
                     </li>
                     <li
                       onClick={() => {
@@ -390,8 +388,8 @@ function VolunteerDashboard() {
                       className={rating === 2 ? "checked" : ""}
                       value="2 Stars"
                     >
-                      <img src={star} />
-                      <img src={star} />
+                      <img src={star} alt="Ratings" />
+                      <img src={star} alt="Ratings" />
                     </li>
                     <li
                       onClick={() => {
@@ -400,7 +398,7 @@ function VolunteerDashboard() {
                       className={rating === 1 ? "checked" : ""}
                       value="1 Stars"
                     >
-                      <img src={star} />
+                      <img src={star} alt="Ratings" />
                     </li>
                   </ul>
                   <span
@@ -496,14 +494,14 @@ function VolunteerDashboard() {
                     <td data-column="Last Class Title">
                       {item.classes &&
                       item.classes.length > 0 &&
-                      item.classes[item.classes.length - 1]["title"] != ""
+                      item.classes[item.classes.length - 1]["title"] !== ""
                         ? item.classes[item.classes.length - 1]["title"]
                         : "NA"}
                     </td>
                     <td data-column="Last class lang">
                       {item.classes &&
                       item.classes.length > 0 &&
-                      item.classes[item.classes.length - 1]["lang"] != ""
+                      item.classes[item.classes.length - 1]["lang"] !== ""
                         ? languageMap[
                             item.classes[item.classes.length - 1]["lang"]
                           ]

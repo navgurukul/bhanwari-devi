@@ -6,7 +6,7 @@ import { breakpoints } from "../../../theme/constant";
 
 // import { dateTimeFormat, TimeLeft } from "../../../constant";
 // import { timeLeftFormat } from "../../common/date";
-import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -17,7 +17,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import {
   Typography,
   Card,
-  Grid,
   Button,
   Box,
   Stack,
@@ -30,9 +29,8 @@ import {
   DialogActions,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ExternalLink from "../../common/ExternalLink";
+// import ExternalLink from "../../common/ExternalLink";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
 
 toast.configure();
@@ -141,7 +139,6 @@ function ClassCard({ item, editClass }) {
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
     setLoading(true);
-    console.log("28002", Id);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -170,7 +167,6 @@ function ClassCard({ item, editClass }) {
         }
       )
       .then((res) => {
-        console.log("res", res);
         if (!getNotify) {
           notify();
           clearTimeout(timer);
@@ -182,7 +178,6 @@ function ClassCard({ item, editClass }) {
 
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
-    console.log("28002", Id);
     setLoading(true);
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
@@ -209,7 +204,6 @@ function ClassCard({ item, editClass }) {
         // "unregister-to-all": indicator,
       },
     }).then((res) => {
-      console.log("res", res);
       if (!getNotify) {
         notify();
         clearTimeout(timer);
@@ -343,11 +337,16 @@ function ClassCard({ item, editClass }) {
           <img
             className={classes.icons}
             src={require("../assets/calendar.svg")}
+            alt=""
           />
           {format(item.start_time, "dd MMM yy")}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
-          <img className={classes.icons} src={require("../assets/time.svg")} />
+          <img
+            className={classes.icons}
+            alt=""
+            src={require("../assets/time.svg")}
+          />
           {format(classStartTime, "hh:mm aaa")} -{" "}
           {format(classEndTime, "hh:mm aaa")}
         </Typography>
@@ -355,6 +354,7 @@ function ClassCard({ item, editClass }) {
           <img
             className={classes.icons}
             src={require("../assets/facilitator.svg")}
+            alt=""
           />
           {item.facilitator.name}
         </Typography>
@@ -362,6 +362,7 @@ function ClassCard({ item, editClass }) {
           <img
             className={classes.icons}
             src={require("../assets/language.svg")}
+            alt=""
           />
           {languageMap[item.lang]}
         </Typography>
