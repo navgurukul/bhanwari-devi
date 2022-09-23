@@ -40,6 +40,7 @@ const GenerateReport = (props) => {
       }}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      className={isActive && classes.dialog}
     >
       <div
         style={{

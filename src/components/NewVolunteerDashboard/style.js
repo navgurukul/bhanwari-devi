@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import { border } from "@mui/system";
 
 const useStyles = makeStyles((theme) => ({
   searchBar: {
@@ -115,6 +116,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px !important",
   },
 
+  tableSticky: {
+    position: "sticky",
+    backgroundColor: "white",
+    zIndex: 800,
+  },
   /// menu component
   menuContainer: {
     width: "128px",
@@ -175,6 +181,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "20px",
     margin: "0px",
   },
+
   dialogBtn: {
     display: "flex",
     flexDirection: "row",
@@ -188,12 +195,16 @@ const useStyles = makeStyles((theme) => ({
   },
 
   dialogresBtn: {
-    width: "255px",
+    width: "264px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     left: 20,
+  },
+  dialog: {
+    margin: "-20px ",
+    borderRadius: "8px",
   },
   // ..................changestatusmodal....................
   dialogStatus: {

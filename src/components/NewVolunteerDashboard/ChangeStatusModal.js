@@ -31,6 +31,7 @@ const ChangeStatusModal = (props) => {
       }}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      className={isActive && classes.dialog}
     >
       <div className={isActive ? classes.dialogresponsie : classes.dialogTypo}>
         <DialogTitle id="id">

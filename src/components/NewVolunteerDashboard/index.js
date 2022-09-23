@@ -382,7 +382,11 @@ function NewVolunteerDashboard(props) {
                 </TableCell>
                 {selected.length > 0 ? (
                   <>
-                    <TableCell align="center">
+                    <TableCell
+                      align="center"
+                      className={classes.tableSticky}
+                      sx={{ left: "72px" }}
+                    >
                       <Typography className={classes.tablecellHead}>
                         {selected.length}{" "}
                         {selected.length === 1 ? "row is " : "rows are "}
@@ -390,6 +394,8 @@ function NewVolunteerDashboard(props) {
                       </Typography>
                     </TableCell>
                     <TableCell
+                      className={classes.tableSticky}
+                      sx={{ left: "170px" }}
                       onClick={() => {
                         const valueToDisplay = `Total ${selected.length} ${
                           selected.length === 1 ? "row is " : "rows are "
@@ -406,7 +412,7 @@ function NewVolunteerDashboard(props) {
                       </Typography>
                     </TableCell>
 
-                    <TableCell colSpan={5} align="left">
+                    <TableCell colSpan={5}>
                       <Typography
                         sx={{ fontWeight: "600", fontSize: "14px" }}
                         color="error"
@@ -423,28 +429,29 @@ function NewVolunteerDashboard(props) {
                         left: "74px",
                         backgroundColor: "white",
                         zIndex: 800,
+                        width: "150px",
                       }}
                     >
                       <Typography className={classes.tablecellHead}>
                         Name
                       </Typography>
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" sx={{ width: "150px" }}>
                       <Typography className={classes.tablecellHead}>
                         Last Class Batch
                       </Typography>
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" sx={{ width: "150px" }}>
                       <Typography className={classes.tablecellHead}>
                         Last Class Title
                       </Typography>
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" sx={{ width: "119px" }}>
                       <Typography className={classes.tablecellHead}>
                         Last Class Date
                       </Typography>
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" sx={{ width: "119px" }}>
                       <Typography className={classes.tablecellHead}>
                         Class Language
                       </Typography>
@@ -452,7 +459,7 @@ function NewVolunteerDashboard(props) {
                     <TableCell
                       align="left"
                       sx={{
-                        width: "140px",
+                        width: isActive ? "55px" : "140px",
                       }}
                     >
                       <Typography className={classes.tablecellHead}>
@@ -482,7 +489,6 @@ function NewVolunteerDashboard(props) {
                     item.last_class_date =
                       sortedClasses.length &&
                       sortedClasses[sortedClasses.length - 1].start_time;
-
                     return (
                       <>
                         <TableRow
