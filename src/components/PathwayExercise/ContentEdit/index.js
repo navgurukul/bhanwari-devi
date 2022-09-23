@@ -14,6 +14,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import "./styles.scss";
 
 function ContentEdit() {
   const user = useSelector(({ User }) => User);
@@ -48,14 +49,14 @@ function ContentEdit() {
   };
   const putApiAssessmentCall = () => {
     //delete the component which value is empty string or empty list
-    const needToBeRemovedIndex = []
-    for( var i in course){
-      if (course[i].value.length===0){
-        needToBeRemovedIndex.push(i)
+    const needToBeRemovedIndex = [];
+    for (var i in course) {
+      if (course[i].value.length === 0) {
+        needToBeRemovedIndex.push(i);
       }
     }
-    for (var index of needToBeRemovedIndex){
-      course.splice(index,1)
+    for (var index of needToBeRemovedIndex) {
+      course.splice(index, 1);
     }
     const stringifiedCourse = JSON.stringify(course, null, 0);
     console.log(id, stringifiedCourse, "cc");
@@ -86,29 +87,34 @@ function ContentEdit() {
     })
       .then((res) => {
         console.log("res", res);
-        const course_type = res.data.course.exercises[exerciseId].content_type
+        const course_type = res.data.course.exercises[exerciseId].content_type;
         setCourseType(course_type);
-        if (course_type==="assessment"){
-          if (res.data.course.exercises[exerciseId].content[0].component!=="questionExpression"){
-          res.data.course.exercises[exerciseId].content.splice(0,0,{
-              "component": "questionExpression",
-              "type": "python",
-              "title": "",
-              "value": ""
-          })
+        if (course_type === "assessment") {
+          if (
+            res.data.course.exercises[exerciseId].content[0].component !==
+            "questionExpression"
+          ) {
+            res.data.course.exercises[exerciseId].content.splice(0, 0, {
+              component: "questionExpression",
+              type: "python",
+              title: "",
+              value: "",
+            });
           }
-          if (res.data.course.exercises[exerciseId].content[1].component!=="questionCode"){
-            res.data.course.exercises[exerciseId].content.splice(1,0,{
-              "component": "questionCode",
-              "type": "python",
-              "title": "",
-              "value": ""
-          })
+          if (
+            res.data.course.exercises[exerciseId].content[1].component !==
+            "questionCode"
+          ) {
+            res.data.course.exercises[exerciseId].content.splice(1, 0, {
+              component: "questionCode",
+              type: "python",
+              title: "",
+              value: "",
+            });
           }
         }
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
-        
       })
       .catch((err) => {
         console.log("error");
@@ -145,12 +151,17 @@ function ContentEdit() {
                       fullWidth
                       placeholder="Question"
                       color="primary"
-                      style={{
-                        width: 529,
-                        margin: "10px 0px",
-                        padding: "20px 10px",
-                        border: "1px solid #BDBDBD",
-                      }}
+                      className="area"
+                      // className={classes.textarea}
+                      // style={{
+                      //   width: 529,
+                      //   margin: "10px 0px",
+                      //   padding: "20px 10px",
+                      //   border: "1px solid #BDBDBD",
+                      //   fontSize: "1.125rem",
+                      //   color: "#2E2E2E",
+                      //   fontFamily: "Noto Sans",
+                      // }}
                       value={course[index].value}
                       onChange={(e) => {
                         var temp = [...course];

@@ -255,7 +255,7 @@ theme.components = {
     styleOverrides: {
       root: {
         "&$focused": {
-          color: "red !important",
+          border: "1px solid red !important",
         },
       },
       focused: {},

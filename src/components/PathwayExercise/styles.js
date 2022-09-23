@@ -82,6 +82,18 @@ const useStyles = makeStyles((theme) => ({
   editField: {
     margin: "10px 0px",
   },
+  textarea: {
+    width: 529,
+    margin: "10px 0px",
+    padding: "20px 10px",
+    border: "1px solid #BDBDBD",
+    fontSize: "1.125rem",
+    color: "#2E2E2E",
+    fontFamily: "Noto Sans",
+    "&$focused": {
+      border: "1px solid red !important",
+    },
+  },
 }));
 
 export default useStyles;
