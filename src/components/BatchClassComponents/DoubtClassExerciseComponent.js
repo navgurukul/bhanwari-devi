@@ -15,10 +15,9 @@ import DropOut from "./DropOut";
 export const MoreDetails = (props) => {
   const { open, setOpen, isEnrolled, setIsEnrolled } = props;
 
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const { actions, value } = props;
-  console.log(actions, value);
   const toggleDrawer = (changeTo) => (event) => {
     if (
       event &&
@@ -41,7 +40,6 @@ export const MoreDetails = (props) => {
   var ONE_MINUTE = 60 * 1000;
   setInterval(() => {
     setTimeLefts(TimeLeft(actions.start_time));
-    console.log("TimeChange");
   }, ONE_MINUTE);
   const closeDropOut = () => {
     setOpenDropOut(false);
@@ -124,7 +122,7 @@ export const MoreDetails = (props) => {
             </Typography>
             {isEnrolled ? (
               <>
-                {TimeLefts == "joinNow" ? (
+                {TimeLefts === "joinNow" ? (
                   <a
                     style={{
                       textDecoration: "none",

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { METHODS } from "../../../services/api";
+// import { useSelector } from "react-redux";
+// import { METHODS } from "../../../services/api";
 import { PATHS } from "../../../constant";
 import moment from "moment";
 import ReactPaginate from "react-paginate";
@@ -15,7 +15,7 @@ function VolunteerOverview(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [classes, setClasses] = useState([]);
   const [slicedClasses, setSlicedClasses] = useState();
-  const user = useSelector(({ User }) => User);
+  // const user = useSelector(({ User }) => User);
   const [pageNumber, setPageNumber] = useState(0);
   const [sortMethod, setSortMethod] = useState("dsc");
   const [debouncedText] = useDebounce(searchTerm);
@@ -46,7 +46,7 @@ function VolunteerOverview(props) {
 
   useEffect(() => {
     const data = volunteerClassData.classes.filter((searchValue) => {
-      if (searchTerm == "") {
+      if (searchTerm === "") {
         return searchValue;
       } else if (
         searchValue.title.toLowerCase().includes(searchTerm.toLowerCase())

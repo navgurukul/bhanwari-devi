@@ -1,22 +1,22 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { NavLink, useLocation, useHistory } from "react-router-dom";
-import { PATHS } from "../../../constant";
+// import { useSelector } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
+// import { PATHS } from "../../../constant";
 import useStyles from "../styles";
 import { Box, Typography, Menu, MenuItem } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Message from "../../common/Message";
-import {
-  MENU_ITEMS,
-  ROLES,
-  ADMIN_ROLE_KEY as ADMIN,
-  PARTNER_ROLE_KEY as PARTNER,
-  PARTNER_VIEW_ROLE_KEY as PARTNER_VIEW,
-  PARTNER_EDIT_ROLE_KEY as PARTNER_EDIT,
-  STUDENT_ROLE_KEY as STUDENT,
-  VOLUNTEER_ROLE_KEY as VOLUNTEER,
-} from "../constant";
+// import {
+//   MENU_ITEMS,
+//   ROLES,
+//   ADMIN_ROLE_KEY as ADMIN,
+//   PARTNER_ROLE_KEY as PARTNER,
+//   PARTNER_VIEW_ROLE_KEY as PARTNER_VIEW,
+//   PARTNER_EDIT_ROLE_KEY as PARTNER_EDIT,
+//   STUDENT_ROLE_KEY as STUDENT,
+//   VOLUNTEER_ROLE_KEY as VOLUNTEER,
+// } from "../constant";
 import { isTouchScreen } from "../../../common/utils";
 
 /*

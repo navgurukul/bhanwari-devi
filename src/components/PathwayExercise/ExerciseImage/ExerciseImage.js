@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import useStyles from "../styles";
-import { PATHS, interpolatePath, versionCode } from "../../../constant";
+import { PATHS, interpolatePath } from "../../../constant";
 import { Tooltip } from "@mui/material";
 
 export default function ExerciseImage({
@@ -62,6 +62,7 @@ export default function ExerciseImage({
           );
           setExerciseId(index);
         }}
+        alt=""
         ref={imageRef}
         src={require(`../asset/${contentTypeMap[contentType]}.svg`)}
         loading="lazy"

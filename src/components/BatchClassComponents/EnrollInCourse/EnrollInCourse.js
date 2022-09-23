@@ -26,9 +26,7 @@ const CourseEnroll = (props) => {
     };
   });
   const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
-  useEffect(() => {
-    console.log(selectedBatchToEnroll);
-  }, [selectedBatchToEnroll]);
+  useEffect(() => {}, [selectedBatchToEnroll]);
   const [open, setOpen] = useState(false);
   const close = () => {
     setOpen(false);
@@ -37,7 +35,7 @@ const CourseEnroll = (props) => {
     <>
       <Box className={classes.EnrollInCourseBox1}>
         <Box className={classes.EnrollInCourseBox2}>
-          <img src={NotEnrolledSvg} />
+          <img src={NotEnrolledSvg} alt="" />
           <Box className={classes.EnrollInCourseCard}>
             <Card elevation={2} pl={10}>
               <CardContent>

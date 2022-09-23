@@ -3,7 +3,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { BsArrowUpDown } from "react-icons/bs";
 import { PATHS } from "../../../constant.js";
-
 import { METHODS } from "../../../services/api";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
@@ -59,7 +58,7 @@ function StudentData() {
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
       if (
-        id == user.data.user.partner_id ||
+        id === user.data.user.partner_id ||
         hasOneFrom(user.data.user.rolesList, [
           "admin",
           "partner_view",
@@ -300,7 +299,7 @@ function StudentData() {
       "partner_edit",
       "partner",
     ]) ||
-    user.data.user.partner_id == id
+    user.data.user.partner_id === id
   ) {
     return (
       <div className="container-table">
@@ -470,7 +469,7 @@ function StudentData() {
                         item.classes_registered.length > 0 &&
                         item.classes_registered[
                           item.classes_registered.length - 1
-                        ]["title"] != ""
+                        ]["title"] !== ""
                           ? item.classes_registered[
                               item.classes_registered.length - 1
                             ]["title"]
@@ -519,7 +518,7 @@ function StudentData() {
                 })
               : slicedStudents.map((item) => {
                   let getStars = 0;
-                  let totalStarts = item.classes_registered.length * 5;
+                  // let totalStarts = item.classes_registered.length * 5;
                   item.classes_registered.map((stars) => {
                     getStars = getStars + Number(stars.feedback.feedback);
                   });
@@ -553,7 +552,7 @@ function StudentData() {
                         item.classes_registered.length > 0 &&
                         item.classes_registered[
                           item.classes_registered.length - 1
-                        ]["title"] != ""
+                        ]["title"] !== ""
                           ? item.classes_registered[
                               item.classes_registered.length - 1
                             ]["title"]
@@ -601,7 +600,7 @@ function StudentData() {
                         "partner_edit",
                         "partner",
                       ]) &&
-                        user.data.user.partner_id == id) ||
+                        user.data.user.partner_id === id) ||
                         hasOneFrom(user.data.user.rolesList, ["admin"])) && (
                         <td data-column="Delete">
                           <i
@@ -612,7 +611,7 @@ function StudentData() {
                               setUserName(item.name);
                             }}
                           />
-                          {loginUser == item.id ? null : (
+                          {loginUser === item.id ? null : (
                             <i
                               style={{ marginLeft: "20px" }}
                               className="class-card-action-icon fa fa-trash"

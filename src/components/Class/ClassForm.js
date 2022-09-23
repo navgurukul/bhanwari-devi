@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import CloseIcon from "@material-ui/icons/Close";
 import { lang } from "../../constant";
@@ -65,7 +64,7 @@ function ClassForm({
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
     lang: classToEdit.lang || "en",
     max_enrolment:
-      classToEdit.max_enrolment == null
+      classToEdit.max_enrolment === null
         ? "No Limit"
         : classToEdit.max_enrolment || "10",
     frequency: classToEdit.parent_class
@@ -151,7 +150,7 @@ function ClassForm({
 
   //For partner error field (batch only)
   useEffect(() => {
-    if (classFields.type == "batch") {
+    if (classFields.type === "batch") {
       if (onInput.partner && classFields.partner_id.length === 0) {
         setShowError((prev) => {
           return { ...prev, partner: true };
@@ -332,9 +331,9 @@ function ClassForm({
     }
   };
 
-  useEffect(() => {
-    console.log("id", classFields.partner_id);
-  }, [classFields.partner_id]);
+  // useEffect(() => {
+  //   console.log("id", classFields.partner_id);
+  // }, [classFields.partner_id]);
 
   useEffect(() => {
     axios({
@@ -572,7 +571,7 @@ function ClassForm({
         "on_days",
       ]);
     }
-    if (classFields.max_enrolment != "No Limit") {
+    if (classFields.max_enrolment !== "No Limit") {
       //add max_enrolment field only if it is not No Limit
       payload.max_enrolment = classFields.max_enrolment;
     }
@@ -581,7 +580,7 @@ function ClassForm({
 
   const handleFocus = (event) => {
     event.preventDefault();
-    const { target } = event;
+    // const { target } = event;
     if (classFields.title === "") {
       setDisplay(true);
     }
@@ -607,7 +606,7 @@ function ClassForm({
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
                   {(isEditMode ? "Update " : "Create ") +
-                    (classFields.type == "batch" ? "Batch" : "Doubt Class")}
+                    (classFields.type === "batch" ? "Batch" : "Doubt Class")}
                 </Typography>
               </Grid>
               <Grid
@@ -950,7 +949,7 @@ function ClassForm({
                 onClick={submitHandle}
               >
                 {(isEditMode ? "Update " : "Create ") +
-                  (classFields.type == "batch" ? "Batch" : "Doubt Class")}
+                  (classFields.type === "batch" ? "Batch" : "Doubt Class")}
               </Button>
             )}
           </Box>

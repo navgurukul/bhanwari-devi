@@ -225,7 +225,6 @@ function Class({ classToEdit, indicator }) {
   };
 
   const handleTimeValidationAndCreateClass = (payload) => {
-    console.log("payload", payload);
     const classStartTime = moment(
       `${payload[TIME_CONSTANT.CLASS_START_DATE]} ${
         payload[TIME_CONSTANT.CLASS_START_TIME]
@@ -395,7 +394,7 @@ function Class({ classToEdit, indicator }) {
           }
         } else if (fieldName === "max_enrolment") {
           formFields[fieldName] = Number(value);
-          if (value == 0) {
+          if (value === 0) {
             delete formFields.max_enrolment;
           }
         } else if (fieldName === "type") {
@@ -425,7 +424,7 @@ function Class({ classToEdit, indicator }) {
       <h2 className="title">
         {isEditMode
           ? `Update ${
-              initialFormState[TYPE] == "batch" ? "batch" : "doubt"
+              initialFormState[TYPE] === "batch" ? "batch" : "doubt"
             } class`
           : "Create a Batch"}
       </h2>
@@ -520,7 +519,7 @@ function Class({ classToEdit, indicator }) {
               >
                 <span>
                   {pathways.map((item, index) => {
-                    if (item.code == "PRGPYT" || item.code == "SPKENG") {
+                    if (item.code === "PRGPYT" || item.code === "SPKENG") {
                       return (
                         <label
                           htmlFor={`pathway-${index}`}
@@ -556,7 +555,7 @@ function Class({ classToEdit, indicator }) {
               )}
               {formFieldsState[TYPE] === "doubt_class" &&
                 pathways.map((pathway) => {
-                  if (pathwayId == pathway.id) {
+                  if (pathwayId === pathway.id) {
                     return (
                       <React.Fragment key={pathway.id}>
                         <label htmlFor="course_id" className="label-field">
@@ -589,7 +588,7 @@ function Class({ classToEdit, indicator }) {
                 })}
               {formFieldsState[TYPE] === "doubt_class" &&
                 pathwayId &&
-                formFieldsState[COURSE_ID] == "" && (
+                formFieldsState[COURSE_ID] === "" && (
                   <span className="field-validation">Select a course</span>
                 )}
               {formFieldsState[COURSE_ID] && exercisesForSelectedCourse && (
@@ -754,7 +753,6 @@ function Class({ classToEdit, indicator }) {
                     type="time"
                     name={CLASS_START_TIME}
                     onChange={(e) => {
-                      console.log("e", e.target.value);
                       changeHandler(e, setFormFieldsState, formFieldsState);
                     }}
                     value={formFieldsState[CLASS_START_TIME]}
@@ -858,7 +856,7 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[MAX_ENROLMENT]}
                     id="enrole-0"
                     checked={
-                      formFieldsState.max_enrolment == "0" ? "checked" : false
+                      formFieldsState.max_enrolment === "0" ? "checked" : false
                     }
                   />
                   No limit
@@ -874,7 +872,7 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[MAX_ENROLMENT]}
                     id="enrole-5"
                     checked={
-                      formFieldsState.max_enrolment == "5" ? "checked" : false
+                      formFieldsState.max_enrolment === "5" ? "checked" : false
                     }
                   />
                   5
@@ -890,7 +888,7 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[MAX_ENROLMENT]}
                     id="enrole-10"
                     checked={
-                      formFieldsState.max_enrolment == "10" ? "checked" : false
+                      formFieldsState.max_enrolment === "10" ? "checked" : false
                     }
                   />
                   10
@@ -906,7 +904,7 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[MAX_ENROLMENT]}
                     id="enrole-15"
                     checked={
-                      formFieldsState.max_enrolment == "15" ? "checked" : false
+                      formFieldsState.max_enrolment === "15" ? "checked" : false
                     }
                   />
                   15
@@ -922,7 +920,7 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[MAX_ENROLMENT]}
                     id="enrole-20"
                     checked={
-                      formFieldsState.max_enrolment == "20" ? "checked" : false
+                      formFieldsState.max_enrolment === "20" ? "checked" : false
                     }
                   />
                   20
@@ -938,7 +936,7 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[MAX_ENROLMENT]}
                     id="enrole-25"
                     checked={
-                      formFieldsState.max_enrolment == "25" ? "checked" : false
+                      formFieldsState.max_enrolment === "25" ? "checked" : false
                     }
                   />
                   25
@@ -954,7 +952,7 @@ function Class({ classToEdit, indicator }) {
                     value={formFieldsState[MAX_ENROLMENT]}
                     id="enrole-30"
                     checked={
-                      formFieldsState.max_enrolment == "30" ? "checked" : false
+                      formFieldsState.max_enrolment === "30" ? "checked" : false
                     }
                   />
                   30
@@ -1156,7 +1154,7 @@ function Class({ classToEdit, indicator }) {
                       SU
                     </label>
                   </span>
-                  {formFieldsState[ON_DAYS].length == 0 && (
+                  {formFieldsState[ON_DAYS].length === 0 && (
                     <span className="field-validation">Select days</span>
                   )}
                   {matchDay && (

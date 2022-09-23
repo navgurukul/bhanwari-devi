@@ -59,10 +59,6 @@ const useStyles = makeStyles((theme) => ({
   NewVolunteerCardCloseIcon: {
     cursor: "pointer",
   },
-  successModel: {
-    alignItems: "center",
-    align: "center",
-  },
 }));
 
 export default useStyles;

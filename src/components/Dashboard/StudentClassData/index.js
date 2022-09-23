@@ -25,7 +25,7 @@ function StudentClassData(props) {
 
   useEffect(() => {
     const data = props.location.state.pass.filter((searchValue) => {
-      if (searchTerm == "") {
+      if (searchTerm === "") {
         return searchValue;
       } else if (
         searchValue.title.toLowerCase().includes(searchTerm.toLowerCase())

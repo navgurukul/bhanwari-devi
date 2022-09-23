@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
 import axios from "axios";
@@ -34,7 +34,7 @@ import useStyles from "../styles";
 import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
 import CourseEnroll from "../../BatchClassComponents/EnrollInCourse/EnrollInCourse";
 import DoubtClassExerciseComponent from "../../BatchClassComponents/DoubtClassExerciseComponent";
-import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
+// import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
 import { actions as upcomingBatchesActions } from "../..//PathwayCourse/redux/action";
 // import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
 import ClassTopic from "../ClassTopic/ClassTopic";
@@ -45,7 +45,7 @@ import ContentListText from "./Drawers/ContentListText";
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
-  const l = lang == "python" ? "2" : "js";
+  const l = lang === "python" ? "2" : "js";
   const replacedCode = code && code.replace(/<br>/g, "\n");
   const visualizerCode = replacedCode.replace(/&emsp;/g, " ");
   const url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
@@ -293,7 +293,6 @@ function ExerciseContent({
   const [openDrawer, setOpenDrawer] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
-  console.log("SetOpen", openDrawer);
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -330,11 +329,9 @@ function ExerciseContent({
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
-
   }, [params.exerciseId]);
   useEffect(() => {
     if (exercise?.content_type === "assessment") {
-      console.log("Assessment",exercise);
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
@@ -344,11 +341,10 @@ function ExerciseContent({
         },
       }).then((res) => {
         setAssessmentResult(res.data);
-
       });
     }
-  }, [exerciseId, exercise?.content_type,exercise]);
-        
+  }, [exerciseId, exercise?.content_type, exercise]);
+
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
       return state?.Pathways?.enrolledBatches?.data;
@@ -375,7 +371,6 @@ function ExerciseContent({
           authToken: user?.data?.token,
         })
       );
-
     }
   }, [params.pathwayId]);
 
@@ -392,7 +387,7 @@ function ExerciseContent({
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
               <Box>
-                {courseData?.content_type == "class_topic" &&
+                {courseData?.content_type === "class_topic" &&
                   enrolledBatches && <ClassTopic courseData={courseData} />}
               </Box>
             </Box>
@@ -406,7 +401,7 @@ function ExerciseContent({
             }}
             item
           >
-            {courseData?.content_type == "class_topic" && (
+            {courseData?.content_type === "class_topic" && (
               <>
                 {enrolledBatches ? (
                   <ExerciseBatchClass
