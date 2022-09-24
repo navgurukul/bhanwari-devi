@@ -35,14 +35,12 @@ import PartnerHeader from "./PartnerHeader";
 import RoleSpecificHeader from "./RoleSpecificHeader";
 import SearchHeader from "./SearchHeader";
 import ChangeRolesView from "./ChangeRolesView";
-import { selectRolesData } from "../User/redux/selectors";
+import { selectRolesData, selectUserId } from "../User/redux/selectors";
 
 const savedRolesToKeysMap = Object.keys(ROLES).reduce((roleKeyMap, roleKey) => {
   roleKeyMap[ROLES[roleKey].savedValue] = roleKey;
   return roleKeyMap;
 }, {});
-
-const SELECTED_ROLE_KEY = "selectedRole";
 
 const rolesLandingPages = {
   [STUDENT]: PATHS.NEW_USER_DASHBOARD,
@@ -52,12 +50,15 @@ const rolesLandingPages = {
 };
 
 function AuthenticatedHeaderOption({
+  setRole,
+  role,
   toggleDrawer,
   leftDrawer,
   handleSearchChange,
 }) {
   //const [RoleSpecificHeader, setRoleSpecificHeader] = React.useState(null);
   const roles = useSelector(selectRolesData);
+  const uid = useSelector(selectUserId);
   // const history = useHistory();
   // const location = useLocation();
 
@@ -66,7 +67,7 @@ function AuthenticatedHeaderOption({
     landingPage: rolesLandingPages[role.key],
   }));
 
-  const [role, setRole] = React.useState(null);
+  // const [role, setRole] = React.useState(null);
   // const user = useSelector(({ User }) => User);
   const isUniqueRole = roles.length === 1;
   // const dispatch = useDispatch();
@@ -124,7 +125,7 @@ function AuthenticatedHeaderOption({
           {...{ role, isUniqueRole, leftDrawer, toggleDrawer }}
         />
         <ChangeRolesView
-          {...{ setRole, roles: rolesWithLandingPages, leftDrawer }}
+          {...{ setRole, roles: rolesWithLandingPages, uid, leftDrawer }}
         />
       </Box>
       {!leftDrawer && <UserMenu />}

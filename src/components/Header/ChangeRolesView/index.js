@@ -17,6 +17,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
+import { isTouchScreen } from "../../../common/utils";
 
 /*
 const rolesLandingPages = {
@@ -27,7 +28,8 @@ const rolesLandingPages = {
 };
 */
 
-const SELECTED_ROLE_KEY = "selectedRole";
+// const SELECTED_ROLE_KEY = "selectedRole";
+const ID_TO_SELECTED_ROLE_MAP_KEY = "idToSelectedRoleMap";
 
 function ChangeRole({
   isToggle,
@@ -35,6 +37,7 @@ function ChangeRole({
   setRoleView,
   handleCloseSwitchView,
   roleView,
+  uid,
 }) {
   const classes = useStyles();
   const styles = isToggle ? {} : { margin: "0 10px" };
@@ -49,7 +52,14 @@ function ChangeRole({
       to={roleLandingPage}
       onClick={() => {
         setRoleView(role.key);
-        localStorage.setItem(SELECTED_ROLE_KEY, role.key);
+        // localStorage.setItem(SELECTED_ROLE_KEY, role.key);
+        const idToSelectedRoleMap =
+          JSON.parse(localStorage.getItem(ID_TO_SELECTED_ROLE_MAP_KEY)) || {};
+        idToSelectedRoleMap[uid] = role.key;
+        localStorage.setItem(
+          ID_TO_SELECTED_ROLE_MAP_KEY,
+          JSON.stringify(idToSelectedRoleMap)
+        );
         !isToggle && handleCloseSwitchView();
       }}
       sx={styles}
@@ -67,16 +77,22 @@ function ChangeRole({
   );
 }
 
-function ChangeRolesView({ setRole, roles, leftDrawer }) {
+function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
   const defaultRole = roles.find((role) => role.assignedRole) || roles[0];
+  const lastSelectedRoleKey = JSON.parse(
+    localStorage.getItem(ID_TO_SELECTED_ROLE_MAP_KEY)
+  )?.[uid]; // || localStorage.getItem(SELECTED_ROLE_KEY);
+  const hasLastSelectedRole = roles.some(
+    (role) => role.key === lastSelectedRoleKey
+  );
   const [roleView, setRoleView] = React.useState(
-    localStorage.getItem(SELECTED_ROLE_KEY) || defaultRole?.key
+    hasLastSelectedRole ? lastSelectedRoleKey : defaultRole?.key
   );
   const [dropDown, setDropDown] = React.useState(null);
   const otherRole =
     roles[(roles.findIndex((role) => role.key === roleView) + 1) % 2];
 
-  const commonProps = { setRoleView, roleView };
+  const commonProps = { setRoleView, roleView, uid };
   const history = useHistory();
   //const location = useLocation();
 
@@ -113,7 +129,14 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
     >
       {roles.length > 2 ? (
         <>
-          <MenuItem onClick={handleOpenSwitchView}>
+          <MenuItem
+            onMouseEnter={(e) => {
+              if (!isTouchScreen()) {
+                handleOpenSwitchView(e);
+              }
+            }}
+            onClick={handleOpenSwitchView}
+          >
             <Typography variant="subtitle1">
               <Message constantKey="SWITCH_VIEWS" />
             </Typography>
@@ -135,13 +158,15 @@ function ChangeRolesView({ setRole, roles, leftDrawer }) {
             open={Boolean(dropDown)}
             onClose={handleCloseSwitchView}
           >
-            {roles.map((role) => (
-              <ChangeRole
-                handleCloseSwitchView={handleCloseSwitchView}
-                role={role}
-                {...commonProps}
-              />
-            ))}
+            <div onMouseLeave={handleCloseSwitchView}>
+              {roles.map((role) => (
+                <ChangeRole
+                  handleCloseSwitchView={handleCloseSwitchView}
+                  role={role}
+                  {...commonProps}
+                />
+              ))}
+            </div>
           </Menu>
         </>
       ) : (

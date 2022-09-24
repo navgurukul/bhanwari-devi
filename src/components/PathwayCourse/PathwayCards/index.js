@@ -19,6 +19,7 @@ import { getCourseContent } from "../../Course/redux/api";
 import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
 import { Link, useHistory } from "react-router-dom";
+
 import useStyles from "../styles";
 const PathwayCards = (props) => {
   // const language = {
@@ -28,7 +29,7 @@ const PathwayCards = (props) => {
   // };
 
   // const language ;
-
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const history = useHistory();
   const language = {
     hi: "Hindi",
@@ -79,9 +80,9 @@ const PathwayCards = (props) => {
             //   );
             // }}
             style={{
-              minWidth: isActive ? "290px" : "350",
+              minWidth: isActive ? "95%" : "350",
               marginRight: isActive ? "500px" : "40px",
-              marginLeft: "15px",
+              marginLeft: isActive ? "5px" : "15px",
             }}
           >
             <Box
@@ -136,7 +137,7 @@ const PathwayCards = (props) => {
                 />
               </Stack>
               <Grid container spacing={1}>
-                <Grid item xs={2} md={3}>
+                <Grid item xs={4} md={3}>
                   <Typography
                     style={{ color: "#6D6D6D", fontSize: "13px" }}
                     variant="body2"
@@ -156,7 +157,7 @@ const PathwayCards = (props) => {
                 <Grid item>
                   <Typography
                     // aman this style should be in the css file and refactor it
-                    style={{ color: "#6D6D6D", fontSize: "13px" }}
+                    style={{ color: "#6D6D6D", fontSize: "13px", pl: "30px" }}
                     variant="body2"
                   >
                     {language[item.lang]}
@@ -173,7 +174,12 @@ const PathwayCards = (props) => {
   return (
     <>
       <Container style={{ padding: "0" }} maxWidth="lg">
-        <Typography style={{ marginLeft: "15px" }} mb={2} mt={2} variant="h6">
+        <Typography
+          style={{ marginLeft: isActive ? "5px" : "15px" }}
+          mb={2}
+          mt={2}
+          variant="h6"
+        >
           Upcoming Classes
         </Typography>
 

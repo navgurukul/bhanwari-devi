@@ -326,4 +326,4 @@ To run production build in the local environment please run following code after
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-**Happy coding :)**
+**Happy coding :)** 

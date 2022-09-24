@@ -85,7 +85,7 @@ function Profile() {
           <Avatar
             alt={userData.name}
             src={userData.profile_picture}
-            sx={{ height: 100, width: 100 }}
+            sx={{ height: 100, width: 100, mt: isActive ? 3 : 0 }}
           />
           {isEditing ? (
             <TextField
@@ -115,7 +115,9 @@ function Profile() {
               )}
             </Typography>
           )}
-          <Typography align="center">{userData.email}</Typography>
+          <Typography mt={1} align="center">
+            {userData.email}
+          </Typography>
           {isEditing ? (
             <>
               <Button sx={{ mr: "30px" }} onClick={() => setIsEditing(false)}>

@@ -6,6 +6,8 @@ export const PATHS = {
   CLASS: "/class",
   COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
+  PATHWAY_COURSE_CONTENT_EDIT:
+    "/course-content-edit/:pathwayId/:courseId/:exerciseId",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   PATHWAY_COURSE: "/pathway/:pathwayId",
@@ -38,7 +40,7 @@ export const PATHS = {
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
 };
-export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
+export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT, PATHS.VOLUNTEER_FORM];
 export const HideFooter = [
   PATHS.LOGIN,
   PATHS.PATHWAY_COURSE_CONTENT,

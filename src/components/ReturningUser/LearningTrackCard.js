@@ -47,13 +47,20 @@ function LearningTrackCard(props) {
   const classes = useStyles();
   const history = useHistory();
   const [PathwayData, setPathwayData] = useState([]);
-
+  const [courseIndex, setCourseIndex] = useState(0);
   const { item } = props;
   const pathwayId = item.pathway_id;
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
       setPathwayData(res.data);
     });
+    console.log(PathwayData);
+    const COurseIndex = PathwayData?.courses?.findIndex((course, index) => {
+      if (course.course_id === item.course_id) {
+        return index;
+      }
+    });
+    setCourseIndex(COurseIndex);
   }, [item]);
 
   return (
@@ -133,9 +140,9 @@ function LearningTrackCard(props) {
                   <Typography
                     mr="10px"
                     variant="body2"
-                    className={classes.courseNumber}
+                    // className={classes.courseNumber}
                   >
-                    {item.course_index}
+                    {/* {courseIndex} */}
                   </Typography>
                   {
                     PathwayData?.courses?.find(
