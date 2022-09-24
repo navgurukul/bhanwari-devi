@@ -31,80 +31,79 @@ export default function CheckMoreBatches(props) {
   };
   return (
     <>
-
       <Dialog open={open} onClose={handleUpcomingBatchesClickClose}>
-              {
-        upcomingBatchesData?.length > 1 ?
-            <Box
-              className={classes.MoreBatchWrap}
-              width={isActive ? "290px" : "448px"}
-            >
-              <Typography variant="h5" align="start">
-                More Batches
-              </Typography>
-              {upcomingBatchesData?.slice(1, 3).map((item) => (
-                <Box className={classes.MoreBatchCard}>
-                  {" "}
-                  <Typography variant="h6" mt={2}>
-                    {item.title}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    mt={2}
-                    className={classes.FlexedContant}
-                  >
-                    <img
-                      className={classes.icons}
-                      src={require("./assets/calender.svg")}
-                      alt="Students Img"
-                    />
-                    {format(item.start_time, "dd MMM yy")} -{" "}
-                    {format(item.end_batch_time, "dd MMM yy")}
-                  </Typography>
-                  <Button
-                    fullWidth
-                    onClick={() => {
-                      handelEnrollment(item.id);
-                      setAlertData({
-                        title: item.title,
-                        start_time: item.start_time,
-                        end_time: item.end_batch_time,
-                        id: item.id,
-                      });
-                    }}
-                    variant="contained"
-                  >
-                    Enroll Batch
-                  </Button>
-                </Box>
-              ))}
-              <AlertDialog
-                open={openDialog}
-                close={close}
-                title={AlertData?.title}
-                start_time={AlertData?.start_time}
-                end_time={AlertData?.end_batch_time}
-                id={AlertData?.id}
-                registerAll={true}
-                type="batch"
-              />
-            </Box>
-            : 
-                  <Box
-              className={classes.MoreBatchWrap}
-              width={isActive ? "290px" : "448px"}
-            >
-              <img src={require("./assets/NoBatchesjpg.jpg")} alt="empty" 
-                style={{width:"100%",height:"30%"}}
-
-/>
-              <Typography variant="body1" align="center">
-                It’s a void out here. Unfortunately, we only have one batch running at the moment.
-              </Typography>
-            </Box>
-            
-            }
-          </Dialog> 
+        {upcomingBatchesData?.length > 1 ? (
+          <Box
+            className={classes.MoreBatchWrap}
+            width={isActive ? "290px" : "448px"}
+          >
+            <Typography variant="h5" align="start">
+              More Batches
+            </Typography>
+            {upcomingBatchesData?.slice(1, 3).map((item) => (
+              <Box className={classes.MoreBatchCard}>
+                {" "}
+                <Typography variant="h6" mt={2}>
+                  {item.title}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  mt={2}
+                  className={classes.FlexedContant}
+                >
+                  <img
+                    className={classes.icons}
+                    src={require("./assets/calender.svg")}
+                    alt="Students Img"
+                  />
+                  {format(item.start_time, "dd MMM yy")} -{" "}
+                  {format(item.end_batch_time, "dd MMM yy")}
+                </Typography>
+                <Button
+                  fullWidth
+                  onClick={() => {
+                    handelEnrollment(item.id);
+                    setAlertData({
+                      title: item.title,
+                      start_time: item.start_time,
+                      end_time: item.end_batch_time,
+                      id: item.id,
+                    });
+                  }}
+                  variant="contained"
+                >
+                  Enroll Batch
+                </Button>
+              </Box>
+            ))}
+            <AlertDialog
+              open={openDialog}
+              close={close}
+              title={AlertData?.title}
+              start_time={AlertData?.start_time}
+              end_time={AlertData?.end_batch_time}
+              id={AlertData?.id}
+              registerAll={true}
+              type="batch"
+            />
+          </Box>
+        ) : (
+          <Box
+            className={classes.MoreBatchWrap}
+            width={isActive ? "290px" : "448px"}
+          >
+            <img
+              src={require("./assets/NoBatchesjpg.jpg")}
+              alt="empty"
+              style={{ width: "100%", height: "30%" }}
+            />
+            <Typography variant="body1" align="center">
+              It’s a void out here. Unfortunately, we only have one batch
+              running at the moment.
+            </Typography>
+          </Box>
+        )}
+      </Dialog>
     </>
   );
 }
