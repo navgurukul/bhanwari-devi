@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import useStyles from "../styles";
 import Message from "../../common/Message";
+import { isTouchScreen } from "../../../common/utils";
 
 // function UserMenu({ profile }) {
 function UserMenu() {
@@ -41,7 +42,15 @@ function UserMenu() {
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+      <IconButton
+        onMouseEnter={(e) => {
+          if (!isTouchScreen()) {
+            handleOpenUserMenu(e);
+          }
+        }}
+        onClick={handleOpenUserMenu}
+        sx={{ p: 0 }}
+      >
         <Avatar alt={name} src={profilePict} />
       </IconButton>
       <Menu
@@ -59,6 +68,7 @@ function UserMenu() {
         }}
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
+        onMouseLeave={handleCloseUserMenu}
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem

@@ -63,7 +63,8 @@ theme = createTheme(theme, {
       dark: "#3A8137",
     },
     grey: {
-      main: "rgba(0, 0, 0, 0.12)",
+      main: "#BDBDBD",
+      // main: "rgba(0, 0, 0, 0.12)",
     },
     text: {
       primary: "#2E2E2E",
@@ -250,15 +251,14 @@ theme.components = {
       },
     },
   },
-  MuiCard: {
+  MuiTextareaAutosize: {
     styleOverrides: {
       root: {
-        borderRadius: 8,
-        // "&:hover": {
-        //   boxShadow:
-        //     "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
-        // },
+        "&$focused": {
+          color: "red !important",
+        },
       },
+      focused: {},
     },
   },
 };

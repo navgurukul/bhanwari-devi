@@ -3,12 +3,21 @@ import React from "react";
 // import { TimeLeft } from "../../../constant";
 import { format } from "../../../common/date";
 import FutureOrPast from "../../common/FutureOrPast";
-import languageMap from "../../../pages/CourseContent/languageMap";
+import { breakpoints } from "../../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function ClassTopic({ courseData }) {
+  const languageMap = {
+    hi: "Hindi",
+    en: "English",
+    te: "Telugu",
+    ta: "Tamil",
+    mr: "Marathi",
+  };
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   return (
     <>
-      <Box m={4} sx={{ maxWidth: "300px" }}>
+      <Box m={isActive ? 0 : 4} sx={{ maxWidth: "300px" }}>
         <Typography variant="h6" mt={2}>
           {courseData.sub_title || courseData.title}
         </Typography>
@@ -77,4 +86,3 @@ function ClassTopic({ courseData }) {
 }
 
 export default ClassTopic;
-// adding This Changes

@@ -32,10 +32,9 @@ const useStyles = makeStyles((theme) => ({
   icons: {
     marginRight: "15px",
   },
-
   ModelBox: {
     margin: "80px",
-    padding: "32px",
+    padding: "16px",
     borderRadius: "8px",
   },
   successModel: {
@@ -59,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
   },
   NewVolunteerCardCloseIcon: {
     cursor: "pointer",
+  },
+  successModel: {
+    alignItems: "center",
+    align: "center",
   },
 }));
 

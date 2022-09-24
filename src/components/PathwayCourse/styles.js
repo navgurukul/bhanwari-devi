@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 2,
   },
   pathwayContainer: {
-    marginTop: 55,
-    marginBottom: 48,
+    // marginTop: 55,
+    // marginBottom: 48,
   },
   mobileVideo: {
     width: 700,
@@ -31,8 +31,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
   titleCard: {
-    marginBottom: 30,
+    // marginBottom: 30,
     marginLeft: 16,
+  },
+  titleCardMob: {
+    marginBottom: 30,
   },
   flex: {
     display: "flex",
@@ -57,7 +60,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   pathwayCard: {
-    margin: "15px 0",
+    minWidth: "250px",
+    height: "310px",
+    margin: "16px 0",
     "&:hover": {
       boxShadow:
         "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
@@ -90,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     height: "60px",
     overflow: "hidden",
+  },
+  progressBar: {
+    width: "95%",
   },
 }));
 
