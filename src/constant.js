@@ -38,7 +38,7 @@ export const PATHS = {
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
 };
-export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
+export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT, PATHS.VOLUNTEER_FORM];
 export const HideFooter = [
   PATHS.LOGIN,
   PATHS.PATHWAY_COURSE_CONTENT,

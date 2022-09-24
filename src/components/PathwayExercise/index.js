@@ -322,8 +322,6 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(progressTrackId);
-
       setExerciseId(exerciseId + 1);
     }
   };

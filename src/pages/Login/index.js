@@ -68,8 +68,6 @@ function Login(props) {
     default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
   };
 
-  console.log("rolesList", rolesList);
-
   if (isAuthenticated) {
     if (queryString) {
       axios({

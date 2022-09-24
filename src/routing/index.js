@@ -33,7 +33,6 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
-// import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {
   return (

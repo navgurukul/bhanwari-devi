@@ -132,7 +132,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   );
 };
 
-const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
+const MobileVersion = ({ toggleDrawer, leftDrawer, setRole, role }) => {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const classes = useStyles();
@@ -170,6 +170,8 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
           <AuthenticatedHeaderOption
             toggleDrawer={toggleDrawer}
             leftDrawer={leftDrawer}
+            setRole={setRole}
+            role={role}
           />
         ) : (
           <PublicMenuOption
@@ -206,15 +208,13 @@ function Header() {
     [VOLUNTEER]: PATHS.CLASS,
     [PARTNER]: partnerGroupId
       ? `${PATHS.STATE}/${partnerGroupId}`
-      : `${PATHS.PARTNERS}/${partnerId}`,
+      : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
 
-  let defalutPage = "/";
-  roles.map((userRole) => {
-    if (userRole.key === role) {
-      defalutPage = rolesLandingPages[userRole.key];
-    }
-  });
+  const roleKey = roles
+    .map((userRole) => userRole.key)
+    .find((key) => key === role);
+  const defaultPage = rolesLandingPages[roleKey] || "/";
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -255,13 +255,12 @@ function Header() {
                 onOpen={toggleDrawer(true)}
               >
                 <MobileVersion
-                  toggleDrawer={toggleDrawer}
-                  leftDrawer={leftDrawer}
+                  {...{ toggleDrawer, leftDrawer, setRole, role }}
                 />
               </SwipeableDrawer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <Link to={defalutPage}>
+              <Link to={defaultPage}>
                 <img
                   src={require("./asset/logo.svg")}
                   loading="lazy"
@@ -281,7 +280,7 @@ function Header() {
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
             >
-              <Link to={defalutPage}>
+              <Link to={defaultPage}>
                 <img
                   src={require("./asset/meraki.svg")}
                   loading="lazy"

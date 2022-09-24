@@ -57,7 +57,6 @@ const AssessmentContent = ({
   submitDisable,
 }) => {
   const classes = useStyles();
-  console.log("content", content);
   if (content.component === "header") {
     if (triedAgain > 1) {
       return headingVarients[content.variant](
@@ -220,6 +219,7 @@ function Assessment({
   courseData,
   setCourseData,
   setProgressTrackId,
+  res,
 }) {
   const user = useSelector(({ User }) => User);
   const [answer, setAnswer] = useState();
@@ -293,42 +293,29 @@ function Assessment({
   };
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      console.log("res", res);
-      if (
-        res?.data?.attempt_status === "CORRECT" ||
-        res?.data?.attempt_count == 2
-      ) {
-        if (res?.data?.attempt_status === "CORRECT") {
-          setAnswer(res?.data?.selected_option);
-          setCorrect(true);
-          setStatus("pass");
-          setTriedAgain(2);
-          setSubmitDisable(true);
-          setSubmit(true);
-        } else if (res?.data?.attempt_status === "INCORRECT") {
-          setCorrect(false);
-          setTriedAgain(2);
-          setAnswer(res?.data?.selected_option);
-          setStatus("fail");
-          setSubmitDisable(true);
-          setSubmit(true);
-        }
-      } else if (res?.data?.attempt_count == 1) {
+    if (res?.attempt_status === "CORRECT" || res?.attempt_count == 2) {
+      if (res?.attempt_status === "CORRECT") {
+        setAnswer(res?.selected_option);
+        setCorrect(true);
+        setStatus("pass");
+        setTriedAgain(2);
         setSubmitDisable(true);
-        setAnswer(res?.data?.selected_option);
         setSubmit(true);
-        setTriedAgain(res?.data?.attempt_count);
+      } else if (res?.attempt_status === "INCORRECT") {
+        setCorrect(false);
+        setTriedAgain(2);
+        setAnswer(res?.selected_option);
+        setStatus("fail");
+        setSubmitDisable(true);
+        setSubmit(true);
       }
-    });
-  }, [exerciseId]);
+    } else if (res?.attempt_count == 1) {
+      setSubmitDisable(true);
+      setAnswer(res?.data?.selected_option);
+      setSubmit(true);
+      setTriedAgain(res?.data?.attempt_count);
+    }
+  }, [res]);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
