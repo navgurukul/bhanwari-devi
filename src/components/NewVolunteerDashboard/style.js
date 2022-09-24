@@ -1,3 +1,4 @@
+import zIndex from "@mui/material/styles/zIndex";
 import { makeStyles } from "@mui/styles";
 import { border } from "@mui/system";
 
@@ -110,6 +111,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginTop: "20px",
     marginLeft: "14px",
+    marginBottom: "25px",
   },
   tableFont: {
     fontWeight: 400,
@@ -127,11 +129,12 @@ const useStyles = makeStyles((theme) => ({
     height: "96px",
     display: "flex",
     flexDirection: "column",
-    // alignItems: "flex-start",
+    // alignItems: "flex-end",
     padding: "0px",
     boxShadow:
       "0px 4px 4px rgba(0, 0, 0, 0.06), 0px 8px 12px rgba(0, 0, 0, 0.04), 0px 4px 24px rgba(0, 0, 0, 0.08)",
     borderRadius: "8px",
+    marginRight: "20px",
   },
   menuTypography: {
     maxHeight: "48px",

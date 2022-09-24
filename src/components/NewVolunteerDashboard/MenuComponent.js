@@ -5,9 +5,12 @@ import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box } from "@mui/system";
 import useStyles from "./style";
-
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 const MenuComponent = (props) => {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   const { itemname, setStatusName, setStatusDialog } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,9 +43,10 @@ const MenuComponent = (props) => {
         open={openDots}
         onClose={handleCloseDots}
         PaperProps={{
-          style: {
-            width: "20ch",
+          sx: {
+            width: "15ch",
             boxShadow: "none",
+            ml: isActive ? "-9.5px" : "-99.5px",
           },
         }}
       >

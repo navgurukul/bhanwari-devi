@@ -39,6 +39,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuComponent from "./MenuComponent";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Select } from "@material-ui/core";
+import { ZoomInRounded } from "@material-ui/icons";
 
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
@@ -362,7 +363,7 @@ function NewVolunteerDashboard(props) {
                     position: "sticky",
                     left: -1,
                     backgroundColor: "white",
-                    zIndex: 800,
+                    zIndex: 600,
                   }}
                 >
                   <Checkbox
@@ -395,7 +396,7 @@ function NewVolunteerDashboard(props) {
                     </TableCell>
                     <TableCell
                       className={classes.tableSticky}
-                      sx={{ left: "170px" }}
+                      sx={{ left: "180px" }}
                       onClick={() => {
                         const valueToDisplay = `Total ${selected.length} ${
                           selected.length === 1 ? "row is " : "rows are "
@@ -411,7 +412,6 @@ function NewVolunteerDashboard(props) {
                         Change Statuses
                       </Typography>
                     </TableCell>
-
                     <TableCell colSpan={5}>
                       <Typography
                         sx={{ fontWeight: "600", fontSize: "14px" }}
@@ -480,7 +480,6 @@ function NewVolunteerDashboard(props) {
                   .map((item, index) => {
                     const selectedRow = isRowSelected(item.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
-
                     const sortedClasses =
                       item.classes.length &&
                       item.classes.sort((a, b) => {
@@ -552,7 +551,6 @@ function NewVolunteerDashboard(props) {
                           >
                             DVET Nashik Python
                           </TableCell>
-
                           <TableCell
                             // data-column="Last Class Title"
                             className={classes.tablebodyCell}
@@ -640,7 +638,13 @@ function NewVolunteerDashboard(props) {
                             />
                           </TableCell>
                         </TableRow>
-                        <TableRow>
+                        <TableRow
+                          sx={{
+                            position: "-webkit-sticky",
+                            left: 0,
+                            zIndex: "800",
+                          }}
+                        >
                           {selectedRow || selectedRow > 0 ? (
                             <TableCell
                               style={{ paddingBottom: 0, paddingTop: 0 }}
@@ -649,7 +653,7 @@ function NewVolunteerDashboard(props) {
                               <Collapse in={open} timeout="auto" unmountOnExit>
                                 <Box
                                   sx={{
-                                    height: "135px",
+                                    height: "168px",
                                   }}
                                 >
                                   <div className={classes.collapse}>
@@ -673,9 +677,7 @@ function NewVolunteerDashboard(props) {
                                   <Table
                                     size="small"
                                     aria-label="purchases"
-                                    sx={{
-                                      marginTop: "10px",
-                                    }}
+                                    //
                                   >
                                     <TableHead>
                                       <TableRow
@@ -683,6 +685,8 @@ function NewVolunteerDashboard(props) {
                                           borderBottom:
                                             "1.2px solid rgba(163, 163, 163, 0.4)",
                                           paddingBottom: "50px",
+                                          position: "sticky",
+                                          top: 0,
                                         }}
                                       >
                                         <TableCell
