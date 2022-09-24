@@ -151,7 +151,7 @@ function ContentEdit() {
                       fullWidth
                       placeholder="Question"
                       color="primary"
-                      // className="area"
+                      className="area"
                       // className={classes.textarea}
                       style={{
                         width: 529,
@@ -160,6 +160,7 @@ function ContentEdit() {
                         border: "1px solid #BDBDBD",
                         fontSize: "1.125rem",
                         color: "#2E2E2E",
+                        resize: "vertical",
                         fontFamily: "Noto Sans",
                       }}
                       value={course[index].value}
