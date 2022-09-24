@@ -333,9 +333,10 @@ function ExerciseContent({
   }, [params.exerciseId]);
   useEffect(() => {
     if (exercise?.content_type === "assessment") {
+      console.log("Assessment", exercise);
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
@@ -344,7 +345,7 @@ function ExerciseContent({
         setAssessmentResult(res.data);
       });
     }
-  }, [exerciseId, exercise?.content_type]);
+  }, [exerciseId, exercise?.content_type, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
