@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -11,10 +11,8 @@ import {
   Typography,
   Button,
   Container,
-  FormControl,
-  FormHelperText,
 } from "@mui/material";
-import { Box, fontSize } from "@mui/system";
+import { actions } from "../../components/User/redux/action";
 import useStyles from "./styles";
 import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 
@@ -26,25 +24,13 @@ function Profile() {
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
   const [LoadBatches, setLoadBatches] = useState(false);
+  const dispatch = useDispatch();
   const [helperText, setHelperText] = useState();
   const [showError, setShowError] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      // get values of
-      // res.data.user.UserEnrolledInBatches.map((item) =>
-      //   console.log(item.isEnrolled)
-      // );
-      setUserData(res.data.user);
-      setEditName(res.data.user.name ? res.data.user.name : "");
-    });
+    setEditName(user.data.user.name);
+    setUserData(user.data.user);
   }, []);
 
   useEffect(() => {
@@ -79,17 +65,9 @@ function Profile() {
         name: editName,
       },
     }).then((res) => {
-      axios({
-        method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-      }).then((res) => {
-        setMsg(false);
-        setUserData(res.data.user);
-      });
+      dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+      setMsg(false);
+      setUserData(res.data.user);
     });
   };
   return (
@@ -110,7 +88,6 @@ function Profile() {
               id="standard-basic"
               label="Name"
               sx={{ mt: "10px" }}
-              // variant="standard"
               value={editName}
               helperText={helperText}
               onChange={(e) => {
