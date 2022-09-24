@@ -31,23 +31,6 @@ function Profile() {
   const [helperText, setHelperText] = useState();
   const [showError, setShowError] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  // useEffect(() => {
-  //   axios({
-  //     method: METHODS.GET,
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: user.data.token,
-  //     },
-  //   }).then((res) => {
-  //     // get values of
-  //     // res.data.user.UserEnrolledInBatches.map((item) =>
-  //     //   console.log(item.isEnrolled)
-  //     // );
-  //     setUserData(res.data.user);
-  //     setEditName(res.data.user.name ? res.data.user.name : "");
-  //   });
-  // }, []);
 
   useEffect(() => {
     setEditName(user.data.user.name);
@@ -89,17 +72,6 @@ function Profile() {
       dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
       setMsg(false);
       setUserData(res.data.user);
-      //   axios({
-      //     method: METHODS.GET,
-      //     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-      //     headers: {
-      //       accept: "application/json",
-      //       Authorization: user.data.token,
-      //     },
-      //   }).then((res) => {
-      //     setMsg(false);
-      //     setUserData(res.data.user);
-      //   });
     });
   };
 
