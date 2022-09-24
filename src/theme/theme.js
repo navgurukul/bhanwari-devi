@@ -251,15 +251,5 @@ theme.components = {
       },
     },
   },
-  MuiTextareaAutosize: {
-    styleOverrides: {
-      root: {
-        "&$focused": {
-          color: "red !important",
-        },
-      },
-      focused: {},
-    },
-  },
 };
 export default theme;
