@@ -11,6 +11,8 @@ import {
   Typography,
   Button,
   Container,
+  FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { Box, fontSize } from "@mui/system";
 import useStyles from "./styles";
@@ -24,6 +26,8 @@ function Profile() {
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
   const [LoadBatches, setLoadBatches] = useState(false);
+  const [helperText, setHelperText] = useState();
+  const [showError, setShowError] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   useEffect(() => {
     axios({
@@ -38,12 +42,28 @@ function Profile() {
       // res.data.user.UserEnrolledInBatches.map((item) =>
       //   console.log(item.isEnrolled)
       // );
-      console.log(user.data);
-      console.log(res.data);
       setUserData(res.data.user);
       setEditName(res.data.user.name ? res.data.user.name : "");
     });
   }, []);
+
+  useEffect(() => {
+    if (editName == "") {
+      setHelperText("Please enter your name");
+      setShowError(true);
+    } else if (
+      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(editName) ||
+      /\d/.test(editName)
+    ) {
+      setHelperText(
+        "Please use only capital or small letters. Numbers and symbols cannot be used in a name"
+      );
+      setShowError(true);
+    } else {
+      setShowError(false);
+      setHelperText();
+    }
+  }, [editName]);
 
   const editProfile = () => {
     setIsEditing(false);
@@ -86,10 +106,13 @@ function Profile() {
           />
           {isEditing ? (
             <TextField
+              error={showError}
               id="standard-basic"
-              label="name"
-              variant="standard"
+              label="Name"
+              sx={{ mt: "10px" }}
+              // variant="standard"
               value={editName}
+              helperText={helperText}
               onChange={(e) => {
                 setEditName(e.target.value);
               }}
@@ -97,7 +120,10 @@ function Profile() {
           ) : msg ? (
             <Typography>Please wait...</Typography>
           ) : (
-            <Typography mt={2} variant={isActive ? "body1" : "h6"}>
+            <Typography
+              variant={isActive ? "subtitle1" : "h6"}
+              sx={{ mt: "10px" }}
+            >
               {userData.name}
               {isActive && !isEditing && (
                 <Button onClick={() => setIsEditing(true)}>
@@ -110,9 +136,14 @@ function Profile() {
             {userData.email}
           </Typography>
           {isEditing ? (
-            <Button pt={2} onClick={editProfile}>
-              Save Profile
-            </Button>
+            <>
+              <Button sx={{ mr: "30px" }} onClick={() => setIsEditing(false)}>
+                Cancel
+              </Button>
+              <Button onClick={editProfile} disabled={showError}>
+                Save Profile
+              </Button>
+            </>
           ) : (
             <Button pt={1} onClick={() => setIsEditing(true)}>
               {!isActive && "Edit Profile"}

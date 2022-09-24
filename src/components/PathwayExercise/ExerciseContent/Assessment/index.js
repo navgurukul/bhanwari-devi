@@ -57,7 +57,6 @@ const AssessmentContent = ({
   submitDisable,
 }) => {
   const classes = useStyles();
-  console.log("content", content);
   if (content.component === "header") {
     if (triedAgain > 1) {
       return headingVarients[content.variant](
@@ -156,8 +155,6 @@ const AssessmentContent = ({
   }
   if (content.component === "questionExpression") {
     const text = DOMPurify.sanitize(get(content, "value"));
-    console.log("content", content);
-    console.log("text", text);
     return (
       <UnsafeHTML
         Container={Typography}
@@ -230,7 +227,6 @@ function Assessment({
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
   const params = useParams();
-  console.log("data", courseData);
 
   // Assessment submit handler
   const submitAssessment = () => {
@@ -301,7 +297,6 @@ function Assessment({
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log("res", res);
       if (
         res?.data?.attempt_status === "CORRECT" ||
         res?.data?.attempt_count == 2
@@ -367,7 +362,6 @@ function Assessment({
             content.value && correct
               ? content.value.correct
               : content.value.incorrect;
-          console.log("dataArr", dataArr);
           return (
             content.component === "output" &&
             dataArr.map((content, index) => (

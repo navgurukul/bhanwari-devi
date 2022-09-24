@@ -62,8 +62,6 @@ function Availability({ setAvailability, availability, setDisable }) {
     }
   }, [availability]);
 
-  console.log("availability", availability);
-
   return (
     <Container sx={{ mt: 6 }} maxWidth="sm">
       <Typography variant="h6" gutterBottom>
@@ -139,7 +137,6 @@ function Availability({ setAvailability, availability, setDisable }) {
                   //   });
                   // }}
                   onChange={(time) => {
-                    console.log("time", time);
                     // let time =  time.getHours() + ":" + time.getMinutes()
                     setAvailability({
                       ...availability,

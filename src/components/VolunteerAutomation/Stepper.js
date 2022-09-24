@@ -129,12 +129,6 @@ function HorizontalLinearStepper() {
     },
   ];
 
-  console.log("data", {
-    contact: contact,
-    pathway_id: pathwayId,
-    ...availability,
-  });
-
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -142,8 +136,6 @@ function HorizontalLinearStepper() {
   const setActiveStepHandler = (changeBy, prevActiveStep) => {
     const itemKey = steps[prevActiveStep]?.itemKey;
     const currentStep = prevActiveStep + changeBy;
-
-    console.log("currentStep", currentStep);
 
     if (itemKey && !disable) {
       // button was enabled by Component for this step so it's completed
@@ -203,8 +195,6 @@ function HorizontalLinearStepper() {
           },
         }).then(
           (res) => {
-            console.log("res", res);
-
             dispatch(
               actions.onUserRefreshDataIntent({ token: user.data.token })
             );
@@ -249,8 +239,6 @@ function HorizontalLinearStepper() {
       <React.Fragment>
         <>
           {steps.map((step, index) => {
-            console.log(typeof index, "index");
-            console.log(typeof activeStep, "type");
             if (activeStep === index) {
               return (
                 <Box>

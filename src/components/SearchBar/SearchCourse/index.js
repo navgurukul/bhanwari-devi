@@ -22,7 +22,6 @@ import useStyles from "../styles";
 import Tooltip from "@mui/material/Tooltip";
 
 function SearchCourse(props) {
-  //   console.log("props", props);
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
