@@ -251,15 +251,15 @@ theme.components = {
       },
     },
   },
-  MuiTextareaAutosize: {
-    styleOverrides: {
-      root: {
-        "&$focused": {
-          border: "1px solid red !important",
-        },
-      },
-      focused: {},
-    },
-  },
+  // MuiTextareaAutosize: {
+  //   styleOverrides: {
+  //     root: {
+  //       "&$focused": {
+  //         border: "1px solid red !important",
+  //       },
+  //     },
+  //     focused: {},
+  //   },
+  // },
 };
 export default theme;

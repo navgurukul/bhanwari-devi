@@ -510,7 +510,7 @@ function PathwayExercise() {
       {editor && (
         <AppBar
           fullWidth
-          position="sticky"
+          position="stick"
           sx={{ bgcolor: "info.light" }}
           elevation={2}
         >
