@@ -5,7 +5,6 @@ import { PATHS, interpolatePath } from "../../constant";
 import { Typography, CardMedia, CardContent, Card, Box } from "@mui/material";
 
 function PathwayCard({ id, title, description, image, hover }) {
-  console.log(id, title);
   const classes = useStyles();
 
   return (

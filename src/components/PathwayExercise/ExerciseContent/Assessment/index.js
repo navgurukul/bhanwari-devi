@@ -57,7 +57,6 @@ const AssessmentContent = ({
   submitDisable,
 }) => {
   const classes = useStyles();
-  console.log("content", content);
   if (content.component === "header") {
     if (triedAgain > 1) {
       return headingVarients[content.variant](
