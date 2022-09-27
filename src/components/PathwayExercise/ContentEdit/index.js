@@ -5,6 +5,7 @@ import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import useStyles from "../styles";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {
   Container,
   TextField,
@@ -12,8 +13,27 @@ import {
   Box,
   Button,
   Grid,
+  Dialog,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
 } from "@mui/material";
+
+function BoxComponent(props) {
+  const [isShown, setIsShown] = useState(false)
+  return (
+    <Box
+    style={{border:'1 px',background:isShown?'white':''}}
+    onMouseEnter={()=>setIsShown(true)}
+    onMouseLeave={()=>setIsShown(false)}
+    >{
+      isShown && <AddCircleOutlineIcon onClick={()=>props.iconClick()} />
+    }
+    {props.children}
+    </Box>
+  )
+}
 
 function ContentEdit() {
   const user = useSelector(({ User }) => User);
@@ -24,7 +44,37 @@ function ContentEdit() {
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const classes = useStyles();
-
+  const [showModal, setShowModal] = useState(false);
+  const [showOption, setShowOption] = useState()
+  const allComponents = {
+    option:{
+      AddOption:{
+          "id": 1,
+          "value": ""
+        }
+      },
+      output:{
+        AddHeader:{
+        "component": "header",
+        "variant": 3,
+        "value": ""
+        },
+        AddText:{
+          "component": "text",
+          "value": ""
+        }
+      },
+  }
+  const handleAdd = (index,ap,aap) => {
+    console.log(index,'handleAdd index')
+    var temp = [...course];
+    if (ap==="options"){
+      const addOption = {...allComponents.option.AddOption}
+      addOption.id = temp[index].value[temp[index].value.length - 1].id + 1
+      temp[index].value.push(addOption);
+      setCourse(temp);
+    }
+  }
   console.log("params", params);
 
   let name = "name";
@@ -235,7 +285,7 @@ function ContentEdit() {
                         return (
                           <TextField
                             id="outlined-basic"
-                            label="Output"
+                            label={"Output "+solution.component}
                             variant="outlined"
                             fullWidth
                             // className={classes.editField}
@@ -370,6 +420,57 @@ function ContentEdit() {
           </Button>
         </>
       )}
+          
+        {showModal && (
+          <Dialog
+            onClose={() => {
+              setShowModal(!showModal);
+            }}
+            open={showModal}
+          >
+            {/* <DialogTitle>Set backup account</DialogTitle> */}
+            <List sx={{ pt: 0 }}>
+              {/* {emails.map((email) => ( */}
+              <ListItem
+                button
+                // onClick={() => handleListItemClick(email)}
+                // key={email}
+              >
+                <ListItemText primary="text 1" />
+              </ListItem>
+              <ListItem
+                button
+              >
+                <ListItemText primary="text 2" />
+              </ListItem>
+              <ListItem
+                button
+              >
+                <ListItemText primary="text 3" />
+              </ListItem>
+              <ListItem
+                button
+              >
+                <ListItemText primary="text 4" />
+              </ListItem>
+            </List>
+            <List>
+              {allComponents[showOption]?Object.keys(allComponents[showOption]).map(e=>{
+
+                return (<ListItem
+                button
+              >
+                <ListItemText primary={e} onClick={()=>{
+                  // allComponents[showOption]
+                  // handleAdd()
+                  console.log(e)
+                }} />
+              </ListItem>)
+              }):''}
+              {console.log(allComponents[showOption])}
+            </List>
+          </Dialog>
+        )}
     </Container>
   );
 }
