@@ -20,7 +20,8 @@ function UserMenu() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
-  const profilePict = user?.data?.user?.profile_picture;
+  const profilePicture = user?.data?.user?.profile_picture;
+  const name = user?.data?.user?.name;
 
   /*
   React.useEffect(() => {
@@ -45,7 +46,7 @@ function UserMenu() {
         onMouseEnter={handleOpenUserMenu}
         sx={{ p: 0 }}
       >
-        <Avatar alt="Remy Sharp" src={profilePict} />
+        <Avatar alt={name} src={profilePicture} />
       </IconButton>
       <Menu
         sx={{ mt: "45px" }}

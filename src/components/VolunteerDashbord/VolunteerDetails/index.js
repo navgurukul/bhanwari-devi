@@ -155,8 +155,6 @@ function VolunteerDashboard() {
     setSlicedVolunteer(slicedData);
   }, [debouncedText, pageNumber]);
 
-  console.log("Testing");
-
   return (
     <>
       <div className="volunteer-container">

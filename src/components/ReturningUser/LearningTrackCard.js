@@ -53,9 +53,7 @@ function LearningTrackCard(props) {
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
       setPathwayData(res.data);
-      console.log(res.data);
     });
-    console.log(PathwayData);
     const COurseIndex = PathwayData?.courses?.findIndex((course, index) => {
       if (course.course_id === item.course_id) {
         return index;
