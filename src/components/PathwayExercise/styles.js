@@ -87,12 +87,18 @@ const useStyles = makeStyles((theme) => ({
     margin: "10px 0px",
     padding: "20px 10px",
     border: "1px solid #BDBDBD",
+    borderRadius: "4px",
     fontSize: "1.125rem",
     color: "#2E2E2E",
     fontFamily: "Noto Sans",
-    "&$focused": {
-      border: "1px solid red !important",
+    resize: "none",
+    outline: "none",
+    "&:focus": {
+      border: "2px solid #48A145 !important",
     },
+    // "&:hover": {
+    //   border: "1px solid #000 !important",
+    // },
   },
 }));
 

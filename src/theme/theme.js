@@ -254,11 +254,20 @@ theme.components = {
   // MuiTextareaAutosize: {
   //   styleOverrides: {
   //     root: {
-  //       "&$focused": {
-  //         border: "1px solid red !important",
+  //       width: 529,
+  //       margin: "10px 0px",
+  //       padding: "20px 10px",
+  //       border: "1px solid #BDBDBD",
+  //       borderRadius: "4px",
+  //       fontSize: "1.125rem",
+  //       color: "#2E2E2E",
+  //       fontFamily: "Noto Sans",
+  //       resize: "none",
+  //       outline: "none",
+  //       "&:focus": {
+  //         border: "2px solid #48A145 !important",
   //       },
   //     },
-  //     focused: {},
   //   },
   // },
 };
