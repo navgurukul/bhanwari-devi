@@ -127,7 +127,7 @@ export default ({
             ? "chat-message-container-self"
             : "chat-message-container-other"
         }`}
-        styles={desktop && {width: "50%"}}
+        styles={desktop ? {width: "50%"} : {}}
       >
         {!isSelf && senderName && (
           <Avatar
