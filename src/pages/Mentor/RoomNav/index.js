@@ -62,7 +62,7 @@ export default ({
           {subtitle ? renderSubtitle() : "This is the new way to do..."}
         </Typography>
       </Box>
-      <Box className={classes.messageNumberCircle}>
+      <Box style={{ display: "none" }} className={classes.messageNumberCircle}>
         <Typography className={classes.messageNumber}>10</Typography>
       </Box>
     </ListItem>

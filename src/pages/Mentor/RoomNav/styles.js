@@ -24,7 +24,7 @@ const useStyles = makeStyles(
       padding: "16px 32px",
       cursor: "pointer",
       display: "flex",
-      justifyContent: "space-between !important",
+      justifyContent: "space-between",
       backgroundColor: "#E9F5E9",
     },
     title: {
