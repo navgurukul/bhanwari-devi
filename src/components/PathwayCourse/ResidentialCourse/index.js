@@ -33,13 +33,13 @@ function ResidentialProgramme() {
 
   return (
     <Container className={classes.pathwayContainer} maxWidth="lg">
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ ml: isActive && "10px" }}>
         <Grid xs={12} md={6}>
           <Card align="left" elevation={0}>
             <Typography
               variant="body2"
               className={classes.cardSubtitle}
-              sx={{ textAlign: isActive && "center", pb: "8px" }}
+              sx={{ textAlign: isActive && "center", pb: "8px", mt: "40px" }}
             >
               Learning Track
             </Typography>
