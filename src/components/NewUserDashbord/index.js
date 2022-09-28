@@ -41,7 +41,7 @@ const pathwayData = [
     description: "Explore Navgurukul’s on campus Software Engineering courses",
   },
   {
-    title: "Open Courses",
+    title: "Miscellaneous Courses",
     image: "misc",
     description: "Courses on Android, Game dev projects and more",
   },
