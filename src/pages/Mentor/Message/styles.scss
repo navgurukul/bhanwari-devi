@@ -94,21 +94,23 @@
 .chat-message-container {
   display: flex;
   margin: 12px 0;
-  padding: 8px !important;
+  padding: 8px;
+  
   &-other {
     align-self: flex-start;
   }
 
   &-self {
+    justify-content: flex-end;
     align-self: flex-end;
   }
 }
 
 .chat-message-sender {
-  font-size: 14px !important;
+  font-size: 14px;
   color: #48a145;
   line-height: 21px;
-  margin-bottom: 5px !important;
+  margin-bottom: 5px;
 
   &-self {
     text-align: right;

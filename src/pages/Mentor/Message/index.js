@@ -127,6 +127,7 @@ export default ({
             ? "chat-message-container-self"
             : "chat-message-container-other"
         }`}
+        styles={desktop && {width: "50%"}}
       >
         {!isSelf && senderName && (
           <Avatar
@@ -134,7 +135,7 @@ export default ({
             style={{ height: "40px", width: "40px", marginRight: 12 }}
           />
         )}
-        <div>
+        <div className={classes.messageWrapper}>
           {/* <div
             className={`message-header ${isSelf ? "" : "message-header-other"}`}
           >
