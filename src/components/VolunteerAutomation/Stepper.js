@@ -209,7 +209,7 @@ function HorizontalLinearStepper() {
         Authorization: user.data.token,
       },
       data: {
-        contact: contact,
+        contact: contact.split(" ").join("-"),
         pathway_id: pathwayId,
         ...availability,
       },
