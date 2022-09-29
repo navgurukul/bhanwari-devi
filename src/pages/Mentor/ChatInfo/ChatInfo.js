@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import Avatar from "../../../components/common/Avatar";
 import { Typography } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export default function ChatInfo() {
   const classes = useStyles();
@@ -30,6 +31,13 @@ export default function ChatInfo() {
               {subtitle2}
             </Typography>
           </Box>
+        </Box>
+
+        <Box className={classes.notificationContainer}>
+            <NotificationsIcon className={classes.bellIcon}/>
+            <Typography className={classes.muteText} variant="subtitle1">
+                Mute Notifications
+            </Typography>
         </Box>
       </Box>
     </>

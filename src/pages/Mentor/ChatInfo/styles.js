@@ -42,6 +42,23 @@ const useStyles = makeStyles(
       margin: "0 8px",
       color: "#6D6D6D",
     },
+
+    //Notification
+
+    notificationContainer:{
+      display: "flex",
+      alignItems: "center",
+    },
+    bellIcon:{
+      color: "#2E2E2E",
+      height: "20px",
+      width: "16px"
+    },
+    muteText: {
+      fontSize: "14px !important",
+      marginLeft: "13px !important",
+      lineHeight: "21px !important"
+    }
   }),
   { index: 1 }
 );
