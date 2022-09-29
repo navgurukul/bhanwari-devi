@@ -77,13 +77,18 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600 !important",
     fontSize: "14px !important",
   },
-
+  dataContainer: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
+  },
   tablecontainer: {
     // width: "1120px",
     maxWidth: "1120px",
     boxShadow: "none",
     borderBottom: "2px solid rgba(163, 163, 163, 0.4) !important",
   },
+
   tablecontainerow: {
     backgroundColor: "white !important",
     borderBottom: "1.2px solid rgba(163, 163, 163, 0.4) !important",
@@ -117,7 +122,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontSize: "14px !important",
   },
-
   tableSticky: {
     position: "sticky",
     backgroundColor: "white",

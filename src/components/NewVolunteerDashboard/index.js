@@ -45,7 +45,7 @@ function NewVolunteerDashboard(props) {
   const classes = useStyles();
   const { onSelectAllClick, numSelected, rowCount } = props;
   const [open, setOpen] = React.useState(true);
-  console.log(onSelectAllClick, "onSelectAllClick");
+  // console.log(onSelectAllClick, "onSelectAllClick");
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selctedPathway, setSelectedPathway] = useState("");
@@ -60,20 +60,58 @@ function NewVolunteerDashboard(props) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [filter, setFilter] = useState(false);
   const [statusFilter, setStatusFilter] = useState(1);
-  const [langFilter, setLangFilter] = useState(1);
+  const [langFilter, setLangFilter] = useState("All");
   const [statusDialog, setStatusDialog] = useState(false);
-  const [status, setStatus] = useState("Newly Onboarded");
+  const [status, setStatus] = useState("All");
   const [statusName, setStatusName] = useState("");
   const [generateDialog, setGenerateDialog] = useState(false);
+
+  const languageMap = {
+    hi: "Hindi",
+    te: "Telugu",
+    en: "English",
+    ta: "Tamil",
+  };
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
   if (selctedPathway) {
-    pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
+    pageCount = Math.ceil(volunteer && volunteer.length / limit);
   }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
+  function filterPathway(pathway, volunteer) {
+    // console.log(pathway)
+    return volunteer.filter((el) => {
+      // console.log(el.classes)
+      for (let i of el.classes) {
+        if (i.title.includes(pathway)) {
+          return true;
+        }
+      }
+    });
+  }
+
+  function filterLanguage() {
+    return cacheVolunteer.filter(
+      (el) => {
+        const cur_lang = languageMap[el.classes[el.classes.length - 1].lang];
+        if (langFilter === "All") {
+          return true;
+        }
+        if (langFilter === cur_lang) {
+          return true;
+        }
+      }
+      // console.log(languageMap[el.classes.lang])
+
+      // langFilter === "All" ||
+      // langFilter === languageMap[el.classes[el.classes.length - 1].lang]
+    );
+  }
+  console.log(langFilter);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -139,12 +177,7 @@ function NewVolunteerDashboard(props) {
     });
   }, []);
   console.log(volunteer);
-  const languageMap = {
-    hi: "Hindi",
-    te: "Telugu",
-    en: "English",
-    ta: "Tamil",
-  };
+
   useEffect(() => {
     const data =
       volunteer &&
@@ -217,12 +250,26 @@ function NewVolunteerDashboard(props) {
         {/* FILTERS */}
         <Grid container className={classes.filters} mb={2}>
           <Grid item>
-            <Button variant="contained" className={classes.python}>
+            <Button
+              variant="contained"
+              className={classes.python}
+              onClick={() => {
+                setVolunteer(filterPathway("Python", cacheVolunteer));
+                setSelectedPathway("Python");
+              }}
+            >
               Python (40)
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" className={classes.learningTrack2}>
+            <Button
+              variant="outlined"
+              className={classes.learningTrack2}
+              onClick={() => {
+                setVolunteer(filterPathway("Spoken English", cacheVolunteer));
+                setSelectedPathway("Spoken English");
+              }}
+            >
               Spoken English (20)
             </Button>
           </Grid>
@@ -331,18 +378,22 @@ function NewVolunteerDashboard(props) {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={langFilter}
-                  onChange={(e) => {
+                  // onChange={(e)=>{
+
+                  // }}
+
+                  onClick={(e) => {
+                    setVolunteer(filterLanguage());
                     setLangFilter(e.target.value);
                   }}
                   label="Language"
-                  notched
                   className={classes.tableFont}
                 >
-                  <MenuItem value={1} s>
+                  <MenuItem value="All" s>
                     All
                   </MenuItem>
-                  <MenuItem value={2}>English</MenuItem>
-                  <MenuItem value={3}>Hindi</MenuItem>
+                  <MenuItem value="Hindi">Hindi</MenuItem>
+                  <MenuItem value="English">English</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -386,7 +437,7 @@ function NewVolunteerDashboard(props) {
                     <TableCell
                       align="center"
                       className={classes.tableSticky}
-                      sx={{ left: "72px" }}
+                      sx={{ left: "70px" }}
                     >
                       <Typography className={classes.tablecellHead}>
                         {selected.length}{" "}
@@ -396,7 +447,7 @@ function NewVolunteerDashboard(props) {
                     </TableCell>
                     <TableCell
                       className={classes.tableSticky}
-                      sx={{ left: "180px" }}
+                      sx={{ left: "170px", width: "150px" }}
                       onClick={() => {
                         const valueToDisplay = `Total ${selected.length} ${
                           selected.length === 1 ? "row is " : "rows are "
@@ -412,7 +463,11 @@ function NewVolunteerDashboard(props) {
                         Change Statuses
                       </Typography>
                     </TableCell>
-                    <TableCell colSpan={5}>
+                    <TableCell
+                      colSpan={isActive ? 0 : 5}
+                      className={classes.tableSticky}
+                      sx={{ left: "255px" }}
+                    >
                       <Typography
                         sx={{ fontWeight: "600", fontSize: "14px" }}
                         color="error"
@@ -640,9 +695,9 @@ function NewVolunteerDashboard(props) {
                         </TableRow>
                         <TableRow
                           sx={{
-                            position: "-webkit-sticky",
-                            left: 0,
-                            zIndex: "800",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
                           }}
                         >
                           {selectedRow || selectedRow > 0 ? (
@@ -653,7 +708,7 @@ function NewVolunteerDashboard(props) {
                               <Collapse in={open} timeout="auto" unmountOnExit>
                                 <Box
                                   sx={{
-                                    height: "168px",
+                                    height: isActive ? "198px" : "165px",
                                   }}
                                 >
                                   <div className={classes.collapse}>
