@@ -95,7 +95,9 @@
   display: flex;
   margin: 12px 0;
   padding: 8px;
-  
+  @media screen and (min-width: 769px) {
+    width: 50%;
+  }
   &-other {
     align-self: flex-start;
   }
