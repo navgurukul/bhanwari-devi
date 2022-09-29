@@ -8,12 +8,12 @@ import RoomNav from "./RoomNav";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 import { MATRIX_DOMAIN, fetchMessages, redactEvent, getMembers } from "./utils";
-import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
 import ChatNameBar from "./ChatNameBar";
 import { Box, Typography } from "@material-ui/core";
 import useStyles from "./styles";
+import ChatInfo from "./ChatInfo/ChatInfo";
 
 let PAGINATION_THRESHOLD = 200;
 
@@ -375,6 +375,9 @@ const Mentor = () => {
     );
   };
 
+  const renderChatInfo = () => {
+    return <ChatInfo />;
+  };
   return (
     <div className="chat-container">
       {isInitializingClient ? (
@@ -383,6 +386,7 @@ const Mentor = () => {
         <>
           {renderRooms()}
           {renderChat()}
+          {renderChatInfo()}
         </>
       )}
     </div>
