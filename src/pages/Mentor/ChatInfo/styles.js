@@ -4,10 +4,11 @@ const useStyles = makeStyles(
   () => ({
     infoContainer: {
       boxSizing: "border-box",
-      width: "384px",
+      width: "360px",
       background: "#F5F5F5",
       padding: "32px",
-      overflow: "auto"
+      overflow: "auto",
+      borderTop: "1px solid #ddd",
     },
 
     //Title, Subtitle and Avatar

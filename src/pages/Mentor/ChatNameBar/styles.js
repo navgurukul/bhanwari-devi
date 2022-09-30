@@ -53,7 +53,7 @@ const useStyles = makeStyles(
     chatInfo: {
       width: "20px",
       height: "20px",
-      color: "#2196f3",
+      color: "#2196F3",
       cursor: "pointer",
     },
 

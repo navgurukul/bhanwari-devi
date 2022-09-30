@@ -2,10 +2,11 @@ import React from "react";
 import { Typography, useMediaQuery } from "@material-ui/core";
 import CircleIcon from "@mui/icons-material/Circle";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import InfoIcon from '@mui/icons-material/Info';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import useStyles from "./styles";
 
-export default function ChatNameBar({ onBack, rooms, selectedRoomId }) {
+export default function ChatNameBar({ onBack, rooms, selectedRoomId, chatInfoOpen, setChatInfoOpen}) {
   const desktop = useMediaQuery("(min-width: 1200px)");
   const laptop = useMediaQuery("(min-width: 769px) and (max-width: 1199px)");
   const mobile = useMediaQuery("(max-width: 768px)");
@@ -35,7 +36,11 @@ export default function ChatNameBar({ onBack, rooms, selectedRoomId }) {
           40 Students
         </Typography>
       </div>
-      <InfoOutlinedIcon className={classes.chatInfo} />
+      {
+        chatInfoOpen ? 
+        <InfoIcon onClick={setChatInfoOpen} className={classes.chatInfo}/>:
+        <InfoOutlinedIcon onClick={setChatInfoOpen} className={classes.chatInfo}/>
+      }
     </div>
   );
 }

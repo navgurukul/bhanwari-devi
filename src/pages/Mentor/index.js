@@ -25,6 +25,7 @@ const Mentor = () => {
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [prevScrollPosition, setPrevScrollPosition] = useState(null);
+  const [chatInfoOpen, setChatInfoOpen] = useState(false);
   const [roomNamesMap, setRoomNamesMap] = useState({});
   const [members, setMembers] = useState({});
   const [accessToken, setAccessToken] = useState("");
@@ -327,6 +328,7 @@ const Mentor = () => {
   };
 
   const renderChat = () => {
+    
     return (
       <>
         <div className="room-chat">
@@ -336,6 +338,10 @@ const Mentor = () => {
             onBack={() => {
               setSelectedRoomId(null);
             }}
+            setChatInfoOpen={()=>{
+              setChatInfoOpen(prev=>!prev)
+            }}
+            chatInfoOpen={chatInfoOpen}
           />
           <Messages
             messages={roomMessages[selectedRoomId]}
@@ -375,9 +381,12 @@ const Mentor = () => {
     );
   };
 
-  const renderChatInfo = () => {
-    return <ChatInfo />;
+  const renderChatInfo = ()=>{
+    return (
+      <ChatInfo/>
+    )
   };
+
   return (
     <div className="chat-container">
       {isInitializingClient ? (
@@ -386,7 +395,7 @@ const Mentor = () => {
         <>
           {renderRooms()}
           {renderChat()}
-          {renderChatInfo()}
+          {chatInfoOpen && renderChatInfo()}
         </>
       )}
     </div>
