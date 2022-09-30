@@ -38,11 +38,19 @@ The Deployed Links For Meraki.
 
 6. Execute This command
    ```git
-      git checkout -b <your-branch-name> dev
+      git checkout -b <your-branch-name>
    ```
 7. After doing this the project is ready to run on your local machine and will look like this.
+
+![image](https://user-images.githubusercontent.com/84696578/193329990-e134e4cf-dc44-4258-83b3-811e9ed55656.png)
+
 8. Run `npm start` to start the development server and will start on PORT:3000
 9. once The development server is started follow these video Instructions to LOGIN to the application.
+
+
+https://user-images.githubusercontent.com/84696578/193331340-47df0633-ea3b-4dca-8d98-9ff643f71daf.mp4
+
+
 10. And you are good to Contribute Now.
 
 > # Contributing Guidelines
