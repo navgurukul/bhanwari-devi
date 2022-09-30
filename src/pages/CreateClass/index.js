@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import CreateClassComponent from "../../components/Class";
+// import CreateClassComponent from "../../components/Class";
 import ClassesList from "../../components/Class/ClassList";
 import { useSelector } from "react-redux";
 import "../../components/Class/ClassList/styles.scss";
@@ -38,7 +38,7 @@ function ToggleClassFormModal() {
   const handleOpen = () => setOpen(true);
   const [openSuccessfullModal, setOpenSuccessfullModal] = useState(false);
   const [isEditMode, setIsEditMode] = React.useState(false);
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -118,7 +118,6 @@ function ToggleClassFormModal() {
       user_id = decodedUri.split("=")[2].split("+")[0];
       user_email = decodedUri.split("=")[3].split("&")[0];
       code = url.split("code=")[1].split("scope")[0];
-      console.log("code", code);
       payload = {
         ...payload,
         user_id: parseInt(user_id, 10),

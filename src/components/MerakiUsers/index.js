@@ -48,7 +48,7 @@ function MerakiUsers() {
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
       if (
-        id == user.data.user.partner_id ||
+        id === user.data.user.partner_id ||
         user.data.user.rolesList.indexOf("admin") > -1
       ) {
         if (res.data.students.length < 1) {
@@ -415,7 +415,7 @@ function MerakiUsers() {
                       item.classes_registered.length > 0 &&
                       item.classes_registered[
                         item.classes_registered.length - 1
-                      ]["title"] != ""
+                      ]["title"] !== ""
                         ? item.classes_registered[
                             item.classes_registered.length - 1
                           ]["title"]
@@ -464,7 +464,7 @@ function MerakiUsers() {
               })
             : slicedStudents.map((item) => {
                 let getStars = 0;
-                let totalStarts = item.classes_registered.length * 5;
+                // let totalStarts = item.classes_registered.length * 5;
                 item.classes_registered.map((stars) => {
                   getStars = getStars + Number(stars.feedback.feedback);
                 });
@@ -489,7 +489,7 @@ function MerakiUsers() {
                       item.classes_registered.length > 0 &&
                       item.classes_registered[
                         item.classes_registered.length - 1
-                      ]["title"] != ""
+                      ]["title"] !== ""
                         ? item.classes_registered[
                             item.classes_registered.length - 1
                           ]["title"]

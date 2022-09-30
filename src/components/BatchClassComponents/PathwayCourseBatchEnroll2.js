@@ -1,18 +1,18 @@
 import React from "react";
 import useStyles from "./styles";
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { format } from "../../common/date";
 import { Button, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import AlertDialog from "./AlertDialog";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import CheckMoreBatches from "./CheckMoreBatches";
 import NoBatchEnroll from "./NoBatchEnroll";
 
 const PathwayCourseBatchEnroll2 = (props) => {
   const { upcomingBatchesData } = props;
 
-  const user = useSelector(({ User }) => User);
+  // const user = useSelector(({ User }) => User);
 
   const [open, setOpen] = React.useState(false);
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { METHODS } from "../../../services/api";
 import { useSelector } from "react-redux";
-import { PATHS, interpolatePath, versionCode } from "../../../constant";
+import { versionCode } from "../../../constant";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import useStyles from "../styles";
+// import useStyles from "../styles";
 import {
   Container,
   TextField,
   TextareaAutosize,
-  Box,
   Button,
-  Grid,
   Typography,
 } from "@mui/material";
 
@@ -23,14 +21,11 @@ function ContentEdit() {
   const [courseType, setCourseType] = useState();
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
-  const classes = useStyles();
+  // const classes = useStyles();
 
-  console.log("params", params);
-
-  let name = "name";
+  // let name = "name";
   const putApiExercisesCall = () => {
     const stringifiedCourse = JSON.stringify(course, null, 0);
-    console.log(id, stringifiedCourse, "cc");
     axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
@@ -42,13 +37,10 @@ function ContentEdit() {
       data: {
         content: stringifiedCourse,
       },
-    }).then((res) => {
-      console.log(res, "res");
-    });
+    }).then((res) => {});
   };
   const putApiAssessmentCall = () => {
     const stringifiedCourse = JSON.stringify(course, null, 0);
-    console.log(id, stringifiedCourse, "cc");
     axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${id}`,
@@ -60,9 +52,7 @@ function ContentEdit() {
       data: {
         content: stringifiedCourse,
       },
-    }).then((res) => {
-      console.log(res, "res");
-    });
+    }).then((res) => {});
   };
   useEffect(() => {
     axios({
@@ -75,17 +65,12 @@ function ContentEdit() {
       },
     })
       .then((res) => {
-        console.log("res", res);
         setCourseType(res.data.course.exercises[exerciseId].content_type);
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
       })
-      .catch((err) => {
-        console.log("error");
-      });
+      .catch((err) => {});
   }, [courseId, exerciseId]);
-
-  console.log("course", course);
 
   return (
     <Container maxWidth="sm" sx={{ mt: 5 }}>

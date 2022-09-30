@@ -37,9 +37,6 @@ import {
 } from "./constant";
 import { selectRolesData } from "../User/redux/selectors";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
-import SearchBar from "../SearchBar";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
@@ -185,10 +182,9 @@ const MobileVersion = ({ toggleDrawer, leftDrawer, setRole, role }) => {
 };
 
 function Header() {
-  const classes = useStyles();
+  // const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
   const user = useSelector(({ User }) => User);
-
   const roles = useSelector(selectRolesData);
   const [role, setRole] = React.useState(null);
   const isAuthenticated = data && data.isAuthenticated;
@@ -211,7 +207,9 @@ function Header() {
       : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
 
-  const roleKey = roles.map((userRole) => userRole.key).find(key => key === role);
+  const roleKey = roles
+    .map((userRole) => userRole.key)
+    .find((key) => key === role);
   const defaultPage = rolesLandingPages[roleKey] || "/";
 
   const toggleDrawer = (open) => (event) => {
@@ -252,7 +250,9 @@ function Header() {
                 onClose={toggleDrawer(false)}
                 onOpen={toggleDrawer(true)}
               >
-                <MobileVersion {...{toggleDrawer, leftDrawer, setRole, role}} />
+                <MobileVersion
+                  {...{ toggleDrawer, leftDrawer, setRole, role }}
+                />
               </SwipeableDrawer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

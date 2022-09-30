@@ -53,7 +53,6 @@ function Login(props) {
 
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
-    console.log("onGoogle login fail", errorResponse);
   };
 
   const pythonPathway =
@@ -68,8 +67,6 @@ function Login(props) {
     default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
   };
 
-  console.log("rolesList", rolesList);
-
   if (isAuthenticated) {
     if (queryString) {
       axios({
@@ -82,8 +79,7 @@ function Login(props) {
         data: { referrer: queryString },
       }).then((res) => {});
     }
-    if (props.location.state == "/volunteer-with-us") {
-      console.log("rolesList", rolesList.includes("volunteer"));
+    if (props.location.state === "/volunteer-with-us") {
       if (rolesList.includes("volunteer")) {
         return <Redirect to={PATHS.CLASS} />;
       } else {
@@ -104,11 +100,11 @@ function Login(props) {
     );
   }
 
-  if (rolesList != false) {
+  if (rolesList !== false) {
     if (!(rolesList.includes("partner") || rolesList.includes("admin"))) {
       return <Redirect to={PATHS.COURSE} />;
     }
-  } else if (rolesList.length == 0) {
+  } else if (rolesList.length === 0) {
     return <Redirect to={PATHS.COURSE} />;
   }
 

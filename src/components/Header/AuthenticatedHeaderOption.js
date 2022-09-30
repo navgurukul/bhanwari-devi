@@ -1,22 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, NavLink, useLocation, useHistory } from "react-router-dom";
-import { PATHS, interpolatePath } from "../../constant";
-import { hasOneFrom } from "../../common/utils";
-import { actions as userActions } from "../User/redux/action";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import useStyles from "./styles";
-import { DropDown, MobileDropDown } from "./DropDown";
-import { sendToken } from "../User/redux/api";
-import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import SearchIcon from "@mui/icons-material/Search";
-import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
-import HeaderNavLink from "./HeaderNavlink";
+import React from "react";
+import { useSelector } from "react-redux";
+import { PATHS } from "../../constant";
+import { Box } from "@mui/material";
 import UserMenu from "./UserMenu";
-import SearchBar from "../SearchBar";
-import Tooltip from "@mui/material/Tooltip";
-import Message from "../common/Message";
+
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -28,12 +15,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "./constant";
-import StudentHeader from "./StudentHeader";
-import AdminHeader from "./AdminHeader";
-import VolunteerHeader from "./VolunteerHeader";
-import PartnerHeader from "./PartnerHeader";
 import RoleSpecificHeader from "./RoleSpecificHeader";
-import SearchHeader from "./SearchHeader";
 import ChangeRolesView from "./ChangeRolesView";
 import { selectRolesData, selectUserId } from "../User/redux/selectors";
 

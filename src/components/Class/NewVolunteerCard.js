@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Grid, Box, Container, Typography } from "@mui/material";
+import { Grid, Container, Typography } from "@mui/material";
 import React from "react";
 import useStyles from "./styles";
 function NewVolunteerCard({ setNewVolunteer }) {

@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Container,
-  CardActionArea,
-  CardMedia,
-  Card,
-  CardContent,
-  Box,
-  Link,
-} from "@mui/material";
+import { Typography, CardActionArea, Card, CardContent } from "@mui/material";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -16,32 +7,32 @@ import { breakpoints } from "../../theme/constant";
 import { useHistory } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../constant";
 import { getPathwaysCourse } from "../PathwayCourse/redux/api";
-const CardData = {
-  1: {
-    image: "python",
-    course_Name: "Python",
-    NoOfCourse: "8",
-    NoOfTopic: "1",
-    TopicName: "Introduction To Python",
-  },
-  2: {
-    image: "typeicon",
-    course_Name: "Typing Guru",
-    NoOfCourse: "5",
-    NoOfTopic: "1",
-    TopicName: "Home Row",
-  },
-  3: {
-    image: "jsicon",
-    course_Name: "Javascript",
-    NoOfCourse: "8",
-    NoOfTopic: "2",
-    TopicName: "JS Variable",
-  },
-};
-const CardDatas = {
-  1: {},
-};
+// const CardData = {
+//   1: {
+//     image: "python",
+//     course_Name: "Python",
+//     NoOfCourse: "8",
+//     NoOfTopic: "1",
+//     TopicName: "Introduction To Python",
+//   },
+//   2: {
+//     image: "typeicon",
+//     course_Name: "Typing Guru",
+//     NoOfCourse: "5",
+//     NoOfTopic: "1",
+//     TopicName: "Home Row",
+//   },
+//   3: {
+//     image: "jsicon",
+//     course_Name: "Javascript",
+//     NoOfCourse: "8",
+//     NoOfTopic: "2",
+//     TopicName: "JS Variable",
+//   },
+// };
+// const CardDatas = {
+//   1: {},
+// };
 function LearningTrackCard(props) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -53,9 +44,7 @@ function LearningTrackCard(props) {
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
       setPathwayData(res.data);
-      console.log(res.data);
     });
-    console.log(PathwayData);
     const COurseIndex = PathwayData?.courses?.findIndex((course, index) => {
       if (course.course_id === item.course_id) {
         return index;

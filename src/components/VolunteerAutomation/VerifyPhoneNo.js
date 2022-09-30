@@ -14,8 +14,8 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { number } from "prop-types";
+// import { initializeApp } from "firebase/app";
+// import { number } from "prop-types";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -26,8 +26,8 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_appId,
 };
 
-const appVerifier = window.recaptchaVerifier;
-const app = initializeApp(firebaseConfig);
+// const appVerifier = window.recaptchaVerifier;
+// const app = initializeApp(firebaseConfig);
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
   const handleChange = (event) => {
@@ -98,7 +98,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
     }
     const ContactNumber = contact.slice(3, contact.length);
     let countryCode = contact.slice(0, 2);
-    if (countryCode[0] == "0") {
+    if (countryCode[0] === "0") {
       countryCode = countryCode[1];
     }
     const phoneNumber = `+${countryCode}${ContactNumber}`;
@@ -108,7 +108,6 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
       .then((result) => {
         setMessage("OTP sent successfully");
         setOpen(true);
-        console.log("OTP sent", result);
         setStartOtp(true);
         setConfirmationResult(result);
         setIsStartTimer(true);

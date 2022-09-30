@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Container,
-  Card,
-  CardContent,
-  Box,
-  Link,
-} from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import { Grid } from "@mui/material";
-import useStyles from "./styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { breakpoints } from "../../theme/constant";
-import { useHistory, useParams } from "react-router-dom";
-import { interpolatePath, PATHS, versionCode } from "../../constant";
+// import useStyles from "./styles";
+// import useMediaQuery from "@mui/material/useMediaQuery";
+// import { breakpoints } from "../../theme/constant";
+// import { useHistory, useParams } from "react-router-dom";
+import { versionCode } from "../../constant";
 import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector } from "react-redux";
 
 function ReturningUserPage() {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles();
-  const history = useHistory();
-  const params = useParams();
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const classes = useStyles();
+  // const history = useHistory();
+  // const params = useParams();
   const user = useSelector(({ User }) => User);
   const [learningTracks, setLearningTracks] = useState([]);
   useEffect(() => {

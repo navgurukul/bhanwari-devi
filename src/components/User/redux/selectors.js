@@ -65,8 +65,8 @@ export const selectRolesData = ({ User }) => {
   );
 
   // special case for partner role
-  const partnerId = User?.data?.user?.partner_id;
-  const partnerGroupId = User?.data?.user?.partner_group_id;
+  // const partnerId = User?.data?.user?.partner_id;
+  // const partnerGroupId = User?.data?.user?.partner_group_id;
   ROLES[PARTNER_ROLE_KEY].properties.partnerId = User?.data?.user?.partner_id;
   ROLES[PARTNER_ROLE_KEY].properties.partnerGroupId =
     User?.data?.user?.partner_group_id;

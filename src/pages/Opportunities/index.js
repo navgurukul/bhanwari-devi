@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import { breakpoints } from "../../theme/constant";
-import { getQueryVariable } from "../../common/utils";
+// import { getQueryVariable } from "../../common/utils";
 import { Link } from "react-router-dom";
 import ExternalLink from "../../components/common/ExternalLink";
 
@@ -31,7 +31,7 @@ function Opportunities() {
 
   const partnerId = user.data && user.data.user.partner_id;
 
-  const partnerIdFromAndroid = getQueryVariable("partner_id");
+  // const partnerIdFromAndroid = getQueryVariable("partner_id");
 
   useEffect(() => {
     axios({

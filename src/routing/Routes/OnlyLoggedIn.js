@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import { actions as userActions } from "../../components/User/redux/action";
