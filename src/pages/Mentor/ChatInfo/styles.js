@@ -7,6 +7,7 @@ const useStyles = makeStyles(
       width: "384px",
       background: "#F5F5F5",
       padding: "32px",
+      overflow: "auto"
     },
 
     //Title, Subtitle and Avatar
@@ -58,6 +59,32 @@ const useStyles = makeStyles(
       fontSize: "14px !important",
       marginLeft: "13px !important",
       lineHeight: "21px !important"
+    },
+    toggleWrapper: {
+      marginLeft: "auto"
+    },
+
+    //Members List
+    listContainer:{
+      
+    },
+    participantText:{
+      marginTop: "30px !important",
+      fontSize: "14px !important",
+      lineHeight: "21px !important",
+      marginBottom: "20px !important"
+    },
+    nameContainer:{
+      display: "flex",
+      alignItems: "center",
+      cursor: "pointer",
+      marginTop: "16px"
+    },
+    nameText:{
+      fontSize: "14px !important",
+      lineHeight: "21px !important",
+      fontWeight: "400 !important",
+      marginLeft: "16px !important"
     }
   }),
   { index: 1 }
