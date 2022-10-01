@@ -182,7 +182,7 @@ const RenderContent = ({ data, exercise }) => {
     );
     return (
       <TableContainer>
-        <Table stickyHeader>
+        <Table>
           <TableHead>
             <TableRow>
               {data.value.map((item) => {
