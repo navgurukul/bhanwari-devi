@@ -383,7 +383,11 @@ const Mentor = () => {
 
   const renderChatInfo = ()=>{
     return (
-      <ChatInfo/>
+      <ChatInfo 
+        setChatInfoOpen={()=>{
+          setChatInfoOpen(prev=>!prev)
+        }}
+      />
     )
   };
 

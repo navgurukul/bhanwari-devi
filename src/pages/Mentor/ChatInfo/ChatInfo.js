@@ -2,12 +2,12 @@ import React from "react";
 import useStyles from "./styles";
 import { Box } from "@mui/system";
 import Avatar from "../../../components/common/Avatar";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Toggle from "./Toggle/Toggle";
 import Chip from '@mui/material/Chip';
-
 
 const members = [
   {
@@ -63,8 +63,10 @@ const chipStyle = {
   marginLeft: "auto"
 }
 
-export default function ChatInfo() {
-  const classes = useStyles();
+export default function ChatInfo({setChatInfoOpen}) {
+  const desktop = useMediaQuery("(min-width: 1200px)");
+  const mobile = useMediaQuery("(max-width: 768px)");
+  const classes = useStyles({mobile, desktop});
   const name = "DVET Pune Batch 1 Beginners";
   const subtitle1 = "#DVETPuneBatch";
   const subtitle2 = "101 Participants";
@@ -72,6 +74,7 @@ export default function ChatInfo() {
   return (
     <>
       <Box className={classes.infoContainer}>
+        {mobile && <ArrowBackIosNewIcon onClick={setChatInfoOpen} className={classes.backIcon}/>}
         <Box className={classes.header}>
           <Avatar
             style={{ height: "48px", width: "48px" }}

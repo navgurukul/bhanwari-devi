@@ -4,11 +4,13 @@ const useStyles = makeStyles(
   () => ({
     infoContainer: {
       boxSizing: "border-box",
-      width: "360px",
       background: "#F5F5F5",
       padding: "32px",
       overflow: "auto",
       borderTop: "1px solid #ddd",
+      width: (props)=>props.desktop ? "384px" : "100vw",
+      minWidth: "250px",
+      maxWidth: "400px",
     },
 
     //Title, Subtitle and Avatar
@@ -44,7 +46,10 @@ const useStyles = makeStyles(
       margin: "0 8px",
       color: "#6D6D6D",
     },
-
+    backIcon: {
+      width: "14px !important",
+      height: "18px !important",
+    },
     //Notification
 
     notificationContainer:{
