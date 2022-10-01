@@ -14,7 +14,7 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import moment from "moment";
+// import moment from "moment";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import itLocale from "date-fns/locale/it";
 
