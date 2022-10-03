@@ -218,6 +218,7 @@ export const DropDown = ({
       open={Boolean(indicator)}
       onClose={handleClose}
       MenuListProps={{ onMouseLeave: handleClose }}
+      hideBackdrop
     >
       {dropDown &&
         students[dropDown].map((menu, index) => {

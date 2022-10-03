@@ -64,6 +64,7 @@ function UserMenu() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
         onMouseLeave={handleCloseUserMenu}
+        hideBackdrop
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem
