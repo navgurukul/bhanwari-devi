@@ -32,8 +32,12 @@ function ResidentialProgramme() {
   const pathwayCourse = resPathway && resPathway.courses;
 
   return (
-    <Container className={classes.pathwayContainer} maxWidth="lg">
-      <Grid container spacing={2}>
+    <Container
+      sx={{ mt: 5 }}
+      className={classes.pathwayContainer}
+      maxWidth="lg"
+    >
+      <Grid sx={{ mt: 3 }} container spacing={2}>
         <Grid xs={12} md={6}>
           <Card align="left" elevation={0}>
             <Typography
