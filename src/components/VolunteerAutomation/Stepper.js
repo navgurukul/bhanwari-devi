@@ -44,7 +44,7 @@ function HorizontalLinearStepper() {
   const roles = user?.data?.user.rolesList; // TODO: Use selector for this
   const uid = user?.data?.user.id; // TODO: Factor out common logic used for selected role PR # 660
   const allUsersState = getObjectState("volunteer_automation", "state");
-  const currentState = allUsersState?.uid || {
+  const currentState = allUsersState?.[uid] || {
     completed: [],
   };
   const dispatch = useDispatch();
