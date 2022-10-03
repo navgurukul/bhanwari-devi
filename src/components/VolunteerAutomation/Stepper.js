@@ -40,11 +40,13 @@ import { getObjectState, saveObjectState } from "../../common/storage";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
-  const currentState = getObjectState("volunteer_automation", "state") || {
+  const allUsersState = getObjectState("volunteer_automation", "state");
+  const currentState = allUsersState.uid || {
     completed: [],
   };
   const user = useSelector(({ User }) => User);
   const roles = user?.data?.user.rolesList; // TODO: Use selector for this
+  const uid = user?.data?.user.id; // TODO: Factor out common logic used for selected role PR # 660
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -75,7 +77,7 @@ function HorizontalLinearStepper() {
   const updateAndSaveState = (setter, key, value) => {
     setter && setter(value);
     currentState[key] = value;
-    saveObjectState("volunteer_automation", "state", currentState);
+    saveObjectState("volunteer_automation", "state", {...allUsersState, [uid]: currentState});
   };
 
   React.useEffect(() => {
