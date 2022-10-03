@@ -17,13 +17,7 @@ export default function ExerciseImage({
 }) {
   const classes = useStyles();
   const history = useHistory();
-  // console.log(progressTrackId);
-  // console.log(id);
-  // console.log(
-  //   progressTrackId.assessments,
-  //   progressTrackId.classes,
-  //   progressTrackId.exercises
-  // );
+
   const params = useParams();
   const contentTypeMap = {
     assessment: selected
