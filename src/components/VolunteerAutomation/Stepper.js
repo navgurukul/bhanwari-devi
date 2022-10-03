@@ -41,7 +41,7 @@ import { getObjectState, saveObjectState } from "../../common/storage";
 function HorizontalLinearStepper() {
   let history = useHistory();
   const allUsersState = getObjectState("volunteer_automation", "state");
-  const currentState = allUsersState.uid || {
+  const currentState = allUsersState?.uid || {
     completed: [],
   };
   const user = useSelector(({ User }) => User);
