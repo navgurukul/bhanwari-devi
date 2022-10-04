@@ -28,7 +28,9 @@ git remote add upstream https://github.com/navgurukul/bhanwari-devi.git
 # switches to that branch
 git checkout dev
 ```
-3. Download the recommended version of [Node.js](https://nodejs.org/), if you haven't already. You can check the version of Node (and see if you have it installed) by entering `node -v` in Command Prompt on a Windows machine or Terminal on a Mac. Make sure you're using version 14.0 or greater.
+  **NOTE**: It's recommended that you create your own feature branch off of `dev` so you will be able to organize your commits around different issues. See Step 6 to do this.
+
+3. Download the version of [Node.js](https://nodejs.org/) that's listed as Recommended for Most Users, which at the time of writing is 16.17.1, if you haven't already. You can check the version of Node (and see if you have it installed) by entering `node -v` in Command Prompt on a Windows machine or Terminal on a Mac. Make sure you're using version 14.0 or greater.
 4. Navigate to the directory where the `package.json` file is located in the `bhanwari-devi` repository on your computer and create a new file. Copy/paste the following and then save this file as `.env`.
 
    ```.env
@@ -97,4 +99,4 @@ git checkout <branch-you-want-to-start-from>
 - The pull request will be reviewed, and suggestions will be added to improve it.
 - Once the pull request is approved, it will be merged.
 
-**Your contributions are always welcome and very much appreciated!
+**Your contributions are always welcome and very much appreciated!**
