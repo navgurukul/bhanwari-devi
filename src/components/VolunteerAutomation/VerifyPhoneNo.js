@@ -175,7 +175,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
           }}
         />
         <Button
-          disabled={contact.length < 13}
+          disabled={contact?.length < 13}
           id="sign-in-button"
           onClick={onSignInSubmit}
           style={{ marginTop: "10px" }}
