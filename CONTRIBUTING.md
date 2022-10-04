@@ -1,27 +1,33 @@
-> # Meraki Frontend Repository
+# Meraki Front-end Repository
 
-This repository contains the source code for the Meraki Frontend. The Meraki Frontend is a web application that allows users to learn python , spoken english and other things.
+This repository contains the source code for the front-end of the Meraki web application, which has enabled over **25,000 students** from underserved communities to learn the basics of programming and spoken English through free online classes and curricula materials. Your assistance will allow us to continue to scale quickly and help reach our vision of building a sustainable skill based learning platform that can enable **1M children** from the **most underserved** communities of our society find **aspirational jobs** in tech by the year 2025.
 
-The Deployed Links For Meraki.
+## Meraki App Links
 
-[Meraki Production ]("https://merakilearn.org")
+Production (Deployed from the [`main`](https://github.com/navgurukul/bhanwari-devi) branch): [https://merakilearn.org](https://merakilearn.org)
 
-[Meraki Development ]("https://bhanwari-devi.vercel.app")
+Development (Deployed from the [`dev`](https://github.com/navgurukul/bhanwari-devi/tree/dev) branch): [https://bhanwari-devi.vercel.app](https://bhanwari-devi.vercel.app)
 
-> ### Tech Stack
+## Tech Stack
 
-- React
-- Redux
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
 - [MUI](https://mui.com/)
-- nodeJs (V14)
+- [Node.js](https://nodejs.org/)
 
-> # Installation and Setup Guide
+## Installation and Setup Guide
 
-1. Fork the repository
-2. Create a Clone of the repository
-3. Make sure you have nodejs installed on your system with Version 14
-4. Run `npm install` to install all the dependencies .
-5. create a new .env file in root and add this code to it.
+1. Clone and Fork the `navgurukul/bhanwari-devi` repository. If you [download GitHub Desktop](https://desktop.github.com), you can refer to this [link](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop) for directions on how to do this.
+2. If you're using GitHub Desktop, switch to the `dev` branch. If you're using [Git Bash](https://git-scm.com/downloads), you can enter the following:
+```
+# first time only to alias the NG repository
+git remote add upstream https://github.com/navgurukul/bhanwari-devi.git
+
+# switches to that branch
+git checkout dev
+```
+3. Download the recommended version of [Node.js](https://nodejs.org/), if you haven't already. You can check the version of Node (and see if you have it installed) by entering `node -v` in Command Prompt on a Windows machine or Terminal on a Mac. Make sure you're using version 14.0 or greater.
+4. Navigate to the directory where the `package.json` file is located in the `bhanwari-devi` repository on your computer and create a new file. Copy/paste the following and then save this file as `.env`.
 
    ```.env
     REACT_APP_GOOGLE_CLIENT_ID = ''
@@ -35,8 +41,8 @@ The Deployed Links For Meraki.
     REACT_APP_messagingSenderId = ''
     REACT_APP_appId = ''
    ```
-
-6. Execute This command
+5. Now navigate to the directory where the `package.json` file is in the command-line (Command Prompt or Terminal). You can copy the path and paste it after `cd `. Then enter `npm install`. 
+6. Make the desired additions/changes to files. If you're using GitHub Desktop, you'll then be able to select a new branch to commit these changes. Otherwise, you can create a new branch off of `dev` (or your currently checked out branch) with Git Bash using the following:
    ```git
       git checkout -b <your-branch-name>
    ```
@@ -45,13 +51,24 @@ The Deployed Links For Meraki.
 ![image](https://user-images.githubusercontent.com/84696578/193329990-e134e4cf-dc44-4258-83b3-811e9ed55656.png)
 
 8. Run `npm start` to start the development server and will start on PORT:3000
-9. once The development server is started follow these video Instructions to LOGIN to the application.
+9. Once the development server is started, follow these video Instructions to LOGIN to the application.
 
 
 https://user-images.githubusercontent.com/84696578/193331340-47df0633-ea3b-4dca-8d98-9ff643f71daf.mp4
 
-
 10. And you are good to Contribute Now.
+
+Note: If a new branch is created after you fork the repository that you want to use, you can enter the following in Git Bash:
+```
+# first time only to alias the NG repository
+git remote add upstream https://github.com/navgurukul/bhanwari-devi.git
+
+# downloads the files from the branch 
+git fetch upstream <branch-you-want-to-start-from>
+
+# switches to that branch
+git checkout <branch-you-want-to-start-from>
+```
 
 > # Contributing Guidelines
 
@@ -68,7 +85,7 @@ https://user-images.githubusercontent.com/84696578/193331340-47df0633-ea3b-4dca-
 - Please describe the issue in detail and also mention the steps necessary to reproduce the issue.
 - Attach screenshots if relevant and possible.
 - Include stack traces for any errors you encounter. (Check the developer console, expand error messages, and copy paste the lines you see.)
-- Include the link from which you are facing the issue (Production: https://www.merakilearn.org or Development).
+- Include the link from which you are facing the issue (Production: [https://merakilearn.org](https://merakilearn.org) or Development: [https://bhanwari-devi.vercel.app](https://bhanwari-devi.vercel.app)).
 - Select the appropriate issue template (error, feature request, or documentation), and the relevant labels will automatically be added to the issue.
 
 ## Creating a new Pull Request
@@ -78,4 +95,4 @@ https://user-images.githubusercontent.com/84696578/193331340-47df0633-ea3b-4dca-
 - The pull request will be reviewed, and suggestions will be added to improve it.
 - Once the pull request is approved, it will be merged.
 
-> # Your contributions are always welcome and very much appreciated.
+**Your contributions are always welcome and very much appreciated!
