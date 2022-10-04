@@ -1,6 +1,8 @@
 # Meraki Front-end Repository
 
-This repository contains the source code for the front-end of the Meraki web application, which has enabled over **25,000 students** from underserved communities to learn the basics of programming and spoken English through free online classes and curricula materials. Your assistance will allow us to continue to scale quickly and help reach our vision of building a sustainable skill based learning platform that can enable **1M children** from the **most underserved** communities of our society find **aspirational jobs** in tech by the year 2025.
+This repository contains the source code for the front-end of the __Meraki Web Application__. This project has enabled over **25,000 students** from under-served communities learn the basics of programming and spoken English through free online classes and curricula materials. 
+
+Contributions to this project by people like you will allow us scale quickly and help build a sustainable skill-based learning platform that can enable **1M children** from the **most under-served** communities of our society find **aspirational jobs** in by the year 2025!
 
 ## Meraki App Links
 
@@ -51,7 +53,7 @@ git checkout dev
 ![image](https://user-images.githubusercontent.com/84696578/193329990-e134e4cf-dc44-4258-83b3-811e9ed55656.png)
 
 8. Run `npm start` to start the development server and will start on PORT:3000
-9. Once the development server is started, follow these video Instructions to LOGIN to the application.
+9. Once the development server is started, follow these video instructions to login to the application.
 
 
 https://user-images.githubusercontent.com/84696578/193331340-47df0633-ea3b-4dca-8d98-9ff643f71daf.mp4

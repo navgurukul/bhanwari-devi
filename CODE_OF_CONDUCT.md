@@ -4,7 +4,10 @@ Below is a summary of our Code of Conduct:
 
 ## Our Pledge
 
-We pledge to..
+We pledge to...
+ 1. …keep it **Inclusive** i.e. foster an open, welcoming, and healthy community through our actions.
+ 2. …keep it **Respectful** i.e. never harass, troll, or attack anyone through verbal, written, or any other means.
+ 3. …keep it **Professional** i.e. never promote personal, political, religious, or other sensitive issues that are unrelated to the goals of the learning and teaching community.
  1. …Keep it Inclusive i.e. foster an open, welcoming, and healthy community through my actions.
  2. …Keep it Respectful i.e. never harass, troll, or attack anyone through verbal, written, or any other means.
  3. …Keep it Professional i.e. never promote personal, political, religious, or other sensitive issues that are unrelated to the goals of the learning and teaching community. 
