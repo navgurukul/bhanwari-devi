@@ -210,7 +210,7 @@ function PathwayCourse() {
 
       <Container
         className={classes.pathwayContainer}
-        mt={isActive ? 0 : 55}
+        mt={isActive ? 0 : 50}
         mb={isActive ? 32 : 48}
         maxWidth="lg"
       >
@@ -356,14 +356,14 @@ function PathwayCourse() {
               <Box className={classes.Box1}>
                 <Typography
                   variant="h6"
-                  sx={{ ml: 2, textAlign: isActive && "center" }}
+                  sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
                 >
                   Learning Outcomes
                 </Typography>
                 <Grid container spacing={0} align="center">
                   {pathwayCourseData.outcomes.map((item) => (
                     <Grid xs={12} md={4}>
-                      <Card align="left" elevation={0}>
+                      <Card sx={{ margin: "10px" }} align="left" elevation={0}>
                         <Box className={classes.flex}>
                           <CheckIcon color="primary" />
                           <Typography sx={{ ml: 1 }} variant="body1">
