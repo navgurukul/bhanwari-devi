@@ -117,7 +117,7 @@ function ResidentialProgramme() {
         </Grid>
       </Box>
 
-      <Stack sx={{ mt: isActive ? 4 : 8 }} alignItems="center">
+      {/* <Stack sx={{ mt: isActive ? 4 : 8 }} alignItems="center">
         <Typography variant="h6">Have you completed the overview?</Typography>
         <Link
           style={{
@@ -129,7 +129,7 @@ function ResidentialProgramme() {
             Yes, let's take the test
           </Button>
         </Link>
-      </Stack>
+      </Stack> */}
     </Container>
   );
 }
