@@ -48,6 +48,7 @@ const AssessmentContent = ({
   setAnswer,
   setSolution,
   submit,
+  solution,
   setSubmit,
   correct,
   index,
@@ -56,6 +57,8 @@ const AssessmentContent = ({
   setTriedAgain,
   submitDisable,
 }) => {
+  // console.log(solution);
+
   const classes = useStyles();
   if (content.component === "header") {
     if (triedAgain > 1) {
@@ -64,6 +67,7 @@ const AssessmentContent = ({
       );
     }
   }
+
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
@@ -170,6 +174,8 @@ const AssessmentContent = ({
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           const text = DOMPurify.sanitize(item.value.slice(2));
+          // console.log("item.id" , item.id);
+          // console.log(triedAgain);
           return (
             <Paper
               elevation={3}
@@ -183,7 +189,10 @@ const AssessmentContent = ({
                 submit
                   ? correct
                     ? answer === item.id && classes.correctAnswer
-                    : answer === item.id && classes.inCorrectAnswer
+                    : triedAgain === 1
+                    ? answer === item.id && classes.inCorrectAnswer
+                    : (answer === item.id && classes.inCorrectAnswer) ||
+                      (solution === item.id && classes.correctAnswer)
                   : answer === item.id && classes.option
               }
               // onClick={() => setAnswer(item.id)}
@@ -263,7 +272,7 @@ function Assessment({
           status: "Pass",
         },
       }).then((res) => {
-        console.log("res", res);
+        // console.log("res", res);
       });
     } else {
       setCorrect(false);
@@ -283,7 +292,7 @@ function Assessment({
           status: "Fail",
         },
       }).then((res) => {
-        console.log("res", res);
+        // console.log("res", res);
       });
     }
   };
@@ -335,11 +344,13 @@ function Assessment({
             setAnswer={setAnswer}
             setSolution={setSolution}
             submit={submit}
+            solution={solution}
             setSubmit={setSubmit}
             correct={correct}
             setTriedAgain={setTriedAgain}
             setSubmitDisable={setSubmitDisable}
             submitDisable={submitDisable}
+            triedAgain={triedAgain}
           />
         ))}
 
