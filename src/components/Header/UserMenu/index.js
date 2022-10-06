@@ -75,14 +75,14 @@ function UserMenu() {
             </Typography>
           </MenuItem>
         </NavLink>
-        <NavLink to={PATHS.ADMISSION} className={classes.link}>
+        {/* <NavLink to={PATHS.ADMISSION} className={classes.link}>
           <MenuItem
             onClick={handleCloseUserMenu}
             sx={{ width: 150, margin: "0px 13px" }}
           >
             <Typography textAlign="center">NG Admissions</Typography>
           </MenuItem>
-        </NavLink>
+        </NavLink> */}
         <NavLink to={PATHS.OPPORTUNITIES} className={classes.link}>
           <MenuItem
             onClick={handleCloseUserMenu}
