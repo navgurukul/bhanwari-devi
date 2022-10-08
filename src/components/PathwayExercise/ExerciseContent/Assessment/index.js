@@ -174,7 +174,7 @@ const AssessmentContent = ({
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           const text = DOMPurify.sanitize(item.value.slice(2));
-          // console.log("item.id" , item.id);
+          console.log("item.id", item.id);
           // console.log(triedAgain);
           return (
             <Paper
