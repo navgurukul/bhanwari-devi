@@ -239,7 +239,6 @@ function HorizontalLinearStepper() {
   };
 
   return (
-<<<<<<< HEAD
     <>
       <AppBar position="static" color="background" elevation={2}>
         <Toolbar>
@@ -251,56 +250,6 @@ function HorizontalLinearStepper() {
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
-=======
-    <Container sx={{ mt: 4 }} maxWidth="lg">
-      <div
-        className="example"
-        style={{
-          overflowX: "scroll",
-        }}
-      >
-        <Stepper activeStep={activeStep}>
-          {steps.map((step, index) => {
-            const stepProps = {};
-            const labelProps = {};
-
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={step.label} {...stepProps}>
-                <StepLabel sx={{ minWidth: "125px" }} {...labelProps}>
-                  {step.label}
-                </StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-      </div>
-      <React.Fragment>
-        <>
-          {steps.map((step, index) => {
-            if (activeStep === index) {
-              return (
-                <Box>
-                  <Typography sx={{ mt: 2, mb: 1 }}>
-                    {step.component}
-                  </Typography>
-                </Box>
-              );
-            }
-          })}
-        </>
-        <Container maxWidth="sm">
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-              pt: 2,
-              pb: 5,
-            }}
->>>>>>> f371d1fda4c38cfe6115a93197204b3d11dc5e90
           >
             <DialogTitle id="alert-dialog-title">
               {"Leave Registration?"}
