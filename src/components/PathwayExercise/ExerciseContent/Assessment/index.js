@@ -294,6 +294,43 @@ function Assessment({
     }
   };
 
+  // useEffect(() => {
+  //   axios({
+  //     method: METHODS.GET,
+  //     url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization: user.data.token,
+  //     },
+  //   }).then((res) => {
+  //     if (
+  //       res?.data?.attempt_status === "CORRECT" ||
+  //       res?.data?.attempt_count == 2
+  //     ) {
+  //       if (res?.data?.attempt_status === "CORRECT") {
+  //         setAnswer(res?.data?.selected_option);
+  //         setCorrect(true);
+  //         setTriedAgain(2);
+  //         setStatus("pass");
+  //         setSubmitDisable(true);
+  //         setSubmit(true);
+  //       } else if (res?.data?.attempt_status === "INCORRECT") {
+  //         setAnswer(res?.data?.selected_option);
+  //         setCorrect(false);
+  //         setTriedAgain(2);
+  //         setStatus("fail");
+  //         setSubmitDisable(true);
+  //         setSubmit(true);
+  //       }
+  //     } else if (res?.attempt_count == 1) {
+  //       setAnswer(res?.data?.selected_option);
+  //       setTriedAgain(res?.data?.attempt_count);
+  //       setSubmitDisable(true);
+  //       setSubmit(true);
+  //     }
+  //   });
+  // }, [res]);
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -310,26 +347,26 @@ function Assessment({
         if (res?.data?.attempt_status === "CORRECT") {
           setAnswer(res?.data?.selected_option);
           setCorrect(true);
-          setTriedAgain(2);
           setStatus("pass");
+          setTriedAgain(2);
           setSubmitDisable(true);
           setSubmit(true);
         } else if (res?.data?.attempt_status === "INCORRECT") {
-          setAnswer(res?.data?.selected_option);
           setCorrect(false);
           setTriedAgain(2);
+          setAnswer(res?.data?.selected_option);
           setStatus("fail");
           setSubmitDisable(true);
           setSubmit(true);
         }
-      } else if (res?.attempt_count == 1) {
-        setAnswer(res?.data?.selected_option);
-        setTriedAgain(res?.data?.attempt_count);
+      } else if (res?.data?.attempt_count == 1) {
         setSubmitDisable(true);
+        setAnswer(res?.data?.selected_option);
         setSubmit(true);
+        setTriedAgain(res?.data?.attempt_count);
       }
     });
-  }, [res]);
+  }, [exerciseId]);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
