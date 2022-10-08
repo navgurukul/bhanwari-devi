@@ -38,6 +38,7 @@ function RevisionClassEnroll(props) {
     }).then((res) => {
       // setUserEnrolledClasses(res.data);
       const data = res.data;
+      console.log(data);
       setRevisionData(data);
       setDataToEnroll(data[0]);
     });
