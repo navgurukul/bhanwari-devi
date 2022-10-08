@@ -182,9 +182,14 @@ const RenderContent = ({ data, exercise }) => {
     );
     return (
       <TableContainer>
-        <Table stickyHeader>
+        <Table>
           <TableHead>
-            <TableRow>
+            <TableRow
+              sx={{
+                position: "sticky",
+                // top : 0
+              }}
+            >
               {data.value.map((item) => {
                 const header = DOMPurify.sanitize(item.header);
                 return (
