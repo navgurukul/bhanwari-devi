@@ -103,6 +103,8 @@ function ToggleClassFormModal() {
     });
   };
 
+  // console.log("authUrl", authUrl);
+
   const calledOnce = useRef(false);
   const history = useHistory();
 
@@ -116,6 +118,7 @@ function ToggleClassFormModal() {
       user_id = decodedUri.split("=")[2].split("+")[0];
       user_email = decodedUri.split("=")[3].split("&")[0];
       code = url.split("code=")[1].split("scope")[0];
+      console.log("code", code);
       payload = {
         ...payload,
         user_id: parseInt(user_id, 10),

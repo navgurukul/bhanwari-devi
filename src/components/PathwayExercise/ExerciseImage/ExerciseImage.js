@@ -17,6 +17,7 @@ export default function ExerciseImage({
 }) {
   const classes = useStyles();
   const history = useHistory();
+
   const params = useParams();
   const contentTypeMap = {
     assessment: selected

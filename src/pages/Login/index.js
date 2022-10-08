@@ -81,6 +81,7 @@ function Login(props) {
       }).then((res) => {});
     }
     if (props.location.state == "/volunteer-with-us") {
+      console.log("rolesList", rolesList.includes("volunteer"));
       if (rolesList.includes("volunteer")) {
         return <Redirect to={PATHS.CLASS} />;
       } else {
