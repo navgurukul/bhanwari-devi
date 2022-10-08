@@ -126,8 +126,6 @@ function PathwayCourse() {
     );
   });
 
-  console.log("upcomingBatchesData", upcomingBatchesData);
-
   const history = useHistory();
 
   useEffect(() => {
@@ -136,10 +134,6 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    console.log(
-      "Pathwayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-      pathwayId
-    );
     if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
@@ -155,7 +149,6 @@ function PathwayCourse() {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        console.log("response", response);
         response.data.pathway.map((item) => {
           setCompletedPortionJason((prevState) => ({
             ...prevState,

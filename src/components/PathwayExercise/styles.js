@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#FFE5E3 !important",
   },
   bottomRow: {
-    width: "97%",
+    // width: "97%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",

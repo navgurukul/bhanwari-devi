@@ -71,7 +71,6 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data;
-      console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);
       }
@@ -102,7 +101,6 @@ const NewUserDashbord = () => {
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
               {pathwayData.map((item) => (
-                // console.log(item.title.length)
                 <Grid
                   item
                   xs={6}
