@@ -3,6 +3,8 @@ import useStyles from "./style";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import moment from "moment";
+
 import {
   Box,
   Table,
@@ -40,7 +42,8 @@ import MenuComponent from "./MenuComponent";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Select } from "@material-ui/core";
 import { ZoomInRounded } from "@material-ui/icons";
-
+import { set } from "date-fns";
+import { Link } from "react-router-dom";
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
   const { onSelectAllClick, numSelected, rowCount } = props;
@@ -59,19 +62,21 @@ function NewVolunteerDashboard(props) {
   const [debouncedText] = useDebounce(searchTerm);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [filter, setFilter] = useState(false);
-  const [statusFilter, setStatusFilter] = useState(1);
+  const [statusFilter, setStatusFilter] = useState("All");
   const [langFilter, setLangFilter] = useState("All");
   const [statusDialog, setStatusDialog] = useState(false);
   const [status, setStatus] = useState("All");
   const [statusName, setStatusName] = useState("");
+  const [statusId, setStatusId] = useState("");
   const [generateDialog, setGenerateDialog] = useState(false);
-
+  const [userId, setUserId] = useState(null);
   const languageMap = {
     hi: "Hindi",
     te: "Telugu",
     en: "English",
     ta: "Tamil",
   };
+  console.log(statusId, "idddddddddddddddddddddddddddddd");
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
   if (selctedPathway) {
@@ -93,25 +98,6 @@ function NewVolunteerDashboard(props) {
       }
     });
   }
-
-  function filterLanguage() {
-    return cacheVolunteer.filter(
-      (el) => {
-        const cur_lang = languageMap[el.classes[el.classes.length - 1].lang];
-        if (langFilter === "All") {
-          return true;
-        }
-        if (langFilter === cur_lang) {
-          return true;
-        }
-      }
-      // console.log(languageMap[el.classes.lang])
-
-      // langFilter === "All" ||
-      // langFilter === languageMap[el.classes[el.classes.length - 1].lang]
-    );
-  }
-  console.log(langFilter);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -160,13 +146,29 @@ function NewVolunteerDashboard(props) {
     }
     setRowSelected(newSelected);
   };
+  console.log(selected, rowSelected);
 
   const user = useSelector(({ User }) => User);
+
+  function numberOfWeek(el) {
+    const classes = el.classes;
+    let last_date =
+      classes.length && new Date(classes[classes.length - 1].end_time);
+    let new_date = classes.length && new Date(el.classes[0].end_time);
+    return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
+  }
+
+  // const cur_lang = languageMap[volunteer.map(el)];
+  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
+    // statusFilter==="All"? "" : `?status=${statusFilter}` ||
+    langFilter === "All" ? "" : `?lang=${langFilter}`
+  }`;
+  console.log(baseUrl);
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}volunteers`,
+      url: baseUrl,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -175,21 +177,30 @@ function NewVolunteerDashboard(props) {
       setVolunteer(res.data);
       setCacheVolunteer(res.data);
     });
-  }, []);
+  }, [statusFilter, langFilter]);
+
   console.log(volunteer);
+  // console.log(statusId)
 
   useEffect(() => {
     const data =
       volunteer &&
-      volunteer.filter((searchValue) =>
-        searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      volunteer.filter((searchValue) => {
+        if (searchValue === "") {
+          return searchValue;
+        } else if (
+          searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
+          return searchValue;
+        }
+        // searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+      });
+
     const slicedData = data.slice(
       rowsPerPage * limit,
       (rowsPerPage + 1) * limit
     );
-    // setVolunteer(data);
-    setVolunteer(slicedData);
+    setVolunteer(data);
   }, [debouncedText, rowsPerPage]);
 
   return (
@@ -338,11 +349,11 @@ function NewVolunteerDashboard(props) {
                     },
                   }}
                 >
-                  <MenuItem value={1}>All</MenuItem>
-                  <MenuItem value={2}>Newly Onboarded</MenuItem>
-                  <MenuItem value={3}>Active</MenuItem>
-                  <MenuItem value={4}>Inactive</MenuItem>
-                  <MenuItem value={5}>Dropped Out</MenuItem>
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Newly Onboarded">Newly Onboarded</MenuItem>
+                  <MenuItem value="active">Active</MenuItem>
+                  <MenuItem value="inactive">Inactive</MenuItem>
+                  <MenuItem value="Dropped Out">Dropped Out</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -383,7 +394,6 @@ function NewVolunteerDashboard(props) {
                   // }}
 
                   onClick={(e) => {
-                    setVolunteer(filterLanguage());
                     setLangFilter(e.target.value);
                   }}
                   label="Language"
@@ -392,8 +402,8 @@ function NewVolunteerDashboard(props) {
                   <MenuItem value="All" s>
                     All
                   </MenuItem>
-                  <MenuItem value="Hindi">Hindi</MenuItem>
-                  <MenuItem value="English">English</MenuItem>
+                  <MenuItem value="hi">Hindi</MenuItem>
+                  <MenuItem value="en">English</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -604,7 +614,11 @@ function NewVolunteerDashboard(props) {
                             className={classes.tablebodyCell}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
-                            DVET Nashik Python
+                            {item.classes &&
+                            item.classes.length > 0 &&
+                            item.classes[item.classes.length - 1]["title"] != ""
+                              ? item.classes[item.classes.length - 1]["title"]
+                              : "-"}
                           </TableCell>
                           <TableCell
                             // data-column="Last Class Title"
@@ -613,7 +627,7 @@ function NewVolunteerDashboard(props) {
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
-                            item.classes[item.classes.length - 1]["title"] != ""
+                            item.classes.title != ""
                               ? item.classes[item.classes.length - 1]["title"]
                               : "-"}
                           </TableCell>
@@ -626,7 +640,9 @@ function NewVolunteerDashboard(props) {
                           <TableCell
                             // data-column="Last class lang"
                             sx={{ border: "none" }}
-                            onClick={(event) => handleRowSelect(event, item.id)}
+                            onClick={(event) => {
+                              handleRowSelect(event, item.id);
+                            }}
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
@@ -688,8 +704,11 @@ function NewVolunteerDashboard(props) {
                           >
                             <MenuComponent
                               itemname={item.name}
+                              itemid={item.id}
                               setStatusName={setStatusName}
                               setStatusDialog={setStatusDialog}
+                              setStatusId={setStatusId}
+                              userId={statusId}
                             />
                           </TableCell>
                         </TableRow>
@@ -785,22 +804,31 @@ function NewVolunteerDashboard(props) {
                                           align="right"
                                           className={classes.tablebodyCell}
                                         >
-                                          +914545454545
+                                          {item.contact === null
+                                            ? "-"
+                                            : item.contact}
                                         </TableCell>
                                         <TableCell
                                           className={classes.tablebodyCell}
                                         >
-                                          20
+                                          {numberOfWeek(item)}
                                         </TableCell>
                                         <TableCell
                                           className={classes.tablebodyCell}
                                         >
-                                          MO, TU, WE, TH, FR, SA, SU
+                                          {item.available_on_days === null
+                                            ? "-"
+                                            : item.available_on_days}
                                         </TableCell>
                                         <TableCell
                                           className={classes.tablebodyCell}
                                         >
-                                          11:00 AM, 2:00 PM, 5:00 PM
+                                          {item.available_on_time === null
+                                            ? "-"
+                                            : format(
+                                                item.available_on_time,
+                                                "hh:mm aaa"
+                                              )}
                                         </TableCell>
                                       </TableRow>
                                     </TableBody>
@@ -838,6 +866,8 @@ function NewVolunteerDashboard(props) {
         statusName={statusName}
         setStatusDialog={setStatusDialog}
         statusDialog={statusDialog}
+        userId={statusId}
+        users={volunteer}
       />
       <GenerateReport
         generateDialog={generateDialog}

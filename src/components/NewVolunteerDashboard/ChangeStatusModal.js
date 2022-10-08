@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -11,18 +12,80 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 import useStyles from "./style";
-
+import { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import { METHODS } from "../../services/api";
 
 const ChangeStatusModal = (props) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [status, setStatus] = useState("");
 
-  const { statusDialog, setStatusDialog, statusName } = props;
+  const { statusDialog, setStatusDialog, statusName, userId } = props;
+
+  console.log(status, "456789fghj");
+  // console.log(userId, "sdfghjhgfdghj")
+  // console.log(,"gfugujkfdjhfdlhj")
+
+  console.log(typeof parseInt(userId));
+
+  // const updateUser = () => {
+  //   return axios({
+  //     url: `${process.env.REACT_APP_MERAKI_URL}volunteer/${userId}`,
+  //     method: METHODS.PUT,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: user.data.token,
+  //     },
+  //     data: {
+  //       status: status,
+  //     },
+
+  //   })
+  // }
+
+  const updateUser = () => {
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}volunteers/${userId}`,
+      method: METHODS.PUT,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        status: status,
+      },
+    })
+      .then((res) => {
+        console.log(res, "data");
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+  };
+  console.log(status);
+
+  const user = useSelector(({ User }) => User);
+  // useEffect(() => {
+  // updateUser()
+
+  //     // const requestOptions = {
+  //     //     method: 'PUT',
+  //     //     headers: { 'Content-Type': 'application/json' },
+  //     //     body: JSON.stringify({ status : status})
+  //     // };
+  //     // fetch(`${process.env.REACT_APP_MERAKI_URL}volunteers/${userID}`, requestOptions)
+  //     //     .then(response => response.json())
+  //     //     .then(data => setuserID(data.id));
+
+  // // emptydependency array means this effect will only run once (like componentDidMount in classes)
+  // }, []);
+
   return (
     <Dialog
       open={statusDialog}
@@ -99,14 +162,23 @@ const ChangeStatusModal = (props) => {
                 value="active"
                 control={<Radio />}
                 label="Active"
+                onClick={(e) => {
+                  setStatus(e.target.value);
+                }}
               />
               <FormControlLabel
                 value="inactive"
+                onClick={(e) => {
+                  setStatus(e.target.value);
+                }}
                 control={<Radio />}
                 label="Inactive"
               />
               <FormControlLabel
                 value="droopedout"
+                onClick={(e) => {
+                  setStatus(e.target.value);
+                }}
                 control={<Radio />}
                 label="Dropped Out"
               />
@@ -117,6 +189,10 @@ const ChangeStatusModal = (props) => {
           variant="contained"
           color="primary"
           className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
+          onClick={() => {
+            setStatusDialog(false);
+            updateUser();
+          }}
         >
           Confirm Status
         </Button>

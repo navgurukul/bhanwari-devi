@@ -23,6 +23,7 @@
     "@tippyjs/react": "^4.2.6",
     "axios": "^0.26.1",
     "connected-react-router": "^6.8.0",
+    "cors": "^2.8.5",
     "date-fns": "^2.29.3",
     "date-fns-tz": "^1.3.6",
     "dayjs": "^1.11.5",
