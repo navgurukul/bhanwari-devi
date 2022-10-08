@@ -20,6 +20,7 @@ import {
   Box,
   AppBar,
   Toolbar,
+  useMediaQuery,
   Typography,
   Button,
   Select,
@@ -27,6 +28,7 @@ import {
 } from "@mui/material";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
+import { breakpoints } from "../../theme/constant";
 
 const languageMap = {
   hi: "Hindi",
@@ -347,6 +349,7 @@ function PathwayExercise() {
       </Select>
     );
   }
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   return (
     <>
@@ -518,7 +521,10 @@ function PathwayExercise() {
         />
       )}
       <Box>
-        <Toolbar className={classes.bottomRow}>
+        <Toolbar
+          className={classes.bottomRow}
+          sx={{ width: !isActive ? "100%" : "100%" }}
+        >
           <Button
             variant="text"
             color="dark"

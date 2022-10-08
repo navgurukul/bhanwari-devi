@@ -152,3 +152,9 @@ hr {
     justify-content: center;
   }
 }
+
+@media screen and (max-width: 1300px) {
+  .state-schools-card {
+    margin: 10px 20px 20px 0px;
+  }
+}

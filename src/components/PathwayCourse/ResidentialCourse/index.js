@@ -21,6 +21,8 @@ function ResidentialProgramme() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -33,13 +35,13 @@ function ResidentialProgramme() {
 
   return (
     <Container className={classes.pathwayContainer} maxWidth="lg">
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ ml: isActive && "10px" }}>
         <Grid xs={12} md={6}>
           <Card align="left" elevation={0}>
             <Typography
               variant="body2"
               className={classes.cardSubtitle}
-              sx={{ textAlign: isActive && "center", pb: "8px" }}
+              sx={{ textAlign: isActive && "center", pb: "8px", mt: "40px" }}
             >
               Learning Track
             </Typography>
@@ -77,7 +79,12 @@ function ResidentialProgramme() {
                   <Card
                     className={classes.pathwayCard}
                     elevation={0}
-                    sx={{ ml: 2, p: "16px" }}
+                    style={{ height: isActiveIpad && "230px" }}
+                    sx={{
+                      ml: 2,
+                      p: "16px",
+                      height: !isActive ? "310px" : "230px",
+                    }}
                   >
                     <img
                       className={classes.courseImage}

@@ -96,6 +96,8 @@ function MerakiEntry(props) {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+
   const classes = useStyles();
   const history = useHistory();
 
@@ -141,7 +143,17 @@ function MerakiEntry(props) {
         spacing={2}
         justifyContent="center"
       >
-        <Grid alignItems="right" item xs={12} ms={12} md={4}>
+        <Grid
+          alignItems="right"
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          sx={{
+            display: isActiveIpad ? (isActive ? "flow" : "flex") : "",
+            justifyContent: isActiveIpad && "flex-end",
+          }}
+        >
           <Link to={PATHS.LOGIN} className={classes.link}>
             <Button
               className={isActive ? classes.responsiveBtn : classes.LearningBtn}
@@ -152,7 +164,7 @@ function MerakiEntry(props) {
             </Button>
           </Link>
         </Grid>
-        <Grid item xs={12} ms={12} md={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <Button
             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
             variant="outlined"
