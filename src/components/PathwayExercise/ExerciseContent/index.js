@@ -78,7 +78,7 @@ const headingVarients = {};
     (headingVarients[index + 1] = (data) => (
       <UnsafeHTML
         Container={Name}
-        className="heading"
+        // className={classes.heading}
         html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
@@ -119,8 +119,10 @@ const RenderDoubtClass = ({ data, exercise }) => {
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   if (data.component === "header") {
-    return headingVarients[data.variant](
-      DOMPurify.sanitize(get(data, "value"))
+    return (
+      <Box className={classes.heading}>
+        {headingVarients[data.variant](DOMPurify.sanitize(get(data, "value")))}
+      </Box>
     );
   }
   if (data.component === "image") {
@@ -139,7 +141,7 @@ const RenderContent = ({ data, exercise }) => {
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <Box className={classes.List}>
-          <CircleIcon sx={{ pr: 2, width: "7px" }} />
+          <CircleIcon sx={{ pr: "12px", width: "7px" }} />
           <Typography
             variant="body1"
             dangerouslySetInnerHTML={{ __html: text }}
@@ -152,9 +154,9 @@ const RenderContent = ({ data, exercise }) => {
         <Box className={classes.List}>
           <Typography
             variant="body1"
-            sx={{ pr: 1 }}
+            sx={{ pr: "3px" }}
             className={classes.contentNumber}
-            dangerouslySetInnerHTML={{ __html: data.decoration.value }}
+            dangerouslySetInnerHTML={{ __html: data.decoration.value + "." }}
           />
           <Typography
             variant="body1"
@@ -166,9 +168,7 @@ const RenderContent = ({ data, exercise }) => {
     } else {
       return (
         <Typography
-          style={{
-            margin: "2rem 0",
-          }}
+          sx={{ margin: "8px 0" }}
           variant="body1"
           dangerouslySetInnerHTML={{ __html: text }}
         />

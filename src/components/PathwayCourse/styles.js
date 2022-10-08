@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 2,
   },
   pathwayContainer: {
-    // marginTop: 55,
+    marginTop: 40,
     // marginBottom: 48,
   },
   mobileVideo: {
