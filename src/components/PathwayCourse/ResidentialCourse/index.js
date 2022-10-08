@@ -32,8 +32,12 @@ function ResidentialProgramme() {
   const pathwayCourse = resPathway && resPathway.courses;
 
   return (
-    <Container className={classes.pathwayContainer} maxWidth="lg">
-      <Grid container spacing={2}>
+    <Container
+      sx={{ mt: 5 }}
+      className={classes.pathwayContainer}
+      maxWidth="lg"
+    >
+      <Grid sx={{ mt: 3 }} container spacing={2}>
         <Grid xs={12} md={6}>
           <Card align="left" elevation={0}>
             <Typography
@@ -113,7 +117,7 @@ function ResidentialProgramme() {
         </Grid>
       </Box>
 
-      <Stack sx={{ mt: isActive ? 4 : 8 }} alignItems="center">
+      {/* <Stack sx={{ mt: isActive ? 4 : 8 }} alignItems="center">
         <Typography variant="h6">Have you completed the overview?</Typography>
         <Link
           style={{
@@ -125,7 +129,7 @@ function ResidentialProgramme() {
             Yes, let's take the test
           </Button>
         </Link>
-      </Stack>
+      </Stack> */}
     </Container>
   );
 }
