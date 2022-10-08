@@ -21,7 +21,7 @@ function UserMenu() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
-  const profilePict = user?.data?.user?.profile_picture;
+  const profilePicture = user?.data?.user?.profile_picture;
   const name = user?.data?.user?.name;
 
   /*
@@ -51,7 +51,7 @@ function UserMenu() {
         onClick={handleOpenUserMenu}
         sx={{ p: 0 }}
       >
-        <Avatar alt={name} src={profilePict} />
+        <Avatar alt={name} src={profilePicture} />
       </IconButton>
       <Menu
         sx={{ mt: "45px" }}

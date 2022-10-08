@@ -14,7 +14,7 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import moment from "moment";
+// import moment from "moment";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import itLocale from "date-fns/locale/it";
 
@@ -64,8 +64,6 @@ function Availability({ setAvailability, availability, setDisable }) {
       setDisable(true);
     }
   }, [availability]);
-
-  console.log("availability", availability);
 
   return (
     <Container sx={{ mt: 6 }} maxWidth="sm">
@@ -142,7 +140,6 @@ function Availability({ setAvailability, availability, setDisable }) {
                   //   });
                   // }}
                   onChange={(time) => {
-                    console.log("time", time);
                     // let time =  time.getHours() + ":" + time.getMinutes()
                     setAvailability({
                       ...availability,
