@@ -211,7 +211,9 @@ function Header() {
       : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
 
-  const roleKey = roles.map((userRole) => userRole.key).find(key => key === role);
+  const roleKey = roles
+    .map((userRole) => userRole.key)
+    .find((key) => key === role);
   const defaultPage = rolesLandingPages[roleKey] || "/";
 
   const toggleDrawer = (open) => (event) => {
@@ -252,7 +254,9 @@ function Header() {
                 onClose={toggleDrawer(false)}
                 onOpen={toggleDrawer(true)}
               >
-                <MobileVersion {...{toggleDrawer, leftDrawer, setRole, role}} />
+                <MobileVersion
+                  {...{ toggleDrawer, leftDrawer, setRole, role }}
+                />
               </SwipeableDrawer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

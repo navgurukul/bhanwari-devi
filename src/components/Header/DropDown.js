@@ -93,7 +93,6 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  console.log("DP", data?.pathways);
   data?.pathways &&
     (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
 
@@ -218,6 +217,7 @@ export const DropDown = ({
       open={Boolean(indicator)}
       onClose={handleClose}
       MenuListProps={{ onMouseLeave: handleClose }}
+      hideBackdrop
     >
       {dropDown &&
         students[dropDown].map((menu, index) => {

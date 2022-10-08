@@ -22,6 +22,7 @@ function UserMenu() {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const profilePict = user?.data?.user?.profile_picture;
+  const name = user?.data?.user?.name;
 
   /*
   React.useEffect(() => {
@@ -50,7 +51,7 @@ function UserMenu() {
         onClick={handleOpenUserMenu}
         sx={{ p: 0 }}
       >
-        <Avatar alt="Remy Sharp" src={profilePict} />
+        <Avatar alt={name} src={profilePict} />
       </IconButton>
       <Menu
         sx={{ mt: "45px" }}
@@ -68,6 +69,7 @@ function UserMenu() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
         onMouseLeave={handleCloseUserMenu}
+        hideBackdrop
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem

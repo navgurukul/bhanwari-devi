@@ -56,6 +56,8 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
   const [otp, setOtp] = React.useState("");
   const [startOtp, setStartOtp] = React.useState(false);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
+  const [Timer, setTimer] = React.useState("5:00");
+  const [isStartTimer, setIsStartTimer] = React.useState(false);
   const auth = getAuth();
   const setupRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -69,9 +71,31 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
       auth
     );
   };
+
+  const countTimer = () => {
+    setIsStartTimer(true);
+    let countDownDate = new Date().getTime() + 300000;
+    let x = setInterval(function () {
+      let now = new Date().getTime();
+      let distance = countDownDate - now;
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      setTimer(minutes + ":" + seconds);
+      if (distance < 0) {
+        clearInterval(x);
+        setTimer(null);
+        setIsStartTimer(false);
+        setOtp("");
+        setStartOtp(false);
+      }
+    }, 1000);
+  };
+
   const onSignInSubmit = (event) => {
     event.preventDefault();
-    setupRecaptcha();
+    if (!confirmationResult) {
+      setupRecaptcha();
+    }
     const ContactNumber = contact.slice(3, contact.length);
     let countryCode = contact.slice(0, 2);
     if (countryCode[0] == "0") {
@@ -83,13 +107,15 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((result) => {
         setMessage("OTP sent successfully");
-        otpRef.current.focus();
         setOpen(true);
         console.log("OTP sent", result);
         setStartOtp(true);
         setConfirmationResult(result);
+        setIsStartTimer(true);
+        countTimer();
       })
       .catch((error) => {
+        console.log(error);
         setMessage("Enter valid phone number");
         setOpen(true);
       });
@@ -103,7 +129,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
           setMessage("Phone number verified successfully");
           setOpen(true);
           setDisable(false);
-        } else {
+          setIsStartTimer(false);
         }
       })
       .catch((error) => {
@@ -149,7 +175,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
           }}
         />
         <Button
-          disabled={contact.length < 13}
+          disabled={contact?.length < 13}
           id="sign-in-button"
           onClick={onSignInSubmit}
           style={{ marginTop: "10px" }}
@@ -158,36 +184,43 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
         >
           Get Otp
         </Button>
-        <TextField
-          onChange={(e) => {
-            if (e.target.value.length <= 6) {
-              setOtp(e.target.value);
-            }
-          }}
-          style={{
-            margin: "20px 0",
-          }}
-          disabled={!startOtp}
-          fullWidth
-          value={otp}
-          size="large"
-          type="number"
-          variant="outlined"
-          helperText="Enter 6 digit Otp"
-          label="OTP"
-          error={otp.length < 6 && otp.length !== 0}
-          InputProps={{ maxLength: 6 }}
-          ref={otpRef}
-        />
-        <Button
-          disabled={otp.length < 6}
-          id="sign-in-button"
-          onClick={OtpEnter}
-          variant="outlined"
-          size="large"
-        >
-          Enter Otp
-        </Button>
+        {startOtp && (
+          <>
+            {" "}
+            <TextField
+              onChange={(e) => {
+                if (e.target.value.length <= 6) {
+                  setOtp(e.target.value);
+                }
+              }}
+              style={{
+                margin: "20px 0",
+              }}
+              disabled={!startOtp}
+              fullWidth
+              value={otp}
+              size="large"
+              type="number"
+              variant="outlined"
+              helperText={`Enter 6 digit Otp ${
+                isStartTimer ? "within " + Timer : ""
+              } `}
+              label="OTP"
+              error={otp.length < 6 && otp.length !== 0}
+              InputProps={{ maxLength: 6 }}
+              ref={otpRef}
+            />
+            <Button
+              disabled={otp.length < 6}
+              id="sign-in-button"
+              onClick={OtpEnter}
+              variant="outlined"
+              size="large"
+            >
+              Enter Otp
+            </Button>
+          </>
+        )}
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           open={open}

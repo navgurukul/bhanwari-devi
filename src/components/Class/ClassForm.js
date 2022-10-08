@@ -333,10 +333,6 @@ function ClassForm({
   };
 
   useEffect(() => {
-    console.log("id", classFields.partner_id);
-  }, [classFields.partner_id]);
-
-  useEffect(() => {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
@@ -415,8 +411,6 @@ function ClassForm({
       data: payload,
     }).then(
       (res) => {
-        //We can also change the Successfull edit class modal here.
-        //Need to change the text from create to edit
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
