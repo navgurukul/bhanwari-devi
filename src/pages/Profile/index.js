@@ -15,10 +15,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
-<<<<<<< HEAD
 import { Box, fontSize } from "@mui/system";
-=======
->>>>>>> f371d1fda4c38cfe6115a93197204b3d11dc5e90
 import useStyles from "./styles";
 import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 
@@ -96,10 +93,7 @@ function Profile() {
               id="standard-basic"
               label="Name"
               sx={{ mt: "10px" }}
-<<<<<<< HEAD
               // variant="standard"
-=======
->>>>>>> f371d1fda4c38cfe6115a93197204b3d11dc5e90
               value={editName}
               helperText={helperText}
               onChange={(e) => {

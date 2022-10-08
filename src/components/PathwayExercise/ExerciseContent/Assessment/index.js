@@ -48,7 +48,6 @@ const AssessmentContent = ({
   setAnswer,
   setSolution,
   submit,
-  solution,
   setSubmit,
   correct,
   index,
@@ -57,8 +56,6 @@ const AssessmentContent = ({
   setTriedAgain,
   submitDisable,
 }) => {
-  // console.log(solution);
-
   const classes = useStyles();
   if (content.component === "header") {
     if (triedAgain > 1) {
@@ -67,7 +64,6 @@ const AssessmentContent = ({
       );
     }
   }
-
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
@@ -159,6 +155,8 @@ const AssessmentContent = ({
   }
   if (content.component === "questionExpression") {
     const text = DOMPurify.sanitize(get(content, "value"));
+    console.log("content", content);
+    console.log("text", text);
     return (
       <UnsafeHTML
         Container={Typography}
@@ -174,8 +172,6 @@ const AssessmentContent = ({
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           const text = DOMPurify.sanitize(item.value.slice(2));
-          // console.log("item.id" , item.id);
-          // console.log(triedAgain);
           return (
             <Paper
               elevation={3}
@@ -189,10 +185,7 @@ const AssessmentContent = ({
                 submit
                   ? correct
                     ? answer === item.id && classes.correctAnswer
-                    : triedAgain === 1
-                    ? answer === item.id && classes.inCorrectAnswer
-                    : (answer === item.id && classes.inCorrectAnswer) ||
-                      (solution === item.id && classes.correctAnswer)
+                    : answer === item.id && classes.inCorrectAnswer
                   : answer === item.id && classes.option
               }
               // onClick={() => setAnswer(item.id)}
@@ -237,6 +230,7 @@ function Assessment({
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(0);
   const params = useParams();
+  console.log("data", courseData);
 
   // Assessment submit handler
   const submitAssessment = () => {
@@ -273,7 +267,7 @@ function Assessment({
           status: "Pass",
         },
       }).then((res) => {
-        // console.log("res", res);
+        console.log("res", res);
       });
     } else {
       setCorrect(false);
@@ -293,46 +287,34 @@ function Assessment({
           status: "Fail",
         },
       }).then((res) => {
-        // console.log("res", res);
+        console.log("res", res);
       });
     }
   };
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exerciseId}/student/result`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      if (
-        res?.data?.attempt_status === "CORRECT" ||
-        res?.data?.attempt_count == 2
-      ) {
-        if (res?.data?.attempt_status === "CORRECT") {
-          setAnswer(res?.data?.selected_option);
-          setCorrect(true);
-          setTriedAgain(2);
-          setStatus("pass");
-          setSubmitDisable(true);
-          setSubmit(true);
-        } else if (res?.data?.attempt_status === "INCORRECT") {
-          setAnswer(res?.data?.selected_option);
-          setCorrect(false);
-          setTriedAgain(2);
-          setStatus("fail");
-          setSubmitDisable(true);
-          setSubmit(true);
-        }
-      } else if (res?.attempt_count == 1) {
-        setAnswer(res?.data?.selected_option);
-        setTriedAgain(res?.data?.attempt_count);
+    if (res?.attempt_status === "CORRECT" || res?.attempt_count == 2) {
+      if (res?.attempt_status === "CORRECT") {
+        setAnswer(res?.selected_option);
+        setCorrect(true);
+        setStatus("pass");
+        setTriedAgain(2);
+        setSubmitDisable(true);
+        setSubmit(true);
+      } else if (res?.attempt_status === "INCORRECT") {
+        setCorrect(false);
+        setTriedAgain(2);
+        setAnswer(res?.selected_option);
+        setStatus("fail");
         setSubmitDisable(true);
         setSubmit(true);
       }
-    });
+    } else if (res?.attempt_count == 1) {
+      setSubmitDisable(true);
+      setAnswer(res?.data?.selected_option);
+      setSubmit(true);
+      setTriedAgain(res?.data?.attempt_count);
+    }
   }, [res]);
 
   return (
@@ -345,13 +327,11 @@ function Assessment({
             setAnswer={setAnswer}
             setSolution={setSolution}
             submit={submit}
-            solution={solution}
             setSubmit={setSubmit}
             correct={correct}
             setTriedAgain={setTriedAgain}
             setSubmitDisable={setSubmitDisable}
             submitDisable={submitDisable}
-            triedAgain={triedAgain}
           />
         ))}
 
@@ -374,6 +354,7 @@ function Assessment({
             content.value && correct
               ? content.value.correct
               : content.value.incorrect;
+          console.log("dataArr", dataArr);
           return (
             content.component === "output" &&
             dataArr.map((content, index) => (
