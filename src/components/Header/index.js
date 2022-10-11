@@ -85,7 +85,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                 //   dropdown contains too many nested elements.
                 let i = 0;
                 let ancestor = e.relatedTarget;
-                while (ancestor && ["presentation", "menuitem"].includes(ancestor?.getAttribute("role")) && i++ < 10) {
+                while (ancestor && !["presentation", "menuitem"].includes(ancestor.getAttribute?.("role")) && i++ < 10) {
                   ancestor = ancestor.parentNode;
                 }
                 if (!ancestor) {
