@@ -77,6 +77,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               onClick={(e) => {
                 menuOpenHandler(e, menuKey);
               }}
+              onMouseLeave={menuCloseHandler}
               sx={{ color: "black" }}
               key={index}
             >
@@ -89,13 +90,13 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               ) : (
                 <ExpandMoreIcon />
               )}
+              <DropDown
+                dropDown={dropDownMenu}
+                indicator={indicator}
+                handleClose={menuCloseHandler}
+                toggleDrawer={toggleDrawer}
+              />
             </MenuItem>
-            <DropDown
-              dropDown={dropDownMenu}
-              indicator={indicator}
-              handleClose={menuCloseHandler}
-              toggleDrawer={toggleDrawer}
-            />
           </>
         ))}
       </Box>
