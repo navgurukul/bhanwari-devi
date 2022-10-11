@@ -350,6 +350,7 @@ function PathwayExercise() {
     );
   }
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   return (
     <>
@@ -542,7 +543,8 @@ function PathwayExercise() {
             style={{
               opacity: `${exerciseId < courseLength ? 1 : 0}`,
               position: "relative",
-              right: "-10px",
+              // right: "-10px",
+              marginRight: !isActive && !isActiveIpad ? "40px" : "",
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}

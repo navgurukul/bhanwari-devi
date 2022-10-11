@@ -79,7 +79,7 @@ function ResidentialProgramme() {
                   <Card
                     className={classes.pathwayCard}
                     elevation={0}
-                    style={{ height: isActiveIpad && "230px" }}
+                    style={{ height: isActiveIpad && "240px" }}
                     sx={{
                       ml: 2,
                       p: "16px",

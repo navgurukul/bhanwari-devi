@@ -10,6 +10,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
 // import { actions as courseActions } from "../../../components/Course/redux/action";
 import { actions as enrolledBatchesActions } from "../../PathwayCourse/redux/action";
+import { breakpoints } from "../../../theme/constant";
 
 import Assessment from "../ExerciseContent/Assessment";
 import {
@@ -118,6 +119,8 @@ const RenderDoubtClass = ({ data, exercise }) => {
 
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   if (data.component === "header") {
     return headingVarients[data.variant](
       DOMPurify.sanitize(get(data, "value"))
@@ -187,7 +190,6 @@ const RenderContent = ({ data, exercise }) => {
             <TableRow
               sx={{
                 position: "sticky",
-                // top : 0
               }}
             >
               {data.value.map((item) => {
@@ -197,7 +199,10 @@ const RenderContent = ({ data, exercise }) => {
                     style={{
                       fontWeight: "bold",
                     }}
-                    sx={{ background: "#F5F5F5" }}
+                    sx={{
+                      background: "#F5F5F5",
+                      //  padding : isActive && "0px"
+                    }}
                     className={classes.tableHead}
                     dangerouslySetInnerHTML={{ __html: header }}
                   />
