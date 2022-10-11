@@ -74,11 +74,14 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <>
             <MenuItem
-              onMouseEnter={(event) => menuOpenHandler(event, menuKey)}
+              onMouseEnter={(event) => {
+                menuOpenHandler(event, menuKey);
+                setInDropdown(true);
+              }
               onClick={(e) => {
                 menuOpenHandler(e, menuKey);
               }}
-              onMouseOut={(e) => {
+              onMouseLeave={(e) => {
                 // This is a very hacky way of checking if the dropdown is being hovered over: 
                 //   continually checks parent until it reaches an element with presentation or 
                 //   menuitem role or reaches the root so it's not being hovered over or 
@@ -95,6 +98,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                   menuCloseHandler();
                 }
                 */
+                setInDropdown(false);
                 setTimeout(() => !inDropdown && menuCloseHandler(), 100)
               }}
               sx={{ color: "black" }}
