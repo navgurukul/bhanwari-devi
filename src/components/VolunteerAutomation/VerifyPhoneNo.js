@@ -27,9 +27,10 @@ const firebaseConfig = {
 };
 
 const appVerifier = window.recaptchaVerifier;
-const app = initializeApp(firebaseConfig);
 
 function VerifyPhoneNo({ setDisable, setContact, contact }) {
+  const app = initializeApp(firebaseConfig);
+  console.log(app.name);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
     // give space only after first two digits
@@ -58,8 +59,9 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
-  const auth = getAuth();
   const setupRecaptcha = () => {
+    console.log(firebaseConfig);
+    const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-container",
       {
@@ -174,16 +176,19 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
             startAdornment: <InputAdornment position="start">+</InputAdornment>,
           }}
         />
-        <Button
-          disabled={contact?.length < 13}
-          id="sign-in-button"
-          onClick={onSignInSubmit}
-          style={{ marginTop: "10px" }}
-          variant="outlined"
-          size="large"
-        >
-          Get Otp
-        </Button>
+        {!startOtp && (
+          <Button
+            disabled={contact?.length < 13}
+            id="sign-in-button"
+            onClick={onSignInSubmit}
+            style={{ marginTop: "10px" }}
+            variant="outlined"
+            size="large"
+          >
+            Get Otp
+          </Button>
+        )}
+
         {startOtp && (
           <>
             {" "}
@@ -200,7 +205,6 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
               fullWidth
               value={otp}
               size="large"
-              type="number"
               variant="outlined"
               helperText={`Enter 6 digit Otp ${
                 isStartTimer ? "within " + Timer : ""
@@ -217,7 +221,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
               variant="outlined"
               size="large"
             >
-              Enter Otp
+              Verify OTP
             </Button>
           </>
         )}
