@@ -85,7 +85,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                 //   it went up 10 levels so it's either not in the dropdown or the 
                 //   dropdown contains too many nested elements.
                 let i = 0;
-                const ancestor = e.target;
+                let ancestor = e.target;
                 while (ancestor && ancestor.id !== "menu-appbar" && i++ < 10) {
                   ancestor = ancestor.parent;
                 }
