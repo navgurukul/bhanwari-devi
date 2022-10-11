@@ -77,7 +77,19 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               onClick={(e) => {
                 menuOpenHandler(e, menuKey);
               }}
-              onMouseLeave={menuCloseHandler}
+              onMouseLeave={(e) => {
+                // This is a very hacky and a poor practice way of checking
+                //   if the dropdown is being hovered over
+                const i = 0;
+                const ancestor = e.target;
+                while (ancestor && ancestor.id !== "menu-appbar" && i++ < 10) {
+                  ancestor = ancestor.parent;
+                }
+                if (!ancestor) {
+                  // not in Dropdown so close on leave
+                  menuCloseHandler();
+                }
+              }}
               sx={{ color: "black" }}
               key={index}
             >
@@ -90,13 +102,13 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               ) : (
                 <ExpandMoreIcon />
               )}
-              <DropDown
-                dropDown={dropDownMenu}
-                indicator={indicator}
-                handleClose={menuCloseHandler}
-                toggleDrawer={toggleDrawer}
-              />
             </MenuItem>
+            <DropDown
+              dropDown={dropDownMenu}
+              indicator={indicator}
+              handleClose={menuCloseHandler}
+              toggleDrawer={toggleDrawer}
+            />
           </>
         ))}
       </Box>
