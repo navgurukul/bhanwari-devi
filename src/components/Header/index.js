@@ -77,17 +77,16 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               onClick={(e) => {
                 menuOpenHandler(e, menuKey);
               }}
-              onMouseLeave={(e) => {
+              onMouseOut={(e) => {
                 // This is a very hacky way of checking if the dropdown is being hovered over: 
-                //   relies on dropdown having a certain id and continually checks parent
-                //   until it reaches the element with this id so it's being hovered over or
-                //   reaches the root so it's not being hovered over or 
+                //   continually checks parent until it reaches an element with presentation or 
+                //   menuitem role or reaches the root so it's not being hovered over or 
                 //   it went up 10 levels so it's either not in the dropdown or the 
                 //   dropdown contains too many nested elements.
                 let i = 0;
-                let ancestor = e.target;
-                while (ancestor && ancestor.id !== "menu-appbar" && i++ < 10) {
-                  ancestor = ancestor.parent;
+                let ancestor = e.relatedTarget;
+                while (ancestor && ["presentation", "menuitem"].includes(ancestor?.getAttribute("role")) && i++ < 10) {
+                  ancestor = ancestor.parentNode;
                 }
                 if (!ancestor) {
                   // not in Dropdown so close on leave
