@@ -179,6 +179,7 @@ export const DropDown = ({
   indicator,
   handleClose,
   toggleDrawer,
+  setInDropdown,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -217,6 +218,8 @@ export const DropDown = ({
       open={Boolean(indicator)}
       onClose={handleClose}
       MenuListProps={{ onMouseLeave: handleClose }}
+      onMouseEnter={() => setInDropdown(true)}
+      onMouseLeave={() => setInDropdown(false)}
       hideBackdrop
     >
       {dropDown &&
