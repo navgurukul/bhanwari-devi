@@ -8,7 +8,7 @@ const useStyles = makeStyles(
       padding: "32px",
       overflow: "auto",
       borderTop: "1px solid #ddd",
-      width: (props)=>props.desktop ? "384px" : "100vw",
+      width: (props) => (props.desktop ? "384px" : "100vw"),
       minWidth: "250px",
       maxWidth: "400px",
     },
@@ -52,46 +52,73 @@ const useStyles = makeStyles(
     },
     //Notification
 
-    notificationContainer:{
+    notificationContainer: {
       display: "flex",
       alignItems: "center",
     },
-    bellIcon:{
+    bellIcon: {
       color: "#2E2E2E",
       height: "20px",
-      width: "16px"
+      width: "16px",
     },
     muteText: {
       fontSize: "14px !important",
       marginLeft: "13px !important",
-      lineHeight: "21px !important"
+      lineHeight: "21px !important",
     },
     toggleWrapper: {
-      marginLeft: "auto"
+      marginLeft: "auto",
     },
 
     //Members List
-    listContainer:{
-      
-    },
-    participantText:{
+    listContainer: {},
+    participantText: {
       marginTop: "30px !important",
       fontSize: "14px !important",
       lineHeight: "21px !important",
-      marginBottom: "20px !important"
+      marginBottom: "20px !important",
     },
-    nameContainer:{
+    nameContainer: {
       display: "flex",
       alignItems: "center",
       cursor: "pointer",
-      marginTop: "16px"
+      marginTop: "16px",
     },
-    nameText:{
+    nameText: {
       fontSize: "14px !important",
       lineHeight: "21px !important",
       fontWeight: "400 !important",
-      marginLeft: "16px !important"
-    }
+      marginLeft: "16px !important",
+    },
+
+    modalContainer: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      padding: "32px",
+      bgcolor: "#FFF",
+      borderRadius: "8px",
+      boxShadow: 24,
+      p: 4,
+    },
+    modalTitle: {
+      fontSize: "18px",
+      marginBottom: "18px",
+    },
+    buttonContainer: {
+      display: "flex",
+      justifyContent: "flex-end",
+    },
+    cancelButton: {
+      color: "#2E2E2E !important",
+      fontSize: "18px",
+      marginLeft: "32px",
+    },
+    muteButton: {
+      fontSize: "18px",
+    },
   }),
   { index: 1 }
 );
