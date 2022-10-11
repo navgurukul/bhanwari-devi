@@ -50,6 +50,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
+  const [inDropdown, setInDropdown] = useState(false);
   const classes = useStyles();
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
@@ -83,6 +84,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                 //   menuitem role or reaches the root so it's not being hovered over or 
                 //   it went up 10 levels so it's either not in the dropdown or the 
                 //   dropdown contains too many nested elements.
+                /*
                 let i = 0;
                 let ancestor = e.relatedTarget;
                 while (ancestor && !["presentation", "menuitem"].includes(ancestor.getAttribute?.("role")) && i++ < 10) {
@@ -92,6 +94,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                   // not in Dropdown so close on leave
                   menuCloseHandler();
                 }
+                */
+                setTimeout(() => !inDropdown && menuCloseHandler(), 100)
               }}
               sx={{ color: "black" }}
               key={index}
@@ -111,6 +115,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               indicator={indicator}
               handleClose={menuCloseHandler}
               toggleDrawer={toggleDrawer}
+              setInDropdown={setInDropdown}
             />
           </>
         ))}
