@@ -196,13 +196,7 @@ const RenderContent = ({ data, exercise }) => {
                 const header = DOMPurify.sanitize(item.header);
                 return (
                   <TableCell
-                    style={{
-                      fontWeight: "bold",
-                    }}
-                    sx={{
-                      background: "#F5F5F5",
-                      //  padding : isActive && "0px"
-                    }}
+                    sx={{ background: "#F5F5F5", fontWeight: "bold" }}
                     className={classes.tableHead}
                     dangerouslySetInnerHTML={{ __html: header }}
                   />

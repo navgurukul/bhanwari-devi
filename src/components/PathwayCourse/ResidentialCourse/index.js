@@ -99,7 +99,9 @@ function ResidentialProgramme() {
                         className={classes.courseName}
                         sx={{
                           mr: "10px",
-                          padding: isActive ? "5px" : "5px 0 5px 13px",
+                          padding: isActive
+                            ? "7px 5px 5px 5px"
+                            : "5px 0 5px 13px",
                           verticalAlign: "top",
                         }}
                       >
