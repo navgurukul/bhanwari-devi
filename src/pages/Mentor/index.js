@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useLayoutEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
@@ -14,6 +14,7 @@ import ChatNameBar from "./ChatNameBar";
 import { Box, Typography } from "@material-ui/core";
 import useStyles from "./styles";
 import ChatInfo from "./ChatInfo/ChatInfo";
+import useWindowSize from "../../common/useWindowSize";
 
 let PAGINATION_THRESHOLD = 200;
 
@@ -21,6 +22,8 @@ const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
   const [client, setClient] = useState(null);
   const { isMobile } = useContext(DeviceProvider);
+  const [width, height] = useWindowSize();
+  const [mobile, setMobile] = useState(false);
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
@@ -37,6 +40,20 @@ const Mentor = () => {
   const [isInitializingClient, setInitializaingClient] = useState(true);
   const [roomMessages, setRoomMessage] = useState({});
   const classes = useStyles();
+
+  useEffect(() => {
+    if (width < 480) {
+      setMobile(true);
+    } else {
+      if (mobile) {
+        if (!selectedRoomId) {
+          const prevRoomId = sessionStorage.getItem("prevRoomId");
+          setSelectedRoomId(prevRoomId);
+        }
+      }
+      setMobile(false);
+    }
+  }, [width]);
 
   const onSendMessage = (message, roomId) => {
     const messageObj = {
@@ -280,7 +297,7 @@ const Mentor = () => {
 
   const renderRooms = () => {
     return (
-      !(isMobile && selectedRoomId) && (
+      (!mobile || !selectedRoomId) && (
         <nav
           role="navigation"
           style={{
@@ -327,19 +344,21 @@ const Mentor = () => {
     );
   };
 
+  const onBack = () => {
+    sessionStorage.setItem("prevRoomId", selectedRoomId);
+    setSelectedRoomId(null);
+  };
+
   const renderChat = () => {
-    
     return (
       <>
         <div className="room-chat">
           <ChatNameBar
             rooms={rooms}
             selectedRoomId={selectedRoomId}
-            onBack={() => {
-              setSelectedRoomId(null);
-            }}
-            setChatInfoOpen={()=>{
-              setChatInfoOpen(prev=>!prev)
+            onBack={onBack}
+            setChatInfoOpen={() => {
+              setChatInfoOpen((prev) => !prev);
             }}
             chatInfoOpen={chatInfoOpen}
           />
@@ -381,14 +400,14 @@ const Mentor = () => {
     );
   };
 
-  const renderChatInfo = ()=>{
+  const renderChatInfo = () => {
     return (
-      <ChatInfo 
-        setChatInfoOpen={()=>{
-          setChatInfoOpen(prev=>!prev)
+      <ChatInfo
+        setChatInfoOpen={() => {
+          setChatInfoOpen((prev) => !prev);
         }}
       />
-    )
+    );
   };
 
   return (
