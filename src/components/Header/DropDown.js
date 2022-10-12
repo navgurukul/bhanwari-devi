@@ -218,7 +218,8 @@ export const DropDown = ({
       open={Boolean(indicator)}
       onClose={handleClose}
       MenuListProps={{ 
-        onMouseLeave: () => setInDropdown(false) || handleClose(), 
+        // onMouseLeave: () => setInDropdown(false) || handleClose(),
+        onMouseLeave: () => handleClose(), 
         // onMouseEnter: () => setInDropdown(true)
       }}
       hideBackdrop
