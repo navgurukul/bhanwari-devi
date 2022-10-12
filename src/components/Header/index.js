@@ -76,7 +76,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             <MenuItem
               onMouseOver={(event) => {
                 menuOpenHandler(event, menuKey);
-                setInDropdown(true);
+                // setInDropdown(true);
               }}
               onClick={(e) => {
                 menuOpenHandler(e, menuKey);
