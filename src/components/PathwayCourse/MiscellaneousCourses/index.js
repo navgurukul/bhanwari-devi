@@ -86,7 +86,7 @@ function MiscellaneousCourses() {
                       className={classes.pathwayCard}
                       sx={{
                         background: "#EEF1F5",
-                        m: isActive ? "10px" : "15px",
+                        m: isActive ? "16px" : "15px",
                         height: "190px",
                         display: "flex",
                         flexDirection: "column",
