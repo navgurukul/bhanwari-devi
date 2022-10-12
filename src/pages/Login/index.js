@@ -133,7 +133,11 @@ function Login(props) {
 
               {loading ? (
                 <Box
-                  className={isActive ? classes.responsiveLoder : classes.Loder}
+                  className={
+                    isActive || isActiveIpad
+                      ? classes.responsiveLoder
+                      : classes.Loder
+                  }
                 >
                   <Loader />
                 </Box>
