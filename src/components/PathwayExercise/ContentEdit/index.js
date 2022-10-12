@@ -39,69 +39,6 @@ function BoxComponent(props) {
   );
 }
 
-// const showFunctionalities = (showModal) => {
-//   const dropDownList = [
-//     "Heading 1",
-//     "Heading 2",
-//     "Bulleted List",
-//     "Numbered List",
-//     "Image",
-//     "Video",
-//     "Code",
-//     "Table",
-//     "Quote",
-//     "Divider",
-//   ];
-//   return (
-//     <Dialog
-//       onClose={() => {
-//         setShowModal(!showModal);
-//       }}
-//       open={showModal}
-//     >
-//       {/* <DialogTitle>Set backup account</DialogTitle> */}
-//       <List sx={{ pt: 0 }}>
-//         {/* {emails.map((email) => ( */}
-//         <ListItem
-//           button
-//           // onClick={() => handleListItemClick(email)}
-//           // key={email}
-//         >
-//           <ListItemText primary="text 1" />
-//         </ListItem>
-//         <ListItem button>
-//           <ListItemText primary="text 2" />
-//         </ListItem>
-//         <ListItem button>
-//           <ListItemText primary="text 3" />
-//         </ListItem>
-//         <ListItem button>
-//           <ListItemText primary="text 4" />
-//         </ListItem>
-//       </List>
-//       <List>
-//         {/* {allComponents[showOption]
-//           ? Object.keys(allComponents[showOption]).map((e) => {
-//               return (
-//                 <ListItem button>
-//                   <ListItemText
-//                     primary={e}
-//                     onClick={() => {
-//                       // allComponents[showOption]
-//                       // handleAdd()
-//                       console.log(e);
-//                     }}
-//                   />
-//                 </ListItem>
-//               );
-//             })
-//           : ""} */}
-//         {/* {console.log(allComponents[showOption])} */}
-//       </List>
-//     </Dialog>
-//   );
-// };
-
 function ContentEdit() {
   const user = useSelector(({ User }) => User);
   const params = useParams();
@@ -364,19 +301,6 @@ function ContentEdit() {
                         </IconButton>
                       )}
                     </Typography>
-                    {/* <TextField
-                      id="outlined-basic"
-                      // label="Question"
-                      variant="outlined"
-                      fullWidth
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    /> */}
                     <TextareaAutosize
                       aria-label="empty textarea"
                       fullWidth
@@ -535,20 +459,24 @@ function ContentEdit() {
                         </IconButton>
                       )}
                     </Typography>
-                    <TextField
-                      id="outlined-basic"
-                      label="Header"
-                      variant="outlined"
+                    <TextareaAutosize
+                      aria-label="empty textarea"
                       fullWidth
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      placeholder="Header"
+                      color="primary"
+                      className={classes.textarea}
                       value={course[index].value}
+                      // onChange={(e) => {
+                      //   var temp = [...course];
+                      //   temp[index].value[index].value = e.target.value;
+                      //   setCourse(temp);
+                      // }}
                       onChange={(e) => {
                         var temp = [...course];
-                        temp[index].value[index].value = e.target.value;
+                        temp[index].value = e.target.value;
                         setCourse(temp);
                       }}
                     />
-                    <div id="myList"></div>
                   </BoxComponent>
                 );
               } else if (e.component === "code") {
@@ -567,12 +495,12 @@ function ContentEdit() {
                         </IconButton>
                       )}
                     </Typography>
-                    <TextField
-                      id="outlined-basic"
-                      label="Code"
-                      variant="outlined"
+                    <TextareaAutosize
+                      aria-label="empty textarea"
+                      placeholder="Code"
+                      color="primary"
                       fullWidth
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      className={classes.textarea}
                       value={course[index].value}
                       onChange={(e) => {
                         var temp = [...course];
@@ -598,13 +526,12 @@ function ContentEdit() {
                         </IconButton>
                       )}
                     </Typography>
-
-                    <TextField
-                      id="outlined-basic"
-                      label="Text"
-                      variant="outlined"
+                    <TextareaAutosize
+                      aria-label="empty textarea"
+                      placeholder="Text"
+                      color="primary"
                       fullWidth
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      className={classes.textarea}
                       value={course[index].value}
                       onChange={(e) => {
                         var temp = [...course];
@@ -664,12 +591,12 @@ function ContentEdit() {
                         </IconButton>
                       )}
                     </Typography>
-                    <TextField
-                      id="outlined-basic"
-                      label="Image"
-                      variant="outlined"
+                    <TextareaAutosize
+                      aria-label="empty textarea"
+                      placeholder="Image"
+                      color="primary"
                       fullWidth
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
+                      className={classes.textarea}
                       value={course[index].value}
                       onChange={(e) => {
                         var temp = [...course];
@@ -710,74 +637,9 @@ function ContentEdit() {
                 <ListItemText primary={item} />
               </ListItem>
             ))}
-            {/* <ListItem
-              button
-              // onClick={() => handleListItemClick(email)}
-              // key={email}
-            >
-              <ListItemText primary="text 1" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="text 2" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="text 3" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="text 4" />
-            </ListItem> */}
           </List>
         </Dialog>
       )}
-
-      {/* {showModal && (
-        <Dialog
-          onClose={() => {
-            setShowModal(!showModal);
-          }}
-          open={showModal}
-        >
-          <DialogTitle>Set backup account</DialogTitle>
-          <List sx={{ pt: 0 }}>
-            {emails.map((email) => (
-            <ListItem
-              button
-              // onClick={() => handleListItemClick(email)}
-              // key={email}
-            >
-              <ListItemText primary="text 1" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="text 2" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="text 3" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="text 4" />
-            </ListItem>
-          </List>
-          <List>
-            {allComponents[showOption]
-              ? Object.keys(allComponents[showOption]).map((e) => {
-                  return (
-                    <ListItem button>
-                      <ListItemText
-                        primary={e}
-                        onClick={() => {
-                          // allComponents[showOption]
-                          // handleAdd()
-                          console.log(e);
-                        }}
-                      />
-                    </ListItem>
-                  );
-                })
-              : ""}
-            {console.log(allComponents[showOption])}
-          </List>
-        </Dialog>
-      )} */}
     </Container>
   );
 }
