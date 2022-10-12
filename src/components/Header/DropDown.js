@@ -220,7 +220,7 @@ export const DropDown = ({
       MenuListProps={{ 
         // onMouseLeave: () => setInDropdown(false) || handleClose(),
         onMouseLeave: () => handleClose(), 
-        // onMouseEnter: () => setInDropdown(true)
+        onMouseEnter: () => setInDropdown(true)
       }}
       hideBackdrop
     >
@@ -239,7 +239,6 @@ export const DropDown = ({
                   }
                   className={classes.link}
                   onClick={toggleDrawer && toggleDrawer(false)}
-                  onMouseEnter={() => setInDropdown(true)}
                 >
                   <MenuItem
                     key={menu}
