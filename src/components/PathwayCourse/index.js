@@ -216,7 +216,7 @@ function PathwayCourse() {
       )}
 
       <Container
-        className={classes.pathwayContainer}
+        // className={classes.pathwayContainer}
         mt={isActive ? 0 : 55}
         mb={isActive ? 32 : 48}
         maxWidth="lg"
