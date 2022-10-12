@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 const MenuComponent = (props) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [delData, setDelData] = useState([]);
   const {
     itemname,
     itemid,

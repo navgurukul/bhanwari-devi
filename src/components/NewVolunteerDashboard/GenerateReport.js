@@ -24,10 +24,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
 
 const GenerateReport = (props) => {
+  var d = new Date();
   const classes = useStyles();
   const { generateDialog, setGenerateDialog } = props;
   const [value, setValue] = React.useState("1");
-
   const valuee = document.querySelector('[name="duration"]:checked');
   const widthOfMoal = value === "custom" ? "602px" : "458px";
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");

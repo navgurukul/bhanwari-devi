@@ -59,7 +59,7 @@ function NewVolunteerDashboard(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedText] = useDebounce(searchTerm);
+  const [debouncedText] = useDebounce(searchTerm, 400);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [filter, setFilter] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
@@ -70,6 +70,8 @@ function NewVolunteerDashboard(props) {
   const [statusId, setStatusId] = useState("");
   const [generateDialog, setGenerateDialog] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [slicedStudents, setSlicedStudents] = useState([]);
+
   const languageMap = {
     hi: "Hindi",
     te: "Telugu",
@@ -91,6 +93,7 @@ function NewVolunteerDashboard(props) {
     // console.log(pathway)
     return volunteer.filter((el) => {
       // console.log(el.classes)
+
       for (let i of el.classes) {
         if (i.title.includes(pathway)) {
           return true;
@@ -160,11 +163,24 @@ function NewVolunteerDashboard(props) {
 
   // const cur_lang = languageMap[volunteer.map(el)];
   const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
-    // statusFilter==="All"? "" : `?status=${statusFilter}` ||
-    langFilter === "All" ? "" : `?lang=${langFilter}`
-  }`;
+    statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
+      ? `?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
+      : statusFilter !== "All" && searchTerm.length > 0
+      ? `?status=${statusFilter}&name=${searchTerm}`
+      : searchTerm.length > 0 && langFilter !== "All"
+      ? `&name=${searchTerm}&lang=${langFilter}`
+      : searchTerm.length > 0
+      ? `?name=${searchTerm}`
+      : statusFilter !== "All" && langFilter !== "All"
+      ? `?status=${statusFilter}&lang=${langFilter}`
+      : statusFilter !== "All"
+      ? `?status=${statusFilter}`
+      : langFilter !== "All"
+      ? `?lang=${langFilter}`
+      : ""
+  }
+    `;
   console.log(baseUrl);
-
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -175,33 +191,37 @@ function NewVolunteerDashboard(props) {
       },
     }).then((res) => {
       setVolunteer(res.data);
+      setSlicedStudents(
+        res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
+      );
       setCacheVolunteer(res.data);
     });
-  }, [statusFilter, langFilter]);
+    pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
+  }, [statusFilter, langFilter, debouncedText]);
 
   console.log(volunteer);
   // console.log(statusId)
 
-  useEffect(() => {
-    const data =
-      volunteer &&
-      volunteer.filter((searchValue) => {
-        if (searchValue === "") {
-          return searchValue;
-        } else if (
-          searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-        ) {
-          return searchValue;
-        }
-        // searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-      });
+  // useEffect(() => {
+  //   const data =
+  //     volunteer &&
+  //     volunteer.filter((searchValue) => {
+  //       if (searchValue === "") {
+  //         return searchValue;
+  //       } else if (
+  //         searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //       ) {
+  //         return searchValue;
+  //       }
+  //       // searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //     });
 
-    const slicedData = data.slice(
-      rowsPerPage * limit,
-      (rowsPerPage + 1) * limit
-    );
-    setVolunteer(data);
-  }, [debouncedText, rowsPerPage]);
+  //   const slicedData = data.slice(
+  //     rowsPerPage * limit,
+  //     (rowsPerPage + 1) * limit
+  //   );
+  //   setVolunteer(data);
+  // }, [debouncedText, rowsPerPage]);
 
   return (
     <div>
@@ -232,7 +252,7 @@ function NewVolunteerDashboard(props) {
               type="text"
               placeholder="Name, Batch, Class Title..."
               variant="standard"
-              value={debouncedText}
+              value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
               }}
@@ -350,10 +370,10 @@ function NewVolunteerDashboard(props) {
                   }}
                 >
                   <MenuItem value="All">All</MenuItem>
-                  <MenuItem value="Newly Onboarded">Newly Onboarded</MenuItem>
+                  <MenuItem value="newlyonboarded">Newly Onboarded</MenuItem>
                   <MenuItem value="active">Active</MenuItem>
                   <MenuItem value="inactive">Inactive</MenuItem>
-                  <MenuItem value="Dropped Out">Dropped Out</MenuItem>
+                  <MenuItem value="dropout">Dropped Out</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -389,10 +409,6 @@ function NewVolunteerDashboard(props) {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={langFilter}
-                  // onChange={(e)=>{
-
-                  // }}
-
                   onClick={(e) => {
                     setLangFilter(e.target.value);
                   }}
@@ -447,7 +463,7 @@ function NewVolunteerDashboard(props) {
                     <TableCell
                       align="center"
                       className={classes.tableSticky}
-                      sx={{ left: "70px" }}
+                      sx={{ left: "60px", width: "150px" }}
                     >
                       <Typography className={classes.tablecellHead}>
                         {selected.length}{" "}
@@ -476,7 +492,7 @@ function NewVolunteerDashboard(props) {
                     <TableCell
                       colSpan={isActive ? 0 : 5}
                       className={classes.tableSticky}
-                      sx={{ left: "255px" }}
+                      sx={{ left: "269px" }}
                     >
                       <Typography
                         sx={{ fontWeight: "600", fontSize: "14px" }}
@@ -616,7 +632,9 @@ function NewVolunteerDashboard(props) {
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
-                            item.classes[item.classes.length - 1]["title"] != ""
+                            item.classes[item.classes.length - 1]["title"]
+                              .toLowerCase()
+                              .includes("batch".toLowerCase())
                               ? item.classes[item.classes.length - 1]["title"]
                               : "-"}
                           </TableCell>
@@ -627,7 +645,9 @@ function NewVolunteerDashboard(props) {
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
-                            item.classes.title != ""
+                            !item.classes[item.classes.length - 1]["title"]
+                              .toLowerCase()
+                              .includes("batch".toLowerCase())
                               ? item.classes[item.classes.length - 1]["title"]
                               : "-"}
                           </TableCell>
