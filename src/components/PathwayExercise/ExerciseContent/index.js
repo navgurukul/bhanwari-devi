@@ -297,7 +297,6 @@ function ExerciseContent({
   const [openDrawer, setOpenDrawer] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
-  console.log("SetOpen", openDrawer);
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
