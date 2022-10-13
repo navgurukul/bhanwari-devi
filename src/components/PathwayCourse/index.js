@@ -399,7 +399,13 @@ function PathwayCourse() {
             {pathwayCourse &&
               pathwayCourse.data &&
               pathwayCourse.data.courses.map((item, index) => (
-                <Grid xs={12} md={3} className={classes.courseCard}>
+                <Grid
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  className={classes.courseCard}
+                >
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

@@ -72,7 +72,7 @@ function MiscellaneousCourses() {
           <Grid sx={{ mt: "16px" }} container spacing={2}>
             {otherCourses &&
               otherCourses.map((item, index) => (
-                <Grid item key={index} xs={12} sm={6} md={3}>
+                <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -86,7 +86,7 @@ function MiscellaneousCourses() {
                       className={classes.pathwayCard}
                       sx={{
                         background: "#EEF1F5",
-                        m: isActive ? "0px" : "15px",
+                        m: isActive ? "16px" : "15px",
                         height: "190px",
                         display: "flex",
                         flexDirection: "column",

@@ -67,7 +67,7 @@ function ResidentialProgramme() {
         <Grid sx={{ mt: 2 }} container spacing={3} align="center">
           {pathwayCourse &&
             pathwayCourse.map((item, index) => (
-              <Grid xs={12} md={3} className={classes.courseCard}>
+              <Grid xs={12} sm={6} md={4} lg={3} className={classes.courseCard}>
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
