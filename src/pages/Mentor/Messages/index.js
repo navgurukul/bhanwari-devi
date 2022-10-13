@@ -20,13 +20,15 @@ export default ({
   useEffect(() => {
     if (prevScrollPosition) {
       messagesRef.current.scrollTop = prevScrollPosition;
+    } else {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
   }, [messages && messages.length]);
 
   return (
     <>
-      <Container className="messages">
-        <div className="messages-content" onScroll={onScroll} ref={messagesRef}>
+      <Container ref={messagesRef} className="messages">
+        <div className="messages-content" onScroll={onScroll}>
           {messages
             ?.filter((message) => message.type === "m.room.message")
             .map((message, index) => {

@@ -22,6 +22,7 @@ const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
   const [client, setClient] = useState(null);
   const { isMobile } = useContext(DeviceProvider);
+  // eslint-disable-next-line no-unused-vars
   const [width, height] = useWindowSize();
   const [mobile, setMobile] = useState(false);
   const { chat_id, chat_password } = data.user;
