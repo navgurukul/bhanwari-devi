@@ -41,6 +41,7 @@ export default ({
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
+  const [showCopied, setShowCopied] = useState(false);
   const desktop = useMediaQuery("(min-width: 1200px)");
   const laptop = useMediaQuery("(min-width: 769px) and (max-width: 1199px)");
   const mobile = useMediaQuery("(max-width: 768px)");
@@ -105,7 +106,11 @@ export default ({
         label: "Copy",
         value: "copy",
         onClick: () => {
+          setMessageActionsMenu(false);
+          setIsMessageActionsDropdownOpen(false);
           navigator.clipboard.writeText(message.content?.body);
+          setShowCopied(true);
+          setTimeout(()=>setShowCopied(false), 4000)
         },
       });
     }
@@ -234,6 +239,9 @@ export default ({
             <div className="message-time">
               {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
             </div>
+            {showCopied && <div className="message-time">
+              Copied!
+            </div>}
           </div>
         </div>
         {/*isSelf && senderName && (
