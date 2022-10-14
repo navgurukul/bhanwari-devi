@@ -5,12 +5,23 @@ import Image from "@editorjs/image";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Embed from "@editorjs/embed";
+const CodeTool = require("@editorjs/code");
 
 const EDITOR_JS_TOOLS = {
   image: Image,
   header: Header,
   list: List,
-  embed: Embed,
+  // embed: Embed,
+  embed: {
+    class: Embed,
+    config: {
+      services: {
+        youtube: true,
+        // coub: true
+      },
+    },
+  },
+  code: CodeTool,
 };
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
@@ -18,30 +29,47 @@ const EDITOR_JS_TOOLS = {
 
 function ReactEditor({ course }) {
   const [editor, setEditor] = React.useState(null);
-  // const [courseBlock, setCourseBlock] = useState();
   const ReactEditorJS = createReactEditorJS();
   const handleInitialize = async (instance) => {
     await setEditor(instance);
     console.log(editor, "editor");
   };
 
-  // let courseBlock = [];
   let blocks = course.map((item, index) => {
+    let youtube;
+    if (item.component === "youtube") {
+      if (!item.value.includes("=")) {
+        youtube = "https://www.youtube.com/embed/" + item.value;
+      } else {
+        let value = item.value.split("=")[1];
+        youtube = "https://www.youtube.com/embed/" + value;
+      }
+    }
+
     return {
       // id: index,
       type:
-        item.component == "text" || item.component == "code"
+        item.component == "text"
           ? "paragraph"
+          : item.component === "youtube"
+          ? "embed"
           : item.component,
-      // type:
-      //     item.component == "text"
-      //       ? "paragraph"
-      //       : item.component == "code"
-      //       ? "python"
-      //       : item.component,
       data: {
-        text: item.value,
+        text:
+          (item.component === "text" || item.component === "header") &&
+          item.value,
         level: item.variant,
+        code: item.component === "code" && item.value,
+        // image: item.component === "image" && item.value,
+        file: {
+          url: item.component === "image" && item.value,
+        },
+        embed: item.component === "youtube" && youtube,
+        source: item.component === "youtube" && youtube,
+        service: item.component === "youtube" && item.value && item.component,
+        caption: "",
+        height: 320,
+        width: 580,
       },
     };
   });

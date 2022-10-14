@@ -93,6 +93,7 @@
     ]
   },
   "devDependencies": {
+    "@editorjs/code": "^2.7.0",
     "redux-devtools-extension": "^2.13.8"
   }
 }
