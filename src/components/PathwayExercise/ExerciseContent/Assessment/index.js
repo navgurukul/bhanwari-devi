@@ -56,6 +56,7 @@ const AssessmentContent = ({
   triedAgain,
   setTriedAgain,
   submitDisable,
+  submitAssessment,
 }) => {
   // console.log(solution);
 
@@ -111,6 +112,7 @@ const AssessmentContent = ({
                 fullWidth
                 onClick={() => {
                   setTriedAgain(triedAgain + 1);
+                  submitAssessment();
                 }}
               >
                 <Typography variant="subtitle2">
@@ -382,6 +384,7 @@ function Assessment({
             setSubmitDisable={setSubmitDisable}
             submitDisable={submitDisable}
             triedAgain={triedAgain}
+            submitAssessment={submitAssessment}
           />
         ))}
 
@@ -418,6 +421,7 @@ function Assessment({
                 setSubmitDisable={setSubmitDisable}
                 triedAgain={triedAgain}
                 submitDisable={submitDisable}
+                submitAssessment={submitAssessment}
               />
             ))
           );
