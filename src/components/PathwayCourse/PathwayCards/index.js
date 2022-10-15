@@ -37,7 +37,6 @@ const PathwayCards = (props) => {
     mr: "Marathi",
   };
   const { userEnrolledClasses, data } = props;
-  console.log(userEnrolledClasses);
 
   function UpcomingClassCardComponent({ item }) {
     const classes = useStyles();
@@ -57,7 +56,7 @@ const PathwayCards = (props) => {
       });
     }, []);
     return (
-      <Grid item xs={12} sm={4} md={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <Link
           style={{
             textDecoration: "none",

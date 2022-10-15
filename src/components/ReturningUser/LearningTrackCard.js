@@ -44,6 +44,7 @@ const CardDatas = {
 };
 function LearningTrackCard(props) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
   const history = useHistory();
   const [PathwayData, setPathwayData] = useState([]);
@@ -53,7 +54,6 @@ function LearningTrackCard(props) {
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
       setPathwayData(res.data);
-      console.log(res.data);
     });
     console.log(PathwayData);
     const COurseIndex = PathwayData?.courses?.findIndex((course, index) => {
@@ -74,7 +74,7 @@ function LearningTrackCard(props) {
             })
           );
         }}
-        xs={isActive ? 12 : 4}
+        xs={isActive ? 12 : isActiveIpad ? 6 : 4}
       >
         <Grid
           align="right"

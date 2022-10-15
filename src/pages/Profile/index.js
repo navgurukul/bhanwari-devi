@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -11,8 +11,10 @@ import {
   Typography,
   Button,
   Container,
+  FormControl,
+  FormHelperText,
 } from "@mui/material";
-import { Box, fontSize } from "@mui/system";
+import { actions } from "../../components/User/redux/action";
 import useStyles from "./styles";
 import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 
@@ -24,26 +26,33 @@ function Profile() {
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
   const [LoadBatches, setLoadBatches] = useState(false);
+  const dispatch = useDispatch();
+  const [helperText, setHelperText] = useState();
+  const [showError, setShowError] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      // get values of
-      // res.data.user.UserEnrolledInBatches.map((item) =>
-      //   console.log(item.isEnrolled)
-      // );
-      console.log(user.data);
-      console.log(res.data);
-      setUserData(res.data.user);
-      setEditName(res.data.user.name ? res.data.user.name : "");
-    });
+    setEditName(user.data.user.name);
+    setUserData(user.data.user);
   }, []);
+
+  useEffect(() => {
+    if (editName == "") {
+      setHelperText("Please enter your name");
+      setShowError(true);
+    } else if (
+      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(editName) ||
+      /\d/.test(editName)
+    ) {
+      setHelperText(
+        "Please use only capital or small letters. Numbers and symbols cannot be used in a name"
+      );
+      setShowError(true);
+    } else {
+      setShowError(false);
+      setHelperText();
+    }
+  }, [editName]);
 
   const editProfile = () => {
     setIsEditing(false);
@@ -59,19 +68,12 @@ function Profile() {
         name: editName,
       },
     }).then((res) => {
-      axios({
-        method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data.token,
-        },
-      }).then((res) => {
-        setMsg(false);
-        setUserData(res.data.user);
-      });
+      dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+      setMsg(false);
+      setUserData(res.data.user);
     });
   };
+
   return (
     <>
       {/* <div className={classes.imageContainer}>
@@ -80,16 +82,18 @@ function Profile() {
       <Container maxWidth="lg">
         <div item xs={12} md={6} className={classes.profileBox} align="center">
           <Avatar
-            alt="Remy Sharp"
+            alt={userData.name}
             src={userData.profile_picture}
             sx={{ height: 100, width: 100, mt: isActive ? 3 : 0 }}
           />
           {isEditing ? (
             <TextField
+              error={showError}
               id="standard-basic"
-              label="name"
-              variant="standard"
+              label="Name"
+              sx={{ mt: "10px" }}
               value={editName}
+              helperText={helperText}
               onChange={(e) => {
                 setEditName(e.target.value);
               }}
@@ -97,7 +101,10 @@ function Profile() {
           ) : msg ? (
             <Typography>Please wait...</Typography>
           ) : (
-            <Typography mt={2} variant={isActive ? "body1" : "h6"}>
+            <Typography
+              variant={isActive ? "subtitle1" : "h6"}
+              sx={{ mt: "10px" }}
+            >
               {userData.name}
               {isActive && !isEditing && (
                 <Button onClick={() => setIsEditing(true)}>
@@ -110,9 +117,14 @@ function Profile() {
             {userData.email}
           </Typography>
           {isEditing ? (
-            <Button pt={2} onClick={editProfile}>
-              Save Profile
-            </Button>
+            <>
+              <Button sx={{ mr: "30px" }} onClick={() => setIsEditing(false)}>
+                Cancel
+              </Button>
+              <Button onClick={editProfile} disabled={showError}>
+                Save Profile
+              </Button>
+            </>
           ) : (
             <Button pt={1} onClick={() => setIsEditing(true)}>
               {!isActive && "Edit Profile"}

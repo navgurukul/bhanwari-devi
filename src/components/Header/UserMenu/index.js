@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import useStyles from "../styles";
 import Message from "../../common/Message";
+import { isTouchScreen } from "../../../common/utils";
 
 // function UserMenu({ profile }) {
 function UserMenu() {
@@ -21,6 +22,7 @@ function UserMenu() {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const profilePict = user?.data?.user?.profile_picture;
+  const name = user?.data?.user?.name;
 
   /*
   React.useEffect(() => {
@@ -41,11 +43,15 @@ function UserMenu() {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton
+        onMouseEnter={(e) => {
+          if (!isTouchScreen()) {
+            handleOpenUserMenu(e);
+          }
+        }}
         onClick={handleOpenUserMenu}
-        onMouseEnter={handleOpenUserMenu}
         sx={{ p: 0 }}
       >
-        <Avatar alt="Remy Sharp" src={profilePict} />
+        <Avatar alt={name} src={profilePict} />
       </IconButton>
       <Menu
         sx={{ mt: "45px" }}
@@ -63,6 +69,7 @@ function UserMenu() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
         onMouseLeave={handleCloseUserMenu}
+        hideBackdrop
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem
@@ -74,14 +81,14 @@ function UserMenu() {
             </Typography>
           </MenuItem>
         </NavLink>
-        <NavLink to={PATHS.ADMISSION} className={classes.link}>
+        {/* <NavLink to={PATHS.ADMISSION} className={classes.link}>
           <MenuItem
             onClick={handleCloseUserMenu}
             sx={{ width: 150, margin: "0px 13px" }}
           >
             <Typography textAlign="center">NG Admissions</Typography>
           </MenuItem>
-        </NavLink>
+        </NavLink> */}
         <NavLink to={PATHS.OPPORTUNITIES} className={classes.link}>
           <MenuItem
             onClick={handleCloseUserMenu}

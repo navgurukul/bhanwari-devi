@@ -20,6 +20,7 @@ import {
   Box,
   AppBar,
   Toolbar,
+  useMediaQuery,
   Typography,
   Button,
   Select,
@@ -28,6 +29,7 @@ import {
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
+import { breakpoints } from "../../theme/constant";
 
 const languageMap = {
   hi: "Hindi",
@@ -133,7 +135,7 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
 
-  const editor = "editor-role";
+  const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
@@ -157,6 +159,7 @@ function PathwayExercise() {
       }
     }
 
+    console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
         setShowArrow((prev) => {
@@ -323,8 +326,6 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(progressTrackId);
-
       setExerciseId(exerciseId + 1);
     }
   };
@@ -351,6 +352,8 @@ function PathwayExercise() {
       </Select>
     );
   }
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   return (
     <>
@@ -570,7 +573,10 @@ function PathwayExercise() {
         </Box>
       )}
       <Box>
-        <Toolbar className={classes.bottomRow}>
+        <Toolbar
+          className={classes.bottomRow}
+          sx={{ width: !isActive ? "100%" : "100%" }}
+        >
           <Button
             variant="text"
             color="dark"
@@ -588,7 +594,8 @@ function PathwayExercise() {
             style={{
               opacity: `${exerciseId < courseLength ? 1 : 0}`,
               position: "relative",
-              right: "-10px",
+              // right: "-10px",
+              marginRight: !isActive && !isActiveIpad ? "40px" : "",
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}

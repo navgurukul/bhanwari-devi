@@ -314,7 +314,7 @@ function Dashboard({ stateId }) {
           </div>
         ) : (
           <div className="state-partner-state-schools">
-            <div className="state-schools-heading"></div>
+            {/* <div className="state-schools-heading"></div> */}
             <div className="state-schools-cards">
               {filterData.map((item) => {
                 return item.partners.map((name) => {

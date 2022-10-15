@@ -20,6 +20,7 @@ import { breakpoints } from "../../theme/constant";
 function VolunteerAutomation() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   const user = useSelector(({ User }) => User);
   let history = useHistory();
@@ -41,7 +42,7 @@ function VolunteerAutomation() {
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={8}>
+      <Grid container spacing={8} mt={1}>
         <Grid item xs={12} ms={6} md={6}>
           <Box className={classes.volunteerFlow}>
             <Typography variant="h4" gutterBottom>
@@ -96,7 +97,7 @@ function VolunteerAutomation() {
       </Typography>
 
       <Grid container spacing={4}>
-        <Grid item xs={12} ms={6} md={6}>
+        <Grid item xs={12} ms={6} md={6} mb={isActiveIpad && 2}>
           <Card elevation={4} className={classes.volunteerCard}>
             <Box>
               <CardContent>
@@ -138,7 +139,7 @@ function VolunteerAutomation() {
                   with Python or has an excellent command of English.
                 </Typography>
               </CardContent>
-              <CardActions sx={{ mt: isActive ? 0 : 13.8 }}>
+              <CardActions sx={{ mt: 9.9 }}>
                 <Button
                   onClick={handleClick}
                   variant="contained"

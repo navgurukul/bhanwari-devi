@@ -9,14 +9,15 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
     marginRight: 5,
   },
-
   contentNumber: {
     padding: "8px",
   },
-
   youtubeVideo: {
     width: "100%",
-    marginTop: "20px",
+    margin: "20px 0",
+  },
+  heading: {
+    margin: "30px 0 10px 0",
   },
   contentImage: {
     width: "100%",
@@ -60,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
     background: "#FFE5E3 !important",
   },
   bottomRow: {
-    width: "97%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
