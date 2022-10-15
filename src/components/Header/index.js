@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -50,7 +50,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
-  const [inDropdown, setInDropdown] = useState(false);
+  const [inDropdown, setInDropdown] = useState({ inProgress: false, value: false});
   const classes = useStyles();
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
@@ -67,6 +67,19 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const menuCloseHandler = () => {
     setIndicator(null);
   };
+  
+  const updateInDropdownState = () => {
+    setInDropdown({ inProgress: true, value: false});
+    setTimeout(() => setInDropdown({ inProgress: false, value: inDropdown.value }, 200);
+  }
+  
+  useEffect(() => {
+    if (!inDropdown.inProgress && !inDropdown.value) {
+      // mouse has moved out of main menu item and its
+      //   dropdown after delay milliseconds
+      menuCloseHandler();
+    }
+  }, [inDropdown]);
 
   return (
     <>
@@ -76,7 +89,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             <MenuItem
               onMouseEnter={(event) => {
                 menuOpenHandler(event, menuKey);
-                setInDropdown(true);
+                // setInDropdown(true);
+                setInDropdown({ inProgress: inDropdown.inProgress, value: true });
               }}
               onClick={(e) => {
                 menuOpenHandler(e, menuKey);
@@ -98,12 +112,15 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                   menuCloseHandler();
                 }
                 */
-                setInDropdown(false);
+                // setInDropdown(false);
+                /*
                 // console.log("inDropdown is currently", inDropdown);
                 setTimeout(() => {
                   // console.log("inDropdown is currently", inDropdown);
                   !inDropdown && menuCloseHandler();
                 }, 200);
+                */
+                updateInDropdownState();
               }}
               sx={{ color: "black" }}
               key={index}
@@ -123,8 +140,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               indicator={indicator}
               handleClose={menuCloseHandler}
               toggleDrawer={toggleDrawer}
-              inDropdown={inDropdown}
               setInDropdown={setInDropdown}
+              handleMouseLeave={updateInDropdownState}
             />
           </>
         ))}
