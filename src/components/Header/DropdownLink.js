@@ -20,7 +20,7 @@ export default function DropdownLink({
     <MenuItem
       {...props}
       sx={{
-        padding: 0,
+        padding,
         margin
       }}
     >
@@ -30,7 +30,7 @@ export default function DropdownLink({
           className: classes.link,
           linkOnClick
         }}
-        style={{ padding, display: 'inline-block', width: '100%' }}
+        style={{ padding, display: 'flex', align-items: 'center', width: '100%' }}
       >
         {children}
       </A>
