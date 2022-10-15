@@ -21,11 +21,14 @@ const MenuComponent = (props) => {
     setStatusDialog,
     setStatusId,
     userId,
+    delfun,
+    setdelFun,
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  console.log(userId);
   const user = useSelector(({ User }) => User);
+
   const deleteUser = () => {
     axios
       .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers/${userId}`, {
@@ -34,7 +37,9 @@ const MenuComponent = (props) => {
           Authorization: user.data.token,
         },
       })
-      .then((data) => console.log(data))
+      .then((res) => {
+        console.log(res.data);
+      })
       .catch((err) => {
         console.log(err, "error");
       });

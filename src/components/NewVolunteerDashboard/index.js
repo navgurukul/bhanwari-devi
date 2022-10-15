@@ -67,9 +67,9 @@ function NewVolunteerDashboard(props) {
   const [statusDialog, setStatusDialog] = useState(false);
   const [status, setStatus] = useState("All");
   const [statusName, setStatusName] = useState("");
-  const [statusId, setStatusId] = useState("");
+  const [statusId, setStatusId] = useState([]);
   const [generateDialog, setGenerateDialog] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const [delfun, setdelFun] = useState();
   const [slicedStudents, setSlicedStudents] = useState([]);
 
   const languageMap = {
@@ -478,8 +478,10 @@ function NewVolunteerDashboard(props) {
                         const valueToDisplay = `Total ${selected.length} ${
                           selected.length === 1 ? "row is " : "rows are "
                         } selected`;
+
                         setStatusName(valueToDisplay);
                         setStatusDialog(true);
+                        setStatusId(selected);
                       }}
                     >
                       <Typography
@@ -493,6 +495,9 @@ function NewVolunteerDashboard(props) {
                       colSpan={isActive ? 0 : 5}
                       className={classes.tableSticky}
                       sx={{ left: "269px" }}
+                      onClick={() => {
+                        setStatusId(selected);
+                      }}
                     >
                       <Typography
                         sx={{ fontWeight: "600", fontSize: "14px" }}
@@ -729,6 +734,8 @@ function NewVolunteerDashboard(props) {
                               setStatusDialog={setStatusDialog}
                               setStatusId={setStatusId}
                               userId={statusId}
+                              delfun={delfun}
+                              setdelFun={setdelFun}
                             />
                           </TableCell>
                         </TableRow>
