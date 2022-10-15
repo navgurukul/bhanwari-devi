@@ -163,8 +163,8 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
                     <Typography textAlign="center" variant="body1">
                       {menu.title}
                     </Typography>
+                    <LaunchIcon />
                   </CardContent>
-                  <LaunchIcon />
                 </MenuItem>
               </ExternalLink>
             );
@@ -244,14 +244,14 @@ export const DropDown = ({
                   padding={dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"}
                   margin="6px 16px"
                 >
-                  {dropDown === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
-                  )}
                   <Typography
                     textAlign="center"
                     sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
                   >
-                    {menu.title}
+                    {dropDown === LEARN_KEY && (
+                      <img src={students.image[index]} alt="course logo" />
+                    )}
+                    &nbsp;{menu.title}
                   </Typography>
                 </DropdownLink>
                 {dropDown === LEARN_KEY && index == 4 && <Divider />}
@@ -269,13 +269,9 @@ export const DropDown = ({
                   margin="6px 16px"
                   external={true}
                 >
-                  {dropDown === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
-                  )}
                   <Typography textAlign="center" sx={{ paddingRight: 1 }}>
-                    {menu.title}
+                    {menu.title}&nbsp;<LaunchIcon />
                   </Typography>
-                  <LaunchIcon />
                 </DropdownLink>
                 {dropDown === LEARN_KEY && index == 4 && <Divider />}
               </>
