@@ -10,52 +10,52 @@ import Toggle from "./Toggle/Toggle";
 import Chip from "@mui/material/Chip";
 import MuteModal from "./Modal/MuteModal";
 
-const members = [
-  {
-    name: "Amrita Parashar",
-    isTutor: true,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-  {
-    name: "Amrita Parashar",
-    isTutor: false,
-  },
-];
+// const members = [
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: true,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+//   {
+//     name: "Amrita Parashar",
+//     isTutor: false,
+//   },
+// ];
 
 const chipStyle = {
   height: "27px",
@@ -64,15 +64,26 @@ const chipStyle = {
   marginLeft: "auto",
 };
 
-export default function ChatInfo({ setChatInfoOpen }) {
+export default function ChatInfo({selectedRoomId, setChatInfoOpen, members, rooms }) {
   const desktop = useMediaQuery("(min-width: 1200px)");
   const mobile = useMediaQuery("(max-width: 768px)");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [isMuted, setIsMuted] = React.useState(false);
+  const [roomName, setRoomName] = React.useState("");
   const classes = useStyles({ mobile, desktop });
   const name = "DVET Pune Batch 1 Beginners";
   const subtitle1 = "#DVETPuneBatch";
-  const subtitle2 = "101 Participants";
+
+  console.log(rooms)
+  console.log(selectedRoomId);
+  
+  React.useEffect(() => {
+    rooms.map((room) => {
+      if (room.roomId === selectedRoomId) {
+        setRoomName(room.name ? room.name : "");
+      }
+    });
+  }, [selectedRoomId]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -85,8 +96,8 @@ export default function ChatInfo({ setChatInfoOpen }) {
     <>
       <MuteModal
         isModalOpen={isModalOpen}
-        setIsChecked={setIsChecked}
         closeModal={closeModal}
+        setIsMuted={setIsMuted}
       />
       <Box className={classes.infoContainer}>
         {mobile && (
@@ -101,7 +112,7 @@ export default function ChatInfo({ setChatInfoOpen }) {
             name={name}
           ></Avatar>
           <Typography className={classes.title} variant="subtitle1">
-            {name}
+            {roomName}
           </Typography>
           <Box className={classes.subtitleWrapper}>
             <Typography className={classes.subtitle} variant="subtitle1">
@@ -109,26 +120,31 @@ export default function ChatInfo({ setChatInfoOpen }) {
             </Typography>
             <CircleIcon className={classes.dot} />
             <Typography className={classes.subtitle} variant="subtitle1">
-              {subtitle2}
+              {members.length} Participants
             </Typography>
           </Box>
         </Box>
 
         <Box className={classes.notificationContainer}>
           <NotificationsIcon className={classes.bellIcon} />
-          <Typography className={classes.muteText} variant="subtitle1">
-            Mute Notifications
-          </Typography>
+          <Box className = {classes.muteWrapper}>
+            <Typography className={classes.muteText} variant="subtitle1">
+              Mute Notifications
+            </Typography>
+            {isMuted && <Typography className={classes.muted} variant="subtitle1">
+              Muted
+            </Typography>}
+          </Box>
           <Box className={classes.toggleWrapper}>
             <Toggle
               openModal={openModal}
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
+              isChecked={isMuted}
+              setIsMuted={setIsMuted}
             />
           </Box>
         </Box>
         <Typography className={classes.participantText} variant="subtitle1">
-          101 Participants
+          {members.length} Participants
         </Typography>
         <Box className={classes.listContainer}>
           {members.map((member, index) => {
@@ -136,10 +152,10 @@ export default function ChatInfo({ setChatInfoOpen }) {
               <Box key={index} className={classes.nameContainer}>
                 <Avatar
                   style={{ height: "40px", width: "40px" }}
-                  name={name}
+                  name={member.content?.displayname ||  "N/A" }
                 ></Avatar>
                 <Typography className={classes.nameText} variant="subtitle1">
-                  {member.name}
+                  {member.content?.displayname || "N/A"}
                 </Typography>
                 {member.isTutor && <Chip label="Tutor" sx={chipStyle} />}
               </Box>

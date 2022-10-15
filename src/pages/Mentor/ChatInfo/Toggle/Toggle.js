@@ -46,12 +46,13 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function Toggle({ isChecked, setIsChecked, openModal }) {
+export default function Toggle({ isChecked, setIsMuted, openModal }) {
   const handleSwitch = (event) => {
     if (event.target.checked) {
       openModal();
+    }else{
+      setIsMuted(false);
     }
-    setIsChecked(event.target.checked);
   };
   return (
     <AntSwitch

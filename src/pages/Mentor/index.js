@@ -42,8 +42,10 @@ const Mentor = () => {
   const [roomMessages, setRoomMessage] = useState({});
   const classes = useStyles();
 
+  const firstRender = React.useRef(true);
+
   useEffect(() => {
-    if (width < 480) {
+    if (width <= 768) {
       setMobile(true);
     } else {
       if (mobile) {
@@ -55,6 +57,14 @@ const Mentor = () => {
       setMobile(false);
     }
   }, [width]);
+
+  useEffect(()=>{
+    if(firstRender.current){
+      firstRender.current = false;
+    }else{
+      setChatInfoOpen(false);
+    }
+  }, [selectedRoomId]);
 
   const onSendMessage = (message, roomId) => {
     const messageObj = {
@@ -356,6 +366,7 @@ const Mentor = () => {
         <div className="room-chat">
           <ChatNameBar
             rooms={rooms}
+            numberOfMembers={members[selectedRoomId]?.length || 0}
             selectedRoomId={selectedRoomId}
             onBack={onBack}
             setChatInfoOpen={() => {
@@ -407,6 +418,9 @@ const Mentor = () => {
         setChatInfoOpen={() => {
           setChatInfoOpen((prev) => !prev);
         }}
+        members={members[selectedRoomId] || []}
+        rooms={rooms || []}
+        selectedRoomId={selectedRoomId}
       />
     );
   };

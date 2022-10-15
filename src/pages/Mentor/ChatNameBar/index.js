@@ -6,7 +6,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import useStyles from "./styles";
 
-export default function ChatNameBar({ onBack, rooms, selectedRoomId, chatInfoOpen, setChatInfoOpen}) {
+export default function ChatNameBar({ onBack, rooms, selectedRoomId, chatInfoOpen, setChatInfoOpen, numberOfMembers}) {
   const desktop = useMediaQuery("(min-width: 1200px)");
   const laptop = useMediaQuery("(min-width: 769px) and (max-width: 1199px)");
   const mobile = useMediaQuery("(max-width: 768px)");
@@ -33,7 +33,7 @@ export default function ChatNameBar({ onBack, rooms, selectedRoomId, chatInfoOpe
         </Typography>
         {desktop && <CircleIcon className={classes.chatDot} />}
         <Typography className={classes.studentNumber} variant="body1">
-          40 Students
+          {numberOfMembers} Students
         </Typography>
       </div>
       {

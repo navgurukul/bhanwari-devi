@@ -61,10 +61,18 @@ const useStyles = makeStyles(
       height: "20px",
       width: "16px",
     },
+    muteWrapper: {
+      paddingLeft: "13px"
+    },
     muteText: {
       fontSize: "14px !important",
-      marginLeft: "13px !important",
       lineHeight: "21px !important",
+    },
+    muted: {
+      fontSize: "12px !important",
+      fontWeight: "400 !important",
+      color: "#6D6D6D",
+      marginTop: "8px !important",
     },
     toggleWrapper: {
       marginLeft: "auto",

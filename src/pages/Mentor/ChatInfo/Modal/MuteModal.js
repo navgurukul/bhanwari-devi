@@ -7,7 +7,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
-export default function MuteModal({ isModalOpen, closeModal, setIsChecked }) {
+export default function MuteModal({ isModalOpen, closeModal, setIsMuted }) {
   const classes = useStyles();
   const mobile = useMediaQuery("(max-width: 768px)");
   const modalStyle = {
@@ -25,10 +25,11 @@ export default function MuteModal({ isModalOpen, closeModal, setIsChecked }) {
   };
   const onCancel = () => {
     closeModal();
-    setIsChecked(false);
+    setIsMuted(false);
   };
   const onMute = () => {
     closeModal();
+    setIsMuted(true);
   };
 
   return (
