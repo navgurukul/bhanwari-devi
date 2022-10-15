@@ -99,11 +99,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                 }
                 */
                 setInDropdown(false);
-                console.log("inDropdown is currently", inDropdown);
+                // console.log("inDropdown is currently", inDropdown);
                 setTimeout(() => {
-                  console.log("inDropdown is currently", inDropdown);
+                  // console.log("inDropdown is currently", inDropdown);
                   !inDropdown && menuCloseHandler();
-                }, 100);
+                }, 200);
               }}
               sx={{ color: "black" }}
               key={index}
@@ -123,6 +123,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               indicator={indicator}
               handleClose={menuCloseHandler}
               toggleDrawer={toggleDrawer}
+              inDropdown={inDropdown}
               setInDropdown={setInDropdown}
             />
           </>
