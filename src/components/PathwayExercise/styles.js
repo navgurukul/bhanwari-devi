@@ -100,6 +100,13 @@ const useStyles = makeStyles((theme) => ({
     //   border: "1px solid #000 !important",
     // },
   },
+  mainHeader: {
+    position: "sticky",
+  },
+  editingHeader: {
+    position: "sticky",
+    marginTop: 64,
+  },
 }));
 
 export default useStyles;

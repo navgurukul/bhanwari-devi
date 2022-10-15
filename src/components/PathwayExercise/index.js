@@ -354,7 +354,13 @@ function PathwayExercise() {
 
   return (
     <>
-      <AppBar fullWidth position="sticky" color="background" elevation={2}>
+      <AppBar
+        fullWidth
+        // position="sticky"
+        color="background"
+        elevation={2}
+        className={classes.mainHeader}
+      >
         <Container maxWidth>
           <div className="hideInMobile">
             <Toolbar
@@ -510,8 +516,9 @@ function PathwayExercise() {
       {editor && (
         <AppBar
           fullWidth
-          position="stick"
+          // position="stick"
           sx={{ bgcolor: "info.light" }}
+          className={classes.editingHeader}
           elevation={2}
         >
           <Box>
@@ -551,14 +558,16 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <ExerciseContent
-          contentList={course}
-          exerciseId={exerciseId}
-          lang={language}
-          setExerciseId={setExerciseId}
-          setProgressTrackId={setProgressTrackId}
-          progressTrackId={progressTrackId}
-        />
+        <Box sx={{ marginTop: "120px" }}>
+          <ExerciseContent
+            contentList={course}
+            exerciseId={exerciseId}
+            lang={language}
+            setExerciseId={setExerciseId}
+            setProgressTrackId={setProgressTrackId}
+            progressTrackId={progressTrackId}
+          />
+        </Box>
       )}
       <Box>
         <Toolbar className={classes.bottomRow}>

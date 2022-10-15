@@ -133,7 +133,7 @@ function PersistentDrawerLeft({
         <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
           <ListItem disablePadding style={{ marginTop: "100px" }}>
             <IconButton
-              style={{ marginRight: "85%" }}
+              style={{ marginRight: "85%", marginTop: "40px" }}
               onClick={handleDrawerClose}
             >
               <ArrowBackIcon />

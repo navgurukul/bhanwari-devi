@@ -3,6 +3,7 @@ import { METHODS } from "../../../services/api";
 import { useSelector } from "react-redux";
 import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useStyles from "../styles";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -41,6 +42,7 @@ function BoxComponent(props) {
 
 function ContentEdit() {
   const user = useSelector(({ User }) => User);
+  const history = useHistory();
   const params = useParams();
   const [course, setCourse] = useState([]);
   const [id, setId] = useState();
@@ -118,6 +120,13 @@ function ContentEdit() {
     },
   };
   const handleAdd = (index, ap, aap) => {
+    if (course.length - 1 === index) {
+      console.log("true");
+      index = index + 1;
+    } else {
+      console.log("false");
+    }
+
     console.log(index, "handleAdd index");
     console.log("ap", ap);
     var temp = [...course];
@@ -182,9 +191,17 @@ function ContentEdit() {
         content: stringifiedCourse,
       },
     }).then((res) => {
+      history.push(
+        interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          courseId: params.courseId,
+          exerciseId: params.exerciseId,
+          pathwayId: params.pathwayId,
+        })
+      );
       console.log(res, "res");
     });
   };
+
   const putApiAssessmentCall = () => {
     //delete the component which value is empty string or empty list
     const needToBeRemovedIndex = [];
@@ -210,6 +227,13 @@ function ContentEdit() {
         content: stringifiedCourse,
       },
     }).then((res) => {
+      history.push(
+        interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          courseId: params.courseId,
+          exerciseId: params.exerciseId,
+          pathwayId: params.pathwayId,
+        })
+      );
       console.log(res, "res");
     });
   };
