@@ -70,7 +70,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   
   const updateInDropdownState = () => {
     setInDropdown({ inProgress: true, value: false});
-    setTimeout(() => setInDropdown({ inProgress: false, value: inDropdown.value }, 200);
+    setTimeout(() => setInDropdown({ inProgress: false, value: inDropdown.value }), 200);
   }
   
   useEffect(() => {
