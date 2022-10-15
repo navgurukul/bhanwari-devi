@@ -30,7 +30,7 @@ export default function DropdownLink({
           className: classes.link,
           linkOnClick
         }}
-        sx={{ padding, margin, display: 'inline-block' }}
+        sx={{ padding, margin, display: 'inline-block', width: '100%' }}
       >
         {children}
       </A>
