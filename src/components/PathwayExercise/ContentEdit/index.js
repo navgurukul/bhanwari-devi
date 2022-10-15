@@ -21,7 +21,6 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import ReactEditor from "./editor";
 function BoxComponent(props) {
   // const [isShown, setIsShown] = useState(false);
   return (
@@ -669,7 +668,6 @@ function ContentEdit() {
           </List>
         </Dialog>
       )}
-      <ReactEditor course={course} />
     </Container>
   );
 }
