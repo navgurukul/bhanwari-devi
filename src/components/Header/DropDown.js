@@ -224,7 +224,7 @@ export const DropDown = ({
         onMouseLeave: () => {
           setInDropdown(false);
           setTimeout(() => !inDropdown && handleClose(), 200);
-        }
+        },
         onMouseEnter: () => setInDropdown(true)
       }}
       hideBackdrop
