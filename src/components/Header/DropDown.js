@@ -12,6 +12,7 @@ import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
+import DropdownLink from "./DropdownLink";
 import LaunchIcon from "@mui/icons-material/Launch";
 import Message from "../common/Message";
 import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
@@ -229,7 +230,9 @@ export const DropDown = ({
           if (menu.type === "internal") {
             return (
               <>
-                <Link
+                <DropdownLink
+                  key={menu}
+                  onClick={handleClose}
                   to={
                     menu.id
                       ? interpolatePath(PATHS.PATHWAY_COURSE, {
@@ -237,58 +240,43 @@ export const DropDown = ({
                         })
                       : menu.path
                   }
-                  className={classes.link}
-                  onClick={toggleDrawer && toggleDrawer(false)}
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  padding={dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"}
+                  style={{margin: "6px 16px 6px 16px"}}
                 >
-                  <MenuItem
-                    key={menu}
-                    onClick={handleClose}
-                    sx={{
-                      padding:
-                        dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px",
-                      margin: "6px 16px 6px 16px",
-                    }}
+                  {dropDown === LEARN_KEY && (
+                    <img src={students.image[index]} alt="course logo" />
+                  )}
+                  <Typography
+                    textAlign="center"
+                    sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
                   >
-                    {dropDown === LEARN_KEY && (
-                      <img src={students.image[index]} alt="course logo" />
-                    )}
-                    <Typography
-                      textAlign="center"
-                      sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
-                    >
-                      {menu.title}
-                    </Typography>
-                  </MenuItem>
-                </Link>
+                    {menu.title}
+                  </Typography>
+                </DropdownLink>
                 {dropDown === LEARN_KEY && index == 4 && <Divider />}
               </>
             );
           } else {
             return (
               <>
-                <ExternalLink
-                  href={menu.path}
-                  className={classes.link}
-                  onClick={toggleDrawer && toggleDrawer(false)}
+                <DropdownLink
+                  key={menu}
+                  onClick={handleClose}
+                  to={menu.path}
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  padding={dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"}
+                  style={{margin: "6px 16px 6px 16px"}}
+                  external={true}
                 >
-                  <MenuItem
-                    key={menu}
-                    onClick={handleClose}
-                    sx={{
-                      padding:
-                        dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px",
-                      margin: "6px 16px 6px 16px",
-                    }}
-                  >
-                    {dropDown === LEARN_KEY && (
-                      <img src={students.image[index]} alt="course logo" />
-                    )}
-                    <Typography textAlign="center" sx={{ paddingRight: 1 }}>
-                      {menu.title}
-                    </Typography>
-                    <LaunchIcon />
-                  </MenuItem>
-                </ExternalLink>
+                  {dropDown === LEARN_KEY && (
+                    <img src={students.image[index]} alt="course logo" />
+                  )}
+                  <Typography textAlign="center" sx={{ paddingRight: 1 }}>
+                    {menu.title}
+                  </Typography>
+                  <LaunchIcon />
+                </DropdownLink>
                 {dropDown === LEARN_KEY && index == 4 && <Divider />}
               </>
             );
