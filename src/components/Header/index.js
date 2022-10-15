@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -51,6 +51,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
   const [inDropdown, setInDropdown] = useState({ inProgress: false, value: false});
+  const inDropdownRef = useRef(inDropdown);
   const classes = useStyles();
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
@@ -70,7 +71,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   
   const updateInDropdownState = () => {
     setInDropdown({ inProgress: true, value: false});
-    setTimeout(() => setInDropdown({ ...inDropdown, inProgress: false }), 200);
+    setTimeout(() => setInDropdown({ value: inDropdownRef.current?.value, inProgress: false }), 200);
   }
   
   useEffect(() => {
