@@ -30,7 +30,7 @@ export default function DropdownLink({
           className: classes.link,
           linkOnClick
         }}
-        style={{ padding, display: 'flex', align-items: 'center', width: '100%' }}
+        style={{ padding, display: 'flex', alignItems: 'center', width: '100%' }}
       >
         {children}
       </A>
