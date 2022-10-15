@@ -70,7 +70,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   
   const updateInDropdownState = () => {
     setInDropdown({ inProgress: true, value: false});
-    setTimeout(() => setInDropdown({ inProgress: false, value: inDropdown.value }), 200);
+    setTimeout(() => setInDropdown({ ...inDropdown, inProgress: false }), 200);
   }
   
   useEffect(() => {
@@ -90,7 +90,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               onMouseEnter={(event) => {
                 menuOpenHandler(event, menuKey);
                 // setInDropdown(true);
-                setInDropdown({ inProgress: inDropdown.inProgress, value: true });
+                setInDropdown({ inProgress: false, value: true });
               }}
               onClick={(e) => {
                 menuOpenHandler(e, menuKey);
