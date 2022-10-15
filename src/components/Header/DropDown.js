@@ -181,7 +181,7 @@ export const DropDown = ({
   handleClose,
   toggleDrawer,
   setInDropdown,
-  inDropdown,
+  handleMouseLeave,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -222,10 +222,11 @@ export const DropDown = ({
       MenuListProps={{ 
         // onMouseLeave: () => setInDropdown(false) || handleClose(),
         onMouseLeave: () => {
-          setInDropdown(false);
-          setTimeout(() => !inDropdown && handleClose(), 200);
+          handleMouseLeave();
+          // setInDropdown(false);
+          // setTimeout(() => !inDropdown && handleClose(), 200);
         },
-        onMouseEnter: () => setInDropdown(true)
+        onMouseEnter: () => setInDropdown({value: true, inProgress: false});
       }}
       hideBackdrop
     >
