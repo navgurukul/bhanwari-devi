@@ -168,7 +168,15 @@ function ContentEdit() {
 
   let name = "name";
   const putApiExercisesCall = () => {
-    const stringifiedCourse = JSON.stringify(course, null, 0);
+    //delete the component which value is empty string or empty list
+    const tempCourse = [];
+    for (var i in course) {
+      if (course[i].value.length !== 0) {
+        tempCourse.push(course[i]);
+      }
+    }
+
+    const stringifiedCourse = JSON.stringify(tempCourse, null, 0);
     console.log(id, stringifiedCourse, "cc");
     axios({
       method: METHODS.PUT,
@@ -188,16 +196,13 @@ function ContentEdit() {
   };
   const putApiAssessmentCall = () => {
     //delete the component which value is empty string or empty list
-    const needToBeRemovedIndex = [];
+    const tempCourse = [];
     for (var i in course) {
-      if (course[i].value.length === 0) {
-        needToBeRemovedIndex.push(i);
+      if (course[i].value.length !== 0) {
+        tempCourse.push(course[i]);
       }
     }
-    for (var index of needToBeRemovedIndex) {
-      course.splice(index, 1);
-    }
-    const stringifiedCourse = JSON.stringify(course, null, 0);
+    const stringifiedCourse = JSON.stringify(tempCourse, null, 0);
     console.log(id, stringifiedCourse, "cc");
     axios({
       method: METHODS.PUT,
