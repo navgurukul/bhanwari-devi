@@ -242,7 +242,7 @@ export const DropDown = ({
                   }
                   linkOnClick={toggleDrawer && toggleDrawer(false)}
                   padding={dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"}
-                  style={{margin: "6px 16px 6px 16px"}}
+                  margin="6px 16px"
                 >
                   {dropDown === LEARN_KEY && (
                     <img src={students.image[index]} alt="course logo" />
@@ -266,7 +266,7 @@ export const DropDown = ({
                   to={menu.path}
                   linkOnClick={toggleDrawer && toggleDrawer(false)}
                   padding={dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"}
-                  style={{margin: "6px 16px 6px 16px"}}
+                  margin="6px 16px"
                   external={true}
                 >
                   {dropDown === LEARN_KEY && (
