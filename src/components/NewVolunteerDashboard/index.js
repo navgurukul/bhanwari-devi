@@ -40,6 +40,7 @@ import MenuComponent from "./MenuComponent";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Select } from "@material-ui/core";
 import { ZoomInRounded } from "@material-ui/icons";
+import { fontWeight } from "@mui/system";
 
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
@@ -67,6 +68,7 @@ function NewVolunteerDashboard(props) {
   const [generateDialog, setGenerateDialog] = useState(false);
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
+
   if (selctedPathway) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }
@@ -396,7 +398,7 @@ function NewVolunteerDashboard(props) {
                     </TableCell>
                     <TableCell
                       className={classes.tableSticky}
-                      sx={{ left: "180px" }}
+                      sx={{ left: isActive ? "180px" : "200px" }}
                       onClick={() => {
                         const valueToDisplay = `Total ${selected.length} ${
                           selected.length === 1 ? "row is " : "rows are "
@@ -412,9 +414,12 @@ function NewVolunteerDashboard(props) {
                         Change Statuses
                       </Typography>
                     </TableCell>
-                    <TableCell colSpan={5}>
+                    <TableCell
+                      colSpan={5}
+                      sx={{ position: "fixed", mt: isActive && 2 }}
+                    >
                       <Typography
-                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        className={classes.tablecellHead}
                         color="error"
                       >
                         Delete
