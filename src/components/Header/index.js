@@ -52,6 +52,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [selectedMenu, SetSelectedMenu] = useState(null);
   const [inDropdown, setInDropdown] = useState({ inProgress: false, value: false});
   const inDropdownRef = useRef(inDropdown);
+  inDropdownRef.current = inDropdown;
   const classes = useStyles();
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
