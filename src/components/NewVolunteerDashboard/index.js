@@ -70,6 +70,8 @@ function NewVolunteerDashboard(props) {
   const [statusId, setStatusId] = useState([]);
   const [generateDialog, setGenerateDialog] = useState(false);
   const [delfun, setdelFun] = useState();
+  const [startDate, setstartDate] = useState("");
+  const [endTime, setendTime] = useState("");
   const [slicedStudents, setSlicedStudents] = useState([]);
 
   const languageMap = {
@@ -160,23 +162,38 @@ function NewVolunteerDashboard(props) {
     let new_date = classes.length && new Date(el.classes[0].end_time);
     return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
   }
-
+  const fromStart = moment(startDate).format("YYYY-MM-DD");
+  const toEnd = moment(endTime).format("YYYY-MM-DD");
   // const cur_lang = languageMap[volunteer.map(el)];
   const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
-    statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
+    statusFilter !== "All" &&
+    langFilter !== "All" &&
+    searchTerm.length > 0 &&
+    endTime &&
+    startDate
+      ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
+      : statusFilter !== "All" && langFilter !== "All" && endTime && startDate
+      ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&lang=${langFilter}`
+      : statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
       ? `?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
       : statusFilter !== "All" && searchTerm.length > 0
       ? `?status=${statusFilter}&name=${searchTerm}`
       : searchTerm.length > 0 && langFilter !== "All"
       ? `&name=${searchTerm}&lang=${langFilter}`
-      : searchTerm.length > 0
-      ? `?name=${searchTerm}`
-      : statusFilter !== "All" && langFilter !== "All"
-      ? `?status=${statusFilter}&lang=${langFilter}`
+      : searchTerm.length > 0 && endTime && startDate
+      ? `?from=${fromStart}&to=${toEnd}&?name=${searchTerm}`
+      : endTime && startDate && statusFilter !== "All"
+      ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
+      : endTime && startDate && langFilter !== "All"
+      ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
       : statusFilter !== "All"
       ? `?status=${statusFilter}`
       : langFilter !== "All"
       ? `?lang=${langFilter}`
+      : searchTerm.length > 0
+      ? `?name=${searchTerm}`
+      : endTime && startDate
+      ? `?from=${fromStart}&to=${toEnd}`
       : ""
   }
     `;
@@ -197,7 +214,7 @@ function NewVolunteerDashboard(props) {
       setCacheVolunteer(res.data);
     });
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
-  }, [statusFilter, langFilter, debouncedText]);
+  }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
 
   console.log(volunteer);
   // console.log(statusId)
@@ -899,6 +916,11 @@ function NewVolunteerDashboard(props) {
       <GenerateReport
         generateDialog={generateDialog}
         setGenerateDialog={setGenerateDialog}
+        startDate={startDate}
+        endTime={endTime}
+        setstartDate={setstartDate}
+        setendTime={setendTime}
+        volunteerReport={volunteer}
       />
     </div>
   );

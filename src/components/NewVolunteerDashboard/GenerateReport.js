@@ -34,14 +34,22 @@ const GenerateReport = (props) => {
   var d = new Date();
   const classes = useStyles();
 
-  const { generateDialog, setGenerateDialog } = props;
+  const {
+    generateDialog,
+    setGenerateDialog,
+    startDate,
+    endTime,
+    setstartDate,
+    setendTime,
+    volunteerReport,
+  } = props;
   const [value, setValue] = React.useState("1");
   const valuee = document.querySelector('[name="duration"]:checked');
   const widthOfMoal = value === "custom" ? "602px" : "458px";
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [startDate, setstartDate] = useState("");
-  const [endTime, setendTime] = useState("");
-  const [volunteerReport, setVolunteerReport] = useState([]);
+  // const [startDate, setstartDate] = useState("");
+  // const [endTime, setendTime] = useState("");
+  // const [volunteerReport, setVolunteerReport] = useState([]);
   const [dataInCSV, setDataInCSV] = useState("");
   const user = useSelector(({ User }) => User);
 
@@ -59,21 +67,21 @@ const GenerateReport = (props) => {
   //   }, [startDate,endTime]);
   // })
 
-  const Getuser = () => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}volunteers?from=${fromStart}&to=${toEnd}}`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then(
-      (res) => {
-        setVolunteerReport(res.data);
-      },
-      [startDate, endTime]
-    );
-  };
+  // const Getuser = () => {
+  //   axios({
+  //     method: METHODS.GET,
+  //     url: `${process.env.REACT_APP_MERAKI_URL}volunteers?from=${fromStart}&to=${toEnd}}`,
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization: user.data.token,
+  //     },
+  //   }).then(
+  //     (res) => {
+  //       setVolunteerReport(res.data);
+  //     },
+  //     [startDate, endTime]
+  //   );
+  // };
   const fromStart = moment(startDate).format("YYYY-MM-DD");
   const toEnd = moment(endTime).format("YYYY-MM-DD");
 
@@ -96,9 +104,9 @@ const GenerateReport = (props) => {
     }
   };
 
-  useEffect(() => {
-    volunteerReport.get().then((res) => setDataInCSV(res));
-  }, []);
+  // useEffect(() => {
+  //   volunteerReport.get().then((res) => setDataInCSV(res));
+  // }, []);
 
   var date = new Date().toDateString();
   var threeMonthsAgo = moment().subtract(3, "months");
@@ -277,9 +285,11 @@ const GenerateReport = (props) => {
           className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
           onClick={() => {
             downloadExcel();
-            Getuser();
+            setGenerateDialog(false);
           }}
-        ></Button>
+        >
+          Download
+        </Button>
       </div>
     </Dialog>
   );
