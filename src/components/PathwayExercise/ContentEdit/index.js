@@ -308,7 +308,7 @@ function ContentEdit() {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 5 }}>
-      {courseType === "assessment" ? (
+      {/* {courseType === "assessment" ? (
         <>
           {course &&
             course.map((e, index) => {
@@ -575,9 +575,6 @@ function ContentEdit() {
                   <BoxComponent setIsShown={setIsShown} isShown={isShown}>
                     <Typography>
                       Youtube
-                      {/* <IconButton variant="solid">
-                        <AddCircleOutlineIcon />
-                      </IconButton> */}
                       {isShown && (
                         <IconButton variant="solid">
                           <AddCircleOutlineIcon
@@ -642,7 +639,7 @@ function ContentEdit() {
             Submit
           </Button>
         </>
-      )}
+      )} */}
 
       {console.log("showModal", showModal)}
 

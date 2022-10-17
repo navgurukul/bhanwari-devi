@@ -29,11 +29,35 @@ const EDITOR_JS_TOOLS = {
 
 function ReactEditor({ course }) {
   const [editor, setEditor] = React.useState(null);
+  // const [list, setList] = React.useState([]);
   const ReactEditorJS = createReactEditorJS();
   const handleInitialize = async (instance) => {
     await setEditor(instance);
     console.log(editor, "editor");
   };
+
+  useEffect(() => {
+    console.log("course in useEffect", course);
+
+    for (const item in course) {
+      console.log("item", item);
+      let list = [];
+      if (course[item].component === "text") {
+        if ("decoration" in course[item]) {
+          // if ("decoration" in course[item + 1]) {
+          //   list.push(item.value);
+          // } else {
+          //   list = [];
+          // }
+          list.push(item.value);
+          // setList([...list, item.value]);
+        }
+      }
+    }
+    console.log("new list", list);
+  }, [course]);
+
+  let list = [];
 
   let blocks = course.map((item, index) => {
     let youtube;
@@ -44,7 +68,14 @@ function ReactEditor({ course }) {
         let value = item.value.split("=")[1];
         youtube = "https://www.youtube.com/embed/" + value;
       }
+    } else if (item.component === "text") {
+      if ("decoration" in item) {
+        list.push(item.value);
+        // setList([...list, item.value]);
+      }
     }
+
+    console.log("list", list);
 
     return {
       // id: index,
