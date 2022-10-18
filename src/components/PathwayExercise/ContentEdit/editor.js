@@ -36,30 +36,41 @@ function ReactEditor({ course }) {
     console.log(editor, "editor");
   };
 
-  useEffect(() => {
-    console.log("course in useEffect", course);
+  // useEffect(() => {
+  //   console.log("course in useEffect", course);
 
-    for (const item in course) {
-      console.log("item", item);
-      let list = [];
-      if (course[item].component === "text") {
-        if ("decoration" in course[item]) {
-          // if ("decoration" in course[item + 1]) {
-          //   list.push(item.value);
-          // } else {
-          //   list = [];
-          // }
-          list.push(item.value);
-          // setList([...list, item.value]);
-        }
-      }
-    }
-    console.log("new list", list);
-  }, [course]);
+  //   for (const item in course) {
+  //     console.log("item", item);
+  //     let list = [];
+  //     if (course[item].component === "text") {
+  //       if ("decoration" in course[item]) {
+  //         // if ("decoration" in course[item + 1]) {
+  //         //   list.push(item.value);
+  //         // } else {
+  //         //   list = [];
+  //         // }
+  //         list.push(item.value);
+  //         // setList([...list, item.value]);
+  //       } else {
+  //         list = [];
+  //       }
+  //     } else {
+  //       list = [];
+  //     }
+  //   }
+  //   console.log("new list", list);
+  // }, [course]);
 
-  let list = [];
+  // let list = [];
+  // let listData = {
+  //   style: "",
+  //   items: [],
+  // };
 
-  let blocks = course.map((item, index) => {
+  let style = "";
+  let items = [];
+
+  let blocks1 = course.map((item, index) => {
     let youtube;
     if (item.component === "youtube") {
       if (!item.value.includes("=")) {
@@ -70,25 +81,59 @@ function ReactEditor({ course }) {
       }
     } else if (item.component === "text") {
       if ("decoration" in item) {
-        list.push(item.value);
+        if (item.decoration.type == "bullet") {
+          // listData.style = "unordered";
+          style = "unordered";
+        } else {
+          style = "ordered";
+          // listData.style = "ordered";
+        }
+        // listData.items.push(item.value);
+        // list.push(item.value);
+        items.push(item.value);
         // setList([...list, item.value]);
+      } else {
+        items = [];
       }
+    } else {
+      // list = [];
+      // listData = { style: "", items: [] };
+      items = [];
     }
 
-    console.log("list", list);
+    // console.log("listData", listData);
+    // console.log("list", list);
+    console.log("index", index, "style", style);
+    console.log("index", index, "items", items);
+
+    let type;
+    if (item.component == "text" && "decoration" in item) {
+      type = "list";
+    } else if (item.component == "text") {
+      type = "paragraph";
+    } else if (item.component === "youtube") {
+      type = "embed";
+    } else {
+      type = item.component;
+    }
 
     return {
       // id: index,
-      type:
-        item.component == "text"
-          ? "paragraph"
-          : item.component === "youtube"
-          ? "embed"
-          : item.component,
+      // type:
+      //   item.component == "text"
+      //     ? "paragraph"
+      //     : item.component === "youtube"
+      //     ? "embed"
+      //     : item.component,
+      type: type,
       data: {
+        style: style,
+        items: items,
         text:
-          (item.component === "text" || item.component === "header") &&
-          item.value,
+          type == "list"
+            ? false
+            : (item.component === "text" || item.component === "header") &&
+              item.value,
         level: item.variant,
         code: item.component === "code" && item.value,
         // image: item.component === "image" && item.value,
@@ -105,7 +150,19 @@ function ReactEditor({ course }) {
     };
   });
 
+  let blocks = [];
+  for (const item of blocks1) {
+    // if(_.isEqual(initialFormState, formFieldsState))
+    if (!blocks.includes(item)) {
+      blocks.push(item);
+    }
+    console.log("item in loop", item);
+  }
+
+  const newBlock = new Set(blocks);
+
   console.log("blocks", blocks);
+  console.log("newBlock", newBlock);
 
   const onReady = () => {
     // https://editorjs.io/configuration#editor-modifications-callback
