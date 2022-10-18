@@ -3,6 +3,8 @@ import useStyles from "./style";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import moment from "moment";
+
 import {
   Box,
   Table,
@@ -40,12 +42,13 @@ import MenuComponent from "./MenuComponent";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Select } from "@material-ui/core";
 import { ZoomInRounded } from "@material-ui/icons";
-
+import { set } from "date-fns";
+import { Link } from "react-router-dom";
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
   const { onSelectAllClick, numSelected, rowCount } = props;
   const [open, setOpen] = React.useState(true);
-  console.log(onSelectAllClick, "onSelectAllClick");
+  // console.log(onSelectAllClick, "onSelectAllClick");
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selctedPathway, setSelectedPathway] = useState("");
@@ -56,24 +59,50 @@ function NewVolunteerDashboard(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedText] = useDebounce(searchTerm);
+  const [debouncedText] = useDebounce(searchTerm, 400);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [filter, setFilter] = useState(false);
-  const [statusFilter, setStatusFilter] = useState(1);
-  const [langFilter, setLangFilter] = useState(1);
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [langFilter, setLangFilter] = useState("All");
   const [statusDialog, setStatusDialog] = useState(false);
-  const [status, setStatus] = useState("Newly Onboarded");
+  const [status, setStatus] = useState("All");
   const [statusName, setStatusName] = useState("");
+  const [statusId, setStatusId] = useState([]);
   const [generateDialog, setGenerateDialog] = useState(false);
+  const [delfun, setdelFun] = useState();
+  const [startDate, setstartDate] = useState("");
+  const [endTime, setendTime] = useState("");
+  const [slicedStudents, setSlicedStudents] = useState([]);
+
+  const languageMap = {
+    hi: "Hindi",
+    te: "Telugu",
+    en: "English",
+    ta: "Tamil",
+  };
+  console.log(statusId, "idddddddddddddddddddddddddddddd");
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
   if (selctedPathway) {
-    pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
+    pageCount = Math.ceil(volunteer && volunteer.length / limit);
   }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
+  function filterPathway(pathway, volunteer) {
+    // console.log(pathway)
+    return volunteer.filter((el) => {
+      // console.log(el.classes)
+
+      for (let i of el.classes) {
+        if (i.title.includes(pathway)) {
+          return true;
+        }
+      }
+    });
+  }
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -122,42 +151,94 @@ function NewVolunteerDashboard(props) {
     }
     setRowSelected(newSelected);
   };
+  console.log(selected, rowSelected);
 
   const user = useSelector(({ User }) => User);
 
+  function numberOfWeek(el) {
+    const classes = el.classes;
+    let last_date =
+      classes.length && new Date(classes[classes.length - 1].end_time);
+    let new_date = classes.length && new Date(el.classes[0].end_time);
+    return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
+  }
+  const fromStart = moment(startDate).format("YYYY-MM-DD");
+  const toEnd = moment(endTime).format("YYYY-MM-DD");
+  // const cur_lang = languageMap[volunteer.map(el)];
+  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
+    statusFilter !== "All" &&
+    langFilter !== "All" &&
+    searchTerm.length > 0 &&
+    endTime &&
+    startDate
+      ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
+      : statusFilter !== "All" && langFilter !== "All" && endTime && startDate
+      ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&lang=${langFilter}`
+      : statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
+      ? `?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
+      : statusFilter !== "All" && searchTerm.length > 0
+      ? `?status=${statusFilter}&name=${searchTerm}`
+      : searchTerm.length > 0 && langFilter !== "All"
+      ? `&name=${searchTerm}&lang=${langFilter}`
+      : searchTerm.length > 0 && endTime && startDate
+      ? `?from=${fromStart}&to=${toEnd}&?name=${searchTerm}`
+      : endTime && startDate && statusFilter !== "All"
+      ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
+      : endTime && startDate && langFilter !== "All"
+      ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
+      : statusFilter !== "All"
+      ? `?status=${statusFilter}`
+      : langFilter !== "All"
+      ? `?lang=${langFilter}`
+      : searchTerm.length > 0
+      ? `?name=${searchTerm}`
+      : endTime && startDate
+      ? `?from=${fromStart}&to=${toEnd}`
+      : ""
+  }
+    `;
+  console.log(baseUrl);
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}volunteers`,
+      url: baseUrl,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then((res) => {
       setVolunteer(res.data);
+      setSlicedStudents(
+        res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
+      );
       setCacheVolunteer(res.data);
     });
-  }, []);
+    pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
+  }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
+
   console.log(volunteer);
-  const languageMap = {
-    hi: "Hindi",
-    te: "Telugu",
-    en: "English",
-    ta: "Tamil",
-  };
-  useEffect(() => {
-    const data =
-      volunteer &&
-      volunteer.filter((searchValue) =>
-        searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    const slicedData = data.slice(
-      rowsPerPage * limit,
-      (rowsPerPage + 1) * limit
-    );
-    // setVolunteer(data);
-    setVolunteer(slicedData);
-  }, [debouncedText, rowsPerPage]);
+  // console.log(statusId)
+
+  // useEffect(() => {
+  //   const data =
+  //     volunteer &&
+  //     volunteer.filter((searchValue) => {
+  //       if (searchValue === "") {
+  //         return searchValue;
+  //       } else if (
+  //         searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //       ) {
+  //         return searchValue;
+  //       }
+  //       // searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //     });
+
+  //   const slicedData = data.slice(
+  //     rowsPerPage * limit,
+  //     (rowsPerPage + 1) * limit
+  //   );
+  //   setVolunteer(data);
+  // }, [debouncedText, rowsPerPage]);
 
   return (
     <div>
@@ -188,7 +269,7 @@ function NewVolunteerDashboard(props) {
               type="text"
               placeholder="Name, Batch, Class Title..."
               variant="standard"
-              value={debouncedText}
+              value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
               }}
@@ -217,12 +298,26 @@ function NewVolunteerDashboard(props) {
         {/* FILTERS */}
         <Grid container className={classes.filters} mb={2}>
           <Grid item>
-            <Button variant="contained" className={classes.python}>
+            <Button
+              variant="contained"
+              className={classes.python}
+              onClick={() => {
+                setVolunteer(filterPathway("Python", cacheVolunteer));
+                setSelectedPathway("Python");
+              }}
+            >
               Python (40)
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" className={classes.learningTrack2}>
+            <Button
+              variant="outlined"
+              className={classes.learningTrack2}
+              onClick={() => {
+                setVolunteer(filterPathway("Spoken English", cacheVolunteer));
+                setSelectedPathway("Spoken English");
+              }}
+            >
               Spoken English (20)
             </Button>
           </Grid>
@@ -291,11 +386,11 @@ function NewVolunteerDashboard(props) {
                     },
                   }}
                 >
-                  <MenuItem value={1}>All</MenuItem>
-                  <MenuItem value={2}>Newly Onboarded</MenuItem>
-                  <MenuItem value={3}>Active</MenuItem>
-                  <MenuItem value={4}>Inactive</MenuItem>
-                  <MenuItem value={5}>Dropped Out</MenuItem>
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="newlyonboarded">Newly Onboarded</MenuItem>
+                  <MenuItem value="active">Active</MenuItem>
+                  <MenuItem value="inactive">Inactive</MenuItem>
+                  <MenuItem value="dropout">Dropped Out</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -331,18 +426,17 @@ function NewVolunteerDashboard(props) {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={langFilter}
-                  onChange={(e) => {
+                  onClick={(e) => {
                     setLangFilter(e.target.value);
                   }}
                   label="Language"
-                  notched
                   className={classes.tableFont}
                 >
-                  <MenuItem value={1} s>
+                  <MenuItem value="All" s>
                     All
                   </MenuItem>
-                  <MenuItem value={2}>English</MenuItem>
-                  <MenuItem value={3}>Hindi</MenuItem>
+                  <MenuItem value="hi">Hindi</MenuItem>
+                  <MenuItem value="en">English</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -386,7 +480,7 @@ function NewVolunteerDashboard(props) {
                     <TableCell
                       align="center"
                       className={classes.tableSticky}
-                      sx={{ left: "72px" }}
+                      sx={{ left: "60px", width: "150px" }}
                     >
                       <Typography className={classes.tablecellHead}>
                         {selected.length}{" "}
@@ -396,13 +490,15 @@ function NewVolunteerDashboard(props) {
                     </TableCell>
                     <TableCell
                       className={classes.tableSticky}
-                      sx={{ left: "180px" }}
+                      sx={{ left: "170px", width: "150px" }}
                       onClick={() => {
                         const valueToDisplay = `Total ${selected.length} ${
                           selected.length === 1 ? "row is " : "rows are "
                         } selected`;
+
                         setStatusName(valueToDisplay);
                         setStatusDialog(true);
+                        setStatusId(selected);
                       }}
                     >
                       <Typography
@@ -412,7 +508,14 @@ function NewVolunteerDashboard(props) {
                         Change Statuses
                       </Typography>
                     </TableCell>
-                    <TableCell colSpan={5}>
+                    <TableCell
+                      colSpan={isActive ? 0 : 5}
+                      className={classes.tableSticky}
+                      sx={{ left: "269px" }}
+                      onClick={() => {
+                        setStatusId(selected);
+                      }}
+                    >
                       <Typography
                         sx={{ fontWeight: "600", fontSize: "14px" }}
                         color="error"
@@ -549,7 +652,13 @@ function NewVolunteerDashboard(props) {
                             className={classes.tablebodyCell}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
-                            DVET Nashik Python
+                            {item.classes &&
+                            item.classes.length > 0 &&
+                            item.classes[item.classes.length - 1]["title"]
+                              .toLowerCase()
+                              .includes("batch".toLowerCase())
+                              ? item.classes[item.classes.length - 1]["title"]
+                              : "-"}
                           </TableCell>
                           <TableCell
                             // data-column="Last Class Title"
@@ -558,7 +667,9 @@ function NewVolunteerDashboard(props) {
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
-                            item.classes[item.classes.length - 1]["title"] != ""
+                            !item.classes[item.classes.length - 1]["title"]
+                              .toLowerCase()
+                              .includes("batch".toLowerCase())
                               ? item.classes[item.classes.length - 1]["title"]
                               : "-"}
                           </TableCell>
@@ -571,7 +682,9 @@ function NewVolunteerDashboard(props) {
                           <TableCell
                             // data-column="Last class lang"
                             sx={{ border: "none" }}
-                            onClick={(event) => handleRowSelect(event, item.id)}
+                            onClick={(event) => {
+                              handleRowSelect(event, item.id);
+                            }}
                           >
                             {item.classes &&
                             item.classes.length > 0 &&
@@ -633,16 +746,21 @@ function NewVolunteerDashboard(props) {
                           >
                             <MenuComponent
                               itemname={item.name}
+                              itemid={item.id}
                               setStatusName={setStatusName}
                               setStatusDialog={setStatusDialog}
+                              setStatusId={setStatusId}
+                              userId={statusId}
+                              delfun={delfun}
+                              setdelFun={setdelFun}
                             />
                           </TableCell>
                         </TableRow>
                         <TableRow
                           sx={{
-                            position: "-webkit-sticky",
-                            left: 0,
-                            zIndex: "800",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
                           }}
                         >
                           {selectedRow || selectedRow > 0 ? (
@@ -653,7 +771,7 @@ function NewVolunteerDashboard(props) {
                               <Collapse in={open} timeout="auto" unmountOnExit>
                                 <Box
                                   sx={{
-                                    height: "168px",
+                                    height: isActive ? "198px" : "165px",
                                   }}
                                 >
                                   <div className={classes.collapse}>
@@ -730,22 +848,31 @@ function NewVolunteerDashboard(props) {
                                           align="right"
                                           className={classes.tablebodyCell}
                                         >
-                                          +914545454545
+                                          {item.contact === null
+                                            ? "-"
+                                            : item.contact}
                                         </TableCell>
                                         <TableCell
                                           className={classes.tablebodyCell}
                                         >
-                                          20
+                                          {numberOfWeek(item)}
                                         </TableCell>
                                         <TableCell
                                           className={classes.tablebodyCell}
                                         >
-                                          MO, TU, WE, TH, FR, SA, SU
+                                          {item.available_on_days === null
+                                            ? "-"
+                                            : item.available_on_days}
                                         </TableCell>
                                         <TableCell
                                           className={classes.tablebodyCell}
                                         >
-                                          11:00 AM, 2:00 PM, 5:00 PM
+                                          {item.available_on_time === null
+                                            ? "-"
+                                            : format(
+                                                item.available_on_time,
+                                                "hh:mm aaa"
+                                              )}
                                         </TableCell>
                                       </TableRow>
                                     </TableBody>
@@ -783,10 +910,17 @@ function NewVolunteerDashboard(props) {
         statusName={statusName}
         setStatusDialog={setStatusDialog}
         statusDialog={statusDialog}
+        userId={statusId}
+        users={volunteer}
       />
       <GenerateReport
         generateDialog={generateDialog}
         setGenerateDialog={setGenerateDialog}
+        startDate={startDate}
+        endTime={endTime}
+        setstartDate={setstartDate}
+        setendTime={setendTime}
+        volunteerReport={volunteer}
       />
     </div>
   );

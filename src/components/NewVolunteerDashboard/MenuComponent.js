@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Typography from "@mui/material/Typography";
@@ -7,13 +7,58 @@ import { Box } from "@mui/system";
 import useStyles from "./style";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import axios from "axios";
+import { useSelector } from "react-redux";
+// import NewVolunteerDashboard from ".";
+
 const MenuComponent = (props) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  const { itemname, setStatusName, setStatusDialog } = props;
+  const {
+    itemname,
+    itemid,
+    setStatusName,
+    setStatusDialog,
+    setStatusId,
+    userId,
+    delfun,
+    setdelFun,
+  } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  console.log(userId);
+  const user = useSelector(({ User }) => User);
+
+  const deleteUser = () => {
+    axios
+      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: user.data.token,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+  };
+  // useEffect(()=>{
+  //   axios
+  //   .delete(
+  //     `${process.env.REACT_APP_MERAKI_URL}volunteer/${userId}`,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: user.data.token,
+  //       },
+  //     }
+  //   ).then((response)=>{console.log(response,"data");
+  //   setDelData(response.data)
+  // })
+  //   .catch((err)=>{console.log(err,"error")})
+  // },[])
 
   const openDots = anchorEl;
   const handleClickDots = (event) => {
@@ -22,6 +67,7 @@ const MenuComponent = (props) => {
   const handleCloseDots = () => {
     setAnchorEl(null);
   };
+
   return (
     <div>
       <IconButton
@@ -68,13 +114,25 @@ const MenuComponent = (props) => {
             onClick={() => {
               setStatusName(itemname);
               setStatusDialog(true);
+              setStatusId(itemid);
             }}
           >
             Change Status
           </Typography>
-          <Typography className={classes.menuBtn}>Delete</Typography>
+          <Typography
+            className={classes.menuBtn}
+            onClick={() => {
+              setStatusId(itemid);
+              deleteUser();
+              handleCloseDots();
+            }}
+          >
+            Delete
+          </Typography>
         </Box>
       </Menu>
+      {/* <NewVolunteerDashboard 
+      /> */}
     </div>
   );
 };
