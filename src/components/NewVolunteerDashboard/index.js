@@ -39,8 +39,6 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuComponent from "./MenuComponent";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Select } from "@material-ui/core";
-import { ZoomInRounded } from "@material-ui/icons";
-import { fontWeight } from "@mui/system";
 
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
@@ -172,11 +170,7 @@ function NewVolunteerDashboard(props) {
             marginTop: "20px",
           }}
         >
-          <Grid
-            item
-            className={classes.searchBar}
-            // xs={isActive && 12}
-          >
+          <Grid item className={classes.searchBar}>
             <TextField
               InputProps={{
                 startAdornment: (
@@ -390,7 +384,7 @@ function NewVolunteerDashboard(props) {
                       className={classes.tableSticky}
                       sx={{ left: "72px" }}
                     >
-                      <Typography className={classes.tablecellHead}>
+                      <Typography className={classes.tablecellHeadWidthLess}>
                         {selected.length}{" "}
                         {selected.length === 1 ? "row is " : "rows are "}
                         selected
@@ -408,7 +402,7 @@ function NewVolunteerDashboard(props) {
                       }}
                     >
                       <Typography
-                        className={classes.tablecellHead}
+                        className={classes.tablecellHeadWidthLess}
                         color="primary"
                       >
                         Change Statuses
@@ -419,7 +413,7 @@ function NewVolunteerDashboard(props) {
                       sx={{ position: "fixed", mt: isActive && 2 }}
                     >
                       <Typography
-                        className={classes.tablecellHead}
+                        className={classes.tablecellHeadWidthLess}
                         color="error"
                       >
                         Delete
@@ -437,26 +431,26 @@ function NewVolunteerDashboard(props) {
                         width: "150px",
                       }}
                     >
-                      <Typography className={classes.tablecellHead}>
+                      <Typography className={classes.tablecellHeadWidthLess}>
                         Name
                       </Typography>
                     </TableCell>
-                    <TableCell align="left" sx={{ width: "150px" }}>
+                    <TableCell align="left">
                       <Typography className={classes.tablecellHead}>
                         Last Class Batch
                       </Typography>
                     </TableCell>
-                    <TableCell align="left" sx={{ width: "150px" }}>
+                    <TableCell align="left">
                       <Typography className={classes.tablecellHead}>
                         Last Class Title
                       </Typography>
                     </TableCell>
-                    <TableCell align="left" sx={{ width: "119px" }}>
+                    <TableCell align="left">
                       <Typography className={classes.tablecellHead}>
                         Last Class Date
                       </Typography>
                     </TableCell>
-                    <TableCell align="left" sx={{ width: "119px" }}>
+                    <TableCell align="left">
                       <Typography className={classes.tablecellHead}>
                         Class Language
                       </Typography>
@@ -467,7 +461,7 @@ function NewVolunteerDashboard(props) {
                         width: isActive ? "55px" : "140px",
                       }}
                     >
-                      <Typography className={classes.tablecellHead}>
+                      <Typography className={classes.tablecellHeadWidthLess}>
                         Status
                       </Typography>
                     </TableCell>
@@ -557,7 +551,6 @@ function NewVolunteerDashboard(props) {
                             DVET Nashik Python
                           </TableCell>
                           <TableCell
-                            // data-column="Last Class Title"
                             className={classes.tablebodyCell}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
@@ -574,7 +567,6 @@ function NewVolunteerDashboard(props) {
                             {format(item.last_class_date, "dd MMM, yyyy")}
                           </TableCell>
                           <TableCell
-                            // data-column="Last class lang"
                             sx={{ border: "none" }}
                             onClick={(event) => handleRowSelect(event, item.id)}
                           >
@@ -587,7 +579,6 @@ function NewVolunteerDashboard(props) {
                               : "-"}
                           </TableCell>
                           <TableCell
-                            // data-column="Status"
                             sx={{
                               fontWeight: "400",
                               fontSize: "14px",
@@ -630,7 +621,6 @@ function NewVolunteerDashboard(props) {
                             </p>
                           </TableCell>
                           <TableCell
-                            // data-column="three dots"
                             className={classes.tablebodyCell}
                             sx={{
                               color: "#BDBDBD",

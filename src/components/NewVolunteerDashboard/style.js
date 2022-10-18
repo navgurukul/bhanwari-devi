@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     maxHeight: "32px",
     position: "relative",
-    // right: "10px",
     paddingTop: "6px",
   },
   inputLabelfil: {
@@ -76,10 +75,13 @@ const useStyles = makeStyles((theme) => ({
   tablecellHead: {
     fontWeight: "600 !important",
     fontSize: "14px !important",
+    width: 120,
   },
-
+  tablecellHeadWidthLess: {
+    fontWeight: "600 !important",
+    fontSize: "14px !important",
+  },
   tablecontainer: {
-    // width: "1120px",
     maxWidth: "1120px",
     boxShadow: "none",
     borderBottom: "2px solid rgba(163, 163, 163, 0.4) !important",
@@ -129,7 +131,6 @@ const useStyles = makeStyles((theme) => ({
     height: "96px",
     display: "flex",
     flexDirection: "column",
-    // alignItems: "flex-end",
     padding: "0px",
     boxShadow:
       "0px 4px 4px rgba(0, 0, 0, 0.06), 0px 8px 12px rgba(0, 0, 0, 0.04), 0px 4px 24px rgba(0, 0, 0, 0.08)",
@@ -171,7 +172,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "32px",
 
     gap: "32px",
-    // height: `${widthOfMoal}`,
     width: "420px",
     borderRadius: "8px",
   },
