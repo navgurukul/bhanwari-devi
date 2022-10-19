@@ -104,6 +104,25 @@ function NewVolunteerDashboard(props) {
     });
   }
 
+  const deleteUsers = () => {
+    axios
+      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: user.data.token,
+        },
+        data: {
+          "volunteer_ids": selected
+        }
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -514,6 +533,7 @@ function NewVolunteerDashboard(props) {
                       sx={{ left: "269px" }}
                       onClick={() => {
                         setStatusId(selected);
+                        deleteUsers();
                       }}
                     >
                       <Typography
@@ -591,6 +611,7 @@ function NewVolunteerDashboard(props) {
                     item.last_class_date =
                       sortedClasses.length &&
                       sortedClasses[sortedClasses.length - 1].start_time;
+                      console.log("log-item", item)
                     return (
                       <>
                         <TableRow
@@ -746,7 +767,7 @@ function NewVolunteerDashboard(props) {
                           >
                             <MenuComponent
                               itemname={item.name}
-                              itemid={item.id}
+                              itemId={item.id}
                               setStatusName={setStatusName}
                               setStatusDialog={setStatusDialog}
                               setStatusId={setStatusId}
