@@ -205,6 +205,8 @@ function NewVolunteerDashboard(props) {
       ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
       : endTime && startDate && langFilter !== "All"
       ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
+      : (statusFilter !== "All" && langFilter !== "All")
+      ? `?status=${statusFilter}&lang=${langFilter}`
       : statusFilter !== "All"
       ? `?status=${statusFilter}`
       : langFilter !== "All"
@@ -218,6 +220,7 @@ function NewVolunteerDashboard(props) {
     `;
   console.log(baseUrl);
   useEffect(() => {
+    console.log(baseUrl);
     axios({
       method: METHODS.GET,
       url: baseUrl,
@@ -227,6 +230,7 @@ function NewVolunteerDashboard(props) {
       },
     }).then((res) => {
       setVolunteer(res.data);
+      console.log("log-res", res.data);
       setSlicedStudents(
         res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
       );
