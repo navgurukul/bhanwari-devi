@@ -70,7 +70,9 @@ function ReactEditor({ course }) {
   let style = "";
   let items = [];
 
-  let blocks1 = course.map((item, index) => {
+  let blocks1 = [];
+
+  for (const item of course) {
     let youtube;
     if (item.component === "youtube") {
       if (!item.value.includes("=")) {
@@ -82,29 +84,19 @@ function ReactEditor({ course }) {
     } else if (item.component === "text") {
       if ("decoration" in item) {
         if (item.decoration.type == "bullet") {
-          // listData.style = "unordered";
           style = "unordered";
         } else {
           style = "ordered";
-          // listData.style = "ordered";
         }
-        // listData.items.push(item.value);
-        // list.push(item.value);
         items.push(item.value);
-        // setList([...list, item.value]);
       } else {
         items = [];
       }
     } else {
-      // list = [];
-      // listData = { style: "", items: [] };
       items = [];
     }
-
-    // console.log("listData", listData);
-    // console.log("list", list);
-    console.log("index", index, "style", style);
-    console.log("index", index, "items", items);
+    console.log("style", style);
+    console.log("items", items);
 
     let type;
     if (item.component == "text" && "decoration" in item) {
@@ -117,14 +109,7 @@ function ReactEditor({ course }) {
       type = item.component;
     }
 
-    return {
-      // id: index,
-      // type:
-      //   item.component == "text"
-      //     ? "paragraph"
-      //     : item.component === "youtube"
-      //     ? "embed"
-      //     : item.component,
+    let data = {
       type: type,
       data: {
         style: style,
@@ -136,7 +121,6 @@ function ReactEditor({ course }) {
               item.value,
         level: item.variant,
         code: item.component === "code" && item.value,
-        // image: item.component === "image" && item.value,
         file: {
           url: item.component === "image" && item.value,
         },
@@ -148,7 +132,93 @@ function ReactEditor({ course }) {
         width: 580,
       },
     };
-  });
+
+    if (!blocks1.includes(data)) {
+      blocks1.push(data);
+    }
+  }
+
+  console.log("blocks1", blocks1);
+
+  // let blocks1 = course.map((item, index) => {
+  //   let youtube;
+  //   if (item.component === "youtube") {
+  //     if (!item.value.includes("=")) {
+  //       youtube = "https://www.youtube.com/embed/" + item.value;
+  //     } else {
+  //       let value = item.value.split("=")[1];
+  //       youtube = "https://www.youtube.com/embed/" + value;
+  //     }
+  //   } else if (item.component === "text") {
+  //     if ("decoration" in item) {
+  //       if (item.decoration.type == "bullet") {
+  //         // listData.style = "unordered";
+  //         style = "unordered";
+  //       } else {
+  //         style = "ordered";
+  //         // listData.style = "ordered";
+  //       }
+  //       // listData.items.push(item.value);
+  //       // list.push(item.value);
+  //       items.push(item.value);
+  //       // setList([...list, item.value]);
+  //     } else {
+  //       items = [];
+  //     }
+  //   } else {
+  //     // list = [];
+  //     // listData = { style: "", items: [] };
+  //     items = [];
+  //   }
+
+  //   // console.log("listData", listData);
+  //   // console.log("list", list);
+  //   console.log("index", index, "style", style);
+  //   console.log("index", index, "items", items);
+
+  //   let type;
+  //   if (item.component == "text" && "decoration" in item) {
+  //     type = "list";
+  //   } else if (item.component == "text") {
+  //     type = "paragraph";
+  //   } else if (item.component === "youtube") {
+  //     type = "embed";
+  //   } else {
+  //     type = item.component;
+  //   }
+
+  //   return {
+  //     // id: index,
+  //     // type:
+  //     //   item.component == "text"
+  //     //     ? "paragraph"
+  //     //     : item.component === "youtube"
+  //     //     ? "embed"
+  //     //     : item.component,
+  //     type: type,
+  //     data: {
+  //       style: style,
+  //       items: items,
+  //       text:
+  //         type == "list"
+  //           ? false
+  //           : (item.component === "text" || item.component === "header") &&
+  //             item.value,
+  //       level: item.variant,
+  //       code: item.component === "code" && item.value,
+  //       // image: item.component === "image" && item.value,
+  //       file: {
+  //         url: item.component === "image" && item.value,
+  //       },
+  //       embed: item.component === "youtube" && youtube,
+  //       source: item.component === "youtube" && youtube,
+  //       service: item.component === "youtube" && item.value && item.component,
+  //       caption: "",
+  //       height: 320,
+  //       width: 580,
+  //     },
+  //   };
+  // });
 
   let blocks = [];
   for (const item of blocks1) {
