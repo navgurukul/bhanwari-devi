@@ -16,7 +16,7 @@ const MenuComponent = (props) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const {
     itemname,
-    itemid,
+    itemId,
     setStatusName,
     setStatusDialog,
     setStatusId,
@@ -25,17 +25,21 @@ const MenuComponent = (props) => {
     setdelFun,
   } = props;
 
+
   const [anchorEl, setAnchorEl] = React.useState(null);
-  console.log(userId);
+  
   const user = useSelector(({ User }) => User);
 
   const deleteUser = () => {
     axios
-      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers/${userId}`, {
+      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: user.data.token,
         },
+        data: {
+          "volunteer_ids": [itemId]
+        }
       })
       .then((res) => {
         console.log(res.data);
@@ -114,7 +118,7 @@ const MenuComponent = (props) => {
             onClick={() => {
               setStatusName(itemname);
               setStatusDialog(true);
-              setStatusId(itemid);
+              setStatusId(itemId);
             }}
           >
             Change Status
@@ -122,7 +126,7 @@ const MenuComponent = (props) => {
           <Typography
             className={classes.menuBtn}
             onClick={() => {
-              setStatusId(itemid);
+              setStatusId(itemId);
               deleteUser();
               handleCloseDots();
             }}
