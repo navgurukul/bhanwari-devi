@@ -27,12 +27,10 @@ const ChangeStatusModal = (props) => {
   const [status, setStatus] = useState("");
 
   const { statusDialog, setStatusDialog, statusName, userId } = props;
-  console.log(userId);
-  console.log(status, "456789fghj");
+  console.log(userId, "userId");
+  // console.log(status, "456789fghj");
   // console.log(userId, "sdfghjhgfdghj")
   // console.log(,"gfugujkfdjhfdlhj")
-
-  console.log(typeof parseInt(userId));
 
   // const updateUser = () => {
   //   return axios({
@@ -69,7 +67,7 @@ const ChangeStatusModal = (props) => {
         console.log(err, "error");
       });
   };
-  console.log(userId, "56890876");
+  // console.log(userId, "56890876");
 
   const user = useSelector(({ User }) => User);
   // useEffect(() => {

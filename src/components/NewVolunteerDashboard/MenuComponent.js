@@ -25,9 +25,8 @@ const MenuComponent = (props) => {
     setdelFun,
   } = props;
 
-
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
   const user = useSelector(({ User }) => User);
 
   const deleteUser = () => {
@@ -38,8 +37,8 @@ const MenuComponent = (props) => {
           Authorization: user.data.token,
         },
         data: {
-          "volunteer_ids": [itemId]
-        }
+          volunteer_ids: [itemId],
+        },
       })
       .then((res) => {
         console.log(res.data);
@@ -48,21 +47,6 @@ const MenuComponent = (props) => {
         console.log(err, "error");
       });
   };
-  // useEffect(()=>{
-  //   axios
-  //   .delete(
-  //     `${process.env.REACT_APP_MERAKI_URL}volunteer/${userId}`,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: user.data.token,
-  //       },
-  //     }
-  //   ).then((response)=>{console.log(response,"data");
-  //   setDelData(response.data)
-  // })
-  //   .catch((err)=>{console.log(err,"error")})
-  // },[])
 
   const openDots = anchorEl;
   const handleClickDots = (event) => {
@@ -118,7 +102,8 @@ const MenuComponent = (props) => {
             onClick={() => {
               setStatusName(itemname);
               setStatusDialog(true);
-              setStatusId(itemId);
+              setStatusId([itemId]);
+              handleCloseDots();
             }}
           >
             Change Status

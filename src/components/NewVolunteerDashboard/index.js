@@ -46,9 +46,9 @@ import { set } from "date-fns";
 import { Link } from "react-router-dom";
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
-  const { onSelectAllClick, numSelected, rowCount } = props;
+
   const [open, setOpen] = React.useState(true);
-  // console.log(onSelectAllClick, "onSelectAllClick");
+
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selctedPathway, setSelectedPathway] = useState("");
@@ -67,7 +67,7 @@ function NewVolunteerDashboard(props) {
   const [statusDialog, setStatusDialog] = useState(false);
   const [status, setStatus] = useState("All");
   const [statusName, setStatusName] = useState("");
-  const [statusId, setStatusId] = useState([]);
+  const [statusId, setStatusId] = useState([""]);
   const [generateDialog, setGenerateDialog] = useState(false);
   const [delfun, setdelFun] = useState();
   const [startDate, setstartDate] = useState("");
@@ -80,7 +80,6 @@ function NewVolunteerDashboard(props) {
     en: "English",
     ta: "Tamil",
   };
-  console.log(statusId, "idddddddddddddddddddddddddddddd");
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
   if (selctedPathway) {
@@ -92,10 +91,7 @@ function NewVolunteerDashboard(props) {
   };
 
   function filterPathway(pathway, volunteer) {
-    // console.log(pathway)
     return volunteer.filter((el) => {
-      // console.log(el.classes)
-
       for (let i of el.classes) {
         if (i.title.includes(pathway)) {
           return true;
@@ -151,8 +147,6 @@ function NewVolunteerDashboard(props) {
     }
     setRowSelected(newSelected);
   };
-  console.log(selected, rowSelected);
-
   const user = useSelector(({ User }) => User);
 
   function numberOfWeek(el) {
@@ -164,7 +158,7 @@ function NewVolunteerDashboard(props) {
   }
   const fromStart = moment(startDate).format("YYYY-MM-DD");
   const toEnd = moment(endTime).format("YYYY-MM-DD");
-  // const cur_lang = languageMap[volunteer.map(el)];
+
   const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
     statusFilter !== "All" &&
     langFilter !== "All" &&
@@ -217,28 +211,6 @@ function NewVolunteerDashboard(props) {
   }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
 
   console.log(volunteer);
-  // console.log(statusId)
-
-  // useEffect(() => {
-  //   const data =
-  //     volunteer &&
-  //     volunteer.filter((searchValue) => {
-  //       if (searchValue === "") {
-  //         return searchValue;
-  //       } else if (
-  //         searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //       ) {
-  //         return searchValue;
-  //       }
-  //       // searchValue.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //     });
-
-  //   const slicedData = data.slice(
-  //     rowsPerPage * limit,
-  //     (rowsPerPage + 1) * limit
-  //   );
-  //   setVolunteer(data);
-  // }, [debouncedText, rowsPerPage]);
 
   return (
     <div>
@@ -746,7 +718,7 @@ function NewVolunteerDashboard(props) {
                           >
                             <MenuComponent
                               itemname={item.name}
-                              itemid={item.id}
+                              itemId={item.id}
                               setStatusName={setStatusName}
                               setStatusDialog={setStatusDialog}
                               setStatusId={setStatusId}
