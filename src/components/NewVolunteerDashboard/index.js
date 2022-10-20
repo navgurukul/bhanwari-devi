@@ -165,7 +165,7 @@ function NewVolunteerDashboard(props) {
   const fromStart = moment(startDate).format("YYYY-MM-DD");
   const toEnd = moment(endTime).format("YYYY-MM-DD");
   // const cur_lang = languageMap[volunteer.map(el)];
-  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
+  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}/volunteers${
     statusFilter !== "All" &&
     langFilter !== "All" &&
     searchTerm.length > 0 &&
