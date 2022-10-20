@@ -46,10 +46,14 @@ import { ZoomInRounded } from "@material-ui/icons";
 import { set } from "date-fns";
 import { Link } from "react-router-dom";
 
+function isAll(val){
+  return (val === "All");
+}
 
 function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter){
   const baseURL = new BaseURL();
 
+  /*Joining dates if present */
   let flag = false;
   if(startDate && endTime){
     const fromStart = moment(startDate).format("YYYY-MM-DD");
@@ -59,18 +63,24 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter){
   }
 
   if(statusFilter !== "All" || searchTerm || langFilter !== "All"){
+    /*If joined a query earlier (date), attach & for next query*/
     if(flag) baseURL.setAmpersand();
+
     switch(true){
-        case (statusFilter === "All" && langFilter === "All"):
+        /*If status and language both NOT present*/
+        case (isAll(statusFilter) && isAll(langFilter)):
           baseURL.setFilterSearch("", searchTerm, "");
           break;
-        case (statusFilter === "All"):
+        /*If only status is present */
+        case (isAll(statusFilter)):
           baseURL.setFilterSearch("", searchTerm, langFilter);
           break;
-        case (langFilter === "All"):
+        /*If only language is present */
+        case (isAll(langFilter)):
           baseURL.setFilterSearch(statusFilter, searchTerm, "");
           break;
-        case (statusFilter !== "All" && langFilter !== "All"):
+        /*If both status and language ARE PRESENT */
+        case (!isAll(langFilter) && !isAll(langFilter)):
           baseURL.setFilterSearch(statusFilter, searchTerm, langFilter);
           break;
     }
@@ -140,22 +150,19 @@ function NewVolunteerDashboard(props) {
   }
 
   const deleteUsers = () => {
-    axios
-      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: user.data.token,
-        },
-        data: {
-          "volunteer_ids": selected
-        }
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+      method: METHODS.DELETE,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        volunteer_ids: selected,
+      },
+    }).then((res) => {
+      console.log("res", res);
+    });
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -216,46 +223,46 @@ function NewVolunteerDashboard(props) {
     let new_date = classes.length && new Date(el.classes[0].end_time);
     return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
   }
-  const fromStart = moment(startDate).format("YYYY-MM-DD");
-  const toEnd = moment(endTime).format("YYYY-MM-DD");
+  // const fromStart = moment(startDate).format("YYYY-MM-DD");
+  // const toEnd = moment(endTime).format("YYYY-MM-DD");
   // const cur_lang = languageMap[volunteer.map(el)];
-  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}/volunteers${
-    statusFilter !== "All" &&
-    langFilter !== "All" &&
-    searchTerm.length > 0 &&
-    endTime &&
-    startDate
-      ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
-      : statusFilter !== "All" && langFilter !== "All" && endTime && startDate
-      ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&lang=${langFilter}`
-      : statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
-      ? `?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
-      : statusFilter !== "All" && searchTerm.length > 0
-      ? `?status=${statusFilter}&name=${searchTerm}`
-      : searchTerm.length > 0 && langFilter !== "All"
-      ? `&name=${searchTerm}&lang=${langFilter}`
-      : searchTerm.length > 0 && endTime && startDate
-      ? `?from=${fromStart}&to=${toEnd}&?name=${searchTerm}`
-      : endTime && startDate && statusFilter !== "All"
-      ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
-      : endTime && startDate && langFilter !== "All"
-      ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
-      : (statusFilter !== "All" && langFilter !== "All")
-      ? `?status=${statusFilter}&lang=${langFilter}`
-      : statusFilter !== "All"
-      ? `?status=${statusFilter}`
-      : langFilter !== "All"
-      ? `?lang=${langFilter}`
-      : searchTerm.length > 0
-      ? `?name=${searchTerm}`
-      : endTime && startDate
-      ? `?from=${fromStart}&to=${toEnd}`
-      : ""
-  }
-    `;
+  // const baseUrl = `${process.env.REACT_APP_MERAKI_URL}/volunteers${
+  //   statusFilter !== "All" &&
+  //   langFilter !== "All" &&
+  //   searchTerm.length > 0 &&
+  //   endTime &&
+  //   startDate
+  //     ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
+  //     : statusFilter !== "All" && langFilter !== "All" && endTime && startDate
+  //     ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&lang=${langFilter}`
+  //     : statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
+  //     ? `?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
+  //     : statusFilter !== "All" && searchTerm.length > 0
+  //     ? `?status=${statusFilter}&name=${searchTerm}`
+  //     : searchTerm.length > 0 && langFilter !== "All"
+  //     ? `&name=${searchTerm}&lang=${langFilter}`
+  //     : searchTerm.length > 0 && endTime && startDate
+  //     ? `?from=${fromStart}&to=${toEnd}&?name=${searchTerm}`
+  //     : endTime && startDate && statusFilter !== "All"
+  //     ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
+  //     : endTime && startDate && langFilter !== "All"
+  //     ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
+  //     : statusFilter !== "All" && langFilter !== "All"
+  //     ? `?status=${statusFilter}&lang=${langFilter}`
+  //     : statusFilter !== "All"
+  //     ? `?status=${statusFilter}`
+  //     : langFilter !== "All"
+  //     ? `?lang=${langFilter}`
+  //     : searchTerm.length > 0
+  //     ? `?name=${searchTerm}`
+  //     : endTime && startDate
+  //     ? `?from=${fromStart}&to=${toEnd}`
+  //     : ""
+  // }
+  //   `;
 
-  const newURL = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter);
-  
+  const baseUrl = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter);
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -575,7 +582,11 @@ function NewVolunteerDashboard(props) {
                       }}
                     >
                       <Typography
-                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          background: "pink",
+                        }}
                         color="error"
                       >
                         Delete

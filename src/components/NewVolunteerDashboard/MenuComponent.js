@@ -8,6 +8,7 @@ import useStyles from "./style";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import axios from "axios";
+import { METHODS } from "../../services/api";
 import { useSelector } from "react-redux";
 // import NewVolunteerDashboard from ".";
 
@@ -25,28 +26,24 @@ const MenuComponent = (props) => {
     setdelFun,
   } = props;
 
-
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
   const user = useSelector(({ User }) => User);
 
   const deleteUser = () => {
-    axios
-      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: user.data.token,
-        },
-        data: {
-          "volunteer_ids": [itemId]
-        }
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+      method: METHODS.DELETE,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        volunteer_ids: [itemId],
+      },
+    }).then((res) => {
+      console.log("res", res);
+    });
   };
   // useEffect(()=>{
   //   axios
