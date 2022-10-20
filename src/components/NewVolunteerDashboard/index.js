@@ -46,6 +46,7 @@ import { set } from "date-fns";
 import { Link } from "react-router-dom";
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
+  const { onSelectAllClick, numSelected, rowCount } = props;
   const [open, setOpen] = React.useState(true);
   // console.log(onSelectAllClick, "onSelectAllClick");
   const limit = 10;
@@ -102,25 +103,6 @@ function NewVolunteerDashboard(props) {
       }
     });
   }
-
-  const deleteUsers = () => {
-    axios
-      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: user.data.token,
-        },
-        data: {
-          "volunteer_ids": selected
-        }
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
-  };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -183,7 +165,7 @@ function NewVolunteerDashboard(props) {
   const fromStart = moment(startDate).format("YYYY-MM-DD");
   const toEnd = moment(endTime).format("YYYY-MM-DD");
   // const cur_lang = languageMap[volunteer.map(el)];
-  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}/volunteers${
+  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
     statusFilter !== "All" &&
     langFilter !== "All" &&
     searchTerm.length > 0 &&
@@ -204,8 +186,6 @@ function NewVolunteerDashboard(props) {
       ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
       : endTime && startDate && langFilter !== "All"
       ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
-      : (statusFilter !== "All" && langFilter !== "All")
-      ? `?status=${statusFilter}&lang=${langFilter}`
       : statusFilter !== "All"
       ? `?status=${statusFilter}`
       : langFilter !== "All"
@@ -217,7 +197,7 @@ function NewVolunteerDashboard(props) {
       : ""
   }
     `;
-  
+  console.log(baseUrl);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -236,6 +216,7 @@ function NewVolunteerDashboard(props) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
 
+  console.log(volunteer);
   // console.log(statusId)
 
   // useEffect(() => {
@@ -533,7 +514,6 @@ function NewVolunteerDashboard(props) {
                       sx={{ left: "269px" }}
                       onClick={() => {
                         setStatusId(selected);
-                        deleteUsers();
                       }}
                     >
                       <Typography
@@ -766,7 +746,7 @@ function NewVolunteerDashboard(props) {
                           >
                             <MenuComponent
                               itemname={item.name}
-                              itemId={item.id}
+                              itemid={item.id}
                               setStatusName={setStatusName}
                               setStatusDialog={setStatusDialog}
                               setStatusId={setStatusId}
