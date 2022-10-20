@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import moment from "moment";
+import { BaseURL } from "./BaseURL";
 
 import {
   Box,
@@ -44,6 +45,40 @@ import { Select } from "@material-ui/core";
 import { ZoomInRounded } from "@material-ui/icons";
 import { set } from "date-fns";
 import { Link } from "react-router-dom";
+
+
+function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter){
+  const baseURL = new BaseURL();
+
+  let flag = false;
+  if(startDate && endTime){
+    const fromStart = moment(startDate).format("YYYY-MM-DD");
+    const toEnd = moment(endTime).format("YYYY-MM-DD");
+    baseURL.setDates(fromStart, toEnd);
+    flag = true;
+  }
+
+  if(statusFilter !== "All" || searchTerm || langFilter !== "All"){
+    if(flag) baseURL.setAmpersand();
+    switch(true){
+        case (statusFilter === "All" && langFilter === "All"):
+          baseURL.setFilterSearch("", searchTerm, "");
+          break;
+        case (statusFilter === "All"):
+          baseURL.setFilterSearch("", searchTerm, langFilter);
+          break;
+        case (langFilter === "All"):
+          baseURL.setFilterSearch(statusFilter, searchTerm, "");
+          break;
+        case (statusFilter !== "All" && langFilter !== "All"):
+          baseURL.setFilterSearch(statusFilter, searchTerm, langFilter);
+          break;
+    }
+  }
+
+  return baseURL.URL;
+}
+
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
   const { onSelectAllClick, numSelected, rowCount } = props;
@@ -184,7 +219,7 @@ function NewVolunteerDashboard(props) {
   const fromStart = moment(startDate).format("YYYY-MM-DD");
   const toEnd = moment(endTime).format("YYYY-MM-DD");
   // const cur_lang = languageMap[volunteer.map(el)];
-  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}volunteers${
+  const baseUrl = `${process.env.REACT_APP_MERAKI_URL}/volunteers${
     statusFilter !== "All" &&
     langFilter !== "All" &&
     searchTerm.length > 0 &&
@@ -218,6 +253,8 @@ function NewVolunteerDashboard(props) {
       : ""
   }
     `;
+
+  const newURL = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter);
   
   useEffect(() => {
     axios({
