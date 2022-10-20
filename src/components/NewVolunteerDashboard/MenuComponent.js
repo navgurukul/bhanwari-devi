@@ -45,21 +45,6 @@ const MenuComponent = (props) => {
       console.log("res", res);
     });
   };
-  // useEffect(()=>{
-  //   axios
-  //   .delete(
-  //     `${process.env.REACT_APP_MERAKI_URL}volunteer/${userId}`,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: user.data.token,
-  //       },
-  //     }
-  //   ).then((response)=>{console.log(response,"data");
-  //   setDelData(response.data)
-  // })
-  //   .catch((err)=>{console.log(err,"error")})
-  // },[])
 
   const openDots = anchorEl;
   const handleClickDots = (event) => {
@@ -115,7 +100,8 @@ const MenuComponent = (props) => {
             onClick={() => {
               setStatusName(itemname);
               setStatusDialog(true);
-              setStatusId(itemId);
+              setStatusId([itemId]);
+              handleCloseDots();
             }}
           >
             Change Status

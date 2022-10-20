@@ -27,12 +27,10 @@ const ChangeStatusModal = (props) => {
   const [status, setStatus] = useState("");
 
   const { statusDialog, setStatusDialog, statusName, userId } = props;
-  console.log(userId);
-  console.log(status, "456789fghj");
+  console.log(userId, "userId");
+  // console.log(status, "456789fghj");
   // console.log(userId, "sdfghjhgfdghj")
   // console.log(,"gfugujkfdjhfdlhj")
-
-  console.log(typeof parseInt(userId));
 
   // const updateUser = () => {
   //   return axios({
@@ -51,7 +49,7 @@ const ChangeStatusModal = (props) => {
 
   const updateUser = () => {
     return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}volunteers/${userId}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}volunteers`,
       method: METHODS.PUT,
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +57,7 @@ const ChangeStatusModal = (props) => {
       },
       data: {
         status: status,
+        user_id: userId,
       },
     })
       .then((res) => {
@@ -68,7 +67,7 @@ const ChangeStatusModal = (props) => {
         console.log(err, "error");
       });
   };
-  console.log(status);
+  // console.log(userId, "56890876");
 
   const user = useSelector(({ User }) => User);
   // useEffect(() => {
