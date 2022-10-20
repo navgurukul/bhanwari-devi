@@ -104,6 +104,25 @@ function NewVolunteerDashboard(props) {
     });
   }
 
+  const deleteUsers = () => {
+    axios
+      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: user.data.token,
+        },
+        data: {
+          "volunteer_ids": selected
+        }
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -186,6 +205,8 @@ function NewVolunteerDashboard(props) {
       ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
       : endTime && startDate && langFilter !== "All"
       ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
+      : (statusFilter !== "All" && langFilter !== "All")
+      ? `?status=${statusFilter}&lang=${langFilter}`
       : statusFilter !== "All"
       ? `?status=${statusFilter}`
       : langFilter !== "All"
@@ -197,7 +218,7 @@ function NewVolunteerDashboard(props) {
       : ""
   }
     `;
-  console.log(baseUrl);
+  
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -216,7 +237,6 @@ function NewVolunteerDashboard(props) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
 
-  console.log(volunteer);
   // console.log(statusId)
 
   // useEffect(() => {
@@ -514,6 +534,7 @@ function NewVolunteerDashboard(props) {
                       sx={{ left: "269px" }}
                       onClick={() => {
                         setStatusId(selected);
+                        deleteUsers();
                       }}
                     >
                       <Typography
@@ -746,7 +767,7 @@ function NewVolunteerDashboard(props) {
                           >
                             <MenuComponent
                               itemname={item.name}
-                              itemid={item.id}
+                              itemId={item.id}
                               setStatusName={setStatusName}
                               setStatusDialog={setStatusDialog}
                               setStatusId={setStatusId}
