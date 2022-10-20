@@ -46,7 +46,6 @@ import { set } from "date-fns";
 import { Link } from "react-router-dom";
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
-  const { onSelectAllClick, numSelected, rowCount } = props;
   const [open, setOpen] = React.useState(true);
   // console.log(onSelectAllClick, "onSelectAllClick");
   const limit = 10;

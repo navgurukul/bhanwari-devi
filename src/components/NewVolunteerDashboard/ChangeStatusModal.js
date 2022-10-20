@@ -51,7 +51,7 @@ const ChangeStatusModal = (props) => {
 
   const updateUser = () => {
     return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}volunteers/${userId}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}volunteers`,
       method: METHODS.PUT,
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +59,7 @@ const ChangeStatusModal = (props) => {
       },
       data: {
         status: status,
+        user_id: userId,
       },
     })
       .then((res) => {
@@ -68,7 +69,7 @@ const ChangeStatusModal = (props) => {
         console.log(err, "error");
       });
   };
-  console.log(status);
+  console.log(userId, "56890876");
 
   const user = useSelector(({ User }) => User);
   // useEffect(() => {
