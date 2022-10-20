@@ -105,22 +105,19 @@ function NewVolunteerDashboard(props) {
   }
 
   const deleteUsers = () => {
-    axios
-      .delete(`${process.env.REACT_APP_MERAKI_URL}volunteers`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: user.data.token,
-        },
-        data: {
-          "volunteer_ids": selected
-        }
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+      method: METHODS.DELETE,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+      data: {
+        volunteer_ids: selected,
+      },
+    }).then((res) => {
+      console.log("res", res);
+    });
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -205,7 +202,7 @@ function NewVolunteerDashboard(props) {
       ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
       : endTime && startDate && langFilter !== "All"
       ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
-      : (statusFilter !== "All" && langFilter !== "All")
+      : statusFilter !== "All" && langFilter !== "All"
       ? `?status=${statusFilter}&lang=${langFilter}`
       : statusFilter !== "All"
       ? `?status=${statusFilter}`
@@ -218,7 +215,7 @@ function NewVolunteerDashboard(props) {
       : ""
   }
     `;
-  
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -538,7 +535,11 @@ function NewVolunteerDashboard(props) {
                       }}
                     >
                       <Typography
-                        sx={{ fontWeight: "600", fontSize: "14px" }}
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          background: "pink",
+                        }}
                         color="error"
                       >
                         Delete
