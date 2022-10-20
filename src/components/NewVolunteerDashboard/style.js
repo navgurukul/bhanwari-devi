@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   tablecellHead: {
     fontWeight: "600 !important",
     fontSize: "14px !important",
-    width: 120,
+    width: 130,
   },
   tablecellHeadWidthLess: {
     fontWeight: "600 !important",
@@ -170,7 +170,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     padding: "32px",
-
     gap: "32px",
     width: "420px",
     borderRadius: "8px",
