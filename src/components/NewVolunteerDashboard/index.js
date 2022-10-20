@@ -218,9 +218,8 @@ function NewVolunteerDashboard(props) {
       : ""
   }
     `;
-  console.log(baseUrl);
+  
   useEffect(() => {
-    console.log(baseUrl);
     axios({
       method: METHODS.GET,
       url: baseUrl,
@@ -230,7 +229,6 @@ function NewVolunteerDashboard(props) {
       },
     }).then((res) => {
       setVolunteer(res.data);
-      console.log("log-res", res.data);
       setSlicedStudents(
         res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
       );
@@ -239,7 +237,6 @@ function NewVolunteerDashboard(props) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
 
-  console.log(volunteer);
   // console.log(statusId)
 
   // useEffect(() => {
@@ -615,7 +612,6 @@ function NewVolunteerDashboard(props) {
                     item.last_class_date =
                       sortedClasses.length &&
                       sortedClasses[sortedClasses.length - 1].start_time;
-                      console.log("log-item", item)
                     return (
                       <>
                         <TableRow
