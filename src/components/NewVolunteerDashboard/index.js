@@ -463,13 +463,13 @@ function NewVolunteerDashboard(props) {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={langFilter}
-                  onClick={(e) => {
+                  onChange={(e) => {
                     setLangFilter(e.target.value);
                   }}
                   label="Language"
                   className={classes.tableFont}
                 >
-                  <MenuItem value="All" s>
+                  <MenuItem value="All">
                     All
                   </MenuItem>
                   <MenuItem value="hi">Hindi</MenuItem>
