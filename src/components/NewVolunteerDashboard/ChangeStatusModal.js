@@ -83,6 +83,9 @@ const ChangeStatusModal = (props) => {
     }
 
     setOpen(false);
+    {
+      window.location.reload();
+    }
   };
 
   const action = (

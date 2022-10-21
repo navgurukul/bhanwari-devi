@@ -44,6 +44,9 @@ const MenuComponent = (props) => {
     }
 
     setOpen(false);
+    {
+      window.location.reload();
+    }
   };
 
   const action = (

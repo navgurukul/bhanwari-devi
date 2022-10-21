@@ -250,6 +250,9 @@ function NewVolunteerDashboard(props) {
     }
 
     setOpenDel(false);
+    {
+      window.location.reload();
+    }
   };
 
   const action = (
