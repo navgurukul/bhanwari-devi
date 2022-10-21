@@ -88,7 +88,11 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pa
   }
 
   if(pathway){
-    if(flag) baseURL.setAmpersand();
+    if(flag){
+      baseURL.setAmpersand();
+    }else{
+      baseURL.setQuestion();
+    } 
 
     if(pathway === "Python"){
       baseURL.setPathway(1);
@@ -283,9 +287,11 @@ function NewVolunteerDashboard(props) {
         res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
       );
       setCacheVolunteer(res.data);
+    }).catch((err)=>{
+      console.log(err);
     });
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
-  }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
+  }, [statusFilter, langFilter, debouncedText, startDate, endTime, selectedPathway]);
 
   useEffect(()=>{
     axios({
@@ -297,8 +303,8 @@ function NewVolunteerDashboard(props) {
       },
     }).then((res) => {
       setPathwayCount({python: res.data?.pythonVolunteerCount, spokenEnglish: res?.data?.spokenEnglishVolunteersCount});
-    }).catch(()=>{
-      
+    }).catch((err)=>{
+      console.log(err);
     });
   }, []);
 
