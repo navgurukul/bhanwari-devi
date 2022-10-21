@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import moment from "moment";
+import Alert from "@mui/material/Alert";
 
 import {
   Box,
@@ -44,6 +45,9 @@ import { Select } from "@material-ui/core";
 import { ZoomInRounded } from "@material-ui/icons";
 import { set } from "date-fns";
 import { Link } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 function NewVolunteerDashboard(props) {
   const classes = useStyles();
   const { onSelectAllClick, numSelected, rowCount } = props;
@@ -233,6 +237,36 @@ function NewVolunteerDashboard(props) {
     });
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
+
+  const [openDel, setOpenDel] = React.useState(false);
+
+  const handleClickDel = () => {
+    setOpenDel(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenDel(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   // console.log(statusId)
 
@@ -532,18 +566,28 @@ function NewVolunteerDashboard(props) {
                       onClick={() => {
                         setStatusId(selected);
                         deleteUsers();
+                        handleClickDel();
                       }}
                     >
                       <Typography
                         sx={{
                           fontWeight: "600",
                           fontSize: "14px",
-                          background: "pink",
                         }}
                         color="error"
                       >
                         Delete
                       </Typography>
+                      <Snackbar
+                        open={openDel}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                        action={action}
+                      >
+                        <Alert variant="filled" severity="success">
+                          Successfully Deleted{" "}
+                        </Alert>
+                      </Snackbar>
                     </TableCell>
                   </>
                 ) : (
