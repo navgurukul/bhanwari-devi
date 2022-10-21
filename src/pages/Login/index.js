@@ -124,7 +124,7 @@ function Login(props) {
                 sx={{ pt: { xs: "none", md: 24 } }}
                 variant="h4"
                 align={isActive || isActiveIpad ? "center" : "left"}
-                mt={isActiveIpad && 12}
+                mt={isActive ? 0 : isActiveIpad ? 12 : 0}
                 color="textPrimary"
                 gutterBottom
               >
