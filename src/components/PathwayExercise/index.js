@@ -62,16 +62,28 @@ const Exercise = ({
     <>
       {courseLength.map((exercise, index) => {
         return (
-          <NavigationComponent
-            key={index}
-            exercise={exercise}
-            params={params}
-            history={history}
+          <ExerciseImage
+            id={exercise.id}
+            exerciseName={
+              exercise.name ||
+              exercise.sub_title ||
+              exercise.content_type ||
+              "N/A"
+            }
+            onClick={() => {
+              history.push(
+                interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                  courseId: params.courseId,
+                  exerciseId: index,
+                  pathwayId: params.pathwayId,
+                })
+              );
+            }}
             index={index}
-            imageRef={exerciseId === index ? imageRef : null}
-            exerciseId={exerciseId}
+            imageRef={imageRef}
+            selected={exerciseId == index}
+            contentType={exercise.content_type}
             setExerciseId={setExerciseId}
-            classes={classes}
             progressTrackId={progressTrackId}
           />
         );
@@ -79,43 +91,6 @@ const Exercise = ({
     </>
   );
 };
-
-function NavigationComponent({
-  index,
-  exerciseId,
-  setExerciseId,
-  history,
-  params,
-  exercise,
-  progressTrackId,
-  imageRef,
-}) {
-  return (
-    <>
-      <ExerciseImage
-        id={exercise.id}
-        exerciseName={
-          exercise.name || exercise.sub_title || exercise.content_type || "N/A"
-        }
-        onClick={() => {
-          history.push(
-            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-              courseId: params.courseId,
-              exerciseId: index,
-              pathwayId: params.pathwayId,
-            })
-          );
-        }}
-        index={index}
-        imageRef={imageRef}
-        selected={exerciseId == index}
-        contentType={exercise.content_type}
-        setExerciseId={setExerciseId}
-        progressTrackId={progressTrackId}
-      />
-    </>
-  );
-}
 
 function PathwayExercise() {
   const history = useHistory();
@@ -139,9 +114,6 @@ function PathwayExercise() {
     const scrollTop = scrollRef.current.scrollTop;
     const maxScrollLeft =
       scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-    console.log(
-      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
-    );
     if (!showArrow.left) {
       if (scrollY > 0) {
         setShowArrow((prev) => {
@@ -156,7 +128,6 @@ function PathwayExercise() {
       }
     }
 
-    console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
         setShowArrow((prev) => {
@@ -314,41 +285,41 @@ function PathwayExercise() {
         .catch((err) => {});
     }
   };
-  const nextArrowClickHandler = () => {
-    if (exerciseId < courseLength - 1) {
-      history.push(
-        interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-          courseId: params.courseId,
-          exerciseId: exerciseId + 1,
-          pathwayId: params.pathwayId,
-        })
-      );
-      setExerciseId(exerciseId + 1);
-    }
-  };
+  // const nextArrowClickHandler = () => {
+  //   if (exerciseId < courseLength - 1) {
+  //     history.push(
+  //       interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+  //         courseId: params.courseId,
+  //         exerciseId: exerciseId + 1,
+  //         pathwayId: params.pathwayId,
+  //       })
+  //     );
+  //     setExerciseId(exerciseId + 1);
+  //   }
+  // };
   const [language, setLanguage] = useState("en");
 
   // to avoid duplication
-  function languageSelectMenu() {
-    const langMenu = availableLang.map((lang) => (
-      <MenuItem value={lang}>{Lang[lang]}</MenuItem>
-    ));
-    return availableLang.length === 1 ? (
-      langMenu
-    ) : (
-      <Select
-        disableUnderline
-        value={language}
-        IconComponent={() => null}
-        onChange={(e) => {
-          setLanguage(e.target.value);
-        }}
-        variant="standard"
-      >
-        {langMenu}
-      </Select>
-    );
-  }
+  // function languageSelectMenu() {
+  //   const langMenu = availableLang.map((lang) => (
+  //     <MenuItem value={lang}>{Lang[lang]}</MenuItem>
+  //   ));
+  //   return availableLang.length === 1 ? (
+  //     langMenu
+  //   ) : (
+  //     <Select
+  //       disableUnderline
+  //       value={language}
+  //       IconComponent={() => null}
+  //       onChange={(e) => {
+  //         setLanguage(e.target.value);
+  //       }}
+  //       variant="standard"
+  //     >
+  //       {langMenu}
+  //     </Select>
+  //   );
+  // }
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   return (
