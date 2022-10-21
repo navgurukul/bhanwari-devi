@@ -27,7 +27,6 @@ const ChangeStatusModal = (props) => {
   const [status, setStatus] = useState("");
 
   const { statusDialog, setStatusDialog, statusName, userId } = props;
-  console.log(userId, "userId");
   // console.log(status, "456789fghj");
   // console.log(userId, "sdfghjhgfdghj")
   // console.log(,"gfugujkfdjhfdlhj")
@@ -174,7 +173,7 @@ const ChangeStatusModal = (props) => {
                 label="Inactive"
               />
               <FormControlLabel
-                value="droopedout"
+                value="dropout"
                 onClick={(e) => {
                   setStatus(e.target.value);
                 }}
