@@ -46,43 +46,43 @@ import { ZoomInRounded } from "@material-ui/icons";
 import { set } from "date-fns";
 import { Link } from "react-router-dom";
 
-function isAll(val){
-  return (val === "All");
+function isAll(val) {
+  return val === "All";
 }
 
-function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter){
+function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter) {
   const baseURL = new BaseURL();
 
   /*Joining dates if present */
   let flag = false;
-  if(startDate && endTime){
+  if (startDate && endTime) {
     const fromStart = moment(startDate).format("YYYY-MM-DD");
     const toEnd = moment(endTime).format("YYYY-MM-DD");
     baseURL.setDates(fromStart, toEnd);
     flag = true;
   }
 
-  if(statusFilter !== "All" || searchTerm || langFilter !== "All"){
+  if (statusFilter !== "All" || searchTerm || langFilter !== "All") {
     /*If joined a query earlier (date), attach & for next query*/
-    if(flag) baseURL.setAmpersand();
+    if (flag) baseURL.setAmpersand();
 
-    switch(true){
-        /*If status and language both NOT present*/
-        case (isAll(statusFilter) && isAll(langFilter)):
-          baseURL.setFilterSearch("", searchTerm, "");
-          break;
-        /*If only status is present */
-        case (isAll(statusFilter)):
-          baseURL.setFilterSearch("", searchTerm, langFilter);
-          break;
-        /*If only language is present */
-        case (isAll(langFilter)):
-          baseURL.setFilterSearch(statusFilter, searchTerm, "");
-          break;
-        /*If both status and language ARE PRESENT */
-        case (!isAll(langFilter) && !isAll(langFilter)):
-          baseURL.setFilterSearch(statusFilter, searchTerm, langFilter);
-          break;
+    switch (true) {
+      /*If status and language both NOT present*/
+      case isAll(statusFilter) && isAll(langFilter):
+        baseURL.setFilterSearch("", searchTerm, "");
+        break;
+      /*If only status is present */
+      case isAll(statusFilter):
+        baseURL.setFilterSearch("", searchTerm, langFilter);
+        break;
+      /*If only language is present */
+      case isAll(langFilter):
+        baseURL.setFilterSearch(statusFilter, searchTerm, "");
+        break;
+      /*If both status and language ARE PRESENT */
+      case !isAll(langFilter) && !isAll(langFilter):
+        baseURL.setFilterSearch(statusFilter, searchTerm, langFilter);
+        break;
     }
   }
 
@@ -255,7 +255,13 @@ function NewVolunteerDashboard(props) {
   // }
   //   `;
 
-  const baseUrl = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter);
+  const baseUrl = getBaseURL(
+    startDate,
+    endTime,
+    statusFilter,
+    searchTerm,
+    langFilter
+  );
 
   useEffect(() => {
     axios({
@@ -469,9 +475,7 @@ function NewVolunteerDashboard(props) {
                   label="Language"
                   className={classes.tableFont}
                 >
-                  <MenuItem value="All">
-                    All
-                  </MenuItem>
+                  <MenuItem value="All">All</MenuItem>
                   <MenuItem value="hi">Hindi</MenuItem>
                   <MenuItem value="en">English</MenuItem>
                 </Select>
@@ -757,7 +761,7 @@ function NewVolunteerDashboard(props) {
                                     ? "#48A145"
                                     : item.status === "inactive"
                                     ? "#FFCC00"
-                                    : item.status === "droppedout"
+                                    : item.status === "dropout"
                                     ? "#F44336"
                                     : "#2196F3"
                                 }`,
@@ -773,7 +777,7 @@ function NewVolunteerDashboard(props) {
                                 ? "Active"
                                 : item.status === "inactive"
                                 ? "In Active"
-                                : item.status === "droppedout"
+                                : item.status === "dropout"
                                 ? "Dropped Out"
                                 : "Newly Onboarded"}
                             </p>
