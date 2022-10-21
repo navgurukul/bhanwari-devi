@@ -35,23 +35,23 @@ function ResidentialProgramme() {
 
   return (
     <Container className={classes.pathwayContainer} maxWidth="lg">
-      <Grid container spacing={2} sx={{ ml: isActive && "10px" }}>
+      <Grid container spacing={2}>
         <Grid xs={12} md={6}>
           <Card align="left" elevation={0}>
             <Typography
               variant="body2"
               className={classes.cardSubtitle}
-              sx={{ textAlign: isActive && "center", pb: "8px", mt: "40px" }}
+              sx={{ textAlign: isActive && "center", pb: "8px", pl: "16px" }}
             >
               Learning Track
             </Typography>
             <Typography
               variant="h4"
-              sx={{ textAlign: isActive && "center", pb: "16px" }}
+              sx={{ textAlign: isActive && "center", pb: "8px", pl: "16px" }}
             >
               Residential Programme Info- Track
             </Typography>
-            <Typography variant="body1">
+            <Typography variant="body1" sx={{ pl: "16px" }}>
               Navgurukul, our parent organization, offers fully funded 1 year
               software engineering programme. Learn all about it in this
               introductory course and get ready to apply for it.
