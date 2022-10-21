@@ -50,7 +50,7 @@ function isAll(val){
   return (val === "All");
 }
 
-function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter){
+function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pathway){
   const baseURL = new BaseURL();
 
   /*Joining dates if present */
@@ -65,6 +65,7 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter){
   if(statusFilter !== "All" || searchTerm || langFilter !== "All"){
     /*If joined a query earlier (date), attach & for next query*/
     if(flag) baseURL.setAmpersand();
+    flag = true;
 
     switch(true){
         /*If status and language both NOT present*/
@@ -86,6 +87,16 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter){
     }
   }
 
+  if(pathway){
+    if(flag) baseURL.setAmpersand();
+
+    if(pathway === "Python"){
+      baseURL.setPathway(1);
+    }else if(pathway === "Spoken English"){
+      baseURL.setPathway(2);
+    }
+  }
+
   return baseURL.URL;
 }
 
@@ -96,7 +107,8 @@ function NewVolunteerDashboard(props) {
 
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
-  const [selctedPathway, setSelectedPathway] = useState("");
+  const [selectedPathway, setSelectedPathway] = useState("");
+  const [pathwayCount, setPathwayCount] = useState({python: 0, spokenEnglish: 0});
   const [slicedVolunteer, setSlicedVolunteer] = useState([]);
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
   const [selected, setSelected] = React.useState([]);
@@ -127,7 +139,7 @@ function NewVolunteerDashboard(props) {
   };
   let pageCount = Math.ceil(volunteer && volunteer.length / limit);
   const isRowSelected = (name) => rowSelected.indexOf(name) !== -1;
-  if (selctedPathway) {
+  if (selectedPathway) {
     pageCount = Math.ceil(volunteer && volunteer.length / limit);
   }
 
@@ -255,8 +267,8 @@ function NewVolunteerDashboard(props) {
   // }
   //   `;
 
-  const baseUrl = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter);
-
+  const baseUrl = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, selectedPathway);
+  
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -275,7 +287,21 @@ function NewVolunteerDashboard(props) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
 
-  console.log(volunteer);
+  useEffect(()=>{
+    axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/volunteers/count`,
+      method: METHODS.GET,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      console.log(res.data);
+      setPathwayCount({python: res.data?.pythonVolunteerCount, spokenEnglish: res?.data?.spokenEnglishVolunteersCount});
+    }).catch(()=>{
+      
+    });
+  }, []);
 
   return (
     <div>
@@ -343,7 +369,7 @@ function NewVolunteerDashboard(props) {
                 setSelectedPathway("Python");
               }}
             >
-              Python (40)
+              Python ({pathwayCount?.python})
             </Button>
           </Grid>
           <Grid item>
@@ -355,7 +381,7 @@ function NewVolunteerDashboard(props) {
                 setSelectedPathway("Spoken English");
               }}
             >
-              Spoken English (20)
+              Spoken English ({pathwayCount?.spokenEnglish})
             </Button>
           </Grid>
           <Grid

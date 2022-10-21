@@ -47,6 +47,9 @@ export class BaseURL{
         }
     }
 
+    setPathway(pathway){
+        this.URL = this.URL.concat(`?pathway=${pathway}`)
+    }
     /*Joining & */
     setAmpersand(){
         this.URL = this.URL.concat("&")
