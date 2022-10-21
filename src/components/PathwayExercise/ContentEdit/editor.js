@@ -29,50 +29,79 @@ const EDITOR_JS_TOOLS = {
 
 function ReactEditor({ course }) {
   const [editor, setEditor] = React.useState(null);
-  // const [list, setList] = React.useState([]);
   const ReactEditorJS = createReactEditorJS();
   const handleInitialize = async (instance) => {
     await setEditor(instance);
     console.log(editor, "editor");
   };
 
-  // useEffect(() => {
-  //   console.log("course in useEffect", course);
-
-  //   for (const item in course) {
-  //     console.log("item", item);
-  //     let list = [];
-  //     if (course[item].component === "text") {
-  //       if ("decoration" in course[item]) {
-  //         // if ("decoration" in course[item + 1]) {
-  //         //   list.push(item.value);
-  //         // } else {
-  //         //   list = [];
-  //         // }
-  //         list.push(item.value);
-  //         // setList([...list, item.value]);
-  //       } else {
-  //         list = [];
-  //       }
-  //     } else {
-  //       list = [];
-  //     }
-  //   }
-  //   console.log("new list", list);
-  // }, [course]);
-
-  // let list = [];
-  // let listData = {
-  //   style: "",
-  //   items: [],
-  // };
-
   let style = "";
   let items = [];
 
-  let blocks1 = [];
+  // let blocks1 = [];
 
-  for (const item of course) {
+  // for (const item of course) {
+  //   let youtube;
+  //   if (item.component === "youtube") {
+  //     if (!item.value.includes("=")) {
+  //       youtube = "https://www.youtube.com/embed/" + item.value;
+  //     } else {
+  //       let value = item.value.split("=")[1];
+  //       youtube = "https://www.youtube.com/embed/" + value;
+  //     }
+  //   } else if (item.component === "text") {
+  //     if ("decoration" in item) {
+  //       if (item.decoration.type == "bullet") {
+  //         style = "unordered";
+  //       } else {
+  //         style = "ordered";
+  //       }
+  //       items.push(item.value);
+  //     } else {
+  //       items = [];
+  //     }
+  //   } else {
+  //     items = [];
+  //   }
+
+  //   let type;
+  //   if (item.component == "text" && "decoration" in item) {
+  //     type = "list";
+  //   } else if (item.component == "text") {
+  //     type = "paragraph";
+  //   } else if (item.component === "youtube") {
+  //     type = "embed";
+  //   } else {
+  //     type = item.component;
+  //   }
+
+  //   let data = {
+  //     type: type,
+  //     data: {
+  //       style: style,
+  //       items: items,
+  //       text:
+  //         type == "list"
+  //           ? false
+  //           : (item.component === "text" || item.component === "header") &&
+  //             item.value,
+  //       level: item.variant,
+  //       code: item.component === "code" && item.value,
+  //       file: {
+  //         url: item.component === "image" && item.value,
+  //       },
+  //       embed: item.component === "youtube" && youtube,
+  //       source: item.component === "youtube" && youtube,
+  //       service: item.component === "youtube" && item.value && item.component,
+  //       caption: "",
+  //       height: 320,
+  //       width: 580,
+  //     },
+  //   };
+  //   blocks1.push(data);
+  // }
+
+  let blocks1 = course.map((item, index) => {
     let youtube;
     if (item.component === "youtube") {
       if (!item.value.includes("=")) {
@@ -95,8 +124,6 @@ function ReactEditor({ course }) {
     } else {
       items = [];
     }
-    console.log("style", style);
-    console.log("items", items);
 
     let type;
     if (item.component == "text" && "decoration" in item) {
@@ -109,7 +136,7 @@ function ReactEditor({ course }) {
       type = item.component;
     }
 
-    let data = {
+    return {
       type: type,
       data: {
         style: style,
@@ -132,107 +159,22 @@ function ReactEditor({ course }) {
         width: 580,
       },
     };
+  });
 
-    if (!blocks1.includes(data)) {
-      blocks1.push(data);
-    }
-  }
-
-  console.log("blocks1", blocks1);
-
-  // let blocks1 = course.map((item, index) => {
-  //   let youtube;
-  //   if (item.component === "youtube") {
-  //     if (!item.value.includes("=")) {
-  //       youtube = "https://www.youtube.com/embed/" + item.value;
-  //     } else {
-  //       let value = item.value.split("=")[1];
-  //       youtube = "https://www.youtube.com/embed/" + value;
-  //     }
-  //   } else if (item.component === "text") {
-  //     if ("decoration" in item) {
-  //       if (item.decoration.type == "bullet") {
-  //         // listData.style = "unordered";
-  //         style = "unordered";
-  //       } else {
-  //         style = "ordered";
-  //         // listData.style = "ordered";
-  //       }
-  //       // listData.items.push(item.value);
-  //       // list.push(item.value);
-  //       items.push(item.value);
-  //       // setList([...list, item.value]);
-  //     } else {
-  //       items = [];
-  //     }
-  //   } else {
-  //     // list = [];
-  //     // listData = { style: "", items: [] };
-  //     items = [];
-  //   }
-
-  //   // console.log("listData", listData);
-  //   // console.log("list", list);
-  //   console.log("index", index, "style", style);
-  //   console.log("index", index, "items", items);
-
-  //   let type;
-  //   if (item.component == "text" && "decoration" in item) {
-  //     type = "list";
-  //   } else if (item.component == "text") {
-  //     type = "paragraph";
-  //   } else if (item.component === "youtube") {
-  //     type = "embed";
-  //   } else {
-  //     type = item.component;
-  //   }
-
-  //   return {
-  //     // id: index,
-  //     // type:
-  //     //   item.component == "text"
-  //     //     ? "paragraph"
-  //     //     : item.component === "youtube"
-  //     //     ? "embed"
-  //     //     : item.component,
-  //     type: type,
-  //     data: {
-  //       style: style,
-  //       items: items,
-  //       text:
-  //         type == "list"
-  //           ? false
-  //           : (item.component === "text" || item.component === "header") &&
-  //             item.value,
-  //       level: item.variant,
-  //       code: item.component === "code" && item.value,
-  //       // image: item.component === "image" && item.value,
-  //       file: {
-  //         url: item.component === "image" && item.value,
-  //       },
-  //       embed: item.component === "youtube" && youtube,
-  //       source: item.component === "youtube" && youtube,
-  //       service: item.component === "youtube" && item.value && item.component,
-  //       caption: "",
-  //       height: 320,
-  //       width: 580,
-  //     },
-  //   };
-  // });
-
-  let blocks = [];
-  for (const item of blocks1) {
-    // if(_.isEqual(initialFormState, formFieldsState))
-    if (!blocks.includes(item)) {
-      blocks.push(item);
-    }
-    console.log("item in loop", item);
-  }
-
-  const newBlock = new Set(blocks);
+  let blocks = blocks1.filter((item, index) => {
+    const stringifiedItem = JSON.stringify(item);
+    return (
+      index ===
+      blocks1.findIndex((obj) => {
+        console.log("obj", obj);
+        return JSON.stringify(obj) === stringifiedItem;
+      })
+    );
+  });
+  console.log(blocks, "blocks");
 
   console.log("blocks", blocks);
-  console.log("newBlock", newBlock);
+  console.log("blocks1", blocks1);
 
   const onReady = () => {
     // https://editorjs.io/configuration#editor-modifications-callback
@@ -266,120 +208,10 @@ function ReactEditor({ course }) {
             // editorInstance={editorInstance => {
             //   editor = editorInstance
             // }}
-
             tools={EDITOR_JS_TOOLS}
             defaultValue={{
               time: 1635603431943,
-              // courseBlock,
               blocks,
-              // blocks: [
-              //   {
-              //     id: "sheNwCUP5A",
-              //     type: "header",
-              //     data: {
-              //       text: "Editor.js",
-              //       level: 2,
-              //     },
-              //   },
-              //   {
-              //     id: "12iM3lqzcm",
-              //     type: "paragraph",
-              //     data: {
-              //       text: "Hey. Meet the new Editor. On this page you can see it in action — try to edit this text.",
-              //     },
-              //   },
-              //   {
-              //     id: "fvZGuFXHmK",
-              //     type: "header",
-              //     data: {
-              //       text: "Key features",
-              //       level: 3,
-              //     },
-              //   },
-              //   {
-              //     id: "xnPuiC9Z8M",
-              //     type: "list",
-              //     data: {
-              //       style: "unordered",
-              //       items: [
-              //         "It is a block-styled editor",
-              //         "It returns clean data output in JSON",
-              //         "Designed to be extendable and pluggable with a simple API",
-              //       ],
-              //     },
-              //   },
-              //   {
-              //     id: "-MhwnSs3Dw",
-              //     type: "header",
-              //     data: {
-              //       text: "What does it mean «block-styled editor»",
-              //       level: 3,
-              //     },
-              //   },
-              //   {
-              //     id: "Ptb9oEioJn",
-              //     type: "paragraph",
-              //     data: {
-              //       text: 'Workspace in classic editors is made of a single contenteditable element, used to create different HTML markups. Editor.js <mark class="cdx-marker">workspace consists of separate Blocks: paragraphs, headings, images, lists, quotes, etc</mark>. Each of them is an independent contenteditable element (or more complex structure) provided by Plugin and united by Editor\'s Core.',
-              //     },
-              //   },
-              //   {
-              //     id: "-J7nt-Ksnw",
-              //     type: "paragraph",
-              //     data: {
-              //       text: 'There are dozens of <a href="https://github.com/editor-js">ready-to-use Blocks</a> and the <a href="https://editorjs.io/creating-a-block-tool">simple API</a> for creation any Block you need. For example, you can implement Blocks for Tweets, Instagram posts, surveys and polls, CTA-buttons and even games.',
-              //     },
-              //   },
-              //   {
-              //     id: "SzwhuyoFq6",
-              //     type: "header",
-              //     data: {
-              //       text: "What does it mean clean data output",
-              //       level: 3,
-              //     },
-              //   },
-              //   {
-              //     id: "x_p-xddPzV",
-              //     type: "paragraph",
-              //     data: {
-              //       text: "Classic WYSIWYG-editors produce raw HTML-markup with both content data and content appearance. On the contrary, Editor.js outputs JSON object with data of each Block. You can see an example below",
-              //     },
-              //   },
-              //   {
-              //     id: "6W5e6lkub-",
-              //     type: "paragraph",
-              //     data: {
-              //       text: 'Given data can be used as you want: render with HTML for <code class="inline-code">Web clients</code>, render natively for <code class="inline-code">mobile apps</code>, create markup for <code class="inline-code">Facebook Instant Articles</code> or <code class="inline-code">Google AMP</code>, generate an <code class="inline-code">audio version</code> and so on.',
-              //     },
-              //   },
-              //   {
-              //     id: "eD2kuEfvgm",
-              //     type: "paragraph",
-              //     data: {
-              //       text: "Clean data is useful to sanitize, validate and process on the backend.",
-              //     },
-              //   },
-              //   {
-              //     id: "IpKh1dMyC6",
-              //     type: "paragraph",
-              //     data: {
-              //       text: "We have been working on this project more than three years. Several large media projects help us to test and debug the Editor, to make it's core more stable. At the same time we significantly improved the API. Now, it can be used to create any plugin for any task. Hope you enjoy. 😏",
-              //     },
-              //   },
-              //   {
-              //     id: "1",
-              //     type: "image",
-              //     data: {
-              //       file: {
-              //         url: "https://codex.so/public/app/img/external/codex2x.png",
-              //       },
-              //       caption: "",
-              //       withBorder: false,
-              //       stretched: false,
-              //       withBackground: false,
-              //     },
-              //   },
-              // ],
             }}
           />
 
