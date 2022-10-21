@@ -561,7 +561,6 @@ function NewVolunteerDashboard(props) {
                         sx={{
                           fontWeight: "600",
                           fontSize: "14px",
-                          background: "pink",
                         }}
                         color="error"
                       >
