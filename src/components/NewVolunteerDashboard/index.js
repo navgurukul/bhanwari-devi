@@ -296,7 +296,6 @@ function NewVolunteerDashboard(props) {
         Authorization: user.data.token,
       },
     }).then((res) => {
-      console.log(res.data);
       setPathwayCount({python: res.data?.pythonVolunteerCount, spokenEnglish: res?.data?.spokenEnglishVolunteersCount});
     }).catch(()=>{
       
