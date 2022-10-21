@@ -170,6 +170,8 @@ function NewVolunteerDashboard(props) {
       ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&lang=${langFilter}`
       : statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
       ? `?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
+      : statusFilter !== "All" && langFilter !== "All"
+      ? `?status=${statusFilter}&lang=${langFilter}`
       : statusFilter !== "All" && searchTerm.length > 0
       ? `?status=${statusFilter}&name=${searchTerm}`
       : searchTerm.length > 0 && langFilter !== "All"
