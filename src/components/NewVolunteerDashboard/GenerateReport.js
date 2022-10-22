@@ -215,11 +215,12 @@ const GenerateReport = (props) => {
                     // sx={{ mb: 4 }}
                     type="date"
                     name="date"
-                    label="From Date"
                     value={startDate}
                     sx={{
                       marginTop: "16px",
                     }}
+                    label="From Date"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     onChange={(e) => setstartDate(e.target.value)}
                   />
@@ -234,8 +235,9 @@ const GenerateReport = (props) => {
                     type="date"
                     variant="outlined"
                     name="date"
-                    label="To Date"
                     value={endTime}
+                    label="To Date"
+                    InputLabelProps={{ shrink: true }}
                     sx={{
                       marginTop: "16px",
                     }}
