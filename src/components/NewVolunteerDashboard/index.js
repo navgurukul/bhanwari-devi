@@ -433,7 +433,6 @@ function NewVolunteerDashboard(props) {
                             : isActiveIpad
                             ? "400px"
                             : "200px",
-                          // position: isActiveIpad && "fixed",
                           mt: isActive ? "16px" : "13px",
                         }}
                       >
