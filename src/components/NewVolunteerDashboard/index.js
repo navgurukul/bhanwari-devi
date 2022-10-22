@@ -120,7 +120,7 @@ function NewVolunteerDashboard(props) {
         volunteer_ids: selected,
       },
     }).then((res) => {
-      console.log("res", res);
+      console.log("delete", res);
     });
   };
 
@@ -238,18 +238,23 @@ function NewVolunteerDashboard(props) {
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }, [statusFilter, langFilter, debouncedText, startDate, endTime]);
 
-  const [openDel, setOpenDel] = React.useState(false);
+  const [state, setState] = React.useState({
+    openDel: false,
+    vertical: "top",
+    horizontal: "center",
+  });
 
-  const handleClickDel = () => {
-    setOpenDel(true);
+  const { vertical, horizontal, openDel } = state;
+
+  const handleClickDel = (newState) => {
+    setState({ openDel: true, ...newState });
   };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpenDel(false);
+    setState({ ...state, openDel: false });
     {
       window.location.reload();
     }
@@ -569,7 +574,10 @@ function NewVolunteerDashboard(props) {
                       onClick={() => {
                         setStatusId(selected);
                         deleteUsers();
-                        handleClickDel();
+                        handleClickDel({
+                          vertical: "bottom",
+                          horizontal: "right",
+                        });
                       }}
                     >
                       <Typography
@@ -582,10 +590,12 @@ function NewVolunteerDashboard(props) {
                         Delete
                       </Typography>
                       <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
                         open={openDel}
                         autoHideDuration={6000}
                         onClose={handleClose}
                         action={action}
+                        key={vertical + horizontal}
                       >
                         <Alert variant="filled" severity="success">
                           Successfully Deleted{" "}

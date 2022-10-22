@@ -32,18 +32,23 @@ const MenuComponent = (props) => {
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
 
-  const handleClick = () => {
-    setOpen(true);
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = (newState) => {
+    setState({ open: true, ...newState });
   };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    setState({ ...state, open: false });
     {
       window.location.reload();
     }
@@ -118,10 +123,12 @@ const MenuComponent = (props) => {
       >
         <MoreVertIcon sx={{ color: "#BDBDBD" }} />
         <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
           open={open}
           autoHideDuration={6000}
           onClose={handleClose}
           action={action}
+          key={vertical + horizontal}
         >
           <Alert variant="filled" severity="success">
             Successfully Deleted{" "}
@@ -173,7 +180,10 @@ const MenuComponent = (props) => {
               setStatusId(itemId);
               deleteUser();
               handleCloseDots();
-              handleClick();
+              handleClick({
+                vertical: "bottom",
+                horizontal: "right",
+              });
             }}
           >
             Delete

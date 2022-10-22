@@ -71,18 +71,23 @@ const ChangeStatusModal = (props) => {
       });
   };
   console.log(status);
-  const [open, setOpen] = React.useState(false);
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
 
-  const handleClick = () => {
-    setOpen(true);
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = (newState) => {
+    setState({ open: true, ...newState });
   };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    setState({ ...state, open: false });
     {
       window.location.reload();
     }
@@ -230,7 +235,10 @@ const ChangeStatusModal = (props) => {
             onClick={() => {
               setStatusDialog(false);
               updateUser();
-              handleClick();
+              handleClick({
+                vertical: "bottom",
+                horizontal: "right",
+              });
             }}
           >
             Confirm Status
@@ -238,10 +246,12 @@ const ChangeStatusModal = (props) => {
         </div>
       </Dialog>
       <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
         open={open}
         autoHideDuration={1000}
         onClose={handleClose}
         action={action}
+        key={vertical + horizontal}
       >
         <Alert variant="filled" severity="success">
           Successfully changed the status
