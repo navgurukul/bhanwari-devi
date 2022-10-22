@@ -48,7 +48,6 @@ const GenerateReport = (props) => {
   const widthOfMoal = value === "custom" ? "602px" : "458px";
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   // const [startDate, setstartDate] = useState("");
-  // const [endTime, setendTime] = useState("");
   // const [volunteerReport, setVolunteerReport] = useState([]);
   const [dataInCSV, setDataInCSV] = useState("");
   const user = useSelector(({ User }) => User);

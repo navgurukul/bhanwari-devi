@@ -154,7 +154,8 @@ function NewVolunteerDashboard(props) {
   function filterPathway(pathway, volunteer) {
     return volunteer.filter((el) => {
       for (let i of el.classes) {
-        if (i.title.includes(pathway)) {
+        // console.log(pathway.toUpperCase(),"pathway")
+        if (i.title.includes(pathway.toLowerCase())) {
           return true;
         }
       }
@@ -455,7 +456,7 @@ function NewVolunteerDashboard(props) {
                   }}
                 >
                   <MenuItem value="All">All</MenuItem>
-                  <MenuItem value="newlyonboarded">Newly Onboarded</MenuItem>
+                  <MenuItem value="null">Newly Onboarded</MenuItem>
                   <MenuItem value="active">Active</MenuItem>
                   <MenuItem value="inactive">Inactive</MenuItem>
                   <MenuItem value="dropout">Dropped Out</MenuItem>
