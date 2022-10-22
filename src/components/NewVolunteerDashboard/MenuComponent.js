@@ -10,6 +10,10 @@ import { breakpoints } from "../../theme/constant";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector } from "react-redux";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
 // import NewVolunteerDashboard from ".";
 
 const MenuComponent = (props) => {
@@ -27,6 +31,44 @@ const MenuComponent = (props) => {
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = (newState) => {
+    setState({ open: true, ...newState });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setState({ ...state, open: false });
+    {
+      window.location.reload();
+    }
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const user = useSelector(({ User }) => User);
 
@@ -65,6 +107,18 @@ const MenuComponent = (props) => {
         onClick={handleClickDots}
       >
         <MoreVertIcon sx={{ color: "#BDBDBD" }} />
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          action={action}
+          key={vertical + horizontal}
+        >
+          <Alert variant="filled" severity="success">
+            Successfully Deleted{" "}
+          </Alert>
+        </Snackbar>
       </IconButton>
       <Menu
         id="long-menu"
@@ -112,6 +166,10 @@ const MenuComponent = (props) => {
               setStatusId(itemId);
               deleteUser();
               handleCloseDots();
+              handleClick({
+                vertical: "bottom",
+                horizontal: "right",
+              });
             }}
           >
             Delete
