@@ -13,7 +13,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SelectTrack from "./SelectTrack";
 import Confirmation from "./Confirmation";
 import AttendClass from "./AttendClass";
-import Availability from "./ Availability";
+import Availability from "./Availability";
 import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
@@ -129,12 +129,6 @@ function HorizontalLinearStepper() {
     },
   ];
 
-  console.log("data", {
-    contact: contact,
-    pathway_id: pathwayId,
-    ...availability,
-  });
-
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -201,8 +195,6 @@ function HorizontalLinearStepper() {
           },
         }).then(
           (res) => {
-            console.log("res", res);
-
             dispatch(
               actions.onUserRefreshDataIntent({ token: user.data.token })
             );
@@ -247,8 +239,6 @@ function HorizontalLinearStepper() {
       <React.Fragment>
         <>
           {steps.map((step, index) => {
-            console.log(typeof index, "index");
-            console.log(typeof activeStep, "type");
             if (activeStep === index) {
               return (
                 <Box>

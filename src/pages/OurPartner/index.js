@@ -67,7 +67,6 @@ const OurPartner = () => {
               target="_blank"
             >
               <Button
-                // Width
                 component="span"
                 size="larger"
                 variant="contained"
