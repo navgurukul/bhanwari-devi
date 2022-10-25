@@ -361,8 +361,9 @@ function NewVolunteerDashboard(props) {
       return;
     }
     setState({ ...state, openDel: false });
+
     {
-      window.location.reload();
+      window.location.reload(false);
     }
   };
 

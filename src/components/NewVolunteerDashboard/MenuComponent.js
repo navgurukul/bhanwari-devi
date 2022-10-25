@@ -76,7 +76,7 @@ const MenuComponent = (props) => {
     }
     setState({ ...state, open: false });
     {
-      window.location.reload();
+      window.location.reload(false);
     }
   };
 
