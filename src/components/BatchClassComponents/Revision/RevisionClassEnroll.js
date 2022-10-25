@@ -38,7 +38,6 @@ function RevisionClassEnroll(props) {
     }).then((res) => {
       // setUserEnrolledClasses(res.data);
       const data = res.data;
-      console.log(data);
       setRevisionData(data);
       setDataToEnroll(data[0]);
     });
@@ -90,7 +89,6 @@ function RevisionClassEnroll(props) {
                           onChange={(e) => {
                             setRevisionId(e.target.value);
                             setDataToEnroll(item);
-                            console.log(e.target.value);
                           }}
                           control={<Radio />}
                           // you can put your value using {} <- this

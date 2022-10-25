@@ -15,21 +15,28 @@ import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-// const {languageMap} = require("../../pages/CourseContent/languageMap");
-
+import { breakpoints } from "../../theme/constant";
 import {
   Container,
   Box,
   AppBar,
   Toolbar,
   Typography,
+  useMediaQuery,
   Button,
   Select,
   MenuItem,
 } from "@mui/material";
-import languageMap from "../../pages/CourseContent/languageMap";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
+
+const languageMap = {
+  hi: "Hindi",
+  en: "English",
+  te: "Telugu",
+  ta: "Tamil",
+  mr: "Marathi",
+};
 
 const Exercise = ({
   course,
@@ -123,8 +130,46 @@ function PathwayExercise() {
   const [progressTrackId, setProgressTrackId] = useState(-1);
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
+  const [showArrow, setShowArrow] = useState({ left: false, right: true });
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
+
+  const onScroll = () => {
+    const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
+    const scrollTop = scrollRef.current.scrollTop;
+    const maxScrollLeft =
+      scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+    console.log(
+      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
+    );
+    if (!showArrow.left) {
+      if (scrollY > 0) {
+        setShowArrow((prev) => {
+          return { ...prev, left: true };
+        });
+      }
+    } else if (showArrow.left) {
+      if (scrollY === 0) {
+        setShowArrow((prev) => {
+          return { ...prev, left: false };
+        });
+      }
+    }
+
+    if (showArrow.right) {
+      if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
+        setShowArrow((prev) => {
+          return { ...prev, right: false };
+        });
+      }
+    } else if (!showArrow.right) {
+      if (Math.ceil(scrollY) < maxScrollLeft - 2) {
+        setShowArrow((prev) => {
+          return { ...prev, right: true };
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
@@ -277,7 +322,6 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(progressTrackId);
 
       setExerciseId(exerciseId + 1);
     }
@@ -305,6 +349,7 @@ function PathwayExercise() {
       </Select>
     );
   }
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   return (
     <>
@@ -344,16 +389,21 @@ function PathwayExercise() {
               </Typography>
               <Toolbar>
                 <ArrowBackIosIcon
+                  opacity={!showArrow.left && 0}
                   sx={{ marginRight: "20px", cursor: "pointer" }}
                   onClick={() => {
                     scrollRef.current.scrollBy({
                       right: 0,
-                      left: -40,
+                      left: -60,
                       behavior: "smooth",
                     });
                   }}
                 />
-                <div ref={scrollRef} className={classes.scrollContainer}>
+                <div
+                  onScroll={onScroll}
+                  ref={scrollRef}
+                  className={classes.scrollContainer}
+                >
                   {exerciseId >
                   (
                     <Exercise
@@ -378,11 +428,12 @@ function PathwayExercise() {
                 </div>
 
                 <ArrowForwardIosIcon
+                  opacity={!showArrow.right && 0}
                   sx={{ marginLeft: 3, cursor: "pointer" }}
                   onClick={() => {
                     scrollRef.current.scrollBy({
                       right: 0,
-                      left: 40,
+                      left: 60,
                       behavior: "smooth",
                     });
                   }}
@@ -470,7 +521,10 @@ function PathwayExercise() {
         />
       )}
       <Box>
-        <Toolbar className={classes.bottomRow}>
+        <Toolbar
+          className={classes.bottomRow}
+          sx={{ width: !isActive ? "97%" : "100%" }}
+        >
           <Button
             variant="text"
             color="dark"

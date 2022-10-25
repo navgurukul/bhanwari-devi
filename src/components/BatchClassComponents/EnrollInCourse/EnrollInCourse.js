@@ -26,13 +26,11 @@ const CourseEnroll = (props) => {
     };
   });
   const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
-  useEffect(() => {
-    console.log(selectedBatchToEnroll);
-  }, [selectedBatchToEnroll]);
   const [open, setOpen] = useState(false);
   const close = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Box className={classes.EnrollInCourseBox1}>

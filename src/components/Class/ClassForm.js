@@ -124,7 +124,7 @@ function ClassForm({
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
-  }, [dispatch, 1]);
+  }, [dispatch]);
 
   //For title error field (batch and doubt class)
   useEffect(() => {
@@ -282,14 +282,15 @@ function ClassForm({
   ]);
 
   const courses =
-    data.Pathways.data &&
-    data.Pathways.data.pathways[0] &&
-    data.Pathways.data.pathways[0].courses.map((item) => {
-      return {
-        label: item.name,
-        value: item.id,
-      };
-    });
+    (data.Pathways.data &&
+      data.Pathways.data.pathways[0] &&
+      data.Pathways.data.pathways[0].courses.map((item) => {
+        return {
+          label: item.name,
+          value: item.id,
+        };
+      })) ||
+    [];
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id
@@ -924,10 +925,10 @@ function ClassForm({
                       value={item}
                       name="max_enrolment"
                       control={<Radio />}
-                      checked={
-                        classFields.max_enrolment &&
-                        classFields.max_enrolment.includes(item)
-                      }
+                      // checked={
+                      //   classFields.max_enrolment &&
+                      //   classFields.max_enrolment.includes(item)
+                      // }
                       onChange={(e) => {
                         changeHandler(e);
                       }}

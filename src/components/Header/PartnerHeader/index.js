@@ -28,7 +28,11 @@ function PartnerHeader({ leftDrawer, toggleDrawer }) {
               ? `${PATHS.STATE}/${partnerGroupId}`
               : `${PATHS.PARTNERS}/${partnerId}`
           }
-          text={<Message constantKey="DASHBOARD" />}
+          text={
+            <Message
+              constantKey={partnerGroupId ? "STATEPARTNER" : "DASHBOARD"}
+            />
+          }
           toggleDrawer={toggleDrawer}
         />
       </Box>
