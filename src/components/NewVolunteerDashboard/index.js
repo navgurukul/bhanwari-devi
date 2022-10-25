@@ -5,6 +5,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import moment from "moment";
 import { BaseURL } from "./BaseURL";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 import {
   Box,
@@ -50,7 +54,14 @@ function isAll(val) {
   return val === "All";
 }
 
-function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pathway){
+function getBaseURL(
+  startDate,
+  endTime,
+  statusFilter,
+  searchTerm,
+  langFilter,
+  pathway
+) {
   const baseURL = new BaseURL();
 
   /*Joining dates if present */
@@ -64,7 +75,7 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pa
 
   if (statusFilter !== "All" || searchTerm || langFilter !== "All") {
     /*If joined a query earlier (date), attach & for next query*/
-    if(flag) baseURL.setAmpersand();
+    if (flag) baseURL.setAmpersand();
     flag = true;
 
     switch (true) {
@@ -87,16 +98,16 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pa
     }
   }
 
-  if(pathway){
-    if(flag){
+  if (pathway) {
+    if (flag) {
       baseURL.setAmpersand();
-    }else{
+    } else {
       baseURL.setQuestion();
-    } 
+    }
 
-    if(pathway === "Python"){
+    if (pathway === "Python") {
       baseURL.setPathway(1);
-    }else if(pathway === "Spoken English"){
+    } else if (pathway === "Spoken English") {
       baseURL.setPathway(2);
     }
   }
@@ -112,7 +123,10 @@ function NewVolunteerDashboard(props) {
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selectedPathway, setSelectedPathway] = useState("");
-  const [pathwayCount, setPathwayCount] = useState({python: 0, spokenEnglish: 0});
+  const [pathwayCount, setPathwayCount] = useState({
+    python: 0,
+    spokenEnglish: 0,
+  });
   const [slicedVolunteer, setSlicedVolunteer] = useState([]);
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
   const [selected, setSelected] = React.useState([]);
@@ -272,8 +286,15 @@ function NewVolunteerDashboard(props) {
   // }
   //   `;
 
-  const baseUrl = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, selectedPathway);
-  
+  const baseUrl = getBaseURL(
+    startDate,
+    endTime,
+    statusFilter,
+    searchTerm,
+    langFilter,
+    selectedPathway
+  );
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -282,19 +303,28 @@ function NewVolunteerDashboard(props) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setVolunteer(res.data);
-      setSlicedStudents(
-        res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
-      );
-      setCacheVolunteer(res.data);
-    }).catch((err)=>{
-      console.log(err);
-    });
+    })
+      .then((res) => {
+        setVolunteer(res.data);
+        setSlicedStudents(
+          res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
+        );
+        setCacheVolunteer(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
-  }, [statusFilter, langFilter, debouncedText, startDate, endTime, selectedPathway]);
+  }, [
+    statusFilter,
+    langFilter,
+    debouncedText,
+    startDate,
+    endTime,
+    selectedPathway,
+  ]);
 
-  useEffect(()=>{
+  useEffect(() => {
     axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/volunteers/count`,
       method: METHODS.GET,
@@ -302,12 +332,55 @@ function NewVolunteerDashboard(props) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setPathwayCount({python: res.data?.pythonVolunteerCount, spokenEnglish: res?.data?.spokenEnglishVolunteersCount});
-    }).catch((err)=>{
-      console.log(err);
-    });
+    })
+      .then((res) => {
+        setPathwayCount({
+          python: res.data?.pythonVolunteerCount,
+          spokenEnglish: res?.data?.spokenEnglishVolunteersCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  const [state, setState] = React.useState({
+    openDel: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, openDel } = state;
+
+  const handleClickDel = (newState) => {
+    setState({ openDel: true, ...newState });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setState({ ...state, openDel: false });
+    {
+      window.location.reload();
+    }
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div>
@@ -581,6 +654,11 @@ function NewVolunteerDashboard(props) {
                       sx={{ left: "269px" }}
                       onClick={() => {
                         setStatusId(selected);
+                        deleteUsers();
+                        handleClickDel({
+                          vertical: "bottom",
+                          horizontal: "right",
+                        });
                       }}
                     >
                       <Typography
@@ -592,6 +670,18 @@ function NewVolunteerDashboard(props) {
                       >
                         Delete
                       </Typography>
+                      <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
+                        open={openDel}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                        action={action}
+                        key={vertical + horizontal}
+                      >
+                        <Alert variant="filled" severity="success">
+                          Successfully Deleted
+                        </Alert>
+                      </Snackbar>
                     </TableCell>
                   </>
                 ) : (
