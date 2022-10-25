@@ -155,8 +155,8 @@ function PathwayExercise() {
       },
     })
       .then((res) => {
-        setCourse(res.data.course.exercises);
-        setAvailableLang(res.data.course.lang_available);
+        setCourse(res.data.exercises);
+        setAvailableLang(res.data.lang_available);
       })
       .catch((err) => {
         console.log("error");

@@ -313,21 +313,21 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId]);
-      setContent(res.data.course.exercises[exerciseId]?.content);
-      setCourseData(res.data.course.exercises[exerciseId]);
-      setCashedData(res.data.course.exercises);
+      setCourse(res.data.name);
+      setExercise(res.data.exercises[exerciseId]);
+      setContent(res.data.exercises[exerciseId]?.content);
+      setCourseData(res.data.exercises[exerciseId]);
+      setCashedData(res.data.exercises);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[params.exerciseId]);
-      setContent(res.data.course.exercises[params.exerciseId]?.content);
-      setCourseData(res.data.course.exercises[params.exerciseId]);
-      setCashedData(res.data.course.exercises);
+      setCourse(res?.data?.name);
+      setExercise(res?.data?.exercises?.[params.exerciseId]);
+      setContent(res?.data?.exercises?.[params.exerciseId]?.content);
+      setCourseData(res?.data?.exercises?.[params.exerciseId]);
+      setCashedData(res?.data?.exercises);
     });
   }, [courseId, lang]);
   useEffect(() => {
