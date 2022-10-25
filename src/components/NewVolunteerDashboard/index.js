@@ -50,7 +50,14 @@ function isAll(val) {
   return val === "All";
 }
 
-function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pathway){
+function getBaseURL(
+  startDate,
+  endTime,
+  statusFilter,
+  searchTerm,
+  langFilter,
+  pathway
+) {
   const baseURL = new BaseURL();
 
   /*Joining dates if present */
@@ -64,7 +71,7 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pa
 
   if (statusFilter !== "All" || searchTerm || langFilter !== "All") {
     /*If joined a query earlier (date), attach & for next query*/
-    if(flag) baseURL.setAmpersand();
+    if (flag) baseURL.setAmpersand();
     flag = true;
 
     switch (true) {
@@ -87,16 +94,16 @@ function getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, pa
     }
   }
 
-  if(pathway){
-    if(flag){
+  if (pathway) {
+    if (flag) {
       baseURL.setAmpersand();
-    }else{
+    } else {
       baseURL.setQuestion();
-    } 
+    }
 
-    if(pathway === "Python"){
+    if (pathway === "Python") {
       baseURL.setPathway(1);
-    }else if(pathway === "Spoken English"){
+    } else if (pathway === "Spoken English") {
       baseURL.setPathway(2);
     }
   }
@@ -112,7 +119,10 @@ function NewVolunteerDashboard(props) {
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
   const [selectedPathway, setSelectedPathway] = useState("");
-  const [pathwayCount, setPathwayCount] = useState({python: 0, spokenEnglish: 0});
+  const [pathwayCount, setPathwayCount] = useState({
+    python: 0,
+    spokenEnglish: 0,
+  });
   const [slicedVolunteer, setSlicedVolunteer] = useState([]);
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
   const [selected, setSelected] = React.useState([]);
@@ -122,6 +132,7 @@ function NewVolunteerDashboard(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm, 400);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const [filter, setFilter] = useState(false);
   const [statusFilter, setStatusFilter] = useState("All");
   const [langFilter, setLangFilter] = useState("All");
@@ -184,7 +195,7 @@ function NewVolunteerDashboard(props) {
   };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = volunteer.map((n) => n.name);
+      const newSelected = volunteer.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -272,8 +283,15 @@ function NewVolunteerDashboard(props) {
   // }
   //   `;
 
-  const baseUrl = getBaseURL(startDate, endTime, statusFilter, searchTerm, langFilter, selectedPathway);
-  
+  const baseUrl = getBaseURL(
+    startDate,
+    endTime,
+    statusFilter,
+    searchTerm,
+    langFilter,
+    selectedPathway
+  );
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -282,19 +300,28 @@ function NewVolunteerDashboard(props) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setVolunteer(res.data);
-      setSlicedStudents(
-        res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
-      );
-      setCacheVolunteer(res.data);
-    }).catch((err)=>{
-      console.log(err);
-    });
+    })
+      .then((res) => {
+        setVolunteer(res.data);
+        setSlicedStudents(
+          res.data.slice(rowsPerPage * limit, (rowsPerPage + 1) * limit)
+        );
+        setCacheVolunteer(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
-  }, [statusFilter, langFilter, debouncedText, startDate, endTime, selectedPathway]);
+  }, [
+    statusFilter,
+    langFilter,
+    debouncedText,
+    startDate,
+    endTime,
+    selectedPathway,
+  ]);
 
-  useEffect(()=>{
+  useEffect(() => {
     axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/volunteers/count`,
       method: METHODS.GET,
@@ -302,11 +329,16 @@ function NewVolunteerDashboard(props) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setPathwayCount({python: res.data?.pythonVolunteerCount, spokenEnglish: res?.data?.spokenEnglishVolunteersCount});
-    }).catch((err)=>{
-      console.log(err);
-    });
+    })
+      .then((res) => {
+        setPathwayCount({
+          python: res.data?.pythonVolunteerCount,
+          spokenEnglish: res?.data?.spokenEnglishVolunteersCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -510,460 +542,487 @@ function NewVolunteerDashboard(props) {
           </Grid>
         )}
         <TableContainer component={Paper} className={classes.tablecontainer}>
-          <Table>
-            <TableHead>
-              <TableRow
-                sx={{
-                  position: "sticky",
-                  top: 0,
-                }}
-                className={classes.tablecontainerow}
-              >
-                <TableCell
+          {volunteer && volunteer.length > 0 ? (
+            <Table>
+              <TableHead>
+                <TableRow
                   sx={{
                     position: "sticky",
-                    left: -1,
-                    backgroundColor: "white",
-                    zIndex: 600,
+                    top: 0,
                   }}
+                  className={classes.tablecontainerow}
                 >
-                  <Checkbox
-                    color="primary"
-                    indeterminate={
-                      selected.length > 0 && selected.length < volunteer.length
-                    }
-                    checked={
-                      volunteer.length > 0 &&
-                      selected.length === volunteer.length
-                    }
-                    onChange={handleSelectAllClick}
-                    inputProps={{
-                      "aria-label": "select all desserts",
+                  <TableCell
+                    sx={{
+                      position: "sticky",
+                      left: -1,
+                      backgroundColor: "white",
+                      zIndex: 600,
                     }}
-                  />
-                </TableCell>
-                {selected.length > 0 ? (
-                  <>
-                    <TableCell
-                      align="center"
-                      className={classes.tableSticky}
-                      sx={{ left: "60px", width: "150px" }}
-                    >
-                      <Typography className={classes.tablecellHead}>
-                        {selected.length}{" "}
-                        {selected.length === 1 ? "row is " : "rows are "}
-                        selected
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      className={classes.tableSticky}
-                      sx={{ left: "170px", width: "150px" }}
-                      onClick={() => {
-                        const valueToDisplay = `Total ${selected.length} ${
-                          selected.length === 1 ? "row is " : "rows are "
-                        } selected`;
+                  >
+                    <Checkbox
+                      color="primary"
+                      indeterminate={
+                        selected.length > 0 &&
+                        selected.length < volunteer.length
+                      }
+                      checked={
+                        volunteer.length > 0 &&
+                        selected.length === volunteer.length
+                      }
+                      onChange={handleSelectAllClick}
+                      inputProps={{
+                        "aria-label": "select all desserts",
+                      }}
+                    />
+                  </TableCell>
+                  {selected.length > 0 ? (
+                    <>
+                      <TableCell
+                        align="center"
+                        className={classes.tableSticky}
+                        sx={{ left: "60px", width: "150px" }}
+                      >
+                        <Typography className={classes.tablecellHead}>
+                          {selected.length}{" "}
+                          {selected.length === 1 ? "row is " : "rows are "}
+                          selected
+                        </Typography>
+                      </TableCell>
+                      <TableCell
+                        className={classes.tableSticky}
+                        sx={{ left: "170px", width: "150px" }}
+                        onClick={() => {
+                          const valueToDisplay = `Total ${selected.length} ${
+                            selected.length === 1 ? "row is " : "rows are "
+                          } selected`;
 
-                        setStatusName(valueToDisplay);
-                        setStatusDialog(true);
-                        setStatusId(selected);
-                      }}
-                    >
-                      <Typography
-                        className={classes.tablecellHead}
-                        color="primary"
-                      >
-                        Change Statuses
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      colSpan={isActive ? 0 : 5}
-                      className={classes.tableSticky}
-                      sx={{ left: "269px" }}
-                      onClick={() => {
-                        setStatusId(selected);
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: "600",
-                          fontSize: "14px",
+                          setStatusName(valueToDisplay);
+                          setStatusDialog(true);
+                          setStatusId(selected);
                         }}
-                        color="error"
                       >
-                        Delete
-                      </Typography>
-                    </TableCell>
-                  </>
-                ) : (
-                  <>
-                    <TableCell
-                      sx={{
-                        position: "sticky",
-                        left: "74px",
-                        backgroundColor: "white",
-                        zIndex: 800,
-                        width: "150px",
-                      }}
-                    >
-                      <Typography className={classes.tablecellHead}>
-                        Name
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "150px" }}>
-                      <Typography className={classes.tablecellHead}>
-                        Last Class Batch
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "150px" }}>
-                      <Typography className={classes.tablecellHead}>
-                        Last Class Title
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "119px" }}>
-                      <Typography className={classes.tablecellHead}>
-                        Last Class Date
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "119px" }}>
-                      <Typography className={classes.tablecellHead}>
-                        Class Language
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{
-                        width: isActive ? "55px" : "140px",
-                      }}
-                    >
-                      <Typography className={classes.tablecellHead}>
-                        Status
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center" sx={{ color: "#BDBDBD" }}>
-                      <MoreVertIcon />
-                    </TableCell>
-                  </>
-                )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {volunteer && volunteer.length > 0 ? (
-                volunteer
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((item, index) => {
-                    const selectedRow = isRowSelected(item.id);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    const sortedClasses =
-                      item.classes.length &&
-                      item.classes.sort((a, b) => {
-                        return new Date(a.start_time) - new Date(b.start_time);
-                      });
-                    item.last_class_date =
-                      sortedClasses.length &&
-                      sortedClasses[sortedClasses.length - 1].start_time;
-                    return (
-                      <>
-                        <TableRow
-                          key={item.id}
-                          selected={selectedRow}
-                          className={
-                            selectedRow
-                              ? classes.tablebodyrowSelected
-                              : classes.tablebodyrow
-                          }
+                        <Typography
+                          className={classes.tablecellHead}
+                          color="primary"
                         >
-                          <TableCell
-                            hover
-                            onClick={(event) => handleClick(event, item.id)}
-                            role="checkbox"
-                            tabIndex={-1}
-                            padding="checkbox"
+                          Change Statuses
+                        </Typography>
+                      </TableCell>
+                      <TableCell
+                        colSpan={isActive ? 0 : 5}
+                        className={classes.tableSticky}
+                        sx={{ left: "269px" }}
+                        onClick={() => {
+                          setStatusId(selected);
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontWeight: "600",
+                            fontSize: "14px",
+                          }}
+                          color="error"
+                        >
+                          Delete
+                        </Typography>
+                      </TableCell>
+                    </>
+                  ) : (
+                    <>
+                      <TableCell
+                        sx={{
+                          position: "sticky",
+                          left: "74px",
+                          backgroundColor: "white",
+                          zIndex: 800,
+                          width: "150px",
+                        }}
+                      >
+                        <Typography className={classes.tablecellHead}>
+                          Name
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left" sx={{ width: "150px" }}>
+                        <Typography className={classes.tablecellHead}>
+                          Last Class Batch
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left" sx={{ width: "150px" }}>
+                        <Typography className={classes.tablecellHead}>
+                          Last Class Title
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left" sx={{ width: "119px" }}>
+                        <Typography className={classes.tablecellHead}>
+                          Last Class Date
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left" sx={{ width: "119px" }}>
+                        <Typography className={classes.tablecellHead}>
+                          Class Language
+                        </Typography>
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          width: isActive ? "55px" : "140px",
+                        }}
+                      >
+                        <Typography className={classes.tablecellHead}>
+                          Status
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "#BDBDBD" }}>
+                        <MoreVertIcon />
+                      </TableCell>
+                    </>
+                  )}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {volunteer && volunteer.length > 0 ? (
+                  volunteer
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, index) => {
+                      const selectedRow = isRowSelected(item.id);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+                      const sortedClasses =
+                        item.classes.length &&
+                        item.classes.sort((a, b) => {
+                          return (
+                            new Date(a.start_time) - new Date(b.start_time)
+                          );
+                        });
+                      item.last_class_date =
+                        sortedClasses.length &&
+                        sortedClasses[sortedClasses.length - 1].start_time;
+                      return (
+                        <>
+                          <TableRow
+                            key={item.id}
+                            selected={selectedRow}
                             className={
                               selectedRow
                                 ? classes.tablebodyrowSelected
                                 : classes.tablebodyrow
                             }
-                            sx={{
-                              border: "none",
-                              position: "sticky",
-                              left: -1,
-                              zIndex: 800,
-                              whiteSpace: "nowrap",
-                            }}
-                            align="center"
                           >
-                            <Checkbox
-                              color="primary"
-                              inputProps={{
-                                "aria-labelledby": labelId,
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell
-                            style={{
-                              position: "sticky",
-                              left: "74px",
-                              backgroundColor: "white",
-                              zIndex: 800,
-                            }}
-                            component="th"
-                            scope="row"
-                            className={
-                              classes.tablebodyCell && selectedRow
-                                ? classes.tablebodyrowSelected
-                                : classes.tablebodyrow
-                            }
-                            tabIndex={-1}
-                            onClick={(event) => handleRowSelect(event, item.id)}
-                          >
-                            {item.name}
-                          </TableCell>
-                          <TableCell
-                            className={classes.tablebodyCell}
-                            onClick={(event) => handleRowSelect(event, item.id)}
-                          >
-                            {item.classes &&
-                            item.classes.length > 0 &&
-                            item.classes[item.classes.length - 1]["title"]
-                              .toLowerCase()
-                              .includes("batch".toLowerCase())
-                              ? item.classes[item.classes.length - 1]["title"]
-                              : "-"}
-                          </TableCell>
-                          <TableCell
-                            // data-column="Last Class Title"
-                            className={classes.tablebodyCell}
-                            onClick={(event) => handleRowSelect(event, item.id)}
-                          >
-                            {item.classes &&
-                            item.classes.length > 0 &&
-                            !item.classes[item.classes.length - 1]["title"]
-                              .toLowerCase()
-                              .includes("batch".toLowerCase())
-                              ? item.classes[item.classes.length - 1]["title"]
-                              : "-"}
-                          </TableCell>
-                          <TableCell
-                            className={classes.tablebodyCell}
-                            onClick={(event) => handleRowSelect(event, item.id)}
-                          >
-                            {format(item.last_class_date, "dd MMM, yyyy")}
-                          </TableCell>
-                          <TableCell
-                            // data-column="Last class lang"
-                            sx={{ border: "none" }}
-                            onClick={(event) => {
-                              handleRowSelect(event, item.id);
-                            }}
-                          >
-                            {item.classes &&
-                            item.classes.length > 0 &&
-                            item.classes[item.classes.length - 1]["lang"] != ""
-                              ? languageMap[
-                                  item.classes[item.classes.length - 1]["lang"]
-                                ]
-                              : "-"}
-                          </TableCell>
-                          <TableCell
-                            // data-column="Status"
-                            sx={{
-                              fontWeight: "400",
-                              fontSize: "14px",
-                              display: "flex",
-                              flexDirection: "row",
-                              alignItems: "center",
-                              justifyContent: "flex-start",
-                              width: "140px",
-                              border: "none",
-                            }}
-                            onClick={(event) => handleRowSelect(event, item.id)}
-                          >
-                            <CircleIcon
-                              className={classes.circleIcon}
-                              sx={{
-                                color: `${
-                                  item.status === "active"
-                                    ? "#48A145"
-                                    : item.status === "inactive"
-                                    ? "#FFCC00"
-                                    : item.status === "dropout"
-                                    ? "#F44336"
-                                    : "#2196F3"
-                                }`,
-                              }}
-                            />
-                            <p
-                              style={{
-                                marginLeft: "5px",
-                                height: "21px",
-                              }}
-                            >
-                              {item.status === "active"
-                                ? "Active"
-                                : item.status === "inactive"
-                                ? "In Active"
-                                : item.status === "dropout"
-                                ? "Dropped Out"
-                                : "Newly Onboarded"}
-                            </p>
-                          </TableCell>
-                          <TableCell
-                            // data-column="three dots"
-                            className={classes.tablebodyCell}
-                            sx={{
-                              color: "#BDBDBD",
-                            }}
-                          >
-                            <MenuComponent
-                              itemname={item.name}
-                              itemId={item.id}
-                              setStatusName={setStatusName}
-                              setStatusDialog={setStatusDialog}
-                              setStatusId={setStatusId}
-                              userId={statusId}
-                              delfun={delfun}
-                              setdelFun={setdelFun}
-                            />
-                          </TableCell>
-                        </TableRow>
-                        <TableRow
-                          sx={{
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                          }}
-                        >
-                          {selectedRow || selectedRow > 0 ? (
                             <TableCell
-                              style={{ paddingBottom: 0, paddingTop: 0 }}
-                              colSpan={12}
+                              hover
+                              onClick={(event) => handleClick(event, item.id)}
+                              role="checkbox"
+                              tabIndex={-1}
+                              padding="checkbox"
+                              className={
+                                selectedRow
+                                  ? classes.tablebodyrowSelected
+                                  : classes.tablebodyrow
+                              }
+                              sx={{
+                                border: "none",
+                                position: "sticky",
+                                left: -1,
+                                zIndex: 800,
+                                whiteSpace: "nowrap",
+                              }}
+                              align="center"
                             >
-                              <Collapse in={open} timeout="auto" unmountOnExit>
-                                <Box
-                                  sx={{
-                                    height: isActive ? "198px" : "165px",
-                                  }}
+                              <Checkbox
+                                checked={selected.includes(item.id)}
+                                color="primary"
+                                inputProps={{
+                                  "aria-labelledby": labelId,
+                                }}
+                              />
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                position: "sticky",
+                                left: "74px",
+                                backgroundColor: "white",
+                                zIndex: 800,
+                              }}
+                              component="th"
+                              scope="row"
+                              className={
+                                classes.tablebodyCell && selectedRow
+                                  ? classes.tablebodyrowSelected
+                                  : classes.tablebodyrow
+                              }
+                              tabIndex={-1}
+                              onClick={(event) =>
+                                handleRowSelect(event, item.id)
+                              }
+                            >
+                              {item.name}
+                            </TableCell>
+                            <TableCell
+                              className={classes.tablebodyCell}
+                              onClick={(event) =>
+                                handleRowSelect(event, item.id)
+                              }
+                            >
+                              {item.classes &&
+                              item.classes.length > 0 &&
+                              item.classes[item.classes.length - 1]["title"]
+                                .toLowerCase()
+                                .includes("batch".toLowerCase())
+                                ? item.classes[item.classes.length - 1]["title"]
+                                : "-"}
+                            </TableCell>
+                            <TableCell
+                              // data-column="Last Class Title"
+                              className={classes.tablebodyCell}
+                              onClick={(event) =>
+                                handleRowSelect(event, item.id)
+                              }
+                            >
+                              {item.classes &&
+                              item.classes.length > 0 &&
+                              !item.classes[item.classes.length - 1]["title"]
+                                .toLowerCase()
+                                .includes("batch".toLowerCase())
+                                ? item.classes[item.classes.length - 1]["title"]
+                                : "-"}
+                            </TableCell>
+                            <TableCell
+                              className={classes.tablebodyCell}
+                              onClick={(event) =>
+                                handleRowSelect(event, item.id)
+                              }
+                            >
+                              {format(item.last_class_date, "dd MMM, yyyy")}
+                            </TableCell>
+                            <TableCell
+                              // data-column="Last class lang"
+                              sx={{ border: "none" }}
+                              onClick={(event) => {
+                                handleRowSelect(event, item.id);
+                              }}
+                            >
+                              {item.classes &&
+                              item.classes.length > 0 &&
+                              item.classes[item.classes.length - 1]["lang"] !=
+                                ""
+                                ? languageMap[
+                                    item.classes[item.classes.length - 1][
+                                      "lang"
+                                    ]
+                                  ]
+                                : "-"}
+                            </TableCell>
+                            <TableCell
+                              // data-column="Status"
+                              sx={{
+                                fontWeight: "400",
+                                fontSize: "14px",
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "flex-start",
+                                width: "140px",
+                                border: "none",
+                              }}
+                              onClick={(event) =>
+                                handleRowSelect(event, item.id)
+                              }
+                            >
+                              <CircleIcon
+                                className={classes.circleIcon}
+                                sx={{
+                                  color: `${
+                                    item.status === "active"
+                                      ? "#48A145"
+                                      : item.status === "inactive"
+                                      ? "#FFCC00"
+                                      : item.status === "dropout"
+                                      ? "#F44336"
+                                      : "#2196F3"
+                                  }`,
+                                }}
+                              />
+                              <p
+                                style={{
+                                  marginLeft: "5px",
+                                  height: "21px",
+                                }}
+                              >
+                                {item.status === "active"
+                                  ? "Active"
+                                  : item.status === "inactive"
+                                  ? "In Active"
+                                  : item.status === "dropout"
+                                  ? "Dropped Out"
+                                  : "Newly Onboarded"}
+                              </p>
+                            </TableCell>
+                            <TableCell
+                              // data-column="three dots"
+                              className={classes.tablebodyCell}
+                              sx={{
+                                color: "#BDBDBD",
+                              }}
+                            >
+                              <MenuComponent
+                                itemname={item.name}
+                                itemId={item.id}
+                                setStatusName={setStatusName}
+                                setStatusDialog={setStatusDialog}
+                                setStatusId={setStatusId}
+                                userId={statusId}
+                                delfun={delfun}
+                                setdelFun={setdelFun}
+                              />
+                            </TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              position: "sticky",
+                              top: 0,
+                              zIndex: 1,
+                            }}
+                          >
+                            {selectedRow || selectedRow > 0 ? (
+                              <TableCell
+                                style={{ paddingBottom: 0, paddingTop: 0 }}
+                                colSpan={12}
+                              >
+                                <Collapse
+                                  in={open}
+                                  timeout="auto"
+                                  unmountOnExit
                                 >
-                                  <div className={classes.collapse}>
-                                    <Avatar
-                                      src="/broken-image.jpg"
-                                      style={{
-                                        width: "32px",
-                                        height: "32px",
-                                      }}
-                                    />
-                                    <Typography
-                                      sx={{
-                                        fontWeight: 600,
-                                        fontSize: "14px",
-                                        marginLeft: "8px",
-                                      }}
-                                    >
-                                      {item.name}
-                                    </Typography>
-                                  </div>
-                                  <Table
-                                    size="small"
-                                    aria-label="purchases"
-                                    //
+                                  <Box
+                                    sx={{
+                                      height: isActive ? "198px" : "165px",
+                                    }}
                                   >
-                                    <TableHead>
-                                      <TableRow
+                                    <div className={classes.collapse}>
+                                      <Avatar
+                                        src="/broken-image.jpg"
+                                        style={{
+                                          width: "32px",
+                                          height: "32px",
+                                        }}
+                                      />
+                                      <Typography
                                         sx={{
-                                          borderBottom:
-                                            "1.2px solid rgba(163, 163, 163, 0.4)",
-                                          paddingBottom: "50px",
-                                          position: "sticky",
-                                          top: 0,
+                                          fontWeight: 600,
+                                          fontSize: "14px",
+                                          marginLeft: "8px",
                                         }}
                                       >
-                                        <TableCell
-                                          className={classes.tablecellHead}
+                                        {item.name}
+                                      </Typography>
+                                    </div>
+                                    <Table
+                                      size="small"
+                                      aria-label="purchases"
+                                      //
+                                    >
+                                      <TableHead>
+                                        <TableRow
+                                          sx={{
+                                            borderBottom:
+                                              "1.2px solid rgba(163, 163, 163, 0.4)",
+                                            paddingBottom: "50px",
+                                            position: "sticky",
+                                            top: 0,
+                                          }}
                                         >
-                                          Email
-                                        </TableCell>
-                                        <TableCell
-                                          align="right"
-                                          className={classes.tablecellHead}
-                                        >
-                                          Phone
-                                        </TableCell>
-                                        <TableCell
-                                          className={classes.tablecellHead}
-                                        >
-                                          Duration (In Weeks)
-                                        </TableCell>
-                                        <TableCell
-                                          className={classes.tablecellHead}
-                                        >
-                                          Days Available
-                                        </TableCell>
-                                        <TableCell
-                                          className={classes.tablecellHead}
-                                        >
-                                          Preferred Time Slots
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      <TableRow>
-                                        <TableCell
-                                          component="th"
-                                          scope="row"
-                                          className={classes.tablebodyCell}
-                                        >
-                                          {item.email}
-                                        </TableCell>
-                                        <TableCell
-                                          align="right"
-                                          className={classes.tablebodyCell}
-                                        >
-                                          {item.contact === null
-                                            ? "-"
-                                            : item.contact}
-                                        </TableCell>
-                                        <TableCell
-                                          className={classes.tablebodyCell}
-                                        >
-                                          {numberOfWeek(item)}
-                                        </TableCell>
-                                        <TableCell
-                                          className={classes.tablebodyCell}
-                                        >
-                                          {item.available_on_days === null
-                                            ? "-"
-                                            : item.available_on_days}
-                                        </TableCell>
-                                        <TableCell
-                                          className={classes.tablebodyCell}
-                                        >
-                                          {item.available_on_time === null
-                                            ? "-"
-                                            : format(
-                                                item.available_on_time,
-                                                "hh:mm aaa"
-                                              )}
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  </Table>
-                                </Box>
-                              </Collapse>
-                            </TableCell>
-                          ) : (
-                            ""
-                          )}
-                        </TableRow>
-                      </>
-                    );
-                  })
-              ) : (
-                <div className="message ">
-                  <h3>There are no results to display...</h3>
-                </div>
-              )}
-            </TableBody>
-          </Table>
+                                          <TableCell
+                                            className={classes.tablecellHead}
+                                          >
+                                            Email
+                                          </TableCell>
+                                          <TableCell
+                                            align="right"
+                                            className={classes.tablecellHead}
+                                          >
+                                            Phone
+                                          </TableCell>
+                                          <TableCell
+                                            className={classes.tablecellHead}
+                                          >
+                                            Duration (In Weeks)
+                                          </TableCell>
+                                          <TableCell
+                                            className={classes.tablecellHead}
+                                          >
+                                            Days Available
+                                          </TableCell>
+                                          <TableCell
+                                            className={classes.tablecellHead}
+                                          >
+                                            Preferred Time Slots
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                        <TableRow>
+                                          <TableCell
+                                            component="th"
+                                            scope="row"
+                                            className={classes.tablebodyCell}
+                                          >
+                                            {item.email}
+                                          </TableCell>
+                                          <TableCell
+                                            align="right"
+                                            className={classes.tablebodyCell}
+                                          >
+                                            {item.contact === null
+                                              ? "-"
+                                              : item.contact}
+                                          </TableCell>
+                                          <TableCell
+                                            className={classes.tablebodyCell}
+                                          >
+                                            {numberOfWeek(item)}
+                                          </TableCell>
+                                          <TableCell
+                                            className={classes.tablebodyCell}
+                                          >
+                                            {item.available_on_days === null
+                                              ? "-"
+                                              : item.available_on_days}
+                                          </TableCell>
+                                          <TableCell
+                                            className={classes.tablebodyCell}
+                                          >
+                                            {item.available_on_time === null
+                                              ? "-"
+                                              : format(
+                                                  item.available_on_time,
+                                                  "hh:mm aaa"
+                                                )}
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableBody>
+                                    </Table>
+                                  </Box>
+                                </Collapse>
+                              </TableCell>
+                            ) : (
+                              ""
+                            )}
+                          </TableRow>
+                        </>
+                      );
+                    })
+                ) : (
+                  <div className="message ">
+                    <h3>There are no results to display...</h3>
+                  </div>
+                )}
+              </TableBody>
+            </Table>
+          ) : (
+            <Box sx={{ fontSize: "20px" }}>
+              <Typography>There are no results to display...</Typography>
+            </Box>
+          )}
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 20]}
