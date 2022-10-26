@@ -126,12 +126,16 @@ function ReactEditor({ course }) {
     }
 
     let type;
+    let code;
     if (item.component == "text" && "decoration" in item) {
       type = "list";
     } else if (item.component == "text") {
       type = "paragraph";
     } else if (item.component === "youtube") {
       type = "embed";
+    } else if (item.component === "code") {
+      code = item.value.replace(/<br>/g, "\n").replace(/&emsp;/g, "    ");
+      type = item.component;
     } else {
       type = item.component;
     }
@@ -147,7 +151,7 @@ function ReactEditor({ course }) {
             : (item.component === "text" || item.component === "header") &&
               item.value,
         level: item.variant,
-        code: item.component === "code" && item.value,
+        code: item.component === "code" && code,
         file: {
           url: item.component === "image" && item.value,
         },
@@ -166,15 +170,93 @@ function ReactEditor({ course }) {
     return (
       index ===
       blocks1.findIndex((obj) => {
-        console.log("obj", obj);
         return JSON.stringify(obj) === stringifiedItem;
       })
     );
   });
-  console.log(blocks, "blocks");
 
   console.log("blocks", blocks);
-  console.log("blocks1", blocks1);
+  // console.log("blocks1", blocks1);
+
+  const MerakiJSON = () => {
+    let json = blocks.map((item, index) => {
+      // console.log("item", item);
+      let value;
+      let component;
+      let variant;
+      if (item.type === "embed") {
+        value = item.data.embed.split("https://www.youtube.com/embed/")[1];
+        component = "youtube";
+        // console.log("youtube", value);
+      }
+      // else if (item.component === "text") {
+      //   if ("decoration" in item) {
+      //     if (item.decoration.type == "bullet") {
+      //       style = "unordered";
+      //     } else {
+      //       style = "ordered";
+      //     }
+      //     items.push(item.value);
+      //   } else {
+      //     items = [];
+      //   }
+      // } else {
+      //   items = [];
+      // }
+
+      let type;
+      let code;
+      if (item.type === "list") {
+        // if(item.type ==='list') {
+
+        // }
+        component = "text";
+        value = item.data.text;
+      } else if (item.type === "paragraph") {
+        component = "text";
+        value = item.data.text;
+      } else if (item.type == "header") {
+        component = item.type;
+        value = item.data.text;
+      } else if (item.type === "code") {
+        code = item.data.code.replace(/\n/g, "<br>").replace(/    /g, "&emsp;");
+        component = item.type;
+        value = code;
+      } else {
+        type = item.component;
+      }
+
+      return {
+        value: value,
+        component: component,
+        variant: variant,
+        // type: type,
+        // data: {
+        //   style: style,
+        //   items: items,
+        //   text:
+        //     type == "list"
+        //       ? false
+        //       : (item.component === "text" || item.component === "header") &&
+        //         item.value,
+        //   level: item.variant,
+        //   code: item.component === "code" && code,
+        //   file: {
+        //     url: item.component === "image" && item.value,
+        //   },
+        //   embed: item.component === "youtube" && youtube,
+        //   source: item.component === "youtube" && youtube,
+        //   service: item.component === "youtube" && item.value && item.component,
+        //   caption: "",
+        //   height: 320,
+        //   width: 580,
+        // },
+      };
+    });
+    console.log("json", json);
+  };
+
+  // console.log("json", json);
 
   const onReady = () => {
     // https://editorjs.io/configuration#editor-modifications-callback
@@ -188,6 +270,7 @@ function ReactEditor({ course }) {
 
   const onSave = async () => {
     // https://editorjs.io/saving-data
+    MerakiJSON();
 
     try {
       const outputData = await editor.save();
