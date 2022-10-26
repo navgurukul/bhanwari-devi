@@ -322,24 +322,20 @@ function ExerciseContent({
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      // console.log("res", res);
-      setCourse(res.data.name);
-      setExercise(res.data.exercises[params.exerciseId]);
-      setContent(res.data.exercises[params.exerciseId]?.content);
-      setCourseData(res.data.exercises[params.exerciseId]);
-      setCashedData(res.data.exercises);
-      // setCourse(res.data.course.name);
-      // setExercise(res.data.course.exercises[params.exerciseId]);
-      // setContent(res.data.course.exercises[params.exerciseId]?.content);
-      // setCourseData(res.data.course.exercises[params.exerciseId]);
-      // setCashedData(res.data.course.exercises);
+      setCourse(res.data.course.name);
+      setExercise(res.data.course.exercises[params.exerciseId]);
+      setContent(res.data.course.exercises[params.exerciseId]?.content);
+      setCourseData(res.data.course.exercises[params.exerciseId]);
+      setCashedData(res.data.course.exercises);
     });
   }, [courseId, lang]);
+
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
+
   useEffect(() => {
     if (exercise?.content_type === "assessment") {
       console.log("Assessment", exercise);
