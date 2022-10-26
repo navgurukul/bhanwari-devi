@@ -312,28 +312,30 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.name);
-      setExercise(res.data.exercises[exerciseId]);
-      setContent(res.data.exercises[exerciseId]?.content);
-      setCourseData(res.data.exercises[exerciseId]);
-      setCashedData(res.data.exercises);
+      setCourse(res.data.course?.name);
+      setExercise(res.data.course?.exercises[exerciseId]);
+      setContent(res.data.course?.exercises[exerciseId]?.content);
+      setCourseData(res.data.course?.exercises[exerciseId]);
+      setCashedData(res.data.course?.exercises);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
       setCourse(res?.data?.name);
-      setExercise(res?.data?.exercises?.[params.exerciseId]);
-      setContent(res?.data?.exercises?.[params.exerciseId]?.content);
-      setCourseData(res?.data?.exercises?.[params.exerciseId]);
-      setCashedData(res?.data?.exercises);
+      setExercise(res?.data?.course?.exercises?.[params.exerciseId]);
+      setContent(res?.data?.course?.exercises?.[params.exerciseId]?.content);
+      setCourseData(res?.data?.course?.exercises?.[params.exerciseId]);
+      setCashedData(res?.data?.course?.exercises);
     });
   }, [courseId, lang]);
+
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
+
   useEffect(() => {
     if (exercise?.content_type === "assessment") {
       console.log("Assessment", exercise);
