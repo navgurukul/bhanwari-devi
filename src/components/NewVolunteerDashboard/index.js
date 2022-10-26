@@ -5,6 +5,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import moment from "moment";
 import { BaseURL } from "./BaseURL";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 import {
   Box,
@@ -341,6 +345,44 @@ function NewVolunteerDashboard(props) {
       });
   }, []);
 
+  const [state, setState] = React.useState({
+    openDel: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, openDel } = state;
+
+  const handleClickDel = (newState) => {
+    setState({ openDel: true, ...newState });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setState({ ...state, openDel: false });
+    {
+      window.location.reload();
+    }
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
     <div>
       <Container maxWidth="lg">
@@ -615,6 +657,11 @@ function NewVolunteerDashboard(props) {
                         sx={{ left: "269px" }}
                         onClick={() => {
                           setStatusId(selected);
+                          deleteUsers();
+                          handleClickDel({
+                            vertical: "bottom",
+                            horizontal: "right",
+                          });
                         }}
                       >
                         <Typography
@@ -626,6 +673,18 @@ function NewVolunteerDashboard(props) {
                         >
                           Delete
                         </Typography>
+                        <Snackbar
+                          anchorOrigin={{ vertical, horizontal }}
+                          open={openDel}
+                          autoHideDuration={6000}
+                          onClose={handleClose}
+                          action={action}
+                          key={vertical + horizontal}
+                        >
+                          <Alert variant="filled" severity="success">
+                            Successfully Deleted
+                          </Alert>
+                        </Snackbar>
                       </TableCell>
                     </>
                   ) : (
