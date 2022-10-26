@@ -322,11 +322,17 @@ function ExerciseContent({
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[params.exerciseId]);
-      setContent(res.data.course.exercises[params.exerciseId]?.content);
-      setCourseData(res.data.course.exercises[params.exerciseId]);
-      setCashedData(res.data.course.exercises);
+      // console.log("res", res);
+      setCourse(res.data.name);
+      setExercise(res.data.exercises[params.exerciseId]);
+      setContent(res.data.exercises[params.exerciseId]?.content);
+      setCourseData(res.data.exercises[params.exerciseId]);
+      setCashedData(res.data.exercises);
+      // setCourse(res.data.course.name);
+      // setExercise(res.data.course.exercises[params.exerciseId]);
+      // setContent(res.data.course.exercises[params.exerciseId]?.content);
+      // setCourseData(res.data.course.exercises[params.exerciseId]);
+      // setCashedData(res.data.course.exercises);
     });
   }, [courseId, lang]);
   useEffect(() => {

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { createReactEditorJS } from "react-editor-js";
-
+import axios from "axios";
+import { METHODS } from "../../../services/api";
+import { useSelector } from "react-redux";
+import { PATHS, interpolatePath, versionCode } from "../../../constant";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Image from "@editorjs/image";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
@@ -27,7 +32,10 @@ const EDITOR_JS_TOOLS = {
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 // import { EDITOR_JS_TOOLS } from "./constants";
 
-function ReactEditor({ course }) {
+function ReactEditor({ course, id }) {
+  const user = useSelector(({ User }) => User);
+  const history = useHistory();
+  const params = useParams();
   const [editor, setEditor] = React.useState(null);
   const ReactEditorJS = createReactEditorJS();
   const handleInitialize = async (instance) => {
@@ -35,6 +43,8 @@ function ReactEditor({ course }) {
     console.log(editor, "editor");
   };
 
+  console.log("course", course);
+  console.log("id in editor", id);
   let style = "";
   let items = [];
 
@@ -178,40 +188,31 @@ function ReactEditor({ course }) {
   console.log("blocks", blocks);
   // console.log("blocks1", blocks1);
 
+  let json = [];
   const MerakiJSON = () => {
-    let json = blocks.map((item, index) => {
-      // console.log("item", item);
+    blocks.map((item, index) => {
       let value;
       let component;
-      let variant;
       if (item.type === "embed") {
         value = item.data.embed.split("https://www.youtube.com/embed/")[1];
         component = "youtube";
-        // console.log("youtube", value);
       }
-      // else if (item.component === "text") {
-      //   if ("decoration" in item) {
-      //     if (item.decoration.type == "bullet") {
-      //       style = "unordered";
-      //     } else {
-      //       style = "ordered";
-      //     }
-      //     items.push(item.value);
-      //   } else {
-      //     items = [];
-      //   }
-      // } else {
-      //   items = [];
-      // }
-
-      let type;
       let code;
       if (item.type === "list") {
-        // if(item.type ==='list') {
-
-        // }
-        component = "text";
-        value = item.data.text;
+        let decoration = {};
+        item.data.items.map((value) => {
+          let object = {};
+          decoration.type = item.data.style;
+          object = {
+            ...object,
+            value: value,
+            component: "text",
+            decoration,
+            variant: item.data.level,
+          };
+          console.log("object", object);
+          json.push(object);
+        });
       } else if (item.type === "paragraph") {
         component = "text";
         value = item.data.text;
@@ -222,41 +223,19 @@ function ReactEditor({ course }) {
         code = item.data.code.replace(/\n/g, "<br>").replace(/    /g, "&emsp;");
         component = item.type;
         value = code;
-      } else {
-        type = item.component;
       }
 
-      return {
-        value: value,
-        component: component,
-        variant: variant,
-        // type: type,
-        // data: {
-        //   style: style,
-        //   items: items,
-        //   text:
-        //     type == "list"
-        //       ? false
-        //       : (item.component === "text" || item.component === "header") &&
-        //         item.value,
-        //   level: item.variant,
-        //   code: item.component === "code" && code,
-        //   file: {
-        //     url: item.component === "image" && item.value,
-        //   },
-        //   embed: item.component === "youtube" && youtube,
-        //   source: item.component === "youtube" && youtube,
-        //   service: item.component === "youtube" && item.value && item.component,
-        //   caption: "",
-        //   height: 320,
-        //   width: 580,
-        // },
-      };
+      if (item.type !== "list") {
+        json.push({
+          value: value,
+          component: component,
+          // variant: variant,
+          variant: item.data.level,
+        });
+      }
     });
     console.log("json", json);
   };
-
-  // console.log("json", json);
 
   const onReady = () => {
     // https://editorjs.io/configuration#editor-modifications-callback
@@ -272,12 +251,36 @@ function ReactEditor({ course }) {
     // https://editorjs.io/saving-data
     MerakiJSON();
 
-    try {
-      const outputData = await editor.save();
-      console.log("Article data: ", outputData);
-    } catch (e) {
-      console.log("Saving failed: ", e);
-    }
+    const stringifiedCourse = JSON.stringify(json, null, 0);
+    console.log(id, stringifiedCourse, "cc");
+    axios({
+      method: METHODS.PUT,
+      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+      data: {
+        content: stringifiedCourse,
+      },
+    }).then((res) => {
+      // history.push(
+      //   interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+      //     courseId: params.courseId,
+      //     exerciseId: params.exerciseId,
+      //     pathwayId: params.pathwayId,
+      //   })
+      // );
+      console.log(res, "res");
+    });
+
+    // try {
+    //   const outputData = await editor.save();
+    //   console.log("Article data: ", outputData);
+    // } catch (e) {
+    //   console.log("Saving failed: ", e);
+    // }
   };
 
   return (

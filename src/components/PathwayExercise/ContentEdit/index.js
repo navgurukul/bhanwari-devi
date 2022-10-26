@@ -55,6 +55,9 @@ function ContentEdit() {
   const [isShown, setIsShown] = useState(false);
   const [index, setIndex] = useState();
 
+  console.log("id", id);
+  console.log("exerciseId", exerciseId);
+
   const dropDownList = {
     "Heading 1": "AddHeader1",
     "Heading 2": "AddHeader2",
@@ -242,7 +245,9 @@ function ContentEdit() {
       console.log(res, "res");
     });
   };
+
   useEffect(() => {
+    console.log("Punnu");
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
@@ -254,14 +259,42 @@ function ContentEdit() {
     })
       .then((res) => {
         console.log("res", res);
-        const course_type = res.data.course.exercises[exerciseId].content_type;
+        // const course_type = res.data.course.exercises[exerciseId].content_type;
+        // setCourseType(course_type);
+        // if (course_type === "assessment") {
+        //   if (
+        //     res.data.course.exercises[exerciseId].content[0].component !==
+        //     "questionExpression"
+        //   ) {
+        //     res.data.course.exercises[exerciseId].content.splice(0, 0, {
+        //       component: "questionExpression",
+        //       type: "python",
+        //       title: "",
+        //       value: "",
+        //     });
+        //   }
+        //   if (
+        //     res.data.course.exercises[exerciseId].content[1].component !==
+        //     "questionCode"
+        //   ) {
+        //     res.data.course.exercises[exerciseId].content.splice(1, 0, {
+        //       component: "questionCode",
+        //       type: "python",
+        //       title: "",
+        //       value: "",
+        //     });
+        //   }
+        // }
+        // setId(res.data.course.exercises[exerciseId].id);
+        // setCourse(res.data.course.exercises[exerciseId].content);
+        const course_type = res.data.exercises[exerciseId].content_type;
         setCourseType(course_type);
         if (course_type === "assessment") {
           if (
-            res.data.course.exercises[exerciseId].content[0].component !==
+            res.data.exercises[exerciseId].content[0].component !==
             "questionExpression"
           ) {
-            res.data.course.exercises[exerciseId].content.splice(0, 0, {
+            res.data.exercises[exerciseId].content.splice(0, 0, {
               component: "questionExpression",
               type: "python",
               title: "",
@@ -269,10 +302,10 @@ function ContentEdit() {
             });
           }
           if (
-            res.data.course.exercises[exerciseId].content[1].component !==
+            res.data.exercises[exerciseId].content[1].component !==
             "questionCode"
           ) {
-            res.data.course.exercises[exerciseId].content.splice(1, 0, {
+            res.data.exercises[exerciseId].content.splice(1, 0, {
               component: "questionCode",
               type: "python",
               title: "",
@@ -280,8 +313,8 @@ function ContentEdit() {
             });
           }
         }
-        setId(res.data.course.exercises[exerciseId].id);
-        setCourse(res.data.course.exercises[exerciseId].content);
+        setId(res.data.exercises[exerciseId].id);
+        setCourse(res.data.exercises[exerciseId].content);
       })
       .catch((err) => {
         console.log("error");
@@ -306,9 +339,11 @@ function ContentEdit() {
     document.getElementById("myList").appendChild(node);
   }
 
+  console.log("id", id);
+
   return (
     <Container maxWidth="sm" sx={{ mt: 5 }}>
-      {/* {courseType === "assessment" ? (
+      {courseType === "assessment" ? (
         <>
           {course &&
             course.map((e, index) => {
@@ -469,177 +504,178 @@ function ContentEdit() {
           </Button>
         </>
       ) : (
-        <>
-          {course &&
-            course.map((e, index) => {
-              if (e.component === "header") {
-                return (
-                  <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-                    <Typography>
-                      Header
-                      {isShown && (
-                        <IconButton variant="solid">
-                          <AddCircleOutlineIcon
-                            onClick={(e) => {
-                              setShowModal(!showModal);
-                              setIndex(index);
-                            }}
-                          />
-                        </IconButton>
-                      )}
-                    </Typography>
-                    <TextareaAutosize
-                      aria-label="empty textarea"
-                      fullWidth
-                      placeholder="Header"
-                      color="primary"
-                      className={classes.textarea}
-                      value={course[index].value}
-                      // onChange={(e) => {
-                      //   var temp = [...course];
-                      //   temp[index].value[index].value = e.target.value;
-                      //   setCourse(temp);
-                      // }}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    />
-                  </BoxComponent>
-                );
-              } else if (e.component === "code") {
-                return (
-                  <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-                    <Typography>
-                      Code
-                      {isShown && (
-                        <IconButton variant="solid">
-                          <AddCircleOutlineIcon
-                            onClick={(e) => {
-                              setShowModal(!showModal);
-                              setIndex(index);
-                            }}
-                          />
-                        </IconButton>
-                      )}
-                    </Typography>
-                    <TextareaAutosize
-                      aria-label="empty textarea"
-                      placeholder="Code"
-                      color="primary"
-                      fullWidth
-                      className={classes.textarea}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    />
-                  </BoxComponent>
-                );
-              } else if (e.component === "text") {
-                return (
-                  <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-                    <Typography>
-                      Text
-                      {isShown && (
-                        <IconButton variant="solid">
-                          <AddCircleOutlineIcon
-                            onClick={(e) => {
-                              setShowModal(!showModal);
-                              setIndex(index);
-                            }}
-                          />
-                        </IconButton>
-                      )}
-                    </Typography>
-                    <TextareaAutosize
-                      aria-label="empty textarea"
-                      placeholder="Text"
-                      color="primary"
-                      fullWidth
-                      className={classes.textarea}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    />
-                  </BoxComponent>
-                );
-              } else if (e.component === "youtube") {
-                return (
-                  <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-                    <Typography>
-                      Youtube
-                      {isShown && (
-                        <IconButton variant="solid">
-                          <AddCircleOutlineIcon
-                            onClick={(e) => {
-                              setShowModal(!showModal);
-                              setIndex(index);
-                            }}
-                          />
-                        </IconButton>
-                      )}
-                    </Typography>
-                    <TextField
-                      id="outlined-basic"
-                      label="Youtube"
-                      variant="outlined"
-                      fullWidth
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    />
-                  </BoxComponent>
-                );
-              } else if (e.component === "image") {
-                return (
-                  <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-                    <Typography>
-                      Image
-                      {isShown && (
-                        <IconButton variant="solid">
-                          <AddCircleOutlineIcon
-                            onClick={(e) => {
-                              setShowModal(!showModal);
-                              setIndex(index);
-                            }}
-                          />
-                        </IconButton>
-                      )}
-                    </Typography>
-                    <TextareaAutosize
-                      aria-label="empty textarea"
-                      placeholder="Image"
-                      color="primary"
-                      fullWidth
-                      className={classes.textarea}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    />
-                  </BoxComponent>
-                );
-              }
-            })}
+        <ReactEditor course={course} id={id} />
+        // <>
+        //   {course &&
+        //     course.map((e, index) => {
+        //       if (e.component === "header") {
+        //         return (
+        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+        //             <Typography>
+        //               Header
+        //               {isShown && (
+        //                 <IconButton variant="solid">
+        //                   <AddCircleOutlineIcon
+        //                     onClick={(e) => {
+        //                       setShowModal(!showModal);
+        //                       setIndex(index);
+        //                     }}
+        //                   />
+        //                 </IconButton>
+        //               )}
+        //             </Typography>
+        //             <TextareaAutosize
+        //               aria-label="empty textarea"
+        //               fullWidth
+        //               placeholder="Header"
+        //               color="primary"
+        //               className={classes.textarea}
+        //               value={course[index].value}
+        //               // onChange={(e) => {
+        //               //   var temp = [...course];
+        //               //   temp[index].value[index].value = e.target.value;
+        //               //   setCourse(temp);
+        //               // }}
+        //               onChange={(e) => {
+        //                 var temp = [...course];
+        //                 temp[index].value = e.target.value;
+        //                 setCourse(temp);
+        //               }}
+        //             />
+        //           </BoxComponent>
+        //         );
+        //       } else if (e.component === "code") {
+        //         return (
+        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+        //             <Typography>
+        //               Code
+        //               {isShown && (
+        //                 <IconButton variant="solid">
+        //                   <AddCircleOutlineIcon
+        //                     onClick={(e) => {
+        //                       setShowModal(!showModal);
+        //                       setIndex(index);
+        //                     }}
+        //                   />
+        //                 </IconButton>
+        //               )}
+        //             </Typography>
+        //             <TextareaAutosize
+        //               aria-label="empty textarea"
+        //               placeholder="Code"
+        //               color="primary"
+        //               fullWidth
+        //               className={classes.textarea}
+        //               value={course[index].value}
+        //               onChange={(e) => {
+        //                 var temp = [...course];
+        //                 temp[index].value = e.target.value;
+        //                 setCourse(temp);
+        //               }}
+        //             />
+        //           </BoxComponent>
+        //         );
+        //       } else if (e.component === "text") {
+        //         return (
+        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+        //             <Typography>
+        //               Text
+        //               {isShown && (
+        //                 <IconButton variant="solid">
+        //                   <AddCircleOutlineIcon
+        //                     onClick={(e) => {
+        //                       setShowModal(!showModal);
+        //                       setIndex(index);
+        //                     }}
+        //                   />
+        //                 </IconButton>
+        //               )}
+        //             </Typography>
+        //             <TextareaAutosize
+        //               aria-label="empty textarea"
+        //               placeholder="Text"
+        //               color="primary"
+        //               fullWidth
+        //               className={classes.textarea}
+        //               value={course[index].value}
+        //               onChange={(e) => {
+        //                 var temp = [...course];
+        //                 temp[index].value = e.target.value;
+        //                 setCourse(temp);
+        //               }}
+        //             />
+        //           </BoxComponent>
+        //         );
+        //       } else if (e.component === "youtube") {
+        //         return (
+        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+        //             <Typography>
+        //               Youtube
+        //               {isShown && (
+        //                 <IconButton variant="solid">
+        //                   <AddCircleOutlineIcon
+        //                     onClick={(e) => {
+        //                       setShowModal(!showModal);
+        //                       setIndex(index);
+        //                     }}
+        //                   />
+        //                 </IconButton>
+        //               )}
+        //             </Typography>
+        //             <TextField
+        //               id="outlined-basic"
+        //               label="Youtube"
+        //               variant="outlined"
+        //               fullWidth
+        //               sx={{ marginTop: "10px", marginBottom: "10px" }}
+        //               value={course[index].value}
+        //               onChange={(e) => {
+        //                 var temp = [...course];
+        //                 temp[index].value = e.target.value;
+        //                 setCourse(temp);
+        //               }}
+        //             />
+        //           </BoxComponent>
+        //         );
+        //       } else if (e.component === "image") {
+        //         return (
+        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+        //             <Typography>
+        //               Image
+        //               {isShown && (
+        //                 <IconButton variant="solid">
+        //                   <AddCircleOutlineIcon
+        //                     onClick={(e) => {
+        //                       setShowModal(!showModal);
+        //                       setIndex(index);
+        //                     }}
+        //                   />
+        //                 </IconButton>
+        //               )}
+        //             </Typography>
+        //             <TextareaAutosize
+        //               aria-label="empty textarea"
+        //               placeholder="Image"
+        //               color="primary"
+        //               fullWidth
+        //               className={classes.textarea}
+        //               value={course[index].value}
+        //               onChange={(e) => {
+        //                 var temp = [...course];
+        //                 temp[index].value = e.target.value;
+        //                 setCourse(temp);
+        //               }}
+        //             />
+        //           </BoxComponent>
+        //         );
+        //       }
+        //     })}
 
-          <Button variant="contained" onClick={(e) => putApiExercisesCall()}>
-            Submit
-          </Button>
-        </>
-      )} */}
+        //   <Button variant="contained" onClick={(e) => putApiExercisesCall()}>
+        //     Submit
+        //   </Button>
+        // </>
+      )}
 
       {console.log("showModal", showModal)}
 
@@ -666,7 +702,7 @@ function ContentEdit() {
           </List>
         </Dialog>
       )}
-      <ReactEditor course={course} />
+      {/* <ReactEditor course={course} /> */}
     </Container>
   );
 }
