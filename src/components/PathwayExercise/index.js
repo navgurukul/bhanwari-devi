@@ -61,7 +61,7 @@ const Exercise = ({
 
   return (
     <>
-      {courseLength.map((exercise, index) => {
+      {courseLength?.map((exercise, index) => {
         return (
           <ExerciseImage
             id={exercise.id}
