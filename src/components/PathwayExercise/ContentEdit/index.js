@@ -12,6 +12,8 @@ import {
   TextField,
   TextareaAutosize,
   Box,
+  AppBar,
+  Toolbar,
   Button,
   Grid,
   Dialog,
@@ -20,8 +22,13 @@ import {
   ListItemText,
   Typography,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { Link } from "react-router-dom";
+import { breakpoints } from "../../../theme/constant";
 import ReactEditor from "./editor";
+
 function BoxComponent(props) {
   // const [isShown, setIsShown] = useState(false);
   return (
@@ -54,6 +61,7 @@ function ContentEdit() {
   const [showOption, setShowOption] = useState();
   const [isShown, setIsShown] = useState(false);
   const [index, setIndex] = useState();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   console.log("id", id);
   console.log("exerciseId", exerciseId);
@@ -259,42 +267,14 @@ function ContentEdit() {
     })
       .then((res) => {
         console.log("res", res);
-        // const course_type = res.data.course.exercises[exerciseId].content_type;
-        // setCourseType(course_type);
-        // if (course_type === "assessment") {
-        //   if (
-        //     res.data.course.exercises[exerciseId].content[0].component !==
-        //     "questionExpression"
-        //   ) {
-        //     res.data.course.exercises[exerciseId].content.splice(0, 0, {
-        //       component: "questionExpression",
-        //       type: "python",
-        //       title: "",
-        //       value: "",
-        //     });
-        //   }
-        //   if (
-        //     res.data.course.exercises[exerciseId].content[1].component !==
-        //     "questionCode"
-        //   ) {
-        //     res.data.course.exercises[exerciseId].content.splice(1, 0, {
-        //       component: "questionCode",
-        //       type: "python",
-        //       title: "",
-        //       value: "",
-        //     });
-        //   }
-        // }
-        // setId(res.data.course.exercises[exerciseId].id);
-        // setCourse(res.data.course.exercises[exerciseId].content);
-        const course_type = res.data.exercises[exerciseId].content_type;
+        const course_type = res.data.course.exercises[exerciseId].content_type;
         setCourseType(course_type);
         if (course_type === "assessment") {
           if (
-            res.data.exercises[exerciseId].content[0].component !==
+            res.data.course.exercises[exerciseId].content[0].component !==
             "questionExpression"
           ) {
-            res.data.exercises[exerciseId].content.splice(0, 0, {
+            res.data.course.exercises[exerciseId].content.splice(0, 0, {
               component: "questionExpression",
               type: "python",
               title: "",
@@ -302,10 +282,10 @@ function ContentEdit() {
             });
           }
           if (
-            res.data.exercises[exerciseId].content[1].component !==
+            res.data.course.exercises[exerciseId].content[1].component !==
             "questionCode"
           ) {
-            res.data.exercises[exerciseId].content.splice(1, 0, {
+            res.data.course.exercises[exerciseId].content.splice(1, 0, {
               component: "questionCode",
               type: "python",
               title: "",
@@ -313,8 +293,36 @@ function ContentEdit() {
             });
           }
         }
-        setId(res.data.exercises[exerciseId].id);
-        setCourse(res.data.exercises[exerciseId].content);
+        setId(res.data.course.exercises[exerciseId].id);
+        setCourse(res.data.course.exercises[exerciseId].content);
+        // const course_type = res.data.exercises[exerciseId].content_type;
+        // setCourseType(course_type);
+        // if (course_type === "assessment") {
+        //   if (
+        //     res.data.exercises[exerciseId].content[0].component !==
+        //     "questionExpression"
+        //   ) {
+        //     res.data.exercises[exerciseId].content.splice(0, 0, {
+        //       component: "questionExpression",
+        //       type: "python",
+        //       title: "",
+        //       value: "",
+        //     });
+        //   }
+        //   if (
+        //     res.data.exercises[exerciseId].content[1].component !==
+        //     "questionCode"
+        //   ) {
+        //     res.data.exercises[exerciseId].content.splice(1, 0, {
+        //       component: "questionCode",
+        //       type: "python",
+        //       title: "",
+        //       value: "",
+        //     });
+        //   }
+        // }
+        // setId(res.data.exercises[exerciseId].id);
+        // setCourse(res.data.exercises[exerciseId].content);
       })
       .catch((err) => {
         console.log("error");
@@ -342,368 +350,483 @@ function ContentEdit() {
   console.log("id", id);
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 5 }}>
-      {courseType === "assessment" ? (
-        <>
-          {course &&
-            course.map((e, index) => {
-              if (e.component === "questionExpression") {
-                console.log(e.component, "e.value", e.value);
-                return (
-                  <BoxComponent
-                    setIsShown={setIsShown}
-                    isShown={isShown}
-                    iconClick={(e) => handleAdd(index, "assessment")}
-                  >
-                    <Typography>
-                      Question Options
-                      {isShown && (
-                        <IconButton variant="solid">
-                          <AddCircleOutlineIcon
-                            onClick={(e) => handleAdd(index, "assessment")}
-                          />
-                        </IconButton>
-                      )}
-                    </Typography>
-                    <TextareaAutosize
-                      aria-label="empty textarea"
-                      fullWidth
-                      placeholder="Question"
-                      color="primary"
-                      className={classes.textarea}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                      // value={course[index].value}
-                      // onChange={(e) => {
-                      //   var temp = [...course];
-                      //   temp[index].value[optionIndex].value = e.target.value;
-                      //   setCourse(temp);
-                      // }}
-                    />
-                  </BoxComponent>
-                );
-              } else if (e.component === "questionCode") {
-                console.log(e.component, "e.value", e.value);
-                return (
-                  <Box>
-                    <Typography>Code</Typography>
-                    <TextField
-                      id="outlined-basic"
-                      label="Code"
-                      variant="outlined"
-                      fullWidth
-                      // className={classes.editField}
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    />
-                  </Box>
-                );
-              } else if (e.component === "options") {
-                console.log(e.component, "e.value", e.value);
-                return (
-                  <BoxComponent
-                    setIsShown={setIsShown}
-                    isShown={isShown}
-                    iconClick={(e) => handleAdd(index, "options")}
-                  >
-                    <Typography>
-                      Options
-                      {isShown && (
-                        <IconButton variant="solid">
-                          <AddCircleOutlineIcon
-                            onClick={(e) => handleAdd(index, "options")}
-                          />
-                        </IconButton>
-                      )}
-                    </Typography>
-                    {e.value.map((options, optionIndex) => {
-                      return (
-                        <TextField
-                          id="outlined-basic"
-                          label={`Option ${optionIndex + 1}`}
-                          variant="outlined"
-                          fullWidth
-                          // className={classes.editField}
-                          sx={{ marginTop: "10px", marginBottom: "10px" }}
-                          value={options.value}
-                          onChange={(e) => {
-                            var temp = [...course];
-                            temp[index].value[optionIndex].value =
-                              e.target.value;
-                            setCourse(temp);
-                          }}
-                        />
-                      );
-                    })}
-                  </BoxComponent>
-                );
-              } else if (e.component === "solution") {
-                console.log(e.component, "e.value", e.value);
-                return (
-                  <>
-                    <Typography>Solution</Typography>
-                    <TextField
-                      id="outlined-basic"
-                      label="Solution"
-                      variant="outlined"
-                      fullWidth
-                      // className={classes.editField}
-                      sx={{ marginTop: "10px", marginBottom: "10px" }}
-                      value={course[index].value}
-                      onChange={(e) => {
-                        var temp = [...course];
-                        temp[index].value = e.target.value;
-                        setCourse(temp);
-                      }}
-                    />
-                  </>
-                );
-              } else if (e.component === "output") {
-                console.log(e.component, "e.value", e.value);
-                return Object.keys(course[index].value).map((sol, index1) => {
+    <>
+      <AppBar
+        fullWidth
+        position="sticky"
+        color="background"
+        // sx={{ bgcolor: "info.light" }}
+        // className={classes.editingHeader}
+        elevation={2}
+      >
+        <Box>
+          <Container maxWidth>
+            <Toolbar sx={{ alignItems: "center" }}>
+              <Typography
+                variant="h6"
+                component="div"
+                pt={1}
+                style={{
+                  position: "relative",
+                  left: "-30px",
+                }}
+              >
+                <Link
+                  style={{ color: "#6D6D6D" }}
+                  to={
+                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                      courseId: params.courseId,
+                      exerciseId: params.exerciseId,
+                      pathwayId: params.pathwayId,
+                    })
+                    // params.pathwayId == "miscellaneous"
+                    //   ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
+                    //   : params.pathwayId == "residential"
+                    //   ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
+                    //   : interpolatePath(PATHS.PATHWAY_COURSE, {
+                    //       pathwayId: params.pathwayId,
+                    //     })
+                  }
+                >
+                  <CloseIcon />
+                </Link>
+              </Typography>
+              <Box sx={{ flexGrow: 1 }} />
+              {/* <ModeEditOutlineOutlinedIcon
+                className={classes.edit}
+                sx={{ mr: "11px" }}
+              /> */}
+              <Typography className={classes.edit}>
+                Want to update the content?
+              </Typography>
+              <Button
+                sx={{ color: "#000000", ml: "24px" }}
+                className={classes.edit}
+                onClick={() => {
+                  history.push(
+                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
+                      courseId: params.courseId,
+                      exerciseId: params.exerciseId,
+                      pathwayId: params.pathwayId,
+                    })
+                  );
+                }}
+              >
+                Start Editing
+              </Button>
+              <Box sx={{ flexGrow: 1 }} />
+            </Toolbar>
+          </Container>
+        </Box>
+      </AppBar>
+      <Container maxWidth="sm" sx={{ mt: 5 }}>
+        {courseType === "assessment" ? (
+          <>
+            {course &&
+              course.map((e, index) => {
+                if (e.component === "questionExpression") {
+                  console.log(e.component, "e.value", e.value);
                   return (
-                    <>
-                      <Typography>{sol} Explaination</Typography>
-
-                      {course[index].value[sol].map((solution, index2) => {
+                    <BoxComponent
+                      setIsShown={setIsShown}
+                      isShown={isShown}
+                      iconClick={(e) => handleAdd(index, "assessment")}
+                    >
+                      <Typography>
+                        Question Options
+                        {isShown && (
+                          <IconButton variant="solid">
+                            <AddCircleOutlineIcon
+                              onClick={(e) => handleAdd(index, "assessment")}
+                            />
+                          </IconButton>
+                        )}
+                      </Typography>
+                      <TextareaAutosize
+                        aria-label="empty textarea"
+                        fullWidth
+                        placeholder="Question"
+                        color="primary"
+                        className={classes.textarea}
+                        value={course[index].value}
+                        onChange={(e) => {
+                          var temp = [...course];
+                          temp[index].value = e.target.value;
+                          setCourse(temp);
+                        }}
+                        // value={course[index].value}
+                        // onChange={(e) => {
+                        //   var temp = [...course];
+                        //   temp[index].value[optionIndex].value = e.target.value;
+                        //   setCourse(temp);
+                        // }}
+                      />
+                    </BoxComponent>
+                  );
+                } else if (e.component === "questionCode") {
+                  console.log(e.component, "e.value", e.value);
+                  return (
+                    <Box>
+                      <Typography>Code</Typography>
+                      <TextField
+                        id="outlined-basic"
+                        label="Code"
+                        variant="outlined"
+                        fullWidth
+                        // className={classes.editField}
+                        sx={{ marginTop: "10px", marginBottom: "10px" }}
+                        value={course[index].value}
+                        onChange={(e) => {
+                          var temp = [...course];
+                          temp[index].value = e.target.value;
+                          setCourse(temp);
+                        }}
+                      />
+                    </Box>
+                  );
+                } else if (e.component === "options") {
+                  console.log(e.component, "e.value", e.value);
+                  return (
+                    <BoxComponent
+                      setIsShown={setIsShown}
+                      isShown={isShown}
+                      iconClick={(e) => handleAdd(index, "options")}
+                    >
+                      <Typography>
+                        Options
+                        {isShown && (
+                          <IconButton variant="solid">
+                            <AddCircleOutlineIcon
+                              onClick={(e) => handleAdd(index, "options")}
+                            />
+                          </IconButton>
+                        )}
+                      </Typography>
+                      {e.value.map((options, optionIndex) => {
                         return (
                           <TextField
                             id="outlined-basic"
-                            label={"Output " + solution.component}
+                            label={`Option ${optionIndex + 1}`}
                             variant="outlined"
                             fullWidth
                             // className={classes.editField}
                             sx={{ marginTop: "10px", marginBottom: "10px" }}
-                            value={solution.value}
+                            value={options.value}
                             onChange={(e) => {
                               var temp = [...course];
-                              temp[index].value[sol][index2].value =
+                              temp[index].value[optionIndex].value =
                                 e.target.value;
                               setCourse(temp);
                             }}
                           />
                         );
                       })}
+                    </BoxComponent>
+                  );
+                } else if (e.component === "solution") {
+                  console.log(e.component, "e.value", e.value);
+                  return (
+                    <>
+                      <Typography>Solution</Typography>
+                      <TextField
+                        id="outlined-basic"
+                        label="Solution"
+                        variant="outlined"
+                        fullWidth
+                        // className={classes.editField}
+                        sx={{ marginTop: "10px", marginBottom: "10px" }}
+                        value={course[index].value}
+                        onChange={(e) => {
+                          var temp = [...course];
+                          temp[index].value = e.target.value;
+                          setCourse(temp);
+                        }}
+                      />
                     </>
                   );
-                });
-              }
-            })}
+                } else if (e.component === "output") {
+                  console.log(e.component, "e.value", e.value);
+                  return Object.keys(course[index].value).map((sol, index1) => {
+                    return (
+                      <>
+                        <Typography>{sol} Explaination</Typography>
 
-          <Button variant="contained" onClick={(e) => putApiAssessmentCall()}>
-            Submit
-          </Button>
-        </>
-      ) : (
-        <ReactEditor course={course} id={id} />
-        // <>
-        //   {course &&
-        //     course.map((e, index) => {
-        //       if (e.component === "header") {
-        //         return (
-        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-        //             <Typography>
-        //               Header
-        //               {isShown && (
-        //                 <IconButton variant="solid">
-        //                   <AddCircleOutlineIcon
-        //                     onClick={(e) => {
-        //                       setShowModal(!showModal);
-        //                       setIndex(index);
-        //                     }}
-        //                   />
-        //                 </IconButton>
-        //               )}
-        //             </Typography>
-        //             <TextareaAutosize
-        //               aria-label="empty textarea"
-        //               fullWidth
-        //               placeholder="Header"
-        //               color="primary"
-        //               className={classes.textarea}
-        //               value={course[index].value}
-        //               // onChange={(e) => {
-        //               //   var temp = [...course];
-        //               //   temp[index].value[index].value = e.target.value;
-        //               //   setCourse(temp);
-        //               // }}
-        //               onChange={(e) => {
-        //                 var temp = [...course];
-        //                 temp[index].value = e.target.value;
-        //                 setCourse(temp);
-        //               }}
-        //             />
-        //           </BoxComponent>
-        //         );
-        //       } else if (e.component === "code") {
-        //         return (
-        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-        //             <Typography>
-        //               Code
-        //               {isShown && (
-        //                 <IconButton variant="solid">
-        //                   <AddCircleOutlineIcon
-        //                     onClick={(e) => {
-        //                       setShowModal(!showModal);
-        //                       setIndex(index);
-        //                     }}
-        //                   />
-        //                 </IconButton>
-        //               )}
-        //             </Typography>
-        //             <TextareaAutosize
-        //               aria-label="empty textarea"
-        //               placeholder="Code"
-        //               color="primary"
-        //               fullWidth
-        //               className={classes.textarea}
-        //               value={course[index].value}
-        //               onChange={(e) => {
-        //                 var temp = [...course];
-        //                 temp[index].value = e.target.value;
-        //                 setCourse(temp);
-        //               }}
-        //             />
-        //           </BoxComponent>
-        //         );
-        //       } else if (e.component === "text") {
-        //         return (
-        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-        //             <Typography>
-        //               Text
-        //               {isShown && (
-        //                 <IconButton variant="solid">
-        //                   <AddCircleOutlineIcon
-        //                     onClick={(e) => {
-        //                       setShowModal(!showModal);
-        //                       setIndex(index);
-        //                     }}
-        //                   />
-        //                 </IconButton>
-        //               )}
-        //             </Typography>
-        //             <TextareaAutosize
-        //               aria-label="empty textarea"
-        //               placeholder="Text"
-        //               color="primary"
-        //               fullWidth
-        //               className={classes.textarea}
-        //               value={course[index].value}
-        //               onChange={(e) => {
-        //                 var temp = [...course];
-        //                 temp[index].value = e.target.value;
-        //                 setCourse(temp);
-        //               }}
-        //             />
-        //           </BoxComponent>
-        //         );
-        //       } else if (e.component === "youtube") {
-        //         return (
-        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-        //             <Typography>
-        //               Youtube
-        //               {isShown && (
-        //                 <IconButton variant="solid">
-        //                   <AddCircleOutlineIcon
-        //                     onClick={(e) => {
-        //                       setShowModal(!showModal);
-        //                       setIndex(index);
-        //                     }}
-        //                   />
-        //                 </IconButton>
-        //               )}
-        //             </Typography>
-        //             <TextField
-        //               id="outlined-basic"
-        //               label="Youtube"
-        //               variant="outlined"
-        //               fullWidth
-        //               sx={{ marginTop: "10px", marginBottom: "10px" }}
-        //               value={course[index].value}
-        //               onChange={(e) => {
-        //                 var temp = [...course];
-        //                 temp[index].value = e.target.value;
-        //                 setCourse(temp);
-        //               }}
-        //             />
-        //           </BoxComponent>
-        //         );
-        //       } else if (e.component === "image") {
-        //         return (
-        //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-        //             <Typography>
-        //               Image
-        //               {isShown && (
-        //                 <IconButton variant="solid">
-        //                   <AddCircleOutlineIcon
-        //                     onClick={(e) => {
-        //                       setShowModal(!showModal);
-        //                       setIndex(index);
-        //                     }}
-        //                   />
-        //                 </IconButton>
-        //               )}
-        //             </Typography>
-        //             <TextareaAutosize
-        //               aria-label="empty textarea"
-        //               placeholder="Image"
-        //               color="primary"
-        //               fullWidth
-        //               className={classes.textarea}
-        //               value={course[index].value}
-        //               onChange={(e) => {
-        //                 var temp = [...course];
-        //                 temp[index].value = e.target.value;
-        //                 setCourse(temp);
-        //               }}
-        //             />
-        //           </BoxComponent>
-        //         );
-        //       }
-        //     })}
+                        {course[index].value[sol].map((solution, index2) => {
+                          return (
+                            <TextField
+                              id="outlined-basic"
+                              label={"Output " + solution.component}
+                              variant="outlined"
+                              fullWidth
+                              // className={classes.editField}
+                              sx={{ marginTop: "10px", marginBottom: "10px" }}
+                              value={solution.value}
+                              onChange={(e) => {
+                                var temp = [...course];
+                                temp[index].value[sol][index2].value =
+                                  e.target.value;
+                                setCourse(temp);
+                              }}
+                            />
+                          );
+                        })}
+                      </>
+                    );
+                  });
+                }
+              })}
 
-        //   <Button variant="contained" onClick={(e) => putApiExercisesCall()}>
-        //     Submit
-        //   </Button>
-        // </>
-      )}
+            <Button variant="contained" onClick={(e) => putApiAssessmentCall()}>
+              Submit
+            </Button>
+          </>
+        ) : (
+          <ReactEditor course={course} id={id} />
+          // <>
+          //   {course &&
+          //     course.map((e, index) => {
+          //       if (e.component === "header") {
+          //         return (
+          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+          //             <Typography>
+          //               Header
+          //               {isShown && (
+          //                 <IconButton variant="solid">
+          //                   <AddCircleOutlineIcon
+          //                     onClick={(e) => {
+          //                       setShowModal(!showModal);
+          //                       setIndex(index);
+          //                     }}
+          //                   />
+          //                 </IconButton>
+          //               )}
+          //             </Typography>
+          //             <TextareaAutosize
+          //               aria-label="empty textarea"
+          //               fullWidth
+          //               placeholder="Header"
+          //               color="primary"
+          //               className={classes.textarea}
+          //               value={course[index].value}
+          //               // onChange={(e) => {
+          //               //   var temp = [...course];
+          //               //   temp[index].value[index].value = e.target.value;
+          //               //   setCourse(temp);
+          //               // }}
+          //               onChange={(e) => {
+          //                 var temp = [...course];
+          //                 temp[index].value = e.target.value;
+          //                 setCourse(temp);
+          //               }}
+          //             />
+          //           </BoxComponent>
+          //         );
+          //       } else if (e.component === "code") {
+          //         return (
+          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+          //             <Typography>
+          //               Code
+          //               {isShown && (
+          //                 <IconButton variant="solid">
+          //                   <AddCircleOutlineIcon
+          //                     onClick={(e) => {
+          //                       setShowModal(!showModal);
+          //                       setIndex(index);
+          //                     }}
+          //                   />
+          //                 </IconButton>
+          //               )}
+          //             </Typography>
+          //             <TextareaAutosize
+          //               aria-label="empty textarea"
+          //               placeholder="Code"
+          //               color="primary"
+          //               fullWidth
+          //               className={classes.textarea}
+          //               value={course[index].value}
+          //               onChange={(e) => {
+          //                 var temp = [...course];
+          //                 temp[index].value = e.target.value;
+          //                 setCourse(temp);
+          //               }}
+          //             />
+          //           </BoxComponent>
+          //         );
+          //       } else if (e.component === "text") {
+          //         return (
+          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+          //             <Typography>
+          //               Text
+          //               {isShown && (
+          //                 <IconButton variant="solid">
+          //                   <AddCircleOutlineIcon
+          //                     onClick={(e) => {
+          //                       setShowModal(!showModal);
+          //                       setIndex(index);
+          //                     }}
+          //                   />
+          //                 </IconButton>
+          //               )}
+          //             </Typography>
+          //             <TextareaAutosize
+          //               aria-label="empty textarea"
+          //               placeholder="Text"
+          //               color="primary"
+          //               fullWidth
+          //               className={classes.textarea}
+          //               value={course[index].value}
+          //               onChange={(e) => {
+          //                 var temp = [...course];
+          //                 temp[index].value = e.target.value;
+          //                 setCourse(temp);
+          //               }}
+          //             />
+          //           </BoxComponent>
+          //         );
+          //       } else if (e.component === "youtube") {
+          //         return (
+          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+          //             <Typography>
+          //               Youtube
+          //               {isShown && (
+          //                 <IconButton variant="solid">
+          //                   <AddCircleOutlineIcon
+          //                     onClick={(e) => {
+          //                       setShowModal(!showModal);
+          //                       setIndex(index);
+          //                     }}
+          //                   />
+          //                 </IconButton>
+          //               )}
+          //             </Typography>
+          //             <TextField
+          //               id="outlined-basic"
+          //               label="Youtube"
+          //               variant="outlined"
+          //               fullWidth
+          //               sx={{ marginTop: "10px", marginBottom: "10px" }}
+          //               value={course[index].value}
+          //               onChange={(e) => {
+          //                 var temp = [...course];
+          //                 temp[index].value = e.target.value;
+          //                 setCourse(temp);
+          //               }}
+          //             />
+          //           </BoxComponent>
+          //         );
+          //       } else if (e.component === "image") {
+          //         return (
+          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
+          //             <Typography>
+          //               Image
+          //               {isShown && (
+          //                 <IconButton variant="solid">
+          //                   <AddCircleOutlineIcon
+          //                     onClick={(e) => {
+          //                       setShowModal(!showModal);
+          //                       setIndex(index);
+          //                     }}
+          //                   />
+          //                 </IconButton>
+          //               )}
+          //             </Typography>
+          //             <TextareaAutosize
+          //               aria-label="empty textarea"
+          //               placeholder="Image"
+          //               color="primary"
+          //               fullWidth
+          //               className={classes.textarea}
+          //               value={course[index].value}
+          //               onChange={(e) => {
+          //                 var temp = [...course];
+          //                 temp[index].value = e.target.value;
+          //                 setCourse(temp);
+          //               }}
+          //             />
+          //           </BoxComponent>
+          //         );
+          //       }
+          //     })}
 
-      {console.log("showModal", showModal)}
+          //   <Button variant="contained" onClick={(e) => putApiExercisesCall()}>
+          //     Submit
+          //   </Button>
+          // </>
+        )}
 
-      {showModal && (
-        <Dialog
-          onClose={() => {
-            setShowModal(!showModal);
-          }}
-          open={showModal}
+        {console.log("showModal", showModal)}
+
+        {showModal && (
+          <Dialog
+            onClose={() => {
+              setShowModal(!showModal);
+            }}
+            open={showModal}
+          >
+            <List sx={{ pt: 0 }}>
+              {Object.keys(dropDownList).map((item) => (
+                <ListItem
+                  button
+                  onClick={() => {
+                    setShowModal(!showModal);
+                    handleAdd(index, dropDownList[item]);
+                    // dropDownList[item]
+                  }}
+                >
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+          </Dialog>
+        )}
+        {/* <ReactEditor course={course} /> */}
+      </Container>
+      <Box>
+        <Toolbar
+          className={classes.bottomRow}
+          sx={{ width: !isActive ? "100%" : "100%" }}
         >
-          <List sx={{ pt: 0 }}>
-            {Object.keys(dropDownList).map((item) => (
-              <ListItem
-                button
-                onClick={() => {
-                  setShowModal(!showModal);
-                  handleAdd(index, dropDownList[item]);
-                  // dropDownList[item]
-                }}
-              >
-                <ListItemText primary={item} />
-              </ListItem>
-            ))}
-          </List>
-        </Dialog>
-      )}
-      {/* <ReactEditor course={course} /> */}
-    </Container>
+          <Button
+            variant="text"
+            color="dark"
+            style={
+              {
+                // opacity: `${exerciseId !== 0 ? 1 : 0}`,
+              }
+            }
+            // disabled={exerciseId === 0}
+            onClick={() => {
+              history.push(
+                interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                  courseId: params.courseId,
+                  exerciseId: params.exerciseId,
+                  pathwayId: params.pathwayId,
+                })
+              );
+            }}
+            sx={{ flexGrow: 0 }}
+            // startIcon={<ArrowBackIosIcon />}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              // opacity: `${exerciseId < courseLength ? 1 : 0}`,
+              position: "relative",
+              // right: "-10px",
+              // marginRight: !isActive && !isActiveIpad ? "40px" : "",
+            }}
+            // endIcon={<ArrowForwardIosIcon />}
+            // disabled={!(exerciseId < courseLength)}
+            variant="text"
+            color="primary"
+            // onClick={nextClickHandler}
+          >
+            Save
+          </Button>
+        </Toolbar>
+      </Box>
+    </>
   );
 }
 

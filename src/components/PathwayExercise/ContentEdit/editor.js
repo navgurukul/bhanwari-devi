@@ -6,10 +6,12 @@ import { useSelector } from "react-redux";
 import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import "./styles.scss";
 import Image from "@editorjs/image";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Embed from "@editorjs/embed";
+
 const CodeTool = require("@editorjs/code");
 
 const EDITOR_JS_TOOLS = {
@@ -48,70 +50,7 @@ function ReactEditor({ course, id }) {
   let style = "";
   let items = [];
 
-  // let blocks1 = [];
-
-  // for (const item of course) {
-  //   let youtube;
-  //   if (item.component === "youtube") {
-  //     if (!item.value.includes("=")) {
-  //       youtube = "https://www.youtube.com/embed/" + item.value;
-  //     } else {
-  //       let value = item.value.split("=")[1];
-  //       youtube = "https://www.youtube.com/embed/" + value;
-  //     }
-  //   } else if (item.component === "text") {
-  //     if ("decoration" in item) {
-  //       if (item.decoration.type == "bullet") {
-  //         style = "unordered";
-  //       } else {
-  //         style = "ordered";
-  //       }
-  //       items.push(item.value);
-  //     } else {
-  //       items = [];
-  //     }
-  //   } else {
-  //     items = [];
-  //   }
-
-  //   let type;
-  //   if (item.component == "text" && "decoration" in item) {
-  //     type = "list";
-  //   } else if (item.component == "text") {
-  //     type = "paragraph";
-  //   } else if (item.component === "youtube") {
-  //     type = "embed";
-  //   } else {
-  //     type = item.component;
-  //   }
-
-  //   let data = {
-  //     type: type,
-  //     data: {
-  //       style: style,
-  //       items: items,
-  //       text:
-  //         type == "list"
-  //           ? false
-  //           : (item.component === "text" || item.component === "header") &&
-  //             item.value,
-  //       level: item.variant,
-  //       code: item.component === "code" && item.value,
-  //       file: {
-  //         url: item.component === "image" && item.value,
-  //       },
-  //       embed: item.component === "youtube" && youtube,
-  //       source: item.component === "youtube" && youtube,
-  //       service: item.component === "youtube" && item.value && item.component,
-  //       caption: "",
-  //       height: 320,
-  //       width: 580,
-  //     },
-  //   };
-  //   blocks1.push(data);
-  // }
-
-  let blocks1 = course.map((item, index) => {
+  let courseData = course.map((item, index) => {
     let youtube;
     if (item.component === "youtube") {
       if (!item.value.includes("=")) {
@@ -168,28 +107,27 @@ function ReactEditor({ course, id }) {
         embed: item.component === "youtube" && youtube,
         source: item.component === "youtube" && youtube,
         service: item.component === "youtube" && item.value && item.component,
-        caption: "",
+        // caption: "",
         height: 320,
         width: 580,
       },
     };
   });
 
-  let blocks = blocks1.filter((item, index) => {
+  let blocks = courseData.filter((item, index) => {
     const stringifiedItem = JSON.stringify(item);
     return (
       index ===
-      blocks1.findIndex((obj) => {
+      courseData.findIndex((obj) => {
         return JSON.stringify(obj) === stringifiedItem;
       })
     );
   });
 
   console.log("blocks", blocks);
-  // console.log("blocks1", blocks1);
 
   let json = [];
-  const MerakiJSON = () => {
+  const MerakiJSON = (blocks) => {
     blocks.map((item, index) => {
       let value;
       let component;
@@ -199,10 +137,15 @@ function ReactEditor({ course, id }) {
       }
       let code;
       if (item.type === "list") {
-        let decoration = {};
-        item.data.items.map((value) => {
+        item.data.items.map((value, index) => {
+          let decoration = {};
           let object = {};
-          decoration.type = item.data.style;
+          if (item.data.style === "unordered") {
+            decoration.type = "bullet";
+          } else {
+            decoration.type = "number";
+            decoration.value = index + 1;
+          }
           object = {
             ...object,
             value: value,
@@ -229,7 +172,6 @@ function ReactEditor({ course, id }) {
         json.push({
           value: value,
           component: component,
-          // variant: variant,
           variant: item.data.level,
         });
       }
@@ -242,45 +184,45 @@ function ReactEditor({ course, id }) {
     console.log("Editor.js is ready to work!");
   };
 
-  const onChange = () => {
+  const onChange = (e) => {
+    console.log("e", e);
     // https://editorjs.io/configuration#editor-modifications-callback
     console.log("Now I know that Editor's content changed!");
   };
 
   const onSave = async () => {
     // https://editorjs.io/saving-data
-    MerakiJSON();
+    try {
+      const outputData = await editor.save();
+      console.log("Article data: ", outputData);
+      MerakiJSON(outputData.blocks);
+      const stringifiedCourse = JSON.stringify(json, null, 0);
+      console.log(id, stringifiedCourse, "cc");
 
-    const stringifiedCourse = JSON.stringify(json, null, 0);
-    console.log(id, stringifiedCourse, "cc");
-    axios({
-      method: METHODS.PUT,
-      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-      data: {
-        content: stringifiedCourse,
-      },
-    }).then((res) => {
-      // history.push(
-      //   interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-      //     courseId: params.courseId,
-      //     exerciseId: params.exerciseId,
-      //     pathwayId: params.pathwayId,
-      //   })
-      // );
-      console.log(res, "res");
-    });
-
-    // try {
-    //   const outputData = await editor.save();
-    //   console.log("Article data: ", outputData);
-    // } catch (e) {
-    //   console.log("Saving failed: ", e);
-    // }
+      axios({
+        method: METHODS.PUT,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+        data: {
+          content: stringifiedCourse,
+        },
+      }).then((res) => {
+        history.push(
+          interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId: params.courseId,
+            exerciseId: params.exerciseId,
+            pathwayId: params.pathwayId,
+          })
+        );
+        console.log(res, "res");
+      });
+    } catch (e) {
+      console.log("Saving failed: ", e);
+    }
   };
 
   return (
