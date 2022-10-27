@@ -11,6 +11,7 @@ import Image from "@editorjs/image";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Embed from "@editorjs/embed";
+import { Button } from "@mui/material";
 
 const CodeTool = require("@editorjs/code");
 
@@ -34,7 +35,7 @@ const EDITOR_JS_TOOLS = {
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 // import { EDITOR_JS_TOOLS } from "./constants";
 
-function ReactEditor({ course, id }) {
+function ReactEditor({ course, id, save }) {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
@@ -189,7 +190,6 @@ function ReactEditor({ course, id }) {
     // https://editorjs.io/configuration#editor-modifications-callback
     console.log("Now I know that Editor's content changed!");
   };
-
   const onSave = async () => {
     // https://editorjs.io/saving-data
     try {
@@ -224,7 +224,9 @@ function ReactEditor({ course, id }) {
       console.log("Saving failed: ", e);
     }
   };
-
+  useEffect(() => {
+    onSave();
+  }, [save]);
   return (
     <>
       {blocks.length > 0 && (
@@ -243,7 +245,15 @@ function ReactEditor({ course, id }) {
             }}
           />
 
-          <button onClick={() => onSave()}>save</button>
+          <Button
+            sx={{
+              mt: 20,
+              mb: 20,
+            }}
+            onClick={() => onSave()}
+          >
+            save
+          </Button>
         </>
       )}
     </>

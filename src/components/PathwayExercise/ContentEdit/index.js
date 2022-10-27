@@ -28,7 +28,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { breakpoints } from "../../../theme/constant";
 import ReactEditor from "./editor";
-
+import { onSave } from "./editor";
 function BoxComponent(props) {
   // const [isShown, setIsShown] = useState(false);
   return (
@@ -348,7 +348,7 @@ function ContentEdit() {
   }
 
   console.log("id", id);
-
+  const [save, setSave] = useState(false);
   return (
     <>
       <AppBar
@@ -581,7 +581,7 @@ function ContentEdit() {
             </Button>
           </>
         ) : (
-          <ReactEditor course={course} id={id} />
+          <ReactEditor course={course} id={id} save={save} />
           // <>
           //   {course &&
           //     course.map((e, index) => {
@@ -781,10 +781,15 @@ function ContentEdit() {
         )}
         {/* <ReactEditor course={course} /> */}
       </Container>
-      <Box>
+      <Box
+        style={{
+          position: "fixed",
+          zIndex: 100,
+        }}
+      >
         <Toolbar
           className={classes.bottomRow}
-          sx={{ width: !isActive ? "100%" : "100%" }}
+          sx={{ width: !isActive ? "98%" : "80%" }}
         >
           <Button
             variant="text"
@@ -820,9 +825,11 @@ function ContentEdit() {
             // disabled={!(exerciseId < courseLength)}
             variant="text"
             color="primary"
-            // onClick={nextClickHandler}
+            onClick={() => {
+              setSave(!save);
+            }}
           >
-            Save
+            Publish
           </Button>
         </Toolbar>
       </Box>
