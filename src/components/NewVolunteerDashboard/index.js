@@ -558,6 +558,7 @@ function NewVolunteerDashboard(props) {
                       left: -1,
                       backgroundColor: "white",
                       zIndex: 600,
+                      p: "8px",
                     }}
                   >
                     <Checkbox
@@ -580,8 +581,10 @@ function NewVolunteerDashboard(props) {
                     <>
                       <TableCell
                         align="center"
-                        className={classes.tableSticky}
-                        sx={{ left: "60px", width: "150px" }}
+                        // className={classes.tableSticky}
+                        // sx={{ left: "60px", p : "2px"
+                        // width: "150px"
+                        // }}
                       >
                         <Typography className={classes.tablecellHead}>
                           {selected.length}{" "}
@@ -590,8 +593,10 @@ function NewVolunteerDashboard(props) {
                         </Typography>
                       </TableCell>
                       <TableCell
-                        className={classes.tableSticky}
-                        sx={{ left: "170px", width: "150px" }}
+                        // className={classes.tableSticky}
+                        // sx={{ left: "200px", p:"2px"
+                        // width: "150px"
+                        // }}
                         onClick={() => {
                           const valueToDisplay = `Total ${selected.length} ${
                             selected.length === 1 ? "row is " : "rows are "
@@ -611,8 +616,8 @@ function NewVolunteerDashboard(props) {
                       </TableCell>
                       <TableCell
                         colSpan={isActive ? 0 : 5}
-                        className={classes.tableSticky}
-                        sx={{ left: "269px" }}
+                        // className={classes.tableSticky}
+                        // sx={{ left: "329px", zIndex:500, p : "2px"}}
                         onClick={() => {
                           setStatusId(selected);
                         }}
@@ -639,21 +644,21 @@ function NewVolunteerDashboard(props) {
                           width: "150px",
                         }}
                       >
-                        <Typography className={classes.tablecellHead}>
+                        <Typography className={classes.tablecellHeadWidthLess}>
                           Name
                         </Typography>
                       </TableCell>
-                      <TableCell align="left" sx={{ width: "150px" }}>
+                      <TableCell align="left">
                         <Typography className={classes.tablecellHead}>
                           Last Class Batch
                         </Typography>
                       </TableCell>
-                      <TableCell align="left" sx={{ width: "150px" }}>
+                      <TableCell align="left">
                         <Typography className={classes.tablecellHead}>
                           Last Class Title
                         </Typography>
                       </TableCell>
-                      <TableCell align="left" sx={{ width: "119px" }}>
+                      <TableCell align="left">
                         <Typography className={classes.tablecellHead}>
                           Last Class Date
                         </Typography>
@@ -669,7 +674,7 @@ function NewVolunteerDashboard(props) {
                           width: isActive ? "55px" : "140px",
                         }}
                       >
-                        <Typography className={classes.tablecellHead}>
+                        <Typography className={classes.tablecellHeadWidthLess}>
                           Status
                         </Typography>
                       </TableCell>

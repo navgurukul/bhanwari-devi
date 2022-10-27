@@ -76,6 +76,11 @@ const useStyles = makeStyles((theme) => ({
   tablecellHead: {
     fontWeight: "600 !important",
     fontSize: "14px !important",
+    width: 120,
+  },
+  tablecellHeadWidthLess: {
+    fontWeight: "600 !important",
+    fontSize: "14px !important",
   },
   dataContainer: {
     position: "sticky",
