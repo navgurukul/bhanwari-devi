@@ -397,9 +397,9 @@ function ContentEdit() {
                 sx={{ mr: "11px" }}
               /> */}
               <Typography className={classes.edit}>
-                Want to update the content?
+                Last Edited by Sameer Singh 2 days ago
               </Typography>
-              <Button
+              {/* <Button
                 sx={{ color: "#000000", ml: "24px" }}
                 className={classes.edit}
                 onClick={() => {
@@ -413,7 +413,7 @@ function ContentEdit() {
                 }}
               >
                 Start Editing
-              </Button>
+              </Button> */}
               <Box sx={{ flexGrow: 1 }} />
             </Toolbar>
           </Container>
