@@ -55,7 +55,7 @@ const GenerateReport = (props) => {
   //   useEffect(() => {
   //     axios({
   //       method: METHODS.GET,
-  //       url: `${process.env.REACT_APP_MERAKI_URL}volunteers?from=${fromStart}&to=${toEnd}}`,
+  //       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers?from=${fromStart}&to=${toEnd}}`,
   //       headers: {
   //         accept: "application/json",
   //         Authorization: user.data.token,
@@ -69,7 +69,7 @@ const GenerateReport = (props) => {
   // const Getuser = () => {
   //   axios({
   //     method: METHODS.GET,
-  //     url: `${process.env.REACT_APP_MERAKI_URL}volunteers?from=${fromStart}&to=${toEnd}}`,
+  //     url: `${process.env.REACT_APP_MERAKI_URL}/volunteers?from=${fromStart}&to=${toEnd}}`,
   //     headers: {
   //       accept: "application/json",
   //       Authorization: user.data.token,

@@ -79,7 +79,7 @@ const ChangeStatusModal = (props) => {
   //     //     headers: { 'Content-Type': 'application/json' },
   //     //     body: JSON.stringify({ status : status})
   //     // };
-  //     // fetch(`${process.env.REACT_APP_MERAKI_URL}volunteers/${userID}`, requestOptions)
+  //     // fetch(`${process.env.REACT_APP_MERAKI_URL}/volunteers/${userID}`, requestOptions)
   //     //     .then(response => response.json())
   //     //     .then(data => setuserID(data.id));
 
