@@ -686,341 +686,343 @@ function NewVolunteerDashboard(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {volunteer && volunteer.length > 0 ? (
-                  volunteer
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((item, index) => {
-                      const selectedRow = isRowSelected(item.id);
-                      const labelId = `enhanced-table-checkbox-${index}`;
-                      const sortedClasses =
-                        item.classes.length &&
-                        item.classes.sort((a, b) => {
-                          return (
-                            new Date(a.start_time) - new Date(b.start_time)
-                          );
-                        });
-                      item.last_class_date =
-                        sortedClasses.length &&
-                        sortedClasses[sortedClasses.length - 1].start_time;
-                      return (
-                        <>
-                          <TableRow
-                            key={item.id}
-                            selected={selectedRow}
-                            className={
-                              selectedRow
-                                ? classes.tablebodyrowSelected
-                                : classes.tablebodyrow
-                            }
-                          >
-                            <TableCell
-                              hover
-                              onClick={(event) => handleClick(event, item.id)}
-                              role="checkbox"
-                              tabIndex={-1}
-                              padding="checkbox"
+                {volunteer && volunteer.length > 0
+                  ? volunteer
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((item, index) => {
+                        const selectedRow = isRowSelected(item.id);
+                        const labelId = `enhanced-table-checkbox-${index}`;
+                        const sortedClasses =
+                          item.classes.length &&
+                          item.classes.sort((a, b) => {
+                            return (
+                              new Date(a.start_time) - new Date(b.start_time)
+                            );
+                          });
+                        item.last_class_date =
+                          sortedClasses.length &&
+                          sortedClasses[sortedClasses.length - 1].start_time;
+                        return (
+                          <>
+                            <TableRow
+                              key={item.id}
+                              selected={selectedRow}
                               className={
                                 selectedRow
                                   ? classes.tablebodyrowSelected
                                   : classes.tablebodyrow
                               }
-                              sx={{
-                                border: "none",
-                                position: "sticky",
-                                left: -1,
-                                zIndex: 800,
-                                whiteSpace: "nowrap",
-                              }}
-                              align="center"
                             >
-                              <Checkbox
-                                checked={selected.includes(item.id)}
-                                color="primary"
-                                inputProps={{
-                                  "aria-labelledby": labelId,
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell
-                              style={{
-                                position: "sticky",
-                                left: "74px",
-                                backgroundColor: "white",
-                                zIndex: 800,
-                              }}
-                              component="th"
-                              scope="row"
-                              className={
-                                classes.tablebodyCell && selectedRow
-                                  ? classes.tablebodyrowSelected
-                                  : classes.tablebodyrow
-                              }
-                              tabIndex={-1}
-                              onClick={(event) =>
-                                handleRowSelect(event, item.id)
-                              }
-                            >
-                              {item.name}
-                            </TableCell>
-                            <TableCell
-                              className={classes.tablebodyCell}
-                              onClick={(event) =>
-                                handleRowSelect(event, item.id)
-                              }
-                            >
-                              {item.classes &&
-                              item.classes.length > 0 &&
-                              item.classes[item.classes.length - 1]["title"]
-                                .toLowerCase()
-                                .includes("batch".toLowerCase())
-                                ? item.classes[item.classes.length - 1]["title"]
-                                : "-"}
-                            </TableCell>
-                            <TableCell
-                              // data-column="Last Class Title"
-                              className={classes.tablebodyCell}
-                              onClick={(event) =>
-                                handleRowSelect(event, item.id)
-                              }
-                            >
-                              {item.classes &&
-                              item.classes.length > 0 &&
-                              !item.classes[item.classes.length - 1]["title"]
-                                .toLowerCase()
-                                .includes("batch".toLowerCase())
-                                ? item.classes[item.classes.length - 1]["title"]
-                                : "-"}
-                            </TableCell>
-                            <TableCell
-                              className={classes.tablebodyCell}
-                              onClick={(event) =>
-                                handleRowSelect(event, item.id)
-                              }
-                            >
-                              {format(item.last_class_date, "dd MMM, yyyy")}
-                            </TableCell>
-                            <TableCell
-                              // data-column="Last class lang"
-                              sx={{ border: "none" }}
-                              onClick={(event) => {
-                                handleRowSelect(event, item.id);
-                              }}
-                            >
-                              {item.classes &&
-                              item.classes.length > 0 &&
-                              item.classes[item.classes.length - 1]["lang"] !=
-                                ""
-                                ? languageMap[
-                                    item.classes[item.classes.length - 1][
-                                      "lang"
-                                    ]
-                                  ]
-                                : "-"}
-                            </TableCell>
-                            <TableCell
-                              // data-column="Status"
-                              sx={{
-                                fontWeight: "400",
-                                fontSize: "14px",
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "flex-start",
-                                width: "140px",
-                                border: "none",
-                              }}
-                              onClick={(event) =>
-                                handleRowSelect(event, item.id)
-                              }
-                            >
-                              <CircleIcon
-                                className={classes.circleIcon}
-                                sx={{
-                                  color: `${
-                                    item.status === "active"
-                                      ? "#48A145"
-                                      : item.status === "inactive"
-                                      ? "#FFCC00"
-                                      : item.status === "dropout"
-                                      ? "#F44336"
-                                      : "#2196F3"
-                                  }`,
-                                }}
-                              />
-                              <p
-                                style={{
-                                  marginLeft: "5px",
-                                  height: "21px",
-                                }}
-                              >
-                                {item.status === "active"
-                                  ? "Active"
-                                  : item.status === "inactive"
-                                  ? "In Active"
-                                  : item.status === "dropout"
-                                  ? "Dropped Out"
-                                  : "Newly Onboarded"}
-                              </p>
-                            </TableCell>
-                            <TableCell
-                              // data-column="three dots"
-                              className={classes.tablebodyCell}
-                              sx={{
-                                color: "#BDBDBD",
-                              }}
-                            >
-                              <MenuComponent
-                                itemname={item.name}
-                                itemId={item.id}
-                                setStatusName={setStatusName}
-                                setStatusDialog={setStatusDialog}
-                                setStatusId={setStatusId}
-                                userId={statusId}
-                                delfun={delfun}
-                                setdelFun={setdelFun}
-                              />
-                            </TableCell>
-                          </TableRow>
-                          <TableRow
-                            sx={{
-                              position: "sticky",
-                              top: 0,
-                              zIndex: 1,
-                            }}
-                          >
-                            {selectedRow || selectedRow > 0 ? (
                               <TableCell
-                                style={{ paddingBottom: 0, paddingTop: 0 }}
-                                colSpan={12}
+                                hover
+                                onClick={(event) => handleClick(event, item.id)}
+                                role="checkbox"
+                                tabIndex={-1}
+                                padding="checkbox"
+                                className={
+                                  selectedRow
+                                    ? classes.tablebodyrowSelected
+                                    : classes.tablebodyrow
+                                }
+                                sx={{
+                                  border: "none",
+                                  position: "sticky",
+                                  left: -1,
+                                  zIndex: 800,
+                                  whiteSpace: "nowrap",
+                                }}
+                                align="center"
                               >
-                                <Collapse
-                                  in={open}
-                                  timeout="auto"
-                                  unmountOnExit
+                                <Checkbox
+                                  checked={selected.includes(item.id)}
+                                  color="primary"
+                                  inputProps={{
+                                    "aria-labelledby": labelId,
+                                  }}
+                                />
+                              </TableCell>
+                              <TableCell
+                                style={{
+                                  position: "sticky",
+                                  left: "74px",
+                                  backgroundColor: "white",
+                                  zIndex: 800,
+                                }}
+                                component="th"
+                                scope="row"
+                                className={
+                                  classes.tablebodyCell && selectedRow
+                                    ? classes.tablebodyrowSelected
+                                    : classes.tablebodyrow
+                                }
+                                tabIndex={-1}
+                                onClick={(event) =>
+                                  handleRowSelect(event, item.id)
+                                }
+                              >
+                                {item.name}
+                              </TableCell>
+                              <TableCell
+                                className={classes.tablebodyCell}
+                                onClick={(event) =>
+                                  handleRowSelect(event, item.id)
+                                }
+                              >
+                                {item.classes &&
+                                item.classes.length > 0 &&
+                                item.classes[item.classes.length - 1]["title"]
+                                  .toLowerCase()
+                                  .includes("batch".toLowerCase())
+                                  ? item.classes[item.classes.length - 1][
+                                      "title"
+                                    ]
+                                  : "-"}
+                              </TableCell>
+                              <TableCell
+                                // data-column="Last Class Title"
+                                className={classes.tablebodyCell}
+                                onClick={(event) =>
+                                  handleRowSelect(event, item.id)
+                                }
+                              >
+                                {item.classes &&
+                                item.classes.length > 0 &&
+                                !item.classes[item.classes.length - 1]["title"]
+                                  .toLowerCase()
+                                  .includes("batch".toLowerCase())
+                                  ? item.classes[item.classes.length - 1][
+                                      "title"
+                                    ]
+                                  : "-"}
+                              </TableCell>
+                              <TableCell
+                                className={classes.tablebodyCell}
+                                onClick={(event) =>
+                                  handleRowSelect(event, item.id)
+                                }
+                              >
+                                {format(item.last_class_date, "dd MMM, yyyy")}
+                              </TableCell>
+                              <TableCell
+                                // data-column="Last class lang"
+                                sx={{ border: "none" }}
+                                onClick={(event) => {
+                                  handleRowSelect(event, item.id);
+                                }}
+                              >
+                                {item.classes &&
+                                item.classes.length > 0 &&
+                                item.classes[item.classes.length - 1]["lang"] !=
+                                  ""
+                                  ? languageMap[
+                                      item.classes[item.classes.length - 1][
+                                        "lang"
+                                      ]
+                                    ]
+                                  : "-"}
+                              </TableCell>
+                              <TableCell
+                                // data-column="Status"
+                                sx={{
+                                  fontWeight: "400",
+                                  fontSize: "14px",
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  justifyContent: "flex-start",
+                                  width: "140px",
+                                  border: "none",
+                                }}
+                                onClick={(event) =>
+                                  handleRowSelect(event, item.id)
+                                }
+                              >
+                                <CircleIcon
+                                  className={classes.circleIcon}
+                                  sx={{
+                                    color: `${
+                                      item.status === "active"
+                                        ? "#48A145"
+                                        : item.status === "inactive"
+                                        ? "#FFCC00"
+                                        : item.status === "dropout"
+                                        ? "#F44336"
+                                        : "#2196F3"
+                                    }`,
+                                  }}
+                                />
+                                <p
+                                  style={{
+                                    marginLeft: "5px",
+                                    height: "21px",
+                                  }}
                                 >
-                                  <Box
-                                    sx={{
-                                      height: isActive ? "198px" : "165px",
-                                    }}
+                                  {item.status === "active"
+                                    ? "Active"
+                                    : item.status === "inactive"
+                                    ? "In Active"
+                                    : item.status === "dropout"
+                                    ? "Dropped Out"
+                                    : "Newly Onboarded"}
+                                </p>
+                              </TableCell>
+                              <TableCell
+                                // data-column="three dots"
+                                className={classes.tablebodyCell}
+                                sx={{
+                                  color: "#BDBDBD",
+                                }}
+                              >
+                                <MenuComponent
+                                  itemname={item.name}
+                                  itemId={item.id}
+                                  setStatusName={setStatusName}
+                                  setStatusDialog={setStatusDialog}
+                                  setStatusId={setStatusId}
+                                  userId={statusId}
+                                  delfun={delfun}
+                                  setdelFun={setdelFun}
+                                />
+                              </TableCell>
+                            </TableRow>
+                            <TableRow
+                              sx={{
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              {selectedRow || selectedRow > 0 ? (
+                                <TableCell
+                                  style={{ paddingBottom: 0, paddingTop: 0 }}
+                                  colSpan={12}
+                                >
+                                  <Collapse
+                                    in={open}
+                                    timeout="auto"
+                                    unmountOnExit
                                   >
-                                    <div className={classes.collapse}>
-                                      <Avatar
-                                        src="/broken-image.jpg"
-                                        style={{
-                                          width: "32px",
-                                          height: "32px",
-                                        }}
-                                      />
-                                      <Typography
-                                        sx={{
-                                          fontWeight: 600,
-                                          fontSize: "14px",
-                                          marginLeft: "8px",
-                                        }}
-                                      >
-                                        {item.name}
-                                      </Typography>
-                                    </div>
-                                    <Table
-                                      size="small"
-                                      aria-label="purchases"
-                                      //
+                                    <Box
+                                      sx={{
+                                        height: isActive ? "198px" : "165px",
+                                      }}
                                     >
-                                      <TableHead>
-                                        <TableRow
+                                      <div className={classes.collapse}>
+                                        <Avatar
+                                          src="/broken-image.jpg"
+                                          style={{
+                                            width: "32px",
+                                            height: "32px",
+                                          }}
+                                        />
+                                        <Typography
                                           sx={{
-                                            borderBottom:
-                                              "1.2px solid rgba(163, 163, 163, 0.4)",
-                                            paddingBottom: "50px",
-                                            position: "sticky",
-                                            top: 0,
+                                            fontWeight: 600,
+                                            fontSize: "14px",
+                                            marginLeft: "8px",
                                           }}
                                         >
-                                          <TableCell
-                                            className={classes.tablecellHead}
+                                          {item.name}
+                                        </Typography>
+                                      </div>
+                                      <Table
+                                        size="small"
+                                        aria-label="purchases"
+                                      >
+                                        <TableHead>
+                                          <TableRow
+                                            sx={{
+                                              borderBottom:
+                                                "1.2px solid rgba(163, 163, 163, 0.4)",
+                                              paddingBottom: "50px",
+                                              position: "sticky",
+                                              top: 0,
+                                            }}
                                           >
-                                            Email
-                                          </TableCell>
-                                          <TableCell
-                                            align="right"
-                                            className={classes.tablecellHead}
-                                          >
-                                            Phone
-                                          </TableCell>
-                                          <TableCell
-                                            className={classes.tablecellHead}
-                                          >
-                                            Duration (In Weeks)
-                                          </TableCell>
-                                          <TableCell
-                                            className={classes.tablecellHead}
-                                          >
-                                            Days Available
-                                          </TableCell>
-                                          <TableCell
-                                            className={classes.tablecellHead}
-                                          >
-                                            Preferred Time Slots
-                                          </TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        <TableRow>
-                                          <TableCell
-                                            component="th"
-                                            scope="row"
-                                            className={classes.tablebodyCell}
-                                          >
-                                            {item.email}
-                                          </TableCell>
-                                          <TableCell
-                                            align="right"
-                                            className={classes.tablebodyCell}
-                                          >
-                                            {item.contact === null
-                                              ? "-"
-                                              : item.contact}
-                                          </TableCell>
-                                          <TableCell
-                                            className={classes.tablebodyCell}
-                                          >
-                                            {numberOfWeek(item)}
-                                          </TableCell>
-                                          <TableCell
-                                            className={classes.tablebodyCell}
-                                          >
-                                            {item.available_on_days === null
-                                              ? "-"
-                                              : item.available_on_days}
-                                          </TableCell>
-                                          <TableCell
-                                            className={classes.tablebodyCell}
-                                          >
-                                            {item.available_on_time === null
-                                              ? "-"
-                                              : format(
-                                                  item.available_on_time,
-                                                  "hh:mm aaa"
-                                                )}
-                                          </TableCell>
-                                        </TableRow>
-                                      </TableBody>
-                                    </Table>
-                                  </Box>
-                                </Collapse>
-                              </TableCell>
-                            ) : (
-                              ""
-                            )}
-                          </TableRow>
-                        </>
-                      );
-                    })
-                ) : (
-                  <div className="message ">
-                    <h3>There are no results to display...</h3>
-                  </div>
-                )}
+                                            <TableCell
+                                              className={classes.tablecellHead}
+                                            >
+                                              Email
+                                            </TableCell>
+                                            <TableCell
+                                              align="right"
+                                              className={classes.tablecellHead}
+                                            >
+                                              Phone
+                                            </TableCell>
+                                            <TableCell
+                                              className={classes.tablecellHead}
+                                            >
+                                              Duration (In Weeks)
+                                            </TableCell>
+                                            <TableCell
+                                              className={classes.tablecellHead}
+                                            >
+                                              Days Available
+                                            </TableCell>
+                                            <TableCell
+                                              className={classes.tablecellHead}
+                                            >
+                                              Preferred Time Slots
+                                            </TableCell>
+                                          </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                          <TableRow>
+                                            <TableCell
+                                              component="th"
+                                              scope="row"
+                                              className={classes.tablebodyCell}
+                                            >
+                                              {item.email}
+                                            </TableCell>
+                                            <TableCell
+                                              align="right"
+                                              className={classes.tablebodyCell}
+                                            >
+                                              {item.contact === null
+                                                ? "-"
+                                                : item.contact}
+                                            </TableCell>
+                                            <TableCell
+                                              className={classes.tablebodyCell}
+                                            >
+                                              {numberOfWeek(item)}
+                                            </TableCell>
+                                            <TableCell
+                                              className={classes.tablebodyCell}
+                                            >
+                                              {item.available_on_days === null
+                                                ? "-"
+                                                : item.available_on_days}
+                                            </TableCell>
+                                            <TableCell
+                                              className={classes.tablebodyCell}
+                                            >
+                                              {item.available_on_time === null
+                                                ? "-"
+                                                : format(
+                                                    item.available_on_time,
+                                                    "hh:mm aaa"
+                                                  )}
+                                            </TableCell>
+                                          </TableRow>
+                                        </TableBody>
+                                      </Table>
+                                    </Box>
+                                  </Collapse>
+                                </TableCell>
+                              ) : (
+                                ""
+                              )}
+                            </TableRow>
+                          </>
+                        );
+                      })
+                  : ""}
               </TableBody>
             </Table>
           ) : (
