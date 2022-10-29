@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "16px",
   },
   volunteerCard1: {
-    border: "1px solid #4548A1",
+    border: "1px solid #FFCC00",
     // height: "100%",
     padding: "16px",
   },

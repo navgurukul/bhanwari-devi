@@ -19,6 +19,7 @@ import { getCourseContent } from "../../Course/redux/api";
 import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
 import { Link, useHistory } from "react-router-dom";
+
 import useStyles from "../styles";
 const PathwayCards = (props) => {
   // const language = {
@@ -28,7 +29,7 @@ const PathwayCards = (props) => {
   // };
 
   // const language ;
-
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const history = useHistory();
   const language = {
     hi: "Hindi",
@@ -36,7 +37,6 @@ const PathwayCards = (props) => {
     mr: "Marathi",
   };
   const { userEnrolledClasses, data } = props;
-  console.log(userEnrolledClasses);
 
   function UpcomingClassCardComponent({ item }) {
     const classes = useStyles();
@@ -80,9 +80,9 @@ const PathwayCards = (props) => {
             //   );
             // }}
             style={{
-              minWidth: isActive ? "290px" : "350",
+              minWidth: isActive ? "95%" : "350",
               marginRight: isActive ? "500px" : "40px",
-              marginLeft: "15px",
+              marginLeft: isActive ? "5px" : "15px",
             }}
           >
             <Box
@@ -174,7 +174,12 @@ const PathwayCards = (props) => {
   return (
     <>
       <Container style={{ padding: "0" }} maxWidth="lg">
-        <Typography style={{ marginLeft: "15px" }} mb={2} mt={2} variant="h6">
+        <Typography
+          style={{ marginLeft: isActive ? "5px" : "15px" }}
+          mb={2}
+          mt={2}
+          variant="h6"
+        >
           Upcoming Classes
         </Typography>
 

@@ -14,17 +14,11 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import moment from "moment";
+// import moment from "moment";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import itLocale from "date-fns/locale/it";
 
 function Availability({ setAvailability, availability, setDisable }) {
-  // const [availability, setAvailability] = React.useState({
-  //   durarion: "",
-  //   on_days: [],
-  //   time: [],
-  // });
-
   const days = {
     MO: "Mon",
     TU: "Tue",
@@ -68,15 +62,13 @@ function Availability({ setAvailability, availability, setDisable }) {
     }
   }, [availability]);
 
-  console.log("availability", availability);
-
   return (
     <Container sx={{ mt: 6 }} maxWidth="sm">
       <Typography variant="h6" gutterBottom>
         Please tell us your availability to teach
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
-        We recommend giving about 3 hours per week for about 15 weeks duration
+        We recommend giving nearly 3 hours per week for about 15 weeks duration.
       </Typography>
 
       <Box sx={{ mt: 4 }}>
@@ -145,7 +137,6 @@ function Availability({ setAvailability, availability, setDisable }) {
                   //   });
                   // }}
                   onChange={(time) => {
-                    console.log("time", time);
                     // let time =  time.getHours() + ":" + time.getMinutes()
                     setAvailability({
                       ...availability,
