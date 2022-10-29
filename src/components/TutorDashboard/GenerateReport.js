@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -12,24 +12,15 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import dayjs from "dayjs";
-import axios from "axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./style";
-import { Dayjs } from "dayjs";
 import * as XLSX from "xlsx";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
-import { METHODS } from "../../services/api";
-import { useSelector } from "react-redux";
+import { format } from "../../common/date";
 import { CSVLink } from "react-csv";
-import { data } from "dom7";
 
-const date = new Date();
 const GenerateReport = (props) => {
   var d = new Date();
   const classes = useStyles();
@@ -42,85 +33,165 @@ const GenerateReport = (props) => {
     setstartDate,
     setendTime,
     volunteerReport,
+    numberOfWeek,
+    languageMap,
   } = props;
+
   const [value, setValue] = React.useState("1");
-  const valuee = document.querySelector('[name="duration"]:checked');
   const widthOfMoal = value === "custom" ? "602px" : "458px";
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  // const [startDate, setstartDate] = useState("");
-  // const [volunteerReport, setVolunteerReport] = useState([]);
-  const [dataInCSV, setDataInCSV] = useState("");
-  const user = useSelector(({ User }) => User);
+  const [selectedOption, setSelectedOption] = useState("active");
 
-  //   useEffect(() => {
-  //     axios({
-  //       method: METHODS.GET,
-  //       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers?from=${fromStart}&to=${toEnd}}`,
-  //       headers: {
-  //         accept: "application/json",
-  //         Authorization: user.data.token,
-  //       },
-  //     }).then((res) => {
-  //       setVolunteerReport(res.data);
+  var wscols = [
+    { wch: 10 },
+    { wch: 18 },
+    { wch: 18 },
+    { wch: 15 },
+    { wch: 18 },
+    { wch: 18 },
+    { wch: 18 },
+    { wch: 17 },
+    { wch: 10 },
+    { wch: 17 },
+    { wch: 10 },
+    { wch: 10 },
+    { wch: 15 },
+  ];
 
-  //   }, [startDate,endTime]);
-  // })
+  const volunteerReportData = volunteerReport.map((el) => {
+    return {
+      "Tutor ID": el.id,
+      Name: el.name,
+      Email: el.email,
+      "Phone No": el.contact,
+      "Pathway ID": el.pathway_id,
+      Partner: el.partner,
+      "Last Class Batch":
+        el.classes &&
+        el.classes.length > 0 &&
+        el.classes[el.classes.length - 1]["title"]
+          .toLowerCase()
+          .includes("batch".toLowerCase())
+          ? el.classes[el.classes.length - 1]["title"]
+          : "-",
+      "Last Class Title":
+        el.classes &&
+        el.classes.length > 0 &&
+        !el.classes[el.classes.length - 1]["title"]
+          .toLowerCase()
+          .includes("batch".toLowerCase())
+          ? el.classes[el.classes.length - 1]["title"]
+          : "-",
+      "Last Class Date": format(el.last_class_date, "dd MMM, yyyy"),
+      "Class Language":
+        el.classes &&
+        el.classes.length > 0 &&
+        el.classes[el.classes.length - 1]["lang"] != ""
+          ? languageMap[el.classes[el.classes.length - 1]["lang"]]
+          : "-",
+      Status:
+        el.status === "active"
+          ? "Active"
+          : el.status === "inactive"
+          ? "In Active"
+          : el.status === "dropout"
+          ? "Dropped Out"
+          : "Newly Onboarded",
+      "Duration (in weeks)": numberOfWeek(el),
+      "Days Available":
+        el.available_on_days === null ? "-" : el.available_on_days,
+      "Preffered Time Slots":
+        el.available_on_time === null
+          ? "-"
+          : format(el.available_on_time, "hh:mm aaa"),
+    };
+  });
 
-  // const Getuser = () => {
-  //   axios({
-  //     method: METHODS.GET,
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/volunteers?from=${fromStart}&to=${toEnd}}`,
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: user.data.token,
-  //     },
-  //   }).then(
-  //     (res) => {
-  //       setVolunteerReport(res.data);
-  //     },
-  //     [startDate, endTime]
-  //   );
-  // };
-  const fromStart = moment(startDate).format("YYYY-MM-DD");
-  const toEnd = moment(endTime).format("YYYY-MM-DD");
+  const dataForCSV = volunteerReport.map((el) => {
+    return {
+      tutorId: el.id,
+      name: el.name,
+      email: el.email,
+      phoneNo: el.contact,
+      pathwayId: el.pathway_id,
+      partner: el.partner,
+      lastClassBatch:
+        el.classes &&
+        el.classes.length > 0 &&
+        el.classes[el.classes.length - 1]["title"]
+          .toLowerCase()
+          .includes("batch".toLowerCase())
+          ? el.classes[el.classes.length - 1]["title"]
+          : "-",
+      lastClassTitle:
+        el.classes &&
+        el.classes.length > 0 &&
+        !el.classes[el.classes.length - 1]["title"]
+          .toLowerCase()
+          .includes("batch".toLowerCase())
+          ? el.classes[el.classes.length - 1]["title"]
+          : "-",
+      lastClassDate: format(el.last_class_date, "dd MMM, yyyy"),
+      classLanguage:
+        el.classes &&
+        el.classes.length > 0 &&
+        el.classes[el.classes.length - 1]["lang"] != ""
+          ? languageMap[el.classes[el.classes.length - 1]["lang"]]
+          : "-",
+      status:
+        el.status === "active"
+          ? "Active"
+          : el.status === "inactive"
+          ? "In Active"
+          : el.status === "dropout"
+          ? "Dropped Out"
+          : "Newly Onboarded",
+      duration: numberOfWeek(el),
+      daysAvailable: el.available_on_days === null ? "-" : el.available_on_days,
+      prefferedTimeSlots:
+        el.available_on_time === null
+          ? "-"
+          : format(el.available_on_time, "hh:mm aaa"),
+    };
+  });
 
-  const downloadExcel = () => {
-    if (value === "active") {
-      const url = window.URL.createObjectURL(new Blob(volunteerReport));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "reportfile.csv");
-      document.body.appendChild(link);
-      link.click();
-    } else {
-      const workSheet = XLSX.utils.json_to_sheet(volunteerReport);
-      const workBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workBook, workSheet, "volunteer");
-      //buffer
-      let bef = XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
-      XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
-      XLSX.writeFile(workBook, "volunteerReport.xlsx");
-    }
+  const headersForCSV = [
+    { label: "Tutor ID", key: "tutorId" },
+    { label: "Name", key: "name" },
+    { label: "Email", key: "email" },
+    { label: "Phone No", key: "phoneNo" },
+    { label: "Pathway ID", key: "pathwayId" },
+    { label: "Partner", key: "partner" },
+    { label: "Last Class Batch", key: "lastClassBatch" },
+    { label: "Last Class Title", key: "lastClassTitle" },
+    { label: "Last Class Date", key: "lastClassDate" },
+    { label: "Class Language", key: "classLanguage" },
+    { label: "Status", key: "status" },
+    { label: "Duration (in weeks)", key: "duration" },
+    { label: "Days Available", key: "daysAvailable" },
+    { label: "Preffered Time Slots", key: "prefferedTimeSlots" },
+  ];
+
+  const csvReport = {
+    data: dataForCSV,
+    headers: headersForCSV,
+    filename: "VolunteerReport.csv",
   };
 
-  // useEffect(() => {
-  //   volunteerReport.get().then((res) => setDataInCSV(res));
-  // }, []);
-
+  const downloadExcel = () => {
+    const workSheet = XLSX.utils.json_to_sheet(volunteerReportData);
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, "volunteer");
+    // set width of columns
+    workSheet["!cols"] = wscols;
+    //buffer
+    let bef = XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workBook, "tutorReport.xlsx");
+  };
   var date = new Date().toDateString();
   var threeMonthsAgo = moment().subtract(3, "months");
   var onemonth = moment().subtract(1, "months");
-
-  const headers = [
-    { label: "ID", key: "id" },
-    { label: "Name", key: "name" },
-    { label: "Email", key: "email" },
-    { label: "Contact", key: "contact" },
-    { label: "Classes", key: "classes" },
-    { label: "Status", key: "status" },
-    { label: "Langauage", key: "lang" },
-    { label: "Classes", key: "title" },
-  ];
 
   return (
     <Dialog
@@ -212,7 +283,6 @@ const GenerateReport = (props) => {
               {value === "custom" && (
                 <div>
                   <TextField
-                    // sx={{ mb: 4 }}
                     type="date"
                     name="date"
                     value={startDate}
@@ -224,13 +294,6 @@ const GenerateReport = (props) => {
                     fullWidth
                     onChange={(e) => setstartDate(e.target.value)}
                   />
-                  {/* <DatePicker
-                      views={['day', 'month', 'year']}
-                      label="From Date"
-                      value={startDate}
-                      onChange={(e)=>setstartDate(e.target.value)}
-                      renderInput={(params) => <TextField {...params} helperText={null} />}
-                    /> */}
                   <TextField
                     type="date"
                     variant="outlined"
@@ -260,7 +323,7 @@ const GenerateReport = (props) => {
             <FormLabel id="demo-radio-buttons-group-label">File Type</FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="active"
+              defaultValue={selectedOption}
               name="radio-buttons-group"
               row
             >
@@ -268,6 +331,9 @@ const GenerateReport = (props) => {
                 value="active"
                 control={<Radio />}
                 label=".csv"
+                onClick={() => {
+                  setSelectedOption("active");
+                }}
               />
               <FormControlLabel
                 value="inactive"
@@ -276,21 +342,45 @@ const GenerateReport = (props) => {
                 sx={{
                   marginLeft: "8px",
                 }}
+                onClick={() => {
+                  setSelectedOption("inactive");
+                }}
               />
             </RadioGroup>
           </FormControl>
         </div>
-        <Button
-          variant="contained"
-          color="primary"
-          className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
-          onClick={() => {
-            downloadExcel();
-            setGenerateDialog(false);
-          }}
-        >
-          Download
-        </Button>
+        {selectedOption === "inactive" ? (
+          <Button
+            variant="contained"
+            color="primary"
+            className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
+            onClick={() => {
+              downloadExcel();
+              setGenerateDialog(false);
+            }}
+          >
+            Download
+          </Button>
+        ) : (
+          <CSVLink
+            {...csvReport}
+            style={{
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
+              onClick={() => {
+                setGenerateDialog(false);
+              }}
+            >
+              Download
+            </Button>
+          </CSVLink>
+        )}
       </div>
     </Dialog>
   );
