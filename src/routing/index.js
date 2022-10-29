@@ -36,7 +36,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
-import NewVolunteerDashboard from "../components/NewVolunteerDashboard";
+import Tutor from "../components/TutorDashboard";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {
@@ -95,11 +95,7 @@ const Routing = () => {
         component={NavgurukulIntroduce}
       />
 
-      <Route
-        exact
-        path={PATHS.NEW_VOLUNINTEER_DASHBOARD}
-        component={NewVolunteerDashboard}
-      />
+      <Route exact path={PATHS.TUTOR} component={Tutor} />
 
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
