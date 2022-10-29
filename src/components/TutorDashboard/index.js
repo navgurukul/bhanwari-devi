@@ -197,6 +197,7 @@ function Tutor(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = volunteer.map((n) => n.id);
@@ -1116,6 +1117,8 @@ function Tutor(props) {
         setstartDate={setstartDate}
         setendTime={setendTime}
         volunteerReport={volunteer}
+        languageMap={languageMap}
+        numberOfWeek={numberOfWeek}
       />
     </div>
   );
