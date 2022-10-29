@@ -115,7 +115,7 @@ function getBaseURL(
   return baseURL.URL;
 }
 
-function NewVolunteerDashboard(props) {
+function Tutor(props) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(true);
@@ -1113,4 +1113,4 @@ function NewVolunteerDashboard(props) {
     </div>
   );
 }
-export default NewVolunteerDashboard;
+export default Tutor;
