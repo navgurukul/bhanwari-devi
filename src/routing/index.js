@@ -36,7 +36,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
-import Tutor from "../components/Tutor";
+import Tutor from "../components/TutorDashboard";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {

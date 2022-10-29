@@ -37,7 +37,7 @@ export const PATHS = {
   VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
-  TUTOR: "/Tutor",
+  TUTOR: "/TutorDashboard",
 };
 export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
 export const HideFooter = [
