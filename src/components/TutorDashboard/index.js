@@ -149,6 +149,7 @@ function Tutor(props) {
   const [startDate, setstartDate] = useState("");
   const [endTime, setendTime] = useState("");
   const [slicedStudents, setSlicedStudents] = useState([]);
+  const [statusValue, setStatusValue] = useState("");
 
   const languageMap = {
     hi: "Hindi",
@@ -250,43 +251,6 @@ function Tutor(props) {
     let new_date = classes.length && new Date(el.classes[0].end_time);
     return Math.ceil((last_date - new_date) / (7 * 24 * 60 * 60 * 1000));
   }
-  // const fromStart = moment(startDate).format("YYYY-MM-DD");
-  // const toEnd = moment(endTime).format("YYYY-MM-DD");
-  // const cur_lang = languageMap[volunteer.map(el)];
-  // const baseUrl = `${process.env.REACT_APP_MERAKI_URL}/volunteers${
-  //   statusFilter !== "All" &&
-  //   langFilter !== "All" &&
-  //   searchTerm.length > 0 &&
-  //   endTime &&
-  //   startDate
-  //     ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
-  //     : statusFilter !== "All" && langFilter !== "All" && endTime && startDate
-  //     ? `?from=${fromStart}&to=${toEnd}&?status=${statusFilter}&lang=${langFilter}`
-  //     : statusFilter !== "All" && langFilter !== "All" && searchTerm.length > 0
-  //     ? `?status=${statusFilter}&name=${searchTerm}&lang=${langFilter}`
-  //     : statusFilter !== "All" && searchTerm.length > 0
-  //     ? `?status=${statusFilter}&name=${searchTerm}`
-  //     : searchTerm.length > 0 && langFilter !== "All"
-  //     ? `&name=${searchTerm}&lang=${langFilter}`
-  //     : searchTerm.length > 0 && endTime && startDate
-  //     ? `?from=${fromStart}&to=${toEnd}&?name=${searchTerm}`
-  //     : endTime && startDate && statusFilter !== "All"
-  //     ? `?from=${fromStart}&to=${toEnd}&status=${statusFilter}`
-  //     : endTime && startDate && langFilter !== "All"
-  //     ? `?from=${fromStart}&to=${toEnd}&lang=${langFilter}`
-  //     : statusFilter !== "All" && langFilter !== "All"
-  //     ? `?status=${statusFilter}&lang=${langFilter}`
-  //     : statusFilter !== "All"
-  //     ? `?status=${statusFilter}`
-  //     : langFilter !== "All"
-  //     ? `?lang=${langFilter}`
-  //     : searchTerm.length > 0
-  //     ? `?name=${searchTerm}`
-  //     : endTime && startDate
-  //     ? `?from=${fromStart}&to=${toEnd}`
-  //     : ""
-  // }
-  //   `;
 
   const baseUrl = getBaseURL(
     startDate,
@@ -324,6 +288,7 @@ function Tutor(props) {
     startDate,
     endTime,
     selectedPathway,
+    statusValue,
   ]);
 
   useEffect(() => {
@@ -938,6 +903,8 @@ function Tutor(props) {
                               >
                                 <MenuComponent
                                   itemname={item.name}
+                                  itemStatus={item.status}
+                                  setStatusValue={setStatusValue}
                                   itemId={item.id}
                                   setStatusName={setStatusName}
                                   setStatusDialog={setStatusDialog}
@@ -1108,6 +1075,8 @@ function Tutor(props) {
         statusDialog={statusDialog}
         userId={statusId}
         users={volunteer}
+        statusValue={statusValue}
+        setStatusValue={setStatusValue}
       />
       <GenerateReport
         generateDialog={generateDialog}
