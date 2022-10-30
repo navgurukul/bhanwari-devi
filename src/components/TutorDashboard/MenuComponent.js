@@ -10,7 +10,6 @@ import { breakpoints } from "../../theme/constant";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector } from "react-redux";
-// import NewVolunteerDashboard from ".";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,6 +27,8 @@ const MenuComponent = (props) => {
     userId,
     delfun,
     setdelFun,
+    itemStatus,
+    setStatusValue,
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -138,23 +139,12 @@ const MenuComponent = (props) => {
       >
         <Box className={classes.menuContainer}>
           <Typography
-            // sx={{
-            //   width: "128px",
-            //   height: "48px",
-            //   display: "flex",
-            //   flexDirection: "row",
-            //   alignItems: "center",
-            //   justifyContent: "center",
-            //   color: "black",
-            //   fontWeight: "400",
-            //   fontSize: "14px",
-            //   cursor: "pointer",
-            // }}
             className={classes.menuTypography}
             onClick={() => {
               setStatusName(itemname);
               setStatusDialog(true);
               setStatusId([itemId]);
+              setStatusValue(itemStatus);
               handleCloseDots();
             }}
           >
@@ -176,8 +166,6 @@ const MenuComponent = (props) => {
           </Typography>
         </Box>
       </Menu>
-      {/* <NewVolunteerDashboard 
-      /> */}
     </div>
   );
 };

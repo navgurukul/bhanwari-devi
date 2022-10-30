@@ -27,26 +27,14 @@ const ChangeStatusModal = (props) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [status, setStatus] = useState("");
-
-  const { statusDialog, setStatusDialog, statusName, userId } = props;
-  // console.log(status, "456789fghj");
-  // console.log(userId, "sdfghjhgfdghj")
-  // console.log(,"gfugujkfdjhfdlhj")
-
-  // const updateUser = () => {
-  //   return axios({
-  //     url: `${process.env.REACT_APP_MERAKI_URL}volunteer/${userId}`,
-  //     method: METHODS.PUT,
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: user.data.token,
-  //     },
-  //     data: {
-  //       status: status,
-  //     },
-
-  //   })
-  // }
+  const {
+    statusDialog,
+    setStatusDialog,
+    statusName,
+    userId,
+    statusValue,
+    setStatusValue,
+  } = props;
 
   const updateUser = () => {
     return axios({
@@ -68,23 +56,10 @@ const ChangeStatusModal = (props) => {
         console.log(err, "error");
       });
   };
-  // console.log(userId, "56890876");
+
+  useEffect(() => {}, []);
 
   const user = useSelector(({ User }) => User);
-  // useEffect(() => {
-  // updateUser()
-
-  //     // const requestOptions = {
-  //     //     method: 'PUT',
-  //     //     headers: { 'Content-Type': 'application/json' },
-  //     //     body: JSON.stringify({ status : status})
-  //     // };
-  //     // fetch(`${process.env.REACT_APP_MERAKI_URL}/volunteers/${userID}`, requestOptions)
-  //     //     .then(response => response.json())
-  //     //     .then(data => setuserID(data.id));
-
-  // // emptydependency array means this effect will only run once (like componentDidMount in classes)
-  // }, []);
   const [state, setState] = React.useState({
     open: false,
     vertical: "top",
@@ -102,9 +77,6 @@ const ChangeStatusModal = (props) => {
       return;
     }
     setState({ ...state, open: false });
-    {
-      window.location.reload();
-    }
   };
 
   const action = (
@@ -195,7 +167,7 @@ const ChangeStatusModal = (props) => {
             <FormControl>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue=""
+                defaultValue={statusValue}
                 name="radio-buttons-group"
               >
                 <FormControlLabel
@@ -236,6 +208,7 @@ const ChangeStatusModal = (props) => {
                 vertical: "bottom",
                 horizontal: "right",
               });
+              setStatusValue(status);
             }}
           >
             Confirm Status
