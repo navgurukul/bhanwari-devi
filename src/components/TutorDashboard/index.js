@@ -167,14 +167,9 @@ function Tutor(props) {
     setPage(newPage);
   };
 
-  function filterPathway(pathway, volunteer) {
+  function filterPathway(pathwayId, volunteer) {
     return volunteer.filter((el) => {
-      for (let i of el.classes) {
-        // console.log(pathway.toUpperCase(),"pathway")
-        if (i.title.includes(pathway.toLowerCase())) {
-          return true;
-        }
-      }
+      return el.pathway_id === pathwayId;
     });
   }
 
@@ -411,7 +406,7 @@ function Tutor(props) {
               variant="contained"
               className={classes.python}
               onClick={() => {
-                setVolunteer(filterPathway("Python", cacheVolunteer));
+                setVolunteer(filterPathway(1, cacheVolunteer));
                 setSelectedPathway("Python");
               }}
             >
@@ -423,7 +418,7 @@ function Tutor(props) {
               variant="outlined"
               className={classes.learningTrack2}
               onClick={() => {
-                setVolunteer(filterPathway("Spoken English", cacheVolunteer));
+                setVolunteer(filterPathway(2, cacheVolunteer));
                 setSelectedPathway("Spoken English");
               }}
             >
