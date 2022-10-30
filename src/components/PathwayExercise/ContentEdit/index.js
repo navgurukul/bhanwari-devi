@@ -15,33 +15,23 @@ import {
   AppBar,
   Toolbar,
   Button,
-  Grid,
-  Dialog,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
   IconButton,
   useMediaQuery,
 } from "@mui/material";
+import moment from "moment";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { breakpoints } from "../../../theme/constant";
 import ReactEditor from "./editor";
-import { onSave } from "./editor";
+
 function BoxComponent(props) {
-  // const [isShown, setIsShown] = useState(false);
   return (
     <Box
       style={{ border: "1 px", background: props.isShown ? "white" : "" }}
       onMouseEnter={() => props.setIsShown(true)}
       onMouseLeave={() => props.setIsShown(false)}
     >
-      {/* {props.isShown && (
-        <IconButton variant="solid">
-          <AddCircleOutlineIcon onClick={() => props.iconClick()} />
-        </IconButton>
-      )} */}
       {props.children}
     </Box>
   );
@@ -51,33 +41,16 @@ function ContentEdit() {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
+  const classes = useStyles();
   const [course, setCourse] = useState([]);
   const [id, setId] = useState();
+  const [save, setSave] = useState(false);
+  const [updatedOn, setUpdatedOn] = useState();
   const [courseType, setCourseType] = useState();
+  const [isShown, setIsShown] = useState(false);
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
-  const classes = useStyles();
-  const [showModal, setShowModal] = useState(false);
-  const [showOption, setShowOption] = useState();
-  const [isShown, setIsShown] = useState(false);
-  const [index, setIndex] = useState();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  console.log("id", id);
-  console.log("exerciseId", exerciseId);
-
-  const dropDownList = {
-    "Heading 1": "AddHeader1",
-    "Heading 2": "AddHeader2",
-    "Bulleted List": "",
-    "Numbered List": "",
-    Image: "image",
-    Video: "youtube",
-    Code: "code",
-    // "Table",
-    // "Quote",
-    // "Divider",
-  };
 
   console.log("course", course);
 
@@ -99,36 +72,6 @@ function ContentEdit() {
         value: "",
       },
     },
-    header: {
-      AddHeader1: {
-        component: "header",
-        variant: 1,
-        value: "",
-      },
-      AddHeader2: {
-        component: "header",
-        variant: 2,
-        value: "",
-      },
-    },
-    image: {
-      AddImage: {
-        component: "image",
-        value: "",
-      },
-    },
-    youtube: {
-      AddYoutube: {
-        component: "youtube",
-        value: "",
-      },
-    },
-    code: {
-      AddCode: {
-        component: "code",
-        value: "",
-      },
-    },
   };
   const handleAdd = (index, ap, aap) => {
     if (course.length - 1 === index) {
@@ -147,78 +90,13 @@ function ContentEdit() {
       temp[index].value.push(addOption);
       setCourse(temp);
     }
-    if (ap === "AddHeader1") {
-      const AddHeader = { ...allComponents.header.AddHeader1 };
-      console.log("temp before", temp);
-      temp.splice(index, 0, AddHeader);
-      console.log("temp after", temp);
-      setCourse(temp);
-    }
-    if (ap === "AddHeader2") {
-      const AddHeader = { ...allComponents.header.AddHeader2 };
-      console.log("temp before", temp);
-      temp.splice(index, 0, AddHeader);
-      console.log("temp after", temp);
-      setCourse(temp);
-    }
-    if (ap === "image") {
-      const AddHeader = { ...allComponents.image.AddImage };
-      console.log("temp before", temp);
-      temp.splice(index, 0, AddHeader);
-      console.log("temp after", temp);
-      setCourse(temp);
-    }
-    if (ap === "youtube") {
-      const AddHeader = { ...allComponents.youtube.AddYoutube };
-      console.log("temp before", temp);
-      temp.splice(index, 0, AddHeader);
-      console.log("temp after", temp);
-      setCourse(temp);
-    }
-    if (ap === "code") {
-      const AddHeader = { ...allComponents.code.AddCode };
-      console.log("temp before", temp);
-      temp.splice(index, 0, AddHeader);
-      console.log("temp after", temp);
-      setCourse(temp);
-    }
-  };
-
-  console.log("params", params);
-
-  let name = "name";
-  const putApiExercisesCall = () => {
-    //delete the component which value is empty string or empty list
-    const tempCourse = [];
-    for (var i in course) {
-      if (course[i].value.length !== 0) {
-        tempCourse.push(course[i]);
-      }
-    }
-
-    const stringifiedCourse = JSON.stringify(tempCourse, null, 0);
-    console.log(id, stringifiedCourse, "cc");
-    axios({
-      method: METHODS.PUT,
-      url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-      data: {
-        content: stringifiedCourse,
-      },
-    }).then((res) => {
-      history.push(
-        interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-          courseId: params.courseId,
-          exerciseId: params.exerciseId,
-          pathwayId: params.pathwayId,
-        })
-      );
-      console.log(res, "res");
-    });
+    // if (ap === "output") {
+    //   const AddHeader = { ...allComponents.header.AddHeader1 };
+    //   console.log("temp before", temp);
+    //   temp.splice(index, 0, AddHeader);
+    //   console.log("temp after", temp);
+    //   setCourse(temp);
+    // }
   };
 
   const putApiAssessmentCall = () => {
@@ -295,34 +173,16 @@ function ContentEdit() {
         }
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
-        // const course_type = res.data.exercises[exerciseId].content_type;
-        // setCourseType(course_type);
-        // if (course_type === "assessment") {
-        //   if (
-        //     res.data.exercises[exerciseId].content[0].component !==
-        //     "questionExpression"
-        //   ) {
-        //     res.data.exercises[exerciseId].content.splice(0, 0, {
-        //       component: "questionExpression",
-        //       type: "python",
-        //       title: "",
-        //       value: "",
-        //     });
-        //   }
-        //   if (
-        //     res.data.exercises[exerciseId].content[1].component !==
-        //     "questionCode"
-        //   ) {
-        //     res.data.exercises[exerciseId].content.splice(1, 0, {
-        //       component: "questionCode",
-        //       type: "python",
-        //       title: "",
-        //       value: "",
-        //     });
-        //   }
-        // }
-        // setId(res.data.exercises[exerciseId].id);
-        // setCourse(res.data.exercises[exerciseId].content);
+        const Date = res.data.course.exercises[exerciseId].updated_at;
+        const date = Date.split("T")[0].replace(
+          /(\d{4})-(\d{1,2})-(\d{1,2})/,
+          function (match, y, m, d) {
+            return d + "/" + m + "/" + y;
+          }
+        );
+        var longDateStr = moment(date, "D/ M/Y").format("dddd D MMMM Y");
+        console.log("longDateStr", longDateStr);
+        setUpdatedOn(longDateStr);
       })
       .catch((err) => {
         console.log("error");
@@ -330,35 +190,11 @@ function ContentEdit() {
   }, [courseId, exerciseId]);
 
   console.log("course", course);
-
-  function myFunction() {
-    // Create an "li" node:
-    const node = document.createElement("input");
-    // const node = React.createElement("div", null, `Hello ${this.props.toWhat}`);
-    // return node;
-
-    // Create a text node:
-    // const textnode = document.createTextNode("Water");
-
-    // Append the text node to the "li" node:
-    // node.appendChild(textnode);
-
-    // Append the "li" node to the list:
-    document.getElementById("myList").appendChild(node);
-  }
-
   console.log("id", id);
-  const [save, setSave] = useState(false);
+
   return (
     <>
-      <AppBar
-        fullWidth
-        position="sticky"
-        color="background"
-        // sx={{ bgcolor: "info.light" }}
-        // className={classes.editingHeader}
-        elevation={2}
-      >
+      <AppBar fullWidth position="sticky" color="background" elevation={2}>
         <Box>
           <Container maxWidth>
             <Toolbar sx={{ alignItems: "center" }}>
@@ -373,47 +209,19 @@ function ContentEdit() {
               >
                 <Link
                   style={{ color: "#6D6D6D" }}
-                  to={
-                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                      courseId: params.courseId,
-                      exerciseId: params.exerciseId,
-                      pathwayId: params.pathwayId,
-                    })
-                    // params.pathwayId == "miscellaneous"
-                    //   ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
-                    //   : params.pathwayId == "residential"
-                    //   ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
-                    //   : interpolatePath(PATHS.PATHWAY_COURSE, {
-                    //       pathwayId: params.pathwayId,
-                    //     })
-                  }
+                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                    courseId: params.courseId,
+                    exerciseId: params.exerciseId,
+                    pathwayId: params.pathwayId,
+                  })}
                 >
                   <CloseIcon />
                 </Link>
               </Typography>
               <Box sx={{ flexGrow: 1 }} />
-              {/* <ModeEditOutlineOutlinedIcon
-                className={classes.edit}
-                sx={{ mr: "11px" }}
-              /> */}
               <Typography className={classes.edit}>
-                Last Edited by Sameer Singh 2 days ago
+                {updatedOn && `Last Edited on ${updatedOn}`}
               </Typography>
-              {/* <Button
-                sx={{ color: "#000000", ml: "24px" }}
-                className={classes.edit}
-                onClick={() => {
-                  history.push(
-                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
-                      courseId: params.courseId,
-                      exerciseId: params.exerciseId,
-                      pathwayId: params.pathwayId,
-                    })
-                  );
-                }}
-              >
-                Start Editing
-              </Button> */}
               <Box sx={{ flexGrow: 1 }} />
             </Toolbar>
           </Container>
@@ -432,16 +240,7 @@ function ContentEdit() {
                       isShown={isShown}
                       iconClick={(e) => handleAdd(index, "assessment")}
                     >
-                      <Typography>
-                        Question Options
-                        {isShown && (
-                          <IconButton variant="solid">
-                            <AddCircleOutlineIcon
-                              onClick={(e) => handleAdd(index, "assessment")}
-                            />
-                          </IconButton>
-                        )}
-                      </Typography>
+                      <Typography>Question</Typography>
                       <TextareaAutosize
                         aria-label="empty textarea"
                         fullWidth
@@ -454,12 +253,6 @@ function ContentEdit() {
                           temp[index].value = e.target.value;
                           setCourse(temp);
                         }}
-                        // value={course[index].value}
-                        // onChange={(e) => {
-                        //   var temp = [...course];
-                        //   temp[index].value[optionIndex].value = e.target.value;
-                        //   setCourse(temp);
-                        // }}
                       />
                     </BoxComponent>
                   );
@@ -473,7 +266,6 @@ function ContentEdit() {
                         label="Code"
                         variant="outlined"
                         fullWidth
-                        // className={classes.editField}
                         sx={{ marginTop: "10px", marginBottom: "10px" }}
                         value={course[index].value}
                         onChange={(e) => {
@@ -490,7 +282,7 @@ function ContentEdit() {
                     <BoxComponent
                       setIsShown={setIsShown}
                       isShown={isShown}
-                      iconClick={(e) => handleAdd(index, "options")}
+                      // iconClick={(e) => handleAdd(index, "options")}
                     >
                       <Typography>
                         Options
@@ -576,210 +368,17 @@ function ContentEdit() {
                 }
               })}
 
-            <Button variant="contained" onClick={(e) => putApiAssessmentCall()}>
+            <Button
+              variant="contained"
+              sx={{ mb: 10 }}
+              onClick={(e) => putApiAssessmentCall()}
+            >
               Submit
             </Button>
           </>
         ) : (
           <ReactEditor course={course} id={id} save={save} />
-          // <>
-          //   {course &&
-          //     course.map((e, index) => {
-          //       if (e.component === "header") {
-          //         return (
-          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-          //             <Typography>
-          //               Header
-          //               {isShown && (
-          //                 <IconButton variant="solid">
-          //                   <AddCircleOutlineIcon
-          //                     onClick={(e) => {
-          //                       setShowModal(!showModal);
-          //                       setIndex(index);
-          //                     }}
-          //                   />
-          //                 </IconButton>
-          //               )}
-          //             </Typography>
-          //             <TextareaAutosize
-          //               aria-label="empty textarea"
-          //               fullWidth
-          //               placeholder="Header"
-          //               color="primary"
-          //               className={classes.textarea}
-          //               value={course[index].value}
-          //               // onChange={(e) => {
-          //               //   var temp = [...course];
-          //               //   temp[index].value[index].value = e.target.value;
-          //               //   setCourse(temp);
-          //               // }}
-          //               onChange={(e) => {
-          //                 var temp = [...course];
-          //                 temp[index].value = e.target.value;
-          //                 setCourse(temp);
-          //               }}
-          //             />
-          //           </BoxComponent>
-          //         );
-          //       } else if (e.component === "code") {
-          //         return (
-          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-          //             <Typography>
-          //               Code
-          //               {isShown && (
-          //                 <IconButton variant="solid">
-          //                   <AddCircleOutlineIcon
-          //                     onClick={(e) => {
-          //                       setShowModal(!showModal);
-          //                       setIndex(index);
-          //                     }}
-          //                   />
-          //                 </IconButton>
-          //               )}
-          //             </Typography>
-          //             <TextareaAutosize
-          //               aria-label="empty textarea"
-          //               placeholder="Code"
-          //               color="primary"
-          //               fullWidth
-          //               className={classes.textarea}
-          //               value={course[index].value}
-          //               onChange={(e) => {
-          //                 var temp = [...course];
-          //                 temp[index].value = e.target.value;
-          //                 setCourse(temp);
-          //               }}
-          //             />
-          //           </BoxComponent>
-          //         );
-          //       } else if (e.component === "text") {
-          //         return (
-          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-          //             <Typography>
-          //               Text
-          //               {isShown && (
-          //                 <IconButton variant="solid">
-          //                   <AddCircleOutlineIcon
-          //                     onClick={(e) => {
-          //                       setShowModal(!showModal);
-          //                       setIndex(index);
-          //                     }}
-          //                   />
-          //                 </IconButton>
-          //               )}
-          //             </Typography>
-          //             <TextareaAutosize
-          //               aria-label="empty textarea"
-          //               placeholder="Text"
-          //               color="primary"
-          //               fullWidth
-          //               className={classes.textarea}
-          //               value={course[index].value}
-          //               onChange={(e) => {
-          //                 var temp = [...course];
-          //                 temp[index].value = e.target.value;
-          //                 setCourse(temp);
-          //               }}
-          //             />
-          //           </BoxComponent>
-          //         );
-          //       } else if (e.component === "youtube") {
-          //         return (
-          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-          //             <Typography>
-          //               Youtube
-          //               {isShown && (
-          //                 <IconButton variant="solid">
-          //                   <AddCircleOutlineIcon
-          //                     onClick={(e) => {
-          //                       setShowModal(!showModal);
-          //                       setIndex(index);
-          //                     }}
-          //                   />
-          //                 </IconButton>
-          //               )}
-          //             </Typography>
-          //             <TextField
-          //               id="outlined-basic"
-          //               label="Youtube"
-          //               variant="outlined"
-          //               fullWidth
-          //               sx={{ marginTop: "10px", marginBottom: "10px" }}
-          //               value={course[index].value}
-          //               onChange={(e) => {
-          //                 var temp = [...course];
-          //                 temp[index].value = e.target.value;
-          //                 setCourse(temp);
-          //               }}
-          //             />
-          //           </BoxComponent>
-          //         );
-          //       } else if (e.component === "image") {
-          //         return (
-          //           <BoxComponent setIsShown={setIsShown} isShown={isShown}>
-          //             <Typography>
-          //               Image
-          //               {isShown && (
-          //                 <IconButton variant="solid">
-          //                   <AddCircleOutlineIcon
-          //                     onClick={(e) => {
-          //                       setShowModal(!showModal);
-          //                       setIndex(index);
-          //                     }}
-          //                   />
-          //                 </IconButton>
-          //               )}
-          //             </Typography>
-          //             <TextareaAutosize
-          //               aria-label="empty textarea"
-          //               placeholder="Image"
-          //               color="primary"
-          //               fullWidth
-          //               className={classes.textarea}
-          //               value={course[index].value}
-          //               onChange={(e) => {
-          //                 var temp = [...course];
-          //                 temp[index].value = e.target.value;
-          //                 setCourse(temp);
-          //               }}
-          //             />
-          //           </BoxComponent>
-          //         );
-          //       }
-          //     })}
-
-          //   <Button variant="contained" onClick={(e) => putApiExercisesCall()}>
-          //     Submit
-          //   </Button>
-          // </>
         )}
-
-        {console.log("showModal", showModal)}
-
-        {showModal && (
-          <Dialog
-            onClose={() => {
-              setShowModal(!showModal);
-            }}
-            open={showModal}
-          >
-            <List sx={{ pt: 0 }}>
-              {Object.keys(dropDownList).map((item) => (
-                <ListItem
-                  button
-                  onClick={() => {
-                    setShowModal(!showModal);
-                    handleAdd(index, dropDownList[item]);
-                    // dropDownList[item]
-                  }}
-                >
-                  <ListItemText primary={item} />
-                </ListItem>
-              ))}
-            </List>
-          </Dialog>
-        )}
-        {/* <ReactEditor course={course} /> */}
       </Container>
       <Box
         style={{
@@ -794,12 +393,6 @@ function ContentEdit() {
           <Button
             variant="text"
             color="dark"
-            style={
-              {
-                // opacity: `${exerciseId !== 0 ? 1 : 0}`,
-              }
-            }
-            // disabled={exerciseId === 0}
             onClick={() => {
               history.push(
                 interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -810,19 +403,11 @@ function ContentEdit() {
               );
             }}
             sx={{ flexGrow: 0 }}
-            // startIcon={<ArrowBackIosIcon />}
           >
             Cancel
           </Button>
           <Button
-            style={{
-              // opacity: `${exerciseId < courseLength ? 1 : 0}`,
-              position: "relative",
-              // right: "-10px",
-              // marginRight: !isActive && !isActiveIpad ? "40px" : "",
-            }}
-            // endIcon={<ArrowForwardIosIcon />}
-            // disabled={!(exerciseId < courseLength)}
+            style={{ position: "relative" }}
             variant="text"
             color="primary"
             onClick={() => {
@@ -838,3 +423,4 @@ function ContentEdit() {
 }
 
 export default ContentEdit;
+//762

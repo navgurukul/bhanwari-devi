@@ -19,7 +19,6 @@ const EDITOR_JS_TOOLS = {
   image: Image,
   header: Header,
   list: List,
-  // embed: Embed,
   embed: {
     class: Embed,
     config: {
@@ -108,7 +107,6 @@ function ReactEditor({ course, id, save }) {
         embed: item.component === "youtube" && youtube,
         source: item.component === "youtube" && youtube,
         service: item.component === "youtube" && item.value && item.component,
-        // caption: "",
         height: 320,
         width: 580,
       },
@@ -245,13 +243,7 @@ function ReactEditor({ course, id, save }) {
             }}
           />
 
-          <Button
-            sx={{
-              mt: 20,
-              mb: 20,
-            }}
-            onClick={() => onSave()}
-          >
+          <Button sx={{ mb: 20 }} onClick={() => onSave()}>
             save
           </Button>
         </>
