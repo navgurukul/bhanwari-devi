@@ -3,13 +3,16 @@ import { METHODS } from "../../../services/api";
 import { versionCode, PATHWAYS_INFO } from "../../../constant";
 
 export const getPathways = () => {
-  const branchDataSource =
-    process.env.REACT_APP_MERAKI_URL.startsWith("https://dev") ? "dev" : "main";
+  const branchDataSource = process.env.REACT_APP_MERAKI_URL.startsWith(
+    "https://dev"
+  )
+    ? "dev"
+    : "main";
   //update
   return axios(
     "https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
-    branchDataSource +
-    "/src/data/pathway_data_v40.json"
+      branchDataSource +
+      "/src/data/pathway_data_v40.json"
   ).catch((err) => {
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways?courseType=json`,

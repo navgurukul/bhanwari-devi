@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { METHODS } from "../../services/api";
 import axios from "axios";
 import "./style/index.scss";
+import { actions as progressTrackingActions } from "../PathwayExercise/redux/action";
 import ExerciseContent from "./ExerciseContent";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -123,6 +125,11 @@ function NavigationComponent({
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => {
+    console.log("state", state);
+    return state.User;
+  });
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
@@ -196,6 +203,15 @@ function PathwayExercise() {
         console.log("error");
       });
   }, [currentCourse]);
+
+  useEffect(() => {
+    dispatch(
+      progressTrackingActions.getProgressTracking({ courseId: courseId })
+    );
+  }, [dispatch]);
+
+  // console.log("state", state);
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
