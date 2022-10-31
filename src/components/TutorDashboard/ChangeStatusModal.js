@@ -57,9 +57,7 @@ const ChangeStatusModal = (props) => {
           });
         }
       })
-      .catch((err) => {
-        console.log(err, "error");
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {}, []);

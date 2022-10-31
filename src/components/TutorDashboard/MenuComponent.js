@@ -57,11 +57,6 @@ const MenuComponent = (props) => {
     });
   };
 
-  //refresh content on delete
-  useEffect(() => {
-    console.log("refreshed");
-  }, [delfun]);
-
   const openDots = anchorEl;
   const handleClickDots = (event) => {
     setAnchorEl(event.currentTarget);

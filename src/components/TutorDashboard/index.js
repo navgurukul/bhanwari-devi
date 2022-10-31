@@ -280,9 +280,7 @@ function Tutor(props) {
         );
         setCacheVolunteer(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
     pageCount = Math.ceil(slicedVolunteer && slicedVolunteer.length / limit);
   }, [
     statusFilter,
@@ -310,9 +308,7 @@ function Tutor(props) {
           spokenEnglish: res?.data?.spokenEnglishVolunteersCount,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }, []);
 
   const [state, setState] = React.useState({
@@ -436,8 +432,6 @@ function Tutor(props) {
             className={classes.filterIcon}
             onClick={() => {
               setFilter(!filter);
-              console.log(filter);
-              console.log("clicked");
             }}
           >
             <Box className={classes.tableBtn}>
