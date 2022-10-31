@@ -294,7 +294,7 @@ function ExerciseContent({
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(true);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {

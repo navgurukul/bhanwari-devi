@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#6D6D6D",
     width: "20px",
     height: "28px",
+    verticalAlign: "baseline",
+    marginTop: "32px",
+    marginRight: "8px",
   },
 }));
 

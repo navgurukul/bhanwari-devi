@@ -11,6 +11,8 @@ import { Typography, useMediaQuery } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -84,7 +86,14 @@ function Item({
                 pathwayId: params.pathwayId,
               })}
             >
-              {title}
+              {selected === index ? (
+                <ArrowRightAltIcon
+                  sx={{ marginRight: "8px", verticalAlign: "middle" }}
+                />
+              ) : (
+                ""
+              )}
+              {title === "assessment" ? "Practice Question" : title}
             </Link>
           </Typography>
         </ListItemButton>
@@ -132,19 +141,21 @@ function PersistentDrawerLeft({
       >
         <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
           <ListItem disablePadding style={{ marginTop: "100px" }}>
-            <IconButton
+            {/* <IconButton
               style={{ marginRight: "85%", marginTop: "40px" }}
               onClick={handleDrawerClose}
             >
               <ArrowBackIcon />
-            </IconButton>
+            </IconButton> */}
           </ListItem>
           <List>
             <ListItem disablePadding>
               <ListItemButton>
+                <AssignmentOutlinedIcon className={classes.ContentListIcon} />
                 <Typography
                   className={classes.courseNameTypography}
                   variant="subtitle2"
+                  mt={4}
                 >
                   {courseName}
                 </Typography>
