@@ -195,11 +195,11 @@ function PathwayCourse() {
 
   if (pathwayId == 2) {
     filterPathwayCourse = pathwayCourse?.data?.courses.filter(
-      (item) => item.name === "Spoken-English"
+      (item) => item?.name === "Spoken-English"
     );
 
     SupplementalCourse = pathwayCourse?.data?.courses.filter(
-      (item) => item.name !== "Spoken-English"
+      (item) => item?.name !== "Spoken-English"
     );
   } else {
     filterPathwayCourse = pathwayCourse?.data?.courses;
@@ -539,7 +539,7 @@ function PathwayCourse() {
                   <Card
                     className={classes.SupplementalCard}
                     elevation={2}
-                    sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
+                    sx={{ ml: 3, p: "16px", mb: isActive ? "12px" : "16px" }}
                   >
                     <CardContent
                       sx={{
