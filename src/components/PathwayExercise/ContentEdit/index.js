@@ -189,6 +189,11 @@ function ContentEdit() {
       });
   }, [courseId, exerciseId]);
 
+  useEffect(() => {
+    // onSave();
+    putApiAssessmentCall();
+  }, [save]);
+
   console.log("course", course);
   console.log("id", id);
 
@@ -261,12 +266,12 @@ function ContentEdit() {
                   return (
                     <Box>
                       <Typography>Code</Typography>
-                      <TextField
-                        id="outlined-basic"
-                        label="Code"
-                        variant="outlined"
+                      <TextareaAutosize
+                        aria-label="empty textarea"
                         fullWidth
-                        sx={{ marginTop: "10px", marginBottom: "10px" }}
+                        placeholder="Code"
+                        color="primary"
+                        className={classes.textarea}
                         value={course[index].value}
                         onChange={(e) => {
                           var temp = [...course];
@@ -368,13 +373,13 @@ function ContentEdit() {
                 }
               })}
 
-            <Button
+            {/* <Button
               variant="contained"
               sx={{ mb: 10 }}
               onClick={(e) => putApiAssessmentCall()}
             >
               Submit
-            </Button>
+            </Button> */}
           </>
         ) : (
           <ReactEditor course={course} id={id} save={save} />

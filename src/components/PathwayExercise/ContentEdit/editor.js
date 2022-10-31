@@ -222,9 +222,11 @@ function ReactEditor({ course, id, save }) {
       console.log("Saving failed: ", e);
     }
   };
+
   useEffect(() => {
     onSave();
   }, [save]);
+
   return (
     <>
       {blocks.length > 0 && (
@@ -243,9 +245,9 @@ function ReactEditor({ course, id, save }) {
             }}
           />
 
-          <Button sx={{ mb: 20 }} onClick={() => onSave()}>
+          {/* <Button sx={{ mb: 20 }} onClick={() => onSave()}>
             save
-          </Button>
+          </Button> */}
         </>
       )}
     </>
