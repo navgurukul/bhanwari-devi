@@ -47,9 +47,20 @@ const MenuComponent = (props) => {
         volunteer_ids: [itemId],
       },
     }).then((res) => {
-      console.log("res", res);
+      if (res.status === 200) {
+        snackbarMsg({
+          vertical: "bottom",
+          horizontal: "right",
+        });
+        setdelFun(!delfun);
+      }
     });
   };
+
+  //refresh content on delete
+  useEffect(() => {
+    console.log("refreshed");
+  }, [delfun]);
 
   const openDots = anchorEl;
   const handleClickDots = (event) => {
@@ -67,7 +78,7 @@ const MenuComponent = (props) => {
 
   const { vertical, horizontal, open } = state;
 
-  const handleClick = (newState) => {
+  const snackbarMsg = (newState) => {
     setState({ open: true, ...newState });
   };
 
@@ -76,9 +87,6 @@ const MenuComponent = (props) => {
       return;
     }
     setState({ ...state, open: false });
-    {
-      window.location.reload();
-    }
   };
 
   const action = (
@@ -156,10 +164,6 @@ const MenuComponent = (props) => {
               setStatusId(itemId);
               deleteUser();
               handleCloseDots();
-              handleClick({
-                vertical: "bottom",
-                horizontal: "right",
-              });
             }}
           >
             Delete

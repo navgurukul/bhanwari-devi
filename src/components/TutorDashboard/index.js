@@ -145,7 +145,7 @@ function Tutor(props) {
   const [statusName, setStatusName] = useState("");
   const [statusId, setStatusId] = useState([""]);
   const [generateDialog, setGenerateDialog] = useState(false);
-  const [delfun, setdelFun] = useState();
+  const [delfun, setdelFun] = useState(false);
   const [startDate, setstartDate] = useState("");
   const [endTime, setendTime] = useState("");
   const [slicedStudents, setSlicedStudents] = useState([]);
@@ -185,7 +185,15 @@ function Tutor(props) {
         volunteer_ids: selected,
       },
     }).then((res) => {
-      console.log("res", res);
+      if (res.status === 200) {
+        snackbarMsg({
+          vertical: "bottom",
+          horizontal: "right",
+        });
+        setTimeout(() => {
+          setdelFun(true);
+        }, 1000);
+      }
     });
   };
 
@@ -284,6 +292,7 @@ function Tutor(props) {
     endTime,
     selectedPathway,
     statusValue,
+    delfun,
   ]);
 
   useEffect(() => {
@@ -314,7 +323,7 @@ function Tutor(props) {
 
   const { vertical, horizontal, openDel } = state;
 
-  const handleClickDel = (newState) => {
+  const snackbarMsg = (newState) => {
     setState({ openDel: true, ...newState });
   };
 
@@ -323,9 +332,6 @@ function Tutor(props) {
       return;
     }
     setState({ ...state, openDel: false });
-    {
-      window.location.reload();
-    }
   };
 
   const action = (
@@ -624,10 +630,6 @@ function Tutor(props) {
                         onClick={() => {
                           setStatusId(selected);
                           deleteUsers();
-                          handleClickDel({
-                            vertical: "bottom",
-                            horizontal: "right",
-                          });
                         }}
                       >
                         <Typography
@@ -641,8 +643,8 @@ function Tutor(props) {
                         </Typography>
                         <Snackbar
                           anchorOrigin={{ vertical, horizontal }}
-                          open={openDel}
-                          autoHideDuration={6000}
+                          open={open}
+                          autoHideDuration={1000}
                           onClose={handleClose}
                           action={action}
                           key={vertical + horizontal}
