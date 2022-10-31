@@ -126,6 +126,9 @@ function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
+  const ProgressTracking = useSelector(
+    ({ ProgressTracking }) => ProgressTracking
+  );
   const state = useSelector((state) => {
     console.log("state1", state);
     return state;
@@ -194,7 +197,18 @@ function PathwayExercise() {
     );
   }, [dispatch]);
 
-  console.log("state2", state);
+  useEffect(() => {
+    setProgressTrackId(ProgressTracking.data);
+  }, [exerciseId]);
+
+  console.log("ProgressTracking", ProgressTracking);
+  console.log(
+    "ProgressTracking?.data?.exercises",
+    ProgressTracking?.data?.exercises
+  );
+  console.log("progressTrackId", progressTrackId);
+  console.log("course", course);
+  console.log("availableLang", availableLang);
 
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
@@ -216,21 +230,22 @@ function PathwayExercise() {
       });
   }, [currentCourse]);
 
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-    }).then((res) => {
-      const data = res.data;
+  // useEffect(() => {
+  //   axios({
+  //     method: METHODS.GET,
+  //     url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
+  //     headers: {
+  //       "version-code": versionCode,
+  //       accept: "application/json",
+  //       Authorization: user.data?.token || "",
+  //     },
+  //   }).then((res) => {
+  //     console.log("res", res);
+  //     const data = res.data;
 
-      setProgressTrackId(data);
-    });
-  }, [exerciseId]);
+  //     setProgressTrackId(data);
+  //   });
+  // }, [exerciseId]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
