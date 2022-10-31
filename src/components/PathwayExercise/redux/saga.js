@@ -16,5 +16,8 @@ function* handleGetProgressTracking({ data }) {
 }
 
 export default function* () {
-  yield takeLatest(types.GET_PATHWAY_INTENT, handleGetProgressTracking);
+  yield takeLatest(
+    types.GET_PROGRESS_TRACKING_INTENT,
+    handleGetProgressTracking
+  );
 }

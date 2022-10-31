@@ -4,7 +4,7 @@ import User from "./components/User/redux/saga";
 import Class from "./components/Class/redux/saga";
 import Course from "./components/Course/redux/saga";
 import Pathways from "./components/PathwayCourse/redux/saga";
-// import ProgressTracking from "./components/PathwayExercise/redux/saga";
+import ProgressTracking from "./components/PathwayExercise/redux/saga";
 
 // import Notifications from './Notifications'
 
@@ -14,6 +14,6 @@ export default function* () {
     fork(Class),
     fork(Course),
     fork(Pathways),
-    // fork(ProgressTracking),
+    fork(ProgressTracking),
   ]);
 }

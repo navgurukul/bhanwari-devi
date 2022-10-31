@@ -127,8 +127,8 @@ function PathwayExercise() {
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const state = useSelector((state) => {
-    console.log("state", state);
-    return state.User;
+    console.log("state1", state);
+    return state;
   });
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
@@ -154,6 +154,7 @@ function PathwayExercise() {
     console.log(
       `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
     );
+
     if (!showArrow.left) {
       if (scrollY > 0) {
         setShowArrow((prev) => {
@@ -185,6 +186,17 @@ function PathwayExercise() {
   };
 
   useEffect(() => {
+    dispatch(
+      progressTrackingActions.getProgressTracking({
+        courseId: courseId,
+        authToken: user.data?.token || "",
+      })
+    );
+  }, [dispatch]);
+
+  console.log("state2", state);
+
+  useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
@@ -203,14 +215,6 @@ function PathwayExercise() {
         console.log("error");
       });
   }, [currentCourse]);
-
-  useEffect(() => {
-    dispatch(
-      progressTrackingActions.getProgressTracking({ courseId: courseId })
-    );
-  }, [dispatch]);
-
-  // console.log("state", state);
 
   useEffect(() => {
     axios({
