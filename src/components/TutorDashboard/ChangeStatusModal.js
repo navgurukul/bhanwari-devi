@@ -50,11 +50,14 @@ const ChangeStatusModal = (props) => {
       },
     })
       .then((res) => {
-        console.log(res, "data");
+        if (res.status === 200) {
+          snackbarMsg({
+            vertical: "bottom",
+            horizontal: "right",
+          });
+        }
       })
-      .catch((err) => {
-        console.log(err, "error");
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {}, []);
@@ -68,7 +71,7 @@ const ChangeStatusModal = (props) => {
 
   const { vertical, horizontal, open } = state;
 
-  const handleClick = (newState) => {
+  const snackbarMsg = (newState) => {
     setState({ open: true, ...newState });
   };
 
@@ -204,10 +207,6 @@ const ChangeStatusModal = (props) => {
             onClick={() => {
               setStatusDialog(false);
               updateUser();
-              handleClick({
-                vertical: "bottom",
-                horizontal: "right",
-              });
               setStatusValue(status);
             }}
           >
