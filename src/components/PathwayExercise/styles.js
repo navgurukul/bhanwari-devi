@@ -107,6 +107,10 @@ const useStyles = makeStyles((theme) => ({
     position: "sticky",
     marginTop: 64,
   },
+  editingHeaderMobile: {
+    position: "sticky",
+    marginTop: 104,
+  },
 }));
 
 export default useStyles;

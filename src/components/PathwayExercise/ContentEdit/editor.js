@@ -104,6 +104,10 @@ function ReactEditor({ course, id, save }) {
         file: {
           url: item.component === "image" && item.value,
         },
+        caption: item.component === "image" && item.alt,
+        withBorder: false,
+        withBackground: false,
+        stretched: true,
         embed: item.component === "youtube" && youtube,
         source: item.component === "youtube" && youtube,
         service: item.component === "youtube" && item.value && item.component,
@@ -130,6 +134,7 @@ function ReactEditor({ course, id, save }) {
     blocks.map((item, index) => {
       let value;
       let component;
+      let alt;
       if (item.type === "embed") {
         value = item.data.embed.split("https://www.youtube.com/embed/")[1];
         component = "youtube";
@@ -165,6 +170,10 @@ function ReactEditor({ course, id, save }) {
         code = item.data.code.replace(/\n/g, "<br>").replace(/    /g, "&emsp;");
         component = item.type;
         value = code;
+      } else if (item.type == "image") {
+        component = item.type;
+        value = item.data.file.url;
+        alt = item.data.caption;
       }
 
       if (item.type !== "list") {
@@ -172,6 +181,7 @@ function ReactEditor({ course, id, save }) {
           value: value,
           component: component,
           variant: item.data.level,
+          alt: alt,
         });
       }
     });
