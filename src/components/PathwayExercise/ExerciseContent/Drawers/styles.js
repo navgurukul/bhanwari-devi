@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   ListItemLink: {
     textDecoration: "none",
     fontSize: "14px",
+    width: "100%",
   },
   courseNameTypography: {
     fontWeight: "400",

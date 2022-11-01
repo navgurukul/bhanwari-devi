@@ -66,25 +66,26 @@ function Item({
         disablePadding
         ref={index === selected ? ref1 : null}
       >
-        <ListItemButton
-          onClick={() => {
-            setSelected(index);
-            setExerciseId(index);
-          }}
+        <Link
+          style={ItemStyle}
+          className={classes.ListItemLink}
+          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId: params.courseId,
+            exerciseId: index,
+            pathwayId: params.pathwayId,
+          })}
         >
-          <Typography
-            className={classes.ListItemsTypography}
-            component={Link}
-            variant="caption"
+          <ListItemButton
+            onClick={() => {
+              setSelected(index);
+              setExerciseId(index);
+            }}
           >
-            <Link
-              style={ItemStyle}
-              className={classes.ListItemLink}
-              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })}
+            <Typography
+              className={classes.ListItemsTypography}
+              // component={Link}
+              sx={{ fontWeight: "bold" }}
+              variant="caption"
             >
               {selected === index ? (
                 <ArrowRightAltIcon
@@ -94,9 +95,9 @@ function Item({
                 ""
               )}
               {title === "assessment" ? "Practice Question" : title}
-            </Link>
-          </Typography>
-        </ListItemButton>
+            </Typography>
+          </ListItemButton>
+        </Link>
       </ListItem>
     </>
   );
@@ -118,9 +119,9 @@ function PersistentDrawerLeft({
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
   const ref1 = React.useRef();
   React.useEffect(() => {
     if (ref1.current) {
