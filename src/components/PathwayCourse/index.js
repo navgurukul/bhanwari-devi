@@ -526,41 +526,43 @@ function PathwayCourse() {
           )}
         </Box>
 
-        <Box sx={{}}>
-          <Typography variant="h6">Supplemental English Courses</Typography>
-          <Grid sx={{ mt: 4 }} container spacing={3} align="center">
-            {SupplementalCourse?.map((item, index) => (
-              <Grid xs={12} md={3} className={classes.courseCard}>
-                <Link
-                  className={classes.pathwayLink}
-                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                    courseId: item.id,
-                    exerciseId: 0,
-                    pathwayId: pathwayId,
-                  })}
-                >
-                  <Card
-                    className={classes.SupplementalCard}
-                    elevation={2}
-                    sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
+        {SupplementalCourse && (
+          <Box sx={{}}>
+            <Typography variant="h6">Supplemental English Courses</Typography>
+            <Grid sx={{ mt: 4 }} container spacing={3} align="center">
+              {SupplementalCourse?.map((item, index) => (
+                <Grid xs={12} md={3} className={classes.courseCard}>
+                  <Link
+                    className={classes.pathwayLink}
+                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                      courseId: item.id,
+                      exerciseId: 0,
+                      pathwayId: pathwayId,
+                    })}
                   >
-                    <CardContent
-                      sx={{
-                        height: isActive ? "60px" : "70px",
-                        p: isActive ? "0px" : "0px 8px 0px 0px",
-                        mt: 3,
-                      }}
+                    <Card
+                      className={classes.SupplementalCard}
+                      elevation={2}
+                      sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
                     >
-                      <Typography align="center" variant="body1">
-                        {item.name}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
+                      <CardContent
+                        sx={{
+                          height: isActive ? "60px" : "70px",
+                          p: isActive ? "0px" : "0px 8px 0px 0px",
+                          mt: 3,
+                        }}
+                      >
+                        <Typography align="center" variant="body1">
+                          {item.name}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
       </Container>
     </>
   );
