@@ -297,6 +297,8 @@ function ExerciseContent({
   const [openDrawer, setOpenDrawer] = useState(true);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -427,7 +429,10 @@ function ExerciseContent({
           </Grid>
         </Grid>
 
-        <Container maxWidth="sm">
+        <Container
+          style={{ maxWidth: !isActive && "700px" }}
+          // maxWidth="sm"
+        >
           {desktop ? (
             <PersistentDrawerLeft
               setSelected={setSelected}
