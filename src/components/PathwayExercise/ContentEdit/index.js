@@ -194,7 +194,7 @@ function ContentEdit() {
     putApiAssessmentCall();
   }, [save]);
 
-  console.log("course", course);
+  console.log("course in content edit", course);
   console.log("id", id);
 
   return (
@@ -385,12 +385,7 @@ function ContentEdit() {
           <ReactEditor course={course} id={id} save={save} />
         )}
       </Container>
-      <Box
-        style={{
-          position: "fixed",
-          zIndex: 100,
-        }}
-      >
+      <Box sx={{ position: "fixed", zIndex: 100 }}>
         <Toolbar
           className={classes.bottomRow}
           sx={{ width: !isActive ? "98%" : "80%" }}
