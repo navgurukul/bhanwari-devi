@@ -7,16 +7,27 @@ import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./styles.scss";
-import Image from "@editorjs/image";
+// import Image from "@editorjs/image";
+import ImageTool from "@editorjs/image";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Embed from "@editorjs/embed";
+import Table from "@editorjs/table";
 import { Button } from "@mui/material";
 
 const CodeTool = require("@editorjs/code");
 
 const EDITOR_JS_TOOLS = {
-  image: Image,
+  // image: Image,
+  image: {
+    class: ImageTool,
+    config: {
+      endpoints: {
+        byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+        byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+      },
+    },
+  },
   header: Header,
   list: List,
   embed: {
@@ -29,6 +40,14 @@ const EDITOR_JS_TOOLS = {
     },
   },
   code: CodeTool,
+  table: {
+    class: Table,
+    inlineToolbar: true,
+    config: {
+      rows: 2,
+      cols: 3,
+    },
+  },
 };
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
@@ -76,6 +95,7 @@ function ReactEditor({ course, id, save }) {
 
     let type;
     let code;
+    let content = [];
     if (item.component == "text" && "decoration" in item) {
       type = "list";
     } else if (item.component == "text") {
@@ -85,12 +105,25 @@ function ReactEditor({ course, id, save }) {
     } else if (item.component === "code") {
       code = item.value.replace(/<br>/g, "\n").replace(/&emsp;/g, "    ");
       type = item.component;
+    } else if (item.component === "table") {
+      type = "table";
+      const header = item.value.map((item) => item.header);
+      const allData = item.value.map((item) => item.items);
+      const dataInCol = allData[0].map((_, i) =>
+        allData.map((_, j) => allData[j][i])
+      );
+      content = [[...header], ...dataInCol];
+      console.log("allData", allData);
+      console.log("header", header);
+      console.log("dataInCol", dataInCol);
+      console.log("content", content);
     } else {
       type = item.component;
     }
 
     return {
       type: type,
+      // type: "table",
       data: {
         style: style,
         items: items,
@@ -101,6 +134,7 @@ function ReactEditor({ course, id, save }) {
               item.value,
         level: item.variant,
         code: item.component === "code" && code,
+        // success: 1,
         file: {
           url: item.component === "image" && item.value,
         },
@@ -113,6 +147,8 @@ function ReactEditor({ course, id, save }) {
         service: item.component === "youtube" && item.value && item.component,
         height: 320,
         width: 580,
+        withHeadings: true,
+        content: content,
       },
     };
   });
@@ -174,6 +210,28 @@ function ReactEditor({ course, id, save }) {
         component = item.type;
         value = item.data.file.url;
         alt = item.data.caption;
+      } else if (item.type == "table") {
+        component = item.type;
+        let content = item.data.content;
+        let header = content[0];
+        content.splice(0, 1);
+        const dataInCol = content[0].map((_, j) =>
+          content.map((_, i) => content[i][j])
+        );
+        console.log("content 2", content);
+        console.log("header 2", header);
+        console.log("dataInCol 2", dataInCol);
+        value = [];
+        for (const ele in header) {
+          console.log("ele", ele);
+          console.log("header[ele]", header[ele]);
+          value.push({
+            header: header[ele],
+            items: dataInCol[ele],
+          });
+        }
+        console.log("value", value);
+        // value = item.data.file.url;
       }
 
       if (item.type !== "list") {

@@ -6,9 +6,9 @@
     "@editorjs/editorjs": "^2.25.0",
     "@editorjs/embed": "^2.5.3",
     "@editorjs/header": "^2.6.2",
-    "@editorjs/image": "^2.6.2",
     "@editorjs/list": "^1.7.0",
     "@editorjs/paragraph": "^2.8.0",
+    "@editorjs/table": "^2.0.4",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@firebase/app": "^0.7.33",
@@ -97,6 +97,7 @@
   },
   "devDependencies": {
     "@editorjs/code": "^2.7.0",
+    "@editorjs/image": "^2.6.2",
     "prettier": "2.7.1",
     "redux-devtools-extension": "^2.13.8"
   }

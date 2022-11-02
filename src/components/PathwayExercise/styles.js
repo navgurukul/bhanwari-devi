@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     position: "fixed !important",
+    zIndex: 100,
     bottom: "0px",
     background: "#fff",
     boxShadow:
