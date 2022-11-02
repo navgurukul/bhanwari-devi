@@ -430,8 +430,8 @@ function ExerciseContent({
         </Grid>
 
         <Container
-          style={{ maxWidth: !isActive && "700px" }}
-          // maxWidth="sm"
+          // style={{ maxWidth: !isActive && "700px" }}
+          maxWidth="sm"
         >
           {desktop ? (
             <PersistentDrawerLeft
