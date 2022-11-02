@@ -11,6 +11,8 @@ import { Typography, useMediaQuery } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -64,30 +66,38 @@ function Item({
         disablePadding
         ref={index === selected ? ref1 : null}
       >
-        <ListItemButton
-          onClick={() => {
-            setSelected(index);
-            setExerciseId(index);
-          }}
+        <Link
+          style={ItemStyle}
+          className={classes.ListItemLink}
+          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId: params.courseId,
+            exerciseId: index,
+            pathwayId: params.pathwayId,
+          })}
         >
-          <Typography
-            className={classes.ListItemsTypography}
-            component={Link}
-            variant="caption"
+          <ListItemButton
+            onClick={() => {
+              setSelected(index);
+              setExerciseId(index);
+            }}
           >
-            <Link
-              style={ItemStyle}
-              className={classes.ListItemLink}
-              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })}
+            <Typography
+              className={classes.ListItemsTypography}
+              // component={Link}
+              sx={{ fontWeight: "bold" }}
+              variant="caption"
             >
-              {title}
-            </Link>
-          </Typography>
-        </ListItemButton>
+              {selected === index ? (
+                <ArrowRightAltIcon
+                  sx={{ marginRight: "8px", verticalAlign: "middle" }}
+                />
+              ) : (
+                ""
+              )}
+              {title === "assessment" ? "Practice Question" : title}
+            </Typography>
+          </ListItemButton>
+        </Link>
       </ListItem>
     </>
   );
@@ -109,9 +119,9 @@ function PersistentDrawerLeft({
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
   const ref1 = React.useRef();
   React.useEffect(() => {
     if (ref1.current) {
@@ -132,19 +142,21 @@ function PersistentDrawerLeft({
       >
         <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
           <ListItem disablePadding style={{ marginTop: "100px" }}>
-            <IconButton
+            {/* <IconButton
               style={{ marginRight: "85%", marginTop: "40px" }}
               onClick={handleDrawerClose}
             >
               <ArrowBackIcon />
-            </IconButton>
+            </IconButton> */}
           </ListItem>
           <List>
             <ListItem disablePadding>
               <ListItemButton>
+                <AssignmentOutlinedIcon className={classes.ContentListIcon} />
                 <Typography
                   className={classes.courseNameTypography}
                   variant="subtitle2"
+                  mt={4}
                 >
                   {courseName}
                 </Typography>
