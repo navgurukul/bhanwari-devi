@@ -104,6 +104,25 @@ const useStyles = makeStyles((theme) => ({
   progressBar: {
     width: "95%",
   },
+  certButtons: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: "32px"
+  },
+  greenButton: {
+    padding: "8px 16px !important",
+    borderRadius: "8px !important",
+    backgroundColor: "#48A145 !important",
+    color: "#FFFFFF !important",
+    width: "295px !important",
+  },
+  pdfFrame: {
+    height: "400px",
+    width: "100%",
+    margin: "32px 0 32px 0",
+    border: "none",
+    outline: "none"
+  },
 }));
 
 export default useStyles;

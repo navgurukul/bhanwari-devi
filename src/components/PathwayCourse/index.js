@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
+import Snackbar from '@mui/material/Snackbar';
 import useStyles from "./styles";
 import { Link, useHistory } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
@@ -14,6 +15,9 @@ import { actions as enrolledBatchesActions } from "./redux/action";
 import ExternalLink from "../common/ExternalLink";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
 import { CardContent } from "@mui/material";
+import { ReactComponent as CertificateIcon } from './asset/certificate-grey.svg';
+import { ReactComponent as CertificateIconColored } from './asset/certificate-color.svg';
+import Modal from '@mui/material/Modal';
 
 import {
   Container,
@@ -87,13 +91,32 @@ function PathwayCourse() {
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const { pathwayCourse } = useSelector((state) => state.Pathways);
-  const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles({isActive});
   const params = useParams();
   const pathwayId = params.pathwayId;
   const [completedPortionJason, setCompletedPortionJason] = useState({});
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [completedAll, setCompletedAll]= useState(false);
+  const [certificate, setCertificate] = useState("");
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: isActive ? "300px" : "544px",
+    bgcolor: 'background.paper',
+    outline:'none',
+    borderRadius: '8px',
+    boxShadow: 24,
+    p: 4,
+  };
+
+  console.log(pathwayCourse)
   const data = useSelector((state) => {
     return state;
   });
@@ -112,6 +135,28 @@ function PathwayCourse() {
       return null;
     }
   });
+
+  const handleSnackbar = ()=>{
+    setOpenSnackbar(prev=>!prev);
+  }
+
+  const handleModal = ()=>{
+    if(!openModal){
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      }).then((response) => {
+        setCertificate(response?.data?.url);
+      }).catch((err)=>{
+        console.log("err", err)
+      })
+    }
+    setOpenModal(prev=>!prev);
+  }
 
   const loading = useSelector((state) => {
     const upcomingBatchesState = state?.Pathways?.upcomingBatches;
@@ -151,6 +196,9 @@ function PathwayCourse() {
         },
       }).then((response) => {
         console.log("response", response);
+        if(response?.data?.total_completed_portion === 100){
+          setCompletedAll(true);
+        }
         response.data.pathway.map((item) => {
           setCompletedPortionJason((prevState) => ({
             ...prevState,
@@ -160,6 +208,7 @@ function PathwayCourse() {
       });
     }
   }, [dispatch, pathwayId]);
+
   useEffect(() => {
     if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
@@ -230,6 +279,22 @@ function PathwayCourse() {
         mb={isActive ? 32 : 48}
         maxWidth="lg"
       >
+        <Modal
+          open={openModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          onClose={handleModal}
+        >
+        <Box sx={modalStyle}>
+          <Typography sx={{fontSize: "32px", fontWeight: "600"}}>{`${pathwayCourseData?.pathway}  Certifitcate`}</Typography>
+          <iframe className={classes.pdfFrame} src={certificate}></iframe>
+          <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
+          <Box className={classes.certButtons}>
+            <Button>Share to Friends</Button>
+            <Button className={classes.greenButton}>Get Certificate</Button>
+          </Box>
+        </Box>
+      </Modal>
         {enrolledBatches ? (
           <>
             <PathwayCards
@@ -377,8 +442,8 @@ function PathwayCourse() {
                   Learning Outcomes
                 </Typography>
                 <Grid container spacing={0} align="center">
-                  {pathwayCourseData.outcomes.map((item) => (
-                    <Grid xs={12} md={4}>
+                  {pathwayCourseData.outcomes.map((item, index) => (
+                    <Grid key={index} xs={12} md={4}>
                       <Card sx={{ margin: "10px" }} align="left" elevation={0}>
                         <Box className={classes.flex}>
                           <CheckIcon color="primary" />
@@ -406,7 +471,7 @@ function PathwayCourse() {
           </Typography>
           <Grid container spacing={3} align="center">
             {filterPathwayCourse?.map((item, index) => (
-              <Grid xs={12} md={3} className={classes.courseCard}>
+              <Grid key={index} xs={12} md={3} className={classes.courseCard}>
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -466,20 +531,40 @@ function PathwayCourse() {
               </Grid>
             ))}
           </Grid>
-          {/* <Grid  sx={{mb:15}}align="center">
+          <Grid onClick={completedAll ? handleModal : handleSnackbar} sx={{mb:15}}align="center">
             <Grid sx={{mb:3}} >
               <img src={require("./asset/separator.svg")} alt="icon" />
             </Grid>
-            <Grid>
-              <img
-                src={require("./asset/certificate.svg")}
-                alt="certificate icon"
-              />
+            <Grid sx={{cursor: "pointer"}}>
+              {
+                completedAll ? 
+                <CertificateIconColored
+                  className={classes.certificateIcon}
+                /> : 
+                <CertificateIcon
+                  className={classes.certificateIcon}
+                />
+              }
               <Typography sx={{mt:2}} variant="body1" mb={2}>
-                {pathwayCourseData?.pathway} Certificate (Locked)
+                {pathwayCourseData?.pathway} Certificate
               </Typography>
             </Grid>
-          </Grid> */}
+            <Snackbar
+              open={openSnackbar}
+              autoHideDuration={6000}
+              message={`Please complete all the courses to unlock ${pathwayCourseData?.pathway}  certificate`}
+              onClose={handleSnackbar}
+              ContentProps={{
+                sx: {
+                  background: "#2E2E2E",
+                  fontWeight: "400",
+                  fontSize: "18px",
+                  width: "328px",
+                  textAlign: "left",
+                }
+              }}
+            />
+          </Grid>
           {!user?.data?.token ? (
             <Container align="center">
               <Box
