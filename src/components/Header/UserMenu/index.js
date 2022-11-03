@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import useStyles from "../styles";
 import Message from "../../common/Message";
+import { isTouchScreen } from "../../../common/utils";
 
 // function UserMenu({ profile }) {
 function UserMenu() {
@@ -20,7 +21,7 @@ function UserMenu() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
-  const profilePicture = user?.data?.user?.profile_picture;
+  const profilePict = user?.data?.user?.profile_picture;
   const name = user?.data?.user?.name;
 
   /*
@@ -42,11 +43,15 @@ function UserMenu() {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton
+        onMouseEnter={(e) => {
+          if (!isTouchScreen()) {
+            handleOpenUserMenu(e);
+          }
+        }}
         onClick={handleOpenUserMenu}
-        onMouseEnter={handleOpenUserMenu}
         sx={{ p: 0 }}
       >
-        <Avatar alt={name} src={profilePicture} />
+        <Avatar alt={name} src={profilePict} />
       </IconButton>
       <Menu
         sx={{ mt: "45px" }}
@@ -64,6 +69,7 @@ function UserMenu() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
         onMouseLeave={handleCloseUserMenu}
+        hideBackdrop
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem

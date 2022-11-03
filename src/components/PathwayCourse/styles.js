@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 2,
   },
   pathwayContainer: {
-    marginTop: 40,
-    // marginBottom: 48,
+    marginTop: 55,
+    marginBottom: 48,
   },
   mobileVideo: {
     width: 700,
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 16,
   },
   courseCard: {
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   titleCard: {
     // marginBottom: 30,
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pathwayCard: {
     minWidth: "250px",
-    height: "310px",
+    // height: "310px",
     margin: "16px 0",
     "&:hover": {
       boxShadow:

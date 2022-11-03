@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import { PATHS } from "../../constant";
-import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import { useHistory } from "react-router-dom";
 import { StepLabel } from "@mui/material";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Container } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  Container,
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Select,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SelectTrack from "./SelectTrack";
@@ -21,17 +34,19 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { METHODS } from "../../services/api";
 import { actions } from "../User/redux/action";
-
+import { Link } from "react-router-dom";
 import "./styles.scss";
 import { getObjectState, saveObjectState } from "../../common/storage";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
-  const currentState = getObjectState("volunteer_automation", "state") || {
-    completed: [],
-  };
   const user = useSelector(({ User }) => User);
   const roles = user?.data?.user.rolesList; // TODO: Use selector for this
+  const uid = user?.data?.user.id; // TODO: Factor out common logic used for selected role PR # 660
+  const allUsersState = getObjectState("volunteer_automation", "state");
+  const currentState = allUsersState?.[uid] || {
+    completed: [],
+  };
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -40,6 +55,16 @@ function HorizontalLinearStepper() {
   const [contact, setContact] = useState(currentState.contact);
   const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const [availability, setAvailability] = React.useState(
     currentState.availability || {
       hours_per_week: "",
@@ -52,7 +77,10 @@ function HorizontalLinearStepper() {
   const updateAndSaveState = (setter, key, value) => {
     setter && setter(value);
     currentState[key] = value;
-    saveObjectState("volunteer_automation", "state", currentState);
+    saveObjectState("volunteer_automation", "state", {
+      ...allUsersState,
+      [uid]: currentState,
+    });
   };
 
   React.useEffect(() => {
@@ -129,6 +157,12 @@ function HorizontalLinearStepper() {
     },
   ];
 
+  console.log("data", {
+    contact: contact,
+    pathway_id: pathwayId,
+    ...availability,
+  });
+
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -136,6 +170,8 @@ function HorizontalLinearStepper() {
   const setActiveStepHandler = (changeBy, prevActiveStep) => {
     const itemKey = steps[prevActiveStep]?.itemKey;
     const currentStep = prevActiveStep + changeBy;
+
+    console.log("currentStep", currentStep);
 
     if (itemKey && !disable) {
       // button was enabled by Component for this step so it's completed
@@ -178,7 +214,7 @@ function HorizontalLinearStepper() {
         Authorization: user.data.token,
       },
       data: {
-        contact: contact,
+        contact: contact.split(" ").join("-"),
         pathway_id: pathwayId,
         ...availability,
       },
@@ -195,6 +231,8 @@ function HorizontalLinearStepper() {
           },
         }).then(
           (res) => {
+            console.log("res", res);
+
             dispatch(
               actions.onUserRefreshDataIntent({ token: user.data.token })
             );
@@ -211,92 +249,135 @@ function HorizontalLinearStepper() {
   };
 
   return (
-    <Container sx={{ mt: 4 }} maxWidth="lg">
-      <div
-        className="example"
-        style={{
-          overflowX: "scroll",
-        }}
-      >
-        <Stepper activeStep={activeStep}>
-          {steps.map((step, index) => {
-            const stepProps = {};
-            const labelProps = {};
-
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={step.label} {...stepProps}>
-                <StepLabel sx={{ minWidth: "125px" }} {...labelProps}>
-                  {step.label}
-                </StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-      </div>
-      <React.Fragment>
-        <>
-          {steps.map((step, index) => {
-            if (activeStep === index) {
-              return (
-                <Box>
-                  <Typography sx={{ mt: 2, mb: 1 }}>
-                    {step.component}
-                  </Typography>
-                </Box>
-              );
-            }
-          })}
-        </>
-        <Container maxWidth="sm">
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-              pt: 2,
-              pb: 5,
-            }}
+    <>
+      <AppBar position="static" color="background" elevation={2}>
+        <Toolbar>
+          <IconButton>
+            <CloseIcon onClick={handleClickOpen} />
+          </IconButton>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
           >
-            {activeStep > 0 && (
-              <Button
-                variant="text"
-                sx={{ color: "#6D6D6D", mr: 4 }}
-                color="inherit"
-                onClick={handleBack}
-                startIcon={<ArrowBackIosIcon />}
+            <DialogTitle id="alert-dialog-title">
+              {"Leave Registration?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Goals can change all the time. However, we will keep your
+                registration progress intact in case you return back.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Link
+                style={{ textDecoration: "none" }}
+                to={PATHS.VOLUNTEER_AUTOMATION}
               >
-                Back
+                <Button color="error">Leave</Button>
+              </Link>
+              <Button style={{ color: "#2E2E2E" }} onClick={handleClose}>
+                Stay on Page
               </Button>
-            )}
+            </DialogActions>
+          </Dialog>
+          <Box sx={{ flexGrow: 1 }} />
+          <Typography variant="subtitle1" component="div" sx={{ flexGrow: 1 }}>
+            Tutor Registration
+          </Typography>
+        </Toolbar>
+      </AppBar>
 
-            <Box />
-            {activeStep === steps.length - 1 ? (
-              <Button
-                color="primary"
-                variant="contained"
-                endIcon={<ArrowForwardIosIcon />}
-                onClick={submit}
-              >
-                Go to Dashboard
-              </Button>
-            ) : (
-              <Button
-                color="primary"
-                variant="contained"
-                endIcon={<ArrowForwardIosIcon />}
-                onClick={handleNext}
-                disabled={disable}
-              >
-                Next
-              </Button>
-            )}
-          </Box>
-        </Container>
-      </React.Fragment>
-    </Container>
+      <Container sx={{ mt: 8 }} maxWidth="lg">
+        <div
+          className="example"
+          style={{
+            overflowX: "scroll",
+          }}
+        >
+          <Stepper activeStep={activeStep}>
+            {steps.map((step, index) => {
+              const stepProps = {};
+              const labelProps = {};
+
+              if (isStepSkipped(index)) {
+                stepProps.completed = false;
+              }
+              return (
+                <Step key={step.label} {...stepProps}>
+                  <StepLabel sx={{ minWidth: "125px" }} {...labelProps}>
+                    {step.label}
+                  </StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
+        </div>
+        <React.Fragment>
+          <>
+            {steps.map((step, index) => {
+              console.log(typeof index, "index");
+              console.log(typeof activeStep, "type");
+              if (activeStep === index) {
+                return (
+                  <Box>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                      {step.component}
+                    </Typography>
+                  </Box>
+                );
+              }
+            })}
+          </>
+          <Container maxWidth="sm">
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+                pt: 2,
+                pb: 5,
+              }}
+            >
+              {activeStep > 0 && (
+                <Button
+                  variant="text"
+                  sx={{ color: "#6D6D6D", mr: 4 }}
+                  color="inherit"
+                  onClick={handleBack}
+                  startIcon={<ArrowBackIosIcon />}
+                >
+                  Back
+                </Button>
+              )}
+
+              <Box />
+              {activeStep === steps.length - 1 ? (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={submit}
+                >
+                  Go to Dashboard
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={handleNext}
+                  disabled={disable}
+                >
+                  Next
+                </Button>
+              )}
+            </Box>
+          </Container>
+        </React.Fragment>
+      </Container>
+    </>
   );
 }
 
