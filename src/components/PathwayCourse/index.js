@@ -286,7 +286,7 @@ function PathwayCourse() {
           onClose={handleModal}
         >
         <Box sx={modalStyle}>
-          <Typography sx={{fontSize: "32px", fontWeight: "600"}}>{`${pathwayCourseData?.pathway}  Certifitcate`}</Typography>
+          <Typography sx={{fontSize: "32px", fontWeight: "600"}}>{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
           <iframe className={classes.pdfFrame} src={certificate}></iframe>
           <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
           <Box className={classes.certButtons}>
