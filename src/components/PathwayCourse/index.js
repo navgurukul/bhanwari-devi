@@ -18,7 +18,6 @@ import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from './asset/certificate-grey.svg';
 import { ReactComponent as CertificateIconColored } from './asset/certificate-color.svg';
 import Modal from '@mui/material/Modal';
-import theme from "../../theme/theme";
 
 import {
   Container,
@@ -38,6 +37,7 @@ import PathwayCards from "./PathwayCards/index.js";
 import { useState } from "react";
 import axios from "axios";
 import { METHODS } from "../../services/api";
+import CustomSnackbar from "./customSnackbar";
 
 const pathways = [
   {
@@ -100,7 +100,7 @@ function PathwayCourse() {
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   const [completedAll, setCompletedAll]= useState(false);
   const [certificate, setCertificate] = useState("");
 
@@ -549,7 +549,7 @@ function PathwayCourse() {
                 {pathwayCourseData?.pathway} Certificate
               </Typography>
             </Grid>
-            <Snackbar
+            {/* <Snackbar
               open={openSnackbar}
               autoHideDuration={6000}
               message={`Please complete all the courses to unlock ${pathwayCourseData?.pathway}  certificate`}
@@ -563,6 +563,11 @@ function PathwayCourse() {
                   textAlign: "left",
                 }
               }}
+            /> */}
+            <CustomSnackbar 
+              openSnackbar={openSnackbar} 
+              pathwayName={pathwayCourseData?.pathway} 
+              handleSnackbar={handleSnackbar}
             />
           </Grid>
           {!user?.data?.token ? (
