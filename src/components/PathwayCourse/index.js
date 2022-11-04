@@ -96,7 +96,7 @@ function PathwayCourse() {
   const classes = useStyles();
   const params = useParams();
   const pathwayId = params.pathwayId;
-  const [completedPortionJason, setCompletedPortionJason] = useState({});
+  const [completedPortion, setCompletedPortion] = useState({});
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -200,7 +200,7 @@ function PathwayCourse() {
           setCompletedAll(true);
         }
         response.data.pathway.map((item) => {
-          setCompletedPortionJason((prevState) => ({
+          setCompletedPortion((prevState) => ({
             ...prevState,
             [item.course_id]: item.completed_portion,
           }));
@@ -523,7 +523,7 @@ function PathwayCourse() {
                       <LinearProgress
                         className={classes.progressBar}
                         variant="determinate"
-                        value={parseInt(completedPortionJason[item.id]) || 0}
+                        value={parseInt(completedPortion[item.id]) || 0}
                       />
                     </CardActions>
                   </Card>
