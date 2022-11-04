@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   flex: {
     display: "flex",
-    padding: "16px 0 16px 0",
+    padding: "16px 0",
   },
   courseName: {
     background: "#E9F5E9",
@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
   pdfFrame: {
     height: "400px",
     width: "100%",
-    margin: "32px 0 32px 0",
+    margin: "32px 0",
     border: "none",
     outline: "none"
   },

@@ -18,6 +18,7 @@ import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from './asset/certificate-grey.svg';
 import { ReactComponent as CertificateIconColored } from './asset/certificate-color.svg';
 import Modal from '@mui/material/Modal';
+import theme from "../../theme/theme";
 
 import {
   Container,
@@ -92,14 +93,14 @@ function PathwayCourse() {
   const dispatch = useDispatch();
   const { pathwayCourse } = useSelector((state) => state.Pathways);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles({isActive});
+  const classes = useStyles();
   const params = useParams();
   const pathwayId = params.pathwayId;
   const [completedPortionJason, setCompletedPortionJason] = useState({});
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
   const [completedAll, setCompletedAll]= useState(false);
   const [certificate, setCertificate] = useState("");
 
@@ -116,7 +117,6 @@ function PathwayCourse() {
     p: 4,
   };
 
-  console.log(pathwayCourse)
   const data = useSelector((state) => {
     return state;
   });
@@ -556,9 +556,9 @@ function PathwayCourse() {
               onClose={handleSnackbar}
               ContentProps={{
                 sx: {
-                  background: "#2E2E2E",
+                  background: theme.palette.secondary.contrastText,
                   fontWeight: "400",
-                  fontSize: "18px",
+                  fontSize: theme.typography.fontSize,
                   width: "328px",
                   textAlign: "left",
                 }
@@ -615,7 +615,7 @@ function PathwayCourse() {
           <Typography variant="h6">Supplemental English Courses</Typography>
           <Grid sx={{ mt: 4 }} container spacing={3} align="center">
             {SupplementalCourse?.map((item, index) => (
-              <Grid xs={12} md={3} className={classes.courseCard}>
+              <Grid key={index} xs={12} md={3} className={classes.courseCard}>
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
