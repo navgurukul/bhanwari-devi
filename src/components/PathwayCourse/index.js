@@ -101,8 +101,8 @@ function PathwayCourse() {
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [completedAll, setCompletedAll]= useState(false);
   const [certificate, setCertificate] = useState("");
+  const completedAll = (completedPortion?.total === 100);
 
   const modalStyle = {
     position: 'absolute',
@@ -196,9 +196,10 @@ function PathwayCourse() {
         },
       }).then((response) => {
         console.log("response", response);
-        if(response?.data?.total_completed_portion === 100){
-          setCompletedAll(true);
-        }
+        setCompletedPortion((prevState)=>({
+            ...prevState, total: response?.data?.total_completed_portion
+        }));
+        
         response.data.pathway.map((item) => {
           setCompletedPortion((prevState) => ({
             ...prevState,
@@ -531,7 +532,7 @@ function PathwayCourse() {
               </Grid>
             ))}
           </Grid>
-          <Grid onClick={completedAll ? handleModal : handleSnackbar} sx={{mb:15}}align="center">
+          <Grid onClick={completedAll ?  handleModal : handleSnackbar} sx={{mb:15}}align="center">
             <Grid sx={{mb:3}} >
               <img src={require("./asset/separator.svg")} alt="icon" />
             </Grid>
