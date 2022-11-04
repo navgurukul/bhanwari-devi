@@ -1,13 +1,14 @@
 import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import theme from '../../theme/theme';
+import Message from '../../components/common/Message/index';
 
 const CustomSnackbar = ({openSnackbar, handleSnackbar, pathwayName}) => {
     return (
         <Snackbar
             open={openSnackbar}
             autoHideDuration={6000}
-            message={`Please complete all the courses to unlock ${pathwayName}  certificate`}
+            message={<Message constantKey="CERTIFICATE_COMPLETION_WARNING" args={[pathwayName]} />}
             onClose={handleSnackbar}
             ContentProps={{
                 sx: {
