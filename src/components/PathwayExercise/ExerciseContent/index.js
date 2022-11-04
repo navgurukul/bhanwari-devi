@@ -294,9 +294,11 @@ function ExerciseContent({
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(true);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -427,7 +429,10 @@ function ExerciseContent({
           </Grid>
         </Grid>
 
-        <Container maxWidth="sm">
+        <Container
+          // style={{ maxWidth: !isActive && "700px" }}
+          maxWidth="sm"
+        >
           {desktop ? (
             <PersistentDrawerLeft
               setSelected={setSelected}
