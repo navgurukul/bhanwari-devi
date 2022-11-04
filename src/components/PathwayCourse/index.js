@@ -550,21 +550,6 @@ function PathwayCourse() {
                 {pathwayCourseData?.pathway} Certificate
               </Typography>
             </Grid>
-            {/* <Snackbar
-              open={openSnackbar}
-              autoHideDuration={6000}
-              message={`Please complete all the courses to unlock ${pathwayCourseData?.pathway}  certificate`}
-              onClose={handleSnackbar}
-              ContentProps={{
-                sx: {
-                  background: theme.palette.secondary.contrastText,
-                  fontWeight: "400",
-                  fontSize: theme.typography.fontSize,
-                  width: "328px",
-                  textAlign: "left",
-                }
-              }}
-            /> */}
             <CustomSnackbar 
               openSnackbar={openSnackbar} 
               pathwayName={pathwayCourseData?.pathway} 
