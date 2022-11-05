@@ -7,51 +7,9 @@ import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./styles.scss";
-// import Image from "@editorjs/image";
-import ImageTool from "@editorjs/image";
-import Header from "@editorjs/header";
-import List from "@editorjs/list";
-import Embed from "@editorjs/embed";
-import Table from "@editorjs/table";
-import { Button } from "@mui/material";
-
-const CodeTool = require("@editorjs/code");
-
-const EDITOR_JS_TOOLS = {
-  // image: Image,
-  image: {
-    class: ImageTool,
-    config: {
-      endpoints: {
-        byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
-        byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
-      },
-    },
-  },
-  header: Header,
-  list: List,
-  embed: {
-    class: Embed,
-    config: {
-      services: {
-        youtube: true,
-        // coub: true
-      },
-    },
-  },
-  code: CodeTool,
-  table: {
-    class: Table,
-    inlineToolbar: true,
-    config: {
-      rows: 2,
-      cols: 3,
-    },
-  },
-};
+import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
-// import { EDITOR_JS_TOOLS } from "./constants";
 
 function ReactEditor({ course, id, save }) {
   const user = useSelector(({ User }) => User);
@@ -123,7 +81,6 @@ function ReactEditor({ course, id, save }) {
 
     return {
       type: type,
-      // type: "table",
       data: {
         style: style,
         items: items,
@@ -134,7 +91,6 @@ function ReactEditor({ course, id, save }) {
               item.value,
         level: item.variant,
         code: item.component === "code" && code,
-        // success: 1,
         file: {
           url: item.component === "image" && item.value,
         },
@@ -231,7 +187,6 @@ function ReactEditor({ course, id, save }) {
           });
         }
         console.log("value", value);
-        // value = item.data.file.url;
       }
 
       if (item.type !== "list") {
@@ -261,7 +216,7 @@ function ReactEditor({ course, id, save }) {
     try {
       const outputData = await editor.save();
       console.log("Article data: ", outputData);
-      MerakiJSON(outputData.blocks);
+      // MerakiJSON(outputData.blocks);
       const stringifiedCourse = JSON.stringify(json, null, 0);
       console.log(id, stringifiedCourse, "cc");
 
@@ -312,10 +267,6 @@ function ReactEditor({ course, id, save }) {
               blocks,
             }}
           />
-
-          {/* <Button sx={{ mb: 20 }} onClick={() => onSave()}>
-            save
-          </Button> */}
         </>
       )}
     </>

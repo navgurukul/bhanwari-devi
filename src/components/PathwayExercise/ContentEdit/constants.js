@@ -1,4 +1,3 @@
-// import Image from "@editorjs/image";
 import ImageTool from "@editorjs/image";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
@@ -11,7 +10,6 @@ import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
 
-// const Quote = require("@editorjs/quote");
 const CodeTool = require("@editorjs/code");
 
 export const EDITOR_JS_TOOLS = {
@@ -19,9 +17,15 @@ export const EDITOR_JS_TOOLS = {
   image: {
     class: ImageTool,
     config: {
+      // endpoints: {
+      //   byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+      //   byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+      // },
       endpoints: {
-        byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
-        byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+        byFile:
+          "https://dev-api.navgurukul.org/apiDocs/courseEditor/ImageUploadS3", // Your backend file uploader endpoint
+        byUrl:
+          "https://dev-api.navgurukul.org/apiDocs/courseEditor/ImageUploadS3/byUrl", // Your endpoint that provides uploading by Url
       },
     },
   },
