@@ -45,7 +45,7 @@ const EDITOR_JS_TOOLS = {
               }
             })
           });
-        }
+        },
         
         /**
          * Send URL-string to the server. Backend should load image by this URL and return an uploaded image data
