@@ -12,7 +12,7 @@ import ImageTool from "@editorjs/image";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Embed from "@editorjs/embed";
-import Table from "@editorjs/table";
+// import Table from "@editorjs/table";
 import { Button } from "@mui/material";
 
 const CodeTool = require("@editorjs/code");
@@ -32,14 +32,14 @@ const EDITOR_JS_TOOLS = {
     },
   },
   code: CodeTool,
-  table: {
+  /*table: {
     class: Table,
     inlineToolbar: true,
     config: {
       rows: 2,
       cols: 3,
     },
-  },
+  },*/
 };
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
