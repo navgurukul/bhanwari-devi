@@ -19,54 +19,7 @@ const CodeTool = require("@editorjs/code");
 
 const EDITOR_JS_TOOLS = {
   // image: Image,
-  image: {
-    class: ImageTool,
-    config: {
-      /*
-      endpoints: {
-        byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
-        byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
-      },
-      */
-      uploader: {
-        /**
-         * Upload file to the server and return an uploaded image data
-         * @param {File} file - file selected from the device or pasted by drag-n-drop
-         * @return {Promise.<{success, file: {url}}>}
-         */
-        uploadByFile(file) {
-          console.log("This was the file:", file);
-          return new Promise((resolve) => {
-            resolve({
-              success: 1,
-              file: {
-                url: 'https://www.merakilearn.org/static/media/meraki.dd9c8e09.svg',
-                // any other image data you want to store, such as width, height, color, extension, etc
-              }
-            })
-          });
-        },
-        
-        /**
-         * Send URL-string to the server. Backend should load image by this URL and return an uploaded image data
-         * @param {string} url - pasted image URL
-         * @return {Promise.<{success, file: {url}}>}
-         */
-        uploadByUrl(url) {
-          console.log("This was the URL:", url);
-          return new Promise((resolve) => {
-            resolve({
-              success: 1,
-              file: {
-                url: 'https://www.merakilearn.org/static/media/meraki.dd9c8e09.svg',
-                // any other image data you want to store, such as width, height, color, extension, etc
-              }
-            })
-          });
-        }
-      }
-    },
-  },
+  
   header: Header,
   list: List,
   embed: {
