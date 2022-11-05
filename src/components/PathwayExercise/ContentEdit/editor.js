@@ -139,8 +139,8 @@ function ReactEditor({ course, id, save }) {
         service: item.component === "youtube" && item.value && item.component,
         height: 320,
         width: 580,
-        withHeadings: true,
-        content: content,
+        // withHeadings: true,
+        // content: content,
       },
     };
   });
