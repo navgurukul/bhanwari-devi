@@ -404,7 +404,7 @@ function Tutor(props) {
         <Grid container className={classes.filters} mb={2}>
           <Grid item>
             <Button
-              variant={selectedPathway === "Python" ? "contained" : "outlined"}
+              variant="contained"
               className={classes.python}
               onClick={() => {
                 setVolunteer(filterPathway(1, cacheVolunteer));
@@ -416,9 +416,7 @@ function Tutor(props) {
           </Grid>
           <Grid item>
             <Button
-              variant={
-                selectedPathway === "Spoken English" ? "contained" : "outlined"
-              }
+              variant="outlined"
               className={classes.learningTrack2}
               onClick={() => {
                 setVolunteer(filterPathway(2, cacheVolunteer));
