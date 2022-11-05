@@ -172,7 +172,6 @@ function Tutor(props) {
       return el.pathway_id === pathwayId;
     });
   }
-
   const deleteUsers = () => {
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
@@ -405,7 +404,7 @@ function Tutor(props) {
         <Grid container className={classes.filters} mb={2}>
           <Grid item>
             <Button
-              variant="contained"
+              variant={selectedPathway === "Python" ? "contained" : "outlined"}
               className={classes.python}
               onClick={() => {
                 setVolunteer(filterPathway(1, cacheVolunteer));
@@ -417,7 +416,9 @@ function Tutor(props) {
           </Grid>
           <Grid item>
             <Button
-              variant="outlined"
+              variant={
+                selectedPathway === "Spoken English" ? "contained" : "outlined"
+              }
               className={classes.learningTrack2}
               onClick={() => {
                 setVolunteer(filterPathway(2, cacheVolunteer));
@@ -666,7 +667,7 @@ function Tutor(props) {
                       </TableCell>
                       <TableCell align="left">
                         <Typography className={classes.tablecellHead}>
-                          Last Class Batch
+                          Batch Name
                         </Typography>
                       </TableCell>
                       <TableCell align="left">
