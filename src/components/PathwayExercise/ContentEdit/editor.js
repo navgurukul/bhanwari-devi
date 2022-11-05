@@ -19,7 +19,7 @@ const CodeTool = require("@editorjs/code");
 
 const EDITOR_JS_TOOLS = {
   // image: Image,
-  
+  image: ImageTool, 
   header: Header,
   list: List,
   embed: {
