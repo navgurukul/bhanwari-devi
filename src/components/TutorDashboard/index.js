@@ -174,7 +174,6 @@ function Tutor(props) {
       return el.pathway_id === pathwayId;
     });
   }
-
   const deleteUsers = () => {
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
@@ -675,7 +674,7 @@ function Tutor(props) {
                       </TableCell>
                       <TableCell align="left">
                         <Typography className={classes.tablecellHead}>
-                          Last Class Batch
+                          Batch Name
                         </Typography>
                       </TableCell>
                       <TableCell align="left">
