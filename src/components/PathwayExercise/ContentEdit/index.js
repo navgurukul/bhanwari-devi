@@ -35,8 +35,7 @@ function BoxComponent(props) {
     <Box
       style={{ border: "1 px", background: props.isShown ? "white" : "" }}
       onMouseEnter={() => props.setIsShown(true)}
-      onMouseLeave={() => props.setIsShown(false)}
-    >
+      onMouseLeave={() => props.setIsShown(false)}>
       {props.children}
     </Box>
   );
@@ -223,8 +222,7 @@ function ContentEdit() {
                 style={{
                   position: "relative",
                   left: "-30px",
-                }}
-              >
+                }}>
                 <CloseIcon
                   onClick={handleClickOpen}
                   sx={{ color: "#6D6D6D" }}
@@ -250,8 +248,7 @@ function ContentEdit() {
                     <BoxComponent
                       setIsShown={setIsShown}
                       isShown={isShown}
-                      iconClick={(e) => handleAdd(index, "assessment")}
-                    >
+                      iconClick={(e) => handleAdd(index, "assessment")}>
                       <Typography>Question</Typography>
                       <TextareaAutosize
                         aria-label="empty textarea"
@@ -383,10 +380,12 @@ function ContentEdit() {
           open={open}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
+          classes={{ paper: classes.paper}}
           aria-describedby="alert-dialog-description"
+
           // sx={{ width: "500px", alignItems: "center" }}
           // PaperComponent="elementType"
-          // minWidth="5px"
+          // maxWidth="428px"
         >
           <DialogTitle id="alert-dialog-title">
             Editing is in Progress
@@ -394,8 +393,7 @@ function ContentEdit() {
           <DialogContent>
             <DialogContentText
               id="alert-dialog-description"
-              sx={{ color: "#2E2E2E" }}
-            >
+              sx={{ color: "#2E2E2E" }}>
               You have made several changes and would lose the changes without
               publishing
             </DialogContentText>
@@ -407,14 +405,12 @@ function ContentEdit() {
                 courseId: params.courseId,
                 exerciseId: params.exerciseId,
                 pathwayId: params.pathwayId,
-              })}
-            >
+              })}>
               <Button color="error">Leave</Button>
             </Link>
             <Button
               style={{ color: "#2E2E2E", marginRight: "20px" }}
-              onClick={handleClose}
-            >
+              onClick={handleClose}>
               Keep Editing
             </Button>
           </DialogActions>
@@ -423,8 +419,7 @@ function ContentEdit() {
       <Box>
         <Toolbar
           className={classes.bottomRow}
-          sx={{ width: !isActive ? "98%" : "80%" }}
-        >
+          sx={{ width: !isActive ? "98%" : "80%" }}>
           <Button
             variant="text"
             color="dark"
@@ -438,8 +433,7 @@ function ContentEdit() {
             //     })
             //   );
             // }}
-            sx={{ flexGrow: 0 }}
-          >
+            sx={{ flexGrow: 0 }}>
             Cancel
           </Button>
           <Button
@@ -448,8 +442,7 @@ function ContentEdit() {
             color="primary"
             onClick={() => {
               setSave(!save);
-            }}
-          >
+            }}>
             Publish
           </Button>
         </Toolbar>
