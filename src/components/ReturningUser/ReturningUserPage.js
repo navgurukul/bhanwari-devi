@@ -17,12 +17,17 @@ import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector } from "react-redux";
+import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import { actions as upcomingBatchesActions } from "../PathwayCourse/redux/action";
+import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
+import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const history = useHistory();
   const params = useParams();
+
   const user = useSelector(({ User }) => User);
   const [learningTracks, setLearningTracks] = useState([]);
   useEffect(() => {
@@ -39,11 +44,12 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
+  // console.log(learningTracks,"learning")
 
   return (
     <>
       <Container maxWidth="lg">
-        <Typography variant="h5" mb={3} mt={5}>
+        <Typography variant="h6" mb={5} mt={5}>
           My Learning Tracks
         </Typography>
         <Grid container spacing={1}>
