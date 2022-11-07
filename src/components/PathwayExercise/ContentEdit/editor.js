@@ -216,7 +216,7 @@ function ReactEditor({ course, id, save }) {
     try {
       const outputData = await editor.save();
       console.log("Article data: ", outputData);
-      // MerakiJSON(outputData.blocks);
+      MerakiJSON(outputData.blocks);
       const stringifiedCourse = JSON.stringify(json, null, 0);
       console.log(id, stringifiedCourse, "cc");
 
