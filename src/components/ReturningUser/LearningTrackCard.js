@@ -28,38 +28,50 @@ import { breakpoints } from "../../theme/constant";
 import { useHistory } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../constant";
 import { getPathwaysCourse } from "../PathwayCourse/redux/api";
+import { getUpcomingBatches } from "../PathwayCourse/redux/api";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { METHODS } from "../../services/api";
 import ClassJoinTimerButton from "../Class/ClassJoinTimerButton";
 
 import axios from "axios";
-const CardData = {
-  1: {
+
+const pathwayData = [
+  {
+    title: "Python",
+    code: "PRGPYT",
     image: "python",
-    course_Name: "Python",
-    NoOfCourse: "8",
-    NoOfTopic: "1",
-    TopicName: "Introduction To Python",
+    description: "Get familiar with programming with bite sized lessons",
   },
-  2: {
-    image: "typeicon",
-    course_Name: "Typing Guru",
-    NoOfCourse: "5",
-    NoOfTopic: "1",
-    TopicName: "Home Row",
+  {
+    title: "Typing",
+    code: "TYPGRU",
+    image: "typing",
+    description: "Learn to type with pinpoint accuracy and speed.",
   },
-  3: {
-    image: "jsicon",
-    course_Name: "Javascript",
-    NoOfCourse: "8",
-    NoOfTopic: "2",
-    TopicName: "JS Variable",
+  {
+    title: "Spoken English",
+    code: "SPKENG",
+    image: "language",
+    description: "Master English with easy to understand courses",
   },
-};
-const CardDatas = {
-  1: {},
-};
+  {
+    title: "Web Development",
+    code: "JSRPIT",
+    image: "web-development",
+    description: "Learn the basics of tech that powers the web",
+  },
+  {
+    title: "Residential Programmes",
+    image: "residential",
+    description: "Explore Navgurukul’s on campus Software Engineering courses",
+  },
+  {
+    title: "Miscellaneous Courses",
+    image: "misc",
+    description: "Courses on Android, Game dev projects and more",
+  },
+];
 
 function LearningTrackCard(props) {
   const user = useSelector(({ User }) => User);
@@ -74,6 +86,7 @@ function LearningTrackCard(props) {
   const { item } = props;
   const pathwayId = item.pathway_id;
   const [completedPortionJason, setCompletedPortionJason] = useState();
+  const [upcomingBatchesData, setUpcomingBatchesData] = useState();
   const params = useParams();
 
   useEffect(() => {
@@ -94,36 +107,7 @@ function LearningTrackCard(props) {
     return state;
   });
 
-  const upcomingBatchesData = useSelector((state) => {
-    return state.Pathways?.upcomingBatches?.data;
-  });
-  const userEnrolledClasses = useSelector((state) => {
-    return state.Pathways?.upcomingEnrolledClasses?.data;
-  });
-
-  const enrolledBatches = useSelector((state) => {
-    console.log(state);
-    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
-      return state?.Pathways?.enrolledBatches?.data;
-    } else {
-      return null;
-    }
-  });
-
   console.log("upcomingdata", upcomingBatchesData);
-
-  const loading = useSelector((state) => {
-    const upcomingBatchesState = state?.Pathways?.upcomingBatches;
-    const enrolledBatchesState = state?.Pathways?.enrolledBatches;
-    return (
-      (!upcomingBatchesState ||
-        !enrolledBatchesState ||
-        upcomingBatchesState.loading ||
-        enrolledBatchesState.loading) &&
-      !(upcomingBatchesData?.length > 0) &&
-      !(enrolledBatches?.length > 0)
-    );
-  });
 
   useEffect(() => {
     // setLoading(true);
@@ -146,162 +130,42 @@ function LearningTrackCard(props) {
         setCompletedPortionJason(response.data.total_completed_portion);
       });
     }
-  }, [dispatch, pathwayId]);
+  }, [pathwayId]);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    if (user?.data?.token && enrolledBatches?.length > 0) {
-      dispatch(
-        upcomingClassActions.getupcomingEnrolledClasses({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
-    } else {
-      if (user?.data?.token) {
-        dispatch(
-          upcomingBatchesActions.getUpcomingBatches({
-            pathwayId: pathwayId,
-            authToken: user?.data?.token,
-          })
-        );
-      }
-    }
-  }, [enrolledBatches]);
-  // data.Pathways.data &&
-  //   data.Pathways.data.pathways.forEach((pathway) => {
-  //     CardData.forEach((item) => {
-  //       if (pathway.id === item.id) {
-  //         item["id"] = pathway.id;
-  //       }
-  //     });
-  //   });
-  // console.log(CardDatas)
-  // const pathwayCourseData = CardData.find((item) => {
-  //   return item.id == pathwayId;
-  // });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    }).then((res) => {
+      setUpcomingBatchesData(res.data);
+    });
+  }, []);
 
-  // console.log(PathwayData)
+  data.Pathways.data &&
+    data.Pathways.data.pathways.forEach((pathway) => {
+      pathwayData.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
 
-  // useEffect(() => {
-  //   // getupcomingEnrolledClasses
-  //   if (
-  //     user?.data?.token &&
-  //     pathwayId !== "miscellaneous" &&
-  //     pathwayId !== "residential"
-  //   ) {
-  //     // dispatch(
-  //     //   upcomingBatchesActions.getupcomingEnrolledClasses({
-  //     //     pathwayId: pathwayId,
-  //     //     authToken: user?.data?.token,
-  //     //   })
-  //     // );
-  //     dispatch(
-  //       upcomingBatchesActions.getUpcomingBatches({
-  //         pathwayId: pathwayId,
-  //         authToken: user?.data?.token,
-  //       })
-  //     );
-  //   }
-  // }, [upcomingBatchesData]);
-  // console.log(upcomingBatchesData,"upcoming")
+  const pathwayCourseData = pathwayData.find((item) => {
+    return item.id == pathwayId;
+  });
+  console.log(pathwayCourseData);
 
   return (
     <>
-      {/* <Grid
-        onClick={() => {
-          history.push(
-            interpolatePath(PATHS.PATHWAY_COURSE, {
-              pathwayId: item.pathway_id,
-            })
-          );
-        }}
-        xs={isActive ? 12 : isActiveIpad ? 6 : 4}
-      >
-        <Grid
-          align="right"
-          mt={1}
-          maxWidth={350}
-          mb={2}
-          flexDirection="column"
-          className={classes.courseCard}
-        >
-          <Card elevation={2} pl={10}>
-            <CardActionArea>
-              <CardContent>
-                <Grid container mb={1} maxHeight={60}>
-                  <Grid item>
-                    <img
-                      style={{
-                        width: "55px",
-                      }}
-                      // align="left"
-                      src={PathwayData?.logo}
-                      alt="Students Img"
-                    />
-                  </Grid>
-                  <Grid item mx={2}>
-                    <Typography
-                      gutterBottom
-                      variant="subtitle1"
-                      pt={1}
-                      maxWidth={75}
-                    >
-                      {PathwayData?.name}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography
-                      variant="body1"
-                      mb={1}
-                      color="text.secondary"
-                      style={{
-                        align: "left",
-                        display: "flex",
-                        padding: "10px 0",
-                      }}
-                    >
-                      <img
-                        src={require("./assets/Ellipse.svg")}
-                        alt="Students Img"
-                        style={{ margin: "0px 4px" }}
-                      />
-                      {PathwayData?.courses?.length} Courses
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Typography
-                  variant="body1"
-                  mb={1}
-                  style={{
-                    display: "flex",
-                  }}
-                >
-                  Ongoing Course
-                </Typography>
-                <Typography style={{ display: "flex" }} mt={2} variant="body1">
-                  <Typography
-                    mr="10px"
-                    variant="body2"
-                    // className={classes.courseNumber}
-                  >
-                    {/* {courseIndex} */}
-      {/* </Typography>
-                  {
-                    PathwayData?.courses?.find(
-                      (CourseItem) => CourseItem.id === item.course_id
-                    )?.name
-                  }
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-      </Grid> */}
-      <Card elevation={3} sx={{ width: "640px", marginBottom: "32px" }} pl={10}>
+      <Card elevation={3} sx={{ width: "640px", marginBottom: "32px" }} pl={20}>
         <CardActionArea>
           <CardContent>
             <Grid container spacing={2}>
@@ -322,7 +186,15 @@ function LearningTrackCard(props) {
                 </Typography>
               </Grid>
               <Grid item md={2}></Grid>
-              <Grid item md={4} sx={{ textAlign: "right" }}>
+              <Grid
+                item
+                md={4}
+                sx={{
+                  textAlign: "right",
+
+                  right: 0,
+                }}
+              >
                 <Typography variant="body2">
                   Progress:
                   {completedPortionJason}%
@@ -337,7 +209,7 @@ function LearningTrackCard(props) {
                 </Typography>
                 <LinearProgress
                   // className={classes.progressBar}
-                  sx={{ width: "95%" }}
+                  sx={{ width: "73%", marginLeft: "20px" }}
                   variant="determinate"
                   value={parseInt(completedPortionJason) || 0}
                 />
@@ -347,7 +219,7 @@ function LearningTrackCard(props) {
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box>
-              {PathwayData.code == "PRGPYT" ? (
+              {pathwayCourseData.code == "PRGPYT" ? (
                 upcomingBatchesData ? (
                   <CardContent>
                     <Typography variant="subtitle1" mb={2}>
@@ -360,12 +232,12 @@ function LearningTrackCard(props) {
                           alt="Google Playstore Icon"
                         />
                       </Grid>
-                      <Grid item md={6}>
+                      <Grid item md={6} xs={4}>
                         <Typography variant="body1">
                           {upcomingBatchesData[0]?.sub_title}
                         </Typography>
                       </Grid>
-                      <Grid item md={2}>
+                      <Grid item md={2} xs={3}>
                         {upcomingBatchesData[0]?.type === "batch" ? (
                           <Chip
                             label="Batch"
@@ -412,7 +284,10 @@ function LearningTrackCard(props) {
                     <Button
                       variant="outlined"
                       mt={2}
-                      sx={{ marginLeft: 50 }}
+                      sx={{
+                        marginLeft: isActive ? 25 : 50,
+                        border: " 1px dotted",
+                      }}
                       onClick={() => {
                         history.push(
                           interpolatePath(PATHS.PATHWAY_COURSE, {

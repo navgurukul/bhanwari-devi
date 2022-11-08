@@ -17,10 +17,6 @@ import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector } from "react-redux";
-import { actions as pathwayActions } from "../PathwayCourse/redux/action";
-import { actions as upcomingBatchesActions } from "../PathwayCourse/redux/action";
-import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
-import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -44,7 +40,7 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
-  // console.log(learningTracks,"learning")
+  console.log(learningTracks, "learning");
 
   return (
     <>
@@ -57,6 +53,9 @@ function ReturningUserPage() {
             <LearningTrackCard item={item} />
           ))}
         </Grid>
+        <Typography variant="h6" mb={5} mt={2}>
+          Miscellaneous Courses
+        </Typography>
       </Container>
     </>
   );
