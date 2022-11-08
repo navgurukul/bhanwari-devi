@@ -219,7 +219,7 @@ function LearningTrackCard(props) {
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box>
-              {pathwayCourseData.code == "PRGPYT" ? (
+              {PathwayData.code == "PRGPYT" ? (
                 upcomingBatchesData ? (
                   <CardContent>
                     <Typography variant="subtitle1" mb={2}>
