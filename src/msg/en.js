@@ -24,5 +24,6 @@ en.SEARCH_FOR_COURSES = "Search for Courses...";
 en.CAREERS = "Careers";
 en.PROFILE = "Profile";
 en.LOGOUT = "Logout";
+en.TUTOR = "Tutor";
 
 export default en;
