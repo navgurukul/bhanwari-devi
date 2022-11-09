@@ -151,7 +151,7 @@ function Tutor(props) {
   const [slicedStudents, setSlicedStudents] = useState([]);
   const [statusValue, setStatusValue] = useState("");
   const [pathwayClicked, setPathwayClicked] = useState(true);
-  const [pathwayTwoClicked, setPathwayTwoClicked] = useState(false);
+  // const pathwayTwoClicked = !setPathwayClicked;
 
   const languageMap = {
     hi: "Hindi",
@@ -413,7 +413,6 @@ function Tutor(props) {
                 setVolunteer(filterPathway(1, cacheVolunteer));
                 setSelectedPathway("Python");
                 setPathwayClicked(true);
-                setPathwayTwoClicked(false);
               }}
               variant={pathwayClicked ? "contained" : "outlined"}
             >
@@ -427,9 +426,8 @@ function Tutor(props) {
                 setVolunteer(filterPathway(2, cacheVolunteer));
                 setSelectedPathway("Spoken English");
                 setPathwayClicked(false);
-                setPathwayTwoClicked(true);
               }}
-              variant={pathwayTwoClicked ? "contained" : "outlined"}
+              variant={pathwayClicked ? "outlined" : "contained"}
             >
               Spoken English ({pathwayCount?.spokenEnglish})
             </Button>
@@ -729,7 +727,6 @@ function Tutor(props) {
                         item.last_class_date =
                           sortedClasses.length &&
                           sortedClasses[sortedClasses.length - 1].start_time;
-                        console.log(volunteer);
                         return (
                           <>
                             <TableRow
@@ -798,7 +795,7 @@ function Tutor(props) {
                               >
                                 {item.classes &&
                                 item.classes.length > 0 &&
-                                item.classes[item.classes.length - 1]["title"]
+                                !item.classes[item.classes.length - 1]["title"]
                                   .toLowerCase()
                                   .includes("batch".toLowerCase())
                                   ? item.classes[item.classes.length - 1][
@@ -815,11 +812,13 @@ function Tutor(props) {
                               >
                                 {item.classes &&
                                 item.classes.length > 0 &&
-                                !item.classes[item.classes.length - 1]["title"]
+                                !item.classes[item.classes.length - 1][
+                                  "sub_title"
+                                ]
                                   .toLowerCase()
                                   .includes("batch".toLowerCase())
                                   ? item.classes[item.classes.length - 1][
-                                      "title"
+                                      "sub_title"
                                     ]
                                   : "-"}
                               </TableCell>
