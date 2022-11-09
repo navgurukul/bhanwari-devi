@@ -53,9 +53,6 @@ function ReturningUserPage() {
             <LearningTrackCard item={item} />
           ))}
         </Grid>
-        <Typography variant="h6" mb={5} mt={2}>
-          Miscellaneous Courses
-        </Typography>
       </Container>
     </>
   );

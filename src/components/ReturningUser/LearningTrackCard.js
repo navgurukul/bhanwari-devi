@@ -32,10 +32,9 @@ import { getUpcomingBatches } from "../PathwayCourse/redux/api";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { METHODS } from "../../services/api";
-import ClassJoinTimerButton from "../Class/ClassJoinTimerButton";
-
 import axios from "axios";
-
+import LearningTrackTimerButton from "./LearningTrackTimerButton";
+import { padding } from "@mui/system";
 const pathwayData = [
   {
     title: "Python",
@@ -165,7 +164,15 @@ function LearningTrackCard(props) {
 
   return (
     <>
-      <Card elevation={3} sx={{ width: "640px", marginBottom: "32px" }} pl={20}>
+      <Card
+        elevation={2}
+        sx={{
+          width: "640px",
+          marginBottom: "32px",
+          borderRadius: "8px",
+          padding: isActive ? 0 : "16px",
+        }}
+      >
         <CardActionArea>
           <CardContent>
             <Grid container spacing={2}>
@@ -180,28 +187,33 @@ function LearningTrackCard(props) {
                   alt="Students Img"
                 />
               </Grid>
-              <Grid item md={4}>
-                <Typography gutterBottom variant="subtitle1" pt={1}>
+              <Grid item md={4} xs={3}>
+                <Typography gutterBottom variant="body1" pt={1}>
                   {PathwayData?.name}
                 </Typography>
               </Grid>
-              <Grid item md={2}></Grid>
+              <Grid item md={2} xs={1}></Grid>
               <Grid
                 item
                 md={4}
                 sx={{
                   textAlign: "right",
-
-                  right: 0,
+                  marginLeft: isActive ? "25px" : 0,
                 }}
+                xs={5}
               >
-                <Typography variant="body2">
+                <Typography variant="body2" color="text.secondary">
                   Progress:
                   {completedPortionJason}%
                   <IconButton
                     aria-label="expand row"
                     size="small"
-                    sx={{ textAlign: "right" }}
+                    sx={{
+                      textAlign: "right",
+                      left: isActive ? 0 : "20px",
+                      backgroundColor: "grey",
+                      marginTop: "15px",
+                    }}
                     onClick={() => setOpen(!open)}
                   >
                     {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -209,7 +221,7 @@ function LearningTrackCard(props) {
                 </Typography>
                 <LinearProgress
                   // className={classes.progressBar}
-                  sx={{ width: "73%", marginLeft: "20px" }}
+                  sx={{ width: "73%", marginLeft: isActive ? 0 : "20px" }}
                   variant="determinate"
                   value={parseInt(completedPortionJason) || 0}
                 />
@@ -223,9 +235,12 @@ function LearningTrackCard(props) {
                 upcomingBatchesData ? (
                   <CardContent>
                     <Typography variant="subtitle1" mb={2}>
+                      Batch : {upcomingBatchesData[0].title}
+                    </Typography>
+                    <Typography variant="body1" mb={2}>
                       Upcoming Classes
                     </Typography>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} mb={2}>
                       <Grid item>
                         <img
                           src={require("./assets/classtype.svg")}
@@ -241,16 +256,18 @@ function LearningTrackCard(props) {
                         {upcomingBatchesData[0]?.type === "batch" ? (
                           <Chip
                             label="Batch"
-                            variant="outlined"
-                            color="primary"
                             textAlign="left"
+                            sx={{
+                              backgroundColor: "primary.light",
+                              color: "primary.main",
+                            }}
                           />
                         ) : (
                           ""
                         )}
                       </Grid>
-                      <Grid item md={2}>
-                        <Typography variant="body2">
+                      <Grid item md={2} sx={{ marginLeft: "20px" }}>
+                        <Typography variant="body1">
                           {upcomingBatchesData[0]?.start_time
                             ? format(
                                 upcomingBatchesData[0]?.start_time,
@@ -260,32 +277,17 @@ function LearningTrackCard(props) {
                         </Typography>
                       </Grid>
                     </Grid>
-                    <Button sx={{ margin: "16px 0px" }}>
-                      <ClassJoinTimerButton
-                        startTime={upcomingBatchesData[0]?.start_time}
-                        link={upcomingBatchesData[0]?.meet_link}
-                      />
-                    </Button>
 
-                    <Grid container>
-                      <Grid item md={1}>
-                        <img
-                          src={require("./assets/textline.svg")}
-                          alt="Google Playstore Icon"
-                        />
-                      </Grid>
-                      <Grid item md={4}>
-                        <Typography variant="body1">
-                          {upcomingBatchesData[0]?.title}
-                        </Typography>
-                      </Grid>
-                    </Grid>
+                    <LearningTrackTimerButton
+                      startTime={upcomingBatchesData[0]?.start_time}
+                      link={upcomingBatchesData[0]?.meet_link}
+                    />
 
                     <Button
                       variant="outlined"
-                      mt={2}
                       sx={{
-                        marginLeft: isActive ? 25 : 50,
+                        marginTop: isActive ? "0px" : "32px",
+                        left: isActive ? "200px" : "436px",
                         border: " 1px dotted",
                       }}
                       onClick={() => {
