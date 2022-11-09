@@ -13,19 +13,14 @@ import SimpleImage from "@editorjs/simple-image";
 const CodeTool = require("@editorjs/code");
 
 export const EDITOR_JS_TOOLS = {
-  // image: Image,
   image: {
     class: ImageTool,
     config: {
-      // endpoints: {
-      //   byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
-      //   byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
-      // },
       endpoints: {
         byFile:
-          "https://dev-api.navgurukul.org/apiDocs/courseEditor/ImageUploadS3", // Your backend file uploader endpoint
+          "https://dev-api.navgurukul.org/apiDocs/courseEditor/ImageUploadS3", // backend file uploader endpoint
         byUrl:
-          "https://dev-api.navgurukul.org/apiDocs/courseEditor/ImageUploadS3/byUrl", // Your endpoint that provides uploading by Url
+          "https://dev-api.navgurukul.org/apiDocs/courseEditor/ImageUploadS3/byUrl", // endpoint that provides uploading by Url
       },
     },
   },
@@ -42,7 +37,6 @@ export const EDITOR_JS_TOOLS = {
     config: {
       services: {
         youtube: true,
-        // coub: true
       },
     },
   },

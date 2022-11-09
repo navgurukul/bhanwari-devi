@@ -309,8 +309,8 @@ function ContentEdit() {
                             label={`Option ${optionIndex + 1}`}
                             variant="outlined"
                             fullWidth
-                            // className={classes.editField}
-                            sx={{ marginTop: "10px", marginBottom: "10px" }}
+                            className={classes.editField}
+                            // sx={{ marginTop: "10px", marginBottom: "10px" }}
                             value={options.value}
                             onChange={(e) => {
                               var temp = [...course];
@@ -333,7 +333,7 @@ function ContentEdit() {
                         label="Solution"
                         variant="outlined"
                         fullWidth
-                        sx={{ marginTop: "10px", marginBottom: "10px" }}
+                        className={classes.editField}
                         value={course[index].value}
                         onChange={(e) => {
                           var temp = [...course];
@@ -357,7 +357,7 @@ function ContentEdit() {
                               label={"Output " + solution.component}
                               variant="outlined"
                               fullWidth
-                              sx={{ marginTop: "10px", marginBottom: "10px" }}
+                              className={classes.editField}
                               value={solution.value}
                               onChange={(e) => {
                                 var temp = [...course];
@@ -385,10 +385,6 @@ function ContentEdit() {
           aria-labelledby="alert-dialog-title"
           classes={{ paper: classes.paper }}
           aria-describedby="alert-dialog-description"
-
-          // sx={{ width: "500px", alignItems: "center" }}
-          // PaperComponent="elementType"
-          // maxWidth="428px"
         >
           <DialogTitle id="alert-dialog-title">
             Editing is in Progress
@@ -431,15 +427,6 @@ function ContentEdit() {
             variant="text"
             color="dark"
             onClick={handleClickOpen}
-            // onClick={() => {
-            //   history.push(
-            //     interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-            //       courseId: params.courseId,
-            //       exerciseId: params.exerciseId,
-            //       pathwayId: params.pathwayId,
-            //     })
-            //   );
-            // }}
             sx={{ flexGrow: 0 }}
           >
             Cancel
