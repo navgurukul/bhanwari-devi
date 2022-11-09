@@ -6,3 +6,15 @@
 .image-tool__caption {
   display: none;
 }
+
+.codex-editor--narrow .ce-toolbar__actions {
+  left: -54px;
+  // left: 100%;
+  // right: 100%;
+}
+
+@media screen and (min-width: 651px) {
+  .codex-editor--narrow .ce-toolbox .ce-popover {
+    right: 400px;
+  }
+}
