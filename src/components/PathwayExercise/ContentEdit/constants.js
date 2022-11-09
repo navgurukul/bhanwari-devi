@@ -34,7 +34,7 @@ export const EDITOR_JS_TOOLS = {
   list: {
     class: List,
     inlineToolbar: true // or ['bold', 'link']
-  }
+  },
   embed: {
     class: Embed,
     config: {
