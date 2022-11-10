@@ -57,6 +57,21 @@ function HorizontalLinearStepper() {
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const [open, setOpen] = React.useState(false);
 
+  const current_time = new Date();
+  const [availability, setAvailability] = React.useState(
+    currentState.availability || {
+      hours_per_week: "",
+      available_on_days: [],
+      available_on_time: {
+        first_time: current_time,
+        second_time: current_time,
+        third_time: current_time,
+      },
+    }
+  );
+
+  const itemValues = { contact, enrollId, pathwayId, availability };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -64,15 +79,6 @@ function HorizontalLinearStepper() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const [availability, setAvailability] = React.useState(
-    currentState.availability || {
-      hours_per_week: "",
-      available_on_days: [],
-      available_on_time: {},
-    }
-  );
-  const itemValues = { contact, enrollId, pathwayId, availability };
 
   const updateAndSaveState = (setter, key, value) => {
     setter && setter(value);
