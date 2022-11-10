@@ -65,6 +65,7 @@ const OurPartner = () => {
             <Link
               href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
               target="_blank"
+              style={{ textDecoration: "none" }}
             >
               <Button
                 component="span"

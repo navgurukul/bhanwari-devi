@@ -20,6 +20,7 @@ import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatche
 
 function Profile() {
   const classes = useStyles();
+
   const user = useSelector(({ User }) => User);
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -103,12 +104,12 @@ function Profile() {
           ) : (
             <Typography
               variant={isActive ? "subtitle1" : "h6"}
-              sx={{ mt: "10px" }}
+              sx={{ mt: "10px", ml: isActive ? "90px" : 0 }}
             >
               {userData.name}
               {isActive && !isEditing && (
                 <Button onClick={() => setIsEditing(true)}>
-                  <EditIcon />
+                  <EditIcon sx={{ mr: "40px" }} />
                 </Button>
               )}
             </Typography>

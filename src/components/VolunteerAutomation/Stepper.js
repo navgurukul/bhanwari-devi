@@ -188,6 +188,7 @@ function HorizontalLinearStepper() {
   const handleNext = () => {
     let newSkipped = skipped;
     setActiveStepCompleted();
+
     // currentState.completed should be present if the user didn't
     //     alter their localStorage but we'll check anyway to avoid a crash
     //currentState.completed && (currentState.completed[activeStep] = true);
