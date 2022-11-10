@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "32px 0",
     border: "none",
     outline: "none",
-    brackgraoundColor: "transparent !important"
+    brackgroundColor: "transparent !important"
   },
 }));
 
