@@ -116,14 +116,18 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF !important",
     width: "295px !important",
   },
+
   pdfFrame: {
-    height: "400px",
+    height: "100%",
     width: "100%",
-    margin: "32px 0",
     border: "none",
     outline: "none",
     brackgroundColor: "transparent !important"
   },
+
+  pdfWrapper: {
+    height: (props)=>props.isActive ? "200px":"400px"
+  }
 }));
 
 export default useStyles;

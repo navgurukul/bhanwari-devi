@@ -93,7 +93,7 @@ function PathwayCourse() {
   const dispatch = useDispatch();
   const { pathwayCourse } = useSelector((state) => state.Pathways);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles();
+  const classes = useStyles({isActive});
   const params = useParams();
   const pathwayId = params.pathwayId;
   const [completedPortion, setCompletedPortion] = useState({});
@@ -158,6 +158,21 @@ function PathwayCourse() {
       })
     }
     setOpenModal(prev=>!prev);
+  }
+
+  const shareCertificate = ()=>{
+    if (navigator.share !== undefined) {
+      const title = `Check out my ${pathwayCourseData?.pathway} certificate`
+      const text = `I completed a ${pathwayCourseData?.pathway} from Meraki!`
+      const url = certificate;
+      navigator
+        .share({
+          title,
+          text,
+          url
+        })
+        .catch(err => console.error(err));
+    }
   }
 
   const loading = useSelector((state) => {
@@ -290,10 +305,12 @@ function PathwayCourse() {
         >
         <Box sx={modalStyle}>
           <Typography sx={{fontSize: "32px", fontWeight: "600"}}>{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
-          <iframe allowtransparency="true" border="0" className={classes.pdfFrame} src={`${certificate}#toolbar=0&#view=fit"`}></iframe>
+          <div className={classes.pdfWrapper}>
+            <iframe allowtransparency="true" border="0" className={classes.pdfFrame} src={`${certificate}#toolbar=0&#view=fit"`}></iframe>
+          </div>
           <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
           <Box className={classes.certButtons}>
-            <Button>Share to Friends</Button>
+            <Button onClick={shareCertificate}>Share to Friends</Button>
             <Button className={classes.greenButton}>Get Certificate</Button>
           </Box>
         </Box>
