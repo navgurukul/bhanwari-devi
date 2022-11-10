@@ -104,6 +104,7 @@ function PathwayCourse() {
   const [certificate, setCertificate] = useState("");
   //const completedAll = (completedPortion?.total === 100);
   const completedAll = true;
+  const displayCert = (pathwayId == 1);
 
   const modalStyle = {
     position: 'absolute',
@@ -533,6 +534,7 @@ function PathwayCourse() {
               </Grid>
             ))}
           </Grid>
+          {displayCert ? 
           <Grid onClick={completedAll ?  handleModal : handleSnackbar} sx={{mb:15}}align="center">
             <Grid sx={{mb:3}} >
               <img src={require("./asset/separator.svg")} alt="icon" />
@@ -556,7 +558,7 @@ function PathwayCourse() {
               pathwayName={pathwayCourseData?.pathway} 
               handleSnackbar={handleSnackbar}
             />
-          </Grid>
+          </Grid> : null}
           {!user?.data?.token ? (
             <Container align="center">
               <Box
@@ -608,7 +610,7 @@ function PathwayCourse() {
             <Typography variant="h6">Supplemental English Courses</Typography>
             <Grid sx={{ mt: 4 }} container spacing={3} align="center">
               {SupplementalCourse?.map((item, index) => (
-                <Grid xs={12} md={3} className={classes.courseCard}>
+                <Grid key={index} xs={12} md={3} className={classes.courseCard}>
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
