@@ -18,6 +18,11 @@ import {
   Typography,
   IconButton,
   useMediaQuery,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import moment from "moment";
 import CloseIcon from "@mui/icons-material/Close";
@@ -48,6 +53,7 @@ function ContentEdit() {
   const [updatedOn, setUpdatedOn] = useState();
   const [courseType, setCourseType] = useState();
   const [isShown, setIsShown] = useState(false);
+  const [open, setOpen] = useState(false);
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -190,9 +196,16 @@ function ContentEdit() {
   }, [courseId, exerciseId]);
 
   useEffect(() => {
-    // onSave();
     putApiAssessmentCall();
   }, [save]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   console.log("course in content edit", course);
   console.log("id", id);
@@ -212,16 +225,10 @@ function ContentEdit() {
                   left: "-30px",
                 }}
               >
-                <Link
-                  style={{ color: "#6D6D6D" }}
-                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                    courseId: params.courseId,
-                    exerciseId: params.exerciseId,
-                    pathwayId: params.pathwayId,
-                  })}
-                >
-                  <CloseIcon />
-                </Link>
+                <CloseIcon
+                  onClick={handleClickOpen}
+                  sx={{ color: "#6D6D6D" }}
+                />
               </Typography>
               <Box sx={{ flexGrow: 1 }} />
               <Typography className={classes.edit}>
@@ -284,11 +291,7 @@ function ContentEdit() {
                 } else if (e.component === "options") {
                   console.log(e.component, "e.value", e.value);
                   return (
-                    <BoxComponent
-                      setIsShown={setIsShown}
-                      isShown={isShown}
-                      // iconClick={(e) => handleAdd(index, "options")}
-                    >
+                    <BoxComponent setIsShown={setIsShown} isShown={isShown}>
                       <Typography>
                         Options
                         {isShown && (
@@ -306,8 +309,8 @@ function ContentEdit() {
                             label={`Option ${optionIndex + 1}`}
                             variant="outlined"
                             fullWidth
-                            // className={classes.editField}
-                            sx={{ marginTop: "10px", marginBottom: "10px" }}
+                            className={classes.editField}
+                            // sx={{ marginTop: "10px", marginBottom: "10px" }}
                             value={options.value}
                             onChange={(e) => {
                               var temp = [...course];
@@ -330,8 +333,7 @@ function ContentEdit() {
                         label="Solution"
                         variant="outlined"
                         fullWidth
-                        // className={classes.editField}
-                        sx={{ marginTop: "10px", marginBottom: "10px" }}
+                        className={classes.editField}
                         value={course[index].value}
                         onChange={(e) => {
                           var temp = [...course];
@@ -355,8 +357,7 @@ function ContentEdit() {
                               label={"Output " + solution.component}
                               variant="outlined"
                               fullWidth
-                              // className={classes.editField}
-                              sx={{ marginTop: "10px", marginBottom: "10px" }}
+                              className={classes.editField}
                               value={solution.value}
                               onChange={(e) => {
                                 var temp = [...course];
@@ -372,36 +373,60 @@ function ContentEdit() {
                   });
                 }
               })}
-
-            {/* <Button
-              variant="contained"
-              sx={{ mb: 10 }}
-              onClick={(e) => putApiAssessmentCall()}
-            >
-              Submit
-            </Button> */}
           </>
         ) : (
           <ReactEditor course={course} id={id} save={save} />
         )}
       </Container>
-      <Box sx={{ position: "fixed", zIndex: 100 }}>
+      {open && (
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          classes={{ paper: classes.paper }}
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            Editing is in Progress
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              id="alert-dialog-description"
+              sx={{ color: "#2E2E2E" }}
+            >
+              You have made several changes and would lose the changes without
+              publishing
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Link
+              style={{ textDecoration: "none", marginRight: "25px" }}
+              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: params.exerciseId,
+                pathwayId: params.pathwayId,
+              })}
+            >
+              <Button color="error">Leave</Button>
+            </Link>
+            <Button
+              style={{ color: "#2E2E2E", marginRight: "20px" }}
+              onClick={handleClose}
+            >
+              Keep Editing
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+      <Box>
         <Toolbar
           className={classes.bottomRow}
-          sx={{ width: !isActive ? "98%" : "80%" }}
+          sx={{ width: !isActive ? "98%" : "92%" }}
         >
           <Button
             variant="text"
             color="dark"
-            onClick={() => {
-              history.push(
-                interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                  courseId: params.courseId,
-                  exerciseId: params.exerciseId,
-                  pathwayId: params.pathwayId,
-                })
-              );
-            }}
+            onClick={handleClickOpen}
             sx={{ flexGrow: 0 }}
           >
             Cancel
@@ -423,4 +448,3 @@ function ContentEdit() {
 }
 
 export default ContentEdit;
-//762

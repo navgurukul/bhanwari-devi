@@ -5,6 +5,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     marginTop: "20px",
   },
+
+  paper: {
+    width: "430px",
+  },
   contentImg: {
     padding: 5,
     marginRight: 5,
@@ -65,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     position: "fixed !important",
+    zIndex: 100,
     bottom: "0px",
     background: "#fff",
     boxShadow:
