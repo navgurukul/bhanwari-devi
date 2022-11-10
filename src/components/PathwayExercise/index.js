@@ -129,10 +129,10 @@ function PathwayExercise() {
   const ProgressTracking = useSelector(
     ({ ProgressTracking }) => ProgressTracking
   );
-  const state = useSelector((state) => {
-    console.log("state1", state);
-    return state;
-  });
+  // const state = useSelector((state) => {
+  //   console.log("state1", state);
+  //   return state;
+  // });
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
@@ -188,14 +188,14 @@ function PathwayExercise() {
     }
   };
 
-  useEffect(() => {
-    dispatch(
-      progressTrackingActions.getProgressTracking({
-        courseId: courseId,
-        authToken: user.data?.token || "",
-      })
-    );
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(
+  //     progressTrackingActions.getProgressTracking({
+  //       courseId: courseId,
+  //       authToken: user.data?.token || "",
+  //     })
+  //   );
+  // }, [exerciseId]);
 
   useEffect(() => {
     setProgressTrackId(ProgressTracking.data);
@@ -230,22 +230,22 @@ function PathwayExercise() {
       });
   }, [currentCourse]);
 
-  // useEffect(() => {
-  //   axios({
-  //     method: METHODS.GET,
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
-  //     headers: {
-  //       "version-code": versionCode,
-  //       accept: "application/json",
-  //       Authorization: user.data?.token || "",
-  //     },
-  //   }).then((res) => {
-  //     console.log("res", res);
-  //     const data = res.data;
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+    }).then((res) => {
+      console.log("res", res);
+      const data = res.data;
 
-  //     setProgressTrackId(data);
-  //   });
-  // }, [exerciseId]);
+      setProgressTrackId(data);
+    });
+  }, [exerciseId]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (

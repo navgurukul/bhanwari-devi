@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Container, Box, Button } from "@mui/material";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
 import { useParams } from "react-router-dom";
 import AssessmentContent from "./AssessmentContent";
+import { actions as progressTrackingActions } from "../../redux/action";
+import { versionCode } from "../../../../constant";
 
 function Assessment({
   data,
@@ -15,6 +18,14 @@ function Assessment({
   res,
 }) {
   const user = useSelector(({ User }) => User);
+  const dispatch = useDispatch();
+  const ProgressTracking = useSelector(
+    ({ ProgressTracking }) => ProgressTracking
+  );
+  const state = useSelector((state) => {
+    console.log("state1", state);
+    return state;
+  });
 
   const [answer, setAnswer] = useState(res?.selected_option);
   const [correct, setCorrect] = useState();
@@ -28,6 +39,17 @@ function Assessment({
   useEffect(() => {
     console.log(res, correct);
   }, [answer]);
+
+  console.log("ProgressTracking", ProgressTracking);
+
+  // useEffect(() => {
+  // dispatch(
+  //   progressTrackingActions.getProgressTracking({
+  //     courseId: params.courseId,
+  //     authToken: user.data?.token || "",
+  //   })
+  // );
+  // }, []);
 
   // Assessment submit handler
   const submitAssessment = () => {
@@ -45,6 +67,33 @@ function Assessment({
         exercise_id: courseData.id,
       },
     });
+
+    console.log("triedAgain", triedAgain);
+
+    if (triedAgain <= 1) {
+      // call completedCourseContentIds api
+      // dispatch(
+      //   progressTrackingActions.getProgressTracking({
+      //     courseId: params.courseId,
+      //     authToken: user.data?.token || "",
+      //   })
+      // );
+      let courseId = params.courseId;
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+      }).then((res) => {
+        console.log("res in assessment", res);
+        const data = res.data;
+
+        // setProgressTrackId(data);
+      });
+    }
 
     if (answer == solution) {
       setCorrect(true);
