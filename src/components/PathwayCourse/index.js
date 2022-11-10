@@ -102,7 +102,8 @@ function PathwayCourse() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  const completedAll = (completedPortion?.total === 100);
+  //const completedAll = (completedPortion?.total === 100);
+  const completedAll = true;
 
   const modalStyle = {
     position: 'absolute',
@@ -288,7 +289,7 @@ function PathwayCourse() {
         >
         <Box sx={modalStyle}>
           <Typography sx={{fontSize: "32px", fontWeight: "600"}}>{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
-          <iframe className={classes.pdfFrame} src={certificate}></iframe>
+          <iframe allowtransparency="true" style="background: #FFFFFF;" border="0" className={classes.pdfFrame} src={`${certificate}#toolbar=0&#view=fit"`}></iframe>
           <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
           <Box className={classes.certButtons}>
             <Button>Share to Friends</Button>
