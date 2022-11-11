@@ -53,7 +53,7 @@ function HorizontalLinearStepper() {
   const [completed, setCompleted] = React.useState(currentState.completed);
   const [disable, setDisable] = React.useState(!completed[activeStep]);
   const [contact, setContact] = useState(currentState.contact);
-  const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
+  const [pathwayId, setPathwayId] = useState(currentState.pathwayId || []);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const [open, setOpen] = React.useState(false);
 
