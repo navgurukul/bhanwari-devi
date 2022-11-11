@@ -214,7 +214,7 @@ function ContentEdit() {
     <>
       <AppBar fullWidth position="sticky" color="background" elevation={2}>
         <Box>
-          <Container maxWidth>
+          <Container>
             <Toolbar sx={{ alignItems: "center" }}>
               <Typography
                 variant="h6"
@@ -239,7 +239,7 @@ function ContentEdit() {
           </Container>
         </Box>
       </AppBar>
-      <Container maxWidth="sm" sx={{ mt: 5, mb: 5 }}>
+      <Container sx={{ mt: 5, mb: 5 }}>
         {courseType === "assessment" ? (
           <>
             {course &&
