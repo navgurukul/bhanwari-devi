@@ -52,10 +52,10 @@ function UserMenu() {
           </IconButton>
         }
         menuContainerProps={{
-          sx: { mt: '45px' },
+          // sx: { mt: '45px' },
           id: 'menu-appbar',
           anchorOrigin: {
-            vertical: 'top',
+            vertical: 'bottom',
             horizontal: 'right',
           },
           keepMounted: true,
