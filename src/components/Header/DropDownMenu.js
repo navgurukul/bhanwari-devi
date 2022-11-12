@@ -63,7 +63,6 @@ export default function DropDownMenu({
       if (typeof DropDownButton.props.onMouseLeave === 'function') {
         DropDownButton.props.onMouseLeave(e);
       }
-      console.log('test');
 
       if (!isTouchScreen()) {
         updateInDropdownState();
@@ -93,9 +92,9 @@ export default function DropDownMenu({
     <>
       {DropDownButtonWithHandlers}
       <Menu
-        {...menuContainerProps}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        //transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        {...menuContainerProps}
         keepMounted
         anchorEl={anchorEl}
         MenuListProps={{
