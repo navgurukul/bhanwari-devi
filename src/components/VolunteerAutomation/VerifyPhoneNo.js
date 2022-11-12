@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Container,
@@ -7,6 +7,7 @@ import {
   Button,
   Snackbar,
   InputAdornment,
+  Stack,
 } from "@mui/material";
 // import PhoneInput from "../common/PhoneInput";
 import {
@@ -16,6 +17,7 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { number } from "prop-types";
+// import AppConfig from "App.config";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -28,7 +30,8 @@ const firebaseConfig = {
 
 const appVerifier = window.recaptchaVerifier;
 
-function VerifyPhoneNo({ setDisable, setContact, contact }) {
+function VerifyPhoneNo(props) {
+  const { setDisable, setContact, contact, ssnValues } = props;
   const app = initializeApp(firebaseConfig);
   console.log(app.name);
   const handleChange = (event) => {
@@ -54,11 +57,13 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
     setOpen(false);
     setMessage("");
   };
-  const [otp, setOtp] = React.useState("");
+  const [otp, setOtp] = React.useState(new Array(6).fill(""));
   const [startOtp, setStartOtp] = React.useState(false);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
+
+  console.log();
   const setupRecaptcha = () => {
     console.log(firebaseConfig);
     const auth = getAuth();
@@ -72,6 +77,24 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
       },
       auth
     );
+  };
+  const handleChangeData = (element, index) => {
+    const { value, maxLength, name } = element;
+    const [fieldName, fieldIndex] = name.split("-");
+
+    if (isNaN(element.value)) return false;
+
+    setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
+    if (value.length >= maxLength) {
+      if (parseInt(fieldIndex, 10) < 6) {
+        const nextSibling = document.querySelector(
+          `input[name=ssn-${parseInt(fieldIndex, 10) + 1}]`
+        );
+        if (nextSibling !== null) {
+          nextSibling.focus();
+        }
+      }
+    }
   };
 
   const countTimer = () => {
@@ -124,7 +147,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
   };
   const OtpEnter = (event) => {
     confirmationResult
-      .confirm(otp)
+      .confirm(otp.join(""))
       .then((result) => {
         const user = result.user;
         if (!user.isAnonymous) {
@@ -192,7 +215,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
         {startOtp && (
           <>
             {" "}
-            <TextField
+            {/* <TextField
               onChange={(e) => {
                 if (e.target.value.length <= 6) {
                   setOtp(e.target.value);
@@ -213,9 +236,49 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
               error={otp.length < 6 && otp.length !== 0}
               InputProps={{ maxLength: 6 }}
               ref={otpRef}
-            />
+              
+              
+            /> */}
+            <Typography variant="body1">
+              Please enter the OTP sent to your phone
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              {otp.map((data, index) => {
+                return (
+                  <TextField
+                    // onChange={(e) => {
+                    //   if (e.target.value.length <= 6) {
+                    //     setOtp(e.target.value);
+                    //   }
+                    // }}
+                    onChange={(e) => handleChangeData(e.target, index)}
+                    style={{
+                      width: "44px",
+                    }}
+                    type="text"
+                    name={`otp-${index}`}
+                    disabled={!startOtp}
+                    // fullWidth
+                    value={data}
+                    size="small"
+                    variant="outlined"
+                    // helperText={`Enter 6 digit Otp ${
+                    //   isStartTimer ? "within " + Timer : ""
+                    // } `}
+
+                    onFocus={(e) => e.target.select()}
+                    ref={otpRef}
+                    key={index}
+                    InputProps={{ maxLength: 6 }}
+                  />
+                );
+              })}
+            </Stack>
+            <Typography variant="caption" sx={{ display: "block" }}>
+              {`OTP expire in  ${isStartTimer ? Timer : ""} `}
+            </Typography>
             <Button
-              disabled={otp.length < 6}
+              disabled={otp.join("").length < 6}
               id="sign-in-button"
               onClick={OtpEnter}
               variant="outlined"
@@ -225,6 +288,7 @@ function VerifyPhoneNo({ setDisable, setContact, contact }) {
             </Button>
           </>
         )}
+
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           open={open}
