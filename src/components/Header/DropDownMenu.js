@@ -1,5 +1,5 @@
 import React from "react";
-import { isTouchScreen } from '../../../common/utils';
+import { isTouchScreen } from '../../common/utils';
 import Menu from '@mui/material/Menu';
 
 /**
