@@ -47,6 +47,8 @@ function ClassForm({
   formType,
 }) {
   const user = useSelector(({ User }) => User);
+  const [partnerPathwayId, setPartnerPathwayId] = useState();
+
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit.title || "",
@@ -78,10 +80,7 @@ function ClassForm({
       : "",
     type: classToEdit.type || formType,
     pathway_id:
-      classToEdit.pathway_id ||
-      classToEdit.pathway_v2 ||
-      user.data.user.pathway_id ||
-      "1",
+      classToEdit.pathway_id || classToEdit.pathway_v2 || partnerPathwayId,
   });
 
   const [display, setDisplay] = useState(false);
@@ -116,6 +115,7 @@ function ClassForm({
     exercise: false,
     description: false,
   });
+  const [volunteer, setVolunteer] = useState([]);
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
@@ -350,8 +350,24 @@ function ClassForm({
       });
       setPartnerData(partners);
     });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      const volunteers = res?.data?.map((item, index) => {
+        return {
+          label: item.name,
+          id: item.id,
+          pathway_id: item.pathway_id,
+        };
+      });
+      setVolunteer(volunteers);
+    });
   }, []);
-
   const convertToIST = (d) => {
     const b = d.split(/\D+/);
     const dateInObj = new Date(
@@ -686,6 +702,94 @@ function ClassForm({
                 <FormHelperText>{helperText.exercise}</FormHelperText>
               </FormControl>
             )}
+            <Stack>
+              <Autocomplete
+                // value={classFields.partner_id}
+                // name="partner_id"
+                sx={{ mb: 3 }}
+                options={volunteer}
+                isOptionEqualToValue={(option, value) => {
+                  return option.id === value.id;
+                }}
+                onChange={(e, newVal) => {
+                  setPartnerPathwayId(newVal?.pathway_id);
+                }}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="outlined-error-helper-text"
+                    error={showError.partner}
+                    onClick={() => {
+                      // setOnInput((prev) => {
+                      //   return { ...prev, partner: true };
+                      // });
+                    }}
+                    helperText={helperText.partner}
+                    variant="outlined"
+                    label="For Tutor"
+                  />
+                )}
+              />
+            </Stack>
+            {partnerPathwayId && classFields.type === "batch" && (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                mb={isActive ? 3 : 4}
+                mt={2}
+              >
+                {partnerPathwayId == 1
+                  ? "The tutor has opted to teach Python learning track"
+                  : partnerPathwayId == 2
+                  ? "The tutor has opted to teach Spoken English learning track"
+                  : "The tutor has opted to teach both Python and Spoken English learning track"}
+                {/* 
+                  This is for after we get a response as a list from backend
+                {partnerPathwayId.includes(1) && partnerPathwayId.includes(2) 
+                  ? "The tutor has opted to teach both Python and Spoken English learning track "
+                  :partnerPathwayId.includes(1)
+                  ? "The tutor has opted to teach Python learning track"
+                  : "The tutor has opted to teach Spoken English learning track"} */}
+              </Typography>
+            )}
+            {/*
+              use this for after we get a response as a list from backend
+              @poonam isme shayad hame ek aur state add krni padegi as jb ek partner select hoga uske baad fir wo ek array main hoga uss array ko modify nahi karna hoga
+              and uske baad usme wo length 2 ho toh ye aajayga
+
+             {partnerPathwayId.length == 2 && classFields.type === "batch" && (
+              <>
+                    <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  pr={2}
+                  mt={4}
+                >
+                  Learning Track
+                </Typography>
+                        <RadioGroup
+                  value={[{value:1,label:"Python"},{value:2,label:"Spoken English"}]}
+                  row={isActive ? false : true}
+                >
+                  {Object.map((item) => {
+                      return (
+                        <FormControlLabel
+                          key={item}
+                          value={item}
+                          name="Learning Track"
+                          control={<Radio />}
+                          checked={}
+                          onChange={(e) => {
+                          setPartnerPathwayId(e.target.value);
+                          }}
+                        />
+                      );
+                    }
+                  })}
+                </RadioGroup>
+              </>
+            )} */}
             <TextField
               // sx={{ mt: 4 }}
               error={showError.title}
@@ -706,7 +810,6 @@ function ClassForm({
                 changeHandler(e);
               }}
             />
-
             {classFields.type === "batch" && (
               <Typography
                 variant="body2"
