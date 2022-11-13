@@ -69,13 +69,12 @@ export default function DropDownMenu({
       }
     },
     onClick: (e) => (anchorEl ? handleCloseMenu() : handleOpenMenu(e)),
-    /*
     style: {
+      // #801: hack to make button clickable over presentation layer when menu is open
       position: 'relative',
-      zIndex: menuContainerProps?.zIndex + 1 || 10000,
+      zIndex: (menuContainerProps?.zIndex || 0) + 10000,
       ...DropDownButton.props.style,
     },
-    */
   });
 
   React.useEffect(() => {
