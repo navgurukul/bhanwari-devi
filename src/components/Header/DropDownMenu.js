@@ -69,12 +69,18 @@ export default function DropDownMenu({
       }
     },
     onClick: (e) => (anchorEl ? handleCloseMenu() : handleOpenMenu(e)),
+    /*
     style: {
-      // #801: hack to make button clickable over presentation layer when menu is open
+      // #802: hack to make button clickable over presentation layer when menu is open
+      //  This won't work because its header parent has a lower z-index than the modal
+      //  We can change this 
+      // (https://mui.com/material-ui/customization/default-theme/?expand-path=$.zIndex)
+      //  but its an even worse hack and the shadow will appear under the header. 
       position: 'relative',
       zIndex: (menuContainerProps?.zIndex || 0) + 10000,
       ...DropDownButton.props.style,
     },
+    */
   });
 
   React.useEffect(() => {
@@ -91,8 +97,13 @@ export default function DropDownMenu({
     <>
       {DropDownButtonWithHandlers}
       <Menu
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        // anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        // #802: hack to make button clickable over presentation layer when menu is open
+        //   Make presentation layer appear below header so it doesn't cover the button.
+        //   This is very fragile as there may be more than one header.
+        sx={{mt: (document.querySelector('header')?.outerHeight || 78) + "px"}}
         {...menuContainerProps}
         keepMounted
         anchorEl={anchorEl}
