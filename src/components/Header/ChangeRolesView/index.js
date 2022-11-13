@@ -4,9 +4,10 @@ import { NavLink, useLocation, useHistory } from "react-router-dom";
 import { PATHS } from "../../../constant";
 import useStyles from "../styles";
 import { Box, Typography, Menu, MenuItem } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import Message from "../../common/Message";
+import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
+// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+// import Message from "../../common/Message";
 import {
   MENU_ITEMS,
   ROLES,
@@ -17,7 +18,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
-import { isTouchScreen } from "../../../common/utils";
+// import { isTouchScreen } from "../../../common/utils";
 
 /*
 const rolesLandingPages = {
@@ -35,7 +36,6 @@ function ChangeRole({
   isToggle,
   role,
   setRoleView,
-  handleCloseSwitchView,
   roleView,
   uid,
 }) {
@@ -88,21 +88,12 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
   const [roleView, setRoleView] = React.useState(
     hasLastSelectedRole ? lastSelectedRoleKey : defaultRole?.key
   );
-  const [dropDown, setDropDown] = React.useState(null);
   const otherRole =
     roles[(roles.findIndex((role) => role.key === roleView) + 1) % 2];
 
   const commonProps = { setRoleView, roleView, uid };
   const history = useHistory();
   //const location = useLocation();
-
-  const handleOpenSwitchView = (event, menu) => {
-    setDropDown(event.currentTarget);
-  };
-
-  const handleCloseSwitchView = () => {
-    setDropDown(null);
-  };
 
   React.useEffect(() => {
     setRole(roleView);
@@ -128,47 +119,28 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
       }}
     >
       {roles.length > 2 ? (
-        <>
-          <MenuItem
-            onMouseEnter={(e) => {
-              if (!isTouchScreen()) {
-                handleOpenSwitchView(e);
-              }
-            }}
-            onClick={handleOpenSwitchView}
-          >
-            <Typography variant="subtitle1">
-              <Message constantKey="SWITCH_VIEWS" />
-            </Typography>
-            {dropDown ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </MenuItem>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={dropDown}
-            anchorOrigin={{
+        <TextButtonDropDownMenu
+          btnTextMsgKey="SWITCH_VIEWS"
+          menuContainerProps={{
+            // sx: { mt: '45px' },
+            id: "menu-appbar",
+            anchorOrigin: {
               vertical: "top",
               horizontal: leftDrawer ? "left" : "right",
-            }}
-            keepMounted
-            transformOrigin={{
+            },
+            keepMounted: true,
+            transformOrigin: {
               vertical: "top",
               horizontal: leftDrawer ? "left" : "right",
-            }}
-            open={Boolean(dropDown)}
-            onClose={handleCloseSwitchView}
-          >
-            <div onMouseLeave={handleCloseSwitchView}>
-              {roles.map((role) => (
-                <ChangeRole
-                  handleCloseSwitchView={handleCloseSwitchView}
-                  role={role}
-                  {...commonProps}
-                />
-              ))}
-            </div>
-          </Menu>
-        </>
+            },
+          }}
+        >
+          <div>
+            {roles.map((role) => (
+              <ChangeRole role={role} {...commonProps} />
+            ))}
+          </div>
+        </TextButtonDropDownMenu>
       ) : (
         roles.length === 2 && (
           <ChangeRole isToggle={true} role={otherRole} {...commonProps} />
