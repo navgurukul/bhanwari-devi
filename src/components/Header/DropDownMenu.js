@@ -34,12 +34,12 @@ export default function DropDownMenu({
   inDropdownRef.current = inDropdown;
 
   const handleOpenMenu = (event) => {
-    typeof onOpenMenu === 'function' && openMenu(event);
+    typeof onOpenMenu === 'function' && onOpenMenu(event);
     setAnchorEl(event.currentTarget);
   };
 
   const handleCloseMenu = () => {
-    typeof onCloseMenu === 'function' && closeMenu();
+    typeof onCloseMenu === 'function' && onCloseMenu();
     setAnchorEl(null);
   };
 
