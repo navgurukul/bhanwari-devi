@@ -12,12 +12,16 @@ import Menu from '@mui/material/Menu';
  * @param {object=} menuContainerProps properties of the menu
  * @param {number=} delay the delay in ms for which to close the menu on a non-touch screen after
  *   the pointer is moved off of it, defaults to 200
+ * @param {Function=} onOpenMenu an optional handler that's called when the menu is opened
+ * @param {Function=} onCloseMenu an optional handler that's called when the menu is closed
  * @param {Array.<MenuItem>} children the Array of options in the dropdown menu
  */
 export default function DropDownMenu({
   DropDownButton,
   menuContainerProps,
   delay,
+  onOpenMenu,
+  onCloseMenu,
   children,
 }) {
   const [inDropdown, setInDropdown] = React.useState({
@@ -30,10 +34,12 @@ export default function DropDownMenu({
   inDropdownRef.current = inDropdown;
 
   const handleOpenMenu = (event) => {
+    typeof onOpenMenu === 'function' && openMenu(event);
     setAnchorEl(event.currentTarget);
   };
 
   const handleCloseMenu = () => {
+    typeof onCloseMenu === 'function' && closeMenu();
     setAnchorEl(null);
   };
 
