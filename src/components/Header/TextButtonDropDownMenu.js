@@ -1,6 +1,7 @@
 import React from "react";
 import DropDownMenu from "./DropDownMenu";
 import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Message from "../common/Message";
@@ -32,6 +33,9 @@ export default function TextButtonDropDownMenu({
     <DropDownMenu
       DropDownButton={
         <MenuItem>
+          <Typography variant="subtitle1">
+            <Message constantKey="SWITCH_VIEWS" />
+          </Typography>
           <Message constantKey={btnTextMsgKey} args={btnTextArgs} />
           {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </MenuItem>
