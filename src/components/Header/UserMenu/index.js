@@ -55,7 +55,7 @@ function UserMenu() {
           // sx: { mt: '45px' },
           id: 'menu-appbar',
           anchorOrigin: {
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'right',
           },
           keepMounted: true,
