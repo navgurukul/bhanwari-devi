@@ -97,14 +97,16 @@ export default function DropDownMenu({
     <>
       {DropDownButtonWithHandlers}
       <Menu
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        // anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        // anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         // #802: hack to make button clickable over presentation layer when menu is open
         //   Make presentation layer appear below header so it doesn't cover the button.
         //   This is very fragile as there may be more than one header.
         // sx={{mt: (document.querySelector('header')?.outerHeight || 78) + "px"}}
-        sx={{zIndex: 0}}
+        // sx={{zIndex: 0}}
+        // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
+        sx={{mt: "45px"}}
         {...menuContainerProps}
         keepMounted
         anchorEl={anchorEl}
