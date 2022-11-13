@@ -4,7 +4,7 @@ import { NavLink, useLocation, useHistory } from "react-router-dom";
 import { PATHS } from "../../../constant";
 import useStyles from "../styles";
 import { Box, Typography, Menu, MenuItem } from "@mui/material";
-import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
+import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 // import Message from "../../common/Message";
