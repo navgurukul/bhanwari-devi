@@ -41,6 +41,7 @@ import SearchBar from "../SearchBar";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
+import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -88,63 +89,24 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <>
-            <MenuItem
-              onMouseEnter={(event) => {
-                menuOpenHandler(event, menuKey);
-                // setInDropdown(true);
-                setInDropdown({ inProgress: false, value: true });
-              }}
-              onClick={(e) => {
-                menuOpenHandler(e, menuKey);
-              }}
-              onMouseLeave={(e) => {
-                // This is a very hacky way of checking if the dropdown is being hovered over: 
-                //   continually checks parent until it reaches an element with presentation or 
-                //   menuitem role or reaches the root so it's not being hovered over or 
-                //   it went up 10 levels so it's either not in the dropdown or the 
-                //   dropdown contains too many nested elements.
-                /*
-                let i = 0;
-                let ancestor = e.relatedTarget;
-                while (ancestor && !["presentation", "menuitem"].includes(ancestor.getAttribute?.("role")) && i++ < 10) {
-                  ancestor = ancestor.parentNode;
-                }
-                if (!ancestor) {
-                  // not in Dropdown so close on leave
-                  menuCloseHandler();
-                }
-                */
-                // setInDropdown(false);
-                /*
-                // console.log("inDropdown is currently", inDropdown);
-                setTimeout(() => {
-                  // console.log("inDropdown is currently", inDropdown);
-                  !inDropdown && menuCloseHandler();
-                }, 200);
-                */
-                updateInDropdownState();
+            <TextButtonDropDownMenu
+              btnTextMsgKey={MENU_ITEMS[menuKey].msgKey}
+              attachRight={!leftDrawer}
+              menuContainerProps={{
+                id: "menu-appbar",
               }}
               sx={{ color: "black" }}
               key={index}
             >
-              <Typography variant="subtitle1">
-                {/*MSG[getTranslationKey(menu)]*/}
-                <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
-              </Typography>
-              {selectedMenu === menuKey && indicator ? (
-                <ExpandLessIcon />
-              ) : (
-                <ExpandMoreIcon />
-              )}
-            </MenuItem>
-            <DropDown
-              dropDown={dropDownMenu}
-              indicator={indicator}
-              handleClose={menuCloseHandler}
-              toggleDrawer={toggleDrawer}
-              setInDropdown={setInDropdown}
-              handleMouseLeave={updateInDropdownState}
-            />
+              <DropDown
+                dropDown={menuKey}
+                //indicator={indicator}
+                //handleClose={menuCloseHandler}
+                toggleDrawer={toggleDrawer}
+                //setInDropdown={setInDropdown}
+                //handleMouseLeave={updateInDropdownState}
+              />
+            </TextButtonDropDownMenu>
           </>
         ))}
       </Box>
