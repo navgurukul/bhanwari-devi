@@ -138,6 +138,14 @@ export default function DropDownMenu({
         // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
         {...menuContainerProps}
         sx={{ ...offset, ...menuContainerProps?.sx }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: useOffset ? "left" : "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: useOffset ? "left" : "right",
+        }}
         anchorReference={useOffset ? "none" : "anchorEl"}
         keepMounted
         anchorEl={anchorEl}
