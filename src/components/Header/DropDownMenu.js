@@ -12,6 +12,8 @@ import Menu from '@mui/material/Menu';
  * @param {object=} menuContainerProps properties of the menu
  * @param {number=} delay the delay in ms for which to close the menu on a non-touch screen after
  *   the pointer is moved off of it, defaults to 200
+ * @param {boolean=} attachRight true exactly when the dropdown menu's right edge should coincide
+ *  with the right of the toggle button
  * @param {Function=} onOpenMenu an optional handler that's called when the menu is opened
  * @param {Function=} onCloseMenu an optional handler that's called when the menu is closed
  * @param {Array.<MenuItem>} children the Array of options in the dropdown menu
@@ -20,6 +22,7 @@ export default function DropDownMenu({
   DropDownButton,
   menuContainerProps,
   delay,
+  attachRight,
   onOpenMenu,
   onCloseMenu,
   children,
@@ -31,7 +34,13 @@ export default function DropDownMenu({
   const [anchorEl, setAnchorEl] = React.useState(null);
   // #802: part of hack to make button clickable over presentation layer 
   //   when menu is open, needed for sidebar
+  const [offsetX, setOffsetX] = React.useState(0);
   const [offsetY, setOffsetY] = React.useState(0);
+  // We can just adjust the margin left/top of the presentation layer when
+  //   attaching the menu to the left, but the hack won't work if attaching
+  //   to the right. In that case, we use a preset margin-top which is set 
+  //   for the current heading.
+  const useOffset = !attachRight;
 
   const inDropdownRef = React.useRef(inDropdown);
   inDropdownRef.current = inDropdown;
@@ -39,11 +48,15 @@ export default function DropDownMenu({
   const handleOpenMenu = (event) => {
     typeof onOpenMenu === 'function' && onOpenMenu(event);
     setAnchorEl(event.currentTarget);
+    setOffsetX(event.currentTarget.getBoundingClientRect().left);
+    setOffsetY(event.currentTarget.getBoundingClientRect().bottom);
+    /*
     setOffsetY(
       event.currentTarget.getBoundingClientRect().bottom -
         event.currentTarget.getBoundingClientRect().height / 2 +
         6
     );
+    */
   };
 
   const handleCloseMenu = () => {
@@ -112,16 +125,22 @@ export default function DropDownMenu({
       {DropDownButtonWithHandlers}
       <Menu
         // anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        // anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        // transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         // #802: hack to make button clickable over presentation layer when menu is open
         //   Make presentation layer appear below header so it doesn't cover the button.
         //   This is very fragile as there may be more than one header.
         // sx={{mt: (document.querySelector('header')?.outerHeight || 78) + "px"}}
         // sx={{zIndex: 0}}
         // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
-        sx={{mt: (offsetY || 45) + "px"}}
         {...menuContainerProps}
+        sx={
+          (useOffset
+            ? { ml: offsetX + 'px', mt: offsetY + 'px' }
+            : { mt: '45px' },
+          { ...menuContainerProps?.sx })
+        }
+        anchorReference={useOffset ? "none" : "anchorEl"}
         keepMounted
         anchorEl={anchorEl}
         MenuListProps={{
