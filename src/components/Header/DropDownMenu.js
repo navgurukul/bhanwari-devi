@@ -41,6 +41,9 @@ export default function DropDownMenu({
   //   to the right. In that case, we use a preset margin-top which is set 
   //   for the current heading.
   const useOffset = !attachRight;
+  const offset = useOffset
+    ? { ml: offsetX + 'px', mt: offsetY + 'px' }
+    : { mt: '145px' };
 
   const inDropdownRef = React.useRef(inDropdown);
   inDropdownRef.current = inDropdown;
@@ -134,12 +137,7 @@ export default function DropDownMenu({
         // sx={{zIndex: 0}}
         // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
         {...menuContainerProps}
-        sx={
-          (useOffset
-            ? { ml: offsetX + 'px', mt: offsetY + 'px' }
-            : { mt: '45px' },
-          { ...menuContainerProps?.sx })
-        }
+        sx={{ ...offset, ...menuContainerProps?.sx }}
         anchorReference={useOffset ? "none" : "anchorEl"}
         keepMounted
         anchorEl={anchorEl}
