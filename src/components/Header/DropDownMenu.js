@@ -43,7 +43,7 @@ export default function DropDownMenu({
   const useOffset = !attachRight;
   const offset = useOffset
     ? { ml: offsetX + 'px', mt: offsetY + 'px' }
-    : { mt: '145px' };
+    : { mt: '45px' };
 
   const inDropdownRef = React.useRef(inDropdown);
   inDropdownRef.current = inDropdown;
