@@ -19,6 +19,8 @@ import Message from "../common/Message";
  * @param {object=} menuContainerProps properties of the menu
  * @param {number=} delay the delay for which to close the menu on a non-touch screen after
  *   the pointer is moved off of it
+ * @param {boolean=} attachRight true exactly when the dropdown menu's right edge should coincide
+ *   with the right of the toggle button
  * @param {Array.<MenuItem>} children the Array of options in the dropdown menu
  */
 export default function TextButtonDropDownMenu({
@@ -26,6 +28,7 @@ export default function TextButtonDropDownMenu({
   btnTextArgs,
   menuContainerProps,
   delay,
+  attachRight,
   children,
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -41,6 +44,7 @@ export default function TextButtonDropDownMenu({
       }
       onOpenMenu={() => setIsOpen(true)}
       onCloseMenu={() => setIsOpen(false)}
+      attachRight={attachRight}
       delay={delay}
       menuContainerProps={menuContainerProps}
     >
