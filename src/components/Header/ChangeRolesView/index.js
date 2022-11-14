@@ -121,9 +121,11 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
       {roles.length > 2 ? (
         <TextButtonDropDownMenu
           btnTextMsgKey="SWITCH_VIEWS"
+          attachRight={!leftDrawer}
           menuContainerProps={{
             // sx: { mt: '45px' },
             id: "menu-appbar",
+            /*
             anchorOrigin: {
               vertical: "top",
               horizontal: leftDrawer ? "left" : "right",
@@ -133,6 +135,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
               vertical: "top",
               horizontal: leftDrawer ? "left" : "right",
             },
+            */
           }}
         >
           <div>
