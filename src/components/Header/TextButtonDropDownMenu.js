@@ -34,9 +34,8 @@ export default function TextButtonDropDownMenu({
       DropDownButton={
         <MenuItem>
           <Typography variant="subtitle1">
-            <Message constantKey="SWITCH_VIEWS" />
+            <Message constantKey={btnTextMsgKey} args={btnTextArgs} />
           </Typography>
-          <Message constantKey={btnTextMsgKey} args={btnTextArgs} />
           {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </MenuItem>
       }
