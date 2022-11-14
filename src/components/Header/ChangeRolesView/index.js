@@ -60,7 +60,7 @@ function ChangeRole({
           ID_TO_SELECTED_ROLE_MAP_KEY,
           JSON.stringify(idToSelectedRoleMap)
         );
-        !isToggle && handleCloseSwitchView();
+        // !isToggle && handleCloseSwitchView();
       }}
       sx={styles}
       className={roleView === role.key && classes.bgColor}
