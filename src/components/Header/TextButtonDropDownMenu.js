@@ -30,12 +30,13 @@ export default function TextButtonDropDownMenu({
   delay,
   attachRight,
   children,
+  ...otherProps
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <DropDownMenu
       DropDownButton={
-        <MenuItem>
+        <MenuItem {...otherProps}>
           <Typography variant="subtitle1">
             <Message constantKey={btnTextMsgKey} args={btnTextArgs} />
           </Typography>
