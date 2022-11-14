@@ -54,6 +54,7 @@ function UserMenu() {
         menuContainerProps={{
           // sx: { mt: '45px' },
           id: 'menu-appbar',
+          /*
           anchorOrigin: {
             vertical: 'top',
             horizontal: 'right',
@@ -63,7 +64,9 @@ function UserMenu() {
             vertical: 'top',
             horizontal: 'right',
           },
+          */
         }}
+        attachRight
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem
