@@ -29,6 +29,9 @@ export default function DropDownMenu({
     value: false,
   });
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // #802: part of hack to make button clickable over presentation layer 
+  //   when menu is open, needed for sidebar
+  const [offsetY, setOffsetY] = React.useState(0);
 
   const inDropdownRef = React.useRef(inDropdown);
   inDropdownRef.current = inDropdown;
@@ -36,6 +39,11 @@ export default function DropDownMenu({
   const handleOpenMenu = (event) => {
     typeof onOpenMenu === 'function' && onOpenMenu(event);
     setAnchorEl(event.currentTarget);
+    setOffsetY(
+      event.currentTarget.getBoundingClientRect().bottom -
+        event.currentTarget.getBoundingClientRect().height / 2 +
+        6
+    );
   };
 
   const handleCloseMenu = () => {
@@ -112,7 +120,7 @@ export default function DropDownMenu({
         // sx={{mt: (document.querySelector('header')?.outerHeight || 78) + "px"}}
         // sx={{zIndex: 0}}
         // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
-        sx={{mt: "45px"}}
+        sx={{mt: (offsetY || 45) + "px"}}
         {...menuContainerProps}
         keepMounted
         anchorEl={anchorEl}
