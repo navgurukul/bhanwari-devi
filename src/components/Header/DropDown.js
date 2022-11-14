@@ -177,11 +177,10 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
 
 export const DropDown = ({
   dropDown,
-  indicator,
-  handleClose,
+  //handleClose,
   toggleDrawer,
-  setInDropdown,
-  handleMouseLeave,
+  //setInDropdown,
+  //handleMouseLeave,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -204,32 +203,7 @@ export const DropDown = ({
 */
 
   return (
-    <Menu
-      sx={{ mt: "45px" }}
-      id="menu-appbar"
-      anchorEl={indicator}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "left",
-      }}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "left",
-      }}
-      open={Boolean(indicator)}
-      onClose={handleClose}
-      MenuListProps={{ 
-        // onMouseLeave: () => setInDropdown(false) || handleClose(),
-        onMouseLeave: () => {
-          handleMouseLeave();
-          // setInDropdown(false);
-          // setTimeout(() => !inDropdown && handleClose(), 200);
-        },
-        onMouseEnter: () => setInDropdown({value: true, inProgress: false})
-      }}
-      hideBackdrop
-    >
+    <>
       {dropDown &&
         students[dropDown].map((menu, index) => {
           if (menu.type === "internal") {
@@ -237,7 +211,7 @@ export const DropDown = ({
               <>
                 <DropdownLink
                   key={menu}
-                  onClick={handleClose}
+                  //onClick={handleClose}
                   to={
                     menu.id
                       ? interpolatePath(PATHS.PATHWAY_COURSE, {
@@ -268,7 +242,7 @@ export const DropDown = ({
               <>
                 <DropdownLink
                   key={menu}
-                  onClick={handleClose}
+                  //onClick={handleClose}
                   to={menu.path}
                   linkOnClick={toggleDrawer && toggleDrawer(false)}
                   padding={dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"}
@@ -289,6 +263,6 @@ export const DropDown = ({
             );
           }
         })}
-    </Menu>
+    </>
   );
 };
