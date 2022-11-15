@@ -17,6 +17,7 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { number } from "prop-types";
+import { MuiOtpInput } from "mui-one-time-password-input";
 // import AppConfig from "App.config";
 
 const firebaseConfig = {
@@ -57,7 +58,7 @@ function VerifyPhoneNo(props) {
     setOpen(false);
     setMessage("");
   };
-  const [otp, setOtp] = React.useState(new Array(6).fill(""));
+  // const [otp, setOtp] = React.useState(new Array(6).fill(""));
   const [startOtp, setStartOtp] = React.useState(false);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
@@ -78,24 +79,30 @@ function VerifyPhoneNo(props) {
       auth
     );
   };
-  const handleChangeData = (element, index) => {
-    const { value, maxLength, name } = element;
-    const [fieldName, fieldIndex] = name.split("-");
+  const [otp, setOtp] = React.useState("");
 
-    if (isNaN(element.value)) return false;
-
-    setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
-    if (value.length >= maxLength) {
-      if (parseInt(fieldIndex, 10) < 6) {
-        const nextSibling = document.querySelector(
-          `input[name=ssn-${parseInt(fieldIndex, 10) + 1}]`
-        );
-        if (nextSibling !== null) {
-          nextSibling.focus();
-        }
-      }
-    }
+  const handleChangeInput = (newValue) => {
+    if (isNaN(newValue)) return false;
+    setOtp(newValue);
   };
+  // const handleChangeData = (element, index) => {
+  //   const { value, maxLength, name } = element;
+  //   const [fieldName, fieldIndex] = name.split("-");
+
+  //   if (isNaN(element.value)) return false;
+
+  //   setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
+  //   if (value.length >= maxLength) {
+  //     if (parseInt(fieldIndex, 10) < 6) {
+  //       const nextSibling = document.querySelector(
+  //         `input[name=ssn-${parseInt(fieldIndex, 10) + 1}]`
+  //       );
+  //       if (nextSibling !== null) {
+  //         nextSibling.focus();
+  //       }
+  //     }
+  //   }
+  // };
 
   const countTimer = () => {
     setIsStartTimer(true);
@@ -242,7 +249,19 @@ function VerifyPhoneNo(props) {
             <Typography variant="body1">
               Please enter the OTP sent to your phone
             </Typography>
-            <Stack direction="row" spacing={2}>
+            <MuiOtpInput
+              value={otp}
+              onChange={handleChangeInput}
+              length={6}
+              ref={otpRef}
+              helperText={`Enter 6 digit Otp ${
+                isStartTimer ? "within " + Timer : ""
+              } `}
+              label="OTP"
+              autoFocus
+              error={otp.length < 6 && otp.length !== 0}
+            />
+            {/* <Stack direction="row" spacing={2}>
               {otp.map((data, index) => {
                 return (
                   <TextField
@@ -273,12 +292,13 @@ function VerifyPhoneNo(props) {
                   />
                 );
               })}
-            </Stack>
+            </Stack> */}
             <Typography variant="caption" sx={{ display: "block" }}>
               {`OTP expire in  ${isStartTimer ? Timer : ""} `}
             </Typography>
             <Button
-              disabled={otp.join("").length < 6}
+              // disabled={otp.join("").length < 6}
+              disabled={otp.length < 6}
               id="sign-in-button"
               onClick={OtpEnter}
               variant="outlined"
