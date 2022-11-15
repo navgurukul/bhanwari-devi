@@ -154,7 +154,7 @@ function VerifyPhoneNo(props) {
   };
   const OtpEnter = (event) => {
     confirmationResult
-      .confirm(otp.join(""))
+      .confirm(otp)
       .then((result) => {
         const user = result.user;
         if (!user.isAnonymous) {
@@ -219,7 +219,7 @@ function VerifyPhoneNo(props) {
           </Button>
         )}
 
-        {startOtp && (
+        {!startOtp && (
           <>
             {" "}
             {/* <TextField
@@ -253,6 +253,13 @@ function VerifyPhoneNo(props) {
               value={otp}
               onChange={handleChangeInput}
               length={6}
+              sx={{
+                // width: '48px',
+                // height: '56px',
+                width: "400px",
+                height: "70px",
+                borderRadius: " 8px",
+              }}
               ref={otpRef}
               helperText={`Enter 6 digit Otp ${
                 isStartTimer ? "within " + Timer : ""
