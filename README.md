@@ -1,4 +1,4 @@
-# Bhanwari Devi
+﻿# Bhanwari Devi
 <img src="src/asset/bhanwari-devi.jpg" width="300"/>
 
 Bhanwari Devi is an oppressed-caste woman who dared to fight against the feudal, casteist and patriarchal structures of rural Rajasthan. She started as a social worker as part of the government-run Women’s Development Project. In 1992, she became involved in specific campaigns against child marriage. She counselled women on family planning, girl child education, against female foeticide, dowry, and child marriage. Already, as a result of her activism, she and her family were subjected to constant threats and intimidation by the dominant caste men in the village.
@@ -18,7 +18,7 @@ In her subsequent pursuit for justice, every step along the way she faced intens
 - *If you can, use a ton of emojis while reviewing the PR or replying to comments in the PR. 😉*
 - *Don't shy away from sending a PR, we are more than happy to help you out in the process.*
 
-## Code Strucutre
+## Code Structure
 - *The philosophy of the code strucutre is keeping things as small as they can be. Keeping functions small, components small, and files small. Basically keeping everything as small as they can be. Like Minions, We love Minions. Who doesn't .*
 
 
