@@ -219,7 +219,7 @@ function VerifyPhoneNo(props) {
           </Button>
         )}
 
-        {!startOtp && (
+        {startOtp && (
           <>
             {" "}
             {/* <TextField
