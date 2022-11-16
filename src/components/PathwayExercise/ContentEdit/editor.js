@@ -120,7 +120,6 @@ function ReactEditor({ course, id, save }) {
   });
 
   console.log("blocks", blocks);
-  console.log("Course editor completed, Ready to raise PR");
 
   let json = [];
   const MerakiJSON = (blocks) => {
