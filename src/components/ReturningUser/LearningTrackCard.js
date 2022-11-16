@@ -273,60 +273,29 @@ function LearningTrackCard(props) {
                   startTime={upcomingBatchesData[0]?.start_time}
                   link={upcomingBatchesData[0]?.meet_link}
                 />
-
-                <Button
-                  variant="outlined"
-                  sx={{
-                    marginTop: isActive ? "0px" : "32px",
-                    left: isActive ? "180px" : "436px",
-                  }}
-                  onClick={() => {
-                    history.push(
-                      interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: item.pathway_id,
-                      })
-                    );
-                  }}
-                >
-                  Go to Track
-                </Button>
               </>
             ) : (
-              <Button
-                variant="outlined"
-                sx={{
-                  marginTop: isActive ? "0px" : "32px",
-                  left: isActive ? "180px" : "436px",
-                }}
-                onClick={() => {
-                  history.push(
-                    interpolatePath(PATHS.PATHWAY_COURSE, {
-                      pathwayId: item.pathway_id,
-                    })
-                  );
-                }}
-              >
-                Go to Track
-              </Button>
+              ""
             )
           ) : (
-            <Button
-              variant="outlined"
-              sx={{
-                marginTop: isActive ? "0px" : "32px",
-                left: isActive ? "180px" : "436px",
-              }}
-              onClick={() => {
-                history.push(
-                  interpolatePath(PATHS.PATHWAY_COURSE, {
-                    pathwayId: item.pathway_id,
-                  })
-                );
-              }}
-            >
-              Go to Track
-            </Button>
+            ""
           )}
+          <Button
+            variant="outlined"
+            sx={{
+              marginTop: isActive ? "0px" : "32px",
+              left: isActive ? "180px" : "436px",
+            }}
+            onClick={() => {
+              history.push(
+                interpolatePath(PATHS.PATHWAY_COURSE, {
+                  pathwayId: item.pathway_id,
+                })
+              );
+            }}
+          >
+            Go to Track
+          </Button>
         </CardContent>
       </Card>
     </>
