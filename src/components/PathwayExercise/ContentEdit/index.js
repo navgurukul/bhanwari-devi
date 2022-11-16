@@ -6,6 +6,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useStyles from "../styles";
+import { formatInUtc } from "../../../common/date";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   Container,
@@ -179,15 +180,14 @@ function ContentEdit() {
         }
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
-        const Date = res.data.course.exercises[exerciseId].updated_at;
-        const date = Date.split("T")[0].replace(
-          /(\d{4})-(\d{1,2})-(\d{1,2})/,
-          function (match, y, m, d) {
-            return d + "/" + m + "/" + y;
-          }
-        );
+        const updated_at = res.data.course.exercises[exerciseId].updated_at;
+        const date = formatInUtc(updated_at, "dd/MM/yyyy");
+        console.log("date", date);
+        console.log("updated_at", updated_at);
         var longDateStr = moment(date, "D/ M/Y").format("dddd D MMMM Y");
+        // const longDateStrrr = formatInUtc(date, "dddd D MMMM Y");
         console.log("longDateStr", longDateStr);
+        // console.log("longDateStrrr", longDateStrrr);
         setUpdatedOn(longDateStr);
       })
       .catch((err) => {
@@ -214,7 +214,7 @@ function ContentEdit() {
     <>
       <AppBar fullWidth position="sticky" color="background" elevation={2}>
         <Box>
-          <Container maxWidth>
+          <Container>
             <Toolbar sx={{ alignItems: "center" }}>
               <Typography
                 variant="h6"
@@ -239,7 +239,7 @@ function ContentEdit() {
           </Container>
         </Box>
       </AppBar>
-      <Container maxWidth="sm" sx={{ mt: 5, mb: 5 }}>
+      <Container sx={{ mt: 5, mb: 5 }}>
         {courseType === "assessment" ? (
           <>
             {course &&
