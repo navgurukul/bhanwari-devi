@@ -33,6 +33,7 @@ function Assessment({
   const [submit, setSubmit] = useState();
   const [submitDisable, setSubmitDisable] = useState();
   const [status, setStatus] = useState();
+  const [showExplaination, setShowExplaination] = useState(false);
   const [triedAgain, setTriedAgain] = useState(res?.attempt_count);
   const params = useParams();
 
@@ -50,6 +51,8 @@ function Assessment({
   //   })
   // );
   // }, []);
+
+  console.log("showExplaination out side", showExplaination);
 
   // Assessment submit handler
   const submitAssessment = () => {
@@ -69,8 +72,10 @@ function Assessment({
     });
 
     console.log("triedAgain", triedAgain);
+    console.log("showExplaination inside", showExplaination);
 
     if (triedAgain <= 1) {
+      // if (showExplaination || answer == solution) {
       // call completedCourseContentIds api
       // dispatch(
       //   progressTrackingActions.getProgressTracking({
@@ -96,6 +101,7 @@ function Assessment({
     }
 
     if (answer == solution) {
+      // setShowExplaination(true);
       setCorrect(true);
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
@@ -174,6 +180,7 @@ function Assessment({
             submitDisable={submitDisable}
             triedAgain={triedAgain}
             submitAssessment={submitAssessment}
+            setShowExplaination={setShowExplaination}
           />
         ))}
 
@@ -211,6 +218,7 @@ function Assessment({
                 triedAgain={triedAgain}
                 submitDisable={submitDisable}
                 submitAssessment={submitAssessment}
+                setShowExplaination={setShowExplaination}
               />
             ))
           );

@@ -43,6 +43,7 @@ const AssessmentContent = ({
   setTriedAgain,
   submitDisable,
   submitAssessment,
+  setShowExplaination,
 }) => {
   // console.log(solution);
 
@@ -99,6 +100,7 @@ const AssessmentContent = ({
                 onClick={() => {
                   setTriedAgain(triedAgain + 1);
                   submitAssessment();
+                  setShowExplaination(true);
                 }}
               >
                 <Typography variant="subtitle2">
