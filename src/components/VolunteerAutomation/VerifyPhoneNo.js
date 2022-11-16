@@ -8,6 +8,7 @@ import {
   Snackbar,
   InputAdornment,
   Stack,
+  Grid,
 } from "@mui/material";
 // import PhoneInput from "../common/PhoneInput";
 import {
@@ -18,6 +19,8 @@ import {
 import { initializeApp } from "firebase/app";
 import { number } from "prop-types";
 import { MuiOtpInput } from "mui-one-time-password-input";
+import { borderRadius, width } from "@mui/system";
+
 // import AppConfig from "App.config";
 
 const firebaseConfig = {
@@ -80,29 +83,13 @@ function VerifyPhoneNo(props) {
     );
   };
   const [otp, setOtp] = React.useState("");
-
+  const [bgColor, setBgColor] = React.useState(false);
+  const [verifyOpen, setVerifyOpen] = React.useState(false);
+  const [close, setClose] = React.useState(true);
   const handleChangeInput = (newValue) => {
     if (isNaN(newValue)) return false;
     setOtp(newValue);
   };
-  // const handleChangeData = (element, index) => {
-  //   const { value, maxLength, name } = element;
-  //   const [fieldName, fieldIndex] = name.split("-");
-
-  //   if (isNaN(element.value)) return false;
-
-  //   setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
-  //   if (value.length >= maxLength) {
-  //     if (parseInt(fieldIndex, 10) < 6) {
-  //       const nextSibling = document.querySelector(
-  //         `input[name=ssn-${parseInt(fieldIndex, 10) + 1}]`
-  //       );
-  //       if (nextSibling !== null) {
-  //         nextSibling.focus();
-  //       }
-  //     }
-  //   }
-  // };
 
   const countTimer = () => {
     setIsStartTimer(true);
@@ -162,12 +149,15 @@ function VerifyPhoneNo(props) {
           setOpen(false);
           setDisable(false);
           setIsStartTimer(false);
+          setVerifyOpen(true);
+          setClose(false);
         }
       })
       .catch((error) => {
         setMessage("enter valid otp");
         setOpen(true);
         setOtp("");
+        setBgColor(true);
       });
   };
   //International
@@ -219,34 +209,10 @@ function VerifyPhoneNo(props) {
           </Button>
         )}
 
-        {startOtp && (
+        {startOtp && close && (
           <>
             {" "}
-            {/* <TextField
-              onChange={(e) => {
-                if (e.target.value.length <= 6) {
-                  setOtp(e.target.value);
-                }
-              }}
-              style={{
-                margin: "20px 0",
-              }}
-              disabled={!startOtp}
-              fullWidth
-              value={otp}
-              size="large"
-              variant="outlined"
-              helperText={`Enter 6 digit Otp ${
-                isStartTimer ? "within " + Timer : ""
-              } `}
-              label="OTP"
-              error={otp.length < 6 && otp.length !== 0}
-              InputProps={{ maxLength: 6 }}
-              ref={otpRef}
-              
-              
-            /> */}
-            <Typography variant="body1">
+            <Typography variant="body1" style={{ margin: "16px 0px" }}>
               Please enter the OTP sent to your phone
             </Typography>
             <MuiOtpInput
@@ -254,51 +220,26 @@ function VerifyPhoneNo(props) {
               onChange={handleChangeInput}
               length={6}
               ref={otpRef}
-              helperText={`Enter 6 digit Otp ${
-                isStartTimer ? "within " + Timer : ""
-              } `}
+              TextFieldsProps={{
+                type: "text",
+                size: "medium",
+                placeholder: bgColor ? "-" : "",
+                style: {
+                  border: bgColor ? "1px solid red" : "",
+                  borderRadius: "8px",
+                  width: "44px",
+                },
+              }}
               label="OTP"
-              style={{ borderColor: !otp }}
               autoFocus
-              error={otp.length < 6 && otp.length !== 0}
             />
-            {/* <Stack direction="row" spacing={2}>
-              {otp.map((data, index) => {
-                return (
-                  <TextField
-                    // onChange={(e) => {
-                    //   if (e.target.value.length <= 6) {
-                    //     setOtp(e.target.value);
-                    //   }
-                    // }}
-                    onChange={(e) => handleChangeData(e.target, index)}
-                    style={{
-                      width: "44px",
-                    }}
-                    type="text"
-                    name={`otp-${index}`}
-                    disabled={!startOtp}
-                    // fullWidth
-                    value={data}
-                    size="small"
-                    variant="outlined"
-                    // helperText={`Enter 6 digit Otp ${
-                    //   isStartTimer ? "within " + Timer : ""
-                    // } `}
-
-                    onFocus={(e) => e.target.select()}
-                    ref={otpRef}
-                    key={index}
-                    InputProps={{ maxLength: 6 }}
-                  />
-                );
-              })}
-            </Stack> */}
-            <Typography variant="caption" sx={{ display: "block" }}>
+            <Typography
+              variant="caption"
+              sx={{ display: "block", margin: "16px 0px" }}
+            >
               {`OTP expire in  ${isStartTimer ? Timer : ""} `}
             </Typography>
             <Button
-              // disabled={otp.join("").length < 6}
               disabled={otp.length < 6}
               id="sign-in-button"
               onClick={OtpEnter}
@@ -308,6 +249,19 @@ function VerifyPhoneNo(props) {
               Verify OTP
             </Button>
           </>
+        )}
+
+        {verifyOpen && (
+          <Grid container spacing={1} mt={1}>
+            <Grid item>
+              <img src={require("./assets/Vector.svg")} />
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">
+                You have been verified successfully
+              </Typography>
+            </Grid>
+          </Grid>
         )}
 
         <Snackbar
