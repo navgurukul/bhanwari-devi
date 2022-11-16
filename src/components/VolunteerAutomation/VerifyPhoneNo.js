@@ -159,7 +159,7 @@ function VerifyPhoneNo(props) {
         const user = result.user;
         if (!user.isAnonymous) {
           setMessage("Phone number verified successfully");
-          setOpen(true);
+          setOpen(false);
           setDisable(false);
           setIsStartTimer(false);
         }
@@ -219,7 +219,7 @@ function VerifyPhoneNo(props) {
           </Button>
         )}
 
-        {!startOtp && (
+        {startOtp && (
           <>
             {" "}
             {/* <TextField
@@ -253,18 +253,12 @@ function VerifyPhoneNo(props) {
               value={otp}
               onChange={handleChangeInput}
               length={6}
-              sx={{
-                // width: '48px',
-                // height: '56px',
-                width: "400px",
-                height: "70px",
-                borderRadius: " 8px",
-              }}
               ref={otpRef}
               helperText={`Enter 6 digit Otp ${
                 isStartTimer ? "within " + Timer : ""
               } `}
               label="OTP"
+              style={{ borderColor: !otp }}
               autoFocus
               error={otp.length < 6 && otp.length !== 0}
             />
