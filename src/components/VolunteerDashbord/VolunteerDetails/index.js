@@ -117,10 +117,11 @@ function VolunteerDashboard() {
   function filterLanguage(week, rating) {
     week("All");
     rating("All");
+    
     return cacheVolunteer.filter(
       (el) =>
         language == "All" ||
-        language == languageMap[el.classes[el.classes.length - 1].lang]
+        (el.classes?.length > 0 && language == languageMap[el.classes[el.classes.length - 1]?.lang])
     );
   }
 
