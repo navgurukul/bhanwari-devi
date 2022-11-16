@@ -214,9 +214,9 @@ function LearningTrackCard(props) {
             </Grid>
           </Grid>
 
-          {pathwayCourseData.code == "PRGPYT" ||
-          pathwayCourseData.code == "SPKENG" ? (
-            upcomingBatchesData?.length > 0 ? (
+          {(pathwayCourseData.code == "PRGPYT" ||
+            pathwayCourseData.code == "SPKENG") &&
+            upcomingBatchesData?.length > 0 && (
               <>
                 <Typography variant="subtitle1" mb={2} mt={2}>
                   Batch : {upcomingBatchesData[0].title}
@@ -237,7 +237,7 @@ function LearningTrackCard(props) {
                     </Typography>
                   </Grid>
                   <Grid item md={2} xs={2} sx={{ justifyItems: "left" }}>
-                    {upcomingBatchesData[0]?.type === "batch" ? (
+                    {upcomingBatchesData[0]?.type === "batch" && (
                       <Chip
                         label="Batch"
                         textAlign="left"
@@ -246,8 +246,6 @@ function LearningTrackCard(props) {
                           color: "primary.main",
                         }}
                       />
-                    ) : (
-                      ""
                     )}
                   </Grid>
                   <Grid
@@ -259,12 +257,8 @@ function LearningTrackCard(props) {
                     }}
                   >
                     <Typography variant="body1">
-                      {upcomingBatchesData[0]?.start_time
-                        ? format(
-                            upcomingBatchesData[0]?.start_time,
-                            "dd MMM yy"
-                          )
-                        : ""}
+                      {upcomingBatchesData[0]?.start_time &&
+                        format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -274,12 +268,7 @@ function LearningTrackCard(props) {
                   link={upcomingBatchesData[0]?.meet_link}
                 />
               </>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
-          )}
+            )}
           <Button
             variant="outlined"
             sx={{
