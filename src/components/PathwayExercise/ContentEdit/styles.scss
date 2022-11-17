@@ -11,7 +11,6 @@
 // These rules to overload narrow mode aren't necessary if we remove maxwidth from container:
 // https://github.com/navgurukul/bhanwari-devi/pull/799/commits/6542bd46027810525b1cb1f5d0712de1f3cd7c60
 // See: https://github.com/codex-team/editor.js/blob/29db87525b1b4bdd2c884005b357ab14f46a1ed6/src/components/modules/ui.ts#L275-L280
-
 .codex-editor--narrow .ce-toolbar__actions {
   // left: -54px;
   // left: 100%;
