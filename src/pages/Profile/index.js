@@ -74,6 +74,8 @@ function Profile() {
     });
   };
 
+  console.log("verified tutor");
+
   return (
     <>
       {/* <div className={classes.imageContainer}>

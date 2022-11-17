@@ -22,6 +22,7 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import { borderRadius, width } from "@mui/system";
 
 // import AppConfig from "App.config";
+import MuiPhoneNumber from "material-ui-phone-number";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -40,14 +41,7 @@ function VerifyPhoneNo(props) {
   console.log(app.name);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
-    // give space only after first two digits
-    if (number.length > 2) {
-      const formattedNumber = `${number.slice(0, 2)} ${number.slice(
-        2,
-        number.length
-      )}`;
-      setContact(formattedNumber);
-    } else {
+    if (number.length <= 10) {
       setContact(number);
     }
   };
@@ -66,8 +60,8 @@ function VerifyPhoneNo(props) {
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
+  const [countryCode, setCountryCode] = React.useState("+91");
 
-  console.log();
   const setupRecaptcha = () => {
     console.log(firebaseConfig);
     const auth = getAuth();
@@ -115,12 +109,8 @@ function VerifyPhoneNo(props) {
     if (!confirmationResult) {
       setupRecaptcha();
     }
-    const ContactNumber = contact.slice(3, contact.length);
-    let countryCode = contact.slice(0, 2);
-    if (countryCode[0] == "0") {
-      countryCode = countryCode[1];
-    }
-    const phoneNumber = `+${countryCode}${ContactNumber}`;
+    const phoneNumber = `${countryCode}${contact}`;
+    setContact(phoneNumber);
     const appVerifier = window.recaptchaVerifier;
     const auth = getAuth();
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
@@ -181,31 +171,45 @@ function VerifyPhoneNo(props) {
         never share it with any third party.
       </Typography>
       <Box sx={{ mt: 4 }}>
-        <TextField
-          label="Ten Digit phone Number"
-          // <PhoneInput       //International
-          onChange={handleChange}
-          value={contact}
-          name="contact"
-          id="contact"
-          variant="outlined"
-          helperText="Enter Phone Number with Country Code"
-          fullWidth
-          InputProps={{
-            maxLength: 12,
-            startAdornment: <InputAdornment position="start">+</InputAdornment>,
-          }}
-        />
+        <Grid container spacing={2} maxWidth="md">
+          <Grid item xs={4}>
+            <MuiPhoneNumber
+              preferredCountries={["in"]}
+              defaultCountry={"in"}
+              variant="outlined"
+              id="countryCode"
+              value={countryCode}
+              onChange={(val) => {
+                setCountryCode(val);
+                return true;
+              }}
+            />
+          </Grid>
+          <Grid item xs={8}>
+            <TextField
+              label="Ten Digit phone Number"
+              onChange={handleChange}
+              value={contact}
+              name="contact"
+              id="contact"
+              variant="outlined"
+              helperText="Enter Phone Number with Country Code"
+              fullWidth
+              maxLength={12}
+            />
+          </Grid>
+        </Grid>
+
         {!startOtp && (
           <Button
-            disabled={contact?.length < 13}
+            disabled={contact?.length < 10}
             id="sign-in-button"
             onClick={onSignInSubmit}
             style={{ marginTop: "10px" }}
-            variant="outlined"
+            variant="contained"
             size="large"
           >
-            Get Otp
+            Generate OTP
           </Button>
         )}
 
