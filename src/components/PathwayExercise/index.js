@@ -523,7 +523,9 @@ function PathwayExercise() {
           fullWidth
           // position="stick"
           sx={{ bgcolor: "info.light" }}
-          className={classes.editingHeader}
+          className={
+            isActive ? classes.editingHeaderMobile : classes.editingHeader
+          }
           elevation={2}
         >
           <Box>
