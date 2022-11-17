@@ -214,7 +214,7 @@ function ContentEdit() {
     <>
       <AppBar fullWidth position="sticky" color="background" elevation={2}>
         <Box>
-          <Container>
+          <Container maxWidth>
             <Toolbar sx={{ alignItems: "center" }}>
               <Typography
                 variant="h6"
@@ -239,7 +239,7 @@ function ContentEdit() {
           </Container>
         </Box>
       </AppBar>
-      <Container sx={{ mt: 5, mb: 5 }}>
+      <Container maxWidth="sm" sx={{ mt: 5, mb: 5 }}>
         {courseType === "assessment" ? (
           <>
             {course &&
@@ -309,8 +309,8 @@ function ContentEdit() {
                             label={`Option ${optionIndex + 1}`}
                             variant="outlined"
                             fullWidth
-                            className={classes.editField}
-                            // sx={{ marginTop: "10px", marginBottom: "10px" }}
+                            // className={classes.editField}
+                            sx={{ marginTop: "10px", marginBottom: "10px" }}
                             value={options.value}
                             onChange={(e) => {
                               var temp = [...course];
@@ -333,7 +333,7 @@ function ContentEdit() {
                         label="Solution"
                         variant="outlined"
                         fullWidth
-                        className={classes.editField}
+                        sx={{ marginTop: "10px", marginBottom: "10px" }}
                         value={course[index].value}
                         onChange={(e) => {
                           var temp = [...course];
@@ -357,7 +357,7 @@ function ContentEdit() {
                               label={"Output " + solution.component}
                               variant="outlined"
                               fullWidth
-                              className={classes.editField}
+                              sx={{ marginTop: "10px", marginBottom: "10px" }}
                               value={solution.value}
                               onChange={(e) => {
                                 var temp = [...course];
