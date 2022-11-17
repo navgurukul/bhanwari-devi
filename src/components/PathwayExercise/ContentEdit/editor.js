@@ -7,6 +7,7 @@ import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./styles.scss";
+import _ from "lodash";
 import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
@@ -110,11 +111,12 @@ function ReactEditor({ course, id, save }) {
   });
 
   let blocks = courseData.filter((item, index) => {
-    const stringifiedItem = JSON.stringify(item);
+    // const stringifiedItem = JSON.stringify(item);
     return (
       index ===
       courseData.findIndex((obj) => {
-        return JSON.stringify(obj) === stringifiedItem;
+        return _.isEqual(obj, item);
+        // return JSON.stringify(obj) === stringifiedItem;
       })
     );
   });

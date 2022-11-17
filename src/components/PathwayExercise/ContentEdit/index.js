@@ -181,13 +181,8 @@ function ContentEdit() {
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
         const updated_at = res.data.course.exercises[exerciseId].updated_at;
-        const date = formatInUtc(updated_at, "dd/MM/yyyy");
-        console.log("date", date);
-        console.log("updated_at", updated_at);
-        var longDateStr = moment(date, "D/ M/Y").format("dddd D MMMM Y");
-        // const longDateStrrr = formatInUtc(date, "dddd D MMMM Y");
-        console.log("longDateStr", longDateStr);
-        // console.log("longDateStrrr", longDateStrrr);
+        const longDateStr = formatInUtc(updated_at, "EEEE dd MMMM yyyy");
+        // console.log("longDateStr", longDateStr);
         setUpdatedOn(longDateStr);
       })
       .catch((err) => {
@@ -244,15 +239,19 @@ function ContentEdit() {
           <>
             {course &&
               course.map((e, index) => {
-                if (e.component === "questionExpression") {
-                  console.log(e.component, "e.value", e.value);
+                if (
+                  e.component === "questionExpression" ||
+                  e.component === "questionCode"
+                ) {
                   return (
                     <BoxComponent
                       setIsShown={setIsShown}
                       isShown={isShown}
                       iconClick={(e) => handleAdd(index, "assessment")}
                     >
-                      <Typography>Question</Typography>
+                      <Typography>
+                        {e.component === "questionCode" ? "Code" : "Question"}
+                      </Typography>
                       <TextareaAutosize
                         aria-label="empty textarea"
                         fullWidth
@@ -267,26 +266,6 @@ function ContentEdit() {
                         }}
                       />
                     </BoxComponent>
-                  );
-                } else if (e.component === "questionCode") {
-                  console.log(e.component, "e.value", e.value);
-                  return (
-                    <Box>
-                      <Typography>Code</Typography>
-                      <TextareaAutosize
-                        aria-label="empty textarea"
-                        fullWidth
-                        placeholder="Code"
-                        color="primary"
-                        className={classes.textarea}
-                        value={course[index].value}
-                        onChange={(e) => {
-                          var temp = [...course];
-                          temp[index].value = e.target.value;
-                          setCourse(temp);
-                        }}
-                      />
-                    </Box>
                   );
                 } else if (e.component === "options") {
                   console.log(e.component, "e.value", e.value);
