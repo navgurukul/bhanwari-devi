@@ -43,9 +43,9 @@ function SearchCourse() {
   // useEffect(() => setSearch(query || ""), [query]);
 
   const handleSearchChange = (e) => {
-    if(!e.target.value){
+    if (!e.target.value) {
       history.replace(`/search-course`);
-    }else{
+    } else {
       history.replace(`?search=${e.target.value}`);
     }
     e.preventDefault();
@@ -116,7 +116,12 @@ function SearchCourse() {
                   </Typography>
                   <Grid container spacing={3} align="center">
                     {pathway.courses.map((item, index) => (
-                      <Grid key={index} xs={12} md={3} className={classes.courseCard}>
+                      <Grid
+                        key={index}
+                        xs={12}
+                        md={3}
+                        className={classes.courseCard}
+                      >
                         <Link
                           className={classes.pathwayLink}
                           to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
