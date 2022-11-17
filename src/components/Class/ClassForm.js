@@ -48,7 +48,6 @@ function ClassForm({
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
-
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit.title || "",
@@ -80,9 +79,9 @@ function ClassForm({
       : "",
     type: classToEdit.type || formType,
     pathway_id:
-      classToEdit.pathway_id || classToEdit.pathway_v2 || partnerPathwayId,
+      classToEdit.pathway_id || classToEdit.pathway_v2 || partnerPathwayId?.[0],
+    facilitator_id: "",
   });
-
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
@@ -169,6 +168,11 @@ function ClassForm({
       }
     }
   }, [classFields.partner_id?.length]);
+  useEffect(() => {
+    setClassFields((prev) => {
+      return { ...prev, pathway_id: partnerPathwayId?.[0] };
+    });
+  }, [partnerPathwayId]);
 
   //For course error field (doubt class only)
   useEffect(() => {
@@ -316,7 +320,9 @@ function ClassForm({
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
   };
-
+  useEffect(() => {
+    console.log(classFields.pathway_id);
+  }, [classFields]);
   const handleDaySelection = (e) => {
     const index = classFields.on_days.indexOf(e.target.value);
     if (index === -1) {
@@ -566,6 +572,7 @@ function ClassForm({
       "pathway_id",
       "lang",
       "type",
+      "facilitator_id",
     ];
     let payload;
     if (classFields.type === "doubt_class") {
@@ -713,6 +720,9 @@ function ClassForm({
                 }}
                 onChange={(e, newVal) => {
                   setPartnerPathwayId(newVal?.pathway_id);
+                  setClassFields((prev) => {
+                    return { ...prev, facilitator_id: newVal.id };
+                  });
                 }}
                 freeSolo
                 renderInput={(params) => (
@@ -739,28 +749,22 @@ function ClassForm({
                 mb={isActive ? 3 : 4}
                 mt={2}
               >
-                {partnerPathwayId == 1
+                {/* {partnerPathwayId == 1
                   ? "The tutor has opted to teach Python learning track"
                   : partnerPathwayId == 2
                   ? "The tutor has opted to teach Spoken English learning track"
-                  : "The tutor has opted to teach both Python and Spoken English learning track"}
-                {/* 
-                  This is for after we get a response as a list from backend
-                {partnerPathwayId.includes(1) && partnerPathwayId.includes(2) 
+                  : "The tutor has opted to teach both Python and Spoken English learning track"} */}
+
+                {partnerPathwayId.includes(1) && partnerPathwayId.includes(2)
                   ? "The tutor has opted to teach both Python and Spoken English learning track "
-                  :partnerPathwayId.includes(1)
+                  : partnerPathwayId.includes(1)
                   ? "The tutor has opted to teach Python learning track"
-                  : "The tutor has opted to teach Spoken English learning track"} */}
+                  : "The tutor has opted to teach Spoken English learning track"}
               </Typography>
             )}
-            {/*
-              use this for after we get a response as a list from backend
-              @poonam isme shayad hame ek aur state add krni padegi as jb ek partner select hoga uske baad fir wo ek array main hoga uss array ko modify nahi karna hoga
-              and uske baad usme wo length 2 ho toh ye aajayga
-
-             {partnerPathwayId.length == 2 && classFields.type === "batch" && (
+            {partnerPathwayId?.length == 2 && classFields.type === "batch" && (
               <>
-                    <Typography
+                <Typography
                   variant="body2"
                   color="text.secondary"
                   pr={2}
@@ -768,28 +772,52 @@ function ClassForm({
                 >
                   Learning Track
                 </Typography>
-                        <RadioGroup
-                  value={[{value:1,label:"Python"},{value:2,label:"Spoken English"}]}
-                  row={isActive ? false : true}
+                <RadioGroup
+                  onChange={(e) => {
+                    setClassFields({
+                      ...classFields,
+                      pathway_id: e.target.value,
+                    });
+                  }}
                 >
-                  {Object.map((item) => {
-                      return (
-                        <FormControlLabel
-                          key={item}
-                          value={item}
-                          name="Learning Track"
-                          control={<Radio />}
-                          checked={}
-                          onChange={(e) => {
-                          setPartnerPathwayId(e.target.value);
-                          }}
-                        />
-                      );
-                    }
-                  })}
+                  <FormControlLabel
+                    value="1"
+                    control={<Radio />}
+                    label="Python"
+                  />
+                  <FormControlLabel
+                    value="2"
+                    control={<Radio />}
+                    label="Spoken English"
+                  />
                 </RadioGroup>
+                {/* <RadioGroup
+                  value={[
+                    { value: 1, label: "Python" },
+                    { value: 2, label: "Spoken English" },
+                  ]}
+                >
+                  {[
+                    { value: 1, label: "Python" },
+                    { value: 2, label: "Spoken English" },
+                  ].map((item) => {
+                    return (
+                      <FormControlLabel
+                        key={item}
+                        value={item.value}
+                        name="Learning Track"
+                        control={<Radio />}
+                        // checked={}
+                        onChange={(e) => {
+                          setPartnerPathwayId(e.target.value);
+                        }}
+                      />
+                    );
+                  })}
+                </RadioGroup> */}
               </>
-            )} */}
+            )}
+
             <TextField
               // sx={{ mt: 4 }}
               error={showError.title}
