@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/User/redux/selectors.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/User/redux/selectors.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>export const ADMIN_ROLE_KEY = "ADMIN";
+export const STUDENT_ROLE_KEY = "STUDENT";
+export const VOLUNTEER_ROLE_KEY = "VOLUNTEER";
+export const PARTNER_ROLE_KEY = "PARTNER";
+export const PARTNER_VIEW_ROLE_KEY = "PARTNER_VIEW";
+export const PARTNER_EDIT_ROLE_KEY = "PARTNER_EDIT";
+
+const ROLES = {
+  [ADMIN_ROLE_KEY]: {
+    msgKey: ADMIN_ROLE_KEY,
+    savedValue: "admin",
+    isDefault: false,
+  },
+  [STUDENT_ROLE_KEY]: {
+    msgKey: STUDENT_ROLE_KEY,
+    savedValue: "student",
+    isDefault: true,
+  },
+  [VOLUNTEER_ROLE_KEY]: {
+    msgKey: VOLUNTEER_ROLE_KEY,
+    savedValue: "volunteer",
+    isDefault: false,
+  },
+  [PARTNER_ROLE_KEY]: {
+    msgKey: PARTNER_ROLE_KEY,
+    savedValue: "partner",
+    isDefault: false,
+    properties: {
+      partnerId: null,
+      partnerGroupId: null,
+    },
+  },
+  [PARTNER_VIEW_ROLE_KEY]: {
+    msgKey: PARTNER_ROLE_KEY,
+    savedValue: "partner_view",
+    isDefault: false,
+  },
+  [PARTNER_EDIT_ROLE_KEY]: {
+    msgKey: PARTNER_ROLE_KEY,
+    savedValue: "partner_edit",
+    isDefault: false,
+  },
+};
+
+// keys of roles which every user has
+const DEFAULT_ROLES = Object.keys(ROLES).filter(
+  (role) => ROLES[role].isDefault
+);
+
+const savedRolesToKeysMap = Object.keys(ROLES).reduce((roleKeyMap, roleKey) => {
+  roleKeyMap[ROLES[roleKey].savedValue] = roleKey;
+  return roleKeyMap;
+}, {});
+
+/**
+ * Selector to get user roles
+ * @return {Array.&lt;{key: string, msgKey: string, assignedRole:boolean, properties: Object}>}
+ */
+export const selectRolesData = ({ User }) => {
+  const rolesList = (User?.data?.user?.rolesList || []).map(
+    (savedRole) => savedRolesToKeysMap[savedRole] || savedRole
+  );
+  const unassignedDefaultRoles = DEFAULT_ROLES.filter(
+    (roleKey) => !rolesList.includes(roleKey)
+  );
+
+  // special case for partner role
+  const partnerId = User?.data?.user?.partner_id;
+  const partnerGroupId = User?.data?.user?.partner_group_id;
+  ROLES[PARTNER_ROLE_KEY].properties.partnerId = User?.data?.user?.partner_id;
+  ROLES[PARTNER_ROLE_KEY].properties.partnerGroupId =
+    User?.data?.user?.partner_group_id;
+
+  return unassignedDefaultRoles
+    .map((roleKey) => ({
+      key: roleKey,
+      msgKey: ROLES[roleKey].msgKey,
+      assignedRole: false,
+      properties: ROLES[roleKey].properties || null,
+    }))
+    .concat(
+      rolesList.map((roleKey) => ({
+        key: roleKey,
+        msgKey: ROLES[roleKey].msgKey,
+        assignedRole: true,
+        properties: ROLES[roleKey].properties || null,
+      }))
+    );
+};
+
+/**
+ * Selector to get user id
+ * @return {string} user id
+ */
+export const selectUserId = ({ User }) => User.data.user.id;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SearchService.html">SearchService</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ErrorHandler">ErrorHandler</a></li><li><a href="global.html#FutureOrPast">FutureOrPast</a></li><li><a href="global.html#HeaderFactory">HeaderFactory</a></li><li><a href="global.html#METHODS">METHODS</a></li><li><a href="global.html#dateTimeFormat">dateTimeFormat</a></li><li><a href="global.html#differenceInMilliseconds">differenceInMilliseconds</a></li><li><a href="global.html#differenceInMinutes">differenceInMinutes</a></li><li><a href="global.html#format">format</a></li><li><a href="global.html#formatInTimeZone">formatInTimeZone</a></li><li><a href="global.html#getAllClasses">getAllClasses</a></li><li><a href="global.html#getCourseContent">getCourseContent</a></li><li><a href="global.html#getCourses">getCourses</a></li><li><a href="global.html#handleGetClasses">handleGetClasses</a></li><li><a href="global.html#handleGetCourseContent">handleGetCourseContent</a></li><li><a href="global.html#handleGetCourses">handleGetCourses</a></li><li><a href="global.html#handleUserData">handleUserData</a></li><li><a href="global.html#isBefore">isBefore</a></li><li><a href="global.html#isBeforeNow">isBeforeNow</a></li><li><a href="global.html#item">item</a></li><li><a href="global.html#makeDateFrom">makeDateFrom</a></li><li><a href="global.html#mapCourseContent">mapCourseContent</a></li><li><a href="global.html#millisecondsUntil">millisecondsUntil</a></li><li><a href="global.html#minutesUntil">minutesUntil</a></li><li><a href="global.html#selectRolesData">selectRolesData</a></li><li><a href="global.html#selectUserId">selectUserId</a></li><li><a href="global.html#sendGoogleUserData">sendGoogleUserData</a></li><li><a href="global.html#sendToken">sendToken</a></li><li><a href="global.html#timeLeftFormat">timeLeftFormat</a></li><li><a href="global.html#useRoles">useRoles</a></li><li><a href="global.html#useSearchQuery">useSearchQuery</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Nov 17 2022 15:23:45 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

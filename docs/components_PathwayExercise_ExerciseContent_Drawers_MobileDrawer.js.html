@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/PathwayExercise/ExerciseContent/Drawers/MobileDrawer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/PathwayExercise/ExerciseContent/Drawers/MobileDrawer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from "react";
+import PropTypes from "prop-types";
+import { Global } from "@emotion/react";
+import { styled } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { grey } from "@mui/material/colors";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { ListItem, ListItemButton, List } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
+import { interpolatePath, PATHS } from "../../../../constant";
+import useStyles from "./styles";
+
+const drawerBleeding = 56;
+
+const Root = styled("div")(({ theme }) => ({
+  height: "100%",
+  backgroundColor:
+    theme.palette.mode === "light"
+      ? grey[100]
+      : theme.palette.background.default,
+}));
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
+  position: "absolute",
+  top: -drawerBleeding + 50,
+  borderTopLeftRadius: 8,
+  borderTopRightRadius: 8,
+  visibility: "visible",
+  right: 0,
+  left: 0,
+}));
+
+function Item({
+  progressTrackId,
+  selected,
+  index,
+  setOpen,
+  setSelected,
+  classes,
+  params,
+  contentType,
+  id,
+  title,
+}) {
+  const [completed, setCompleted] = React.useState(false);
+
+  const ItemStyle = {
+    color: selected === index || completed ? "#48A145" : "#6D6D6D",
+    fontWeight: selected === index ? "bold" : "",
+  };
+  const clickOnTitle = (index) => () => {
+    setSelected(index);
+    setOpen(false);
+  };
+  React.useEffect(() => {
+    if (contentType === "assessment") {
+      if (progressTrackId?.assessments.includes(id)) {
+        setCompleted(true);
+      }
+    } else if (contentType === "class_topic") {
+      if (progressTrackId?.classes.includes(id)) {
+        setCompleted(true);
+      }
+    } else if (contentType === "exercise") {
+      if (progressTrackId?.exercises.includes(id)) {
+        setCompleted(true);
+      }
+    }
+  }, [progressTrackId]);
+
+  return (
+    &lt;>
+      &lt;ListItem key={index} disablePadding>
+        &lt;ListItemButton onClick={clickOnTitle(index)}>
+          &lt;Typography
+            className={classes.ListItemsTypography}
+            component={Link}
+            variant="caption"
+          >
+            &lt;Link
+              style={ItemStyle}
+              className={classes.ListItemLink}
+              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: index,
+                pathwayId: params.pathwayId,
+              })}
+            >
+              {title}
+            &lt;/Link>
+          &lt;/Typography>
+        &lt;/ListItemButton>
+      &lt;/ListItem>
+    &lt;/>
+  );
+}
+
+function MobileDrawer(props) {
+  const params = useParams();
+  const { window, open, setOpen, list, setSelected, progressTrackId } = props;
+  const selected = parseInt(params.exerciseId);
+  const courseName = list[0]?.course_name.toUpperCase();
+  const classes = useStyles();
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
+  };
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    &lt;Root>
+      &lt;CssBaseline />
+      &lt;Global
+        styles={{
+          ".MuiDrawer-root > .MuiPaper-root": {
+            height: `calc(60% - ${drawerBleeding}px)`,
+            overflow: "visible",
+          },
+        }}
+      />
+
+      &lt;SwipeableDrawer
+        container={container}
+        anchor="bottom"
+        open={open}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
+        swipeAreaWidth={drawerBleeding}
+        disableSwipeToOpen={true}
+        ModalProps={{
+          keepMounted: true,
+        }}
+      >
+        {/*For rounded corners*/}
+        &lt;StyledBox>
+          &lt;Typography sx={{ p: 2, color: "transparent" }}>
+            51 results
+          &lt;/Typography>
+        &lt;/StyledBox>
+        &lt;StyledBox
+          sx={{
+            px: 2,
+            pb: 2,
+            height: "100%",
+            overflow: "auto",
+          }}
+        >
+          &lt;List>
+            &lt;ListItem disablePadding>
+              &lt;ListItemButton>
+                &lt;Typography
+                  className={classes.courseNameTypography}
+                  variant="subtitle2"
+                >
+                  {courseName}
+                &lt;/Typography>
+              &lt;/ListItemButton>
+            &lt;/ListItem>
+            {list?.map((obj, index) => (
+              &lt;Item
+                key={index}
+                progressTrackId={progressTrackId}
+                setSelected={setSelected}
+                selected={selected}
+                setOpen={setOpen}
+                index={index}
+                classes={classes}
+                params={params}
+                contentType={obj.content_type}
+                id={obj.id}
+                title={obj.name || obj.sub_title || obj.content_type || "N/A"}
+              />
+            ))}
+          &lt;/List>
+        &lt;/StyledBox>
+      &lt;/SwipeableDrawer>
+    &lt;/Root>
+  );
+}
+
+MobileDrawer.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
+
+export default MobileDrawer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SearchService.html">SearchService</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ErrorHandler">ErrorHandler</a></li><li><a href="global.html#FutureOrPast">FutureOrPast</a></li><li><a href="global.html#HeaderFactory">HeaderFactory</a></li><li><a href="global.html#METHODS">METHODS</a></li><li><a href="global.html#dateTimeFormat">dateTimeFormat</a></li><li><a href="global.html#differenceInMilliseconds">differenceInMilliseconds</a></li><li><a href="global.html#differenceInMinutes">differenceInMinutes</a></li><li><a href="global.html#format">format</a></li><li><a href="global.html#formatInTimeZone">formatInTimeZone</a></li><li><a href="global.html#getAllClasses">getAllClasses</a></li><li><a href="global.html#getCourseContent">getCourseContent</a></li><li><a href="global.html#getCourses">getCourses</a></li><li><a href="global.html#handleGetClasses">handleGetClasses</a></li><li><a href="global.html#handleGetCourseContent">handleGetCourseContent</a></li><li><a href="global.html#handleGetCourses">handleGetCourses</a></li><li><a href="global.html#handleUserData">handleUserData</a></li><li><a href="global.html#isBefore">isBefore</a></li><li><a href="global.html#isBeforeNow">isBeforeNow</a></li><li><a href="global.html#item">item</a></li><li><a href="global.html#makeDateFrom">makeDateFrom</a></li><li><a href="global.html#mapCourseContent">mapCourseContent</a></li><li><a href="global.html#millisecondsUntil">millisecondsUntil</a></li><li><a href="global.html#minutesUntil">minutesUntil</a></li><li><a href="global.html#selectRolesData">selectRolesData</a></li><li><a href="global.html#selectUserId">selectUserId</a></li><li><a href="global.html#sendGoogleUserData">sendGoogleUserData</a></li><li><a href="global.html#sendToken">sendToken</a></li><li><a href="global.html#timeLeftFormat">timeLeftFormat</a></li><li><a href="global.html#useRoles">useRoles</a></li><li><a href="global.html#useSearchQuery">useSearchQuery</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Nov 17 2022 15:23:45 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

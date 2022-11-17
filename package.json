@@ -62,7 +62,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
@@ -87,6 +88,7 @@
     ]
   },
   "devDependencies": {
+    "jsdoc": "^4.0.0",
     "redux-devtools-extension": "^2.13.8"
   }
 }

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Bhanwari Devi</h1>
+<img src="src/asset/bhanwari-devi.jpg" width="300"/>
+<p>Bhanwari Devi is an oppressed-caste woman who dared to fight against the feudal, casteist and patriarchal structures of rural Rajasthan. She started as a social worker as part of the government-run Women’s Development Project. In 1992, she became involved in specific campaigns against child marriage. She counselled women on family planning, girl child education, against female foeticide, dowry, and child marriage. Already, as a result of her activism, she and her family were subjected to constant threats and intimidation by the dominant caste men in the village.</p>
+<p>Once she intervened to stop the marriage of a nine-month-old infant from a dominant caste family. This enraged the dominant caste men in the village. Despite knowing the consequences that were likely, she dared to continue to defy them and stand for what was right. The same year, in an act of retaliation, she was gang-raped and her husband beat-up while working on the field.</p>
+<p>In her subsequent pursuit for justice, every step along the way she faced intense hurdles. At the police station, at the primary health care centre, and the judiciary. Read more about her <a href="https://medium.com/@dalithistorynow/dalit-history-month-2019-celebrating-bhanwari-devi-c4bd47d7126e">here</a>.</p>
+<h2>Let's code and build something beautiful together</h2>
+<p>We welcome everyone. 🤗</p>
+<img src="src/asset/welcome.jpg" width="500"/>
+<h2>Getting Started and Contribution Guidelines</h2>
+<p>Please refer to our <a href="CONTRIBUTING.md">Contribution Guide</a>.</p>
+<h2>Development Ethos</h2>
+<ul>
+<li><em>It's OK to break stuff on development. Take the ownership and send the fix.</em></li>
+<li><em>Help other people while reviewing the PR. and Be respectful if somebody needs to improve something on their code. The goal is to work together and have some fun.</em></li>
+<li><em>If you can, use a ton of emojis while reviewing the PR or replying to comments in the PR. 😉</em></li>
+<li><em>Don't shy away from sending a PR, we are more than happy to help you out in the process.</em></li>
+</ul>
+<h2>Code Structure</h2>
+<ul>
+<li><em>The philosophy of the code strucutre is keeping things as small as they can be. Keeping functions small, components small, and files small. Basically keeping everything as small as they can be. Like Minions, We love Minions. Who doesn't .</em></li>
+</ul>
+<h3>Let's see the file structure now.</h3>
+<h3>The file structure looks something like this.</h3>
+<pre class="prettyprint source"><code>    ├── src                     # Source files
+        ├──asset                # assets that belongs commonly in all components.
+        ├──components           # Components and their child components. 
+           ├──Course            # Course component and it's child components
+              ├──index.js
+              ├──styles.scss
+              ├──constants.js
+              ├──CreateCourse   #Course realted child component
+                 ├──CourseForm  
+                 ├──index.js
+                 ├──styles.scss
+              ├──CourseList
+              ├──redux          # all the redux and api related things to Course, we will do under redux directory.
+                ├──action.js    # We will define redux actions here
+                ├──api.js       # All the course related APIs(axios requests) will happen here
+                ├──reducer.js   # All the course related state management will happen here
+                ├──saga.js      # All the middlewares for redux state management or api calls we will put here
+                ├──util.js      # Mapper functions or any utility function for data manipulation
+           ├──common            # All the common components which might be used anywhere in the app.
+              ├──Notification
+                 ├──index.js
+                 ├──styles.scss
+              ├──Spinner
+                 ├──index.js
+                 ├──styles.scss
+          ├──pages              # root level containers for each page(Individual component wrapper for different url rotue)
+            ├──CourseList       # these are basically wrappers, they should't me more than 30-40 lines.
+               ├──index.js
+               ├──styles.scss
+          ├──routing           # Creating public and private routes for different pages.
+          ├──services          # Tools and utilities for date, time, string and numbmers
+          ├──sass              # app color css reference and mixins.
+    ├──docs                    # Some documentation about code and other things.
+    ├──.env.development        # development environment variables.
+    ├──package.json
+    ├──package-lock.json
+    ├── README.md
+
+</code></pre>
+<h3>Please don't get confuse and run away. We know the above structure was a bit long. But You have to agree that It was detailed, and if you look closely it's actually simple.:P</h3>
+<h3><img src="https://media.giphy.com/media/UB2GxvYsswbBu/giphy.gif" alt="Gif"> <br/></h3>
+<p><br/><br/>
+For example, we have component directory called <code>Course</code>. All the api, redux, redux-saga, and constant which are directly related with course entity will go inside <code>Course</code> component directory. So if anyone works with course related stuff, We want them to always stay inside the <code>Course</code> directory. Basically in the below file strucuture. </br></p>
+<pre class="prettyprint source"><code>
+ ├──components           
+    ├──Course            
+      ├──index.js
+      ├──styles.scss
+      ├──constants.js
+      ├──ChildComponent
+      ├──CourseList 
+      ├──redux          
+        ├──action.js    
+        ├──api.js       
+        ├──reducer.js   
+        ├──saga.js      
+        ├──util.js
+      ├──AnotherChildComponent
+
+</code></pre>
+<p>Note: Global constants will go in global <code>src/constant.js</code> file.</p>
+<h2>Understanding few parts of the code base</h2>
+<img src='src/asset/3idiots.jpg' width="450" />
+<h3>Tech Stack</h3>
+<ul>
+<li>React</li>
+<li>Redux (if you are new to redux, you can learn a bit about it <a href="https://redux.js.org/introduction/core-concepts">here</a>. )</li>
+<li>Redux-saga (we love redux-saga, Don't know about Redux-saga, don't worrry. You can get to know a bit about it <a href="https://flaviocopes.com/redux-saga/">here</a>.)</li>
+</ul>
+<p>Note: We can walk you through how we use redux and redux-saga. Please get in touch, we can give you short intro to redux and redux-saga.</p>
+<h3>How to do an API call and manage state</h3>
+<h4>We will Redux and Redux-Saga to do the API call and handle their response. It makes components life easy and keeps them small and less complex.</h4>
+<ul>
+<li><em>The whole point of using redux is to handle application state mangagement in much easier way. New to redux   <a href="https://redux.js.org/introduction/core-concepts">Learn here</a></em></li>
+<li><em>By using redux-saga we move away the complexity of doing a api call and handing the response in a specific file(i.e <code>saga.js</code> ) away from the UI logic. New to redux, <a href="https://flaviocopes.com/redux-saga/">Start from here to learn it</a></em></li>
+</ul>
+<h4>There are four files/concept that we need to update or change to do an API call.</h4>
+<ul>
+<li>Actions (aka <code>action.js</code>)</li>
+<li>Redux State(aka <code>reduceer.js</code>)</li>
+<li>API calls with axios(aka <code>api.js</code>)[ note: not applicable when doing something with local storage.]</li>
+<li>Redux middlewares(aka <code>saga.js</code>)</li>
+</ul>
+<p>TODO: add a visual image how the above things interact with each other.</p>
+<p>You can think of this flow, when you are implementing a API call.:-&gt; <br/> <br/>
+                  <code>Create actions</code> </br></p>
+<h3>                           ↓</h3>
+<p>               <code>Create redux state</code> </br></p>
+<h3>                           ↓</h3>
+<p>          <code>Create the API function</code></br></p>
+<h3>                           ↓</h3>
+<p>         <code>Create middlewares(saga)</code></br> </br></p>
+<h3>Create redux actions</h3>
+<p>Actions are a way to tell redux what state to update on what event. Basically they have a structure, Something like below.👇</p>
+<pre class="prettyprint source"><code>
+ { type: 'INCREASE_COUNT', data: 5}
+
+This above object will passed to redux through some function/API(aka Disptacher), 
+and the intuitive behaviour of this `action` should be that it increments `counter` variable in redux by 5.
+
+</code></pre>
+<p>When we do a API call, there are generally three kind of actions that we deal with.</p>
+<ul>
+<li><em>What to do when we call the API endpoint.</em></li>
+<li><em>What to do when we get a successful response from the API endpoint.</em></li>
+<li><em>What to do when we get a unsuccessful response from the API endpoint.</em>
+We define actions to corresponding main component redux directory. The file path looks something like this <code>src/components/componentName/redux/action.js</code> file. Let's take an example of getting user information. and How we can define actions for getting user's information.
+the actions should look like this.👇</li>
+</ul>
+<pre class="prettyprint source"><code>export const types = {
+  GET_USER_INTENT: 'GET_USER_INTENT',
+  GET_USER_INTENT_RESOLVED: 'GET_USER_INTENT_RESOLVED',
+  GET_USER_INTENT_REJECTED: 'GET_USER_INTENT_REJECTED',
+}
+
+export const actions = {
+  getUser(data) {
+    return {
+      type: types.GET_USER_INTENT,
+      data,
+    }
+  },
+  getUserResolved(data) {
+    return {
+      type: types.GET_USER_INTENT_RESOLVED,
+      data,
+    }
+  },
+  getUserRejected(error) {
+    return {
+      type: types.GET_USER_INTENT_REJECTED,
+      error,
+    }
+  },
+}
+
+</code></pre>
+<h3>Create redux state(aka reducer)</h3>
+<p>For state related things( keeping API rensponse data and error references), we create and manage state in <code>src/components/componentName/redux/reducer.js</code>. The code looks like this. 👇</p>
+<pre class="prettyprint source"><code>import { types } from './action'
+
+const initialState = {
+  loading: false,
+  error: false,
+  data: null,
+}
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case types.GET_USER_INTENT:
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        data: null,
+      }
+    case types.GET_USER_INTENT_RESOLVED:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: action.data, // mapped user data.
+      }
+
+    case types.GET_USER_INTENT_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error, // keeping reference of the error, When API call fails.
+        data: null,
+      }
+
+    default:
+      return state
+  }
+}
+
+</code></pre>
+<h3>Create API functions</h3>
+<p>To get data from server, we create API calls here. Mostly we do with <code>axios</code> library. The file path to create APIs looks like this <code>src/components/componentName/redux/api.js</code>. The API call looks like this. 👇</p>
+<pre class="prettyprint source"><code>import axios from 'axios'
+import { METHODS, HeaderFactory } from '../../../services/api'
+
+/**
+ * gets user data from the server.
+ *
+ * @param {opts} 
+ * @param {object} opts
+ * @returns {Promise}
+ */
+export const getUserData = (opts, tokens) => {
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/users/${opts.userId}`,
+    method: METHODS.GET,
+    headers: HeaderFactory(tokens)
+  })
+}
+</code></pre>
+<h3>Redux middlewars(aka redux-saga)</h3>
+<p>Middlewares are so useful, when we talk about handling async/api calls. We put saga middlewares in <code>src/components/componentName/redux/saga.js</code> file.
+It makes handling redux state easy and intutive. In start it might look a bit cumbersome or long. But after creating two or three API calls, you will get a hang of it. This is how we handle getting user data through redux saga middleware.</p>
+<pre class="prettyprint source"><code>import { takeLatest, put, call } from 'redux-saga/effects'
+
+import { types, actions } from './action'
+import { authorizeRequest, httpStatuses } from '../../../services/auth'
+import { getUserData } from './api'
+
+/**
+ * This handles gets user data from the server
+ * @param {object} data user information
+ * @param {object} data.userId user id which will be used to get user information
+*/
+function* handleGetUserData({ data }) {
+  const res = yield call(authorizeRequest, getUserData, data)
+  if(httpStatuses.SUCCESS.includes(res.status)) {
+    // if the api call was succesful, let's change the status according // to that. also setting `loading` as false. 
+    yield put(actions.getUserResolved(res.data))
+  } else {
+    // if the api call wasn't successful, let's set the error in redux /// for refernce.also setting `loading` as false. 
+    yield put(actions.getUserRejected(res))
+  } 
+}
+
+export default function* () {
+  // This action `types.GET_USER_INTENT` is also handled in the redux
+  // it sets `loading` as true. so we can show some loader when the API call
+  // is happening.
+  yield takeLatest(types.GET_USER_INTENT, handleGetUserData)
+}
+
+</code></pre>
+<h3>How we do Styling/CSS</h3>
+<p>Note: Soon, We will add our way of styling css here.
+<img src="https://i.imgur.com/YkuovuP.png" alt="CSS MEME"></p>
+<h3>In case of doubt</h3>
+<p>If you still have some doubt or suggestions, about how things works in this project. Please feel free to contact <a href="https://github.com/vikash-eatgeek">Vikash</a>, <a href="https://github.com/pysaquib">Saquib</a>, <a href="https://github.com/komalahire">Komal</a> or <a href="https://github.com/abhishekgupta92">Abhishek</a>. We are more than happy to get on a call and make things more clear to you. afterall, you are trying to build things with us.</p>
+<h3>Environment variables</h3>
+<ul>
+<li><em>You need a file called <code>.env.development</code> to start running the project locally and develop. Please get in touch with us. If you are interested in helping us.</em></li>
+</ul>
+<h2>Scripts that makes our day-to-day life easy.</h2>
+<p>In the project directory, you can run:</p>
+<h3><code>npm start</code></h3>
+<p>Runs the app in the development mode.<br />
+Open <a href="http://localhost:3000">http://localhost:3000</a> to view it in the browser.</p>
+<p>The page will reload if you make edits.<br />
+You will also see any lint errors in the console.</p>
+<h3><code>npm test</code></h3>
+<p>Launches the test runner in the interactive watch mode.<br />
+See the section about <a href="https://facebook.github.io/create-react-app/docs/running-tests">running tests</a> for more information.</p>
+<h3><code>npm run build</code></h3>
+<p>Builds the app for production to the <code>build</code> folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.</p>
+<p>The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!</p>
+<p>To run production build in the local environment please run following code after <code>npm run build</code>. [Note: Make sure you have all the production environment variable in <code>.env.production</code> file.]</p>
+<pre class="prettyprint source"><code> npm install -g serve
+ serve -s build
+</code></pre>
+<p>See the section about <a href="https://facebook.github.io/create-react-app/docs/deployment">deployment</a> for more information.</p>
+<p><strong>Happy coding :)</strong></p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SearchService.html">SearchService</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ErrorHandler">ErrorHandler</a></li><li><a href="global.html#FutureOrPast">FutureOrPast</a></li><li><a href="global.html#HeaderFactory">HeaderFactory</a></li><li><a href="global.html#METHODS">METHODS</a></li><li><a href="global.html#dateTimeFormat">dateTimeFormat</a></li><li><a href="global.html#differenceInMilliseconds">differenceInMilliseconds</a></li><li><a href="global.html#differenceInMinutes">differenceInMinutes</a></li><li><a href="global.html#format">format</a></li><li><a href="global.html#formatInTimeZone">formatInTimeZone</a></li><li><a href="global.html#getAllClasses">getAllClasses</a></li><li><a href="global.html#getCourseContent">getCourseContent</a></li><li><a href="global.html#getCourses">getCourses</a></li><li><a href="global.html#handleGetClasses">handleGetClasses</a></li><li><a href="global.html#handleGetCourseContent">handleGetCourseContent</a></li><li><a href="global.html#handleGetCourses">handleGetCourses</a></li><li><a href="global.html#handleUserData">handleUserData</a></li><li><a href="global.html#isBefore">isBefore</a></li><li><a href="global.html#isBeforeNow">isBeforeNow</a></li><li><a href="global.html#item">item</a></li><li><a href="global.html#makeDateFrom">makeDateFrom</a></li><li><a href="global.html#mapCourseContent">mapCourseContent</a></li><li><a href="global.html#millisecondsUntil">millisecondsUntil</a></li><li><a href="global.html#minutesUntil">minutesUntil</a></li><li><a href="global.html#selectRolesData">selectRolesData</a></li><li><a href="global.html#selectUserId">selectUserId</a></li><li><a href="global.html#sendGoogleUserData">sendGoogleUserData</a></li><li><a href="global.html#sendToken">sendToken</a></li><li><a href="global.html#timeLeftFormat">timeLeftFormat</a></li><li><a href="global.html#useRoles">useRoles</a></li><li><a href="global.html#useSearchQuery">useSearchQuery</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Thu Nov 17 2022 15:23:45 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
