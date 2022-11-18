@@ -25,7 +25,6 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import moment from "moment";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { breakpoints } from "../../../theme/constant";
@@ -43,6 +42,76 @@ function BoxComponent(props) {
   );
 }
 
+const DialogBox = ({
+  openDialog,
+  handleCloseDialog,
+  title,
+  contentText,
+  button1,
+  setSave,
+  save,
+}) => {
+  const params = useParams();
+  const classes = useStyles();
+  return (
+    <Dialog
+      open={openDialog}
+      onClose={handleCloseDialog}
+      aria-labelledby="alert-dialog-title"
+      classes={{ paper: classes.paper }}
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title" sx={{ pt: "32px" }}>
+        {title}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText
+          id="alert-dialog-description"
+          sx={{ color: "#2E2E2E" }}
+        >
+          {contentText}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions sx={{ pb: "32px", pr: "32px" }}>
+        {button1 === "Leave" ? (
+          <>
+            <Link
+              style={{ textDecoration: "none", marginRight: "25px" }}
+              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: params.exerciseId,
+                pathwayId: params.pathwayId,
+              })}
+            >
+              <Button color="error">Leave</Button>
+            </Link>
+            <Button sx={{ color: "#2E2E2E" }} onClick={handleCloseDialog}>
+              Keep Editing
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              sx={{ color: "#2E2E2E", mr: "20px" }}
+              onClick={handleCloseDialog}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSave(!save);
+              }}
+            >
+              Publish
+            </Button>
+          </>
+        )}
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 function ContentEdit() {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
@@ -55,6 +124,7 @@ function ContentEdit() {
   const [courseType, setCourseType] = useState();
   const [isShown, setIsShown] = useState(false);
   const [open, setOpen] = useState(false);
+  const [publishConfirmation, setPublishConfirmation] = useState(false);
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -200,6 +270,14 @@ function ContentEdit() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenPublishConfirmation = () => {
+    setPublishConfirmation(true);
+  };
+
+  const handleClosePublishConfirmation = () => {
+    setPublishConfirmation(false);
   };
 
   console.log("course in content edit", course);
@@ -357,46 +435,28 @@ function ContentEdit() {
           <ReactEditor course={course} id={id} save={save} />
         )}
       </Container>
+
       {open && (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          classes={{ paper: classes.paper }}
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            Editing is in Progress
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              id="alert-dialog-description"
-              sx={{ color: "#2E2E2E" }}
-            >
-              You have made several changes and would lose the changes without
-              publishing
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Link
-              style={{ textDecoration: "none", marginRight: "25px" }}
-              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: params.exerciseId,
-                pathwayId: params.pathwayId,
-              })}
-            >
-              <Button color="error">Leave</Button>
-            </Link>
-            <Button
-              style={{ color: "#2E2E2E", marginRight: "20px" }}
-              onClick={handleClose}
-            >
-              Keep Editing
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <DialogBox
+          openDialog={open}
+          handleCloseDialog={handleClose}
+          title="Editing is in Progress"
+          contentText="You have made several changes and would lose the changes without publishing"
+          button1="Leave"
+        />
       )}
+      {publishConfirmation && (
+        <DialogBox
+          openDialog={publishConfirmation}
+          handleCloseDialog={handleClosePublishConfirmation}
+          title="Ready to Publish?"
+          contentText="Make your latest edits available to students and educators"
+          button1="Back"
+          setSave={setSave}
+          save={save}
+        />
+      )}
+
       <Box>
         <Toolbar
           className={classes.bottomRow}
@@ -414,9 +474,7 @@ function ContentEdit() {
             style={{ position: "relative" }}
             variant="text"
             color="primary"
-            onClick={() => {
-              setSave(!save);
-            }}
+            onClick={handleOpenPublishConfirmation}
           >
             Publish
           </Button>

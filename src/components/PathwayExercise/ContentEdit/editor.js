@@ -105,10 +105,12 @@ function ReactEditor({ course, id, save }) {
         height: 320,
         width: 580,
         // withHeadings: true,
-        // content: content,
+        content: content,
       },
     };
   });
+
+  console.log("courseData", courseData);
 
   let blocks = courseData.filter((item, index) => {
     // const stringifiedItem = JSON.stringify(item);
@@ -214,6 +216,7 @@ function ReactEditor({ course, id, save }) {
     // https://editorjs.io/configuration#editor-modifications-callback
     console.log("Now I know that Editor's content changed!");
   };
+
   const onSave = async () => {
     // https://editorjs.io/saving-data
     try {
