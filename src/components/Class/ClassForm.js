@@ -616,7 +616,7 @@ function ClassForm({
           <Box
             className={classes.ModelBox}
             sx={{
-              width: { xs: 330, md: 500 },
+              width: { xs: 330, md: 510 },
               bgcolor: "background.paper",
             }}
           >
@@ -744,26 +744,22 @@ function ClassForm({
             </Stack>
             {partnerPathwayId && classFields.type === "batch" && (
               <Typography
-                variant="body2"
+                variant="body1"
                 color="text.secondary"
                 mb={isActive ? 3 : 4}
                 mt={2}
               >
-                {/* {partnerPathwayId == 1
-                  ? "The tutor has opted to teach Python learning track"
-                  : partnerPathwayId == 2
-                  ? "The tutor has opted to teach Spoken English learning track"
-                  : "The tutor has opted to teach both Python and Spoken English learning track"} */}
-
-                {partnerPathwayId.includes(1) && partnerPathwayId.includes(2)
+                {classFields.pathway_id == 1 && classFields.lang == "en"
                   ? "The tutor has opted to teach both Python and Spoken English learning track "
-                  : partnerPathwayId.includes(1)
+                  : classFields.pathway_id == 1
                   ? "The tutor has opted to teach Python learning track"
-                  : "The tutor has opted to teach Spoken English learning track"}
+                  : classFields.pathway_id == 2 &&
+                    "The tutor has opted to teach Spoken English learning track"}
               </Typography>
             )}
-            {partnerPathwayId?.length == 2 && classFields.type === "batch" && (
-              <>
+
+            {partnerPathwayId?.length == 1 && classFields.type === "batch" && (
+              <Grid mb={3}>
                 <Typography
                   variant="body2"
                   color="text.secondary"
@@ -773,6 +769,10 @@ function ClassForm({
                   Learning Track
                 </Typography>
                 <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  defaultValue="1"
                   onChange={(e) => {
                     setClassFields({
                       ...classFields,
@@ -791,31 +791,7 @@ function ClassForm({
                     label="Spoken English"
                   />
                 </RadioGroup>
-                {/* <RadioGroup
-                  value={[
-                    { value: 1, label: "Python" },
-                    { value: 2, label: "Spoken English" },
-                  ]}
-                >
-                  {[
-                    { value: 1, label: "Python" },
-                    { value: 2, label: "Spoken English" },
-                  ].map((item) => {
-                    return (
-                      <FormControlLabel
-                        key={item}
-                        value={item.value}
-                        name="Learning Track"
-                        control={<Radio />}
-                        // checked={}
-                        onChange={(e) => {
-                          setPartnerPathwayId(e.target.value);
-                        }}
-                      />
-                    );
-                  })}
-                </RadioGroup> */}
-              </>
+              </Grid>
             )}
 
             <TextField
