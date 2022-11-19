@@ -36,17 +36,24 @@ const firebaseConfig = {
 const appVerifier = window.recaptchaVerifier;
 
 function VerifyPhoneNo(props) {
-  const { setDisable, setContact, contact, ssnValues } = props;
+  const { setDisable, setContact, contact, setNextButton } = props;
   const app = initializeApp(firebaseConfig);
   console.log(app.name);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
     if (number.length <= 10) {
-      setContact(number);
+      setPhone(number);
     }
   };
   useEffect(() => {
     setDisable(true);
+    setNextButton(false);
+    if (contact) {
+      setDisable(false);
+      setNextButton(true);
+      setVerifyOpen(true);
+      setGenerateOtp(false);
+    }
   }, []);
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
@@ -60,8 +67,8 @@ function VerifyPhoneNo(props) {
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
-  const [countryCode, setCountryCode] = React.useState("+91");
-
+  const [countryCode, setCountryCode] = React.useState(contact.slice(0, 3));
+  const [phone, setPhone] = React.useState(contact.slice(3, 13));
   const setupRecaptcha = () => {
     console.log(firebaseConfig);
     const auth = getAuth();
@@ -80,6 +87,7 @@ function VerifyPhoneNo(props) {
   const [bgColor, setBgColor] = React.useState(false);
   const [verifyOpen, setVerifyOpen] = React.useState(false);
   const [close, setClose] = React.useState(true);
+  const [generateOtp, setGenerateOtp] = React.useState(true);
   const handleChangeInput = (newValue) => {
     if (isNaN(newValue)) return false;
     setOtp(newValue);
@@ -109,7 +117,7 @@ function VerifyPhoneNo(props) {
     if (!confirmationResult) {
       setupRecaptcha();
     }
-    const phoneNumber = `${countryCode}${contact}`;
+    const phoneNumber = `${countryCode}${phone}`;
     setContact(phoneNumber);
     const appVerifier = window.recaptchaVerifier;
     const auth = getAuth();
@@ -122,6 +130,7 @@ function VerifyPhoneNo(props) {
         setConfirmationResult(result);
         setIsStartTimer(true);
         countTimer();
+        setVerifyOpen(true);
       })
       .catch((error) => {
         console.log(error);
@@ -134,6 +143,7 @@ function VerifyPhoneNo(props) {
       .confirm(otp)
       .then((result) => {
         const user = result.user;
+
         if (!user.isAnonymous) {
           setMessage("Phone number verified successfully");
           setOpen(false);
@@ -141,6 +151,7 @@ function VerifyPhoneNo(props) {
           setIsStartTimer(false);
           setVerifyOpen(true);
           setClose(false);
+          setNextButton(true);
         }
       })
       .catch((error) => {
@@ -171,38 +182,44 @@ function VerifyPhoneNo(props) {
         never share it with any third party.
       </Typography>
       <Box sx={{ mt: 4 }}>
-        <Grid container spacing={2} maxWidth="md">
-          <Grid item xs={4}>
-            <MuiPhoneNumber
-              preferredCountries={["in"]}
-              defaultCountry={"in"}
-              variant="outlined"
-              id="countryCode"
-              value={countryCode}
-              onChange={(val) => {
-                setCountryCode(val);
-                return true;
-              }}
-            />
+        {generateOtp ? (
+          <Grid container spacing={2} maxWidth="md">
+            <Grid item xs={4}>
+              <MuiPhoneNumber
+                preferredCountries={["in"]}
+                defaultCountry={"in"}
+                variant="outlined"
+                id="countryCode"
+                value={countryCode}
+                onChange={(val) => {
+                  setCountryCode(val);
+                  return true;
+                }}
+              />
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                label="Ten Digit phone Number"
+                onChange={handleChange}
+                value={phone}
+                name="contact"
+                id="contact"
+                variant="outlined"
+                helperText="Enter Phone Number with Country Code"
+                fullWidth
+                maxLength={10}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={8}>
-            <TextField
-              label="Ten Digit phone Number"
-              onChange={handleChange}
-              value={contact}
-              name="contact"
-              id="contact"
-              variant="outlined"
-              helperText="Enter Phone Number with Country Code"
-              fullWidth
-              maxLength={12}
-            />
-          </Grid>
-        </Grid>
+        ) : (
+          <Typography>
+            {countryCode} {phone}
+          </Typography>
+        )}
 
-        {!startOtp && (
+        {!startOtp && generateOtp && (
           <Button
-            disabled={contact?.length < 10}
+            disabled={phone?.length < 10}
             id="sign-in-button"
             onClick={onSignInSubmit}
             style={{ marginTop: "10px" }}
@@ -227,11 +244,11 @@ function VerifyPhoneNo(props) {
               TextFieldsProps={{
                 type: "text",
                 size: "medium",
-                placeholder: bgColor ? "-" : "",
+                placeholder: bgColor && "-",
                 style: {
-                  border: bgColor ? "1px solid red" : "",
+                  border: bgColor && "1px solid #F44336",
                   borderRadius: "8px",
-                  width: "44px",
+                  width: "45px",
                 },
               }}
               label="OTP"
@@ -247,7 +264,7 @@ function VerifyPhoneNo(props) {
               disabled={otp.length < 6}
               id="sign-in-button"
               onClick={OtpEnter}
-              variant="outlined"
+              variant="contained"
               size="large"
             >
               Verify OTP
