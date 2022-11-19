@@ -56,6 +56,11 @@ function HorizontalLinearStepper() {
   const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const [open, setOpen] = React.useState(false);
+  const [nextButton, setNextButton] = React.useState("true");
+  const [countryCode, setCountryCode] = React.useState(
+    currentState.countryCode
+  );
+  const [phone, setPhone] = React.useState(currentState.phone);
 
   const current_time = new Date();
   const [availability, setAvailability] = React.useState(
@@ -110,6 +115,11 @@ function HorizontalLinearStepper() {
           contact={contact}
           setContact={setContact}
           setDisable={setDisable}
+          setNextButton={setNextButton}
+          phone={phone}
+          setPhone={setPhone}
+          countryCode={countryCode}
+          setCountryCode={setCountryCode}
         />
       ),
     },
@@ -369,15 +379,17 @@ function HorizontalLinearStepper() {
                   Go to Dashboard
                 </Button>
               ) : (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  endIcon={<ArrowForwardIosIcon />}
-                  onClick={handleNext}
-                  disabled={disable}
-                >
-                  Next
-                </Button>
+                nextButton && (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    endIcon={<ArrowForwardIosIcon />}
+                    onClick={handleNext}
+                    disabled={disable}
+                  >
+                    Next
+                  </Button>
+                )
               )}
             </Box>
           </Container>
