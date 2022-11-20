@@ -79,8 +79,11 @@ function ClassForm({
       : "",
     type: classToEdit.type || formType,
     pathway_id:
-      classToEdit.pathway_id || classToEdit.pathway_v2 || partnerPathwayId?.[0],
+      classToEdit?.pathway_id?.[0] ||
+      classToEdit?.pathway_v2?.[0] ||
+      partnerPathwayId?.[0],
     facilitator_id: "",
+    facilitator_name: classToEdit?.facilitator?.name || "",
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -711,8 +714,12 @@ function ClassForm({
             )}
             <Stack>
               <Autocomplete
-                // value={classFields.partner_id}
+                value={{
+                  label: classFields.facilitator_name,
+                  id: classFields.facilitator_id,
+                }}
                 // name="partner_id"
+
                 sx={{ mb: 3 }}
                 options={volunteer}
                 isOptionEqualToValue={(option, value) => {
@@ -721,7 +728,11 @@ function ClassForm({
                 onChange={(e, newVal) => {
                   setPartnerPathwayId(newVal?.pathway_id);
                   setClassFields((prev) => {
-                    return { ...prev, facilitator_id: newVal.id };
+                    return {
+                      ...prev,
+                      facilitator_id: newVal.id,
+                      facilitator_name: newVal.label,
+                    };
                   });
                 }}
                 freeSolo
