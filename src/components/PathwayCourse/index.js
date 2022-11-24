@@ -18,7 +18,7 @@ import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from './asset/certificate-grey.svg';
 import { ReactComponent as CertificateIconColored } from './asset/certificate-color.svg';
 import Modal from '@mui/material/Modal';
-import ReactPDF from "./ReactPDF.js";
+// import ReactPDF from "./ReactPDF.js";
 import {
   Container,
   Box,
@@ -177,9 +177,9 @@ function PathwayCourse() {
     setOpenModal(prev=>!prev);
   }
 
-  // const downloadCert = ()=>{
-  //   saveFile(certificate);
-  // }
+  const downloadCert = ()=>{
+    saveFile(certificate);
+  }
 
   const shareCertificate = ()=>{
     if (navigator.share !== undefined) {
@@ -327,13 +327,13 @@ function PathwayCourse() {
         <Box sx={modalStyle}>
           <Typography sx={{fontSize: "32px", fontWeight: "600"}}>{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
           <div className={classes.pdfWrapper}>
-            <iframe allowtransparency="true" border="0" className={classes.pdfFrame} src={`${certificate}#view=fit"`}></iframe>
+            <iframe allowtransparency="true" border="0" className={classes.pdfFrame} src={`${certificate}#toolbar=0`}></iframe>
             {/* <ReactPDF/> */}
           </div>
           <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
           <Box className={classes.certButtons}>
             <Button onClick={shareCertificate}>Share to Friends</Button>
-            {/* <Button onClick={downloadCert} className={classes.greenButton}>Get Certificate</Button> */}
+            <Button onClick={downloadCert} className={classes.greenButton}>Get Certificate</Button>
           </Box>
         </Box>
       </Modal>
