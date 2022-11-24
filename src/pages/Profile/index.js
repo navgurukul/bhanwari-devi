@@ -49,14 +49,14 @@ function Profile() {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const [userData, setUserData] = useState([]);
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState();
   const [msg, setMsg] = useState();
   const [LoadBatches, setLoadBatches] = useState(false);
   const dispatch = useDispatch();
   const [helperText, setHelperText] = useState();
   const [showError, setShowError] = useState(false);
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [imgDialogs, setImgDialoags] = useState(false);
   const [imgCrop, setImgCrop] = useState(false);
   const [storeImg, setStoreImg] = useState([]);
@@ -157,6 +157,8 @@ function Profile() {
   };
   // OTP AUTH FUNCTION
   useEffect(() => {
+    dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+
     setEditName(user.data.user.name);
     setUserData(user.data.user);
     console.log("user");
@@ -185,14 +187,14 @@ function Profile() {
     setMsg(true);
     axios({
       method: METHODS.PUT,
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/${user.data.user.id}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
       data: {
         name: editName,
-        contact: `${countryCode}-${contact}`,
+        contact: `${countryCode.replace("+", "")}-${contact}`,
       },
     }).then((res) => {
       dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
