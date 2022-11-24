@@ -18,7 +18,7 @@ import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from './asset/certificate-grey.svg';
 import { ReactComponent as CertificateIconColored } from './asset/certificate-color.svg';
 import Modal from '@mui/material/Modal';
-
+import ReactPDF from "./ReactPDF.js";
 import {
   Container,
   Box,
@@ -328,6 +328,7 @@ function PathwayCourse() {
           <Typography sx={{fontSize: "32px", fontWeight: "600"}}>{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
           <div className={classes.pdfWrapper}>
             <iframe allowtransparency="true" border="0" className={classes.pdfFrame} src={`${certificate}#view=fit"`}></iframe>
+            {/* <ReactPDF/> */}
           </div>
           <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
           <Box className={classes.certButtons}>
