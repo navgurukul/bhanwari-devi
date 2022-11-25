@@ -48,6 +48,8 @@ function ClassForm({
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
+  const [volunteer, setVolunteer] = useState([]);
+
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit.title || "",
@@ -82,8 +84,8 @@ function ClassForm({
       classToEdit?.pathway_id?.[0] ||
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
-    facilitator_id: "",
-    facilitator_name: classToEdit?.facilitator?.name || "",
+    volunteer_id: classToEdit?.volunteer_id || "",
+    facilitator_name: "",
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -117,7 +119,6 @@ function ClassForm({
     exercise: false,
     description: false,
   });
-  const [volunteer, setVolunteer] = useState([]);
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
@@ -575,7 +576,7 @@ function ClassForm({
       "pathway_id",
       "lang",
       "type",
-      "facilitator_id",
+      "volunteer_id",
     ];
     let payload;
     if (classFields.type === "doubt_class") {
@@ -716,7 +717,7 @@ function ClassForm({
               <Autocomplete
                 value={{
                   label: classFields.facilitator_name,
-                  id: classFields.facilitator_id,
+                  id: classFields.volunteer_id,
                 }}
                 // name="partner_id"
 
@@ -730,7 +731,7 @@ function ClassForm({
                   setClassFields((prev) => {
                     return {
                       ...prev,
-                      facilitator_id: newVal.id,
+                      volunteer_id: newVal.id,
                       facilitator_name: newVal.label,
                     };
                   });
