@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   pdfWrapper: {
-    height: (props)=>props.isActive ? "200px":"400px"
+    height: (props)=>props.isActive ? "200px":"390px"
   }
 }));
 

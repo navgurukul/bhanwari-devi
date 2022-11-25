@@ -119,8 +119,7 @@ function PathwayCourse() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  //const completedAll = (completedPortion?.total === 100);
-  const completedAll = true;
+  const completedAll = (completedPortion?.total === 100);
   const displayCert = (pathwayId == 1);
 
   const modalStyle = {
@@ -332,7 +331,7 @@ function PathwayCourse() {
           </div>
           <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
           <Box className={classes.certButtons}>
-            <Button onClick={shareCertificate}>Share to Friends</Button>
+            {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
             <Button onClick={downloadCert} className={classes.greenButton}>Get Certificate</Button>
           </Box>
         </Box>
