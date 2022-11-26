@@ -10,6 +10,7 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
+
 // import PhoneInput from "../common/PhoneInput";
 import {
   getAuth,
@@ -19,7 +20,6 @@ import {
 import { initializeApp } from "firebase/app";
 import { number } from "prop-types";
 import { MuiOtpInput } from "mui-one-time-password-input";
-import { borderRadius, width } from "@mui/system";
 
 // import AppConfig from "App.config";
 import MuiPhoneNumber from "material-ui-phone-number";
@@ -34,6 +34,8 @@ const firebaseConfig = {
 };
 
 const appVerifier = window.recaptchaVerifier;
+
+const CountryList = require("country-list-with-dial-code-and-flag");
 
 function VerifyPhoneNo(props) {
   const { setDisable, setContact, contact, setNextButton } = props;
@@ -67,8 +69,8 @@ function VerifyPhoneNo(props) {
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
-  const [countryCode, setCountryCode] = React.useState(contact.slice(0, 3));
-  const [phone, setPhone] = React.useState(contact.slice(3, 13));
+  const [countryCode, setCountryCode] = React.useState("+91");
+  const [phone, setPhone] = React.useState("");
   const setupRecaptcha = () => {
     console.log(firebaseConfig);
     const auth = getAuth();
@@ -88,6 +90,7 @@ function VerifyPhoneNo(props) {
   const [verifyOpen, setVerifyOpen] = React.useState(false);
   const [close, setClose] = React.useState(true);
   const [generateOtp, setGenerateOtp] = React.useState(true);
+  const sliceLength = countryCode.length;
   const handleChangeInput = (newValue) => {
     if (isNaN(newValue)) return false;
     setOtp(newValue);
@@ -130,7 +133,7 @@ function VerifyPhoneNo(props) {
         setConfirmationResult(result);
         setIsStartTimer(true);
         countTimer();
-        setVerifyOpen(true);
+        setVerifyOpen(false);
       })
       .catch((error) => {
         console.log(error);
@@ -161,6 +164,7 @@ function VerifyPhoneNo(props) {
         setBgColor(true);
       });
   };
+  console.log(sliceLength);
   //International
   // const handleChange = (number, countryInfo, phoneType) => {
   //   const isValid = !!phoneType;
@@ -168,7 +172,15 @@ function VerifyPhoneNo(props) {
   //   setDisable(!isValid);
   //   setContact(number);
   //   //setContact(number.replace(/[^0-9]/g, "") || "");
+
   // };
+  // const	flagImg= `https://flagpedia.net/data/flags/h80/in.webp`
+  // console.log(flagImg)
+  // const filtersFlags = findFlagsByDialCode(countryCode);
+  // console.log(filtersFlags)
+
+  const countryData = CountryList.findFlagByDialCode(countryCode);
+  // console.log(countryData.flag)
 
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
@@ -192,7 +204,8 @@ function VerifyPhoneNo(props) {
                 id="countryCode"
                 value={countryCode}
                 onChange={(val) => {
-                  setCountryCode(val);
+                  setCountryCode(countryCode);
+
                   return true;
                 }}
               />
@@ -212,9 +225,17 @@ function VerifyPhoneNo(props) {
             </Grid>
           </Grid>
         ) : (
-          <Typography>
-            {countryCode} {phone}
-          </Typography>
+          <Grid container spacing={2} maxWidth="md">
+            <Grid item>
+              <Box>{countryData.flag}</Box>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">
+                {/* {contact.slice(0, sliceLength)} */}
+                {contact}
+              </Typography>
+            </Grid>
+          </Grid>
         )}
 
         {!startOtp && generateOtp && (

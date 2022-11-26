@@ -35,6 +35,7 @@
     "@tippyjs/react": "^4.2.6",
     "axios": "^0.26.1",
     "connected-react-router": "^6.8.0",
+    "country-list-with-dial-code-and-flag": "^3.0.2",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.3.6",
     "dompurify": "^2.3.3",
@@ -54,8 +55,11 @@
     "rc-slider": "^9.7.2",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.4",
+    "react-country-flag": "^3.0.2",
+    "react-custom-flag-select": "^3.0.9",
     "react-dom": "^16.13.1",
     "react-editor-js": "^2.1.0",
+    "react-feature-flags": "^1.0.0",
     "react-google-login": "^5.1.22",
     "react-highlight": "^0.14.0",
     "react-icons": "^4.2.0",
@@ -74,7 +78,8 @@
     "rehype-sanitize": "^4.0.0",
     "remark-gfm": "^1.0.0",
     "slick-carousel": "^1.8.1",
-    "use-debounce": "^6.0.1"
+    "use-debounce": "^6.0.1",
+    "webnexs-country-code": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
