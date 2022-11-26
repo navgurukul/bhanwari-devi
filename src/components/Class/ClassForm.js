@@ -52,7 +52,7 @@ function ClassForm({
 
   const [classFields, setClassFields] = useState({
     category_id: 3,
-    title: classToEdit.title || "",
+    title: classToEdit?.title || "",
     partner_id: classToEdit.partner_id || [],
     date: classToEdit.start_time
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
@@ -324,9 +324,7 @@ function ClassForm({
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
   };
-  useEffect(() => {
-    console.log(classFields.pathway_id);
-  }, [classFields]);
+
   const handleDaySelection = (e) => {
     const index = classFields.on_days.indexOf(e.target.value);
     if (index === -1) {
@@ -378,6 +376,14 @@ function ClassForm({
       setVolunteer(volunteers);
     });
   }, []);
+  const [selectedPartners, setSelectedPartners] = useState([]);
+  useEffect(() => {
+    let datass = partnerData.filter((item) => {
+      return classFields.partner_id.includes(item.id);
+    });
+    setSelectedPartners(datass);
+    console.log(selectedPartners, datass);
+  }, [partnerData]);
   const convertToIST = (d) => {
     const b = d.split(/\D+/);
     const dateInObj = new Date(
@@ -865,13 +871,14 @@ function ClassForm({
               <Stack>
                 <Autocomplete
                   multiple
-                  // value={classFields.partner_id}
+                  value={selectedPartners}
                   name="partner_id"
                   options={partnerData}
                   isOptionEqualToValue={(option, value) => {
                     return option.id === value.id;
                   }}
                   onChange={(e, newVal) => {
+                    setSelectedPartners(newVal);
                     setClassFields({
                       ...classFields,
                       ["partner_id"]: newVal.map((item) => item.id),
