@@ -36,15 +36,12 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     left: "24px",
     marginLeft: "10px",
-    marginTop: "24px",
+    marginTop: "200px",
   },
   ContentListIcon: {
     color: "#6D6D6D",
     width: "20px",
     height: "28px",
-    verticalAlign: "baseline",
-    marginTop: "32px",
-    marginRight: "8px",
   },
 }));
 
