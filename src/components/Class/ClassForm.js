@@ -85,7 +85,7 @@ function ClassForm({
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
-    facilitator_name: "",
+    facilitator_name: classToEdit?.volunteer?.name || "",
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -371,7 +371,7 @@ function ClassForm({
       const volunteers = res?.data?.map((item, index) => {
         return {
           label: item.name,
-          id: item.id,
+          id: item.volunteer_id,
           pathway_id: item.pathway_id,
         };
       });
@@ -529,7 +529,7 @@ function ClassForm({
           }
           i = i + 1;
         }
-        // classFields.date = moment.utc(newDate).format("YYYY-MM-DD");
+        // Fields.date = moment.utc(newDate).format("YYYY-MM-DD");
         classFields.date = formatInUtc(newDate, "yyyy-MM-dd");
       } else {
         classFields.date = classFields.date;
