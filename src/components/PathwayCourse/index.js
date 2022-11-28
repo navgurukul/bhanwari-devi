@@ -126,8 +126,9 @@ function PathwayCourse() {
     );
   });
 
-  const history = useHistory();
+  console.log("upcomingBatchesData", upcomingBatchesData);
 
+  const history = useHistory();
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
@@ -149,6 +150,7 @@ function PathwayCourse() {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
+        console.log("response", response);
         response.data.pathway.map((item) => {
           setCompletedPortionJason((prevState) => ({
             ...prevState,
@@ -191,6 +193,20 @@ function PathwayCourse() {
     return item.id == pathwayId;
   });
 
+  let SupplementalCourse;
+  let filterPathwayCourse;
+
+  if (pathwayId == 2) {
+    filterPathwayCourse = pathwayCourse?.data?.courses.filter(
+      (item) => item?.name === "Spoken-English"
+    );
+
+    SupplementalCourse = pathwayCourse?.data?.courses.filter(
+      (item) => item?.name !== "Spoken-English"
+    );
+  } else {
+    filterPathwayCourse = pathwayCourse?.data?.courses;
+  }
   return (
     <>
       {enrolledBatches && !loading ? (
@@ -209,8 +225,8 @@ function PathwayCourse() {
       )}
 
       <Container
-        className={classes.pathwayContainer}
-        mt={isActive ? 0 : 50}
+        // className={classes.pathwayContainer}
+        mt={isActive ? 0 : 55}
         mb={isActive ? 32 : 48}
         maxWidth="lg"
       >
@@ -389,71 +405,66 @@ function PathwayCourse() {
             Courses
           </Typography>
           <Grid container spacing={3} align="center">
-            {pathwayCourse &&
-              pathwayCourse.data &&
-              pathwayCourse.data.courses.map((item, index) => (
-                <Grid xs={12} md={3} className={classes.courseCard}>
-                  <Link
-                    className={classes.pathwayLink}
-                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                      courseId: item.id,
-                      exerciseId: 0,
-                      pathwayId: pathwayId,
-                    })}
+            {filterPathwayCourse?.map((item, index) => (
+              <Grid xs={12} md={3} className={classes.courseCard}>
+                <Link
+                  className={classes.pathwayLink}
+                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                    courseId: item.id,
+                    exerciseId: 0,
+                    pathwayId: pathwayId,
+                  })}
+                >
+                  <Card
+                    className={classes.pathwayCard}
+                    elevation={0}
+                    sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
                   >
-                    <Card
-                      className={classes.pathwayCard}
-                      elevation={0}
-                      sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
+                    <img
+                      className={classes.courseImage}
+                      src={item.logo}
+                      alt="course"
+                    />
+                    <CardContent
+                      sx={{
+                        height: isActive ? "60px" : "70px",
+                        p: isActive ? "0px" : "0px 8px 0px 0px",
+                      }}
                     >
-                      <img
-                        className={classes.courseImage}
-                        src={item.logo}
-                        alt="course"
-                      />
-                      <CardContent
-                        sx={{
-                          height: isActive ? "60px" : "70px",
-                          p: isActive ? "0px" : "0px 8px 0px 0px",
-                        }}
-                      >
-                        <div
-                          className={classes.courseTitleNumber}
-                          disableGutters
+                      <div className={classes.courseTitleNumber} disableGutters>
+                        <Typography
+                          align={isActive ? "center" : "left"}
+                          variant="body2"
+                          className={classes.courseName}
+                          sx={{
+                            mr: "10px",
+                            padding: isActive ? "5px" : "5px 0 5px 13px",
+                            verticalAlign: "top",
+                          }}
                         >
-                          <Typography
-                            align={isActive ? "center" : "left"}
-                            variant="body2"
-                            className={classes.courseName}
-                            sx={{
-                              mr: "10px",
-                              padding: isActive ? "5px" : "5px 0 5px 13px",
-                              verticalAlign: "top",
-                            }}
-                          >
-                            {index + 1}
-                          </Typography>
-                          <Typography
-                            align={isActive ? "center" : "left"}
-                            variant="body1"
-                          >
-                            {item.name}
-                          </Typography>
-                        </div>
-                      </CardContent>
-                      <CardActions
-                        sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
-                      >
-                        <LinearProgress
-                          className={classes.progressBar}
-                          variant="determinate"
-                          value={parseInt(completedPortionJason[item.id]) || 0}
-                        />
-                      </CardActions>
-                    </Card>
-                  </Link>
-                </Grid>
-              ))}
+                          {index + 1}
+                        </Typography>
+                        <Typography
+                          align={isActive ? "center" : "left"}
+                          variant="body1"
+                        >
+                          {item.name}
+                        </Typography>
+                      </div>
+                    </CardContent>
+                    <CardActions
+                      sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                    >
+                      <LinearProgress
+                        className={classes.progressBar}
+                        variant="determinate"
+                        value={parseInt(completedPortionJason[item.id]) || 0}
+                      />
+                    </CardActions>
+                  </Card>
+                </Link>
+              </Grid>
+            ))}
           </Grid>
           {/* <Grid  sx={{mb:15}}align="center">
             <Grid sx={{mb:3}} >
@@ -514,6 +525,44 @@ function PathwayCourse() {
             ""
           )}
         </Box>
+
+        {SupplementalCourse && (
+          <Box sx={{}}>
+            <Typography variant="h6">Supplemental English Courses</Typography>
+            <Grid sx={{ mt: 4 }} container spacing={3} align="center">
+              {SupplementalCourse?.map((item, index) => (
+                <Grid xs={12} md={3} className={classes.courseCard}>
+                  <Link
+                    className={classes.pathwayLink}
+                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                      courseId: item.id,
+                      exerciseId: 0,
+                      pathwayId: pathwayId,
+                    })}
+                  >
+                    <Card
+                      className={classes.SupplementalCard}
+                      elevation={2}
+                      sx={{ ml: 3, p: "16px", mb: isActive ? "12px" : "16px" }}
+                    >
+                      <CardContent
+                        sx={{
+                          height: isActive ? "60px" : "70px",
+                          p: isActive ? "0px" : "0px 8px 0px 0px",
+                          mt: 3,
+                        }}
+                      >
+                        <Typography align="center" variant="body1">
+                          {item.name}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
       </Container>
     </>
   );

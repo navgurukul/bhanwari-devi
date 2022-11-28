@@ -26,6 +26,7 @@ function SearchCourse() {
   // const query = new URLSearchParams(useLocation().search).get("search");
   // const query = useSearchQuery();
   const [search, setSearch] = useState("");
+  const [focus, setFocus] = useState(true);
   useSearchQuery(setSearch);
   const history = useHistory();
   const classes = useStyles();
@@ -42,7 +43,11 @@ function SearchCourse() {
   // useEffect(() => setSearch(query || ""), [query]);
 
   const handleSearchChange = (e) => {
-    history.push(`?search=${e.target.value}`);
+    if (!e.target.value) {
+      history.replace(`/search-course`);
+    } else {
+      history.replace(`?search=${e.target.value}`);
+    }
     e.preventDefault();
     setSearch(e.target.value);
   };
@@ -85,14 +90,20 @@ function SearchCourse() {
         Search Courses...
       </Typography>
       <Container maxWidth="sm">
-        <TextField
-          id="outlined-basic"
-          label="Search for course..."
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={handleSearchChange}
-        />
+        {focus && (
+          <TextField
+            label="Search for course..."
+            variant="outlined"
+            inputRef={(input) => {
+              if (input != null) {
+                input.focus();
+              }
+            }}
+            fullWidth
+            value={search}
+            onChange={handleSearchChange}
+          />
+        )}
       </Container>
       <Box className={classes.box} sx={{ mt: 5 }}>
         {search ? (
@@ -105,7 +116,12 @@ function SearchCourse() {
                   </Typography>
                   <Grid container spacing={3} align="center">
                     {pathway.courses.map((item, index) => (
-                      <Grid xs={12} md={3} className={classes.courseCard}>
+                      <Grid
+                        key={index}
+                        xs={12}
+                        md={3}
+                        className={classes.courseCard}
+                      >
                         <Link
                           className={classes.pathwayLink}
                           to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

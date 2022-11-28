@@ -11,6 +11,8 @@ import {
   Typography,
   Button,
   Container,
+  FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
 import useStyles from "./styles";
@@ -28,6 +30,7 @@ function Profile() {
   const [helperText, setHelperText] = useState();
   const [showError, setShowError] = useState(false);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   useEffect(() => {
     setEditName(user.data.user.name);
     setUserData(user.data.user);
@@ -70,6 +73,7 @@ function Profile() {
       setUserData(res.data.user);
     });
   };
+
   return (
     <>
       {/* <div className={classes.imageContainer}>
@@ -78,7 +82,7 @@ function Profile() {
       <Container maxWidth="lg">
         <div item xs={12} md={6} className={classes.profileBox} align="center">
           <Avatar
-            alt="Remy Sharp"
+            alt={userData.name}
             src={userData.profile_picture}
             sx={{ height: 100, width: 100, mt: isActive ? 3 : 0 }}
           />

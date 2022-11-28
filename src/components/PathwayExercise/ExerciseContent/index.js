@@ -10,6 +10,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
 // import { actions as courseActions } from "../../../components/Course/redux/action";
 import { actions as enrolledBatchesActions } from "../../PathwayCourse/redux/action";
+import { breakpoints } from "../../../theme/constant";
 
 import Assessment from "../ExerciseContent/Assessment";
 import {
@@ -78,7 +79,7 @@ const headingVarients = {};
     (headingVarients[index + 1] = (data) => (
       <UnsafeHTML
         Container={Name}
-        className="heading"
+        // className={classes.heading}
         html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
@@ -118,9 +119,13 @@ const RenderDoubtClass = ({ data, exercise }) => {
 
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   if (data.component === "header") {
-    return headingVarients[data.variant](
-      DOMPurify.sanitize(get(data, "value"))
+    return (
+      <Box className={classes.heading}>
+        {headingVarients[data.variant](DOMPurify.sanitize(get(data, "value")))}
+      </Box>
     );
   }
   if (data.component === "image") {
@@ -139,7 +144,7 @@ const RenderContent = ({ data, exercise }) => {
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <Box className={classes.List}>
-          <CircleIcon sx={{ pr: 2, width: "7px" }} />
+          <CircleIcon sx={{ pr: "12px", width: "7px" }} />
           <Typography
             variant="body1"
             dangerouslySetInnerHTML={{ __html: text }}
@@ -152,9 +157,9 @@ const RenderContent = ({ data, exercise }) => {
         <Box className={classes.List}>
           <Typography
             variant="body1"
-            sx={{ pr: 1 }}
+            sx={{ pr: "3px" }}
             className={classes.contentNumber}
-            dangerouslySetInnerHTML={{ __html: data.decoration.value }}
+            dangerouslySetInnerHTML={{ __html: data.decoration.value + "." }}
           />
           <Typography
             variant="body1"
@@ -166,9 +171,7 @@ const RenderContent = ({ data, exercise }) => {
     } else {
       return (
         <Typography
-          style={{
-            margin: "2rem 0",
-          }}
+          sx={{ margin: "8px 0" }}
           variant="body1"
           dangerouslySetInnerHTML={{ __html: text }}
         />
@@ -182,17 +185,18 @@ const RenderContent = ({ data, exercise }) => {
     );
     return (
       <TableContainer>
-        <Table stickyHeader>
+        <Table>
           <TableHead>
-            <TableRow>
+            <TableRow
+              sx={{
+                position: "sticky",
+              }}
+            >
               {data.value.map((item) => {
                 const header = DOMPurify.sanitize(item.header);
                 return (
                   <TableCell
-                    style={{
-                      fontWeight: "bold",
-                    }}
-                    sx={{ background: "#F5F5F5" }}
+                    sx={{ background: "#F5F5F5", fontWeight: "bold" }}
                     className={classes.tableHead}
                     dangerouslySetInnerHTML={{ __html: header }}
                   />
@@ -290,8 +294,10 @@ function ExerciseContent({
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(true);
+  const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     if (cashedData?.length > 0) {
@@ -308,28 +314,45 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId]);
-      setContent(res.data.course.exercises[exerciseId]?.content);
-      setCourseData(res.data.course.exercises[exerciseId]);
-      setCashedData(res.data.course.exercises);
+      setCourse(res.data.course?.name);
+      setExercise(res.data.course?.exercises[exerciseId]);
+      setContent(res.data.course?.exercises[exerciseId]?.content);
+      setCourseData(res.data.course?.exercises[exerciseId]);
+      setCashedData(res.data.course?.exercises);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[params.exerciseId]);
-      setContent(res.data.course.exercises[params.exerciseId]?.content);
-      setCourseData(res.data.course.exercises[params.exerciseId]);
-      setCashedData(res.data.course.exercises);
+      setCourse(res?.data?.name);
+      setExercise(res?.data?.course?.exercises?.[params.exerciseId]);
+      setContent(res?.data?.course?.exercises?.[params.exerciseId]?.content);
+      setCourseData(res?.data?.course?.exercises?.[params.exerciseId]);
+      setCashedData(res?.data?.course?.exercises);
     });
   }, [courseId, lang]);
+
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
+
+  useEffect(() => {
+    if (exercise?.content_type === "assessment") {
+      console.log("Assessment", exercise);
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setAssessmentResult(res.data);
+      });
+    }
+  }, [exerciseId, exercise?.content_type, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -357,12 +380,6 @@ function ExerciseContent({
           authToken: user?.data?.token,
         })
       );
-      // dispatch(
-      //   upcomingClassActions.getupcomingEnrolledClasses({
-      //     pathwayId: pathwayId,
-      //     authToken: user?.data?.token,
-      //   })
-      // );
     }
   }, [params.pathwayId]);
 
@@ -412,7 +429,10 @@ function ExerciseContent({
           </Grid>
         </Grid>
 
-        <Container maxWidth="sm">
+        <Container
+          // style={{ maxWidth: !isActive && "700px" }}
+          maxWidth="sm"
+        >
           {desktop ? (
             <PersistentDrawerLeft
               setSelected={setSelected}
@@ -461,6 +481,7 @@ function ExerciseContent({
           )}
           {exercise && exercise.content_type === "assessment" && (
             <Assessment
+              res={assessmentResult}
               data={content}
               exerciseId={exercise.id}
               courseData={courseData}
