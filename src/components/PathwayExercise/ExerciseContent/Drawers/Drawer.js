@@ -82,7 +82,7 @@ function Item({
               ) : (
                 ""
               )}
-              {index+". "}
+              {(index+1)+". "}
               {title === "assessment" ? "Practice Question" : title}
             </Typography>
           </ListItemButton>
