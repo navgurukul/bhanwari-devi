@@ -2,6 +2,7 @@ export const AUTH_KEY = "__AUTH__";
 
 export const PATHS = {
   HOME_PATH: "/",
+  HOME_PAGE: "/home",
   LOGIN: "/login",
   CLASS: "/class",
   COURSE: "/course",
@@ -14,6 +15,7 @@ export const PATHS = {
   MENTOR: "/mentor",
   USER: "/user",
   PROFILE: "/profile",
+  ME: "/me",
   PRIVACY_POLICY: "/privacy",
   AFE: "/amazon-future-engineer",
   PARTNERS: "/partner",
