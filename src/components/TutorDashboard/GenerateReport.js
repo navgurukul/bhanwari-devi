@@ -21,7 +21,7 @@ import moment from "moment";
 import { format } from "../../common/date";
 
 const GenerateReport = (props) => {
-  var d = new Date();
+  // var d = new Date();
   const classes = useStyles();
 
   const {
@@ -39,7 +39,7 @@ const GenerateReport = (props) => {
   const [value, setValue] = React.useState("1");
   const widthOfMoal = value === "custom" ? "602px" : "458px";
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [selectedOption, setSelectedOption] = useState("active");
+  // const [selectedOption, setSelectedOption] = useState("active");
 
   var wscols = [
     { wch: 10 },
@@ -179,7 +179,7 @@ const GenerateReport = (props) => {
     // set width of columns
     workSheet["!cols"] = wscols;
     //buffer
-    let bef = XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    // let bef = XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
     XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
     XLSX.writeFile(workBook, "tutorReport.xlsx");
   };
@@ -317,7 +317,6 @@ const GenerateReport = (props) => {
           <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue={selectedOption}
               name="radio-buttons-group"
               row
             >
