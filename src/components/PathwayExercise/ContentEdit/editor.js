@@ -160,6 +160,7 @@ function ReactEditor({ course, id, save }) {
       } else if (item.type === "paragraph") {
         component = "text";
         value = item.data.text;
+        console.log("Value", value);
       } else if (item.type == "header") {
         component = item.type;
         value = item.data.text;
