@@ -58,7 +58,7 @@ function ClassForm({
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
-      ? classToEdit.parent_class.on_days.split(",")
+      ? classToEdit.parent_class?.on_days.split(",")
       : [],
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
@@ -719,60 +719,52 @@ function ClassForm({
                 <FormHelperText>{helperText.exercise}</FormHelperText>
               </FormControl>
             )}
-            <Stack>
-              <Autocomplete
-                value={{
-                  label: classFields.facilitator_name,
-                  id: classFields.volunteer_id,
-                }}
-                // name="partner_id"
+            <Autocomplete
+              value={{
+                label: classFields.facilitator_name,
+                id: classFields.volunteer_id,
+              }}
+              // name="partner_id"
 
-                sx={{ mb: 3 }}
-                options={volunteer}
-                isOptionEqualToValue={(option, value) => {
-                  return option.id === value.id;
-                }}
-                onChange={(e, newVal) => {
-                  setPartnerPathwayId(newVal?.pathway_id);
-                  setClassFields((prev) => {
-                    return {
-                      ...prev,
-                      volunteer_id: newVal.id,
-                      facilitator_name: newVal.label,
-                    };
-                  });
-                }}
-                freeSolo
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    id="outlined-error-helper-text"
-                    error={showError.partner}
-                    onClick={() => {
-                      // setOnInput((prev) => {
-                      //   return { ...prev, partner: true };
-                      // });
-                    }}
-                    helperText={helperText.partner}
-                    variant="outlined"
-                    label="For Tutor"
-                  />
-                )}
-              />
-            </Stack>
+              sx={{ mb: 3 }}
+              options={volunteer}
+              isOptionEqualToValue={(option, value) => {
+                return option.id === value.id;
+              }}
+              onChange={(e, newVal) => {
+                setPartnerPathwayId(newVal?.pathway_id);
+                setClassFields((prev) => {
+                  return {
+                    ...prev,
+                    volunteer_id: newVal?.id,
+                    facilitator_name: newVal?.label,
+                  };
+                });
+              }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="outlined-error-helper-text"
+                  error={showError.partner}
+                  onClick={() => {
+                    // setOnInput((prev) => {
+                    //   return { ...prev, partner: true };
+                    // });
+                  }}
+                  helperText={helperText.partner}
+                  variant="outlined"
+                  label="For Tutor"
+                />
+              )}
+            />
             {partnerPathwayId && classFields.type === "batch" && (
               <Typography
                 variant="body2"
                 color="text.secondary"
-                mb={isActive ? 3 : 4}
-                mt={2}
+                // mb={isActive ? 3 : 4}
+                mb={3}
               >
-                {/* {partnerPathwayId == 1
-                  ? "The tutor has opted to teach Python learning track"
-                  : partnerPathwayId == 2
-                  ? "The tutor has opted to teach Spoken English learning track"
-                  : "The tutor has opted to teach both Python and Spoken English learning track"} */}
-
                 {partnerPathwayId.includes(1) && partnerPathwayId.includes(2)
                   ? "The tutor has opted to teach both Python and Spoken English learning track "
                   : partnerPathwayId.includes(1)
