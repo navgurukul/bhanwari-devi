@@ -41,6 +41,7 @@ const Routing = () => {
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
+      <Route exact path={PATHS.HOME_PAGE} component={Home} />
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       <Route
         exact
@@ -104,6 +105,7 @@ const Routing = () => {
         component={StatePartnerDashboard}
       />
       <PrivateRoute exact path={PATHS.PROFILE} component={Profile} />
+      <PrivateRoute exact path={PATHS.ME} component={Profile} />
       <PrivateRoute
         exact
         path={PATHS.VOLUNTEER}
