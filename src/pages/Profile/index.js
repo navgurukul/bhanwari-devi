@@ -61,6 +61,7 @@ function Profile() {
   const [imgCrop, setImgCrop] = useState(false);
   const [storeImg, setStoreImg] = useState([]);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [new_Profiles, setNew_Profiles] = useState(userData.profile_picture);
   const [countryCode, setCountryCode] = useState(
     `+${user?.data?.user?.contact?.split("-")?.[0]}` || "+91"
   );
@@ -195,6 +196,7 @@ function Profile() {
       data: {
         name: editName,
         contact: `${countryCode.replace("+", "")}-${contact}`,
+        profile_picture: new_Profiles,
       },
     }).then((res) => {
       dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
@@ -218,6 +220,11 @@ function Profile() {
           <img
             alt={userData.name}
             // src={userData.profile_picture}//
+            style={{
+              height: 100,
+              width: 100,
+              borderRadius: "50%",
+            }}
             src={New_Profile.length ? New_Profile : userData.profile_picture}
           />
           {isEditing ? (
@@ -270,6 +277,39 @@ function Profile() {
                           width={300}
                           height={200}
                           onExit={onExit}
+                          onFileLoad={(file) => {
+                            console.log("onFileLoad", file);
+                            const formDatas = new FormData();
+                            formDatas.append("image", file);
+                            fetch(
+                              `${process.env.REACT_APP_MERAKI_URL}/courseEditor/ImageUploadS3`,
+                              {
+                                headers: {
+                                  accept: "application/json, text/plain, */*",
+                                  "accept-language":
+                                    "en-GB,en-US;q=0.9,en;q=0.8",
+                                  "sec-ch-ua":
+                                    '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
+                                  "sec-ch-ua-mobile": "?0",
+                                  "sec-ch-ua-platform": '"Windows"',
+                                  "sec-fetch-dest": "empty",
+                                  "sec-fetch-mode": "cors",
+                                  "sec-fetch-site": "cross-site",
+                                },
+                                referrerPolicy:
+                                  "strict-origin-when-cross-origin",
+                                body: formDatas,
+                                method: "POST",
+                                mode: "cors",
+                                credentials: "omit",
+                              }
+                            ).then((res) => {
+                              res.json().then((data) => {
+                                console.log(data.file.url);
+                                setNew_Profiles(data.file.url);
+                              });
+                            });
+                          }}
                           onCrop={onCrop}
                         />
                         <Button onClick={saveImg}>Save</Button>
