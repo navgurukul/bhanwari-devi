@@ -44,6 +44,7 @@ function HorizontalLinearStepper() {
   const roles = user?.data?.user.rolesList; // TODO: Use selector for this
   const uid = user?.data?.user.id; // TODO: Factor out common logic used for selected role PR # 660
   const allUsersState = getObjectState("volunteer_automation", "state");
+  console.log(allUsersState, "4567890");
   const currentState = allUsersState?.[uid] || {
     completed: [],
   };
@@ -57,10 +58,8 @@ function HorizontalLinearStepper() {
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const [open, setOpen] = React.useState(false);
   const [nextButton, setNextButton] = React.useState("true");
-  const [countryCode, setCountryCode] = React.useState(
-    currentState.countryCode
-  );
-  const [phone, setPhone] = React.useState(currentState.phone);
+  const [countryCode, setCountryCode] = React.useState("");
+  const [phone, setPhone] = React.useState("");
 
   const current_time = new Date();
   const [availability, setAvailability] = React.useState(

@@ -6,20 +6,15 @@ import {
   TextField,
   Button,
   Snackbar,
-  InputAdornment,
-  Stack,
   Grid,
 } from "@mui/material";
-// import PhoneInput from "../common/PhoneInput";
 import {
   getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { number } from "prop-types";
 import { MuiOtpInput } from "mui-one-time-password-input";
-import { borderRadius, width } from "@mui/system";
 
 // import AppConfig from "App.config";
 import MuiPhoneNumber from "material-ui-phone-number";
@@ -33,7 +28,9 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_appId,
 };
 
-const appVerifier = window.recaptchaVerifier;
+// const appVerifier = window.recaptchaVerifier;
+
+const CountryList = require("country-list-with-dial-code-and-flag");
 
 function VerifyPhoneNo(props) {
   const { setDisable, setContact, contact, setNextButton } = props;
@@ -62,13 +59,14 @@ function VerifyPhoneNo(props) {
     setOpen(false);
     setMessage("");
   };
-  // const [otp, setOtp] = React.useState(new Array(6).fill(""));
   const [startOtp, setStartOtp] = React.useState(false);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
-  const [countryCode, setCountryCode] = React.useState(contact.slice(0, 3));
-  const [phone, setPhone] = React.useState(contact.slice(3, 13));
+  const [countryCode, setCountryCode] = React.useState(
+    (contact && `+${contact?.split(" ")[0]}`) || "+91"
+  );
+  const [phone, setPhone] = React.useState("");
   const setupRecaptcha = () => {
     console.log(firebaseConfig);
     const auth = getAuth();
@@ -130,7 +128,7 @@ function VerifyPhoneNo(props) {
         setConfirmationResult(result);
         setIsStartTimer(true);
         countTimer();
-        setVerifyOpen(true);
+        setVerifyOpen(false);
       })
       .catch((error) => {
         console.log(error);
@@ -170,6 +168,8 @@ function VerifyPhoneNo(props) {
   //   //setContact(number.replace(/[^0-9]/g, "") || "");
   // };
 
+  const countryData = CountryList.findFlagByDialCode(countryCode);
+
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <div id="recaptcha-container"></div>
@@ -184,7 +184,7 @@ function VerifyPhoneNo(props) {
       <Box sx={{ mt: 4 }}>
         {generateOtp ? (
           <Grid container spacing={2} maxWidth="md">
-            <Grid item xs={4}>
+            <Grid item xs={4} md={3}>
               <MuiPhoneNumber
                 preferredCountries={["in"]}
                 defaultCountry={"in"}
@@ -192,12 +192,13 @@ function VerifyPhoneNo(props) {
                 id="countryCode"
                 value={countryCode}
                 onChange={(val) => {
-                  setCountryCode(val);
+                  setCountryCode(countryCode);
+
                   return true;
                 }}
               />
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={8} md={9}>
               <TextField
                 label="Ten Digit phone Number"
                 onChange={handleChange}
@@ -212,9 +213,21 @@ function VerifyPhoneNo(props) {
             </Grid>
           </Grid>
         ) : (
-          <Typography>
-            {countryCode} {phone}
-          </Typography>
+          <Grid container spacing={2} maxWidth="md">
+            <Grid item>
+              <Box>{countryData.flag}</Box>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">
+                {`${countryData.dial_code} ${contact.split(" ")[1]}`}
+                {/* {`+${contact.split(" ")[0]} ${contact.split(" ")[1]}`} */}
+                {/* {console.log(
+                  "contact",
+                  contact.slice(countryData.dial_code.length)
+                )} */}
+              </Typography>
+            </Grid>
+          </Grid>
         )}
 
         {!startOtp && generateOtp && (
