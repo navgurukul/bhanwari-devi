@@ -54,6 +54,8 @@
     "npm": "^6.14.10",
     "rc-slider": "^9.7.2",
     "react": "^16.13.1",
+    "react-avatar-edit": "^1.2.0",
+    "react-avatar-editor": "^13.0.0",
     "react-copy-to-clipboard": "^5.0.4",
     "react-country-flag": "^3.0.2",
     "react-custom-flag-select": "^3.0.9",
