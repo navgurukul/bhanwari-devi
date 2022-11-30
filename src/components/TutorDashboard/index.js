@@ -797,6 +797,7 @@ function Tutor(props) {
                                     ]
                                   : "-"}
                               </TableCell>
+
                               <TableCell
                                 // data-column="Last Class Title"
                                 className={classes.tablebodyCell}
@@ -804,16 +805,17 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {item.classes &&
-                                item.classes.length > 0 &&
-                                !item.classes[item.classes.length - 1]["title"]
-                                  .toLowerCase()
-                                  .includes("batch".toLowerCase())
-                                  ? item.classes[item.classes.length - 1][
+                                {item.classes && item.classes.length > 0
+                                  ? // !item.classes[item.classes.length - 1]["title"]
+                                    //   .toLowerCase()
+                                    //   .includes("batch".toLowerCase())
+                                    item.classes[item.classes.length - 1][
                                       "title"
                                     ]
                                   : "-"}
+                                {/* {console.log(item.classes[item.classes.length -1].title,">>>>>>>>>>>>")} */}
                               </TableCell>
+
                               <TableCell
                                 className={classes.tablebodyCell}
                                 onClick={(event) =>
