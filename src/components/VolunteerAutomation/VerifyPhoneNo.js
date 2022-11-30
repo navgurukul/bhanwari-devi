@@ -6,19 +6,14 @@ import {
   TextField,
   Button,
   Snackbar,
-  InputAdornment,
-  Stack,
   Grid,
 } from "@mui/material";
-
-// import PhoneInput from "../common/PhoneInput";
 import {
   getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { number } from "prop-types";
 import { MuiOtpInput } from "mui-one-time-password-input";
 
 // import AppConfig from "App.config";
@@ -33,7 +28,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_appId,
 };
 
-const appVerifier = window.recaptchaVerifier;
+// const appVerifier = window.recaptchaVerifier;
 
 const CountryList = require("country-list-with-dial-code-and-flag");
 
@@ -64,12 +59,13 @@ function VerifyPhoneNo(props) {
     setOpen(false);
     setMessage("");
   };
-  // const [otp, setOtp] = React.useState(new Array(6).fill(""));
   const [startOtp, setStartOtp] = React.useState(false);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
-  const [countryCode, setCountryCode] = React.useState("+91");
+  const [countryCode, setCountryCode] = React.useState(
+    (contact && `+${contact?.split(" ")[0]}`) || "+91"
+  );
   const [phone, setPhone] = React.useState("");
   const setupRecaptcha = () => {
     console.log(firebaseConfig);
@@ -90,7 +86,6 @@ function VerifyPhoneNo(props) {
   const [verifyOpen, setVerifyOpen] = React.useState(false);
   const [close, setClose] = React.useState(true);
   const [generateOtp, setGenerateOtp] = React.useState(true);
-  const sliceLength = countryCode.length;
   const handleChangeInput = (newValue) => {
     if (isNaN(newValue)) return false;
     setOtp(newValue);
@@ -164,7 +159,6 @@ function VerifyPhoneNo(props) {
         setBgColor(true);
       });
   };
-  // console.log(sliceLength);
   //International
   // const handleChange = (number, countryInfo, phoneType) => {
   //   const isValid = !!phoneType;
@@ -172,15 +166,9 @@ function VerifyPhoneNo(props) {
   //   setDisable(!isValid);
   //   setContact(number);
   //   //setContact(number.replace(/[^0-9]/g, "") || "");
-
   // };
-  // const	flagImg= `https://flagpedia.net/data/flags/h80/in.webp`
-  // console.log(flagImg)
-  // const filtersFlags = findFlagsByDialCode(countryCode);
-  // console.log(filtersFlags)
 
   const countryData = CountryList.findFlagByDialCode(countryCode);
-  // console.log(countryData.flag)
 
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
@@ -196,7 +184,7 @@ function VerifyPhoneNo(props) {
       <Box sx={{ mt: 4 }}>
         {generateOtp ? (
           <Grid container spacing={2} maxWidth="md">
-            <Grid item xs={4}>
+            <Grid item xs={4} md={3}>
               <MuiPhoneNumber
                 preferredCountries={["in"]}
                 defaultCountry={"in"}
@@ -210,7 +198,7 @@ function VerifyPhoneNo(props) {
                 }}
               />
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={8} md={9}>
               <TextField
                 label="Ten Digit phone Number"
                 onChange={handleChange}
@@ -227,15 +215,16 @@ function VerifyPhoneNo(props) {
         ) : (
           <Grid container spacing={2} maxWidth="md">
             <Grid item>
-              <Box>{countryData.flag} </Box>
+              <Box>{countryData.flag}</Box>
             </Grid>
             <Grid item>
               <Typography variant="body1">
-                {`${countryData.dial_code} ${contact.slice(3)}`}
-
-                {/* {  console.log("type",contact.slice(countryData.dial_code.length, contact.length))} */}
-                {/* {console.log("contact", contact)} */}
-                {/* {console.log("code", countryData.dial_code.length)} */}
+                {`${countryData.dial_code} ${contact.split(" ")[1]}`}
+                {/* {`+${contact.split(" ")[0]} ${contact.split(" ")[1]}`} */}
+                {/* {console.log(
+                  "contact",
+                  contact.slice(countryData.dial_code.length)
+                )} */}
               </Typography>
             </Grid>
           </Grid>
