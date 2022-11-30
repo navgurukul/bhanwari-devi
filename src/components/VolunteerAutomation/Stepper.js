@@ -44,6 +44,7 @@ function HorizontalLinearStepper() {
   const roles = user?.data?.user.rolesList; // TODO: Use selector for this
   const uid = user?.data?.user.id; // TODO: Factor out common logic used for selected role PR # 660
   const allUsersState = getObjectState("volunteer_automation", "state");
+  console.log(allUsersState, "4567890");
   const currentState = allUsersState?.[uid] || {
     completed: [],
   };
@@ -56,6 +57,9 @@ function HorizontalLinearStepper() {
   const [pathwayId, setPathwayId] = useState(currentState.pathwayId || []);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const [open, setOpen] = React.useState(false);
+  const [nextButton, setNextButton] = React.useState("true");
+  const [countryCode, setCountryCode] = React.useState("");
+  const [phone, setPhone] = React.useState("");
 
   const current_time = new Date();
   const [availability, setAvailability] = React.useState(
@@ -110,6 +114,11 @@ function HorizontalLinearStepper() {
           contact={contact}
           setContact={setContact}
           setDisable={setDisable}
+          setNextButton={setNextButton}
+          phone={phone}
+          setPhone={setPhone}
+          countryCode={countryCode}
+          setCountryCode={setCountryCode}
         />
       ),
     },
@@ -369,15 +378,17 @@ function HorizontalLinearStepper() {
                   Go to Dashboard
                 </Button>
               ) : (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  endIcon={<ArrowForwardIosIcon />}
-                  onClick={handleNext}
-                  disabled={disable}
-                >
-                  Next
-                </Button>
+                nextButton && (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    endIcon={<ArrowForwardIosIcon />}
+                    onClick={handleNext}
+                    disabled={disable}
+                  >
+                    Next
+                  </Button>
+                )
               )}
             </Box>
           </Container>
