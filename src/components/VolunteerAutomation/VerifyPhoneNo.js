@@ -64,7 +64,7 @@ function VerifyPhoneNo(props) {
   const [Timer, setTimer] = React.useState("5:00");
   const [isStartTimer, setIsStartTimer] = React.useState(false);
   const [countryCode, setCountryCode] = React.useState(
-    (contact && `+${contact?.split(" ")[0]}`) || "+91"
+    (contact && `${contact?.split(" ")[0]}`) || "+91"
   );
   const [phone, setPhone] = React.useState("");
   const setupRecaptcha = () => {
@@ -115,7 +115,7 @@ function VerifyPhoneNo(props) {
     if (!confirmationResult) {
       setupRecaptcha();
     }
-    const phoneNumber = `${countryCode}${phone}`;
+    const phoneNumber = `${countryCode} ${phone}`;
     setContact(phoneNumber);
     const appVerifier = window.recaptchaVerifier;
     const auth = getAuth();
