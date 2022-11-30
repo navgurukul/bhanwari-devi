@@ -2,7 +2,7 @@
 
 This repository contains the source code for the front-end of the __Meraki Web Application__. This project has enabled over **25,000 students** from under-served communities learn the basics of programming and spoken English through free online classes and curricula materials. 
 
-Contributions to this project by people like you will allow us scale quickly and help build a sustainable skill-based learning platform that can enable **1M children** from the **most under-served** communities of our society find **aspirational jobs** in by the year 2025!
+Contributions to this project by people like you will allow us to scale quickly and help build a sustainable skill-based learning platform that can enable **1M children** from the **most under-served** communities of our society find **aspirational jobs** by the year 2025!
 
 ## Meraki App Links
 

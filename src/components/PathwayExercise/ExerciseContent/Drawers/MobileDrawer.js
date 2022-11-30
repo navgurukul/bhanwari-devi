@@ -1,37 +1,20 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { Global } from "@emotion/react";
-import { styled } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { grey } from "@mui/material/colors";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { ListItem, ListItemButton, List } from "@mui/material";
+import * as React from 'react';
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { useMediaQuery } from '@mui/material';
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import useStyles from "./styles";
 
-const drawerBleeding = 56;
-
-const Root = styled("div")(({ theme }) => ({
-  height: "100%",
-  backgroundColor:
-    theme.palette.mode === "light"
-      ? grey[100]
-      : theme.palette.background.default,
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
-  position: "absolute",
-  top: -drawerBleeding + 50,
-  borderTopLeftRadius: 8,
-  borderTopRightRadius: 8,
-  visibility: "visible",
-  right: 0,
-  left: 0,
-}));
+const drawerWidth = 240;
 
 function Item({
   progressTrackId,
@@ -39,10 +22,12 @@ function Item({
   index,
   setOpen,
   setSelected,
+  setExerciseId,
   classes,
   params,
   contentType,
   id,
+  ref1,
   title,
 }) {
   const [completed, setCompleted] = React.useState(false);
@@ -73,121 +58,127 @@ function Item({
 
   return (
     <>
-      <ListItem key={index} disablePadding>
-        <ListItemButton onClick={clickOnTitle(index)}>
-          <Typography
-            className={classes.ListItemsTypography}
-            component={Link}
-            variant="caption"
+      <ListItem
+        key={index}
+        disablePadding
+        onClick={clickOnTitle(index)}
+        ref={index === selected ? ref1 : null}
+      >
+        <Link
+          style={ItemStyle}
+          className={classes.ListItemLink}
+          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId: params.courseId,
+            exerciseId: index,
+            pathwayId: params.pathwayId,
+          })}
+        >
+          <ListItemButton
+            onClick={() => {
+              setSelected(index);
+              setExerciseId(index);
+            }}
           >
-            <Link
-              style={ItemStyle}
-              className={classes.ListItemLink}
-              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })}
+            <Typography
+              className={classes.ListItemsTypography}
+              // component={Link}
+              sx={{ fontWeight: "bold" }}
+              variant="caption"
             >
-              {title}
-            </Link>
-          </Typography>
-        </ListItemButton>
+              {selected === index ? (
+                <ArrowRightAltIcon
+                  sx={{ marginRight: "8px", verticalAlign: "middle" }}
+                />
+              ) : (
+                ""
+              )}
+              {(index+1)+". "}
+              {title === "assessment" ? "Practice Question" : title}
+            </Typography>
+          </ListItemButton>
+        </Link>
       </ListItem>
     </>
   );
 }
 
+
 function MobileDrawer(props) {
+  const desktop = useMediaQuery("(min-width: 1050px)");
+  const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
-  const { window, open, setOpen, list, setSelected, progressTrackId } = props;
+  const { window, setSelected, list, open, setOpen, setExerciseId, progressTrackId } = props;
+  //const [mobileOpen, setMobileOpen] = React.useState(false);
   const selected = parseInt(params.exerciseId);
-  const courseName = list[0]?.course_name.toUpperCase();
-  const classes = useStyles();
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+  const classes = useStyles({ desktop, laptop, drawerWidth });
+  const ref1 = React.useRef();
+  React.useEffect(() => {
+    if (ref1.current) {
+      ref1.current.scrollIntoView({
+        block: "center",
+      });
+    }
+  }, []);
+
+  const handleDrawerToggle = () => {
+    setOpen((prev)=>!prev);
   };
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const drawer = (
+    <div>
+      <Toolbar />
+      <Divider />
+      <List>
+          {list?.map((obj, index) => (
+            <Item
+              key={index}
+              progressTrackId={progressTrackId}
+              setSelected={setSelected}
+              setOpen={handleDrawerToggle}
+              selected={selected}
+              index={index}
+              ref1={ref1}
+              setExerciseId={setExerciseId}
+              classes={classes}
+              params={params}
+              contentType={obj.content_type}
+              id={obj.id}
+              title={obj.name || obj.sub_title || obj.content_type || "N/A"}
+            />
+          ))}
+      </List>
+    </div>
+  );
+
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Root>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Global
-        styles={{
-          ".MuiDrawer-root > .MuiPaper-root": {
-            height: `calc(60% - ${drawerBleeding}px)`,
-            overflow: "visible",
-          },
-        }}
-      />
-
-      <SwipeableDrawer
-        container={container}
-        anchor="bottom"
-        open={open}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-        swipeAreaWidth={drawerBleeding}
-        disableSwipeToOpen={true}
-        ModalProps={{
-          keepMounted: true,
-        }}
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
       >
-        {/*For rounded corners*/}
-        <StyledBox>
-          <Typography sx={{ p: 2, color: "transparent" }}>
-            51 results
-          </Typography>
-        </StyledBox>
-        <StyledBox
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={open}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
           sx={{
-            px: 2,
-            pb: 2,
-            height: "100%",
-            overflow: "auto",
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <Typography
-                  className={classes.courseNameTypography}
-                  variant="subtitle2"
-                >
-                  {courseName}
-                </Typography>
-              </ListItemButton>
-            </ListItem>
-            {list?.map((obj, index) => (
-              <Item
-                key={index}
-                progressTrackId={progressTrackId}
-                setSelected={setSelected}
-                selected={selected}
-                setOpen={setOpen}
-                index={index}
-                classes={classes}
-                params={params}
-                contentType={obj.content_type}
-                id={obj.id}
-                title={obj.name || obj.sub_title || obj.content_type || "N/A"}
-              />
-            ))}
-          </List>
-        </StyledBox>
-      </SwipeableDrawer>
-    </Root>
+          {drawer}
+        </Drawer>
+      </Box>
+    </Box>
   );
 }
-
-MobileDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default MobileDrawer;
