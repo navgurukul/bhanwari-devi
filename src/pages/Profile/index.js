@@ -50,12 +50,12 @@ function Profile() {
   const user = useSelector(({ User }) => User);
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [editName, setEditName] = useState();
+  const [editName, setEditName] = useState(null);
   const [msg, setMsg] = useState();
   const [LoadBatches, setLoadBatches] = useState(false);
   const dispatch = useDispatch();
   const [helperText, setHelperText] = useState();
-  const [showError, setShowError] = useState(false);
+  const [showError, setShowError] = useState(true);
   const [open, setOpen] = React.useState(false);
   const [imgDialogs, setImgDialoags] = useState(false);
   const [imgCrop, setImgCrop] = useState(false);
@@ -87,6 +87,7 @@ function Profile() {
   };
 
   const saveImg = () => {
+    setShowError(false);
     setStoreImg([...storeImg, { imgCrop }]);
     setImgDialoags(false);
   };
@@ -139,6 +140,9 @@ function Profile() {
       auth
     );
   };
+  useEffect(() => {
+    console.log("user", showError);
+  }, [showError]);
   const OtpEnter = (event) => {
     confirmationResult
       .confirm(otp)
@@ -178,7 +182,6 @@ function Profile() {
       );
       setShowError(true);
     } else {
-      setShowError(false);
       setHelperText();
     }
   }, [editName]);
@@ -202,6 +205,7 @@ function Profile() {
       dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
       setMsg(false);
       setUserData(res.data.user);
+      window.location.reload();
     });
   };
 
@@ -261,7 +265,12 @@ function Profile() {
                   </Grid>
                   <Grid item xs={9}>
                     <Box>
-                      <Button onClick={() => setImgDialoags(true)}>
+                      <Button
+                        onClick={() => {
+                          setImgDialoags(true);
+                          setImgCrop(false);
+                        }}
+                      >
                         {/* <Typography my = {2} color = "primary" > */}
                         Update Photo
                         {/* </Typography> */}
@@ -288,13 +297,6 @@ function Profile() {
                                   accept: "application/json, text/plain, */*",
                                   "accept-language":
                                     "en-GB,en-US;q=0.9,en;q=0.8",
-                                  "sec-ch-ua":
-                                    '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
-                                  "sec-ch-ua-mobile": "?0",
-                                  "sec-ch-ua-platform": '"Windows"',
-                                  "sec-fetch-dest": "empty",
-                                  "sec-fetch-mode": "cors",
-                                  "sec-fetch-site": "cross-site",
                                 },
                                 referrerPolicy:
                                   "strict-origin-when-cross-origin",
@@ -312,7 +314,9 @@ function Profile() {
                           }}
                           onCrop={onCrop}
                         />
-                        <Button onClick={saveImg}>Save</Button>
+                        <Button disabled={!imgCrop} onClick={saveImg}>
+                          Save
+                        </Button>
                       </Dialog>
                       <Typography variant="body2" color="text.secondary">
                         Tips: Try square JPG or PNG with atleast 500*500
@@ -341,6 +345,10 @@ function Profile() {
                       helperText={helperText}
                       onChange={(e) => {
                         setEditName(e.target.value);
+                        console.log(userData.name, e.target.value);
+                        if (e.target.value != userData.name) {
+                          setShowError(false);
+                        }
                       }}
                     />
 
@@ -500,7 +508,7 @@ function Profile() {
               userData.contact !== null && (
                 <>
                   <Typography>
-                    {userData.contact}
+                    {`+${userData.contact?.replace("-", "")}`}
                     <img
                       className={classes.Right_tick}
                       alt="Right tick"
