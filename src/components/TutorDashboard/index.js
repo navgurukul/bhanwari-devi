@@ -787,33 +787,23 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {item.classes &&
-                                item.classes.length > 0 &&
-                                item.classes[item.classes.length - 1]["title"]
-                                  .toLowerCase()
-                                  .includes("batch".toLowerCase())
-                                  ? item.classes[item.classes.length - 1][
-                                      "title"
-                                    ]
-                                  : "-"}
+                                {console.log("item", item)}
+                                {(item?.last_class &&
+                                  item?.last_class?.title) ||
+                                  "-"}
                               </TableCell>
+
                               <TableCell
-                                // data-column="Last Class Title"
                                 className={classes.tablebodyCell}
                                 onClick={(event) =>
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {item.classes &&
-                                item.classes.length > 0 &&
-                                !item.classes[item.classes.length - 1]["title"]
-                                  .toLowerCase()
-                                  .includes("batch".toLowerCase())
-                                  ? item.classes[item.classes.length - 1][
-                                      "title"
-                                    ]
-                                  : "-"}
+                                {(item?.last_class &&
+                                  item?.last_class?.sub_title) ||
+                                  "-"}
                               </TableCell>
+
                               <TableCell
                                 className={classes.tablebodyCell}
                                 onClick={(event) =>

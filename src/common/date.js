@@ -1,11 +1,12 @@
+/* eslint-disable no-unused-vars */
 import {
-  format as dateFnsFormat,
+  // format as dateFnsFormat,
   isBefore as comesBefore,
   differenceInMinutes as minutesDifference,
   differenceInMilliseconds as msDifference,
   intervalToDuration,
 } from "date-fns";
-import { zonedTimeToUtc } from "date-fns-tz";
+// import { zonedTimeToUtc } from "date-fns-tz";
 import { formatInTimeZone as ftz } from "date-fns-tz";
 /**
  * Returns a copy of the given date if supplied a Date object input or a Date
@@ -16,9 +17,9 @@ import { formatInTimeZone as ftz } from "date-fns-tz";
  * @return {Date} a copy of the inputted date or a new one from the timestamp
  */
 export const makeDateFrom = (date) => {
-  return typeof date === "string"
-    ? new Date(zonedTimeToUtc(date).toISOString())
-    : date;
+  // return typeof date === "string"
+  //   ? new Date(zonedTimeToUtc(date).toISOString())
+  //   : date;
 };
 
 /**
@@ -247,13 +248,12 @@ export const formatInUtc = (date, formatStr) => {
  * @return {string} the formatted date string in the user's local time zone
  */
 export const format = (date, formatStr, options) => {
-  if (date) {
-    const dateToFormat = makeDateFrom(date);
-
-    return dateFnsFormat(dateToFormat, formatStr, options);
-  } else {
-    return "";
-  }
+  // if (date) {
+  //   const dateToFormat = makeDateFrom(date);
+  //   // return dateFnsFormat(dateToFormat, formatStr, options);
+  // } else {
+  //   return "";
+  // }
 };
 
 // module.exports = { timeLeftFormat, format };
