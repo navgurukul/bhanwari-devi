@@ -170,11 +170,11 @@ const GenerateReport = (props) => {
     const workBook = XLSX.utils.book_new();
 
     const workSheetMain = XLSX.utils.json_to_sheet(volunteerReportDataMain);
-    XLSX.utils.book_append_sheet(workBook, workSheetMain, "volunteerData");
-    XLSX.utils.book_append_sheet(workBook, workSheet, "Python_volunteer");
+    XLSX.utils.book_append_sheet(workBook, workSheetMain, "TutorData");
+    XLSX.utils.book_append_sheet(workBook, workSheet, "Python_Tutor");
 
     const workSheet2 = XLSX.utils.json_to_sheet(volunteerReportData2);
-    XLSX.utils.book_append_sheet(workBook, workSheet2, "English_volunteer");
+    XLSX.utils.book_append_sheet(workBook, workSheet2, "English_Tutor");
 
     // set width of columns
     workSheet["!cols"] = wscols;
