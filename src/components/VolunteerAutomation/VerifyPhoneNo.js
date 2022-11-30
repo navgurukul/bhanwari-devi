@@ -164,7 +164,7 @@ function VerifyPhoneNo(props) {
         setBgColor(true);
       });
   };
-  console.log(sliceLength);
+  // console.log(sliceLength);
   //International
   // const handleChange = (number, countryInfo, phoneType) => {
   //   const isValid = !!phoneType;
@@ -227,12 +227,15 @@ function VerifyPhoneNo(props) {
         ) : (
           <Grid container spacing={2} maxWidth="md">
             <Grid item>
-              <Box>{countryData.flag}</Box>
+              <Box>{countryData.flag} </Box>
             </Grid>
             <Grid item>
               <Typography variant="body1">
-                {/* {contact.slice(0, sliceLength)} */}
-                {contact}
+                {`${countryData.dial_code} ${contact.slice(3)}`}
+
+                {/* {  console.log("type",contact.slice(countryData.dial_code.length, contact.length))} */}
+                {/* {console.log("contact", contact)} */}
+                {/* {console.log("code", countryData.dial_code.length)} */}
               </Typography>
             </Grid>
           </Grid>
