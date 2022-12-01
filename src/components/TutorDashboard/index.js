@@ -797,8 +797,8 @@ function Tutor(props) {
                                 item.classes.length > 0 &&
                                 !item.classes[item.classes.length - 1]["title"]
                                   .toLowerCase()
-                                  .includes("batch".toLowerCase())
-                                  ? item.classes[item.classes.length - 1][
+                                  .includes("batch"?.toLowerCase())
+                                  ? item.classes[item?.classes.length - 1][
                                       "title"
                                     ]
                                   : "-"}
@@ -815,8 +815,8 @@ function Tutor(props) {
                                 !item.classes[item.classes.length - 1][
                                   "sub_title"
                                 ]
-                                  .toLowerCase()
-                                  .includes("batch".toLowerCase())
+                                  ?.toLowerCase()
+                                  .includes("batch"?.toLowerCase())
                                   ? item.classes[item.classes.length - 1][
                                       "sub_title"
                                     ]
@@ -1077,7 +1077,7 @@ function Tutor(props) {
         statusValue={statusValue}
         setStatusValue={setStatusValue}
       />
-      <GenerateReport
+      {/* <GenerateReport
         generateDialog={generateDialog}
         setGenerateDialog={setGenerateDialog}
         startDate={startDate}
@@ -1087,7 +1087,7 @@ function Tutor(props) {
         volunteerReport={volunteer}
         languageMap={languageMap}
         numberOfWeek={numberOfWeek}
-      />
+      /> */}
     </div>
   );
 }
