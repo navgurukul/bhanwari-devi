@@ -221,6 +221,7 @@ function HorizontalLinearStepper() {
   };
 
   const submit = () => {
+    const contactNumber = contact.split("+")[1].split(" ").join("-");
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers/Automation`,
       method: METHODS.POST,
@@ -229,7 +230,7 @@ function HorizontalLinearStepper() {
         Authorization: user.data.token,
       },
       data: {
-        contact: contact.split(" ").join("-"),
+        contact: contactNumber,
         pathway_id: pathwayId,
         ...availability,
       },
