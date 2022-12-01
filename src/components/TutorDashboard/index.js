@@ -793,35 +793,23 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {item.classes &&
-                                item.classes.length > 0 &&
-                                !item.classes[item.classes.length - 1]["title"]
-                                  .toLowerCase()
-                                  .includes("batch"?.toLowerCase())
-                                  ? item.classes[item?.classes.length - 1][
-                                      "title"
-                                    ]
-                                  : "-"}
+                                {console.log("item", item)}
+                                {(item?.last_class &&
+                                  item?.last_class?.title) ||
+                                  "-"}
                               </TableCell>
+
                               <TableCell
-                                // data-column="Last Class Title"
                                 className={classes.tablebodyCell}
                                 onClick={(event) =>
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {item.classes &&
-                                item.classes.length > 0 &&
-                                !item.classes[item.classes.length - 1][
-                                  "sub_title"
-                                ]
-                                  ?.toLowerCase()
-                                  .includes("batch"?.toLowerCase())
-                                  ? item.classes[item.classes.length - 1][
-                                      "sub_title"
-                                    ]
-                                  : "-"}
+                                {(item?.last_class &&
+                                  item?.last_class?.sub_title) ||
+                                  "-"}
                               </TableCell>
+
                               <TableCell
                                 className={classes.tablebodyCell}
                                 onClick={(event) =>
@@ -1077,7 +1065,7 @@ function Tutor(props) {
         statusValue={statusValue}
         setStatusValue={setStatusValue}
       />
-      {/* <GenerateReport
+      <GenerateReport
         generateDialog={generateDialog}
         setGenerateDialog={setGenerateDialog}
         startDate={startDate}
@@ -1087,7 +1075,7 @@ function Tutor(props) {
         volunteerReport={volunteer}
         languageMap={languageMap}
         numberOfWeek={numberOfWeek}
-      /> */}
+      />
     </div>
   );
 }

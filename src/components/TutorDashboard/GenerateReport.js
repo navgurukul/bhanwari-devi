@@ -19,10 +19,9 @@ import useStyles from "./style";
 import * as XLSX from "xlsx";
 import moment from "moment";
 import { format } from "../../common/date";
-import { CSVLink } from "react-csv";
 
 const GenerateReport = (props) => {
-  var d = new Date();
+  // var d = new Date();
   const classes = useStyles();
 
   const {
@@ -40,7 +39,7 @@ const GenerateReport = (props) => {
   const [value, setValue] = React.useState("1");
   const widthOfMoal = value === "custom" ? "602px" : "458px";
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [selectedOption, setSelectedOption] = useState("active");
+  // const [selectedOption, setSelectedOption] = useState("active");
 
   var wscols = [
     { wch: 10 },
@@ -58,134 +57,129 @@ const GenerateReport = (props) => {
     { wch: 15 },
   ];
 
-  const volunteerReportData = volunteerReport.map((el) => {
-    return {
-      "Tutor ID": el.id,
-      Name: el.name,
-      Email: el.email,
-      "Phone No": el.contact,
-      "Pathway ID": el.pathway_id,
-      Partner: el.partner,
-      "Last Class Batch":
-        el.classes &&
-        el.classes.length > 0 &&
-        el.classes[el.classes.length - 1]["title"]
-          .toLowerCase()
-          .includes("batch".toLowerCase())
-          ? el.classes[el.classes.length - 1]["title"]
-          : "-",
-      "Last Class Title":
-        el.classes &&
-        el.classes.length > 0 &&
-        !el.classes[el.classes.length - 1]["title"]
-          .toLowerCase()
-          .includes("batch".toLowerCase())
-          ? el.classes[el.classes.length - 1]["title"]
-          : "-",
-      "Last Class Date": format(el.last_class_date, "dd MMM, yyyy"),
-      "Class Language":
-        el.classes &&
-        el.classes.length > 0 &&
-        el.classes[el.classes.length - 1]["lang"] != ""
-          ? languageMap[el.classes[el.classes.length - 1]["lang"]]
-          : "-",
-      Status:
-        el.status === "active"
-          ? "Active"
-          : el.status === "inactive"
-          ? "In Active"
-          : el.status === "dropout"
-          ? "Dropped Out"
-          : "Newly Onboarded",
-      "Duration (in weeks)": numberOfWeek(el),
-      "Days Available":
-        el.available_on_days === null ? "-" : el.available_on_days,
-      "Preffered Time Slots":
-        el.available_on_time === null
-          ? "-"
-          : format(el.available_on_time, "hh:mm aaa"),
-    };
+  const volunteerReportData = [];
+  const volunteerReportDataMain = [];
+  let singleVolunteerData;
+  const volunteerReportData2 = [];
+  volunteerReport.map((el) => {
+    if (el["pathway_id"][0] == 1) {
+      singleVolunteerData = {
+        "Tutor ID": el.id,
+        Name: el.name,
+        Email: el.email,
+        "Phone No": el.contact,
+        "Pathway ID": el["pathway_id"][0],
+
+        Partner: el.partner,
+        "Last Class Batch":
+          el.classes &&
+          el.classes.length > 0 &&
+          el.classes[el.classes.length - 1]["title"]
+            .toLowerCase()
+            .includes("batch".toLowerCase())
+            ? el.classes[el.classes.length - 1]["title"]
+            : "-",
+        "Last Class Title":
+          el.classes &&
+          el.classes.length > 0 &&
+          !el.classes[el.classes.length - 1]["title"]
+            .toLowerCase()
+            .includes("batch".toLowerCase())
+            ? el.classes[el.classes.length - 1]["title"]
+            : "-",
+        "Last Class Date": format(el.last_class_date, "dd MMM, yyyy"),
+        "Class Language":
+          el.classes &&
+          el.classes.length > 0 &&
+          el.classes[el.classes.length - 1]["lang"] != ""
+            ? languageMap[el.classes[el.classes.length - 1]["lang"]]
+            : "-",
+        Status:
+          el.status === "active"
+            ? "Active"
+            : el.status === "inactive"
+            ? "In Active"
+            : el.status === "dropout"
+            ? "Dropped Out"
+            : "Newly Onboarded",
+        "Duration (in weeks)": numberOfWeek(el),
+        "Days Available":
+          el.available_on_days === null ? "-" : el.available_on_days,
+        "Preffered Time Slots":
+          el.available_on_time === null
+            ? "-"
+            : format(el.available_on_time, "hh:mm aaa"),
+      };
+      volunteerReportData.push(singleVolunteerData);
+      volunteerReportDataMain.push(singleVolunteerData);
+    } else {
+      singleVolunteerData = {
+        "Tutor ID": el.id,
+        Name: el.name,
+        Email: el.email,
+        "Phone No": el.contact,
+        "Pathway ID": el["pathway_id"][0],
+
+        Partner: el.partner,
+        "Last Class Batch":
+          el.classes &&
+          el.classes.length > 0 &&
+          el.classes[el.classes.length - 1]["title"]
+            .toLowerCase()
+            .includes("batch".toLowerCase())
+            ? el.classes[el.classes.length - 1]["title"]
+            : "-",
+        "Last Class Title":
+          el.classes &&
+          el.classes.length > 0 &&
+          !el.classes[el.classes.length - 1]["title"]
+            .toLowerCase()
+            .includes("batch".toLowerCase())
+            ? el.classes[el.classes.length - 1]["title"]
+            : "-",
+        "Last Class Date": format(el.last_class_date, "dd MMM, yyyy"),
+        "Class Language":
+          el.classes &&
+          el.classes.length > 0 &&
+          el.classes[el.classes.length - 1]["lang"] != ""
+            ? languageMap[el.classes[el.classes.length - 1]["lang"]]
+            : "-",
+        Status:
+          el.status === "active"
+            ? "Active"
+            : el.status === "inactive"
+            ? "In Active"
+            : el.status === "dropout"
+            ? "Dropped Out"
+            : "Newly Onboarded",
+        "Duration (in weeks)": numberOfWeek(el),
+        "Days Available":
+          el.available_on_days === null ? "-" : el.available_on_days,
+        "Preffered Time Slots":
+          el.available_on_time === null
+            ? "-"
+            : format(el.available_on_time, "hh:mm aaa"),
+      };
+      volunteerReportDataMain.push(singleVolunteerData);
+      volunteerReportData2.push(singleVolunteerData);
+    }
   });
-
-  const dataForCSV = volunteerReport.map((el) => {
-    return {
-      tutorId: el.id,
-      name: el.name,
-      email: el.email,
-      phoneNo: el.contact,
-      pathwayId: el.pathway_id,
-      partner: el.partner,
-      lastClassBatch:
-        el.classes &&
-        el.classes.length > 0 &&
-        el.classes[el.classes.length - 1]["title"]
-          .toLowerCase()
-          .includes("batch".toLowerCase())
-          ? el.classes[el.classes.length - 1]["title"]
-          : "-",
-      lastClassTitle:
-        el.classes &&
-        el.classes.length > 0 &&
-        !el.classes[el.classes.length - 1]["title"]
-          .toLowerCase()
-          .includes("batch".toLowerCase())
-          ? el.classes[el.classes.length - 1]["title"]
-          : "-",
-      lastClassDate: format(el.last_class_date, "dd MMM, yyyy"),
-      classLanguage:
-        el.classes &&
-        el.classes.length > 0 &&
-        el.classes[el.classes.length - 1]["lang"] != ""
-          ? languageMap[el.classes[el.classes.length - 1]["lang"]]
-          : "-",
-      status:
-        el.status === "active"
-          ? "Active"
-          : el.status === "inactive"
-          ? "In Active"
-          : el.status === "dropout"
-          ? "Dropped Out"
-          : "Newly Onboarded",
-      duration: numberOfWeek(el),
-      daysAvailable: el.available_on_days === null ? "-" : el.available_on_days,
-      prefferedTimeSlots:
-        el.available_on_time === null
-          ? "-"
-          : format(el.available_on_time, "hh:mm aaa"),
-    };
-  });
-
-  const headersForCSV = [
-    { label: "Tutor ID", key: "tutorId" },
-    { label: "Name", key: "name" },
-    { label: "Email", key: "email" },
-    { label: "Phone No", key: "phoneNo" },
-    { label: "Pathway ID", key: "pathwayId" },
-    { label: "Partner", key: "partner" },
-    { label: "Last Class Batch", key: "lastClassBatch" },
-    { label: "Last Class Title", key: "lastClassTitle" },
-    { label: "Last Class Date", key: "lastClassDate" },
-    { label: "Class Language", key: "classLanguage" },
-    { label: "Status", key: "status" },
-    { label: "Duration (in weeks)", key: "duration" },
-    { label: "Days Available", key: "daysAvailable" },
-    { label: "Preffered Time Slots", key: "prefferedTimeSlots" },
-  ];
-
-  const csvReport = {
-    data: dataForCSV,
-    headers: headersForCSV,
-    filename: "VolunteerReport.csv",
-  };
 
   const downloadExcel = () => {
     const workSheet = XLSX.utils.json_to_sheet(volunteerReportData);
     const workBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workBook, workSheet, "volunteer");
+
+    const workSheetMain = XLSX.utils.json_to_sheet(volunteerReportDataMain);
+    XLSX.utils.book_append_sheet(workBook, workSheetMain, "TutorData");
+    XLSX.utils.book_append_sheet(workBook, workSheet, "Python_Tutor");
+
+    const workSheet2 = XLSX.utils.json_to_sheet(volunteerReportData2);
+    XLSX.utils.book_append_sheet(workBook, workSheet2, "English_Tutor");
+
     // set width of columns
     workSheet["!cols"] = wscols;
     //buffer
-    let bef = XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    // let bef = XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
     XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
     XLSX.writeFile(workBook, "tutorReport.xlsx");
   };
@@ -317,70 +311,36 @@ const GenerateReport = (props) => {
             fontSize: "18px",
             fontWeight: "400",
             marginLeft: "30px",
+            // marginBottom: "1rem",
           }}
         >
           <FormControl>
-            <FormLabel id="demo-radio-buttons-group-label">File Type</FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue={selectedOption}
               name="radio-buttons-group"
               row
             >
-              <FormControlLabel
-                value="active"
-                control={<Radio />}
-                label=".csv"
-                onClick={() => {
-                  setSelectedOption("active");
+              <p
+                style={{
+                  fontSize: "15px",
                 }}
-              />
-              <FormControlLabel
-                value="inactive"
-                control={<Radio />}
-                label=".xlsx"
-                sx={{
-                  marginLeft: "8px",
-                }}
-                onClick={() => {
-                  setSelectedOption("inactive");
-                }}
-              />
+              >
+                Your report will be generated in .xlsx
+              </p>
             </RadioGroup>
           </FormControl>
         </div>
-        {selectedOption === "inactive" ? (
-          <Button
-            variant="contained"
-            color="primary"
-            className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
-            onClick={() => {
-              downloadExcel();
-              setGenerateDialog(false);
-            }}
-          >
-            Download
-          </Button>
-        ) : (
-          <CSVLink
-            {...csvReport}
-            style={{
-              color: "white",
-              textDecoration: "none",
-            }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
-              onClick={() => {
-                setGenerateDialog(false);
-              }}
-            >
-              Download
-            </Button>
-          </CSVLink>
-        )}
+        <Button
+          variant="contained"
+          color="primary"
+          className={!isActive ? classes.dialogBtn : classes.dialogresBtn}
+          onClick={() => {
+            downloadExcel();
+            setGenerateDialog(false);
+          }}
+        >
+          Download
+        </Button>
       </div>
     </Dialog>
   );
