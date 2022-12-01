@@ -31,6 +31,7 @@ import {
   Skeleton,
   LinearProgress,
 } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
 import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
@@ -119,7 +120,8 @@ function PathwayCourse() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  const completedAll = (completedPortion?.total === 100);
+  const completedAll = (completedPortion?.total != 100);
+  const [loader, setLoader] = useState(false);
   const displayCert = (pathwayId == 1);
 
   const modalStyle = {
@@ -159,7 +161,7 @@ function PathwayCourse() {
   }
 
   const handleModal = ()=>{
-    if(!openModal){
+    setLoader(true)
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
@@ -168,13 +170,13 @@ function PathwayCourse() {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
+        setLoader(false)
+        setOpenModal(prev=>!prev);
         setCertificate(response?.data?.url);
       }).catch((err)=>{
-        console.log("err", err)
       })
-    }
-    setOpenModal(prev=>!prev);
   }
+
 
   const downloadCert = ()=>{
     saveFile(certificate);
@@ -208,7 +210,6 @@ function PathwayCourse() {
     );
   });
 
-  console.log("upcomingBatchesData", upcomingBatchesData);
 
   const history = useHistory();
   useEffect(() => {
@@ -232,7 +233,6 @@ function PathwayCourse() {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        console.log("response", response);
         setCompletedPortion((prevState)=>({
             ...prevState, total: response?.data?.total_completed_portion
         }));
@@ -572,18 +572,21 @@ function PathwayCourse() {
               </Grid>
             ))}
           </Grid>
+
           {displayCert ? 
-          <Grid onClick={completedAll ?  handleModal : handleSnackbar} sx={{mb:15}}align="center">
+          <Grid  sx={{mb:15}}align="center">
             <Grid sx={{mb:3}} >
-              <img src={require("./asset/separator.svg")} alt="icon" />
+              <img  src={require("./asset/separator.svg")} alt="icon" />
             </Grid>
-            <Grid sx={{cursor: "pointer"}}>
+            <Grid  sx={{cursor: "pointer"}}>
               {
-                completedAll ? 
+                completedAll ? loader ? <CircularProgress color="primary"/> :
                 <CertificateIconColored
+                onClick={handleModal }
                   className={classes.certificateIcon}
                 /> : 
                 <CertificateIcon
+                onClick={ handleSnackbar}
                   className={classes.certificateIcon}
                 />
               }
@@ -597,6 +600,7 @@ function PathwayCourse() {
               handleSnackbar={handleSnackbar}
             />
           </Grid> : null}
+
           {!user?.data?.token ? (
             <Container align="center">
               <Box
@@ -642,7 +646,7 @@ function PathwayCourse() {
             ""
           )}
         </Box>
-
+        
         {SupplementalCourse && (
           <Box sx={{}}>
             <Typography variant="h6">Supplemental English Courses</Typography>
