@@ -518,7 +518,7 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      {editor && (
+      {/* {editor && (
         <AppBar
           fullWidth
           // position="stick"
@@ -559,13 +559,14 @@ function PathwayExercise() {
             </Container>
           </Box>
         </AppBar>
-      )}
+      )} */}
       {successfulExerciseCompletion ? (
         <CompletionComponent
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <Box sx={{ marginTop: "120px" }}>
+        // <Box sx={{ marginTop: "120px" }}>
+        <Box sx={{ marginTop: "50px" }}>
           <ExerciseContent
             contentList={course}
             exerciseId={exerciseId}
