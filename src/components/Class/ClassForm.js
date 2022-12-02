@@ -721,8 +721,8 @@ function ClassForm({
             )}
             <Autocomplete
               value={{
-                label: classFields.facilitator_name,
-                id: classFields.volunteer_id,
+                label: classFields.facilitator_name || "",
+                id: classFields.volunteer_id || "",
               }}
               // name="partner_id"
 
