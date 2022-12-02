@@ -95,7 +95,7 @@ const Routing = () => {
         component={NavgurukulIntroduce}
       />
 
-      <Route exact path={PATHS.TUTOR} component={Tutor} />
+      <PrivateRoute exact path={PATHS.TUTOR} component={Tutor} />
 
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
