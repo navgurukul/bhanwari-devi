@@ -229,7 +229,7 @@ export const DropDown = ({
                   <Typography
                     textAlign="center"
                     sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
-                    component="span"
+                    // component="span"
                   >
                     {menu.title}
                   </Typography>
