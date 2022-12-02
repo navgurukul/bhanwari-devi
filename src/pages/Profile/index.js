@@ -243,16 +243,19 @@ function Profile() {
             >
               {/* < */}
               <Box
-                sx={{ p: "40px" }}
+                sx={{ p: isActive ? "8px" : "32px" }}
                 // style = {{margin : "40px"}}
               >
-                <DialogTitle
-                // id="alert-dialog-title"
+                <Typography
+                  variant="h6"
+                  pl={1}
+                  pb={4}
+                  // id="alert-dialog-title"
                 >
                   {"Edit Profile"}
-                </DialogTitle>
+                </Typography>
                 <Grid container>
-                  <Grid item xs={3}>
+                  <Grid item xs={4} sm={3} pr={2}>
                     <img
                       style={{ width: "120px", height: "120px" }}
                       //  src={userData.profile_picture}
@@ -263,23 +266,26 @@ function Profile() {
                       }
                     />
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={8} sm={9}>
                     <Box>
-                      <Button
+                      <Typography
+                        variant="body1"
                         onClick={() => {
                           setImgDialoags(true);
                           setImgCrop(false);
                         }}
+                        color="primary"
+                        sx={{ cursor: "pointer", pb: 2 }}
                       >
                         {/* <Typography my = {2} color = "primary" > */}
                         Update Photo
                         {/* </Typography> */}
-                      </Button>
+                      </Typography>
                       <Dialog
                         open={imgDialogs}
                         onClose={() => setImgDialoags(false)}
                       >
-                        <Typography variant="h5" mb={4}>
+                        <Typography variant="h5" mb={4} p={0}>
                           Update Photo
                         </Typography>
                         <Avatar
@@ -328,7 +334,7 @@ function Profile() {
 
                 {/* <DialogContent>
               <DialogContentText>
-                Goals can change all the time. However, we will keep your
+                Goals can change all the tSharmaime. However, we will keep your
                 registration progress intact in case you return back.
               </DialogContentText>
             </DialogContent> */}
@@ -365,9 +371,9 @@ function Profile() {
                     </Typography>
                   </Box>
                 </DialogActions>
-                <Box my={4} p={1}>
+                <Box my={2} p={1}>
                   <Grid container spacing={2}>
-                    <Grid item xs={4}>
+                    <Grid item sm={3} xs={4}>
                       <MuiPhoneNumber
                         preferredCountries={["in"]}
                         defaultCountry={"in"}
@@ -379,7 +385,7 @@ function Profile() {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item sm={9} xs={8}>
                       <TextField
                         label="Phone Number"
                         onChange={(e) => {
@@ -494,7 +500,10 @@ function Profile() {
             >
               {userData.name}
               {isActive && !isEditing && (
-                <Button onClick={() => setIsEditing(true)}>
+                <Button
+                  onClick={handleClickOpen}
+                  // onClick={() => setIsEditing(true)}
+                >
                   <EditIcon />
                 </Button>
               )}
