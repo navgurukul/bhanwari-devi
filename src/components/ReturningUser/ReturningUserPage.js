@@ -40,20 +40,45 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
-  console.log(learningTracks, "learning");
+  console.log({ learningTracks }, "learning>>>>>>>>>>>>");
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Typography variant="h6" mb={5} mt={5}>
-          My Learning Tracks
-        </Typography>
-        <Grid container spacing={1}>
-          {learningTracks.map((item) => (
-            <LearningTrackCard item={item} />
-          ))}
-        </Grid>
-      </Container>
+      <div>
+        <Container>
+          <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
+            My Learning Tracks (With Classes)
+          </Typography>
+          <Grid
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="center"
+            style={{ gap: 40 }}
+          >
+            {learningTracks.map((item) => (
+              <LearningTrackCard item={item} />
+            ))}
+
+            {/* {console.log({LearningTrackCard} ,"data is here>>>>>>>>>>>>>")} */}
+          </Grid>
+        </Container>
+
+        <Container>
+          <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
+            My Learning Tracks (Without Classes)
+          </Typography>
+          <Grid
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="center"
+            style={{ gap: 40 }}
+          >
+            {learningTracks.map((item) => (
+              <LearningTrackCard item={item} />
+            ))}
+          </Grid>
+        </Container>
+      </div>
     </>
   );
 }

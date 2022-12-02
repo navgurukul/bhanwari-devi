@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { format } from "../../common/date";
+import KeyboardArrowRightTwoToneIcon from "@mui/icons-material/KeyboardArrowRightTwoTone";
 import {
   Typography,
   Container,
@@ -73,6 +74,7 @@ const pathwayData = [
 ];
 
 function LearningTrackCard(props) {
+  // console.log(props.item,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -160,17 +162,19 @@ function LearningTrackCard(props) {
   const pathwayCourseData = pathwayData.find((item) => {
     return item.id == pathwayId;
   });
-  // console.log(pathwayCourseData);
+  console.log(pathwayCourseData, ">>>>>>>>>>>.");
 
   return (
     <>
       <Card
         elevation={2}
         sx={{
-          width: "640px",
+          width: "524px",
+          // width: "640px",
           marginBottom: "32px",
           borderRadius: "8px",
           padding: "16px",
+          // padding: "16px",
         }}
       >
         <CardContent>
@@ -214,8 +218,8 @@ function LearningTrackCard(props) {
             </Grid>
           </Grid>
 
-          {(pathwayCourseData.code == "PRGPYT" ||
-            pathwayCourseData.code == "SPKENG") &&
+          {(pathwayCourseData?.code == "PRGPYT" ||
+            pathwayCourseData?.code == "SPKENG") &&
             upcomingBatchesData?.length > 0 && (
               <>
                 <Typography variant="subtitle1" mb={2} mt={2}>
@@ -262,7 +266,6 @@ function LearningTrackCard(props) {
                     </Typography>
                   </Grid>
                 </Grid>
-
                 <LearningTrackTimerButton
                   startTime={upcomingBatchesData[0]?.start_time}
                   link={upcomingBatchesData[0]?.meet_link}
@@ -273,7 +276,9 @@ function LearningTrackCard(props) {
             variant="outlined"
             sx={{
               marginTop: isActive ? "0px" : "32px",
-              left: isActive ? "180px" : "436px",
+              left: isActive ? "100px" : "350px",
+              border: "none",
+              // left: isActive ? "180px" : "436px",
             }}
             onClick={() => {
               history.push(
@@ -284,6 +289,7 @@ function LearningTrackCard(props) {
             }}
           >
             Go to Track
+            <KeyboardArrowRightTwoToneIcon sx={{ marginTop: ".2rem" }} />
           </Button>
         </CardContent>
       </Card>
