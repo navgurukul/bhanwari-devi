@@ -137,7 +137,8 @@ export default function DropDownMenu({
         // sx={{zIndex: 0}}
         // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
         {...menuContainerProps}
-        sx={{ ...offset, overflow: "hidden", ...menuContainerProps?.sx }}
+        // TODO: height: 100% wasn't needed before, what changed for LEARN menu? 
+        sx={{ ...offset, height: "100%", ...menuContainerProps?.sx }}
         anchorOrigin={{
           vertical: "top",
           horizontal: useOffset ? "left" : "right",
