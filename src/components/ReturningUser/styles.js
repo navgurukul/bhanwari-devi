@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
         "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
     },
   },
+  progressBar: {
+    width: "95%",
+  },
 }));
 
 export default useStyles;

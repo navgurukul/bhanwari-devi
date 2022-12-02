@@ -15,20 +15,21 @@ import { PATHS, interpolatePath, versionCode } from "../../constant";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { breakpoints } from "../../theme/constant";
 import {
   Container,
   Box,
   AppBar,
   Toolbar,
-  Typography,
   useMediaQuery,
+  Typography,
   Button,
   Select,
   MenuItem,
 } from "@mui/material";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
+import { breakpoints } from "../../theme/constant";
 
 const languageMap = {
   hi: "Hindi",
@@ -58,9 +59,11 @@ const Exercise = ({
     }
   }, [imageRef.current]);
 
+  console.log("courseLength", courseLength);
+
   return (
     <>
-      {courseLength.map((exercise, index) => {
+      {courseLength?.map((exercise, index) => {
         return (
           <NavigationComponent
             key={index}
@@ -134,6 +137,8 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
 
+  const editor = user.data.user.rolesList.indexOf("admin") > -1;
+
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
@@ -156,6 +161,7 @@ function PathwayExercise() {
       }
     }
 
+    console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
         setShowArrow((prev) => {
@@ -322,7 +328,6 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-
       setExerciseId(exerciseId + 1);
     }
   };
@@ -350,10 +355,17 @@ function PathwayExercise() {
     );
   }
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   return (
     <>
-      <AppBar fullWidth position="sticky" color="background" elevation={2}>
+      <AppBar
+        fullWidth
+        // position="sticky"
+        color="background"
+        elevation={2}
+        className={classes.mainHeader}
+      >
         <Container maxWidth>
           <div className="hideInMobile">
             <Toolbar
@@ -506,24 +518,69 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
+      {/* {editor && (
+        <AppBar
+          fullWidth
+          // position="stick"
+          sx={{ bgcolor: "info.light" }}
+          className={
+            isActive ? classes.editingHeaderMobile : classes.editingHeader
+          }
+          elevation={2}
+        >
+          <Box>
+            <Container maxWidth>
+              <Toolbar sx={{ alignItems: "center" }}>
+                <Box sx={{ flexGrow: 1 }} />
+                <ModeEditOutlineOutlinedIcon
+                  className={classes.edit}
+                  sx={{ mr: "11px" }}
+                />
+                <Typography className={classes.edit}>
+                  Want to update the content?
+                </Typography>
+                <Button
+                  sx={{ color: "#000000", ml: "24px" }}
+                  className={classes.edit}
+                  onClick={() => {
+                    history.push(
+                      interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
+                        courseId: params.courseId,
+                        exerciseId: params.exerciseId,
+                        pathwayId: params.pathwayId,
+                      })
+                    );
+                  }}
+                >
+                  Start Editing
+                </Button>
+                <Box sx={{ flexGrow: 1 }} />
+              </Toolbar>
+            </Container>
+          </Box>
+        </AppBar>
+      )} */}
       {successfulExerciseCompletion ? (
         <CompletionComponent
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <ExerciseContent
-          contentList={course}
-          exerciseId={exerciseId}
-          lang={language}
-          setExerciseId={setExerciseId}
-          setProgressTrackId={setProgressTrackId}
-          progressTrackId={progressTrackId}
-        />
+        // <Box sx={{ marginTop: "120px" }}>
+        <Box sx={{ marginTop: "50px" }}>
+          <ExerciseContent
+            contentList={course}
+            exerciseId={exerciseId}
+            lang={language}
+            setExerciseId={setExerciseId}
+            setProgressTrackId={setProgressTrackId}
+            progressTrackId={progressTrackId}
+          />
+        </Box>
       )}
       <Box>
         <Toolbar
           className={classes.bottomRow}
-          sx={{ width: !isActive ? "97%" : "100%" }}
+          sx={{ width: !isActive ? "100%" : "100%" }}
         >
           <Button
             variant="text"
@@ -542,7 +599,8 @@ function PathwayExercise() {
             style={{
               opacity: `${exerciseId < courseLength ? 1 : 0}`,
               position: "relative",
-              right: "-10px",
+              // right: "-10px",
+              marginRight: !isActive && !isActiveIpad ? "40px" : "",
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}

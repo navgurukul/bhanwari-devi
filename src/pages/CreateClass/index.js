@@ -41,10 +41,10 @@ function ToggleClassFormModal() {
   const classes = useStyles();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   const rolesList = user.data.user.rolesList;
-  const canSpecifyFacilitator =
-    rolesList.indexOf("volunteer") > -1 || rolesList.indexOf("admin") > -1;
+  const canSpecifyFacilitator = rolesList.indexOf("admin") > -1;
 
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
@@ -103,6 +103,8 @@ function ToggleClassFormModal() {
     });
   };
 
+  // console.log("authUrl", authUrl);
+
   const calledOnce = useRef(false);
   const history = useHistory();
 
@@ -116,6 +118,7 @@ function ToggleClassFormModal() {
       user_id = decodedUri.split("=")[2].split("+")[0];
       user_email = decodedUri.split("=")[3].split("&")[0];
       code = url.split("code=")[1].split("scope")[0];
+      console.log("code", code);
       payload = {
         ...payload,
         user_id: parseInt(user_id, 10),
@@ -162,7 +165,9 @@ function ToggleClassFormModal() {
           <Box sx={{ display: isActive ? "block" : "flex", direction: "row" }}>
             <Button
               variant="contained"
-              style={{ width: isActive ? "100%" : "19%" }}
+              style={{
+                width: isActive ? "100%" : isActiveIpad ? "60%" : "19%",
+              }}
               onClick={() => {
                 setFormType("batch");
                 toggleModalOpen();
@@ -173,7 +178,9 @@ function ToggleClassFormModal() {
             </Button>
             <Button
               variant="outlined"
-              style={{ width: isActive ? "100%" : "19%" }}
+              style={{
+                width: isActive ? "100%" : isActiveIpad ? "60%" : "19%",
+              }}
               onClick={() => {
                 setFormType("doubt_class");
                 toggleModalOpen();

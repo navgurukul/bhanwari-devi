@@ -13,5 +13,12 @@ const useStyles = makeStyles(() => ({
     height: "290px",
     backgroundColor: "pink",
   },
+  Right_tick: {
+    marginLeft: "8px",
+    verticalAlign: "baseline",
+  },
+  dialog: {
+    padding: "40px",
+  },
 }));
 export default useStyles;

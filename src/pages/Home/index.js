@@ -9,6 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import { selectRolesData } from "../../components/User/redux/selectors";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
@@ -19,6 +20,13 @@ import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
+import { useHistory } from "react-router-dom";
+import {
+  ADMIN_ROLE_KEY as ADMIN,
+  PARTNER_ROLE_KEY as PARTNER,
+  STUDENT_ROLE_KEY as STUDENT,
+  VOLUNTEER_ROLE_KEY as VOLUNTEER,
+} from "../../components/Header/constant";
 
 const pathwayData = [
   {
@@ -85,8 +93,40 @@ const concernsText = [
 ];
 
 function MerakiEntry(props) {
+  const user = useSelector(({ User }) => User);
+  const roles = useSelector(selectRolesData);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+
   const classes = useStyles();
+  const history = useHistory();
+
+  const partnerGroupId = user?.data?.user?.partner_group_id;
+  const partnerId = user?.data?.user?.partner_id;
+  const role = user?.data?.user?.rolesList;
+
+  const rolesLandingPages = {
+    [STUDENT]: PATHS.NEW_USER_DASHBOARD,
+    [ADMIN]: PATHS.PARTNERS,
+    [VOLUNTEER]: PATHS.CLASS,
+    [PARTNER]: partnerGroupId
+      ? `${PATHS.STATE}/${partnerGroupId}`
+      : `${PATHS.PARTNERS}/${partnerId}`,
+  };
+
+  let defalutPage = "/";
+  roles.map((userRole) => {
+    if (role?.length == 0) {
+      defalutPage = "/pathway/1";
+    } else if (role && userRole.key === role[0].toUpperCase()) {
+      defalutPage = rolesLandingPages[userRole.key];
+    }
+  });
+
+  useEffect(() => {
+    history.push(defalutPage);
+  }, [defalutPage]);
+
   return (
     <div>
       <Typography
@@ -103,7 +143,17 @@ function MerakiEntry(props) {
         spacing={2}
         justifyContent="center"
       >
-        <Grid alignItems="right" item xs={12} ms={12} md={4}>
+        <Grid
+          alignItems="right"
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          sx={{
+            display: isActiveIpad ? (isActive ? "flow" : "flex") : "",
+            justifyContent: isActiveIpad && "flex-end",
+          }}
+        >
           <Link to={PATHS.LOGIN} className={classes.link}>
             <Button
               className={isActive ? classes.responsiveBtn : classes.LearningBtn}
@@ -114,7 +164,7 @@ function MerakiEntry(props) {
             </Button>
           </Link>
         </Grid>
-        <Grid item xs={12} ms={12} md={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <Button
             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
             variant="outlined"
@@ -379,36 +429,36 @@ function Home() {
                 spacing={2}
                 justifyContent="center"
               >
-                {/* <Grid item>
-                <Typography align="center" color="primary" gutterBottom>
-                  <address
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "#2E2E2E",
-                        fontWeight: "bold",
-                        fontStyle: "normal",
-                      }}
-                    >
-                      Via email:{" "}
-                    </span>
-
-                    <ExternalLink
+                <Grid item>
+                  <Typography align="center" color="primary" gutterBottom>
+                    <address
                       style={{
                         textDecoration: "none",
-                        color: "#48a145",
-                        fontStyle: "normal",
                       }}
-                      href="mailto:team@meraki.org"
                     >
-                      team@merakilearn.org
-                    </ExternalLink>
-                  </address>
-                </Typography>
-              </Grid> */}
+                      <span
+                        style={{
+                          color: "#2E2E2E",
+                          fontWeight: "bold",
+                          fontStyle: "normal",
+                        }}
+                      >
+                        Via Email:{" "}
+                      </span>
+
+                      <ExternalLink
+                        style={{
+                          textDecoration: "none",
+                          color: "#48a145",
+                          fontStyle: "normal",
+                        }}
+                        href="mailto:merakilearn@navgurukul.org"
+                      >
+                        merakilearn@navgurukul.org
+                      </ExternalLink>
+                    </address>
+                  </Typography>
+                </Grid>
                 <Grid item>
                   <Typography align="center" color="primary" gutterBottom>
                     <address>
