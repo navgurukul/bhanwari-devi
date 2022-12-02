@@ -779,6 +779,7 @@ function ClassForm({
                   color="text.secondary"
                   pr={2}
                   mt={4}
+                  // mb={3}
                 >
                   Learning Track
                 </Typography>
@@ -789,6 +790,7 @@ function ClassForm({
                       pathway_id: e.target.value,
                     });
                   }}
+                  mb={3}
                 >
                   <FormControlLabel
                     value="1"
