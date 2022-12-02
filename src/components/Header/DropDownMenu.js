@@ -137,7 +137,7 @@ export default function DropDownMenu({
         // sx={{zIndex: 0}}
         // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
         {...menuContainerProps}
-        sx={{ ...offset, ...menuContainerProps?.sx }}
+        sx={{ ...offset, overflow: "hidden", ...menuContainerProps?.sx }}
         anchorOrigin={{
           vertical: "top",
           horizontal: useOffset ? "left" : "right",
