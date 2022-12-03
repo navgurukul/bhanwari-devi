@@ -105,7 +105,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
       </div>
     );
     menu = leftDrawer ? (
-      <AccordionDropDownMenu>{menuContents}</AccordionDropDownMenu>
+      <AccordionDropDownMenu textMsgKey="SWITCH_VIEWS">{menuContents}</AccordionDropDownMenu>
     ) : (
       <TextButtonDropDownMenu
         btnTextMsgKey="SWITCH_VIEWS"
