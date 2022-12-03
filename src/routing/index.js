@@ -33,7 +33,6 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
-import ContentEdit from "../components/PathwayExercise/ContentEdit";
 
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
@@ -94,11 +93,6 @@ const Routing = () => {
       <PrivateRoute
         path={PATHS.PATHWAY_COURSE_CONTENT}
         component={PathwayExercise}
-      />
-      <PrivateRoute
-        exact
-        path={PATHS.PATHWAY_COURSE_CONTENT_EDIT}
-        component={ContentEdit}
       />
       <PrivateRoute
         exact
