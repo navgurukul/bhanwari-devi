@@ -9,7 +9,6 @@ import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
-import { DropDown } from "../DropDown";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -64,7 +63,6 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
             id: "menu-appbar",
           }}
           sx={{ color: "black" }}
-          key={index}
         >
           <DropDown
             dropDown={LEARN_KEY}
