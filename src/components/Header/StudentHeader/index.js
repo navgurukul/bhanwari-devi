@@ -67,7 +67,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           key={index}
         >
           <DropDown
-            dropDown={menuKey}
+            dropDown={LEARN_KEY}
             toggleDrawer={toggleDrawer}
           />
         </TextButtonDropDownMenu>
