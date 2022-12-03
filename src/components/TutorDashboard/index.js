@@ -1065,17 +1065,17 @@ function Tutor(props) {
         statusValue={statusValue}
         setStatusValue={setStatusValue}
       />
-      <GenerateReport
-        generateDialog={generateDialog}
-        setGenerateDialog={setGenerateDialog}
-        startDate={startDate}
-        endTime={endTime}
-        setstartDate={setstartDate}
-        setendTime={setendTime}
-        volunteerReport={volunteer}
-        languageMap={languageMap}
-        numberOfWeek={numberOfWeek}
-      />
+//       <GenerateReport
+//         generateDialog={generateDialog}
+//         setGenerateDialog={setGenerateDialog}
+//         startDate={startDate}
+//         endTime={endTime}
+//         setstartDate={setstartDate}
+//         setendTime={setendTime}
+//         volunteerReport={volunteer}
+//         languageMap={languageMap}
+//         numberOfWeek={numberOfWeek}
+//       />
     </div>
   );
 }
