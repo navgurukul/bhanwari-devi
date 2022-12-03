@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import AccordionDropDownMenu from "./AccordionDropDownMenu";
 import ExternalLink from "../common/ExternalLink";
 import DropdownLink from "./DropdownLink";
 import LaunchIcon from "@mui/icons-material/Launch";
@@ -109,69 +110,56 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     });
 */
   return (
-    <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
-        sx={{ width: 380 }}
-      >
-        <Typography variant="subtitle1">
-          {/*MSG[getTranslationKey(Menu)]*/}
-          <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        {students[menuKey].map((menu, index) => {
-          if (menu.type === "internal") {
-            return (
-              <Link
-                to={
-                  menu.id
-                    ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: menu.id,
-                      })
-                    : menu.path
-                }
-                className={classes.link}
-                onClick={toggleDrawer && toggleDrawer(false)}
-              >
-                <MenuItem key={index} onClick={handleClose}>
-                  {menuKey === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
-                  )}
-                  <CardContent>
-                    <Typography textAlign="center" variant="body1">
-                      {menu.title}
-                    </Typography>
-                  </CardContent>
-                </MenuItem>
-              </Link>
-            );
-          } else {
-            return (
-              <ExternalLink
-                href={menu.path}
-                className={classes.link}
-                onClick={toggleDrawer && toggleDrawer(false)}
-              >
-                <MenuItem key={index} onClick={handleClose}>
-                  {menuKey === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
-                  )}
-                  <CardContent>
-                    <Typography textAlign="center" variant="body1">
-                      {menu.title}
-                    </Typography>
-                    <LaunchIcon />
-                  </CardContent>
-                </MenuItem>
-              </ExternalLink>
-            );
-          }
-        })}
-      </AccordionDetails>
-    </Accordion>
+    <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey].msgKey}>
+      {students[menuKey].map((menu, index) => {
+        if (menu.type === "internal") {
+          return (
+            <Link
+              to={
+                menu.id
+                  ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                      pathwayId: menu.id,
+                    })
+                  : menu.path
+              }
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
+              <MenuItem key={index} onClick={handleClose}>
+                {menuKey === LEARN_KEY && (
+                  <img src={students.image[index]} alt="course logo" />
+                )}
+                <CardContent>
+                  <Typography textAlign="center" variant="body1">
+                    {menu.title}
+                  </Typography>
+                </CardContent>
+              </MenuItem>
+            </Link>
+          );
+        } else {
+          return (
+            <ExternalLink
+              href={menu.path}
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
+              <MenuItem key={index} onClick={handleClose}>
+                {menuKey === LEARN_KEY && (
+                  <img src={students.image[index]} alt="course logo" />
+                )}
+                <CardContent>
+                  <Typography textAlign="center" variant="body1">
+                    {menu.title}
+                  </Typography>
+                  <LaunchIcon />
+                </CardContent>
+              </MenuItem>
+            </ExternalLink>
+          );
+        }
+      })}
+    </AccordionDropDownMenu>
   );
 };
 
