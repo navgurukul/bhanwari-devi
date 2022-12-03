@@ -1,13 +1,12 @@
 import {
   Typography,
-  Menu,
   MenuItem,
-  CardContent,
-  Divider,
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Message from "../common/Message";
 
 // TODO: Make it conform to this signature, adding properties as necessary
 /**
@@ -19,8 +18,8 @@ import {
  * @param {Array.<MenuItem>} options the Array of options in the dropdown menu
  */
 export default function AccordionDropDownMenu({
-  // textMsgKey,
-  // textArgs,
+  textMsgKey,
+  textArgs,
   // options,
   children,
 }) {
@@ -33,7 +32,7 @@ export default function AccordionDropDownMenu({
         sx={{ width: 380 }}
       >
         <Typography variant="subtitle1">
-          <Message constantKey={textMsgKey} args={btnTextArgs} />
+          <Message constantKey={textMsgKey} args={textArgs} />
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
