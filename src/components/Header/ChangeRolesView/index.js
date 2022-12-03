@@ -18,6 +18,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
+import AccordionDropDownMenu from "./AccordionDropDownMenu";
 // import { isTouchScreen } from "../../../common/utils";
 
 /*
@@ -93,6 +94,44 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
 
   const commonProps = { setRoleView, roleView, uid };
   const history = useHistory();
+  let menu = "";
+  
+  if (roles.length > 2) {
+    const menuContents = (
+      <div>
+        {roles.map((role) => (
+          <ChangeRole role={role} {...commonProps} />
+        ))}
+      </div>
+    );
+    menu = leftDrawer ? (
+      <AccordionDropDownMenu>{menuContents}</AccordionDropDownMenu>
+    ) : (
+      <TextButtonDropDownMenu
+        btnTextMsgKey="SWITCH_VIEWS"
+        attachRight={!leftDrawer}
+        menuContainerProps={{
+          // sx: { mt: '45px' },
+          id: 'menu-appbar',
+          /*
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: leftDrawer ? "left" : "right",
+            },
+            keepMounted: true,
+            transformOrigin: {
+              vertical: "top",
+              horizontal: leftDrawer ? "left" : "right",
+            },
+            */
+        }}
+      >
+        {menuContents}
+      </TextButtonDropDownMenu>
+    );
+  } else if (roles.length === 2) {
+    menu = <ChangeRole isToggle={true} role={otherRole} {...commonProps} />;
+  }
   //const location = useLocation();
 
   React.useEffect(() => {
@@ -118,37 +157,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
         },
       }}
     >
-      {roles.length > 2 ? (
-        <TextButtonDropDownMenu
-          btnTextMsgKey="SWITCH_VIEWS"
-          attachRight={!leftDrawer}
-          menuContainerProps={{
-            // sx: { mt: '45px' },
-            id: "menu-appbar",
-            /*
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: leftDrawer ? "left" : "right",
-            },
-            keepMounted: true,
-            transformOrigin: {
-              vertical: "top",
-              horizontal: leftDrawer ? "left" : "right",
-            },
-            */
-          }}
-        >
-          <div>
-            {roles.map((role) => (
-              <ChangeRole role={role} {...commonProps} />
-            ))}
-          </div>
-        </TextButtonDropDownMenu>
-      ) : (
-        roles.length === 2 && (
-          <ChangeRole isToggle={true} role={otherRole} {...commonProps} />
-        )
-      )}
+      {menu}
     </Box>
   );
 }
