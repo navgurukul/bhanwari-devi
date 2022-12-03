@@ -18,7 +18,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
-import AccordionDropDownMenu from "./AccordionDropDownMenu";
+import AccordionDropDownMenu from "../AccordionDropDownMenu";
 // import { isTouchScreen } from "../../../common/utils";
 
 /*
