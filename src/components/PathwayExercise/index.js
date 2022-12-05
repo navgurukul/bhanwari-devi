@@ -195,19 +195,21 @@ function PathwayExercise() {
       });
   }, [currentCourse]);
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-    }).then((res) => {
-      const data = res.data;
+    if (Number.isInteger(parseInt(params.pathwayId))) {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+      }).then((res) => {
+        const data = res.data;
 
-      setProgressTrackId(data);
-    });
+        setProgressTrackId(data);
+      });
+    }
   }, [exerciseId]);
 
   const LangDropDown = () => {
@@ -281,40 +283,44 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-        headers: {
-          "version-code": versionCode,
-          accept: "application/json",
-          Authorization: user.data?.token || "",
-        },
-        data: {
-          pathway_id: params.pathwayId,
-          course_id: params.courseId,
-          exercise_id: course[exerciseId].id,
-        },
-      });
+      if (Number.isInteger(parseInt(params.pathwayId))) {
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            exercise_id: course[exerciseId].id,
+          },
+        });
+      }
       setExerciseId(exerciseId + 1);
     } else {
       setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-        headers: {
-          "version-code": versionCode,
-          accept: "application/json",
-          Authorization: user.data?.token || "",
-        },
-        data: {
-          pathway_id: params.pathwayId,
-          course_id: params.courseId,
-          exercise_id: course[exerciseId].id,
-        },
-      })
-        .then((res) => {})
-        .catch((err) => {});
+      if (Number.isInteger(parseInt(params.pathwayId))) {
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            exercise_id: course[exerciseId].id,
+          },
+        })
+          .then((res) => {})
+          .catch((err) => {});
+      }
     }
   };
   const nextArrowClickHandler = () => {
