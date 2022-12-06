@@ -16,16 +16,35 @@ import { interpolatePath, PATHS, versionCode } from "../../constant";
 import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUpcomingBatches } from "../PathwayCourse/redux/api";
+import { actions as upcomingBatchesActions } from "../PathwayCourse/redux/action";
+import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
+import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
+import { getPathwaysCourse } from "../PathwayCourse/redux/api";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const history = useHistory();
   const params = useParams();
+  const dispatch = useDispatch();
+
+  // const upcomingBatchesData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
+
+  const enrolledBatches = useSelector((state) => {
+    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
+      return state?.Pathways?.enrolledBatches?.data;
+    } else {
+      return null;
+    }
+  });
 
   const user = useSelector(({ User }) => User);
   const [learningTracks, setLearningTracks] = useState([]);
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -40,12 +59,11 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
-  console.log({ learningTracks }, "learning>>>>>>>>>>>>");
 
   return (
-    <>
-      <div>
-        <Container>
+    <Container>
+      {/* {learningTracks.map(())
+        <>
           <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
             My Learning Tracks (With Classes)
           </Typography>
@@ -55,31 +73,49 @@ function ReturningUserPage() {
             justifyContent="center"
             style={{ gap: 40 }}
           >
-            {learningTracks.map((item) => (
-              <LearningTrackCard item={item} />
-            ))}
-
-            {/* {console.log({LearningTrackCard} ,"data is here>>>>>>>>>>>>>")} */}
+         
+            (<LearningTrackCard item={pathway}/>)
+          
+            
           </Grid>
-        </Container>
+          </>
+          } */}
 
-        <Container>
-          <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
-            My Learning Tracks (Without Classes)
-          </Typography>
-          <Grid
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="center"
-            style={{ gap: 40 }}
-          >
-            {learningTracks.map((item) => (
-              <LearningTrackCard item={item} />
-            ))}
-          </Grid>
-        </Container>
-      </div>
-    </>
+      <>
+        <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
+          My Learning Tracks (With Classes)
+        </Typography>
+        <Grid
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center"
+          style={{ gap: "32px" }}
+        >
+          {learningTracks.map(
+            (item) =>
+              (item.pathway_id == 1 || item.pathway_id === 2) && (
+                <LearningTrackCard item={item} />
+              )
+          )}
+        </Grid>
+        <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
+          My Learning Tracks (Without Classes)
+        </Typography>
+        <Grid
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center"
+          style={{ gap: 32 }}
+        >
+          {learningTracks.map(
+            (item) =>
+              (item.pathway_id == 3 ||
+                item.pathway_id === 4 ||
+                item.pathway_id === 5) && <LearningTrackCard item={item} />
+          )}
+        </Grid>
+      </>
+    </Container>
   );
 }
 export default ReturningUserPage;

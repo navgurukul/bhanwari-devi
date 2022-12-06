@@ -102,12 +102,13 @@ function LearningTrackCard(props) {
     });
     setCourseIndex(COurseIndex);
   }, [item]);
-  // console.log(PathwayData,"pathwaydata");
 
   const data = useSelector((state) => {
     return state;
   });
-
+  // const upcomingBatchesData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
   console.log("upcomingdata", upcomingBatchesData);
 
   useEffect(() => {
@@ -137,19 +138,6 @@ function LearningTrackCard(props) {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
 
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      setUpcomingBatchesData(res.data);
-    });
-  }, []);
-
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
       pathwayData.forEach((item) => {
@@ -163,14 +151,26 @@ function LearningTrackCard(props) {
     return item.id == pathwayId;
   });
   console.log(pathwayCourseData, ">>>>>>>>>>>.");
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    }).then((res) => {
+      setUpcomingBatchesData(res.data);
+    });
+  }, []);
 
   return (
     <>
       <Card
         elevation={2}
         sx={{
-          width: "524px",
-          // width: "640px",
+          // width: "540px",
+          width: "526px",
           marginBottom: "32px",
           borderRadius: "8px",
           padding: "16px",
@@ -211,7 +211,7 @@ function LearningTrackCard(props) {
               </Typography>
               <LinearProgress
                 // className={classes.progressBar}
-                sx={{ width: "73%", marginLeft: isActive ? "30px" : "50px" }}
+                sx={{ width: "73%", marginLeft: isActive ? "30px" : "40px" }}
                 variant="determinate"
                 value={parseInt(completedPortionJason) || 0}
               />
@@ -220,8 +220,9 @@ function LearningTrackCard(props) {
 
           {(pathwayCourseData?.code == "PRGPYT" ||
             pathwayCourseData?.code == "SPKENG") &&
-            upcomingBatchesData?.length > 0 && (
+            (upcomingBatchesData?.length > 0 ? (
               <>
+                <hr align="center" className={classes.hrunderLine} />
                 <Typography variant="subtitle1" mb={2} mt={2}>
                   Batch : {upcomingBatchesData[0].title}
                 </Typography>
@@ -229,7 +230,7 @@ function LearningTrackCard(props) {
                   Upcoming Classes
                 </Typography>
                 <Grid container spacing={2} mb={2}>
-                  <Grid item>
+                  <Grid item md={1}>
                     <img
                       src={require("./assets/classtype.svg")}
                       alt="Google Playstore Icon"
@@ -240,7 +241,7 @@ function LearningTrackCard(props) {
                       {upcomingBatchesData[0]?.sub_title}
                     </Typography>
                   </Grid>
-                  <Grid item md={2} xs={2} sx={{ justifyItems: "left" }}>
+                  <Grid item md={2} sx={{ justifyItems: "left" }}>
                     {upcomingBatchesData[0]?.type === "batch" && (
                       <Chip
                         label="Batch"
@@ -254,9 +255,8 @@ function LearningTrackCard(props) {
                   </Grid>
                   <Grid
                     item
-                    md={2}
                     sx={{
-                      marginLeft: isActive ? "15px" : "20px",
+                      marginLeft: isActive ? "0px" : "10px",
                       color: "text.secondary",
                     }}
                   >
@@ -270,27 +270,33 @@ function LearningTrackCard(props) {
                   startTime={upcomingBatchesData[0]?.start_time}
                   link={upcomingBatchesData[0]?.meet_link}
                 />
+                <Button
+                  variant="outlined"
+                  sx={{
+                    marginTop: isActive ? "0px" : "32px",
+                    left: isActive ? "180px" : "350px",
+                    border: "none",
+                    // left: isActive ? "180px" : "436px",
+                  }}
+                  onClick={() => {
+                    history.push(
+                      interpolatePath(PATHS.PATHWAY_COURSE, {
+                        pathwayId: item.pathway_id,
+                      })
+                    );
+                  }}
+                >
+                  Go to Track
+                  <KeyboardArrowRightTwoToneIcon sx={{ marginTop: ".2rem" }} />
+                </Button>
               </>
-            )}
-          <Button
-            variant="outlined"
-            sx={{
-              marginTop: isActive ? "0px" : "32px",
-              left: isActive ? "100px" : "350px",
-              border: "none",
-              // left: isActive ? "180px" : "436px",
-            }}
-            onClick={() => {
-              history.push(
-                interpolatePath(PATHS.PATHWAY_COURSE, {
-                  pathwayId: item.pathway_id,
-                })
-              );
-            }}
-          >
-            Go to Track
-            <KeyboardArrowRightTwoToneIcon sx={{ marginTop: ".2rem" }} />
-          </Button>
+            ) : (
+              <>
+                <Typography variant="h5" sx={{ marginTop: "32px" }}>
+                  No Classes
+                </Typography>
+              </>
+            ))}
         </CardContent>
       </Card>
     </>
