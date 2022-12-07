@@ -5,11 +5,13 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItem from "@mui/material/ListItem";
 import { Typography, useMediaQuery } from "@mui/material";
+import { useDebouncedCallback } from 'use-debounce';
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+
 
 function Item({
   progressTrackId,
@@ -105,16 +107,35 @@ function PersistentDrawerLeft({
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
+  const [scrollPosition, setScrollPosition] = React.useState()
 
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
   const ref1 = React.useRef();
+  const scrollRef = React.useRef();
+
+  // const debouncedUpdateScroll = useDebouncedCallback(() => {
+  //     //setScrollPosition(window.pageYOffset);
+  //     console.log("Hello Om")
+  //   },
+  //   100
+  // );
+
+  const debouncedUpdateScroll = () => {
+    //setScrollPosition(window.pageYOffset);
+    console.log("Hello Om")
+  }
+
   React.useEffect(() => {
-    if (ref1.current) {
-      ref1.current.scrollIntoView({
-        block: "center",
-      });
+    // if (ref1.current) {
+      // ref1.current.scrollIntoView({
+      //   block: "center",
+      // });
+    // }
+
+    if(scrollRef.current){
+      scrollRef.current.addEventListener('scroll', debouncedUpdateScroll, {passive: true});
     }
   }, []);
 
@@ -125,6 +146,7 @@ function PersistentDrawerLeft({
         variant="persistent"
         anchor="left"
         open={true}
+        ref={scrollRef}
         PaperProps={{ style: { border: "none" } }}
       >
         <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
