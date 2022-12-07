@@ -69,7 +69,7 @@ function Profile() {
     user?.data?.user?.contact?.split("-")?.[1] || null
   );
 
-  console.log(contact,'contact-poonam')
+ 
 
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [message, setMessage] = React.useState("");
@@ -115,12 +115,11 @@ function Profile() {
     const phoneNumber = `${countryCode}${contact}`;
     const appVerifier = window.recaptchaVerifier;
     const auth = getAuth();
-    console.log("phoneNumber", phoneNumber);
+   
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((result) => {
         setMessage("OTP sent successfully");
         setSnackBarOpen(true);
-        console.log("OTP sent", result);
         setStartOtp(true);
         setConfirmationResult(result);
       })
@@ -144,7 +143,7 @@ function Profile() {
     );
   };
   useEffect(() => {
-    console.log("user", showError);
+
   }, [showError]);
   const OtpEnter = (event) => {
     confirmationResult
