@@ -25,7 +25,7 @@ export const PATHS = {
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   NAVGURUKUL_INTRODUCE: "/navgurukul/:partnerId",
-  ADMISSION: "/admission",
+  // ADMISSION: "/admission",
   REDIRECT: "/redirect",
   VOLUNTEER: "/volunteer",
   TEAM: "/team",
