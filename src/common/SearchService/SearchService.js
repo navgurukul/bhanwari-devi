@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-check
 import TrieSearch from 'trie-search';
 
 /**
