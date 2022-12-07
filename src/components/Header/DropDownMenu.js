@@ -160,6 +160,8 @@ export default function DropDownMenu({
         }}
         hideBackdrop
         open={!!anchorEl}
+        // To resolve issue https://github.com/mui/material-ui/issues/5185
+        disableScrollLock={true}
       >
         {children}
       </Menu>
