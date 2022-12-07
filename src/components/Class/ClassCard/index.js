@@ -356,7 +356,7 @@ function ClassCard({ item, editClass }) {
             className={classes.icons}
             src={require("../assets/facilitator.svg")}
           />
-          {item.facilitator.name}
+          {item?.volunteer?.name || item.facilitator.name}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img

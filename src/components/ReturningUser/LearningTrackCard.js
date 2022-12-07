@@ -34,6 +34,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { METHODS } from "../../services/api";
 import axios from "axios";
 import LearningTrackTimerButton from "./LearningTrackTimerButton";
+import path from "path";
 
 const pathwayData = [
   {
@@ -82,7 +83,7 @@ function LearningTrackCard(props) {
   const [PathwayData, setPathwayData] = useState([]);
   const [courseIndex, setCourseIndex] = useState(0);
   const [open, setOpen] = React.useState(false);
-  const { item } = props;
+  const { item, setPathway } = props;
   const pathwayId = item.pathway_id;
   const [completedPortionJason, setCompletedPortionJason] = useState();
   const [upcomingBatchesData, setUpcomingBatchesData] = useState();
@@ -101,12 +102,14 @@ function LearningTrackCard(props) {
     setCourseIndex(COurseIndex);
   }, [item]);
   // console.log(PathwayData,"pathwaydata");
-
+  // useEffect(()=>{
+  //   // setPathway(pathwayId)
+  // })
   const data = useSelector((state) => {
     return state;
   });
 
-  console.log("upcomingdata", upcomingBatchesData);
+  // console.log("upcomingdata", upcomingBatchesData);
 
   useEffect(() => {
     // setLoading(true);
@@ -147,6 +150,9 @@ function LearningTrackCard(props) {
       setUpcomingBatchesData(res.data);
     });
   }, []);
+  // const upcomingBatchesData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {

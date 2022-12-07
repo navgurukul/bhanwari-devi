@@ -44,8 +44,7 @@ function ToggleClassFormModal() {
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   const rolesList = user.data.user.rolesList;
-  const canSpecifyFacilitator =
-    rolesList.indexOf("volunteer") > -1 || rolesList.indexOf("admin") > -1;
+  const canSpecifyFacilitator = rolesList.indexOf("admin") > -1;
 
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
