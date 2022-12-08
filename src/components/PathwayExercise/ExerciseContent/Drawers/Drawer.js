@@ -1,11 +1,8 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListItem from "@mui/material/ListItem";
 import { Typography, useMediaQuery } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
@@ -13,15 +10,6 @@ import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
 
 function Item({
   progressTrackId,
@@ -94,6 +82,7 @@ function Item({
               ) : (
                 ""
               )}
+              {index + 1 + ". "}
               {title === "assessment" ? "Practice Question" : title}
             </Typography>
           </ListItemButton>
@@ -104,8 +93,6 @@ function Item({
 }
 
 function PersistentDrawerLeft({
-  open,
-  setOpen,
   list,
   setSelected,
   setExerciseId,
@@ -137,7 +124,7 @@ function PersistentDrawerLeft({
         className={classes.DesktopDrawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={true}
         PaperProps={{ style: { border: "none" } }}
       >
         <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
@@ -152,7 +139,10 @@ function PersistentDrawerLeft({
           <List>
             <ListItem disablePadding>
               <ListItemButton>
-                <AssignmentOutlinedIcon className={classes.ContentListIcon} />
+                <AssignmentOutlinedIcon
+                  style={{ marginTop: "24px", marginRight: "10px" }}
+                  className={classes.ContentListIcon}
+                />
                 <Typography
                   className={classes.courseNameTypography}
                   variant="subtitle2"

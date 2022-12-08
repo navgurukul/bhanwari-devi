@@ -192,10 +192,11 @@ const RenderContent = ({ data, exercise }) => {
                 position: "sticky",
               }}
             >
-              {data.value.map((item) => {
+              {data.value.map((item, idx) => {
                 const header = DOMPurify.sanitize(item.header);
                 return (
                   <TableCell
+                    key={idx}
                     sx={{ background: "#F5F5F5", fontWeight: "bold" }}
                     className={classes.tableHead}
                     dangerouslySetInnerHTML={{ __html: header }}
@@ -205,13 +206,18 @@ const RenderContent = ({ data, exercise }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataInCol.map((item) => {
+            {dataInCol.map((item, index) => {
               return (
-                <TableRow className={classes.tableHead} hover={false}>
-                  {item.map((row) => {
+                <TableRow
+                  key={index}
+                  className={classes.tableHead}
+                  hover={false}
+                >
+                  {item.map((row, idx) => {
                     const rowData = DOMPurify.sanitize(row);
                     return (
                       <TableCell
+                        key={idx}
                         className={classes.tableHead}
                         dangerouslySetInnerHTML={{ __html: rowData }}
                       />
@@ -282,6 +288,7 @@ function ExerciseContent({
   setProgressTrackId,
   progressTrackId,
 }) {
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -294,10 +301,9 @@ function ExerciseContent({
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDrawer, setOpenDrawer] = useState(true);
+  const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     if (cashedData?.length > 0) {
@@ -389,9 +395,7 @@ function ExerciseContent({
 
     return (
       <Container maxWidth="lg">
-        {!desktop && (
-          <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
-        )}
+        {!desktop && <ContentListText setOpenDrawer={setOpenMobile} />}
         <Grid container justifyContent={"center"}>
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
@@ -401,9 +405,7 @@ function ExerciseContent({
               </Box>
             </Box>
           </Grid>
-          {desktop && (
-            <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
-          )}
+
           <Grid
             style={{
               display: showJoinClass ? "block" : "none",
@@ -437,17 +439,16 @@ function ExerciseContent({
             <PersistentDrawerLeft
               setSelected={setSelected}
               list={contentList}
-              open={openDrawer}
-              setOpen={setOpenDrawer}
               setExerciseId={setExerciseId}
               progressTrackId={progressTrackId}
             />
           ) : (
             <MobileDrawer
+              open={openMobile}
+              setOpen={setOpenMobile}
               setSelected={setSelected}
               list={contentList}
-              open={openDrawer}
-              setOpen={setOpenDrawer}
+              setExerciseId={setExerciseId}
               progressTrackId={progressTrackId}
             />
           )}

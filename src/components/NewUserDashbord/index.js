@@ -40,6 +40,11 @@ const pathwayData = [
     image: "residential",
     description: "Explore Navgurukul’s on campus Software Engineering courses",
   },
+  {
+    title: "Open Courses",
+    image: "misc",
+    description: "Courses on Android, Game dev projects and more",
+  },
 ];
 
 const NewUserDashbord = () => {
