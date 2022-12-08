@@ -34,7 +34,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
-
+import Tutor from "../components/TutorDashboard";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {
@@ -76,6 +76,9 @@ const Routing = () => {
         path={PATHS.NAVGURUKUL_INTRODUCE}
         component={NavgurukulIntroduce}
       />
+
+      <PrivateRoute exact path={PATHS.TUTOR} component={Tutor} />
+
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <Route exact path={PATHS.SEARCHED_COURSE} component={SearchCourse} />
       <Route
