@@ -3,6 +3,8 @@ import { render } from "@testing-library/react";
 // import { act } from "react-dom/test-utils";
 // import { makeDateFrom } from "../../../common/date.js";
 import ClassJoinTimerButton from "./";
+import LearningTrackTimerButton from "../../ReturningUser/LearningTrackTimerButton";
+
 // jest.setSystemTime
 
 describe("ClassJoinTimerButton", () => {
@@ -16,14 +18,27 @@ describe("ClassJoinTimerButton", () => {
 
     testTimes.forEach((testTime) => {
       rerender(
-        <ClassJoinTimerButton
-          //startTime="2022-06-21T03:25:00.000+05:30"
-          startTime={
-            new Date(new Date().setSeconds(new Date().getSeconds() + testTime))
-          }
-          link=""
-          joinOnClick={() => true}
-        />
+        <>
+          <ClassJoinTimerButton
+            //startTime="2022-06-21T03:25:00.000+05:30"
+            startTime={
+              new Date(
+                new Date().setSeconds(new Date().getSeconds() + testTime)
+              )
+            }
+            link=""
+            joinOnClick={() => true}
+          />
+          <LearningTrackTimerButton
+            startTime={
+              new Date(
+                new Date().setSeconds(new Date().getSeconds() + testTime)
+              )
+            }
+            link=""
+            joinOnClick={() => true}
+          />
+        </>
       );
 
       expect(getByRole("button"))[

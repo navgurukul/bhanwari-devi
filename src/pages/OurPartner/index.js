@@ -173,11 +173,14 @@ const OurPartner = () => {
                           </Typography>
                         </CardContent>
                         <CardActions sx={{ height: "8px" }}>
-                          <IconButton>
-                            <Link href={partner[item].Url} target="_blank">
-                              <PublicIcon variant="outlined" />
-                            </Link>
-                          </IconButton>
+                          {partner[item].Url !== "NA" &&
+                            partner[item].Url !== null && (
+                              <IconButton>
+                                <Link href={partner[item].Url} target="_blank">
+                                  <PublicIcon variant="outlined" />
+                                </Link>
+                              </IconButton>
+                            )}
                         </CardActions>
                       </Card>
                     )}

@@ -141,6 +141,7 @@ function ClassCard({ item, editClass }) {
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {
     setLoading(true);
+    console.log("28002", Id);
     const notify = () => {
       toast.success("You have been enrolled to class successfully", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -169,6 +170,7 @@ function ClassCard({ item, editClass }) {
         }
       )
       .then((res) => {
+        console.log("res", res);
         if (!getNotify) {
           notify();
           clearTimeout(timer);
@@ -180,6 +182,7 @@ function ClassCard({ item, editClass }) {
 
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
+    console.log("28002", Id);
     setLoading(true);
     const notify = () => {
       toast.success("You have been dropped out of class successfully", {
@@ -206,6 +209,7 @@ function ClassCard({ item, editClass }) {
         // "unregister-to-all": indicator,
       },
     }).then((res) => {
+      console.log("res", res);
       if (!getNotify) {
         notify();
         clearTimeout(timer);
@@ -215,6 +219,7 @@ function ClassCard({ item, editClass }) {
     });
   };
 
+  //console.log("indicator", indicator);
   /*
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {
@@ -351,7 +356,7 @@ function ClassCard({ item, editClass }) {
             className={classes.icons}
             src={require("../assets/facilitator.svg")}
           />
-          {item.facilitator.name}
+          {item?.volunteer?.name || item.facilitator.name}
         </Typography>
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img

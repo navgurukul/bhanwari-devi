@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   ListItemLink: {
     textDecoration: "none",
     fontSize: "14px",
+    width: "100%",
   },
   courseNameTypography: {
     fontWeight: "400",
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     left: "24px",
     marginLeft: "10px",
-    marginTop: "24px",
+    marginTop: "200px",
   },
   ContentListIcon: {
     color: "#6D6D6D",

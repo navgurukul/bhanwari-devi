@@ -7,6 +7,8 @@ export const PATHS = {
   CLASS: "/class",
   COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
+  PATHWAY_COURSE_CONTENT_EDIT:
+    "/course-content-edit/:pathwayId/:courseId/:exerciseId",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   PATHWAY_COURSE: "/pathway/:pathwayId",
@@ -23,7 +25,7 @@ export const PATHS = {
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   NAVGURUKUL_INTRODUCE: "/navgurukul/:partnerId",
-  ADMISSION: "/admission",
+  // ADMISSION: "/admission",
   REDIRECT: "/redirect",
   VOLUNTEER: "/volunteer",
   TEAM: "/team",
@@ -40,10 +42,15 @@ export const PATHS = {
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
 };
-export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT];
+export const HideHeader = [
+  PATHS.PATHWAY_COURSE_CONTENT,
+  PATHS.PATHWAY_COURSE_CONTENT_EDIT,
+  PATHS.VOLUNTEER_FORM,
+];
 export const HideFooter = [
   PATHS.LOGIN,
   PATHS.PATHWAY_COURSE_CONTENT,
+  PATHS.PATHWAY_COURSE_CONTENT_EDIT,
   PATHS.PROFILE,
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
@@ -226,6 +233,16 @@ export const TimeLeft = (date) => {
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    console.log(
+      "days",
+      days,
+      "hours",
+      hours,
+      "minutes",
+      minutes,
+      "seconds",
+      seconds
+    );
 
     if (days > 0) {
       return `${days} days ${hours} hrs ${minutes} mins`;

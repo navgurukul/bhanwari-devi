@@ -16,7 +16,7 @@ import Profile from "../pages/Profile";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import NavgurukulIntroduce from "../pages/Navgurukul";
-import Admission from "../pages/Navgurukul/merakiAdmission";
+// import Admission from "../pages/Navgurukul/merakiAdmission";
 import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
@@ -33,6 +33,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
+
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {
@@ -98,7 +99,7 @@ const Routing = () => {
         path={PATHS.NEW_USER_DASHBOARD}
         component={NewUserDashbord}
       />
-      <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
+      {/* <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} /> */}
       <PrivateRoute
         exact
         path={PATHS.STATEPARTNER}
