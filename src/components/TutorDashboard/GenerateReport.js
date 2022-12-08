@@ -62,7 +62,6 @@ const GenerateReport = (props) => {
   let singleVolunteerData;
   const volunteerReportData2 = [];
   volunteerReport.map((el) => {
-    // console.log(el.available_on_time);
     if (el["pathway_id"][0] == 1) {
       singleVolunteerData = {
         "Tutor ID": el.id,

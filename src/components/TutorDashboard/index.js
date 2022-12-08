@@ -46,9 +46,6 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuComponent from "./MenuComponent";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Select } from "@material-ui/core";
-import { ZoomInRounded } from "@material-ui/icons";
-import { set } from "date-fns";
-import { Link } from "react-router-dom";
 
 function isAll(val) {
   return val === "All";
@@ -345,12 +342,6 @@ function Tutor(props) {
       </IconButton>
     </React.Fragment>
   );
-
-  // console.log(startDate);
-  // console.log(endTime);
-  // console.log(volunteer);
-  // console.log(languageMap);
-  console.log(numberOfWeek);
   return (
     <div>
       <Container maxWidth="lg">
@@ -378,7 +369,7 @@ function Tutor(props) {
               }}
               fullWidth
               type="text"
-              placeholder="Name, Batch, Class Title..."
+              placeholder=" Search By Name... "
               variant="standard"
               value={searchTerm}
               onChange={(e) => {
@@ -587,13 +578,7 @@ function Tutor(props) {
                   </TableCell>
                   {selected.length > 0 ? (
                     <>
-                      <TableCell
-                        align="center"
-                        // className={classes.tableSticky}
-                        // sx={{ left: "60px", p : "2px"
-                        // width: "150px"
-                        // }}
-                      >
+                      <TableCell align="center">
                         <Typography className={classes.tablecellHead}>
                           {selected.length}{" "}
                           {selected.length === 1 ? "row is " : "rows are "}
@@ -601,10 +586,6 @@ function Tutor(props) {
                         </Typography>
                       </TableCell>
                       <TableCell
-                        // className={classes.tableSticky}
-                        // sx={{ left: "200px", p:"2px"
-                        // width: "150px"
-                        // }}
                         onClick={() => {
                           const valueToDisplay = `Total ${selected.length} ${
                             selected.length === 1 ? "row is " : "rows are "
@@ -624,8 +605,6 @@ function Tutor(props) {
                       </TableCell>
                       <TableCell
                         colSpan={isActive ? 0 : 5}
-                        // className={classes.tableSticky}
-                        // sx={{ left: "329px", zIndex:500, p : "2px"}}
                         onClick={() => {
                           setStatusId(selected);
                           deleteUsers();
@@ -792,7 +771,6 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {/* {console.log("item", item)} */}
                                 {(item?.last_class &&
                                   item?.last_class?.title) ||
                                   "-"}
