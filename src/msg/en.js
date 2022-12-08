@@ -25,6 +25,7 @@ en.SEARCH_FOR_COURSES = "Search for Courses...";
 en.CAREERS = "Careers";
 en.PROFILE = "Profile";
 en.LOGOUT = "Logout";
-en.CERTIFICATE_COMPLETION_WARNING = "Please complete all the courses to unlock %1 certificate";
+en.CERTIFICATE_COMPLETION_WARNING =
+  "Please complete all the courses to unlock %1 certificate";
 
 export default en;

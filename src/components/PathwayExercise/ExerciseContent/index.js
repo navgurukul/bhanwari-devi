@@ -208,7 +208,11 @@ const RenderContent = ({ data, exercise }) => {
           <TableBody>
             {dataInCol.map((item, index) => {
               return (
-                <TableRow key={index} className={classes.tableHead} hover={false}>
+                <TableRow
+                  key={index}
+                  className={classes.tableHead}
+                  hover={false}
+                >
                   {item.map((row, idx) => {
                     const rowData = DOMPurify.sanitize(row);
                     return (
@@ -301,7 +305,6 @@ function ExerciseContent({
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -392,9 +395,7 @@ function ExerciseContent({
 
     return (
       <Container maxWidth="lg">
-        {!desktop && (
-          <ContentListText setOpenDrawer={setOpenMobile} />
-        )}
+        {!desktop && <ContentListText setOpenDrawer={setOpenMobile} />}
         <Grid container justifyContent={"center"}>
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
@@ -404,7 +405,7 @@ function ExerciseContent({
               </Box>
             </Box>
           </Grid>
-          
+
           <Grid
             style={{
               display: showJoinClass ? "block" : "none",

@@ -1,16 +1,16 @@
-import * as React from 'react';
+import * as React from "react";
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { useMediaQuery } from '@mui/material';
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { useMediaQuery } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import useStyles from "./styles";
 
@@ -92,7 +92,7 @@ function Item({
               ) : (
                 ""
               )}
-              {(index+1)+". "}
+              {index + 1 + ". "}
               {title === "assessment" ? "Practice Question" : title}
             </Typography>
           </ListItemButton>
@@ -102,12 +102,19 @@ function Item({
   );
 }
 
-
 function MobileDrawer(props) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
-  const { window, setSelected, list, open, setOpen, setExerciseId, progressTrackId } = props;
+  const {
+    window,
+    setSelected,
+    list,
+    open,
+    setOpen,
+    setExerciseId,
+    progressTrackId,
+  } = props;
   //const [mobileOpen, setMobileOpen] = React.useState(false);
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
@@ -121,7 +128,7 @@ function MobileDrawer(props) {
   }, []);
 
   const handleDrawerToggle = () => {
-    setOpen((prev)=>!prev);
+    setOpen((prev) => !prev);
   };
 
   const drawer = (
@@ -129,31 +136,32 @@ function MobileDrawer(props) {
       <Toolbar />
       <Divider />
       <List>
-          {list?.map((obj, index) => (
-            <Item
-              key={index}
-              progressTrackId={progressTrackId}
-              setSelected={setSelected}
-              setOpen={handleDrawerToggle}
-              selected={selected}
-              index={index}
-              ref1={ref1}
-              setExerciseId={setExerciseId}
-              classes={classes}
-              params={params}
-              contentType={obj.content_type}
-              id={obj.id}
-              title={obj.name || obj.sub_title || obj.content_type || "N/A"}
-            />
-          ))}
+        {list?.map((obj, index) => (
+          <Item
+            key={index}
+            progressTrackId={progressTrackId}
+            setSelected={setSelected}
+            setOpen={handleDrawerToggle}
+            selected={selected}
+            index={index}
+            ref1={ref1}
+            setExerciseId={setExerciseId}
+            classes={classes}
+            params={params}
+            contentType={obj.content_type}
+            id={obj.id}
+            title={obj.name || obj.sub_title || obj.content_type || "N/A"}
+          />
+        ))}
       </List>
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <Box
         component="nav"
@@ -170,8 +178,11 @@ function MobileDrawer(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
