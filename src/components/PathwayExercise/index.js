@@ -566,6 +566,7 @@ function PathwayExercise() {
         />
       ) : (
         <Box sx={{ marginTop: "120px" }}>
+          {/* <Box sx={{ marginTop: "50px" }}> */}
           <ExerciseContent
             contentList={course}
             exerciseId={exerciseId}
