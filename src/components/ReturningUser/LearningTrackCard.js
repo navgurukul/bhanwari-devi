@@ -218,12 +218,13 @@ function LearningTrackCard(props) {
             </Grid>
           </Grid>
 
-          {(pathwayCourseData?.code == "PRGPYT" ||
-            pathwayCourseData?.code == "SPKENG") &&
+          {user?.data?.user?.partner_id === null &&
+            (pathwayCourseData?.code == "PRGPYT" ||
+              pathwayCourseData?.code == "SPKENG") &&
             (upcomingBatchesData?.length > 0 ? (
               <>
                 <hr align="center" className={classes.hrunderLine} />
-                <Typography variant="subtitle1" mb={2} mt={2}>
+                <Typography variant="subtitle1" mb={2}>
                   Batch : {upcomingBatchesData[0].title}
                 </Typography>
                 <Typography variant="body1" mb={2} color="text.secondary">
@@ -292,9 +293,43 @@ function LearningTrackCard(props) {
               </>
             ) : (
               <>
-                <Typography variant="h5" sx={{ marginTop: "32px" }}>
-                  No Classes
-                </Typography>
+                <hr align="center" className={classes.hrunderLine} />
+
+                <Grid container>
+                  <Grid item md={2}>
+                    <img
+                      src={require("./assets/noclasses.png")}
+                      alt="Google Playstore Icon"
+                      sx={{ width: "62px", height: "114px" }}
+                    />
+                  </Grid>
+                  <Grid item md={1}></Grid>
+                  <Grid item md={9}>
+                    <Typography variant="body1">
+                      Your classes will start soon. Your tutor/partner will be
+                      in touch about the upcoming batch.
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    marginTop: isActive ? "0px" : "32px",
+                    left: isActive ? "180px" : "350px",
+                    border: "none",
+                    // left: isActive ? "180px" : "436px",
+                  }}
+                  onClick={() => {
+                    history.push(
+                      interpolatePath(PATHS.PATHWAY_COURSE, {
+                        pathwayId: item.pathway_id,
+                      })
+                    );
+                  }}
+                >
+                  Go to Track
+                  <KeyboardArrowRightTwoToneIcon sx={{ marginTop: ".2rem" }} />
+                </Button>
               </>
             ))}
         </CardContent>

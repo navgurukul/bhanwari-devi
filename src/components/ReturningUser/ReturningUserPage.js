@@ -17,34 +17,17 @@ import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import { getUpcomingBatches } from "../PathwayCourse/redux/api";
-import { actions as upcomingBatchesActions } from "../PathwayCourse/redux/action";
-import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
-import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
-import { getPathwaysCourse } from "../PathwayCourse/redux/api";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const classes = useStyles();
-  const history = useHistory();
-  const params = useParams();
-  const dispatch = useDispatch();
-
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
-
-  const enrolledBatches = useSelector((state) => {
-    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
-      return state?.Pathways?.enrolledBatches?.data;
-    } else {
-      return null;
-    }
-  });
+  // const classes = useStyles();
+  // const history = useHistory();
+  // const params = useParams();
+  // const dispatch = useDispatch();
 
   const user = useSelector(({ User }) => User);
   const [learningTracks, setLearningTracks] = useState([]);
-
+  console.log(user?.data?.user?.partner_id);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -59,62 +42,62 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
+  console.log(learningTracks);
 
   return (
     <Container>
-      {/* {learningTracks.map(())
+      {user?.data?.user?.partner_id === null ? (
         <>
-          <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
+          <Typography variant="h6" mb={5} mt={5}>
             My Learning Tracks (With Classes)
           </Typography>
           <Grid
             display="flex"
             flexWrap="wrap"
-            justifyContent="center"
-            style={{ gap: 40 }}
+            justifyContent="left"
+            style={{ gap: 32, justifyItems: "left" }}
           >
-         
-            (<LearningTrackCard item={pathway}/>)
-          
-            
+            {learningTracks.map(
+              (item) =>
+                (item.pathway_id == 1 || item.pathway_id === 2) && (
+                  <LearningTrackCard item={item} />
+                )
+            )}
           </Grid>
-          </>
-          } */}
-
-      <>
-        <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
-          My Learning Tracks (With Classes)
-        </Typography>
-        <Grid
-          display="flex"
-          flexWrap="wrap"
-          justifyContent="center"
-          style={{ gap: "32px" }}
-        >
-          {learningTracks.map(
-            (item) =>
-              (item.pathway_id == 1 || item.pathway_id === 2) && (
-                <LearningTrackCard item={item} />
-              )
-          )}
-        </Grid>
-        <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
-          My Learning Tracks (Without Classes)
-        </Typography>
-        <Grid
-          display="flex"
-          flexWrap="wrap"
-          justifyContent="center"
-          style={{ gap: 32 }}
-        >
-          {learningTracks.map(
-            (item) =>
-              (item.pathway_id == 3 ||
-                item.pathway_id === 4 ||
-                item.pathway_id === 5) && <LearningTrackCard item={item} />
-          )}
-        </Grid>
-      </>
+          <Typography variant="h6" mb={5} mt={5}>
+            My Learning Tracks (Without Classes)
+          </Typography>
+          <Grid
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="left"
+            style={{ gap: 32 }}
+          >
+            {learningTracks.map(
+              (item) =>
+                (item.pathway_id == 3 ||
+                  item.pathway_id === 4 ||
+                  item.pathway_id === 5) && <LearningTrackCard item={item} />
+            )}
+          </Grid>
+        </>
+      ) : (
+        <>
+          <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
+            My Learning Tracks
+          </Typography>
+          <Grid
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="left"
+            style={{ gap: 32 }}
+          >
+            {learningTracks.map((item) => (
+              <LearningTrackCard item={item} />
+            ))}
+          </Grid>
+        </>
+      )}
     </Container>
   );
 }

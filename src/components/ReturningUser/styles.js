@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
   hrunderLine: {
     width: "450px",
     border: "1px solid #E0E0E0 !important",
+    marginTop: "32px",
+    marginBottom: "32px",
   },
   progressBar: {
     width: "95%",
