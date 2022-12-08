@@ -47,15 +47,18 @@ function ClassForm({
   formType,
 }) {
   const user = useSelector(({ User }) => User);
+  const [partnerPathwayId, setPartnerPathwayId] = useState();
+  const [volunteer, setVolunteer] = useState([]);
+
   const [classFields, setClassFields] = useState({
     category_id: 3,
-    title: classToEdit.title || "",
+    title: classToEdit?.title || "",
     partner_id: classToEdit.partner_id || [],
     date: classToEdit.start_time
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
-      ? classToEdit.parent_class.on_days.split(",")
+      ? classToEdit.parent_class?.on_days.split(",")
       : [],
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
@@ -78,12 +81,12 @@ function ClassForm({
       : "",
     type: classToEdit.type || formType,
     pathway_id:
-      classToEdit.pathway_id ||
-      classToEdit.pathway_v2 ||
-      user.data.user.pathway_id ||
-      "1",
+      classToEdit?.pathway_id?.[0] ||
+      classToEdit?.pathway_v2?.[0] ||
+      partnerPathwayId?.[0],
+    volunteer_id: classToEdit?.volunteer_id || "",
+    facilitator_name: classToEdit?.volunteer?.name || "",
   });
-
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
@@ -124,7 +127,7 @@ function ClassForm({
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
-  }, [dispatch, 1]);
+  }, [dispatch]);
 
   //For title error field (batch and doubt class)
   useEffect(() => {
@@ -169,6 +172,11 @@ function ClassForm({
       }
     }
   }, [classFields.partner_id?.length]);
+  useEffect(() => {
+    setClassFields((prev) => {
+      return { ...prev, pathway_id: partnerPathwayId?.[0] };
+    });
+  }, [partnerPathwayId]);
 
   //For course error field (doubt class only)
   useEffect(() => {
@@ -282,14 +290,15 @@ function ClassForm({
   ]);
 
   const courses =
-    data.Pathways.data &&
-    data.Pathways.data.pathways[0] &&
-    data.Pathways.data.pathways[0].courses.map((item) => {
-      return {
-        label: item.name,
-        value: item.id,
-      };
-    });
+    (data.Pathways.data &&
+      data.Pathways.data.pathways[0] &&
+      data.Pathways.data.pathways[0].courses.map((item) => {
+        return {
+          label: item.name,
+          value: item.id,
+        };
+      })) ||
+    [];
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id
@@ -332,10 +341,6 @@ function ClassForm({
   };
 
   useEffect(() => {
-    console.log("id", classFields.partner_id);
-  }, [classFields.partner_id]);
-
-  useEffect(() => {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners`,
@@ -353,8 +358,32 @@ function ClassForm({
       });
       setPartnerData(partners);
     });
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      const volunteers = res?.data?.map((item, index) => {
+        return {
+          label: item.name,
+          id: item.volunteer_id,
+          pathway_id: item.pathway_id,
+        };
+      });
+      setVolunteer(volunteers);
+    });
   }, []);
-
+  const [selectedPartners, setSelectedPartners] = useState([]);
+  useEffect(() => {
+    let datass = partnerData.filter((item) => {
+      return classFields.partner_id.includes(item.id);
+    });
+    setSelectedPartners(datass);
+    console.log(selectedPartners, datass);
+  }, [partnerData]);
   const convertToIST = (d) => {
     const b = d.split(/\D+/);
     const dateInObj = new Date(
@@ -414,8 +443,6 @@ function ClassForm({
       data: payload,
     }).then(
       (res) => {
-        //We can also change the Successfull edit class modal here.
-        //Need to change the text from create to edit
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
@@ -508,7 +535,7 @@ function ClassForm({
           }
           i = i + 1;
         }
-        // classFields.date = moment.utc(newDate).format("YYYY-MM-DD");
+        // Fields.date = moment.utc(newDate).format("YYYY-MM-DD");
         classFields.date = formatInUtc(newDate, "yyyy-MM-dd");
       } else {
         classFields.date = classFields.date;
@@ -555,6 +582,7 @@ function ClassForm({
       "pathway_id",
       "lang",
       "type",
+      "volunteer_id",
     ];
     let payload;
     if (classFields.type === "doubt_class") {
@@ -691,6 +719,117 @@ function ClassForm({
                 <FormHelperText>{helperText.exercise}</FormHelperText>
               </FormControl>
             )}
+            <Autocomplete
+              value={{
+                label: classFields.facilitator_name || "",
+                id: classFields.volunteer_id || "",
+              }}
+              // name="partner_id"
+
+              sx={{ mb: 3 }}
+              options={volunteer}
+              isOptionEqualToValue={(option, value) => {
+                return option.id === value.id;
+              }}
+              onChange={(e, newVal) => {
+                setPartnerPathwayId(newVal?.pathway_id);
+                setClassFields((prev) => {
+                  return {
+                    ...prev,
+                    volunteer_id: newVal?.id,
+                    facilitator_name: newVal?.label,
+                  };
+                });
+              }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="outlined-error-helper-text"
+                  error={showError.partner}
+                  onClick={() => {
+                    // setOnInput((prev) => {
+                    //   return { ...prev, partner: true };
+                    // });
+                  }}
+                  helperText={helperText.partner}
+                  variant="outlined"
+                  label="For Tutor"
+                />
+              )}
+            />
+            {partnerPathwayId && classFields.type === "batch" && (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                // mb={isActive ? 3 : 4}
+                mb={3}
+              >
+                {partnerPathwayId.includes(1) && partnerPathwayId.includes(2)
+                  ? "The tutor has opted to teach both Python and Spoken English learning track "
+                  : partnerPathwayId.includes(1)
+                  ? "The tutor has opted to teach Python learning track"
+                  : "The tutor has opted to teach Spoken English learning track"}
+              </Typography>
+            )}
+            {partnerPathwayId?.length == 2 && classFields.type === "batch" && (
+              <>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  pr={2}
+                  mt={4}
+                  // mb={3}
+                >
+                  Learning Track
+                </Typography>
+                <RadioGroup
+                  onChange={(e) => {
+                    setClassFields({
+                      ...classFields,
+                      pathway_id: e.target.value,
+                    });
+                  }}
+                  mb={3}
+                >
+                  <FormControlLabel
+                    value="1"
+                    control={<Radio />}
+                    label="Python"
+                  />
+                  <FormControlLabel
+                    value="2"
+                    control={<Radio />}
+                    label="Spoken English"
+                  />
+                </RadioGroup>
+                {/* <RadioGroup
+                  value={[
+                    { value: 1, label: "Python" },
+                    { value: 2, label: "Spoken English" },
+                  ]}
+                >
+                  {[
+                    { value: 1, label: "Python" },
+                    { value: 2, label: "Spoken English" },
+                  ].map((item) => {
+                    return (
+                      <FormControlLabel
+                        key={item}
+                        value={item.value}
+                        name="Learning Track"
+                        control={<Radio />}
+                        // checked={}
+                        onChange={(e) => {
+                          setPartnerPathwayId(e.target.value);
+                        }}
+                      />
+                    );
+                  })}
+                </RadioGroup> */}
+              </>
+            )}
+
             <TextField
               // sx={{ mt: 4 }}
               error={showError.title}
@@ -711,7 +850,6 @@ function ClassForm({
                 changeHandler(e);
               }}
             />
-
             {classFields.type === "batch" && (
               <Typography
                 variant="body2"
@@ -727,13 +865,14 @@ function ClassForm({
               <Stack>
                 <Autocomplete
                   multiple
-                  // value={classFields.partner_id}
+                  value={selectedPartners}
                   name="partner_id"
                   options={partnerData}
                   isOptionEqualToValue={(option, value) => {
                     return option.id === value.id;
                   }}
                   onChange={(e, newVal) => {
+                    setSelectedPartners(newVal);
                     setClassFields({
                       ...classFields,
                       ["partner_id"]: newVal.map((item) => item.id),
@@ -924,10 +1063,10 @@ function ClassForm({
                       value={item}
                       name="max_enrolment"
                       control={<Radio />}
-                      checked={
-                        classFields.max_enrolment &&
-                        classFields.max_enrolment.includes(item)
-                      }
+                      // checked={
+                      //   classFields.max_enrolment &&
+                      //   classFields.max_enrolment.includes(item)
+                      // }
                       onChange={(e) => {
                         changeHandler(e);
                       }}

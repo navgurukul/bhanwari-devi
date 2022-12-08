@@ -4,6 +4,7 @@ en.ABOUT = "About";
 en.GET_INVOLVED = "Get Involved";
 en.OUR_STORY = "Our Story";
 en.DASHBOARD = "Dashboard";
+en.STATEPARTNER = "State Partners";
 en.SWITCH_VIEWS = "Switch Views";
 en.SWITCH_TO_VIEW = "Switch to %1 View";
 en.STUDENT = "Student";
@@ -25,5 +26,7 @@ en.CAREERS = "Careers";
 en.PROFILE = "Profile";
 en.LOGOUT = "Logout";
 en.TUTOR = "Tutor";
+en.CERTIFICATE_COMPLETION_WARNING =
+  "Please complete all the courses to unlock %1 certificate";
 
 export default en;

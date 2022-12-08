@@ -20,6 +20,7 @@ import { breakpoints } from "../../theme/constant";
 function VolunteerAutomation() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   const user = useSelector(({ User }) => User);
   let history = useHistory();
@@ -41,34 +42,30 @@ function VolunteerAutomation() {
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={8}>
+      <Grid container spacing={8} mt={1}>
         <Grid item xs={12} ms={6} md={6}>
           <Box className={classes.volunteerFlow}>
             <Typography variant="h4" gutterBottom>
               Help Students Get their Dream Job and Build their Career in Tech
             </Typography>
-
             <Typography sx={{ mt: 4 }}>
               <hr align="left" className={classes.VolunteerHrline} />
             </Typography>
-
             <Typography variant="h6" sx={{ mt: 4 }}>
               Why Volunteer?
             </Typography>
-
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
-              <Typography variant="body1" pl="10px" color="text.primary">
-                Gain experience and wide network to leverage for advancing your
-                own skills and career prospects.
+              <Typography className={classes.TextContent}>
+                Gain a wide network to leverage for advancing your skills and
+                career prospects.
               </Typography>
             </Box>
-
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography variant="body1" pl="10px" color="text.primary">
                 Support students from low income families to get their first job
-                in tech
+                in tech.
               </Typography>
             </Box>
           </Box>
@@ -100,7 +97,7 @@ function VolunteerAutomation() {
       </Typography>
 
       <Grid container spacing={4}>
-        <Grid item xs={12} ms={6} md={6}>
+        <Grid item xs={12} ms={6} md={6} mb={isActiveIpad && 2}>
           <Card elevation={4} className={classes.volunteerCard}>
             <Box>
               <CardContent>
@@ -122,7 +119,6 @@ function VolunteerAutomation() {
                   <Typography
                     variant="subtitle1"
                     className={classes.TextContent}
-                    Typography
                   >
                     Spoken English
                   </Typography>
@@ -139,11 +135,11 @@ function VolunteerAutomation() {
                   variant="body1"
                   color="text.secondary"
                 >
-                  Please volunteer only if you are professional who has worked
-                  with Python or have great command over English
+                  Please volunteer only if you are a professional who has worked
+                  with Python or has an excellent command of English.
                 </Typography>
               </CardContent>
-              <CardActions sx={{ mt: isActive ? 0 : 13.8 }}>
+              <CardActions sx={{ mt: 9.9 }}>
                 <Button
                   onClick={handleClick}
                   variant="contained"
@@ -162,66 +158,41 @@ function VolunteerAutomation() {
               <Typography gutterBottom variant="h6" component="div">
                 Tech
               </Typography>
-
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   UX/Graphic Design
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Android (Kotlin)
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Front End Dev (React)
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Back End Dev
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Project Management
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
                 <ArrowRightAltIcon />
-                <Typography
-                  variant="subtitle1"
-                  className={classes.TextContent}
-                  Typography
-                >
+                <Typography variant="subtitle1" className={classes.TextContent}>
                   Curriculum Creation & Translation
                 </Typography>
               </Box>
@@ -237,7 +208,7 @@ function VolunteerAutomation() {
                   color="text.secondary"
                   variant="body1"
                 >
-                  You will taken to a Google form
+                  You will be taken to a Google form.
                 </Typography>
               </Box>
             </CardContent>

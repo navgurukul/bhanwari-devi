@@ -143,12 +143,20 @@ hr {
     align-items: flex-start;
     width: 100%;
   }
-
+  .first-state-name {
+    margin-right: 30px;
+  }
   .state-schools-card {
     width: 100%;
   }
   .state-schools-cards {
     align-items: center;
     justify-content: center;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .state-schools-card {
+    margin: 10px 20px 20px 0px;
   }
 }

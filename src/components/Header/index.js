@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -23,12 +23,26 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import {
+  PUBLIC_MENU_KEYS,
+  // LEARN_KEY,
+  MENU_ITEMS,
+  // ROLES,
+  ADMIN_ROLE_KEY as ADMIN,
+  PARTNER_ROLE_KEY as PARTNER,
+  // PARTNER_VIEW_ROLE_KEY as PARTNER_VIEW,
+  // PARTNER_EDIT_ROLE_KEY as PARTNER_EDIT,
+  STUDENT_ROLE_KEY as STUDENT,
+  VOLUNTEER_ROLE_KEY as VOLUNTEER,
+} from "./constant";
+import { selectRolesData } from "../User/redux/selectors";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 import SearchBar from "../SearchBar";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
-import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
+import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
+// import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
 // import { LanguageProvider } from "../../common/context";
@@ -37,6 +51,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
+  const [inDropdown, setInDropdown] = useState({ inProgress: false, value: false});
+  const inDropdownRef = useRef(inDropdown);
+  inDropdownRef.current = inDropdown;
   const classes = useStyles();
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
@@ -53,36 +70,43 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const menuCloseHandler = () => {
     setIndicator(null);
   };
+  
+  const updateInDropdownState = () => {
+    setInDropdown({ inProgress: true, value: false});
+    setTimeout(() => setInDropdown({ value: inDropdownRef.current?.value, inProgress: false }), 200);
+  }
+  
+  useEffect(() => {
+    if (!inDropdown.inProgress && !inDropdown.value) {
+      // mouse has moved out of main menu item and its
+      //   dropdown after delay milliseconds
+      menuCloseHandler();
+    }
+  }, [inDropdown]);
 
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <>
-            <MenuItem
-              onMouseEnter={(event) => menuOpenHandler(event, menuKey)}
-              onClick={(e) => {
-                menuOpenHandler(e, menuKey);
+            <TextButtonDropDownMenu
+              btnTextMsgKey={MENU_ITEMS[menuKey].msgKey}
+              // attachRight={!leftDrawer}
+              menuContainerProps={{
+                id: "menu-appbar",
               }}
               sx={{ color: "black" }}
               key={index}
             >
-              <Typography variant="subtitle1">
-                {/*MSG[getTranslationKey(menu)]*/}
-                <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
-              </Typography>
-              {selectedMenu === menuKey && indicator ? (
-                <ExpandLessIcon />
-              ) : (
-                <ExpandMoreIcon />
-              )}
-            </MenuItem>
-            <DropDown
-              dropDown={dropDownMenu}
-              indicator={indicator}
-              handleClose={menuCloseHandler}
-              toggleDrawer={toggleDrawer}
-            />
+              <DropDown
+                dropDown={menuKey}
+                //indicator={indicator}
+                //handleClose={menuCloseHandler}
+                toggleDrawer={toggleDrawer}
+                //setInDropdown={setInDropdown}
+                //handleMouseLeave={updateInDropdownState}
+              />
+            </TextButtonDropDownMenu>
           </>
         ))}
       </Box>
@@ -119,7 +143,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   );
 };
 
-const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
+const MobileVersion = ({ toggleDrawer, leftDrawer, setRole, role }) => {
   const { data } = useSelector(({ User }) => User);
   const isAuthenticated = data && data.isAuthenticated;
   const classes = useStyles();
@@ -157,6 +181,8 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
           <AuthenticatedHeaderOption
             toggleDrawer={toggleDrawer}
             leftDrawer={leftDrawer}
+            setRole={setRole}
+            role={role}
           />
         ) : (
           <PublicMenuOption
@@ -172,6 +198,10 @@ const MobileVersion = ({ toggleDrawer, leftDrawer }) => {
 function Header() {
   const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
+  const user = useSelector(({ User }) => User);
+
+  const roles = useSelector(selectRolesData);
+  const [role, setRole] = React.useState(null);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = useState(false);
   window.addEventListener("resize", () => {
@@ -179,6 +209,24 @@ function Header() {
       setLeftDrawer(false);
     }
   });
+
+  const partnerGroupId = user?.data?.user?.partner_group_id;
+  const partnerId = user?.data?.user?.partner_id;
+
+  const rolesLandingPages = {
+    [STUDENT]: PATHS.NEW_USER_DASHBOARD,
+    [ADMIN]: PATHS.PARTNERS,
+    [VOLUNTEER]: PATHS.CLASS,
+    [PARTNER]: partnerGroupId
+      ? `${PATHS.STATE}/${partnerGroupId}`
+      : `${PATHS.PARTNERS}/${partnerId || ""}`,
+  };
+
+  const roleKey = roles
+    .map((userRole) => userRole.key)
+    .find((key) => key === role);
+  const defaultPage = rolesLandingPages[roleKey] || "/";
+
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
@@ -218,13 +266,12 @@ function Header() {
                 onOpen={toggleDrawer(true)}
               >
                 <MobileVersion
-                  toggleDrawer={toggleDrawer}
-                  leftDrawer={leftDrawer}
+                  {...{ toggleDrawer, leftDrawer, setRole, role }}
                 />
               </SwipeableDrawer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <Link to="/">
+              <Link to={defaultPage}>
                 <img
                   src={require("./asset/logo.svg")}
                   loading="lazy"
@@ -244,7 +291,7 @@ function Header() {
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
             >
-              <Link to="/">
+              <Link to={defaultPage}>
                 <img
                   src={require("./asset/meraki.svg")}
                   loading="lazy"
@@ -253,7 +300,7 @@ function Header() {
               </Link>
             </Box>
             {isAuthenticated ? (
-              <AuthenticatedHeaderOption />
+              <AuthenticatedHeaderOption setRole={setRole} role={role} />
             ) : (
               <>
                 <PublicMenuOption />

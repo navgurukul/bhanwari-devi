@@ -10,6 +10,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { getCourseContent } from "../../../components/Course/redux/api";
 // import { actions as courseActions } from "../../../components/Course/redux/action";
 import { actions as enrolledBatchesActions } from "../../PathwayCourse/redux/action";
+import { breakpoints } from "../../../theme/constant";
 
 import Assessment from "../ExerciseContent/Assessment";
 import {
@@ -36,12 +37,8 @@ import CourseEnroll from "../../BatchClassComponents/EnrollInCourse/EnrollInCour
 import DoubtClassExerciseComponent from "../../BatchClassComponents/DoubtClassExerciseComponent";
 import RevisionClassEnroll from "../../BatchClassComponents/Revision/RevisionClassEnroll";
 import { actions as upcomingBatchesActions } from "../..//PathwayCourse/redux/action";
-import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
-
-
+// import { actions as upcomingClassActions } from "../../PathwayCourse/redux/action";
 import ClassTopic from "../ClassTopic/ClassTopic";
-// import { Container, Box, Typography, Button, Grid } from "@mui/material";
-import languageMap from "../../../pages/CourseContent/languageMap";
 import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
@@ -82,7 +79,7 @@ const headingVarients = {};
     (headingVarients[index + 1] = (data) => (
       <UnsafeHTML
         Container={Name}
-        className="heading"
+        // className={classes.heading}
         html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
@@ -122,9 +119,13 @@ const RenderDoubtClass = ({ data, exercise }) => {
 
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   if (data.component === "header") {
-    return headingVarients[data.variant](
-      DOMPurify.sanitize(get(data, "value"))
+    return (
+      <Box className={classes.heading}>
+        {headingVarients[data.variant](DOMPurify.sanitize(get(data, "value")))}
+      </Box>
     );
   }
   if (data.component === "image") {
@@ -143,7 +144,7 @@ const RenderContent = ({ data, exercise }) => {
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <Box className={classes.List}>
-          <CircleIcon sx={{ pr: 2, width: "7px" }} />
+          <CircleIcon sx={{ pr: "12px", width: "7px" }} />
           <Typography
             variant="body1"
             dangerouslySetInnerHTML={{ __html: text }}
@@ -156,9 +157,9 @@ const RenderContent = ({ data, exercise }) => {
         <Box className={classes.List}>
           <Typography
             variant="body1"
-            sx={{ pr: 1 }}
+            sx={{ pr: "3px" }}
             className={classes.contentNumber}
-            dangerouslySetInnerHTML={{ __html: data.decoration.value }}
+            dangerouslySetInnerHTML={{ __html: data.decoration.value + "." }}
           />
           <Typography
             variant="body1"
@@ -170,9 +171,7 @@ const RenderContent = ({ data, exercise }) => {
     } else {
       return (
         <Typography
-          style={{
-            margin: "2rem 0",
-          }}
+          sx={{ margin: "8px 0" }}
           variant="body1"
           dangerouslySetInnerHTML={{ __html: text }}
         />
@@ -186,17 +185,19 @@ const RenderContent = ({ data, exercise }) => {
     );
     return (
       <TableContainer>
-        <Table stickyHeader>
+        <Table>
           <TableHead>
-            <TableRow>
-              {data.value.map((item) => {
+            <TableRow
+              sx={{
+                position: "sticky",
+              }}
+            >
+              {data.value.map((item, idx) => {
                 const header = DOMPurify.sanitize(item.header);
                 return (
                   <TableCell
-                    style={{
-                      fontWeight: "bold",
-                    }}
-                    sx={{ background: "#F5F5F5" }}
+                    key={idx}
+                    sx={{ background: "#F5F5F5", fontWeight: "bold" }}
                     className={classes.tableHead}
                     dangerouslySetInnerHTML={{ __html: header }}
                   />
@@ -205,13 +206,18 @@ const RenderContent = ({ data, exercise }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataInCol.map((item) => {
+            {dataInCol.map((item, index) => {
               return (
-                <TableRow className={classes.tableHead} hover={false}>
-                  {item.map((row) => {
+                <TableRow
+                  key={index}
+                  className={classes.tableHead}
+                  hover={false}
+                >
+                  {item.map((row, idx) => {
                     const rowData = DOMPurify.sanitize(row);
                     return (
                       <TableCell
+                        key={idx}
                         className={classes.tableHead}
                         dangerouslySetInnerHTML={{ __html: rowData }}
                       />
@@ -282,6 +288,7 @@ function ExerciseContent({
   setProgressTrackId,
   progressTrackId,
 }) {
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -294,9 +301,10 @@ function ExerciseContent({
   const [courseData, setCourseData] = useState({ content_type: null });
   const [cashedData, setCashedData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openMobile, setOpenMobile] = useState(false);
+  const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
-  console.log("SetOpen", openDrawer);
+
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -312,28 +320,45 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[exerciseId]);
-      setContent(res.data.course.exercises[exerciseId]?.content);
-      setCourseData(res.data.course.exercises[exerciseId]);
-      setCashedData(res.data.course.exercises);
+      setCourse(res.data.course?.name);
+      setExercise(res.data.course?.exercises[exerciseId]);
+      setContent(res.data.course?.exercises[exerciseId]?.content);
+      setCourseData(res.data.course?.exercises[exerciseId]);
+      setCashedData(res.data.course?.exercises);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course.name);
-      setExercise(res.data.course.exercises[params.exerciseId]);
-      setContent(res.data.course.exercises[params.exerciseId]?.content);
-      setCourseData(res.data.course.exercises[params.exerciseId]);
-      setCashedData(res.data.course.exercises);
+      setCourse(res?.data?.name);
+      setExercise(res?.data?.course?.exercises?.[params.exerciseId]);
+      setContent(res?.data?.course?.exercises?.[params.exerciseId]?.content);
+      setCourseData(res?.data?.course?.exercises?.[params.exerciseId]);
+      setCashedData(res?.data?.course?.exercises);
     });
   }, [courseId, lang]);
+
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
+
+  useEffect(() => {
+    if (exercise?.content_type === "assessment") {
+      console.log("Assessment", exercise);
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setAssessmentResult(res.data);
+      });
+    }
+  }, [exerciseId, exercise?.content_type, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -361,38 +386,26 @@ function ExerciseContent({
           authToken: user?.data?.token,
         })
       );
-      // dispatch(
-      //   upcomingClassActions.getupcomingEnrolledClasses({
-      //     pathwayId: pathwayId,
-      //     authToken: user?.data?.token,
-      //   })
-      // );
     }
   }, [params.pathwayId]);
 
   function ExerciseContentMain() {
-
     const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
 
     return (
       <Container maxWidth="lg">
-        {!desktop && (
-          <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
-        )}
+        {!desktop && <ContentListText setOpenDrawer={setOpenMobile} />}
         <Grid container justifyContent={"center"}>
-
           <Grid xs={0} item>
-            <Box sx={{ m:  "32px 0px" }}>
+            <Box sx={{ m: "32px 0px" }}>
               <Box>
                 {courseData?.content_type == "class_topic" &&
                   enrolledBatches && <ClassTopic courseData={courseData} />}
               </Box>
             </Box>
           </Grid>
-          {desktop && (
-            <ContentListText desktop={desktop} setOpenDrawer={setOpenDrawer} />
-          )}
+
           <Grid
             style={{
               display: showJoinClass ? "block" : "none",
@@ -418,22 +431,24 @@ function ExerciseContent({
           </Grid>
         </Grid>
 
-        <Container maxWidth="sm">
+        <Container
+          // style={{ maxWidth: !isActive && "700px" }}
+          maxWidth="sm"
+        >
           {desktop ? (
             <PersistentDrawerLeft
               setSelected={setSelected}
               list={contentList}
-              open={openDrawer}
-              setOpen={setOpenDrawer}
               setExerciseId={setExerciseId}
               progressTrackId={progressTrackId}
             />
           ) : (
             <MobileDrawer
+              open={openMobile}
+              setOpen={setOpenMobile}
               setSelected={setSelected}
               list={contentList}
-              open={openDrawer}
-              setOpen={setOpenDrawer}
+              setExerciseId={setExerciseId}
               progressTrackId={progressTrackId}
             />
           )}
@@ -450,9 +465,9 @@ function ExerciseContent({
           {exercise && exercise.content_type === "exercise" && (
             <Box sx={{ m: "32px 0px" }}>
               {/* <Typography variant="h5">{course}</Typography> */}
-              <Typography variant="h6" sx={{ mt: "16px" }}>
+              {/* <Typography variant="h6" sx={{ mt: "16px" }}>
                 {exercise && exercise.name}
-              </Typography>
+              </Typography> */}
               <Box sx={{ mt: 5, mb: 8 }}>
                 {content &&
                   content.map((contentItem, index) => (
@@ -467,6 +482,7 @@ function ExerciseContent({
           )}
           {exercise && exercise.content_type === "assessment" && (
             <Assessment
+              res={assessmentResult}
               data={content}
               exerciseId={exercise.id}
               courseData={courseData}

@@ -21,9 +21,14 @@ function AdminHeader({ leftDrawer, toggleDrawer }) {
           },
         }}
       >
-        <HeaderNavLink
+        {/* <HeaderNavLink
           to={PATHS.USER}
           text={<Message constantKey="STUDENTS" />}
+          toggleDrawer={toggleDrawer}
+        /> */}
+        <HeaderNavLink
+          to={PATHS.CLASS}
+          text={<Message constantKey="CLASSES" />}
           toggleDrawer={toggleDrawer}
         />
 
@@ -46,7 +51,11 @@ function AdminHeader({ leftDrawer, toggleDrawer }) {
         {partnerGroupId && (
           <HeaderNavLink
             to={`${PATHS.STATE}/${partnerGroupId}`}
-            text={<Message constantKey="DASHBOARD" />}
+            text={
+              <Message
+                constantKey={partnerGroupId ? "STATEPARTNER" : "DASHBOARD"}
+              />
+            }
             toggleDrawer={toggleDrawer}
           />
         )}

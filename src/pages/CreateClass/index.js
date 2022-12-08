@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import CreateClassComponent from "../../components/Class";
 import ClassesList from "../../components/Class/ClassList";
 import { useSelector } from "react-redux";
-// import Modal from "../../components/common/Modal";
 import "../../components/Class/ClassList/styles.scss";
 import axios from "axios";
 import { METHODS } from "../../services/api";
@@ -17,6 +16,9 @@ import {
   Box,
   Stack,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
@@ -39,10 +41,10 @@ function ToggleClassFormModal() {
   const classes = useStyles();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   const rolesList = user.data.user.rolesList;
-  const canSpecifyFacilitator =
-    rolesList.indexOf("volunteer") > -1 || rolesList.indexOf("admin") > -1;
+  const canSpecifyFacilitator = rolesList.indexOf("admin") > -1;
 
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
@@ -52,7 +54,7 @@ function ToggleClassFormModal() {
   const toggleModalOpen = () => {
     // setFormType();
     setClassToEdit({});
-    setShowModal(!showModal);
+    // setShowModal(!showModal);
     CalenderConsent();
   };
 
@@ -72,14 +74,16 @@ function ToggleClassFormModal() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    })
-      .then((res) => {
+    }).then((res) => {
+      if (res.data.success) {
         setCalenderConsent(true);
-      })
-      .catch((err) => {
+        setShowModal(true);
+      } else {
         setCalenderConsent(false);
         setShowConsentModal(true);
-      });
+        setShowModal(false);
+      }
+    });
   };
 
   const handleClose = () => {
@@ -98,6 +102,8 @@ function ToggleClassFormModal() {
       setAuthUrl(res.data.url);
     });
   };
+
+  // console.log("authUrl", authUrl);
 
   const calledOnce = useRef(false);
   const history = useHistory();
@@ -159,7 +165,9 @@ function ToggleClassFormModal() {
           <Box sx={{ display: isActive ? "block" : "flex", direction: "row" }}>
             <Button
               variant="contained"
-              style={{ width: isActive ? "100%" : "19%" }}
+              style={{
+                width: isActive ? "100%" : isActiveIpad ? "60%" : "19%",
+              }}
               onClick={() => {
                 setFormType("batch");
                 toggleModalOpen();
@@ -170,7 +178,9 @@ function ToggleClassFormModal() {
             </Button>
             <Button
               variant="outlined"
-              style={{ width: isActive ? "100%" : "19%" }}
+              style={{
+                width: isActive ? "100%" : isActiveIpad ? "60%" : "19%",
+              }}
               onClick={() => {
                 setFormType("doubt_class");
                 toggleModalOpen();
@@ -210,20 +220,46 @@ function ToggleClassFormModal() {
         </Modal>
       ) : (
         showConsentModal && (
-          <Modal onClose={handleClose} className="confirmation-for-consent">
-            <h2>
-              Meraki needs access to your calendar to create classes. <br />
-              Do you want to go ahead?
-            </h2>
-            <div className="wrap">
-              <button onClick={codeGenerate} className="delete-btn">
-                Yes
-              </button>
-              <button onClick={handleClose} className="cancel-btn">
-                No
-              </button>
-            </div>
-          </Modal>
+          <Dialog
+            open={showConsentModal}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            PaperProps={{
+              style: {
+                minWidth: "45%",
+                borderRadius: 8,
+              },
+            }}
+          >
+            <DialogTitle>
+              <Typography variant="h6" align="center">
+                Meraki needs access to your calendar to create classes. <br />
+                Do you want to go ahead?
+              </Typography>
+            </DialogTitle>
+            <Stack alignItems="center">
+              <DialogActions>
+                <Box sx={{ display: "flex", mb: 2 }}>
+                  <Button
+                    onClick={codeGenerate}
+                    color="error"
+                    variant="contained"
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={handleClose}
+                    color="grey"
+                    variant="contained"
+                    sx={{ width: "100px" }}
+                  >
+                    No
+                  </Button>
+                </Box>
+              </DialogActions>
+            </Stack>
+          </Dialog>
         )
       )}
 

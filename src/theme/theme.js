@@ -63,7 +63,8 @@ theme = createTheme(theme, {
       dark: "#3A8137",
     },
     grey: {
-      main: "rgba(0, 0, 0, 0.12)",
+      main: "#BDBDBD",
+      // main: "rgba(0, 0, 0, 0.12)",
     },
     text: {
       primary: "#2E2E2E",
@@ -76,7 +77,7 @@ theme = createTheme(theme, {
       paper: "#FFFFFF",
     },
     dark: {
-      main: "#000000",
+      main: "#2E2E2E",
       contrastText: "#FFFFFF",
     },
     divider: "#DEDEDE",
@@ -250,16 +251,24 @@ theme.components = {
       },
     },
   },
-  MuiCard: {
-    styleOverrides: {
-      root: {
-        borderRadius: 8,
-        // "&:hover": {
-        //   boxShadow:
-        //     "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
-        // },
-      },
-    },
-  },
+  // MuiTextareaAutosize: {
+  //   styleOverrides: {
+  //     root: {
+  //       width: 529,
+  //       margin: "10px 0px",
+  //       padding: "20px 10px",
+  //       border: "1px solid #BDBDBD",
+  //       borderRadius: "4px",
+  //       fontSize: "1.125rem",
+  //       color: "#2E2E2E",
+  //       fontFamily: "Noto Sans",
+  //       resize: "none",
+  //       outline: "none",
+  //       "&:focus": {
+  //         border: "2px solid #48A145 !important",
+  //       },
+  //     },
+  //   },
+  // },
 };
 export default theme;

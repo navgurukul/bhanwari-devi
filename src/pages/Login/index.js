@@ -50,6 +50,7 @@ function Login(props) {
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
@@ -67,8 +68,6 @@ function Login(props) {
     partner: PATHS.PARTNERS,
     default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
   };
-
-  console.log("rolesList", rolesList);
 
   if (isAuthenticated) {
     if (queryString) {
@@ -124,7 +123,8 @@ function Login(props) {
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
                 variant="h4"
-                align={isActive ? "center" : "left"}
+                align={isActive || isActiveIpad ? "center" : "left"}
+                mt={isActive ? 0 : isActiveIpad ? 12 : 0}
                 color="textPrimary"
                 gutterBottom
               >
@@ -133,12 +133,18 @@ function Login(props) {
 
               {loading ? (
                 <Box
-                  className={isActive ? classes.responsiveLoder : classes.Loder}
+                  className={
+                    isActive || isActiveIpad
+                      ? classes.responsiveLoder
+                      : classes.Loder
+                  }
                 >
                   <Loader />
                 </Box>
               ) : (
-                <Stack alignItems={isActive ? "center" : "left"}>
+                <Stack
+                  alignItems={isActive || isActiveIpad ? "center" : "left"}
+                >
                   <GoogleLogin
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Log In with Google "

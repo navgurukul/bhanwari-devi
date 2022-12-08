@@ -55,12 +55,16 @@ function Opportunities() {
               Curated list of opportunities to skyrocket your career
             </Typography>
             <Grid className={classes.section_Heading}>
-              <Typography variant="subtitle1" color="text.secondary">
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                sx={{ mb: isActive && 5 }}
+              >
                 Admission Opportunities
               </Typography>
             </Grid>
             <Grid container>
-              <Grid xs={12} sm={4} md={4}>
+              <Grid xs={12} sm={6} md={4}>
                 <Card
                   elevation={2}
                   className={isActive ? classes.mobileCards : classes.cards}
@@ -75,7 +79,7 @@ function Opportunities() {
                       <Grid
                         item
                         xs={3}
-                        sm={1}
+                        sm={3}
                         md={3}
                         style={{ display: "flex", justifyContent: "right" }}
                       >
@@ -107,7 +111,7 @@ function Opportunities() {
                   </CardActions>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={4} md={4} pt={{ xs: 2, sm: 0 }}>
+              <Grid item xs={12} sm={6} md={4} pt={{ xs: 2, sm: 0 }}>
                 <Card
                   elevation={2}
                   className={isActive ? classes.mobileCards : classes.cards}
