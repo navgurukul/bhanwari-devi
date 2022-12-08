@@ -16,7 +16,7 @@ import Profile from "../pages/Profile";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import NavgurukulIntroduce from "../pages/Navgurukul";
-import Admission from "../pages/Navgurukul/merakiAdmission";
+// import Admission from "../pages/Navgurukul/merakiAdmission";
 import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
@@ -33,7 +33,6 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
-import ContentEdit from "../components/PathwayExercise/ContentEdit";
 
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
@@ -43,6 +42,7 @@ const Routing = () => {
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
+      <Route exact path={PATHS.HOME_PAGE} component={Home} />
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       <Route
         exact
@@ -96,21 +96,17 @@ const Routing = () => {
       />
       <PrivateRoute
         exact
-        path={PATHS.PATHWAY_COURSE_CONTENT_EDIT}
-        component={ContentEdit}
-      />
-      <PrivateRoute
-        exact
         path={PATHS.NEW_USER_DASHBOARD}
         component={NewUserDashbord}
       />
-      <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
+      {/* <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} /> */}
       <PrivateRoute
         exact
         path={PATHS.STATEPARTNER}
         component={StatePartnerDashboard}
       />
       <PrivateRoute exact path={PATHS.PROFILE} component={Profile} />
+      <PrivateRoute exact path={PATHS.ME} component={Profile} />
       <PrivateRoute
         exact
         path={PATHS.VOLUNTEER}

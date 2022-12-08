@@ -137,8 +137,6 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
 
-  const editor = user.data.user.rolesList.indexOf("admin") > -1;
-
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
@@ -518,54 +516,13 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      {editor && (
-        <AppBar
-          fullWidth
-          // position="stick"
-          sx={{ bgcolor: "info.light" }}
-          className={
-            isActive ? classes.editingHeaderMobile : classes.editingHeader
-          }
-          elevation={2}
-        >
-          <Box>
-            <Container maxWidth>
-              <Toolbar sx={{ alignItems: "center" }}>
-                <Box sx={{ flexGrow: 1 }} />
-                <ModeEditOutlineOutlinedIcon
-                  className={classes.edit}
-                  sx={{ mr: "11px" }}
-                />
-                <Typography className={classes.edit}>
-                  Want to update the content?
-                </Typography>
-                <Button
-                  sx={{ color: "#000000", ml: "24px" }}
-                  className={classes.edit}
-                  onClick={() => {
-                    history.push(
-                      interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
-                        courseId: params.courseId,
-                        exerciseId: params.exerciseId,
-                        pathwayId: params.pathwayId,
-                      })
-                    );
-                  }}
-                >
-                  Start Editing
-                </Button>
-                <Box sx={{ flexGrow: 1 }} />
-              </Toolbar>
-            </Container>
-          </Box>
-        </AppBar>
-      )}
       {successfulExerciseCompletion ? (
         <CompletionComponent
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <Box sx={{ marginTop: "120px" }}>
+        // <Box sx={{ marginTop: "120px" }}>
+        <Box sx={{ marginTop: "50px" }}>
           <ExerciseContent
             contentList={course}
             exerciseId={exerciseId}

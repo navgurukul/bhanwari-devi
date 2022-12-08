@@ -120,7 +120,7 @@ function PathwayCourse() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  const completedAll = completedPortion?.total != 100;
+  const completedAll = completedPortion?.total === 100;
   const [loader, setLoader] = useState(false);
   const displayCert = pathwayId == 1;
 

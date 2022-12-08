@@ -66,8 +66,11 @@ function Profile() {
     `+${user?.data?.user?.contact?.split("-")?.[0]}` || "+91"
   );
   const [contact, setContact] = useState(
-    user?.data?.user?.contact?.split("-")?.[1]
+    user?.data?.user?.contact?.split("-")?.[1] || null
   );
+
+ 
+
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [message, setMessage] = React.useState("");
   const [startOtp, setStartOtp] = React.useState(false);
@@ -112,12 +115,11 @@ function Profile() {
     const phoneNumber = `${countryCode}${contact}`;
     const appVerifier = window.recaptchaVerifier;
     const auth = getAuth();
-    console.log("phoneNumber", phoneNumber);
+   
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((result) => {
         setMessage("OTP sent successfully");
         setSnackBarOpen(true);
-        console.log("OTP sent", result);
         setStartOtp(true);
         setConfirmationResult(result);
       })
@@ -141,7 +143,7 @@ function Profile() {
     );
   };
   useEffect(() => {
-    console.log("user", showError);
+
   }, [showError]);
   const OtpEnter = (event) => {
     confirmationResult
@@ -187,6 +189,17 @@ function Profile() {
   }, [editName]);
 
   const editProfile = () => {
+    let payload = {
+      name: editName,
+      profile_picture: new_Profiles,
+    }
+
+    if(contact != null){
+      payload["contact"] = `${countryCode.replace("+", "")}-${contact}`
+
+    }
+
+    console.log("contact",`${countryCode.replace("+", "")}-${contact}`)
     setIsEditing(false);
     setMsg(true);
     axios({
@@ -196,11 +209,7 @@ function Profile() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-      data: {
-        name: editName,
-        contact: `${countryCode.replace("+", "")}-${contact}`,
-        profile_picture: new_Profiles,
-      },
+      data:payload
     }).then((res) => {
       dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
       setMsg(false);

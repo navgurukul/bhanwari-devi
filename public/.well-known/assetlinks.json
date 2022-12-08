@@ -1,0 +1,14 @@
+[
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "org.merakilearn",
+        "sha256_cert_fingerprints": [
+          "D5:52:8C:AC:20:7E:A3:FF:8B:26:AB:9B:2B:34:A6:BA:7F:A4:65:20:FC:B5:57:8C:A2:69:6B:05:F1:7E:0E:9B"
+        ]
+      }
+    }
+  ]
