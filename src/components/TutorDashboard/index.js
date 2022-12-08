@@ -193,7 +193,7 @@ function Tutor(props) {
       }
     });
   };
-
+  console.log(volunteer);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -430,7 +430,7 @@ function Tutor(props) {
               setFilter(!filter);
             }}
           >
-            <Box className={classes.tableBtn}>
+            <Button className={classes.python}>
               <FilterAltIcon
                 color={`${filter ? "primary" : "dark"}`}
                 sx={{
@@ -442,11 +442,12 @@ function Tutor(props) {
                   fontWeight: "700",
                   fontSize: "14px",
                   color: `${filter ? "#48A145" : "black"}`,
+                  cursor: "pointer",
                 }}
               >
                 {!isActive && "Filter"}
               </Typography>
-            </Box>
+            </Button>
           </Grid>
         </Grid>
 
@@ -487,7 +488,7 @@ function Tutor(props) {
                   }}
                 >
                   <MenuItem value="All">All</MenuItem>
-                  <MenuItem value="null">Newly Onboarded</MenuItem>
+                  <MenuItem value="onboarding">Newly Onboarded</MenuItem>
                   <MenuItem value="active">Active</MenuItem>
                   <MenuItem value="inactive">Inactive</MenuItem>
                   <MenuItem value="dropout">Dropped Out</MenuItem>

@@ -52,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     alignItems: "center",
     maxWidth: "77px",
+    // '&:hover': {
+    //   backgroundColor:"#E9F5E9 !important",
+    //   borderRadius:"8px",
+    //   padding:"2px"
+    // }
   },
 
   filterIcon: {
