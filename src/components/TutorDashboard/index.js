@@ -122,7 +122,7 @@ function Tutor(props) {
 
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
-  const [selectedPathway, setSelectedPathway] = useState("Python");
+  const [selectedPathway, setSelectedPathway] = useState("");
   const [pathwayCount, setPathwayCount] = useState({
     python: 0,
     spokenEnglish: 0,
@@ -150,8 +150,6 @@ function Tutor(props) {
   const [endTime, setendTime] = useState("");
   const [slicedStudents, setSlicedStudents] = useState([]);
   const [statusValue, setStatusValue] = useState("");
-  const [pathwayClicked, setPathwayClicked] = useState(true);
-  // const pathwayTwoClicked = !setPathwayClicked;
 
   const languageMap = {
     hi: "Hindi",
@@ -174,6 +172,7 @@ function Tutor(props) {
       return el.pathway_id === pathwayId;
     });
   }
+
   const deleteUsers = () => {
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
@@ -211,7 +210,6 @@ function Tutor(props) {
     }
     setSelected([]);
   };
-
   const handleClick = (event, name, type) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -348,6 +346,11 @@ function Tutor(props) {
     </React.Fragment>
   );
 
+  // console.log(startDate);
+  // console.log(endTime);
+  // console.log(volunteer);
+  // console.log(languageMap);
+  console.log(numberOfWeek);
   return (
     <div>
       <Container maxWidth="lg">
@@ -407,27 +410,24 @@ function Tutor(props) {
         <Grid container className={classes.filters} mb={2}>
           <Grid item>
             <Button
-              // "contained"
+              variant="contained"
               className={classes.python}
               onClick={() => {
                 setVolunteer(filterPathway(1, cacheVolunteer));
                 setSelectedPathway("Python");
-                setPathwayClicked(true);
               }}
-              variant={pathwayClicked ? "contained" : "outlined"}
             >
               Python ({pathwayCount?.python})
             </Button>
           </Grid>
           <Grid item>
             <Button
+              variant="outlined"
               className={classes.learningTrack2}
               onClick={() => {
                 setVolunteer(filterPathway(2, cacheVolunteer));
                 setSelectedPathway("Spoken English");
-                setPathwayClicked(false);
               }}
-              variant={pathwayClicked ? "outlined" : "contained"}
             >
               Spoken English ({pathwayCount?.spokenEnglish})
             </Button>
@@ -577,8 +577,7 @@ function Tutor(props) {
                       }
                       checked={
                         volunteer.length > 0 &&
-                        (selected.length === volunteer.length ||
-                          selected.length > 0)
+                        selected.length === volunteer.length
                       }
                       onChange={handleSelectAllClick}
                       inputProps={{
@@ -672,7 +671,7 @@ function Tutor(props) {
                       </TableCell>
                       <TableCell align="left">
                         <Typography className={classes.tablecellHead}>
-                          Batch Name
+                          Last Class Batch
                         </Typography>
                       </TableCell>
                       <TableCell align="left">
@@ -793,7 +792,7 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {console.log("item", item)}
+                                {/* {console.log("item", item)} */}
                                 {(item?.last_class &&
                                   item?.last_class?.title) ||
                                   "-"}
@@ -1065,17 +1064,17 @@ function Tutor(props) {
         statusValue={statusValue}
         setStatusValue={setStatusValue}
       />
-//       <GenerateReport
-//         generateDialog={generateDialog}
-//         setGenerateDialog={setGenerateDialog}
-//         startDate={startDate}
-//         endTime={endTime}
-//         setstartDate={setstartDate}
-//         setendTime={setendTime}
-//         volunteerReport={volunteer}
-//         languageMap={languageMap}
-//         numberOfWeek={numberOfWeek}
-//       />
+      <GenerateReport
+        generateDialog={generateDialog}
+        setGenerateDialog={setGenerateDialog}
+        startDate={startDate}
+        endTime={endTime}
+        setstartDate={setstartDate}
+        setendTime={setendTime}
+        volunteerReport={volunteer}
+        languageMap={languageMap}
+        numberOfWeek={numberOfWeek}
+      />
     </div>
   );
 }

@@ -62,6 +62,7 @@ const GenerateReport = (props) => {
   let singleVolunteerData;
   const volunteerReportData2 = [];
   volunteerReport.map((el) => {
+    // console.log(el.available_on_time);
     if (el["pathway_id"][0] == 1) {
       singleVolunteerData = {
         "Tutor ID": el.id,
@@ -156,9 +157,7 @@ const GenerateReport = (props) => {
         "Days Available":
           el.available_on_days === null ? "-" : el.available_on_days,
         "Preffered Time Slots":
-          el.available_on_time === null
-            ? "-"
-            : format(el.available_on_time, "hh:mm aaa"),
+          el.available_on_time === null ? "-" : el.available_on_time,
       };
       volunteerReportDataMain.push(singleVolunteerData);
       volunteerReportData2.push(singleVolunteerData);
