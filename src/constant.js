@@ -107,6 +107,15 @@ export const PATHWAYS_INFO = [
     type: "internal",
   },
   {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    video_link: "",
+    image: "SHCEL",
+    description: "Get started with programming with block-based games",
+    outcomes: ["", ""],
+    type: "internal",
+  },
+  {
     title: "Typing",
     code: "TYPGRU",
     video_link: "https://youtu.be/HQ9IYtBJO0U",

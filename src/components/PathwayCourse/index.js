@@ -53,6 +53,15 @@ const pathways = [
     ],
   },
   {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    video_link: "",
+    image: "SCRATCH",
+    description: "Get started with programming with block-based games",
+    outcomes: ["", ""],
+    type: "internal",
+  },
+  {
     pathway: "Javascript",
     code: "JSRPIT",
     yotubevideo: "https://youtu.be/EC7UaTE9Z2Q",

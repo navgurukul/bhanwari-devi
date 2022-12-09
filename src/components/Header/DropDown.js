@@ -34,6 +34,7 @@ const students = {
   image: [python, typing, language, web, residential, random],
   [LEARN_KEY]: [
     { title: "Python", code: "PRGPYT", type: "internal" },
+    { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "JavaScript", code: "JSRPIT", type: "internal" },
@@ -284,7 +285,7 @@ export const DropDown = ({
                     <LaunchIcon />
                   </MenuItem>
                 </ExternalLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY && index == 5 && <Divider />}
               </>
             );
           }
