@@ -24,7 +24,6 @@ function ReactEditor({ course, id, save }) {
   };
 
   console.log("course", course);
-  console.log("id in editor", id);
   let style = "";
   let items = [];
 
