@@ -4,7 +4,7 @@
       "id": 1,
       "code": "PRGPYT",
       "name": "Python",
-      "logo": "https://merakidebug.s3.ap-south-1.amazonaws.com/pathway_images/python-logo.png",
+      "logo": "https://merakilearn.s3.ap-south-1.amazonaws.com/Meraki+track+icons/python/Python.png",
       "description": "Learn the basics of programming with Python",
       "courses": [
         {
