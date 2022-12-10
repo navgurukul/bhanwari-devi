@@ -53,9 +53,8 @@ const pathways = [
     ],
   },
   {
-    title: "Scratch (CEL)",
+    pathway: "Scratch (CEL)",
     code: "SHCEL",
-    // image: "scratch",
     description:
       "Learn programming concepts via easy to understand project based block programming in Scratch",
   },
@@ -284,6 +283,7 @@ function PathwayCourse() {
     });
 
   const pathwayCourseData = pathways.find((item) => {
+    console.log("item", item);
     return item.id == pathwayId;
   });
 
@@ -376,13 +376,15 @@ function PathwayCourse() {
                     className={classes.titleCard}
                     mb={isActive ? 16 : 30}
                   >
-                    <Typography
-                      variant="body2"
-                      className={classes.cardSubtitle}
-                      sx={{ textAlign: isActive && "center", pb: "8px" }}
-                    >
-                      Learning Track
-                    </Typography>
+                    {pathwayCourseData.code !== "SHCEL" && (
+                      <Typography
+                        variant="body2"
+                        className={classes.cardSubtitle}
+                        sx={{ textAlign: isActive && "center", pb: "8px" }}
+                      >
+                        Learning Track
+                      </Typography>
+                    )}
                     <Typography
                       variant="h4"
                       className={classes.heading}
@@ -426,35 +428,33 @@ function PathwayCourse() {
                     )}
 
                     {!user?.data?.token &&
-                    (pathwayCourseData.code == "PRGPYT" ||
-                      pathwayCourseData.code == "SPKENG") ? (
-                      <>
-                        <Typography
-                          variant="body1"
-                          mt={2}
-                          style={{
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Want to learn through live classes by a teacher?
-                        </Typography>
-                        <Button
-                          variant="contained"
-                          mt={4}
-                          sx={{
-                            margin: "10px 0",
-                            padding: isActive ? "0px 130px" : "0px 60px",
-                          }}
-                          onClick={() => {
-                            history.push(PATHS.LOGIN);
-                          }}
-                        >
-                          Login
-                        </Button>
-                      </>
-                    ) : (
-                      ""
-                    )}
+                      (pathwayCourseData.code == "PRGPYT" ||
+                        pathwayCourseData.code == "SPKENG") && (
+                        <>
+                          <Typography
+                            variant="body1"
+                            mt={2}
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Want to learn through live classes by a teacher?
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            mt={4}
+                            sx={{
+                              margin: "10px 0",
+                              padding: isActive ? "0px 130px" : "0px 60px",
+                            }}
+                            onClick={() => {
+                              history.push(PATHS.LOGIN);
+                            }}
+                          >
+                            Login
+                          </Button>
+                        </>
+                      )}
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
@@ -532,6 +532,7 @@ function PathwayCourse() {
           <Typography
             className={classes.course}
             ml={2}
+            mt={pathwayCourseData?.code == "SHCEL" && 8}
             variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >
