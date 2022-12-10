@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   format as dateFnsFormat,
   isBefore as comesBefore,
@@ -249,7 +250,6 @@ export const formatInUtc = (date, formatStr) => {
 export const format = (date, formatStr, options) => {
   if (date) {
     const dateToFormat = makeDateFrom(date);
-
     return dateFnsFormat(dateToFormat, formatStr, options);
   } else {
     return "";
