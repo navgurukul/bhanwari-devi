@@ -111,9 +111,10 @@ export const PATHWAYS_INFO = [
     title: "Scratch (CEL)",
     code: "SHCEL",
     video_link: "",
-    image: "SHCEL",
-    description: "Get started with programming with block-based games",
-    outcomes: ["", ""],
+    image: "scratch",
+    description:
+      "Learn programming concepts via easy to understand project based block programming in Scratch",
+    outcomes: [],
     type: "internal",
   },
   {

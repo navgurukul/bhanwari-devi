@@ -20,7 +20,7 @@ const pathwayData = [
   {
     title: "Scratch (CEL)",
     code: "SHCEL",
-    image: "",
+    image: "scratch",
     description: "Get familiar with programming with bite sized lessons",
   },
   {

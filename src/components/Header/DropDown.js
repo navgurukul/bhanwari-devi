@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import python from "./asset/python.svg";
+import scratch from "./asset/scratch.svg";
 import typing from "./asset/typing.svg";
 import web from "./asset/web.svg";
 import language from "./asset/language.svg";
@@ -33,14 +34,13 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, typing, language, web, residential, random],
+  image: [python, scratch, typing, language, web, residential, random],
   [LEARN_KEY]: [
     { title: "Python", code: "PRGPYT", type: "internal" },
     { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "JavaScript", code: "JSRPIT", type: "internal" },
-
     {
       title: "Residential Programmes",
       path: PATHS.RESIDENTIAL_COURSE,
@@ -114,6 +114,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey].msgKey}>
       {students[menuKey].map((menu, index) => {
         if (menu.type === "internal") {
+          console.log("menu", menu);
           return (
             <Link
               to={

@@ -38,7 +38,7 @@ const pathwayData = [
   {
     title: "Scratch (CEL)",
     code: "SHCEL",
-    image: "",
+    image: "scratch",
     description: "Get started with programming with block-based games",
   },
   {
