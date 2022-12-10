@@ -226,8 +226,8 @@ function LearningTrackCard(props) {
             </Grid>
           </Grid>
 
-          {(pathwayCourseData.code == "PRGPYT" ||
-            pathwayCourseData.code == "SPKENG") &&
+          {(pathwayCourseData?.code == "PRGPYT" ||
+            pathwayCourseData?.code == "SPKENG") &&
             upcomingBatchesData?.length > 0 && (
               <>
                 <Typography variant="subtitle1" mb={2} mt={2}>

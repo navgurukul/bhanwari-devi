@@ -96,25 +96,23 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  data?.pathways &&
-    (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
+  // data?.pathways &&
+  //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
 
-  /*
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      students.Learn.forEach((item) => {
+      students[LEARN_KEY].forEach((item) => {
         if (pathway.code === item.code) {
           item["id"] = pathway.id;
         }
       });
     });
-*/
+
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey].msgKey}>
       {students[menuKey].map((menu, index) => {
         if (menu.type === "internal") {
-          console.log("menu", menu);
           return (
             <Link
               to={
