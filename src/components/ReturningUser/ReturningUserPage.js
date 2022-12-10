@@ -17,6 +17,7 @@ import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
+import WithoutLearningClasses from "./WithoutLearningClasses";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -46,7 +47,7 @@ function ReturningUserPage() {
 
   return (
     <Container>
-      {!user?.data?.user?.partner_id === null ? (
+      {user?.data?.user?.partner_id != null ? (
         <>
           <Typography variant="h6" mb={5} mt={5}>
             My Learning Tracks (With Classes)
@@ -77,7 +78,9 @@ function ReturningUserPage() {
               (item) =>
                 (item.pathway_id == 3 ||
                   item.pathway_id === 4 ||
-                  item.pathway_id === 5) && <LearningTrackCard item={item} />
+                  item.pathway_id === 5) && (
+                  <WithoutLearningClasses item={item} />
+                )
             )}
           </Grid>
         </>
@@ -93,7 +96,7 @@ function ReturningUserPage() {
             style={{ gap: 32 }}
           >
             {learningTracks.map((item) => (
-              <LearningTrackCard item={item} />
+              <WithoutLearningClasses item={item} />
             ))}
           </Grid>
         </>

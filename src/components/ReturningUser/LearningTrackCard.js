@@ -160,6 +160,7 @@ function LearningTrackCard(props) {
       setUpcomingBatchesData(res.data);
     });
   }, []);
+  console.log(upcomingBatchesData);
 
   return (
     <>
@@ -215,9 +216,8 @@ function LearningTrackCard(props) {
             </Grid>
           </Grid>
 
-          {!user?.data?.user?.partner_id === null &&
-            (pathwayCourseData?.code == "PRGPYT" ||
-              pathwayCourseData?.code == "SPKENG") &&
+          {(pathwayCourseData?.code == "PRGPYT" ||
+            pathwayCourseData?.code == "SPKENG") &&
             (upcomingBatchesData?.length > 0 ? (
               <>
                 <hr align="center" className={classes.hrunderLine} />
@@ -311,7 +311,7 @@ function LearningTrackCard(props) {
                 <Button
                   variant="outlined"
                   sx={{
-                    marginTop: isActive ? "0px" : "32px",
+                    marginTop: isActive ? "200px" : "32px",
                     left: isActive ? "180px" : "350px",
                     border: "none",
                     // left: isActive ? "180px" : "436px",
