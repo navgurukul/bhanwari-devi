@@ -179,8 +179,8 @@ function Profile() {
         "Please use only capital or small letters. Numbers and symbols cannot be used in a name"
       );
       setShowError(true);
-    } else if (editName?.length > 15) {
-      setHelperText("Name length should not be more than 15");
+    } else if (editName?.length > 25) {
+      setHelperText("Name length should not be more than 25");
     } else {
       setHelperText();
     }
