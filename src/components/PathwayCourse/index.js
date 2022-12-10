@@ -633,7 +633,7 @@ function PathwayCourse() {
               />
             </Grid>
           ) : null}
-
+{/* 
           {!user?.data?.token ? (
             <Container align="center">
               <Box
@@ -677,7 +677,7 @@ function PathwayCourse() {
             />
           ) : (
             ""
-          )}
+          )} */}
         </Box>
 
         {SupplementalCourse && (
