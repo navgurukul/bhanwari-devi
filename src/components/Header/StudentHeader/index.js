@@ -8,6 +8,7 @@ import HeaderNavLink from "../HeaderNavlink";
 import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
+import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -39,9 +40,6 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
 
 function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
   const [learn, setLearn] = React.useState(null);
-  const handleOpenLearn = (event) => {
-    setLearn(event.currentTarget);
-  };
 
   const handleCloseLearn = () => {
     setLearn(null);
@@ -58,18 +56,16 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           },
         }}
       >
-        <MenuItem onClick={handleOpenLearn} onMouseEnter={handleOpenLearn}>
-          <Typography variant="subtitle1">
-            <Message constantKey={MENU_ITEMS[LEARN_KEY].msgKey} />
-          </Typography>
-          {learn ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </MenuItem>
-        <DropDown
-          dropDown={LEARN_KEY}
-          indicator={learn}
-          handleClose={handleCloseLearn}
-          toggleDrawer={toggleDrawer}
-        />
+        <TextButtonDropDownMenu
+          btnTextMsgKey={MENU_ITEMS[LEARN_KEY].msgKey}
+          // attachRight={!leftDrawer}
+          menuContainerProps={{
+            id: "menu-appbar",
+          }}
+          sx={{ color: "black" }}
+        >
+          <DropDown dropDown={LEARN_KEY} toggleDrawer={toggleDrawer} />
+        </TextButtonDropDownMenu>
 
         <CommonLeftStudentHeader toggleDrawer={toggleDrawer} />
       </Box>

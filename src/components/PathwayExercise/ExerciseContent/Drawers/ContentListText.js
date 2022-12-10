@@ -9,10 +9,7 @@ export default function ContentListText(props) {
   const classes = useStyles();
 
   return (
-    <div
-      onClick={() => setOpenDrawer(true)}
-      className={classes.ContentListDiv}
-    >
+    <div onClick={() => setOpenDrawer(true)} className={classes.ContentListDiv}>
       <AssignmentOutlinedIcon className={classes.ContentListIcon} />
       <Typography style={textStyle} type="overline">
         CONTENT LIST
