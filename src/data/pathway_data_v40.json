@@ -4,7 +4,7 @@
       "id": 1,
       "code": "PRGPYT",
       "name": "Python",
-      "logo": "https://merakidebug.s3.ap-south-1.amazonaws.com/pathway_images/python-logo.png",
+      "logo": "https://merakilearn.s3.ap-south-1.amazonaws.com/Meraki+track+icons/python/Python.png",
       "description": "Get familiar with programming with bite sized lessons",
       "courses": [
         {
@@ -93,6 +93,15 @@
         "Get equipped to build small projects like calculator or to-do list",
         "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools"
       ],
+      "type": "internal"
+    },
+    {
+      "title": "Scratch (CEL)",
+      "code": "SHCEL",
+      "video_link": "",
+      "image": "SCRATCH",
+      "description": "Get started with programming with block-based games",
+      "outcomes": ["", ""],
       "type": "internal"
     },
     {
