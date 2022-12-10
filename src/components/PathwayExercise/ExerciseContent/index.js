@@ -141,6 +141,7 @@ const RenderContent = ({ data, exercise }) => {
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
+    console.log("text", text);
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <Box className={classes.List}>
