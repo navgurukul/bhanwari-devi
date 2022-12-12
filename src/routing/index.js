@@ -26,7 +26,6 @@ import NewUserDashbord from "../components/NewUserDashbord";
 import Team from "../pages/Team";
 import Partner from "../pages/OurPartner";
 import PathwayExercise from "../components/PathwayExercise/";
-import ContentEdit from "../components/PathwayExercise/ContentEdit";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
@@ -97,10 +96,6 @@ const Routing = () => {
       <PrivateRoute
         path={PATHS.PATHWAY_COURSE_CONTENT}
         component={PathwayExercise}
-      />
-      <PrivateRoute
-        path={PATHS.PATHWAY_COURSE_CONTENT_EDIT}
-        component={ContentEdit}
       />
       <PrivateRoute
         exact
