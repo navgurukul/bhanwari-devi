@@ -41,6 +41,7 @@ export const PATHS = {
   VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
+  TUTOR: "/tutor-dashboard",
 };
 export const HideHeader = [
   PATHS.PATHWAY_COURSE_CONTENT,
@@ -104,6 +105,16 @@ export const PATHWAYS_INFO = [
       "Get equipped to build small projects like calculator or to-do list",
       "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
     ],
+    type: "internal",
+  },
+  {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    video_link: "",
+    image: "scratch",
+    description:
+      "Learn programming concepts via easy to understand project based block programming in Scratch",
+    outcomes: [],
     type: "internal",
   },
   {

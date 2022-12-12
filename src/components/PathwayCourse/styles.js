@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
   certButtons: {
     display: "flex",
     justifyContent: "space-around",
-    marginTop: "32px"
+    marginTop: "32px",
   },
   greenButton: {
     padding: "8px 16px !important",
@@ -122,12 +122,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     border: "none",
     outline: "none",
-    brackgroundColor: "transparent !important"
+    brackgroundColor: "transparent !important",
   },
 
   pdfWrapper: {
-    height: (props)=>props.isActive ? "200px":"390px"
-  }
+    height: (props) => (props.isActive ? "200px" : "390px"),
+  },
 }));
 
 export default useStyles;

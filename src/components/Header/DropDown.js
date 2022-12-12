@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import python from "./asset/python.svg";
+import scratch from "./asset/scratch.svg";
 import typing from "./asset/typing.svg";
 import web from "./asset/web.svg";
 import language from "./asset/language.svg";
@@ -11,7 +12,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+import AccordionDropDownMenu from "./AccordionDropDownMenu";
 import ExternalLink from "../common/ExternalLink";
+import DropdownLink from "./DropdownLink";
 import LaunchIcon from "@mui/icons-material/Launch";
 import Message from "../common/Message";
 import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
@@ -31,13 +34,13 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, typing, language, web, residential, random],
+  image: [python, scratch, typing, language, web, residential, random],
   [LEARN_KEY]: [
     { title: "Python", code: "PRGPYT", type: "internal" },
+    { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "JavaScript", code: "JSRPIT", type: "internal" },
-
     {
       title: "Residential Programmes",
       path: PATHS.RESIDENTIAL_COURSE,
@@ -93,92 +96,79 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  data?.pathways &&
-    (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
+  // data?.pathways &&
+  //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
 
-  /*
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      students.Learn.forEach((item) => {
+      students[LEARN_KEY].forEach((item) => {
         if (pathway.code === item.code) {
           item["id"] = pathway.id;
         }
       });
     });
-*/
+
   return (
-    <Accordion elevation={0} sx={{ bgcolor: "#e9f5e9" }}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
-        sx={{ width: 380 }}
-      >
-        <Typography variant="subtitle1">
-          {/*MSG[getTranslationKey(Menu)]*/}
-          <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        {students[menuKey].map((menu, index) => {
-          if (menu.type === "internal") {
-            return (
-              <Link
-                to={
-                  menu.id
-                    ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: menu.id,
-                      })
-                    : menu.path
-                }
-                className={classes.link}
-                onClick={toggleDrawer && toggleDrawer(false)}
-              >
-                <MenuItem key={index} onClick={handleClose}>
-                  {menuKey === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
-                  )}
-                  <CardContent>
-                    <Typography textAlign="center" variant="body1">
-                      {menu.title}
-                    </Typography>
-                  </CardContent>
-                </MenuItem>
-              </Link>
-            );
-          } else {
-            return (
-              <ExternalLink
-                href={menu.path}
-                className={classes.link}
-                onClick={toggleDrawer && toggleDrawer(false)}
-              >
-                <MenuItem key={index} onClick={handleClose}>
-                  {menuKey === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
-                  )}
-                  <CardContent>
-                    <Typography textAlign="center" variant="body1">
-                      {menu.title}
-                    </Typography>
-                  </CardContent>
+    <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey].msgKey}>
+      {students[menuKey].map((menu, index) => {
+        if (menu.type === "internal") {
+          return (
+            <Link
+              to={
+                menu.id
+                  ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                      pathwayId: menu.id,
+                    })
+                  : menu.path
+              }
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
+              <MenuItem key={index} onClick={handleClose}>
+                {menuKey === LEARN_KEY && (
+                  <img src={students.image[index]} alt="course logo" />
+                )}
+                <CardContent>
+                  <Typography textAlign="center" variant="body1">
+                    {menu.title}
+                  </Typography>
+                </CardContent>
+              </MenuItem>
+            </Link>
+          );
+        } else {
+          return (
+            <ExternalLink
+              href={menu.path}
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
+              <MenuItem key={index} onClick={handleClose}>
+                {menuKey === LEARN_KEY && (
+                  <img src={students.image[index]} alt="course logo" />
+                )}
+                <CardContent>
+                  <Typography textAlign="center" variant="body1">
+                    {menu.title}
+                  </Typography>
                   <LaunchIcon />
-                </MenuItem>
-              </ExternalLink>
-            );
-          }
-        })}
-      </AccordionDetails>
-    </Accordion>
+                </CardContent>
+              </MenuItem>
+            </ExternalLink>
+          );
+        }
+      })}
+    </AccordionDropDownMenu>
   );
 };
 
 export const DropDown = ({
   dropDown,
-  indicator,
-  handleClose,
+  //handleClose,
   toggleDrawer,
+  //setInDropdown,
+  //handleMouseLeave,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -201,30 +191,15 @@ export const DropDown = ({
 */
 
   return (
-    <Menu
-      sx={{ mt: "45px" }}
-      id="menu-appbar"
-      anchorEl={indicator}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "left",
-      }}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "left",
-      }}
-      open={Boolean(indicator)}
-      onClose={handleClose}
-      MenuListProps={{ onMouseLeave: handleClose }}
-      hideBackdrop
-    >
+    <>
       {dropDown &&
         students[dropDown].map((menu, index) => {
           if (menu.type === "internal") {
             return (
               <>
-                <Link
+                <DropdownLink
+                  key={menu}
+                  //onClick={handleClose}
                   to={
                     menu.id
                       ? interpolatePath(PATHS.PATHWAY_COURSE, {
@@ -232,63 +207,54 @@ export const DropDown = ({
                         })
                       : menu.path
                   }
-                  className={classes.link}
-                  onClick={toggleDrawer && toggleDrawer(false)}
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  padding={
+                    dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
+                  }
+                  margin="6px 16px"
                 >
-                  <MenuItem
-                    key={menu}
-                    onClick={handleClose}
-                    sx={{
-                      padding:
-                        dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px",
-                      margin: "6px 16px 6px 16px",
-                    }}
+                  {dropDown === LEARN_KEY && (
+                    <img src={students.image[index]} alt="course logo" />
+                  )}
+                  <Typography
+                    textAlign="center"
+                    sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
+                    // component="span"
                   >
-                    {dropDown === LEARN_KEY && (
-                      <img src={students.image[index]} alt="course logo" />
-                    )}
-                    <Typography
-                      textAlign="center"
-                      sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
-                    >
-                      {menu.title}
-                    </Typography>
-                  </MenuItem>
-                </Link>
+                    {menu.title}
+                  </Typography>
+                </DropdownLink>
                 {dropDown === LEARN_KEY && index == 4 && <Divider />}
               </>
             );
           } else {
             return (
               <>
-                <ExternalLink
-                  href={menu.path}
-                  className={classes.link}
-                  onClick={toggleDrawer && toggleDrawer(false)}
+                <DropdownLink
+                  key={menu}
+                  //onClick={handleClose}
+                  to={menu.path}
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  padding={
+                    dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
+                  }
+                  margin="6px 16px"
+                  external={true}
                 >
-                  <MenuItem
-                    key={menu}
-                    onClick={handleClose}
-                    sx={{
-                      padding:
-                        dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px",
-                      margin: "6px 16px 6px 16px",
-                    }}
+                  <Typography
+                    textAlign="center"
+                    sx={{ paddingRight: 1 }}
+                    component="span"
                   >
-                    {dropDown === LEARN_KEY && (
-                      <img src={students.image[index]} alt="course logo" />
-                    )}
-                    <Typography textAlign="center" sx={{ paddingRight: 1 }}>
-                      {menu.title}
-                    </Typography>
-                    <LaunchIcon />
-                  </MenuItem>
-                </ExternalLink>
+                    {menu.title}
+                  </Typography>
+                  <LaunchIcon />
+                </DropdownLink>
                 {dropDown === LEARN_KEY && index == 4 && <Divider />}
               </>
             );
           }
         })}
-    </Menu>
+    </>
   );
 };

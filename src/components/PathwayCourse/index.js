@@ -53,6 +53,12 @@ const pathways = [
     ],
   },
   {
+    pathway: "Scratch (CEL)",
+    code: "SHCEL",
+    description:
+      "Learn programming concepts via easy to understand project based block programming in Scratch",
+  },
+  {
     pathway: "Javascript",
     code: "JSRPIT",
     yotubevideo: "https://youtu.be/EC7UaTE9Z2Q",
@@ -277,6 +283,7 @@ function PathwayCourse() {
     });
 
   const pathwayCourseData = pathways.find((item) => {
+    console.log("item", item);
     return item.id == pathwayId;
   });
 
@@ -369,13 +376,15 @@ function PathwayCourse() {
                     className={classes.titleCard}
                     mb={isActive ? 16 : 30}
                   >
-                    <Typography
-                      variant="body2"
-                      className={classes.cardSubtitle}
-                      sx={{ textAlign: isActive && "center", pb: "8px" }}
-                    >
-                      Learning Track
-                    </Typography>
+                    {pathwayCourseData.code !== "SHCEL" && (
+                      <Typography
+                        variant="body2"
+                        className={classes.cardSubtitle}
+                        sx={{ textAlign: isActive && "center", pb: "8px" }}
+                      >
+                        Learning Track
+                      </Typography>
+                    )}
                     <Typography
                       variant="h4"
                       className={classes.heading}
@@ -387,64 +396,65 @@ function PathwayCourse() {
                       {pathwayCourseData.description}
                     </Typography>
 
-                    <ExternalLink
-                      style={{
-                        textDecoration: "none",
-                      }}
-                      href={pathwayCourseData.yotubevideo}
-                    >
-                      <Typography
-                        style={{ display: "flex" }}
-                        mt={2}
-                        align="start"
-                        variant="body2"
+                    {pathwayCourseData.yotubevideo && (
+                      <ExternalLink
+                        style={{
+                          textDecoration: "none",
+                        }}
+                        href={pathwayCourseData.yotubevideo}
                       >
-                        <img
-                          src={require("./asset/ComputerScreen.svg")}
-                          alt="MonitorScreen Img"
-                        />
-                        <section
-                          className={classes.link}
-                          // onClick={handleVideo}
-                          style={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          {"  "} &nbsp; &nbsp;
-                          <b>What's it all about?</b>
-                        </section>
-                      </Typography>
-                    </ExternalLink>
-                    {!user?.data?.token &&
-                    (pathwayCourseData.code == "PRGPYT" ||
-                      pathwayCourseData.code == "SPKENG") ? (
-                      <>
                         <Typography
-                          variant="body1"
+                          style={{ display: "flex" }}
                           mt={2}
-                          style={{
-                            fontWeight: "bold",
-                          }}
+                          align="start"
+                          variant="body2"
                         >
-                          Want to learn through live classes by a teacher?
+                          <img
+                            src={require("./asset/ComputerScreen.svg")}
+                            alt="MonitorScreen Img"
+                          />
+                          <section
+                            className={classes.link}
+                            // onClick={handleVideo}
+                            style={{
+                              cursor: "pointer",
+                            }}
+                          >
+                            {"  "} &nbsp; &nbsp;
+                            <b>What's it all about?</b>
+                          </section>
                         </Typography>
-                        <Button
-                          variant="contained"
-                          mt={4}
-                          sx={{
-                            margin: "10px 0",
-                            padding: isActive ? "0px 130px" : "0px 60px",
-                          }}
-                          onClick={() => {
-                            history.push(PATHS.LOGIN);
-                          }}
-                        >
-                          Login
-                        </Button>
-                      </>
-                    ) : (
-                      ""
+                      </ExternalLink>
                     )}
+
+                    {!user?.data?.token &&
+                      (pathwayCourseData.code == "PRGPYT" ||
+                        pathwayCourseData.code == "SPKENG") && (
+                        <>
+                          <Typography
+                            variant="body1"
+                            mt={2}
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Want to learn through live classes by a teacher?
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            mt={4}
+                            sx={{
+                              margin: "10px 0",
+                              padding: isActive ? "0px 130px" : "0px 60px",
+                            }}
+                            onClick={() => {
+                              history.push(PATHS.LOGIN);
+                            }}
+                          >
+                            Login
+                          </Button>
+                        </>
+                      )}
                   </Card>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
@@ -484,28 +494,36 @@ function PathwayCourse() {
                   )}
                 </Grid>
               </Grid>
-              <Box className={classes.Box1}>
-                <Typography
-                  variant="h6"
-                  sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
-                >
-                  Learning Outcomes
-                </Typography>
-                <Grid container spacing={0} align="center">
-                  {pathwayCourseData.outcomes.map((item, index) => (
-                    <Grid key={index} xs={12} md={4}>
-                      <Card sx={{ margin: "10px" }} align="left" elevation={0}>
-                        <Box className={classes.flex}>
-                          <CheckIcon color="primary" />
-                          <Typography sx={{ ml: 1 }} variant="body1">
-                            {item}
-                          </Typography>
-                        </Box>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
+
+              {pathwayCourseData?.outcomes && (
+                <Box className={classes.Box1}>
+                  <Typography
+                    variant="h6"
+                    sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
+                  >
+                    Learning Outcomes
+                  </Typography>
+                  {console.log("pathwayCourseData", pathwayCourseData)}
+                  <Grid container spacing={0} align="center">
+                    {pathwayCourseData.outcomes.map((item, index) => (
+                      <Grid key={index} xs={12} md={4}>
+                        <Card
+                          sx={{ margin: "10px" }}
+                          align="left"
+                          elevation={0}
+                        >
+                          <Box className={classes.flex}>
+                            <CheckIcon color="primary" />
+                            <Typography sx={{ ml: 1 }} variant="body1">
+                              {item}
+                            </Typography>
+                          </Box>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              )}
             </>
           )
         )}
@@ -513,7 +531,8 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            ml={4}
+            ml={2}
+            mt={pathwayCourseData?.code == "SHCEL" && 8}
             variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >
@@ -614,7 +633,7 @@ function PathwayCourse() {
               />
             </Grid>
           ) : null}
-
+{/* 
           {!user?.data?.token ? (
             <Container align="center">
               <Box
@@ -658,7 +677,7 @@ function PathwayCourse() {
             />
           ) : (
             ""
-          )}
+          )} */}
         </Box>
 
         {SupplementalCourse && (
