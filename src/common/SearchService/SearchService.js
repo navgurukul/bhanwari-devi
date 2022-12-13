@@ -39,7 +39,7 @@ class SearchService{
      */
     search(keywords) {
       const result = this.trie.search(keywords);
-        return result;
+        return result.map(({dataRow}) => dataRow));
     }
 }
 
