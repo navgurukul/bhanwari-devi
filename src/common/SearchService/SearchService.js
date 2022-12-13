@@ -22,9 +22,9 @@ class SearchService{
     constructor(data){
         /**
          * Creates an array of object having two properties
-         * keywords - joint string of all the values in dataRow
-         * dataRow - object
-         * @type {Array<{keywords: string, dataRow: IData}>}
+         * keywords {string} - joint string of all the values in dataRow
+         * dataRow {IDataRow} - a row of data to search through
+         * @type {Array<{keywords: string, dataRow: IDataRow}>}
         */
         const keywordRowPairs = data.map((dataRow) => ({ keywords: Object.values(dataRow).join(" "), dataRow }));
         const trie = new TrieSearch("keywords");
