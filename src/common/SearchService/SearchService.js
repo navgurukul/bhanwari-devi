@@ -33,12 +33,12 @@ class SearchService{
     }
 
     /**
-     * Searches a keyword in the trie, against the set of joint string of all the attributes
-     * @param {string} keyword 
-     * @returns {IData} result
-    */
-    search(keyword){
-        const result = this.trie.search(keyword);
+     * Searches for keywords against the set of joint string of all the attributes
+     * @param {string} keywords - the search keywords
+     * @returns {IData} result - the resulting rows containing all search keywords
+     */
+    search(keywords) {
+      const result = this.trie.search(keywords);
         return result;
     }
 }
