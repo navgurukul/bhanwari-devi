@@ -30,6 +30,7 @@ class SearchService{
         const trie = new TrieSearch("keywords");
         trie.addAll(keywordRowPairs);
         this.trie = trie;
+        this.keywordRowPairs = keywordRowPairs;
     }
 
     /**
@@ -38,8 +39,9 @@ class SearchService{
      * @returns {IData} result - the resulting rows containing all search keywords
      */
     search(keywords) {
-      const result = this.trie.search(keywords);
-        return result.map(({dataRow}) => dataRow));
+        if(keywords === "") return this.keywordRowPairs.map(({dataRow}) => dataRow);
+        const result = this.trie.search(keywords);
+        return result.map(({dataRow}) => dataRow);
     }
 }
 
