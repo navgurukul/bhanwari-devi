@@ -6,23 +6,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { getMemberName } from "../utils";
 import "./styles.scss";
 import useStyles from "./styles";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
-
-const InputAdorns = {
-  startAdornment: [
-    <InputAdornment key="1" position="start">
-      {<AttachFileIcon style={{ color: "#6D6D6D", cursor: "pointer" }} />}
-    </InputAdornment>,
-    <InputAdornment key="2" position="start">
-      {
-        <SentimentSatisfiedAltIcon
-          style={{ color: "#6D6D6D", cursor: "pointer" }}
-        />
-      }
-    </InputAdornment>,
-  ],
-};
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import EmojiPicker from "emoji-picker-react";
 
 export default ({
   onNewMessage,
@@ -31,9 +18,26 @@ export default ({
   members,
   activateReplyToMessageState,
 }) => {
-  const [value, onChange] = useState("");
+  const [value, setValue] = useState("");
+  const [openEmoji, setOpenEmoji] = useState(false);
   const inputRef = useRef(null);
   const classes = useStyles();
+
+  const InputAdorns = {
+    startAdornment: [
+      <InputAdornment key="1" position="start">
+        {<AttachFileIcon style={{ color: "#6D6D6D", cursor: "pointer" }} />}
+      </InputAdornment>,
+      <InputAdornment key="2" position="start">
+        {
+          <SentimentSatisfiedAltIcon
+            onClick={() => setOpenEmoji((prev) => !prev)}
+            style={{ color: "#6D6D6D", cursor: "pointer" }}
+          />
+        }
+      </InputAdornment>,
+    ],
+  };
 
   useEffect(() => {
     if (replyMessage) {
@@ -43,9 +47,15 @@ export default ({
 
   const sendMessage = () => {
     if (value) {
-      onChange("");
+      setValue("");
       onNewMessage(value, roomId);
     }
+  };
+
+  const emojiClickHandler = (event) => {
+    setValue((prev) => prev + event.emoji);
+    setOpenEmoji(false);
+    inputRef.current.focus();
   };
 
   const onKeyDown = (e) => {
@@ -88,6 +98,11 @@ export default ({
           </div>
         </div>
       )}
+      {openEmoji && (
+        <div className="emoji-container">
+          <EmojiPicker onEmojiClick={(event) => emojiClickHandler(event)} />{" "}
+        </div>
+      )}
       <Box className={classes.inputContainer}>
         <TextField
           type="text"
@@ -97,7 +112,7 @@ export default ({
           value={value}
           onKeyDown={onKeyDown}
           onChange={(e) => {
-            onChange(e.target.value);
+            setValue(e.target.value);
           }}
           InputProps={InputAdorns}
         />
