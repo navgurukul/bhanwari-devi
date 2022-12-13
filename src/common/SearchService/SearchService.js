@@ -6,9 +6,14 @@ import TrieSearch from 'trie-search';
 */
 class SearchService{
     /**
-     * IData - The data that is to be searched into
-     * @typedef {Object[]} IData
-    */
+     * IDataRow - A single row of search data
+     * @typedef {Object} IDataRow
+     */
+     
+    /**
+     * IData - An Array of search data rows
+     * @typedef {IDataRow[]} IData
+     */   
     
     /**
      * Instantiate a new SearchService
