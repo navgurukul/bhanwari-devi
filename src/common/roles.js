@@ -77,14 +77,14 @@ export const useRoles = () => {
   return unassignedDefaultRoles
     .map((roleKey) => ({
       key: roleKey,
-      msgKey: ROLES[roleKey].msgKey,
+      msgKey: ROLES[roleKey]?.msgKey,
       assignedRole: false,
       properties: ROLES[roleKey].properties,
     }))
     .concat(
       rolesList.map((roleKey) => ({
         key: roleKey,
-        msgKey: ROLES[roleKey].msgKey,
+        msgKey: ROLES[roleKey]?.msgKey,
         assignedRole: true,
         properties: ROLES[roleKey].properties,
       }))

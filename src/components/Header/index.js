@@ -100,7 +100,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <>
             <TextButtonDropDownMenu
-              btnTextMsgKey={MENU_ITEMS[menuKey].msgKey}
+              btnTextMsgKey={MENU_ITEMS[menuKey]?.msgKey}
               // attachRight={!leftDrawer}
               menuContainerProps={{
                 id: "menu-appbar",
