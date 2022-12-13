@@ -31,5 +31,12 @@ test("invalid value", () => {
 });
 
 test("empty value", () => {
-  expect(service.search(" ")).toMatchObject([])
+  expect(service.search("")).toMatchObject(
+    [
+      { "name": "andrew", "age": 21, "zip": 60600 },
+      { "name": "andy", "age": 37, "zip": 60601 },
+      { "name": "andrea", "age": 25, "zip": 60602 },
+      { "name": "joseph", "age": 67, "zip": 60603 }
+    ]
+  )
 });
