@@ -64,10 +64,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           }}
           sx={{ color: "black" }}
         >
-          <DropDown
-            dropDown={LEARN_KEY}
-            toggleDrawer={toggleDrawer}
-          />
+          <DropDown dropDown={LEARN_KEY} toggleDrawer={toggleDrawer} />
         </TextButtonDropDownMenu>
 
         <CommonLeftStudentHeader toggleDrawer={toggleDrawer} />

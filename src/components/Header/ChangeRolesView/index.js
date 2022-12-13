@@ -33,13 +33,7 @@ const rolesLandingPages = {
 // const SELECTED_ROLE_KEY = "selectedRole";
 const ID_TO_SELECTED_ROLE_MAP_KEY = "idToSelectedRoleMap";
 
-function ChangeRole({
-  isToggle,
-  role,
-  setRoleView,
-  roleView,
-  uid,
-}) {
+function ChangeRole({ isToggle, role, setRoleView, roleView, uid }) {
   const classes = useStyles();
   const styles = isToggle ? {} : { margin: "0 10px" };
   const roleStr = <Message constantKey={role.msgKey} />;
@@ -95,7 +89,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
   const commonProps = { setRoleView, roleView, uid };
   const history = useHistory();
   let menu = "";
-  
+
   if (roles.length > 2) {
     const menuContents = (
       <div>
@@ -105,14 +99,16 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
       </div>
     );
     menu = leftDrawer ? (
-      <AccordionDropDownMenu textMsgKey="SWITCH_VIEWS">{menuContents}</AccordionDropDownMenu>
+      <AccordionDropDownMenu textMsgKey="SWITCH_VIEWS">
+        {menuContents}
+      </AccordionDropDownMenu>
     ) : (
       <TextButtonDropDownMenu
         btnTextMsgKey="SWITCH_VIEWS"
         attachRight={!leftDrawer}
         menuContainerProps={{
           // sx: { mt: '45px' },
-          id: 'menu-appbar',
+          id: "menu-appbar",
           /*
             anchorOrigin: {
               vertical: "top",

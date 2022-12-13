@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ExternalLink from "../common/ExternalLink";
-import { MenuItem, } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import useStyles from "./styles";
 
 export default function DropdownLink({
@@ -21,16 +21,16 @@ export default function DropdownLink({
       {...props}
       sx={{
         padding,
-        margin
+        margin,
       }}
     >
       <A
         {...{
           [toKey]: to,
           className: classes.link,
-          linkOnClick
+          linkOnClick,
         }}
-        style={{ display: 'flex', alignItems: 'center', width: '100%' }}
+        style={{ display: "flex", alignItems: "center", width: "100%" }}
       >
         {children}
       </A>

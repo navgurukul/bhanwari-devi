@@ -1,6 +1,6 @@
 import React from "react";
-import { isTouchScreen } from '../../common/utils';
-import Menu from '@mui/material/Menu';
+import { isTouchScreen } from "../../common/utils";
+import Menu from "@mui/material/Menu";
 
 /**
  * Component for representing a dropdown menu with a visible toggling button.
@@ -32,24 +32,24 @@ export default function DropDownMenu({
     value: false,
   });
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // #802: part of hack to make button clickable over presentation layer 
+  // #802: part of hack to make button clickable over presentation layer
   //   when menu is open, needed for sidebar
   const [offsetX, setOffsetX] = React.useState(0);
   const [offsetY, setOffsetY] = React.useState(0);
   // We can just adjust the margin left/top of the presentation layer when
   //   attaching the menu to the left, but the hack won't work if attaching
-  //   to the right. In that case, we use a preset margin-top which is set 
+  //   to the right. In that case, we use a preset margin-top which is set
   //   for the current heading.
   const useOffset = !attachRight;
   const offset = useOffset
-    ? { ml: offsetX + 'px', mt: offsetY + 'px' }
-    : { mt: '45px' };
+    ? { ml: offsetX + "px", mt: offsetY + "px" }
+    : { mt: "45px" };
 
   const inDropdownRef = React.useRef(inDropdown);
   inDropdownRef.current = inDropdown;
 
   const handleOpenMenu = (event) => {
-    typeof onOpenMenu === 'function' && onOpenMenu(event);
+    typeof onOpenMenu === "function" && onOpenMenu(event);
     setAnchorEl(event.currentTarget);
     setOffsetX(event.currentTarget.getBoundingClientRect().left);
     setOffsetY(event.currentTarget.getBoundingClientRect().bottom);
@@ -63,7 +63,7 @@ export default function DropDownMenu({
   };
 
   const handleCloseMenu = () => {
-    typeof onCloseMenu === 'function' && onCloseMenu();
+    typeof onCloseMenu === "function" && onCloseMenu();
     setAnchorEl(null);
   };
 
@@ -81,7 +81,7 @@ export default function DropDownMenu({
 
   const DropDownButtonWithHandlers = React.cloneElement(DropDownButton, {
     onMouseEnter: (e) => {
-      if (typeof DropDownButton.props.onMouseEnter === 'function') {
+      if (typeof DropDownButton.props.onMouseEnter === "function") {
         DropDownButton.props.onMouseEnter(e);
       }
       if (!isTouchScreen()) {
@@ -90,7 +90,7 @@ export default function DropDownMenu({
       }
     },
     onMouseLeave: (e) => {
-      if (typeof DropDownButton.props.onMouseLeave === 'function') {
+      if (typeof DropDownButton.props.onMouseLeave === "function") {
         DropDownButton.props.onMouseLeave(e);
       }
 

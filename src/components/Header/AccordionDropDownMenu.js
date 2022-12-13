@@ -36,9 +36,7 @@ export default function AccordionDropDownMenu({
           <Message constantKey={textMsgKey} args={textArgs} />
         </Typography>
       </AccordionSummary>
-      <AccordionDetails>
-        {children}
-      </AccordionDetails>
+      <AccordionDetails>{children}</AccordionDetails>
     </Accordion>
   );
 }

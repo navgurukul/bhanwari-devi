@@ -51,7 +51,10 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
-  const [inDropdown, setInDropdown] = useState({ inProgress: false, value: false});
+  const [inDropdown, setInDropdown] = useState({
+    inProgress: false,
+    value: false,
+  });
   const inDropdownRef = useRef(inDropdown);
   inDropdownRef.current = inDropdown;
   const classes = useStyles();
@@ -70,12 +73,19 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const menuCloseHandler = () => {
     setIndicator(null);
   };
-  
+
   const updateInDropdownState = () => {
-    setInDropdown({ inProgress: true, value: false});
-    setTimeout(() => setInDropdown({ value: inDropdownRef.current?.value, inProgress: false }), 200);
-  }
-  
+    setInDropdown({ inProgress: true, value: false });
+    setTimeout(
+      () =>
+        setInDropdown({
+          value: inDropdownRef.current?.value,
+          inProgress: false,
+        }),
+      200
+    );
+  };
+
   useEffect(() => {
     if (!inDropdown.inProgress && !inDropdown.value) {
       // mouse has moved out of main menu item and its
