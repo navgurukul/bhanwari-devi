@@ -256,7 +256,7 @@ function LearningTrackCard(props) {
                     item
                     sx={{ justifyItems: "right", alignItems: "right" }}
                   >
-                    {upcomingBatchesData[0]?.type && (
+                    {upcomingBatchesData[0]?.type === "batch" && (
                       <Chip
                         label="Batch"
                         textAlign="left"
