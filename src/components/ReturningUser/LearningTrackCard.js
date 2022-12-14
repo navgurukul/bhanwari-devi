@@ -96,6 +96,13 @@ function LearningTrackCard(props) {
   const [completedPortionJason, setCompletedPortionJason] = useState();
   const [upcomingBatchesData, setUpcomingBatchesData] = useState();
   const params = useParams();
+  const languageMap = {
+    hi: "Hindi",
+    en: "English",
+    te: "Telugu",
+    ta: "Tamil",
+    mr: "Marathi",
+  };
 
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
@@ -240,13 +247,16 @@ function LearningTrackCard(props) {
                       alt="Google Playstore Icon"
                     />
                   </Grid>
-                  <Grid item md={6} xs={4}>
+                  <Grid item md={9} xs={7}>
                     <Typography variant="body1">
                       {upcomingBatchesData[0]?.sub_title}
                     </Typography>
                   </Grid>
-                  <Grid item md={2} sx={{ justifyItems: "left" }}>
-                    {upcomingBatchesData[0]?.type === "batch" && (
+                  <Grid
+                    item
+                    sx={{ justifyItems: "right", alignItems: "right" }}
+                  >
+                    {upcomingBatchesData[0]?.type && (
                       <Chip
                         label="Batch"
                         textAlign="left"
@@ -257,16 +267,40 @@ function LearningTrackCard(props) {
                       />
                     )}
                   </Grid>
+                </Grid>
+                <Grid container sx={{ marginBottom: "16px" }}>
                   <Grid
                     item
                     sx={{
-                      marginLeft: isActive ? "0px" : "10px",
                       color: "text.secondary",
                     }}
                   >
-                    <Typography variant="body1">
+                    <Typography variant="body2">
                       {upcomingBatchesData[0]?.start_time &&
                         format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    sx={{
+                      marginLeft: "8px",
+                      color: "text.secondary",
+                    }}
+                  >
+                    <img
+                      src={require("./assets/Ellipse26.svg")}
+                      alt="Google Playstore Icon"
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    sx={{
+                      marginLeft: "8px",
+                      color: "text.secondary",
+                    }}
+                  >
+                    <Typography variant="body2">
+                      {languageMap[upcomingBatchesData[0]?.lang]}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -307,7 +341,7 @@ function LearningTrackCard(props) {
                     />
                   </Grid>
                   <Grid item md={1}></Grid>
-                  <Grid item md={9}>
+                  <Grid item md={8}>
                     <Typography variant="body1">
                       Your classes will start soon. Your tutor/partner will be
                       in touch about the upcoming batch.
@@ -317,7 +351,7 @@ function LearningTrackCard(props) {
                 <Button
                   variant="outlined"
                   sx={{
-                    marginTop: isActive ? "200px" : "32px",
+                    marginTop: "32px",
                     left: isActive ? "180px" : "350px",
                     border: "none",
                     // left: isActive ? "180px" : "436px",
