@@ -53,6 +53,13 @@ const pathways = [
     ],
   },
   {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    // image: "scratch",
+    description:
+      "Learn programming concepts via easy to understand project based block programming in Scratch",
+  },
+  {
     pathway: "Javascript",
     code: "JSRPIT",
     yotubevideo: "https://youtu.be/EC7UaTE9Z2Q",
@@ -217,7 +224,11 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    if (user?.data?.token && pathwayId) {
+    if (
+      user?.data?.token &&
+      pathwayId &&
+      (pathwayId == "1" || pathwayId == "2")
+    ) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
@@ -248,7 +259,11 @@ function PathwayCourse() {
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    if (user?.data?.token && enrolledBatches?.length > 0) {
+    if (
+      user?.data?.token &&
+      enrolledBatches?.length > 0 &&
+      (pathwayId == "1" || pathwayId == "2")
+    ) {
       dispatch(
         upcomingClassActions.getupcomingEnrolledClasses({
           pathwayId: pathwayId,
@@ -387,34 +402,37 @@ function PathwayCourse() {
                       {pathwayCourseData.description}
                     </Typography>
 
-                    <ExternalLink
-                      style={{
-                        textDecoration: "none",
-                      }}
-                      href={pathwayCourseData.yotubevideo}
-                    >
-                      <Typography
-                        style={{ display: "flex" }}
-                        mt={2}
-                        align="start"
-                        variant="body2"
+                    {pathwayCourseData.yotubevideo && (
+                      <ExternalLink
+                        style={{
+                          textDecoration: "none",
+                        }}
+                        href={pathwayCourseData.yotubevideo}
                       >
-                        <img
-                          src={require("./asset/ComputerScreen.svg")}
-                          alt="MonitorScreen Img"
-                        />
-                        <section
-                          className={classes.link}
-                          // onClick={handleVideo}
-                          style={{
-                            cursor: "pointer",
-                          }}
+                        <Typography
+                          style={{ display: "flex" }}
+                          mt={2}
+                          align="start"
+                          variant="body2"
                         >
-                          {"  "} &nbsp; &nbsp;
-                          <b>What's it all about?</b>
-                        </section>
-                      </Typography>
-                    </ExternalLink>
+                          <img
+                            src={require("./asset/ComputerScreen.svg")}
+                            alt="MonitorScreen Img"
+                          />
+                          <section
+                            className={classes.link}
+                            // onClick={handleVideo}
+                            style={{
+                              cursor: "pointer",
+                            }}
+                          >
+                            {"  "} &nbsp; &nbsp;
+                            <b>What's it all about?</b>
+                          </section>
+                        </Typography>
+                      </ExternalLink>
+                    )}
+
                     {!user?.data?.token &&
                     (pathwayCourseData.code == "PRGPYT" ||
                       pathwayCourseData.code == "SPKENG") ? (
@@ -484,28 +502,36 @@ function PathwayCourse() {
                   )}
                 </Grid>
               </Grid>
-              <Box className={classes.Box1}>
-                <Typography
-                  variant="h6"
-                  sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
-                >
-                  Learning Outcomes
-                </Typography>
-                <Grid container spacing={0} align="center">
-                  {pathwayCourseData.outcomes.map((item, index) => (
-                    <Grid key={index} xs={12} md={4}>
-                      <Card sx={{ margin: "10px" }} align="left" elevation={0}>
-                        <Box className={classes.flex}>
-                          <CheckIcon color="primary" />
-                          <Typography sx={{ ml: 1 }} variant="body1">
-                            {item}
-                          </Typography>
-                        </Box>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
+
+              {pathwayCourseData?.outcomes && (
+                <Box className={classes.Box1}>
+                  <Typography
+                    variant="h6"
+                    sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
+                  >
+                    Learning Outcomes
+                  </Typography>
+                  {console.log("pathwayCourseData", pathwayCourseData)}
+                  <Grid container spacing={0} align="center">
+                    {pathwayCourseData.outcomes.map((item, index) => (
+                      <Grid key={index} xs={12} md={4}>
+                        <Card
+                          sx={{ margin: "10px" }}
+                          align="left"
+                          elevation={0}
+                        >
+                          <Box className={classes.flex}>
+                            <CheckIcon color="primary" />
+                            <Typography sx={{ ml: 1 }} variant="body1">
+                              {item}
+                            </Typography>
+                          </Box>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              )}
             </>
           )
         )}
@@ -513,7 +539,7 @@ function PathwayCourse() {
         <Box className={classes.box}>
           <Typography
             className={classes.course}
-            ml={4}
+            ml={2}
             variant="h6"
             sx={{ textAlign: isActive && "center" }}
           >

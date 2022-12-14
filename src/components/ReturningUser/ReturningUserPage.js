@@ -43,7 +43,7 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
-  console.log(learningTracks);
+  console.log(learningTracks );
 
   return (
     <Container>
@@ -76,9 +76,7 @@ function ReturningUserPage() {
           >
             {learningTracks.map(
               (item) =>
-                (item.pathway_id == 3 ||
-                  item.pathway_id === 4 ||
-                  item.pathway_id === 5) && (
+                (item.pathway_id >= 3 ) && (
                   <WithoutLearningClasses item={item} />
                 )
             )}

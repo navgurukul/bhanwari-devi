@@ -18,6 +18,12 @@ const pathwayData = [
     description: "Get familiar with programming with bite sized lessons",
   },
   {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    image: "scratch",
+    description: "Get familiar with programming with bite sized lessons",
+  },
+  {
     title: "Typing",
     code: "TYPGRU",
     image: "typing",
