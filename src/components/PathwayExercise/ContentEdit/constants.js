@@ -11,6 +11,7 @@ import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
 
 const CodeTool = require("@editorjs/code");
+const ColorPlugin = require("editorjs-text-color-plugin");
 
 export const EDITOR_JS_TOOLS = {
   image: {
@@ -25,13 +26,40 @@ export const EDITOR_JS_TOOLS = {
     },
   },
   quote: Quote,
-  marker: Marker,
+  // marker: Marker,
+  Color: {
+    class: ColorPlugin, // if load from CDN, please try: window.ColorPlugin
+    config: {
+      colorCollections: [
+        // '#2E2E2E"',
+        "#171616",
+        // "#080600",
+        // "#FFCC00",
+        "#48A145",
+      ],
+      defaultColor: "#2E2E2E",
+      type: "text",
+    },
+  },
+  Marker: {
+    class: ColorPlugin, // if load from CDN, please try: window.ColorPlugin
+    config: {
+      colorCollections: ["#FFFFFF", "E9F5E9"],
+      // defaultColor: '#E9F5E9',
+      defaultColor: "#E9F5E9",
+      //  '#FFBF00',
+      type: "marker",
+    },
+  },
   raw: Raw,
   delimiter: Delimiter,
   inlineCode: InlineCode,
   simpleImage: SimpleImage,
   header: Header,
-  list: List,
+  list: {
+    class: List,
+    inlineToolbar: true, // or ['bold', 'link']
+  },
   embed: {
     class: Embed,
     config: {

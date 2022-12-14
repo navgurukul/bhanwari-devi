@@ -6,6 +6,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useStyles from "../styles";
+import { formatInUtc } from "../../../common/date";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   Container,
@@ -24,7 +25,6 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import moment from "moment";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { breakpoints } from "../../../theme/constant";
@@ -42,6 +42,76 @@ function BoxComponent(props) {
   );
 }
 
+const DialogBox = ({
+  openDialog,
+  handleCloseDialog,
+  title,
+  contentText,
+  button1,
+  setSave,
+  save,
+}) => {
+  const params = useParams();
+  const classes = useStyles();
+  return (
+    <Dialog
+      open={openDialog}
+      onClose={handleCloseDialog}
+      aria-labelledby="alert-dialog-title"
+      classes={{ paper: classes.paper }}
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title" sx={{ pt: "32px" }}>
+        {title}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText
+          id="alert-dialog-description"
+          sx={{ color: "#2E2E2E" }}
+        >
+          {contentText}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions sx={{ pb: "32px", pr: "32px" }}>
+        {button1 === "Leave" ? (
+          <>
+            <Link
+              style={{ textDecoration: "none", marginRight: "25px" }}
+              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                courseId: params.courseId,
+                exerciseId: params.exerciseId,
+                pathwayId: params.pathwayId,
+              })}
+            >
+              <Button color="error">Leave</Button>
+            </Link>
+            <Button sx={{ color: "#2E2E2E" }} onClick={handleCloseDialog}>
+              Keep Editing
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              sx={{ color: "#2E2E2E", mr: "20px" }}
+              onClick={handleCloseDialog}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSave(!save);
+              }}
+            >
+              Publish
+            </Button>
+          </>
+        )}
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 function ContentEdit() {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
@@ -54,6 +124,7 @@ function ContentEdit() {
   const [courseType, setCourseType] = useState();
   const [isShown, setIsShown] = useState(false);
   const [open, setOpen] = useState(false);
+  const [publishConfirmation, setPublishConfirmation] = useState(false);
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -179,15 +250,9 @@ function ContentEdit() {
         }
         setId(res.data.course.exercises[exerciseId].id);
         setCourse(res.data.course.exercises[exerciseId].content);
-        const Date = res.data.course.exercises[exerciseId].updated_at;
-        const date = Date.split("T")[0].replace(
-          /(\d{4})-(\d{1,2})-(\d{1,2})/,
-          function (match, y, m, d) {
-            return d + "/" + m + "/" + y;
-          }
-        );
-        var longDateStr = moment(date, "D/ M/Y").format("dddd D MMMM Y");
-        console.log("longDateStr", longDateStr);
+        const updated_at = res.data.course.exercises[exerciseId].updated_at;
+        const longDateStr = formatInUtc(updated_at, "EEEE dd MMMM yyyy");
+        // console.log("longDateStr", longDateStr);
         setUpdatedOn(longDateStr);
       })
       .catch((err) => {
@@ -205,6 +270,14 @@ function ContentEdit() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenPublishConfirmation = () => {
+    setPublishConfirmation(true);
+  };
+
+  const handleClosePublishConfirmation = () => {
+    setPublishConfirmation(false);
   };
 
   console.log("course in content edit", course);
@@ -244,15 +317,19 @@ function ContentEdit() {
           <>
             {course &&
               course.map((e, index) => {
-                if (e.component === "questionExpression") {
-                  console.log(e.component, "e.value", e.value);
+                if (
+                  e.component === "questionExpression" ||
+                  e.component === "questionCode"
+                ) {
                   return (
                     <BoxComponent
                       setIsShown={setIsShown}
                       isShown={isShown}
                       iconClick={(e) => handleAdd(index, "assessment")}
                     >
-                      <Typography>Question</Typography>
+                      <Typography>
+                        {e.component === "questionCode" ? "Code" : "Question"}
+                      </Typography>
                       <TextareaAutosize
                         aria-label="empty textarea"
                         fullWidth
@@ -267,26 +344,6 @@ function ContentEdit() {
                         }}
                       />
                     </BoxComponent>
-                  );
-                } else if (e.component === "questionCode") {
-                  console.log(e.component, "e.value", e.value);
-                  return (
-                    <Box>
-                      <Typography>Code</Typography>
-                      <TextareaAutosize
-                        aria-label="empty textarea"
-                        fullWidth
-                        placeholder="Code"
-                        color="primary"
-                        className={classes.textarea}
-                        value={course[index].value}
-                        onChange={(e) => {
-                          var temp = [...course];
-                          temp[index].value = e.target.value;
-                          setCourse(temp);
-                        }}
-                      />
-                    </Box>
                   );
                 } else if (e.component === "options") {
                   console.log(e.component, "e.value", e.value);
@@ -378,46 +435,28 @@ function ContentEdit() {
           <ReactEditor course={course} id={id} save={save} />
         )}
       </Container>
+
       {open && (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          classes={{ paper: classes.paper }}
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            Editing is in Progress
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              id="alert-dialog-description"
-              sx={{ color: "#2E2E2E" }}
-            >
-              You have made several changes and would lose the changes without
-              publishing
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Link
-              style={{ textDecoration: "none", marginRight: "25px" }}
-              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: params.exerciseId,
-                pathwayId: params.pathwayId,
-              })}
-            >
-              <Button color="error">Leave</Button>
-            </Link>
-            <Button
-              style={{ color: "#2E2E2E", marginRight: "20px" }}
-              onClick={handleClose}
-            >
-              Keep Editing
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <DialogBox
+          openDialog={open}
+          handleCloseDialog={handleClose}
+          title="Editing is in Progress"
+          contentText="You have made several changes and would lose the changes without publishing"
+          button1="Leave"
+        />
       )}
+      {publishConfirmation && (
+        <DialogBox
+          openDialog={publishConfirmation}
+          handleCloseDialog={handleClosePublishConfirmation}
+          title="Ready to Publish?"
+          contentText="Make your latest edits available to students and educators"
+          button1="Back"
+          setSave={setSave}
+          save={save}
+        />
+      )}
+
       <Box>
         <Toolbar
           className={classes.bottomRow}
@@ -435,9 +474,7 @@ function ContentEdit() {
             style={{ position: "relative" }}
             variant="text"
             color="primary"
-            onClick={() => {
-              setSave(!save);
-            }}
+            onClick={handleOpenPublishConfirmation}
           >
             Publish
           </Button>

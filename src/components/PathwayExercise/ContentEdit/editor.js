@@ -7,6 +7,7 @@ import { PATHS, interpolatePath, versionCode } from "../../../constant";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./styles.scss";
+import _ from "lodash";
 import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
@@ -23,7 +24,6 @@ function ReactEditor({ course, id, save }) {
   };
 
   console.log("course", course);
-  console.log("id in editor", id);
   let style = "";
   let items = [];
 
@@ -104,22 +104,26 @@ function ReactEditor({ course, id, save }) {
         height: 320,
         width: 580,
         // withHeadings: true,
-        // content: content,
+        content: content,
       },
     };
   });
 
+  console.log("courseData", courseData);
+
   let blocks = courseData.filter((item, index) => {
-    const stringifiedItem = JSON.stringify(item);
+    // const stringifiedItem = JSON.stringify(item);
     return (
       index ===
       courseData.findIndex((obj) => {
-        return JSON.stringify(obj) === stringifiedItem;
+        return _.isEqual(obj, item);
+        // return JSON.stringify(obj) === stringifiedItem;
       })
     );
   });
 
   console.log("blocks", blocks);
+  console.log("Course editor completed, Ready to raise PR");
 
   let json = [];
   const MerakiJSON = (blocks) => {
@@ -155,6 +159,7 @@ function ReactEditor({ course, id, save }) {
       } else if (item.type === "paragraph") {
         component = "text";
         value = item.data.text;
+        console.log("Value", value);
       } else if (item.type == "header") {
         component = item.type;
         value = item.data.text;
@@ -211,6 +216,7 @@ function ReactEditor({ course, id, save }) {
     // https://editorjs.io/configuration#editor-modifications-callback
     console.log("Now I know that Editor's content changed!");
   };
+
   const onSave = async () => {
     // https://editorjs.io/saving-data
     try {

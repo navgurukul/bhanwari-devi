@@ -12,7 +12,7 @@ en.VOLUNTEER = "Volunteer";
 en.ADMIN = "Admin";
 en.PARTNER = "Partner";
 en.STUDENTS = "Students";
-en.VOLUNTEERS = "Volunteers";
+en.VOLUNTEERS = "Tutors";
 en.PARTNERS = "Partners";
 en.DONATE = "Donate";
 en.VOLUNTEER_WITH_US = "Volunteer with Us";
@@ -25,5 +25,8 @@ en.SEARCH_FOR_COURSES = "Search for Courses...";
 en.CAREERS = "Careers";
 en.PROFILE = "Profile";
 en.LOGOUT = "Logout";
+en.TUTOR = "Tutor";
+en.CERTIFICATE_COMPLETION_WARNING =
+  "Please complete all the courses to unlock %1 certificate";
 
 export default en;

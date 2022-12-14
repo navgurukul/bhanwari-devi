@@ -73,9 +73,8 @@ function Item({
           >
             <Typography
               className={classes.ListItemsTypography}
-              // component={Link}
-              sx={{ fontWeight: "bold" }}
-              variant="caption"
+              sx={{ fontWeight: selected === index && "bold" }}
+              variant="body2"
             >
               {selected === index ? (
                 <ArrowRightAltIcon
@@ -84,7 +83,7 @@ function Item({
               ) : (
                 ""
               )}
-              {(index+1)+". "}
+              {index + 1 + ". "}
               {title === "assessment" ? "Practice Question" : title}
             </Typography>
           </ListItemButton>
@@ -161,7 +160,10 @@ function PersistentDrawerLeft({
           <List>
             <ListItem disablePadding>
               <ListItemButton>
-                <AssignmentOutlinedIcon style={{marginTop: "24px", marginRight: "10px"}} className={classes.ContentListIcon} />
+                <AssignmentOutlinedIcon
+                  style={{ marginTop: "24px", marginRight: "10px" }}
+                  className={classes.ContentListIcon}
+                />
                 <Typography
                   className={classes.courseNameTypography}
                   variant="subtitle2"

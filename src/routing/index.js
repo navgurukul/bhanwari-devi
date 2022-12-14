@@ -16,7 +16,7 @@ import Profile from "../pages/Profile";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import NavgurukulIntroduce from "../pages/Navgurukul";
-import Admission from "../pages/Navgurukul/merakiAdmission";
+// import Admission from "../pages/Navgurukul/merakiAdmission";
 import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
@@ -26,6 +26,7 @@ import NewUserDashbord from "../components/NewUserDashbord";
 import Team from "../pages/Team";
 import Partner from "../pages/OurPartner";
 import PathwayExercise from "../components/PathwayExercise/";
+import ContentEdit from "../components/PathwayExercise/ContentEdit";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
@@ -33,8 +34,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
-import ContentEdit from "../components/PathwayExercise/ContentEdit";
-
+import Tutor from "../components/TutorDashboard";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 
 const Routing = () => {
@@ -43,6 +43,7 @@ const Routing = () => {
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
+      <Route exact path={PATHS.HOME_PAGE} component={Home} />
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       <Route
         exact
@@ -75,6 +76,9 @@ const Routing = () => {
         path={PATHS.NAVGURUKUL_INTRODUCE}
         component={NavgurukulIntroduce}
       />
+
+      <PrivateRoute exact path={PATHS.TUTOR} component={Tutor} />
+
       <Route exact path={PATHS.REDIRECT} component={RedirectComponent} />
       <Route exact path={PATHS.SEARCHED_COURSE} component={SearchCourse} />
       <Route
@@ -95,7 +99,6 @@ const Routing = () => {
         component={PathwayExercise}
       />
       <PrivateRoute
-        exact
         path={PATHS.PATHWAY_COURSE_CONTENT_EDIT}
         component={ContentEdit}
       />
@@ -104,13 +107,14 @@ const Routing = () => {
         path={PATHS.NEW_USER_DASHBOARD}
         component={NewUserDashbord}
       />
-      <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} />
+      {/* <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} /> */}
       <PrivateRoute
         exact
         path={PATHS.STATEPARTNER}
         component={StatePartnerDashboard}
       />
       <PrivateRoute exact path={PATHS.PROFILE} component={Profile} />
+      <PrivateRoute exact path={PATHS.ME} component={Profile} />
       <PrivateRoute
         exact
         path={PATHS.VOLUNTEER}

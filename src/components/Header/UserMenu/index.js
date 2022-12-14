@@ -13,11 +13,12 @@ import {
 } from "@mui/material";
 import useStyles from "../styles";
 import Message from "../../common/Message";
-import { isTouchScreen } from "../../../common/utils";
+import DropDownMenu from "../DropDownMenu";
+// import { isTouchScreen } from "../../../common/utils";
 
 // function UserMenu({ profile }) {
 function UserMenu() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
@@ -32,6 +33,7 @@ function UserMenu() {
   }, []);
 */
 
+  /*
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -39,41 +41,36 @@ function UserMenu() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  */
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <IconButton
-        onMouseEnter={(e) => {
-          if (!isTouchScreen()) {
-            handleOpenUserMenu(e);
-          }
+      <DropDownMenu
+        DropDownButton={
+          <IconButton sx={{ p: 0 }}>
+            <Avatar alt={name} src={profilePict} />
+          </IconButton>
+        }
+        menuContainerProps={{
+          // sx: { mt: '45px' },
+          id: "menu-appbar",
+          /*
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          keepMounted: true,
+          transformOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          */
         }}
-        onClick={handleOpenUserMenu}
-        sx={{ p: 0 }}
-      >
-        <Avatar alt={name} src={profilePict} />
-      </IconButton>
-      <Menu
-        sx={{ mt: "45px" }}
-        id="menu-appbar"
-        anchorEl={anchorElUser}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        open={Boolean(anchorElUser)}
-        onClose={handleCloseUserMenu}
-        onMouseLeave={handleCloseUserMenu}
-        hideBackdrop
+        attachRight
       >
         <NavLink to={PATHS.PROFILE} className={classes.link}>
           <MenuItem
-            onClick={handleCloseUserMenu}
+            /*onClick={handleCloseUserMenu}*/
             sx={{ width: 150, margin: "0px 13px" }}
           >
             <Typography textAlign="center">
@@ -91,7 +88,7 @@ function UserMenu() {
         </NavLink> */}
         <NavLink to={PATHS.OPPORTUNITIES} className={classes.link}>
           <MenuItem
-            onClick={handleCloseUserMenu}
+            /*onClick={handleCloseUserMenu}*/
             sx={{ width: 150, margin: "0px 13px" }}
           >
             <Typography textAlign="center">Opportunities</Typography>
@@ -102,7 +99,7 @@ function UserMenu() {
           className={classes.link}
         >
           <MenuItem
-            onClick={handleCloseUserMenu}
+            /*onClick={handleCloseUserMenu}*/
             sx={{ width: 150, margin: "0px 13px" }}
           >
             <Typography textAlign="center" color="error">
@@ -110,7 +107,7 @@ function UserMenu() {
             </Typography>
           </MenuItem>
         </Link>
-      </Menu>
+      </DropDownMenu>
     </Box>
   );
 }
