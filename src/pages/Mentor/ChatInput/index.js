@@ -8,7 +8,6 @@ import "./styles.scss";
 import useStyles from "./styles";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import EmojiPicker from "emoji-picker-react";
 
 export default ({
@@ -23,10 +22,22 @@ export default ({
   const inputRef = useRef(null);
   const classes = useStyles();
 
+  const onFileChange = (e) => {
+    console.log(e.target.files[0]);
+  };
+
   const InputAdorns = {
     startAdornment: [
       <InputAdornment key="1" position="start">
-        {<AttachFileIcon style={{ color: "#6D6D6D", cursor: "pointer" }} />}
+        <input
+          style={{ display: "none" }}
+          type="file"
+          id="file"
+          onChange={onFileChange}
+        />
+        <label htmlFor="file">
+          {<AttachFileIcon style={{ color: "#6D6D6D", cursor: "pointer" }} />}
+        </label>
       </InputAdornment>,
       <InputAdornment key="2" position="start">
         {
@@ -98,11 +109,17 @@ export default ({
           </div>
         </div>
       )}
+
       {openEmoji && (
         <div className="emoji-container">
+          <CloseIcon
+            className="close-emoji"
+            onClick={() => setOpenEmoji(false)}
+          />
           <EmojiPicker onEmojiClick={(event) => emojiClickHandler(event)} />{" "}
         </div>
       )}
+
       <Box className={classes.inputContainer}>
         <TextField
           type="text"
