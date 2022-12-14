@@ -235,27 +235,27 @@ function PathwayCourse() {
           authToken: user?.data?.token,
         })
       );
-      axios({
-        method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
-        headers: {
-          accept: "application/json",
-          Authorization: user?.data?.token,
-        },
-      }).then((response) => {
+    }
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    }).then((response) => {
+      setCompletedPortion((prevState) => ({
+        ...prevState,
+        total: response?.data?.total_completed_portion,
+      }));
+
+      response.data.pathway.map((item) => {
         setCompletedPortion((prevState) => ({
           ...prevState,
-          total: response?.data?.total_completed_portion,
+          [item.course_id]: item.completed_portion,
         }));
-
-        response.data.pathway.map((item) => {
-          setCompletedPortion((prevState) => ({
-            ...prevState,
-            [item.course_id]: item.completed_portion,
-          }));
-        });
       });
-    }
+    });
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
@@ -311,7 +311,7 @@ function PathwayCourse() {
   }
   return (
     <>
-      {enrolledBatches && !loading ? (
+      {enrolledBatches && !loading && (pathwayId == "1" || pathwayId == "2") ? (
         <>
           <Typography
             align="center"
@@ -360,7 +360,7 @@ function PathwayCourse() {
             </Box>
           </Box>
         </Modal>
-        {enrolledBatches ? (
+        {enrolledBatches && (pathwayId == "1" || pathwayId == "2") ? (
           <>
             <PathwayCards
               userEnrolledClasses={userEnrolledClasses}
@@ -678,7 +678,9 @@ function PathwayCourse() {
           ) : (
             ""
           )}
-          {!enrolledBatches && upcomingBatchesData?.length > 0 ? (
+          {!enrolledBatches &&
+          upcomingBatchesData?.length > 0 &&
+          (pathwayId == "1" || pathwayId == "2") ? (
             <PathwayCourseBatchEnroll2
               upcomingBatchesData={upcomingBatchesData}
             />
