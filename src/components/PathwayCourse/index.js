@@ -223,7 +223,11 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    if (user?.data?.token && pathwayId) {
+    if (
+      user?.data?.token &&
+      pathwayId &&
+      (pathwayId == "1" || pathwayId == "2")
+    ) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
@@ -254,7 +258,11 @@ function PathwayCourse() {
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    if (user?.data?.token && enrolledBatches?.length > 0) {
+    if (
+      user?.data?.token &&
+      enrolledBatches?.length > 0 &&
+      (pathwayId == "1" || pathwayId == "2")
+    ) {
       dispatch(
         upcomingClassActions.getupcomingEnrolledClasses({
           pathwayId: pathwayId,
