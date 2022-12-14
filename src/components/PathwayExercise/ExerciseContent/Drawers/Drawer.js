@@ -71,9 +71,8 @@ function Item({
           >
             <Typography
               className={classes.ListItemsTypography}
-              // component={Link}
-              sx={{ fontWeight: "bold" }}
-              variant="caption"
+              sx={{ fontWeight: selected === index && "bold" }}
+              variant="body2"
             >
               {selected === index ? (
                 <ArrowRightAltIcon
