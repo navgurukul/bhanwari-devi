@@ -136,16 +136,19 @@ function PathwayExercise() {
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
-
+  console.log(showArrow);
   const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
+  console.log(courseLength);
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
     const maxScrollLeft =
       scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
     console.log(
-      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
+      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${
+        maxScrollLeft - 2
+      }`
     );
     if (!showArrow.left) {
       if (scrollY > 0) {
@@ -160,7 +163,6 @@ function PathwayExercise() {
         });
       }
     }
-
     console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
@@ -211,6 +213,14 @@ function PathwayExercise() {
       setProgressTrackId(data);
     });
   }, [exerciseId]);
+
+  useEffect(() => {
+    if (courseLength <= 7 && courseLength > 0) {
+      setShowArrow((prev) => {
+        return { ...prev, right: false };
+      });
+    }
+  }, [courseLength]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -332,7 +342,7 @@ function PathwayExercise() {
     }
   };
   const [language, setLanguage] = useState("en");
-
+  console.log(showArrow);
   // to avoid duplication
   function languageSelectMenu() {
     const langMenu = availableLang.map((lang) => (
@@ -414,7 +424,11 @@ function PathwayExercise() {
                 <div
                   onScroll={onScroll}
                   ref={scrollRef}
-                  className={classes.scrollContainer}
+                  className={
+                    courseLength < 7
+                      ? classes.scrollData
+                      : classes.scrollContainer
+                  }
                 >
                   {exerciseId >
                   (
