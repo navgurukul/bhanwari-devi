@@ -282,6 +282,13 @@ function PathwayCourse() {
     }
   }, [enrolledBatches]);
 
+  /*For Content List Scroll Position*/
+  useEffect(()=>{
+    if(localStorage.getItem("contentListScroll")){
+      localStorage.removeItem("contentListScroll");
+    }
+  }, []);
+
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
       pathways.forEach((item) => {
