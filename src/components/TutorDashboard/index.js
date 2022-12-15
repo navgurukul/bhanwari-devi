@@ -414,7 +414,7 @@ function Tutor(props) {
                 setSelectedPathway("Python");
               }}
             >
-              Python ({selectedPathway === "Python" ? volunteer.length : ""})
+              Python ({selectedPathway === "Python" ? volunteer.length : "0"})
             </Button>
           </Grid>
           <Grid item>
@@ -429,7 +429,7 @@ function Tutor(props) {
               }}
             >
               Spoken English (
-              {selectedPathway === "Spoken English" ? volunteer.length : ""})
+              {selectedPathway === "Spoken English" ? volunteer.length : "0"})
             </Button>
           </Grid>
           <Grid
