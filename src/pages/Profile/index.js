@@ -7,24 +7,18 @@ import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import MuiPhoneNumber from "material-ui-phone-number";
-import ImageUpload from "@material-ui/core";
-import VerifyPhoneNo from "../../components/VolunteerAutomation/VerifyPhoneNo";
+// import ImageUpload from "@material-ui/core";
+// import VerifyPhoneNo from "../../components/VolunteerAutomation/VerifyPhoneNo";
 import Avatar from "react-avatar-edit";
 
 import {
   Grid,
-  // Avatar,
   TextField,
   Typography,
   Button,
   Container,
   Box,
-  FormControl,
-  FormHelperText,
   Snackbar,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
@@ -215,19 +209,10 @@ function Profile() {
 
   return (
     <>
-      {/* <div className={classes.imageContainer}>
-        <img className={classes.bgImage} src={require("./assest/bg.png")} />
-      </div> */}
       <Container maxWidth="lg">
         <div item xs={12} md={6} className={classes.profileBox} align="center">
-          {/* <Avatar
-            alt={userData.name}
-            src={userData.profile_picture}
-            sx={{ height: 100, width: 100, mt: isActive ? 3 : 0 }}
-          /> */}
           <img
             alt={userData.name}
-            // src={userData.profile_picture}//
             style={{
               height: 100,
               width: 100,
@@ -236,33 +221,15 @@ function Profile() {
             src={New_Profile.length ? New_Profile : userData.profile_picture}
           />
           {isEditing ? (
-            <Dialog
-              // sx = {{p : "40px"}}
-              // style = {{padding : "40px"}}
-              open={open}
-              onClose={handleClose}
-              // className={classes.dialog}
-              // aria-labelledby="alert-dialog-title"
-              // aria-describedby="alert-dialog-description"
-            >
-              {/* < */}
-              <Box
-                sx={{ p: isActive ? "8px" : "32px" }}
-                // style = {{margin : "40px"}}
-              >
-                <Typography
-                  variant="h6"
-                  pl={1}
-                  pb={4}
-                  // id="alert-dialog-title"
-                >
+            <Dialog open={open} onClose={handleClose}>
+              <Box sx={{ p: isActive ? "8px" : "32px" }}>
+                <Typography variant="h6" pl={1} pb={4}>
                   {"Edit Profile"}
                 </Typography>
-                <Grid container>
-                  <Grid item xs={4} sm={3} pr={2}>
+                <Grid container columnSpacing={2}>
+                  <Grid item xs={5} sm={3} pr={2}>
                     <img
                       style={{ width: "120px", height: "120px" }}
-                      //  src={userData.profile_picture}
                       src={
                         New_Profile.length
                           ? New_Profile
@@ -270,7 +237,7 @@ function Profile() {
                       }
                     />
                   </Grid>
-                  <Grid item xs={8} sm={9}>
+                  <Grid item xs={7} sm={9}>
                     <Box>
                       <Typography
                         variant="body1"
@@ -281,9 +248,7 @@ function Profile() {
                         color="primary"
                         sx={{ cursor: "pointer", pb: 2 }}
                       >
-                        {/* <Typography my = {2} color = "primary" > */}
                         Update Photo
-                        {/* </Typography> */}
                       </Typography>
                       <Dialog
                         open={imgDialogs}
@@ -335,13 +300,6 @@ function Profile() {
                     </Box>
                   </Grid>
                 </Grid>
-
-                {/* <DialogContent>
-              <DialogContentText>
-                Goals can change all the tSharmaime. However, we will keep your
-                registration progress intact in case you return back.
-              </DialogContentText>
-            </DialogContent> */}
                 <div id="recaptcha-container"></div>
                 <DialogActions>
                   <Box>
@@ -376,7 +334,7 @@ function Profile() {
                   </Box>
                 </DialogActions>
                 <Box my={2} p={1}>
-                  <Grid container spacing={2}>
+                  <Grid container columnSpacing={isActive ? 1 : 2}>
                     <Grid item sm={3} xs={4}>
                       <MuiPhoneNumber
                         preferredCountries={["in"]}
@@ -456,8 +414,6 @@ function Profile() {
                   onClose={handleSnackBarClose}
                   message={message}
                 />
-                {/* {isEditing ? (
-            <> */}
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <Button
                     variant="outlined"
@@ -474,28 +430,9 @@ function Profile() {
                     Save Changes
                   </Button>
                 </Box>
-                {/* </>
-          ) : (
-            <Button pt={1} onClick={handleClickOpen}
-            // onClick={() => setIsEditing(true)}
-            >
-              {!isActive && "Edit Profile"}
-            </Button>
-          )} */}
               </Box>
             </Dialog>
-          ) : // <TextField
-          //   error={showError}
-          //   id="standard-basic"
-          //   label="Name"
-          //   sx={{ mt: "10px" }}
-          //   value={editName}
-          //   helperText={helperText}
-          //   onChange={(e) => {
-          //     setEditName(e.target.value);
-          //   }}
-          // />
-          msg ? (
+          ) : msg ? (
             <Typography>Please wait...</Typography>
           ) : (
             <Typography
@@ -504,10 +441,7 @@ function Profile() {
             >
               {userData.name}
               {isActive && !isEditing && (
-                <Button
-                  onClick={handleClickOpen}
-                  // onClick={() => setIsEditing(true)}
-                >
+                <Button onClick={handleClickOpen}>
                   <EditIcon />
                 </Button>
               )}
@@ -531,24 +465,10 @@ function Profile() {
                 </>
               )}
           </Typography>
-          {/* {isEditing ? (
-            <>
-              <Button sx={{ mr: "30px" }} onClick={() => setIsEditing(false)}>
-                Cancel
-              </Button>
-              <Button onClick={editProfile} disabled={showError}>
-                Save Profile
-              </Button>
-            </>
-          ) : ( */}
-          <Button
-            pt={1}
-            onClick={handleClickOpen}
-            // onClick={() => setIsEditing(true)}
-          >
+
+          <Button pt={1} onClick={handleClickOpen}>
             {!isActive && "Edit Profile"}
           </Button>
-          {/* )} */}
         </div>
         <DropOutBatchesProfile />
       </Container>
