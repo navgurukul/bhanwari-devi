@@ -137,6 +137,7 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
 
+  // added for editor and admin
   const editor = user.data.user.rolesList.indexOf("editor") > -1;
   const admin = user.data.user.rolesList.indexOf("admin") > -1;
 
