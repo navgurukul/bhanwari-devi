@@ -287,6 +287,9 @@ function PathwayCourse() {
     if(localStorage.getItem("contentListScroll")){
       localStorage.removeItem("contentListScroll");
     }
+    if(localStorage.getItem("contentListScrollMobile")){
+      localStorage.removeItem("contentListScrollMobile");
+    }
   }, []);
 
   data.Pathways.data &&
