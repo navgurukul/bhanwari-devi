@@ -120,15 +120,11 @@ function Tutor(props) {
 
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
-  // console.log(volunteer,"volunteer...>>>>>>>>>>>>>>>>>>>>")
-
   const [selectedPathway, setSelectedPathway] = useState("Python");
   const [pathwayCount, setPathwayCount] = useState({
     python: 0,
     spokenEnglish: 0,
   });
-
-  // console.log(pathwayCount,">>>>>>>>>>>>>>>>>")
   const [slicedVolunteer, setSlicedVolunteer] = useState([]);
   const [cacheVolunteer, setCacheVolunteer] = useState([]);
   const [selected, setSelected] = React.useState([]);
@@ -305,7 +301,6 @@ function Tutor(props) {
       },
     })
       .then((res) => {
-        // console.log(res,">>>>>>>>>>>>>");
         setPathwayCount({
           python: res.data?.pythonVolunteerCount,
           spokenEnglish: res?.data?.spokenEnglishVolunteersCount,
