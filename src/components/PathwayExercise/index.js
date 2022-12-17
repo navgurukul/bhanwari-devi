@@ -136,20 +136,19 @@ function PathwayExercise() {
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
-  console.log(showArrow);
+  // console.log(showArrow);
   const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
-  console.log(courseLength);
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
     const maxScrollLeft =
       scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-    console.log(
-      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${
-        maxScrollLeft - 2
-      }`
-    );
+    // console.log(
+    //   `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${
+    //     maxScrollLeft - 2
+    //   }`
+    // );
     if (!showArrow.left) {
       if (scrollY > 0) {
         setShowArrow((prev) => {
@@ -172,6 +171,10 @@ function PathwayExercise() {
       }
     } else if (!showArrow.right) {
       if (Math.ceil(scrollY) < maxScrollLeft - 2) {
+        setShowArrow((prev) => {
+          return { ...prev, right: true };
+        });
+      } else if (Math.ceil(scrollY) === maxScrollLeft) {
         setShowArrow((prev) => {
           return { ...prev, right: true };
         });
@@ -217,7 +220,7 @@ function PathwayExercise() {
   }, [exerciseId]);
 
   useEffect(() => {
-    if (courseLength <= 7 && courseLength > 0) {
+    if (courseLength > 0 && courseLength < 7) {
       setShowArrow((prev) => {
         return { ...prev, right: false };
       });
@@ -348,7 +351,7 @@ function PathwayExercise() {
     }
   };
   const [language, setLanguage] = useState("en");
-  console.log(showArrow);
+
   // to avoid duplication
   function languageSelectMenu() {
     const langMenu = availableLang.map((lang) => (
