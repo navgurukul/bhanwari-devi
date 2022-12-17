@@ -37,10 +37,12 @@ import SearchHeader from "./SearchHeader";
 import ChangeRolesView from "./ChangeRolesView";
 import { selectRolesData, selectUserId } from "../User/redux/selectors";
 
+/*
 const savedRolesToKeysMap = Object.keys(ROLES).reduce((roleKeyMap, roleKey) => {
   roleKeyMap[ROLES[roleKey].savedValue] = roleKey;
   return roleKeyMap;
 }, {});
+*/
 
 const rolesLandingPages = {
   [STUDENT]: PATHS.NEW_USER_DASHBOARD,
@@ -64,7 +66,7 @@ function AuthenticatedHeaderOption({
 
   const rolesWithLandingPages = roles.map((role) => ({
     ...role,
-    landingPage: rolesLandingPages[role.key],
+    landingPage: rolesLandingPages[role.key] || "/",
   }));
 
   // const [role, setRole] = React.useState(null);

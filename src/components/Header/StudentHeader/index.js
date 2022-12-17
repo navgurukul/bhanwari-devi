@@ -57,7 +57,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
         }}
       >
         <TextButtonDropDownMenu
-          btnTextMsgKey={MENU_ITEMS[LEARN_KEY].msgKey}
+          btnTextMsgKey={MENU_ITEMS[LEARN_KEY]?.msgKey}
           // attachRight={!leftDrawer}
           menuContainerProps={{
             id: "menu-appbar",
