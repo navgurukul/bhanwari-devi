@@ -66,7 +66,7 @@ function MiscellaneousCourses() {
         </Grid>
 
         <Box sx={{ mt: isActive ? 5 : 10 }}>
-          <Typography variant="h5" align={isActive ? "center" : "left"}>
+          <Typography variant="h6" align={isActive ? "center" : "left"}>
             Courses
           </Typography>
           <Grid sx={{ mt: "16px" }} container spacing={2}>
