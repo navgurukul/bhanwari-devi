@@ -377,7 +377,7 @@ function Tutor(props) {
               }}
             />
           </Grid>
-          {/* <Grid item className={classes.generateReport} xs={isActive && 12}>
+          <Grid item className={classes.generateReport} xs={isActive && 12}>
             <Button
               fullWidth
               variant="outlined"
@@ -393,7 +393,7 @@ function Tutor(props) {
               Generate Report
               <DownloadIcon sx={{ marginLeft: "10px" }} />
             </Button>
-          </Grid> */}
+          </Grid>
         </Grid>
         {/* END HEADER */}
 
@@ -1042,7 +1042,7 @@ function Tutor(props) {
         statusValue={statusValue}
         setStatusValue={setStatusValue}
       />
-      <GenerateReport
+      {/* <GenerateReport
         generateDialog={generateDialog}
         setGenerateDialog={setGenerateDialog}
         startDate={startDate}
@@ -1052,7 +1052,7 @@ function Tutor(props) {
         volunteerReport={volunteer}
         languageMap={languageMap}
         numberOfWeek={numberOfWeek}
-      />
+      /> */}
     </div>
   );
 }

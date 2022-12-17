@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
   searchBar: {
     width: "930px",
     height: "48px",
-
   },
   generateReport: {
     position: "relative",
@@ -15,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   // ..........filter................
   filters: {
     height: "32px",
-    marginTop:"10px",
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-start",
