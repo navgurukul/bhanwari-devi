@@ -1042,7 +1042,7 @@ function Tutor(props) {
         statusValue={statusValue}
         setStatusValue={setStatusValue}
       />
-      <GenerateReport
+      {/* <GenerateReport
         generateDialog={generateDialog}
         setGenerateDialog={setGenerateDialog}
         startDate={startDate}
@@ -1052,7 +1052,7 @@ function Tutor(props) {
         volunteerReport={volunteer}
         languageMap={languageMap}
         numberOfWeek={numberOfWeek}
-      />
+      /> */}
     </div>
   );
 }
