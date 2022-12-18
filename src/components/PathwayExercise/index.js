@@ -59,8 +59,6 @@ const Exercise = ({
     }
   }, [imageRef.current]);
 
-  console.log("courseLength", courseLength);
-
   return (
     <>
       {courseLength?.map((exercise, index) => {

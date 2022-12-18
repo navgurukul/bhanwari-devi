@@ -12,6 +12,7 @@ import {
   Skeleton,
   Card,
   useMediaQuery,
+  Alert,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -146,20 +147,26 @@ function ClassList({ editClass, isShow }) {
                     );
                   })
                 : ""}
-              {classData.map((item, index) => {
-                return (
-                  <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
-                    <ClassCard
-                      item={item}
-                      key={index}
-                      index={index}
-                      editClass={editClass}
-                      enroll="Enroll to Cohort class"
-                      style="class-enroll-cohort"
-                    />
-                  </Grid>
-                );
-              })}
+              {classData.length > 0 ? (
+                classData.map((item, index) => {
+                  return (
+                    <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }} key={index}>
+                      <ClassCard
+                        item={item}
+                        key={index}
+                        index={index}
+                        editClass={editClass}
+                        enroll="Enroll to Cohort class"
+                        style="class-enroll-cohort"
+                      />
+                    </Grid>
+                  );
+                })
+              ) : (
+                <Grid item md={12} sx={{ mb: 0, mt: 4, p: 1 }}>
+                  <Typography>No Classes Found</Typography>
+                </Grid>
+              )}
             </>
           ) : (
             <div className="message">

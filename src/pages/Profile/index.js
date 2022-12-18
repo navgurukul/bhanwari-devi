@@ -166,13 +166,15 @@ function Profile() {
       setHelperText("Please enter your name");
       setShowError(true);
     } else if (
-      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(editName) ||
+      /[!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?]+/.test(editName) ||
       /\d/.test(editName)
     ) {
       setHelperText(
         "Please use only capital or small letters. Numbers and symbols cannot be used in a name"
       );
       setShowError(true);
+    } else if (editName?.length > 25) {
+      setHelperText("Name length should not be more than 25");
     } else {
       setHelperText();
     }
@@ -304,7 +306,7 @@ function Profile() {
                 <DialogActions>
                   <Box>
                     <TextField
-                      error={editName?.length == 0}
+                      error={editName?.length == 0 || helperText?.length > 0}
                       // id="standard-basic"
                       label="Name"
                       fullWidth
