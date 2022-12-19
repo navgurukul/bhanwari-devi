@@ -570,7 +570,7 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <Box sx={{ marginTop: "120px" }}>
+        <Box sx={{ marginTop: editor || admin ?  "120px": "50px" }}>
           {/* <Box sx={{ marginTop: "50px" }}> */}
           <ExerciseContent
             contentList={course}
