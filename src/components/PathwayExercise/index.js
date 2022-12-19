@@ -226,8 +226,16 @@ function PathwayExercise() {
       setShowArrow((prev) => {
         return { ...prev, right: false };
       });
+    } else if (exerciseId === courseLength) {
+      setShowArrow((prev) => {
+        return { ...prev, right: false };
+      });
+    } else {
+      setShowArrow((prev) => {
+        return { ...prev, right: true };
+      });
     }
-  }, [courseLength]);
+  }, [courseLength, exerciseId]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
