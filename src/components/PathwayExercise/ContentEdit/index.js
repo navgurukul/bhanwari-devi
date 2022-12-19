@@ -125,6 +125,7 @@ function ContentEdit() {
   const [isShown, setIsShown] = useState(false);
   const [open, setOpen] = useState(false);
   const [publishConfirmation, setPublishConfirmation] = useState(false);
+  const [courseExercise, setCourseExercise] = useState([]);
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -258,6 +259,22 @@ function ContentEdit() {
       .catch((err) => {
         console.log("error");
       });
+  }, [courseId, exerciseId]);
+
+  //----------------------API CALL FOR COURSE EDITOR-------------------//
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+    }).then((res) => {
+      console.log("response -----", res);
+    });
   }, [courseId, exerciseId]);
 
   useEffect(() => {

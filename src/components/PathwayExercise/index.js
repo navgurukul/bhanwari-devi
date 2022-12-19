@@ -194,6 +194,7 @@ function PathwayExercise() {
         console.log("error");
       });
   }, [currentCourse]);
+
   useEffect(() => {
     if (Number.isInteger(parseInt(params.pathwayId))) {
       axios({
@@ -276,6 +277,7 @@ function PathwayExercise() {
 
   const nextClickHandler = () => {
     if (exerciseId < courseLength - 1) {
+      console.log("EXERSBDJHSAB => ", exerciseId);
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
