@@ -47,6 +47,7 @@ const Exercise = ({
   history,
   params,
   progressTrackId,
+  setSuccessfulExerciseCompletion,
 }) => {
   const courseLength = course;
   const imageRef = React.useRef();
@@ -76,6 +77,7 @@ const Exercise = ({
             setExerciseId={setExerciseId}
             classes={classes}
             progressTrackId={progressTrackId}
+            setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
           />
         );
       })}
@@ -92,6 +94,7 @@ function NavigationComponent({
   exercise,
   progressTrackId,
   imageRef,
+  setSuccessfulExerciseCompletion,
 }) {
   return (
     <>
@@ -109,6 +112,7 @@ function NavigationComponent({
             })
           );
         }}
+        setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         index={index}
         imageRef={imageRef}
         selected={exerciseId == index}
@@ -449,6 +453,9 @@ function PathwayExercise() {
                       setExerciseId={setExerciseId}
                       classes={classes}
                       progressTrackId={progressTrackId}
+                      setSuccessfulExerciseCompletion={
+                        setSuccessfulExerciseCompletion
+                      }
                     />
                   )}
                   <Exercise
@@ -459,6 +466,9 @@ function PathwayExercise() {
                     setExerciseId={setExerciseId}
                     classes={classes}
                     progressTrackId={progressTrackId}
+                    setSuccessfulExerciseCompletion={
+                      setSuccessfulExerciseCompletion
+                    }
                   />
                 </div>
 
@@ -527,6 +537,9 @@ function PathwayExercise() {
                               exercise.sub_title ||
                               exercise.content_type ||
                               "N/A"
+                            }
+                            setSuccessfulExerciseCompletion={
+                              setSuccessfulExerciseCompletion
                             }
                             index={index}
                             setExerciseId={setExerciseId}
