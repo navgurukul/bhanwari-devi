@@ -17,7 +17,7 @@ class SearchService{
     
     /**
      * Instantiate a new SearchService
-     * @param {IData} data 
+     * @param {IData} data - the entirety of the data to search
      */
     constructor(data){
         /**
