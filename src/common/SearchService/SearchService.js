@@ -39,9 +39,8 @@ class SearchService{
      * @returns {IData} result - the resulting rows containing all search keywords
      */
     search(keywords) {
-        if(keywords === "") return this.keywordRowPairs.map(({dataRow}) => dataRow);
-        const result = this.trie.search(keywords);
-        return result.map(({dataRow}) => dataRow);
+        const result = keywords ? this.trie.search(keywords) : this.keywordRowPairs;
+        return result.map(({ dataRow }) => dataRow);
     }
 }
 
