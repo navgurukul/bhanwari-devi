@@ -29,11 +29,11 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
         text={<Message constantKey="DASHBOARD" />}
         toggleDrawer={toggleDrawer}
       />
-      <HeaderNavLink
+      {/* <HeaderNavLink
         to={PATHS.MENTOR}
         text={<Message constantKey="MENTOR" />}
         toggleDrawer={toggleDrawer}
-      />
+      /> */}
     </>
   );
 }
