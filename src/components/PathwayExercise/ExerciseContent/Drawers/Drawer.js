@@ -5,11 +5,13 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItem from "@mui/material/ListItem";
 import { Typography, useMediaQuery } from "@mui/material";
+import { useDebouncedCallback } from 'use-debounce';
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+
 
 function Item({
   progressTrackId,
@@ -104,16 +106,29 @@ function PersistentDrawerLeft({
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
+  const [scrollPosition, setScrollPosition] = React.useState({ coordinateY: 0, changed: false});
 
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
   const ref1 = React.useRef();
-  React.useEffect(() => {
-    if (ref1.current) {
-      ref1.current.scrollIntoView({
-        block: "center",
-      });
+  const scrollRef = React.useRef();
+
+  const debouncedUpdateScroll = useDebouncedCallback(() => {
+      if(scrollRef.current){
+        setScrollPosition({ coordinateY: scrollRef.current.scrollTop, changed: true});
+      }
+    },
+    200
+  );
+  
+  React.useEffect(()=>{
+    if(scrollPosition.changed){
+      localStorage.setItem("contentListScroll", scrollPosition.coordinateY);
+    }
+
+  }, [scrollPosition]);
+
+  React.useEffect(()=>{
+    if(scrollRef.current){
+      scrollRef.current.scrollTo(0, parseInt(localStorage.getItem("contentListScroll")));
     }
   }, []);
 
@@ -124,7 +139,8 @@ function PersistentDrawerLeft({
         variant="persistent"
         anchor="left"
         open={true}
-        PaperProps={{ style: { border: "none" } }}
+        onScroll={debouncedUpdateScroll}
+        PaperProps={{ style: { border: "none", overflow: "scroll" }, ref: scrollRef }}
       >
         <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
           <ListItem disablePadding style={{ marginTop: "100px" }}>
