@@ -84,7 +84,7 @@ function ClassForm({
       classToEdit?.pathway_id?.[0] ||
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
-    volunteer_id: classToEdit?.volunteer_id || "",
+    volunteer_id: classToEdit?.volunteer_id || null,
     facilitator_name: classToEdit?.volunteer?.name || "",
   });
   const [display, setDisplay] = useState(false);
@@ -93,6 +93,7 @@ function ClassForm({
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
+  console.log(classFields.volunteer_id);
   const [loading, setLoading] = useState(false);
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -722,7 +723,7 @@ function ClassForm({
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
-                id: classFields.volunteer_id || "",
+                id: classFields.volunteer_id || null,
               }}
               // name="partner_id"
 
