@@ -126,7 +126,7 @@ function ContentEdit() {
   const [open, setOpen] = useState(false);
   const [publishConfirmation, setPublishConfirmation] = useState(false);
   const [courseExercise, setCourseExercise] = useState(undefined);
-  const [courseName, setCourseName] = useState();
+  const [exerciseName, setExerciseName] = useState();
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -274,9 +274,13 @@ function ContentEdit() {
     }).then((res) => {
       //const course_type = res.data.course.exercises[exerciseId].content_type;
       // setCourseType(course_type);
-
+      console.log(
+        "response of courseEditor",
+        res.data?.course?.exercises[exerciseId].content
+      );
+      console.log("exercise", res.data?.course?.exercises[exerciseId].name);
       setCourseExercise(res.data?.course?.exercises[exerciseId].content);
-      setCourseName(res.data?.course?.name);
+      setExerciseName(res.data?.course?.exercises[exerciseId].name);
     });
   }, [courseId, exerciseId]);
 
@@ -455,7 +459,8 @@ function ContentEdit() {
           courseExercise && (
             <ReactEditor
               course={courseExercise}
-              courseName={courseName}
+              // course={course}
+              exerciseName={exerciseName}
               id={id}
               save={save}
               courseId={courseId}

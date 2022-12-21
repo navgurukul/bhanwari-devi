@@ -12,7 +12,7 @@ import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 
-function ReactEditor({ course, id, save, courseName, courseId }) {
+function ReactEditor({ course, id, save, exerciseName, courseId }) {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
@@ -237,7 +237,7 @@ function ReactEditor({ course, id, save, courseName, courseId }) {
         },
         data: {
           // send name as data course name
-          name: courseName,
+          name: exerciseName,
           content: stringifiedCourse,
         },
       }).then((res) => {
@@ -245,6 +245,7 @@ function ReactEditor({ course, id, save, courseName, courseId }) {
         //call this api and in response of this do history .push
 
         console.log("API CALL SUCCESSFUL!!");
+        console.log("res of exercise api", res);
         axios({
           method: METHODS.PUT,
           url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/promoteCourseVersion`,
@@ -254,15 +255,15 @@ function ReactEditor({ course, id, save, courseName, courseId }) {
             Authorization: user.data?.token || "",
           },
         }).then((res) => {
-          history.push(
-            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-              courseId: params.courseId,
-              exerciseId: params.exerciseId,
-              pathwayId: params.pathwayId,
-            })
-          );
+          // history.push(
+          //   interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          //     courseId: params.courseId,
+          //     exerciseId: params.exerciseId,
+          //     pathwayId: params.pathwayId,
+          //   })
+          // );
+          console.log("res of promoteCourseVersion api", res);
         });
-        console.log(res, "res");
       });
     } catch (e) {
       console.log("Saving failed: ", e);
