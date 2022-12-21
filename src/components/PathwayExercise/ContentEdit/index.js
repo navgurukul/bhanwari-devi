@@ -125,12 +125,11 @@ function ContentEdit() {
   const [isShown, setIsShown] = useState(false);
   const [open, setOpen] = useState(false);
   const [publishConfirmation, setPublishConfirmation] = useState(false);
-  const [courseExercise, setCourseExercise] = useState([]);
+  const [courseExercise, setCourseExercise] = useState(undefined);
+  const [courseName, setCourseName] = useState();
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  console.log("course", course);
 
   const allComponents = {
     option: {
@@ -273,7 +272,11 @@ function ContentEdit() {
         Authorization: user.data?.token || "",
       },
     }).then((res) => {
-      console.log("response -----", res);
+      //const course_type = res.data.course.exercises[exerciseId].content_type;
+      // setCourseType(course_type);
+
+      setCourseExercise(res.data?.course?.exercises[exerciseId].content);
+      setCourseName(res.data?.course?.name);
     });
   }, [courseId, exerciseId]);
 
@@ -449,7 +452,15 @@ function ContentEdit() {
               })}
           </>
         ) : (
-          <ReactEditor course={course} id={id} save={save} />
+          courseExercise && (
+            <ReactEditor
+              course={courseExercise}
+              courseName={courseName}
+              id={id}
+              save={save}
+              courseId={courseId}
+            />
+          )
         )}
       </Container>
 
