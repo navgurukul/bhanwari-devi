@@ -76,6 +76,19 @@ const useStyles = makeStyles(
       fontWeight: "500",
       marginBottom: "4px",
     },
+    /*Emoji Section*/
+    emojiContainer: {
+      position: "absolute",
+      marginLeft: "20px",
+      bottom: "84px",
+    },
+    closeEmoji: {
+      marginLeft: "315px",
+      position: "absolute",
+      zIndex: "1000",
+      marginTop: "405px",
+      cursor: "pointer",
+    }
   }),
   { index: 1 }
 );

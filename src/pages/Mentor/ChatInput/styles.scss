@@ -88,16 +88,3 @@
     right: 30px;
   }
 }
-.emoji-container {
-  position: absolute;
-  margin-left: 50px;
-  bottom: 84px;
-
-  .close-emoji {
-    margin-left: 315px;
-    position: absolute;
-    z-index: 1000;
-    margin-top: 405px;
-    cursor: pointer;
-  }
-}

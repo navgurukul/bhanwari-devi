@@ -113,12 +113,12 @@ export default ({
       )}
 
       {openEmoji && (
-        <div className="emoji-container">
+        <div className={classes.emojiContainer}>
           <CloseIcon
-            className="close-emoji"
+            className={classes.closeEmoji}
             onClick={() => setOpenEmoji(false)}
           />
-          <EmojiPicker onEmojiClick={(event) => emojiClickHandler(event)} />{" "}
+          <EmojiPicker onEmojiClick={emojiClickHandler} />{" "}
         </div>
       )}
 
