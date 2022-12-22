@@ -7,7 +7,7 @@ import { PATHS } from "../constant";
 import Login from "../pages/Login";
 import CreateClass from "../pages/CreateClass";
 // import Course from "../pages/Course";
-import CourseContent from "../pages/CourseContent";
+// import CourseContent from "../pages/CourseContent";
 import Mentor from "../pages/Mentor";
 import User from "../components/User";
 
@@ -28,7 +28,7 @@ import OurStory from "../pages/OurStory";
 import NewUserDashbord from "../components/NewUserDashbord";
 import Team from "../pages/Team";
 import Partner from "../pages/OurPartner";
-import PathwayExercise from "../components/PathwayExercise/";
+// import PathwayExercise from "../components/PathwayExercise/";
 import PathwayCourse from "../components/PathwayCourse";
 import ResidentialCourse from "../components/PathwayCourse/ResidentialCourse";
 import MiscellaneousCourses from "../components/PathwayCourse/MiscellaneousCourses";
