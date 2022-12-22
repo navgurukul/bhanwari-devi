@@ -1,3 +1,21 @@
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media screen and (max-width: 1200px) {
+    @content;
+  }
+}
+
 .chat-input-container {
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
   padding: 16px 40px;
@@ -68,5 +86,18 @@
 
   @media screen and (max-width: 768px) {
     right: 30px;
+  }
+}
+.emoji-container {
+  position: absolute;
+  margin-left: 50px;
+  bottom: 84px;
+
+  .close-emoji {
+    margin-left: 315px;
+    position: absolute;
+    z-index: 1000;
+    margin-top: 405px;
+    cursor: pointer;
   }
 }
