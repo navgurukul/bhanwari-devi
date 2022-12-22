@@ -9,7 +9,9 @@ import createDOMPurify from "dompurify";
 import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
-
+import { Typography, useMediaQuery } from "@material-ui/core";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import useStyles from "./styles";
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
 
@@ -39,6 +41,11 @@ export default ({
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
+  const [showCopied, setShowCopied] = useState(false);
+  const desktop = useMediaQuery("(min-width: 1200px)");
+  const laptop = useMediaQuery("(min-width: 769px) and (max-width: 1199px)");
+  const mobile = useMediaQuery("(max-width: 768px)");
+  const classes = useStyles({ desktop, laptop, mobile });
 
   const formatMessage = (message) => {
     switch (message.content.msgtype) {
@@ -78,15 +85,6 @@ export default ({
 
   if (formattedMessage) {
     let messageActions = [];
-    if (isSelf) {
-      messageActions.push({
-        label: "Delete message",
-        value: "delete",
-        onClick: () => {
-          deleteMessage(message.event_id);
-        },
-      });
-    }
 
     if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
       messageActions.push({
@@ -103,6 +101,30 @@ export default ({
       "content['m.relates_to']['m.in_reply_to']"
     );
 
+    if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
+      messageActions.push({
+        label: "Copy",
+        value: "copy",
+        onClick: () => {
+          setMessageActionsMenu(false);
+          setIsMessageActionsDropdownOpen(false);
+          navigator.clipboard.writeText(message.content?.body);
+          setShowCopied(true);
+          setTimeout(()=>setShowCopied(false), 4000)
+        },
+      });
+    }
+
+    if (isSelf) {
+      messageActions.push({
+        className: "DropdownDelete",
+        label: "Delete",
+        value: "delete",
+        onClick: () => {
+          deleteMessage(message.event_id);
+        },
+      });
+    }
     return (
       <div
         className={`chat-message-container ${
@@ -112,23 +134,19 @@ export default ({
         }`}
       >
         {!isSelf && senderName && (
-          <Avatar name={senderName} style={{ marginRight: 12 }} />
+          <Avatar
+            name={senderName}
+            style={{ height: "40px", width: "40px", marginRight: 12 }}
+          />
         )}
-        <div>
-          <div
+        <div className={classes.messageWrapper}>
+          {/* <div
             className={`message-header ${isSelf ? "" : "message-header-other"}`}
           >
             <div className="message-time">
               {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
             </div>
-            <div
-              className={`chat-message-sender ${
-                isSelf ? "chat-message-sender-self" : ""
-              }`}
-            >
-              {senderName}
-            </div>
-          </div>
+          </div> */}
           <div
             onMouseOver={handleMouseOver}
             className={getMessageClass("", isSelf)}
@@ -137,6 +155,16 @@ export default ({
               setIsMessageActionsDropdownOpen(false);
             }}
           >
+            {!isSelf && (
+              <Typography
+                className={`chat-message-sender ${
+                  isSelf ? "chat-message-sender-self" : ""
+                }`}
+                style={{ fontWeight: "bolder" }}
+              >
+                {senderName}
+              </Typography>
+            )}
             {replyToMessage && (
               <div className="reply-to-container">
                 <div className="reply-to-header">
@@ -168,6 +196,7 @@ export default ({
               </div>
             )}
             <span
+              className={classes.messageContent}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(
                   LinkifyHtml(formattedMessage.value, {
@@ -178,7 +207,7 @@ export default ({
             ></span>
             {isMessageActionsMenuOpen && messageActions.length > 0 && (
               <div className="actions-dropdown-trigger-container">
-                <button
+                {/* <button
                   className="actions-dropdown-trigger"
                   onClick={() => {
                     setIsMessageActionsDropdownOpen(
@@ -187,7 +216,15 @@ export default ({
                   }}
                 >
                   <i className="fa fa-chevron-down" />
-                </button>
+                </button> */}
+                <ExpandMoreIcon
+                  className="actions-dropdown-trigger"
+                  onClick={() => {
+                    setIsMessageActionsDropdownOpen(
+                      !isMessageActionsDropdownOpen
+                    );
+                  }}
+                />
                 <Dropdown
                   isOpen={isMessageActionsDropdownOpen}
                   options={messageActions}
@@ -196,10 +233,20 @@ export default ({
             )}
           </div>
           {formattedMessage.options && renderOptions(formattedMessage.options)}
+          <div
+            className={`message-header ${isSelf ? "" : "message-header-other"}`}
+          >
+            <div className="message-time">
+              {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
+            </div>
+            {showCopied && <div className="message-time">
+              Copied!
+            </div>}
+          </div>
         </div>
-        {isSelf && senderName && (
+        {/*isSelf && senderName && (
           <Avatar name={senderName} style={{ marginLeft: 12 }} />
-        )}
+        )*/}
       </div>
     );
   }
