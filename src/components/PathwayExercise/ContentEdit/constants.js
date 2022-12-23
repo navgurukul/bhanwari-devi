@@ -9,6 +9,7 @@ import Raw from "@editorjs/raw";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
+const LinkTool = require("@editorjs/link");
 
 const CodeTool = require("@editorjs/code");
 const ColorPlugin = require("editorjs-text-color-plugin");
@@ -26,13 +27,13 @@ export const EDITOR_JS_TOOLS = {
     },
   },
   quote: Quote,
-  // marker: Marker,
+  //marker: Marker,
   Color: {
     class: ColorPlugin, // if load from CDN, please try: window.ColorPlugin
     config: {
       colorCollections: [
-        // '#2E2E2E"',
-        "#171616",
+        '#2E2E2E"',
+        //"#171616",
         // "#080600",
         // "#FFCC00",
         "#48A145",
@@ -76,5 +77,15 @@ export const EDITOR_JS_TOOLS = {
       rows: 2,
       cols: 3,
     },
+  },
+  linkTool: {
+    class: LinkTool,
+    config: {
+      endpoint:
+        "https://dev-api.navgurukul.org/apiDocs/courseEditor/ImageUploadS3/byUrl",
+    },
+    // config: {
+    //   endpoint: 'http://localhost:8008/fetchUrl', // Your backend endpoint for url data fetching,
+    // }
   },
 };

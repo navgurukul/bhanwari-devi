@@ -12,18 +12,18 @@ import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 
-function ReactEditor({ course, id, save }) {
+function ReactEditor({ course, id, save, courseName, courseId }) {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
   const [editor, setEditor] = React.useState(null);
   const ReactEditorJS = createReactEditorJS();
+
   const handleInitialize = async (instance) => {
     await setEditor(instance);
     console.log(editor, "editor");
   };
 
-  console.log("course", course);
   let style = "";
   let items = [];
 
@@ -228,23 +228,37 @@ function ReactEditor({ course, id, save }) {
 
       axios({
         method: METHODS.PUT,
-        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/exercise/${id}`,
         headers: {
           "version-code": versionCode,
           accept: "application/json",
           Authorization: user.data?.token || "",
         },
         data: {
+          // send name as data course name
+          name: courseName,
           content: stringifiedCourse,
         },
       }).then((res) => {
-        history.push(
-          interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-            courseId: params.courseId,
-            exerciseId: params.exerciseId,
-            pathwayId: params.pathwayId,
-          })
-        );
+        ///courseEditor/${id}/promoteCourseVersion
+        //call this api and in response of this do history .push
+        axios({
+          method: METHODS.PUT,
+          url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/promoteCourseVersion`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+        }).then((res) => {
+          history.push(
+            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+              courseId: params.courseId,
+              exerciseId: params.exerciseId,
+              pathwayId: params.pathwayId,
+            })
+          );
+        });
         console.log(res, "res");
       });
     } catch (e) {
@@ -258,7 +272,7 @@ function ReactEditor({ course, id, save }) {
 
   return (
     <>
-      {blocks.length > 0 && (
+      {blocks?.length > 0 && (
         <>
           <ReactEditorJS
             onInitialize={handleInitialize}

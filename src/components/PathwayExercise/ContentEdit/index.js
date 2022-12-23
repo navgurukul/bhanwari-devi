@@ -125,11 +125,11 @@ function ContentEdit() {
   const [isShown, setIsShown] = useState(false);
   const [open, setOpen] = useState(false);
   const [publishConfirmation, setPublishConfirmation] = useState(false);
+  const [courseExercise, setCourseExercise] = useState(undefined);
+  const [exerciseName, setExerciseName] = useState();
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  console.log("course", course);
 
   const allComponents = {
     option: {
@@ -258,6 +258,30 @@ function ContentEdit() {
       .catch((err) => {
         console.log("error");
       });
+  }, [courseId, exerciseId]);
+
+  //----------------------API CALL FOR COURSE EDITOR-------------------//
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+    }).then((res) => {
+      //const course_type = res.data.course.exercises[exerciseId].content_type;
+      // setCourseType(course_type);
+      console.log(
+        "response of courseEditor",
+        res.data?.course?.exercises[exerciseId].content
+      );
+      console.log("exercise", res.data?.course?.exercises[exerciseId].name);
+      setCourseExercise(res.data?.course?.exercises[exerciseId].content);
+      setExerciseName(res.data?.course?.exercises[exerciseId].name);
+    });
   }, [courseId, exerciseId]);
 
   useEffect(() => {
@@ -432,7 +456,16 @@ function ContentEdit() {
               })}
           </>
         ) : (
-          <ReactEditor course={course} id={id} save={save} />
+          courseExercise && (
+            <ReactEditor
+              course={courseExercise}
+              // course={course}
+              exerciseName={exerciseName}
+              id={id}
+              save={save}
+              courseId={courseId}
+            />
+          )
         )}
       </Container>
 
