@@ -10,6 +10,7 @@ import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { useSelector } from "react-redux";
 
 function Item({
   progressTrackId,
@@ -105,6 +106,11 @@ function PersistentDrawerLeft({
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
 
+  const user = useSelector(({ User }) => User);
+
+  const editor = user.data.user.rolesList.indexOf("editor") > -1;
+  const admin = user.data.user.rolesList.indexOf("admin") > -1;
+
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
@@ -126,15 +132,15 @@ function PersistentDrawerLeft({
         open={true}
         PaperProps={{ style: { border: "none" } }}
       >
-        <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
-          <ListItem disablePadding style={{ marginTop: "100px" }}>
+        <div style={{ paddingBottom: "60px", marginLeft: "30px", marginTop: editor || admin ? "100px" : "30px" }}>
+          {/* <ListItem disablePadding style={{ marginTop: "50px" }}> */}
             {/* <IconButton
               style={{ marginRight: "85%", marginTop: "40px" }}
               onClick={handleDrawerClose}
             >
               <ArrowBackIcon />
             </IconButton> */}
-          </ListItem>
+          {/* </ListItem> */}
           <List>
             <ListItem disablePadding>
               <ListItemButton>
