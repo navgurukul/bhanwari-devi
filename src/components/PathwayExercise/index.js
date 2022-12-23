@@ -135,7 +135,8 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
 
-  const editor = user.data.user.rolesList.indexOf("admin") > -1;
+  const editor = user.data.user.rolesList.indexOf("editor") > -1;
+  const admin = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
@@ -524,7 +525,7 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      {editor && (
+      {(editor || admin) && (
         <AppBar
           fullWidth
           // position="stick"
@@ -571,7 +572,7 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <Box sx={{ marginTop: "120px" }}>
+        <Box sx={{ marginTop: editor || admin ?  "120px": "50px" }}>
           {/* <Box sx={{ marginTop: "50px" }}> */}
           <ExerciseContent
             contentList={course}
