@@ -12,7 +12,7 @@ import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 
-function ReactEditor({ course, id, save, exerciseName, courseId }) {
+function ReactEditor({ course, id, save, courseName, courseId }) {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
@@ -219,7 +219,6 @@ function ReactEditor({ course, id, save, exerciseName, courseId }) {
 
   const onSave = async () => {
     // https://editorjs.io/saving-data
-
     try {
       const outputData = await editor.save();
       console.log("Article data: ", outputData);
@@ -237,15 +236,12 @@ function ReactEditor({ course, id, save, exerciseName, courseId }) {
         },
         data: {
           // send name as data course name
-          name: exerciseName,
+          name: courseName,
           content: stringifiedCourse,
         },
       }).then((res) => {
         ///courseEditor/${id}/promoteCourseVersion
         //call this api and in response of this do history .push
-
-        console.log("API CALL SUCCESSFUL!!");
-        console.log("res of exercise api", res);
         axios({
           method: METHODS.PUT,
           url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/promoteCourseVersion`,
@@ -255,15 +251,15 @@ function ReactEditor({ course, id, save, exerciseName, courseId }) {
             Authorization: user.data?.token || "",
           },
         }).then((res) => {
-          // history.push(
-          //   interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-          //     courseId: params.courseId,
-          //     exerciseId: params.exerciseId,
-          //     pathwayId: params.pathwayId,
-          //   })
-          // );
-          console.log("res of promoteCourseVersion api", res);
+          history.push(
+            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+              courseId: params.courseId,
+              exerciseId: params.exerciseId,
+              pathwayId: params.pathwayId,
+            })
+          );
         });
+        console.log(res, "res");
       });
     } catch (e) {
       console.log("Saving failed: ", e);
