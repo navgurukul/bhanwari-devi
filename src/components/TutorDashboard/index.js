@@ -558,6 +558,7 @@ function Tutor(props) {
                       backgroundColor: "white",
                       zIndex: 600,
                       p: "8px",
+                      border: "none",
                     }}
                   >
                     <Checkbox
@@ -578,7 +579,7 @@ function Tutor(props) {
                   </TableCell>
                   {selected.length > 0 ? (
                     <>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ border: "none" }}>
                         <Typography className={classes.tablecellHead}>
                           {selected.length}{" "}
                           {selected.length === 1 ? "row is " : "rows are "}
@@ -586,6 +587,7 @@ function Tutor(props) {
                         </Typography>
                       </TableCell>
                       <TableCell
+                        sx={{ border: "none" }}
                         onClick={() => {
                           const valueToDisplay = `Total ${selected.length} ${
                             selected.length === 1 ? "row is " : "rows are "
@@ -609,6 +611,7 @@ function Tutor(props) {
                           setStatusId(selected);
                           deleteUsers();
                         }}
+                        sx={{ border: "none" }}
                       >
                         <Typography
                           sx={{
@@ -642,28 +645,32 @@ function Tutor(props) {
                           backgroundColor: "white",
                           zIndex: 800,
                           width: "150px",
+                          border: "none",
                         }}
                       >
                         <Typography className={classes.tablecellHeadWidthLess}>
                           Name
                         </Typography>
                       </TableCell>
-                      <TableCell align="left">
+                      <TableCell align="left" sx={{ border: "none" }}>
                         <Typography className={classes.tablecellHead}>
                           Last Class Batch
                         </Typography>
                       </TableCell>
-                      <TableCell align="left">
+                      <TableCell align="left" sx={{ border: "none" }}>
                         <Typography className={classes.tablecellHead}>
                           Last Class Title
                         </Typography>
                       </TableCell>
-                      <TableCell align="left">
+                      <TableCell align="left" sx={{ border: "none" }}>
                         <Typography className={classes.tablecellHead}>
                           Last Class Date
                         </Typography>
                       </TableCell>
-                      <TableCell align="left" sx={{ width: "119px" }}>
+                      <TableCell
+                        align="left"
+                        sx={{ width: "119px", border: "none" }}
+                      >
                         <Typography className={classes.tablecellHead}>
                           Class Language
                         </Typography>
@@ -672,13 +679,17 @@ function Tutor(props) {
                         align="left"
                         sx={{
                           width: isActive ? "55px" : "140px",
+                          border: "none",
                         }}
                       >
                         <Typography className={classes.tablecellHeadWidthLess}>
                           Status
                         </Typography>
                       </TableCell>
-                      <TableCell align="center" sx={{ color: "#BDBDBD" }}>
+                      <TableCell
+                        align="center"
+                        sx={{ color: "#BDBDBD", border: "none" }}
+                      >
                         <MoreVertIcon />
                       </TableCell>
                     </>
@@ -746,6 +757,7 @@ function Tutor(props) {
                               </TableCell>
                               <TableCell
                                 style={{
+                                  border: "none",
                                   position: "sticky",
                                   left: "74px",
                                   backgroundColor: "white",
