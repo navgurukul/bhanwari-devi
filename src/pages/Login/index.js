@@ -37,21 +37,24 @@ function Login(props) {
       email: profile.getEmail(),
       idToken,
     };
+
     // let's send the data to our backend.
+
     dispatch(userActions.onUserSignin(googleData));
     updateQueryString(getQueryVariable("referrer"));
+
     // dispatch(userActions.onUserUpdate(referrer));
   }
-
+  console.log(">>>>>>>>>>>>");
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
+    // console.log('>>>>>>>>>>>',dispatch);
   }, [dispatch]);
 
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
-
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
     console.log("onGoogle login fail", errorResponse);

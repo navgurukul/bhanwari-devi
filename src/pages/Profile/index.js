@@ -14,6 +14,7 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import ImageUpload from "@material-ui/core";
 import VerifyPhoneNo from "../../components/VolunteerAutomation/VerifyPhoneNo";
 import Avatar from "react-avatar-edit";
+import { MuiOtpInput } from "mui-one-time-password-input";
 
 import {
   Grid,
@@ -47,6 +48,8 @@ const firebaseConfig = {
 
 function Profile() {
   const classes = useStyles();
+  const [bgColor, setBgColor] = React.useState(false);
+
   const user = useSelector(({ User }) => User);
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -100,9 +103,20 @@ function Profile() {
     setOpen(true);
   };
 
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  const otpRef = React.useRef();
   const handleClose = () => {
     setOpen(false);
+    setMessage("");
   };
+  const handleChangeInput = (newValue) => {
+    if (isNaN(newValue)) return false;
+    setOtp(newValue);
+  };
+
   // OTP AUTH FUNCTION
   const app = initializeApp(firebaseConfig);
   const onSignInSubmit = (event) => {
@@ -421,23 +435,26 @@ function Profile() {
                     </Grid>
                     {startOtp && (
                       <>
-                        <Grid item xs={8}>
-                          <TextField
-                            label="OTP"
-                            onChange={(e) => {
-                              setOtp(e.target.value);
-                            }}
+                        <Grid margin={5}>
+                          <MuiOtpInput
                             value={otp}
-                            name="OTP"
-                            id="contact"
-                            variant="outlined"
-                            helperText="Enter OTP"
-                            fullWidth
-                            maxLength={6}
-                            error={otp.length != 6 && otp.length > 0}
+                            onChange={handleChangeInput}
+                            length={6}
+                            ref={otpRef}
+                            TextFieldsProps={{
+                              type: "text",
+                              size: "medium",
+                              placeholder: bgColor && "-",
+                              style: {
+                                border: bgColor && "1px solid #F44336",
+                                borderRadius: "8px",
+                                width: "45px",
+                              },
+                            }}
+                            autoFocus
                           />
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item>
                           <Button
                             variant="outlined"
                             onClick={(e) => {
