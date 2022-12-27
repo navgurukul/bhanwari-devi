@@ -100,7 +100,7 @@ const DialogBox = ({
             <Button
               variant="contained"
               onClick={() => {
-                setSave(!save);
+                setSave(true);
               }}
             >
               Publish
@@ -126,7 +126,7 @@ function ContentEdit() {
   const [open, setOpen] = useState(false);
   const [publishConfirmation, setPublishConfirmation] = useState(false);
   const [courseExercise, setCourseExercise] = useState(undefined);
-  const [exerciseName, setExerciseName] = useState();
+  // const [exerciseName, setExerciseName] = useState("");
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -213,7 +213,8 @@ function ContentEdit() {
     console.log("Punnu");
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
@@ -249,7 +250,7 @@ function ContentEdit() {
           }
         }
         setId(res.data.course.exercises[exerciseId].id);
-        setCourse(res.data.course.exercises[exerciseId].content);
+        setCourse(res?.data?.course?.exercises[exerciseId].content);
         const updated_at = res.data.course.exercises[exerciseId].updated_at;
         const longDateStr = formatInUtc(updated_at, "EEEE dd MMMM yyyy");
         // console.log("longDateStr", longDateStr);
@@ -272,15 +273,8 @@ function ContentEdit() {
         Authorization: user.data?.token || "",
       },
     }).then((res) => {
-      //const course_type = res.data.course.exercises[exerciseId].content_type;
-      // setCourseType(course_type);
-      console.log(
-        "response of courseEditor",
-        res.data?.course?.exercises[exerciseId].content
-      );
-      console.log("exercise", res.data?.course?.exercises[exerciseId].name);
       setCourseExercise(res.data?.course?.exercises[exerciseId].content);
-      setExerciseName(res.data?.course?.exercises[exerciseId].name);
+      // setExerciseName(res.data?.course?.exercises[exerciseId].name);
     });
   }, [courseId, exerciseId]);
 
@@ -460,9 +454,10 @@ function ContentEdit() {
             <ReactEditor
               course={courseExercise}
               // course={course}
-              exerciseName={exerciseName}
+              // exerciseName={exerciseName}
               id={id}
               save={save}
+              setSave={setSave}
               courseId={courseId}
             />
           )

@@ -181,6 +181,7 @@ function PathwayExercise() {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
@@ -572,7 +573,7 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <Box sx={{ marginTop: editor || admin ?  "120px": "50px" }}>
+        <Box sx={{ marginTop: editor || admin ? "120px" : "50px" }}>
           {/* <Box sx={{ marginTop: "50px" }}> */}
           <ExerciseContent
             contentList={course}

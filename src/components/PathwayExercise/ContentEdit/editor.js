@@ -12,7 +12,7 @@ import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 
-function ReactEditor({ course, id, save, courseName, courseId }) {
+function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
@@ -235,8 +235,8 @@ function ReactEditor({ course, id, save, courseName, courseId }) {
           Authorization: user.data?.token || "",
         },
         data: {
-          // send name as data course name
-          name: courseName,
+          // send name if want to change exercise name
+          // name: exerciseName,
           content: stringifiedCourse,
         },
       }).then((res) => {
@@ -251,13 +251,14 @@ function ReactEditor({ course, id, save, courseName, courseId }) {
             Authorization: user.data?.token || "",
           },
         }).then((res) => {
-          history.push(
-            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-              courseId: params.courseId,
-              exerciseId: params.exerciseId,
-              pathwayId: params.pathwayId,
-            })
-          );
+          setSave(false);
+          // history.push(
+          //   interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          //     courseId: params.courseId,
+          //     exerciseId: params.exerciseId,
+          //     pathwayId: params.pathwayId,
+          //   })
+          // );
         });
         console.log(res, "res");
       });
@@ -267,7 +268,9 @@ function ReactEditor({ course, id, save, courseName, courseId }) {
   };
 
   useEffect(() => {
-    onSave();
+    if (save) {
+      onSave();
+    }
   }, [save]);
 
   return (
