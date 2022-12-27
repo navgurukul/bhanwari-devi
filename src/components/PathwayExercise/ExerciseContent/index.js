@@ -129,8 +129,68 @@ const RenderContent = ({ data, exercise }) => {
     );
   }
   if (data.component === "image") {
+    console.log("data in exercise");
+    let styleImage;
+    if (data.stretched === true) {
+      styleImage = classes.contentImageStretched;
+    }
+    if (data.stretched === false) {
+      styleImage = classes.contentImageNotStretched;
+    }
+    if (data.withBackground === true && data.stretched === true) {
+      styleImage = classes.contentImageStretchedWithBackground;
+    }
+    if (data.withBackground === true && data.stretched === false) {
+      styleImage = classes.contentImageNotStretchedWithBackground;
+    }
     return (
-      <img className={classes.contentImage} src={data.value} alt="content" />
+      <>
+        {data.withBackground ? (
+          <Box
+            sx={{
+              background: "red",
+              // padding: "5px",
+              // display: "block",
+              // marginLeft: "auto",
+              // marginRight: "auto",
+              // width: "50%",
+            }}
+          >
+            <img
+              className={
+                styleImage
+                // data.stretched
+                //   ? classes.contentImage
+                //   : classes.contentImageNotStretched
+              }
+              src={data.value}
+              alt="content"
+            />
+          </Box>
+        ) : (
+          <img
+            className={
+              styleImage
+              // data.stretched
+              //   ? classes.contentImage
+              //   : classes.contentImageNotStretched
+            }
+            src={data.value}
+            alt="content"
+          />
+        )}
+      </>
+      // <img
+      //   className={
+      //     classes.contentImageStretched
+      //     // styleImage
+      //     // data.stretched
+      //     //   ? classes.contentImage
+      //     //   : classes.contentImageNotStretched
+      //   }
+      //   src={data.value}
+      //   alt="content"
+      // />
     );
   }
   if (data.component === "youtube") {
