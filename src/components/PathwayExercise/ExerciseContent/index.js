@@ -136,12 +136,12 @@ const RenderContent = ({ data, exercise }) => {
     if (data.stretched === false) {
       styleImage = classes.contentImageNotStretched;
     }
-    if (data.withBackground === true && data.stretched === true) {
-      styleImage = classes.contentImageStretchedWithBackground;
-    }
-    if (data.withBackground === true && data.stretched === false) {
-      styleImage = classes.contentImageNotStretchedWithBackground;
-    }
+    // if (data.withBackground === true && data.stretched === true) {
+    //   styleImage = classes.contentImageStretchedWithBackground;
+    // }
+    // if (data.withBackground === true && data.stretched === false) {
+    //   styleImage = classes.contentImageNotStretchedWithBackground;
+    // }
     return (
       <>
         {data.withBackground ? (
