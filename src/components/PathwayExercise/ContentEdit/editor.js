@@ -256,7 +256,7 @@ function ReactEditor({
   };
 
   useEffect(() => {
-    if (courseType !== "assessment") {
+    if (courseType === "exercise") {
       onSave();
     }
   }, [save]);
