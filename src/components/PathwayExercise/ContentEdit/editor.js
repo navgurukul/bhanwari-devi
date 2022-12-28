@@ -100,9 +100,9 @@ function ReactEditor({
           url: item.component === "image" && item.value,
         },
         caption: item.component === "image" && item.alt,
-        withBorder: false,
-        withBackground: false,
-        stretched: true,
+        withBorder: item.withBorder,
+        withBackground: item.withBackground,
+        stretched: item.stretched,
         embed: item.component === "youtube" && youtube,
         source: item.component === "youtube" && youtube,
         service: item.component === "youtube" && item.value && item.component,
@@ -192,6 +192,9 @@ function ReactEditor({
           component: component,
           variant: item.data.level,
           alt: alt,
+          withBorder: item.data.withBorder,
+          withBackground: item.data.withBackground,
+          stretched: item.data.stretched,
         });
       }
     });
