@@ -106,9 +106,7 @@ const GenerateReport = (props) => {
         "Days Available":
           el.available_on_days === null ? "-" : el.available_on_days,
         "Preffered Time Slots":
-          el.available_on_time === null
-            ? "-"
-            : format(el.available_on_time, "hh:mm aaa"),
+          el.available_on_time === null ? "-" : el.available_on_time,
       };
       volunteerReportData.push(singleVolunteerData);
       volunteerReportDataMain.push(singleVolunteerData);

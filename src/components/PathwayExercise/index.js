@@ -47,6 +47,7 @@ const Exercise = ({
   history,
   params,
   progressTrackId,
+  setSuccessfulExerciseCompletion,
 }) => {
   const courseLength = course;
   const imageRef = React.useRef();
@@ -74,6 +75,7 @@ const Exercise = ({
             setExerciseId={setExerciseId}
             classes={classes}
             progressTrackId={progressTrackId}
+            setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
           />
         );
       })}
@@ -90,6 +92,7 @@ function NavigationComponent({
   exercise,
   progressTrackId,
   imageRef,
+  setSuccessfulExerciseCompletion,
 }) {
   return (
     <>
@@ -107,6 +110,7 @@ function NavigationComponent({
             })
           );
         }}
+        setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         index={index}
         imageRef={imageRef}
         selected={exerciseId == index}
@@ -143,9 +147,11 @@ function PathwayExercise() {
     const scrollTop = scrollRef.current.scrollTop;
     const maxScrollLeft =
       scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-    console.log(
-      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
-    );
+    // console.log(
+    //   `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${
+    //     maxScrollLeft - 2
+    //   }`
+    // );
     if (!showArrow.left) {
       if (scrollY > 0) {
         setShowArrow((prev) => {
@@ -159,7 +165,6 @@ function PathwayExercise() {
         });
       }
     }
-
     console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
@@ -169,6 +174,10 @@ function PathwayExercise() {
       }
     } else if (!showArrow.right) {
       if (Math.ceil(scrollY) < maxScrollLeft - 2) {
+        setShowArrow((prev) => {
+          return { ...prev, right: true };
+        });
+      } else if (Math.ceil(scrollY) === maxScrollLeft) {
         setShowArrow((prev) => {
           return { ...prev, right: true };
         });
@@ -214,6 +223,22 @@ function PathwayExercise() {
       });
     }
   }, [exerciseId]);
+
+  useEffect(() => {
+    if (courseLength > 0 && courseLength < 7) {
+      setShowArrow((prev) => {
+        return { ...prev, right: false };
+      });
+    } else if (exerciseId === courseLength) {
+      setShowArrow((prev) => {
+        return { ...prev, right: false };
+      });
+    } else {
+      setShowArrow((prev) => {
+        return { ...prev, right: true };
+      });
+    }
+  }, [courseLength, exerciseId]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -422,7 +447,11 @@ function PathwayExercise() {
                 <div
                   onScroll={onScroll}
                   ref={scrollRef}
-                  className={classes.scrollContainer}
+                  className={
+                    courseLength < 7
+                      ? classes.scrollData
+                      : classes.scrollContainer
+                  }
                 >
                   {exerciseId >
                   (
@@ -434,6 +463,9 @@ function PathwayExercise() {
                       setExerciseId={setExerciseId}
                       classes={classes}
                       progressTrackId={progressTrackId}
+                      setSuccessfulExerciseCompletion={
+                        setSuccessfulExerciseCompletion
+                      }
                     />
                   )}
                   <Exercise
@@ -444,6 +476,9 @@ function PathwayExercise() {
                     setExerciseId={setExerciseId}
                     classes={classes}
                     progressTrackId={progressTrackId}
+                    setSuccessfulExerciseCompletion={
+                      setSuccessfulExerciseCompletion
+                    }
                   />
                 </div>
 
@@ -512,6 +547,9 @@ function PathwayExercise() {
                               exercise.sub_title ||
                               exercise.content_type ||
                               "N/A"
+                            }
+                            setSuccessfulExerciseCompletion={
+                              setSuccessfulExerciseCompletion
                             }
                             index={index}
                             setExerciseId={setExerciseId}
