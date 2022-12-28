@@ -33,7 +33,8 @@ export const getCourses = () => {
 export const getCourseContent = (data) => {
   const { courseId, lang, versionCode, user } = data;
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
+    // url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises?lang=${lang}`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises?lang=${lang}`,
     method: METHODS.GET,
     headers: {
       "version-code": versionCode,

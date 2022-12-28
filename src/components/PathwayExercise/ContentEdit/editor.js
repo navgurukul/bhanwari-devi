@@ -12,18 +12,27 @@ import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 
-function ReactEditor({ course, id, save }) {
+function ReactEditor({
+  course,
+  id,
+  save,
+  exerciseName,
+  courseId,
+  courseType,
+  setPublishConfirmation,
+  publishConfirmation,
+}) {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
   const [editor, setEditor] = React.useState(null);
   const ReactEditorJS = createReactEditorJS();
+
   const handleInitialize = async (instance) => {
     await setEditor(instance);
     console.log(editor, "editor");
   };
 
-  console.log("course", course);
   let style = "";
   let items = [];
 
@@ -71,10 +80,6 @@ function ReactEditor({ course, id, save }) {
         allData.map((_, j) => allData[j][i])
       );
       content = [[...header], ...dataInCol];
-      console.log("allData", allData);
-      console.log("header", header);
-      console.log("dataInCol", dataInCol);
-      console.log("content", content);
     } else {
       type = item.component;
     }
@@ -109,8 +114,6 @@ function ReactEditor({ course, id, save }) {
     };
   });
 
-  console.log("courseData", courseData);
-
   let blocks = courseData.filter((item, index) => {
     // const stringifiedItem = JSON.stringify(item);
     return (
@@ -121,8 +124,6 @@ function ReactEditor({ course, id, save }) {
       })
     );
   });
-
-  console.log("blocks", blocks);
 
   let json = [];
   const MerakiJSON = (blocks) => {
@@ -152,13 +153,11 @@ function ReactEditor({ course, id, save }) {
             decoration,
             variant: item.data.level,
           };
-          console.log("object", object);
           json.push(object);
         });
       } else if (item.type === "paragraph") {
         component = "text";
         value = item.data.text;
-        console.log("Value", value);
       } else if (item.type == "header") {
         component = item.type;
         value = item.data.text;
@@ -178,19 +177,13 @@ function ReactEditor({ course, id, save }) {
         const dataInCol = content[0].map((_, j) =>
           content.map((_, i) => content[i][j])
         );
-        console.log("content 2", content);
-        console.log("header 2", header);
-        console.log("dataInCol 2", dataInCol);
         value = [];
         for (const ele in header) {
-          console.log("ele", ele);
-          console.log("header[ele]", header[ele]);
           value.push({
             header: header[ele],
             items: dataInCol[ele],
           });
         }
-        console.log("value", value);
       }
 
       if (item.type !== "list") {
@@ -202,7 +195,6 @@ function ReactEditor({ course, id, save }) {
         });
       }
     });
-    console.log("json", json);
   };
 
   const onReady = () => {
@@ -211,7 +203,6 @@ function ReactEditor({ course, id, save }) {
   };
 
   const onChange = (e) => {
-    console.log("e", e);
     // https://editorjs.io/configuration#editor-modifications-callback
     console.log("Now I know that Editor's content changed!");
   };
@@ -220,31 +211,44 @@ function ReactEditor({ course, id, save }) {
     // https://editorjs.io/saving-data
     try {
       const outputData = await editor.save();
-      console.log("Article data: ", outputData);
+      // console.log("Article data: ", outputData);
       MerakiJSON(outputData.blocks);
       const stringifiedCourse = JSON.stringify(json, null, 0);
-      console.log(id, stringifiedCourse, "cc");
-
+      // console.log(id, stringifiedCourse, "cc");
+      setPublishConfirmation(!publishConfirmation);
       axios({
         method: METHODS.PUT,
-        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${id}`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/exercise/${id}`,
         headers: {
           "version-code": versionCode,
           accept: "application/json",
           Authorization: user.data?.token || "",
         },
         data: {
+          // send name if want to change exercise name
+          // name: exerciseName,
           content: stringifiedCourse,
         },
       }).then((res) => {
-        history.push(
-          interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-            courseId: params.courseId,
-            exerciseId: params.exerciseId,
-            pathwayId: params.pathwayId,
-          })
-        );
-        console.log(res, "res");
+        ///courseEditor/${id}/promoteCourseVersion
+        //call this api and in response of this do history .push
+        axios({
+          method: METHODS.PUT,
+          url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/promoteCourseVersion`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+        }).then((res) => {
+          history.push(
+            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+              courseId: params.courseId,
+              exerciseId: params.exerciseId,
+              pathwayId: params.pathwayId,
+            })
+          );
+        });
       });
     } catch (e) {
       console.log("Saving failed: ", e);
@@ -252,20 +256,19 @@ function ReactEditor({ course, id, save }) {
   };
 
   useEffect(() => {
-    onSave();
+    if (courseType === "exercise") {
+      onSave();
+    }
   }, [save]);
 
   return (
     <>
-      {blocks.length > 0 && (
+      {blocks?.length > 0 && (
         <>
           <ReactEditorJS
             onInitialize={handleInitialize}
             onReady={onReady}
             onChange={onChange}
-            // editorInstance={editorInstance => {
-            //   editor = editorInstance
-            // }}
             tools={EDITOR_JS_TOOLS}
             defaultValue={{
               time: 1635603431943,

@@ -125,11 +125,11 @@ function ContentEdit() {
   const [isShown, setIsShown] = useState(false);
   const [open, setOpen] = useState(false);
   const [publishConfirmation, setPublishConfirmation] = useState(false);
+  const [courseExercise, setCourseExercise] = useState(undefined);
+  // const [exerciseName, setExerciseName] = useState("");
   const courseId = params.courseId;
   const exerciseId = params.exerciseId;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  console.log("course", course);
 
   const allComponents = {
     option: {
@@ -152,14 +152,11 @@ function ContentEdit() {
   };
   const handleAdd = (index, ap, aap) => {
     if (course.length - 1 === index) {
-      console.log("true");
       index = index + 1;
     } else {
       console.log("false");
     }
 
-    console.log(index, "handleAdd index");
-    console.log("ap", ap);
     var temp = [...course];
     if (ap === "options") {
       const addOption = { ...allComponents.option.AddOption };
@@ -185,7 +182,7 @@ function ContentEdit() {
       }
     }
     const stringifiedCourse = JSON.stringify(tempCourse, null, 0);
-    console.log(id, stringifiedCourse, "cc");
+    // console.log(id, stringifiedCourse, "cc");
     axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${id}`,
@@ -205,15 +202,14 @@ function ContentEdit() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(res, "res");
     });
   };
 
   useEffect(() => {
-    console.log("Punnu");
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
@@ -221,7 +217,6 @@ function ContentEdit() {
       },
     })
       .then((res) => {
-        console.log("res", res);
         const course_type = res.data.course.exercises[exerciseId].content_type;
         setCourseType(course_type);
         if (course_type === "assessment") {
@@ -249,10 +244,9 @@ function ContentEdit() {
           }
         }
         setId(res.data.course.exercises[exerciseId].id);
-        setCourse(res.data.course.exercises[exerciseId].content);
+        setCourse(res?.data?.course?.exercises[exerciseId].content);
         const updated_at = res.data.course.exercises[exerciseId].updated_at;
         const longDateStr = formatInUtc(updated_at, "EEEE dd MMMM yyyy");
-        // console.log("longDateStr", longDateStr);
         setUpdatedOn(longDateStr);
       })
       .catch((err) => {
@@ -260,8 +254,27 @@ function ContentEdit() {
       });
   }, [courseId, exerciseId]);
 
+  //----------------------API CALL FOR COURSE EDITOR-------------------//
+
   useEffect(() => {
-    putApiAssessmentCall();
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
+      headers: {
+        "version-code": versionCode,
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+    }).then((res) => {
+      setCourseExercise(res.data?.course?.exercises[exerciseId].content);
+      // setExerciseName(res.data?.course?.exercises[exerciseId].name);
+    });
+  }, [courseId, exerciseId]);
+
+  useEffect(() => {
+    if (courseType === "assessment") {
+      putApiAssessmentCall();
+    }
   }, [save]);
 
   const handleClickOpen = () => {
@@ -279,9 +292,6 @@ function ContentEdit() {
   const handleClosePublishConfirmation = () => {
     setPublishConfirmation(false);
   };
-
-  console.log("course in content edit", course);
-  console.log("id", id);
 
   return (
     <>
@@ -346,7 +356,6 @@ function ContentEdit() {
                     </BoxComponent>
                   );
                 } else if (e.component === "options") {
-                  console.log(e.component, "e.value", e.value);
                   return (
                     <BoxComponent setIsShown={setIsShown} isShown={isShown}>
                       <Typography>
@@ -381,7 +390,6 @@ function ContentEdit() {
                     </BoxComponent>
                   );
                 } else if (e.component === "solution") {
-                  console.log(e.component, "e.value", e.value);
                   return (
                     <>
                       <Typography>Solution</Typography>
@@ -401,7 +409,6 @@ function ContentEdit() {
                     </>
                   );
                 } else if (e.component === "output") {
-                  console.log(e.component, "e.value", e.value);
                   return Object.keys(course[index].value).map((sol, index1) => {
                     return (
                       <>
@@ -432,7 +439,19 @@ function ContentEdit() {
               })}
           </>
         ) : (
-          <ReactEditor course={course} id={id} save={save} />
+          courseExercise && (
+            <ReactEditor
+              course={courseExercise}
+              // course={course}
+              // exerciseName={exerciseName}
+              id={id}
+              save={save}
+              courseId={courseId}
+              courseType={courseType}
+              publishConfirmation={publishConfirmation}
+              setPublishConfirmation={setPublishConfirmation}
+            />
+          )
         )}
       </Container>
 
