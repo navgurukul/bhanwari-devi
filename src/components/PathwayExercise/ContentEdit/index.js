@@ -100,7 +100,7 @@ const DialogBox = ({
             <Button
               variant="contained"
               onClick={() => {
-                setSave(true);
+                setSave(!save);
               }}
             >
               Publish
@@ -152,14 +152,11 @@ function ContentEdit() {
   };
   const handleAdd = (index, ap, aap) => {
     if (course.length - 1 === index) {
-      console.log("true");
       index = index + 1;
     } else {
       console.log("false");
     }
 
-    console.log(index, "handleAdd index");
-    console.log("ap", ap);
     var temp = [...course];
     if (ap === "options") {
       const addOption = { ...allComponents.option.AddOption };
@@ -185,7 +182,7 @@ function ContentEdit() {
       }
     }
     const stringifiedCourse = JSON.stringify(tempCourse, null, 0);
-    console.log(id, stringifiedCourse, "cc");
+    // console.log(id, stringifiedCourse, "cc");
     axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${id}`,
@@ -205,12 +202,10 @@ function ContentEdit() {
           pathwayId: params.pathwayId,
         })
       );
-      console.log(res, "res");
     });
   };
 
   useEffect(() => {
-    console.log("Punnu");
     axios({
       method: METHODS.GET,
       // url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
@@ -222,7 +217,6 @@ function ContentEdit() {
       },
     })
       .then((res) => {
-        console.log("res", res);
         const course_type = res.data.course.exercises[exerciseId].content_type;
         setCourseType(course_type);
         if (course_type === "assessment") {
@@ -253,7 +247,6 @@ function ContentEdit() {
         setCourse(res?.data?.course?.exercises[exerciseId].content);
         const updated_at = res.data.course.exercises[exerciseId].updated_at;
         const longDateStr = formatInUtc(updated_at, "EEEE dd MMMM yyyy");
-        // console.log("longDateStr", longDateStr);
         setUpdatedOn(longDateStr);
       })
       .catch((err) => {
@@ -279,7 +272,9 @@ function ContentEdit() {
   }, [courseId, exerciseId]);
 
   useEffect(() => {
-    putApiAssessmentCall();
+    if (courseType === "assessment") {
+      putApiAssessmentCall();
+    }
   }, [save]);
 
   const handleClickOpen = () => {
@@ -297,9 +292,6 @@ function ContentEdit() {
   const handleClosePublishConfirmation = () => {
     setPublishConfirmation(false);
   };
-
-  console.log("course in content edit", course);
-  console.log("id", id);
 
   return (
     <>
@@ -364,7 +356,6 @@ function ContentEdit() {
                     </BoxComponent>
                   );
                 } else if (e.component === "options") {
-                  console.log(e.component, "e.value", e.value);
                   return (
                     <BoxComponent setIsShown={setIsShown} isShown={isShown}>
                       <Typography>
@@ -399,7 +390,6 @@ function ContentEdit() {
                     </BoxComponent>
                   );
                 } else if (e.component === "solution") {
-                  console.log(e.component, "e.value", e.value);
                   return (
                     <>
                       <Typography>Solution</Typography>
@@ -419,7 +409,6 @@ function ContentEdit() {
                     </>
                   );
                 } else if (e.component === "output") {
-                  console.log(e.component, "e.value", e.value);
                   return Object.keys(course[index].value).map((sol, index1) => {
                     return (
                       <>
@@ -457,8 +446,10 @@ function ContentEdit() {
               // exerciseName={exerciseName}
               id={id}
               save={save}
-              setSave={setSave}
               courseId={courseId}
+              courseType={courseType}
+              publishConfirmation={publishConfirmation}
+              setPublishConfirmation={setPublishConfirmation}
             />
           )
         )}

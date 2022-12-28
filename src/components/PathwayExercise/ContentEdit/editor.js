@@ -12,7 +12,16 @@ import { EDITOR_JS_TOOLS } from "./constants";
 
 //npm install --save  react-editor-js @editorjs/editorjs @editorjs/paragraph  @editorjs/header @editorjs/image
 
-function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
+function ReactEditor({
+  course,
+  id,
+  save,
+  exerciseName,
+  courseId,
+  courseType,
+  setPublishConfirmation,
+  publishConfirmation,
+}) {
   const user = useSelector(({ User }) => User);
   const history = useHistory();
   const params = useParams();
@@ -71,10 +80,6 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
         allData.map((_, j) => allData[j][i])
       );
       content = [[...header], ...dataInCol];
-      console.log("allData", allData);
-      console.log("header", header);
-      console.log("dataInCol", dataInCol);
-      console.log("content", content);
     } else {
       type = item.component;
     }
@@ -109,8 +114,6 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
     };
   });
 
-  console.log("courseData", courseData);
-
   let blocks = courseData.filter((item, index) => {
     // const stringifiedItem = JSON.stringify(item);
     return (
@@ -121,9 +124,6 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
       })
     );
   });
-
-  console.log("blocks", blocks);
-  console.log("Course editor completed, Ready to raise PR");
 
   let json = [];
   const MerakiJSON = (blocks) => {
@@ -153,13 +153,11 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
             decoration,
             variant: item.data.level,
           };
-          console.log("object", object);
           json.push(object);
         });
       } else if (item.type === "paragraph") {
         component = "text";
         value = item.data.text;
-        console.log("Value", value);
       } else if (item.type == "header") {
         component = item.type;
         value = item.data.text;
@@ -179,19 +177,13 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
         const dataInCol = content[0].map((_, j) =>
           content.map((_, i) => content[i][j])
         );
-        console.log("content 2", content);
-        console.log("header 2", header);
-        console.log("dataInCol 2", dataInCol);
         value = [];
         for (const ele in header) {
-          console.log("ele", ele);
-          console.log("header[ele]", header[ele]);
           value.push({
             header: header[ele],
             items: dataInCol[ele],
           });
         }
-        console.log("value", value);
       }
 
       if (item.type !== "list") {
@@ -203,7 +195,6 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
         });
       }
     });
-    console.log("json", json);
   };
 
   const onReady = () => {
@@ -212,7 +203,6 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
   };
 
   const onChange = (e) => {
-    console.log("e", e);
     // https://editorjs.io/configuration#editor-modifications-callback
     console.log("Now I know that Editor's content changed!");
   };
@@ -221,11 +211,11 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
     // https://editorjs.io/saving-data
     try {
       const outputData = await editor.save();
-      console.log("Article data: ", outputData);
+      // console.log("Article data: ", outputData);
       MerakiJSON(outputData.blocks);
       const stringifiedCourse = JSON.stringify(json, null, 0);
-      console.log(id, stringifiedCourse, "cc");
-
+      // console.log(id, stringifiedCourse, "cc");
+      setPublishConfirmation(!publishConfirmation);
       axios({
         method: METHODS.PUT,
         url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/exercise/${id}`,
@@ -251,16 +241,14 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
             Authorization: user.data?.token || "",
           },
         }).then((res) => {
-          setSave(false);
-          // history.push(
-          //   interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-          //     courseId: params.courseId,
-          //     exerciseId: params.exerciseId,
-          //     pathwayId: params.pathwayId,
-          //   })
-          // );
+          history.push(
+            interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+              courseId: params.courseId,
+              exerciseId: params.exerciseId,
+              pathwayId: params.pathwayId,
+            })
+          );
         });
-        console.log(res, "res");
       });
     } catch (e) {
       console.log("Saving failed: ", e);
@@ -268,7 +256,7 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
   };
 
   useEffect(() => {
-    if (save) {
+    if (courseType !== "assessment") {
       onSave();
     }
   }, [save]);
@@ -281,9 +269,6 @@ function ReactEditor({ course, id, save, setSave, exerciseName, courseId }) {
             onInitialize={handleInitialize}
             onReady={onReady}
             onChange={onChange}
-            // editorInstance={editorInstance => {
-            //   editor = editorInstance
-            // }}
             tools={EDITOR_JS_TOOLS}
             defaultValue={{
               time: 1635603431943,
