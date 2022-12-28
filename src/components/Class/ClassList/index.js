@@ -12,7 +12,6 @@ import {
   Skeleton,
   Card,
   useMediaQuery,
-  Alert,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -134,7 +133,14 @@ function ClassList({ editClass, isShow }) {
               {!filterText?.length > 0
                 ? single_classes.map((item, index) => {
                     return (
-                      <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
+                      <Grid
+                        key={index}
+                        item
+                        xs={12}
+                        ms={6}
+                        md={4}
+                        sx={{ mb: 0 }}
+                      >
                         <ClassCard
                           item={item}
                           key={index}
@@ -164,7 +170,7 @@ function ClassList({ editClass, isShow }) {
                 })
               ) : (
                 <Grid item md={12} sx={{ mb: 0, mt: 4, p: 1 }}>
-                  <Typography>No Classes Found</Typography>
+                  <Typography variant="h6">No Classes Found</Typography>
                 </Grid>
               )}
             </>
