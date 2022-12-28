@@ -141,7 +141,7 @@ const RenderContent = ({ data, exercise }) => {
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
-    console.log("text", text);
+    // console.log("text", text);
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <Box className={classes.List}>
@@ -399,7 +399,7 @@ function ExerciseContent({
         {!desktop && <ContentListText setOpenDrawer={setOpenMobile} />}
         <Grid container justifyContent={"center"}>
           <Grid xs={0} item>
-            <Box sx={{ m: "32px 0px" }}>
+            <Box sx={{ m: "2px 0px" }}>
               <Box>
                 {courseData?.content_type == "class_topic" &&
                   enrolledBatches && <ClassTopic courseData={courseData} />}
@@ -469,7 +469,7 @@ function ExerciseContent({
               {/* <Typography variant="h6" sx={{ mt: "16px" }}>
                 {exercise && exercise.name}
               </Typography> */}
-              <Box sx={{ mt: 5, mb: 8 }}>
+              <Box sx={{ mt: 2, mb: 8 }}>
                 {content &&
                   content.map((contentItem, index) => (
                     <RenderContent
