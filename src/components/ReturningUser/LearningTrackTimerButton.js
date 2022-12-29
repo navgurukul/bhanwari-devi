@@ -49,16 +49,15 @@ function LearningTrackTimerButton({
           href={link}
         >
           <Button
-            // variant="text"
+            variant="text"
             sx={{ display: "block" }}
             onClick={joinOnClick ? joinOnClick : undefined}
-            variant="outlined"
           >
             {CAN_JOIN_MSG}
           </Button>
         </ExternalLink>
       ) : (
-        <Button disabled={true} variant="outlined" sx={{ display: "block" }}>
+        <Button disabled={true} variant="text" sx={{ display: "block" }}>
           Starts in {timeRemainingMsg}
         </Button>
       )}

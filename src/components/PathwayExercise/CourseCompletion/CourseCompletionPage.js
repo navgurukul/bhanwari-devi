@@ -13,7 +13,7 @@ function CourseCompletionPage(props) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   return (
     <>
-      <Container maxWidth="lg" align="center" style={{paddingTop: "130px"}} >
+      <Container maxWidth="lg" align="center">
         <Box mt={8}>
           <img src={require("../asset/specialdeals.svg")} />
           <Typography variant="h6" mt={3} mb={4}>

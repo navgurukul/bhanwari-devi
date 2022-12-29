@@ -84,18 +84,15 @@ function ClassForm({
       classToEdit?.pathway_id?.[0] ||
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
-    volunteer_id:
-      classToEdit?.volunteer_id != null ? classToEdit?.volunteer_id : null,
+    volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
   });
-  console.log(classFields?.volunteer_id);
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
-  console.log(classFields.volunteer_id);
   const [loading, setLoading] = useState(false);
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -370,7 +367,6 @@ function ClassForm({
       },
     }).then((res) => {
       const volunteers = res?.data?.map((item, index) => {
-        console.log(item.volunteer_id);
         return {
           label: item.name,
           id: item.volunteer_id,
@@ -380,7 +376,6 @@ function ClassForm({
       setVolunteer(volunteers);
     });
   }, []);
-
   const [selectedPartners, setSelectedPartners] = useState([]);
   useEffect(() => {
     let datass = partnerData.filter((item) => {
@@ -416,7 +411,6 @@ function ClassForm({
       },
     }).then(
       (res) => {
-        console.log(res);
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
@@ -474,7 +468,6 @@ function ClassForm({
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
       headers: {
         accept: "application/json",
         "version-code": versionCode,
@@ -729,10 +722,7 @@ function ClassForm({
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
-                id:
-                  classFields.volunteer_id != null
-                    ? classFields.volunteer_id
-                    : null,
+                id: classFields.volunteer_id || "",
               }}
               // name="partner_id"
 
