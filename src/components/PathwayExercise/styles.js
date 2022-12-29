@@ -5,18 +5,23 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     marginTop: "20px",
   },
+
+  paper: {
+    width: "430px",
+  },
   contentImg: {
     padding: 5,
     marginRight: 5,
   },
-
   contentNumber: {
     padding: "8px",
   },
-
   youtubeVideo: {
     width: "100%",
-    marginTop: "20px",
+    margin: "20px 0",
+  },
+  heading: {
+    margin: "30px 0 10px 0",
   },
   contentImage: {
     width: "100%",
@@ -60,11 +65,11 @@ const useStyles = makeStyles((theme) => ({
     background: "#FFE5E3 !important",
   },
   bottomRow: {
-    width: "97%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     position: "fixed !important",
+    zIndex: 100,
     bottom: "0px",
     background: "#fff",
     boxShadow:
@@ -75,6 +80,49 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "scroll",
     width: "325px",
     whiteSpace: "nowrap",
+  },
+  scrollData: {
+    "&::-webkit-scrollbar": { display: "none" },
+    overflowX: "scroll",
+    width: "325px",
+    whiteSpace: "nowrap",
+    display: "flex",
+    justifyContent: "center",
+  },
+  edit: {
+    color: "#000000",
+  },
+  editField: {
+    margin: "10px 0px",
+  },
+  textarea: {
+    width: 529,
+    margin: "10px 0px",
+    padding: "20px 10px",
+    border: "1px solid #BDBDBD",
+    borderRadius: "4px",
+    fontSize: "1.125rem",
+    color: "#2E2E2E",
+    fontFamily: "Noto Sans",
+    resize: "none",
+    outline: "none",
+    "&:focus": {
+      border: "2px solid #48A145 !important",
+    },
+    // "&:hover": {
+    //   border: "1px solid #000 !important",
+    // },
+  },
+  mainHeader: {
+    position: "sticky",
+  },
+  editingHeader: {
+    position: "sticky",
+    marginTop: 64,
+  },
+  editingHeaderMobile: {
+    position: "sticky",
+    marginTop: 104,
   },
 }));
 

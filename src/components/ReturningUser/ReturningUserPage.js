@@ -16,15 +16,19 @@ import { interpolatePath, PATHS, versionCode } from "../../constant";
 import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import WithoutLearningClasses from "./WithoutLearningClasses";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const history = useHistory();
   const params = useParams();
+  const dispatch = useDispatch();
+
   const user = useSelector(({ User }) => User);
   const [learningTracks, setLearningTracks] = useState([]);
+  console.log(user?.data?.user?.partner_id);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -39,20 +43,63 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
+  console.log(learningTracks );
 
   return (
-    <>
-      <Container maxWidth="lg">
-        <Typography variant="h5" mb={3} mt={5}>
-          My Learning Tracks
-        </Typography>
-        <Grid container spacing={1}>
-          {learningTracks.map((item) => (
-            <LearningTrackCard item={item} />
-          ))}
-        </Grid>
-      </Container>
-    </>
+    <Container>
+      {user?.data?.user?.partner_id != null ? (
+        <>
+          <Typography variant="h6" mb={5} mt={5}>
+            My Learning Tracks (With Classes)
+          </Typography>
+          <Grid
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="left"
+            style={{ gap: 32, justifyItems: "left" }}
+          >
+            {learningTracks.map(
+              (item) =>
+                (item.pathway_id == 1 || item.pathway_id === 2) && (
+                  <LearningTrackCard item={item} />
+                )
+            )}
+          </Grid>
+          <Typography variant="h6" mb={5} mt={5}>
+            My Learning Tracks (Without Classes)
+          </Typography>
+          <Grid
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="left"
+            style={{ gap: 32 }}
+          >
+            {learningTracks.map(
+              (item) =>
+                (item.pathway_id >= 3 ) && (
+                  <WithoutLearningClasses item={item} />
+                )
+            )}
+          </Grid>
+        </>
+      ) : (
+        <>
+          <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
+            My Learning Tracks
+          </Typography>
+          <Grid
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="left"
+            style={{ gap: 32 }}
+          >
+            {learningTracks.map((item) => (
+              <WithoutLearningClasses item={item} />
+            ))}
+          </Grid>
+        </>
+      )}
+    </Container>
   );
 }
 export default ReturningUserPage;

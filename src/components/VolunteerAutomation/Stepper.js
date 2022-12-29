@@ -26,7 +26,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SelectTrack from "./SelectTrack";
 import Confirmation from "./Confirmation";
 import AttendClass from "./AttendClass";
-import Availability from "./ Availability";
+import Availability from "./Availability";
 import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
 import IntroVideo from "./IntroVideo";
@@ -40,20 +40,41 @@ import { getObjectState, saveObjectState } from "../../common/storage";
 
 function HorizontalLinearStepper() {
   let history = useHistory();
-  const currentState = getObjectState("volunteer_automation", "state") || {
-    completed: [],
-  };
   const user = useSelector(({ User }) => User);
   const roles = user?.data?.user.rolesList; // TODO: Use selector for this
+  const uid = user?.data?.user.id; // TODO: Factor out common logic used for selected role PR # 660
+  const allUsersState = getObjectState("volunteer_automation", "state");
+  console.log(allUsersState, "4567890");
+  const currentState = allUsersState?.[uid] || {
+    completed: [],
+  };
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(currentState.step || 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [completed, setCompleted] = React.useState(currentState.completed);
   const [disable, setDisable] = React.useState(!completed[activeStep]);
   const [contact, setContact] = useState(currentState.contact);
-  const [pathwayId, setPathwayId] = useState(currentState.pathwayId);
+  const [pathwayId, setPathwayId] = useState(currentState.pathwayId || []);
   const [enrollId, setEnrollId] = useState(currentState.enrollId || null);
   const [open, setOpen] = React.useState(false);
+  const [nextButton, setNextButton] = React.useState("true");
+  const [countryCode, setCountryCode] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+
+  const current_time = new Date();
+  const [availability, setAvailability] = React.useState(
+    currentState.availability || {
+      hours_per_week: "",
+      available_on_days: [],
+      available_on_time: {
+        first_time: current_time,
+        second_time: current_time,
+        third_time: current_time,
+      },
+    }
+  );
+
+  const itemValues = { contact, enrollId, pathwayId, availability };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -63,19 +84,13 @@ function HorizontalLinearStepper() {
     setOpen(false);
   };
 
-  const [availability, setAvailability] = React.useState(
-    currentState.availability || {
-      hours_per_week: "",
-      available_on_days: [],
-      available_on_time: {},
-    }
-  );
-  const itemValues = { contact, enrollId, pathwayId, availability };
-
   const updateAndSaveState = (setter, key, value) => {
     setter && setter(value);
     currentState[key] = value;
-    saveObjectState("volunteer_automation", "state", currentState);
+    saveObjectState("volunteer_automation", "state", {
+      ...allUsersState,
+      [uid]: currentState,
+    });
   };
 
   React.useEffect(() => {
@@ -99,6 +114,11 @@ function HorizontalLinearStepper() {
           contact={contact}
           setContact={setContact}
           setDisable={setDisable}
+          setNextButton={setNextButton}
+          phone={phone}
+          setPhone={setPhone}
+          countryCode={countryCode}
+          setCountryCode={setCountryCode}
         />
       ),
     },
@@ -201,6 +221,7 @@ function HorizontalLinearStepper() {
   };
 
   const submit = () => {
+    const contactNumber = contact.split("+")[1].split(" ").join("-");
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers/Automation`,
       method: METHODS.POST,
@@ -209,7 +230,7 @@ function HorizontalLinearStepper() {
         Authorization: user.data.token,
       },
       data: {
-        contact: contact,
+        contact: contactNumber,
         pathway_id: pathwayId,
         ...availability,
       },
@@ -358,15 +379,17 @@ function HorizontalLinearStepper() {
                   Go to Dashboard
                 </Button>
               ) : (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  endIcon={<ArrowForwardIosIcon />}
-                  onClick={handleNext}
-                  disabled={disable}
-                >
-                  Next
-                </Button>
+                nextButton && (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    endIcon={<ArrowForwardIosIcon />}
+                    onClick={handleNext}
+                    disabled={disable}
+                  >
+                    Next
+                  </Button>
+                )
               )}
             </Box>
           </Container>

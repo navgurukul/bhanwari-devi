@@ -52,13 +52,16 @@ function Availability({ setAvailability, availability, setDisable }) {
   };
 
   useEffect(() => {
+    console.log(availability);
     if (
-      availability.hours_per_week &&
+      availability.hours_per_week.length > 0 &&
       availability.available_on_days.length > 0
       // &&
       // availability.available_on_time.length > 0
     ) {
       setDisable(false);
+    } else {
+      setDisable(true);
     }
   }, [availability]);
 

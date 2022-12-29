@@ -36,6 +36,12 @@ const pathwayData = [
     description: "Get familiar with programming with bite sized lessons",
   },
   {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    image: "scratch",
+    description: "Get started with programming with block-based games",
+  },
+  {
     title: "Typing",
     code: "TYPGRU",
     image: "typing",
@@ -96,6 +102,8 @@ function MerakiEntry(props) {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+
   const classes = useStyles();
   const history = useHistory();
 
@@ -141,7 +149,17 @@ function MerakiEntry(props) {
         spacing={2}
         justifyContent="center"
       >
-        <Grid alignItems="right" item xs={12} ms={12} md={4}>
+        <Grid
+          alignItems="right"
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          sx={{
+            display: isActiveIpad ? (isActive ? "flow" : "flex") : "",
+            justifyContent: isActiveIpad && "flex-end",
+          }}
+        >
           <Link to={PATHS.LOGIN} className={classes.link}>
             <Button
               className={isActive ? classes.responsiveBtn : classes.LearningBtn}
@@ -152,7 +170,7 @@ function MerakiEntry(props) {
             </Button>
           </Link>
         </Grid>
-        <Grid item xs={12} ms={12} md={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <Button
             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
             variant="outlined"
@@ -417,36 +435,36 @@ function Home() {
                 spacing={2}
                 justifyContent="center"
               >
-                {/* <Grid item>
-                <Typography align="center" color="primary" gutterBottom>
-                  <address
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "#2E2E2E",
-                        fontWeight: "bold",
-                        fontStyle: "normal",
-                      }}
-                    >
-                      Via email:{" "}
-                    </span>
-
-                    <ExternalLink
+                <Grid item>
+                  <Typography align="center" color="primary" gutterBottom>
+                    <address
                       style={{
                         textDecoration: "none",
-                        color: "#48a145",
-                        fontStyle: "normal",
                       }}
-                      href="mailto:team@meraki.org"
                     >
-                      team@merakilearn.org
-                    </ExternalLink>
-                  </address>
-                </Typography>
-              </Grid> */}
+                      <span
+                        style={{
+                          color: "#2E2E2E",
+                          fontWeight: "bold",
+                          fontStyle: "normal",
+                        }}
+                      >
+                        Via Email:{" "}
+                      </span>
+
+                      <ExternalLink
+                        style={{
+                          textDecoration: "none",
+                          color: "#48a145",
+                          fontStyle: "normal",
+                        }}
+                        href="mailto:merakilearn@navgurukul.org"
+                      >
+                        merakilearn@navgurukul.org
+                      </ExternalLink>
+                    </address>
+                  </Typography>
+                </Grid>
                 <Grid item>
                   <Typography align="center" color="primary" gutterBottom>
                     <address>

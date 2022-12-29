@@ -14,6 +14,7 @@ export default function ExerciseImage({
   id,
   exerciseName,
   imageRef,
+  setSuccessfulExerciseCompletion,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -27,24 +28,24 @@ export default function ExerciseImage({
   const params = useParams();
   const contentTypeMap = {
     assessment: selected
-      ? progressTrackId.assessments.includes(id)
+      ? progressTrackId?.assessments?.includes(id)
         ? "assessmentRevisit"
         : "assessmentSelected"
-      : progressTrackId.assessments.includes(id)
+      : progressTrackId?.assessments?.includes(id)
       ? "assessmentCompleted"
       : "assessment",
     class_topic: selected
-      ? progressTrackId.classes.includes(id)
+      ? progressTrackId?.classes?.includes(id)
         ? "classTypeRevisit"
         : "classTypeSelected"
-      : progressTrackId.classes.includes(id)
+      : progressTrackId?.classes?.includes(id)
       ? "classTypeCompleted"
       : "classtype",
     exercise: selected
-      ? progressTrackId.exercises.includes(id)
+      ? progressTrackId?.exercises?.includes(id)
         ? "contentTypeRevist"
         : "contentTypeSelected"
-      : progressTrackId.exercises.includes(id)
+      : progressTrackId?.exercises?.includes(id)
       ? "ContentTypeCompleted"
       : "contenttype",
   };
@@ -60,6 +61,7 @@ export default function ExerciseImage({
               pathwayId: params.pathwayId,
             })
           );
+          setSuccessfulExerciseCompletion(false);
           setExerciseId(index);
         }}
         ref={imageRef}

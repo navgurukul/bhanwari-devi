@@ -17,6 +17,7 @@ const menu = {
   ],
   LearningTracks: [
     { title: "Python", code: "PRGPYT", type: "internal" },
+    { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     // Changed the code for javascript JVSCPT => JSRPIT
@@ -157,6 +158,7 @@ function Footer() {
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
+      // console.log(pathway);
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
           item.id = pathway.id;

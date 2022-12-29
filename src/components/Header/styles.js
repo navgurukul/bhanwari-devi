@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mobileBox: {
     width: 415,
-    height: 750,
+    height: "100%",
   },
   RightBox: {
     flexGrow: 1,

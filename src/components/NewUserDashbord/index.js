@@ -18,6 +18,12 @@ const pathwayData = [
     description: "Get familiar with programming with bite sized lessons",
   },
   {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    image: "scratch",
+    description: "Get familiar with programming with bite sized lessons",
+  },
+  {
     title: "Typing",
     code: "TYPGRU",
     image: "typing",
@@ -71,7 +77,7 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data;
-      console.log(data);
+      // console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);
       }
@@ -102,14 +108,13 @@ const NewUserDashbord = () => {
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
               {pathwayData.map((item) => (
-                // console.log(item.title.length)
                 <Grid
                   item
                   xs={6}
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={isActive && item.title.length < 12 ? 170 : 190}
+                  maxHeight={210}
                 >
                   <PathwayCard
                     id={item.id}

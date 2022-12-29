@@ -8,9 +8,13 @@ Once she intervened to stop the marriage of a nine-month-old infant from a domin
 In her subsequent pursuit for justice, every step along the way she faced intense hurdles. At the police station, at the primary health care centre, and the judiciary. Read more about her [here](https://medium.com/@dalithistorynow/dalit-history-month-2019-celebrating-bhanwari-devi-c4bd47d7126e).
 
 ## Let's code and build something beautiful together
-*We welcome everyone. 🤗*
+We welcome everyone. 🤗
 
 <img src="src/asset/welcome.jpg" width="500"/>
+
+## Getting Started and Contribution Guidelines
+
+Please refer to our [Contribution Guide](CONTRIBUTING.md).
 
 ## Development Ethos
 - *It's OK to break stuff on development. Take the ownership and send the fix.*
@@ -326,4 +330,4 @@ To run production build in the local environment please run following code after
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-**Happy coding :)**
+**Happy coding :)** 

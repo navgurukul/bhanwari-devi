@@ -27,6 +27,18 @@ function AdminHeader({ leftDrawer, toggleDrawer }) {
           toggleDrawer={toggleDrawer}
         /> */}
         <HeaderNavLink
+          to={PATHS.CLASS}
+          text={<Message constantKey="CLASSES" />}
+          toggleDrawer={toggleDrawer}
+        />
+        {/* 
+        <HeaderNavLink
+          to={PATHS.TUTOR}
+          text={<Message constantKey="TUTOR" />}
+          toggleDrawer={toggleDrawer}
+        /> */}
+
+        <HeaderNavLink
           to={PATHS.VOLUNTEER}
           text={<Message constantKey="VOLUNTEERS" />}
           toggleDrawer={toggleDrawer}

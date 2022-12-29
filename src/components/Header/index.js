@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -41,6 +41,7 @@ import SearchBar from "../SearchBar";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
+import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -50,6 +51,12 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
   const [dropDownMenu, setDropDownMenu] = useState(null);
   const [selectedMenu, SetSelectedMenu] = useState(null);
+  const [inDropdown, setInDropdown] = useState({
+    inProgress: false,
+    value: false,
+  });
+  const inDropdownRef = useRef(inDropdown);
+  inDropdownRef.current = inDropdown;
   const classes = useStyles();
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
@@ -67,35 +74,49 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     setIndicator(null);
   };
 
+  const updateInDropdownState = () => {
+    setInDropdown({ inProgress: true, value: false });
+    setTimeout(
+      () =>
+        setInDropdown({
+          value: inDropdownRef.current?.value,
+          inProgress: false,
+        }),
+      200
+    );
+  };
+
+  useEffect(() => {
+    if (!inDropdown.inProgress && !inDropdown.value) {
+      // mouse has moved out of main menu item and its
+      //   dropdown after delay milliseconds
+      menuCloseHandler();
+    }
+  }, [inDropdown]);
+
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <>
-            <MenuItem
-              onMouseEnter={(event) => menuOpenHandler(event, menuKey)}
-              onClick={(e) => {
-                menuOpenHandler(e, menuKey);
+            <TextButtonDropDownMenu
+              btnTextMsgKey={MENU_ITEMS[menuKey]?.msgKey}
+              // attachRight={!leftDrawer}
+              menuContainerProps={{
+                id: "menu-appbar",
               }}
               sx={{ color: "black" }}
               key={index}
             >
-              <Typography variant="subtitle1">
-                {/*MSG[getTranslationKey(menu)]*/}
-                <Message constantKey={MENU_ITEMS[menuKey].msgKey} />
-              </Typography>
-              {selectedMenu === menuKey && indicator ? (
-                <ExpandLessIcon />
-              ) : (
-                <ExpandMoreIcon />
-              )}
-            </MenuItem>
-            <DropDown
-              dropDown={dropDownMenu}
-              indicator={indicator}
-              handleClose={menuCloseHandler}
-              toggleDrawer={toggleDrawer}
-            />
+              <DropDown
+                dropDown={menuKey}
+                //indicator={indicator}
+                //handleClose={menuCloseHandler}
+                toggleDrawer={toggleDrawer}
+                //setInDropdown={setInDropdown}
+                //handleMouseLeave={updateInDropdownState}
+              />
+            </TextButtonDropDownMenu>
           </>
         ))}
       </Box>
@@ -211,7 +232,9 @@ function Header() {
       : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
 
-  const roleKey = roles.map((userRole) => userRole.key).find(key => key === role);
+  const roleKey = roles
+    .map((userRole) => userRole.key)
+    .find((key) => key === role);
   const defaultPage = rolesLandingPages[roleKey] || "/";
 
   const toggleDrawer = (open) => (event) => {
@@ -252,7 +275,9 @@ function Header() {
                 onClose={toggleDrawer(false)}
                 onOpen={toggleDrawer(true)}
               >
-                <MobileVersion {...{toggleDrawer, leftDrawer, setRole, role}} />
+                <MobileVersion
+                  {...{ toggleDrawer, leftDrawer, setRole, role }}
+                />
               </SwipeableDrawer>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

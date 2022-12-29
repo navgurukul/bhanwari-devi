@@ -1,25 +1,17 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ListItem from "@mui/material/ListItem";
 import { Typography, useMediaQuery } from "@mui/material";
+import { useDebouncedCallback } from "use-debounce";
 import { Link, useParams } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { useSelector } from "react-redux";
 
 function Item({
   progressTrackId,
@@ -43,15 +35,15 @@ function Item({
 
   React.useEffect(() => {
     if (contentType === "assessment") {
-      if (progressTrackId?.assessments.includes(id)) {
+      if (progressTrackId?.assessments?.includes(id)) {
         setCompleted(true);
       }
     } else if (contentType === "class_topic") {
-      if (progressTrackId?.classes.includes(id)) {
+      if (progressTrackId?.classes?.includes(id)) {
         setCompleted(true);
       }
     } else if (contentType === "exercise") {
-      if (progressTrackId?.exercises.includes(id)) {
+      if (progressTrackId?.exercises?.includes(id)) {
         setCompleted(true);
       }
     }
@@ -64,38 +56,44 @@ function Item({
         disablePadding
         ref={index === selected ? ref1 : null}
       >
-        <ListItemButton
-          onClick={() => {
-            setSelected(index);
-            setExerciseId(index);
-          }}
+        <Link
+          style={ItemStyle}
+          className={classes.ListItemLink}
+          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId: params.courseId,
+            exerciseId: index,
+            pathwayId: params.pathwayId,
+          })}
         >
-          <Typography
-            className={classes.ListItemsTypography}
-            component={Link}
-            variant="caption"
+          <ListItemButton
+            onClick={() => {
+              setSelected(index);
+              setExerciseId(index);
+            }}
           >
-            <Link
-              style={ItemStyle}
-              className={classes.ListItemLink}
-              to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                courseId: params.courseId,
-                exerciseId: index,
-                pathwayId: params.pathwayId,
-              })}
+            <Typography
+              className={classes.ListItemsTypography}
+              sx={{ fontWeight: selected === index && "bold" }}
+              variant="body2"
             >
-              {title}
-            </Link>
-          </Typography>
-        </ListItemButton>
+              {selected === index ? (
+                <ArrowRightAltIcon
+                  sx={{ marginRight: "8px", verticalAlign: "middle" }}
+                />
+              ) : (
+                ""
+              )}
+              {index + 1 + ". "}
+              {title === "assessment" ? "Practice Question" : title}
+            </Typography>
+          </ListItemButton>
+        </Link>
       </ListItem>
     </>
   );
 }
 
 function PersistentDrawerLeft({
-  open,
-  setOpen,
   list,
   setSelected,
   setExerciseId,
@@ -108,16 +106,43 @@ function PersistentDrawerLeft({
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
+  const [scrollPosition, setScrollPosition] = React.useState({
+    coordinateY: 0,
+    changed: false,
+  });
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const user = useSelector(({ User }) => User);
+
+  const editor = user.data.user.rolesList.indexOf("editor") > -1;
+  const admin = user.data.user.rolesList.indexOf("admin") > -1;
+
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
   const ref1 = React.useRef();
-  React.useEffect(() => {
-    if (ref1.current) {
-      ref1.current.scrollIntoView({
-        block: "center",
+  const scrollRef = React.useRef();
+
+  const debouncedUpdateScroll = useDebouncedCallback(() => {
+    if (scrollRef.current) {
+      setScrollPosition({
+        coordinateY: scrollRef.current.scrollTop,
+        changed: true,
       });
+    }
+  }, 200);
+
+  React.useEffect(() => {
+    if (scrollPosition.changed) {
+      localStorage.setItem("contentListScroll", scrollPosition.coordinateY);
+    }
+  }, [scrollPosition]);
+
+  React.useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo(
+        0,
+        parseInt(localStorage.getItem("contentListScroll"))
+      );
     }
   }, []);
 
@@ -127,24 +152,39 @@ function PersistentDrawerLeft({
         className={classes.DesktopDrawer}
         variant="persistent"
         anchor="left"
-        open={open}
-        PaperProps={{ style: { border: "none" } }}
+        open={true}
+        onScroll={debouncedUpdateScroll}
+        PaperProps={{
+          style: { border: "none", overflow: "scroll" },
+          ref: scrollRef,
+        }}
       >
-        <div style={{ paddingBottom: "60px", marginLeft: "30px" }}>
-          <ListItem disablePadding style={{ marginTop: "100px" }}>
-            <IconButton
-              style={{ marginRight: "85%" }}
+        <div
+          style={{
+            paddingBottom: "60px",
+            marginLeft: "30px",
+            marginTop: editor || admin ? "100px" : "30px",
+          }}
+        >
+          {/* <ListItem disablePadding style={{ marginTop: "50px" }}> */}
+          {/* <IconButton
+              style={{ marginRight: "85%", marginTop: "40px" }}
               onClick={handleDrawerClose}
             >
               <ArrowBackIcon />
-            </IconButton>
-          </ListItem>
+            </IconButton> */}
+          {/* </ListItem> */}
           <List>
             <ListItem disablePadding>
               <ListItemButton>
+                <AssignmentOutlinedIcon
+                  style={{ marginTop: "24px", marginRight: "10px" }}
+                  className={classes.ContentListIcon}
+                />
                 <Typography
                   className={classes.courseNameTypography}
                   variant="subtitle2"
+                  mt={4}
                 >
                   {courseName}
                 </Typography>

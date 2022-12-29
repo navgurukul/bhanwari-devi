@@ -20,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
         "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)",
     },
   },
+  hrunderLine: {
+    width: "450px",
+    border: "1px solid #E0E0E0 !important",
+    marginTop: "32px",
+    marginBottom: "32px",
+  },
+  progressBar: {
+    width: "95%",
+  },
 }));
 
 export default useStyles;

@@ -2,10 +2,13 @@ export const AUTH_KEY = "__AUTH__";
 
 export const PATHS = {
   HOME_PATH: "/",
+  HOME_PAGE: "/home",
   LOGIN: "/login",
   CLASS: "/class",
   COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
+  PATHWAY_COURSE_CONTENT_EDIT:
+    "/course-content-edit/:pathwayId/:courseId/:exerciseId",
   COURSE_CONTENT: "/course/:courseId",
   EXERCISE: "/exercise/:exerciseId",
   PATHWAY_COURSE: "/pathway/:pathwayId",
@@ -14,6 +17,7 @@ export const PATHS = {
   MENTOR: "/mentor",
   USER: "/user",
   PROFILE: "/profile",
+  ME: "/me",
   PRIVACY_POLICY: "/privacy",
   AFE: "/amazon-future-engineer",
   PARTNERS: "/partner",
@@ -21,7 +25,7 @@ export const PATHS = {
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   NAVGURUKUL_INTRODUCE: "/navgurukul/:partnerId",
-  ADMISSION: "/admission",
+  // ADMISSION: "/admission",
   REDIRECT: "/redirect",
   VOLUNTEER: "/volunteer",
   TEAM: "/team",
@@ -37,11 +41,17 @@ export const PATHS = {
   VOLUNTEER_AUTOMATION: "/volunteer-with-us",
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
+  TUTOR: "/tutor-dashboard",
 };
-export const HideHeader = [PATHS.PATHWAY_COURSE_CONTENT, PATHS.VOLUNTEER_FORM];
+export const HideHeader = [
+  PATHS.PATHWAY_COURSE_CONTENT,
+  PATHS.PATHWAY_COURSE_CONTENT_EDIT,
+  PATHS.VOLUNTEER_FORM,
+];
 export const HideFooter = [
   PATHS.LOGIN,
   PATHS.PATHWAY_COURSE_CONTENT,
+  PATHS.PATHWAY_COURSE_CONTENT_EDIT,
   PATHS.PROFILE,
   PATHS.MENTOR,
   PATHS.PRIVACY_POLICY,
@@ -95,6 +105,16 @@ export const PATHWAYS_INFO = [
       "Get equipped to build small projects like calculator or to-do list",
       "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
     ],
+    type: "internal",
+  },
+  {
+    title: "Scratch (CEL)",
+    code: "SHCEL",
+    video_link: "",
+    image: "scratch",
+    description:
+      "Learn programming concepts via easy to understand project based block programming in Scratch",
+    outcomes: [],
     type: "internal",
   },
   {
