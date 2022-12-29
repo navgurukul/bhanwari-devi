@@ -129,8 +129,18 @@ const RenderContent = ({ data, exercise }) => {
     );
   }
   if (data.component === "image") {
+    var myImg = data.value;
+    const img = new Image();
+    img.src = myImg;
+    // get height and width
+    img.onload = function () {
+      let imgWidth = this.width;
+      console.log(imgWidth);
+    };
     return (
       <img className={classes.contentImage} src={data.value} alt="content" />
+
+      // <img className={ {imgWidth} > 100 ? classes.contentImage : classes.contentImageSmallImg} src={data.value} alt="content" />
     );
   }
   if (data.component === "youtube") {

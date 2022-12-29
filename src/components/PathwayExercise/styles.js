@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginTop: "32px",
   },
+  contentImageSmallImg: {
+    // width: "100%",
+    marginTop: "32px",
+  },
   contentImg: {
     padding: 5,
     marginRight: 5,
