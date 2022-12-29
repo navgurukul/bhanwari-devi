@@ -125,6 +125,8 @@ function ReactEditor({
     );
   });
 
+  console.log("course", course);
+
   let json = [];
   const MerakiJSON = (blocks) => {
     blocks.map((item, index) => {
