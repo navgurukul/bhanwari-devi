@@ -12,7 +12,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useDebouncedCallback } from "use-debounce/lib";
 import useStyles from "./styles";
 
 const drawerWidth = 240;
@@ -83,7 +82,7 @@ function Item({
             <Typography
               className={classes.ListItemsTypography}
               // component={Link}
-              sx={{ fontWeight: selected === index && "bold" }}
+              sx={{ fontWeight: "bold" }}
               variant="caption"
             >
               {selected === index ? (
@@ -120,38 +119,12 @@ function MobileDrawer(props) {
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
   const ref1 = React.useRef();
-  const [scrollPosition, setScrollPosition] = React.useState({
-    coordinateY: 0,
-    changed: false,
-  });
-  const scrollRef = React.useRef();
-
-  const debouncedUpdateScroll = useDebouncedCallback(() => {
-    setScrollPosition({
-      coordinateY: scrollRef.current.scrollTop,
-      changed: true,
-    });
-  }, 200);
-
   React.useEffect(() => {
-    if (scrollPosition.changed) {
-      localStorage.setItem(
-        "contentListScrollMobile",
-        scrollPosition.coordinateY
-      );
+    if (ref1.current) {
+      ref1.current.scrollIntoView({
+        block: "center",
+      });
     }
-  }, [scrollPosition]);
-
-  React.useEffect(() => {
-    //🚨 Temporary Fix
-    setTimeout(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollTo(
-          0,
-          parseInt(localStorage.getItem("contentListScrollMobile"))
-        );
-      }
-    }, 10);
   }, []);
 
   const handleDrawerToggle = () => {
@@ -204,8 +177,6 @@ function MobileDrawer(props) {
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
-          PaperProps={{ ref: scrollRef }}
-          onScroll={debouncedUpdateScroll}
           sx={{
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {

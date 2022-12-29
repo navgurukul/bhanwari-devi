@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { format } from "../../common/date";
-import KeyboardArrowRightTwoToneIcon from "@mui/icons-material/KeyboardArrowRightTwoTone";
 import {
   Typography,
   Container,
@@ -81,7 +80,6 @@ const pathwayData = [
 ];
 
 function LearningTrackCard(props) {
-  // console.log(props.item,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -96,13 +94,6 @@ function LearningTrackCard(props) {
   const [completedPortionJason, setCompletedPortionJason] = useState();
   const [upcomingBatchesData, setUpcomingBatchesData] = useState();
   const params = useParams();
-  const languageMap = {
-    hi: "Hindi",
-    en: "English",
-    te: "Telugu",
-    ta: "Tamil",
-    mr: "Marathi",
-  };
 
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
@@ -116,10 +107,15 @@ function LearningTrackCard(props) {
     });
     setCourseIndex(COurseIndex);
   }, [item]);
-
+  // console.log(PathwayData,"pathwaydata");
+  // useEffect(()=>{
+  //   // setPathway(pathwayId)
+  // })
   const data = useSelector((state) => {
     return state;
   });
+
+  // console.log("upcomingdata", upcomingBatchesData);
 
   useEffect(() => {
     // setLoading(true);
@@ -148,19 +144,6 @@ function LearningTrackCard(props) {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
 
-  data.Pathways.data &&
-    data.Pathways.data.pathways.forEach((pathway) => {
-      pathwayData.forEach((item) => {
-        if (pathway.code === item.code) {
-          item["id"] = pathway.id;
-        }
-      });
-    });
-
-  const pathwayCourseData = pathwayData.find((item) => {
-    return item.id == pathwayId;
-  });
-  console.log(pathwayCourseData, ">>>>>>>>>>>.");
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -173,19 +156,33 @@ function LearningTrackCard(props) {
       setUpcomingBatchesData(res.data);
     });
   }, []);
-  console.log(upcomingBatchesData);
+  // const upcomingBatchesData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
+
+  data.Pathways.data &&
+    data.Pathways.data.pathways.forEach((pathway) => {
+      pathwayData.forEach((item) => {
+        if (pathway.code === item.code) {
+          item["id"] = pathway.id;
+        }
+      });
+    });
+
+  const pathwayCourseData = pathwayData.find((item) => {
+    return item.id == pathwayId;
+  });
+  console.log(pathwayCourseData);
 
   return (
     <>
       <Card
         elevation={2}
         sx={{
-          // width: "540px",
-          width: "526px",
+          width: "640px",
           marginBottom: "32px",
           borderRadius: "8px",
           padding: "16px",
-          // padding: "16px",
         }}
       >
         <CardContent>
@@ -222,7 +219,7 @@ function LearningTrackCard(props) {
               </Typography>
               <LinearProgress
                 // className={classes.progressBar}
-                sx={{ width: "73%", marginLeft: isActive ? "30px" : "40px" }}
+                sx={{ width: "73%", marginLeft: isActive ? "30px" : "50px" }}
                 variant="determinate"
                 value={parseInt(completedPortionJason) || 0}
               />
@@ -231,31 +228,27 @@ function LearningTrackCard(props) {
 
           {(pathwayCourseData?.code == "PRGPYT" ||
             pathwayCourseData?.code == "SPKENG") &&
-            (upcomingBatchesData?.length > 0 ? (
+            upcomingBatchesData?.length > 0 && (
               <>
-                <hr align="center" className={classes.hrunderLine} />
-                <Typography variant="subtitle1" mb={2}>
+                <Typography variant="subtitle1" mb={2} mt={2}>
                   Batch : {upcomingBatchesData[0].title}
                 </Typography>
                 <Typography variant="body1" mb={2} color="text.secondary">
                   Upcoming Classes
                 </Typography>
                 <Grid container spacing={2} mb={2}>
-                  <Grid item md={1}>
+                  <Grid item>
                     <img
                       src={require("./assets/classtype.svg")}
                       alt="Google Playstore Icon"
                     />
                   </Grid>
-                  <Grid item md={9} xs={7}>
+                  <Grid item md={6} xs={4}>
                     <Typography variant="body1">
                       {upcomingBatchesData[0]?.sub_title}
                     </Typography>
                   </Grid>
-                  <Grid
-                    item
-                    sx={{ justifyItems: "right", alignItems: "right" }}
-                  >
+                  <Grid item md={2} xs={2} sx={{ justifyItems: "left" }}>
                     {upcomingBatchesData[0]?.type === "batch" && (
                       <Chip
                         label="Batch"
@@ -267,108 +260,43 @@ function LearningTrackCard(props) {
                       />
                     )}
                   </Grid>
-                </Grid>
-                <Grid container sx={{ marginBottom: "16px" }}>
                   <Grid
                     item
+                    md={2}
                     sx={{
+                      marginLeft: isActive ? "15px" : "20px",
                       color: "text.secondary",
                     }}
                   >
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       {upcomingBatchesData[0]?.start_time &&
                         format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
                     </Typography>
                   </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      marginLeft: "8px",
-                      color: "text.secondary",
-                    }}
-                  >
-                    <img
-                      src={require("./assets/Ellipse26.svg")}
-                      alt="Google Playstore Icon"
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      marginLeft: "8px",
-                      color: "text.secondary",
-                    }}
-                  >
-                    <Typography variant="body2">
-                      {languageMap[upcomingBatchesData[0]?.lang]}
-                    </Typography>
-                  </Grid>
                 </Grid>
+
                 <LearningTrackTimerButton
                   startTime={upcomingBatchesData[0]?.start_time}
                   link={upcomingBatchesData[0]?.meet_link}
                 />
-                <Button
-                  variant="outlined"
-                  sx={{
-                    marginTop: isActive ? "0px" : "32px",
-                    left: isActive ? "180px" : "350px",
-                    border: "none",
-                    // left: isActive ? "180px" : "436px",
-                  }}
-                  onClick={() => {
-                    history.push(
-                      interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: item.pathway_id,
-                      })
-                    );
-                  }}
-                >
-                  Go to Track
-                  <KeyboardArrowRightTwoToneIcon sx={{ marginTop: ".2rem" }} />
-                </Button>
               </>
-            ) : (
-              <>
-                <hr align="center" className={classes.hrunderLine} />
-
-                <Grid container>
-                  <Grid item md={2}>
-                    <img
-                      src={require("./assets/noclasses.png")}
-                      alt="Google Playstore Icon"
-                      sx={{ width: "62px", height: "114px" }}
-                    />
-                  </Grid>
-                  <Grid item md={1}></Grid>
-                  <Grid item md={8}>
-                    <Typography variant="body1">
-                      Your classes will start soon. Your tutor/partner will be
-                      in touch about the upcoming batch.
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    marginTop: "32px",
-                    left: isActive ? "180px" : "350px",
-                    border: "none",
-                    // left: isActive ? "180px" : "436px",
-                  }}
-                  onClick={() => {
-                    history.push(
-                      interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: item.pathway_id,
-                      })
-                    );
-                  }}
-                >
-                  Go to Track
-                  <KeyboardArrowRightTwoToneIcon sx={{ marginTop: ".2rem" }} />
-                </Button>
-              </>
-            ))}
+            )}
+          <Button
+            variant="outlined"
+            sx={{
+              marginTop: isActive ? "0px" : "32px",
+              left: isActive ? "180px" : "436px",
+            }}
+            onClick={() => {
+              history.push(
+                interpolatePath(PATHS.PATHWAY_COURSE, {
+                  pathwayId: item.pathway_id,
+                })
+              );
+            }}
+          >
+            Go to Track
+          </Button>
         </CardContent>
       </Card>
     </>
