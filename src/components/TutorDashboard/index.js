@@ -46,6 +46,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuComponent from "./MenuComponent";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Select } from "@material-ui/core";
+import { fontSize } from "@mui/system";
 
 function isAll(val) {
   return val === "All";
@@ -119,7 +120,7 @@ function Tutor(props) {
 
   const limit = 10;
   const [volunteer, setVolunteer] = useState([]);
-  const [selectedPathway, setSelectedPathway] = useState("");
+  const [selectedPathway, setSelectedPathway] = useState("Python");
   const [pathwayCount, setPathwayCount] = useState({
     python: 0,
     spokenEnglish: 0,
@@ -401,26 +402,36 @@ function Tutor(props) {
         <Grid container className={classes.filters} mb={2}>
           <Grid item>
             <Button
-              variant="contained"
+              variant={selectedPathway === "Python" ? "contained" : "outlined"}
               className={classes.python}
               onClick={() => {
                 setVolunteer(filterPathway(1, cacheVolunteer));
                 setSelectedPathway("Python");
               }}
             >
-              Python ({pathwayCount?.python})
+              Python (
+              {selectedPathway === "Python"
+                ? volunteer.length
+                : pathwayCount.python}
+              )
             </Button>
           </Grid>
           <Grid item>
             <Button
-              variant="outlined"
+              variant={
+                selectedPathway === "Spoken English" ? "contained" : "outlined"
+              }
               className={classes.learningTrack2}
               onClick={() => {
                 setVolunteer(filterPathway(2, cacheVolunteer));
                 setSelectedPathway("Spoken English");
               }}
             >
-              Spoken English ({pathwayCount?.spokenEnglish})
+              Spoken English (
+              {selectedPathway === "Spoken English"
+                ? volunteer.length
+                : pathwayCount.spokenEnglish}
+              )
             </Button>
           </Grid>
           <Grid
@@ -439,6 +450,7 @@ function Tutor(props) {
               />
               <Typography
                 sx={{
+                  cursor: "pointer",
                   fontWeight: "700",
                   fontSize: "14px",
                   color: `${filter ? "#48A145" : "black"}`,
@@ -771,9 +783,11 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {(item?.last_class &&
-                                  item?.last_class?.title) ||
-                                  "-"}
+                                <p style={{ fontSize: "1rem" }}>
+                                  {(item?.last_class &&
+                                    item?.last_class?.title) ||
+                                    "-"}
+                                </p>
                               </TableCell>
 
                               <TableCell
@@ -782,9 +796,11 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {(item?.last_class &&
-                                  item?.last_class?.sub_title) ||
-                                  "-"}
+                                <p style={{ fontSize: "1rem" }}>
+                                  {(item?.last_class &&
+                                    item?.last_class?.sub_title) ||
+                                    "-"}
+                                </p>
                               </TableCell>
 
                               <TableCell
@@ -793,7 +809,9 @@ function Tutor(props) {
                                   handleRowSelect(event, item.id)
                                 }
                               >
-                                {format(item.last_class_date, "dd MMM, yyyy")}
+                                <p style={{ fontSize: "1rem" }}>
+                                  {format(item.last_class_date, "dd MMM, yyyy")}
+                                </p>
                               </TableCell>
                               <TableCell
                                 // data-column="Last class lang"
@@ -852,7 +870,7 @@ function Tutor(props) {
                                   {item.status === "active"
                                     ? "Active"
                                     : item.status === "inactive"
-                                    ? "In Active"
+                                    ? "Inactive"
                                     : item.status === "dropout"
                                     ? "Dropped Out"
                                     : "Newly Onboarded"}
