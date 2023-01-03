@@ -80,6 +80,7 @@ const headingVarients = {};
       <UnsafeHTML
         Container={Name}
         // className={classes.heading}
+        style={{ marginBottom: "13px" }}
         html={data}
         {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
       />
@@ -93,6 +94,7 @@ const headingVarients = {};
 
 const RenderDoubtClass = ({ data, exercise }) => {
   const classes = useStyles();
+  console.log(data);
   if (data?.component === "banner") {
     const value = data.value;
     const actions = JSON.parse(data.actions[0].data);
@@ -172,7 +174,7 @@ const RenderContent = ({ data, exercise }) => {
     } else {
       return (
         <Typography
-          sx={{ margin: "8px 0" }}
+          sx={{ margin: " 16px 0" }}
           variant="body1"
           dangerouslySetInnerHTML={{ __html: text }}
         />
@@ -185,7 +187,7 @@ const RenderContent = ({ data, exercise }) => {
       allData.map((_, j) => allData[j][i])
     );
     return (
-      <TableContainer>
+      <TableContainer sx={{ marginBottom: "32px" }}>
         <Table>
           <TableHead>
             <TableRow
@@ -235,10 +237,10 @@ const RenderContent = ({ data, exercise }) => {
 
   if (data.component === "code") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
+
     return (
       <div>
         <Box className={classes.codeBackground}>
-          {/* <Toolbar disableGutters> */}
           <Box sx={{ display: "flex", pb: 2 }}>
             <img
               src={require("../asset/code-example.svg")}
@@ -254,12 +256,14 @@ const RenderContent = ({ data, exercise }) => {
               __html: codeContent,
             }}
           />
+
           <Grid container justifyContent="flex-end" mt={2}>
             <Button
               variant="contained"
               color="dark"
               target="_blank"
               href={createVisulizeURL(get(data, "value"), data.type, "display")}
+              sx={{ padding: "8px 31px" }}
             >
               Visualize
             </Button>

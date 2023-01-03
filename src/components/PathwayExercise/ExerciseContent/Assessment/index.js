@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Box, Button } from "@mui/material";
+import { Container, Box, Button, Typography } from "@mui/material";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
 import { useParams } from "react-router-dom";
@@ -139,7 +139,17 @@ function Assessment({
           Submit
         </Button>
       </Box>
-
+      {submit && (
+        <Typography
+          variant="h6"
+          sx={{
+            marginTop: "48px",
+            fontFamily: "Lusitana",
+          }}
+        >
+          Output
+        </Typography>
+      )}
       {data &&
         submit &&
         data.map((content) => {
