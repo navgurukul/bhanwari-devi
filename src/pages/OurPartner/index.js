@@ -40,8 +40,8 @@ const OurPartner = () => {
   return (
     <>
       <Container maxWidth="lg">
-        <Container maxWidth="md">
-          <Typography
+        <Container sx={{ mt: isActive ? 6 : 10 }}>
+          {/* <Typography
             variant="h5"
             align="center"
             mt={isActive ? 3 : 0}
@@ -77,7 +77,37 @@ const OurPartner = () => {
                 Join As a Partner
               </Button>
             </Link>
-          </Stack>
+          </Stack> */}
+          <Grid container>
+            <Grid item xs={12} sm={6} md={7}>
+              <Typography variant="h4" className={classes.typography}>
+                Partners are ones who open the doors to quality education for
+                our students
+              </Typography>
+              <Typography variant="body1" mt={4} mb={4}>
+                Do you want to be a part and help out your students through
+                Meraki? Look no further and make the move.
+              </Typography>
+              <Link
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
+                target="_blank"
+              >
+                <Button
+                  component="span"
+                  size="larger"
+                  variant="contained"
+                  color="primary"
+                  mb={10}
+                  style={{ width: isActive && "355px" }}
+                >
+                  Join As a Partner
+                </Button>
+              </Link>
+            </Grid>
+            <Grid item mb="64px">
+              <img src={require("./assest/patnerfront.svg")} alt="img" />
+            </Grid>
+          </Grid>
         </Container>
         <Container sx={{ mt: isActive ? 6 : 10 }}>
           <Grid container md={12} spacing={{ xs: 2, sm: 4 }}>
