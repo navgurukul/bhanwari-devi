@@ -28,8 +28,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "32px",
   },
   contentImageSmallImg: {
-    // width: "100%",
     marginTop: "32px",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   contentImg: {
     padding: 5,

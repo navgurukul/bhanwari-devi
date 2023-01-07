@@ -43,6 +43,7 @@ import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
+import { width } from "@mui/system";
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
@@ -133,14 +134,20 @@ const RenderContent = ({ data, exercise }) => {
     const img = new Image();
     img.src = myImg;
     // get height and width
+    var imgWidth;
     img.onload = function () {
-      let imgWidth = this.width;
-      console.log(imgWidth);
+      imgWidth = this.width;
+      console.log("before", imgWidth);
     };
+    console.log("after", imgWidth);
     return (
-      <img className={classes.contentImage} src={data.value} alt="content" />
-
-      // <img className={ {imgWidth} > 100 ? classes.contentImage : classes.contentImageSmallImg} src={data.value} alt="content" />
+      <img
+        className={classes.contentImageSmallImg}
+        src={data.value}
+        alt="content"
+      />
+      // <img className={ imgWidth > 100 ? classes.contentImage : classes.contentImageSmallImg}
+      // src={data.value} alt="content" />
     );
   }
   if (data.component === "youtube") {
