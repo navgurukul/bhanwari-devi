@@ -4,13 +4,20 @@ let theme = createTheme();
 const shadows = theme.shadows;
 shadows[2] =
   "0px 1px 2px rgba(0, 0, 0, 0.06), 0px 2px 1px rgba(0, 0, 0, 0.04), 0px 1px 5px rgba(0, 0, 0, 0.08)";
+// Removing shadow[9], use shadow[8] for hadder scrollup
 shadows[8] =
-  "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)";
-shadows[8] =
-  "0px 24px 38px rgba(0, 0, 0, 0.06), 0px 9px 46px rgba(0, 0, 0, 0.04), 0px 11px 15px rgba(0, 0, 0, 0.08)";
-// shadow[9] is added for the new value of hadder scrollup
-shadows[9] =
   "0px 4px 4px rgba(0, 0, 0, 0.06), 0px 8px 12px rgba(0, 0, 0, 0.04), 0px 4px 24px rgba(0, 0, 0, 0.08)";
+shadows[16] =
+  "0px 16px 24px rgba(0, 0, 0, 0.06), 0px 6px 30px rgba(0, 0, 0, 0.04), 0px 8px 10px rgba(0, 0, 0, 0.08)";
+shadows[24] =
+  "0px 24px 38px rgba(0, 0, 0, 0.06), 0px 9px 46px rgba(0, 0, 0, 0.04), 0px 11px 15px rgba(0, 0, 0, 0.08)";
+
+// shadows[8] =
+//   "0px 24px 38px rgba(0, 0, 0, 0.06), 0px 9px 46px rgba(0, 0, 0, 0.04), 0px 11px 15px rgba(0, 0, 0, 0.08)";
+// shadow[9] is added for the new value of hadder scrollup
+// Removing shadow[9], use shadow[8] for hadder scrollup
+// shadows[9] =
+//   "0px 4px 4px rgba(0, 0, 0, 0.06), 0px 8px 12px rgba(0, 0, 0, 0.04), 0px 4px 24px rgba(0, 0, 0, 0.08)";
 
 theme = createTheme(theme, {
   breakpoints,
@@ -83,7 +90,7 @@ theme = createTheme(theme, {
     divider: "#DEDEDE",
   },
   typography: {
-    fontFamily: "Noto Sans",
+    fontFamily: "Josefin Sans",
     fontSize: 18,
     h1: {
       letterSpacing: "-1px",
