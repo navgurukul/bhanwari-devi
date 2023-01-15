@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   List: {
     display: "flex",
-    marginTop: "20px",
+    marginTop: "16px",
   },
 
   paper: {
@@ -14,18 +14,19 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 5,
   },
   contentNumber: {
-    padding: "8px",
+    // padding: "16px",
   },
   youtubeVideo: {
     width: "100%",
-    margin: "20px 0",
+    margin: "16px 0",
   },
   heading: {
-    margin: "30px 0 10px 0",
+    margin: "32px 0 13px 0",
   },
   contentImage: {
     width: "100%",
-    marginTop: "32px",
+    marginTop: "16px",
+    marginBottom: "16px",
   },
   contentImg: {
     padding: 5,
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   codeBackground: {
     background: "#E5E5E5",
     padding: 16,
-    margin: "15px 0",
+    margin: "32px 0",
     borderRadius: "8px",
   },
   codeWrap: {

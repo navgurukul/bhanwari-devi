@@ -57,6 +57,7 @@ const AssessmentContent = ({
 
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
+
     if (index === 0) {
       return (
         <Box sx={{ mt: "32px" }}>
@@ -82,26 +83,28 @@ const AssessmentContent = ({
         return (
           <Box
             sx={{
-              p: "16px 0",
               borderRadius: "8px",
             }}
           >
+            {/* <Typography>Output</Typography> */}
+
             <UnsafeHTML Container={Typography} variant="body1" html={text} />
           </Box>
         );
       } else {
         return (
-          <Grid container spacing={2} mt={3} mb={10}>
+          <Grid container spacing={2} mt={1} mb={10}>
             <Grid item xs={12} sm={6}>
               <Button
                 variant="outlined"
                 fullWidth
+                sx={{ border: "1px solid #E5E5E5" }}
                 onClick={() => {
                   setTriedAgain(triedAgain + 1);
                   submitAssessment();
                 }}
               >
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle2" sx={{ color: "#2E2E2E" }}>
                   See Answer & Explanation
                 </Typography>
               </Button>
@@ -137,13 +140,14 @@ const AssessmentContent = ({
       >
         <UnsafeHTML
           Container={Typography}
-          sx={{ m: "16px" }}
+          // sx={{ m: "16px" }}
           variant="body1"
           html={text}
         />
       </Box>
     );
   }
+  console.log(content.component);
   if (content.component === "questionExpression") {
     const text = DOMPurify.sanitize(get(content, "value"));
     return (
