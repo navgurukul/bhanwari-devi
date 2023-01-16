@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
   },
   list: {
     display: "flex",
+    marginLeft: "12px",
   },
 }));
 
