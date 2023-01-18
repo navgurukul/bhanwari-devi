@@ -6,7 +6,10 @@ const useStyles = makeStyles((theme) => ({
   },
   volunteerImg: {
     width: "500px",
-    paddingLeft: "50px",
+    paddingLeft: "32px",
+  },
+  volunteerImg1: {
+    width: "350px",
   },
   volunteerCard: {
     border: "1px solid #48A145",
@@ -18,14 +21,21 @@ const useStyles = makeStyles((theme) => ({
     height: "95%",
     padding: "16px",
   },
+  // volunteerCard2: {
+  //   border: "1px solid #FFCC00",
+  //   height: "95%",
+  //   padding: "16px 16px 0px 16px",
+  // },
   displayIcon: {
     display: "flex",
-    marginTop: "9px",
+    marginTop: "8px",
+  },
+  IconColor: {
     color: "#6D6D6D",
   },
   TextContent: {
     paddingLeft: "10px",
-    color: "#000000",
+    // color: "#000000",
   },
 
   VolunteerHrline: {

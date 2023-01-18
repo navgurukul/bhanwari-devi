@@ -39,53 +39,87 @@ const OurPartner = () => {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Container maxWidth="md">
-          <Typography
-            variant="h5"
-            align="center"
-            mt={isActive ? 3 : 0}
-            mb={isActive && 2}
-          >
-            Our Partners
-          </Typography>
-          {!isActive && <hr className={classes.underline} />}
-
-          <Typography
-            variant="body1"
-            className={classes.typography}
-            mb={isActive ? 2 : 4}
-          >
-            Meraki has partnered with individual schools, NGOs and state
-            governments to provide students from low income families a step in
-            the door of tech industry. Do you work with students that want to
-            explore the world of programming? If so, look no further.
-          </Typography>
-          <Stack alignItems="center">
-            <Link
-              href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
-              target="_blank"
-            >
-              <Button
-                component="span"
-                size="larger"
-                variant="contained"
-                color="primary"
-                mb={10}
-                style={{ width: isActive && "355px" }}
+      <Container maxWidth="lg" sx={{ pt: "32px" }}>
+        <Container sx={{ my: isActive ? 0 : 4, p: 0 }}>
+          <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
+            <Grid item xs={12} sm={7} md={7}>
+              <Typography
+                variant="h4"
+                // align="center"
+                // mt={isActive ? 3 : 0}
+                // mb={isActive && 2}
               >
-                Join As a Partner
-              </Button>
-            </Link>
-          </Stack>
+                Partners are ones who open the doors to quality education for
+                our students
+              </Typography>
+              {/* {!isActive && <hr className={classes.underline} />} */}
+
+              <Typography
+                // variant="body1"
+                // className={classes.typography}
+                my={2}
+              >
+                Do you want to be a part and help out your students through
+                Meraki? Look no further and make the move.
+              </Typography>
+              <Stack
+              // alignItems="center"
+              >
+                <Link
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
+                  target="_blank"
+                >
+                  <Button
+                    component="span"
+                    size="larger"
+                    variant="contained"
+                    color="primary"
+                    mb={10}
+                    style={{ width: isActive ? "100%" : "50%" }}
+                  >
+                    Join as a Partner
+                  </Button>
+                </Link>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} sm={5} md={5}>
+              <img
+                src={require("./assest/undraw_agreement.svg")}
+                alt="undraw Agreement"
+                className={classes.image}
+              />
+            </Grid>
+          </Grid>
         </Container>
-        <Container sx={{ mt: isActive ? 6 : 10 }}>
-          <Grid container md={12} spacing={{ xs: 2, sm: 4 }}>
+        <Container
+          sx={{ mt: isActive ? 6 : 8 }}
+          className={classes.containerColor}
+        >
+          <Grid
+            container
+            md={12}
+            columnSpacing={{ xs: 2, sm: 4 }}
+            paddingY={isActive ? 4 : 8}
+          >
             <Grid item xs={12} sm={6} md={6}>
               <img src={Image} className={classes.image} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} spacing={4}>
-              <Chip label="Featured" color="warning" mt={2} />
+              <Typography
+                mt={isActive && 2}
+                variant="body2"
+                bgcolor="secondary.main"
+                sx={{
+                  height: "24px",
+                  width: "59px",
+                  py: "3px",
+                  px: 1,
+                  borderRadius: "16px",
+                }}
+              >
+                Featured
+              </Typography>
+              {/* <Chip label="Featured" color="warning" mt={2} /> */}
               <Typography variant="h6" mt={2}>
                 Amazon Future Engineer
               </Typography>
@@ -104,32 +138,32 @@ const OurPartner = () => {
             </Grid>
           </Grid>
         </Container>
-        <Container sx={{ mt: isActive ? 8 : 10 }}>
-          <Typography variant="h4" align="center" mb={isActive && 2}>
+        <Container sx={{ mt: 8, p: 0 }}>
+          <Typography variant="h4" align="center" mb={isActive ? 2 : 4}>
             Partner List{" "}
           </Typography>
-          {!isActive && <hr className={classes.underline} />}
+          {/* {!isActive && <hr className={classes.underline} />} */}
           <Grid container spacing={isActive ? 2 : 3}>
             {Object.keys(partner).map((item) => {
               return (
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid item xs={12} sm={3} md={3} columnSpacing={4}>
                   {partner[item].Name !== null &&
                     partner[item].OrganisationType !== null &&
                     !partner[item].State !== null &&
                     !partner[item].City !== null && (
                       <Card
                         sx={{
-                          minWidth: 275,
-                          height: isActive ? 185 : 250,
+                          // minWidth: isActive ? "328px" : "280px",
+                          height: isActive ? "141px" : "200px",
                           mb: isActive ? 1 : 4,
                         }}
                       >
                         <CardContent
-                          sx={{ height: isActive ? "110px" : "170px" }}
+                        // sx={{ height: isActive ? "110px" : "170px" }}
                         >
                           <Typography
                             variant="subtitle1"
-                            color="text.secondary"
+                            // color="text.secondary"
                             gutterBottom
                             mb={1}
                           >
@@ -139,6 +173,7 @@ const OurPartner = () => {
                             <Chip
                               label={partner[item].OrganisationType}
                               mt={2}
+                              variant="caption"
                               sx={{ background: "#FFF3CD" }}
                             />
                           ) : partner[item].OrganisationType ===
@@ -146,7 +181,7 @@ const OurPartner = () => {
                             <Chip
                               label={partner[item].OrganisationType}
                               mt={2}
-                              variant="contained"
+                              variant="caption"
                               sx={{ background: "#DADAEC" }}
                             />
                           ) : partner[item].OrganisationType ===
@@ -154,7 +189,7 @@ const OurPartner = () => {
                             <Chip
                               label={partner[item].OrganisationType}
                               mt={2}
-                              variant="contained"
+                              // variant="contained"
                               sx={{ background: "#D3EAFD" }}
                             />
                           ) : partner[item].OrganisationType ===
@@ -162,15 +197,15 @@ const OurPartner = () => {
                             <Chip
                               label={partner[item].OrganisationType}
                               mt={2}
-                              variant="contained"
+                              // variant="contained"
                               sx={{ background: "#FFE6E8" }}
                             />
                           ) : (
                             ""
                           )}
-                          <Typography variant="body2" mt={2}>
+                          {/* <Typography variant="body2" mt={2}>
                             {`${partner[item].City} , ${partner[item].State}`}
-                          </Typography>
+                          </Typography> */}
                         </CardContent>
                         <CardActions sx={{ height: "8px" }}>
                           {partner[item].Url !== "NA" &&
