@@ -5,7 +5,15 @@ import Tippy from "@tippyjs/react";
 import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
 import Twitter from "../../components/common/SocialMediaIcons/Twitter";
-import { Container, Grid, Typography, Button, Box } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  Link,
+} from "@mui/material";
 import { PATHS } from "../../constant";
 import useStyles from "./styles";
 
@@ -69,6 +77,7 @@ function Team() {
   const [members, setMembers] = useState({
     teamMembers: true,
     volunteers: false,
+    exTeam: false,
   });
 
   useEffect(() => {
@@ -79,9 +88,14 @@ function Team() {
     });
   }, []);
 
-  const condition = members.teamMembers ? "teamMembers" : "volunteers";
+  const condition = members.teamMembers
+    ? "teamMembers"
+    : members.volunteers
+    ? "volunteers"
+    : "exTeam";
   let teamMember = [];
   let supporters = [];
+  let exTeam = [];
 
   const teamData = Object.values(team).filter((item) => {
     if (
@@ -94,6 +108,8 @@ function Team() {
     ) {
       if (item.Association === "Volunteer") {
         supporters.push(item);
+      } else if (item.Association === "Ex-Team") {
+        exTeam.push(item);
       } else {
         teamMember.push(item);
       }
@@ -104,11 +120,47 @@ function Team() {
   const name = "Awaiting Member's Name";
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={isActive ? { padding: 0, marginTop: "24px" } : { marginTop: "40px" }}
-    >
-      <Container maxWidth="md">
+    <Container maxWidth="lg" sx={{ pt: !isActive && 4, pl: 0 }}>
+      <Box sx={{ my: isActive ? 0 : 4, p: 0 }}>
+        <Grid
+          container
+          // md={12}
+          spacing={{ xs: 4, sm: 4 }}
+        >
+          <Grid item xs={12} sm={7} md={7}>
+            <Typography
+              variant="h4"
+              // align="center"
+
+              // mb={isActive && 2}
+            >
+              Meet the team of core members, a ton of volunteers and past
+              members that have made it all possible
+            </Typography>
+            {/* {!isActive && <hr className={classes.underline} />} */}
+
+            <Typography
+              variant="body1"
+              mt={2}
+              // className={classes.typography}
+              // mb={isActive ? 2 : 4}
+            >
+              Meraki aims to remain free for the underserved communities in
+              India. We have been fortunate to find passionate people sharing
+              our goals and helping us build one of the best learning platforms
+              out there.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={5} md={5}>
+            <img
+              src={require("./Asset/real_time.svg")}
+              alt="undraw Agreement"
+              // className={classes.image}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+      {/* <Container maxWidth="md">
         <Box
           className={classes.team_conainerLeft}
           sx={
@@ -200,7 +252,7 @@ function Team() {
             </Button>
           </Grid>
         </Box>
-      </Container>
+      </Container> */}
       <Container
         className={
           !isActive
@@ -215,81 +267,126 @@ function Team() {
             marginInlineStart: isActive ? "15px" : {},
           }}
         >
-          <Typography
-            onClick={() => {
-              setMembers({ volunteers: false, teamMembers: true });
-            }}
-            variant="subtitle1"
-            className={
-              !isActive ? classes.team_selector : classes.team_MobileSelector
-            }
-            style={
-              members.teamMembers
-                ? {
-                    fontWeight: "bold",
-                    borderBottom: "3px solid #48a145",
-                  }
-                : { color: "#9c9999" }
-            }
-          >
-            Core Team
-          </Typography>
-          <Typography
-            onClick={() => {
-              setMembers({ teamMembers: false, volunteers: true });
-            }}
-            variant="subtitle1"
-            className={
-              !isActive ? classes.team_selector : classes.team_MobileSelector
-            }
-            style={
-              members.volunteers
-                ? {
-                    fontWeight: "bold",
-                    borderBottom: "3px solid #48a145",
-                  }
-                : { color: "#9c9999" }
-            }
-          >
-            Our Supporters
-          </Typography>
+          <Button>
+            <Typography
+              onClick={() => {
+                setMembers({
+                  exTeam: false,
+                  volunteers: false,
+                  teamMembers: true,
+                });
+              }}
+              variant="subtitle1"
+              className={
+                !isActive ? classes.team_selector : classes.team_MobileSelector
+              }
+              style={
+                members.teamMembers
+                  ? {
+                      fontWeight: "bold",
+                      borderBottom: "3px solid #48a145",
+                    }
+                  : { color: "#9c9999" }
+              }
+            >
+              Core Team
+            </Typography>
+          </Button>
+          <Button>
+            <Typography
+              onClick={() => {
+                setMembers({
+                  exTeam: false,
+                  teamMembers: false,
+                  volunteers: true,
+                });
+              }}
+              variant="subtitle1"
+              className={
+                !isActive ? classes.team_selector : classes.team_MobileSelector
+              }
+              style={
+                members.volunteers
+                  ? {
+                      fontWeight: "bold",
+                      borderBottom: "3px solid #48a145",
+                    }
+                  : { color: "#9c9999" }
+              }
+            >
+              Our Supporters
+            </Typography>
+          </Button>
+          <Button>
+            <Typography
+              onClick={() => {
+                setMembers({
+                  exTeam: true,
+                  teamMembers: false,
+                  volunteers: false,
+                });
+              }}
+              variant="subtitle1"
+              className={
+                !isActive ? classes.team_selector : classes.team_MobileSelector
+              }
+              style={
+                members.exTeam
+                  ? {
+                      fontWeight: "bold",
+                      borderBottom: "3px solid #48a145",
+                    }
+                  : { color: "#9c9999" }
+              }
+            >
+              Ex-Team
+            </Typography>
+          </Button>
         </Grid>
         <Container
+          disablePadding
           className={
             !isActive
               ? classes.team_infoCardContaier
               : classes.team_infoResponsiveContainer
           }
-          sx={{ marginTop: isActive ? 2 : 4 }}
+          sx={{ marginTop: isActive ? 2 : 4, p: 0 }}
         >
-          <Grid container>
+          <Grid
+            container
+            sx={{ p: 0, m: 0 }}
+            disablePadding
+            // spacing={4}
+          >
             {teamData ? (
               shuffleArray(teamData).map((item) => {
                 if (
                   (condition === "volunteers" &&
                     item.Association === "Volunteer") ||
+                  (condition === "exTeam" && item.Association === "Ex-Team") ||
                   (condition === "teamMembers" &&
-                    item.Association !== "Volunteer")
+                    item.Association !== "Volunteer" &&
+                    item.Association !== "Ex-Team")
                 ) {
                   return (
-                    <Grid item xs={6} sm={6} md={3}>
+                    <Grid item xs={12} sm={6} md={3}>
                       <Tippy
-                        animation="fade"
-                        interactive="true"
-                        duration={[500, 0]}
-                        placement={
-                          window.screen.availWidth < 650 ? "bottom" : "right"
-                        }
-                        content={
-                          <Popup
-                            Name={item.Name || name}
-                            Content={
-                              (item.Content.length && item.Content) || content
-                            }
-                            linkedin={item.Linkedin}
-                            twitter={item.Twitter}
-                          />
-                        }
+                      // animation="fade"
+                      // interactive="true"
+                      // duration={[500, 0]}
+                      // placement={
+                      //   window.screen.availWidth < 650 ? "bottom" : "right"
+                      // }
+                      // content={
+                      //   <Popup
+                      //     Name={item.Name || name}
+                      //     Content={
+                      //       (item.Content.length && item.Content) || content
+                      //     }
+                      //     linkedin={item.Linkedin}
+                      //     twitter={item.Twitter}
+                      //   />
+                      // }
                       >
                         <Box
                           className={`${classes.team_cardDetails} card-details`}
@@ -305,9 +402,9 @@ function Team() {
                             alt={item.Name.substring(0, item.Name.indexOf(" "))}
                           />
                           <Typography
-                            variant="body1"
+                            variant="subtitle1"
                             className={classes.team_cardTitle}
-                            style={!isActive ? {} : { textAlign: "center" }}
+                            // style={!isActive ? {} : { textAlign: "center" }}
                           >
                             {item.Name}
                           </Typography>
