@@ -16,13 +16,13 @@ import {
 function SearchHeader() {
   return (
     <Box>
-      <Link to={PATHS.SEARCHED_COURSE}>
+      {/* <Link to={PATHS.SEARCHED_COURSE}>
         <Tooltip title={<Message constantKey="SEARCH_FOR_COURSES" />}>
           <Button color="dark">
             <SearchIcon />
           </Button>
         </Tooltip>
-      </Link>
+      </Link> */}
     </Box>
   );
 }

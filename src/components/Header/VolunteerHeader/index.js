@@ -4,6 +4,7 @@ import HeaderNavLink from "../HeaderNavlink";
 import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
+import SearchPopup from "../../SearchBar/SearchPopup";
 
 function VolunteerHeader({ leftDrawer, toggleDrawer }) {
   return (
@@ -23,7 +24,7 @@ function VolunteerHeader({ leftDrawer, toggleDrawer }) {
           toggleDrawer={toggleDrawer}
         />
       </Box>
-      {!leftDrawer && <SearchHeader />}
+      {!leftDrawer && <SearchPopup />}
     </>
   );
 }

@@ -42,6 +42,7 @@ import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
+import SearchPopup from "../SearchBar/SearchPopup";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -130,17 +131,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         ))}
       </Box>
 
-      {!leftDrawer && (
-        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-          <Link to={PATHS.SEARCHED_COURSE}>
-            <Tooltip title="Search the course...">
-              <Button color="dark">
-                <SearchIcon />
-              </Button>
-            </Tooltip>
-          </Link>
-        </Box>
-      )}
+      {!leftDrawer && <SearchPopup />}
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -290,13 +281,14 @@ function Header() {
               </Link>
             </Box>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-              <Link to={PATHS.SEARCHED_COURSE}>
+              {/* <Link to={PATHS.SEARCHED_COURSE}>
                 <Tooltip title="Search the course...">
                   <Button color="dark">
                     <SearchIcon />
                   </Button>
                 </Tooltip>
-              </Link>
+              </Link> */}
+              <SearchPopup />
             </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}

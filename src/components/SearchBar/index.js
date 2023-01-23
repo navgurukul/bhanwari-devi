@@ -18,8 +18,12 @@ import {
   Card,
 } from "@mui/material";
 import useStyles from "./styles";
+import { Popover, InputAdornment } from "@mui/material";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import SearchPopup from "./SearchPopup";
+import { getObjectState, saveObjectState } from "../../common/storage";
 
-function SearchCourse() {
+function SearchCourse(props) {
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
@@ -40,8 +44,6 @@ function SearchCourse() {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  // useEffect(() => setSearch(query || ""), [query]);
-
   const handleSearchChange = (e) => {
     if (!e.target.value) {
       history.replace(`/search-course`);
@@ -51,6 +53,44 @@ function SearchCourse() {
     e.preventDefault();
     setSearch(e.target.value);
   };
+  const [recentSearch, setrecentSearch] = useState("");
+
+  // const itemData=[]
+  // const handleDataBar=(name)=>{
+  //   itemData.push(search)
+  // }
+
+  // const handleDataBar=(name)=>{
+
+  //   const data = JSON.parse(localStorage.getItem('recent'));
+  //   console.log(data)
+  //   if ( data !== null ) {
+
+  //     console.log
+  //   }
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("recent"));
+    if (data !== null) {
+      setrecentSearch(data);
+    }
+  }, [setrecentSearch]);
+
+  // }
+  // console.log(recentSearch)
+  // useEffect(()=>{
+
+  // localStorage.setItem('recent', JSON.stringify( [
+  //   ...recentSearch,search
+  // ]
+
+  //     ));
+
+  //   },[recentSearch,search])
+
+  // console.log(recentSearch)
+
+  // console.log(itemData,"itemData")
 
   const pathwayCourseIds =
     pathway.data?.pathways
@@ -80,156 +120,176 @@ function SearchCourse() {
   const hasSearchResults =
     pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
 
+  const handleDataBar = (name) => {
+    if (!recentSearch.includes(name)) {
+      localStorage.setItem("recent", JSON.stringify([...recentSearch, name]));
+    }
+  };
+
   return (
-    <Container maxWidth="lg" sx={{ mb: 5 }}>
-      <Typography
-        className={classes.course}
-        variant="h5"
-        sx={{ textAlign: "center", mt: 5 }}
-      >
-        Search Courses...
-      </Typography>
-      <Container maxWidth="sm">
-        {focus && (
-          <TextField
-            label="Search for course..."
-            variant="outlined"
-            inputRef={(input) => {
-              if (input != null) {
-                input.focus();
-              }
-            }}
-            fullWidth
-            value={search}
-            onChange={handleSearchChange}
-          />
-        )}
-      </Container>
-      <Box className={classes.box} sx={{ mt: 5 }}>
-        {search ? (
-          <>
-            {pathwayTrackResults?.map((pathway, index) => {
-              return (
-                <>
-                  <Typography className={classes.course} variant="h5">
-                    {pathway.name}
-                  </Typography>
-                  <Grid container spacing={3} align="center">
-                    {pathway.courses.map((item, index) => (
+    <>
+      <Container>
+        {/* <Typography>{recentSearch}</Typography> */}
+        <Box className={classes.box} sx={{ marginTop: "150px" }}>
+          {search ? (
+            <>
+              <Grid container spacing={3} align="center">
+                {pathwayTrackResults?.map((pathway, index) => {
+                  return (
+                    <>
                       <Grid
-                        key={index}
-                        xs={12}
-                        md={3}
-                        className={classes.courseCard}
+                        container
+                        spacing={3}
+                        align="center"
+                        sx={{ marginTop: "32px" }}
                       >
-                        <Link
-                          className={classes.pathwayLink}
-                          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                            courseId: item.id,
-                            exerciseId: 0,
-                            pathwayId: pathway.id,
-                          })}
-                        >
-                          <Card
-                            className={classes.pathwayCard}
-                            elevation={0}
-                            sx={{ ml: 3, p: "16px" }}
+                        {/* {console.log(pathway.courses[0].name)} */}
+                        {pathway.courses.map((item, index) => (
+                          <Grid
+                            key={index}
+                            xs={12}
+                            md={3}
+                            className={classes.courseCard}
                           >
-                            <img
-                              className={classes.courseImage}
-                              src={item.logo}
-                              alt="course"
-                            />
-                            <div
-                              className={classes.courseTitleNumber}
-                              disableGutters
+                            <Link
+                              className={classes.pathwayLink}
+                              to={interpolatePath(
+                                PATHS.PATHWAY_COURSE_CONTENT,
+                                {
+                                  courseId: item.id,
+                                  exerciseId: 0,
+                                  pathwayId: pathway.id,
+                                }
+                              )}
                             >
-                              <Typography
-                                align={isActive ? "center" : "left"}
-                                variant="body2"
-                                className={classes.courseName}
+                              <Card
+                                className={classes.pathwayCard}
+                                elevation={0}
+                                sx={{ ml: 3, p: "16px" }}
+                                onClick={() => handleDataBar(item.name)}
+                              >
+                                <img
+                                  className={classes.courseImage}
+                                  src={item.logo}
+                                  alt="course"
+                                />
+                                <div
+                                  className={classes.courseTitleNumber}
+                                  disableGutters
+                                >
+                                  <Typography
+                                    align={isActive ? "center" : "left"}
+                                    variant="body2"
+                                    className={classes.courseName}
+                                    sx={{
+                                      mr: "10px",
+                                      padding: isActive
+                                        ? "5px"
+                                        : "5px 0 5px 13px",
+                                      verticalAlign: "top",
+                                    }}
+                                  >
+                                    {index + 1}
+                                  </Typography>
+                                  <Typography
+                                    align={isActive ? "center" : "left"}
+                                    variant="body1"
+                                    //   sx={{ mt: "16px" }}
+                                  >
+                                    {item.name}
+                                  </Typography>
+                                </div>
+                              </Card>
+                            </Link>
+                          </Grid>
+                        ))}
+                      </Grid>
+                      <Typography sx={{ ml: "10px" }}>
+                        {" "}
+                        in <b>{pathway.name}</b>
+                      </Typography>
+                    </>
+                  );
+                })}
+
+                {otherCourseResults?.length > 0 && (
+                  <>
+                    <Typography variant="h5" sx={{ pb: "16px", mt: 8 }}>
+                      Miscellaneous Courses
+                    </Typography>
+                    <Grid sx={{ mt: 2 }} container spacing={3} align="center">
+                      {otherCourseResults?.map((item, index) => (
+                        <>
+                          <Grid key={index} xs={12} sm={6} md={3}>
+                            <Link
+                              className={classes.pathwayLink}
+                              to={interpolatePath(
+                                PATHS.PATHWAY_COURSE_CONTENT,
+                                {
+                                  courseId: item.id,
+                                  exerciseId: 0,
+                                  pathwayId: "miscellaneous",
+                                }
+                              )}
+                            >
+                              <Card
+                                elevation={0}
+                                className={classes.pathwayCard}
                                 sx={{
-                                  mr: "10px",
-                                  padding: isActive ? "5px" : "5px 0 5px 13px",
-                                  verticalAlign: "top",
+                                  background: "#EEF1F5",
+                                  m: "15px",
+                                  height: "190px",
                                 }}
                               >
-                                {index + 1}
-                              </Typography>
-                              <Typography
-                                align={isActive ? "center" : "left"}
-                                variant="body1"
-                                //   sx={{ mt: "16px" }}
-                              >
-                                {item.name}
-                              </Typography>
-                            </div>
-                          </Card>
-                        </Link>
-                      </Grid>
-                    ))}
-                  </Grid>
+                                <Typography
+                                  align="center"
+                                  variant="subtitle1"
+                                  sx={{
+                                    p: "10px",
+                                    mt: "60px",
+                                  }}
+                                >
+                                  {item.name}
+                                </Typography>
+                              </Card>
+                            </Link>
+                          </Grid>
+                        </>
+                      ))}
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+              {!hasSearchResults && (
+                <>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItem: "center",
+                    }}
+                  >
+                    <img src={require("./assist/NoCourses.svg")} />
+                  </Box>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: "center",
+                      justifyContent: "center",
+                      marginTop: "32px",
+                    }}
+                  >
+                    Whoops. The results for taken away!
+                    <br />
+                    Please try a new search
+                  </Typography>
                 </>
-              );
-            })}
-
-            {otherCourseResults?.length > 0 && (
-              <>
-                <Typography variant="h5" sx={{ pb: "16px" }}>
-                  Miscellaneous Courses
-                </Typography>
-                <Grid sx={{ mt: 2 }} container spacing={3} align="center">
-                  {otherCourseResults?.map((item, index) => (
-                    <>
-                      <Grid key={index} xs={12} sm={6} md={3}>
-                        <Link
-                          className={classes.pathwayLink}
-                          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                            courseId: item.id,
-                            exerciseId: 0,
-                            pathwayId: "miscellaneous",
-                          })}
-                        >
-                          <Card
-                            elevation={0}
-                            className={classes.pathwayCard}
-                            sx={{
-                              background: "#EEF1F5",
-                              m: "15px",
-                              height: "190px",
-                            }}
-                          >
-                            <Typography
-                              align="center"
-                              variant="subtitle1"
-                              sx={{
-                                p: "10px",
-                                mt: "60px",
-                              }}
-                            >
-                              {item.name}
-                            </Typography>
-                          </Card>
-                        </Link>
-                      </Grid>
-                    </>
-                  ))}
-                </Grid>
-              </>
-            )}
-            {!hasSearchResults && (
-              <Typography
-                className={classes.course}
-                variant="h5"
-                sx={{ textAlign: "center", mt: "100px" }}
-              >
-                No courses found. Try another search.
-              </Typography>
-            )}
-          </>
-        ) : null}
-      </Box>
-    </Container>
+              )}
+            </>
+          ) : null}
+        </Box>
+      </Container>
+    </>
   );
 }
 

@@ -20,6 +20,7 @@ import {
   // STUDENT_ROLE_KEY as STUDENT,
   // VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
+import SearchPopup from "../../SearchBar/SearchPopup";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
   return (
@@ -90,7 +91,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           pr: onlyRole && 2,
         }}
       >
-        {!leftDrawer && <SearchHeader />}
+        {!leftDrawer && <SearchPopup />}
 
         {/* <HeaderNavLink
           to={PATHS.ADMISSION}

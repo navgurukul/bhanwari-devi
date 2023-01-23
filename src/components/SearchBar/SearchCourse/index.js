@@ -20,9 +20,11 @@ import {
 } from "@mui/material";
 import useStyles from "../styles";
 import Tooltip from "@mui/material/Tooltip";
+import SearchPopup from "../SearchPopup";
 
 function SearchCourse(props) {
   //   console.log("props", props);
+
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
@@ -41,8 +43,6 @@ function SearchCourse(props) {
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
-
-  // useEffect(() => setSearch(query || ""), [query]);
 
   const handleSearchChange = (e) => {
     history.push(`?search=${e.target.value}`);
@@ -79,149 +79,140 @@ function SearchCourse(props) {
     pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
 
   return (
-    <Container maxWidth="lg" sx={{ mb: 5 }}>
-      <Typography
-        className={classes.course}
-        variant="h5"
-        sx={{ textAlign: "center", mt: 5 }}
-      >
-        Search Courses...
-      </Typography>
-      <Container maxWidth="sm">
-        <TextField
-          id="outlined-basic"
-          label="Search for course..."
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={handleSearchChange}
-        />
-      </Container>
-      <Box className={classes.box} sx={{ mt: 5 }}>
-        {search ? (
-          <>
-            {pathwayTrackResults?.map((pathway, index) => {
-              return (
-                <>
-                  <Typography className={classes.course} variant="h5">
-                    {pathway.name}
-                  </Typography>
-                  <Grid container spacing={3} align="center">
-                    {pathway.courses.map((item, index) => (
-                      <Grid xs={12} md={3} className={classes.courseCard}>
-                        <Link
-                          className={classes.pathwayLink}
-                          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                            courseId: item.id,
-                            exerciseId: 0,
-                            pathwayId: pathway.id,
-                          })}
-                        >
-                          <Card
-                            className={classes.pathwayCard}
-                            elevation={0}
-                            sx={{ ml: 3, p: "16px" }}
+    <>
+      <Container>
+        <Box className={classes.box} sx={{ mt: 5 }}>
+          {search ? (
+            <>
+              {pathwayTrackResults?.map((pathway, index) => {
+                return (
+                  <>
+                    <Typography className={classes.course} variant="h5">
+                      {pathway.name}
+                    </Typography>
+                    <Grid container spacing={3} align="center">
+                      {pathway.courses.map((item, index) => (
+                        <Grid xs={12} md={3} className={classes.courseCard}>
+                          <Link
+                            className={classes.pathwayLink}
+                            to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                              courseId: item.id,
+                              exerciseId: 0,
+                              pathwayId: pathway.id,
+                            })}
+                            onClick={handleSearchPopover}
                           >
-                            <img
-                              className={classes.courseImage}
-                              src={item.logo}
-                              alt="course"
-                            />
-                            <div
-                              className={classes.courseTitleNumber}
-                              disableGutters
+                            <Card
+                              className={classes.pathwayCard}
+                              elevation={0}
+                              sx={{ ml: 3, p: "16px" }}
+                              onClick={() => {
+                                setCountries(item.name);
+                              }}
+                            >
+                              <img
+                                className={classes.courseImage}
+                                src={item.logo}
+                                alt="course"
+                              />
+                              <div
+                                className={classes.courseTitleNumber}
+                                disableGutters
+                              >
+                                <Typography
+                                  align={isActive ? "center" : "left"}
+                                  variant="body2"
+                                  className={classes.courseName}
+                                  sx={{
+                                    mr: "10px",
+                                    padding: isActive
+                                      ? "5px"
+                                      : "5px 0 5px 13px",
+                                    verticalAlign: "top",
+                                  }}
+                                >
+                                  {index + 1}
+                                </Typography>
+                                <Typography
+                                  align={isActive ? "center" : "left"}
+                                  variant="body1"
+                                  //   sx={{ mt: "16px" }}
+                                >
+                                  {item.name}
+                                </Typography>
+                              </div>
+                            </Card>
+                          </Link>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </>
+                );
+              })}
+
+              {otherCourseResults?.length > 0 && (
+                <>
+                  <Typography
+                    variant="h5"
+                    //   align={isActive ? "center" : "left"}
+                    sx={{ pb: "16px" }}
+                  >
+                    Miscellaneous Courses
+                  </Typography>
+                  <Grid sx={{ mt: 2 }} container spacing={3} align="center">
+                    {otherCourseResults?.map((item, index) => (
+                      <>
+                        <Grid key={index} xs={12} sm={6} md={3}>
+                          <Link
+                            className={classes.pathwayLink}
+                            to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                              courseId: item.id,
+                              exerciseId: 0,
+                              pathwayId: "miscellaneous",
+                            })}
+                          >
+                            <Card
+                              elevation={0}
+                              className={classes.pathwayCard}
+                              sx={{
+                                background: "#EEF1F5",
+                                m: "15px",
+                                height: "190px",
+                              }}
                             >
                               <Typography
-                                align={isActive ? "center" : "left"}
-                                variant="body2"
-                                className={classes.courseName}
+                                align="center"
+                                variant="subtitle1"
                                 sx={{
-                                  mr: "10px",
-                                  padding: isActive ? "5px" : "5px 0 5px 13px",
-                                  verticalAlign: "top",
+                                  p: "10px",
+                                  mt: "60px",
                                 }}
-                              >
-                                {index + 1}
-                              </Typography>
-                              <Typography
-                                align={isActive ? "center" : "left"}
-                                variant="body1"
-                                //   sx={{ mt: "16px" }}
                               >
                                 {item.name}
                               </Typography>
-                            </div>
-                          </Card>
-                        </Link>
-                      </Grid>
+                            </Card>
+                          </Link>
+                        </Grid>
+                      </>
                     ))}
                   </Grid>
                 </>
-              );
-            })}
-
-            {otherCourseResults?.length > 0 && (
-              <>
+              )}
+              {!hasSearchResults && (
                 <Typography
+                  className={classes.course}
                   variant="h5"
-                  //   align={isActive ? "center" : "left"}
-                  sx={{ pb: "16px" }}
+                  sx={{ textAlign: "center", mt: "100px" }}
                 >
-                  Miscellaneous Courses
+                  No courses found. Try another search.
                 </Typography>
-                <Grid sx={{ mt: 2 }} container spacing={3} align="center">
-                  {otherCourseResults?.map((item, index) => (
-                    <>
-                      <Grid key={index} xs={12} sm={6} md={3}>
-                        <Link
-                          className={classes.pathwayLink}
-                          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                            courseId: item.id,
-                            exerciseId: 0,
-                            pathwayId: "miscellaneous",
-                          })}
-                        >
-                          <Card
-                            elevation={0}
-                            className={classes.pathwayCard}
-                            sx={{
-                              background: "#EEF1F5",
-                              m: "15px",
-                              height: "190px",
-                            }}
-                          >
-                            <Typography
-                              align="center"
-                              variant="subtitle1"
-                              sx={{
-                                p: "10px",
-                                mt: "60px",
-                              }}
-                            >
-                              {item.name}
-                            </Typography>
-                          </Card>
-                        </Link>
-                      </Grid>
-                    </>
-                  ))}
-                </Grid>
-              </>
-            )}
-            {!hasSearchResults && (
-              <Typography
-                className={classes.course}
-                variant="h5"
-                sx={{ textAlign: "center", mt: "100px" }}
-              >
-                No courses found. Try another search.
-              </Typography>
-            )}
-          </>
-        ) : null}
-      </Box>
-      {/* <SearchBar handleSearchChange={handleSearchChange} /> */}
-    </Container>
+              )}
+            </>
+          ) : null}
+        </Box>
+        <SearchCourse handleSearchChange={handleSearchChange} />
+      </Container>
+    </>
   );
 }
 

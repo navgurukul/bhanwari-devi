@@ -5,6 +5,7 @@ import HeaderNavLink from "../HeaderNavlink";
 import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
+import SearchPopup from "../../SearchBar/SearchPopup";
 
 function AdminHeader({ leftDrawer, toggleDrawer }) {
   const user = useSelector(({ User }) => User);
@@ -60,7 +61,7 @@ function AdminHeader({ leftDrawer, toggleDrawer }) {
           />
         )}
       </Box>
-      {!leftDrawer && <SearchHeader />}
+      {!leftDrawer && <SearchPopup />}
     </>
   );
 }
