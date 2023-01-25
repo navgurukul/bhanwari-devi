@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import { DropDown, MobileDropDown } from "../DropDown";
 import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -9,6 +9,9 @@ import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
+import ExternalLink from "../../common/ExternalLink";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
+import useStyles from "../styles";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -22,6 +25,7 @@ import {
 } from "../constant";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
+  const classes = useStyles();
   return (
     <>
       <HeaderNavLink
@@ -34,6 +38,14 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
         text={<Message constantKey="MENTOR" />}
         toggleDrawer={toggleDrawer}
       /> */}
+      <ExternalLink
+        href="https://www.scratch.merakilearn.org/"
+        className={classes.link}
+      >
+        <Button variant="text" color="dark" className={classes.buttonLink}>
+          Scratch Playground <LaunchOutlinedIcon sx={{ pl: "9px" }} />
+        </Button>
+      </ExternalLink>
     </>
   );
 }
