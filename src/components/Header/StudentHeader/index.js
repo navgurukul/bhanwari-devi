@@ -38,14 +38,37 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
         text={<Message constantKey="MENTOR" />}
         toggleDrawer={toggleDrawer}
       /> */}
-      <ExternalLink
-        href="https://www.scratch.merakilearn.org/"
-        className={classes.link}
+      <MenuItem
+        toggleDrawer={toggleDrawer}
+        sx={{
+          padding: 0,
+          borderRadius: "8px",
+        }}
       >
-        <Button variant="text" color="dark" className={classes.buttonLink}>
-          Scratch Playground <LaunchOutlinedIcon sx={{ pl: "9px" }} />
-        </Button>
-      </ExternalLink>
+        <ExternalLink
+          href="https://www.scratch.merakilearn.org/"
+          className={classes.link}
+        >
+          {/* <Button variant="text" color="dark" className={classes.buttonLink}>
+          Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
+        </Button> */}
+          <Typography
+            variant="subtitle1"
+            sx={{
+              height: "36px",
+              padding: "6px 16px",
+              display: "flex",
+              alignItems: "center",
+              "&:hover": {
+                backgroundColor: "#E9F5E9",
+                borderRadius: "8px",
+              },
+            }}
+          >
+            Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
+          </Typography>
+        </ExternalLink>
+      </MenuItem>
     </>
   );
 }
