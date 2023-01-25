@@ -5,6 +5,8 @@ const useStyles = makeStyles(() => ({
   },
   imageContainer: {
     width: "100%",
+    justifyContent: "left",
+    alignItems: "left",
   },
 
   bgImage: {
