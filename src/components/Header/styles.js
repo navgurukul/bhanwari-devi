@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonLink: {
     textDecoration: "none",
-    width: "250px",
   },
 }));
 
