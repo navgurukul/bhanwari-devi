@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   section_Heading: {
-    margin: "16px 0px 16px 0px",
+    margin: "32px 0px 16px 0px",
   },
 
   cards: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   card_button: {
-    margin: "0px 0px 10px 0px",
+    margin: "0px 0px 16px 0px",
     align: "center",
   },
 }));

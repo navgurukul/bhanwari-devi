@@ -6,7 +6,7 @@ import useStyles from "./styles";
 function PrivacyPolicy() {
   const classes = useStyles();
   return (
-    <Container maxWidth="md" sx={{ mt: "40px", mb: "80px" }}>
+    <Container maxWidth="md" sx={{ my: 8 }}>
       <Box>
         <Typography sx={{ textAlign: "center" }} variant="h5">
           Privacy Policy
@@ -45,7 +45,7 @@ function PrivacyPolicy() {
           you. Link to privacy policy of third party service providers used by
           the app.
         </Typography>
-        <Typography variant="body1" sx={{ mt: "16px" }}>
+        <Typography variant="body1" sx={{ my: "16px" }}>
           The app does use third party services that may collect information
           used to identify you. Link to privacy policy of third party service
           providers used by the app.
