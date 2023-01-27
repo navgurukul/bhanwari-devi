@@ -31,6 +31,11 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import CertificateCard from "./CertificateCard";
+import { useParams, useHistory } from "react-router-dom";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import unlockOpportunities from "./UnlockOpportunities";
+import UnlockOpportunities from "./UnlockOpportunities";
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_authDomain,
@@ -41,6 +46,9 @@ const firebaseConfig = {
 };
 
 function Profile() {
+  const params = useParams();
+  const pathwayId = params.pathwayId;
+  console.log(pathwayId);
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const [userData, setUserData] = useState([]);
@@ -215,7 +223,14 @@ function Profile() {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ marginTop: "64px" }}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          marginTop: "64px",
+          justifyContent: isActive && "center",
+          alignItems: isActive && "center",
+        }}
+      >
         <Grid container>
           <Grid item md={4}>
             <div item xs={12} md={6} className={classes.profileBox}>
@@ -450,7 +465,7 @@ function Profile() {
               ) : (
                 <Typography
                   variant={isActive ? "subtitle1" : "h6"}
-                  sx={{ mt: "10px", textAlign: "left" }}
+                  sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
                 >
                   {userData.name}
                   {isActive && !isEditing && (
@@ -460,7 +475,7 @@ function Profile() {
                   )}
                 </Typography>
               )}
-              <Typography my={1} align="left">
+              <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
               {/* <Typography my={1} align="left">
@@ -484,10 +499,11 @@ function Profile() {
                 onClick={handleClickOpen}
                 variant="outlined"
                 sx={{
-                  alignItems: "left",
+                  alignItems: isActive ? "center" : "left",
                 }}
               >
-                {!isActive && "Edit Profile"}
+                {/* {!isActive && "Edit Profile"} */}
+                Edit Profile
               </Button>
 
               <Typography
@@ -499,10 +515,24 @@ function Profile() {
               </Typography>
             </div>
           </Grid>
-          <Grid item>
-            <Typography variant="h6">My Certificates</Typography>
-
-            <CertificateCard />
+          <Grid item md={6}>
+            <Typography variant="h6" sx={{ marginLeft: "22px" }}>
+              My Certificates
+            </Typography>
+            {data.Pathways.data &&
+              data.Pathways.data.pathways?.map(
+                (item) =>
+                  item.code === "PRGPYT" && <CertificateCard item={item} />
+              )}
+            <Typography variant="h6" mt="32px" sx={{ marginLeft: "22px" }}>
+              Opportunities
+              <LockOutlinedIcon sx={{ ml: "10px", marginTop: "10px" }} />
+            </Typography>
+            {data.Pathways.data &&
+              data.Pathways.data.pathways?.map(
+                (item) =>
+                  item.code === "PRGPYT" && <UnlockOpportunities item={item} />
+              )}
           </Grid>
         </Grid>
       </Container>
