@@ -131,31 +131,28 @@ function SearchPopup() {
         <SearchOutlinedIcon aria-describedby={id} />
       </Button>
 
-      <Popper
+      <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
-        fullWidth
         onClose={handleClose}
-        maxWidth={false}
-        sx={{
-          minWidth: 0,
-          maxWidth: "calc(100vw - 0px) !important",
-        }}
+        elevation={0}
         transformOrigin={{
           vertical: "top",
           horizontal: "center",
         }}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        marginThreshold={0}
+        fullWidth
+        PaperProps={{
+          style: {
+            width: "calc(100% - 0px) ",
+            padding: "16px",
+            marginTop: "14px",
+          },
+        }}
       >
-        <Box
-          sx={{
-            p: 1,
-            width: isActive ? "375px" : "1330px",
-            bgcolor: "background.paper",
-            marginTop: "16px",
-          }}
-        >
+        <Box>
           <Container maxWidth="lg">
             <TextField
               id="standard-search"
@@ -196,7 +193,7 @@ function SearchPopup() {
                 <Typography variant="subtitle1">Recent Search</Typography>
 
                 <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                  {recent.slice(Math.max(recent.length - 5, 1)).map((item) => (
+                  {recent.slice(Math.max(recent.length - 5, 0)).map((item) => (
                     <Grid item mr={2}>
                       <Button value={item} onClick={handleSearchBar}>
                         {item}
@@ -208,7 +205,7 @@ function SearchPopup() {
             )}
           </Container>
         </Box>
-      </Popper>
+      </Popover>
     </>
   );
 }
