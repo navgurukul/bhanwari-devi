@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import { Box } from "@mui/system";
 
 const OurPartner = () => {
   const classes = useStyles();
@@ -39,8 +40,8 @@ const OurPartner = () => {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ pt: "32px" }}>
-        <Container sx={{ my: isActive ? 0 : 4, p: 0 }}>
+      <Container maxWidth="lg" sx={{ py: "32px" }}>
+        <Container sx={{ my: isActive ? 2 : 4, p: 0 }}>
           <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
             <Grid item xs={12} sm={7} md={7}>
               <Typography
@@ -91,13 +92,16 @@ const OurPartner = () => {
             </Grid>
           </Grid>
         </Container>
-        <Container
-          sx={{ mt: isActive ? 6 : 8 }}
-          className={classes.containerColor}
-        >
+      </Container>
+      <Container
+        maxWidth={false}
+        // sx={{ mt: isActive ? 6 : 8 }}
+        className={classes.containerColor}
+      >
+        <Container>
           <Grid
-            container
             md={12}
+            container
             columnSpacing={{ xs: 2, sm: 4 }}
             paddingY={isActive ? 4 : 8}
           >
@@ -105,7 +109,7 @@ const OurPartner = () => {
               <img src={Image} className={classes.image} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} spacing={4}>
-              <Typography
+              {/* <Typography
                 mt={isActive && 2}
                 variant="body2"
                 bgcolor="secondary.main"
@@ -118,8 +122,13 @@ const OurPartner = () => {
                 }}
               >
                 Featured
-              </Typography>
-              {/* <Chip label="Featured" color="warning" mt={2} /> */}
+              </Typography> */}
+              <Chip
+                label="Featured"
+                color="warning"
+                mt={2}
+                sx={{ fontFamily: "Noto sans" }}
+              />
               <Typography variant="h6" mt={2}>
                 Amazon Future Engineer
               </Typography>
@@ -138,93 +147,108 @@ const OurPartner = () => {
             </Grid>
           </Grid>
         </Container>
-        <Container sx={{ mt: 8, p: 0 }}>
-          <Typography variant="h4" align="center" mb={isActive ? 2 : 4}>
-            Partner List{" "}
-          </Typography>
-          {/* {!isActive && <hr className={classes.underline} />} */}
-          <Grid container spacing={isActive ? 2 : 3}>
-            {Object.keys(partner).map((item) => {
-              return (
-                <Grid item xs={12} sm={3} md={3} columnSpacing={4}>
-                  {partner[item].Name !== null &&
-                    partner[item].OrganisationType !== null &&
-                    !partner[item].State !== null &&
-                    !partner[item].City !== null && (
-                      <Card
-                        sx={{
-                          // minWidth: isActive ? "328px" : "280px",
-                          height: isActive ? "141px" : "200px",
-                          mb: isActive ? 1 : 4,
-                        }}
+      </Container>
+      <Container sx={{ mt: 8, p: 0 }}>
+        <Typography variant="h4" align="center" mb={isActive ? 2 : 4}>
+          Partner List{" "}
+        </Typography>
+        <Grid container spacing={isActive ? 2 : 3}>
+          {Object.keys(partner).map((item) => {
+            return (
+              <Grid item xs={12} sm={3} md={3} columnSpacing={4}>
+                {partner[item].Name !== null &&
+                  partner[item].OrganisationType !== null &&
+                  !partner[item].State !== null &&
+                  !partner[item].City !== null && (
+                    <Card
+                      sx={{
+                        minWidth: "280px",
+                        height: isActive ? 185 : 210,
+                        mb: isActive ? 1 : 4,
+                      }}
+                    >
+                      <CardContent
+                        sx={{ height: isActive ? "110px" : "120px" }}
                       >
-                        <CardContent
-                        // sx={{ height: isActive ? "110px" : "170px" }}
+                        <Typography
+                          variant="subtitle1"
+                          // color="text.secondary"
+                          gutterBottom
+                          mb={1}
                         >
-                          <Typography
-                            variant="subtitle1"
-                            // color="text.secondary"
-                            gutterBottom
-                            mb={1}
-                          >
-                            {partner[item].Name}
-                          </Typography>
-                          {partner[item].OrganisationType === "Non - Profit" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              variant="caption"
-                              sx={{ background: "#FFF3CD" }}
-                            />
-                          ) : partner[item].OrganisationType ===
-                            "Government" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              variant="caption"
-                              sx={{ background: "#DADAEC" }}
-                            />
-                          ) : partner[item].OrganisationType ===
-                            "Educational Institution" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              // variant="contained"
-                              sx={{ background: "#D3EAFD" }}
-                            />
-                          ) : partner[item].OrganisationType ===
-                            "Community based organisation" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              // variant="contained"
-                              sx={{ background: "#FFE6E8" }}
-                            />
-                          ) : (
-                            ""
-                          )}
-                          {/* <Typography variant="body2" mt={2}>
+                          {partner[item].Name}
+                        </Typography>
+                        {partner[item].OrganisationType === "Non - Profit" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="caption"
+                            sx={{
+                              background: "#FFF3CD",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType === "Government" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="caption"
+                            sx={{
+                              background: "#DADAEC",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType ===
+                          "Educational Institution" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="contained"
+                            sx={{
+                              background: "#D3EAFD",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType ===
+                          "Community based organisation" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="contained"
+                            sx={{
+                              background: "#FFE6E8",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {/* <Typography variant="body2" mt={2}>
                             {`${partner[item].City} , ${partner[item].State}`}
                           </Typography> */}
-                        </CardContent>
-                        <CardActions sx={{ height: "8px" }}>
-                          {partner[item].Url !== "NA" &&
-                            partner[item].Url !== null && (
-                              <IconButton>
-                                <Link href={partner[item].Url} target="_blank">
-                                  <PublicIcon variant="outlined" />
-                                </Link>
-                              </IconButton>
-                            )}
-                        </CardActions>
-                      </Card>
-                    )}
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Container>
+                      </CardContent>
+                      <CardActions sx={{ height: "8px" }}>
+                        {partner[item].Url !== "NA" &&
+                          partner[item].Url !== null && (
+                            <IconButton>
+                              <Link href={partner[item].Url} target="_blank">
+                                <img
+                                  className={classes.icons}
+                                  src={require("./assest/world_icon.svg")}
+                                  alt="World Img"
+                                />
+                              </Link>
+                            </IconButton>
+                          )}
+                      </CardActions>
+                    </Card>
+                  )}
+              </Grid>
+            );
+          })}
+        </Grid>
       </Container>
+      {/* </Container> */}
     </>
   );
 };
