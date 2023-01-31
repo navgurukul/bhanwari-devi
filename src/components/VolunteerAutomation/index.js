@@ -29,12 +29,14 @@ function VolunteerAutomation() {
   const rolesList = user?.data?.user.rolesList; // TODO: Use selector
 
   const handleClick = () => {
+    console.log(rolesList);
     if (rolesList) {
-      if (rolesList.includes("volunteer")) {
-        history.push(PATHS.CLASS);
-      } else {
-        history.push(PATHS.VOLUNTEER_FORM);
-      }
+      history.push(PATHS.VOLUNTEER_FORM);
+      // if (rolesList.includes("volunteer")) {
+      //   history.push(PATHS.CLASS);
+      // } else {
+      //   history.push(PATHS.VOLUNTEER_FORM);
+      // }
     } else {
       history.push(PATHS.LOGIN, pathname);
     }

@@ -17,7 +17,9 @@ import LearningTrackCard from "./LearningTrackCard";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import WithoutLearningClasses from "./WithoutLearningClasses";
+import { actions as upcomingBatchesActions } from "../PathwayCourse/redux/action";
+import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
+import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
 
 function ReturningUserPage() {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -28,7 +30,7 @@ function ReturningUserPage() {
 
   const user = useSelector(({ User }) => User);
   const [learningTracks, setLearningTracks] = useState([]);
-  console.log(user?.data?.user?.partner_id);
+  const [pathway, setPathway] = useState([]);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -43,63 +45,58 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
-  console.log(learningTracks );
+  console.log(learningTracks, "learning");
+
+  // const Pathway = learningTracks.forEach((element)=>{
+  //     setPathway(element.pathway_id)
+  //   })
+  // console.log(Pathway)
+
+  // const userEnrolledClasses = useSelector((state) => {
+  //   return state.Pathways?.upcomingEnrolledClasses?.data;
+  // });
+
+  // const enrolledBatches = useSelector((state) => {
+  //   if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
+  //     return state?.Pathways?.enrolledBatches?.data;
+  //   } else {
+  //     return null;
+  //   }
+  // });
+  // console.log(pathway)
+  // useEffect(() => {
+  //   if (user?.data?.token && enrolledBatches?.length > 0) {
+  //     dispatch(
+  //       upcomingClassActions.getupcomingEnrolledClasses({
+  //         pathwayId: 1,
+  //         authToken: user?.data?.token,
+  //       })
+  //     );
+  //   } else {
+  //     if (user?.data?.token) {
+  //       dispatch(
+  //         upcomingBatchesActions.getUpcomingBatches({
+  //           pathwayId: 1,
+  //           authToken: user?.data?.token,
+  //         })
+  //       );
+  //     }
+  //   }
+  // }, []);
 
   return (
-    <Container>
-      {user?.data?.user?.partner_id != null ? (
-        <>
-          <Typography variant="h6" mb={5} mt={5}>
-            My Learning Tracks (With Classes)
-          </Typography>
-          <Grid
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="left"
-            style={{ gap: 32, justifyItems: "left" }}
-          >
-            {learningTracks.map(
-              (item) =>
-                (item.pathway_id == 1 || item.pathway_id === 2) && (
-                  <LearningTrackCard item={item} />
-                )
-            )}
-          </Grid>
-          <Typography variant="h6" mb={5} mt={5}>
-            My Learning Tracks (Without Classes)
-          </Typography>
-          <Grid
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="left"
-            style={{ gap: 32 }}
-          >
-            {learningTracks.map(
-              (item) =>
-                (item.pathway_id >= 3 ) && (
-                  <WithoutLearningClasses item={item} />
-                )
-            )}
-          </Grid>
-        </>
-      ) : (
-        <>
-          <Typography display="flex" flexWrap="wrap" variant="h6" mb={5} mt={5}>
-            My Learning Tracks
-          </Typography>
-          <Grid
-            display="flex"
-            flexWrap="wrap"
-            justifyContent="left"
-            style={{ gap: 32 }}
-          >
-            {learningTracks.map((item) => (
-              <WithoutLearningClasses item={item} />
-            ))}
-          </Grid>
-        </>
-      )}
-    </Container>
+    <>
+      <Container maxWidth="lg">
+        <Typography variant="h6" mb={5} mt={5}>
+          My Learning Tracks
+        </Typography>
+        <Grid container spacing={1}>
+          {learningTracks.map((item) => (
+            <LearningTrackCard item={item} />
+          ))}
+        </Grid>
+      </Container>
+    </>
   );
 }
 export default ReturningUserPage;
