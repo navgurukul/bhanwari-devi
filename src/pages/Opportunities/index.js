@@ -139,7 +139,7 @@ function Opportunities() {
                       HyperVerge Fellowships
                     </Typography>
                     <Typography variant="body1" mt="16px">
-                      Eligibility: Basic coding knowledge
+                    Eligibility: Basic coding knowledge
                     </Typography>
                   </CardContent>
                   <Grid
