@@ -256,9 +256,31 @@ function Header() {
     }
   });
 
+  // const changeBackground =()=>{
+  //   if(window.screenY >= 80){
+  //     setNavbar(true);
+  //   }else{
+  //     setNavbar(false);
+  //   }
+  // }
+
+  //   window.addEventListener("scroll", changeBackground);
+
+  const [backgroundColor, setBackgroundColor] = useState(false);
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 0) {
+      setBackgroundColor(true);
+    } else {
+      setBackgroundColor(false);
+    }
+  });
+
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="background" elevation={elevation}>
+      <AppBar
+        color={backgroundColor ? "background" : "transparent"}
+        elevation={elevation}
+      >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
