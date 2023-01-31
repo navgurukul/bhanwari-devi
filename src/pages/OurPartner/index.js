@@ -109,25 +109,10 @@ const OurPartner = () => {
               <img src={Image} className={classes.image} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} spacing={4}>
-              {/* <Typography
-                mt={isActive && 2}
-                variant="body2"
-                bgcolor="secondary.main"
-                sx={{
-                  height: "24px",
-                  width: "59px",
-                  py: "3px",
-                  px: 1,
-                  borderRadius: "16px",
-                }}
-              >
-                Featured
-              </Typography> */}
               <Chip
                 label="Featured"
                 color="warning"
-                mt={2}
-                sx={{ fontFamily: "Noto sans" }}
+                sx={{ mt: isActive && 2, fontFamily: "Noto sans" }}
               />
               <Typography variant="h6" mt={2}>
                 Amazon Future Engineer
@@ -168,7 +153,7 @@ const OurPartner = () => {
                       }}
                     >
                       <CardContent
-                        sx={{ height: isActive ? "110px" : "120px" }}
+                        sx={{ height: isActive ? "110px" : "140px" }}
                       >
                         <Typography
                           variant="subtitle1"
