@@ -118,6 +118,7 @@ function SearchPopup() {
         aria-labelledby="spring-modal-title"
         aria-describedby="spring-modal-description"
         open={open}
+        sx={{zIndex: 1000}}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -179,7 +180,7 @@ function SearchPopup() {
                 <Typography variant="subtitle1">Recent Search</Typography>
 
                 <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                  {recent.slice(Math.max(recent.length - 5, 0)).map((item) => (
+                  {recent?.slice(Math.max(recent.length - 5, 0)).map((item) => (
                     <Grid item mr={2}>
                       <Button value={item} onClick={handleSearchBar}>
                         {item}

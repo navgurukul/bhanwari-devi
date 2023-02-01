@@ -106,7 +106,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               menuContainerProps={{
                 id: "menu-appbar",
               }}
-              sx={{ color: "black" }}
+              sx={{ color: "black", zIndex: 2000 }}
               key={index}
             >
               <DropDown
@@ -249,7 +249,7 @@ function Header() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="background" elevation={elevation}>
+      <AppBar sx={{zIndex: 10000}} position="sticky" color="background" elevation={elevation}>
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
