@@ -109,17 +109,22 @@ function Opportunities() {
                   </CardContent>
                   <CardActions>
                     <Grid className={classes.card_button}>
-                      <Link
-                        to={{
-                          pathname: PATHS.ADMISSION,
-                          state: { partnerId: partnerId },
-                        }}
+                      <ExternalLink
+                        href="https://admissions.navgurukul.org/"
+                        Curated
+                        list
+                        of
+                        opportunities
+                        to
+                        skyrocket
+                        your
+                        career
                         style={{ textDecoration: "none" }}
                       >
                         <Button endIcon={<ArrowForwardIosIcon />} mr={1}>
                           Apply Now
                         </Button>
-                      </Link>
+                      </ExternalLink>
                     </Grid>
                   </CardActions>
                 </Card>
