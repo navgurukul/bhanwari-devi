@@ -21,10 +21,9 @@ import {
   Popper,
 } from "@mui/material";
 import useStyles from "./styles";
-import { Popover, InputAdornment } from "@mui/material";
+import { Popover, InputAdornment, Modal } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import SearchCourse from ".";
-import it from "date-fns/esm/locale/it/index.js";
+import Backdrop from "@mui/material/Backdrop";
 
 function SearchPopup() {
   const { data } = useSelector(({ Course }) => Course);
@@ -100,22 +99,6 @@ function SearchPopup() {
     return total + item;
   }, 0);
 
-  // const countData=rojgar.map((index))
-  // const [count,setCount]=useState(0)
-  // useState(()=>{
-
-  //   setCount(
-  //     count++rojgar
-  //   )
-  // },[rojgar])
-
-  // useEffect(()=>{
-  //   if(search){
-
-  //     setCount()
-  //   }
-  // })
-  // console.log(count)
   const hasSearchResults =
     pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
 
@@ -131,28 +114,31 @@ function SearchPopup() {
         <SearchOutlinedIcon aria-describedby={id} />
       </Button>
 
-      <Popover
-        id={id}
+      <Modal
+        aria-labelledby="spring-modal-title"
+        aria-describedby="spring-modal-description"
         open={open}
-        anchorEl={anchorEl}
         onClose={handleClose}
-        elevation={0}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        marginThreshold={0}
-        fullWidth
-        PaperProps={{
-          style: {
-            width: "calc(100% - 0px) ",
-            padding: "16px",
-            marginTop: "14px",
-          },
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            position: "absolute",
+
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "100%",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            opacity: "0.5px",
+          }}
+          top={search ? "34%" : "37%"}
+        >
           <Container maxWidth="lg">
             <TextField
               id="standard-search"
@@ -205,7 +191,7 @@ function SearchPopup() {
             )}
           </Container>
         </Box>
-      </Popover>
+      </Modal>
     </>
   );
 }
