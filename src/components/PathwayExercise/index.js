@@ -47,6 +47,7 @@ const Exercise = ({
   history,
   params,
   progressTrackId,
+  setSuccessfulExerciseCompletion,
 }) => {
   const courseLength = course;
   const imageRef = React.useRef();
@@ -58,8 +59,6 @@ const Exercise = ({
       });
     }
   }, [imageRef.current]);
-
-  console.log("courseLength", courseLength);
 
   return (
     <>
@@ -76,6 +75,7 @@ const Exercise = ({
             setExerciseId={setExerciseId}
             classes={classes}
             progressTrackId={progressTrackId}
+            setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
           />
         );
       })}
@@ -92,6 +92,7 @@ function NavigationComponent({
   exercise,
   progressTrackId,
   imageRef,
+  setSuccessfulExerciseCompletion,
 }) {
   return (
     <>
@@ -109,6 +110,7 @@ function NavigationComponent({
             })
           );
         }}
+        setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         index={index}
         imageRef={imageRef}
         selected={exerciseId == index}
@@ -137,16 +139,19 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
 
-  // const editor = user.data.user.rolesList.indexOf("admin") > -1;
+  const editor = user.data.user.rolesList.indexOf("editor") > -1;
+  const admin = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
     const maxScrollLeft =
       scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-    console.log(
-      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
-    );
+    // console.log(
+    //   `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${
+    //     maxScrollLeft - 2
+    //   }`
+    // );
     if (!showArrow.left) {
       if (scrollY > 0) {
         setShowArrow((prev) => {
@@ -160,7 +165,6 @@ function PathwayExercise() {
         });
       }
     }
-
     console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
@@ -173,6 +177,10 @@ function PathwayExercise() {
         setShowArrow((prev) => {
           return { ...prev, right: true };
         });
+      } else if (Math.ceil(scrollY) === maxScrollLeft) {
+        setShowArrow((prev) => {
+          return { ...prev, right: true };
+        });
       }
     }
   };
@@ -182,6 +190,7 @@ function PathwayExercise() {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/courseEditor/${courseId}/exercises`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
@@ -196,21 +205,40 @@ function PathwayExercise() {
         console.log("error");
       });
   }, [currentCourse]);
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-    }).then((res) => {
-      const data = res.data;
 
-      setProgressTrackId(data);
-    });
+  useEffect(() => {
+    if (Number.isInteger(parseInt(params.pathwayId))) {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+      }).then((res) => {
+        const data = res.data;
+
+        setProgressTrackId(data);
+      });
+    }
   }, [exerciseId]);
+
+  useEffect(() => {
+    if (courseLength > 0 && courseLength < 7) {
+      setShowArrow((prev) => {
+        return { ...prev, right: false };
+      });
+    } else if (exerciseId === courseLength) {
+      setShowArrow((prev) => {
+        return { ...prev, right: false };
+      });
+    } else {
+      setShowArrow((prev) => {
+        return { ...prev, right: true };
+      });
+    }
+  }, [courseLength, exerciseId]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -276,6 +304,7 @@ function PathwayExercise() {
 
   const nextClickHandler = () => {
     if (exerciseId < courseLength - 1) {
+      console.log("EXERSBDJHSAB => ", exerciseId);
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
           courseId: params.courseId,
@@ -283,40 +312,44 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-        headers: {
-          "version-code": versionCode,
-          accept: "application/json",
-          Authorization: user.data?.token || "",
-        },
-        data: {
-          pathway_id: params.pathwayId,
-          course_id: params.courseId,
-          exercise_id: course[exerciseId].id,
-        },
-      });
+      if (Number.isInteger(parseInt(params.pathwayId))) {
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            exercise_id: course[exerciseId].id,
+          },
+        });
+      }
       setExerciseId(exerciseId + 1);
     } else {
       setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-        headers: {
-          "version-code": versionCode,
-          accept: "application/json",
-          Authorization: user.data?.token || "",
-        },
-        data: {
-          pathway_id: params.pathwayId,
-          course_id: params.courseId,
-          exercise_id: course[exerciseId].id,
-        },
-      })
-        .then((res) => {})
-        .catch((err) => {});
+      if (Number.isInteger(parseInt(params.pathwayId))) {
+        axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          headers: {
+            "version-code": versionCode,
+            accept: "application/json",
+            Authorization: user.data?.token || "",
+          },
+          data: {
+            pathway_id: params.pathwayId,
+            course_id: params.courseId,
+            exercise_id: course[exerciseId].id,
+          },
+        })
+          .then((res) => {})
+          .catch((err) => {});
+      }
     }
   };
   const nextArrowClickHandler = () => {
@@ -414,7 +447,11 @@ function PathwayExercise() {
                 <div
                   onScroll={onScroll}
                   ref={scrollRef}
-                  className={classes.scrollContainer}
+                  className={
+                    courseLength < 7
+                      ? classes.scrollData
+                      : classes.scrollContainer
+                  }
                 >
                   {exerciseId >
                   (
@@ -426,6 +463,9 @@ function PathwayExercise() {
                       setExerciseId={setExerciseId}
                       classes={classes}
                       progressTrackId={progressTrackId}
+                      setSuccessfulExerciseCompletion={
+                        setSuccessfulExerciseCompletion
+                      }
                     />
                   )}
                   <Exercise
@@ -436,6 +476,9 @@ function PathwayExercise() {
                     setExerciseId={setExerciseId}
                     classes={classes}
                     progressTrackId={progressTrackId}
+                    setSuccessfulExerciseCompletion={
+                      setSuccessfulExerciseCompletion
+                    }
                   />
                 </div>
 
@@ -505,6 +548,9 @@ function PathwayExercise() {
                               exercise.content_type ||
                               "N/A"
                             }
+                            setSuccessfulExerciseCompletion={
+                              setSuccessfulExerciseCompletion
+                            }
                             index={index}
                             setExerciseId={setExerciseId}
                             progressTrackId={progressTrackId}
@@ -518,7 +564,7 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      {/* {editor && (
+      {(editor || admin) && (
         <AppBar
           fullWidth
           // position="stick"
@@ -559,14 +605,14 @@ function PathwayExercise() {
             </Container>
           </Box>
         </AppBar>
-      )} */}
+      )}
       {successfulExerciseCompletion ? (
         <CompletionComponent
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        // <Box sx={{ marginTop: "120px" }}>
-        <Box sx={{ marginTop: "50px" }}>
+        <Box sx={{ marginTop: editor || admin ? "120px" : "50px" }}>
+          {/* <Box sx={{ marginTop: "50px" }}> */}
           <ExerciseContent
             contentList={course}
             exerciseId={exerciseId}

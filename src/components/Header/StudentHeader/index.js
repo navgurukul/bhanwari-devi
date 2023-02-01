@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { DropDown, MobileDropDown } from "../DropDown";
 import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -9,9 +9,6 @@ import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
-import ExternalLink from "../../common/ExternalLink";
-import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
-import useStyles from "../styles";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -25,7 +22,6 @@ import {
 } from "../constant";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
-  const classes = useStyles();
   return (
     <>
       <HeaderNavLink
@@ -38,37 +34,6 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
         text={<Message constantKey="MENTOR" />}
         toggleDrawer={toggleDrawer}
       /> */}
-      <MenuItem
-        toggleDrawer={toggleDrawer}
-        sx={{
-          padding: 0,
-          borderRadius: "8px",
-        }}
-      >
-        <ExternalLink
-          href="https://www.scratch.merakilearn.org/"
-          className={classes.link}
-        >
-          {/* <Button variant="text" color="dark" className={classes.buttonLink}>
-          Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
-        </Button> */}
-          <Typography
-            variant="subtitle1"
-            sx={{
-              height: "36px",
-              padding: "6px 16px",
-              display: "flex",
-              alignItems: "center",
-              "&:hover": {
-                backgroundColor: "#E9F5E9",
-                borderRadius: "8px",
-              },
-            }}
-          >
-            Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
-          </Typography>
-        </ExternalLink>
-      </MenuItem>
     </>
   );
 }
