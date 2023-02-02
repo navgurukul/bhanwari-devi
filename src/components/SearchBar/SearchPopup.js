@@ -125,17 +125,13 @@ function SearchPopup() {
       >
         <Box
           sx={{
-            position: "absolute",
-
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            transform: "translate(0%, 0%)",
             width: "100%",
             bgcolor: "background.paper",
             boxShadow: 24,
-            p: 4,
-            opacity: "0.5px",
+            padding: "16px 0px",
           }}
-          top="38.40%"
+          marginTop={isActive ? "70px" : "78.50px"}
         >
           <Container maxWidth="lg">
             <TextField

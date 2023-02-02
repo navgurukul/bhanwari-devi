@@ -293,7 +293,7 @@ function Header() {
                   </Button>
                 </Tooltip>
               </Link> */}
-              <SearchPopup />
+              {/* <SearchPopup /> */}
             </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
