@@ -93,11 +93,12 @@ function HorizontalLinearStepper() {
     });
   };
 
-  React.useEffect(() => {
-    if (roles?.includes("volunteer")) {
-      history.push(PATHS.CLASS);
-    }
-  }, [roles]);
+  // Commented below code to redirect to volunteer onboarded form, even if the user has volunteer role.
+  // React.useEffect(() => {
+  //   if (roles?.includes("volunteer")) {
+  //     history.push(PATHS.CLASS);
+  //   }
+  // }, [roles]);
 
   const setActiveStepCompleted = () => {
     const newCompleted = completed.slice();
