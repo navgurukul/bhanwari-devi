@@ -118,13 +118,10 @@ function SearchPopup() {
         aria-labelledby="spring-modal-title"
         aria-describedby="spring-modal-description"
         open={open}
-        sx={{zIndex: 1000}}
+        sx={{ zIndex: 1000 }}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Box
           sx={{
@@ -138,7 +135,7 @@ function SearchPopup() {
             p: 4,
             opacity: "0.5px",
           }}
-          top={search ? "34%" : "37%"}
+          top="38.40%"
         >
           <Container maxWidth="lg">
             <TextField

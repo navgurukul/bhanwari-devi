@@ -249,7 +249,12 @@ function Header() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar sx={{zIndex: 10000}} position="sticky" color="background" elevation={elevation}>
+      <AppBar
+        sx={{ zIndex: 10000 }}
+        position="sticky"
+        color="background"
+        elevation={elevation}
+      >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
