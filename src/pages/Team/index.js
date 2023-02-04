@@ -397,54 +397,52 @@ function Team() {
                         </Box>
                       </Box> */}
 
-                      {/* <Tippy
-                      animation="fade"
-                      interactive="true"
-
-                      duration={[500, 0]}
-                      placement={
-                        window.screen.availWidth < 650 ? "bottom" : "right"
-                      }
-                      content={
-                        <Popup
-                          Name={item.Name || name}
-                          Content={
-                            (item.Content.length && item.Content) || content
-                          }
-                          linkedin={item.Linkedin}
-                          twitter={item.Twitter}
-                        />
-                      }
-                      > */}
-                      <Box
-                        className={`${classes.team_cardDetails} card-details`}
-                        pt={isActive ? "0px 0px" : "30px 0px"}
+                      <Tippy
+                        animation="fade"
+                        interactive="true"
+                        duration={[500, 0]}
+                        placement={
+                          window.screen.availWidth < 650 ? "bottom" : "right"
+                        }
+                        content={
+                          <Popup
+                            Name={item.Name || name}
+                            Content={
+                              (item.Content.length && item.Content) || content
+                            }
+                            linkedin={item.Linkedin}
+                            twitter={item.Twitter}
+                          />
+                        }
                       >
-                        <img
-                          className={
-                            !isActive
-                              ? `${classes.team_cardImg} img-hover`
-                              : `${classes.team_mobileCardImg} img-hover`
-                          }
-                          src={item.Photo}
-                          alt={item.Name.substring(0, item.Name.indexOf(" "))}
-                        />
-                        <Typography
-                          variant="subtitle1"
-                          className={classes.team_cardTitle}
-                          // style={!isActive ? {} : { textAlign: "center" }}
+                        <Box
+                          className={`${classes.team_cardDetails} card-details`}
+                          pt={isActive ? "0px 0px" : "30px 0px"}
                         >
-                          {item.Name}
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          className={classes.team_cardDescription}
-                        >
-                          {item.Designation}
-                        </Typography>
-                      </Box>
-
-                      {/* </Tippy> */}
+                          <img
+                            className={
+                              !isActive
+                                ? `${classes.team_cardImg} img-hover`
+                                : `${classes.team_mobileCardImg} img-hover`
+                            }
+                            src={item.Photo}
+                            alt={item.Name.substring(0, item.Name.indexOf(" "))}
+                          />
+                          <Typography
+                            variant="subtitle1"
+                            className={classes.team_cardTitle}
+                            // style={!isActive ? {} : { textAlign: "center" }}
+                          >
+                            {item.Name}
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            className={classes.team_cardDescription}
+                          >
+                            {item.Designation}
+                          </Typography>
+                        </Box>
+                      </Tippy>
                     </Grid>
                   );
                 }
