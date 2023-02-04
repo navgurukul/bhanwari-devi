@@ -70,7 +70,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
         window.location.reload(1);
       })
       .catch((e) => {
-        toast.error(`Student couldn't be created!: ${e.message}`, {
+        toast.error(e.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
       });
