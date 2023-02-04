@@ -42,6 +42,7 @@ import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
+import SearchPopup from "../SearchBar/SearchPopup";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -105,7 +106,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               menuContainerProps={{
                 id: "menu-appbar",
               }}
-              sx={{ color: "black" }}
+              sx={{ color: "black", zIndex: 2000 }}
               key={index}
             >
               <DropDown
@@ -130,17 +131,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         ))}
       </Box>
 
-      {!leftDrawer && (
-        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-          <Link to={PATHS.SEARCHED_COURSE}>
-            <Tooltip title="Search the course...">
-              <Button color="dark">
-                <SearchIcon />
-              </Button>
-            </Tooltip>
-          </Link>
-        </Box>
-      )}
+      {!leftDrawer && <SearchPopup />}
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -258,7 +249,12 @@ function Header() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="background" elevation={elevation}>
+      <AppBar
+        sx={{ zIndex: 10000 }}
+        position="sticky"
+        color="background"
+        elevation={elevation}
+      >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
@@ -290,13 +286,14 @@ function Header() {
               </Link>
             </Box>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-              <Link to={PATHS.SEARCHED_COURSE}>
+              {/* <Link to={PATHS.SEARCHED_COURSE}>
                 <Tooltip title="Search the course...">
                   <Button color="dark">
                     <SearchIcon />
                   </Button>
                 </Tooltip>
-              </Link>
+              </Link> */}
+              {/* <SearchPopup /> */}
             </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
