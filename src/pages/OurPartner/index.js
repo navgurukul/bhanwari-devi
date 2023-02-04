@@ -5,7 +5,6 @@ import Image from "./assest/dicto.jpg";
 import axios from "axios";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState, useEffect } from "react";
-import PublicIcon from "@mui/icons-material/Public";
 import {
   Stack,
   Chip,
@@ -44,40 +43,27 @@ const OurPartner = () => {
         <Container sx={{ my: isActive ? 2 : 4, p: 0 }}>
           <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
             <Grid item xs={12} sm={7} md={7}>
-              <Typography
-                variant="h4"
-                // align="center"
-                // mt={isActive ? 3 : 0}
-                // mb={isActive && 2}
-              >
+              <Typography variant="h4">
                 Partners are ones who open the doors to quality education for
                 our students
               </Typography>
-              {/* {!isActive && <hr className={classes.underline} />} */}
 
-              <Typography
-                // variant="body1"
-                // className={classes.typography}
-                my={2}
-              >
+              <Typography my={2}>
                 Do you want to be a part and help out your students through
                 Meraki? Look no further and make the move.
               </Typography>
               <Stack
-              // alignItems="center"
               >
                 <Link
                   href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
-                  target="_blank"
-                >
+                  target="_blank">
                   <Button
                     component="span"
                     size="larger"
                     variant="contained"
                     color="primary"
                     mb={10}
-                    style={{ width: isActive ? "100%" : "50%" }}
-                  >
+                    style={{ width: isActive ? "100%" : "50%" }}>
                     Join as a Partner
                   </Button>
                 </Link>
@@ -95,16 +81,13 @@ const OurPartner = () => {
       </Container>
       <Container
         maxWidth={false}
-        // sx={{ mt: isActive ? 6 : 8 }}
-        className={classes.containerColor}
-      >
+        className={classes.containerColor}>
         <Container>
           <Grid
             md={12}
             container
             columnSpacing={{ xs: 2, sm: 4 }}
-            paddingY={isActive ? 4 : 8}
-          >
+            paddingY={isActive ? 4 : 8}>
             <Grid item xs={12} sm={6} md={6}>
               <img src={Image} className={classes.image} />
             </Grid>
@@ -150,17 +133,14 @@ const OurPartner = () => {
                         minWidth: "280px",
                         height: isActive ? 185 : 210,
                         mb: isActive ? 1 : 4,
-                      }}
-                    >
+                      }}>
                       <CardContent
-                        sx={{ height: isActive ? "110px" : "140px" }}
-                      >
+                        sx={{ height: isActive ? "110px" : "140px" }}>
                         <Typography
                           variant="subtitle1"
-                          // color="text.secondary"
+                          
                           gutterBottom
-                          mb={1}
-                        >
+                          mb={1}>
                           {partner[item].Name}
                         </Typography>
                         {partner[item].OrganisationType === "Non - Profit" ? (
@@ -233,7 +213,7 @@ const OurPartner = () => {
           })}
         </Grid>
       </Container>
-      {/* </Container> */}
+    
     </>
   );
 };

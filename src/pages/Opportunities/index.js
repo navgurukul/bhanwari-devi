@@ -58,8 +58,6 @@ function Opportunities() {
               <Typography
                 variant="h6"
 
-                // color="text.secondary"
-                // sx={{ mb: isActive && 5 }}
               >
                 Admission Opportunities
               </Typography>
@@ -96,11 +94,6 @@ function Opportunities() {
                         >
                           Featured
                         </Typography>
-                        {/* <Chip
-                          label="Featured"
-                          variant="caption"
-                          color="warning"
-                        /> */}
                       </Grid>
                     </Grid>
                     <Typography variant="body1" mt="16px">
@@ -178,11 +171,6 @@ function Opportunities() {
                   <li> 1:1 Mentorship sessions</li>
                 </ul>
               </Typography>
-              {/* <Grid>
-                <Typography variant="subtitle1" color="text.primary" mb={2}>
-                  Are you interested in one or more of the above opportunities?
-                </Typography>
-              </Grid> */}
               <Grid mt={2}>
                 <ExternalLink
                   href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
