@@ -449,21 +449,6 @@ function PathwayExercise() {
                       : classes.scrollContainer
                   }
                 >
-                  {exerciseId >
-                  (
-                    <Exercise
-                      course={course}
-                      params={params}
-                      history={history}
-                      exerciseId={exerciseId + 1}
-                      setExerciseId={setExerciseId}
-                      classes={classes}
-                      progressTrackId={progressTrackId}
-                      setSuccessfulExerciseCompletion={
-                        setSuccessfulExerciseCompletion
-                      }
-                    />
-                  )}
                   <Exercise
                     course={course}
                     params={params}
