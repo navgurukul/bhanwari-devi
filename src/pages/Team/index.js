@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { PATHS } from "../../constant";
 import useStyles from "./styles";
+import AddIcon from "@material-ui/icons/Add";
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i >= 0; i--) {
@@ -253,6 +254,25 @@ function Team() {
           </Grid>
         </Box>
       </Container> */}
+      {/* <Grid container>
+        <Grid item className={classes.outerDiv}>
+          <img
+              src={require("./Asset/real_time.svg")}
+              alt="undraw Agreement"
+              className={classes.addIcon}
+              // className={classes.image}
+            />
+        </Grid>
+        <Box className={classes.middle}>
+          <Box className={classes.text}>John Doe</Box>
+        </Box>
+      </Grid> */}
+      {/* <Box className={classes.container}>
+        <img src= {require("./Asset/real_time.svg")} alt="Avatar" className={classes.image} sx= {{width :"100%"}} />
+        <Box className={classes.middle}>
+          <Box className={classes.text}>John Doe</Box>
+        </Box>
+      </Box> */}
       <Container
         className={
           !isActive
@@ -370,52 +390,61 @@ function Team() {
                 ) {
                   return (
                     <Grid item xs={12} sm={6} md={3}>
-                      <Tippy
-                      // animation="fade"
-                      // interactive="true"
-                      // duration={[500, 0]}
-                      // placement={
-                      //   window.screen.availWidth < 650 ? "bottom" : "right"
-                      // }
-                      // content={
-                      //   <Popup
-                      //     Name={item.Name || name}
-                      //     Content={
-                      //       (item.Content.length && item.Content) || content
-                      //     }
-                      //     linkedin={item.Linkedin}
-                      //     twitter={item.Twitter}
-                      //   />
-                      // }
-                      >
-                        <Box
-                          className={`${classes.team_cardDetails} card-details`}
-                          pt={isActive ? "0px 0px" : "30px 0px"}
-                        >
-                          <img
-                            className={
-                              !isActive
-                                ? `${classes.team_cardImg} img-hover`
-                                : `${classes.team_mobileCardImg} img-hover`
-                            }
-                            src={item.Photo}
-                            alt={item.Name.substring(0, item.Name.indexOf(" "))}
-                          />
-                          <Typography
-                            variant="subtitle1"
-                            className={classes.team_cardTitle}
-                            // style={!isActive ? {} : { textAlign: "center" }}
-                          >
-                            {item.Name}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            className={classes.team_cardDescription}
-                          >
-                            {item.Designation}
-                          </Typography>
+                      {/* <Box className={classes.container}>
+                        <img src= {item.Photo} alt="Avatar" className={classes.image} sx= {{width :"100%"}} />
+                        <Box className={classes.middle}>
+                          <Box className={classes.text}>John Doe</Box>
                         </Box>
-                      </Tippy>
+                      </Box> */}
+
+                      {/* <Tippy
+                      animation="fade"
+                      interactive="true"
+
+                      duration={[500, 0]}
+                      placement={
+                        window.screen.availWidth < 650 ? "bottom" : "right"
+                      }
+                      content={
+                        <Popup
+                          Name={item.Name || name}
+                          Content={
+                            (item.Content.length && item.Content) || content
+                          }
+                          linkedin={item.Linkedin}
+                          twitter={item.Twitter}
+                        />
+                      }
+                      > */}
+                      <Box
+                        className={`${classes.team_cardDetails} card-details`}
+                        pt={isActive ? "0px 0px" : "30px 0px"}
+                      >
+                        <img
+                          className={
+                            !isActive
+                              ? `${classes.team_cardImg} img-hover`
+                              : `${classes.team_mobileCardImg} img-hover`
+                          }
+                          src={item.Photo}
+                          alt={item.Name.substring(0, item.Name.indexOf(" "))}
+                        />
+                        <Typography
+                          variant="subtitle1"
+                          className={classes.team_cardTitle}
+                          // style={!isActive ? {} : { textAlign: "center" }}
+                        >
+                          {item.Name}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          className={classes.team_cardDescription}
+                        >
+                          {item.Designation}
+                        </Typography>
+                      </Box>
+
+                      {/* </Tippy> */}
                     </Grid>
                   );
                 }

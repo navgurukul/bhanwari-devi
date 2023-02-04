@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     transition: "all ease-in-out 0.2s",
     pointerEvents: "auto",
     "&:hover": {
-      transform: "scale(1.1)",
+      // transform: "scale(1.1)",
       boxShadow: "none",
       opacity: "1",
       zIndex: "2",
@@ -138,6 +138,77 @@ const useStyles = makeStyles((theme) => ({
   },
   team_btn1: { height: "48px", width: "100%" },
   team_btn: { height: "48px", width: "250px" },
+
+  image: {
+    opacity: 1,
+    display: "block",
+    width: "100%",
+    height: 300,
+    width: 300,
+    opacity: 1,
+    "&:hover": {
+      cursor: "pointer",
+      opacity: 0.3,
+      "& $middle": {
+        opacity: 1,
+        color: "red",
+      },
+    },
+  },
+
+  middle: {
+    // opacity: 0,
+    position: "absolute",
+    // top: "50%",
+    // left: "50%",
+  },
+
+  containeer: {
+    cursor: "pointer",
+    position: "relative",
+    // height: 5,
+    // width: 6,
+    // opacity: 1,
+    // width: "50%",
+  },
+
+  // outerDiv: {
+  //   // backgroundColor: "green",
+  //   position: "relative",
+  //   padding: 4,
+  //   '&:hover': {
+  //     cursor: 'pointer',
+  //     opacity: 0.3,
+  //     "& $addIcon": {
+
+  //       // color: "yellow"
+  //     },
+  //     // "& $middle": {
+  //     //   opacity: 0,
+  //     // },
+  //  }
+  // },
+  // addIcon: {
+  //   height: 250,
+  //   width: 250,
+  //   opacity: 1,
+
+  //   // color: "gray",
+  //   marginBottom: 5,
+  // },
+
+  // middle: {
+  // opacity: 1,
+  // position: "absolute",
+  // top: "50%",
+  // left: "50%",
+  // },
+
+  // container:hover .middle {
+  //   opacity: 1,
+  // },// container:hover :image :{
+  //   opacity: 0.3,
+  // },
 }));
 
 export default useStyles;
