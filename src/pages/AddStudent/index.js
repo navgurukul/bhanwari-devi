@@ -9,9 +9,9 @@ import { METHODS } from "../../services/api";
 function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
   const [openForm, setOpenForm] = useState(false);
   const [studentEmail, setStudentEmail] = useState("");
-  // const name = userName;
   const [studentName, setStudentName] = useState();
   const user = useSelector(({ User }) => User);
+  const partnerId = window.location.pathname.split("/")[2];
 
   const submit = () => {
     if (openEditForm) {
@@ -20,10 +20,6 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
       addStudent();
     }
   };
-
-  // useEffect(() => {
-  //   setStudentName(userName);
-  // }, []);
 
   const editStudent = () => {
     return axios({
@@ -56,7 +52,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
 
   const addStudent = () => {
     return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners/addUser`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/addUser?partner_id=${partnerId}`,
       method: METHODS.POST,
       headers: {
         "Content-Type": "application/json",
