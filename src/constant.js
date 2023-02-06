@@ -42,6 +42,7 @@ export const PATHS = {
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
   TUTOR: "/tutor-dashboard",
+  GSCO_IDEA: "/gsco-ideas-2023",
 };
 export const HideHeader = [
   PATHS.PATHWAY_COURSE_CONTENT,
@@ -62,6 +63,7 @@ export const HideFooter = [
 export const LEARN_KEY = "LEARN";
 export const ABOUT_KEY = "ABOUT";
 export const GET_INVOLVED_KEY = "GET_INVOLVED";
+export const GSOC_IDEA_KEY = "Gsoc IDEA 2023";
 
 export const MENU_ITEMS = {
   [ABOUT_KEY]: [
