@@ -34,7 +34,7 @@ import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
-
+import GscoIdea from "../pages/GscoIdea/GscoIdea";
 const Routing = () => {
   return (
     <>
@@ -82,6 +82,8 @@ const Routing = () => {
         path={PATHS.VOLUNTEER_AUTOMATION}
         component={VolunteerAutomation}
       />
+
+      <Route exact path={PATHS.GSCO_IDEA} component={GscoIdea} />
 
       {/* Private routes */}
 
