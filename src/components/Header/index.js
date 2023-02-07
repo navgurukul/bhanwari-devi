@@ -120,6 +120,30 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             </TextButtonDropDownMenu>
           </>
         ))}
+        <MenuItem
+          sx={{
+            padding: 0,
+            borderRadius: "8px",
+          }}
+        >
+          <NavLink to={PATHS.GSOC_IDEA} className={classes.link}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                height: "36px",
+                padding: "6px 16px",
+                display: "flex",
+                alignItems: "center",
+                "&:hover": {
+                  backgroundColor: "#E9F5E9",
+                  borderRadius: "8px",
+                },
+              }}
+            >
+              Gsoc Ideas 2023
+            </Typography>
+          </NavLink>
+        </MenuItem>
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey) => (
@@ -129,6 +153,30 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             toggleDrawer={toggleDrawer}
           />
         ))}
+        <MenuItem
+          sx={{
+            padding: 0,
+            borderRadius: "8px",
+          }}
+        >
+          <NavLink to={PATHS.GSOC_IDEA} className={classes.link}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                height: "36px",
+                padding: "6px 16px",
+                display: "flex",
+                alignItems: "center",
+                "&:hover": {
+                  backgroundColor: "#E9F5E9",
+                  borderRadius: "8px",
+                },
+              }}
+            >
+              Gsoc Ideas 2023
+            </Typography>
+          </NavLink>
+        </MenuItem>
       </Box>
 
       {!leftDrawer && (
