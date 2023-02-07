@@ -120,27 +120,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             </TextButtonDropDownMenu>
           </>
         ))}
-
-        <NavLink to={PATHS.GSOC_IDEA} className={classes.link}>
-          <MenuItem
-          /*onClick={handleCloseUserMenu}*/
-          >
-            <Typography
-              variant="subtitle1"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-
-                "&:hover": {
-                  backgroundColor: "#E9F5E9",
-                  borderRadius: "8px",
-                },
-              }}
-            >
-              Gsoc Idea 2023
-            </Typography>
-          </MenuItem>
-        </NavLink>
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey) => (
@@ -150,25 +129,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             toggleDrawer={toggleDrawer}
           />
         ))}
-        <MenuItem
-        /*onClick={handleCloseUserMenu}*/
-        >
-          <Typography
-            variant="subtitle1"
-            sx={{
-              height: "36px",
-
-              display: "flex",
-              alignItems: "center",
-              "&:hover": {
-                backgroundColor: "#E9F5E9",
-                borderRadius: "8px",
-              },
-            }}
-          >
-            Gsoc Idea 2023
-          </Typography>
-        </MenuItem>
       </Box>
 
       {!leftDrawer && (
