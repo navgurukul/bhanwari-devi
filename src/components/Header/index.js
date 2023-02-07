@@ -121,7 +121,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           </>
         ))}
 
-        <NavLink to={PATHS.GSOC_IDEA} className={classes.link}>
+        <NavLink to={PATHS.GSCO_IDEA} className={classes.link}>
           <MenuItem
           /*onClick={handleCloseUserMenu}*/
           >
