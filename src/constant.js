@@ -42,7 +42,6 @@ export const PATHS = {
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
   TUTOR: "/tutor-dashboard",
-  GSCO_IDEA: "/gsco-ideas-2023",
 };
 export const HideHeader = [
   PATHS.PATHWAY_COURSE_CONTENT,
