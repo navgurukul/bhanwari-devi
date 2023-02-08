@@ -5,6 +5,10 @@ const useStyles = makeStyles((theme) => ({
     background: "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%)",
     padding: "64px 0px",
   },
+  mobileContainer: {
+    padding: "32px 0px",
+    background: "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%)",
+  },
   cardGrid: {
     padding: "10px 16px 10px 16px",
     marginTop: "20px",
@@ -57,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   LearningBtn: {
-    width: "256px",
+    width: "280px",
   },
 
   responsiveBtn: {

@@ -29,6 +29,10 @@ import {
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../../components/Header/constant";
 import { NavLink, useLocation } from "react-router-dom";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import { width } from "@mui/system";
+import { Block } from "@material-ui/icons";
 
 const pathwayData = [
   {
@@ -46,7 +50,7 @@ const pathwayData = [
   {
     title: "Typing",
     code: "TYPGRU",
-    image: "typing",
+    image: "typeing",
     description: "Learn to type with pinpoint accuracy and speed",
   },
   {
@@ -68,7 +72,7 @@ const pathwayData = [
   },
   {
     title: "Miscellaneous Courses",
-    image: "misc",
+    image: "misce",
     description: "Courses on Android, Game dev projects and more",
   },
 ];
@@ -218,32 +222,44 @@ function Home() {
     <>
       <CssBaseline />
       <main>
-        <div className={classes.container}>
+        {/* section 1 */}
+
+        <div className={isActive ? classes.mobileContainer : classes.container}>
           <Container maxWidth="lg">
             <Grid container>
-              <Grid md={6} sx={{ padding: "64px 0px" }}>
+              <Grid md={6} sm={12}>
                 <Typography variant="h4">
                   India’s Premier Learning Platform for Underserved Communities
                 </Typography>
-                <Typography variant="body1">
+                <Typography
+                  variant="body1"
+                  sx={{ margin: "16px 0px 32px 0px" }}
+                >
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
                 <Button
                   variant="contained"
-                  sx={{ padding: "0px 70px", mt: "32px" }}
+                  className={
+                    isActive ? classes.responsiveBtn : classes.LearningBtn
+                  }
                 >
                   Start Learning
                 </Button>
               </Grid>
-              <Grid md={6} mt="64px">
+              <Grid md={6} mt={isActive ? "16px" : "0px"} sm={12}>
                 <img
                   src={require("./assets/main_image.svg")}
                   alt={"Homeimage"}
+                  heigh={isActive ? "228px" : "413px"}
+                  width={isActive ? "328px" : "592px"}
                 />
               </Grid>
             </Grid>
-            <Grid container mt="80px">
+
+            {/* section 2 */}
+
+            <Grid container mt={isActive ? "16px" : "80px"} spacing={2}>
               <Grid item md={4}>
                 <Grid container>
                   <Grid item mt="5px">
@@ -304,8 +320,11 @@ function Home() {
             </Grid>
           </Container>
         </div>
+
+        {/* section 3 */}
+
         <Container maxWidth="lg">
-          <Grid container mt="64px" spacing={2}>
+          <Grid container mt={isActive ? "32px" : "64px"} spacing={4}>
             <Grid item md={4}>
               <Box>
                 <Typography variant="h5">Why Meraki?</Typography>
@@ -404,6 +423,8 @@ function Home() {
           </Grid>
         </Container>
 
+        {/* section 4 */}
+
         <Container sx={{ mt: 8 }} maxWidth="sm">
           <Typography
             variant="h5"
@@ -431,19 +452,21 @@ function Home() {
           </Grid>
         </Container>
 
-        {/* Section 4 */}
+        {/* Section 5 */}
+
         <Container maxWidth="lg" sx={{ marginTop: "64px" }}>
           <Typography variant="h5" textAlign="center" marginBottom="32px">
             Hear from our Users
           </Typography>
-          <Grid container spacing={3}>
+          <Grid container spacing={4}>
             <Grid item md={4}>
               <Card
                 sx={{
-                  padding: "32px",
+                  padding: "16px",
                 }}
+                align="center"
               >
-                <CardContent>
+                <CardContent align="left">
                   <img
                     src={require("./assets/leftquote.svg")}
                     alt={"Homeimage"}
@@ -458,153 +481,146 @@ function Home() {
                     alt={"Homeimage"}
                     align="right"
                   />
-                  <Box sx={{ align: "center" }}>
-                    <img
-                      src={require("./assets/user6.png")}
-                      alt={"Homeimage"}
-                      sx={{
-                        marginLeft: "0px",
-                        marginRight: "0px",
-                        display: "block",
-                        width: "50%",
-                      }}
-                    />
-                    <Typography variant="subtitle1">Eleanor Pena</Typography>
-                  </Box>
                 </CardContent>
+                <Box p="16px">
+                  <img
+                    src={require("./assets/user7.png")}
+                    alt={"Homeimage"}
+                    height="100px !important"
+                    width="100px !important"
+                  />
+                  <Typography variant="subtitle1">Eleanor Pena</Typography>
+                </Box>
               </Card>
             </Grid>
             <Grid item md={4}>
               <Card
                 sx={{
-                  padding: "32px",
+                  padding: "16px",
                 }}
+                align="center"
               >
-                <img
-                  src={require("./assets/leftquote.svg")}
-                  alt={"Homeimage"}
-                />
-                <Typography variant="body1">
-                  Last week, I had a thrilling blind experiences. It was a dish
-                  I had never tasted. Made a lasting friend with the chef.
-                </Typography>
-                <img
-                  src={require("./assets/doublequote.svg")}
-                  alt={"Homeimage"}
-                  align="right"
-                />
+                <CardContent align="left">
+                  <img
+                    src={require("./assets/leftquote.svg")}
+                    alt={"Homeimage"}
+                  />
+                  <Typography variant="body1">
+                    Last week, I had a thrilling blind experiences. It was a
+                    dish I had never tasted. Made a lasting friend with the
+                    chef.
+                  </Typography>
+                  <img
+                    src={require("./assets/doublequote.svg")}
+                    alt={"Homeimage"}
+                    align="right"
+                  />
+                </CardContent>
+                <Box p="16px">
+                  <img
+                    src={require("./assets/user7.png")}
+                    alt={"Homeimage"}
+                    height="100px !important"
+                    width="100px !important"
+                  />
+                  <Typography variant="subtitle1">Eleanor Pena</Typography>
+                </Box>
               </Card>
             </Grid>
             <Grid item md={4}>
               <Card
                 sx={{
-                  padding: "32px",
+                  padding: "16px",
                 }}
+                align="center"
               >
-                <img
-                  src={require("./assets/leftquote.svg")}
-                  alt={"Homeimage"}
-                />
-                <Typography variant="body1">
-                  Last week, I had a thrilling blind experiences. It was a dish
-                  I had never tasted. Made a lasting friend with the chef.
-                </Typography>
-                <img
-                  src={require("./assets/doublequote.svg")}
-                  alt={"Homeimage"}
-                  align="right"
-                />
+                <CardContent align="left">
+                  <img
+                    src={require("./assets/leftquote.svg")}
+                    alt={"Homeimage"}
+                  />
+                  <Typography variant="body1">
+                    Last week, I had a thrilling blind experiences. It was a
+                    dish I had never tasted. Made a lasting friend with the
+                    chef.
+                  </Typography>
+                  <img
+                    src={require("./assets/doublequote.svg")}
+                    alt={"Homeimage"}
+                    align="right"
+                  />
+                </CardContent>
+                <Box p="16px">
+                  <img
+                    src={require("./assets/user7.png")}
+                    alt={"Homeimage"}
+                    height="100px !important"
+                    width="100px !important"
+                  />
+                  <Typography variant="subtitle1">Eleanor Pena</Typography>
+                </Box>
               </Card>
             </Grid>
           </Grid>
         </Container>
 
-        {/* Section 5 */}
+        {/* Section 6 */}
 
-        {/* Section 8  */}
-
-        {
-          <Container
-            sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
-            maxWidth="sm"
+        <Container
+          sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
+          maxWidth="sm"
+        >
+          <Typography
+            variant="h5"
+            component="h6"
+            align="center"
+            color="textPrimary"
+            gutterBottom
           >
-            <Typography
-              variant="h5"
-              component="h6"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              Have Questions?
-            </Typography>
-            <Typography
-              sx={{ mt: isActive ? 2 : 3 }}
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              Connect with us anytime for more information
-            </Typography>
-            <Grid sx={{ mt: 1 }} container spacing={2} justifyContent="center">
-              <Grid item>
-                <Typography align="center" color="primary" gutterBottom>
-                  <address
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "#2E2E2E",
-                        fontWeight: "bold",
-                        fontStyle: "normal",
-                      }}
-                    >
-                      Via Email:{" "}
-                    </span>
+            Have Questions?
+          </Typography>
 
-                    <ExternalLink
-                      style={{
-                        textDecoration: "none",
-                        color: "#48a145",
-                        fontStyle: "normal",
-                      }}
-                      href="mailto:merakilearn@navgurukul.org"
-                    >
-                      merakilearn@navgurukul.org
-                    </ExternalLink>
-                  </address>
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography align="center" color="primary" gutterBottom>
-                  <address>
-                    <span
-                      style={{
-                        color: "#2E2E2E",
-                        fontWeight: "bold",
-                        fontStyle: "normal",
-                      }}
-                    >
-                      Via Whatsapp:
-                    </span>
-                    <ExternalLink
-                      style={{
-                        textDecoration: "none",
-                        color: "#48a145",
-                        fontStyle: "normal",
-                      }}
-                      href="https://wa.me/918891300300"
-                    >
-                      {" "}
-                      +91 8891300300
-                    </ExternalLink>
-                  </address>
-                </Typography>
-              </Grid>
+          <Grid
+            sx={{ mt: 1 }}
+            display={isActive && "block"}
+            container
+            spacing={2}
+            align="center"
+            justifyContent="center"
+          >
+            <Grid item sm={isActive && 12}>
+              <DraftsIcon color="secondary" />
+              <Typography variant="subtitle1">
+                <ExternalLink
+                  style={{
+                    textDecoration: "none",
+                    color: "#48a145",
+                    fontStyle: "normal",
+                  }}
+                  href="mailto:team@meraki.org"
+                >
+                  team@meraki.org
+                </ExternalLink>
+              </Typography>
             </Grid>
-          </Container>
-        }
+            <Grid item sm={isActive && 12}>
+              <WhatsAppIcon color="primary" align="center" />
+              <Typography variant="subtitle1">
+                <ExternalLink
+                  style={{
+                    textDecoration: "none",
+                    color: "#48a145",
+                    fontStyle: "normal",
+                  }}
+                  href="https://wa.me/918891300300"
+                >
+                  {" "}
+                  +91 8891300300
+                </ExternalLink>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
       </main>
     </>
   );

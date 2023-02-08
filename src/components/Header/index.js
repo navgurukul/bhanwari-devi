@@ -42,6 +42,7 @@ import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
+
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -268,7 +269,7 @@ function Header() {
 
   const [backgroundColor, setBackgroundColor] = useState(false);
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 0) {
+    if (window.scrollY > 710) {
       setBackgroundColor(true);
     } else {
       setBackgroundColor(false);
@@ -276,10 +277,13 @@ function Header() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} sx={{ zIndex: "10000" }}>
       <AppBar
-        color={backgroundColor ? "background" : "transparent"}
         elevation={elevation}
+        position="sticky"
+        // className={classes.bgcolorTrans}
+
+        color="transparent"
       >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>

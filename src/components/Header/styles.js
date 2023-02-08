@@ -5,6 +5,14 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "black",
   },
+  bgcolorTrans: {
+    position: "fixed",
+    zIndex: 999,
+    transition: "background 250ms ease-in",
+    background: "transparent",
+    display: "flex",
+  },
+
   box: {
     padding: "20px 0px 0px 20px",
   },
