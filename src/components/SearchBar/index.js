@@ -46,28 +46,13 @@ function SearchCourse(props) {
 
   const handleSearchChange = (e) => {
     if (!e.target.value) {
-      history.replace(`/search-course`);
+      history.replace("");
     } else {
-      history.replace(`?search=${e.target.value}`);
+      history.replace(`/search-course/?search=${e.target.value}`);
     }
-    e.preventDefault();
     setSearch(e.target.value);
   };
   const [recentSearch, setrecentSearch] = useState("");
-
-  // const itemData=[]
-  // const handleDataBar=(name)=>{
-  //   itemData.push(search)
-  // }
-
-  // const handleDataBar=(name)=>{
-
-  //   const data = JSON.parse(localStorage.getItem('recent'));
-  //   console.log(data)
-  //   if ( data !== null ) {
-
-  //     console.log
-  //   }
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("recent"));
@@ -76,22 +61,7 @@ function SearchCourse(props) {
     }
   }, [setrecentSearch]);
 
-  // }
-  // console.log(recentSearch)
-  // useEffect(()=>{
-
-  // localStorage.setItem('recent', JSON.stringify( [
-  //   ...recentSearch,search
-  // ]
-
-  //     ));
-
-  //   },[recentSearch,search])
-
-  // console.log(recentSearch)
-
-  // console.log(itemData,"itemData")
-
+  console.log();
   const pathwayCourseIds =
     pathway.data?.pathways
       .map((pathway) => pathway.courses || [])
@@ -125,23 +95,67 @@ function SearchCourse(props) {
       localStorage.setItem("recent", JSON.stringify([...recentSearch, name]));
     }
   };
+  const rojgar = pathwayTrackResults?.map((item) => {
+    return item.courses?.length;
+  });
+
+  let sum = rojgar?.reduce((total, item) => {
+    return total + item;
+  }, 0);
 
   return (
     <>
       <Container>
+        <TextField
+          id="standard-search"
+          placeholder="Search Course"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ margin: "40px 0px 0px 0px" }}
+          inputRef={(input) => {
+            if (input != null) {
+              input.focus();
+            }
+          }}
+          variant="standard"
+          fullWidth
+          value={search}
+          onChange={handleSearchChange}
+        />
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontWeight: "600",
+            fontSize: "18px",
+            marginBottom: "16px",
+            marginTop: "32px",
+          }}
+        >
+          {sum} result found
+        </Typography>
+      </Container>
+      <Container>
         {/* <Typography>{recentSearch}</Typography> */}
-        <Box className={classes.box} sx={{ marginTop: "150px" }}>
+        <Box className={classes.box}>
           {search ? (
             <>
               <Grid container spacing={3} align="center">
                 {pathwayTrackResults?.map((pathway, index) => {
                   return (
                     <>
+                      <Typography variant="h5" sx={{ ml: "10px", mt: "32px" }}>
+                        {pathway.name}
+                      </Typography>
                       <Grid
                         container
                         spacing={3}
                         align="center"
-                        sx={{ marginTop: "32px" }}
+                        sx={{ marginTop: "16px" }}
                       >
                         {/* {console.log(pathway.courses[0].name)} */}
                         {pathway.courses.map((item, index) => (
@@ -204,10 +218,6 @@ function SearchCourse(props) {
                           </Grid>
                         ))}
                       </Grid>
-                      <Typography sx={{ ml: "10px" }}>
-                        {" "}
-                        in <b>{pathway.name}</b>
-                      </Typography>
                     </>
                   );
                 })}

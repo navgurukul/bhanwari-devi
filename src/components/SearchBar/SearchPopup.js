@@ -37,6 +37,7 @@ function SearchPopup() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [updated, setUpdated] = useState("");
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -68,6 +69,7 @@ function SearchPopup() {
   const handleSearchClose = (e) => {
     setClose(search);
   };
+
   const pathwayCourseIds =
     pathway.data?.pathways
       .map((pathway) => pathway.courses || [])
@@ -107,6 +109,13 @@ function SearchPopup() {
     setAnchorEl(null);
   };
   const recent = JSON.parse(localStorage.getItem("recent"));
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      // 👇 Get input value
+      setUpdated(search);
+    }
+  };
 
   return (
     <>
@@ -155,6 +164,7 @@ function SearchPopup() {
               value={search}
               onChange={handleSearchChange}
               onClose={handleSearchClose}
+              onKeyDown={handleKeyDown}
             />
 
             {search ? (
@@ -170,17 +180,49 @@ function SearchPopup() {
               </Typography>
             ) : (
               <>
-                <Typography variant="subtitle1">Recent Search</Typography>
+                {recent ? (
+                  <>
+                    <Typography variant="subtitle1">Recent Search</Typography>
 
-                <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                  {recent?.slice(Math.max(recent.length - 5, 0)).map((item) => (
-                    <Grid item mr={2}>
-                      <Button value={item} onClick={handleSearchBar}>
-                        {item}
-                      </Button>
+                    <Grid container sx={{ mt: "16px", mb: "32px" }}>
+                      {recent
+                        ?.slice(Math.max(recent.length - 5, 0))
+                        .map((item) => (
+                          <Grid item mr={2}>
+                            <Button value={item} onClick={handleSearchBar}>
+                              {item}
+                            </Button>
+                          </Grid>
+                        ))}
                     </Grid>
-                  ))}
-                </Grid>
+                  </>
+                ) : (
+                  <>
+                    <Typography variant="subtitle1">Poppular Search</Typography>
+                    <Grid container sx={{ mt: "16px", mb: "32px" }}>
+                      <Grid item mr={2}>
+                        <Button value="Python" onClick={handleSearchBar}>
+                          Python
+                        </Button>
+                      </Grid>
+                      <Grid item mr={2}>
+                        <Button value="List" onClick={handleSearchBar}>
+                          List
+                        </Button>
+                      </Grid>
+                      <Grid item mr={2}>
+                        <Button value="Variable" onClick={handleSearchBar}>
+                          Variable
+                        </Button>
+                      </Grid>
+                      <Grid item mr={2}>
+                        <Button value="Scratch" onClick={handleSearchBar}>
+                          Scratch (CEL)
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
               </>
             )}
           </Container>
