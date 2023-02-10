@@ -185,7 +185,7 @@ function VolunteerAutomation() {
               </Box>
 
               <Box className={classes.displayIcon}>
-                <ArrowRightAltIcon />
+                z
                 <Typography variant="subtitle1" className={classes.TextContent}>
                   Project Management
                 </Typography>

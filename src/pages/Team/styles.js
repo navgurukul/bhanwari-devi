@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 25px",
     borderBottom: "3px solid transparent",
     cursor: "pointer",
+    // display: "inline-block"
   },
   team_selector: {
     padding: "10px 35px",
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   team_containerTopSpace: {
     marginTop: "5rem",
+    padding: 0,
   },
   team_infoCardContaier: {
     marginTop: "1rem",
@@ -80,54 +82,86 @@ const useStyles = makeStyles((theme) => ({
     opacity: "1",
   },
   team_cardDetails: {
+    // width: "256px",
+    // height: "320px",
+    // padding: 4,
     position: "relative",
     border: "none",
+    marginTop: "32px",
     marginBottom: "16px",
-    display: "flex",
-    flexDirection: "column",
+    // display: "flex",
+    // flexDirection: "column",
     cursor: "pointer",
-    alignItems: "center",
+    // alignItems: "center",
     transition: "all ease-in-out 0.2s",
     pointerEvents: "auto",
     "&:hover": {
+      cursor: "pointer",
       // transform: "scale(1.1)",
       boxShadow: "none",
       opacity: "1",
-      zIndex: "2",
-      // boxShadow: "none",
+      // zIndex: "2",
+      "& $middle": {
+        opacity: "92%",
+        backgroundColor: "#3A8137",
+        // width: "100%",
+        // height : "100%",
+      },
     },
   },
+  middle: {
+    // width: "256px",
+    // height: "320px",
+    opacity: 0,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: "0%",
+    left: "0%",
+    // overflow: "hidden",
+    "& hover": {
+      "$ team_cardDetails": {
+        opacity: 0.3,
+      },
+    },
+  },
+
+  text: {
+    color: "#FFFFFF",
+    padding: "16px",
+  },
+
   team_cardImg: {
+    // height: 250,
+    // width: 250,
+    // marginBottom: 5,
     // borderRadius: "50%",
     width: "256px",
     height: "320px",
-    border: "3px solid transparent",
+    // border: "3px solid transparent",
     transition: "all ease-in 0.2s",
-    padding: "0px",
+    // padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
     // margin : 4,
-    marginBottom: "16px",
+    // marginBottom: "16px",
   },
   team_mobileCardImg: {
     // borderRadius: "50%",
     width: "328px",
     height: "312px",
-    border: "3px solid transparent",
+    // border: "3px solid transparent",
     transition: "all ease-in 0.2s",
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
-    marginBottom: "16px",
+    // marginBottom: "16px",
   },
   team_cardTitle: {
     fontWeight: "bold",
-    marginTop: "16px",
-    marginBottom: "8px",
   },
   team_cardDescription: {
     color: "#6D6D6D",
-    // textAlign: "center",
   },
   team_socialIcon: {
     marginInline: "0.5rem",
@@ -138,77 +172,6 @@ const useStyles = makeStyles((theme) => ({
   },
   team_btn1: { height: "48px", width: "100%" },
   team_btn: { height: "48px", width: "250px" },
-
-  image: {
-    opacity: 1,
-    display: "block",
-    width: "100%",
-    height: 300,
-    width: 300,
-    opacity: 1,
-    "&:hover": {
-      cursor: "pointer",
-      opacity: 0.3,
-      "& $middle": {
-        opacity: 1,
-        color: "red",
-      },
-    },
-  },
-
-  middle: {
-    // opacity: 0,
-    position: "absolute",
-    // top: "50%",
-    // left: "50%",
-  },
-
-  containeer: {
-    cursor: "pointer",
-    position: "relative",
-    // height: 5,
-    // width: 6,
-    // opacity: 1,
-    // width: "50%",
-  },
-
-  // outerDiv: {
-  //   // backgroundColor: "green",
-  //   position: "relative",
-  //   padding: 4,
-  //   '&:hover': {
-  //     cursor: 'pointer',
-  //     opacity: 0.3,
-  //     "& $addIcon": {
-
-  //       // color: "yellow"
-  //     },
-  //     // "& $middle": {
-  //     //   opacity: 0,
-  //     // },
-  //  }
-  // },
-  // addIcon: {
-  //   height: 250,
-  //   width: 250,
-  //   opacity: 1,
-
-  //   // color: "gray",
-  //   marginBottom: 5,
-  // },
-
-  // middle: {
-  // opacity: 1,
-  // position: "absolute",
-  // top: "50%",
-  // left: "50%",
-  // },
-
-  // container:hover .middle {
-  //   opacity: 1,
-  // },// container:hover :image :{
-  //   opacity: 0.3,
-  // },
 }));
 
 export default useStyles;
