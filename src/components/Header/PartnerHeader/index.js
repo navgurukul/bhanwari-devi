@@ -5,6 +5,7 @@ import HeaderNavLink from "../HeaderNavlink";
 import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
+import SearchPopup from "../../SearchBar/SearchPopup";
 
 function PartnerHeader({ leftDrawer, toggleDrawer }) {
   const user = useSelector(({ User }) => User);
@@ -36,7 +37,7 @@ function PartnerHeader({ leftDrawer, toggleDrawer }) {
           toggleDrawer={toggleDrawer}
         />
       </Box>
-      {!leftDrawer && <SearchHeader />}
+      {!leftDrawer && <SearchPopup />}
     </>
   );
 }

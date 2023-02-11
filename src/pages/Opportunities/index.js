@@ -49,19 +49,13 @@ function Opportunities() {
   return (
     <>
       <Container maxWidth="lg">
-        <Grid container columnSpacing={2} mb={8} mt={4}>
+        <Grid container columnSpacing={2} my={8}>
           <Grid item xs={12}>
             <Typography variant="h5">
               Curated list of opportunities to skyrocket your career
             </Typography>
             <Grid className={classes.section_Heading}>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                sx={{ mb: isActive && 5 }}
-              >
-                Admission Opportunities
-              </Typography>
+              <Typography variant="h6">Admission Opportunities</Typography>
             </Grid>
             <Grid container>
               <Grid xs={12} sm={6} md={4}>
@@ -83,30 +77,42 @@ function Opportunities() {
                         md={3}
                         style={{ display: "flex", justifyContent: "right" }}
                       >
-                        <Chip
-                          label="Featured"
-                          variant="caption"
-                          color="warning"
-                        />
+                        <Typography
+                          variant="body2"
+                          bgcolor="secondary.main"
+                          sx={{
+                            height: "24px",
+                            py: "3px",
+                            px: 1,
+                            borderRadius: "16px",
+                          }}
+                        >
+                          Featured
+                        </Typography>
                       </Grid>
                     </Grid>
-                    <Typography variant="body1" mt="13px">
+                    <Typography variant="body1" mt="16px">
                       Eligibility: Basic coding knowledge
                     </Typography>
                   </CardContent>
                   <CardActions>
                     <Grid className={classes.card_button}>
-                      <Link
-                        to={{
-                          pathname: PATHS.ADMISSION,
-                          state: { partnerId: partnerId },
-                        }}
+                      <ExternalLink
+                        href="https://admissions.navgurukul.org/"
+                        Curated
+                        list
+                        of
+                        opportunities
+                        to
+                        skyrocket
+                        your
+                        career
                         style={{ textDecoration: "none" }}
                       >
                         <Button endIcon={<ArrowForwardIosIcon />} mr={1}>
-                          Take a Test Today
+                          Apply Now
                         </Button>
-                      </Link>
+                      </ExternalLink>
                     </Grid>
                   </CardActions>
                 </Card>
@@ -120,7 +126,7 @@ function Opportunities() {
                     <Typography variant="subtitle1">
                       HyperVerge Fellowships
                     </Typography>
-                    <Typography variant="body1" mt="13px">
+                    <Typography variant="body1" mt="16px">
                       Eligibility: Basic coding knowledge
                     </Typography>
                   </CardContent>
@@ -146,26 +152,21 @@ function Opportunities() {
           </Grid>
           <Grid item xs={12}>
             <Grid className={classes.section_Heading} mt={4}>
-              <Typography variant="subtitle1" color="text.secondary">
+              <Typography variant="h6">
                 Grants / Advanced Courses / Mentorships
               </Typography>
             </Grid>
             <Grid>
               <Typography variant="body1" color="text.primary">
                 By learning with Meraki, you can avail benefits such as:
-                <ul>
+                <ul style={{ margin: "0px" }}>
                   <li> Grants such as free keyboards for typing practice</li>
                   <li> Coursera Membership</li>
                   <li> Advanced english courses</li>
                   <li> 1:1 Mentorship sessions</li>
                 </ul>
               </Typography>
-              <Grid>
-                <Typography variant="subtitle1" color="text.primary" mb={2}>
-                  Are you interested in one or more of the above opportunities?
-                </Typography>
-              </Grid>
-              <Grid>
+              <Grid mt={2}>
                 <ExternalLink
                   href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"
                   style={{ textDecoration: "none" }}
