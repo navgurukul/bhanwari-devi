@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   Fiber_space: {
-    marginRight: "20px",
+    marginRight: "8px",
   },
   Ng_AFE: {
     marginBottom: "16px",
