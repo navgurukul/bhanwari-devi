@@ -45,14 +45,10 @@ function VolunteerAutomation() {
       <Grid container mt={8}>
         <Grid item xs={12} ms={6} md={6}>
           <Box
-          // className={classes.volunteerFlow}
           >
             <Typography variant="h4" gutterBottom>
               Help Students Get their Dream Job in Tech
             </Typography>
-            {/* <Typography sx={{ mt: 4 }}>
-              <hr align="left" className={classes.VolunteerHrline} />
-            </Typography> */}
             <Typography variant="h6" sx={{ mt: 4 }}>
               Why Volunteer?
             </Typography>
@@ -90,7 +86,6 @@ function VolunteerAutomation() {
       </Grid>
       <Typography
         my={4}
-        // sx={{ mt: { xs: "48px", md: "40px" }, mb: { xs: "16px", md: "32px" } }}
         variant="h5"
         align="center"
         gutterBottom

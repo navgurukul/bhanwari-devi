@@ -40,7 +40,7 @@ const OurPartner = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ py: "32px" }}>
-        <Container sx={{ my: isActive ? 2 : 4, p: 0 }}>
+        {/* <Container sx={{ my: isActive ? 2 : 4, }}> */}
           <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
             <Grid item xs={12} sm={7} md={7}>
               <Typography variant="h4">
@@ -77,7 +77,7 @@ const OurPartner = () => {
               />
             </Grid>
           </Grid>
-        </Container>
+        {/* </Container> */}
       </Container>
       <Container
         maxWidth={false}
@@ -117,22 +117,24 @@ const OurPartner = () => {
         </Container>
       </Container>
       <Container sx={{ mt: 8, p: 0 }}>
-        <Typography variant="h4" align="center" mb={isActive ? 2 : 4}>
+        <Typography variant="h5" align="center" mb={isActive ? 2 : 4}>
           Partner List{" "}
         </Typography>
-        <Grid container spacing={isActive ? 2 : 3}>
+        <Grid container 
+        spacing={isActive ? 2 : 4}
+        >
           {Object.keys(partner).map((item) => {
             return (
-              <Grid item xs={12} sm={3} md={3} columnSpacing={4}>
+              <Grid item xs={12} sm={3} md={3} 
+              // columnSpacing={4}
+              >
                 {partner[item].Name !== null &&
                   partner[item].OrganisationType !== null &&
                   !partner[item].State !== null &&
                   !partner[item].City !== null && (
                     <Card
                       sx={{
-                        minWidth: "280px",
                         height: isActive ? 185 : 210,
-                        mb: isActive ? 1 : 4,
                       }}>
                       <CardContent
                         sx={{ height: isActive ? "110px" : "140px" }}>
@@ -188,9 +190,7 @@ const OurPartner = () => {
                         ) : (
                           ""
                         )}
-                        {/* <Typography variant="body2" mt={2}>
-                            {`${partner[item].City} , ${partner[item].State}`}
-                          </Typography> */}
+                        
                       </CardContent>
                       <CardActions sx={{ height: "8px" }}>
                         {partner[item].Url !== "NA" &&

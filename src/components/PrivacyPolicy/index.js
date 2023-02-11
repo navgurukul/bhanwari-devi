@@ -166,6 +166,9 @@ function PrivacyPolicy() {
         <Typography variant="subtitle1">Contact Us</Typography>
 
         <Typography variant="body1" sx={{ mt: "16px" }}>
+              </CardActions>
+            </Box>
+          </Card>
           If you have any questions or suggestions about our privacy policy, do
           not hesitate to contact us at{" "}
           <span style={{ color: "#48a145" }}>team@merakilearn.org.</span>
