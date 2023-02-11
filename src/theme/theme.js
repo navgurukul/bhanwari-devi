@@ -235,6 +235,13 @@ theme.components = {
       root: { width: 64 },
     },
   },
+  MuiPaper: {
+    styleOverrides: {
+      root: {
+        borderRadius: "8px",
+      },
+    },
+  },
   MuiButton: {
     styleOverrides: {
       root: {
