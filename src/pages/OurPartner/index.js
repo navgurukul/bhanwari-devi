@@ -84,7 +84,8 @@ const OurPartner = () => {
             md={12}
             container
             columnSpacing={{ xs: 2, sm: 4 }}
-            paddingY={isActive ? 4 : 8}>
+            paddingY={isActive ? 4 : 8}
+          >
             <Grid item xs={12} sm={6} md={6}>
               <img src={Image} className={classes.image} />
             </Grid>

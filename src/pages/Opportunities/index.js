@@ -55,12 +55,7 @@ function Opportunities() {
               Curated list of opportunities to skyrocket your career
             </Typography>
             <Grid className={classes.section_Heading}>
-              <Typography
-                variant="h6"
-
-              >
-                Admission Opportunities
-              </Typography>
+              <Typography variant="h6">Admission Opportunities</Typography>
             </Grid>
             <Grid container>
               <Grid xs={12} sm={6} md={4}>

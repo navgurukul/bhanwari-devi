@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
   ourStorySpace: {
     marginTop: "50px",
   },
-  ourStorySpace1: {
-    marginTop: "30px",
-    fontFamily: "Nunito Sans",
-  },
 }));
 
 export default useStyles;

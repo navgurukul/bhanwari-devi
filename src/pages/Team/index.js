@@ -6,7 +6,6 @@ import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
 import Twitter from "../../components/common/SocialMediaIcons/Twitter";
 import { Container, Grid, Typography, Button, Box } from "@mui/material";
-import { PATHS } from "../../constant";
 import useStyles from "./styles";
 
 function shuffleArray(arr) {
@@ -69,6 +68,7 @@ function Team() {
   const [members, setMembers] = useState({
     teamMembers: true,
     volunteers: false,
+    exTeam: false,
   });
 
   useEffect(() => {
@@ -79,9 +79,14 @@ function Team() {
     });
   }, []);
 
-  const condition = members.teamMembers ? "teamMembers" : "volunteers";
+  const condition = members.teamMembers
+    ? "teamMembers"
+    : members.volunteers
+    ? "volunteers"
+    : "exTeam";
   let teamMember = [];
   let supporters = [];
+  let exTeam = [];
 
   const teamData = Object.values(team).filter((item) => {
     if (
@@ -94,6 +99,8 @@ function Team() {
     ) {
       if (item.Association === "Volunteer") {
         supporters.push(item);
+      } else if (item.Association === "Ex-Team") {
+        exTeam.push(item);
       } else {
         teamMember.push(item);
       }
@@ -104,221 +111,183 @@ function Team() {
   const name = "Awaiting Member's Name";
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={isActive ? { padding: 0, marginTop: "24px" } : { marginTop: "40px" }}
-    >
-      <Container maxWidth="md">
-        <Box
-          className={classes.team_conainerLeft}
-          sx={
-            isActive
-              ? {
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  marginBottom: "1rem",
-                }
-              : {}
-          }
-        >
-          <Box mr={2}>
-            <Typography variant="h1" align="left">
-              {teamMember.length}
+    <Container maxWidth="lg" disablePadding>
+      <Box sx={{ my: isActive ? 0 : 4, p: 0 }}>
+        <Grid container spacing={{ xs: 4, sm: 4 }}>
+          <Grid item xs={12} sm={7} md={7}>
+            <Typography variant="h4">
+              Meet the team of core members, a ton of volunteers and past
+              members that have made it all possible
             </Typography>
-          </Box>
-          <Typography variant="h4">Core Members</Typography>
-        </Box>
-        <hr color="primary" className={classes.team_hrline} />
-        <Box align="right" className={classes.team_alignRight}>
-          <Box
-            className={classes.team_conainerRight}
-            sx={
-              isActive
-                ? {
-                    flexDirection: "column",
-                    alignItems: "flex-end",
-                    marginBottom: "1rem",
-                  }
-                : {}
-            }
-          >
-            <Box mr={2}>
-              <Typography className={"d"} variant="h1" align="right">
-                {supporters.length}
-              </Typography>
-            </Box>
-            <Typography className={"d"} variant="h4" align="right">
-              Supporters
-            </Typography>
-          </Box>
-          <hr color="primary" className={classes.team_hrline} />
-        </Box>
-        <Box mt={isActive ? "32px" : "40px"}>
-          <Typography
-            variant="body1"
-            align={!isActive ? "center" : "left"}
-            paragraph
-          >
-            We are a collective of full timers and volunteers that form the
-            backbone aiming to bring affordable education to underprivileged
-            students across India by making Tech education available. accessible
-            and usable through our Meraki platform.
-          </Typography>
-          <Grid
-            container
-            justifyContent="center"
-            maxWidth="md"
-            mt={isActive ? 0 : "40px"}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              href="https://recruiterflow.com/navgurukul/jobs"
-              target="_blank"
-              className={!isActive ? classes.team_btn : classes.team_btn1}
-              sx={
-                !isActive
-                  ? { marginRight: 4 }
-                  : { marginRight: 0, marginBottom: 2 }
-              }
-            >
-              Join Us
-            </Button>
 
-            <Button
-              variant="outlined"
-              color="primary"
-              href={PATHS.VOLUNTEER_AUTOMATION}
-              // href="https://docs.google.com/forms/d/e/1FAIpQLScHvysncnhJkSMtpdpGl_uPhJWlE81hp6l5m2mvuE1hoxX-dQ/viewform"
-              // target="_blank"
-              target="_self"
-              spacing={2}
-              container
-              className={!isActive ? classes.team_btn : classes.team_btn1}
-            >
-              Volunteer With Us
-            </Button>
+            <Typography variant="body1" mt={2}>
+              Meraki aims to remain free for the underserved communities in
+              India. We have been fortunate to find passionate people sharing
+              our goals and helping us build one of the best learning platforms
+              out there.
+            </Typography>
           </Grid>
-        </Box>
-      </Container>
-      <Container
+          <Grid item xs={12} sm={5} md={5}>
+            <img
+              src={require("./Asset/real_time.svg")}
+              alt="undraw Agreement"
+            />
+          </Grid>
+        </Grid>
+      </Box>
+      <Box
+        disablePadding
         className={
           !isActive
             ? classes.team_containerTopSpace
             : `${classes.team_responsiveContainer}`
         }
+        sx={{ p: 0 }}
       >
-        <Grid
+        <Box
           container
+          disablePadding
           style={{
+            display: !isActive && "flex",
+            alignItems: "center",
+            overflow: isActive && "auto",
+            whiteSpace: isActive && "nowrap",
             justifyContent: isActive ? "space-around" : "center",
-            marginInlineStart: isActive ? "15px" : {},
           }}
         >
-          <Typography
-            onClick={() => {
-              setMembers({ volunteers: false, teamMembers: true });
-            }}
-            variant="subtitle1"
-            className={
-              !isActive ? classes.team_selector : classes.team_MobileSelector
-            }
-            style={
-              members.teamMembers
-                ? {
-                    fontWeight: "bold",
-                    borderBottom: "3px solid #48a145",
-                  }
-                : { color: "#9c9999" }
-            }
-          >
-            Core Team
-          </Typography>
-          <Typography
-            onClick={() => {
-              setMembers({ teamMembers: false, volunteers: true });
-            }}
-            variant="subtitle1"
-            className={
-              !isActive ? classes.team_selector : classes.team_MobileSelector
-            }
-            style={
-              members.volunteers
-                ? {
-                    fontWeight: "bold",
-                    borderBottom: "3px solid #48a145",
-                  }
-                : { color: "#9c9999" }
-            }
-          >
-            Our Supporters
-          </Typography>
-        </Grid>
-        <Container
+          <Button>
+            <Typography
+              onClick={() => {
+                setMembers({
+                  exTeam: false,
+                  volunteers: false,
+                  teamMembers: true,
+                });
+              }}
+              variant="subtitle1"
+              className={
+                !isActive ? classes.team_selector : classes.team_MobileSelector
+              }
+              style={
+                members.teamMembers
+                  ? {
+                      fontWeight: "bold",
+                      borderBottom: "3px solid #48a145",
+                    }
+                  : { color: "#9c9999" }
+              }
+            >
+              Core Team
+            </Typography>
+          </Button>
+          <Button>
+            <Typography
+              onClick={() => {
+                setMembers({
+                  exTeam: false,
+                  teamMembers: false,
+                  volunteers: true,
+                });
+              }}
+              variant="subtitle1"
+              className={
+                !isActive ? classes.team_selector : classes.team_MobileSelector
+              }
+              style={
+                members.volunteers
+                  ? {
+                      fontWeight: "bold",
+                      borderBottom: "3px solid #48a145",
+                    }
+                  : { color: "#9c9999" }
+              }
+            >
+              Our Supporters
+            </Typography>
+          </Button>
+          <Button>
+            <Typography
+              onClick={() => {
+                setMembers({
+                  exTeam: true,
+                  teamMembers: false,
+                  volunteers: false,
+                });
+              }}
+              variant="subtitle1"
+              className={
+                !isActive ? classes.team_selector : classes.team_MobileSelector
+              }
+              style={
+                members.exTeam
+                  ? {
+                      fontWeight: "bold",
+                      borderBottom: "3px solid #48a145",
+                    }
+                  : { color: "#9c9999" }
+              }
+            >
+              Ex-Team
+            </Typography>
+          </Button>
+        </Box>
+        <Box
           className={
             !isActive
               ? classes.team_infoCardContaier
               : classes.team_infoResponsiveContainer
           }
-          sx={{ marginTop: isActive ? 2 : 4 }}
+          sx={{ marginTop: isActive ? 2 : 4, px: 0 }}
         >
-          <Grid container>
+          <Grid container sx={{ p: 0, m: 0 }} disablePadding>
             {teamData ? (
               shuffleArray(teamData).map((item) => {
                 if (
                   (condition === "volunteers" &&
                     item.Association === "Volunteer") ||
+                  (condition === "exTeam" && item.Association === "Ex-Team") ||
                   (condition === "teamMembers" &&
-                    item.Association !== "Volunteer")
+                    item.Association !== "Volunteer" &&
+                    item.Association !== "Ex-Team")
                 ) {
                   return (
-                    <Grid item xs={6} sm={6} md={3}>
-                      <Tippy
-                        animation="fade"
-                        interactive="true"
-                        duration={[500, 0]}
-                        placement={
-                          window.screen.availWidth < 650 ? "bottom" : "right"
-                        }
-                        content={
-                          <Popup
-                            Name={item.Name || name}
-                            Content={
-                              (item.Content.length && item.Content) || content
-                            }
-                            linkedin={item.Linkedin}
-                            twitter={item.Twitter}
-                          />
+                    <Grid item xs={12} sm={6} md={3}>
+                      <Box
+                        className={`${classes.team_cardDetails} card-details`}
+                        sx={
+                          !isActive
+                            ? { width: "256px", height: "320px" }
+                            : { width: "328px", height: "312px" }
                         }
                       >
-                        <Box
-                          className={`${classes.team_cardDetails} card-details`}
-                          pt={isActive ? "0px 0px" : "30px 0px"}
-                        >
-                          <img
-                            className={
-                              !isActive
-                                ? `${classes.team_cardImg} img-hover`
-                                : `${classes.team_mobileCardImg} img-hover`
-                            }
-                            src={item.Photo}
-                            alt={item.Name.substring(0, item.Name.indexOf(" "))}
-                          />
-                          <Typography
-                            variant="body1"
-                            className={classes.team_cardTitle}
-                            style={!isActive ? {} : { textAlign: "center" }}
-                          >
-                            {item.Name}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            className={classes.team_cardDescription}
-                          >
-                            {item.Designation}
+                        <img
+                          className={
+                            !isActive
+                              ? `${classes.team_cardImg} img-hover`
+                              : `${classes.team_mobileCardImg} img-hover`
+                          }
+                          src={item.Photo}
+                          alt={item.Name.substring(0, item.Name.indexOf(" "))}
+                        />
+
+                        <Box className={classes.middle}>
+                          <Typography variant="body1" className={classes.text}>
+                            {(item.Content.length && item.Content) || content}
                           </Typography>
                         </Box>
-                      </Tippy>
+                      </Box>
+                      <Typography
+                        variant="subtitle1"
+                        className={classes.team_cardTitle}
+                      >
+                        {item.Name}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        className={classes.team_cardDescription}
+                      >
+                        {item.Designation}
+                      </Typography>
                     </Grid>
                   );
                 }
@@ -327,8 +296,8 @@ function Team() {
               <></>
             )}
           </Grid>
-        </Container>
-      </Container>
+        </Box>
+      </Box>
     </Container>
   );
 }
