@@ -15,17 +15,19 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #48A145",
     height: "95%",
     padding: "16px",
+    borderRadius: "8px !importent",
+    backgroundColor : "red"
   },
   volunteerCard1: {
     border: "1px solid #FFCC00",
     height: "95%",
     padding: "16px",
   },
-  // volunteerCard2: {
-  //   border: "1px solid #FFCC00",
-  //   height: "95%",
-  //   padding: "16px 16px 0px 16px",
-  // },
+  volunteerCard2: {
+    border: "1px solid #FFCC00",
+    height: "95%",
+    padding: "16px 16px 0px 16px",
+  },
   displayIcon: {
     display: "flex",
     marginTop: "8px",

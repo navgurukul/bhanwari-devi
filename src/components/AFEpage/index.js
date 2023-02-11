@@ -11,10 +11,10 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import SmallScreenAbbreviate from "./SmallScreenAbbreviate";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ExternalLink from "../common/ExternalLink";
+import CircleIcon from "@mui/icons-material/Circle";
+
 
 function AFEpage() {
   const classes = useStyles();
@@ -31,9 +31,7 @@ function AFEpage() {
         >
           <Grid item xs={12} sm={6}>
             <Grid
-              mb={4}
-              //  className={classes.Grid_Space}
-            >
+              mb={4}            >
               <Grid>
                 <img
                   src={require("./asset/amg.svg")}
@@ -47,11 +45,9 @@ function AFEpage() {
                 />
               </Grid>
             </Grid>
-            <img
-              className={classes.IMG}
-              src={require("./asset/CTGG.svg")}
-              alt="Closing The Gender Gap in Technology"
-            />
+            <Typography variant="h4" color = "info.dark">
+            Closing The Gender Gap in Technology
+            </Typography>
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <Typography variant="body1" paragraph>
@@ -158,9 +154,9 @@ function AFEpage() {
               <List>
                 <ListItem>
                   <Grid className={classes.AFE_approaches}>
-                    <FiberManualRecordIcon
-                      fontSize="10px"
-                      className={classes.Fiber_space}
+                    <CircleIcon
+                     sx={{ pr: 1, width: "7px" }} 
+                     className={classes.Fiber_space}
                     />
                     Accessibility and readiness program: Meraki
                     <ListItemText className={classes.Approaches_text}>
@@ -170,10 +166,11 @@ function AFEpage() {
                 </ListItem>
                 <ListItem>
                   <Grid className={classes.AFE_approaches}>
-                    <FiberManualRecordIcon
-                      className={classes.Fiber_space}
-                      fontSize="Small"
+                  <CircleIcon
+                     sx={{ pr: 1, width: "7px" }} 
+                     className={classes.Fiber_space}
                     />
+
                     Skilling and job placement program: Residential Program
                     <ListItemText className={classes.Approaches_text}>
                       Age group 18 - 29 years
@@ -188,10 +185,6 @@ function AFEpage() {
         <Grid spacing={8} align="center" className={classes.Ng_AFE}>
           <Typography gutterbottom variant="h5">
             NavGurukul 🤝 AFE
-            {/* <SmallScreenAbbreviate
-              isActive={isActive}
-              text="Amazon Future Engineer"
-            /> */}
           </Typography>
         </Grid>
         <Container maxWidth="md">
@@ -221,7 +214,7 @@ function AFEpage() {
             </Grid>
             <ExternalLink href="https://a" style={{ textDecoration: "none" }}>
               <Button endIcon={<ArrowForwardIosIcon />}>
-                Visit Amazon Future Engineers
+                Visit Amazon Future Engineer
               </Button>
             </ExternalLink>
           </Grid>

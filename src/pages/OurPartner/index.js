@@ -40,45 +40,43 @@ const OurPartner = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ py: "32px" }}>
-        <Container sx={{ my: isActive ? 2 : 4, p: 0 }}>
-          <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
-            <Grid item xs={12} sm={7} md={7}>
-              <Typography variant="h4">
-                Partners are ones who open the doors to quality education for
-                our students
-              </Typography>
+        {/* <Container sx={{ my: isActive ? 2 : 4, }}> */}
+        <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
+          <Grid item xs={12} sm={7} md={7}>
+            <Typography variant="h4">
+              Partners are ones who open the doors to quality education for our
+              students
+            </Typography>
 
-              <Typography my={2}>
-                Do you want to be a part and help out your students through
-                Meraki? Look no further and make the move.
-              </Typography>
-              <Stack>
-                <Link
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
-                  target="_blank"
-                >
-                  <Button
-                    component="span"
-                    size="larger"
-                    variant="contained"
-                    color="primary"
-                    mb={10}
-                    style={{ width: isActive ? "100%" : "50%" }}
-                  >
-                    Join as a Partner
-                  </Button>
-                </Link>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} sm={5} md={5}>
-              <img
-                src={require("./assest/undraw_agreement.svg")}
-                alt="undraw Agreement"
-                className={classes.image}
-              />
-            </Grid>
+            <Typography my={2}>
+              Do you want to be a part and help out your students through
+              Meraki? Look no further and make the move.
+            </Typography>
+            <Stack>
+              <Link
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
+                target="_blank">
+                <Button
+                  component="span"
+                  size="larger"
+                  variant="contained"
+                  color="primary"
+                  mb={10}
+                  style={{ width: isActive ? "100%" : "50%" }}>
+                  Join as a Partner
+                </Button>
+              </Link>
+            </Stack>
           </Grid>
-        </Container>
+          <Grid item xs={12} sm={5} md={5}>
+            <img
+              src={require("./assest/undraw_agreement.svg")}
+              alt="undraw Agreement"
+              className={classes.image}
+            />
+          </Grid>
+        </Grid>
+        {/* </Container> */}
       </Container>
       <Container maxWidth={false} className={classes.containerColor}>
         <Container>
@@ -117,27 +115,30 @@ const OurPartner = () => {
         </Container>
       </Container>
       <Container sx={{ mt: 8, p: 0 }}>
-        <Typography variant="h4" align="center" mb={isActive ? 2 : 4}>
+        <Typography variant="h5" align="center" mb={isActive ? 2 : 4}>
           Partner List{" "}
         </Typography>
-        <Grid container spacing={isActive ? 2 : 3}>
+        <Grid container spacing={isActive ? 2 : 4}>
           {Object.keys(partner).map((item) => {
             return (
-              <Grid item xs={12} sm={3} md={3} columnSpacing={4}>
+              <Grid
+                item
+                xs={12}
+                sm={3}
+                md={3}
+                // columnSpacing={4}
+              >
                 {partner[item].Name !== null &&
                   partner[item].OrganisationType !== null &&
                   !partner[item].State !== null &&
                   !partner[item].City !== null && (
                     <Card
+                      elevation={2}
                       sx={{
-                        minWidth: "280px",
                         height: isActive ? 185 : 210,
-                        mb: isActive ? 1 : 4,
-                      }}
-                    >
+                      }}>
                       <CardContent
-                        sx={{ height: isActive ? "110px" : "140px" }}
-                      >
+                        sx={{ height: isActive ? "110px" : "140px" }}>
                         <Typography variant="subtitle1" gutterBottom mb={1}>
                           {partner[item].Name}
                         </Typography>
@@ -186,9 +187,6 @@ const OurPartner = () => {
                         ) : (
                           ""
                         )}
-                        {/* <Typography variant="body2" mt={2}>
-                            {`${partner[item].City} , ${partner[item].State}`}
-                          </Typography> */}
                       </CardContent>
                       <CardActions sx={{ height: "8px" }}>
                         {partner[item].Url !== "NA" &&
