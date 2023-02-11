@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
-import Tippy from "@tippyjs/react";
 import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
 import Twitter from "../../components/common/SocialMediaIcons/Twitter";
@@ -112,29 +111,23 @@ function Team() {
 
   return (
     <Container maxWidth="lg" disablePadding>
-      <Box sx={{ my: isActive ? 0 : 4, p: 0 }}>
-        <Grid container spacing={{ xs: 4, sm: 4 }}>
-          <Grid item xs={12} sm={7} md={7}>
-            <Typography variant="h4">
-              Meet the team of core members, a ton of volunteers and past
-              members that have made it all possible
-            </Typography>
+      <Grid container spacing={{ xs: 4, sm: 4 }}>
+        <Grid item xs={12} sm={7} md={7}>
+          <Typography variant="h4">
+            Meet the team of core members, a ton of volunteers and past members
+            that have made it all possible
+          </Typography>
 
-            <Typography variant="body1" mt={2}>
-              Meraki aims to remain free for the underserved communities in
-              India. We have been fortunate to find passionate people sharing
-              our goals and helping us build one of the best learning platforms
-              out there.
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={5} md={5}>
-            <img
-              src={require("./Asset/real_time.svg")}
-              alt="undraw Agreement"
-            />
-          </Grid>
+          <Typography variant="body1" mt={2}>
+            Meraki aims to remain free for the underserved communities in India.
+            We have been fortunate to find passionate people sharing our goals
+            and helping us build one of the best learning platforms out there.
+          </Typography>
         </Grid>
-      </Box>
+        <Grid item xs={12} sm={5} md={5}>
+          <img src={require("./Asset/real_time.svg")} alt="undraw Agreement" />
+        </Grid>
+      </Grid>
       <Box
         disablePadding
         className={
@@ -269,7 +262,6 @@ function Team() {
                           src={item.Photo}
                           alt={item.Name.substring(0, item.Name.indexOf(" "))}
                         />
-
                         <Box className={classes.middle}>
                           <Typography variant="body1" className={classes.text}>
                             {(item.Content.length && item.Content) || content}
