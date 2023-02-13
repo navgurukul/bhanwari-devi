@@ -3,6 +3,9 @@ import { makeStyles } from "@mui/styles";
 import { border } from "@mui/system";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: "72px",
+  },
   searchBar: {
     width: "930px",
     height: "48px",

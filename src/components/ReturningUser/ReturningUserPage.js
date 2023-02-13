@@ -43,10 +43,10 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
-  console.log(learningTracks );
+  console.log(learningTracks);
 
   return (
-    <Container>
+    <Container className={classes.container}>
       {user?.data?.user?.partner_id != null ? (
         <>
           <Typography variant="h6" mb={5} mt={5}>
@@ -76,9 +76,7 @@ function ReturningUserPage() {
           >
             {learningTracks.map(
               (item) =>
-                (item.pathway_id >= 3 ) && (
-                  <WithoutLearningClasses item={item} />
-                )
+                item.pathway_id >= 3 && <WithoutLearningClasses item={item} />
             )}
           </Grid>
         </>

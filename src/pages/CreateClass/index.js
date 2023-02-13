@@ -155,7 +155,10 @@ function ToggleClassFormModal() {
     }
   }, [newVolunteer]);
   return (
-    <Container maxWidth="lg" sx={{ mt: "40px", width: "90%" }}>
+    <Container
+      maxWidth="lg"
+      sx={{ mt: "40px", width: "90%", paddingTop: "72px" }}
+    >
       {canSpecifyFacilitator && (
         <span>
           {newVolunteer && (

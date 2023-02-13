@@ -1,6 +1,10 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: "72px",
+  },
+
   team_fontNunito: {
     fontFamily: "Nunito Sans",
     fontWeight: "700",

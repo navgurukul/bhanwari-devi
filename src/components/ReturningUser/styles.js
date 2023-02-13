@@ -1,6 +1,9 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: "64px",
+  },
   courseNumber: {
     // marginRight: "10px",
     // verticalAlign: "top",

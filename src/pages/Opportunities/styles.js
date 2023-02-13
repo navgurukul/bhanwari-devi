@@ -1,6 +1,9 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: "72px",
+  },
   section_Heading: {
     margin: "32px 0px 16px 0px",
   },

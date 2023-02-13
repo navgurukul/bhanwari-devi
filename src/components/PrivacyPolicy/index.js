@@ -6,7 +6,7 @@ import useStyles from "./styles";
 function PrivacyPolicy() {
   const classes = useStyles();
   return (
-    <Container maxWidth="md" sx={{ my: 8 }}>
+    <Container maxWidth="md" sx={{ my: 8 }} className={classes.container}>
       <Box>
         <Typography sx={{ textAlign: "center" }} variant="h5">
           Privacy Policy

@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: "72px",
+  },
   ourStorybttn: {
     height: "40px",
     padding: "-20",

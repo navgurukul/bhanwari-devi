@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   container: {
     background: "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%)",
-    padding: "64px 0px",
+    paddingTop: "136px",
   },
   mobileContainer: {
     padding: "32px 0px",

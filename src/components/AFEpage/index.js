@@ -19,7 +19,7 @@ function AFEpage() {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" className={classes.container}>
         <Grid className={classes.Grid_Space}>
           <Grid>
             <img

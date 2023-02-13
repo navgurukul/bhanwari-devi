@@ -3,7 +3,7 @@ import { Box, Typography, Card, CardContent } from "@mui/material";
 function NoBatchEnroll() {
   return (
     <>
-      <Box mt={2} maxWidth={500} align="right" mb={5}>
+      <Box mt={2} maxWidth={500} align="right" mb={5} paddingTop="72px">
         <Card>
           <CardContent align="left">
             <Typography variant="h6">

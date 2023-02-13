@@ -290,6 +290,7 @@ input[type="radio"]:checked {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   @include breakpoint-mobile {
     width: 100%;
   }

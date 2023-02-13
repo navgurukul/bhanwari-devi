@@ -31,8 +31,6 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import DraftsIcon from "@mui/icons-material/Drafts";
-import { width } from "@mui/system";
-import { Block } from "@material-ui/icons";
 
 const pathwayData = [
   {
@@ -203,6 +201,8 @@ function Home() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { loading, data } = useSelector((state) => state.Pathways);
+  const user = useSelector(({ User }) => User);
+  const roles = useSelector(selectRolesData);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -217,6 +217,27 @@ function Home() {
         }
       });
     });
+  const partnerGroupId = user?.data?.user?.partner_group_id;
+  const partnerId = user?.data?.user?.partner_id;
+  const role = user?.data?.user?.rolesList;
+
+  const rolesLandingPages = {
+    [STUDENT]: PATHS.NEW_USER_DASHBOARD,
+    [ADMIN]: PATHS.PARTNERS,
+    [VOLUNTEER]: PATHS.CLASS,
+    [PARTNER]: partnerGroupId
+      ? `${PATHS.STATE}/${partnerGroupId}`
+      : `${PATHS.PARTNERS}/${partnerId}`,
+  };
+
+  let defalutPage = "/";
+  roles.map((userRole) => {
+    if (role?.length == 0) {
+      defalutPage = "/pathway/1";
+    } else if (role && userRole.key === role[0].toUpperCase()) {
+      defalutPage = rolesLandingPages[userRole.key];
+    }
+  });
 
   return (
     <>
@@ -467,29 +488,36 @@ function Home() {
                 align="center"
               >
                 <CardContent align="left">
-                  <img
-                    src={require("./assets/leftquote.svg")}
-                    alt={"Homeimage"}
-                  />
-                  <Typography variant="body1">
-                    Last week, I had a thrilling blind experiences. It was a
-                    dish I had never tasted. Made a lasting friend with the
-                    chef.
-                  </Typography>
-                  <img
-                    src={require("./assets/doublequote.svg")}
-                    alt={"Homeimage"}
-                    align="right"
-                  />
+                  <Box height="250px !important">
+                    <img
+                      src={require("./assets/leftquote.svg")}
+                      alt={"Homeimage"}
+                    />
+                    <Typography variant="body1">
+                      I learned python very well from meraki-classes. The class
+                      was brilliant. Meraki classes provide us all session of
+                      python classes. It is very usefull in future. so Thank you
+                      for providing us for free classes.
+                    </Typography>
+                    <img
+                      src={require("./assets/doublequote.svg")}
+                      alt={"Homeimage"}
+                      align="right"
+                    />
+                  </Box>
                 </CardContent>
+
                 <Box p="16px">
                   <img
-                    src={require("./assets/user7.png")}
+                    src={require("./assets/user-3.png")}
                     alt={"Homeimage"}
                     height="100px !important"
                     width="100px !important"
+                    style={{ borderRadius: "50%" }}
                   />
-                  <Typography variant="subtitle1">Eleanor Pena</Typography>
+                  <Typography variant="subtitle1">
+                    Rudresh Bhaleshwar
+                  </Typography>
                 </Box>
               </Card>
             </Grid>
@@ -501,29 +529,33 @@ function Home() {
                 align="center"
               >
                 <CardContent align="left">
-                  <img
-                    src={require("./assets/leftquote.svg")}
-                    alt={"Homeimage"}
-                  />
-                  <Typography variant="body1">
-                    Last week, I had a thrilling blind experiences. It was a
-                    dish I had never tasted. Made a lasting friend with the
-                    chef.
-                  </Typography>
-                  <img
-                    src={require("./assets/doublequote.svg")}
-                    alt={"Homeimage"}
-                    align="right"
-                  />
+                  <Box height="250px">
+                    <img
+                      src={require("./assets/leftquote.svg")}
+                      alt={"Homeimage"}
+                    />
+                    <Typography variant="body1">
+                      I took Meraki classes so I learned lot of things about
+                      programming like python and learn how codes are execute .
+                      So after taking Meraki classes I learnt more about
+                      programming how it's work in application .
+                    </Typography>
+                    <img
+                      src={require("./assets/doublequote.svg")}
+                      alt={"Homeimage"}
+                      align="right"
+                    />
+                  </Box>
                 </CardContent>
                 <Box p="16px">
                   <img
-                    src={require("./assets/user7.png")}
+                    src={require("./assets/user-2.png")}
                     alt={"Homeimage"}
                     height="100px !important"
                     width="100px !important"
+                    style={{ borderRadius: "50%" }}
                   />
-                  <Typography variant="subtitle1">Eleanor Pena</Typography>
+                  <Typography variant="subtitle1">Durganand Sahu</Typography>
                 </Box>
               </Card>
             </Grid>
@@ -535,29 +567,33 @@ function Home() {
                 align="center"
               >
                 <CardContent align="left">
-                  <img
-                    src={require("./assets/leftquote.svg")}
-                    alt={"Homeimage"}
-                  />
-                  <Typography variant="body1">
-                    Last week, I had a thrilling blind experiences. It was a
-                    dish I had never tasted. Made a lasting friend with the
-                    chef.
-                  </Typography>
-                  <img
-                    src={require("./assets/doublequote.svg")}
-                    alt={"Homeimage"}
-                    align="right"
-                  />
+                  <Box height="250px">
+                    <img
+                      src={require("./assets/leftquote.svg")}
+                      alt={"Homeimage"}
+                    />
+                    <Typography variant="body1">
+                      I have enjoyed learning python in Meraki class. The
+                      teachers were teaching greatly. I thank thank to Sainath
+                      sir and Meraki class for doing available these python
+                      classes.
+                    </Typography>
+                    <img
+                      src={require("./assets/doublequote.svg")}
+                      alt={"Homeimage"}
+                      align="right"
+                    />
+                  </Box>
                 </CardContent>
                 <Box p="16px">
                   <img
-                    src={require("./assets/user7.png")}
+                    src={require("./assets/user-1.png")}
                     alt={"Homeimage"}
                     height="100px !important"
                     width="100px !important"
+                    style={{ borderRadius: "50%" }}
                   />
-                  <Typography variant="subtitle1">Eleanor Pena</Typography>
+                  <Typography variant="subtitle1">Gayatri Panchal</Typography>
                 </Box>
               </Card>
             </Grid>

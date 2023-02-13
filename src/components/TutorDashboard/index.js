@@ -345,7 +345,7 @@ function Tutor(props) {
   );
   return (
     <div>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" className={classes.container}>
         {/* HEADER */}
         <Grid
           container

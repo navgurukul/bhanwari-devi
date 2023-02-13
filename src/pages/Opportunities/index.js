@@ -48,7 +48,7 @@ function Opportunities() {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" className={classes.container}>
         <Grid container columnSpacing={2} my={8}>
           <Grid item xs={12}>
             <Typography variant="h5">

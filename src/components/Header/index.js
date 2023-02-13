@@ -251,7 +251,7 @@ function Header() {
   const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      setElevation(9);
+      setElevation(8);
     } else {
       setElevation(0);
     }
@@ -267,22 +267,23 @@ function Header() {
 
   //   window.addEventListener("scroll", changeBackground);
 
-  const [backgroundColor, setBackgroundColor] = useState(false);
+  const [position, setposition] = useState(false);
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 710) {
-      setBackgroundColor(true);
+    if (window.scrollY >= 0) {
+      setposition(true);
     } else {
-      setBackgroundColor(false);
+      setposition(false);
     }
   });
 
   return (
-    <ThemeProvider theme={theme} sx={{ zIndex: "10000" }}>
+    <ThemeProvider theme={theme}>
       <AppBar
         elevation={elevation}
-        position="sticky"
-        // className={classes.bgcolorTrans}
-
+        position="fixed"
+        sx={{
+          backdropFilter: "blur(9999px)",
+        }}
         color="transparent"
       >
         <Container maxWidth="false" sx={{ my: "7px" }}>

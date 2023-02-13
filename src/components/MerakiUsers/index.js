@@ -253,7 +253,7 @@ function MerakiUsers() {
   }, [pageNumber, filterVal]);
 
   return (
-    <div className="container-table">
+    <div className="container-table" style={{ paddingTop: "72px" }}>
       <div className="container-for-search">
         <div>
           <input

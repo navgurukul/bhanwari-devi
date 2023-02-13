@@ -41,7 +41,7 @@ function VolunteerAutomation() {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" className={classes.container}>
       <Grid container spacing={8} mt={1}>
         <Grid item xs={12} ms={6} md={6}>
           <Box className={classes.volunteerFlow}>

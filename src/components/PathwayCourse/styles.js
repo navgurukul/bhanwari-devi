@@ -4,10 +4,12 @@ const useStyles = makeStyles((theme) => ({
   cardSubtitle: {
     color: "#818181",
     paddingBottom: 2,
+    // paddingTop:"72px"
   },
   pathwayContainer: {
     marginTop: 55,
     marginBottom: 48,
+    paddingTop: "72px",
   },
   mobileVideo: {
     width: 700,
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   titleCard: {
     // marginBottom: 30,
     marginLeft: 16,
+    paddingTop: "72px",
   },
   titleCardMob: {
     marginBottom: 30,

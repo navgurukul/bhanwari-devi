@@ -211,8 +211,8 @@ function Profile() {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <div item xs={12} md={6} className={classes.profileBox} align="center">
+      <Container maxWidth="lg" className={classes.profileBox}>
+        <div item xs={12} md={6} align="center">
           <img
             alt={userData.name}
             style={{

@@ -6,7 +6,11 @@ const OurStory = () => {
   const classes = useStyles();
   return (
     <>
-      <Container maxWidth="lg" sx={{ mt: 7, mb: 7 }}>
+      <Container
+        maxWidth="lg"
+        sx={{ mt: 7, mb: 7 }}
+        className={classes.container}
+      >
         <Container maxWidth="md">
           <Typography variant="h5" align="center" mb={"35px"}>
             Our Story

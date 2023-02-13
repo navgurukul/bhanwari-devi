@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "black",
   },
+  DashboardContainer: {
+    paddingTop: "72px",
+  },
 }));
 
 export default useStyles;

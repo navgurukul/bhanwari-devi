@@ -39,7 +39,7 @@ const OurPartner = () => {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" className={classes.container}>
         <Container maxWidth="md">
           <Typography
             variant="h5"

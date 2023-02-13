@@ -1,6 +1,9 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: "72px",
+  },
   Grid_Space: {
     margin: "30px 0px",
   },

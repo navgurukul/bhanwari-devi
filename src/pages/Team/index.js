@@ -107,6 +107,7 @@ function Team() {
     <Container
       maxWidth="lg"
       sx={isActive ? { padding: 0, marginTop: "24px" } : { marginTop: "40px" }}
+      className={classes.container}
     >
       <Container maxWidth="md">
         <Box

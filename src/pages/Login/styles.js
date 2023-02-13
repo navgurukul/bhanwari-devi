@@ -3,9 +3,11 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   merakiLogin: {
     marginTop: "60px",
+    paddingTop: "72px",
   },
   resMerakilogin: {
     marginTop: "184px",
+    paddingTop: "72px",
   },
   googleLogin: {
     justifyContent: "center",
