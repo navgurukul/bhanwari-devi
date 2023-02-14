@@ -28,11 +28,23 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
   },
+  team_button_box: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  team_button_box_mob: {
+    // commented code is for button scroll feature
+    // display: "flex",
+    // overflow: "auto",
+    // whiteSpace: "nowrap",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
   team_MobileSelector: {
     padding: "10px 25px",
     borderBottom: "3px solid transparent",
     cursor: "pointer",
-    // display: "inline-block"
   },
   team_selector: {
     padding: "10px 35px",
@@ -50,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     justifContent: "space-between",
     transition: "all ease-in 0.2s",
     pointerEvents: "none",
-    marginBottom: "6rem",
+    marginBottom: "32px",
   },
   team_responsiveContainer: {
     marginTop: "61px",
@@ -82,43 +94,30 @@ const useStyles = makeStyles((theme) => ({
     opacity: "1",
   },
   team_cardDetails: {
-    // width: "256px",
-    // height: "320px",
-    // padding: 4,
     position: "relative",
     border: "none",
     marginTop: "32px",
     marginBottom: "16px",
-    // display: "flex",
-    // flexDirection: "column",
     cursor: "pointer",
-    // alignItems: "center",
     transition: "all ease-in-out 0.2s",
     pointerEvents: "auto",
     "&:hover": {
       cursor: "pointer",
-      // transform: "scale(1.1)",
       boxShadow: "none",
       opacity: "1",
-      // zIndex: "2",
       "& $middle": {
         opacity: "92%",
         backgroundColor: "#3A8137",
-        // width: "100%",
-        // height : "100%",
       },
     },
   },
   middle: {
-    // width: "256px",
-    // height: "320px",
     opacity: 0,
     position: "absolute",
     width: "100%",
     height: "100%",
     top: "0%",
     left: "0%",
-    // overflow: "hidden",
     "& hover": {
       "$ team_cardDetails": {
         opacity: 0.3,
@@ -132,30 +131,19 @@ const useStyles = makeStyles((theme) => ({
   },
 
   team_cardImg: {
-    // height: 250,
-    // width: 250,
-    // marginBottom: 5,
-    // borderRadius: "50%",
     width: "256px",
     height: "320px",
-    // border: "3px solid transparent",
     transition: "all ease-in 0.2s",
-    // padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
-    // margin : 4,
-    // marginBottom: "16px",
   },
   team_mobileCardImg: {
-    // borderRadius: "50%",
     width: "328px",
     height: "312px",
-    // border: "3px solid transparent",
     transition: "all ease-in 0.2s",
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
-    // marginBottom: "16px",
   },
   team_cardTitle: {
     fontWeight: "bold",

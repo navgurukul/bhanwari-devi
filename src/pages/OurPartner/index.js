@@ -38,7 +38,7 @@ const OurPartner = () => {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ py: "32px" }}>
+      <Container maxWidth="lg" sx={{ py: "32px", my: !isActive && "32px" }}>
         <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
           <Grid item xs={12} sm={7} md={7}>
             <Typography variant="h4">
@@ -116,7 +116,7 @@ const OurPartner = () => {
         <Typography variant="h5" align="center" mb={isActive ? 2 : 4}>
           Partner List{" "}
         </Typography>
-        <Grid container spacing={isActive ? 2 : 4}>
+        <Grid container spacing={isActive ? 2 : 4} pb={isActive ? 2 : 4}>
           {Object.keys(partner).map((item) => {
             return (
               <Grid item xs={12} sm={3} md={3}>

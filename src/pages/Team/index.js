@@ -110,7 +110,7 @@ function Team() {
   const name = "Awaiting Member's Name";
 
   return (
-    <Container maxWidth="lg" disablePadding>
+    <Container maxWidth="lg" sx={{ mt: isActive ? 4 : 8 }}>
       <Grid container spacing={{ xs: 4, sm: 4 }}>
         <Grid item xs={12} sm={7} md={7}>
           <Typography variant="h4">
@@ -135,18 +135,14 @@ function Team() {
             ? classes.team_containerTopSpace
             : `${classes.team_responsiveContainer}`
         }
-        sx={{ p: 0 }}
+        // sx={{ p: 0 }}
       >
         <Box
           container
           disablePadding
-          style={{
-            display: !isActive && "flex",
-            alignItems: "center",
-            overflow: isActive && "auto",
-            whiteSpace: isActive && "nowrap",
-            justifyContent: isActive ? "space-around" : "center",
-          }}
+          className={
+            isActive ? classes.team_button_box_mob : classes.team_button_box
+          }
         >
           <Button>
             <Typography
@@ -198,7 +194,8 @@ function Team() {
               Our Supporters
             </Typography>
           </Button>
-          <Button>
+          {/* Commented code is containing & sowing the data of Ex-team members */}
+          {/* <Button>
             <Typography
               onClick={() => {
                 setMembers({
@@ -222,7 +219,7 @@ function Team() {
             >
               Ex-Team
             </Typography>
-          </Button>
+          </Button> */}
         </Box>
         <Box
           className={
@@ -230,9 +227,16 @@ function Team() {
               ? classes.team_infoCardContaier
               : classes.team_infoResponsiveContainer
           }
-          sx={{ marginTop: isActive ? 2 : 4, px: 0 }}
+          sx={{
+            marginTop: isActive ? 2 : 4,
+            // px: 0
+          }}
         >
-          <Grid container sx={{ p: 0, m: 0 }} disablePadding>
+          <Grid
+            container
+            // sx={{ p: 0, m: 0 }}
+            // disablePadding
+          >
             {teamData ? (
               shuffleArray(teamData).map((item) => {
                 if (

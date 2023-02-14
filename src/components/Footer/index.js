@@ -69,7 +69,7 @@ const MenuList = (menuItem) => {
     <>
       <Typography
         color="text.primary"
-        sx={{ mt: 4 }}
+        // sx={{ mt: 4 }}
         variant="subtitle1"
         component="div"
       >
@@ -169,7 +169,7 @@ function Footer() {
   return (
     <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
-        <Grid container spacing={2} sx={{ mt: isActive ? 0 : "50px" }}>
+        <Grid container spacing={2} sx={{ mt: isActive ? "32px" : "64px" }}>
           <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
@@ -203,7 +203,7 @@ function Footer() {
           <Grid xs={6} md={2}>
             <Typography
               color="text.primary"
-              sx={{ mt: 4, mb: 1 }}
+              sx={{ mb: 1 }}
               variant="subtitle1"
               component="div"
             >
