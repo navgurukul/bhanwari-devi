@@ -286,14 +286,11 @@ function Header() {
             ? {
                 background: position ? bgcolor : "background",
                 borderRadius: "0px",
-                marginRight: "0px",
               }
-            : {
-                background: "background",
-                borderRadius: "0px",
-              }
+            : { borderRadius: "0px" }
         }
         position="sticky"
+        color="background"
       >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
