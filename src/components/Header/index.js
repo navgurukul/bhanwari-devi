@@ -265,7 +265,6 @@ function Header() {
 
   //   window.addEventListener("scroll", changeBackground);
   let bgcolor = "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%);";
-  console.log(location);
 
   window.addEventListener("scroll", () => {
     let count = isActive ? 900 : 770;
@@ -275,7 +274,6 @@ function Header() {
       setposition(true);
     }
   });
-  console.log(position, "postion");
 
   return (
     <ThemeProvider theme={theme}>
