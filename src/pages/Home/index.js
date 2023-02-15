@@ -203,6 +203,7 @@ function Home() {
   const { loading, data } = useSelector((state) => state.Pathways);
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -238,6 +239,9 @@ function Home() {
       defalutPage = rolesLandingPages[userRole.key];
     }
   });
+  useEffect(() => {
+    history.push(defalutPage);
+  }, [defalutPage]);
 
   return (
     <>
