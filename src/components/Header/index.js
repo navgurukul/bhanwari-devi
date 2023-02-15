@@ -12,6 +12,7 @@ import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import Tooltip from "@mui/material/Tooltip";
+import { breakpoints } from "../../theme/constant";
 import {
   AppBar,
   Box,
@@ -22,7 +23,10 @@ import {
   ThemeProvider,
   SwipeableDrawer,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 import {
   PUBLIC_MENU_KEYS,
   // LEARN_KEY,
@@ -200,11 +204,15 @@ function Header() {
   const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
   const user = useSelector(({ User }) => User);
-
+  const [position, setposition] = useState(true);
   const roles = useSelector(selectRolesData);
   const [role, setRole] = React.useState(null);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = useState(false);
+  const [bgColor, setBgcolor] = useState(false);
+  let location = useLocation();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   window.addEventListener("resize", () => {
     if (window.outerWidth > theme.breakpoints.values.md) {
       setLeftDrawer(false);
@@ -222,6 +230,14 @@ function Header() {
       ? `${PATHS.STATE}/${partnerGroupId}`
       : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
+
+  useEffect(() => {
+    if (location.pathname === "/home" || location.pathname === "/") {
+      setBgcolor(true);
+    } else {
+      setBgcolor(false);
+    }
+  }, [location]);
 
   const roleKey = roles
     .map((userRole) => userRole.key)
@@ -241,19 +257,43 @@ function Header() {
   const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      setElevation(9);
+      setElevation(8);
     } else {
       setElevation(0);
     }
   });
 
+  //   window.addEventListener("scroll", changeBackground);
+  let bgcolor = "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%);";
+  console.log(location);
+
+  window.addEventListener("scroll", () => {
+    let count = isActive ? 900 : 770;
+    if (window.scrollY > count) {
+      setposition(false);
+    } else {
+      setposition(true);
+    }
+  });
+  console.log(position, "postion");
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar
-        sx={{ zIndex: 10000 }}
-        position="sticky"
-        color="background"
         elevation={elevation}
+        sx={
+          bgColor
+            ? {
+                background: position ? bgcolor : "background",
+                borderRadius: "0px",
+                marginRight: "0px",
+              }
+            : {
+                background: "background",
+                borderRadius: "0px",
+              }
+        }
+        position="sticky"
       >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
