@@ -135,7 +135,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         ))}
       </Box>
 
-      {!leftDrawer && <SearchPopup />}
+      {!leftDrawer && (
+        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+          <SearchPopup />
+        </Box>
+      )}
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -181,6 +185,7 @@ const MobileVersion = ({ toggleDrawer, leftDrawer, setRole, role }) => {
           </Box>
         </Toolbar>
       </Box>
+
       <List>
         {isAuthenticated ? (
           <AuthenticatedHeaderOption
@@ -328,7 +333,7 @@ function Header() {
                   </Button>
                 </Tooltip>
               </Link> */}
-              {/* <SearchPopup /> */}
+              <SearchPopup />
             </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
