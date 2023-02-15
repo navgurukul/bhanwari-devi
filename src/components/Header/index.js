@@ -12,6 +12,7 @@ import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import Tooltip from "@mui/material/Tooltip";
+import { breakpoints } from "../../theme/constant";
 import {
   AppBar,
   Box,
@@ -22,7 +23,10 @@ import {
   ThemeProvider,
   SwipeableDrawer,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 import {
   PUBLIC_MENU_KEYS,
   // LEARN_KEY,
@@ -131,7 +135,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         ))}
       </Box>
 
-      {!leftDrawer && <SearchPopup />}
+      {!leftDrawer && (
+        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+          <SearchPopup />
+        </Box>
+      )}
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
@@ -177,6 +185,7 @@ const MobileVersion = ({ toggleDrawer, leftDrawer, setRole, role }) => {
           </Box>
         </Toolbar>
       </Box>
+
       <List>
         {isAuthenticated ? (
           <AuthenticatedHeaderOption
@@ -200,11 +209,15 @@ function Header() {
   const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
   const user = useSelector(({ User }) => User);
-
+  const [position, setposition] = useState(true);
   const roles = useSelector(selectRolesData);
   const [role, setRole] = React.useState(null);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = useState(false);
+  const [bgColor, setBgcolor] = useState(false);
+  let location = useLocation();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   window.addEventListener("resize", () => {
     if (window.outerWidth > theme.breakpoints.values.md) {
       setLeftDrawer(false);
@@ -222,6 +235,14 @@ function Header() {
       ? `${PATHS.STATE}/${partnerGroupId}`
       : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
+
+  useEffect(() => {
+    if (location.pathname === "/home" || location.pathname === "/") {
+      setBgcolor(true);
+    } else {
+      setBgcolor(false);
+    }
+  }, [location]);
 
   const roleKey = roles
     .map((userRole) => userRole.key)
@@ -241,19 +262,39 @@ function Header() {
   const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      setElevation(9);
+      setElevation(8);
     } else {
       setElevation(0);
+    }
+  });
+
+  //   window.addEventListener("scroll", changeBackground);
+
+  window.addEventListener("scroll", () => {
+    let count = isActive ? 900 : 770;
+    if (window.scrollY > count) {
+      setposition(false);
+    } else {
+      setposition(true);
     }
   });
 
   return (
     <ThemeProvider theme={theme}>
       <AppBar
-        sx={{ zIndex: 10000 }}
+        elevation={elevation}
+        sx={
+          bgColor
+            ? {
+                background: position
+                  ? "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%);"
+                  : "background",
+                borderRadius: "0px",
+              }
+            : { borderRadius: "0px" }
+        }
         position="sticky"
         color="background"
-        elevation={elevation}
       >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
@@ -293,7 +334,7 @@ function Header() {
                   </Button>
                 </Tooltip>
               </Link> */}
-              {/* <SearchPopup /> */}
+              <SearchPopup />
             </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
