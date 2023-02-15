@@ -269,7 +269,6 @@ function Header() {
   });
 
   //   window.addEventListener("scroll", changeBackground);
-  let bgcolor = "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%);";
 
   window.addEventListener("scroll", () => {
     let count = isActive ? 900 : 770;
@@ -287,7 +286,9 @@ function Header() {
         sx={
           bgColor
             ? {
-                background: position ? bgcolor : "background",
+                background: position
+                  ? "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%);"
+                  : "background",
                 borderRadius: "0px",
               }
             : { borderRadius: "0px" }
