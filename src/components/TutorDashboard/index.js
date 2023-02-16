@@ -293,7 +293,7 @@ function Tutor(props) {
 
   useEffect(() => {
     axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}/apiDocs/volunteers/count`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/volunteers/count`,
       method: METHODS.GET,
       headers: {
         accept: "application/json",
