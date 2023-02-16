@@ -39,6 +39,20 @@ function VerifyPhoneNo(props) {
   const user = useSelector(({ User }) => User);
   const { setDisable, setContact, contact, setNextButton } = props;
 
+  const [otp, setOtp] = useState("");
+  const [bgColor, setBgColor] = useState(false);
+  const [verifyOpen, setVerifyOpen] = useState(false);
+  const [close, setClose] = useState(true);
+  const [generateOtp, setGenerateOtp] = useState(true);
+  const [startOtp, setStartOtp] = useState(false);
+  const [confirmationResult, setConfirmationResult] = useState(null);
+  const [Timer, setTimer] = useState("5:00");
+  const [isStartTimer, setIsStartTimer] = useState(false);
+  const [countryCode, setCountryCode] = useState(
+    (contact && `${contact?.split(" ")[0]}`) || "+91"
+  );
+  const [phone, setPhone] = useState("");
+
   const app = initializeApp(firebaseConfig);
   console.log(app.name);
   const handleChange = (event) => {
@@ -64,14 +78,7 @@ function VerifyPhoneNo(props) {
     setOpen(false);
     setMessage("");
   };
-  const [startOtp, setStartOtp] = useState(false);
-  const [confirmationResult, setConfirmationResult] = useState(null);
-  const [Timer, setTimer] = useState("5:00");
-  const [isStartTimer, setIsStartTimer] = useState(false);
-  const [countryCode, setCountryCode] = useState(
-    (contact && `${contact?.split(" ")[0]}`) || "+91"
-  );
-  const [phone, setPhone] = useState("");
+
   const setupRecaptcha = () => {
     console.log(firebaseConfig);
     const auth = getAuth();
@@ -86,11 +93,7 @@ function VerifyPhoneNo(props) {
       auth
     );
   };
-  const [otp, setOtp] = React.useState("");
-  const [bgColor, setBgColor] = React.useState(false);
-  const [verifyOpen, setVerifyOpen] = React.useState(false);
-  const [close, setClose] = React.useState(true);
-  const [generateOtp, setGenerateOtp] = React.useState(true);
+
   const handleChangeInput = (newValue) => {
     if (isNaN(newValue)) return false;
     setOtp(newValue);
@@ -114,33 +117,6 @@ function VerifyPhoneNo(props) {
       }
     }, 1000);
   };
-
-  // const onSignInSubmit = (event) => {
-  //   event.preventDefault();
-  //   if (!confirmationResult) {
-  //     setupRecaptcha();
-  //   }
-  //   const phoneNumber = `${countryCode} ${phone}`;
-  //   setContact(phoneNumber);
-  //   const appVerifier = window.recaptchaVerifier;
-  //   const auth = getAuth();
-  //   signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-  //     .then((result) => {
-  //       setMessage("OTP sent successfully");
-  //       setOpen(true);
-  //       console.log("OTP sent", result);
-  //       setStartOtp(true);
-  //       setConfirmationResult(result);
-  //       setIsStartTimer(true);
-  //       countTimer();
-  //       setVerifyOpen(false);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setMessage("Enter valid phone number");
-  //       setOpen(true);
-  //     });
-  // }
 
   const onSignInSubmit = async (event) => {
     try {
@@ -171,6 +147,8 @@ function VerifyPhoneNo(props) {
             "The number has already registered. Please try with another number."
           );
           setOpen(true);
+          // setIsStartTimer(true);
+          // countTimer();
           contactMatch = true;
           break;
         }
@@ -197,8 +175,7 @@ function VerifyPhoneNo(props) {
             setVerifyOpen(false);
           })
           .catch((error) => {
-            console.log(error);
-            setMessage("Enter valid phone number");
+            setMessage("Enter valid phone number or tried too many times");
             setOpen(true);
           });
       }
