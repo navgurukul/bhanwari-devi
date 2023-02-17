@@ -617,49 +617,56 @@ function Home() {
             component="h6"
             align="center"
             color="textPrimary"
-            gutterBottom
           >
             Have Questions?
           </Typography>
 
           <Grid
-            sx={{ mt: 1 }}
+            marginTop="1px"
             display={isActive && "block"}
             container
-            spacing={2}
+            spacing={4}
             align="center"
             justifyContent="center"
           >
             <Grid item sm={isActive && 12}>
-              <DraftsIcon color="secondary" />
-              <Typography variant="subtitle1">
-                <ExternalLink
-                  style={{
-                    textDecoration: "none",
-                    color: "#48a145",
-                    fontStyle: "normal",
-                  }}
-                  href="mailto:team@meraki.org"
-                >
-                  team@meraki.org
-                </ExternalLink>
-              </Typography>
+              <ExternalLink
+                style={{
+                  textDecoration: "none",
+                  color: "#48a145",
+                  fontStyle: "normal",
+                }}
+                href="mailto:team@meraki.org"
+              >
+                <img
+                  // className={classes.playstoreImg}
+                  src={require("./assets/Email.svg")}
+                  alt="Google Playstore Icon"
+                  height="32px !important"
+                  width="32px !important"
+                />
+
+                <Typography variant="subtitle1">team@meraki.org</Typography>
+              </ExternalLink>
             </Grid>
             <Grid item sm={isActive && 12}>
-              <WhatsAppIcon color="primary" align="center" />
-              <Typography variant="subtitle1">
-                <ExternalLink
-                  style={{
-                    textDecoration: "none",
-                    color: "#48a145",
-                    fontStyle: "normal",
-                  }}
-                  href="https://wa.me/918891300300"
-                >
-                  {" "}
-                  +91 8891300300
-                </ExternalLink>
-              </Typography>
+              <ExternalLink
+                style={{
+                  textDecoration: "none",
+                  color: "#48a145",
+                  fontStyle: "normal",
+                }}
+                href="https://wa.me/918891300300"
+              >
+                <img
+                  // className={classes.playstoreImg}
+                  src={require("./assets/whatsapp.svg")}
+                  alt="Google Playstore Icon"
+                  height="32px"
+                  width="32px"
+                />
+                <Typography variant="subtitle1"> +91 8891300300</Typography>
+              </ExternalLink>
             </Grid>
           </Grid>
         </Container>

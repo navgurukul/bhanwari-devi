@@ -73,11 +73,11 @@ const students = {
       path: PATHS.OUR_PARTNER,
       type: "internal",
     },
-    {
-      title: <Message constantKey="DONATE" />,
-      path: "https://www.navgurukul.org/donate",
-      type: "external",
-    },
+    // {
+    //   title: <Message constantKey="DONATE" />,
+    //   path: "https://www.navgurukul.org/donate",
+    //   type: "external",
+    // },
     {
       title: "Careers",
       path: "https://recruiterflow.com/navgurukul/jobs",
