@@ -263,14 +263,16 @@ function Home() {
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
-                <Button
-                  variant="contained"
-                  className={
-                    isActive ? classes.responsiveBtn : classes.LearningBtn
-                  }
-                >
-                  Start Learning
-                </Button>
+                <Link to={PATHS.LOGIN} className={classes.link}>
+                  <Button
+                    variant="contained"
+                    className={
+                      isActive ? classes.responsiveBtn : classes.LearningBtn
+                    }
+                  >
+                    Start Learning
+                  </Button>
+                </Link>
               </Grid>
               <Grid md={6} mt={isActive ? "16px" : "0px"} sm={12}>
                 <img
