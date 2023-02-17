@@ -18,14 +18,14 @@ const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
-    (headingVarients[index + 1] = (data) => (
-      <UnsafeHTML
-        Container={Name}
-        className="heading"
-        html={data}
-        {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
-      />
-    ))
+  (headingVarients[index + 1] = (data) => (
+    <UnsafeHTML
+      Container={Name}
+      className="heading"
+      html={data}
+      {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+    />
+  ))
 );
 
 const AssessmentContent = ({
@@ -60,7 +60,7 @@ const AssessmentContent = ({
     if (index === 0) {
       return (
         <Box sx={{ mt: "32px" }}>
-          <Typography variant="h6" align="center">
+          <Typography variant="h4" align="center">
             Output
           </Typography>
 
@@ -155,11 +155,12 @@ const AssessmentContent = ({
       />
     );
   }
+  console.log(content, 'check this');
 
-  if (content.component === "options") {
+  if (content.component === "options" && content.value !== "") {
     return (
       <Box sx={{ m: "32px 0px" }}>
-        {Object.values(content.value).map((item, index) => {
+        {Object.values(content.value).filter(item => item.value !== "").map((item, index) => {
           const text = DOMPurify.sanitize(item.value.slice(2));
           return (
             <Paper
@@ -175,8 +176,8 @@ const AssessmentContent = ({
                   ? correct
                     ? answer === item.id && classes.correctAnswer
                     : triedAgain === 1
-                    ? answer === item.id && classes.inCorrectAnswer
-                    : (answer === item.id && classes.inCorrectAnswer) ||
+                      ? answer === item.id && classes.inCorrectAnswer
+                      : (answer === item.id && classes.inCorrectAnswer) ||
                       (solution === item.id && classes.correctAnswer)
                   : answer === item.id && classes.option
               }

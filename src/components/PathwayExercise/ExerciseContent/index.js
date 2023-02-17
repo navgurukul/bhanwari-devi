@@ -76,19 +76,19 @@ const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
-    (headingVarients[index + 1] = (data) => (
-      <UnsafeHTML
-        Container={Name}
-        // className={classes.heading}
-        html={data}
-        {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
-      />
-      // <Name
-      //   className="heading"
-      //   dangerouslySetInnerHTML={{ __html: data }}
-      //   {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
-      // />
-    ))
+  (headingVarients[index + 1] = (data) => (
+    <UnsafeHTML
+      Container={Name}
+      // className={classes.heading}
+      html={data}
+      {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+    />
+    // <Name
+    //   className="heading"
+    //   dangerouslySetInnerHTML={{ __html: data }}
+    //   {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+    // />
+  ))
 );
 
 const RenderDoubtClass = ({ data, exercise }) => {
@@ -237,7 +237,7 @@ const RenderContent = ({ data, exercise }) => {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
       <div>
-        <Box className={classes.codeBackground}>
+        <Box className={classes.codeBackground} >
           {/* <Toolbar disableGutters> */}
           <Box sx={{ display: "flex", pb: 2 }}>
             <img
@@ -250,11 +250,12 @@ const RenderContent = ({ data, exercise }) => {
           {/* </Toolbar> */}
           <Typography
             className={classes.codeWrap}
+            sx={{ fontFamily: 'IBM Plex Mono' }}
             dangerouslySetInnerHTML={{
               __html: codeContent,
             }}
           />
-          <Grid container justifyContent="flex-end" mt={2}>
+          <Grid container justifyContent="flex-end" mt={2} >
             <Button
               variant="contained"
               color="dark"
@@ -469,7 +470,7 @@ function ExerciseContent({
               {/* <Typography variant="h6" sx={{ mt: "16px" }}>
                 {exercise && exercise.name}
               </Typography> */}
-              <Box sx={{ mt: 5, mb: 8 }}>
+              <Box sx={{ mt: -4, mb: 8 }}>
                 {content &&
                   content.map((contentItem, index) => (
                     <RenderContent

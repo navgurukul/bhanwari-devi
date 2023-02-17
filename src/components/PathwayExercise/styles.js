@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "20px 0",
   },
   heading: {
-    margin: "30px 0 10px 0",
+    margin: "32px 0 10px 0",
   },
   contentImage: {
     width: "100%",
@@ -33,13 +33,14 @@ const useStyles = makeStyles((theme) => ({
   },
   codeBackground: {
     background: "#E5E5E5",
-    padding: 16,
-    margin: "15px 0",
+    padding: 20,
+    margin: "25px 0",
     borderRadius: "8px",
   },
   codeWrap: {
     whiteSpace: "pre-wrap",
     lineHeight: 27,
+    marginBottom: 8,
   },
   codeExampleImg: {
     marginRight: 10,

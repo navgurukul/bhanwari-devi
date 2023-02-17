@@ -32,7 +32,6 @@ function Item({
     color: selected === index || completed ? "#48A145" : "#6D6D6D",
     fontWeight: selected === index ? "bold" : "",
   };
-
   React.useEffect(() => {
     if (contentType === "assessment") {
       if (progressTrackId?.assessments?.includes(id)) {
@@ -106,28 +105,28 @@ function PersistentDrawerLeft({
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
-  const [scrollPosition, setScrollPosition] = React.useState({ coordinateY: 0, changed: false});
+  const [scrollPosition, setScrollPosition] = React.useState({ coordinateY: 0, changed: false });
 
   const ref1 = React.useRef();
   const scrollRef = React.useRef();
 
   const debouncedUpdateScroll = useDebouncedCallback(() => {
-      if(scrollRef.current){
-        setScrollPosition({ coordinateY: scrollRef.current.scrollTop, changed: true});
-      }
-    },
+    if (scrollRef.current) {
+      setScrollPosition({ coordinateY: scrollRef.current.scrollTop, changed: true });
+    }
+  },
     200
   );
-  
-  React.useEffect(()=>{
-    if(scrollPosition.changed){
+
+  React.useEffect(() => {
+    if (scrollPosition.changed) {
       localStorage.setItem("contentListScroll", scrollPosition.coordinateY);
     }
 
   }, [scrollPosition]);
 
-  React.useEffect(()=>{
-    if(scrollRef.current){
+  React.useEffect(() => {
+    if (scrollRef.current) {
       scrollRef.current.scrollTo(0, parseInt(localStorage.getItem("contentListScroll")));
     }
   }, []);

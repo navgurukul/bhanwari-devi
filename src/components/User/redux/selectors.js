@@ -74,16 +74,16 @@ export const selectRolesData = ({ User }) => {
   return unassignedDefaultRoles
     .map((roleKey) => ({
       key: roleKey,
-      msgKey: ROLES[roleKey].msgKey,
+      msgKey: ROLES[roleKey]?.msgKey,
       assignedRole: false,
-      properties: ROLES[roleKey].properties || null,
+      properties: ROLES[roleKey]?.properties || null,
     }))
     .concat(
       rolesList.map((roleKey) => ({
         key: roleKey,
-        msgKey: ROLES[roleKey].msgKey,
+        msgKey: ROLES[roleKey]?.msgKey,
         assignedRole: true,
-        properties: ROLES[roleKey].properties || null,
+        properties: ROLES[roleKey]?.properties || null,
       }))
     );
 };
