@@ -82,14 +82,6 @@ const useStyles = makeStyles((theme) => ({
     width: "325px",
     whiteSpace: "nowrap",
   },
-  scrollData: {
-    "&::-webkit-scrollbar": { display: "none" },
-    overflowX: "scroll",
-    width: "325px",
-    whiteSpace: "nowrap",
-    display: "flex",
-    justifyContent: "center",
-  },
   edit: {
     color: "#000000",
   },

@@ -14,7 +14,6 @@ export default function ExerciseImage({
   id,
   exerciseName,
   imageRef,
-  setSuccessfulExerciseCompletion,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -61,7 +60,6 @@ export default function ExerciseImage({
               pathwayId: params.pathwayId,
             })
           );
-          setSuccessfulExerciseCompletion(false);
           setExerciseId(index);
         }}
         ref={imageRef}
