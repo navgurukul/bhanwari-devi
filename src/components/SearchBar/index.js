@@ -31,18 +31,19 @@ function SearchCourse(props) {
   // const query = useSearchQuery();
   const [search, setSearch] = useState("");
   const [focus, setFocus] = useState(true);
-  const [completedPortionJason, setCompletedPortionJason] = useState();
 
   console.log(search);
   const user = useSelector(({ User }) => User);
 
   useSearchQuery(setSearch);
-  console.log(useSearchQuery(setSearch));
   const history = useHistory();
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [updated, setUpdated] = useState(useSearchQuery(setSearch));
-  console.log(updated, "gfjf", search);
+
+  useEffect(() => {
+    setUpdated(search);
+  }, [search]);
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
@@ -54,9 +55,9 @@ function SearchCourse(props) {
 
   const handleSearchChange = (e) => {
     if (e.key == "Enter") {
-      history.replace(`/search-course/?search=${updated}`);
+      history.replace(`/search-course/?search=${e.target.value}`);
       e.preventDefault();
-      setSearch(updated);
+      setSearch(e.target.value);
     }
   };
   const [recentSearch, setrecentSearch] = useState("");
