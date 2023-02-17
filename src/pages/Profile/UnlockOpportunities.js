@@ -20,6 +20,7 @@ import { actions as pathwayActions } from "../../components/PathwayCourse/redux/
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { interpolatePath, PATHS } from "../../constant";
 import { Link } from "react-router-dom";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 function UnlockOpportunities(props) {
   const user = useSelector(({ User }) => User);
   const data = useSelector((state) => {
@@ -33,13 +34,11 @@ function UnlockOpportunities(props) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  const completedAll = completedPortion >= 100;
+  const completedAll = completedPortion >= 30;
   const [loader, setLoader] = useState(false);
   const params = useParams();
   const pathwayId = item.id;
-  console.log(completedPortion);
-  console.log(params);
-  console.log(pathwayId);
+
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
@@ -66,11 +65,14 @@ function UnlockOpportunities(props) {
     }
   }, [pathwayId]);
 
-  console.log(item);
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
       {completedAll ? (
         <>
+          <Typography variant="h6" mt="32px" mb="16px">
+            Opportunities
+            <LockOpenIcon sx={{ ml: "10px", marginTop: "10px" }} />
+          </Typography>
           <Typography variant="body1">
             Get Coursera paid subscriptions, free keyboards and scholarships to
             bootcamps
@@ -89,10 +91,16 @@ function UnlockOpportunities(props) {
           </Link>
         </>
       ) : (
-        <Typography variant="body1">
-          Unlock access to Coursera paid subscriptions, free keyboards and
-          scholarships to bootcamps by completing the Python learning track.
-        </Typography>
+        <>
+          <Typography variant="h6" mt="32px" mb="16px">
+            Opportunities
+            <LockOutlinedIcon sx={{ ml: "10px", marginTop: "10px" }} />
+          </Typography>
+          <Typography variant="body1">
+            Unlock access to Coursera paid subscriptions, free keyboards and
+            scholarships to bootcamps by completing the Python learning track.
+          </Typography>
+        </>
       )}
     </Container>
   );

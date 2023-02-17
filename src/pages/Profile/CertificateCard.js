@@ -59,8 +59,7 @@ function CertificateCard(props) {
   const [loader, setLoader] = useState(false);
   const params = useParams();
   const pathwayId = item.id;
-  console.log(params);
-  console.log(pathwayId);
+
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
@@ -99,48 +98,13 @@ function CertificateCard(props) {
       })
       .catch((err) => {});
   };
-  console.log(openModal, certificate);
+  // console.log(openModal, certificate);
 
   const downloadCert = () => {
     saveFile(certificate);
   };
-  useEffect(() => {
-    // setLoading(true);
-    if (
-      user?.data?.token &&
-      pathwayId &&
-      (pathwayId == "1" || pathwayId == "2")
-    ) {
-      dispatch(
-        enrolledBatchesActions.getEnrolledBatches({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
-    }
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((response) => {
-      setCompletedPortion((prevState) => ({
-        ...prevState,
-        total: response?.data?.total_completed_portion,
-      }));
 
-      response.data.pathway.map((item) => {
-        setCompletedPortion((prevState) => ({
-          ...prevState,
-          [item.course_id]: item.completed_portion,
-        }));
-      });
-    });
-  }, [dispatch, pathwayId]);
-
-  console.log(item);
+  // console.log(item);
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
       <Modal

@@ -8,6 +8,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { format } from "../../common/date";
+
+// import {update}
 // import ImageUpload from "@material-ui/core";
 // import VerifyPhoneNo from "../../components/VolunteerAutomation/VerifyPhoneNo";
 import Avatar from "react-avatar-edit";
@@ -32,8 +35,7 @@ import {
 import { initializeApp } from "firebase/app";
 import CertificateCard from "./CertificateCard";
 import { useParams, useHistory } from "react-router-dom";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import unlockOpportunities from "./UnlockOpportunities";
+
 import UnlockOpportunities from "./UnlockOpportunities";
 
 const firebaseConfig = {
@@ -46,11 +48,33 @@ const firebaseConfig = {
 };
 
 function Profile() {
+  // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
   const params = useParams();
   const pathwayId = params.pathwayId;
   console.log(pathwayId);
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
+  const date = user.data.user.last_login_at;
+
+  // console.log(date)
+  // console.log(format(date, "dd MM yy")-format(new Date(date), 'dd MM yy')
+  // const lastHour=format(new Date(date), 'kk')
+  // const lastMin=format(new Date(date), 'mm')
+  // console.log(lastDate)
+  let recentDate = format(date, "dd ");
+  let loginDate = format(new Date(date), "dd ");
+  const dateforlogin = recentDate - loginDate;
+  console.log(dateforlogin, recentDate, loginDate);
+
+  const min = format(new Date(), "mm");
+  const hour = format(new Date(), "kk");
+  const loginMin = format(date, "mm");
+  const loginHour = format(date, "kk");
+  const timeData = min - loginMin;
+  const timehourData = hour - loginHour;
+
+  // console.log(timeData,timehourData,min,loginMin,hour,loginHour)
+
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(null);
@@ -220,6 +244,7 @@ function Profile() {
       window.location.reload();
     });
   };
+  // console.log(user)
 
   return (
     <>
@@ -511,7 +536,10 @@ function Profile() {
                 color="text.secondary"
                 sx={{ marginTop: "32px" }}
               >
-                Last active 25 mins ago
+                Last active {""}
+                {!timehourData == 0 && timehourData + " hours"}
+                {timeData} mins ago
+                {/* Last active {!lastHour==0 && lastHour + " hours"}  {lastMin} mins ago */}
               </Typography>
             </div>
           </Grid>
@@ -524,10 +552,7 @@ function Profile() {
                 (item) =>
                   item.code === "PRGPYT" && <CertificateCard item={item} />
               )}
-            <Typography variant="h6" mt="32px" sx={{ marginLeft: "22px" }}>
-              Opportunities
-              <LockOutlinedIcon sx={{ ml: "10px", marginTop: "10px" }} />
-            </Typography>
+
             {data.Pathways.data &&
               data.Pathways.data.pathways?.map(
                 (item) =>
