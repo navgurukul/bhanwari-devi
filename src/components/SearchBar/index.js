@@ -39,7 +39,7 @@ function SearchCourse(props) {
   const history = useHistory();
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [updated, setUpdated] = useState(useSearchQuery(setSearch));
+  const [updated, setUpdated] = useState();
 
   useEffect(() => {
     setUpdated(search);
