@@ -298,7 +298,7 @@ function Home() {
                   </Grid>
                   <Grid item marginLeft="16px">
                     <Typography variant="subtitle1">
-                      Trusted by 30+ Partners
+                      Trusted by 9+ Partners
                     </Typography>
                     <Typography variant="body1">
                       Schools, NGOs and State level
@@ -317,7 +317,7 @@ function Home() {
                   </Grid>
                   <Grid item marginLeft="16px">
                     <Typography variant="subtitle1">
-                      5000+ Active Students
+                      9000+ Active Students
                     </Typography>
                     <Typography variant="body1">
                       Schools, NGOs and State level
