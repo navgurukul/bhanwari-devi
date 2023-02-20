@@ -176,7 +176,7 @@ function SearchPopup() {
                 </>
               ) : (
                 <>
-                  <Typography variant="subtitle1">Poppular Search</Typography>
+                  <Typography variant="subtitle1">Popular Searchs</Typography>
                   <Grid container sx={{ mt: "16px", mb: "32px" }}>
                     <Grid item mr={2}>
                       <Button value="Python" onClick={handleSearchBar}>
