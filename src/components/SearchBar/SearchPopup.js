@@ -70,52 +70,52 @@ function SearchPopup() {
     setClose(search);
   };
 
-  // const pathwayCourseIds =
-  //   pathway.data?.pathways
-  //     .map((pathway) => pathway.courses || [])
-  //     .flat()
-  //     .map((course) => course.id) || [];
-  // const otherCourseResults = data?.allCourses.filter((item) => {
-  //   return (
-  //     // item.course_type === "json" &&
-  //     !pathwayCourseIds.includes(item.id) &&
-  //     item.name.toLowerCase().includes(search.toLowerCase())
-  //   );
-  // });
-  // const pathwayTrackResults = pathway.data?.pathways
-  //   .map((pathway) => {
-  //     return {
-  //       ...pathway,
-  //       courses: pathway.courses?.filter((course) => {
-  //         return course.name.toLowerCase().includes(search.toLowerCase());
-  //       }),
-  //     };
-  //   })
-  //   .filter((pathway) => pathway.courses?.length > 0);
+  const pathwayCourseIds =
+    pathway.data?.pathways
+      .map((pathway) => pathway.courses || [])
+      .flat()
+      .map((course) => course.id) || [];
+  const otherCourseResults = data?.allCourses.filter((item) => {
+    return (
+      // item.course_type === "json" &&
+      !pathwayCourseIds.includes(item.id) &&
+      item.name.toLowerCase().includes(search.toLowerCase())
+    );
+  });
+  const pathwayTrackResults = pathway.data?.pathways
+    .map((pathway) => {
+      return {
+        ...pathway,
+        courses: pathway.courses?.filter((course) => {
+          return course.name.toLowerCase().includes(search.toLowerCase());
+        }),
+      };
+    })
+    .filter((pathway) => pathway.courses?.length > 0);
 
-  // const rojgar = pathwayTrackResults?.map((item) => {
-  //   return item.courses?.length;
-  // });
+  const rojgar = pathwayTrackResults?.map((item) => {
+    return item.courses?.length;
+  });
 
-  // let sum = rojgar?.reduce((total, item) => {
-  //   return total + item;
-  // }, 0);
+  let sum = rojgar?.reduce((total, item) => {
+    return total + item;
+  }, 0);
 
-  // const hasSearchResults =
-  //   pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
+  const hasSearchResults =
+    pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
 
-  // // console.log(pathway.data && pathway.data.pathways)
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-  // const recent = JSON.parse(localStorage.getItem("recent"));
+  // console.log(pathway.data && pathway.data.pathways)
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const recent = JSON.parse(localStorage.getItem("recent"));
 
-  // const handleKeyDown = (event) => {
-  //   if (event.key === "Enter") {
-  //     // 👇 Get input value
-  //     setUpdated(search);
-  //   }
-  // };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      // 👇 Get input value
+      setUpdated(search);
+    }
+  };
 
   return (
     <>
@@ -128,7 +128,7 @@ function SearchPopup() {
         aria-describedby="spring-modal-description"
         open={open}
         sx={{ zIndex: 1000 }}
-        // onClose={handleClose}
+        onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
       >
@@ -154,20 +154,20 @@ function SearchPopup() {
                 ),
               }}
               sx={{ margin: "40px 0px 32px 0px" }}
-              // inputRef={(input) => {
-              //   if (input != null) {
-              //     input.focus();
-              //   }
-              // }}
+              inputRef={(input) => {
+                if (input != null) {
+                  input.focus();
+                }
+              }}
               variant="standard"
               fullWidth
               value={search}
               onChange={handleSearchChange}
-              // onClose={handleSearchClose}
-              // onKeyDown={handleKeyDown}
+              onClose={handleSearchClose}
+              onKeyDown={handleKeyDown}
             />
 
-            {/* {search ? (
+            {search ? (
               <Typography
                 variant="subtitle1"
                 sx={{
@@ -224,7 +224,7 @@ function SearchPopup() {
                   </>
                 )}
               </>
-            )} */}
+            )}
           </Container>
         </Box>
       </Modal>
