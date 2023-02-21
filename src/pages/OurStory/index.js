@@ -14,14 +14,18 @@ const OurStory = () => {
           <Typography
             variant="h4"
             align={isActive ? "left" : "center"}
-            p={!isActive ? "64px 64px 32px 64px" : "32px 18px 32px 14px"}
+            p={!isActive ? "64px 64px 32px 64px" : "32px 0px 32px 0px"}
           >
             “Bringing the joy of learning to the students of most underserved
             communities”
           </Typography>
           <Container
             //  maxWidth = "md"
-            sx={{ mb: !isActive && 4, width: !isActive ? 655 : {} }}
+            sx={{
+              mb: !isActive && 4,
+              width: !isActive ? 655 : {},
+              p: isActive && 0,
+            }}
           >
             <Typography variant="body1" paragraph>
               Meraki as an organization lives by the above motivation. Meraki is

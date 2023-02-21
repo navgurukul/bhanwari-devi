@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   team_button_box_mob: {
     // commented code is for button scroll feature
-    // display: "flex",
+    display: "flex",
     // overflow: "auto",
     // whiteSpace: "nowrap",
     alignItems: "center",
@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "cover",
   },
   team_mobileCardImg: {
-    width: "328px",
+    width: "100%",
     height: "312px",
     transition: "all ease-in 0.2s",
     padding: "0px",

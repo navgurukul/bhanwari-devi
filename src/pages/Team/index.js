@@ -125,7 +125,15 @@ function Team() {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={5} md={5}>
-          <img src={require("./Asset/real_time.svg")} alt="undraw Agreement" />
+          <img
+            src={require("./Asset/real_time.svg")}
+            alt="undraw Agreement"
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              width: isActive && "280px",
+            }}
+          />
         </Grid>
       </Grid>
       <Box
@@ -194,8 +202,9 @@ function Team() {
               Our Supporters
             </Typography>
           </Button>
-          {/* Commented code is containing & sowing the data of Ex-team members */}
-          {/* <Button>
+        </Box>
+        {/* Commented code is containing & sowing the data of Ex-team members */}
+        {/* <Button>
             <Typography
               onClick={() => {
                 setMembers({
@@ -220,7 +229,7 @@ function Team() {
               Ex-Team
             </Typography>
           </Button> */}
-        </Box>
+
         <Box
           className={
             !isActive
@@ -254,7 +263,7 @@ function Team() {
                         sx={
                           !isActive
                             ? { width: "256px", height: "320px" }
-                            : { width: "328px", height: "312px" }
+                            : { width: "100%", height: "312px" }
                         }
                       >
                         <img
