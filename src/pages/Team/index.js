@@ -123,11 +123,22 @@ function Team() {
             We have been fortunate to find passionate people sharing our goals
             and helping us build one of the best learning platforms out there.
           </Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={5}
+          md={5}
+          // sx={isActive && {marginTop:"32px"}}
+          // align="center"
+        >
           <img
             src={require("./Asset/real_time.svg")}
             alt="undraw Agreement"
             style={{
-              width: isActive && "280px",
+              alignItems: "center",
+              justifyContent: "center",
+              width: isActive && "290px",
             }}
           />
         </Grid>
