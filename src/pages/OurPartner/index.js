@@ -20,7 +20,6 @@ import {
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
-import { Box } from "@mui/system";
 
 const OurPartner = () => {
   const classes = useStyles();
@@ -39,15 +38,13 @@ const OurPartner = () => {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ py: "32px" }}>
-        {/* <Container sx={{ my: isActive ? 2 : 4, }}> */}
+      <Container maxWidth="lg" sx={{ py: "32px", my: !isActive && "32px" }}>
         <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
           <Grid item xs={12} sm={7} md={7}>
             <Typography variant="h4">
               Partners are ones who open the doors to quality education for our
               students
             </Typography>
-
             <Typography my={2}>
               Do you want to be a part and help out your students through
               Meraki? Look no further and make the move.
@@ -55,14 +52,16 @@ const OurPartner = () => {
             <Stack>
               <Link
                 href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
-                target="_blank">
+                target="_blank"
+              >
                 <Button
                   component="span"
                   size="larger"
                   variant="contained"
                   color="primary"
                   mb={10}
-                  style={{ width: isActive ? "100%" : "50%" }}>
+                  style={{ width: isActive ? "100%" : "50%" }}
+                >
                   Join as a Partner
                 </Button>
               </Link>
@@ -76,7 +75,6 @@ const OurPartner = () => {
             />
           </Grid>
         </Grid>
-        {/* </Container> */}
       </Container>
       <Container maxWidth={false} className={classes.containerColor}>
         <Container>
@@ -118,16 +116,10 @@ const OurPartner = () => {
         <Typography variant="h5" align="center" mb={isActive ? 2 : 4}>
           Partner List{" "}
         </Typography>
-        <Grid container spacing={isActive ? 2 : 4}>
+        <Grid container spacing={isActive ? 2 : 4} pb={isActive ? 2 : 4}>
           {Object.keys(partner).map((item) => {
             return (
-              <Grid
-                item
-                xs={12}
-                sm={3}
-                md={3}
-                // columnSpacing={4}
-              >
+              <Grid item xs={12} sm={3} md={3}>
                 {partner[item].Name !== null &&
                   partner[item].OrganisationType !== null &&
                   !partner[item].State !== null &&
@@ -136,9 +128,11 @@ const OurPartner = () => {
                       elevation={2}
                       sx={{
                         height: isActive ? 185 : 210,
-                      }}>
+                      }}
+                    >
                       <CardContent
-                        sx={{ height: isActive ? "110px" : "140px" }}>
+                        sx={{ height: isActive ? "110px" : "140px" }}
+                      >
                         <Typography variant="subtitle1" gutterBottom mb={1}>
                           {partner[item].Name}
                         </Typography>

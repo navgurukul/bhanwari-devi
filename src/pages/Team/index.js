@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
-import Tippy from "@tippyjs/react";
 import { breakpoints } from "../../theme/constant";
 import LinkedIn from "../../components/common/SocialMediaIcons/LinkedIn";
 import Twitter from "../../components/common/SocialMediaIcons/Twitter";
@@ -111,30 +110,39 @@ function Team() {
   const name = "Awaiting Member's Name";
 
   return (
-    <Container maxWidth="lg" disablePadding>
-      <Box sx={{ my: isActive ? 0 : 4, p: 0 }}>
-        <Grid container spacing={{ xs: 4, sm: 4 }}>
-          <Grid item xs={12} sm={7} md={7}>
-            <Typography variant="h4">
-              Meet the team of core members, a ton of volunteers and past
-              members that have made it all possible
-            </Typography>
+    <Container maxWidth="lg" sx={{ mt: isActive ? 4 : 8 }}>
+      <Grid container spacing={{ xs: 4, sm: 4 }}>
+        <Grid item xs={12} sm={7} md={7}>
+          <Typography variant="h4">
+            Meet the team of core members, a ton of volunteers and past members
+            that have made it all possible
+          </Typography>
 
-            <Typography variant="body1" mt={2}>
-              Meraki aims to remain free for the underserved communities in
-              India. We have been fortunate to find passionate people sharing
-              our goals and helping us build one of the best learning platforms
-              out there.
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={5} md={5}>
-            <img
-              src={require("./Asset/real_time.svg")}
-              alt="undraw Agreement"
-            />
-          </Grid>
+          <Typography variant="body1" mt={2}>
+            Meraki aims to remain free for the underserved communities in India.
+            We have been fortunate to find passionate people sharing our goals
+            and helping us build one of the best learning platforms out there.
+          </Typography>
         </Grid>
-      </Box>
+        <Grid
+          item
+          xs={12}
+          sm={5}
+          md={5}
+          // sx={isActive && {marginTop:"32px"}}
+          // align="center"
+        >
+          <img
+            src={require("./Asset/real_time.svg")}
+            alt="undraw Agreement"
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              width: isActive && "290px",
+            }}
+          />
+        </Grid>
+      </Grid>
       <Box
         disablePadding
         className={
@@ -142,18 +150,14 @@ function Team() {
             ? classes.team_containerTopSpace
             : `${classes.team_responsiveContainer}`
         }
-        sx={{ p: 0 }}
+        // sx={{ p: 0 }}
       >
         <Box
           container
           disablePadding
-          style={{
-            display: !isActive && "flex",
-            alignItems: "center",
-            overflow: isActive && "auto",
-            whiteSpace: isActive && "nowrap",
-            justifyContent: isActive ? "space-around" : "center",
-          }}
+          className={
+            isActive ? classes.team_button_box_mob : classes.team_button_box
+          }
         >
           <Button>
             <Typography
@@ -205,7 +209,9 @@ function Team() {
               Our Supporters
             </Typography>
           </Button>
-          <Button>
+        </Box>
+        {/* Commented code is containing & sowing the data of Ex-team members */}
+        {/* <Button>
             <Typography
               onClick={() => {
                 setMembers({
@@ -229,17 +235,24 @@ function Team() {
             >
               Ex-Team
             </Typography>
-          </Button>
-        </Box>
+          </Button> */}
+
         <Box
           className={
             !isActive
               ? classes.team_infoCardContaier
               : classes.team_infoResponsiveContainer
           }
-          sx={{ marginTop: isActive ? 2 : 4, px: 0 }}
+          sx={{
+            marginTop: isActive ? 2 : 4,
+            // px: 0
+          }}
         >
-          <Grid container sx={{ p: 0, m: 0 }} disablePadding>
+          <Grid
+            container
+            // sx={{ p: 0, m: 0 }}
+            // disablePadding
+          >
             {teamData ? (
               shuffleArray(teamData).map((item) => {
                 if (
@@ -257,7 +270,7 @@ function Team() {
                         sx={
                           !isActive
                             ? { width: "256px", height: "320px" }
-                            : { width: "328px", height: "312px" }
+                            : { width: "100%", height: "312px" }
                         }
                       >
                         <img
@@ -269,7 +282,6 @@ function Team() {
                           src={item.Photo}
                           alt={item.Name.substring(0, item.Name.indexOf(" "))}
                         />
-
                         <Box className={classes.middle}>
                           <Typography variant="body1" className={classes.text}>
                             {(item.Content.length && item.Content) || content}
