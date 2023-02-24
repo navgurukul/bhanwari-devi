@@ -283,12 +283,14 @@ function Header() {
     <ThemeProvider theme={theme}>
       <AppBar
         elevation={elevation}
+        maxWidth="lg"
         sx={
           bgColor
             ? {
                 background: position
                   ? "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%);"
                   : "background",
+
                 borderRadius: "0px",
               }
             : { borderRadius: "0px" }
