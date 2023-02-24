@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -22,6 +22,15 @@ import { Popover, InputAdornment } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { METHODS } from "../../services/api";
 import axios from "axios";
+import { ElectricScooterSharp } from "@mui/icons-material";
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 
 function SearchCourse(props) {
   const { data } = useSelector(({ Course }) => Course);
@@ -34,6 +43,8 @@ function SearchCourse(props) {
 
   console.log(search);
   const user = useSelector(({ User }) => User);
+  const prevSearch = usePrevious(search);
+  console.log(prevSearch);
 
   useSearchQuery(setSearch);
   const history = useHistory();
@@ -55,9 +66,12 @@ function SearchCourse(props) {
 
   const handleSearchChange = (e) => {
     if (e.key == "Enter") {
-      history.replace(`/search-course/?search=${e.target.value}`);
+      if (e.target.value == "") {
+        history.replace(`/search-course/?search=${prevSearch}`);
+      } else {
+        history.replace(`/search-course/?search=${e.target.value}`);
+      }
       e.preventDefault();
-      setSearch(e.target.value);
     }
   };
   const [recentSearch, setrecentSearch] = useState("");
@@ -105,6 +119,7 @@ function SearchCourse(props) {
   const rojgar = pathwayTrackResults?.map((item) => {
     return item.courses?.length;
   });
+
   const item = pathwayTrackResults?.map((item) => {
     return item.course;
   });
@@ -112,6 +127,8 @@ function SearchCourse(props) {
   let sum = rojgar?.reduce((total, item) => {
     return total + item;
   }, 0);
+
+  let misscount = otherCourseResults?.length;
 
   return (
     <>
@@ -149,7 +166,7 @@ function SearchCourse(props) {
             marginTop: "32px",
           }}
         >
-          {sum} result found
+          {sum + misscount} result found
         </Typography>
       </Container>
       <Container>
@@ -161,7 +178,10 @@ function SearchCourse(props) {
                 {pathwayTrackResults?.map((pathway, index) => {
                   return (
                     <>
-                      <Typography variant="h5" sx={{ mt: "16px", ml: "6px" }}>
+                      <Typography
+                        variant="h5"
+                        sx={{ margin: "16px 0px 1px 6px" }}
+                      >
                         {pathway.name}
                       </Typography>
                       <Grid container spacing={2} align="center">
@@ -232,10 +252,7 @@ function SearchCourse(props) {
 
                 {otherCourseResults?.length > 0 && (
                   <>
-                    <Typography
-                      variant="h5"
-                      sx={{ pb: "16px", mt: 8, ml: "6px" }}
-                    >
+                    <Typography variant="h5" sx={{ mt: 2, ml: "6px" }}>
                       Miscellaneous Courses
                     </Typography>
                     <Grid

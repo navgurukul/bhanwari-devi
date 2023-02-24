@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -25,6 +25,14 @@ import { Popover, InputAdornment, Modal } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import Backdrop from "@mui/material/Backdrop";
 
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
+
 function SearchPopup() {
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
@@ -37,7 +45,8 @@ function SearchPopup() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [updated, setUpdated] = useState("");
+
+  const prevSearch = usePrevious(search);
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -47,11 +56,16 @@ function SearchPopup() {
   const id = open ? "simple-popper" : undefined;
 
   const handleSearchChange = (e) => {
-    if (e.key === "Enter") {
-      history.replace(`/search-course/?search=${e.target.value}`);
+    if (e.key == "Enter") {
+      if (e.target.value == "") {
+        if (!search == "") {
+          history.replace(`/search-course/?search=${prevSearch}`);
+        }
+      } else {
+        history.replace(`/search-course/?search=${e.target.value}`);
+      }
       setAnchorEl(null);
       e.preventDefault();
-      setSearch(e.target.value);
     }
   };
 
@@ -59,7 +73,7 @@ function SearchPopup() {
     history.replace(`/search-course/?search=${e.target.value}`);
     setAnchorEl(null);
 
-    setSearch(e.target.value);
+    // setSearch(e.target.value);
   };
 
   const [close, setClose] = "";
