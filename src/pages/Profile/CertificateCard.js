@@ -55,7 +55,7 @@ function CertificateCard(props) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  const completedAll = completedPortion.total >= 100;
+
   const [loader, setLoader] = useState(false);
   const params = useParams();
   const pathwayId = item.id;
@@ -76,6 +76,31 @@ function CertificateCard(props) {
     p: 4,
   };
   console.log(item);
+  useEffect(() => {
+    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  }, [dispatch, pathwayId]);
+  useEffect(() => {
+    // setLoading(true);
+    if (user?.data?.token && pathwayId) {
+      dispatch(
+        enrolledBatchesActions.getEnrolledBatches({
+          pathwayId: pathwayId,
+          authToken: user?.data?.token,
+        })
+      );
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      }).then((response) => {
+        // console.log("response", response.data.total_completed_portion);
+        setCompletedPortion(response.data.total_completed_portion);
+      });
+    }
+  }, [pathwayId]);
   // const pathwayId = params.pathwayId;
 
   // console.log(completedAll,completedPortion,pathwayId)
@@ -103,6 +128,8 @@ function CertificateCard(props) {
   const downloadCert = () => {
     saveFile(certificate);
   };
+  const completedAll = completedPortion.total >= 100;
+  console.log(completedAll, completedPortion);
 
   // console.log(item);
   return (

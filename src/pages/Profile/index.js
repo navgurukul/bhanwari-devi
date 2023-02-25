@@ -37,6 +37,7 @@ import CertificateCard from "./CertificateCard";
 import { useParams, useHistory } from "react-router-dom";
 
 import UnlockOpportunities from "./UnlockOpportunities";
+import LastLoginTime from "./LastLoginTime/LastLoginTime";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -55,23 +56,6 @@ function Profile() {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const date = user.data.user.last_login_at;
-
-  // console.log(date)
-  // console.log(format(date, "dd MM yy")-format(new Date(date), 'dd MM yy')
-  // const lastHour=format(new Date(date), 'kk')
-  // const lastMin=format(new Date(date), 'mm')
-  // console.log(lastDate)
-  let recentDate = format(date, "dd ");
-  let loginDate = format(new Date(date), "dd ");
-  const dateforlogin = recentDate - loginDate;
-  console.log(dateforlogin, recentDate, loginDate);
-
-  const min = format(new Date(), "mm");
-  const hour = format(new Date(), "kk");
-  const loginMin = format(date, "mm");
-  const loginHour = format(date, "kk");
-  const timeData = min - loginMin;
-  const timehourData = hour - loginHour;
 
   // console.log(timeData,timehourData,min,loginMin,hour,loginHour)
 
@@ -102,6 +86,7 @@ function Profile() {
 
   const [otp, setOtp] = React.useState("");
   const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+
   const data = useSelector((state) => {
     return state;
   });
@@ -257,8 +242,14 @@ function Profile() {
         }}
       >
         <Grid container>
-          <Grid item md={4}>
-            <div item xs={12} md={6} className={classes.profileBox}>
+          <Grid item md={4} xs={12}>
+            <div
+              item
+              xs={12}
+              md={6}
+              className={classes.profileBox}
+              align={isActive && "center"}
+            >
               <img
                 alt={userData.name}
                 style={{
@@ -489,7 +480,7 @@ function Profile() {
                 <Typography>Please wait...</Typography>
               ) : (
                 <Typography
-                  variant={isActive ? "subtitle1" : "h6"}
+                  variant="h6"
                   sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
                 >
                   {userData.name}
@@ -526,21 +517,13 @@ function Profile() {
                 sx={{
                   alignItems: isActive ? "center" : "left",
                 }}
+                align={isActive && "center"}
               >
                 {/* {!isActive && "Edit Profile"} */}
                 Edit Profile
               </Button>
 
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                sx={{ marginTop: "32px" }}
-              >
-                Last active {""}
-                {!timehourData == 0 && timehourData + " hours"}
-                {timeData} mins ago
-                {/* Last active {!lastHour==0 && lastHour + " hours"}  {lastMin} mins ago */}
-              </Typography>
+              <LastLoginTime />
             </div>
           </Grid>
           <Grid item md={6}>

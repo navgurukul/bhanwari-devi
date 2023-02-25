@@ -34,7 +34,7 @@ function UnlockOpportunities(props) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  const completedAll = completedPortion >= 30;
+  const completedAll = completedPortion >= 100;
   const [loader, setLoader] = useState(false);
   const params = useParams();
   const pathwayId = item.id;
