@@ -39,6 +39,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "./constant";
+import ExternalLink from "../common/ExternalLink";
 import { selectRolesData } from "../User/redux/selectors";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 import SearchBar from "../SearchBar";
@@ -47,6 +48,7 @@ import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
 import SearchPopup from "../SearchBar/SearchPopup";
+import LaunchOutlinedIcon from "@mui/icons-material/Launch";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -124,6 +126,35 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             </TextButtonDropDownMenu>
           </>
         ))}
+        <ExternalLink
+          href="https://www.navgurukul.org/donate"
+          className={classes.link}
+          onClick={toggleDrawer && toggleDrawer(false)}
+        >
+          <MenuItem
+            sx={{
+              padding: 0,
+              borderRadius: "8px",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              sx={{
+                height: "36px",
+                padding: "6px 16px",
+                display: "flex",
+                alignItems: "center",
+                "&:hover": {
+                  backgroundColor: "#E9F5E9",
+                  borderRadius: "8px",
+                },
+              }}
+            >
+              Donate
+              <LaunchOutlinedIcon sx={{ pl: "5px" }} />
+            </Typography>
+          </MenuItem>
+        </ExternalLink>
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey) => (

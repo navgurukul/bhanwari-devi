@@ -48,11 +48,11 @@ const menu = {
       link: PATHS.OUR_PARTNER,
     },
 
-    {
-      title: "Donate",
-      type: "external",
-      link: "https://www.navgurukul.org/donate",
-    },
+    // {
+    //   title: "Donate",
+    //   type: "external",
+    //   link: "https://www.navgurukul.org/donate",
+    // },
     {
       title: "Careers",
       type: "exernal",
@@ -199,6 +199,21 @@ function Footer() {
           </Grid>
           <Grid xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("GetInvolved")}
+            <ExternalLink
+              className={classes.link}
+              sx={{ mt: "8px" }}
+              href="https://www.navgurukul.org/donate"
+            >
+              <Typography
+                variant="body2"
+                color="text.primary"
+                mb={1}
+                mt={1}
+                className={classes.CareerNDoner}
+              >
+                Donate <LaunchOutlinedIcon sx={{ pl: "5px" }} />
+              </Typography>
+            </ExternalLink>
           </Grid>
           <Grid xs={6} md={2}>
             <Typography

@@ -263,15 +263,16 @@ function Home() {
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
-
-                <Button
-                  variant="contained"
-                  className={
-                    isActive ? classes.responsiveBtn : classes.LearningBtn
-                  }
-                >
-                  Start Learning
-                </Button>
+                <Link to={PATHS.LOGIN} className={classes.link}>
+                  <Button
+                    variant="contained"
+                    className={
+                      isActive ? classes.responsiveBtn : classes.LearningBtn
+                    }
+                  >
+                    Start Learning
+                  </Button>
+                </Link>
               </Grid>
               <Grid md={6} mt={isActive ? "16px" : "0px"} sm={12}>
                 <img
@@ -285,60 +286,60 @@ function Home() {
 
             {/* section 2 */}
 
-            <Grid container mt={isActive ? "16px" : "80px"} spacing={2}>
+            <Grid container mt={isActive ? "16px" : "48px"} spacing={4}>
               <Grid item md={4}>
-                <Grid container>
-                  <Grid item mt="5px">
+                <Grid container spacing={2}>
+                  <Grid item md={2} xs={2} mt="5px">
                     <img
                       src={require("./assets/Group.svg")}
                       alt={"Homeimage"}
                       sx={{ width: "47px", height: "47px" }}
                     />
                   </Grid>
-                  <Grid item marginLeft="16px">
+                  <Grid item md={10} xs={10}>
                     <Typography variant="subtitle1">
-                      Trusted by 30+ Partners
+                      Trusted by 9+ Partners
                     </Typography>
-                    <Typography variant="body1">
-                      Schools, NGOs and State level
+                    <Typography variant="body1" pt="6px">
+                      For our hybrid and free online learning approach
                     </Typography>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item md={4}>
-                <Grid container>
-                  <Grid item mt="5px">
+                <Grid container spacing={2}>
+                  <Grid item mt="5px" md={2} xs={2}>
                     <img
                       src={require("./assets/girls.svg")}
                       alt={"Homeimage"}
                       sx={{ width: "47px", height: "47px" }}
                     />
                   </Grid>
-                  <Grid item marginLeft="16px">
+                  <Grid item md={10} xs={10}>
                     <Typography variant="subtitle1">
-                      5000+ Active Students
+                      9000+ Active Students
                     </Typography>
-                    <Typography variant="body1">
-                      Schools, NGOs and State level
+                    <Typography variant="body1" pt="8px">
+                      From all corners of India taking first step in tech world
                     </Typography>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item md={4}>
-                <Grid container>
-                  <Grid item mt="12px">
+                <Grid container md={12} spacing={2}>
+                  <Grid item mt="8px" md={2} xs={2}>
                     <img
-                      src={require("./assets/certificate.svg")}
+                      src={require("./assets/Layer.svg")}
                       alt={"Homeimage"}
                       sx={{ width: "47px", height: "47px" }}
                     />
                   </Grid>
-                  <Grid item marginLeft="16px">
+                  <Grid item md={10} xs={10}>
                     <Typography variant="subtitle1">
-                      100+ Certificates Issued
+                      5+ Monthly Mentor Sessions
                     </Typography>
-                    <Typography variant="body1">
-                      Schools, NGOs and State level
+                    <Typography variant="body1" pt="8px">
+                      For direct interaction with industry experts at Amazon
                     </Typography>
                   </Grid>
                 </Grid>
@@ -412,7 +413,7 @@ function Home() {
                 }}
               >
                 <img
-                  src={require("./assets/Layer.svg")}
+                  src={require("./assets/livelessons.svg")}
                   alt={"Homeimage"}
                   sx={{ Maxwidth: "48px", Maxheight: "50px" }}
                 />
@@ -616,49 +617,56 @@ function Home() {
             component="h6"
             align="center"
             color="textPrimary"
-            gutterBottom
           >
             Have Questions?
           </Typography>
 
           <Grid
-            sx={{ mt: 1 }}
+            marginTop="1px"
             display={isActive && "block"}
             container
-            spacing={2}
+            spacing={4}
             align="center"
             justifyContent="center"
           >
             <Grid item sm={isActive && 12}>
-              <DraftsIcon color="secondary" />
-              <Typography variant="subtitle1">
-                <ExternalLink
-                  style={{
-                    textDecoration: "none",
-                    color: "#48a145",
-                    fontStyle: "normal",
-                  }}
-                  href="mailto:team@meraki.org"
-                >
-                  team@meraki.org
-                </ExternalLink>
-              </Typography>
+              <ExternalLink
+                style={{
+                  textDecoration: "none",
+                  color: "#48a145",
+                  fontStyle: "normal",
+                }}
+                href="mailto:team@meraki.org"
+              >
+                <img
+                  // className={classes.playstoreImg}
+                  src={require("./assets/Email.svg")}
+                  alt="Google Playstore Icon"
+                  height="32px !important"
+                  width="32px !important"
+                />
+
+                <Typography variant="subtitle1">team@meraki.org</Typography>
+              </ExternalLink>
             </Grid>
             <Grid item sm={isActive && 12}>
-              <WhatsAppIcon color="primary" align="center" />
-              <Typography variant="subtitle1">
-                <ExternalLink
-                  style={{
-                    textDecoration: "none",
-                    color: "#48a145",
-                    fontStyle: "normal",
-                  }}
-                  href="https://wa.me/918891300300"
-                >
-                  {" "}
-                  +91 8891300300
-                </ExternalLink>
-              </Typography>
+              <ExternalLink
+                style={{
+                  textDecoration: "none",
+                  color: "#48a145",
+                  fontStyle: "normal",
+                }}
+                href="https://wa.me/918891300300"
+              >
+                <img
+                  // className={classes.playstoreImg}
+                  src={require("./assets/whatsapp.svg")}
+                  alt="Google Playstore Icon"
+                  height="32px"
+                  width="32px"
+                />
+                <Typography variant="subtitle1"> +91 8891300300</Typography>
+              </ExternalLink>
             </Grid>
           </Grid>
         </Container>
