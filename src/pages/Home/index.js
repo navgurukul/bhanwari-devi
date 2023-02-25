@@ -28,9 +28,6 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../../components/Header/constant";
-import { NavLink, useLocation } from "react-router-dom";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import DraftsIcon from "@mui/icons-material/Drafts";
 
 const pathwayData = [
   {
@@ -378,7 +375,7 @@ function Home() {
                 <Typography variant="subtitle1" mt="16px">
                   Courses from the very basics
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="body1" mt="8px">
                   Start from scratch and work your way through the basics
                 </Typography>
               </Box>
@@ -398,7 +395,7 @@ function Home() {
                 <Typography variant="subtitle1" mt="16px">
                   Free of cost
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="body1" mt="8px">
                   Meraki is free forever in line with our goal to make tech
                   education reach every underserved student in India
                 </Typography>
@@ -420,7 +417,7 @@ function Home() {
                 <Typography variant="subtitle1" mt="16px">
                   Live lessons from teachers
                 </Typography>
-                <Typography variant="body1">
+                <Typography variant="body1" mt="8px">
                   Structured classes from each topic from people in the industry
                   to help you with every large or small concept and doubt
                 </Typography>
@@ -439,11 +436,11 @@ function Home() {
                   sx={{ Maxwidth: "48px", Maxheight: "50px" }}
                 />
                 <Typography variant="subtitle1" mt="16px">
-                  Free of cost
+                  In multiple regional languages
                 </Typography>
-                <Typography variant="body1">
-                  Meraki is free forever in line with our goal to make tech
-                  education reach every underserved student in India
+                <Typography variant="body1" mt="8px">
+                  Learn in your own mother tongue with clarity while also
+                  developing your English skills with our program
                 </Typography>
               </Box>
             </Grid>
