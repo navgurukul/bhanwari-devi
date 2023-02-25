@@ -15,6 +15,7 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
+  SCRATCH: process.env.NODE_ENV === 'development' ? 'https://dev.scratch.merakilearn.org/' : "https://scratch.merakilearn.org/",
   USER: "/user",
   PROFILE: "/profile",
   ME: "/me",
@@ -223,8 +224,7 @@ export const TimeLeft = (date) => {
     const TimePart = date?.split("T")[1].split(":");
     // calculate the time left for the event
     const timeLeft = new Date(
-      `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} ${TimePart[0]}:${
-        TimePart[1]
+      `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} ${TimePart[0]}:${TimePart[1]
       }`
     );
     const now = new Date(
