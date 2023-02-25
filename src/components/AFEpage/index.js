@@ -52,7 +52,7 @@ function AFEpage() {
               India’s tech industry employs 10 million people; however, women
               only make up 34% of the workforce. Women represent 40% of
               entry-level tech jobs & the representation gets lower as they move
-              up with 30% at the mid-level positions and as low as 20% in senior
+              up, with 30% in mid-level positions and as low as 20% in senior
               roles.
             </Typography>
 
@@ -90,16 +90,16 @@ function AFEpage() {
               </Typography>
             </Grid>
             <Typography variant="body1" paragraph>
-              NavGurukul is a registered non-profit organization working towards
-              the financial empowerment of students from underserved
-              communities. Started in 2016 by IIT-D Alumnus, the organization
-              equips the youth with 21st-century skills through programming,
-              coding, critical thinking, and problem-solving with a commitment
-              to support its students until their placements.
+              NavGurukul is a registered non-profit organisation working to
+              empower students from underserved communities financially. Started
+              in 2016 by IIT-D Alumnus, the organisation equips the youth with
+              21st-century skills through programming, coding, critical
+              thinking, and problem-solving. It is committed to supporting its
+              students until their placements.
             </Typography>
 
             <Typography variant="body1" paragraph>
-              Navgurukul offers a 1-year fully-funded skilling and recruitment
+              NavGurukul offers a 1-year fully-funded skilling and recruitment
               program in software engineering that enables them to secure
               aspirational careers.
             </Typography>
@@ -147,8 +147,8 @@ function AFEpage() {
               </Typography>
             </Grid>
             <Typography variant="body1" paragraph align="left">
-              Navgurukul is working with a two-step approach to make our
-              students CS ready and placed in tech jobs.
+              NavGurukul is working with a two-step approach to make our
+              students CS-ready and placed in tech jobs.
               <List>
                 <ListItem>
                   <Grid className={classes.AFE_approaches}>

@@ -28,18 +28,17 @@ const OurStory = () => {
             }}
           >
             <Typography variant="body1" paragraph>
-              Meraki as an organization lives by the above motivation. Meraki is
-              part of NavGurukul Foundation for Social Welfare. It started in
-              2020 as an effort to bring low cost online tech education to
-              students from low income families across India. NavGurukul already
-              runs successful campus programs across India and Meraki is an
+              Meraki, as an organization, lives by the above motivation. Meraki
+              is part of NavGurukul Foundation for Social Welfare. It started in
+              2020 to bring low-cost online tech education to students from
+              low-income families across India. NavGurukul already runs
+              successful campus programs across India, and Meraki is an
               extension of that effort.
             </Typography>
             <Typography variant="body1" mt={!isActive ? 4 : 2} paragraph>
-              In our pursuit, we have been helped by numerous volunteers,
-              partners to help create relationships with government bodies,
-              schools and NGOs to cater to their students or just individual
-              students.
+              In our pursuit, numerous volunteers and partners helped us create
+              relationships with government bodies, schools and NGOs to cater to
+              their students or just individual students.
             </Typography>
           </Container>
         </Grid>
