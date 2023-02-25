@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   Grid_Space: {
-    margin: "64px 0px",
+    margin: "40px 0px",
   },
   AFE_approaches: {
     fontWeight: 700,

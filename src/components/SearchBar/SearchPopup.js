@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -25,6 +25,14 @@ import { Popover, InputAdornment, Modal } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import Backdrop from "@mui/material/Backdrop";
 
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
+
 function SearchPopup() {
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
@@ -37,7 +45,8 @@ function SearchPopup() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [updated, setUpdated] = useState("");
+
+  const prevSearch = usePrevious(search);
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -47,22 +56,24 @@ function SearchPopup() {
   const id = open ? "simple-popper" : undefined;
 
   const handleSearchChange = (e) => {
-    if (!e.target.value) {
-      history.replace("");
-    } else {
-      history.replace(`/search-course/?search=${e.target.value}`);
+    if (e.key == "Enter") {
+      if (e.target.value == "") {
+        if (!search == "") {
+          history.replace(`/search-course/?search=${prevSearch}`);
+        }
+      } else {
+        history.replace(`/search-course/?search=${e.target.value}`);
+      }
+      setAnchorEl(null);
+      e.preventDefault();
     }
-    e.preventDefault();
-    setSearch(e.target.value);
   };
 
   const handleSearchBar = (e) => {
-    if (!e.target.value) {
-      history.replace("");
-    } else {
-      history.replace(`/search-course/?search=${e.target.value}`);
-    }
-    setSearch(e.target.value);
+    history.replace(`/search-course/?search=${e.target.value}`);
+    setAnchorEl(null);
+
+    // setSearch(e.target.value);
   };
 
   const [close, setClose] = "";
@@ -110,13 +121,6 @@ function SearchPopup() {
   };
   const recent = JSON.parse(localStorage.getItem("recent"));
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      // 👇 Get input value
-      setUpdated(search);
-    }
-  };
-
   return (
     <>
       <Button onClick={handleClick} color="dark">
@@ -161,70 +165,57 @@ function SearchPopup() {
               }}
               variant="standard"
               fullWidth
-              value={search}
-              onChange={handleSearchChange}
-              onClose={handleSearchClose}
-              onKeyDown={handleKeyDown}
+              onKeyPress={handleSearchChange}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             />
 
-            {search ? (
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  fontWeight: "600",
-                  fontSize: "18px",
-                  marginBottom: "16px",
-                }}
-              >
-                {sum} result found
-              </Typography>
-            ) : (
-              <>
-                {recent ? (
-                  <>
-                    <Typography variant="subtitle1">Recent Search</Typography>
+            <>
+              {recent ? (
+                <>
+                  <Typography variant="subtitle1">Recent Search</Typography>
 
-                    <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                      {recent
-                        ?.slice(Math.max(recent.length - 5, 0))
-                        .map((item) => (
-                          <Grid item mr={2}>
-                            <Button value={item} onClick={handleSearchBar}>
-                              {item}
-                            </Button>
-                          </Grid>
-                        ))}
+                  <Grid container sx={{ mt: "16px", mb: "32px" }}>
+                    {recent
+                      ?.slice(Math.max(recent.length - 5, 0))
+                      .map((item) => (
+                        <Grid item mr={2}>
+                          <Button value={item} onClick={handleSearchBar}>
+                            {item}
+                          </Button>
+                        </Grid>
+                      ))}
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <Typography variant="subtitle1">Popular Searchs</Typography>
+                  <Grid container sx={{ mt: "16px", mb: "32px" }}>
+                    <Grid item mr={2}>
+                      <Button value="Python" onClick={handleSearchBar}>
+                        Python
+                      </Button>
                     </Grid>
-                  </>
-                ) : (
-                  <>
-                    <Typography variant="subtitle1">Poppular Search</Typography>
-                    <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                      <Grid item mr={2}>
-                        <Button value="Python" onClick={handleSearchBar}>
-                          Python
-                        </Button>
-                      </Grid>
-                      <Grid item mr={2}>
-                        <Button value="List" onClick={handleSearchBar}>
-                          List
-                        </Button>
-                      </Grid>
-                      <Grid item mr={2}>
-                        <Button value="Variable" onClick={handleSearchBar}>
-                          Variable
-                        </Button>
-                      </Grid>
-                      <Grid item mr={2}>
-                        <Button value="Scratch" onClick={handleSearchBar}>
-                          Scratch (CEL)
-                        </Button>
-                      </Grid>
+                    <Grid item mr={2}>
+                      <Button value="List" onClick={handleSearchBar}>
+                        List
+                      </Button>
                     </Grid>
-                  </>
-                )}
-              </>
-            )}
+                    <Grid item mr={2}>
+                      <Button value="Variable" onClick={handleSearchBar}>
+                        Variable
+                      </Button>
+                    </Grid>
+                    <Grid item mr={2}>
+                      <Button value="Scratch" onClick={handleSearchBar}>
+                        Scratch (CEL)
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </>
+              )}
+            </>
           </Container>
         </Box>
       </Modal>

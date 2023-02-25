@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -20,8 +20,17 @@ import {
 import useStyles from "./styles";
 import { Popover, InputAdornment } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import SearchPopup from "./SearchPopup";
-import { getObjectState, saveObjectState } from "../../common/storage";
+import { METHODS } from "../../services/api";
+import axios from "axios";
+import { ElectricScooterSharp } from "@mui/icons-material";
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 
 function SearchCourse(props) {
   const { data } = useSelector(({ Course }) => Course);
@@ -31,10 +40,21 @@ function SearchCourse(props) {
   // const query = useSearchQuery();
   const [search, setSearch] = useState("");
   const [focus, setFocus] = useState(true);
+
+  console.log(search);
+  const user = useSelector(({ User }) => User);
+  const prevSearch = usePrevious(search);
+  console.log(prevSearch);
+
   useSearchQuery(setSearch);
   const history = useHistory();
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [updated, setUpdated] = useState();
+
+  useEffect(() => {
+    setUpdated(search);
+  }, [search]);
 
   useEffect(() => {
     dispatch(courseActions.getCourses());
@@ -45,12 +65,14 @@ function SearchCourse(props) {
   }, [dispatch]);
 
   const handleSearchChange = (e) => {
-    if (!e.target.value) {
-      history.replace("");
-    } else {
-      history.replace(`/search-course/?search=${e.target.value}`);
+    if (e.key == "Enter") {
+      if (e.target.value == "") {
+        history.replace(`/search-course/?search=${prevSearch}`);
+      } else {
+        history.replace(`/search-course/?search=${e.target.value}`);
+      }
+      e.preventDefault();
     }
-    setSearch(e.target.value);
   };
   const [recentSearch, setrecentSearch] = useState("");
 
@@ -61,7 +83,6 @@ function SearchCourse(props) {
     }
   }, [setrecentSearch]);
 
-  console.log();
   const pathwayCourseIds =
     pathway.data?.pathways
       .map((pathway) => pathway.courses || [])
@@ -99,9 +120,15 @@ function SearchCourse(props) {
     return item.courses?.length;
   });
 
+  const item = pathwayTrackResults?.map((item) => {
+    return item.course;
+  });
+
   let sum = rojgar?.reduce((total, item) => {
     return total + item;
   }, 0);
+
+  let misscount = otherCourseResults?.length;
 
   return (
     <>
@@ -124,8 +151,11 @@ function SearchCourse(props) {
           }}
           variant="standard"
           fullWidth
-          value={search}
-          onChange={handleSearchChange}
+          value={updated}
+          onKeyPress={handleSearchChange}
+          onChange={(e) => {
+            setUpdated(e.target.value);
+          }}
         />
         <Typography
           variant="subtitle1"
@@ -136,7 +166,7 @@ function SearchCourse(props) {
             marginTop: "32px",
           }}
         >
-          {sum} result found
+          {sum + misscount} result found
         </Typography>
       </Container>
       <Container>
@@ -148,15 +178,13 @@ function SearchCourse(props) {
                 {pathwayTrackResults?.map((pathway, index) => {
                   return (
                     <>
-                      <Typography variant="h5" sx={{ ml: "10px", mt: "32px" }}>
+                      <Typography
+                        variant="h5"
+                        sx={{ margin: "16px 0px 1px 6px" }}
+                      >
                         {pathway.name}
                       </Typography>
-                      <Grid
-                        container
-                        spacing={3}
-                        align="center"
-                        sx={{ marginTop: "16px" }}
-                      >
+                      <Grid container spacing={2} align="center">
                         {/* {console.log(pathway.courses[0].name)} */}
                         {pathway.courses.map((item, index) => (
                           <Grid
@@ -224,10 +252,15 @@ function SearchCourse(props) {
 
                 {otherCourseResults?.length > 0 && (
                   <>
-                    <Typography variant="h5" sx={{ pb: "16px", mt: 8 }}>
+                    <Typography variant="h5" sx={{ mt: 2, ml: "6px" }}>
                       Miscellaneous Courses
                     </Typography>
-                    <Grid sx={{ mt: 2 }} container spacing={3} align="center">
+                    <Grid
+                      sx={{ mt: 1, ml: "2px" }}
+                      container
+                      spacing={3}
+                      align="center"
+                    >
                       {otherCourseResults?.map((item, index) => (
                         <>
                           <Grid key={index} xs={12} sm={6} md={3}>
