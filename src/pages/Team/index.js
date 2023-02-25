@@ -114,14 +114,14 @@ function Team() {
       <Grid container spacing={{ xs: 4, sm: 4 }}>
         <Grid item xs={12} sm={7} md={7}>
           <Typography variant="h4">
-            Meet the team of core members, a ton of volunteers and past members
-            that have made it all possible
+            Meet the team of core members, a ton of volunteers, and past members
+            that have made it all possible.
           </Typography>
 
           <Typography variant="body1" mt={2}>
-            Meraki aims to remain free for the underserved communities in India.
-            We have been fortunate to find passionate people sharing our goals
-            and helping us build one of the best learning platforms out there.
+            Meraki aims to remain free for underserved communities in India. We
+            have been fortunate to find passionate people sharing our goals and
+            helping us build one of the best learning platforms out there.
           </Typography>
         </Grid>
         <Grid

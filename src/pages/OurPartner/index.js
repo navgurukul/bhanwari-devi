@@ -49,7 +49,7 @@ const OurPartner = () => {
               Do you want to be a part and help out your students through
               Meraki? Look no further and make the move.
             </Typography>
-            <Stack>
+            <Stack style={{ width: isActive ? "100%" : "50%" }}>
               <Link
                 href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
                 target="_blank"
@@ -60,7 +60,7 @@ const OurPartner = () => {
                   variant="contained"
                   color="primary"
                   mb={10}
-                  style={{ width: isActive ? "100%" : "50%" }}
+                  style={{ width: isActive ? "100%" : "100%" }}
                 >
                   Join as a Partner
                 </Button>
