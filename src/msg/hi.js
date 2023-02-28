@@ -18,6 +18,7 @@ hi.DONATE = "दान करें";
 hi.VOLUNTEER_WITH_US = "हमारे साथ स्वयंसेवक करें";
 hi.MERAKI_TEAM = "मेराकी टीम";
 hi.MENTOR = "गुरु"; // "पथप्रदर्शक";
+hi.SCRATCH = "स्क्रैच";
 hi.NAVGURUKUL_ADMISSION = "नवगुरुकुल प्रवेश";
 hi.OPPORTUNITIES = "अवसर";
 hi.CLASSES = "कक्षाएं";
