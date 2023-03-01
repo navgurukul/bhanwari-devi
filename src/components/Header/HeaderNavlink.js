@@ -8,9 +8,9 @@ function HeaderNavLink(props) {
   const classes = useStyles();
 
   function handleLinkClick(event) {
-    if (props?.new_nav_tab) {
+    if (props?.scratch_tab) {
       event.preventDefault();
-      window.open(props.to, props?.new_nav_tab ? "_blank" : "_self");
+      window.open(props.to, props?.scratch_tab ? "_blank" : "_self", "noreferrer");
     }
   }
 
