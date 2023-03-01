@@ -32,7 +32,6 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
       />
       <HeaderNavLink
         to={PATHS.SCRATCH}
-        // new={true}
         new_nav_tab={true}
         text={<Message constantKey="SCRATCH" />}
         toggleDrawer={toggleDrawer}

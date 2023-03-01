@@ -8,13 +8,10 @@ function HeaderNavLink(props) {
   const classes = useStyles();
 
   function handleLinkClick(event) {
-    // if (props?.new) {
     if (props?.new_nav_tab) {
       event.preventDefault();
-      // window.open(props.to, props?.new ? '_blank' : '_self');
       window.open(props.to, props?.new_nav_tab ? "_blank" : "_self");
     }
-    // }
   }
 
   return (
