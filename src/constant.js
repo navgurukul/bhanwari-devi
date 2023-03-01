@@ -15,7 +15,7 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
-  SCRATCH: process.env.NODE_ENV === 'development' ? 'https://dev.scratch.merakilearn.org/' : "https://scratch.merakilearn.org/",
+  SCRATCH: process.env.NODE_ENV === 'development' ? 'https://scratch.merakilearn.org/' : " https://dev.scratch.merakilearn.org/",
   USER: "/user",
   PROFILE: "/profile",
   ME: "/me",
