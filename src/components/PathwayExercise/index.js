@@ -343,8 +343,8 @@ function PathwayExercise() {
             exercise_id: course[exerciseId].id,
           },
         })
-          .then((res) => {})
-          .catch((err) => {});
+          .then((res) => { })
+          .catch((err) => { });
       }
     }
   };
@@ -394,6 +394,12 @@ function PathwayExercise() {
         color="background"
         elevation={2}
         className={classes.mainHeader}
+        sx={{
+          height: '70px',
+          display: 'grid',
+          alignItems: 'center'
+          // gap: '16px',
+        }}
       >
         <Container maxWidth>
           <div className="hideInMobile">
@@ -419,8 +425,8 @@ function PathwayExercise() {
                     params.pathwayId == "miscellaneous"
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
                       : params.pathwayId == "residential"
-                      ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
-                      : interpolatePath(PATHS.PATHWAY_COURSE, {
+                        ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
+                        : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
                         })
                   }
@@ -450,20 +456,20 @@ function PathwayExercise() {
                   }
                 >
                   {exerciseId >
-                  (
-                    <Exercise
-                      course={course}
-                      params={params}
-                      history={history}
-                      exerciseId={exerciseId + 1}
-                      setExerciseId={setExerciseId}
-                      classes={classes}
-                      progressTrackId={progressTrackId}
-                      setSuccessfulExerciseCompletion={
-                        setSuccessfulExerciseCompletion
-                      }
-                    />
-                  )}
+                    (
+                      <Exercise
+                        course={course}
+                        params={params}
+                        history={history}
+                        exerciseId={exerciseId + 1}
+                        setExerciseId={setExerciseId}
+                        classes={classes}
+                        progressTrackId={progressTrackId}
+                        setSuccessfulExerciseCompletion={
+                          setSuccessfulExerciseCompletion
+                        }
+                      />
+                    )}
                   <Exercise
                     course={course}
                     params={params}
@@ -502,8 +508,8 @@ function PathwayExercise() {
                     params.pathwayId == "miscellaneous"
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
                       : params.pathwayId == "residential"
-                      ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
-                      : interpolatePath(PATHS.PATHWAY_COURSE, {
+                        ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
+                        : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
                         })
                   }
@@ -607,7 +613,7 @@ function PathwayExercise() {
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
         />
       ) : (
-        <Box sx={{ marginTop: "120px" }}>
+        <Box sx={{ marginTop: "136px" }}>
           {/* <Box sx={{ marginTop: "50px" }}> */}
           <ExerciseContent
             contentList={course}
