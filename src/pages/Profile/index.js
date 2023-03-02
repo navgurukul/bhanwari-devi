@@ -8,6 +8,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { format } from "../../common/date";
+
+// import {update}
 // import ImageUpload from "@material-ui/core";
 // import VerifyPhoneNo from "../../components/VolunteerAutomation/VerifyPhoneNo";
 import Avatar from "react-avatar-edit";
@@ -30,6 +33,12 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import CertificateCard from "./CertificateCard";
+import { useParams, useHistory } from "react-router-dom";
+
+import UnlockOpportunities from "./UnlockOpportunities";
+import LastLoginTime from "./LastLoginTime/LastLoginTime";
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_authDomain,
@@ -40,8 +49,16 @@ const firebaseConfig = {
 };
 
 function Profile() {
+  // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
+  const params = useParams();
+  const pathwayId = params.pathwayId;
+  console.log(pathwayId);
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
+  const date = user.data.user.last_login_at;
+
+  // console.log(timeData,timehourData,min,loginMin,hour,loginHour)
+
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(null);
@@ -69,6 +86,10 @@ function Profile() {
 
   const [otp, setOtp] = React.useState("");
   const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+
+  const data = useSelector((state) => {
+    return state;
+  });
   const handleSnackBarClose = () => {
     setSnackBarOpen(false);
     setMessage("");
@@ -208,251 +229,272 @@ function Profile() {
       window.location.reload();
     });
   };
+  // console.log(user)
 
   return (
     <>
-      <Container maxWidth="lg">
-        <div item xs={12} md={6} className={classes.profileBox} align="center">
-          <img
-            alt={userData.name}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: "50%",
-            }}
-            src={New_Profile.length ? New_Profile : userData.profile_picture}
-          />
-          {isEditing ? (
-            <Dialog open={open} onClose={handleClose}>
-              <Box sx={{ p: isActive ? "8px" : "32px" }}>
-                <Typography variant="h6" pl={1} pb={4}>
-                  {"Edit Profile"}
-                </Typography>
-                <Grid container columnSpacing={2}>
-                  <Grid item xs={5} sm={3} pr={2}>
-                    <img
-                      style={{ width: "120px", height: "120px" }}
-                      src={
-                        New_Profile.length
-                          ? New_Profile
-                          : userData.profile_picture
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={7} sm={9}>
-                    <Box>
-                      <Typography
-                        variant="body1"
-                        onClick={() => {
-                          setImgDialoags(true);
-                          setImgCrop(false);
-                        }}
-                        color="primary"
-                        sx={{ cursor: "pointer", pb: 2 }}
-                      >
-                        Update Photo
-                      </Typography>
-                      <Dialog
-                        open={imgDialogs}
-                        onClose={() => setImgDialoags(false)}
-                      >
-                        <Typography variant="h5" mb={4} p={0}>
-                          Update Photo
-                        </Typography>
-                        <Avatar
-                          width={300}
-                          height={200}
-                          onExit={onExit}
-                          onFileLoad={(file) => {
-                            console.log("onFileLoad", file);
-                            const formDatas = new FormData();
-                            formDatas.append("image", file);
-                            fetch(
-                              `${process.env.REACT_APP_MERAKI_URL}/courseEditor/ImageUploadS3`,
-                              {
-                                headers: {
-                                  accept: "application/json, text/plain, */*",
-                                  "accept-language":
-                                    "en-GB,en-US;q=0.9,en;q=0.8",
-                                },
-                                referrerPolicy:
-                                  "strict-origin-when-cross-origin",
-                                body: formDatas,
-                                method: "POST",
-                                mode: "cors",
-                                credentials: "omit",
-                              }
-                            ).then((res) => {
-                              res.json().then((data) => {
-                                console.log(data.file.url);
-                                setNew_Profiles(data.file.url);
-                              });
-                            });
-                          }}
-                          onCrop={onCrop}
-                        />
-                        <Button disabled={!imgCrop} onClick={saveImg}>
-                          Save
-                        </Button>
-                      </Dialog>
-                      <Typography variant="body2" color="text.secondary">
-                        Tips: Try square JPG or PNG with atleast 500*500
-                        resolution for high quality profile display
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
-                <div id="recaptcha-container"></div>
-                <DialogActions>
-                  <Box>
-                    <TextField
-                      error={editName?.length == 0 || helperText?.length > 0}
-                      // id="standard-basic"
-                      label="Name"
-                      fullWidth
-                      sx={{ mt: "10px", width: "100%" }}
-                      value={editName}
-                      helperText={helperText}
-                      onChange={(e) => {
-                        setEditName(e.target.value);
-                        console.log(userData.name, e.target.value);
-                        if (e.target.value != userData.name) {
-                          setShowError(false);
-                        }
-                      }}
-                    />
-
-                    <TextField
-                      align="center"
-                      sx={{ mt: 4, mb: 1 }}
-                      fullWidth
-                      disabled
-                      value={userData.email}
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      Email cannot be changed as it is linked to your Google
-                      account
+      <Container
+        maxWidth="lg"
+        sx={{
+          marginTop: "64px",
+          justifyContent: isActive && "center",
+          alignItems: isActive && "center",
+        }}
+      >
+        <Grid container>
+          <Grid item md={4} xs={12}>
+            <div
+              item
+              xs={12}
+              md={6}
+              className={classes.profileBox}
+              align={isActive && "center"}
+            >
+              <img
+                alt={userData.name}
+                style={{
+                  height: 100,
+                  width: 100,
+                  borderRadius: "50%",
+                }}
+                src={
+                  New_Profile.length ? New_Profile : userData.profile_picture
+                }
+              />
+              {isEditing ? (
+                <Dialog open={open} onClose={handleClose}>
+                  <Box sx={{ p: isActive ? "8px" : "32px" }}>
+                    <Typography variant="h6" pl={1} pb={4}>
+                      {"Edit Profile"}
                     </Typography>
-                  </Box>
-                </DialogActions>
-                <Box my={2} p={1}>
-                  <Grid container columnSpacing={isActive ? 1 : 2}>
-                    <Grid item sm={3} xs={4}>
-                      <MuiPhoneNumber
-                        preferredCountries={["in"]}
-                        defaultCountry={"in"}
-                        variant="outlined"
-                        id="countryCode"
-                        value={countryCode}
-                        onChange={(val) => {
-                          setCountryCode(val);
-                        }}
-                      />
-                    </Grid>
-                    <Grid item sm={9} xs={8}>
-                      <TextField
-                        label="Phone Number"
-                        onChange={(e) => {
-                          setContact(e.target.value);
-                        }}
-                        value={contact}
-                        name="contact"
-                        id="contact"
-                        variant="outlined"
-                        helperText="Enter Phone Number"
-                        fullWidth
-                        maxLength={10}
-                        error={contact?.length != 10 && contact?.length > 0}
-                      />
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Button
-                        variant="outlined"
-                        onClick={(event) => {
-                          onSignInSubmit(event);
-                          setShowError(true);
-                        }}
-                        disabled={contact?.length != 10}
-                      >
-                        Get OTP
-                      </Button>{" "}
-                    </Grid>
-                    {startOtp && (
-                      <>
-                        <Grid item xs={8}>
-                          <TextField
-                            label="OTP"
-                            onChange={(e) => {
-                              setOtp(e.target.value);
+                    <Grid container columnSpacing={2}>
+                      <Grid item xs={5} sm={3} pr={2}>
+                        <img
+                          style={{ width: "120px", height: "120px" }}
+                          src={
+                            New_Profile.length
+                              ? New_Profile
+                              : userData.profile_picture
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={7} sm={9}>
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            onClick={() => {
+                              setImgDialoags(true);
+                              setImgCrop(false);
                             }}
-                            value={otp}
-                            name="OTP"
+                            color="primary"
+                            sx={{ cursor: "pointer", pb: 2 }}
+                          >
+                            Update Photo
+                          </Typography>
+                          <Dialog
+                            open={imgDialogs}
+                            onClose={() => setImgDialoags(false)}
+                          >
+                            <Typography variant="h5" mb={4} p={0}>
+                              Update Photo
+                            </Typography>
+                            <Avatar
+                              width={300}
+                              height={200}
+                              onExit={onExit}
+                              onFileLoad={(file) => {
+                                console.log("onFileLoad", file);
+                                const formDatas = new FormData();
+                                formDatas.append("image", file);
+                                fetch(
+                                  `${process.env.REACT_APP_MERAKI_URL}/courseEditor/ImageUploadS3`,
+                                  {
+                                    headers: {
+                                      accept:
+                                        "application/json, text/plain, */*",
+                                      "accept-language":
+                                        "en-GB,en-US;q=0.9,en;q=0.8",
+                                    },
+                                    referrerPolicy:
+                                      "strict-origin-when-cross-origin",
+                                    body: formDatas,
+                                    method: "POST",
+                                    mode: "cors",
+                                    credentials: "omit",
+                                  }
+                                ).then((res) => {
+                                  res.json().then((data) => {
+                                    console.log(data.file.url);
+                                    setNew_Profiles(data.file.url);
+                                  });
+                                });
+                              }}
+                              onCrop={onCrop}
+                            />
+                            <Button disabled={!imgCrop} onClick={saveImg}>
+                              Save
+                            </Button>
+                          </Dialog>
+                          <Typography variant="body2" color="text.secondary">
+                            Tips: Try square JPG or PNG with atleast 500*500
+                            resolution for high quality profile display
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                    <div id="recaptcha-container"></div>
+                    <DialogActions>
+                      <Box>
+                        <TextField
+                          error={
+                            editName?.length == 0 || helperText?.length > 0
+                          }
+                          // id="standard-basic"
+                          label="Name"
+                          fullWidth
+                          sx={{ mt: "10px", width: "100%" }}
+                          value={editName}
+                          helperText={helperText}
+                          onChange={(e) => {
+                            setEditName(e.target.value);
+                            console.log(userData.name, e.target.value);
+                            if (e.target.value != userData.name) {
+                              setShowError(false);
+                            }
+                          }}
+                        />
+
+                        <TextField
+                          align="center"
+                          sx={{ mt: 4, mb: 1 }}
+                          fullWidth
+                          disabled
+                          value={userData.email}
+                        />
+                        <Typography variant="body2" color="text.secondary">
+                          Email cannot be changed as it is linked to your Google
+                          account
+                        </Typography>
+                      </Box>
+                    </DialogActions>
+                    <Box my={2} p={1}>
+                      <Grid container columnSpacing={isActive ? 1 : 2}>
+                        <Grid item sm={3} xs={4}>
+                          <MuiPhoneNumber
+                            preferredCountries={["in"]}
+                            defaultCountry={"in"}
+                            variant="outlined"
+                            id="countryCode"
+                            value={countryCode}
+                            onChange={(val) => {
+                              setCountryCode(val);
+                            }}
+                          />
+                        </Grid>
+                        <Grid item sm={9} xs={8}>
+                          <TextField
+                            label="Phone Number"
+                            onChange={(e) => {
+                              setContact(e.target.value);
+                            }}
+                            value={contact}
+                            name="contact"
                             id="contact"
                             variant="outlined"
-                            helperText="Enter OTP"
+                            helperText="Enter Phone Number"
                             fullWidth
-                            maxLength={6}
-                            error={otp.length != 6 && otp.length > 0}
+                            maxLength={10}
+                            error={contact?.length != 10 && contact?.length > 0}
                           />
                         </Grid>
                         <Grid item xs={8}>
                           <Button
                             variant="outlined"
-                            onClick={(e) => {
-                              OtpEnter(e);
+                            onClick={(event) => {
+                              onSignInSubmit(event);
+                              setShowError(true);
                             }}
-                            disabled={otp.length != 6}
+                            disabled={contact?.length != 10}
                           >
-                            Verify OTP
+                            Get OTP
                           </Button>{" "}
                         </Grid>
-                      </>
-                    )}
-                  </Grid>
-                </Box>
-                <Snackbar
-                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  open={snackBarOpen}
-                  onClose={handleSnackBarClose}
-                  message={message}
-                />
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Button
-                    variant="outlined"
-                    sx={{ mr: "30px" }}
-                    onClick={() => setIsEditing(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={editProfile}
-                    disabled={showError}
-                  >
-                    Save Changes
-                  </Button>
-                </Box>
-              </Box>
-            </Dialog>
-          ) : msg ? (
-            <Typography>Please wait...</Typography>
-          ) : (
-            <Typography
-              variant={isActive ? "subtitle1" : "h6"}
-              sx={{ mt: "10px" }}
-            >
-              {userData.name}
-              {isActive && !isEditing && (
-                <Button onClick={handleClickOpen}>
-                  <EditIcon />
-                </Button>
+                        {startOtp && (
+                          <>
+                            <Grid item xs={8}>
+                              <TextField
+                                label="OTP"
+                                onChange={(e) => {
+                                  setOtp(e.target.value);
+                                }}
+                                value={otp}
+                                name="OTP"
+                                id="contact"
+                                variant="outlined"
+                                helperText="Enter OTP"
+                                fullWidth
+                                maxLength={6}
+                                error={otp.length != 6 && otp.length > 0}
+                              />
+                            </Grid>
+                            <Grid item xs={8}>
+                              <Button
+                                variant="outlined"
+                                onClick={(e) => {
+                                  OtpEnter(e);
+                                }}
+                                disabled={otp.length != 6}
+                              >
+                                Verify OTP
+                              </Button>{" "}
+                            </Grid>
+                          </>
+                        )}
+                      </Grid>
+                    </Box>
+                    <Snackbar
+                      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                      open={snackBarOpen}
+                      onClose={handleSnackBarClose}
+                      message={message}
+                    />
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <Button
+                        variant="outlined"
+                        sx={{ mr: "30px" }}
+                        onClick={() => setIsEditing(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="contained"
+                        onClick={editProfile}
+                        disabled={showError}
+                      >
+                        Save Changes
+                      </Button>
+                    </Box>
+                  </Box>
+                </Dialog>
+              ) : msg ? (
+                <Typography>Please wait...</Typography>
+              ) : (
+                <Typography
+                  variant="h6"
+                  sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
+                >
+                  {userData.name}
+                  {isActive && !isEditing && (
+                    <Button onClick={handleClickOpen}>
+                      <EditIcon />
+                    </Button>
+                  )}
+                </Typography>
               )}
-            </Typography>
-          )}
-          <Typography my={1} align="center">
-            {userData.email}
-          </Typography>
-          <Typography my={1} align="center">
+              <Typography my={1} align={isActive ? "center" : "left"}>
+                {userData.email}
+              </Typography>
+              {/* <Typography my={1} align="left">
             {user.data.user.rolesList.includes("volunteer") &&
               userData.contact !== null && (
                 <>
@@ -466,13 +508,41 @@ function Profile() {
                   </Typography>
                 </>
               )}
-          </Typography>
+          </Typography> */}
 
-          <Button pt={1} onClick={handleClickOpen}>
-            {!isActive && "Edit Profile"}
-          </Button>
-        </div>
-        <DropOutBatchesProfile />
+              <Button
+                pt={1}
+                onClick={handleClickOpen}
+                variant="outlined"
+                sx={{
+                  alignItems: isActive ? "center" : "left",
+                }}
+                align={isActive && "center"}
+              >
+                {/* {!isActive && "Edit Profile"} */}
+                Edit Profile
+              </Button>
+
+              <LastLoginTime />
+            </div>
+          </Grid>
+          <Grid item md={6}>
+            <Typography variant="h6" sx={{ marginLeft: "22px" }}>
+              My Certificates
+            </Typography>
+            {data.Pathways.data &&
+              data.Pathways.data.pathways?.map(
+                (item) =>
+                  item.code === "PRGPYT" && <CertificateCard item={item} />
+              )}
+
+            {data.Pathways.data &&
+              data.Pathways.data.pathways?.map(
+                (item) =>
+                  item.code === "PRGPYT" && <UnlockOpportunities item={item} />
+              )}
+          </Grid>
+        </Grid>
       </Container>
     </>
   );

@@ -44,8 +44,7 @@ function VolunteerAutomation() {
     <Container maxWidth="lg">
       <Grid container mt={8}>
         <Grid item xs={12} ms={6} md={6}>
-          <Box
-          >
+          <Box>
             <Typography variant="h4" gutterBottom>
               Help Students Get their Dream Job in Tech
             </Typography>
@@ -66,8 +65,8 @@ function VolunteerAutomation() {
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography variant="body1" pl="10px" color="text.primary">
-                Help students from low income families to get their first job in
-                tech
+                Help students from low-income families to get their first job in
+                tech.
               </Typography>
             </Box>
           </Box>
@@ -84,12 +83,7 @@ function VolunteerAutomation() {
           </Box>
         </Grid>
       </Grid>
-      <Typography
-        my={4}
-        variant="h5"
-        align="center"
-        gutterBottom
-      >
+      <Typography my={4} variant="h5" align="center" gutterBottom>
         Areas to Volunteer In
       </Typography>
 

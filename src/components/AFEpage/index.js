@@ -15,7 +15,6 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ExternalLink from "../common/ExternalLink";
 import CircleIcon from "@mui/icons-material/Circle";
 
-
 function AFEpage() {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -26,12 +25,11 @@ function AFEpage() {
         <Grid
           container
           spacing={{ xs: 2, sm: 3 }}
-          pt={8}
+          pt={5}
           className={classes.Grid_Space}
         >
           <Grid item xs={12} sm={6}>
-            <Grid
-              mb={4}            >
+            <Grid mb={4}>
               <Grid>
                 <img
                   src={require("./asset/amg.svg")}
@@ -45,8 +43,8 @@ function AFEpage() {
                 />
               </Grid>
             </Grid>
-            <Typography variant="h4" color = "info.dark">
-            Closing The Gender Gap in Technology
+            <Typography variant="h4" color="info.dark">
+              Closing The Gender Gap in Technology
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
@@ -54,7 +52,7 @@ function AFEpage() {
               India’s tech industry employs 10 million people; however, women
               only make up 34% of the workforce. Women represent 40% of
               entry-level tech jobs & the representation gets lower as they move
-              up with 30% at the mid-level positions and as low as 20% in senior
+              up, with 30% in mid-level positions and as low as 20% in senior
               roles.
             </Typography>
 
@@ -92,16 +90,16 @@ function AFEpage() {
               </Typography>
             </Grid>
             <Typography variant="body1" paragraph>
-              NavGurukul is a registered non-profit organization working towards
-              the financial empowerment of students from underserved
-              communities. Started in 2016 by IIT-D Alumnus, the organization
-              equips the youth with 21st-century skills through programming,
-              coding, critical thinking, and problem-solving with a commitment
-              to support its students until their placements.
+              NavGurukul is a registered non-profit organisation working to
+              empower students from underserved communities financially. Started
+              in 2016 by IIT-D Alumnus, the organisation equips the youth with
+              21st-century skills through programming, coding, critical
+              thinking, and problem-solving. It is committed to supporting its
+              students until their placements.
             </Typography>
 
             <Typography variant="body1" paragraph>
-              Navgurukul offers a 1-year fully-funded skilling and recruitment
+              NavGurukul offers a 1-year fully-funded skilling and recruitment
               program in software engineering that enables them to secure
               aspirational careers.
             </Typography>
@@ -149,14 +147,14 @@ function AFEpage() {
               </Typography>
             </Grid>
             <Typography variant="body1" paragraph align="left">
-              Navgurukul is working with a two-step approach to make our
-              students CS ready and placed in tech jobs.
+              NavGurukul is working with a two-step approach to make our
+              students CS-ready and placed in tech jobs.
               <List>
                 <ListItem>
                   <Grid className={classes.AFE_approaches}>
                     <CircleIcon
-                     sx={{ pr: 1, width: "7px" }} 
-                     className={classes.Fiber_space}
+                      sx={{ pr: 1, width: "7px" }}
+                      className={classes.Fiber_space}
                     />
                     Accessibility and readiness program: Meraki
                     <ListItemText className={classes.Approaches_text}>
@@ -166,11 +164,10 @@ function AFEpage() {
                 </ListItem>
                 <ListItem>
                   <Grid className={classes.AFE_approaches}>
-                  <CircleIcon
-                     sx={{ pr: 1, width: "7px" }} 
-                     className={classes.Fiber_space}
+                    <CircleIcon
+                      sx={{ pr: 1, width: "7px" }}
+                      className={classes.Fiber_space}
                     />
-
                     Skilling and job placement program: Residential Program
                     <ListItemText className={classes.Approaches_text}>
                       Age group 18 - 29 years
@@ -194,7 +191,7 @@ function AFEpage() {
             justifyContent="center"
             className={classes.Grid_Space}
           >
-            <Grid item xs={{ xs: 11, sm: 8 }} mb={3}>
+            <Grid item xs={{ xs: 11, sm: 8 }} mb={1}>
               <Typography variant="body1" paragraph>
                 Amazon Future Engineer (AFE) is a comprehensive
                 childhood-to-career program to increase access to computer
@@ -212,7 +209,10 @@ function AFEpage() {
                 in the digital literacy sector.
               </Typography>
             </Grid>
-            <ExternalLink href="https://a" style={{ textDecoration: "none" }}>
+            <ExternalLink
+              href="https://www.amazonfutureengineer.com/"
+              style={{ textDecoration: "none" }}
+            >
               <Button endIcon={<ArrowForwardIosIcon />}>
                 Visit Amazon Future Engineer
               </Button>

@@ -49,7 +49,12 @@ function Opportunities() {
   return (
     <>
       <Container maxWidth="lg">
-        <Grid container columnSpacing={2} my={8}>
+        <Grid
+          container
+          columnSpacing={2}
+          mt={isActive ? 4 : 8}
+          mb={!isActive && 4}
+        >
           <Grid item xs={12}>
             <Typography variant="h5">
               Curated list of opportunities to skyrocket your career

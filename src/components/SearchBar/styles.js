@@ -8,7 +8,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
   box: {
-    marginLeft: "15px",
+    marginLeft: "16px",
+    marginTop: 32,
   },
   courseName: {
     background: "#E9F5E9",
