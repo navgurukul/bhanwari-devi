@@ -22,7 +22,6 @@ import { Popover, InputAdornment } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { METHODS } from "../../services/api";
 import axios from "axios";
-import { ElectricScooterSharp } from "@mui/icons-material";
 
 function usePrevious(value) {
   const ref = useRef();
@@ -36,21 +35,19 @@ function SearchCourse(props) {
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
-  // const query = new URLSearchParams(useLocation().search).get("search");
-  // const query = useSearchQuery();
+
   const [search, setSearch] = useState("");
   const [focus, setFocus] = useState(true);
 
-  console.log(search);
-  const user = useSelector(({ User }) => User);
   const prevSearch = usePrevious(search);
-  console.log(prevSearch);
 
   useSearchQuery(setSearch);
   const history = useHistory();
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [updated, setUpdated] = useState();
+  const [updated, setUpdated] = useState("");
+  const user = useSelector(({ User }) => User);
+  const userId = user.data?.user.id;
 
   useEffect(() => {
     setUpdated(search);
@@ -74,14 +71,13 @@ function SearchCourse(props) {
       e.preventDefault();
     }
   };
-  const [recentSearch, setrecentSearch] = useState("");
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("recent"));
-    if (data !== null) {
-      setrecentSearch(data);
-    }
-  }, [setrecentSearch]);
+  // useEffect(() => {
+  //   const data = JSON.parse(localStorage.getItem("recent"));
+  //   if (data !== null) {
+  //     setrecentSearch(data);
+  //   }
+  // }, [setrecentSearch]);
 
   const pathwayCourseIds =
     pathway.data?.pathways
@@ -111,24 +107,42 @@ function SearchCourse(props) {
   const hasSearchResults =
     pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
 
-  const handleDataBar = (name) => {
-    if (!recentSearch.includes(name)) {
-      localStorage.setItem("recent", JSON.stringify([...recentSearch, name]));
-    }
-  };
-  const rojgar = pathwayTrackResults?.map((item) => {
+  // const handleDataBar = (name) => {
+  //   if (!recentSearch.includes(name)) {
+  //     localStorage.setItem("recent", JSON.stringify([...recentSearch, name]));
+  //   }
+  // };
+
+  const countCourse = pathwayTrackResults?.map((item) => {
     return item.courses?.length;
   });
 
-  const item = pathwayTrackResults?.map((item) => {
-    return item.course;
-  });
-
-  let sum = rojgar?.reduce((total, item) => {
+  let sum = countCourse?.reduce((total, item) => {
     return total + item;
   }, 0);
 
   let misscount = otherCourseResults?.length;
+
+  let totalCourse = sum + misscount;
+
+  const onPopularsearch = (name) => {
+    if (user.data !== null) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/search/${userId}/${name}`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+        data: {
+          name: name,
+          user_id: userId,
+        },
+      }).then((res) => {
+        // console.log(res)
+      });
+    }
+  };
 
   return (
     <>
@@ -166,7 +180,7 @@ function SearchCourse(props) {
             marginTop: "32px",
           }}
         >
-          {sum + misscount} result found
+          {isNaN(totalCourse) ? 0 : totalCourse} result found
         </Typography>
       </Container>
       <Container>
@@ -208,7 +222,9 @@ function SearchCourse(props) {
                                 className={classes.pathwayCard}
                                 elevation={0}
                                 sx={{ ml: 3, p: "16px" }}
-                                onClick={() => handleDataBar(item.name)}
+                                onClick={() => {
+                                  onPopularsearch(item.name);
+                                }}
                               >
                                 <img
                                   className={classes.courseImage}
@@ -282,6 +298,9 @@ function SearchCourse(props) {
                                   background: "#EEF1F5",
                                   m: "15px",
                                   height: "190px",
+                                }}
+                                onClick={() => {
+                                  onPopularsearch(item.name);
                                 }}
                               >
                                 <Typography

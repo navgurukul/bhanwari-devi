@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { actions as courseActions } from "../Course/redux/action";
-import { actions as pathwayActions } from "../PathwayCourse/redux/action";
+
+import { METHODS } from "../../services/api";
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Link } from "react-router-dom";
@@ -19,11 +19,13 @@ import {
   Button,
   Tooltip,
   Popper,
+  setRef,
 } from "@mui/material";
 import useStyles from "./styles";
 import { Popover, InputAdornment, Modal } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import Backdrop from "@mui/material/Backdrop";
+import axios from "axios";
 
 function usePrevious(value) {
   const ref = useRef();
@@ -35,6 +37,8 @@ function usePrevious(value) {
 
 function SearchPopup() {
   const { data } = useSelector(({ Course }) => Course);
+  const user = useSelector(({ User }) => User);
+  const userId = user.data?.user.id;
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
   // const [recentSearch,setrecentSearch]=useState("")
@@ -44,7 +48,9 @@ function SearchPopup() {
   const history = useHistory();
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [popular, setPopular] = useState([]);
+  const [recentSearch, setRecentSearch] = useState([]);
 
   const prevSearch = usePrevious(search);
 
@@ -72,14 +78,39 @@ function SearchPopup() {
   const handleSearchBar = (e) => {
     history.replace(`/search-course/?search=${e.target.value}`);
     setAnchorEl(null);
-
-    // setSearch(e.target.value);
   };
 
-  const [close, setClose] = "";
-  const handleSearchClose = (e) => {
-    setClose(search);
-  };
+  useEffect(() => {
+    axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/search/popular`,
+      method: METHODS.GET,
+      headers: {
+        accept: "application/json",
+        Authorization: false,
+      },
+    })
+      .then((res) => {
+        setPopular(res.data.top_popular);
+      })
+      .catch((err) => {});
+  }, []);
+
+  useEffect(() => {
+    if (user.data !== null) {
+      axios({
+        url: `${process.env.REACT_APP_MERAKI_URL}/search/${userId}`,
+        method: METHODS.GET,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token || null,
+        },
+      })
+        .then((res) => {
+          setRecentSearch(res.data.user_search);
+        })
+        .catch((err) => {});
+    }
+  }, []);
 
   const pathwayCourseIds =
     pathway.data?.pathways
@@ -104,22 +135,13 @@ function SearchPopup() {
     })
     .filter((pathway) => pathway.courses?.length > 0);
 
-  const rojgar = pathwayTrackResults?.map((item) => {
-    return item.courses?.length;
-  });
-
-  let sum = rojgar?.reduce((total, item) => {
-    return total + item;
-  }, 0);
-
   const hasSearchResults =
     pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
 
-  // console.log(pathway.data && pathway.data.pathways)
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const recent = JSON.parse(localStorage.getItem("recent"));
+  // const recent = JSON.parse(localStorage.getItem("recent"));
 
   return (
     <>
@@ -172,46 +194,31 @@ function SearchPopup() {
             />
 
             <>
-              {recent ? (
+              {recentSearch && recentSearch?.length ? (
                 <>
-                  <Typography variant="subtitle1">Recent Search</Typography>
+                  <Typography variant="subtitle1">Recent Searches</Typography>
 
                   <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                    {recent
-                      ?.slice(Math.max(recent.length - 5, 0))
-                      .map((item) => (
-                        <Grid item mr={2}>
-                          <Button value={item} onClick={handleSearchBar}>
-                            {item}
-                          </Button>
-                        </Grid>
-                      ))}
+                    {recentSearch.map((item) => (
+                      <Grid item mr={2}>
+                        <Button value={item} onClick={handleSearchBar}>
+                          {item}
+                        </Button>
+                      </Grid>
+                    ))}
                   </Grid>
                 </>
               ) : (
                 <>
-                  <Typography variant="subtitle1">Popular Searchs</Typography>
+                  <Typography variant="subtitle1">Popular Searches</Typography>
                   <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                    <Grid item mr={2}>
-                      <Button value="Python" onClick={handleSearchBar}>
-                        Python
-                      </Button>
-                    </Grid>
-                    <Grid item mr={2}>
-                      <Button value="List" onClick={handleSearchBar}>
-                        List
-                      </Button>
-                    </Grid>
-                    <Grid item mr={2}>
-                      <Button value="Variable" onClick={handleSearchBar}>
-                        Variable
-                      </Button>
-                    </Grid>
-                    <Grid item mr={2}>
-                      <Button value="Scratch" onClick={handleSearchBar}>
-                        Scratch (CEL)
-                      </Button>
-                    </Grid>
+                    {popular.map((item) => (
+                      <Grid item mr={2}>
+                        <Button value={item} onClick={handleSearchBar}>
+                          {item}
+                        </Button>
+                      </Grid>
+                    ))}
                   </Grid>
                 </>
               )}
