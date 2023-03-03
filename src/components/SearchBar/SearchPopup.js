@@ -38,7 +38,7 @@ function usePrevious(value) {
 function SearchPopup() {
   const { data } = useSelector(({ Course }) => Course);
   const user = useSelector(({ User }) => User);
-  const userId = user.data !== null && user.data.user.id;
+  const userId = user.data?.user.id;
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
   // const [recentSearch,setrecentSearch]=useState("")
@@ -48,9 +48,9 @@ function SearchPopup() {
   const history = useHistory();
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [popular, setPopular] = React.useState([]);
-  const [recentSearch, setrecentSearch] = React.useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [popular, setPopular] = useState([]);
+  const [recentSearch, setRecentSearch] = useState([]);
 
   const prevSearch = usePrevious(search);
 
@@ -106,7 +106,7 @@ function SearchPopup() {
         },
       })
         .then((res) => {
-          setrecentSearch(res.data.user_search);
+          setRecentSearch(res.data.user_search);
         })
         .catch((err) => {});
     }
@@ -194,7 +194,7 @@ function SearchPopup() {
             />
 
             <>
-              {recentSearch ? (
+              {recentSearch && recentSearch?.length ? (
                 <>
                   <Typography variant="subtitle1">Recent Searches</Typography>
 

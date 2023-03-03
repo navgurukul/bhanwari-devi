@@ -46,10 +46,8 @@ function SearchCourse(props) {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const [updated, setUpdated] = useState("");
-  const [recentSearch, setrecentSearch] = useState("");
-
   const user = useSelector(({ User }) => User);
-  const userId = user.data !== null && user.data.user.id;
+  const userId = user.data?.user.id;
 
   useEffect(() => {
     setUpdated(search);
