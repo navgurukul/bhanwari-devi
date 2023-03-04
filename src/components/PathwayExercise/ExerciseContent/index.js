@@ -43,6 +43,7 @@ import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
+import { width } from "@mui/system";
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
@@ -130,7 +131,15 @@ const RenderContent = ({ data, exercise }) => {
   }
   if (data.component === "image") {
     return (
-      <img className={classes.contentImage} src={data.value} alt="content" />
+      <>
+        <Box className={classes.contentImageBox}>
+          <img
+            className={classes.contentImage}
+            src={data.value}
+            alt="content"
+          />
+        </Box>
+      </>
     );
   }
   if (data.component === "youtube") {
