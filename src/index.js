@@ -9,6 +9,18 @@ import { DeviceProvider } from "./common/context";
 import * as serviceWorker from "./serviceWorker";
 import { getIsMobile } from "./common/utils";
 import ScrollToTop from "./common/ScrollTotOP.js";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://3a2d8d18f3c64562883034e574a53ee0@o4504326866075648.ingest.sentry.io/4504781480919040",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 // To learn redux and redux saga
 // https://www.codementor.io/@rajjeet/step-by-step-how-to-add-redux-saga-to-a-react-redux-app-11xqieyj67
