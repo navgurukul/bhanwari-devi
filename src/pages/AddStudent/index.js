@@ -71,8 +71,10 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
       })
       .catch((e) => {
         toast.error(e.message, {
-          position: toast.POSITION.BOTTOM_RIGHT,
+          position: toast.POSITION.TOP_CENTER,
+          className: "Message-postion",
         });
+        setOpenForm(true);
       });
   };
 
@@ -142,12 +144,14 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
                     />
                   </>
                 )}
+                {console.log(studentEmail)}
                 <button
                   className="add_student_form_btn"
                   onClick={() => {
                     submit();
                     setOpenForm(false);
                   }}
+                  disabled={openEditForm ? !studentName : !studentEmail}
                 >
                   {openEditForm ? "Edit" : "Submit"}
                 </button>
