@@ -6,6 +6,14 @@ import { NavLink } from "react-router-dom";
 
 function HeaderNavLink(props) {
   const classes = useStyles();
+
+  function handleLinkClick(event) {
+    if (props?.new_nav_tab) {
+      event.preventDefault();
+      window.open(props.to, props?.new_nav_tab ? "_blank" : "_self");
+    }
+  }
+
   return (
     <MenuItem
       onClick={props.toggleDrawer && props.toggleDrawer(false)}
@@ -16,6 +24,7 @@ function HeaderNavLink(props) {
     >
       <NavLink
         to={props.to}
+        onClick={handleLinkClick}
         className={classes.link}
         activeClassName={classes.active}
         style={{ width: "100%" }}

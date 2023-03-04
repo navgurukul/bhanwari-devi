@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-end",
   },
+  image: {
+    width: "352px",
+    height: "284px",
+  },
   team_hrline: {
     width: "160px",
     height: "5px",
@@ -24,6 +28,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
   },
+  team_button_box: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  team_button_box_mob: {
+    // commented code is for button scroll feature
+    display: "flex",
+    // overflow: "auto",
+    // whiteSpace: "nowrap",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
   team_MobileSelector: {
     padding: "10px 25px",
     borderBottom: "3px solid transparent",
@@ -36,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   team_containerTopSpace: {
     marginTop: "5rem",
+    padding: 0,
   },
   team_infoCardContaier: {
     marginTop: "1rem",
@@ -44,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     justifContent: "space-between",
     transition: "all ease-in 0.2s",
     pointerEvents: "none",
-    marginBottom: "6rem",
+    marginBottom: "32px",
   },
   team_responsiveContainer: {
     marginTop: "61px",
@@ -78,51 +96,60 @@ const useStyles = makeStyles((theme) => ({
   team_cardDetails: {
     position: "relative",
     border: "none",
+    marginTop: "32px",
     marginBottom: "16px",
-    display: "flex",
-    flexDirection: "column",
     cursor: "pointer",
-    alignItems: "center",
     transition: "all ease-in-out 0.2s",
     pointerEvents: "auto",
     "&:hover": {
-      transform: "scale(1.1)",
+      cursor: "pointer",
       boxShadow: "none",
       opacity: "1",
-      zIndex: "2",
-      // boxShadow: "none",
+      "& $middle": {
+        opacity: "92%",
+        backgroundColor: "#3A8137",
+      },
     },
   },
+  middle: {
+    opacity: 0,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: "0%",
+    left: "0%",
+    "& hover": {
+      "$ team_cardDetails": {
+        opacity: 0.3,
+      },
+    },
+  },
+
+  text: {
+    color: "#FFFFFF",
+    padding: "16px",
+  },
+
   team_cardImg: {
-    borderRadius: "50%",
-    width: "120px",
-    height: "120px",
-    border: "3px solid transparent",
+    width: "256px",
+    height: "320px",
     transition: "all ease-in 0.2s",
-    padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
-    marginBottom: "16px",
   },
   team_mobileCardImg: {
-    borderRadius: "50%",
-    width: "68px",
-    height: "68px",
-    border: "3px solid transparent",
+    width: "100%",
+    height: "312px",
     transition: "all ease-in 0.2s",
     padding: "0px",
     boxSizing: "content-box",
     objectFit: "cover",
-    marginBottom: "16px",
   },
   team_cardTitle: {
     fontWeight: "bold",
-    marginTop: "12px",
-    marginBottom: "10px",
   },
   team_cardDescription: {
     color: "#6D6D6D",
-    textAlign: "center",
   },
   team_socialIcon: {
     marginInline: "0.5rem",

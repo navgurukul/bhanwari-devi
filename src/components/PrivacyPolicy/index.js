@@ -2,11 +2,15 @@ import React from "react";
 import { Container, Box, Typography } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import useStyles from "./styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../theme/constant";
 
 function PrivacyPolicy() {
   const classes = useStyles();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   return (
-    <Container maxWidth="md" sx={{ mt: "40px", mb: "80px" }}>
+    <Container maxWidth="md" sx={{ mb: !isActive && 4, mt: !isActive ? 8 : 4 }}>
       <Box>
         <Typography sx={{ textAlign: "center" }} variant="h5">
           Privacy Policy
@@ -45,7 +49,7 @@ function PrivacyPolicy() {
           you. Link to privacy policy of third party service providers used by
           the app.
         </Typography>
-        <Typography variant="body1" sx={{ mt: "16px" }}>
+        <Typography variant="body1" sx={{ my: "16px" }}>
           The app does use third party services that may collect information
           used to identify you. Link to privacy policy of third party service
           providers used by the app.

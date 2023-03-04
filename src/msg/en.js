@@ -18,6 +18,7 @@ en.DONATE = "Donate";
 en.VOLUNTEER_WITH_US = "Volunteer with Us";
 en.MERAKI_TEAM = "Meraki Team";
 en.MENTOR = "Mentor";
+en.SCRATCH = 'Scratch';
 en.NAVGURUKUL_ADMISSION = "Navgurukul Admission";
 en.OPPORTUNITIES = "Opportunities";
 en.CLASSES = "Classes";

@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   Grid_Space: {
-    margin: "30px 0px",
+    margin: "40px 0px",
   },
   AFE_approaches: {
     fontWeight: 700,
@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   Fiber_space: {
-    marginRight: "20px",
+    marginRight: "8px",
   },
   Ng_AFE: {
-    marginBottom: "50px",
+    marginBottom: "16px",
   },
   Img_size: {
     width: 328,
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   IMG: {
     width: "95%",
-    height: "90%",
+    // height: "90%",
   },
 }));
 

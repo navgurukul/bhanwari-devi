@@ -7,6 +7,10 @@ const useStyles = makeStyles((theme) => ({
   courseCard: {
     marginBottom: 10,
   },
+  box: {
+    marginLeft: "16px",
+    marginTop: 32,
+  },
   courseName: {
     background: "#E9F5E9",
     width: "24px",

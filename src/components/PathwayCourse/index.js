@@ -121,6 +121,7 @@ function PathwayCourse() {
   const params = useParams();
   const pathwayId = params.pathwayId;
   const [completedPortion, setCompletedPortion] = useState({});
+
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -282,11 +283,11 @@ function PathwayCourse() {
   }, [enrolledBatches]);
 
   /*For Content List Scroll Position*/
-  useEffect(()=>{
-    if(localStorage.getItem("contentListScroll")){
+  useEffect(() => {
+    if (localStorage.getItem("contentListScroll")) {
       localStorage.removeItem("contentListScroll");
     }
-    if(localStorage.getItem("contentListScrollMobile")){
+    if (localStorage.getItem("contentListScrollMobile")) {
       localStorage.removeItem("contentListScrollMobile");
     }
   }, []);
@@ -651,7 +652,7 @@ function PathwayCourse() {
               />
             </Grid>
           ) : null}
-{/* 
+          {/* 
           {!user?.data?.token ? (
             <Container align="center">
               <Box
