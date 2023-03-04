@@ -5,7 +5,7 @@ import React from "react";
 import CodeMirrorEditor from "./CodeMirror";
 
 import { Button } from "@mui/material";
-const PythonEditor = ({ value }) => {
+const PythonEditor = ({ value, setEditorState }) => {
   // const { runPython, stdout, stderr, isLoading, isRunning } = usePython()
 
   return (
@@ -18,10 +18,7 @@ const PythonEditor = ({ value }) => {
           console.log("python ran");
         }}
       />
-      <CodeMirrorEditor
-        value={value}
-        // setEditorState={setEditorState}
-      />
+      <CodeMirrorEditor value={value} setEditorState={setEditorState} />
       {/* <pre> */}
       {/* <code>{stdout}</code> */}
       {/* <code>{stderr}</code> */}

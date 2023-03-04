@@ -10,17 +10,17 @@ import "codemirror/mode/python/python";
 
 import { Controlled as ControlledEditorComponent } from "react-codemirror2";
 
-const CodeMirrorEditor = ({ value }) => {
+const CodeMirrorEditor = ({ value, setEditorState }) => {
   // const [theme, setTheme] = useState("night")
 
-  // const handleChange = (editor, data, value) => {
-  //   setEditorState(value);
-  // }
+  const handleEditorChange = (editor, data, value) => {
+    setEditorState(value);
+  };
 
   return (
     <div className="editor-container">
       <ControlledEditorComponent
-        // onBeforeChange={handleChange}
+        onBeforeChange={handleEditorChange}
         value={value}
         className="code-mirror-wrapper"
         options={{
@@ -31,6 +31,7 @@ const CodeMirrorEditor = ({ value }) => {
           indentUnit: 4,
           matchBrackets: true,
           singleCursorHeightPerLine: false,
+          // readOnly: "true",
           // theme: theme,
         }}
       />

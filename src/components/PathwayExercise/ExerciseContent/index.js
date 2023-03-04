@@ -120,6 +120,7 @@ const RenderDoubtClass = ({ data, exercise }) => {
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [pythonEditorCode, setPythonEditorCode] = useState(data.value);
 
   if (data.component === "header") {
     return (
@@ -237,7 +238,6 @@ const RenderContent = ({ data, exercise }) => {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
       <div>
-        {console.log(data)}
         <Box className={classes.codeBackground}>
           {/* <Toolbar disableGutters> */}
           <Box sx={{ display: "flex", pb: 2 }}>
@@ -250,9 +250,12 @@ const RenderContent = ({ data, exercise }) => {
           </Box>
           {/* </Toolbar> */}
 
-          {/* code editor here */}
+          {/* Python Code Editor */}
           {data.type === "python" ? (
-            <PythonEditor value={codeContent} />
+            <PythonEditor
+              value={pythonEditorCode}
+              setEditorState={setPythonEditorCode}
+            />
           ) : (
             <Typography
               className={classes.codeWrap}
