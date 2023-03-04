@@ -24,14 +24,14 @@ const useStyles = makeStyles((theme) => ({
     margin: "30px 0 10px 0",
   },
   contentImage: {
-    width: "100%",
     marginTop: "32px",
+    maxWidth: "100%",
   },
-  contentImageSmallImg: {
-    marginTop: "32px",
-    display: "block",
-    marginLeft: "auto",
-    marginRight: "auto",
+  contentImageBox: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexWrap: "wrap",
   },
   contentImg: {
     padding: 5,

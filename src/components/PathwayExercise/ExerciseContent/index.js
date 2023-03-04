@@ -130,24 +130,16 @@ const RenderContent = ({ data, exercise }) => {
     );
   }
   if (data.component === "image") {
-    var myImg = data.value;
-    const img = new Image();
-    img.src = myImg;
-    // get height and width
-    var imgWidth;
-    img.onload = function () {
-      imgWidth = this.width;
-      console.log("before", imgWidth);
-    };
-    console.log("after", imgWidth);
     return (
-      <img
-        className={classes.contentImageSmallImg}
-        src={data.value}
-        alt="content"
-      />
-      // <img className={ imgWidth > 100 ? classes.contentImage : classes.contentImageSmallImg}
-      // src={data.value} alt="content" />
+      <>
+        <Box className={classes.contentImageBox}>
+          <img
+            className={classes.contentImage}
+            src={data.value}
+            alt="content"
+          />
+        </Box>
+      </>
     );
   }
   if (data.component === "youtube") {
