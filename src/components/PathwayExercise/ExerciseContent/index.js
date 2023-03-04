@@ -43,7 +43,7 @@ import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
-
+import PythonEditor from "../../CodeEditor/PythonEditor";
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
@@ -237,6 +237,7 @@ const RenderContent = ({ data, exercise }) => {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
     return (
       <div>
+        {console.log(data)}
         <Box className={classes.codeBackground}>
           {/* <Toolbar disableGutters> */}
           <Box sx={{ display: "flex", pb: 2 }}>
@@ -248,12 +249,19 @@ const RenderContent = ({ data, exercise }) => {
             <Typography variant="subtitle1">Code Example</Typography>
           </Box>
           {/* </Toolbar> */}
-          <Typography
-            className={classes.codeWrap}
-            dangerouslySetInnerHTML={{
-              __html: codeContent,
-            }}
-          />
+
+          {/* code editor here */}
+          {data.type === "python" ? (
+            <PythonEditor value={codeContent} />
+          ) : (
+            <Typography
+              className={classes.codeWrap}
+              dangerouslySetInnerHTML={{
+                __html: codeContent,
+              }}
+            />
+          )}
+
           <Grid container justifyContent="flex-end" mt={2}>
             <Button
               variant="contained"
