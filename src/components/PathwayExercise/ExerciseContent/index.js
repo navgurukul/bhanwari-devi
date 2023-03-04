@@ -130,7 +130,15 @@ const RenderContent = ({ data, exercise }) => {
   }
   if (data.component === "image") {
     return (
-      <img className={classes.contentImage} src={data.value} alt="content" />
+      <>
+        <Box className={classes.contentImageBox}>
+          <img
+            className={classes.contentImage}
+            src={data.value}
+            alt="content"
+          />
+        </Box>
+      </>
     );
   }
   if (data.component === "youtube") {
