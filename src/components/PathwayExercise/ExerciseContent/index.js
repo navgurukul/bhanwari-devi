@@ -44,11 +44,13 @@ import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
 import PythonEditor from "../../CodeEditor/PythonEditor";
+import PythonProvider from "../../CodeEditor/react-py";
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
   const l = lang == "python" ? "2" : "js";
   const replacedCode = code && code.replace(/<br>/g, "\n");
   const visualizerCode = replacedCode.replace(/&emsp;/g, " ");
+  console.log(visualizerCode);
   const url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
     visualizerCode
   )
@@ -120,7 +122,10 @@ const RenderDoubtClass = ({ data, exercise }) => {
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [pythonEditorCode, setPythonEditorCode] = useState(data.value);
+
+  const [pythonEditorCode, setPythonEditorCode] = useState(
+    data.value?.replace(/<br>/g, "\n").replace(/&emsp;/g, " ")
+  );
 
   if (data.component === "header") {
     return (

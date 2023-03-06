@@ -7,6 +7,7 @@
 // import { expose } from 'comlink';
 importScripts('https://cdn.jsdelivr.net/pyodide/v0.22.0/full/pyodide.js');
 
+
 /**
  * @license
  * Copyright 2019 Google LLC
