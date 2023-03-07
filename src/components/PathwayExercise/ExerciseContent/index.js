@@ -50,7 +50,6 @@ const createVisulizeURL = (code, lang, mode) => {
   const l = lang == "python" ? "2" : "js";
   const replacedCode = code && code.replace(/<br>/g, "\n");
   const visualizerCode = replacedCode.replace(/&emsp;/g, " ");
-  console.log(visualizerCode);
   const url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
     visualizerCode
   )
@@ -269,17 +268,6 @@ const RenderContent = ({ data, exercise }) => {
               }}
             />
           )}
-
-          <Grid container justifyContent="flex-end" mt={2}>
-            <Button
-              variant="contained"
-              color="dark"
-              target="_blank"
-              href={createVisulizeURL(get(data, "value"), data.type, "display")}
-            >
-              Visualize
-            </Button>
-          </Grid>
         </Box>
       </div>
     );

@@ -4,9 +4,7 @@ import { usePython } from "./react-py";
 
 import CodeMirrorEditor from "./CodeMirror";
 
-import { Grid } from "@mui/material";
-
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 const PythonEditor = ({ value, setEditorState }) => {
   const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
 
