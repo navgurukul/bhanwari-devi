@@ -44,7 +44,6 @@ import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
 import PythonEditor from "../../CodeEditor/PythonEditor";
-import PythonProvider from "../../CodeEditor/react-py";
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
