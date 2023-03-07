@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "./style.scss";
 import { useEffect, useRef } from "react";
 import { METHODS } from "../../services/api";
+import FormHelperText from "@mui/material/FormHelperText";
 
 function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
   const [openForm, setOpenForm] = useState(false);
@@ -12,6 +13,8 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
   const [studentName, setStudentName] = useState();
   const user = useSelector(({ User }) => User);
   const partnerId = window.location.pathname.split("/")[2];
+  const [error, setError] = useState(false);
+  const [errorData, setErrorData] = useState("");
 
   const submit = () => {
     if (openEditForm) {
@@ -63,16 +66,19 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
       },
     })
       .then((data) => {
+        console.log(data);
         if (data.data.error) throw new Error(data.data.message);
         toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         window.location.reload(1);
+        setOpenForm(false);
       })
       .catch((e) => {
-        toast.error(e.message, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
+        console.log(e);
+        setErrorData(e.message);
+        setError(true);
+        setOpenForm(true);
       });
   };
 
@@ -140,14 +146,19 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
                       }}
                       value={studentEmail}
                     />
+                    {error && (
+                      <FormHelperText error={true} id="component-error-text">
+                        {errorData}
+                      </FormHelperText>
+                    )}
                   </>
                 )}
                 <button
                   className="add_student_form_btn"
                   onClick={() => {
                     submit();
-                    setOpenForm(false);
                   }}
+                  disabled={openEditForm ? !studentName : !studentEmail}
                 >
                   {openEditForm ? "Edit" : "Submit"}
                 </button>
