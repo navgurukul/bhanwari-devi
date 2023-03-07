@@ -13,13 +13,21 @@ const PythonEditor = ({ value, setEditorState }) => {
       {isRunning && <div>Running</div>}
       <CodeMirrorEditor value={value} setEditorState={setEditorState} />
 
-      <Grid container direction="row" justifyContent="space-between">
-        <Grid item>
-          <code>{stdout}</code>
-          <code>{stderr}</code>
-        </Grid>
-        <Grid item mt={2}>
+      <Grid
+        container
+        direction="row"
+        wrap="nowrap"
+        justifyContent="space-between"
+        mt={2}
+        spacing={2}
+      >
+        <pre style={{ width: "50%" }}>
+          <output>{stdout}</output>
+          <output>{stderr}</output>
+        </pre>
+        <Grid>
           <Button
+            sx={{ float: "right" }}
             disabled={isLoading}
             variant="contained"
             onClick={() => {
