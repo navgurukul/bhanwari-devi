@@ -66,7 +66,6 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
       },
     })
       .then((data) => {
-        console.log(data);
         if (data.data.error) throw new Error(data.data.message);
         toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -75,7 +74,6 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
         setOpenForm(false);
       })
       .catch((e) => {
-        console.log(e);
         setErrorData(e.message);
         setError(true);
         setOpenForm(true);
