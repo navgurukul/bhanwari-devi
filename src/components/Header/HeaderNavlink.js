@@ -43,6 +43,7 @@ function HeaderNavLink(props) {
           }}
         >
           {props.text}
+          {props?.icon}
         </Typography>
       </NavLink>
     </MenuItem>
