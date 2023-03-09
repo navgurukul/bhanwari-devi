@@ -5,11 +5,13 @@ import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import HeaderNavLink from "../HeaderNavlink";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+// import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
+import ExternalLink from "../../common/ExternalLink";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -31,13 +33,44 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
         text={<Message constantKey="DASHBOARD" />}
         toggleDrawer={toggleDrawer}
       />
-      <HeaderNavLink
+      {/* <HeaderNavLink
         to={PATHS.SCRATCH}
         new_nav_tab={true}
         text={<Message constantKey="SCRATCH" />}
         toggleDrawer={toggleDrawer}
         icon={<OpenInNewIcon style={{ color: 'Black', paddingLeft: '9px' }} />}
-      />
+      /> */}
+      <MenuItem
+        toggleDrawer={toggleDrawer}
+        sx={{
+          padding: 0,
+          // borderRadius: "8px",
+        }}
+      >
+        <ExternalLink
+          href="https://www.scratch.merakilearn.org/"
+          className={classes.link}
+        >
+          {/* <Button variant="text" color="dark" className={classes.buttonLink}>
+          Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
+        </Button> */}
+          <Typography
+            variant="subtitle1"
+            sx={{
+              height: "36px",
+              padding: "6px 16px",
+              display: "flex",
+              alignItems: "center",
+              "&:hover": {
+                // backgroundColor: "#E9F5E9",
+                // borderRadius: "8px",
+              },
+            }}
+          >
+            Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
+          </Typography>
+        </ExternalLink>
+      </MenuItem>
     </>
   );
 }
