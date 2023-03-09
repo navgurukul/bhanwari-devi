@@ -150,7 +150,6 @@ function Footer() {
   const { data } = useSelector((state) => state.Pathways);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  console.log('Poonam')
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
