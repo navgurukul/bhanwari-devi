@@ -41,6 +41,7 @@ function PartnerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      console.log("res", res);
       if (res.data.partners.length < 1) {
         setSlicedPartners([]);
         setMessage("There are no results to display");
@@ -199,7 +200,7 @@ function PartnerDashboard() {
                         {item.name}
                       </Link>
                     </td>
-                    <td data-column="Total students">{item.users}</td>
+                    <td data-column="Total students">{item.user}</td>
                     {item.meraki_link ? (
                       <td data-column="Meraki Link">
                         <a
