@@ -5,11 +5,11 @@ import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import HeaderNavLink from "../HeaderNavlink";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -22,6 +22,7 @@ import {
   // VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
 import SearchPopup from "../../SearchBar/SearchPopup";
+import ExternalLink from "../../common/ExternalLink";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
   return (
@@ -33,10 +34,9 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
       />
       <HeaderNavLink
         to={PATHS.SCRATCH}
-        new_nav_tab={true}
         text={<Message constantKey="SCRATCH" />}
         toggleDrawer={toggleDrawer}
-        icon={<OpenInNewIcon style={{ color: 'Black', paddingLeft: '9px' }} />}
+        externalLink="true"
       />
     </>
   );
