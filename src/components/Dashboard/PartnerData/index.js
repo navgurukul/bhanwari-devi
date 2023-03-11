@@ -41,6 +41,7 @@ function PartnerDashboard() {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      console.log("res", res);
       if (res.data.partners.length < 1) {
         setSlicedPartners([]);
         setMessage("There are no results to display");

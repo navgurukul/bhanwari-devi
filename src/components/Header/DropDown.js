@@ -110,7 +110,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     });
 
   return (
-    <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey].msgKey}>
+    <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
       {students[menuKey].map((menu, index) => {
         if (menu.type === "internal") {
           return (

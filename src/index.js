@@ -9,7 +9,6 @@ import { DeviceProvider } from "./common/context";
 import * as serviceWorker from "./serviceWorker";
 import { getIsMobile } from "./common/utils";
 import ScrollToTop from "./common/ScrollTotOP.js";
-
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 
@@ -33,7 +32,8 @@ ReactDOM.render(
         <DeviceProvider.Provider
           value={{
             isMobile: getIsMobile(),
-          }}>
+          }}
+        >
           <ScrollToTop>
             <App />
           </ScrollToTop>

@@ -224,46 +224,38 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    if (
-      user?.data?.token &&
-      pathwayId &&
-      (pathwayId == "1" || pathwayId == "2")
-    ) {
+    if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
           authToken: user?.data?.token,
         })
       );
-    }
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((response) => {
-      setCompletedPortion((prevState) => ({
-        ...prevState,
-        total: response?.data?.total_completed_portion,
-      }));
-
-      response.data.pathway.map((item) => {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      }).then((response) => {
         setCompletedPortion((prevState) => ({
           ...prevState,
-          [item.course_id]: item.completed_portion,
+          total: response?.data?.total_completed_portion,
         }));
+
+        response.data.pathway.map((item) => {
+          setCompletedPortion((prevState) => ({
+            ...prevState,
+            [item.course_id]: item.completed_portion,
+          }));
+        });
       });
-    });
+    }
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    if (
-      user?.data?.token &&
-      enrolledBatches?.length > 0 &&
-      (pathwayId == "1" || pathwayId == "2")
-    ) {
+    if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
         upcomingClassActions.getupcomingEnrolledClasses({
           pathwayId: pathwayId,
@@ -322,7 +314,7 @@ function PathwayCourse() {
   }
   return (
     <>
-      {enrolledBatches && !loading && (pathwayId == "1" || pathwayId == "2") ? (
+      {enrolledBatches && !loading ? (
         <>
           <Typography
             align="center"
@@ -371,7 +363,7 @@ function PathwayCourse() {
             </Box>
           </Box>
         </Modal>
-        {enrolledBatches && (pathwayId == "1" || pathwayId == "2") ? (
+        {enrolledBatches ? (
           <>
             <PathwayCards
               userEnrolledClasses={userEnrolledClasses}
@@ -690,9 +682,7 @@ function PathwayCourse() {
           ) : (
             ""
           )}
-          {!enrolledBatches &&
-          upcomingBatchesData?.length > 0 &&
-          (pathwayId == "1" || pathwayId == "2") ? (
+          {!enrolledBatches && upcomingBatchesData?.length > 0 ? (
             <PathwayCourseBatchEnroll2
               upcomingBatchesData={upcomingBatchesData}
             />

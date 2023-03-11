@@ -385,7 +385,7 @@ function StudentData() {
                   <BsArrowUpDown />
                 </button>
               </th>
-              <th>
+              {/* <th>
                 Enroll date
                 <button
                   className={sort_class}
@@ -393,7 +393,7 @@ function StudentData() {
                 >
                   <BsArrowUpDown />
                 </button>
-              </th>
+              </th> */}
               <th>
                 Classes Enrolled to
                 <button
@@ -457,9 +457,9 @@ function StudentData() {
                           {item.name}
                         </Link>
                       </td>
-                      <td data-column="Enrolled On">
+                      {/* <td data-column="Enrolled On">
                         {item.formatted_created_at}
-                      </td>
+                      </td> */}
                       <td data-column="Total classes ">
                         {" "}
                         {item.classes_registered.length}
@@ -540,9 +540,9 @@ function StudentData() {
                           {item.name}
                         </Link>
                       </td>
-                      <td data-column="Enrolled On">
+                      {/* <td data-column="Enrolled On">
                         {item.formatted_created_at}
-                      </td>
+                      </td> */}
                       <td data-column="Total classes ">
                         {" "}
                         {item.classes_registered.length}

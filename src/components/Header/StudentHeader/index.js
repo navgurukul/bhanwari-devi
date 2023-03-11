@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import { DropDown, MobileDropDown } from "../DropDown";
 import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -23,8 +23,10 @@ import {
 } from "../constant";
 import SearchPopup from "../../SearchBar/SearchPopup";
 import ExternalLink from "../../common/ExternalLink";
+import useStyles from "../../Header";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
+  const classes = useStyles();
   return (
     <>
       <HeaderNavLink
@@ -61,7 +63,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
         }}
       >
         <TextButtonDropDownMenu
-          btnTextMsgKey={MENU_ITEMS[LEARN_KEY].msgKey}
+          btnTextMsgKey={MENU_ITEMS[LEARN_KEY]?.msgKey}
           // attachRight={!leftDrawer}
           menuContainerProps={{
             id: "menu-appbar",

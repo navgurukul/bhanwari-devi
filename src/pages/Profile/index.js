@@ -7,12 +7,11 @@ import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { format } from "../../common/date";
-
-// import {update}
-// import ImageUpload from "@material-ui/core";
-// import VerifyPhoneNo from "../../components/VolunteerAutomation/VerifyPhoneNo";
 import Avatar from "react-avatar-edit";
 
 import {
@@ -22,6 +21,8 @@ import {
   Button,
   Container,
   Box,
+  FormControl,
+  FormHelperText,
   Snackbar,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
@@ -363,7 +364,6 @@ function Profile() {
                             }
                           }}
                         />
-
                         <TextField
                           align="center"
                           sx={{ mt: 4, mb: 1 }}
