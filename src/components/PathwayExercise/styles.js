@@ -24,9 +24,16 @@ const useStyles = makeStyles((theme) => ({
     margin: "30px 0 10px 0",
   },
   contentImage: {
-    width: "100%",
     marginTop: "32px",
+    maxWidth: "100%",
   },
+  contentImageBox: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexWrap: "wrap",
+  },
+
   contentImg: {
     padding: 5,
     marginRight: 5,

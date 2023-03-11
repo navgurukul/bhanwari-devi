@@ -48,11 +48,11 @@ const menu = {
       link: PATHS.OUR_PARTNER,
     },
 
-    {
-      title: "Donate",
-      type: "external",
-      link: "https://www.navgurukul.org/donate",
-    },
+    // {
+    //   title: "Donate",
+    //   type: "external",
+    //   link: "https://www.navgurukul.org/donate",
+    // },
     {
       title: "Careers",
       type: "exernal",
@@ -69,7 +69,7 @@ const MenuList = (menuItem) => {
     <>
       <Typography
         color="text.primary"
-        sx={{ mt: 4 }}
+        // sx={{ mt: 4 }}
         variant="subtitle1"
         component="div"
       >
@@ -169,7 +169,7 @@ function Footer() {
   return (
     <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
-        <Grid container spacing={2} sx={{ mt: isActive ? 0 : "50px" }}>
+        <Grid container spacing={2} sx={{ mt: isActive ? "32px" : "64px" }}>
           <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
@@ -199,11 +199,26 @@ function Footer() {
           </Grid>
           <Grid xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("GetInvolved")}
+            <ExternalLink
+              className={classes.link}
+              sx={{ mt: "8px" }}
+              href="https://www.navgurukul.org/donate"
+            >
+              <Typography
+                variant="body2"
+                color="text.primary"
+                mb={1}
+                mt={1}
+                className={classes.CareerNDoner}
+              >
+                Donate <LaunchOutlinedIcon sx={{ pl: "5px" }} />
+              </Typography>
+            </ExternalLink>
           </Grid>
           <Grid xs={6} md={2}>
             <Typography
               color="text.primary"
-              sx={{ mt: 4, mb: 1 }}
+              sx={{ mb: 1 }}
               variant="subtitle1"
               component="div"
             >

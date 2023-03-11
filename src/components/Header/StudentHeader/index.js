@@ -9,9 +9,7 @@ import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
-import ExternalLink from "../../common/ExternalLink";
 import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
-import useStyles from "../styles";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -23,6 +21,9 @@ import {
   // STUDENT_ROLE_KEY as STUDENT,
   // VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
+import SearchPopup from "../../SearchBar/SearchPopup";
+import ExternalLink from "../../common/ExternalLink";
+import useStyles from "../../Header";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
   const classes = useStyles();
@@ -33,42 +34,12 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
         text={<Message constantKey="DASHBOARD" />}
         toggleDrawer={toggleDrawer}
       />
-      {/* <HeaderNavLink
-        to={PATHS.MENTOR}
-        text={<Message constantKey="MENTOR" />}
+      <HeaderNavLink
+        to={PATHS.SCRATCH}
+        text={<Message constantKey="SCRATCH" />}
         toggleDrawer={toggleDrawer}
-      /> */}
-      <MenuItem
-        toggleDrawer={toggleDrawer}
-        sx={{
-          padding: 0,
-          borderRadius: "8px",
-        }}
-      >
-        <ExternalLink
-          href="https://www.scratch.merakilearn.org/"
-          className={classes.link}
-        >
-          {/* <Button variant="text" color="dark" className={classes.buttonLink}>
-          Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
-        </Button> */}
-          <Typography
-            variant="subtitle1"
-            sx={{
-              height: "36px",
-              padding: "6px 16px",
-              display: "flex",
-              alignItems: "center",
-              "&:hover": {
-                backgroundColor: "#E9F5E9",
-                borderRadius: "8px",
-              },
-            }}
-          >
-            Scratch <LaunchOutlinedIcon sx={{ pl: "9px" }} />
-          </Typography>
-        </ExternalLink>
-      </MenuItem>
+        externalLink="true"
+      />
     </>
   );
 }
@@ -125,7 +96,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           pr: onlyRole && 2,
         }}
       >
-        {!leftDrawer && <SearchHeader />}
+        {!leftDrawer && <SearchPopup />}
 
         {/* <HeaderNavLink
           to={PATHS.ADMISSION}

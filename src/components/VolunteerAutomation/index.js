@@ -44,21 +44,22 @@ function VolunteerAutomation() {
 
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={8} mt={1}>
+      <Grid container mt={8}>
         <Grid item xs={12} ms={6} md={6}>
-          <Box className={classes.volunteerFlow}>
+          <Box>
             <Typography variant="h4" gutterBottom>
-              Help Students Get their Dream Job and Build their Career in Tech
-            </Typography>
-            <Typography sx={{ mt: 4 }}>
-              <hr align="left" className={classes.VolunteerHrline} />
+              Help Students Get their Dream Job in Tech
             </Typography>
             <Typography variant="h6" sx={{ mt: 4 }}>
               Why Volunteer?
             </Typography>
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
-              <Typography className={classes.TextContent}>
+              <Typography
+                variant="body1"
+                color="text.primary"
+                className={classes.TextContent}
+              >
                 Gain a wide network to leverage for advancing your skills and
                 career prospects.
               </Typography>
@@ -66,39 +67,29 @@ function VolunteerAutomation() {
             <Box className={classes.displayIcon} sx={{ mt: 2 }}>
               <ArrowRightAltIcon />
               <Typography variant="body1" pl="10px" color="text.primary">
-                Support students from low income families to get their first job
-                in tech.
+                Help students from low-income families to get their first job in
+                tech.
               </Typography>
             </Box>
           </Box>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          ms={6}
-          md={6}
-          sx={{ display: { xs: "none", md: "flex" } }}
-        >
+        <Grid item xs={12} ms={6} md={6} sx={{ display: "flex" }}>
           <Box align="right">
             <img
-              className={classes.volunteerImg}
+              className={
+                !isActive ? classes.volunteerImg : classes.volunteerImg1
+              }
               alt="img"
               src={require("./assets/Group.svg")}
             />
           </Box>
         </Grid>
       </Grid>
-
-      <Typography
-        sx={{ mt: { xs: "48px", md: "40px" }, mb: { xs: "16px", md: "32px" } }}
-        variant="h5"
-        align="center"
-        gutterBottom
-      >
+      <Typography my={4} variant="h5" align="center" gutterBottom>
         Areas to Volunteer In
       </Typography>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} mb={8}>
         <Grid item xs={12} ms={6} md={6} mb={isActiveIpad && 2}>
           <Card elevation={4} className={classes.volunteerCard}>
             <Box>
@@ -107,7 +98,7 @@ function VolunteerAutomation() {
                   Teaching
                 </Typography>
                 <Box className={classes.displayIcon}>
-                  <ArrowRightAltIcon />
+                  <ArrowRightAltIcon className={classes.IconColor} />
                   <Typography
                     variant="subtitle1"
                     className={classes.TextContent}
@@ -117,7 +108,7 @@ function VolunteerAutomation() {
                   </Typography>
                 </Box>
                 <Box className={classes.displayIcon}>
-                  <ArrowRightAltIcon />
+                  <ArrowRightAltIcon className={classes.IconColor} />
                   <Typography
                     variant="subtitle1"
                     className={classes.TextContent}
@@ -137,8 +128,8 @@ function VolunteerAutomation() {
                   variant="body1"
                   color="text.secondary"
                 >
-                  Please volunteer only if you are a professional who has worked
-                  with Python or has an excellent command of English.
+                  Please volunteer only if you are professional who has worked
+                  with Python or have great command over English.
                 </Typography>
               </CardContent>
               <CardActions sx={{ mt: 9.9 }}>
@@ -161,39 +152,39 @@ function VolunteerAutomation() {
                 Tech
               </Typography>
               <Box className={classes.displayIcon}>
-                <ArrowRightAltIcon />
+                <ArrowRightAltIcon className={classes.IconColor} />
                 <Typography variant="subtitle1" className={classes.TextContent}>
                   UX/Graphic Design
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
-                <ArrowRightAltIcon />
+                <ArrowRightAltIcon className={classes.IconColor} />
                 <Typography variant="subtitle1" className={classes.TextContent}>
                   Android (Kotlin)
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
-                <ArrowRightAltIcon />
+                <ArrowRightAltIcon className={classes.IconColor} />
                 <Typography variant="subtitle1" className={classes.TextContent}>
                   Front End Dev (React)
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
-                <ArrowRightAltIcon />
+                <ArrowRightAltIcon className={classes.IconColor} />
                 <Typography variant="subtitle1" className={classes.TextContent}>
                   Back End Dev
                 </Typography>
               </Box>
 
               <Box className={classes.displayIcon}>
-                <ArrowRightAltIcon />
+                <ArrowRightAltIcon className={classes.IconColor} />
                 <Typography variant="subtitle1" className={classes.TextContent}>
                   Project Management
                 </Typography>
               </Box>
               <Box className={classes.displayIcon}>
-                <ArrowRightAltIcon />
+                <ArrowRightAltIcon className={classes.IconColor} />
                 <Typography variant="subtitle1" className={classes.TextContent}>
                   Curriculum Creation & Translation
                 </Typography>

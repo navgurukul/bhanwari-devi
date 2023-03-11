@@ -15,6 +15,10 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
+  SCRATCH:
+    process.env.NODE_ENV === "development"
+      ? "https://dev.scratch.merakilearn.org/"
+      : "https://scratch.merakilearn.org/",
   USER: "/user",
   PROFILE: "/profile",
   ME: "/me",
@@ -56,7 +60,7 @@ export const HideFooter = [
   PATHS.PATHWAY_COURSE_CONTENT_EDIT,
   PATHS.PROFILE,
   PATHS.MENTOR,
-  PATHS.PRIVACY_POLICY,
+  // PATHS.PRIVACY_POLICY,
   PATHS.NEW_USER_DASHBOARD,
   PATHS.VOLUNTEER_FORM,
 ];

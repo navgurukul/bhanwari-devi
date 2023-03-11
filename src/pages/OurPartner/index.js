@@ -5,7 +5,6 @@ import Image from "./assest/dicto.jpg";
 import axios from "axios";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState, useEffect } from "react";
-import PublicIcon from "@mui/icons-material/Public";
 import {
   Stack,
   Chip,
@@ -39,53 +38,62 @@ const OurPartner = () => {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Container maxWidth="md">
-          <Typography
-            variant="h5"
-            align="center"
-            mt={isActive ? 3 : 0}
-            mb={isActive && 2}
-          >
-            Our Partners
-          </Typography>
-          {!isActive && <hr className={classes.underline} />}
-
-          <Typography
-            variant="body1"
-            className={classes.typography}
-            mb={isActive ? 2 : 4}
-          >
-            Meraki has partnered with individual schools, NGOs and state
-            governments to provide students from low income families a step in
-            the door of tech industry. Do you work with students that want to
-            explore the world of programming? If so, look no further.
-          </Typography>
-          <Stack alignItems="center">
-            <Link
-              href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
-              target="_blank"
-            >
-              <Button
-                component="span"
-                size="larger"
-                variant="contained"
-                color="primary"
-                mb={10}
-                style={{ width: isActive && "355px" }}
+      <Container maxWidth="lg" sx={{ py: "32px", my: !isActive && "32px" }}>
+        <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
+          <Grid item xs={12} sm={7} md={7}>
+            <Typography variant="h4">
+              Partners are ones who open the doors to quality education for our
+              students
+            </Typography>
+            <Typography my={2}>
+              Do you want to be a part and help out your students through
+              Meraki? Look no further and make the move.
+            </Typography>
+            <Stack style={{ width: isActive ? "100%" : "50%" }}>
+              <Link
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeUD5vhzlXS46KqeKk7AiBBE4U8I3o5SOkr7oFzc6ax7C_Ojg/viewform"
+                target="_blank"
+                style={{ textDecoration: "none" }}
               >
-                Join As a Partner
-              </Button>
-            </Link>
-          </Stack>
-        </Container>
-        <Container sx={{ mt: isActive ? 6 : 10 }}>
-          <Grid container md={12} spacing={{ xs: 2, sm: 4 }}>
+                <Button
+                  component="span"
+                  size="larger"
+                  variant="contained"
+                  color="primary"
+                  mb={10}
+                  style={{ width: "100%" }}
+                >
+                  Join as a Partner
+                </Button>
+              </Link>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} sm={5} md={5}>
+            <img
+              src={require("./assest/undraw_agreement.svg")}
+              alt="undraw Agreement"
+              className={classes.image}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+      <Container maxWidth={false} className={classes.containerColor}>
+        <Container>
+          <Grid
+            md={12}
+            container
+            columnSpacing={{ xs: 2, sm: 4 }}
+            paddingY={isActive ? 4 : 8}
+          >
             <Grid item xs={12} sm={6} md={6}>
               <img src={Image} className={classes.image} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} spacing={4}>
-              <Chip label="Featured" color="warning" mt={2} />
+              <Chip
+                label="Featured"
+                color="warning"
+                sx={{ mt: isActive && 2, fontFamily: "Noto sans" }}
+              />
               <Typography variant="h6" mt={2}>
                 Amazon Future Engineer
               </Typography>
@@ -104,91 +112,97 @@ const OurPartner = () => {
             </Grid>
           </Grid>
         </Container>
-        <Container sx={{ mt: isActive ? 8 : 10 }}>
-          <Typography variant="h4" align="center" mb={isActive && 2}>
-            Partner List{" "}
-          </Typography>
-          {!isActive && <hr className={classes.underline} />}
-          <Grid container spacing={isActive ? 2 : 3}>
-            {Object.keys(partner).map((item) => {
-              return (
-                <Grid item xs={12} sm={6} md={4}>
-                  {partner[item].Name !== null &&
-                    partner[item].OrganisationType !== null &&
-                    !partner[item].State !== null &&
-                    !partner[item].City !== null && (
-                      <Card
-                        sx={{
-                          minWidth: 275,
-                          height: isActive ? 185 : 250,
-                          mb: isActive ? 1 : 4,
-                        }}
+      </Container>
+      <Container sx={{ mt: 8, p: 0 }}>
+        <Typography variant="h5" align="center" mb={isActive ? 2 : 4}>
+          Partner List{" "}
+        </Typography>
+        <Grid container spacing={isActive ? 2 : 4} pb={isActive ? 2 : 4}>
+          {Object.keys(partner).map((item) => {
+            return (
+              <Grid item xs={12} sm={3} md={3}>
+                {partner[item].Name !== null &&
+                  partner[item].OrganisationType !== null &&
+                  !partner[item].State !== null &&
+                  !partner[item].City !== null && (
+                    <Card
+                      elevation={2}
+                      sx={{
+                        height: isActive ? 185 : 210,
+                      }}
+                    >
+                      <CardContent
+                        sx={{ height: isActive ? "110px" : "140px" }}
                       >
-                        <CardContent
-                          sx={{ height: isActive ? "110px" : "170px" }}
-                        >
-                          <Typography
-                            variant="subtitle1"
-                            color="text.secondary"
-                            gutterBottom
-                            mb={1}
-                          >
-                            {partner[item].Name}
-                          </Typography>
-                          {partner[item].OrganisationType === "Non - Profit" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              sx={{ background: "#FFF3CD" }}
-                            />
-                          ) : partner[item].OrganisationType ===
-                            "Government" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              variant="contained"
-                              sx={{ background: "#DADAEC" }}
-                            />
-                          ) : partner[item].OrganisationType ===
-                            "Educational Institution" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              variant="contained"
-                              sx={{ background: "#D3EAFD" }}
-                            />
-                          ) : partner[item].OrganisationType ===
-                            "Community based organisation" ? (
-                            <Chip
-                              label={partner[item].OrganisationType}
-                              mt={2}
-                              variant="contained"
-                              sx={{ background: "#FFE6E8" }}
-                            />
-                          ) : (
-                            ""
+                        <Typography variant="subtitle1" gutterBottom mb={1}>
+                          {partner[item].Name}
+                        </Typography>
+                        {partner[item].OrganisationType === "Non - Profit" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="caption"
+                            sx={{
+                              background: "#FFF3CD",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType === "Government" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="caption"
+                            sx={{
+                              background: "#DADAEC",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType ===
+                          "Educational Institution" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="contained"
+                            sx={{
+                              background: "#D3EAFD",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : partner[item].OrganisationType ===
+                          "Community based organisation" ? (
+                          <Chip
+                            label={partner[item].OrganisationType}
+                            mt={2}
+                            variant="contained"
+                            sx={{
+                              background: "#FFE6E8",
+                              fontFamily: "Noto sans",
+                            }}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </CardContent>
+                      <CardActions sx={{ height: "8px" }}>
+                        {partner[item].Url !== "NA" &&
+                          partner[item].Url !== null && (
+                            <IconButton>
+                              <Link href={partner[item].Url} target="_blank">
+                                <img
+                                  className={classes.icons}
+                                  src={require("./assest/world_icon.svg")}
+                                  alt="World Img"
+                                />
+                              </Link>
+                            </IconButton>
                           )}
-                          <Typography variant="body2" mt={2}>
-                            {`${partner[item].City} , ${partner[item].State}`}
-                          </Typography>
-                        </CardContent>
-                        <CardActions sx={{ height: "8px" }}>
-                          {partner[item].Url !== "NA" &&
-                            partner[item].Url !== null && (
-                              <IconButton>
-                                <Link href={partner[item].Url} target="_blank">
-                                  <PublicIcon variant="outlined" />
-                                </Link>
-                              </IconButton>
-                            )}
-                        </CardActions>
-                      </Card>
-                    )}
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Container>
+                      </CardActions>
+                    </Card>
+                  )}
+              </Grid>
+            );
+          })}
+        </Grid>
       </Container>
     </>
   );

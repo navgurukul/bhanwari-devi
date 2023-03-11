@@ -95,6 +95,7 @@ function UserMenu() {
           </MenuItem>
         </NavLink>
         <Link
+          to={PATHS.LOGIN}
           onClick={() => dispatch(userActions.logout())}
           className={classes.link}
         >

@@ -9,7 +9,13 @@ function Message({ constantKey, children, args = [] }) {
 
   if (key) {
     if (!MSG[key]) {
-      console.warn("Message key", key, "does not exist. Using", key, ". Please update the message constants.");
+      console.warn(
+        "Message key",
+        key,
+        "does not exist. Using",
+        key,
+        ". Please update the message constants."
+      );
       return key;
     } else {
       return MSG[key]?.split(/(%\d+)/g).map((part) => {

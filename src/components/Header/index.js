@@ -12,6 +12,7 @@ import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import Tooltip from "@mui/material/Tooltip";
+import { breakpoints } from "../../theme/constant";
 import {
   AppBar,
   Box,
@@ -22,7 +23,10 @@ import {
   ThemeProvider,
   SwipeableDrawer,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 import { NavLink } from "react-router-dom";
 import {
   PUBLIC_MENU_KEYS,
@@ -36,6 +40,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "./constant";
+import ExternalLink from "../common/ExternalLink";
 import { selectRolesData } from "../User/redux/selectors";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
 import SearchBar from "../SearchBar";
@@ -43,6 +48,8 @@ import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
+import SearchPopup from "../SearchBar/SearchPopup";
+import LaunchOutlinedIcon from "@mui/icons-material/Launch";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -106,7 +113,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               menuContainerProps={{
                 id: "menu-appbar",
               }}
-              sx={{ color: "black" }}
+              sx={{ color: "black", zIndex: 2000 }}
               key={index}
             >
               <DropDown
@@ -120,13 +127,17 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             </TextButtonDropDownMenu>
           </>
         ))}
-        <MenuItem
-          sx={{
-            padding: 0,
-            borderRadius: "8px",
-          }}
+        <ExternalLink
+          href="https://www.navgurukul.org/donate"
+          className={classes.link}
+          onClick={toggleDrawer && toggleDrawer(false)}
         >
-          <NavLink to={PATHS.GSOC_IDEA} className={classes.link}>
+          <MenuItem
+            sx={{
+              padding: 0,
+              borderRadius: "8px",
+            }}
+          >
             <Typography
               variant="subtitle1"
               sx={{
@@ -140,10 +151,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                 },
               }}
             >
-              Gsoc Ideas 2023
+              Donate
+              <LaunchOutlinedIcon sx={{ pl: "5px" }} />
             </Typography>
-          </NavLink>
-        </MenuItem>
+          </MenuItem>
+        </ExternalLink>
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey) => (
@@ -181,13 +193,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {!leftDrawer && (
         <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-          <Link to={PATHS.SEARCHED_COURSE}>
-            <Tooltip title="Search the course...">
-              <Button color="dark">
-                <SearchIcon />
-              </Button>
-            </Tooltip>
-          </Link>
+          <SearchPopup />
         </Box>
       )}
 
@@ -235,6 +241,7 @@ const MobileVersion = ({ toggleDrawer, leftDrawer, setRole, role }) => {
           </Box>
         </Toolbar>
       </Box>
+
       <List>
         {isAuthenticated ? (
           <AuthenticatedHeaderOption
@@ -258,11 +265,15 @@ function Header() {
   const classes = useStyles();
   const { data } = useSelector(({ User }) => User);
   const user = useSelector(({ User }) => User);
-
+  const [position, setposition] = useState(true);
   const roles = useSelector(selectRolesData);
   const [role, setRole] = React.useState(null);
   const isAuthenticated = data && data.isAuthenticated;
   const [leftDrawer, setLeftDrawer] = useState(false);
+  const [bgColor, setBgcolor] = useState(false);
+  let location = useLocation();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
   window.addEventListener("resize", () => {
     if (window.outerWidth > theme.breakpoints.values.md) {
       setLeftDrawer(false);
@@ -280,6 +291,14 @@ function Header() {
       ? `${PATHS.STATE}/${partnerGroupId}`
       : `${PATHS.PARTNERS}/${partnerId || ""}`,
   };
+
+  useEffect(() => {
+    if (location.pathname === "/home" || location.pathname === "/") {
+      setBgcolor(true);
+    } else {
+      setBgcolor(false);
+    }
+  }, [location]);
 
   const roleKey = roles
     .map((userRole) => userRole.key)
@@ -299,15 +318,42 @@ function Header() {
   const [elevation, setElevation] = useState(0);
   window.addEventListener("scroll", () => {
     if (window.scrollY > 0) {
-      setElevation(9);
+      setElevation(8);
     } else {
       setElevation(0);
     }
   });
 
+  //   window.addEventListener("scroll", changeBackground);
+
+  window.addEventListener("scroll", () => {
+    let count = isActive ? 900 : 770;
+    if (window.scrollY > count) {
+      setposition(false);
+    } else {
+      setposition(true);
+    }
+  });
+
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="background" elevation={elevation}>
+      <AppBar
+        elevation={elevation}
+        maxWidth="lg"
+        sx={
+          bgColor
+            ? {
+                background: position
+                  ? "linear-gradient(90deg, #C1DFC4 0%, #DEECDD 100%);"
+                  : "background",
+
+                borderRadius: "0px",
+              }
+            : { borderRadius: "0px" }
+        }
+        position="sticky"
+        color="background"
+      >
         <Container maxWidth="false" sx={{ my: "7px" }}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
@@ -339,13 +385,14 @@ function Header() {
               </Link>
             </Box>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-              <Link to={PATHS.SEARCHED_COURSE}>
+              {/* <Link to={PATHS.SEARCHED_COURSE}>
                 <Tooltip title="Search the course...">
                   <Button color="dark">
                     <SearchIcon />
                   </Button>
                 </Tooltip>
-              </Link>
+              </Link> */}
+              <SearchPopup />
             </Box>
             <Box
               sx={{ pr: 3, flexGrow: 0, display: { xs: "none", md: "flex" } }}
