@@ -1,3 +1,5 @@
+const production = window.location.hostname;
+
 export const AUTH_KEY = "__AUTH__";
 
 export const PATHS = {
@@ -16,9 +18,13 @@ export const PATHS = {
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
   SCRATCH:
-    process.env.NODE_ENV === "development"
-      ? "https://dev.scratch.merakilearn.org/"
-      : "https://scratch.merakilearn.org/",
+    production === "merakilearn.org"
+      ? "https://scratch.merakilearn.org/"
+      : "https://dev.scratch.merakilearn.org/",
+  // SCRATCH:
+  //   process.env.NODE_ENV === "development"
+  //     ? "https://dev.scratch.merakilearn.org/"
+  //     : "https://scratch.merakilearn.org/",
   USER: "/user",
   PROFILE: "/profile",
   ME: "/me",
