@@ -12,6 +12,13 @@ import { versionCode } from "../../constant";
 import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress, FormHelperText } from "@mui/material";
 import { actions as pathwayActions } from "./../PathwayCourse/redux/action";
+import {
+  format, 
+  formatInSameTimeZone, 
+  addHours,
+  toDateInSameTimeZone,
+  getTimestampOffset
+} from "../../common/date";
 
 import {
   Typography,
@@ -49,23 +56,37 @@ function ClassForm({
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
   const [volunteer, setVolunteer] = useState([]);
+  const offset = getTimestampOffset(classToEdit.start_time) || "+05:30";
 
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit?.title || "",
     partner_id: classToEdit.partner_id || [],
+    date: formatInSameTimeZone(
+      classToEdit.start_time || new Date(),
+      'yyyy-MM-dd'
+    ),
+    /*
     date: classToEdit.start_time
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
+    */
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class?.on_days.split(",")
       : [],
+    start_time: toDateInSameTimeZone(classToEdit.start_time || new Date()),
+    //start_time: classToEdit.start_time || new Date(),
+    end_time: toDateInSameTimeZone(classToEdit.end_time || addHours(new Date(), 1)),
+/*
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
       : new Date(new Date().setSeconds(0)),
+*/
+    /*
     end_time: classToEdit.end_time
       ? new Date(classToEdit.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
+    */
     lang: classToEdit.lang || "en",
     max_enrolment:
       classToEdit.max_enrolment == null
@@ -87,6 +108,8 @@ function ClassForm({
     volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
   });
+  console.log("CTE and class fields", classToEdit, classFields);
+  console.log("IST:", classToEdit.start_time, toDateInSameTimeZone(classToEdit.start_time || new Date()));
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
@@ -988,10 +1011,11 @@ function ClassForm({
                 { label: "End Time", prop: "end_time" },
               ].map(({ label, prop }) => (
                 <Grid item xs={isActive ? 12 : 6}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} dateFormats={{fullTime12h: "hh:mm aaa '" + offset + "'"}}>
                     <Stack spacing={3}>
                       <DesktopTimePicker
                         label={label}
+                        //value={toDateInSameTimeZone(classFields[prop])}
                         value={classFields[prop]}
                         onChange={(time) => {
                           setClassFields({

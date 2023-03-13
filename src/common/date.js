@@ -5,8 +5,9 @@ import {
   differenceInMinutes as minutesDifference,
   differenceInMilliseconds as msDifference,
   intervalToDuration,
+  addHours as ah
 } from "date-fns";
-import { zonedTimeToUtc } from "date-fns-tz";
+import { zonedTimeToUtc, utcToZonedTime, toDate } from "date-fns-tz";
 import { formatInTimeZone as ftz } from "date-fns-tz";
 /**
  * Returns a copy of the given date if supplied a Date object input or a Date
@@ -217,6 +218,8 @@ export const millisecondsUntil = (date) => {
   return differenceInMilliseconds(date, new Date());
 };
 
+export const addHours = (date, amount) => ah(makeDateFrom(date), amount);
+
 /**
  * Returns a timestamp of the given date in the required back-end format
  * @param {Date|string} date A valid Date string recognized by formatInTimeZone
@@ -231,6 +234,23 @@ export const millisecondsUntil = (date) => {
 
 const formatInTimeZone = (date, timeZone, formatStr) => {
   return ftz(makeDateFrom(date), timeZone, formatStr);
+};
+
+export const getTimestampOffset = (timestamp) => {
+  return timestamp.endsWith('Z')
+    ? '+00:00'
+    : /([\+\-][^\+\-]*)$/.exec(timestamp)?.[1] || '+05:30';
+};
+
+export const formatInSameTimeZone = (
+  timestamp,
+  formatStr = 'yyyy-MM-dd HH:mm:ssXXX'
+) => {
+  return ftz(timestamp, getTimestampOffset(timestamp), formatStr);
+};
+
+export const toDateInSameTimeZone = (timestamp) => {
+  return utcToZonedTime(makeDateFrom(timestamp), getTimestampOffset(timestamp));
 };
 
 export const formatInUtc = (date, formatStr) => {
