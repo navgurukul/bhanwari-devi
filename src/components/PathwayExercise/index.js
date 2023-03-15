@@ -319,6 +319,24 @@ function PathwayExercise() {
         .catch((err) => {});
     }
   };
+  const onChangeHandlerClick = () => {
+    if (course[exerciseId].content_type === "exercise") {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].id}/complete`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+        data: {
+          exerciseId: course[exerciseId].id,
+        },
+      })
+        .then((res) => {})
+        .catch((err) => {});
+    }
+  };
   const nextArrowClickHandler = () => {
     if (exerciseId < courseLength - 1) {
       history.push(
@@ -606,7 +624,10 @@ function PathwayExercise() {
             disabled={!(exerciseId < courseLength)}
             variant="text"
             color="primary"
-            onClick={nextClickHandler}
+            onClick={() => {
+              nextClickHandler();
+              onChangeHandlerClick();
+            }}
           >
             Next
           </Button>
