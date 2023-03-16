@@ -360,6 +360,28 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
     }
   };
+  const onChangeHandlerClick = () => {
+    if (course[exerciseId].content_type === "exercise") {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].id}/complete`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+        data: {
+          exerciseId: course[exerciseId].id,
+        },
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   const [language, setLanguage] = useState("en");
 
   // to avoid duplication
@@ -383,6 +405,7 @@ function PathwayExercise() {
       </Select>
     );
   }
+
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
@@ -648,7 +671,10 @@ function PathwayExercise() {
             disabled={!(exerciseId < courseLength)}
             variant="text"
             color="primary"
-            onClick={nextClickHandler}
+            onClick={() => {
+              nextClickHandler();
+              onChangeHandlerClick();
+            }}
           >
             Next
           </Button>

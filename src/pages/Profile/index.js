@@ -52,7 +52,6 @@ function Profile() {
   // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
   const params = useParams();
   const pathwayId = params.pathwayId;
-  console.log(pathwayId);
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const date = user.data.user.last_login_at;
@@ -179,7 +178,6 @@ function Profile() {
 
     setEditName(user.data.user.name);
     setUserData(user.data.user);
-    console.log("user");
   }, []);
 
   useEffect(() => {
@@ -229,7 +227,6 @@ function Profile() {
       window.location.reload();
     });
   };
-  // console.log(user)
 
   return (
     <>
