@@ -5,9 +5,15 @@ import {
   differenceInMinutes as minutesDifference,
   differenceInMilliseconds as msDifference,
   intervalToDuration,
-  addHours as ah
+  addHours as ah,
+  add
 } from "date-fns";
-import { zonedTimeToUtc, utcToZonedTime, toDate } from "date-fns-tz";
+import { 
+  zonedTimeToUtc,
+  utcToZonedTime,
+  toDate,
+  getTimezoneOffset 
+} from "date-fns-tz";
 import { formatInTimeZone as ftz } from "date-fns-tz";
 /**
  * Returns a copy of the given date if supplied a Date object input or a Date
@@ -222,15 +228,37 @@ export const addHours = (date, amount) => ah(makeDateFrom(date), amount);
 
 /**
  * Returns a timestamp of the given date in the required back-end format
+ *   from a date/date string given in local time or time adjusted
  * @param {Date|string} date A valid Date string recognized by formatInTimeZone
  *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
- *     or Date to be formatted
+ *     or a 
+ * @param {boolean=} isAdjusted true exactly when the date has already been
+ *     adjusted to the timezone that the back-end expects instead of local time. 
+ *     E.g., Even though dates are represented in UTC with a Z, it's currently 
+ *     expected that they refer to times given in IST.
+ *     (See: https://github.com/navgurukul/bhanwari-devi/wiki/Working-with-Dates#date-representations)
  * @return {string} the serialized date (currently YYYY-MM-DDTHH:mm:ss.sssZ)
  *     See: https://tc39.es/ecma262/#sec-date-time-string-format
  */
-// const serializeForBackEnd = (date) => {
-//   return makeDateFrom(date).toISOString();
-// };
+export const serializeForBackEnd = (date, isAdjusted=true) => {
+  if (isAdjusted) {
+    return makeDateFrom(date).toISOString();
+  } else if (typeof date === "string") {
+    return formatInSameTimeZone(date);
+  } else {
+    return add(date, { hours: 5, minutes: 30 + date.getTimezoneOffset() });
+  }
+};
+
+/*
+export const deseralizeForFrontEnd = (timestamp) => {
+  return zonedTimeToUtc(makeDateFrom(timestamp), getTimestampOffset(timestamp));
+}
+*/
+
+export const getDateInTimezone = (timestamp) => {
+  return zonedTimeToUtc(makeDateFrom(timestamp), getTimestampOffset(timestamp));
+}
 
 const formatInTimeZone = (date, timeZone, formatStr) => {
   return ftz(makeDateFrom(date), timeZone, formatStr);
@@ -248,6 +276,10 @@ export const formatInSameTimeZone = (
 ) => {
   return ftz(timestamp, getTimestampOffset(timestamp), formatStr);
 };
+
+export const isOffsetOfLocalTime = (offset) => {
+  return new Date().getTimezoneOffset() === getTimezoneOffset(offset, new Date());
+}
 
 export const toDateInSameTimeZone = (timestamp) => {
   return utcToZonedTime(makeDateFrom(timestamp), getTimestampOffset(timestamp));

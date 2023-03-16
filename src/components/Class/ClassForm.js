@@ -19,6 +19,7 @@ import {
   toDateInSameTimeZone,
   getTimestampOffset
 } from "../../common/date";
+import TZDesktopTimePicker from "../components/common/TZDesktopTimePicker";
 
 import {
   Typography,
@@ -74,19 +75,19 @@ function ClassForm({
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class?.on_days.split(",")
       : [],
-    start_time: toDateInSameTimeZone(classToEdit.start_time || new Date()),
+    // start_time: toDateInSameTimeZone(classToEdit.start_time || new Date()),
     //start_time: classToEdit.start_time || new Date(),
-    end_time: toDateInSameTimeZone(classToEdit.end_time || addHours(new Date(), 1)),
-/*
+    // end_time: toDateInSameTimeZone(classToEdit.end_time || addHours(new Date(), 1)),
+
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
       : new Date(new Date().setSeconds(0)),
-*/
-    /*
+
+    
     end_time: classToEdit.end_time
       ? new Date(classToEdit.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
-    */
+    
     lang: classToEdit.lang || "en",
     max_enrolment:
       classToEdit.max_enrolment == null
@@ -108,6 +109,15 @@ function ClassForm({
     volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
   });
+
+  const setTimePayload = (obj) => {
+    setClassFields({
+      ...classFields,
+      start_time: obj.start_time || classFields.start_time,
+      end_time: obj.end_time || classFields.end_time,
+    });
+  };
+
   console.log("CTE and class fields", classToEdit, classFields);
   console.log("IST:", classToEdit.start_time, toDateInSameTimeZone(classToEdit.start_time || new Date()));
   const [display, setDisplay] = useState(false);
@@ -1011,7 +1021,22 @@ function ClassForm({
                 { label: "End Time", prop: "end_time" },
               ].map(({ label, prop }) => (
                 <Grid item xs={isActive ? 12 : 6}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns} dateFormats={{fullTime12h: "hh:mm aaa '" + offset + "'"}}>
+                  <TZDesktopTimePicker
+                    container={Stack}
+                    containerProps={{ spacing: 3 }}
+                    timestamp={classFields[prop]}
+                    label={label}
+                    minTime={
+                      classFields.date === moment().format('YYYY-MM-DD')
+                        ? new Date(new Date().setSeconds(0))
+                        : null
+                    }
+                    onChange={(_, backendTimeStr) =>
+                      setTimePayload({ prop: backendTimeStr })
+                    }
+                  />
+                  {/*
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <Stack spacing={3}>
                       <DesktopTimePicker
                         label={label}
@@ -1031,7 +1056,7 @@ function ClassForm({
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </Stack>
-                  </LocalizationProvider>
+                  </LocalizationProvider>*/}
                 </Grid>
               ))}
             </Grid>
