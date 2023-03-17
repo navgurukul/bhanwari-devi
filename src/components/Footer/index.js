@@ -64,6 +64,7 @@ const menu = {
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
   const classes = useStyles();
+  const subMenu = menu[menuItem].filter(x=>x.link || x.id);
 
   return (
     <>
@@ -76,10 +77,11 @@ const MenuList = (menuItem) => {
         {title}
       </Typography>
       <List>
-        {menu[menuItem].map((item) => {
+        {subMenu.map((item) => {
           if (item.type === "internal") {
             return (
               <Link
+                key={item.id}
                 to={
                   item.id
                     ? interpolatePath(PATHS.PATHWAY_COURSE, {
@@ -170,7 +172,7 @@ function Footer() {
     <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
         <Grid container spacing={2} sx={{ mt: isActive ? "32px" : "64px" }}>
-          <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
+          <Grid item xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
                 <img
@@ -182,7 +184,7 @@ function Footer() {
             </Box>
             <Box className={classes.socialMedia} sx={{ display: "flex" }}>
               {["facebook", "linkedIn", "twitter"].map((imgName) => (
-                <FooterIcon name={imgName} />
+                <FooterIcon key={imgName} name={imgName} />
               ))}
             </Box>
             <Box className={classes.content}>
@@ -191,13 +193,13 @@ function Footer() {
               </Typography>
             </Box>
           </Grid>
-          <Grid xs={6} md={2} sx={{ pl: "15px" }}>
+          <Grid item xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("About")}
           </Grid>
-          <Grid xs={6} md={2}>
+          <Grid item xs={6} md={2}>
             {MenuList("LearningTracks")}
           </Grid>
-          <Grid xs={6} md={2} sx={{ pl: "15px" }}>
+          <Grid item xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("GetInvolved")}
             <ExternalLink
               className={classes.link}
@@ -215,7 +217,7 @@ function Footer() {
               </Typography>
             </ExternalLink>
           </Grid>
-          <Grid xs={6} md={2}>
+          <Grid item xs={6} md={2}>
             <Typography
               color="text.primary"
               sx={{ mb: 1 }}
@@ -250,7 +252,7 @@ function Footer() {
         <Divider variant="string" sx={{ pt: "25px" }} />
         <Box>
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
-            <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
+            <Grid item xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
               <Link to={PATHS.PRIVACY_POLICY} className={classes.link}>
                 <Typography
                   className={classes.hover}
@@ -261,9 +263,7 @@ function Footer() {
                 </Typography>
               </Link>
             </Grid>
-            <Grid
-              xs={12}
-              md={6}
+            <Grid item xs={12} md={6}
               sx={{
                 pr: { sm: 0, md: "17px" },
               }}

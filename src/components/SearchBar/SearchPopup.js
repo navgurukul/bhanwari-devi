@@ -213,7 +213,7 @@ function SearchPopup() {
                   <Typography variant="subtitle1">Popular Searches</Typography>
                   <Grid container sx={{ mt: "16px", mb: "32px" }}>
                     {popular.map((item) => (
-                      <Grid item mr={2}>
+                      <Grid item mr={2} key={item}>
                         <Button value={item} onClick={handleSearchBar}>
                           {item}
                         </Button>

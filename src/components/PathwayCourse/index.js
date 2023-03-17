@@ -294,7 +294,6 @@ function PathwayCourse() {
     });
 
   const pathwayCourseData = pathways.find((item) => {
-    console.log("item", item);
     return item.id == pathwayId;
   });
 
@@ -417,7 +416,6 @@ function PathwayCourse() {
                         <Typography
                           style={{ display: "flex" }}
                           mt={2}
-                          align="start"
                           variant="body2"
                         >
                           <img
@@ -514,10 +512,9 @@ function PathwayCourse() {
                   >
                     Learning Outcomes
                   </Typography>
-                  {console.log("pathwayCourseData", pathwayCourseData)}
                   <Grid container spacing={0} align="center">
                     {pathwayCourseData.outcomes.map((item, index) => (
-                      <Grid key={index} xs={12} md={4}>
+                      <Grid item key={index} xs={12} md={4}>
                         <Card
                           sx={{ margin: "10px" }}
                           align="left"
@@ -551,7 +548,7 @@ function PathwayCourse() {
           </Typography>
           <Grid container spacing={3} align="center">
             {filterPathwayCourse?.map((item, index) => (
-              <Grid key={index} xs={12} md={3} className={classes.courseCard}>
+              <Grid item key={index} xs={12} md={3} className={classes.courseCard}>
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -613,11 +610,11 @@ function PathwayCourse() {
           </Grid>
 
           {displayCert ? (
-            <Grid sx={{ mb: 15 }} align="center">
-              <Grid sx={{ mb: 3 }}>
+            <Grid item sx={{ mb: 15 }} align="center">
+              <Grid item sx={{ mb: 3 }}>
                 <img src={require("./asset/separator.svg")} alt="icon" />
               </Grid>
-              <Grid sx={{ cursor: "pointer" }}>
+              <Grid item sx={{ cursor: "pointer" }}>
                 {completedAll ? (
                   loader ? (
                     <CircularProgress color="primary" />
@@ -696,7 +693,7 @@ function PathwayCourse() {
             <Typography variant="h6">Supplemental English Courses</Typography>
             <Grid sx={{ mt: 4 }} container spacing={3} align="center">
               {SupplementalCourse?.map((item, index) => (
-                <Grid key={index} xs={12} md={3} className={classes.courseCard}>
+                <Grid item key={index} xs={12} md={3} className={classes.courseCard}>
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

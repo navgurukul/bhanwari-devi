@@ -339,7 +339,6 @@ function Header() {
     <ThemeProvider theme={theme}>
       <AppBar
         elevation={elevation}
-        maxWidth="lg"
         sx={
           bgColor
             ? {
@@ -354,7 +353,7 @@ function Header() {
         position="sticky"
         color="background"
       >
-        <Container maxWidth="false" sx={{ my: "7px" }}>
+        <Container sx={{ my: "7px" }}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
