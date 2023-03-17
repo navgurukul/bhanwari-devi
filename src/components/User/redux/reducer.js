@@ -53,6 +53,9 @@ export default (state = initialState, action) => {
         error: action.error,
         data: null,
       };
+      
+    case types.ON_LOGOUT_INTENT:
+      return { ...initialState };
 
     default:
       return state;
