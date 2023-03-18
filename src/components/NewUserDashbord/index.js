@@ -77,7 +77,6 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data;
-      console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);
       }
