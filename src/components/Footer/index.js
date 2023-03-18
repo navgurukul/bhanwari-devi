@@ -20,7 +20,6 @@ const menu = {
     { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
-    // Changed the code for javascript JVSCPT => JSRPIT
     { title: "Javascript", code: "JSRPIT", type: "internal" },
     {
       title: "Residential Programmes",
@@ -35,7 +34,6 @@ const menu = {
   ],
 
   GetInvolved: [
-    // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
     {
       title: "Volunteer With Us",
       type: "internal",
@@ -44,15 +42,8 @@ const menu = {
     {
       title: "Our Partners",
       type: "internal",
-
       link: PATHS.OUR_PARTNER,
     },
-
-    // {
-    //   title: "Donate",
-    //   type: "external",
-    //   link: "https://www.navgurukul.org/donate",
-    // },
     {
       title: "Careers",
       type: "exernal",
@@ -64,7 +55,7 @@ const menu = {
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
   const classes = useStyles();
-  const subMenu = menu[menuItem].filter(x=>x.link || x.id);
+  const subMenu = menu[menuItem].filter((x) => x.link || x.id);
 
   return (
     <>
@@ -72,47 +63,40 @@ const MenuList = (menuItem) => {
         color="text.primary"
         // sx={{ mt: 4 }}
         variant="subtitle1"
-        component="div"
-      >
+        component="div">
         {title}
       </Typography>
       <List>
         {subMenu.map((item) => {
           if (item.type === "internal") {
+            const toLink = item.id
+              ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                  pathwayId: item.id,
+                })
+              : item.link;
+
             return (
-              <Link
-                key={item.id}
-                to={
-                  item.id
-                    ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: item.id,
-                      })
-                    : item.link
-                }
-                className={classes.link}
-              >
-                {/* {if (item?.title === "Donate"){
-                    
-                  }} */}
+              <Link key={toLink} to={toLink} className={classes.link}>
                 <Typography
                   variant="body2"
                   color="text.primary"
                   sx={{ pb: "8px" }}
-                  className={classes.hover}
-                >
+                  className={classes.hover}>
                   {item.title}
                 </Typography>
               </Link>
             );
           } else {
             return (
-              <ExternalLink className={classes.link} href={item.link}>
+              <ExternalLink
+                className={classes.link}
+                href={item.link}
+                key={item.link}>
                 <Typography
                   variant="body2"
                   color="text.primary"
                   mb={1}
-                  className={classes.CareerNDoner}
-                >
+                  className={classes.CareerNDoner}>
                   {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
                 </Typography>
               </ExternalLink>
@@ -204,15 +188,13 @@ function Footer() {
             <ExternalLink
               className={classes.link}
               sx={{ mt: "8px" }}
-              href="https://www.navgurukul.org/donate"
-            >
+              href="https://www.navgurukul.org/donate">
               <Typography
                 variant="body2"
                 color="text.primary"
                 mb={1}
                 mt={1}
-                className={classes.CareerNDoner}
-              >
+                className={classes.CareerNDoner}>
                 Donate <LaunchOutlinedIcon sx={{ pl: "5px" }} />
               </Typography>
             </ExternalLink>
@@ -222,14 +204,12 @@ function Footer() {
               color="text.primary"
               sx={{ mb: 1 }}
               variant="subtitle1"
-              component="div"
-            >
+              component="div">
               Learn on Mobile
             </Typography>
             <ExternalLink
               href="https://play.google.com/store/apps/details?id=org.merakilearn&hl=en_IN&gl=US"
-              className={classes.link}
-            >
+              className={classes.link}>
               <Box sx={{ display: "flex" }}>
                 <img
                   src={require("./asset/playStore.svg")}
@@ -240,8 +220,7 @@ function Footer() {
                   <Typography
                     variant="body2"
                     color="text.primary"
-                    component="div"
-                  >
+                    component="div">
                     Now on Playstore
                   </Typography>
                 </Box>
@@ -257,22 +236,22 @@ function Footer() {
                 <Typography
                   className={classes.hover}
                   variant="body2"
-                  color="text.primary"
-                >
+                  color="text.primary">
                   Legal & Privacy Policy
                 </Typography>
               </Link>
             </Grid>
-            <Grid item xs={12} md={6}
+            <Grid
+              item
+              xs={12}
+              md={6}
               sx={{
                 pr: { sm: 0, md: "17px" },
-              }}
-            >
+              }}>
               <Typography
                 color="text.primary"
                 variant="body2"
-                sx={{ textAlign: { sm: "left", md: "right" } }}
-              >
+                sx={{ textAlign: { sm: "left", md: "right" } }}>
                 Made with ❤️ for our students{" "}
               </Typography>
             </Grid>
