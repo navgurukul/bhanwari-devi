@@ -44,7 +44,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
         <Box mt={1} maxWidth={500} mb={10}>
           <Card elevation={2} pl={10}>
             <CardContent>
-              <Typography variant="h5" align="start">
+              <Typography variant="h5" align="right">
                 {BatchData?.title}
               </Typography>
               <Typography
@@ -88,7 +88,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
               <Typography
                 className={classes.FlexedContant}
                 mt={2}
-                align="start"
+                align="right"
                 variant="body2"
               >
                 Can’t start on {format(BatchData?.start_time, "dd MMM yy")}

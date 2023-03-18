@@ -65,11 +65,13 @@ const pathwayData = [
   },
   {
     title: "Residential Programmes",
+    path: PATHS.RESIDENTIAL_COURSE,
     image: "residential",
     description: "Interview preparation  to get you job ready",
   },
   {
     title: "Miscellaneous Courses",
+    path: PATHS.MISCELLANEOUS_COURSE,
     image: "misce",
     description: "Courses on Android, Game dev projects and more",
   },
@@ -204,6 +206,9 @@ function Home() {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const history = useHistory();
+  const partnerGroupId = user?.data?.user?.partner_group_id;
+  const partnerId = user?.data?.user?.partner_id;
+  const role = user?.data?.user?.rolesList;
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -218,9 +223,8 @@ function Home() {
         }
       });
     });
-  const partnerGroupId = user?.data?.user?.partner_group_id;
-  const partnerId = user?.data?.user?.partner_id;
-  const role = user?.data?.user?.rolesList;
+
+  const subPathway = pathwayData.filter((x) => x.id || x.path);
 
   const rolesLandingPages = {
     [STUDENT]: PATHS.NEW_USER_DASHBOARD,
@@ -465,17 +469,20 @@ function Home() {
         </Container>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {pathwayData.map((item, index) => (
-              <Grid item xs={12} ms={6} md={4} key={index}>
-                <PathwayCard
-                  id={item.id}
-                  title={item.title}
-                  description={item.description}
-                  image={item.image}
-                  hover={true}
-                />
-              </Grid>
-            ))}
+            {subPathway.map((item, index) => {
+              return (
+                <Grid item xs={12} ms={6} md={4} key={index}>
+                  <PathwayCard
+                    id={item.id}
+                    path={item.path}
+                    title={item.title}
+                    description={item.description}
+                    image={item.image}
+                    hover={true}
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
         </Container>
 

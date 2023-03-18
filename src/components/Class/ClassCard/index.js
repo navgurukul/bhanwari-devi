@@ -215,7 +215,6 @@ function ClassCard({ item, editClass }) {
     });
   };
 
-  //console.log("indicator", indicator);
   /*
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {

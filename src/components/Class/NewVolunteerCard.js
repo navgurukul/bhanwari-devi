@@ -7,7 +7,8 @@ function NewVolunteerCard({ setNewVolunteer }) {
 
   return (
     <Container
-      fullWidth
+      // fullWidth
+      fullwidth="true"
       sx={{ bgcolor: "secondary.light" }}
       className={classes.NewVolunteerCardContainer}
     >

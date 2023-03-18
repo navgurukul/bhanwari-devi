@@ -93,14 +93,10 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
       });
     });
 
+  const subMenu = students[menuKey].filter((x) => x.id || x.path);
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
-      {students[menuKey].map((menu, index) => {
-        // console.log("menu", menu);
-        // console.log("code", menu.code);
-        // console.log("id", menu.id);
-        // console.log("title", menu.title);
-        // console.log("type", menu.type);
+      {subMenu.map((menu, index) => {
         if (menu.type === "internal") {
           return (
             <Link
@@ -180,13 +176,15 @@ export const DropDown = ({
     });
 */
 
+  const subMenu = students[dropDown].filter((x) => x.id || x.path);
+
   return (
     <>
       {dropDown &&
-        students[dropDown].map((menu, index) => {
+        subMenu.map((menu, index) => {
           if (menu.type === "internal") {
             return (
-              <>
+              <div key={index}>
                 <DropdownLink
                   index={index}
                   //onClick={handleClose}
@@ -216,7 +214,7 @@ export const DropDown = ({
                 {dropDown === LEARN_KEY && index == 4 && (
                   <Divider key={index} />
                 )}
-              </>
+              </div>
             );
           } else {
             return (
