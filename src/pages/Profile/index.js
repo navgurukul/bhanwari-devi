@@ -510,14 +510,18 @@ function Profile() {
             </Typography>
             {data.Pathways.data &&
               data.Pathways.data.pathways?.map(
-                (item) =>
-                  item.code === "PRGPYT" && <CertificateCard item={item} />
+                (item, index) =>
+                  item.code === "PRGPYT" && (
+                    <CertificateCard item={item} key={index} />
+                  )
               )}
 
             {data.Pathways.data &&
               data.Pathways.data.pathways?.map(
-                (item) =>
-                  item.code === "PRGPYT" && <UnlockOpportunities item={item} />
+                (item, index) =>
+                  item.code === "PRGPYT" && (
+                    <UnlockOpportunities item={item} key={index} />
+                  )
               )}
           </Grid>
         </Grid>

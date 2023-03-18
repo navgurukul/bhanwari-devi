@@ -90,7 +90,6 @@ function UserMenu() {
         <Link
           to={PATHS.LOGIN}
           onClick={() => {
-            console.log("Punnu");
             dispatch(userActions.logout());
           }}
           className={classes.link}

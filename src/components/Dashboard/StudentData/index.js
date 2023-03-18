@@ -582,15 +582,17 @@ function StudentData() {
                           : "NA"}
                       </td>
                       <td data-column="Avg rating ">
-                        {[1, 2, 3, 4, 5].map((star) => {
+                        {[1, 2, 3, 4, 5].map((star, index) => {
                           return Math.ceil(item.averageRating) > 0 &&
                             star <= Math.ceil(item.averageRating) ? (
                             <span
+                              key={index}
                               className="fa fa-star"
                               style={{ color: "#D55F31" }}
                             ></span>
                           ) : (
                             <span
+                              key={index}
                               className="fa fa-star"
                               style={{ color: "gray" }}
                             ></span>

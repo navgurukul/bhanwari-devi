@@ -59,7 +59,6 @@ function UnlockOpportunities(props) {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        // console.log("response", response.data.total_completed_portion);
         setCompletedPortion(response.data.total_completed_portion);
       });
     }
