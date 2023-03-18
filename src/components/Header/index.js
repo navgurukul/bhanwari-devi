@@ -106,24 +106,24 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey, index) => (
-            <TextButtonDropDownMenu
-              btnTextMsgKey={MENU_ITEMS[menuKey]?.msgKey}
-              // attachRight={!leftDrawer}
-              menuContainerProps={{
-                id: "menu-appbar",
-              }}
-              key={index}
-              sx={{ color: "black", zIndex: 2000 }}
-            >
-              <DropDown
-                dropDown={menuKey}
-                //indicator={indicator}
-                //handleClose={menuCloseHandler}
-                toggleDrawer={toggleDrawer}
-                //setInDropdown={setInDropdown}
-                //handleMouseLeave={updateInDropdownState}
-              />
-            </TextButtonDropDownMenu>
+          <TextButtonDropDownMenu
+            btnTextMsgKey={MENU_ITEMS[menuKey]?.msgKey}
+            // attachRight={!leftDrawer}
+            menuContainerProps={{
+              id: "menu-appbar",
+            }}
+            key={index}
+            sx={{ color: "black", zIndex: 2000 }}
+          >
+            <DropDown
+              dropDown={menuKey}
+              //indicator={indicator}
+              //handleClose={menuCloseHandler}
+              toggleDrawer={toggleDrawer}
+              //setInDropdown={setInDropdown}
+              //handleMouseLeave={updateInDropdownState}
+            />
+          </TextButtonDropDownMenu>
         ))}
         <ExternalLink
           href="https://www.navgurukul.org/donate"
