@@ -23,7 +23,7 @@ function ClassList({ editClass, isShow }) {
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
-  const [filterText, setFilterText] = useState(null);
+  const [filterText, setFilterText] = useState("");
   useEffect(() => {
     if (isShow === false) {
       dispatch(classActions.getClasses());

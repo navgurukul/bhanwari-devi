@@ -146,7 +146,12 @@ function AFEpage() {
                 Our Approach
               </Typography>
             </Grid>
-            <Typography variant="body1" paragraph align="left">
+            <Typography
+              component={"span"}
+              variant="body1"
+              paragraph
+              align="left"
+            >
               NavGurukul is working with a two-step approach to make our
               students CS-ready and placed in tech jobs.
             </Typography>

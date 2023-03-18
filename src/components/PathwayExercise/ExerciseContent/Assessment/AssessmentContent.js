@@ -18,14 +18,14 @@ const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
-  (headingVarients[index + 1] = (data) => (
-    <UnsafeHTML
-      Container={Name}
-      className="heading"
-      html={data}
-      {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
-    />
-  ))
+    (headingVarients[index + 1] = (data) => (
+      <UnsafeHTML
+        Container={Name}
+        className="heading"
+        html={data}
+        {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+      />
+    ))
 );
 
 const AssessmentContent = ({
@@ -159,42 +159,44 @@ const AssessmentContent = ({
   if (content.component === "options") {
     return (
       <Box sx={{ m: "32px 0px" }}>
-        {Object.values(content.value).filter(item => item.value !== "").map((item, index) => {
-          const text = DOMPurify.sanitize(item.value.slice(2));
-          return (
-            <Paper
-              elevation={3}
-              sx={{
-                height: "auto",
-                mb: "16px",
-                cursor: "pointer",
-                p: "16px",
-              }}
-              className={
-                submit
-                  ? correct
-                    ? answer === item.id && classes.correctAnswer
-                    : triedAgain === 1
+        {Object.values(content.value)
+          .filter((item) => item.value !== "")
+          .map((item, index) => {
+            const text = DOMPurify.sanitize(item.value.slice(2));
+            return (
+              <Paper
+                elevation={3}
+                sx={{
+                  height: "auto",
+                  mb: "16px",
+                  cursor: "pointer",
+                  p: "16px",
+                }}
+                className={
+                  submit
+                    ? correct
+                      ? answer === item.id && classes.correctAnswer
+                      : triedAgain === 1
                       ? answer === item.id && classes.inCorrectAnswer
                       : (answer === item.id && classes.inCorrectAnswer) ||
-                      (solution === item.id && classes.correctAnswer)
-                  : answer === item.id && classes.option
-              }
-              onClick={() => !submitDisable && setAnswer(item.id)}
-            >
-              <Stack direction="row" gap={1}>
-                <Typography variant="body1">
-                  {item.value.slice(0, 2)}
-                </Typography>
-                <UnsafeHTML
-                  Container={Typography}
-                  variant="body1"
-                  html={text}
-                />
-              </Stack>
-            </Paper>
-          );
-        })}
+                        (solution === item.id && classes.correctAnswer)
+                    : answer === item.id && classes.option
+                }
+                onClick={() => !submitDisable && setAnswer(item.id)}
+              >
+                <Stack direction="row" gap={1}>
+                  <Typography variant="body1">
+                    {item.value.slice(0, 2)}
+                  </Typography>
+                  <UnsafeHTML
+                    Container={Typography}
+                    variant="body1"
+                    html={text}
+                  />
+                </Stack>
+              </Paper>
+            );
+          })}
       </Box>
     );
   }

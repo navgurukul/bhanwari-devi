@@ -120,10 +120,7 @@ function SearchCourse(props) {
                                 src={item.logo}
                                 alt="course"
                               />
-                              <div
-                                className={classes.courseTitleNumber}
-                                disableGutters
-                              >
+                              <div className={classes.courseTitleNumber}>
                                 <Typography
                                   align={isActive ? "center" : "left"}
                                   variant="body2"

@@ -115,7 +115,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
-              <MenuItem key={index} onClick={handleClose}>
+              <MenuItem onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
                   <img src={students.image[index]} alt="course logo" />
                 )}
@@ -135,7 +135,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
               onClick={toggleDrawer && toggleDrawer(false)}
               key={index}
             >
-              <MenuItem key={index} onClick={handleClose}>
+              <MenuItem onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
                   <img src={students.image[index]} alt="course logo" />
                 )}
@@ -197,7 +197,7 @@ export const DropDown = ({
                         })
                       : menu.path
                   }
-                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  //linkOnClick={toggleDrawer && toggleDrawer(false)}
                   padding={
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
@@ -213,7 +213,9 @@ export const DropDown = ({
                     {menu.title}
                   </Typography>
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY && index == 4 && (
+                  <Divider key={index} />
+                )}
               </>
             );
           } else {
@@ -223,7 +225,7 @@ export const DropDown = ({
                   index={index}
                   //onClick={handleClose}
                   to={menu.path}
-                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  //linkOnClick={toggleDrawer && toggleDrawer(false)}
                   padding={
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
@@ -239,7 +241,9 @@ export const DropDown = ({
                   </Typography>
                   <LaunchIcon />
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY && index == 4 && (
+                  <Divider key={index} />
+                )}
               </>
             );
           }
