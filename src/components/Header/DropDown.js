@@ -96,6 +96,11 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
       {students[menuKey].map((menu, index) => {
+        // console.log("menu", menu);
+        // console.log("code", menu.code);
+        // console.log("id", menu.id);
+        // console.log("title", menu.title);
+        // console.log("type", menu.type);
         if (menu.type === "internal") {
           return (
             <Link
@@ -106,6 +111,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
                     })
                   : menu.path
               }
+              key={index}
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
@@ -127,6 +133,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
               href={menu.path}
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
+              key={index}
             >
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
@@ -181,7 +188,7 @@ export const DropDown = ({
             return (
               <>
                 <DropdownLink
-                  key={index}
+                  index={index}
                   //onClick={handleClose}
                   to={
                     menu.id
@@ -213,7 +220,7 @@ export const DropDown = ({
             return (
               <>
                 <DropdownLink
-                  key={menu}
+                  index={index}
                   //onClick={handleClose}
                   to={menu.path}
                   linkOnClick={toggleDrawer && toggleDrawer(false)}

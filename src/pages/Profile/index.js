@@ -225,11 +225,10 @@ function Profile() {
         <Grid container>
           <Grid item md={4} xs={12}>
             <div
-              item
               xs={12}
               md={6}
               className={classes.profileBox}
-              align={isActive && "center"}
+              align={isActive ? "center" : undefined}
             >
               <img
                 alt={userData.name}
@@ -496,7 +495,7 @@ function Profile() {
                 sx={{
                   alignItems: isActive ? "center" : "left",
                 }}
-                align={isActive && "center"}
+                aalign={isActive ? "center" : undefined}
               >
                 {/* {!isActive && "Edit Profile"} */}
                 Edit Profile

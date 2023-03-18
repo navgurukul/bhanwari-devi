@@ -3,14 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions as userActions } from "../../User/redux/action";
 import { PATHS } from "../../../constant";
 import { Link, NavLink } from "react-router-dom";
-import {
-  Box,
-  IconButton,
-  Typography,
-  Menu,
-  Avatar,
-  MenuItem,
-} from "@mui/material";
+import { Box, IconButton, Typography, Avatar, MenuItem } from "@mui/material";
 import useStyles from "../styles";
 import Message from "../../common/Message";
 import DropDownMenu from "../DropDownMenu";

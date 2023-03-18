@@ -123,7 +123,7 @@ export default function DropDownMenu({
       //console.log(inDropdown);
       handleCloseMenu();
     }
-  }, [inDropdown]);
+  }, [inDropdown, handleCloseMenu]);
 
   React.useEffect(() => {
     const handleClickOutside = (event) => {
@@ -136,7 +136,7 @@ export default function DropDownMenu({
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-  });
+  }, []);
 
   return (
     <>

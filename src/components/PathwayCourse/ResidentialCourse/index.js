@@ -4,15 +4,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import { useDispatch } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
-import {
-  Container,
-  Box,
-  Grid,
-  Card,
-  Typography,
-  Button,
-  Stack,
-} from "@mui/material";
+import { Container, Box, Grid, Card, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../constant";
 import useStyles from "../styles";

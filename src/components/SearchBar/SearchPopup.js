@@ -199,8 +199,8 @@ function SearchPopup() {
                   <Typography variant="subtitle1">Recent Searches</Typography>
 
                   <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                    {recentSearch.map((item) => (
-                      <Grid item mr={2}>
+                    {recentSearch.map((item, index) => (
+                      <Grid item mr={2} key={index}>
                         <Button value={item} onClick={handleSearchBar}>
                           {item}
                         </Button>
@@ -212,8 +212,8 @@ function SearchPopup() {
                 <>
                   <Typography variant="subtitle1">Popular Searches</Typography>
                   <Grid container sx={{ mt: "16px", mb: "32px" }}>
-                    {popular.map((item) => (
-                      <Grid item mr={2} key={item}>
+                    {popular.map((item, index) => (
+                      <Grid item mr={2} key={index}>
                         <Button value={item} onClick={handleSearchBar}>
                           {item}
                         </Button>
