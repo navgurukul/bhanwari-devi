@@ -17,7 +17,6 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const { data } = useSelector((state) => state.Pathways);
-  console.log(pathwayId);
   useEffect(() => {
     if (pathwayId.length === 0) {
       setDisable(true);

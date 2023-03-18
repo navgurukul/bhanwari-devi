@@ -75,7 +75,6 @@ function CertificateCard(props) {
     boxShadow: 24,
     p: 4,
   };
-  console.log(item);
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
@@ -129,7 +128,6 @@ function CertificateCard(props) {
     saveFile(certificate);
   };
   const completedAll = completedPortion.total >= 100;
-  console.log(completedAll, completedPortion);
 
   // console.log(item);
   return (

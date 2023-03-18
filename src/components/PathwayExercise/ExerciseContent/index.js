@@ -149,7 +149,6 @@ const RenderContent = ({ data, exercise }) => {
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
-    console.log("text", text);
     if (data.decoration && data.decoration.type === "bullet") {
       return (
         <Box className={classes.List}>
@@ -355,7 +354,6 @@ function ExerciseContent({
 
   useEffect(() => {
     if (exercise?.content_type === "assessment") {
-      console.log("Assessment", exercise);
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,

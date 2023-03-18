@@ -54,7 +54,6 @@ function VerifyPhoneNo(props) {
   const [phone, setPhone] = useState("");
 
   const app = initializeApp(firebaseConfig);
-  console.log(app.name);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
     if (number.length <= 10) {
@@ -80,7 +79,6 @@ function VerifyPhoneNo(props) {
   };
 
   const setupRecaptcha = () => {
-    console.log(firebaseConfig);
     const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-container",
@@ -136,13 +134,6 @@ function VerifyPhoneNo(props) {
         let contact = item.contact;
         if (item.contact?.includes("-")) contact = item.contact?.split("-")[1];
         if (phone === contact) {
-          console.log(
-            "contact matched",
-            "contact -",
-            contact,
-            "phone -",
-            phone
-          );
           setMessage(
             "The number has already registered. Please try with another number."
           );
@@ -164,10 +155,8 @@ function VerifyPhoneNo(props) {
         const auth = getAuth();
         signInWithPhoneNumber(auth, phoneNumber, appVerifier)
           .then((result) => {
-            console.log(result);
             setMessage("OTP sent successfully");
             setOpen(true);
-            console.log("OTP sent", result);
             setStartOtp(true);
             setConfirmationResult(result);
             setIsStartTimer(true);
@@ -180,7 +169,7 @@ function VerifyPhoneNo(props) {
           });
       }
     } catch (e) {
-      console.log("failed: ", e);
+      console.log(e);
     }
   };
 

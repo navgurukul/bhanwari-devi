@@ -53,7 +53,6 @@ function Profile() {
   // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
   const params = useParams();
   const pathwayId = params.pathwayId;
-  console.log(pathwayId);
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const date = user.data.user.last_login_at;
@@ -180,7 +179,6 @@ function Profile() {
 
     setEditName(user.data.user.name);
     setUserData(user.data.user);
-    console.log("user");
   }, []);
 
   useEffect(() => {
@@ -212,7 +210,6 @@ function Profile() {
       payload["contact"] = `${countryCode.replace("+", "")}-${contact}`;
     }
 
-    console.log("contact", `${countryCode.replace("+", "")}-${contact}`);
     setIsEditing(false);
     setMsg(true);
     axios({
@@ -304,7 +301,6 @@ function Profile() {
                               height={200}
                               onExit={onExit}
                               onFileLoad={(file) => {
-                                console.log("onFileLoad", file);
                                 const formDatas = new FormData();
                                 formDatas.append("image", file);
                                 fetch(
@@ -325,7 +321,6 @@ function Profile() {
                                   }
                                 ).then((res) => {
                                   res.json().then((data) => {
-                                    console.log(data.file.url);
                                     setNew_Profiles(data.file.url);
                                   });
                                 });
@@ -358,7 +353,6 @@ function Profile() {
                           helperText={helperText}
                           onChange={(e) => {
                             setEditName(e.target.value);
-                            console.log(userData.name, e.target.value);
                             if (e.target.value != userData.name) {
                               setShowError(false);
                             }
