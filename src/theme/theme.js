@@ -229,7 +229,8 @@ theme = createTheme(theme, {
 theme.components = {
   MuiCardMedia: {
     defaultProps: {
-      disableRipple: true,
+      disableripple: "true",
+      // disableRipple: true,
     },
     styleOverrides: {
       root: { width: 64 },

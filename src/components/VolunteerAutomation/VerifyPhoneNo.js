@@ -15,7 +15,7 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { initializeApp } from "firebase/app";
 import { MuiOtpInput } from "mui-one-time-password-input";
 
@@ -53,7 +53,7 @@ function VerifyPhoneNo(props) {
   );
   const [phone, setPhone] = useState("");
 
-  const app = initializeApp(firebaseConfig);
+  // const app = initializeApp(firebaseConfig);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
     if (number.length <= 10) {
@@ -237,7 +237,6 @@ function VerifyPhoneNo(props) {
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <div id="recaptcha-container"></div>
-
       <Typography variant="h6" gutterBottom>
         Please provide your phone number.
       </Typography>

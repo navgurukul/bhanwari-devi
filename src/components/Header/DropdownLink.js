@@ -5,6 +5,7 @@ import { MenuItem } from "@mui/material";
 import useStyles from "./styles";
 
 export default function DropdownLink({
+  index,
   to,
   external,
   padding,
@@ -23,6 +24,7 @@ export default function DropdownLink({
         padding,
         margin,
       }}
+      key={index}
     >
       <A
         {...{

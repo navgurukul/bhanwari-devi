@@ -252,7 +252,7 @@ function Home() {
         <div className={isActive ? classes.mobileContainer : classes.container}>
           <Container maxWidth="lg">
             <Grid container>
-              <Grid md={6} sm={12}>
+              <Grid item md={6} sm={12}>
                 <Typography variant="h4">
                   India’s Premier Learning Platform for Underserved Communities
                 </Typography>
@@ -274,7 +274,7 @@ function Home() {
                   </Button>
                 </Link>
               </Grid>
-              <Grid md={6} mt={isActive ? "16px" : "0px"} sm={12}>
+              <Grid item sm={12} md={6} mt={isActive ? "16px" : "0px"}>
                 <img
                   src={require("./assets/main_image.svg")}
                   alt={"Homeimage"}
@@ -326,7 +326,7 @@ function Home() {
                 </Grid>
               </Grid>
               <Grid item md={4}>
-                <Grid container md={12} spacing={2}>
+                <Grid container item md={12} spacing={2}>
                   <Grid item mt="8px" md={2} xs={2}>
                     <img
                       src={require("./assets/Layer.svg")}
@@ -465,8 +465,8 @@ function Home() {
         </Container>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {pathwayData.map((item) => (
-              <Grid item xs={12} ms={6} md={4}>
+            {pathwayData.map((item, index) => (
+              <Grid item xs={12} ms={6} md={4} key={index}>
                 <PathwayCard
                   id={item.id}
                   title={item.title}
