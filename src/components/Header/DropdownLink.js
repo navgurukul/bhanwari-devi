@@ -28,7 +28,7 @@ export default function DropdownLink({
         {...{
           [toKey]: to,
           className: classes.link,
-          linkOnClick,
+          //linkOnClick,
         }}
         style={{ display: "flex", alignItems: "center", width: "100%" }}
       >

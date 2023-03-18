@@ -106,12 +106,13 @@ const NewUserDashbord = () => {
           </Container>
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
-              {pathwayData.map((item) => (
+              {pathwayData.map((item, idx) => (
                 <Grid
                   item
                   xs={6}
                   ms={6}
                   md={3}
+                  key={idx}
                   className={classes.cardGrid}
                   maxHeight={isActive && item.title.length < 12 ? 170 : 210}
                 >

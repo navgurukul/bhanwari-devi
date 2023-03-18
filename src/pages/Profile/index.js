@@ -7,11 +7,7 @@ import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { format } from "../../common/date";
 import Avatar from "react-avatar-edit";
 
 import {
@@ -21,13 +17,10 @@ import {
   Button,
   Container,
   Box,
-  FormControl,
-  FormHelperText,
   Snackbar,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
 import useStyles from "./styles";
-import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 import {
   getAuth,
   RecaptchaVerifier,
@@ -35,7 +28,7 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import CertificateCard from "./CertificateCard";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import UnlockOpportunities from "./UnlockOpportunities";
 import LastLoginTime from "./LastLoginTime/LastLoginTime";
