@@ -92,8 +92,9 @@ function Availability({ setAvailability, availability, setDisable }) {
         </Typography>
       </FormLabel>
       <FormGroup aria-label="position" row>
-        {Object.keys(days).map((item) => (
+        {Object.keys(days).map((item, index) => (
           <FormControlLabel
+            key={index}
             control={
               <Checkbox
                 value={item}
@@ -101,13 +102,7 @@ function Availability({ setAvailability, availability, setDisable }) {
                 onChange={handleDaySelection}
               />
             }
-            // onClick={() => {
-            //   setOnInput((prev) => {
-            //     return { ...prev, days: true };
-            //   });
-            // }}
             label={item}
-            labelPlacement={item}
           />
         ))}
       </FormGroup>
@@ -123,19 +118,12 @@ function Availability({ setAvailability, availability, setDisable }) {
             { label: "Second Start Time", prop: "second_time" },
             { label: "Third Start Time", prop: "third_time" },
           ].map(({ label, prop }) => (
-            <Grid sx={{ mt: 2 }}>
+            <Grid sx={{ mt: 2 }} key={prop}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DesktopTimePicker
                   label={label}
                   value={availability.available_on_time[prop]}
-                  // onChange={(time) => {
-                  //   setAvailability({
-                  //     ...availability,
-                  //     [prop]: time,
-                  //   });
-                  // }}
                   onChange={(time) => {
-                    // let time =  time.getHours() + ":" + time.getMinutes()
                     setAvailability({
                       ...availability,
                       ["available_on_time"]: {
@@ -144,11 +132,6 @@ function Availability({ setAvailability, availability, setDisable }) {
                       },
                     });
                   }}
-                  // minTime={
-                  //   availability.date === moment().format("YYYY-MM-DD")
-                  //     ? new Date(new Date().setSeconds(0))
-                  //     : null
-                  // }
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>

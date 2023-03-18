@@ -237,7 +237,6 @@ function VerifyPhoneNo(props) {
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <div id="recaptcha-container"></div>
-
       <Typography variant="h6" gutterBottom>
         Please provide your phone number.
       </Typography>

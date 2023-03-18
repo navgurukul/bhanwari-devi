@@ -258,8 +258,8 @@ function HorizontalLinearStepper() {
     <>
       <AppBar position="static" color="background" elevation={2}>
         <Toolbar>
-          <IconButton>
-            <CloseIcon onClick={handleClickOpen} />
+          <IconButton onClick={handleClickOpen}>
+            <CloseIcon />
           </IconButton>
           <Dialog
             open={open}
@@ -325,7 +325,7 @@ function HorizontalLinearStepper() {
             {steps.map((step, index) => {
               if (activeStep === index) {
                 return (
-                  <Box>
+                  <Box key={index}>
                     <Typography sx={{ mt: 2, mb: 1 }}>
                       {step.component}
                     </Typography>

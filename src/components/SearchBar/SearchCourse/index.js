@@ -86,13 +86,18 @@ function SearchCourse(props) {
             <>
               {pathwayTrackResults?.map((pathway, index) => {
                 return (
-                  <>
+                  <div key={index}>
                     <Typography className={classes.course} variant="h5">
                       {pathway.name}
                     </Typography>
                     <Grid container spacing={3} align="center">
                       {pathway.courses.map((item, index) => (
-                        <Grid xs={12} md={3} className={classes.courseCard}>
+                        <Grid
+                          xs={12}
+                          md={3}
+                          className={classes.courseCard}
+                          key={index}
+                        >
                           <Link
                             className={classes.pathwayLink}
                             to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -146,7 +151,7 @@ function SearchCourse(props) {
                         </Grid>
                       ))}
                     </Grid>
-                  </>
+                  </div>
                 );
               })}
 

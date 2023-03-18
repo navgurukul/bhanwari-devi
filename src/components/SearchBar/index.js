@@ -233,7 +233,7 @@ function SearchCourse(props) {
                                 />
                                 <div
                                   className={classes.courseTitleNumber}
-                                  disableGutters
+                                  disablegutters="true"
                                 >
                                   <Typography
                                     align={isActive ? "center" : "left"}

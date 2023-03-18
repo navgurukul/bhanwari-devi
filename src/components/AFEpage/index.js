@@ -151,7 +151,12 @@ function AFEpage() {
               students CS-ready and placed in tech jobs.
             </Typography>
             <List>
-              <Typography variant="body1" paragraph align="left">
+              <Typography
+                component={"span"}
+                variant="body1"
+                paragraph
+                align="left"
+              >
                 <ListItem>
                   <Grid className={classes.AFE_approaches}>
                     <CircleIcon
