@@ -77,7 +77,6 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data;
-      console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);
       }
@@ -107,7 +106,7 @@ const NewUserDashbord = () => {
           </Container>
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
-              {pathwayData.map((item) => (
+              {pathwayData.map((item, index) => (
                 <Grid
                   item
                   xs={6}
@@ -115,6 +114,7 @@ const NewUserDashbord = () => {
                   md={3}
                   className={classes.cardGrid}
                   maxHeight={isActive && item.title.length < 12 ? 170 : 210}
+                  key={index}
                 >
                   <PathwayCard
                     id={item.id}

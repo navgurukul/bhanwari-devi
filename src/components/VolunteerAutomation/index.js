@@ -29,7 +29,6 @@ function VolunteerAutomation() {
   const rolesList = user?.data?.user.rolesList; // TODO: Use selector
 
   const handleClick = () => {
-    console.log(rolesList);
     if (rolesList) {
       history.push(PATHS.VOLUNTEER_FORM);
       // if (rolesList.includes("volunteer")) {
@@ -102,7 +101,6 @@ function VolunteerAutomation() {
                   <Typography
                     variant="subtitle1"
                     className={classes.TextContent}
-                    Typography
                   >
                     Python
                   </Typography>

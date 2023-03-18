@@ -13,8 +13,6 @@ import {
 function RoleSpecificHeader({ role, isUniqueRole, leftDrawer, toggleDrawer }) {
   const drawerProps = { leftDrawer, toggleDrawer };
 
-  console.log("Current Header Role View", role);
-
   const roleSpecificComponentMap = {
     [STUDENT]: <StudentHeader isUniqueRole={isUniqueRole} {...drawerProps} />,
     [ADMIN]: <AdminHeader {...drawerProps} />,

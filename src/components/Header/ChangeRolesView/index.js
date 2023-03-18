@@ -94,7 +94,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
     const menuContents = (
       <div>
         {roles.map((role) => (
-          <ChangeRole role={role} {...commonProps} />
+          <ChangeRole role={role} key={role.key} {...commonProps} />
         ))}
       </div>
     );

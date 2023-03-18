@@ -9,9 +9,6 @@ const frontEndPathwayData =
 const backEndData = JSON.parse(fs.readFileSync(backEndFilePath, 'utf8'));
 const backEndPathwayData = backEndData?.pathways || [];
 
-console.log("Front-end pathway data:", frontEndPathwayData);
-console.log("Back-end pathway data:", backEndPathwayData);
-
 if (backEndPathwayData.length === 0) {
   // This shouldn't happen, avoid overwriting pathway data 
   throw new Error("Back-end pathway data is empty.");

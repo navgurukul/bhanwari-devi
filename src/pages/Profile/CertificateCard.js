@@ -14,13 +14,10 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
 import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { interpolatePath, PATHS } from "../../constant";
+import { PATHS } from "../../constant";
 import { Link } from "react-router-dom";
-import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 function saveFile(url) {
@@ -41,28 +38,16 @@ function saveFile(url) {
 }
 
 function CertificateCard(props) {
-  const classes = useStyles();
   const user = useSelector(({ User }) => User);
-  const data = useSelector((state) => {
-    return state;
-  });
   const { item } = props;
-
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   const [completedPortion, setCompletedPortion] = useState({});
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-
   const [loader, setLoader] = useState(false);
-  const params = useParams();
   const pathwayId = item.id;
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -75,10 +60,11 @@ function CertificateCard(props) {
     boxShadow: 24,
     p: 4,
   };
-  console.log(item);
+
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
+
   useEffect(() => {
     // setLoading(true);
     if (user?.data?.token && pathwayId) {
@@ -96,16 +82,11 @@ function CertificateCard(props) {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        // console.log("response", response.data.total_completed_portion);
         setCompletedPortion(response.data.total_completed_portion);
       });
     }
   }, [pathwayId]);
-  // const pathwayId = params.pathwayId;
 
-  // console.log(completedAll,completedPortion,pathwayId)
-  // const { pathwayCourse } = useSelector((state) => state.Pathways);
-  // console.log(pathwayCourse)
   const handleModal = () => {
     setLoader(true);
     axios({
@@ -123,15 +104,12 @@ function CertificateCard(props) {
       })
       .catch((err) => {});
   };
-  // console.log(openModal, certificate);
 
   const downloadCert = () => {
     saveFile(certificate);
   };
   const completedAll = completedPortion.total >= 100;
-  console.log(completedAll, completedPortion);
 
-  // console.log(item);
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
       <Modal

@@ -382,7 +382,6 @@ function ClassForm({
       return classFields.partner_id.includes(item.id);
     });
     setSelectedPartners(datass);
-    console.log(selectedPartners, datass);
   }, [partnerData]);
   const convertToIST = (d) => {
     const b = d.split(/\D+/);

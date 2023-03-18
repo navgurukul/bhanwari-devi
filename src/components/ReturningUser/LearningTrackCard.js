@@ -172,7 +172,6 @@ function LearningTrackCard(props) {
   const pathwayCourseData = pathwayData.find((item) => {
     return item.id == pathwayId;
   });
-  console.log(pathwayCourseData);
 
   return (
     <>

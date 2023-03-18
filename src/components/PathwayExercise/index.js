@@ -59,8 +59,6 @@ const Exercise = ({
     }
   }, [imageRef.current]);
 
-  console.log("courseLength", courseLength);
-
   return (
     <>
       {courseLength?.map((exercise, index) => {
@@ -142,11 +140,7 @@ function PathwayExercise() {
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
-    const maxScrollLeft =
-      scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-    console.log(
-      `onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop} maxWidth: ${maxScrollLeft}`
-    );
+    const maxScrollLeft = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
     if (!showArrow.left) {
       if (scrollY > 0) {
         setShowArrow((prev) => {
@@ -161,7 +155,6 @@ function PathwayExercise() {
       }
     }
 
-    console.log("testing");
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
         setShowArrow((prev) => {
@@ -193,7 +186,7 @@ function PathwayExercise() {
         setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
-        console.log("error");
+        console.log(err);
       });
   }, [currentCourse]);
   useEffect(() => {
