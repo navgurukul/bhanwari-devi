@@ -85,7 +85,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 registerAll={true}
                 type="batch"
               />
-              <Typography
+              <Box
                 className={classes.FlexedContant}
                 mt={2}
                 align="right"
@@ -110,7 +110,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                   }
                   upcomingBatchesData={upcomingBatchesData}
                 />
-              </Typography>
+              </Box>
             </CardContent>
           </Card>
         </Box>

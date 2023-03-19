@@ -322,17 +322,18 @@ function HorizontalLinearStepper() {
         </div>
         <React.Fragment>
           <>
-            {steps.map((step, index) => {
+            {/* {steps.map((step, index) => {
               if (activeStep === index) {
                 return (
                   <Box key={index}>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
+                    <Box sx={{ mt: 2, mb: 1 }}>
                       {step.component}
-                    </Typography>
+                    </Box>
                   </Box>
                 );
               }
-            })}
+            })} */}
+            <Confirmation setDisable={setDisable} />
           </>
           <Container maxWidth="sm">
             <Box
