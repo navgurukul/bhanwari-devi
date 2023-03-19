@@ -218,7 +218,7 @@ export const DropDown = ({
             );
           } else {
             return (
-              <>
+              <div key={index}>
                 <DropdownLink
                   index={index}
                   //onClick={handleClose}
@@ -242,7 +242,7 @@ export const DropDown = ({
                 {dropDown === LEARN_KEY && index == 4 && (
                   <Divider key={index} />
                 )}
-              </>
+              </div>
             );
           }
         })}
