@@ -19,7 +19,7 @@ import {
   toDateInSameTimeZone,
   getTimestampOffset
 } from "../../common/date";
-import TZDesktopTimePicker from "../components/common/TZDesktopTimePicker";
+import TZDesktopTimePicker from "../common/TZDesktopTimePicker";
 
 import {
   Typography,
@@ -83,10 +83,14 @@ function ClassForm({
       ? new Date(classToEdit.start_time)
       : new Date(new Date().setSeconds(0)),
 
+    start_time: classToEdit.start_time,
+
     
     end_time: classToEdit.end_time
       ? new Date(classToEdit.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
+
+    end_time: classToEdit.end_time,
     
     lang: classToEdit.lang || "en",
     max_enrolment:
@@ -1022,7 +1026,7 @@ function ClassForm({
               ].map(({ label, prop }) => (
                 <Grid item xs={isActive ? 12 : 6}>
                   <TZDesktopTimePicker
-                    container={Stack}
+                    Container={Stack}
                     containerProps={{ spacing: 3 }}
                     timestamp={classFields[prop]}
                     label={label}
@@ -1031,9 +1035,14 @@ function ClassForm({
                         ? new Date(new Date().setSeconds(0))
                         : null
                     }
-                    onChange={(_, backendTimeStr) =>
-                      setTimePayload({ prop: backendTimeStr })
-                    }
+                    onChange={(timestamp, backendTimeStr) => {
+                      // setTimePayload({ prop: timestamp })
+                      // console.log("TIMESTAMP", prop, timestamp);
+                      setClassFields({
+                        ...classFields,
+                        [prop]: timestamp,
+                      });
+                    }}
                   />
                   {/*
                   <LocalizationProvider dateAdapter={AdapterDateFns}>

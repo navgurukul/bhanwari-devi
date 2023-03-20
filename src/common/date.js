@@ -12,12 +12,18 @@ import {
   zonedTimeToUtc,
   utcToZonedTime,
   toDate,
-  getTimezoneOffset 
+  getTimezoneOffset,
+  format as dateFnsTzFormat
 } from "date-fns-tz";
 import { formatInTimeZone as ftz } from "date-fns-tz";
 /**
  * Returns a copy of the given date if supplied a Date object input or a Date
- *    object from the given timestamp.
+ *    object from the given timestamp if supplied a string in a format accepted
+ *    by Date.parse
+ *    (See:
+ *    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse#date_time_string_format
+ *    and 
+ *    https://tc39.es/ecma262/#sec-date-time-string-format) 
  * @param {Date|string} date A valid Date string recognized by formatInTimeZone
  *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
  *     or Date to make a new Date from
@@ -25,7 +31,8 @@ import { formatInTimeZone as ftz } from "date-fns-tz";
  */
 export const makeDateFrom = (date) => {
   return typeof date === "string"
-    ? new Date(zonedTimeToUtc(date).toISOString())
+    // ? new Date(zonedTimeToUtc(date).toISOString())
+    ? new Date(date)
     : date;
 };
 
@@ -224,66 +231,208 @@ export const millisecondsUntil = (date) => {
   return differenceInMilliseconds(date, new Date());
 };
 
+/**
+ * Wrapper for date-fns's addHours but allows date strings
+ *     (See: https://date-fns.org/v2.29.3/docs/addHours)
+ * @param {Date|string|number} the date to be changed
+ * @param {number} amount the amount of hours to be added. Positive decimals
+ *     will be rounded using Math.floor, decimals less than zero will be
+ *     roundered using Math.ceil.
+ * @returns {Date} the new date with the hours added
+ */
 export const addHours = (date, amount) => ah(makeDateFrom(date), amount);
 
 /**
- * Returns a timestamp of the given date in the required back-end format
- *   from a date/date string given in local time or time adjusted
- * @param {Date|string} date A valid Date string recognized by formatInTimeZone
- *     (https://www.npmjs.com/package/date-fns-tz#formatintimezone)
- *     or a 
- * @param {boolean=} isAdjusted true exactly when the date has already been
- *     adjusted to the timezone that the back-end expects instead of local time. 
- *     E.g., Even though dates are represented in UTC with a Z, it's currently 
- *     expected that they refer to times given in IST.
- *     (See: https://github.com/navgurukul/bhanwari-devi/wiki/Working-with-Dates#date-representations)
- * @return {string} the serialized date (currently YYYY-MM-DDTHH:mm:ss.sssZ)
- *     See: https://tc39.es/ecma262/#sec-date-time-string-format
+ * Get default timezone offset to display (ISO-8601 w/o Z) on given date
+ * @param {Date|string} date the date or timestamp for which to get the offset
+ * @returns {string} the default timezone offset at date
  */
-export const serializeForBackEnd = (date, isAdjusted=true) => {
-  if (isAdjusted) {
-    return makeDateFrom(date).toISOString();
-  } else if (typeof date === "string") {
-    return formatInSameTimeZone(date);
-  } else {
-    return add(date, { hours: 5, minutes: 30 + date.getTimezoneOffset() });
-  }
+export const getDefaultDisplayTimestampOffset = (date) => '+05:30';
+
+/**
+ * Get interpretation of Timezone offsets of timestamps (ISO-8601 w/o Z) in
+ *     back-end
+ * @param {Date|string} date the date or timestamp for which to get the offset
+ * @returns {string} the default timezone offset at date
+ */
+export const getBackEndTimestampOffset = (date) => '+05:30';
+
+/**
+ * Gets local ISO-8601 timezone offset (+/-HH:MM or Z)
+ * @param {Date|string} time the date or timestamp for which to get the offset
+ * @returns {string} the default local offset at time
+ */
+export const getLocalTimezoneOffset = (time) => format(time, 'XXX');
+
+/**
+ * Returns true exactly when the provided timezone offset in the XXX ISO-8601
+ *   format is the offset of the user's local time at the provided time
+ * @param {string} offset the offset in XXX ISO-8601 format to check
+ * @param {Date|string} time the date or timestamp to get the user's timezone
+ *   offset
+ * @returns {boolean} true exactly when the offsets match
+ */
+export const isOffsetOfLocalTime = (offset, time) => {
+  return offset === getLocalTimezoneOffset(time);
 };
 
-/*
-export const deseralizeForFrontEnd = (timestamp) => {
-  return zonedTimeToUtc(makeDateFrom(timestamp), getTimestampOffset(timestamp));
-}
-*/
+/**
+ * Gets timestamp of toTzOffset that is the same time in timezone fromTzOffset
+ *   For example, fromTzOffset of "-04:00", toTzOffset of "+05:00" : 
+ *   2023-03-25T10:00:00.000-04:00 => 2023-03-25T10:00:00.000+05:30
+ * @param {Date|string} time the date or timestamp for which to translate
+ * @param {string} fromTzOffset the offset of the timezone of the time to
+ *   translate
+ * @param {string} toTzOffset the offset of the timezone to translate the time
+ *   to
+ * @returns {string} the ISO-8601 translated timestamp
+ *   (yyyy-MM-dd'T'HH:mm:ss.sssXXX)
+ */
+export const translateTimeToZone = (time, fromTzOffset, toTzOffset) => {
+  return formatInTimeZone(time, fromTzOffset).replace(fromTzOffset, toTzOffset);
+};
 
-export const getDateInTimezone = (timestamp) => {
-  return zonedTimeToUtc(makeDateFrom(timestamp), getTimestampOffset(timestamp));
-}
+/**
+ * Gets timestamp of local time that is the same time in timezone fromTzOffset
+ * @param {Date|string} time the date or timestamp for which to translate
+ * @param {string} fromTzOffset the offset of the timezone of the time to
+ *   translate
+ * @returns {string} the ISO-8601 translated timestamp in local time
+ *   (yyyy-MM-dd'T'HH:mm:ss.sssXXX)
+ */
+export const translateTimeToLocal = (time, fromTzOffset) => {
+  const localOffset = getLocalTimezoneOffset(time);
+  return translateTimeToZone(time, fromTzOffset, localOffset);
+};
 
-const formatInTimeZone = (date, timeZone, formatStr) => {
+/**
+ * Gets timestamp of toTzOffset that is the same time in the local time zone
+ * @param {Date|string} time the date or timestamp for which to translate
+ * @param {string} toTzOffset the offset of the timezone to translate the time
+ *   to
+ * @returns {string} the ISO-8601 translated timestamp
+ *   (yyyy-MM-dd'T'HH:mm:ss.sssXXX)
+ */
+export const translateTimeFromLocal = (time, toTzOffset) => {
+  const localOffset = getLocalTimezoneOffset(time);
+  return translateTimeToZone(time, localOffset, toTzOffset);
+};
+
+/**
+ * Transforms the given timestamp or local date to the required back-end format
+ * @param {Date} date A valid Date in local time or timestamp
+ * @return {string} the serialized date (currently YYYY-MM-DDTHH:mm:ss.sssZ)
+ *   adjusted to the timezone that the back-end expects instead of UTC. 
+ *   E.g., Even though dates are represented with a Z represent UTC
+ *   (as per ISO-8601: https://tc39.es/ecma262/#sec-date-time-string-format),
+ *   it's currently used to refer to times given in IST.
+ *   (See: 
+ *   https://github.com/navgurukul/bhanwari-devi/wiki/Working-with-Dates#date-representations)
+ */
+export const serializeTimeForBackEnd = (date) => {
+  const offset = getBackEndTimestampOffset(date);
+  return translateTimeToZone(date, offset, "Z");
+  // return formatInTimeZone(date, offset).replace(offset, "Z");
+};
+
+/**
+ * Transforms the given timestamp from the back-end to the actual ISO-8601
+ *   interpretation. Currently, the Z is replaced with the IST offset
+ *   that it's supposed to be interpreted as, so no transformation is needed;
+ *   it's the identity function. But using this function everywhere instead of
+ *   relying on this now permits changes by onlying changing the below 
+ *   definition, so it should always be used when interpreting a back-end
+ *   timestamp for use on the front-end.
+ * @param {string} timestamp from the back-end to be interpreted for the
+ *   front-end
+ * @returns {string} the interpreted timestamp
+ */
+export const interpretBackEndTimestamp = (timestamp) => {
+  return timestamp;
+};
+
+/**
+ * Parses the given timestamp from the back-end for use in the front-end
+ * @param {string} back-end timestamp to interpret
+ * @returns {Date} the interpreted Date for front-end use
+ */
+export const parseBackEndTimestamp = (timestamp) => {
+  return makeDateFrom(interpretBackEndTimestamp(timestamp));
+};
+
+/**
+ * Wrapper for date-fns-tz's formatInTimeZone
+ *   (See: https://github.com/marnusw/date-fns-tz#formatintimezone and
+ *   https://github.com/marnusw/date-fns-tz/blob/master/src/formatInTimeZone/index.js)
+ *   but with default format string of ISO-8601 with XXX timezone offset
+ * @param  {Date|String|Number} date - the date representing the local time /
+ *   real UTC time
+ * @param {String} timeZone - the time zone this date should be formatted for;
+ *   can be an offset or IANA time zone
+ * @param {String=} formatStr - the string of tokens, defaults to ISO-8601 XXX
+ *   timezone offset
+ * @returns {String} the formatted date string
+ */
+export const formatInTimeZone = (date, timeZone, formatStr  = `yyyy-MM-dd'T'HH:mm:ss.sssXXX`) => {
   return ftz(makeDateFrom(date), timeZone, formatStr);
 };
 
+/**
+ * Formats the given date in the default time zone (currently IST +05:30)
+ * @param {Date|String|Number} date - the date representing the local time /
+ *   real UTC time
+ * @param {String=} formatStr - the string of tokens, defaults to ISO-8601 XXX
+ *   timezone offset
+ * @returns {String} the formatted date string in the default zone
+ */
+export const formatInDefaultTimeZone = (date, formatStr) => {
+  return formatInTimeZone(date, getDefaultDisplayTimestampOffset(date));
+};
+
+/**
+ * Gets xxx offset from timestamp in ISO-8601 with XXX timezone offset format
+ * @param {string} timestamp the timestamp for which to extract the offset
+ * @returns {string} xxx offset of timestamp
+ */
 export const getTimestampOffset = (timestamp) => {
   return timestamp.endsWith('Z')
     ? '+00:00'
     : /([\+\-][^\+\-]*)$/.exec(timestamp)?.[1] || '+05:30';
 };
 
+/**
+ * Formats a string in the ISO-8601 with XXX timezone offset format with respect
+ *   to that timezone
+ * @param {String} timestamp - the timestamp in ISO-8601 with XXX timezone
+ *   format to format
+ * @param {String=} formatStr - the string of tokens, defaults to ISO-8601 XXX
+ *   timezone offset
+ * @returns {String} the formatted date string in the XXX timezone of the
+ *   timestamp
+ */
 export const formatInSameTimeZone = (
   timestamp,
-  formatStr = 'yyyy-MM-dd HH:mm:ssXXX'
+  formatStr = `yyyy-MM-dd'T'HH:mm:ss.sssXXX`
 ) => {
   return ftz(timestamp, getTimestampOffset(timestamp), formatStr);
 };
 
-export const isOffsetOfLocalTime = (offset) => {
-  return new Date().getTimezoneOffset() === getTimezoneOffset(offset, new Date());
-}
-
 export const toDateInSameTimeZone = (timestamp) => {
   return utcToZonedTime(makeDateFrom(timestamp), getTimestampOffset(timestamp));
 };
+
+/**
+export const formatAsSameTimeInZone = (time, offset) => {
+  const timeToReplace = time instanceof Date
+    ? format(time, `yyyy-MM-dd'T'HH:mm:ss.sssXXX`)
+    : time;
+  return timeToReplace.replace(getLocalTimezoneOffset(time), offset);
+}
+
+export const getDateInTimezone = (timestamp) => {
+  return zonedTimeToUtc(makeDateFrom(timestamp), getTimestampOffset(timestamp));
+}
+**/
 
 export const formatInUtc = (date, formatStr) => {
   return formatInTimeZone(date, "UTC", formatStr);
