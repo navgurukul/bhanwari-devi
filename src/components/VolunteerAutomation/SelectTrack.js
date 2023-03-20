@@ -51,10 +51,10 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
         <Grid container columnSpacing={isActive ? 2 : 0} mt={2} mb={2}>
           {data &&
             data.pathways &&
-            data.pathways.map((item, index) => {
+            data.pathways.map((item) => {
               if (item.name == "Python" || item.name == "Spoken English") {
                 return (
-                  <Grid item xs={6} ms={6} md={6} key={index}>
+                  <Grid item xs={6} ms={6} md={6}>
                     <Card
                       elevation={2}
                       className={

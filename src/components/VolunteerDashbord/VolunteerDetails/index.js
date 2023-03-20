@@ -441,8 +441,7 @@ function VolunteerDashboard() {
           </thead>
           <tbody>
             {/* {volunteer && volunteer.length > 0 ? ( */}
-            {slicedVolunteer &&
-              slicedVolunteer.length > 0 &&
+            {slicedVolunteer && slicedVolunteer.length > 0 ? (
               slicedVolunteer.map((item) => {
                 let ratingCount = 0;
                 let count = 0;
@@ -517,17 +516,15 @@ function VolunteerDashboard() {
                       item.classes.length - 1
                       ]["ratings"]
                       : "NA"}  */}
-                      {[1, 2, 3, 4, 5].map((star, index) => {
+                      {[1, 2, 3, 4, 5].map((star) => {
                         return Math.ceil(item.avg_rating) > 0 &&
                           star <= Math.ceil(item.avg_rating) ? (
                           <span
-                            key={index}
                             className="fa fa-star"
                             style={{ color: "#D55F31" }}
                           ></span>
                         ) : (
                           <span
-                            key={index}
                             className="fa fa-star"
                             style={{ color: "gray" }}
                           ></span>
@@ -536,14 +533,14 @@ function VolunteerDashboard() {
                     </td>
                   </tr>
                 );
-              })}
+              })
+            ) : (
+              <div className="message ">
+                <h3>There are no results to display...</h3>
+              </div>
+            )}
           </tbody>
         </table>
-        {slicedVolunteer && slicedVolunteer.length < 1 && (
-          <div className="message ">
-            <h3>There are no results to display...</h3>
-          </div>
-        )}
 
         <div className="pagination-footer">
           <div>
