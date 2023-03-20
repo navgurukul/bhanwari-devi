@@ -26,6 +26,20 @@ function LastLoginTime() {
     return () => clearInterval(interval);
   }, []);
 
+  // var currentDate = new Date();
+  // var diffMs = (currentDate - loginTime);
+  // var diffDays = Math.floor(diffMs / 86400000);
+  // var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+  // var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+  //     const [timedate,setDate]=useEffect()
+  //     useEffect(() => {
+  //         var timer = setInterval(() => setDate(diffMins), 1000);
+  //         return function cleanup() {
+  //           clearInterval(timer);
+  //         };
+  //       });
+
+  //    console.log(timedate)
   return (
     <>
       <Typography

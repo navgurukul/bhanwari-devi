@@ -107,10 +107,15 @@ function LearningTrackCard(props) {
     });
     setCourseIndex(COurseIndex);
   }, [item]);
-
+  // console.log(PathwayData,"pathwaydata");
+  // useEffect(()=>{
+  //   // setPathway(pathwayId)
+  // })
   const data = useSelector((state) => {
     return state;
   });
+
+  // console.log("upcomingdata", upcomingBatchesData);
 
   useEffect(() => {
     // setLoading(true);
@@ -246,7 +251,7 @@ function LearningTrackCard(props) {
                     {upcomingBatchesData[0]?.type === "batch" && (
                       <Chip
                         label="Batch"
-                        textalign="left"
+                        textAlign="left"
                         sx={{
                           backgroundColor: "primary.light",
                           color: "primary.main",

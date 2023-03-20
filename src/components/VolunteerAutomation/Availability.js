@@ -9,10 +9,14 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Stack,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import moment from "moment";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import itLocale from "date-fns/locale/it";
 
 function Availability({ setAvailability, availability, setDisable }) {
   const days = {
@@ -92,9 +96,8 @@ function Availability({ setAvailability, availability, setDisable }) {
         </Typography>
       </FormLabel>
       <FormGroup aria-label="position" row>
-        {Object.keys(days).map((item, index) => (
+        {Object.keys(days).map((item) => (
           <FormControlLabel
-            key={index}
             control={
               <Checkbox
                 value={item}
@@ -102,7 +105,13 @@ function Availability({ setAvailability, availability, setDisable }) {
                 onChange={handleDaySelection}
               />
             }
+            // onClick={() => {
+            //   setOnInput((prev) => {
+            //     return { ...prev, days: true };
+            //   });
+            // }}
             label={item}
+            labelPlacement={item}
           />
         ))}
       </FormGroup>
@@ -118,12 +127,19 @@ function Availability({ setAvailability, availability, setDisable }) {
             { label: "Second Start Time", prop: "second_time" },
             { label: "Third Start Time", prop: "third_time" },
           ].map(({ label, prop }) => (
-            <Grid sx={{ mt: 2 }} key={prop}>
+            <Grid sx={{ mt: 2 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DesktopTimePicker
                   label={label}
                   value={availability.available_on_time[prop]}
+                  // onChange={(time) => {
+                  //   setAvailability({
+                  //     ...availability,
+                  //     [prop]: time,
+                  //   });
+                  // }}
                   onChange={(time) => {
+                    // let time =  time.getHours() + ":" + time.getMinutes()
                     setAvailability({
                       ...availability,
                       ["available_on_time"]: {
@@ -132,6 +148,11 @@ function Availability({ setAvailability, availability, setDisable }) {
                       },
                     });
                   }}
+                  // minTime={
+                  //   availability.date === moment().format("YYYY-MM-DD")
+                  //     ? new Date(new Date().setSeconds(0))
+                  //     : null
+                  // }
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>

@@ -43,7 +43,7 @@ function MiscellaneousCourses() {
     <React.Fragment>
       <Container className={classes.pathwayContainer} maxWidth="lg">
         <Grid container>
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Card align="left" elevation={0}>
               <Typography
                 variant="h4"

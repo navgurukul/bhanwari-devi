@@ -15,7 +15,7 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { initializeApp } from "firebase/app";
 import { MuiOtpInput } from "mui-one-time-password-input";
 
@@ -53,7 +53,7 @@ function VerifyPhoneNo(props) {
   );
   const [phone, setPhone] = useState("");
 
-  // const app = initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
     if (number.length <= 10) {
@@ -138,6 +138,8 @@ function VerifyPhoneNo(props) {
             "The number has already registered. Please try with another number."
           );
           setOpen(true);
+          // setIsStartTimer(true);
+          // countTimer();
           contactMatch = true;
           break;
         }
@@ -194,6 +196,14 @@ function VerifyPhoneNo(props) {
         setBgColor(true);
       });
   };
+  //International
+  // const handleChange = (number, countryInfo, phoneType) => {
+  //   const isValid = !!phoneType;
+  //   console.log(number, countryInfo, phoneType);
+  //   setDisable(!isValid);
+  //   setContact(number);
+  //   //setContact(number.replace(/[^0-9]/g, "") || "");
+  // };
 
   const countryData = CountryList.findFlagByDialCode(countryCode);
 
@@ -214,15 +224,20 @@ function VerifyPhoneNo(props) {
   // volunteer &&
   //   volunteer?.length > 0 &&
   //   volunteer.map((item) => {
+  //     console.log(item.contact);
   //     if (item.contact == contact?.split(" ")[1]) {
   //       console.log("number matched");
   //       console.log(item.contact);
   //     }
   //   });
 
+  // console.log("volunteer", volunteer);
+  // console.log("contact", contact?.split(" ")[1]);
+
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <div id="recaptcha-container"></div>
+
       <Typography variant="h6" gutterBottom>
         Please provide your phone number.
       </Typography>
@@ -269,6 +284,11 @@ function VerifyPhoneNo(props) {
             <Grid item>
               <Typography variant="body1">
                 {`${countryData.dial_code} ${contact.split(" ")[1]}`}
+                {/* {`+${contact.split(" ")[0]} ${contact.split(" ")[1]}`} */}
+                {/* {console.log(
+                  "contact",
+                  contact.slice(countryData.dial_code.length)
+                )} */}
               </Typography>
             </Grid>
           </Grid>
