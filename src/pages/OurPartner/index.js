@@ -206,6 +206,8 @@ const OurPartner = () => {
         </Grid>
       </Container>
     </>
+
+    
   );
 };
 
