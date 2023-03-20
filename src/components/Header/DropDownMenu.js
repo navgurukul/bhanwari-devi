@@ -122,7 +122,7 @@ export default function DropDownMenu({
       // menuCloseHandler();
       handleCloseMenu();
     }
-  }, [inDropdown, handleCloseMenu]);
+  }, [inDropdown]);
 
   React.useEffect(() => {
     const handleClickOutside = (event) => {

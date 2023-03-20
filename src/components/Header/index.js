@@ -352,7 +352,7 @@ function Header() {
         position="sticky"
         color="background"
       >
-        <Container sx={{ my: "7px" }}>
+        <Container sx={{ my: "7px" }} maxWidth={false}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
