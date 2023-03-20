@@ -184,7 +184,6 @@ function SearchCourse(props) {
         </Typography>
       </Container>
       <Container>
-        {/* <Typography>{recentSearch}</Typography> */}
         <Box className={classes.box}>
           {search ? (
             <>
@@ -199,7 +198,6 @@ function SearchCourse(props) {
                         {pathway.name}
                       </Typography>
                       <Grid container spacing={2} align="center">
-                        {/* {console.log(pathway.courses[0].name)} */}
                         {pathway.courses.map((item, index) => (
                           <Grid
                             key={index}
@@ -233,7 +231,7 @@ function SearchCourse(props) {
                                 />
                                 <div
                                   className={classes.courseTitleNumber}
-                                  disableGutters
+                                  disablegutters="true"
                                 >
                                   <Typography
                                     align={isActive ? "center" : "left"}

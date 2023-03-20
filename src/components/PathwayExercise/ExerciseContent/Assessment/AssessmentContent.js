@@ -44,8 +44,6 @@ const AssessmentContent = ({
   submitDisable,
   submitAssessment,
 }) => {
-  // console.log(solution);
-
   const classes = useStyles();
   if (content.component === "header") {
     if (triedAgain > 1) {
@@ -159,42 +157,44 @@ const AssessmentContent = ({
   if (content.component === "options") {
     return (
       <Box sx={{ m: "32px 0px" }}>
-        {Object.values(content.value).map((item, index) => {
-          const text = DOMPurify.sanitize(item.value.slice(2));
-          return (
-            <Paper
-              elevation={3}
-              sx={{
-                height: "auto",
-                mb: "16px",
-                cursor: "pointer",
-                p: "16px",
-              }}
-              className={
-                submit
-                  ? correct
-                    ? answer === item.id && classes.correctAnswer
-                    : triedAgain === 1
-                    ? answer === item.id && classes.inCorrectAnswer
-                    : (answer === item.id && classes.inCorrectAnswer) ||
-                      (solution === item.id && classes.correctAnswer)
-                  : answer === item.id && classes.option
-              }
-              onClick={() => !submitDisable && setAnswer(item.id)}
-            >
-              <Stack direction="row" gap={1}>
-                <Typography variant="body1">
-                  {item.value.slice(0, 2)}
-                </Typography>
-                <UnsafeHTML
-                  Container={Typography}
-                  variant="body1"
-                  html={text}
-                />
-              </Stack>
-            </Paper>
-          );
-        })}
+        {Object.values(content.value)
+          .filter((item) => item.value !== "")
+          .map((item, index) => {
+            const text = DOMPurify.sanitize(item.value.slice(2));
+            return (
+              <Paper
+                elevation={3}
+                sx={{
+                  height: "auto",
+                  mb: "16px",
+                  cursor: "pointer",
+                  p: "16px",
+                }}
+                className={
+                  submit
+                    ? correct
+                      ? answer === item.id && classes.correctAnswer
+                      : triedAgain === 1
+                      ? answer === item.id && classes.inCorrectAnswer
+                      : (answer === item.id && classes.inCorrectAnswer) ||
+                        (solution === item.id && classes.correctAnswer)
+                    : answer === item.id && classes.option
+                }
+                onClick={() => !submitDisable && setAnswer(item.id)}
+              >
+                <Stack direction="row" gap={1}>
+                  <Typography variant="body1">
+                    {item.value.slice(0, 2)}
+                  </Typography>
+                  <UnsafeHTML
+                    Container={Typography}
+                    variant="body1"
+                    html={text}
+                  />
+                </Stack>
+              </Paper>
+            );
+          })}
       </Box>
     );
   }

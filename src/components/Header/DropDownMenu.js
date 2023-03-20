@@ -120,10 +120,9 @@ export default function DropDownMenu({
       // mouse has moved out of main menu item and its
       //   dropdown after delay milliseconds
       // menuCloseHandler();
-      //console.log(inDropdown);
       handleCloseMenu();
     }
-  }, [inDropdown]);
+  }, [inDropdown, handleCloseMenu]);
 
   React.useEffect(() => {
     const handleClickOutside = (event) => {
@@ -136,7 +135,7 @@ export default function DropDownMenu({
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-  });
+  }, []);
 
   return (
     <>
