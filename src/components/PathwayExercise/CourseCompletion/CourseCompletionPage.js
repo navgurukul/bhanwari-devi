@@ -10,7 +10,6 @@ function CourseCompletionPage(props) {
   const params = useParams();
   const history = useHistory();
 
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   return (
     <>
       <Container maxWidth="lg" align="center">

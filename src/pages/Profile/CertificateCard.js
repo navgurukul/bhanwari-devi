@@ -14,13 +14,11 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
 import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { interpolatePath, PATHS, versionCode } from "../../constant";
 import { Link } from "react-router-dom";
-import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { format } from "../../common/date";
@@ -42,24 +40,16 @@ function saveFile(url) {
 }
 
 function CertificateCard(props) {
-  const classes = useStyles();
   const user = useSelector(({ User }) => User);
-  const data = useSelector((state) => {
-    return state;
-  });
   const { item } = props;
-
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
   const [completedPortion, setCompletedPortion] = useState({});
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
   const [courseTime, setCourseTime] = useState();
   console.log(courseTime);
   const [loader, setLoader] = useState(false);
-  const params = useParams();
   const pathwayId = item.id;
 
   const date = new Date(courseTime);
@@ -103,7 +93,6 @@ function CertificateCard(props) {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        // console.log("response", response.data.total_completed_portion);
         setCompletedPortion(response.data.total_completed_portion);
         setCourseTime(response.data.complete_at);
       });

@@ -36,7 +36,7 @@ const ID_TO_SELECTED_ROLE_MAP_KEY = "idToSelectedRoleMap";
 function ChangeRole({ isToggle, role, setRoleView, roleView, uid }) {
   const classes = useStyles();
   const styles = isToggle ? {} : { margin: "0 10px" };
-  const roleStr = <Message constantKey={role.msgKey} />;
+  const roleStr = <Message constantKey={role?.msgKey} />;
 
   const roleLandingPage = role.landingPage;
   // classes.bgColor doesn't do anything because it's overriden by the
@@ -94,7 +94,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
     const menuContents = (
       <div>
         {roles.map((role) => (
-          <ChangeRole role={role} {...commonProps} />
+          <ChangeRole role={role} key={role.key} {...commonProps} />
         ))}
       </div>
     );

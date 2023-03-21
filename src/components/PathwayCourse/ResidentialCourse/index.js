@@ -4,15 +4,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import { useDispatch } from "react-redux";
 import { breakpoints } from "../../../theme/constant";
-import {
-  Container,
-  Box,
-  Grid,
-  Card,
-  Typography,
-  Button,
-  Stack,
-} from "@mui/material";
+import { Container, Box, Grid, Card, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../../constant";
 import useStyles from "../styles";
@@ -36,7 +28,7 @@ function ResidentialProgramme() {
   return (
     <Container className={classes.pathwayContainer} maxWidth="lg">
       <Grid container spacing={2}>
-        <Grid xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <Card align="left" elevation={0}>
             <Typography
               variant="body2"
@@ -67,7 +59,15 @@ function ResidentialProgramme() {
         <Grid sx={{ mt: 2 }} container spacing={3} align="center">
           {pathwayCourse &&
             pathwayCourse.map((item, index) => (
-              <Grid xs={12} sm={6} md={4} lg={3} className={classes.courseCard}>
+              <Grid
+                key={index}
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                className={classes.courseCard}
+              >
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -93,7 +93,7 @@ function ResidentialProgramme() {
                       alt="course"
                       loading="lazy"
                     />
-                    <div className={classes.courseTitleNumber} disableGutters>
+                    <div className={classes.courseTitleNumber}>
                       <Typography
                         align={isActive ? "center" : "left"}
                         variant="body2"

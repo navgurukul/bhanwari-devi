@@ -254,7 +254,7 @@ function Team() {
             // disablePadding
           >
             {teamData ? (
-              shuffleArray(teamData).map((item) => {
+              shuffleArray(teamData).map((item, index) => {
                 if (
                   (condition === "volunteers" &&
                     item.Association === "Volunteer") ||
@@ -264,7 +264,7 @@ function Team() {
                     item.Association !== "Ex-Team")
                 ) {
                   return (
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid item xs={12} sm={6} md={3} key={index}>
                       <Box
                         className={`${classes.team_cardDetails} card-details`}
                         sx={

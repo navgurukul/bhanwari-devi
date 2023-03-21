@@ -30,11 +30,12 @@ function VolunteerAutomation() {
 
   const handleClick = () => {
     if (rolesList) {
-      if (rolesList.includes("volunteer")) {
-        history.push(PATHS.CLASS);
-      } else {
-        history.push(PATHS.VOLUNTEER_FORM);
-      }
+      history.push(PATHS.VOLUNTEER_FORM);
+      // if (rolesList.includes("volunteer")) {
+      //   history.push(PATHS.CLASS);
+      // } else {
+      //   history.push(PATHS.VOLUNTEER_FORM);
+      // }
     } else {
       history.push(PATHS.LOGIN, pathname);
     }
@@ -100,7 +101,6 @@ function VolunteerAutomation() {
                   <Typography
                     variant="subtitle1"
                     className={classes.TextContent}
-                    Typography
                   >
                     Python
                   </Typography>

@@ -1,3 +1,5 @@
+const production = window.location.hostname;
+
 export const AUTH_KEY = "__AUTH__";
 
 export const PATHS = {
@@ -15,7 +17,14 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
-  SCRATCH: process.env.NODE_ENV === 'development' ? 'https://dev.scratch.merakilearn.org/' : "https://scratch.merakilearn.org/",
+  SCRATCH:
+    production === "merakilearn.org"
+      ? "https://scratch.merakilearn.org/"
+      : "https://dev.scratch.merakilearn.org/",
+  // SCRATCH:
+  //   process.env.NODE_ENV === "development"
+  //     ? "https://dev.scratch.merakilearn.org/"
+  //     : "https://scratch.merakilearn.org/",
   USER: "/user",
   PROFILE: "/profile",
   ME: "/me",
@@ -43,7 +52,9 @@ export const PATHS = {
   VOLUNTEER_FORM: "/volunteer-form",
   CLASS_FORM: "/class-form-model",
   TUTOR: "/tutor-dashboard",
+  GSOC_IDEA: "/gsoc-ideas-2023",
 };
+
 export const HideHeader = [
   PATHS.PATHWAY_COURSE_CONTENT,
   PATHS.PATHWAY_COURSE_CONTENT_EDIT,
@@ -63,6 +74,7 @@ export const HideFooter = [
 export const LEARN_KEY = "LEARN";
 export const ABOUT_KEY = "ABOUT";
 export const GET_INVOLVED_KEY = "GET_INVOLVED";
+export const GSOC_IDEA_KEY = "Gsoc IDEA 2023";
 
 export const MENU_ITEMS = {
   [ABOUT_KEY]: [
@@ -224,7 +236,8 @@ export const TimeLeft = (date) => {
     const TimePart = date?.split("T")[1].split(":");
     // calculate the time left for the event
     const timeLeft = new Date(
-      `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} ${TimePart[0]}:${TimePart[1]
+      `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} ${TimePart[0]}:${
+        TimePart[1]
       }`
     );
     const now = new Date(
@@ -244,16 +257,6 @@ export const TimeLeft = (date) => {
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    console.log(
-      "days",
-      days,
-      "hours",
-      hours,
-      "minutes",
-      minutes,
-      "seconds",
-      seconds
-    );
 
     if (days > 0) {
       return `${days} days ${hours} hrs ${minutes} mins`;

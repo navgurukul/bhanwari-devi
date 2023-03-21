@@ -14,17 +14,9 @@ export default function ExerciseImage({
   id,
   exerciseName,
   imageRef,
-  setSuccessfulExerciseCompletion,
 }) {
   const classes = useStyles();
   const history = useHistory();
-  // console.log(progressTrackId);
-  // console.log(id);
-  // console.log(
-  //   progressTrackId.assessments,
-  //   progressTrackId.classes,
-  //   progressTrackId.exercises
-  // );
   const params = useParams();
   const contentTypeMap = {
     assessment: selected
@@ -61,7 +53,6 @@ export default function ExerciseImage({
               pathwayId: params.pathwayId,
             })
           );
-          setSuccessfulExerciseCompletion(false);
           setExerciseId(index);
         }}
         ref={imageRef}

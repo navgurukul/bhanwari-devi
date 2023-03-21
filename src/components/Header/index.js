@@ -27,6 +27,7 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
+import { NavLink } from "react-router-dom";
 import {
   PUBLIC_MENU_KEYS,
   // LEARN_KEY,
@@ -105,26 +106,24 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {PUBLIC_MENU_KEYS.map((menuKey, index) => (
-          <>
-            <TextButtonDropDownMenu
-              btnTextMsgKey={MENU_ITEMS[menuKey].msgKey}
-              // attachRight={!leftDrawer}
-              menuContainerProps={{
-                id: "menu-appbar",
-              }}
-              sx={{ color: "black", zIndex: 2000 }}
-              key={index}
-            >
-              <DropDown
-                dropDown={menuKey}
-                //indicator={indicator}
-                //handleClose={menuCloseHandler}
-                toggleDrawer={toggleDrawer}
-                //setInDropdown={setInDropdown}
-                //handleMouseLeave={updateInDropdownState}
-              />
-            </TextButtonDropDownMenu>
-          </>
+          <TextButtonDropDownMenu
+            btnTextMsgKey={MENU_ITEMS[menuKey]?.msgKey}
+            // attachRight={!leftDrawer}
+            menuContainerProps={{
+              id: "menu-appbar",
+            }}
+            key={index}
+            sx={{ color: "black", zIndex: 2000 }}
+          >
+            <DropDown
+              dropDown={menuKey}
+              //indicator={indicator}
+              //handleClose={menuCloseHandler}
+              toggleDrawer={toggleDrawer}
+              //setInDropdown={setInDropdown}
+              //handleMouseLeave={updateInDropdownState}
+            />
+          </TextButtonDropDownMenu>
         ))}
         <ExternalLink
           href="https://www.navgurukul.org/donate"
@@ -157,13 +156,38 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         </ExternalLink>
       </Box>
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
-        {PUBLIC_MENU_KEYS.map((menuKey) => (
+        {PUBLIC_MENU_KEYS.map((menuKey, index) => (
           <MobileDropDown
+            key={index}
             menuKey={menuKey}
             handleClose={menuCloseHandler}
             toggleDrawer={toggleDrawer}
           />
         ))}
+        <MenuItem
+          sx={{
+            padding: 0,
+            borderRadius: "8px",
+          }}
+        >
+          <NavLink to={PATHS.GSOC_IDEA} className={classes.link}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                height: "36px",
+                padding: "6px 16px",
+                display: "flex",
+                alignItems: "center",
+                "&:hover": {
+                  backgroundColor: "#E9F5E9",
+                  borderRadius: "8px",
+                },
+              }}
+            >
+              Gsoc Ideas 2023
+            </Typography>
+          </NavLink>
+        </MenuItem>
       </Box>
 
       {!leftDrawer && (
@@ -314,7 +338,6 @@ function Header() {
     <ThemeProvider theme={theme}>
       <AppBar
         elevation={elevation}
-        maxWidth="lg"
         sx={
           bgColor
             ? {
@@ -329,7 +352,7 @@ function Header() {
         position="sticky"
         color="background"
       >
-        <Container maxWidth="false" sx={{ my: "7px" }}>
+        <Container sx={{ my: "7px" }} maxWidth={false}>
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
               <Box sx={{ mr: 2 }} onClick={toggleDrawer(true)}>

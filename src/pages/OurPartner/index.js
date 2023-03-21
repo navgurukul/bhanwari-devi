@@ -39,8 +39,8 @@ const OurPartner = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ py: "32px", my: !isActive && "32px" }}>
-        <Grid container md={12} spacing={{ xs: 4, sm: 4 }}>
-          <Grid item xs={12} sm={7} md={7}>
+        <Grid item={true} container md={12} spacing={{ xs: 4, sm: 4 }}>
+          <Grid item={true} xs={12} sm={7} md={7}>
             <Typography variant="h4">
               Partners are ones who open the doors to quality education for our
               students
@@ -81,6 +81,7 @@ const OurPartner = () => {
         <Container>
           <Grid
             md={12}
+            item={true}
             container
             columnSpacing={{ xs: 2, sm: 4 }}
             paddingY={isActive ? 4 : 8}
@@ -88,7 +89,7 @@ const OurPartner = () => {
             <Grid item xs={12} sm={6} md={6}>
               <img src={Image} className={classes.image} />
             </Grid>
-            <Grid item xs={12} sm={6} md={6} spacing={4}>
+            <Grid container item xs={12} sm={6} md={6} spacing={4}>
               <Chip
                 label="Featured"
                 color="warning"
@@ -118,9 +119,9 @@ const OurPartner = () => {
           Partner List{" "}
         </Typography>
         <Grid container spacing={isActive ? 2 : 4} pb={isActive ? 2 : 4}>
-          {Object.keys(partner).map((item) => {
+          {Object.keys(partner).map((item, index) => {
             return (
-              <Grid item xs={12} sm={3} md={3}>
+              <Grid key={index} item xs={12} sm={3} md={3}>
                 {partner[item].Name !== null &&
                   partner[item].OrganisationType !== null &&
                   !partner[item].State !== null &&

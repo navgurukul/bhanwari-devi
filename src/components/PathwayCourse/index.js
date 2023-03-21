@@ -224,46 +224,38 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    if (
-      user?.data?.token &&
-      pathwayId &&
-      (pathwayId == "1" || pathwayId == "2")
-    ) {
+    if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
           pathwayId: pathwayId,
           authToken: user?.data?.token,
         })
       );
-    }
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((response) => {
-      setCompletedPortion((prevState) => ({
-        ...prevState,
-        total: response?.data?.total_completed_portion,
-      }));
-
-      response.data.pathway.map((item) => {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      }).then((response) => {
         setCompletedPortion((prevState) => ({
           ...prevState,
-          [item.course_id]: item.completed_portion,
+          total: response?.data?.total_completed_portion,
         }));
+
+        response.data.pathway.map((item) => {
+          setCompletedPortion((prevState) => ({
+            ...prevState,
+            [item.course_id]: item.completed_portion,
+          }));
+        });
       });
-    });
+    }
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    if (
-      user?.data?.token &&
-      enrolledBatches?.length > 0 &&
-      (pathwayId == "1" || pathwayId == "2")
-    ) {
+    if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
         upcomingClassActions.getupcomingEnrolledClasses({
           pathwayId: pathwayId,
@@ -302,7 +294,6 @@ function PathwayCourse() {
     });
 
   const pathwayCourseData = pathways.find((item) => {
-    console.log("item", item);
     return item.id == pathwayId;
   });
 
@@ -322,7 +313,7 @@ function PathwayCourse() {
   }
   return (
     <>
-      {enrolledBatches && !loading && (pathwayId == "1" || pathwayId == "2") ? (
+      {enrolledBatches && !loading ? (
         <>
           <Typography
             align="center"
@@ -371,9 +362,10 @@ function PathwayCourse() {
             </Box>
           </Box>
         </Modal>
-        {enrolledBatches && (pathwayId == "1" || pathwayId == "2") ? (
+        {enrolledBatches ? (
           <>
             <PathwayCards
+              id={1}
               userEnrolledClasses={userEnrolledClasses}
               data={data}
             />
@@ -425,8 +417,8 @@ function PathwayCourse() {
                         <Typography
                           style={{ display: "flex" }}
                           mt={2}
-                          align="start"
                           variant="body2"
+                          component={"span"}
                         >
                           <img
                             src={require("./asset/ComputerScreen.svg")}
@@ -522,10 +514,9 @@ function PathwayCourse() {
                   >
                     Learning Outcomes
                   </Typography>
-                  {console.log("pathwayCourseData", pathwayCourseData)}
                   <Grid container spacing={0} align="center">
                     {pathwayCourseData.outcomes.map((item, index) => (
-                      <Grid key={index} xs={12} md={4}>
+                      <Grid item key={index} xs={12} md={4}>
                         <Card
                           sx={{ margin: "10px" }}
                           align="left"
@@ -559,7 +550,13 @@ function PathwayCourse() {
           </Typography>
           <Grid container spacing={3} align="center">
             {filterPathwayCourse?.map((item, index) => (
-              <Grid key={index} xs={12} md={3} className={classes.courseCard}>
+              <Grid
+                item
+                key={index}
+                xs={12}
+                md={3}
+                className={classes.courseCard}
+              >
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -584,7 +581,7 @@ function PathwayCourse() {
                         p: isActive ? "0px" : "0px 8px 0px 0px",
                       }}
                     >
-                      <div className={classes.courseTitleNumber} disableGutters>
+                      <div className={classes.courseTitleNumber}>
                         <Typography
                           align={isActive ? "center" : "left"}
                           variant="body2"
@@ -621,11 +618,11 @@ function PathwayCourse() {
           </Grid>
 
           {displayCert ? (
-            <Grid sx={{ mb: 15 }} align="center">
-              <Grid sx={{ mb: 3 }}>
+            <Grid item sx={{ mb: 15 }} align="center">
+              <Grid item sx={{ mb: 3 }}>
                 <img src={require("./asset/separator.svg")} alt="icon" />
               </Grid>
-              <Grid sx={{ cursor: "pointer" }}>
+              <Grid item sx={{ cursor: "pointer" }}>
                 {completedAll ? (
                   loader ? (
                     <CircularProgress color="primary" />
@@ -690,9 +687,7 @@ function PathwayCourse() {
           ) : (
             ""
           )}
-          {!enrolledBatches &&
-          upcomingBatchesData?.length > 0 &&
-          (pathwayId == "1" || pathwayId == "2") ? (
+          {!enrolledBatches && upcomingBatchesData?.length > 0 ? (
             <PathwayCourseBatchEnroll2
               upcomingBatchesData={upcomingBatchesData}
             />
@@ -706,7 +701,13 @@ function PathwayCourse() {
             <Typography variant="h6">Supplemental English Courses</Typography>
             <Grid sx={{ mt: 4 }} container spacing={3} align="center">
               {SupplementalCourse?.map((item, index) => (
-                <Grid key={index} xs={12} md={3} className={classes.courseCard}>
+                <Grid
+                  item
+                  key={index}
+                  xs={12}
+                  md={3}
+                  className={classes.courseCard}
+                >
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

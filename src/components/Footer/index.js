@@ -20,7 +20,6 @@ const menu = {
     { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
-    // Changed the code for javascript JVSCPT => JSRPIT
     { title: "Javascript", code: "JSRPIT", type: "internal" },
     {
       title: "Residential Programmes",
@@ -35,7 +34,6 @@ const menu = {
   ],
 
   GetInvolved: [
-    // { title: "Be a Partner", type: "internal", link: PATHS.OUR_PARTNER },
     {
       title: "Volunteer With Us",
       type: "internal",
@@ -44,15 +42,8 @@ const menu = {
     {
       title: "Our Partners",
       type: "internal",
-
       link: PATHS.OUR_PARTNER,
     },
-
-    // {
-    //   title: "Donate",
-    //   type: "external",
-    //   link: "https://www.navgurukul.org/donate",
-    // },
     {
       title: "Careers",
       type: "exernal",
@@ -64,6 +55,7 @@ const menu = {
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
   const classes = useStyles();
+  const subMenu = menu[menuItem].filter((x) => x.link || x.id);
 
   return (
     <>
@@ -76,22 +68,16 @@ const MenuList = (menuItem) => {
         {title}
       </Typography>
       <List>
-        {menu[menuItem].map((item) => {
+        {subMenu.map((item) => {
           if (item.type === "internal") {
+            const toLink = item.id
+              ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                  pathwayId: item.id,
+                })
+              : item.link;
+
             return (
-              <Link
-                to={
-                  item.id
-                    ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                        pathwayId: item.id,
-                      })
-                    : item.link
-                }
-                className={classes.link}
-              >
-                {/* {if (item?.title === "Donate"){
-                    
-                  }} */}
+              <Link key={toLink} to={toLink} className={classes.link}>
                 <Typography
                   variant="body2"
                   color="text.primary"
@@ -104,7 +90,11 @@ const MenuList = (menuItem) => {
             );
           } else {
             return (
-              <ExternalLink className={classes.link} href={item.link}>
+              <ExternalLink
+                className={classes.link}
+                href={item.link}
+                key={item.link}
+              >
                 <Typography
                   variant="body2"
                   color="text.primary"
@@ -158,7 +148,6 @@ function Footer() {
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      // console.log(pathway);
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
           item.id = pathway.id;
@@ -170,7 +159,7 @@ function Footer() {
     <Box maxWidth="false" bgcolor="primary.light">
       <Container maxWidth="xl">
         <Grid container spacing={2} sx={{ mt: isActive ? "32px" : "64px" }}>
-          <Grid xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
+          <Grid item xs={12} md={4} sx={{ pl: { sm: 0, md: "16px" } }}>
             <Box sx={{ display: "flex" }}>
               <Box className={classes.logo}>
                 <img
@@ -182,7 +171,7 @@ function Footer() {
             </Box>
             <Box className={classes.socialMedia} sx={{ display: "flex" }}>
               {["facebook", "linkedIn", "twitter"].map((imgName) => (
-                <FooterIcon name={imgName} />
+                <FooterIcon key={imgName} name={imgName} />
               ))}
             </Box>
             <Box className={classes.content}>
@@ -191,13 +180,13 @@ function Footer() {
               </Typography>
             </Box>
           </Grid>
-          <Grid xs={6} md={2} sx={{ pl: "15px" }}>
+          <Grid item xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("About")}
           </Grid>
-          <Grid xs={6} md={2}>
+          <Grid item xs={6} md={2}>
             {MenuList("LearningTracks")}
           </Grid>
-          <Grid xs={6} md={2} sx={{ pl: "15px" }}>
+          <Grid item xs={6} md={2} sx={{ pl: "15px" }}>
             {MenuList("GetInvolved")}
             <ExternalLink
               className={classes.link}
@@ -215,7 +204,7 @@ function Footer() {
               </Typography>
             </ExternalLink>
           </Grid>
-          <Grid xs={6} md={2}>
+          <Grid item xs={6} md={2}>
             <Typography
               color="text.primary"
               sx={{ mb: 1 }}
@@ -250,7 +239,7 @@ function Footer() {
         <Divider variant="string" sx={{ pt: "25px" }} />
         <Box>
           <Grid container spacing={2} sx={{ m: "30px 0px 30px 0px" }}>
-            <Grid xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
+            <Grid item xs={12} md={6} sx={{ pl: { sm: 0, md: "10px" } }}>
               <Link to={PATHS.PRIVACY_POLICY} className={classes.link}>
                 <Typography
                   className={classes.hover}
@@ -262,6 +251,7 @@ function Footer() {
               </Link>
             </Grid>
             <Grid
+              item
               xs={12}
               md={6}
               sx={{

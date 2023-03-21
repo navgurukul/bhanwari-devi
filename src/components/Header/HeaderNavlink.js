@@ -3,27 +3,27 @@ import useStyles from "./styles";
 
 import { Typography, MenuItem } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
-function HeaderNavLink(props) {
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+function HeaderNavLink({ to, text, toggleDrawer, externalLink }) {
   const classes = useStyles();
 
   function handleLinkClick(event) {
-    if (props?.new_nav_tab) {
+    if (externalLink) {
       event.preventDefault();
-      window.open(props.to, props?.new_nav_tab ? "_blank" : "_self");
+      window.open(to, externalLink ? "_blank" : "_self");
     }
   }
 
   return (
     <MenuItem
-      onClick={props.toggleDrawer && props.toggleDrawer(false)}
+      onClick={toggleDrawer && toggleDrawer(false)}
       sx={{
         padding: 0,
         borderRadius: "8px",
       }}
     >
       <NavLink
-        to={props.to}
+        to={to}
         onClick={handleLinkClick}
         className={classes.link}
         activeClassName={classes.active}
@@ -42,7 +42,10 @@ function HeaderNavLink(props) {
             },
           }}
         >
-          {props.text}
+          {text}
+          {externalLink && (
+            <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
+          )}
         </Typography>
       </NavLink>
     </MenuItem>

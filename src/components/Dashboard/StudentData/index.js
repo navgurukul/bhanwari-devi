@@ -385,7 +385,7 @@ function StudentData() {
                   <BsArrowUpDown />
                 </button>
               </th>
-              <th>
+              {/* <th>
                 Enroll date
                 <button
                   className={sort_class}
@@ -393,7 +393,7 @@ function StudentData() {
                 >
                   <BsArrowUpDown />
                 </button>
-              </th>
+              </th> */}
               <th>
                 Classes Enrolled to
                 <button
@@ -457,9 +457,9 @@ function StudentData() {
                           {item.name}
                         </Link>
                       </td>
-                      <td data-column="Enrolled On">
+                      {/* <td data-column="Enrolled On">
                         {item.formatted_created_at}
-                      </td>
+                      </td> */}
                       <td data-column="Total classes ">
                         {" "}
                         {item.classes_registered.length}
@@ -540,9 +540,9 @@ function StudentData() {
                           {item.name}
                         </Link>
                       </td>
-                      <td data-column="Enrolled On">
+                      {/* <td data-column="Enrolled On">
                         {item.formatted_created_at}
-                      </td>
+                      </td> */}
                       <td data-column="Total classes ">
                         {" "}
                         {item.classes_registered.length}
@@ -582,15 +582,17 @@ function StudentData() {
                           : "NA"}
                       </td>
                       <td data-column="Avg rating ">
-                        {[1, 2, 3, 4, 5].map((star) => {
+                        {[1, 2, 3, 4, 5].map((star, index) => {
                           return Math.ceil(item.averageRating) > 0 &&
                             star <= Math.ceil(item.averageRating) ? (
                             <span
+                              key={index}
                               className="fa fa-star"
                               style={{ color: "#D55F31" }}
                             ></span>
                           ) : (
                             <span
+                              key={index}
                               className="fa fa-star"
                               style={{ color: "gray" }}
                             ></span>

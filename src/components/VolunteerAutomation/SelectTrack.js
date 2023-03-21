@@ -17,7 +17,6 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const { data } = useSelector((state) => state.Pathways);
-  console.log(pathwayId);
   useEffect(() => {
     if (pathwayId.length === 0) {
       setDisable(true);
@@ -52,10 +51,10 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
         <Grid container columnSpacing={isActive ? 2 : 0} mt={2} mb={2}>
           {data &&
             data.pathways &&
-            data.pathways.map((item) => {
+            data.pathways.map((item, index) => {
               if (item.name == "Python" || item.name == "Spoken English") {
                 return (
-                  <Grid item xs={6} ms={6} md={6}>
+                  <Grid item xs={6} ms={6} md={6} key={index}>
                     <Card
                       elevation={2}
                       className={

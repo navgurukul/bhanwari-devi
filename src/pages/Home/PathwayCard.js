@@ -4,18 +4,17 @@ import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import { Typography, CardMedia, CardContent, Card, Box } from "@mui/material";
 
-function PathwayCard({ id, title, description, image, hover }) {
+function PathwayCard({ id, path, title, description, image, hover }) {
   const classes = useStyles();
-  
 
   return (
     <Link
       to={
         id
-          ? interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: id })
-          : title === "Open Courses"
-          ? PATHS.MISCELLANEOUS_COURSE
-          : title === "Residential Programmes" && PATHS.RESIDENTIAL_COURSE
+          ? interpolatePath(PATHS.PATHWAY_COURSE, {
+              pathwayId: id,
+            })
+          : path
       }
       className={classes.link}
       style={{ pointerEvents: hover === false && "none" }}

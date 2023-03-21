@@ -14,11 +14,18 @@ import DropOut from "./DropOut";
 
 export const MoreDetails = (props) => {
   const { open, setOpen, isEnrolled, setIsEnrolled } = props;
-
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  const { actions, value } = props;
-  console.log(actions, value);
+  const { actions } = props;
+  const [ConfirmationOpen, setConfirmationOpen] = useState(false);
+  const [openDropOut, setOpenDropOut] = useState(false);
+  const anchorPos = "right";
+  const [TimeLefts, setTimeLefts] = useState(TimeLeft(actions.start_time));
+  var ONE_MINUTE = 60 * 1000;
+
+  setInterval(() => {
+    setTimeLefts(TimeLeft(actions.start_time));
+  }, ONE_MINUTE);
+
   const toggleDrawer = (changeTo) => (event) => {
     if (
       event &&
@@ -27,25 +34,17 @@ export const MoreDetails = (props) => {
     ) {
       return;
     }
-
     setOpen(changeTo);
   };
-  const [ConfirmationOpen, setConfirmationOpen] = useState(false);
 
-  const [openDropOut, setOpenDropOut] = useState(false);
-  const anchorPos = "right";
   const close = () => {
     setConfirmationOpen(false);
   };
-  let [TimeLefts, setTimeLefts] = useState(TimeLeft(actions.start_time));
-  var ONE_MINUTE = 60 * 1000;
-  setInterval(() => {
-    setTimeLefts(TimeLeft(actions.start_time));
-    console.log("TimeChange");
-  }, ONE_MINUTE);
+
   const closeDropOut = () => {
     setOpenDropOut(false);
   };
+
   return (
     <div>
       <SwipeableDrawer
@@ -124,7 +123,7 @@ export const MoreDetails = (props) => {
             </Typography>
             {isEnrolled ? (
               <>
-                {TimeLefts == "joinNow" ? (
+                {TimeLefts === "joinNow" ? (
                   <a
                     style={{
                       textDecoration: "none",

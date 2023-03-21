@@ -31,6 +31,8 @@ export default function DropDownMenu({
     inProgress: false,
     value: false,
   });
+
+  const ref = React.useRef(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   // #802: part of hack to make button clickable over presentation layer
   //   when menu is open, needed for sidebar
@@ -118,10 +120,22 @@ export default function DropDownMenu({
       // mouse has moved out of main menu item and its
       //   dropdown after delay milliseconds
       // menuCloseHandler();
-      //console.log(inDropdown);
       handleCloseMenu();
     }
   }, [inDropdown]);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        !ref?.current?.contains(event.target) &&
+        !inDropdown.inProgress &&
+        !inDropdown.value
+      ) {
+        handleCloseMenu();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <>

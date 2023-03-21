@@ -199,7 +199,7 @@ function PartnerDashboard() {
                         {item.name}
                       </Link>
                     </td>
-                    <td data-column="Total students">{item.users}</td>
+                    <td data-column="Total students">{item.user}</td>
                     {item.meraki_link ? (
                       <td data-column="Meraki Link">
                         <a
