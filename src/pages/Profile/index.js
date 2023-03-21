@@ -516,6 +516,7 @@ function Profile() {
                 variant="outlined"
                 sx={{
                   alignItems: isActive ? "center" : "left",
+                  marginBottom: "16px",
                 }}
                 align={isActive && "center"}
               >
@@ -523,7 +524,7 @@ function Profile() {
                 Edit Profile
               </Button>
 
-              <LastLoginTime />
+              {/* <LastLoginTime /> */}
             </div>
           </Grid>
           <Grid item md={6}>

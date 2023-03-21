@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CheckIcon from "@mui/icons-material/Check";
 import Snackbar from "@mui/material/Snackbar";
@@ -121,6 +121,7 @@ function PathwayCourse() {
   const params = useParams();
   const pathwayId = params.pathwayId;
   const [completedPortion, setCompletedPortion] = useState({});
+  const ref = useRef(null);
 
   // const [loading, setLoading] = useState(true);
   // const [enrolledBatches, setEnrolledBatches] = useState(null);
@@ -169,6 +170,7 @@ function PathwayCourse() {
 
   const handleModal = () => {
     setLoader(true);
+
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
@@ -179,8 +181,10 @@ function PathwayCourse() {
     })
       .then((response) => {
         setLoader(false);
-        setOpenModal((prev) => !prev);
         setCertificate(response?.data?.url);
+        if (response) {
+          setOpenModal((prev) => !prev);
+        }
       })
       .catch((err) => {});
   };
