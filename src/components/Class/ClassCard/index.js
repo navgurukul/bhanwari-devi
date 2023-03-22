@@ -215,6 +215,7 @@ function ClassCard({ item, editClass }) {
     });
   };
 
+  //console.log("indicator", indicator);
   /*
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {
@@ -302,7 +303,7 @@ function ClassCard({ item, editClass }) {
           }}
         >
           {(item.facilitator.email === user.data.user.email || flag) && (
-            <div>
+            <>
               <MenuItem
                 onClick={() => handleEdit(item.id)}
                 sx={{ width: 100, margin: "0px 10px" }}
@@ -315,7 +316,7 @@ function ClassCard({ item, editClass }) {
               >
                 <Typography textAlign="center">Delete</Typography>
               </MenuItem>
-            </div>
+            </>
           )}
 
           {!rolesList.includes("volunteer") && item.enrolled && (

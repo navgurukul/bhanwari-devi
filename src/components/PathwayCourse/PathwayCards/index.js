@@ -9,6 +9,7 @@ import {
   Grid,
   Card,
   Stack,
+  Button,
   CardContent,
   Typography,
 } from "@mui/material";
@@ -17,7 +18,7 @@ import { format } from "../../../common/date";
 import { getCourseContent } from "../../Course/redux/api";
 import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import useStyles from "../styles";
 const PathwayCards = (props) => {
@@ -29,12 +30,13 @@ const PathwayCards = (props) => {
 
   // const language ;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const history = useHistory();
   const language = {
     hi: "Hindi",
     en: "English",
     mr: "Marathi",
   };
-  const { userEnrolledClasses } = props;
+  const { userEnrolledClasses, data } = props;
 
   function UpcomingClassCardComponent({ item }) {
     const classes = useStyles();
@@ -43,7 +45,6 @@ const PathwayCards = (props) => {
     );
     const user = useSelector(({ User }) => User);
     const [classIndex, setClassIndex] = React.useState(0);
-
     useEffect(() => {
       const courseId = item.course_id;
       getCourseContent({ courseId, versionCode, user }).then((res) => {
@@ -53,8 +54,7 @@ const PathwayCards = (props) => {
 
         setClassIndex(index);
       });
-    }, [item.course_id]);
-
+    }, []);
     return (
       <Grid item xs={12} sm={6} md={4}>
         <Link
