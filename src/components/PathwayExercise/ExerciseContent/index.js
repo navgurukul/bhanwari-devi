@@ -106,11 +106,17 @@ const RenderContent = ({ data, exercise }) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const [pythonEditorCode, setPythonEditorCode] = useState(
-    data.value?.replace(/<br>/g, "\n").replace(/&emsp;/g, " ")
+    data.value
+      ?.toString()
+      .replace(/<br>/g, "\n")
+      .replace(/&emsp;/g, " ")
   );
 
   const [initialCodeEditorValue, setinitialCodeEditorValue] = useState(
-    data.value?.replace(/<br>/g, "\n").replace(/&emsp;/g, " ")
+    data.value
+      ?.toString()
+      .replace(/<br>/g, "\n")
+      .replace(/&emsp;/g, " ")
   );
 
   if (data.component === "header") {

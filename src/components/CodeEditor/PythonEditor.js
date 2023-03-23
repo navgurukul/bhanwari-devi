@@ -45,12 +45,11 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
         >
           <Button
             startIcon={<RestartAltIcon />}
-            disabled={isLoading || (initialValue === value && !codeExecuted)}
+            disabled={isLoading || initialValue === value}
             variant="outlined"
             onClick={() => {
               console.log(initialValue);
               setEditorState(initialValue);
-              setCodeExecuted(false);
             }}
           >
             Reset Code
@@ -62,7 +61,6 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
             variant="contained"
             onClick={() => {
               runPython(value);
-              setCodeExecuted(true);
             }}
           >
             Run
