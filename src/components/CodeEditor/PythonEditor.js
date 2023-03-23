@@ -12,21 +12,30 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 
 const PythonEditor = ({ initialValue, value, setEditorState }) => {
   let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
-  let [codeExecuted, setCodeExecuted] = useState(false);
+  let [codeExecuted, setCodeExecuted] = useState(stdout, stderr);
 
+  useEffect(() => {
+    if (stdout) {
+      setCodeExecuted(stdout);
+    } else {
+      setCodeExecuted(stderr);
+    }
+  }, [stdout, stderr]);
   return (
     <Box
       className="PythonCodeEditor"
       sx={{
         my: 3,
-      }}>
+      }}
+    >
       <Box
         sx={{
           p: "2px",
           border: "1px solid #6D6D6D",
           borderRadius: "8px",
           mb: 1.5,
-        }}>
+        }}
+      >
         <CodeMirrorEditor value={value} setEditorState={setEditorState} />
         <Box
           className="middle-border"
@@ -39,54 +48,62 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
             display: "flex",
             justifyContent: "space-between",
             p: 2,
-          }}>
+          }}
+        >
           <Button
             startIcon={<RestartAltIcon />}
-            disabled={isLoading || initialValue === value}
+            disabled={isLoading || (initialValue === value && !codeExecuted)}
             variant="outlined"
             onClick={() => {
               console.log(initialValue);
               setEditorState(initialValue);
-            }}>
-            Reset Code
+              setCodeExecuted("");
+            }}
+          >
+            Reset
           </Button>
 
           <Button
             endIcon={<ArrowRightIcon />}
-            disabled={isLoading}
+            disabled={
+              isLoading || isRunning || (initialValue === value && codeExecuted)
+            }
             variant="contained"
             onClick={() => {
               runPython(value);
-            }}>
+            }}
+          >
             Run
           </Button>
         </Box>
       </Box>
-
-      <Box
-        className="Output"
-        sx={{ border: "1px solid #6D6D6D", borderRadius: "8px", padding: 2 }}>
-        <Grid container direction="row" alignItems="center">
-          <Grid item>
-            <CableIcon />
-          </Grid>
-          <Grid item>
-            <Typography variant="subtitle1" sx={{ fontWeight: "600" }}>
-              Output
-            </Typography>
-          </Grid>
-        </Grid>
+      {codeExecuted && (
         <Box
-          sx={{
-            wordWrap: "break-word",
-            whiteSpace: "pre-wrap",
-            wordBreak: "normal",
-            p: 1,
-          }}>
-          <Typography>{stdout}</Typography>
-          <Typography>{stderr}</Typography>
+          className="Output"
+          sx={{ border: "1px solid #6D6D6D", borderRadius: "8px", padding: 2 }}
+        >
+          <Grid container direction="row" alignItems="center">
+            <Grid item>
+              <CableIcon />
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle1" sx={{ fontWeight: "600" }}>
+                Output
+              </Typography>
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              wordWrap: "break-word",
+              whiteSpace: "pre-wrap",
+              wordBreak: "normal",
+              p: 1,
+            }}
+          >
+            <Typography>{codeExecuted}</Typography>
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };
