@@ -19,16 +19,14 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
       className="PythonCodeEditor"
       sx={{
         my: 3,
-      }}
-    >
+      }}>
       <Box
         sx={{
           p: "2px",
           border: "1px solid #6D6D6D",
           borderRadius: "8px",
           mb: 1.5,
-        }}
-      >
+        }}>
         <CodeMirrorEditor value={value} setEditorState={setEditorState} />
         <Box
           className="middle-border"
@@ -41,8 +39,7 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
             display: "flex",
             justifyContent: "space-between",
             p: 2,
-          }}
-        >
+          }}>
           <Button
             startIcon={<RestartAltIcon />}
             disabled={isLoading || initialValue === value}
@@ -50,8 +47,7 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
             onClick={() => {
               console.log(initialValue);
               setEditorState(initialValue);
-            }}
-          >
+            }}>
             Reset Code
           </Button>
 
@@ -61,8 +57,7 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
             variant="contained"
             onClick={() => {
               runPython(value);
-            }}
-          >
+            }}>
             Run
           </Button>
         </Box>
@@ -70,8 +65,7 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
 
       <Box
         className="Output"
-        sx={{ border: "1px solid #6D6D6D", borderRadius: "8px", padding: 2 }}
-      >
+        sx={{ border: "1px solid #6D6D6D", borderRadius: "8px", padding: 2 }}>
         <Grid container direction="row" alignItems="center">
           <Grid item>
             <CableIcon />
@@ -88,8 +82,7 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
             whiteSpace: "pre-wrap",
             wordBreak: "normal",
             p: 1,
-          }}
-        >
+          }}>
           <Typography>{stdout}</Typography>
           <Typography>{stderr}</Typography>
         </Box>
