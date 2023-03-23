@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { usePython } from "./react-py";
 
@@ -6,11 +6,13 @@ import CodeMirrorEditor from "./CodeMirror";
 
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import CableIcon from "@mui/icons-material/Cable";
 
 import { Box, Button, Grid, Typography } from "@mui/material";
 
-const PythonEditor = ({ value, setEditorState }) => {
-  const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
+const PythonEditor = ({ initialValue, value, setEditorState }) => {
+  let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
+  let [codeExecuted, setCodeExecuted] = useState(false);
 
   return (
     <Box
@@ -43,10 +45,12 @@ const PythonEditor = ({ value, setEditorState }) => {
         >
           <Button
             startIcon={<RestartAltIcon />}
-            disabled={isLoading}
-            variant=""
+            disabled={isLoading || (initialValue === value && !codeExecuted)}
+            variant="outlined"
             onClick={() => {
-              runPython(value);
+              console.log(initialValue);
+              setEditorState(initialValue);
+              setCodeExecuted(false);
             }}
           >
             Reset Code
@@ -58,6 +62,7 @@ const PythonEditor = ({ value, setEditorState }) => {
             variant="contained"
             onClick={() => {
               runPython(value);
+              setCodeExecuted(true);
             }}
           >
             Run
@@ -67,10 +72,29 @@ const PythonEditor = ({ value, setEditorState }) => {
 
       <Box
         className="Output"
-        sx={{ border: "1px solid #6D6D6D", borderRadius: "8px" }}
+        sx={{ border: "1px solid #6D6D6D", borderRadius: "8px", padding: 2 }}
       >
-        <pre>stdout</pre>
-        <pre>stderr</pre>
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <CableIcon />
+          </Grid>
+          <Grid item>
+            <Typography variant="subtitle1" sx={{ fontWeight: "600" }}>
+              Output
+            </Typography>
+          </Grid>
+        </Grid>
+        <Box
+          sx={{
+            wordWrap: "break-word",
+            whiteSpace: "pre-wrap",
+            wordBreak: "normal",
+            p: 1,
+          }}
+        >
+          <Typography>{stdout}</Typography>
+          <Typography>{stderr}</Typography>
+        </Box>
       </Box>
     </Box>
   );

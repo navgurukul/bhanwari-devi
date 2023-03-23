@@ -109,6 +109,10 @@ const RenderContent = ({ data, exercise }) => {
     data.value?.replace(/<br>/g, "\n").replace(/&emsp;/g, " ")
   );
 
+  const [initialCodeEditorValue, setinitialCodeEditorValue] = useState(
+    data.value?.replace(/<br>/g, "\n").replace(/&emsp;/g, " ")
+  );
+
   if (data.component === "header") {
     return (
       <Box className={classes.heading}>
@@ -254,6 +258,7 @@ const RenderContent = ({ data, exercise }) => {
       <PythonEditor
         value={pythonEditorCode}
         setEditorState={setPythonEditorCode}
+        initialValue={initialCodeEditorValue}
       />
     );
   }
