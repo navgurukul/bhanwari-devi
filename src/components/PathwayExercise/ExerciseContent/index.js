@@ -105,16 +105,17 @@ const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
+  console.log(data.value);
   const [pythonEditorCode, setPythonEditorCode] = useState(
     data.value
-      ?.toString()
+      // ?.toString()
       .replace(/<br>/g, "\n")
       .replace(/&emsp;/g, " ")
   );
 
   const [initialCodeEditorValue, setinitialCodeEditorValue] = useState(
     data.value
-      ?.toString()
+      // ?.toString()
       .replace(/<br>/g, "\n")
       .replace(/&emsp;/g, " ")
   );
@@ -265,6 +266,8 @@ const RenderContent = ({ data, exercise }) => {
         value={pythonEditorCode}
         setEditorState={setPythonEditorCode}
         initialValue={initialCodeEditorValue}
+        disableEditing={true}
+        // disableRun={true}
       />
     );
   }

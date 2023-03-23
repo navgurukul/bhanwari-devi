@@ -10,7 +10,7 @@ import "codemirror/mode/python/python";
 
 import { Controlled as ControlledEditorComponent } from "react-codemirror2";
 
-const CodeMirrorEditor = ({ value, setEditorState }) => {
+const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
   const handleEditorChange = (editor, data, value) => {
     setEditorState(value);
   };
@@ -29,7 +29,7 @@ const CodeMirrorEditor = ({ value, setEditorState }) => {
           indentUnit: 4,
           matchBrackets: true,
           singleCursorHeightPerLine: false,
-          // readOnly: "true",
+          readOnly: { disableEditing },
         }}
       />
     </div>

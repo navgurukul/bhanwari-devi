@@ -10,7 +10,13 @@ import CableIcon from "@mui/icons-material/Cable";
 
 import { Box, Button, Grid, Typography } from "@mui/material";
 
-const PythonEditor = ({ initialValue, value, setEditorState }) => {
+const PythonEditor = ({
+  initialValue,
+  value,
+  setEditorState,
+  disableEditing,
+  disableRun,
+}) => {
   let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   let [codeExecuted, setCodeExecuted] = useState(stdout, stderr);
 
@@ -36,51 +42,85 @@ const PythonEditor = ({ initialValue, value, setEditorState }) => {
           mb: 1.5,
         }}
       >
-        <CodeMirrorEditor value={value} setEditorState={setEditorState} />
+        <CodeMirrorEditor
+          value={value}
+          setEditorState={setEditorState}
+          readOnly={disableEditing}
+        />
         <Box
           className="middle-border"
           sx={{ margin: "0 -2px", borderTop: "1px solid #6D6D6D" }}
         />
 
-        <Box
-          className="toolbar"
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            p: 2,
-          }}
-        >
-          <Button
-            startIcon={<RestartAltIcon />}
-            disabled={isLoading || (initialValue === value && !codeExecuted)}
-            variant="outlined"
-            onClick={() => {
-              console.log(initialValue);
-              setEditorState(initialValue);
-              setCodeExecuted("");
-            }}
-          >
-            Reset
-          </Button>
+        {disableRun ? (
+          <Typography sx={{ p: 1, color: "#6D6D6D" }}>
+            Code not runnable? It's because this code does not have output
+            statements and is meant for understanding the code snippet
+          </Typography>
+        ) : (
+          <Box>
+            {disableEditing && (
+              <Typography
+                sx={{
+                  p: 1,
+                  color: "#6D6D6D",
+                  margin: "0 -2px",
+                  borderBottom: "1px solid #6D6D6D",
+                }}
+              >
+                Code not editable? It's because we want you to understand the
+                outcome directly
+              </Typography>
+            )}
+            <Box
+              className="toolbar"
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                p: 2,
+              }}
+            >
+              <Button
+                startIcon={<RestartAltIcon />}
+                disabled={
+                  isLoading || (initialValue === value && !codeExecuted)
+                }
+                variant="outlined"
+                onClick={() => {
+                  console.log(initialValue);
+                  setEditorState(initialValue);
+                  setCodeExecuted("");
+                }}
+              >
+                Reset
+              </Button>
 
-          <Button
-            endIcon={<ArrowRightIcon />}
-            disabled={
-              isLoading || isRunning || (initialValue === value && codeExecuted)
-            }
-            variant="contained"
-            onClick={() => {
-              runPython(value);
-            }}
-          >
-            Run
-          </Button>
-        </Box>
+              <Button
+                endIcon={<ArrowRightIcon />}
+                disabled={
+                  isLoading ||
+                  isRunning ||
+                  (initialValue === value && codeExecuted)
+                }
+                variant="contained"
+                onClick={() => {
+                  runPython(value);
+                }}
+              >
+                Run
+              </Button>
+            </Box>
+          </Box>
+        )}
       </Box>
       {codeExecuted && (
         <Box
           className="Output"
-          sx={{ border: "1px solid #6D6D6D", borderRadius: "8px", padding: 2 }}
+          sx={{
+            border: "1px solid #6D6D6D",
+            borderRadius: "8px",
+            padding: 2,
+          }}
         >
           <Grid container direction="row" alignItems="center">
             <Grid item>
