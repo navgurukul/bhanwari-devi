@@ -11,8 +11,6 @@ import "codemirror/mode/python/python";
 import { Controlled as ControlledEditorComponent } from "react-codemirror2";
 
 const CodeMirrorEditor = ({ value, setEditorState }) => {
-  // const [theme, setTheme] = useState("night")
-
   const handleEditorChange = (editor, data, value) => {
     setEditorState(value);
   };
@@ -32,7 +30,6 @@ const CodeMirrorEditor = ({ value, setEditorState }) => {
           matchBrackets: true,
           singleCursorHeightPerLine: false,
           // readOnly: "true",
-          // theme: theme,
         }}
       />
     </div>

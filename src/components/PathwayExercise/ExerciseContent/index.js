@@ -221,8 +221,9 @@ const RenderContent = ({ data, exercise }) => {
     );
   }
 
-  if (data.component === "code") {
+  if (data.component === "code" && data.type !== "python") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
+
     return (
       <div>
         <Box className={classes.codeBackground}>
@@ -237,22 +238,23 @@ const RenderContent = ({ data, exercise }) => {
           </Box>
           {/* </Toolbar> */}
 
-          {/* Python Code Editor */}
-          {data.type === "python" ? (
-            <PythonEditor
-              value={pythonEditorCode}
-              setEditorState={setPythonEditorCode}
-            />
-          ) : (
-            <Typography
-              className={classes.codeWrap}
-              dangerouslySetInnerHTML={{
-                __html: codeContent,
-              }}
-            />
-          )}
+          <Typography
+            className={classes.codeWrap}
+            dangerouslySetInnerHTML={{
+              __html: codeContent,
+            }}
+          />
         </Box>
       </div>
+    );
+  }
+
+  if (data.component === "code" && data.type === "python") {
+    return (
+      <PythonEditor
+        value={pythonEditorCode}
+        setEditorState={setPythonEditorCode}
+      />
     );
   }
   // if (data.type === "solution") {
