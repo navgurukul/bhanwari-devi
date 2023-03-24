@@ -10,13 +10,9 @@ import CableIcon from "@mui/icons-material/Cable";
 
 import { Box, Button, Grid, Typography } from "@mui/material";
 
-const PythonEditor = ({
-  initialValue,
-  value,
-  setEditorState,
-  disableEditing,
-  disableRun,
-}) => {
+const PythonEditor = ({ value, disableEditing, disableRun }) => {
+  const [pythonEditorCode, setPythonEditorCode] = useState(value);
+  const initialCodeEditorValue = value;
   let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   let [codeExecuted, setCodeExecuted] = useState(stdout, stderr);
 
@@ -43,8 +39,8 @@ const PythonEditor = ({
         }}
       >
         <CodeMirrorEditor
-          value={value}
-          setEditorState={setEditorState}
+          value={pythonEditorCode}
+          setEditorState={setPythonEditorCode}
           readOnly={disableEditing}
         />
         <Box
@@ -83,12 +79,13 @@ const PythonEditor = ({
               <Button
                 startIcon={<RestartAltIcon />}
                 disabled={
-                  isLoading || (initialValue === value && !codeExecuted)
+                  isLoading ||
+                  (initialCodeEditorValue === value && !codeExecuted)
                 }
                 variant="outlined"
                 onClick={() => {
-                  console.log(initialValue);
-                  setEditorState(initialValue);
+                  console.log(initialCodeEditorValue);
+                  setPythonEditorCode(initialCodeEditorValue);
                   setCodeExecuted("");
                 }}
               >
@@ -100,7 +97,7 @@ const PythonEditor = ({
                 disabled={
                   isLoading ||
                   isRunning ||
-                  (initialValue === value && codeExecuted)
+                  (initialCodeEditorValue === value && codeExecuted)
                 }
                 variant="contained"
                 onClick={() => {

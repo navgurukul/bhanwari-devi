@@ -86,7 +86,6 @@ const RenderDoubtClass = ({ data, exercise }) => {
         {start_time && end_time && (
           <>
             <DoubtClassExerciseComponent value={value} actions={actions} />
-
             <div
               style={{
                 borderBottom: "1px solid #BDBDBD",
@@ -105,20 +104,7 @@ const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
-  console.log(data.value);
-  const [pythonEditorCode, setPythonEditorCode] = useState(
-    data.value
-      // ?.toString()
-      .replace(/<br>/g, "\n")
-      .replace(/&emsp;/g, " ")
-  );
-
-  const [initialCodeEditorValue, setinitialCodeEditorValue] = useState(
-    data.value
-      // ?.toString()
-      .replace(/<br>/g, "\n")
-      .replace(/&emsp;/g, " ")
-  );
+  console.log(data.component, data.value);
 
   if (data.component === "header") {
     return (
@@ -261,13 +247,15 @@ const RenderContent = ({ data, exercise }) => {
   }
 
   if (data.component === "code" && data.type === "python") {
+    const pythonEditorValue = data.value
+      .replace(/<br>/g, "\n")
+      .replace(/&emsp;/g, " ")
+      .trim();
     return (
       <PythonEditor
-        value={pythonEditorCode}
-        setEditorState={setPythonEditorCode}
-        initialValue={initialCodeEditorValue}
-        disableEditing={true}
-        // disableRun={true}
+        value={pythonEditorValue}
+        disableEditing={false}
+        disableRun={false}
       />
     );
   }
