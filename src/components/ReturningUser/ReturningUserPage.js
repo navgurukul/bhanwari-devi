@@ -30,7 +30,7 @@ function ReturningUserPage() {
 
   const user = useSelector(({ User }) => User);
   const [learningTracks, setLearningTracks] = useState([]);
-
+  const [pathway, setPathway] = useState([]);
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -45,10 +45,12 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
+  console.log(learningTracks, "learning");
 
   // const Pathway = learningTracks.forEach((element)=>{
   //     setPathway(element.pathway_id)
   //   })
+  // console.log(Pathway)
 
   // const userEnrolledClasses = useSelector((state) => {
   //   return state.Pathways?.upcomingEnrolledClasses?.data;
@@ -61,6 +63,7 @@ function ReturningUserPage() {
   //     return null;
   //   }
   // });
+  // console.log(pathway)
   // useEffect(() => {
   //   if (user?.data?.token && enrolledBatches?.length > 0) {
   //     dispatch(
@@ -88,8 +91,8 @@ function ReturningUserPage() {
           My Learning Tracks
         </Typography>
         <Grid container spacing={1}>
-          {learningTracks.map((item, index) => (
-            <LearningTrackCard item={item} key={index} />
+          {learningTracks.map((item) => (
+            <LearningTrackCard item={item} />
           ))}
         </Grid>
       </Container>

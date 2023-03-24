@@ -365,7 +365,6 @@ function PathwayCourse() {
         {enrolledBatches ? (
           <>
             <PathwayCards
-              id={1}
               userEnrolledClasses={userEnrolledClasses}
               data={data}
             />
@@ -418,7 +417,6 @@ function PathwayCourse() {
                           style={{ display: "flex" }}
                           mt={2}
                           variant="body2"
-                          component={"span"}
                         >
                           <img
                             src={require("./asset/ComputerScreen.svg")}
@@ -550,13 +548,7 @@ function PathwayCourse() {
           </Typography>
           <Grid container spacing={3} align="center">
             {filterPathwayCourse?.map((item, index) => (
-              <Grid
-                item
-                key={index}
-                xs={12}
-                md={3}
-                className={classes.courseCard}
-              >
+              <Grid item key={index} xs={12} md={3} className={classes.courseCard}>
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -581,7 +573,7 @@ function PathwayCourse() {
                         p: isActive ? "0px" : "0px 8px 0px 0px",
                       }}
                     >
-                      <div className={classes.courseTitleNumber}>
+                      <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
                           align={isActive ? "center" : "left"}
                           variant="body2"
@@ -701,13 +693,7 @@ function PathwayCourse() {
             <Typography variant="h6">Supplemental English Courses</Typography>
             <Grid sx={{ mt: 4 }} container spacing={3} align="center">
               {SupplementalCourse?.map((item, index) => (
-                <Grid
-                  item
-                  key={index}
-                  xs={12}
-                  md={3}
-                  className={classes.courseCard}
-                >
+                <Grid item key={index} xs={12} md={3} className={classes.courseCard}>
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

@@ -31,21 +31,33 @@ function CodeOfConduct({ setDisable }) {
         </Box>
         <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
-          <Typography variant="body1" className={classes.TextContent}>
+          <Typography
+            variant="body1"
+            className={classes.TextContent}
+            Typography
+          >
             Please keep the interactions polite. No one should convey abusive
             language and irrelevant material in speech or writing.
           </Typography>
         </Box>
         <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
-          <Typography variant="body1" className={classes.TextContent}>
+          <Typography
+            variant="body1"
+            className={classes.TextContent}
+            Typography
+          >
             We respect your and the student's privacy. Please do not share/ask
             for personal contact details.
           </Typography>
         </Box>
         <Box className={classes.displayIcon} mb={2}>
           <ArrowRightAltIcon />
-          <Typography variant="body1" className={classes.TextContent}>
+          <Typography
+            variant="body1"
+            className={classes.TextContent}
+            Typography
+          >
             Raise any concerns you witness to the Meraki team and treat all
             students fairly and equally.
           </Typography>

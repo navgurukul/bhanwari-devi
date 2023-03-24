@@ -258,8 +258,8 @@ function HorizontalLinearStepper() {
     <>
       <AppBar position="static" color="background" elevation={2}>
         <Toolbar>
-          <IconButton onClick={handleClickOpen}>
-            <CloseIcon />
+          <IconButton>
+            <CloseIcon onClick={handleClickOpen} />
           </IconButton>
           <Dialog
             open={open}
@@ -322,18 +322,17 @@ function HorizontalLinearStepper() {
         </div>
         <React.Fragment>
           <>
-            {/* {steps.map((step, index) => {
+            {steps.map((step, index) => {
               if (activeStep === index) {
                 return (
-                  <Box key={index}>
-                    <Box sx={{ mt: 2, mb: 1 }}>
+                  <Box>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
                       {step.component}
-                    </Box>
+                    </Typography>
                   </Box>
                 );
               }
-            })} */}
-            <Confirmation setDisable={setDisable} />
+            })}
           </>
           <Container maxWidth="sm">
             <Box
