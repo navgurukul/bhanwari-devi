@@ -254,8 +254,8 @@ const RenderContent = ({ data, exercise }) => {
     return (
       <PythonEditor
         value={pythonEditorValue}
-        disableEditing={false}
-        disableRun={false}
+        // disableEditing={false}
+        // disableRun={false}
       />
     );
   }
