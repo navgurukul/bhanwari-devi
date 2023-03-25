@@ -456,19 +456,18 @@ function Profile() {
                 </Dialog>
               ) : msg ? (
                 <Typography>Please wait...</Typography>
-              ) : (
-                <Typography
-                  variant="h6"
-                  sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
-                >
-                  {userData.name}
-                  {isActive && !isEditing && (
-                    <Button onClick={handleClickOpen}>
-                      <EditIcon />
-                    </Button>
-                  )}
-                </Typography>
-              )}
+              ) : null}
+              <Typography
+                variant="h6"
+                sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
+              >
+                {userData.name}
+                {isActive && !isEditing && (
+                  <Button onClick={handleClickOpen}>
+                    <EditIcon />
+                  </Button>
+                )}
+              </Typography>
               <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
