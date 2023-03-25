@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import "codemirror/lib/codemirror.css";
 
@@ -11,13 +11,16 @@ import "codemirror/mode/python/python";
 import { Controlled as ControlledEditorComponent } from "react-codemirror2";
 
 const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
-  const handleEditorChange = (editor, data, value) => {
+  const handleEditorChange = (value) => {
     setEditorState(value);
   };
 
   return (
     <div className="editor-container">
       <ControlledEditorComponent
+        onFocus={(editor) => {
+          editor.setSize("", "");
+        }}
         onBeforeChange={handleEditorChange}
         value={value}
         className="code-mirror-wrapper"
