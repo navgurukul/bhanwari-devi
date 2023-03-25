@@ -11,7 +11,7 @@ import "codemirror/mode/python/python";
 import { Controlled as ControlledEditorComponent } from "react-codemirror2";
 
 const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
-  const handleEditorChange = (value) => {
+  const handleEditorChange = (editor, data, value) => {
     setEditorState(value);
   };
 
