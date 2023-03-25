@@ -19,7 +19,7 @@ const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
     <div className="editor-container">
       <ControlledEditorComponent
         onFocus={(editor) => {
-          editor.setSize("", "");
+          editor.setSize(null, null);
         }}
         onBeforeChange={handleEditorChange}
         value={value}
