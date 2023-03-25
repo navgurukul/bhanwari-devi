@@ -169,6 +169,7 @@ function PathwayCourse() {
 
   const handleModal = () => {
     setLoader(true);
+
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
@@ -179,8 +180,10 @@ function PathwayCourse() {
     })
       .then((response) => {
         setLoader(false);
-        setOpenModal((prev) => !prev);
         setCertificate(response?.data?.url);
+        if (response) {
+          setOpenModal((prev) => !prev);
+        }
       })
       .catch((err) => {});
   };
