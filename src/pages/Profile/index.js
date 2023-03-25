@@ -456,19 +456,18 @@ function Profile() {
                 </Dialog>
               ) : msg ? (
                 <Typography>Please wait...</Typography>
-              ) : (
-                <Typography
-                  variant="h6"
-                  sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
-                >
-                  {userData.name}
-                  {isActive && !isEditing && (
-                    <Button onClick={handleClickOpen}>
-                      <EditIcon />
-                    </Button>
-                  )}
-                </Typography>
-              )}
+              ) : null}
+              <Typography
+                variant="h6"
+                sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
+              >
+                {userData.name}
+                {isActive && !isEditing && (
+                  <Button onClick={handleClickOpen}>
+                    <EditIcon />
+                  </Button>
+                )}
+              </Typography>
               <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
@@ -494,6 +493,7 @@ function Profile() {
                 variant="outlined"
                 sx={{
                   alignItems: isActive ? "center" : "left",
+                  marginBottom: "16px",
                 }}
                 aalign={isActive ? "center" : undefined}
               >
@@ -501,7 +501,7 @@ function Profile() {
                 Edit Profile
               </Button>
 
-              <LastLoginTime />
+              {/* <LastLoginTime /> */}
             </div>
           </Grid>
           <Grid item md={6}>

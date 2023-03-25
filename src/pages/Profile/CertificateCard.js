@@ -16,10 +16,12 @@ import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import { PATHS } from "../../constant";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { interpolatePath, PATHS, versionCode } from "../../constant";
 import { Link } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import { format } from "../../common/date";
 function saveFile(url) {
   // Get file name from url.
   var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
@@ -45,9 +47,18 @@ function CertificateCard(props) {
   const [completedPortion, setCompletedPortion] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
+  const [courseTime, setCourseTime] = useState();
+  console.log(courseTime);
   const [loader, setLoader] = useState(false);
   const pathwayId = item.id;
 
+  const date = new Date(courseTime);
+  const options = { day: "numeric", month: "short", year: "2-digit" };
+  const formattedDate = date.toLocaleDateString("en-US", options);
+
+  useEffect(() => {
+    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  }, [dispatch, pathwayId]);
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -83,9 +94,27 @@ function CertificateCard(props) {
         },
       }).then((response) => {
         setCompletedPortion(response.data.total_completed_portion);
+        setCourseTime(response.data.complete_at);
       });
     }
   }, [pathwayId]);
+
+  useEffect(() => {
+    if (completedPortion == 100) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/complete`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+        data: {
+          pathwayId: pathwayId,
+        },
+      });
+    }
+  });
 
   const handleModal = () => {
     setLoader(true);
@@ -108,7 +137,7 @@ function CertificateCard(props) {
   const downloadCert = () => {
     saveFile(certificate);
   };
-  const completedAll = completedPortion.total >= 100;
+  const completedAll = completedPortion == 100;
 
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
@@ -167,7 +196,7 @@ function CertificateCard(props) {
                     color="primary"
                     sx={{ marginTop: "3px", marginRight: "8px" }}
                   />
-                  <Typography variant="body1">25 Dec 2022</Typography>
+                  <Typography variant="body1">{formattedDate}</Typography>
                 </Grid>
               </Grid>
 
