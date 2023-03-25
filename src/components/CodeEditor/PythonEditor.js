@@ -10,9 +10,15 @@ import CableIcon from "@mui/icons-material/Cable";
 
 import { Box, Button, Grid, Typography } from "@mui/material";
 
-const PythonEditor = ({ value, disableEditing, disableRun }) => {
-  const [pythonEditorCode, setPythonEditorCode] = useState(value);
-  const initialCodeEditorValue = value;
+const PythonEditor = ({
+  initialCodeEditorValue,
+  disableEditing,
+  disableRun,
+}) => {
+  const [pythonEditorCode, setPythonEditorCode] = useState(
+    initialCodeEditorValue
+  );
+  const [codeRan, setCodeRan] = useState();
   let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   let [codeExecuted, setCodeExecuted] = useState(stdout, stderr);
 
@@ -80,7 +86,7 @@ const PythonEditor = ({ value, disableEditing, disableRun }) => {
                 startIcon={<RestartAltIcon />}
                 disabled={
                   isLoading ||
-                  (initialCodeEditorValue === value && !codeExecuted)
+                  (initialCodeEditorValue === pythonEditorCode && !codeExecuted)
                 }
                 variant="outlined"
                 onClick={() => {
@@ -97,11 +103,12 @@ const PythonEditor = ({ value, disableEditing, disableRun }) => {
                 disabled={
                   isLoading ||
                   isRunning ||
-                  (initialCodeEditorValue === value && codeExecuted)
+                  (codeRan === pythonEditorCode && codeExecuted)
                 }
                 variant="contained"
                 onClick={() => {
-                  runPython(value);
+                  setCodeRan(pythonEditorCode);
+                  runPython(pythonEditorCode);
                 }}
               >
                 Run

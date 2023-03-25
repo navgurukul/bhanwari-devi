@@ -104,8 +104,6 @@ const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
-  console.log(data.component, data.value);
-
   if (data.component === "header") {
     return (
       <Box className={classes.heading}>
@@ -247,15 +245,15 @@ const RenderContent = ({ data, exercise }) => {
   }
 
   if (data.component === "code" && data.type === "python") {
-    const pythonEditorValue = data.value
+    const pythonCode = data.value
       .replace(/<br>/g, "\n")
       .replace(/&emsp;/g, " ")
       .trim();
     return (
       <PythonEditor
-        value={pythonEditorValue}
-        // disableEditing={false}
-        // disableRun={false}
+        initialCodeEditorValue={pythonCode}
+        disableEditing={false}
+        disableRun={false}
       />
     );
   }
