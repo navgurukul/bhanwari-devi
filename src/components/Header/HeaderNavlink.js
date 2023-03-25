@@ -3,7 +3,7 @@ import useStyles from "./styles";
 
 import { Typography, MenuItem } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 function HeaderNavLink({ to, text, toggleDrawer, externalLink }) {
   const classes = useStyles();
 
@@ -43,7 +43,9 @@ function HeaderNavLink({ to, text, toggleDrawer, externalLink }) {
           }}
         >
           {text}
-          {externalLink && <OpenInNewIcon style={{ color: 'Black', paddingLeft: '9px' }} />}
+          {externalLink && (
+            <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
+          )}
         </Typography>
       </NavLink>
     </MenuItem>

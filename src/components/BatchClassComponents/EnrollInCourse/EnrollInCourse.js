@@ -26,8 +26,7 @@ const CourseEnroll = (props) => {
     };
   });
   const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
-  useEffect(() => {
-  }, [selectedBatchToEnroll]);
+  useEffect(() => {}, [selectedBatchToEnroll]);
   const [open, setOpen] = useState(false);
   const close = () => {
     setOpen(false);
