@@ -15,11 +15,11 @@ const PythonEditor = ({
   disableEditing,
   disableRun,
 }) => {
+  let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   const [pythonEditorCode, setPythonEditorCode] = useState(
     initialCodeEditorValue
   );
   const [codeRan, setCodeRan] = useState();
-  let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   let [codeExecuted, setCodeExecuted] = useState(stdout, stderr);
 
   useEffect(() => {
@@ -97,7 +97,6 @@ const PythonEditor = ({
               >
                 Reset
               </Button>
-
               <Button
                 endIcon={<ArrowRightIcon />}
                 disabled={
