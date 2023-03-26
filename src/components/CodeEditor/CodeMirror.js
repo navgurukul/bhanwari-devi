@@ -29,7 +29,7 @@ const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
           lint: true,
           mode: "python",
           lineNumbers: true,
-          indentUnit: 4,
+          indentUnit: INDENT,
           matchBrackets: true,
           singleCursorHeightPerLine: false,
           readOnly: disableEditing,
