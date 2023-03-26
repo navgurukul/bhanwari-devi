@@ -90,7 +90,6 @@ const PythonEditor = ({
                 }
                 variant="outlined"
                 onClick={() => {
-                  console.log(initialCodeEditorValue);
                   setPythonEditorCode(initialCodeEditorValue);
                   setCodeExecuted("");
                 }}
