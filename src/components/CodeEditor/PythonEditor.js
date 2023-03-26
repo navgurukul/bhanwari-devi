@@ -4,18 +4,20 @@ import { usePython } from "./react-py";
 
 import CodeMirrorEditor from "./CodeMirror";
 
+import { Box, Button, Grid, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CableIcon from "@mui/icons-material/Cable";
-
-import { Box, Button, Grid, Typography } from "@mui/material";
 
 const PythonEditor = ({
   initialCodeEditorValue,
   disableEditing,
   disableRun,
 }) => {
-  let { runPython, stdout, stderr, isLoading, isRunning } = usePython();
+  const theme = useTheme();
+
+  const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   const [pythonEditorCode, setPythonEditorCode] = useState(
     initialCodeEditorValue
   );
@@ -39,7 +41,7 @@ const PythonEditor = ({
       <Box
         sx={{
           p: "2px",
-          border: "1px solid #6D6D6D",
+          border: `1px solid ${theme.palette.text.secondary}`,
           borderRadius: "8px",
           mb: 1.5,
         }}
@@ -51,7 +53,10 @@ const PythonEditor = ({
         />
         <Box
           className="middle-border"
-          sx={{ margin: "0 -2px", borderTop: "1px solid #6D6D6D" }}
+          sx={{
+            margin: "0 -2px",
+            borderTop: `1px solid ${theme.palette.text.secondary}`,
+          }}
         />
 
         {disableRun ? (
@@ -67,7 +72,7 @@ const PythonEditor = ({
                   p: 1,
                   color: "#6D6D6D",
                   margin: "0 -2px",
-                  borderBottom: "1px solid #6D6D6D",
+                  borderBottom: `1px solid ${theme.palette.text.secondary}`,
                 }}
               >
                 Code not editable? It's because we want you to understand the
@@ -120,7 +125,7 @@ const PythonEditor = ({
         <Box
           className="Output"
           sx={{
-            border: "1px solid #6D6D6D",
+            border: `1px solid ${theme.palette.text.secondary}`,
             borderRadius: "8px",
             padding: 2,
           }}
