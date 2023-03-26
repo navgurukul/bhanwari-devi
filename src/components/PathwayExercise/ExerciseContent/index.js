@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
-import { versionCode } from "../../../constant";
+import { INDENT, versionCode } from "../../../constant";
 
 import useStyles from "../styles";
 import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
@@ -247,8 +247,8 @@ const RenderContent = ({ data, exercise }) => {
   if (data.component === "code" && data.type === "python") {
     const pythonCode = data.value
       .replace(/<br>/g, "\n")
-      .replace(/&emsp;/g, " ")
-      .trim();
+      .replace(/&emsp;/g, " ".repeat(INDENT));
+    console.log(pythonCode);
     return (
       <PythonEditor
         initialCodeEditorValue={pythonCode}

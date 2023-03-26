@@ -1,5 +1,7 @@
 import React from "react";
 
+import { INDENT } from "../../constant";
+
 import "codemirror/lib/codemirror.css";
 
 // Themes
@@ -29,7 +31,7 @@ const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
           lint: true,
           mode: "python",
           lineNumbers: true,
-          indentUnit: 4,
+          indentUnit: INDENT,
           matchBrackets: true,
           singleCursorHeightPerLine: false,
           readOnly: disableEditing,
