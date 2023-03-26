@@ -22,9 +22,6 @@ const PythonEditor = ({
     initialCodeEditorValue
   );
 
-  useEffect(() => {
-    console.log(stdout, stderr);
-  }, [stdout, stderr]);
   return (
     <Box
       className="PythonCodeEditor"
