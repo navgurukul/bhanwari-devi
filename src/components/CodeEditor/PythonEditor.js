@@ -98,11 +98,7 @@ const PythonEditor = ({
               </Button>
               <Button
                 endIcon={<ArrowRightIcon />}
-                disabled={
-                  isLoading ||
-                  isRunning ||
-                  (codeRan === pythonEditorCode && codeExecuted)
-                }
+                disabled={isLoading || isRunning}
                 variant="contained"
                 onClick={() => {
                   setCodeRan(pythonEditorCode);
