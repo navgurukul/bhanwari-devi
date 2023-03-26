@@ -21,15 +21,9 @@ const PythonEditor = ({
   const [pythonEditorCode, setPythonEditorCode] = useState(
     initialCodeEditorValue
   );
-  const [codeRan, setCodeRan] = useState();
-  let [codeExecuted, setCodeExecuted] = useState(stdout, stderr);
 
   useEffect(() => {
-    if (stdout) {
-      setCodeExecuted(stdout);
-    } else {
-      setCodeExecuted(stderr);
-    }
+    console.log(stdout, stderr);
   }, [stdout, stderr]);
   return (
     <Box
@@ -60,7 +54,7 @@ const PythonEditor = ({
         />
 
         {disableRun ? (
-          <Typography sx={{ p: 1, color: "#6D6D6D" }}>
+          <Typography sx={{ p: 1, color: `${theme.palette.text.secondary}` }}>
             Code not runnable? It's because this code does not have output
             statements and is meant for understanding the code snippet
           </Typography>
@@ -70,7 +64,7 @@ const PythonEditor = ({
               <Typography
                 sx={{
                   p: 1,
-                  color: "#6D6D6D",
+                  color: `${theme.palette.text.secondary}`,
                   margin: "0 -2px",
                   borderBottom: `1px solid ${theme.palette.text.secondary}`,
                 }}
@@ -89,24 +83,20 @@ const PythonEditor = ({
             >
               <Button
                 startIcon={<RestartAltIcon />}
-                disabled={
-                  isLoading ||
-                  (initialCodeEditorValue === pythonEditorCode && !codeExecuted)
-                }
+                disabled={isLoading || isRunning}
                 variant="outlined"
                 onClick={() => {
                   setPythonEditorCode(initialCodeEditorValue);
-                  setCodeExecuted("");
+                  stderr = "";
                 }}
               >
-                Reset
+                Reset Editor
               </Button>
               <Button
                 endIcon={<ArrowRightIcon />}
                 disabled={isLoading || isRunning}
                 variant="contained"
                 onClick={() => {
-                  setCodeRan(pythonEditorCode);
                   runPython(pythonEditorCode);
                 }}
               >
@@ -116,37 +106,36 @@ const PythonEditor = ({
           </Box>
         )}
       </Box>
-      {codeExecuted && (
+      <Box
+        className="Output"
+        sx={{
+          border: `1px solid ${theme.palette.text.secondary}`,
+          borderRadius: "8px",
+          padding: 2,
+        }}
+      >
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <CableIcon />
+          </Grid>
+          <Grid item>
+            <Typography variant="subtitle1" sx={{ fontWeight: "600" }}>
+              Output
+            </Typography>
+          </Grid>
+        </Grid>
         <Box
-          className="Output"
           sx={{
-            border: `1px solid ${theme.palette.text.secondary}`,
-            borderRadius: "8px",
-            padding: 2,
+            wordWrap: "break-word",
+            whiteSpace: "pre-wrap",
+            wordBreak: "normal",
+            p: 1,
           }}
         >
-          <Grid container direction="row" alignItems="center">
-            <Grid item>
-              <CableIcon />
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle1" sx={{ fontWeight: "600" }}>
-                Output
-              </Typography>
-            </Grid>
-          </Grid>
-          <Box
-            sx={{
-              wordWrap: "break-word",
-              whiteSpace: "pre-wrap",
-              wordBreak: "normal",
-              p: 1,
-            }}
-          >
-            <Typography>{codeExecuted}</Typography>
-          </Box>
+          <Typography>{stderr}</Typography>
+          <Typography>{stdout}</Typography>
         </Box>
-      )}
+      </Box>
     </Box>
   );
 };

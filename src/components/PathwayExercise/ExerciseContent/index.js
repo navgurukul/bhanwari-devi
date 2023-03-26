@@ -248,7 +248,6 @@ const RenderContent = ({ data, exercise }) => {
     const pythonCode = data.value
       .replace(/<br>/g, "\n")
       .replace(/&emsp;/g, " ".repeat(INDENT));
-    console.log(pythonCode);
     return (
       <PythonEditor
         initialCodeEditorValue={pythonCode}
