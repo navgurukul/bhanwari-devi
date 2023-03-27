@@ -10,13 +10,21 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CableIcon from "@mui/icons-material/Cable";
 
+/**
+ * <Component to render a Python code editor>
+ * @component
+ * @param   {<String>} initialCodeEditorValue Initial Python Code Editor value
+ * @param   {<boolean>} disableEditing Disable the user's ability to edit the Python Code Editor
+ * @param   {<boolean>} disableRun Disable the user's ability to run the Python Code Editor; Editing is also disabled when true.
+ * @return  (PythonEditor)
+ */
+
 const PythonEditor = ({
   initialCodeEditorValue,
   disableEditing,
   disableRun,
 }) => {
   const theme = useTheme();
-
   const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   const [pythonEditorCode, setPythonEditorCode] = useState(
     initialCodeEditorValue
