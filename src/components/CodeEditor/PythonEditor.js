@@ -92,7 +92,6 @@ const PythonEditor = ({
                 variant="outlined"
                 onClick={() => {
                   setPythonEditorCode(initialCodeEditorValue);
-                  stderr = "";
                 }}
               >
                 Reset Editor
