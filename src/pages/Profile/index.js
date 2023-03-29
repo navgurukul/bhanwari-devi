@@ -175,11 +175,16 @@ function Profile() {
   };
   // OTP AUTH FUNCTION
   useEffect(() => {
-    dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+    setUserData(user?.data?.user);
+  });
 
-    setEditName(user.data.user.name);
-    setUserData(user.data.user);
+  useEffect(() => {
+    dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
   }, []);
+
+  useEffect(() => {
+    setEditName(userData?.name);
+  }, [setEditName, userData]);
 
   useEffect(() => {
     if (editName == "") {
@@ -259,7 +264,7 @@ function Profile() {
                   New_Profile.length ? New_Profile : userData.profile_picture
                 }
               />
-              {isEditing ? (
+              {isEditing && (
                 <Dialog open={open} onClose={handleClose}>
                   <Box sx={{ p: isActive ? "8px" : "32px" }}>
                     <Typography variant="h6" pl={1} pb={4}>
@@ -470,20 +475,24 @@ function Profile() {
                     </Box>
                   </Box>
                 </Dialog>
-              ) : msg ? (
+              )}
+
+              {msg ? (
                 <Typography>Please wait...</Typography>
-              ) : null}
-              <Typography
-                variant="h6"
-                sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
-              >
-                {userData.name}
-                {isActive && !isEditing && (
-                  <Button onClick={handleClickOpen}>
-                    <EditIcon />
-                  </Button>
-                )}
-              </Typography>
+              ) : (
+                <Typography
+                  variant="h6"
+                  sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
+                >
+                  {userData.name}
+                  {isActive && !isEditing && (
+                    <Button onClick={handleClickOpen}>
+                      <EditIcon />
+                    </Button>
+                  )}
+                </Typography>
+              )}
+
               <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
