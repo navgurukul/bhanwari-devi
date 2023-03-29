@@ -169,6 +169,7 @@ function PathwayCourse() {
 
   const handleModal = () => {
     setLoader(true);
+
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
@@ -179,8 +180,10 @@ function PathwayCourse() {
     })
       .then((response) => {
         setLoader(false);
-        setOpenModal((prev) => !prev);
         setCertificate(response?.data?.url);
+        if (response) {
+          setOpenModal((prev) => !prev);
+        }
       })
       .catch((err) => {});
   };
@@ -548,7 +551,13 @@ function PathwayCourse() {
           </Typography>
           <Grid container spacing={3} align="center">
             {filterPathwayCourse?.map((item, index) => (
-              <Grid item key={index} xs={12} md={3} className={classes.courseCard}>
+              <Grid
+                item
+                key={index}
+                xs={12}
+                md={3}
+                className={classes.courseCard}
+              >
                 <Link
                   className={classes.pathwayLink}
                   to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -693,7 +702,13 @@ function PathwayCourse() {
             <Typography variant="h6">Supplemental English Courses</Typography>
             <Grid sx={{ mt: 4 }} container spacing={3} align="center">
               {SupplementalCourse?.map((item, index) => (
-                <Grid item key={index} xs={12} md={3} className={classes.courseCard}>
+                <Grid
+                  item
+                  key={index}
+                  xs={12}
+                  md={3}
+                  className={classes.courseCard}
+                >
                   <Link
                     className={classes.pathwayLink}
                     to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {

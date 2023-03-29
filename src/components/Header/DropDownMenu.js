@@ -65,8 +65,6 @@ export default function DropDownMenu({
     */
   };
 
-
-
   const handleCloseMenu = () => {
     typeof onCloseMenu === "function" && onCloseMenu();
     setAnchorEl(null);

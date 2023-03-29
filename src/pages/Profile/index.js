@@ -176,10 +176,15 @@ function Profile() {
   // OTP AUTH FUNCTION
   useEffect(() => {
     dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
-
-    setEditName(user.data.user.name);
-    setUserData(user.data.user);
   }, []);
+
+  useEffect(() => {
+    setUserData(user?.data?.user);
+  });
+
+  useEffect(() => {
+    setEditName(userData?.name);
+  }, [setEditName, userData]);
 
   useEffect(() => {
     if (editName == "") {
@@ -259,7 +264,7 @@ function Profile() {
                   New_Profile.length ? New_Profile : userData.profile_picture
                 }
               />
-              {isEditing ? (
+              {isEditing && (
                 <Dialog open={open} onClose={handleClose}>
                   <Box sx={{ p: isActive ? "8px" : "32px" }}>
                     <Typography variant="h6" pl={1} pb={4}>
@@ -470,7 +475,9 @@ function Profile() {
                     </Box>
                   </Box>
                 </Dialog>
-              ) : msg ? (
+              )}
+
+              {msg ? (
                 <Typography>Please wait...</Typography>
               ) : (
                 <Typography
@@ -485,6 +492,7 @@ function Profile() {
                   )}
                 </Typography>
               )}
+
               <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
@@ -510,6 +518,7 @@ function Profile() {
                 variant="outlined"
                 sx={{
                   alignItems: isActive ? "center" : "left",
+                  marginBottom: "16px",
                 }}
                 align={isActive && "center"}
               >
@@ -517,7 +526,7 @@ function Profile() {
                 Edit Profile
               </Button>
 
-              <LastLoginTime />
+              {/* <LastLoginTime /> */}
             </div>
           </Grid>
           <Grid item md={6}>
