@@ -65,7 +65,7 @@ function AFEpage() {
         </Grid>
         <Grid className={classes.Hadings}>
           <Typography
-            gutterbottom="true"
+            gutterbottom
             variant="h5"
             display={{ xs: !isActive && "none" }}
             textAlign={{ xs: "center", sm: "left" }}
@@ -81,7 +81,7 @@ function AFEpage() {
           <Grid item xs={12} sm={6} order={{ xs: 2, sm: 1 }}>
             <Grid className={classes.Hadings}>
               <Typography
-                gutterbottom="true"
+                gutterbottom
                 variant="h5"
                 display={{ xs: isActive && "none" }}
                 textAlign={{ xs: "center", sm: "left" }}
@@ -114,7 +114,7 @@ function AFEpage() {
         </Grid>
         <Grid className={classes.Hadings}>
           <Typography
-            gutterbottom="true"
+            gutterbottom
             variant="h5"
             display={{ xs: !isActive && "none" }}
             textAlign={{ xs: "center", sm: "left" }}
@@ -138,7 +138,7 @@ function AFEpage() {
           <Grid item xs={12} sm={6}>
             <Grid className={classes.Hadings}>
               <Typography
-                gutterbottom="true"
+                gutterbottom
                 variant="h5"
                 display={{ xs: isActive && "none" }}
                 textAlign={{ xs: "center", sm: "left" }}
@@ -146,22 +146,10 @@ function AFEpage() {
                 Our Approach
               </Typography>
             </Grid>
-            <Typography
-              component={"span"}
-              variant="body1"
-              paragraph
-              align="left"
-            >
+            <Typography variant="body1" paragraph align="left">
               NavGurukul is working with a two-step approach to make our
               students CS-ready and placed in tech jobs.
-            </Typography>
-            <List>
-              <Typography
-                component={"span"}
-                variant="body1"
-                paragraph
-                align="left"
-              >
+              <List>
                 <ListItem>
                   <Grid className={classes.AFE_approaches}>
                     <CircleIcon
@@ -186,14 +174,16 @@ function AFEpage() {
                     </ListItemText>
                   </Grid>
                 </ListItem>
-              </Typography>
-            </List>
+              </List>
+            </Typography>
           </Grid>
         </Grid>
 
-        <Typography gutterbottom="true" align="center" variant="h5">
-          NavGurukul 🤝 AFE
-        </Typography>
+        <Grid spacing={8} align="center" className={classes.Ng_AFE}>
+          <Typography gutterbottom variant="h5">
+            NavGurukul 🤝 AFE
+          </Typography>
+        </Grid>
         <Container maxWidth="md">
           <Grid
             container
@@ -201,7 +191,7 @@ function AFEpage() {
             justifyContent="center"
             className={classes.Grid_Space}
           >
-            <Grid item mb={1}>
+            <Grid item xs={{ xs: 11, sm: 8 }} mb={1}>
               <Typography variant="body1" paragraph>
                 Amazon Future Engineer (AFE) is a comprehensive
                 childhood-to-career program to increase access to computer

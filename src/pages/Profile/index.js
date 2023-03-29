@@ -7,7 +7,11 @@ import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { format } from "../../common/date";
 import Avatar from "react-avatar-edit";
 
 import {
@@ -17,10 +21,13 @@ import {
   Button,
   Container,
   Box,
+  FormControl,
+  FormHelperText,
   Snackbar,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
 import useStyles from "./styles";
+import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 import {
   getAuth,
   RecaptchaVerifier,
@@ -28,6 +35,7 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import CertificateCard from "./CertificateCard";
+import { useParams, useHistory } from "react-router-dom";
 
 import UnlockOpportunities from "./UnlockOpportunities";
 import LastLoginTime from "./LastLoginTime/LastLoginTime";
@@ -42,12 +50,20 @@ const firebaseConfig = {
 };
 
 function Profile() {
+  // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
+  const params = useParams();
+  const pathwayId = params.pathwayId;
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
+  const date = user.data.user.last_login_at;
+
+  // console.log(timeData,timehourData,min,loginMin,hour,loginHour)
+
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(null);
   const [msg, setMsg] = useState();
+  const [LoadBatches, setLoadBatches] = useState(false);
   const dispatch = useDispatch();
   const [helperText, setHelperText] = useState();
   const [showError, setShowError] = useState(true);
@@ -103,7 +119,7 @@ function Profile() {
     setOpen(false);
   };
   // OTP AUTH FUNCTION
-  // const app = initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
   const onSignInSubmit = (event) => {
     event.preventDefault();
     if (!confirmationResult) {
@@ -160,13 +176,18 @@ function Profile() {
   // OTP AUTH FUNCTION
   useEffect(() => {
     dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
-
-    setEditName(user.data.user.name);
-    setUserData(user.data.user);
   }, []);
 
   useEffect(() => {
-    if (editName === "") {
+    setUserData(user?.data?.user);
+  });
+
+  useEffect(() => {
+    setEditName(userData?.name);
+  }, [setEditName, userData]);
+
+  useEffect(() => {
+    if (editName == "") {
       setHelperText("Please enter your name");
       setShowError(true);
     } else if (
@@ -211,6 +232,7 @@ function Profile() {
       window.location.reload();
     });
   };
+  // console.log(user)
 
   return (
     <>
@@ -225,10 +247,11 @@ function Profile() {
         <Grid container>
           <Grid item md={4} xs={12}>
             <div
+              item
               xs={12}
               md={6}
               className={classes.profileBox}
-              align={isActive ? "center" : undefined}
+              align={isActive && "center"}
             >
               <img
                 alt={userData.name}
@@ -241,7 +264,7 @@ function Profile() {
                   New_Profile.length ? New_Profile : userData.profile_picture
                 }
               />
-              {isEditing ? (
+              {isEditing && (
                 <Dialog open={open} onClose={handleClose}>
                   <Box sx={{ p: isActive ? "8px" : "32px" }}>
                     <Typography variant="h6" pl={1} pb={4}>
@@ -325,7 +348,7 @@ function Profile() {
                       <Box>
                         <TextField
                           error={
-                            editName?.length === 0 || helperText?.length > 0
+                            editName?.length == 0 || helperText?.length > 0
                           }
                           // id="standard-basic"
                           label="Name"
@@ -335,7 +358,7 @@ function Profile() {
                           helperText={helperText}
                           onChange={(e) => {
                             setEditName(e.target.value);
-                            if (e.target.value !== userData.name) {
+                            if (e.target.value != userData.name) {
                               setShowError(false);
                             }
                           }}
@@ -380,9 +403,7 @@ function Profile() {
                             helperText="Enter Phone Number"
                             fullWidth
                             maxLength={10}
-                            error={
-                              contact?.length !== 10 && contact?.length > 0
-                            }
+                            error={contact?.length != 10 && contact?.length > 0}
                           />
                         </Grid>
                         <Grid item xs={8}>
@@ -392,7 +413,7 @@ function Profile() {
                               onSignInSubmit(event);
                               setShowError(true);
                             }}
-                            disabled={contact?.length !== 10}
+                            disabled={contact?.length != 10}
                           >
                             Get OTP
                           </Button>{" "}
@@ -412,7 +433,7 @@ function Profile() {
                                 helperText="Enter OTP"
                                 fullWidth
                                 maxLength={6}
-                                error={otp.length !== 6 && otp.length > 0}
+                                error={otp.length != 6 && otp.length > 0}
                               />
                             </Grid>
                             <Grid item xs={8}>
@@ -421,7 +442,7 @@ function Profile() {
                                 onClick={(e) => {
                                   OtpEnter(e);
                                 }}
-                                disabled={otp.length !== 6}
+                                disabled={otp.length != 6}
                               >
                                 Verify OTP
                               </Button>{" "}
@@ -454,20 +475,24 @@ function Profile() {
                     </Box>
                   </Box>
                 </Dialog>
-              ) : msg ? (
+              )}
+
+              {msg ? (
                 <Typography>Please wait...</Typography>
-              ) : null}
-              <Typography
-                variant="h6"
-                sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
-              >
-                {userData.name}
-                {isActive && !isEditing && (
-                  <Button onClick={handleClickOpen}>
-                    <EditIcon />
-                  </Button>
-                )}
-              </Typography>
+              ) : (
+                <Typography
+                  variant="h6"
+                  sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
+                >
+                  {userData.name}
+                  {isActive && !isEditing && (
+                    <Button onClick={handleClickOpen}>
+                      <EditIcon />
+                    </Button>
+                  )}
+                </Typography>
+              )}
+
               <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
@@ -495,7 +520,7 @@ function Profile() {
                   alignItems: isActive ? "center" : "left",
                   marginBottom: "16px",
                 }}
-                aalign={isActive ? "center" : undefined}
+                align={isActive && "center"}
               >
                 {/* {!isActive && "Edit Profile"} */}
                 Edit Profile
@@ -510,18 +535,14 @@ function Profile() {
             </Typography>
             {data.Pathways.data &&
               data.Pathways.data.pathways?.map(
-                (item, index) =>
-                  item.code === "PRGPYT" && (
-                    <CertificateCard item={item} key={index} />
-                  )
+                (item) =>
+                  item.code === "PRGPYT" && <CertificateCard item={item} />
               )}
 
             {data.Pathways.data &&
               data.Pathways.data.pathways?.map(
-                (item, index) =>
-                  item.code === "PRGPYT" && (
-                    <UnlockOpportunities item={item} key={index} />
-                  )
+                (item) =>
+                  item.code === "PRGPYT" && <UnlockOpportunities item={item} />
               )}
           </Grid>
         </Grid>

@@ -63,7 +63,7 @@ function Opportunities() {
               <Typography variant="h6">Admission Opportunities</Typography>
             </Grid>
             <Grid container>
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid xs={12} sm={6} md={4}>
                 <Card
                   elevation={2}
                   className={isActive ? classes.mobileCards : classes.cards}
@@ -104,6 +104,14 @@ function Opportunities() {
                     <Grid className={classes.card_button}>
                       <ExternalLink
                         href="https://admissions.navgurukul.org/"
+                        Curated
+                        list
+                        of
+                        opportunities
+                        to
+                        skyrocket
+                        your
+                        career
                         style={{ textDecoration: "none" }}
                       >
                         <Button endIcon={<ArrowForwardIosIcon />} mr={1}>
@@ -156,15 +164,13 @@ function Opportunities() {
             <Grid>
               <Typography variant="body1" color="text.primary">
                 By learning with Meraki, you can avail benefits such as:
+                <ul style={{ margin: "0px" }}>
+                  <li> Grants such as free keyboards for typing practice</li>
+                  <li> Coursera Membership</li>
+                  <li> Advanced english courses</li>
+                  <li> 1:1 Mentorship sessions</li>
+                </ul>
               </Typography>
-              <ul style={{ margin: "0px" }}>
-                <Typography>
-                  <li>Grants such as free keyboards for typing practice</li>
-                  <li>Coursera Membership</li>
-                  <li>Advanced english courses</li>
-                  <li>1:1 Mentorship sessions</li>
-                </Typography>
-              </ul>
               <Grid mt={2}>
                 <ExternalLink
                   href="https://docs.google.com/forms/d/e/1FAIpQLSd7XgipoTYVME5xovEffKOLr0vzjDIfbnJ-fDK5KpIjZSqZgA/viewform"

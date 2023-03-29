@@ -65,13 +65,11 @@ const pathwayData = [
   },
   {
     title: "Residential Programmes",
-    path: PATHS.RESIDENTIAL_COURSE,
     image: "residential",
     description: "Interview preparation  to get you job ready",
   },
   {
     title: "Miscellaneous Courses",
-    path: PATHS.MISCELLANEOUS_COURSE,
     image: "misce",
     description: "Courses on Android, Game dev projects and more",
   },
@@ -206,9 +204,6 @@ function Home() {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const history = useHistory();
-  const partnerGroupId = user?.data?.user?.partner_group_id;
-  const partnerId = user?.data?.user?.partner_id;
-  const role = user?.data?.user?.rolesList;
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -223,8 +218,9 @@ function Home() {
         }
       });
     });
-
-  const subPathway = pathwayData.filter((x) => x.id || x.path);
+  const partnerGroupId = user?.data?.user?.partner_group_id;
+  const partnerId = user?.data?.user?.partner_id;
+  const role = user?.data?.user?.rolesList;
 
   const rolesLandingPages = {
     [STUDENT]: PATHS.NEW_USER_DASHBOARD,
@@ -256,7 +252,7 @@ function Home() {
         <div className={isActive ? classes.mobileContainer : classes.container}>
           <Container maxWidth="lg">
             <Grid container>
-              <Grid item md={6} sm={12}>
+              <Grid md={6} sm={12}>
                 <Typography variant="h4">
                   India’s Premier Learning Platform for Underserved Communities
                 </Typography>
@@ -278,7 +274,7 @@ function Home() {
                   </Button>
                 </Link>
               </Grid>
-              <Grid item sm={12} md={6} mt={isActive ? "16px" : "0px"}>
+              <Grid md={6} mt={isActive ? "16px" : "0px"} sm={12}>
                 <img
                   src={require("./assets/main_image.svg")}
                   alt={"Homeimage"}
@@ -330,7 +326,7 @@ function Home() {
                 </Grid>
               </Grid>
               <Grid item md={4}>
-                <Grid container item md={12} spacing={2}>
+                <Grid container md={12} spacing={2}>
                   <Grid item mt="8px" md={2} xs={2}>
                     <img
                       src={require("./assets/Layer.svg")}
@@ -469,20 +465,17 @@ function Home() {
         </Container>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {subPathway.map((item, index) => {
-              return (
-                <Grid item xs={12} ms={6} md={4} key={index}>
-                  <PathwayCard
-                    id={item.id}
-                    path={item.path}
-                    title={item.title}
-                    description={item.description}
-                    image={item.image}
-                    hover={true}
-                  />
-                </Grid>
-              );
-            })}
+            {pathwayData.map((item) => (
+              <Grid item xs={12} ms={6} md={4}>
+                <PathwayCard
+                  id={item.id}
+                  title={item.title}
+                  description={item.description}
+                  image={item.image}
+                  hover={true}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Container>
 
@@ -627,7 +620,6 @@ function Home() {
           >
             Have Questions?
           </Typography>
-
           <Grid
             marginTop="1px"
             display={isActive && "block"}

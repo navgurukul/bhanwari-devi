@@ -148,6 +148,7 @@ function Footer() {
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
+      // console.log(pathway);
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
           item.id = pathway.id;

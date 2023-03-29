@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Container, Box, Button } from "@mui/material";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
 import { useParams } from "react-router-dom";
 import AssessmentContent from "./AssessmentContent";
-import { ResData } from "..";
 
 function Assessment({
   data,
@@ -13,7 +12,7 @@ function Assessment({
   courseData,
   setCourseData,
   setProgressTrackId,
-  // res,
+  res,
 }) {
   const user = useSelector(({ User }) => User);
 
@@ -25,34 +24,27 @@ function Assessment({
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(res?.attempt_count);
   const params = useParams();
-  const resDataGet = useContext(ResData);
 
   useEffect(() => {
     console.log(res, correct);
   }, [answer]);
 
-  console.log(resDataGet);
   // Assessment submit handler
   const submitAssessment = () => {
     setSubmit(true);
-    if (answer == solution || (triedAgain >= 2 && answer)) {
-      // console.log("kong");
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-        headers: {
-          accept: "application/json",
-          Authorization: user.data?.token || "",
-        },
-        data: {
-          pathway_id: params.pathwayId,
-          course_id: params.courseId,
-          exercise_id: courseData.id,
-        },
-      });
-    } else {
-      console.log("kong");
-    }
+    axios({
+      method: METHODS.POST,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data?.token || "",
+      },
+      data: {
+        pathway_id: params.pathwayId,
+        course_id: params.courseId,
+        exercise_id: courseData.id,
+      },
+    });
 
     if (answer == solution) {
       setCorrect(true);
