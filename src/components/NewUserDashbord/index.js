@@ -9,7 +9,6 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
-import { PATHS } from "../../constant";
 
 const pathwayData = [
   {
@@ -44,13 +43,11 @@ const pathwayData = [
   },
   {
     title: "Residential Programmes",
-    path: PATHS.RESIDENTIAL_COURSE,
     image: "residential",
     description: "Explore Navgurukul’s on campus Software Engineering courses",
   },
   {
     title: "Miscellaneous Courses",
-    path: PATHS.MISCELLANEOUS_COURSE,
     image: "misc",
     description: "Courses on Android, Game dev projects and more",
   },
@@ -95,13 +92,6 @@ const NewUserDashbord = () => {
       });
     });
 
-  const subPathway = pathwayData.filter((x) => {
-    // console.log("x", x.id);
-    return x.id || x.path;
-  });
-
-  // console.log("subPathway", subPathway);
-
   return (
     <>
       {!learningTracks ? (
@@ -116,28 +106,23 @@ const NewUserDashbord = () => {
           </Container>
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
-              {subPathway.map((item, index) => {
-                // console.log("item", item.id);
-                return (
-                  <Grid
-                    item
-                    xs={6}
-                    ms={6}
-                    md={3}
-                    className={classes.cardGrid}
-                    maxHeight={isActive && item.title.length < 12 ? 170 : 210}
-                    key={index}
-                  >
-                    <PathwayCard
-                      id={item.id}
-                      path={item.path}
-                      title={item.title}
-                      image={item.image}
-                      hover={true}
-                    />
-                  </Grid>
-                );
-              })}
+              {pathwayData.map((item) => (
+                <Grid
+                  item
+                  xs={6}
+                  ms={6}
+                  md={3}
+                  className={classes.cardGrid}
+                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}
+                >
+                  <PathwayCard
+                    id={item.id}
+                    title={item.title}
+                    image={item.image}
+                    hover={true}
+                  />
+                </Grid>
+              ))}
             </Grid>
           </Container>
         </>

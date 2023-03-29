@@ -8,6 +8,7 @@ import residential from "./asset/residential.svg";
 import random from "./asset/random.svg";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { actions as pathwayActions } from "../PathwayCourse/redux/action";
@@ -21,7 +22,16 @@ import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
 // import { LanguageProvider } from "../../common/context";
 
-import { Typography, MenuItem, CardContent, Divider } from "@mui/material";
+import {
+  Typography,
+  Menu,
+  MenuItem,
+  CardContent,
+  Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 
 const students = {
   image: [python, scratch, typing, language, web, residential, random],
@@ -47,6 +57,12 @@ const students = {
     { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
   [GET_INVOLVED_KEY]: [
+    // {
+    //   title: "Become a Partner",
+    //   path: PATHS.OUR_PARTNER,
+    //   type: "internal",
+    // },
+
     {
       title: <Message constantKey="VOLUNTEER_WITH_US" />,
       path: PATHS.VOLUNTEER_AUTOMATION,
@@ -93,10 +109,9 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
       });
     });
 
-  const subMenu = students[menuKey].filter((x) => x.id || x.path);
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
-      {subMenu.map((menu, index) => {
+      {students[menuKey].map((menu, index) => {
         if (menu.type === "internal") {
           return (
             <Link
@@ -107,11 +122,10 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
                     })
                   : menu.path
               }
-              key={index}
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
                   <img src={students.image[index]} alt="course logo" />
                 )}
@@ -129,9 +143,8 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
               href={menu.path}
               className={classes.link}
               onClick={toggleDrawer && toggleDrawer(false)}
-              key={index}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
                   <img src={students.image[index]} alt="course logo" />
                 )}
@@ -157,8 +170,9 @@ export const DropDown = ({
   //setInDropdown,
   //handleMouseLeave,
 }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
-  // const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -176,17 +190,15 @@ export const DropDown = ({
     });
 */
 
-  const subMenu = students[dropDown].filter((x) => x.id || x.path);
-
   return (
     <>
       {dropDown &&
-        subMenu.map((menu, index) => {
+        students[dropDown].map((menu, index) => {
           if (menu.type === "internal") {
             return (
-              <div key={index}>
+              <>
                 <DropdownLink
-                  index={index}
+                  key={menu}
                   //onClick={handleClose}
                   to={
                     menu.id
@@ -195,7 +207,7 @@ export const DropDown = ({
                         })
                       : menu.path
                   }
-                  //linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
                   padding={
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
@@ -207,23 +219,22 @@ export const DropDown = ({
                   <Typography
                     textAlign="center"
                     sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
+                    // component="span"
                   >
                     {menu.title}
                   </Typography>
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && (
-                  <Divider key={index} />
-                )}
-              </div>
+                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+              </>
             );
           } else {
             return (
-              <div key={index}>
+              <>
                 <DropdownLink
-                  index={index}
+                  key={menu}
                   //onClick={handleClose}
                   to={menu.path}
-                  //linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
                   padding={
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
@@ -239,10 +250,8 @@ export const DropDown = ({
                   </Typography>
                   <LaunchIcon />
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && (
-                  <Divider key={index} />
-                )}
-              </div>
+                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+              </>
             );
           }
         })}

@@ -5,7 +5,6 @@ import { MenuItem } from "@mui/material";
 import useStyles from "./styles";
 
 export default function DropdownLink({
-  index,
   to,
   external,
   padding,
@@ -24,13 +23,12 @@ export default function DropdownLink({
         padding,
         margin,
       }}
-      key={index}
     >
       <A
         {...{
           [toKey]: to,
           className: classes.link,
-          //linkOnClick,
+          linkOnClick,
         }}
         style={{ display: "flex", alignItems: "center", width: "100%" }}
       >

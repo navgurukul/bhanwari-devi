@@ -121,6 +121,7 @@ export default function DropDownMenu({
       // mouse has moved out of main menu item and its
       //   dropdown after delay milliseconds
       // menuCloseHandler();
+      //console.log(inDropdown);
       handleCloseMenu();
     }
   }, [inDropdown]);

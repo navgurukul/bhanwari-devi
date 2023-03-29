@@ -368,7 +368,6 @@ function PathwayCourse() {
         {enrolledBatches ? (
           <>
             <PathwayCards
-              id={1}
               userEnrolledClasses={userEnrolledClasses}
               data={data}
             />
@@ -421,7 +420,6 @@ function PathwayCourse() {
                           style={{ display: "flex" }}
                           mt={2}
                           variant="body2"
-                          component={"span"}
                         >
                           <img
                             src={require("./asset/ComputerScreen.svg")}
@@ -584,7 +582,7 @@ function PathwayCourse() {
                         p: isActive ? "0px" : "0px 8px 0px 0px",
                       }}
                     >
-                      <div className={classes.courseTitleNumber}>
+                      <div className={classes.courseTitleNumber} disableGutters>
                         <Typography
                           align={isActive ? "center" : "left"}
                           variant="body2"
