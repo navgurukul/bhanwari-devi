@@ -620,7 +620,6 @@ function Home() {
           >
             Have Questions?
           </Typography>
-
           <Grid
             marginTop="1px"
             display={isActive && "block"}
