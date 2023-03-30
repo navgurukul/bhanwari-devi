@@ -36,21 +36,21 @@ import {
 const students = {
   image: [python, scratch, typing, language, web, residential, random],
   [LEARN_KEY]: [
-    { title: "Python", code: "PRGPYT", type: "internal" },
-    { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
-    { title: "Typing", code: "TYPGRU", type: "internal" },
-    { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "JavaScript", code: "JSRPIT", type: "internal" },
-    {
-      title: "Residential Programmes",
-      path: PATHS.RESIDENTIAL_COURSE,
-      type: "internal",
-    },
-    {
-      title: "Miscellaneous Courses",
-      path: PATHS.MISCELLANEOUS_COURSE,
-      type: "internal",
-    },
+    // { title: "Python", code: "PRGPYT", type: "internal" },
+    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
+    // { title: "Typing", code: "TYPGRU", type: "internal" },
+    // { title: "Spoken English", code: "SPKENG", type: "internal" },
+    // { title: "JavaScript", code: "JSRPIT", type: "internal" },
+    // {
+    //   title: "Residential Programmes",
+    //   path: PATHS.RESIDENTIAL_COURSE,
+    //   type: "internal",
+    // },
+    // {
+    //   title: "Miscellaneous Courses",
+    //   path: PATHS.MISCELLANEOUS_COURSE,
+    //   type: "internal",
+    // },
   ],
   [ABOUT_KEY]: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
@@ -99,15 +99,34 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   // data?.pathways &&
   //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
 
+  const studentLearn = [];
+
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      students[LEARN_KEY].forEach((item) => {
-        if (pathway.code === item.code) {
-          item["id"] = pathway.id;
-        }
-      });
+      console.log("pathway", pathway);
+      if (pathway.code !== "PRCRSE" || pathway.path) {
+        const obj = {
+          id: pathway.id || null,
+          title: pathway.name || pathway.title,
+          description: pathway.description,
+          image: pathway.image || pathway.logo || null,
+          path: pathway.path || null,
+          type: "internal",
+        };
+        // studentLearn.push(obj);
+        students[LEARN_KEY].push(obj);
+      }
+      // students[LEARN_KEY].forEach((item) => {
+      //   if (pathway.code === item.code) {
+      //     item["id"] = pathway.id;
+      //   }
+      // });
     });
+
+  console.log("students", students[LEARN_KEY]);
+
+  console.log("studentLearn", studentLearn);
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
