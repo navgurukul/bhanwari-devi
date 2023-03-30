@@ -120,16 +120,16 @@ export const PATHWAYS_INFO = [
     ],
     type: "internal",
   },
-  {
-    title: "Scratch (CEL)",
-    code: "SHCEL",
-    video_link: "",
-    image: "scratch",
-    description:
-      "Learn programming concepts via easy to understand project based block programming in Scratch",
-    outcomes: [],
-    type: "internal",
-  },
+  // {
+  //   title: "Scratch (CEL)",
+  //   code: "SHCEL",
+  //   video_link: "",
+  //   image: "scratch",
+  //   description:
+  //     "Learn programming concepts via easy to understand project based block programming in Scratch",
+  //   outcomes: [],
+  //   type: "internal",
+  // },
   {
     title: "Typing",
     code: "TYPGRU",

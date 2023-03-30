@@ -39,12 +39,12 @@ const pathwayData = [
     image: "python",
     description: "Get familiar with programming with bite sized lessons",
   },
-  {
-    title: "Scratch (CEL)",
-    code: "SHCEL",
-    image: "scratch",
-    description: "Get started with programming with block-based games",
-  },
+  // {
+  //   title: "Scratch (CEL)",
+  //   code: "SHCEL",
+  //   image: "scratch",
+  //   description: "Get started with programming with block-based games",
+  // },
   {
     title: "Typing",
     code: "TYPGRU",

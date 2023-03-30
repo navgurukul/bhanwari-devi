@@ -17,7 +17,7 @@ const menu = {
   ],
   LearningTracks: [
     { title: "Python", code: "PRGPYT", type: "internal" },
-    { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
+    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing ", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "Javascript", code: "JSRPIT", type: "internal" },

@@ -52,12 +52,12 @@ const pathways = [
       "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
     ],
   },
-  {
-    pathway: "Scratch (CEL)",
-    code: "SHCEL",
-    description:
-      "Learn programming concepts via easy to understand project based block programming in Scratch",
-  },
+  // {
+  //   pathway: "Scratch (CEL)",
+  //   code: "SHCEL",
+  //   description:
+  //     "Learn programming concepts via easy to understand project based block programming in Scratch",
+  // },
   {
     pathway: "Javascript",
     code: "JSRPIT",
