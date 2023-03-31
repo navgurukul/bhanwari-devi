@@ -34,7 +34,15 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, scratch, typing, language, web, residential, random],
+  image: [
+    python,
+    // scratch,
+    typing,
+    language,
+    web,
+    residential,
+    random,
+  ],
   [LEARN_KEY]: [
     // { title: "Python", code: "PRGPYT", type: "internal" },
     // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
@@ -57,12 +65,6 @@ const students = {
     { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
   [GET_INVOLVED_KEY]: [
-    // {
-    //   title: "Become a Partner",
-    //   path: PATHS.OUR_PARTNER,
-    //   type: "internal",
-    // },
-
     {
       title: <Message constantKey="VOLUNTEER_WITH_US" />,
       path: PATHS.VOLUNTEER_AUTOMATION,
@@ -104,29 +106,23 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      console.log("pathway", pathway);
       if (pathway.code !== "PRCRSE" || pathway.path) {
         const obj = {
           id: pathway.id || null,
           title: pathway.name || pathway.title,
           description: pathway.description,
-          image: pathway.image || pathway.logo || null,
+          image: pathway.image || pathway.logo || python,
           path: pathway.path || null,
           type: "internal",
         };
-        // studentLearn.push(obj);
-        students[LEARN_KEY].push(obj);
+        studentLearn.push(obj);
       }
-      // students[LEARN_KEY].forEach((item) => {
-      //   if (pathway.code === item.code) {
-      //     item["id"] = pathway.id;
-      //   }
-      // });
     });
+  students[LEARN_KEY] = studentLearn;
 
-  console.log("students", students[LEARN_KEY]);
-
-  console.log("studentLearn", studentLearn);
+  students[LEARN_KEY] = studentLearn.filter((x) => x.path || x.id);
+  // console.log("subMenu", subMenu);
+  console.log("students", students);
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
@@ -146,7 +142,10 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
             >
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
-                  <img src={students.image[index]} alt="course logo" />
+                  <img
+                    src={students.image[index] || menu.image}
+                    alt="course logo"
+                  />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
@@ -233,7 +232,10 @@ export const DropDown = ({
                   margin="6px 16px"
                 >
                   {dropDown === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
+                    <img
+                      src={students.image[index] || menu.image}
+                      alt="course logo"
+                    />
                   )}
                   <Typography
                     textAlign="center"
@@ -243,7 +245,8 @@ export const DropDown = ({
                     {menu.title}
                   </Typography>
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY &&
+                  index === students[dropDown].length - 3 && <Divider />}
               </>
             );
           } else {
@@ -269,7 +272,8 @@ export const DropDown = ({
                   </Typography>
                   <LaunchIcon />
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY &&
+                  index === students[dropDown].length - 3 && <Divider />}
               </>
             );
           }

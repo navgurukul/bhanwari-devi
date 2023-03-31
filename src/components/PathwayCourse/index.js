@@ -39,6 +39,7 @@ import { useState } from "react";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import CustomSnackbar from "./customSnackbar";
+import { StarRate } from "@material-ui/icons";
 
 const pathways = [
   {
@@ -145,6 +146,7 @@ function PathwayCourse() {
   };
 
   const data = useSelector((state) => {
+    console.log("data in pathway course", state);
     return state;
   });
 
@@ -314,6 +316,10 @@ function PathwayCourse() {
   } else {
     filterPathwayCourse = pathwayCourse?.data?.courses;
   }
+
+  console.log("pathwayCourse", data?.Pathways);
+  console.log("filterPathwayCourse", filterPathwayCourse);
+
   return (
     <>
       {enrolledBatches && !loading ? (
