@@ -312,7 +312,14 @@ function ExerciseContent({
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const dispatch = useDispatch();
+  console.log("<----CONTENT-LIST---->", contentList);
+  console.log("<----CONTENT---->", content);
+  console.log("<----EXCERCISE-ID---->", exerciseId);
+  console.log("<----COURSE---->", contentList[exerciseId]);
 
+  let scratchID;
+  scratchID = contentList && contentList[exerciseId]?.project_id;
+  console.log("<----SCRATCH---->", scratchID)
   useEffect(() => {
     if (cashedData?.length > 0) {
       setLoading(false);
@@ -485,17 +492,33 @@ function ExerciseContent({
                     />
                   ))}
               </Box>
+			  {scratchID && <Button 
+					variant="contained"
+					target="_blank"
+					href={`https://scratch.merakilearn.org/project/${scratchID}`}
+			  >
+					Run
+			  </Button>}
             </Box>
           )}
           {exercise && exercise.content_type === "assessment" && (
-            <Assessment
-              res={assessmentResult}
-              data={content}
-              exerciseId={exercise.id}
-              courseData={courseData}
-              setCourseData={setCourseData}
-              setProgressTrackId={setProgressTrackId}
-            />
+			<Box sx={{ mt: 5, mb: 8 }}>
+				<Assessment
+            	  res={assessmentResult}
+            	  data={content}
+            	  exerciseId={exercise.id}
+            	  courseData={courseData}
+            	  setCourseData={setCourseData}
+            	  setProgressTrackId={setProgressTrackId}
+            	/>
+				{scratchID && <Button 
+					variant="contained"
+					target="_blank"
+					href={`https://scratch.merakilearn.org/project/${scratchID}`}
+			  	>
+					Run
+			  </Button>}
+			</Box>
           )}
         </Container>
       </Container>
