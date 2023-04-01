@@ -99,9 +99,7 @@ function UserMenu() {
           onClick={() => {
             dispatch(userActions.logout());
             window.open(
-              `${
-                process.env.REACT_APP_AUTH_URL
-              }/authenticate?redirectUrl=${document.location.origin.trim()}&logout=true`,
+              `https://accounts.navgurukul.org/authenticate?redirectUrl=${document.location.origin.trim()}&logout=true`,
               "Authenticate",
               "width=500,height=500"
             );

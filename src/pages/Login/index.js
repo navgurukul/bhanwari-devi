@@ -154,9 +154,7 @@ function Login(props) {
                         startIcon={<GoogleIcon />}
                         onClick={() => {
                           window.open(
-                            `${
-                              process.env.REACT_APP_AUTH_URL
-                            }/authenticate?redirectUrl=${document.location.origin.trim()}`,
+                            `https://accounts.navgurukul.org/authenticate?redirectUrl=${document.location.origin.trim()}`,
                             "Authenticate",
                             "width=500,height=500"
                           );
