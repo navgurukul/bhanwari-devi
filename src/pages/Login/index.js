@@ -152,7 +152,16 @@ function Login(props) {
                       <Button
                         variant="contained"
                         startIcon={<GoogleIcon />}
-                        onClick={renderProps.onClick}
+                        onClick={() => {
+                          window.open(
+                            `${
+                              process.env.REACT_APP_AUTH_URL
+                            }/authenticate?redirectUrl=${document.location.origin.trim()}`,
+                            "Authenticate",
+                            "width=500,height=500"
+                          );
+                          window.open("", "_self").close();
+                        }}
                         style={{
                           backgroundColor: "white",
                           color: "black",

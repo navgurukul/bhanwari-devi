@@ -96,7 +96,17 @@ function UserMenu() {
         </NavLink>
         <Link
           to={PATHS.LOGIN}
-          onClick={() => dispatch(userActions.logout())}
+          onClick={() => {
+            dispatch(userActions.logout());
+            window.open(
+              `${
+                process.env.REACT_APP_AUTH_URL
+              }/authenticate?redirectUrl=${document.location.origin.trim()}&logout=true`,
+              "Authenticate",
+              "width=500,height=500"
+            );
+            window.open("", "_self").close();
+          }}
           className={classes.link}
         >
           <MenuItem
