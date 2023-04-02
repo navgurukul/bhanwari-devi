@@ -280,3 +280,8 @@ export const interpolatePath = (path, paramValues) =>
 export const versionCode = 40;
 
 export const INDENT = 4;
+
+export const CODE_EDITOR_FIELDS = {
+  IS_NOT_EDITABLE: "isNotEditable",
+  IS_NOT_EXECUTABLE: "isNotExecutable",
+};

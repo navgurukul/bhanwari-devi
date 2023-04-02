@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
-import { INDENT, versionCode } from "../../../constant";
+import { INDENT, versionCode, CODE_EDITOR_FIELDS } from "../../../constant";
 
 import useStyles from "../styles";
 import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
@@ -251,8 +251,8 @@ const RenderContent = ({ data, exercise }) => {
     return (
       <PythonEditor
         initialCodeEditorValue={pythonCode}
-        disableEditing={false}
-        disableRun={false}
+        disableEditing={data[CODE_EDITOR_FIELDS.IS_NOT_EDITABLE]}
+        disableRun={data[CODE_EDITOR_FIELDS.IS_NOT_EXECUTABLE]}
       />
     );
   }
