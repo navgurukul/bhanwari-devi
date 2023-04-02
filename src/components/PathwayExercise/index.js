@@ -562,19 +562,14 @@ function PathwayExercise() {
       </AppBar>
       {editor && (
         <AppBar
-          style="background-color: red !important"
           fullWidth
           // position="stick"
           sx={{
             bgcolor: "info.light",
           }}
-          classes={
-            {
-              xs: classes.editingHeaderMobile,
-              sm: classes.editingHeader,
-            }
-            // isActive ? classes.editingHeaderMobile : classes.editingHeader
-          }
+          /*classes={{
+            root: isActive ? classes.editingHeaderMobile : classes.editingHeader
+          }}*/
           elevation={2}
         >
           <Box>
@@ -642,12 +637,21 @@ function PathwayExercise() {
             Back
           </Button>
           <Button
-            style={{
-              opacity: `${exerciseId < courseLength ? 1 : 0}`,
-              position: "relative",
-              // right: "-10px",
-              marginRight: { [breakpoints.tb]: "40px", xs: "" },
-              // marginRight: !isActive && !isActiveIpad ? "40px" : "",
+            // sx={(theme) => (console.log("THEME", theme.breakpoints) || { 
+            //   opacity: `${exerciseId < courseLength ? 1 : 0}`,
+            //   position: "relative",
+            //   // right: "-10px",
+            //   //marginRight: { [breakpoints.tb]: "40px", xs: "" },
+            //   // marginRight: { xs: 0, md: "40px" },
+            //   marginRight: theme?.breakpoints?.values?.ipad 
+            //   // marginRight: !isActive && !isActiveIpad ? "40px" : "",
+            // })}
+            sx = {{
+               opacity: `${exerciseId < courseLength ? 1 : 0}`,
+               position: "relative",
+               // iPad was used here before with 1300px instead of 1200px 
+               //   default
+               marginRight: {xs: 0, lg: "40px"}
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}
