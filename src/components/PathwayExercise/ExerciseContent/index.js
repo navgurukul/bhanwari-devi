@@ -102,7 +102,7 @@ const RenderDoubtClass = ({ data, exercise }) => {
 
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   if (data.component === "header") {
     return (
@@ -277,7 +277,7 @@ function ExerciseContent({
   setProgressTrackId,
   progressTrackId,
 }) {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();

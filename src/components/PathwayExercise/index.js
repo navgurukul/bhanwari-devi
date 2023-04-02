@@ -383,8 +383,8 @@ function PathwayExercise() {
       </Select>
     );
   }
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   return (
     <>
@@ -562,11 +562,18 @@ function PathwayExercise() {
       </AppBar>
       {editor && (
         <AppBar
+          style="background-color: red !important"
           fullWidth
           // position="stick"
-          sx={{ bgcolor: "info.light" }}
-          className={
-            isActive ? classes.editingHeaderMobile : classes.editingHeader
+          sx={{
+            bgcolor: "info.light",
+          }}
+          classes={
+            {
+              xs: classes.editingHeaderMobile,
+              sm: classes.editingHeader,
+            }
+            // isActive ? classes.editingHeaderMobile : classes.editingHeader
           }
           elevation={2}
         >
@@ -620,10 +627,7 @@ function PathwayExercise() {
         </Box>
       )}
       <Box>
-        <Toolbar
-          className={classes.bottomRow}
-          sx={{ width: !isActive ? "100%" : "100%" }}
-        >
+        <Toolbar className={classes.bottomRow} sx={{ width: "100%" }}>
           <Button
             variant="text"
             color="dark"
@@ -642,7 +646,8 @@ function PathwayExercise() {
               opacity: `${exerciseId < courseLength ? 1 : 0}`,
               position: "relative",
               // right: "-10px",
-              marginRight: !isActive && !isActiveIpad ? "40px" : "",
+              marginRight: { [breakpoints.tb]: "40px", xs: "" },
+              // marginRight: !isActive && !isActiveIpad ? "40px" : "",
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}
