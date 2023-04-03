@@ -545,9 +545,9 @@ function PathwayExercise() {
           sx={{
             bgcolor: "info.light",
           }}
-          /*classes={{
-            root: isActive ? classes.editingHeaderMobile : classes.editingHeader
-          }}*/
+          // classes={{
+          //  root: isActive ? classes.editingHeaderMobile : classes.editingHeader
+          // }}
           elevation={2}
         >
           <Box>
