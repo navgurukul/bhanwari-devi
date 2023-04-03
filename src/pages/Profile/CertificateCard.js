@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Typography,
   Container,
@@ -48,6 +48,7 @@ function CertificateCard(props) {
     return state;
   });
   const { item } = props;
+  const modalRef = useRef(null);
 
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -147,6 +148,22 @@ function CertificateCard(props) {
   const downloadCert = () => {
     saveFile(certificate);
   };
+
+  useEffect(() => {
+    // Add event listener to detect clicks outside of the popup
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        // Close the popup if the user clicks outside of it
+        handleModal();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Remove event listener when component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // console.log(item);
   return (
