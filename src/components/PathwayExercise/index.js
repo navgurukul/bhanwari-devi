@@ -30,6 +30,8 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 import { breakpoints } from "../../theme/constant";
+// import { useTheme } from "@mui/material/styles";
+// import { PythonProvider, usePython } from "../CodeEditor/react-py";
 
 const languageMap = {
   hi: "Hindi",
@@ -385,6 +387,7 @@ function PathwayExercise() {
   }
   // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   // const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  // const theme = useTheme();
 
   return (
     <>
@@ -611,14 +614,17 @@ function PathwayExercise() {
       ) : (
         <Box sx={{ marginTop: "120px" }}>
           {/* <Box sx={{ marginTop: "50px" }}> */}
+          {/* <PythonProvider> */}
           <ExerciseContent
             contentList={course}
             exerciseId={exerciseId}
+            key={exerciseId}
             lang={language}
             setExerciseId={setExerciseId}
             setProgressTrackId={setProgressTrackId}
             progressTrackId={progressTrackId}
           />
+          {/* </PythonProvider> */}
         </Box>
       )}
       <Box>
@@ -651,7 +657,8 @@ function PathwayExercise() {
                position: "relative",
                // iPad was used here before with 1300px instead of 1200px 
                //   default
-               marginRight: {xs: 0, lg: "40px"}
+               // marginRight: {xs: 0, ipad: "40px", lg: "40px"}
+               marginRight: {xs: 0, md: "40px"}
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}

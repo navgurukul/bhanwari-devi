@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Box } from "@mui/material";
 import { INDENT } from "../../constant";
 
 import "codemirror/lib/codemirror.css";
@@ -18,7 +18,7 @@ const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
   };
 
   return (
-    <div className="editor-container">
+    <Box className="editor-container">
       <ControlledEditorComponent
         onFocus={(editor) => {
           editor.setSize(null, null);
@@ -37,7 +37,7 @@ const CodeMirrorEditor = ({ value, setEditorState, disableEditing }) => {
           readOnly: disableEditing,
         }}
       />
-    </div>
+    </Box>
   );
 };
 
