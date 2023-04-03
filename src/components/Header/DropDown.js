@@ -34,10 +34,18 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, scratch, typing, language, web, residential, random],
+  image: [
+    python,
+    // scratch,
+    typing,
+    language,
+    web,
+    residential,
+    random,
+  ],
   [LEARN_KEY]: [
     { title: "Python", code: "PRGPYT", type: "internal" },
-    { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
+    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
     { title: "Typing", code: "TYPGRU", type: "internal" },
     { title: "Spoken English", code: "SPKENG", type: "internal" },
     { title: "JavaScript", code: "JSRPIT", type: "internal" },
@@ -110,7 +118,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     });
 
   return (
-    <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey].msgKey}>
+    <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
       {students[menuKey].map((menu, index) => {
         if (menu.type === "internal") {
           return (

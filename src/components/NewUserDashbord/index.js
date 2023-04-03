@@ -17,12 +17,12 @@ const pathwayData = [
     image: "python",
     description: "Get familiar with programming with bite sized lessons",
   },
-  {
-    title: "Scratch (CEL)",
-    code: "SHCEL",
-    image: "scratch",
-    description: "Get familiar with programming with bite sized lessons",
-  },
+  // {
+  //   title: "Scratch (CEL)",
+  //   code: "SHCEL",
+  //   image: "scratch",
+  //   description: "Get familiar with programming with bite sized lessons",
+  // },
   {
     title: "Typing",
     code: "TYPGRU",
@@ -47,7 +47,7 @@ const pathwayData = [
     description: "Explore Navgurukul’s on campus Software Engineering courses",
   },
   {
-    title: "Open Courses",
+    title: "Miscellaneous Courses",
     image: "misc",
     description: "Courses on Android, Game dev projects and more",
   },
@@ -77,7 +77,6 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data;
-      // console.log(data);
       if (data.length > 0) {
         setLearningTracks(res.data);
       }
@@ -114,7 +113,7 @@ const NewUserDashbord = () => {
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={210}
+                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}
                 >
                   <PathwayCard
                     id={item.id}

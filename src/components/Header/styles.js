@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   active: {
     color: "#48a145",
   },
+  buttonLink: {
+    textDecoration: "none",
+  },
 }));
 
 export default useStyles;

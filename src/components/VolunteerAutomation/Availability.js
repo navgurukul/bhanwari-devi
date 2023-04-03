@@ -52,7 +52,6 @@ function Availability({ setAvailability, availability, setDisable }) {
   };
 
   useEffect(() => {
-    console.log(availability);
     if (
       availability.hours_per_week.length > 0 &&
       availability.available_on_days.length > 0
@@ -64,8 +63,6 @@ function Availability({ setAvailability, availability, setDisable }) {
       setDisable(true);
     }
   }, [availability]);
-
-  console.log("availability", availability);
 
   return (
     <Container sx={{ mt: 6 }} maxWidth="sm">
@@ -142,7 +139,6 @@ function Availability({ setAvailability, availability, setDisable }) {
                   //   });
                   // }}
                   onChange={(time) => {
-                    console.log("time", time);
                     // let time =  time.getHours() + ":" + time.getMinutes()
                     setAvailability({
                       ...availability,

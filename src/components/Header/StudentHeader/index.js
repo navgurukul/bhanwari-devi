@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import { DropDown, MobileDropDown } from "../DropDown";
 import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -9,6 +9,7 @@ import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import {
   LEARN_KEY,
   MENU_ITEMS,
@@ -21,8 +22,11 @@ import {
   // VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../constant";
 import SearchPopup from "../../SearchBar/SearchPopup";
+import ExternalLink from "../../common/ExternalLink";
+import useStyles from "../../Header";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
+  const classes = useStyles();
   return (
     <>
       <HeaderNavLink
@@ -32,9 +36,9 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
       />
       <HeaderNavLink
         to={PATHS.SCRATCH}
-        new_nav_tab={true}
         text={<Message constantKey="SCRATCH" />}
         toggleDrawer={toggleDrawer}
+        externalLink="true"
       />
     </>
   );
@@ -59,7 +63,7 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
         }}
       >
         <TextButtonDropDownMenu
-          btnTextMsgKey={MENU_ITEMS[LEARN_KEY].msgKey}
+          btnTextMsgKey={MENU_ITEMS[LEARN_KEY]?.msgKey}
           // attachRight={!leftDrawer}
           menuContainerProps={{
             id: "menu-appbar",

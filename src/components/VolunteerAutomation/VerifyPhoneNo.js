@@ -13,6 +13,9 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
+import axios from "axios";
+import { METHODS } from "../../services/api";
+import { useSelector, useDispatch } from "react-redux";
 import { initializeApp } from "firebase/app";
 import { MuiOtpInput } from "mui-one-time-password-input";
 
@@ -33,9 +36,24 @@ const firebaseConfig = {
 const CountryList = require("country-list-with-dial-code-and-flag");
 
 function VerifyPhoneNo(props) {
+  const user = useSelector(({ User }) => User);
   const { setDisable, setContact, contact, setNextButton } = props;
+
+  const [otp, setOtp] = useState("");
+  const [bgColor, setBgColor] = useState(false);
+  const [verifyOpen, setVerifyOpen] = useState(false);
+  const [close, setClose] = useState(true);
+  const [generateOtp, setGenerateOtp] = useState(true);
+  const [startOtp, setStartOtp] = useState(false);
+  const [confirmationResult, setConfirmationResult] = useState(null);
+  const [Timer, setTimer] = useState("5:00");
+  const [isStartTimer, setIsStartTimer] = useState(false);
+  const [countryCode, setCountryCode] = useState(
+    (contact && `${contact?.split(" ")[0]}`) || "+91"
+  );
+  const [phone, setPhone] = useState("");
+
   const app = initializeApp(firebaseConfig);
-  console.log(app.name);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
     if (number.length <= 10) {
@@ -52,23 +70,15 @@ function VerifyPhoneNo(props) {
       setGenerateOtp(false);
     }
   }, []);
-  const [open, setOpen] = React.useState(false);
-  const [message, setMessage] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const otpRef = React.useRef();
   const handleClose = () => {
     setOpen(false);
     setMessage("");
   };
-  const [startOtp, setStartOtp] = React.useState(false);
-  const [confirmationResult, setConfirmationResult] = React.useState(null);
-  const [Timer, setTimer] = React.useState("5:00");
-  const [isStartTimer, setIsStartTimer] = React.useState(false);
-  const [countryCode, setCountryCode] = React.useState(
-    (contact && `${contact?.split(" ")[0]}`) || "+91"
-  );
-  const [phone, setPhone] = React.useState("");
+
   const setupRecaptcha = () => {
-    console.log(firebaseConfig);
     const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-container",
@@ -81,11 +91,7 @@ function VerifyPhoneNo(props) {
       auth
     );
   };
-  const [otp, setOtp] = React.useState("");
-  const [bgColor, setBgColor] = React.useState(false);
-  const [verifyOpen, setVerifyOpen] = React.useState(false);
-  const [close, setClose] = React.useState(true);
-  const [generateOtp, setGenerateOtp] = React.useState(true);
+
   const handleChangeInput = (newValue) => {
     if (isNaN(newValue)) return false;
     setOtp(newValue);
@@ -110,32 +116,63 @@ function VerifyPhoneNo(props) {
     }, 1000);
   };
 
-  const onSignInSubmit = (event) => {
-    event.preventDefault();
-    if (!confirmationResult) {
-      setupRecaptcha();
-    }
-    const phoneNumber = `${countryCode} ${phone}`;
-    setContact(phoneNumber);
-    const appVerifier = window.recaptchaVerifier;
-    const auth = getAuth();
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      .then((result) => {
-        setMessage("OTP sent successfully");
-        setOpen(true);
-        console.log("OTP sent", result);
-        setStartOtp(true);
-        setConfirmationResult(result);
-        setIsStartTimer(true);
-        countTimer();
-        setVerifyOpen(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setMessage("Enter valid phone number");
-        setOpen(true);
+  const onSignInSubmit = async (event) => {
+    try {
+      const response = await axios({
+        url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+        method: METHODS.GET,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
       });
+
+      const volunteers = response.data;
+      let contactMatch = false;
+
+      for (const item of volunteers) {
+        let contact = item.contact;
+        if (item.contact?.includes("-")) contact = item.contact?.split("-")[1];
+        if (phone === contact) {
+          setMessage(
+            "The number has already registered. Please try with another number."
+          );
+          setOpen(true);
+          // setIsStartTimer(true);
+          // countTimer();
+          contactMatch = true;
+          break;
+        }
+      }
+      if (!contactMatch) {
+        event.preventDefault();
+        if (!confirmationResult) {
+          setupRecaptcha();
+        }
+        const phoneNumber = `${countryCode} ${phone}`;
+        setContact(phoneNumber);
+        const appVerifier = window.recaptchaVerifier;
+        const auth = getAuth();
+        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+          .then((result) => {
+            setMessage("OTP sent successfully");
+            setOpen(true);
+            setStartOtp(true);
+            setConfirmationResult(result);
+            setIsStartTimer(true);
+            countTimer();
+            setVerifyOpen(false);
+          })
+          .catch((error) => {
+            setMessage("Enter valid phone number or tried too many times");
+            setOpen(true);
+          });
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   const OtpEnter = (event) => {
     confirmationResult
       .confirm(otp)
@@ -169,6 +206,33 @@ function VerifyPhoneNo(props) {
   // };
 
   const countryData = CountryList.findFlagByDialCode(countryCode);
+
+  // useEffect(() => {
+  //   return axios({
+  //     url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+  //     method: METHODS.GET,
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization: user.data.token,
+  //     },
+  //   }).then((res) => {
+  //     console.log("res", res);
+  //     setVolunteer(res.data);
+  //   });
+  // }, [contact]);
+
+  // volunteer &&
+  //   volunteer?.length > 0 &&
+  //   volunteer.map((item) => {
+  //     console.log(item.contact);
+  //     if (item.contact == contact?.split(" ")[1]) {
+  //       console.log("number matched");
+  //       console.log(item.contact);
+  //     }
+  //   });
+
+  // console.log("volunteer", volunteer);
+  // console.log("contact", contact?.split(" ")[1]);
 
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
@@ -245,7 +309,6 @@ function VerifyPhoneNo(props) {
 
         {startOtp && close && (
           <>
-            {" "}
             <Typography variant="body1" style={{ margin: "16px 0px" }}>
               Please enter the OTP sent to your phone
             </Typography>

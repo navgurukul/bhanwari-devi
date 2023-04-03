@@ -44,7 +44,6 @@ function HorizontalLinearStepper() {
   const roles = user?.data?.user.rolesList; // TODO: Use selector for this
   const uid = user?.data?.user.id; // TODO: Factor out common logic used for selected role PR # 660
   const allUsersState = getObjectState("volunteer_automation", "state");
-  console.log(allUsersState, "4567890");
   const currentState = allUsersState?.[uid] || {
     completed: [],
   };
@@ -93,11 +92,12 @@ function HorizontalLinearStepper() {
     });
   };
 
-  React.useEffect(() => {
-    if (roles?.includes("volunteer")) {
-      history.push(PATHS.CLASS);
-    }
-  }, [roles]);
+  // Commented below code to redirect to volunteer onboarded form, even if the user has volunteer role.
+  // React.useEffect(() => {
+  //   if (roles?.includes("volunteer")) {
+  //     history.push(PATHS.CLASS);
+  //   }
+  // }, [roles]);
 
   const setActiveStepCompleted = () => {
     const newCompleted = completed.slice();
@@ -172,12 +172,6 @@ function HorizontalLinearStepper() {
     },
   ];
 
-  console.log("data", {
-    contact: contact,
-    pathway_id: pathwayId,
-    ...availability,
-  });
-
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -185,8 +179,6 @@ function HorizontalLinearStepper() {
   const setActiveStepHandler = (changeBy, prevActiveStep) => {
     const itemKey = steps[prevActiveStep]?.itemKey;
     const currentStep = prevActiveStep + changeBy;
-
-    console.log("currentStep", currentStep);
 
     if (itemKey && !disable) {
       // button was enabled by Component for this step so it's completed
@@ -247,8 +239,6 @@ function HorizontalLinearStepper() {
           },
         }).then(
           (res) => {
-            console.log("res", res);
-
             dispatch(
               actions.onUserRefreshDataIntent({ token: user.data.token })
             );
@@ -333,8 +323,6 @@ function HorizontalLinearStepper() {
         <React.Fragment>
           <>
             {steps.map((step, index) => {
-              console.log(typeof index, "index");
-              console.log(typeof activeStep, "type");
               if (activeStep === index) {
                 return (
                   <Box>

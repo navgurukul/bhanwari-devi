@@ -18,11 +18,12 @@ import { useParams, useHistory } from "react-router-dom";
 import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { interpolatePath, PATHS } from "../../constant";
+import { interpolatePath, PATHS, versionCode } from "../../constant";
 import { Link } from "react-router-dom";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import { format } from "../../common/date";
 function saveFile(url) {
   // Get file name from url.
   var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
@@ -55,10 +56,14 @@ function CertificateCard(props) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-
+  const [courseTime, setCourseTime] = useState();
   const [loader, setLoader] = useState(false);
   const params = useParams();
   const pathwayId = item.id;
+
+  const date = new Date(courseTime);
+  const options = { day: "numeric", month: "short", year: "2-digit" };
+  const formattedDate = date.toLocaleDateString("en-US", options);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
@@ -75,7 +80,6 @@ function CertificateCard(props) {
     boxShadow: 24,
     p: 4,
   };
-  console.log(item);
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
@@ -98,14 +102,29 @@ function CertificateCard(props) {
       }).then((response) => {
         // console.log("response", response.data.total_completed_portion);
         setCompletedPortion(response.data.total_completed_portion);
+        setCourseTime(response.data.complete_at);
       });
     }
   }, [pathwayId]);
   // const pathwayId = params.pathwayId;
+  const completedAll = completedPortion == 100;
+  useEffect(() => {
+    if (completedAll) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/complete`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization: user.data?.token || "",
+        },
+        data: {
+          pathwayId: pathwayId,
+        },
+      });
+    }
+  });
 
-  // console.log(completedAll,completedPortion,pathwayId)
-  // const { pathwayCourse } = useSelector((state) => state.Pathways);
-  // console.log(pathwayCourse)
   const handleModal = () => {
     setLoader(true);
     axios({
@@ -128,8 +147,6 @@ function CertificateCard(props) {
   const downloadCert = () => {
     saveFile(certificate);
   };
-  const completedAll = completedPortion.total >= 100;
-  console.log(completedAll, completedPortion);
 
   // console.log(item);
   return (
@@ -189,7 +206,7 @@ function CertificateCard(props) {
                     color="primary"
                     sx={{ marginTop: "3px", marginRight: "8px" }}
                   />
-                  <Typography variant="body1">25 Dec 2022</Typography>
+                  <Typography variant="body1">{formattedDate}</Typography>
                 </Grid>
               </Grid>
 

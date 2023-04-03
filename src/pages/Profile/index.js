@@ -7,12 +7,11 @@ import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { format } from "../../common/date";
-
-// import {update}
-// import ImageUpload from "@material-ui/core";
-// import VerifyPhoneNo from "../../components/VolunteerAutomation/VerifyPhoneNo";
 import Avatar from "react-avatar-edit";
 
 import {
@@ -22,6 +21,8 @@ import {
   Button,
   Container,
   Box,
+  FormControl,
+  FormHelperText,
   Snackbar,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
@@ -52,7 +53,6 @@ function Profile() {
   // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
   const params = useParams();
   const pathwayId = params.pathwayId;
-  console.log(pathwayId);
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const date = user.data.user.last_login_at;
@@ -176,11 +176,15 @@ function Profile() {
   // OTP AUTH FUNCTION
   useEffect(() => {
     dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
-
-    setEditName(user.data.user.name);
-    setUserData(user.data.user);
-    console.log("user");
   }, []);
+
+  useEffect(() => {
+    setUserData(user?.data?.user);
+  });
+
+  useEffect(() => {
+    setEditName(userData?.name);
+  }, [setEditName, userData]);
 
   useEffect(() => {
     if (editName == "") {
@@ -211,7 +215,6 @@ function Profile() {
       payload["contact"] = `${countryCode.replace("+", "")}-${contact}`;
     }
 
-    console.log("contact", `${countryCode.replace("+", "")}-${contact}`);
     setIsEditing(false);
     setMsg(true);
     axios({
@@ -261,7 +264,7 @@ function Profile() {
                   New_Profile.length ? New_Profile : userData.profile_picture
                 }
               />
-              {isEditing ? (
+              {isEditing && (
                 <Dialog open={open} onClose={handleClose}>
                   <Box sx={{ p: isActive ? "8px" : "32px" }}>
                     <Typography variant="h6" pl={1} pb={4}>
@@ -303,7 +306,6 @@ function Profile() {
                               height={200}
                               onExit={onExit}
                               onFileLoad={(file) => {
-                                console.log("onFileLoad", file);
                                 const formDatas = new FormData();
                                 formDatas.append("image", file);
                                 fetch(
@@ -324,7 +326,6 @@ function Profile() {
                                   }
                                 ).then((res) => {
                                   res.json().then((data) => {
-                                    console.log(data.file.url);
                                     setNew_Profiles(data.file.url);
                                   });
                                 });
@@ -357,13 +358,11 @@ function Profile() {
                           helperText={helperText}
                           onChange={(e) => {
                             setEditName(e.target.value);
-                            console.log(userData.name, e.target.value);
                             if (e.target.value != userData.name) {
                               setShowError(false);
                             }
                           }}
                         />
-
                         <TextField
                           align="center"
                           sx={{ mt: 4, mb: 1 }}
@@ -476,7 +475,9 @@ function Profile() {
                     </Box>
                   </Box>
                 </Dialog>
-              ) : msg ? (
+              )}
+
+              {msg ? (
                 <Typography>Please wait...</Typography>
               ) : (
                 <Typography
@@ -491,6 +492,7 @@ function Profile() {
                   )}
                 </Typography>
               )}
+
               <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
@@ -516,6 +518,7 @@ function Profile() {
                 variant="outlined"
                 sx={{
                   alignItems: isActive ? "center" : "left",
+                  marginBottom: "16px",
                 }}
                 align={isActive && "center"}
               >
@@ -523,7 +526,7 @@ function Profile() {
                 Edit Profile
               </Button>
 
-              <LastLoginTime />
+              {/* <LastLoginTime /> */}
             </div>
           </Grid>
           <Grid item md={6}>
