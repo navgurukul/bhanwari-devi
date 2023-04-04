@@ -22,5 +22,37 @@ const useStyles = makeStyles(() => ({
   dialog: {
     padding: "40px",
   },
+  certButtons: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: "32px",
+  },
+  greenButton: {
+    padding: "8px 16px !important",
+    borderRadius: "8px !important",
+    backgroundColor: "#48A145 !important",
+    color: "#FFFFFF !important",
+    width: "295px !important",
+  },
+
+  pdfFrame: {
+    height: "100%",
+    width: "100%",
+    border: "none",
+    outline: "none",
+    brackgroundColor: "transparent !important",
+  },
+
+  pdfWrapper: {
+    height: (props) => (props.isActive ? "200px" : "390px"),
+  },
+  closeIcon: {
+    cursor: "pointer",
+    marginTop: "15px",
+  },
+  crossButton: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }));
 export default useStyles;

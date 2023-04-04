@@ -11,6 +11,8 @@ import {
 import { Card, Grid } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CircularProgress from "@mui/material/CircularProgress";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
@@ -48,7 +50,6 @@ function CertificateCard(props) {
     return state;
   });
   const { item } = props;
-  const modalRef = useRef(null);
 
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -128,6 +129,7 @@ function CertificateCard(props) {
 
   const handleModal = () => {
     setLoader(true);
+
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
@@ -138,50 +140,45 @@ function CertificateCard(props) {
     })
       .then((response) => {
         setLoader(false);
-        setOpenModal((prev) => !prev);
+        setOpenModal(true);
         setCertificate(response?.data?.url);
       })
       .catch((err) => {});
   };
-  // console.log(openModal, certificate);
 
   const downloadCert = () => {
     saveFile(certificate);
   };
 
-  useEffect(() => {
-    // Add event listener to detect clicks outside of the popup
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        // Close the popup if the user clicks outside of it
-        handleModal();
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
+  const onCloseHandle = () => {
+    setOpenModal((prev) => !prev);
+  };
 
-    // Remove event listener when component unmounts
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // console.log(item);
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
       <Modal
         open={openModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        onClose={handleModal}
+        onClose={onCloseHandle}
       >
         <Box sx={modalStyle}>
-          <Typography
-            sx={{ fontSize: "32px", fontWeight: "600" }}
-          >{`${item?.name}  Certificate`}</Typography>
-          <div>
+          <div className={classes.crossButton}>
+            <Typography
+              sx={{ fontSize: "32px", fontWeight: "600" }}
+            >{`${item?.name}  Certificate`}</Typography>
+            <CloseIcon
+              className={classes.closeIcon}
+              onClick={() => {
+                setOpenModal(false);
+              }}
+            />
+          </div>
+          <div className={classes.pdfWrapper}>
             <iframe
               allowtransparency="true"
               border="0"
+              className={classes.pdfFrame}
               src={`${certificate}#toolbar=0`}
               sx={{
                 height: "100%",
@@ -196,9 +193,11 @@ function CertificateCard(props) {
           <Typography>{`Meraki certifies that you have diligently 
             attended all classes and taken the practice questions.
              You have a good grasp of ${item?.name} fundamentals.`}</Typography>
-          <Box>
+          <Box className={classes.certButtons}>
             {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
-            <Button onClick={downloadCert}>Get Certificate</Button>
+            <Button onClick={downloadCert} className={classes.greenButton}>
+              Get Certificate
+            </Button>
           </Box>
         </Box>
       </Modal>
@@ -226,11 +225,27 @@ function CertificateCard(props) {
                   <Typography variant="body1">{formattedDate}</Typography>
                 </Grid>
               </Grid>
-
-              <Button color="primary" sx={{ mt: "16px" }} onClick={handleModal}>
-                <DownloadIcon />
-                Download Certificate
-              </Button>
+              {loader ? (
+                <Button
+                  color="primary"
+                  sx={{ mt: "16px" }}
+                  onClick={handleModal}
+                >
+                  <CircularProgress
+                    sx={{ padding: "0px 60px" }}
+                    color="primary"
+                  />
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  sx={{ mt: "16px" }}
+                  onClick={handleModal}
+                >
+                  <DownloadIcon />
+                  Download Certificate
+                </Button>
+              )}
             </CardContent>
           </Card>
         </>

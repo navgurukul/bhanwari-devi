@@ -18,6 +18,7 @@ import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
 import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
 import Modal from "@mui/material/Modal";
+import CloseIcon from "@mui/icons-material/Close";
 // import ReactPDF from "./ReactPDF.js";
 import {
   Container,
@@ -181,15 +182,17 @@ function PathwayCourse() {
       .then((response) => {
         setLoader(false);
         setCertificate(response?.data?.url);
-        if (response) {
-          setOpenModal((prev) => !prev);
-        }
+        setOpenModal(true);
       })
       .catch((err) => {});
   };
 
   const downloadCert = () => {
     saveFile(certificate);
+  };
+
+  const onCloseHandle = () => {
+    setOpenModal((prev) => !prev);
   };
 
   const shareCertificate = () => {
@@ -341,12 +344,22 @@ function PathwayCourse() {
           open={openModal}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          onClose={handleModal}
+          onClose={onCloseHandle}
         >
           <Box sx={modalStyle}>
-            <Typography
-              sx={{ fontSize: "32px", fontWeight: "600" }}
-            >{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography
+                sx={{ fontSize: "32px", fontWeight: "600" }}
+              >{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
+
+              <CloseIcon
+                sx={{ cursor: "pointer", marginTop: "15px" }}
+                onClick={() => {
+                  setOpenModal(false);
+                }}
+              />
+            </div>
+
             <div className={classes.pdfWrapper}>
               <iframe
                 allowtransparency="true"
