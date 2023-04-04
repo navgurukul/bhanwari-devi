@@ -211,6 +211,7 @@ const month = {
   11: "Nov",
   12: "Dec",
 };
+
 export const lang = {
   en: "English",
   hi: "Hindi",
@@ -218,6 +219,7 @@ export const lang = {
   ta: "Tamil",
   te: "Telugu",
 };
+
 export const dateTimeFormat = (date) => {
   try {
     const datePart = date?.split("T")[0].split("-").reverse();
