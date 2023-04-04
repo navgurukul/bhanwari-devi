@@ -536,13 +536,17 @@ function Profile() {
             {data.Pathways.data &&
               data.Pathways.data.pathways?.map(
                 (item) =>
-                  item.code === "PRGPYT" && <CertificateCard item={item} />
+                  item.code === "PRGPYT" && (
+                    <CertificateCard item={item} key={item.name} />
+                  )
               )}
 
             {data.Pathways.data &&
               data.Pathways.data.pathways?.map(
                 (item) =>
-                  item.code === "PRGPYT" && <UnlockOpportunities item={item} />
+                  item.code === "PRGPYT" && (
+                    <UnlockOpportunities item={item} key={item.name} />
+                  )
               )}
           </Grid>
         </Grid>

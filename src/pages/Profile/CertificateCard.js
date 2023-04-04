@@ -109,7 +109,7 @@ function CertificateCard(props) {
     }
   }, [pathwayId]);
   // const pathwayId = params.pathwayId;
-  const completedAll = completedPortion == 100;
+  const completedAll = completedPortion === 100;
   useEffect(() => {
     if (completedAll) {
       axios({
@@ -155,7 +155,7 @@ function CertificateCard(props) {
   };
 
   return (
-    <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
+    <Container sx={{ marginTop: "16px" }} align="left">
       <Modal
         open={openModal}
         aria-labelledby="modal-modal-title"
@@ -166,7 +166,7 @@ function CertificateCard(props) {
           <div className={classes.crossButton}>
             <Typography
               sx={{ fontSize: "32px", fontWeight: "600" }}
-            >{`${item?.name}  Certificate`}</Typography>
+            >{`${item.name}  Certificate`}</Typography>
             <CloseIcon
               className={classes.closeIcon}
               onClick={() => {
@@ -192,7 +192,7 @@ function CertificateCard(props) {
           </div>
           <Typography>{`Meraki certifies that you have diligently 
             attended all classes and taken the practice questions.
-             You have a good grasp of ${item?.name} fundamentals.`}</Typography>
+             You have a good grasp of ${item.name} fundamentals.`}</Typography>
           <Box className={classes.certButtons}>
             {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
             <Button onClick={downloadCert} className={classes.greenButton}>
@@ -204,15 +204,11 @@ function CertificateCard(props) {
 
       {completedAll ? (
         <>
-          <Card
-            sx={{ width: isActive ? "356px" : "448px" }}
-            fullWidth
-            align="left"
-          >
+          <Card sx={{ width: isActive ? "356px" : "448px" }} align="left">
             <CardContent>
-              <Grid Container sx={{ display: "flex" }}>
+              <Grid sx={{ display: "flex" }}>
                 <Grid item md={2}>
-                  <img src={item.logo} maxWidth="40px" height="40px" />
+                  <img src={item.logo} height="40px" />
                 </Grid>
                 <Grid item md={3}>
                   <Typography variant="subtitle1">{item.name}</Typography>
