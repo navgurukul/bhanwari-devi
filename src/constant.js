@@ -53,6 +53,7 @@ export const PATHS = {
   CLASS_FORM: "/class-form-model",
   TUTOR: "/tutor-dashboard",
   GSOC_IDEA: "/gsoc-ideas-2023",
+  NEW_PARTNER: "/new-partner"
 };
 
 export const HideHeader = [

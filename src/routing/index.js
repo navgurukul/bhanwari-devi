@@ -34,6 +34,7 @@ import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
+import RegularPartnes from "../components/NewPartnersDashboard/RegularPartners"
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
 const Routing = () => {
   return (
@@ -125,6 +126,7 @@ const Routing = () => {
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
       <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
       <PrivateRoute exact path={PATHS.STUDENT} component={StudentClassData} />
+      <PrivateRoute exact path={PATHS.NEW_PARTNER} component={RegularPartnes} />
     </>
   );
 };
