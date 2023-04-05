@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import { Container, Box, Button } from "@mui/material";
 import axios from "axios";
 import { METHODS } from "../../../../services/api";
 import { useParams } from "react-router-dom";
 import AssessmentContent from "./AssessmentContent";
+import { ResData } from "..";
 
 function Assessment({
   data,
@@ -12,9 +13,11 @@ function Assessment({
   courseData,
   setCourseData,
   setProgressTrackId,
-  res,
+  // res,
 }) {
   const user = useSelector(({ User }) => User);
+
+  const res = useContext(ResData);
 
   const [answer, setAnswer] = useState(res?.selected_option);
   const [correct, setCorrect] = useState();
@@ -26,12 +29,21 @@ function Assessment({
   const params = useParams();
 
   useEffect(() => {
-    console.log(res, correct);
+    // console.log(res, correct);
   }, [answer]);
 
+  console.log("Responce", res);
+  console.log("answer", answer, "solution", solution, "triedAgain", triedAgain);
   // Assessment submit handler
   const submitAssessment = () => {
     setSubmit(true);
+
+    if (answer == solution || (triedAgain == 2 && answer)) {
+      console.log("Working");
+    } else {
+      console.log("Not working");
+    }
+
     axios({
       method: METHODS.POST,
       url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,

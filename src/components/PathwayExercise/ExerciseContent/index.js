@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+  createContext,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { METHODS } from "../../../services/api";
 import axios from "axios";
@@ -43,6 +49,8 @@ import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
+
+const ResData = createContext();
 
 const createVisulizeURL = (code, lang, mode) => {
   // only support two languages for now
@@ -362,6 +370,7 @@ function ExerciseContent({
           Authorization: user.data.token,
         },
       }).then((res) => {
+        console.log(res.data);
         setAssessmentResult(res.data);
       });
     }
@@ -488,14 +497,16 @@ function ExerciseContent({
             </Box>
           )}
           {exercise && exercise.content_type === "assessment" && (
-            <Assessment
-              res={assessmentResult}
-              data={content}
-              exerciseId={exercise.id}
-              courseData={courseData}
-              setCourseData={setCourseData}
-              setProgressTrackId={setProgressTrackId}
-            />
+            <ResData.Provider value={assessmentResult}>
+              <Assessment
+                // res={assessmentResult}
+                data={content}
+                exerciseId={exercise.id}
+                courseData={courseData}
+                setCourseData={setCourseData}
+                setProgressTrackId={setProgressTrackId}
+              />
+            </ResData.Provider>
           )}
         </Container>
       </Container>
@@ -506,3 +517,4 @@ function ExerciseContent({
 }
 
 export default ExerciseContent;
+export { ResData };
