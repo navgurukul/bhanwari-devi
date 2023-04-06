@@ -52,7 +52,7 @@ function CertificateCard(props) {
   const { item } = props;
 
   const dispatch = useDispatch();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const [completedPortion, setCompletedPortion] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -204,7 +204,7 @@ function CertificateCard(props) {
 
       {completedAll ? (
         <>
-          <Card sx={{ width: isActive ? "356px" : "448px" }} align="left">
+          <Card sx={{ width: {xs: "356px", sm: "448px" } }} align="left">
             <CardContent>
               <Grid sx={{ display: "flex" }}>
                 <Grid item md={2}>
