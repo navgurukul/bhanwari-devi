@@ -7,6 +7,8 @@ import {
   DialogContentText,
   DialogActions,
   Box,
+  Grid,
+  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -25,17 +27,25 @@ function CreatePartner(props) {
     <div>
       <Dialog open={props.open} onClose={props.handleClose}>
         <DialogContent>
-          <DialogContentText variant="h6" sx={{ color: "black" }}>
-            New partner
-          </DialogContentText>
-          <DialogActions>
-            <Button sx={{ mt: -5 }} onClick={props.handleClose}>
-              <CloseIcon />
-            </Button>
-          </DialogActions>
+            <Grid container mb={3}>
+              <Grid item xs={11}>
+                <Typography variant="h6" component="h2">
+                New partner
+                </Typography>
+              </Grid>
+              <Grid
+                color="text.secondary"
+                item
+                xs={1}
+            >
+                <CloseIcon
+                  onClick={props.handleClose}
+                />
+              </Grid>
+            </Grid>
+         
           <TextField
             autoFocus
-            margin="dense"
             label="Partner Name"
             name="name"
             onChange={handleChange}
@@ -44,7 +54,6 @@ function CreatePartner(props) {
           />
           <TextField
             autoFocus
-            margin="dense"
             label="Point Of Contact Name"
             name="contact"
             onChange={handleChange}
@@ -53,7 +62,6 @@ function CreatePartner(props) {
           />
           <TextField
             autoFocus
-            margin="dense"
             label="Point Of Contact Email"
             name="email"
             onChange={handleChange}
@@ -62,7 +70,6 @@ function CreatePartner(props) {
           />
           <TextField
             autoFocus
-            margin="dense"
             label="Location (City/District)"
             name="location"
             onChange={handleChange}
