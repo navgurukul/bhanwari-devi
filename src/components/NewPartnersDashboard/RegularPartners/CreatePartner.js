@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Box,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -69,20 +70,13 @@ function CreatePartner(props) {
             fullWidth
           />
         </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            style={{
-              background: "#48A145",
-              color: "white",
-              width: "31em",
-              height: "3em",
-              marginRight: 13,
-            }}
-          >
-            Create Partner
-          </Button>
-        </DialogActions>
+        <Box sx={{ p: 2, mt: -3 }}>
+          <DialogActions>
+            <Button variant="contained" color="primary" fullWidth>
+              Create Partner
+            </Button>
+          </DialogActions>
+        </Box>
       </Dialog>
     </div>
   );
