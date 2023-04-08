@@ -17,11 +17,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Icon } from "@material-ui/core";
 import EmailIcon from "@mui/icons-material/Email";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CreatePartner from "./CreatePartner";
 
 function RegularPartnes() {
   const [volunteer, setVolunteer] = useState([]);
   const user = useSelector(({ User }) => User);
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     axios({
@@ -115,6 +117,15 @@ function RegularPartnes() {
     viewColumns: false,
     elevation: 0,
   };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Container>
       <Stack spacing={2} direction="row">
@@ -141,9 +152,11 @@ function RegularPartnes() {
           <Button
             variant="contained"
             sx={{ padding: "30px 16px", marginLeft: "20px" }}
+            onClick={handleClick}
           >
             + Add Partner
           </Button>
+          <CreatePartner open={open} handleClose={handleClose} />
         </Grid>
       </Grid>
 
