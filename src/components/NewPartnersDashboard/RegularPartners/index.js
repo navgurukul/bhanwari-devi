@@ -78,7 +78,7 @@ function RegularPartnes() {
       options: {
         sort: false,
         filter: false,
-        customBodyRender: (value) => <TableCell>Arvind Shukla</TableCell>,
+        customBodyRender: (value) => <TableCell> Arvind Shukla</TableCell>,
       },
     },
     {
@@ -194,7 +194,6 @@ function RegularPartnes() {
     print: false,
     search: false,
     viewColumns: false,
-
     elevation: 0,
     setRowProps: (rows, dataIndex, rowIndex) => {
       return { sx: { backgroundColor: "transparent !important" } };
@@ -284,7 +283,6 @@ function RegularPartnes() {
           }}
         />
       </Stack>
-
       <MUIDataTable
         data={displayedData}
         columns={columns}
@@ -313,13 +311,10 @@ function RegularPartnes() {
           count={pageCount}
           page={currentPage + 1}
           onChange={handlePageChange}
-          // variant="outlined"
-          // shape="circle"
           classes={{ ul: "pagination" }}
           color="primary"
         />
       </div>
-
       <Stack
         spacing={2}
         sx={{
