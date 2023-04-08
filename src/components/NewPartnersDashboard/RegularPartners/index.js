@@ -26,6 +26,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Pagination } from "@mui/material";
+import CreatePartner from "./CreatePartner";
 
 function RegularPartnes() {
   const [volunteer, setVolunteer] = useState([]);
@@ -36,6 +37,7 @@ function RegularPartnes() {
   const [currentPage, setCurrentPage] = useState(0);
   const perPage = 10;
   const pageCount = Math.ceil(volunteer.length / perPage);
+  const [open, setOpen] = useState(false);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page - 1);
@@ -183,7 +185,6 @@ function RegularPartnes() {
       },
     },
   ];
-
   const options = {
     customToolbarSelect: () => {},
     filterType: "checkbox",
@@ -198,6 +199,14 @@ function RegularPartnes() {
     setRowProps: (rows, dataIndex, rowIndex) => {
       return { sx: { backgroundColor: "transparent !important" } };
     },
+  };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -226,9 +235,11 @@ function RegularPartnes() {
           <Button
             variant="contained"
             sx={{ padding: "30px 16px", marginLeft: "20px" }}
+            onClick={handleClick}
           >
             + Add Partner
           </Button>
+          <CreatePartner open={open} handleClose={handleClose} />
         </Grid>
       </Grid>
       <Stack direction="row" spacing={1} margin="16px 0px">

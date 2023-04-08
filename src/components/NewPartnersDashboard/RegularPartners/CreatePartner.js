@@ -19,6 +19,7 @@ function CreatePartner(props) {
   const handleChange = (event) => {
     setAddPartner({ ...addpartner, [event.target.name]: event.target.value });
   };
+  console.log(addpartner);
   return (
     <div>
       <Dialog open={props.open} onClose={props.handleClose}>
@@ -74,9 +75,9 @@ function CreatePartner(props) {
             style={{
               background: "#48A145",
               color: "white",
-              width: "40em",
+              width: "31em",
               height: "3em",
-              marginRight: 10,
+              marginRight: 13,
             }}
           >
             Create Partner
