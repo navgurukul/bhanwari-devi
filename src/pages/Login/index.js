@@ -153,12 +153,7 @@ function Login(props) {
                         variant="contained"
                         startIcon={<GoogleIcon />}
                         onClick={() => {
-                          window.open(
-                            `https://accounts.navgurukul.org/authenticate?redirectUrl=${document.location.origin.trim()}`,
-                            "Authenticate",
-                            "width=500,height=500"
-                          );
-                          window.open("", "_self").close();
+                          window.location.href = `https://accounts.navgurukul.org/authenticate?redirectUrl=${document.location.origin.trim()}`;
                         }}
                         style={{
                           backgroundColor: "white",

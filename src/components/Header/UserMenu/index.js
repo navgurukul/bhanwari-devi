@@ -98,12 +98,7 @@ function UserMenu() {
           to={PATHS.LOGIN}
           onClick={() => {
             dispatch(userActions.logout());
-            window.open(
-              `https://accounts.navgurukul.org/authenticate?redirectUrl=${document.location.origin.trim()}&logout=true`,
-              "Authenticate",
-              "width=500,height=500"
-            );
-            window.open("", "_self").close();
+            window.location.href = `https://accounts.navgurukul.org/authenticate?redirectUrl=${document.location.origin.trim()}&logout=true`;
           }}
           className={classes.link}
         >
