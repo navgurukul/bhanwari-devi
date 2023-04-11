@@ -37,6 +37,8 @@ function CreatePartner(props) {
                 color="text.secondary"
                 item
                 xs={1}
+
+                
             >
                 <CloseIcon
                   onClick={props.handleClose}
