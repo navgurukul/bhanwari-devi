@@ -18,10 +18,6 @@ import DropdownLink from "./DropdownLink";
 import LaunchIcon from "@mui/icons-material/Launch";
 import Message from "../common/Message";
 import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
-// import { useContext } from "react";
-// import { useLanguageConstants, getTranslationKey } from "../../common/language";
-// import { LanguageProvider } from "../../common/context";
-
 import {
   Typography,
   Menu,
@@ -34,32 +30,8 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [
-    python,
-    // scratch,
-    typing,
-    language,
-    web,
-    residential,
-    random,
-  ],
-  [LEARN_KEY]: [
-    // { title: "Python", code: "PRGPYT", type: "internal" },
-    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
-    // { title: "Typing", code: "TYPGRU", type: "internal" },
-    // { title: "Spoken English", code: "SPKENG", type: "internal" },
-    // { title: "JavaScript", code: "JSRPIT", type: "internal" },
-    // {
-    //   title: "Residential Programmes",
-    //   path: PATHS.RESIDENTIAL_COURSE,
-    //   type: "internal",
-    // },
-    // {
-    //   title: "Miscellaneous Courses",
-    //   path: PATHS.MISCELLANEOUS_COURSE,
-    //   type: "internal",
-    // },
-  ],
+  image: [python, typing, language, web, residential, random],
+  [LEARN_KEY]: [],
   [ABOUT_KEY]: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
     { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
@@ -119,10 +91,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
       }
     });
   students[LEARN_KEY] = studentLearn;
-
   students[LEARN_KEY] = studentLearn.filter((x) => x.path || x.id);
-  // console.log("subMenu", subMenu);
-  console.log("students", students);
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
@@ -195,18 +164,6 @@ export const DropDown = ({
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
-
-  /*
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      students.Learn.forEach((item) => {
-        if (pathway.code === item.code) {
-          item.id = pathway.id;
-        }
-      });
-    });
-*/
 
   return (
     <>

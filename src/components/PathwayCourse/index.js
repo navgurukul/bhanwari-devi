@@ -122,9 +122,6 @@ function PathwayCourse() {
   const params = useParams();
   const pathwayId = params.pathwayId;
   const [completedPortion, setCompletedPortion] = useState({});
-
-  // const [loading, setLoading] = useState(true);
-  // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
@@ -146,7 +143,6 @@ function PathwayCourse() {
   };
 
   const data = useSelector((state) => {
-    console.log("data in pathway course", state);
     return state;
   });
 
@@ -316,9 +312,6 @@ function PathwayCourse() {
   } else {
     filterPathwayCourse = pathwayCourse?.data?.courses;
   }
-
-  console.log("pathwayCourse", data?.Pathways);
-  console.log("filterPathwayCourse", filterPathwayCourse);
 
   return (
     <>

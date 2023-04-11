@@ -15,24 +15,7 @@ const menu = {
     { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
     { title: "Meraki Team", type: "internal", link: PATHS.TEAM },
   ],
-  LearningTracks: [
-    // { title: "Python", code: "PRGPYT", type: "internal" },
-    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
-    // { title: "Typing ", code: "TYPGRU", type: "internal" },
-    // { title: "Spoken English", code: "SPKENG", type: "internal" },
-    // { title: "Javascript", code: "JSRPIT", type: "internal" },
-    // {
-    //   title: "Residential Programmes",
-    //   type: "internal",
-    //   link: PATHS.RESIDENTIAL_COURSE,
-    // },
-    // {
-    //   title: "Miscellaneous Courses",
-    //   type: "internal",
-    //   link: PATHS.MISCELLANEOUS_COURSE,
-    // },
-  ],
-
+  LearningTracks: [],
   GetInvolved: [
     {
       title: "Volunteer With Us",
@@ -57,7 +40,6 @@ const MenuList = (menuItem) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => {
-    // console.log("state", state);
     return state.Pathways;
   });
 
@@ -70,7 +52,6 @@ const MenuList = (menuItem) => {
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      console.log("pathway", pathway);
       if (pathway.code !== "PRCRSE" || pathway.path) {
         const obj = {
           id: pathway.id || null,
@@ -84,12 +65,7 @@ const MenuList = (menuItem) => {
       }
     });
   menu[menuItem] = studentLearn;
-
   const subMenu = menu[menuItem].filter((x) => x.link || x.id);
-
-  console.log("data", data && data?.pathways);
-  // console.log("menu", menu);
-  // console.log("subMenu", subMenu);
 
   return (
     <>
@@ -172,7 +148,6 @@ function Footer() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => {
-    console.log("state", state);
     return state.Pathways;
   });
 
@@ -185,7 +160,6 @@ function Footer() {
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      // console.log(pathway);
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
           item.id = pathway.id;
