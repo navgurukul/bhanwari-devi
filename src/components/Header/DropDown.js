@@ -18,10 +18,6 @@ import DropdownLink from "./DropdownLink";
 import LaunchIcon from "@mui/icons-material/Launch";
 import Message from "../common/Message";
 import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
-// import { useContext } from "react";
-// import { useLanguageConstants, getTranslationKey } from "../../common/language";
-// import { LanguageProvider } from "../../common/context";
-
 import {
   Typography,
   Menu,
@@ -34,43 +30,13 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [
-    python,
-    // scratch,
-    typing,
-    language,
-    web,
-    residential,
-    random,
-  ],
-  [LEARN_KEY]: [
-    { title: "Python", code: "PRGPYT", type: "internal" },
-    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
-    { title: "Typing", code: "TYPGRU", type: "internal" },
-    { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "JavaScript", code: "JSRPIT", type: "internal" },
-    {
-      title: "Residential Programmes",
-      path: PATHS.RESIDENTIAL_COURSE,
-      type: "internal",
-    },
-    {
-      title: "Miscellaneous Courses",
-      path: PATHS.MISCELLANEOUS_COURSE,
-      type: "internal",
-    },
-  ],
+  image: [python, typing, language, web, residential, random],
+  [LEARN_KEY]: [],
   [ABOUT_KEY]: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
     { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
   [GET_INVOLVED_KEY]: [
-    // {
-    //   title: "Become a Partner",
-    //   path: PATHS.OUR_PARTNER,
-    //   type: "internal",
-    // },
-
     {
       title: <Message constantKey="VOLUNTEER_WITH_US" />,
       path: PATHS.VOLUNTEER_AUTOMATION,
@@ -107,15 +73,25 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   // data?.pathways &&
   //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
 
+  const studentLearn = [];
+
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      students[LEARN_KEY].forEach((item) => {
-        if (pathway.code === item.code) {
-          item["id"] = pathway.id;
-        }
-      });
+      if (pathway.code !== "PRCRSE" || pathway.path) {
+        const obj = {
+          id: pathway.id || null,
+          title: pathway.name || pathway.title,
+          description: pathway.description,
+          image: pathway.image || pathway.logo || python,
+          path: pathway.path || null,
+          type: "internal",
+        };
+        studentLearn.push(obj);
+      }
     });
+  // students[LEARN_KEY] = studentLearn;
+  students[LEARN_KEY] = studentLearn.filter((x) => x.path || x.id);
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
@@ -135,7 +111,10 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
             >
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
-                  <img src={students.image[index]} alt="course logo" />
+                  <img
+                    src={students.image[index] || menu.image}
+                    alt="course logo"
+                  />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
@@ -186,18 +165,6 @@ export const DropDown = ({
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  /*
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      students.Learn.forEach((item) => {
-        if (pathway.code === item.code) {
-          item.id = pathway.id;
-        }
-      });
-    });
-*/
-
   return (
     <>
       {dropDown &&
@@ -222,7 +189,10 @@ export const DropDown = ({
                   margin="6px 16px"
                 >
                   {dropDown === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
+                    <img
+                      src={students.image[index] || menu.image}
+                      alt="course logo"
+                    />
                   )}
                   <Typography
                     textAlign="center"
@@ -232,7 +202,8 @@ export const DropDown = ({
                     {menu.title}
                   </Typography>
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY &&
+                  index === students[dropDown].length - 3 && <Divider />}
               </>
             );
           } else {
@@ -258,7 +229,8 @@ export const DropDown = ({
                   </Typography>
                   <LaunchIcon />
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY &&
+                  index === students[dropDown].length - 3 && <Divider />}
               </>
             );
           }
