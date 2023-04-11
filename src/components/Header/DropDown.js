@@ -90,7 +90,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
         studentLearn.push(obj);
       }
     });
-  students[LEARN_KEY] = studentLearn;
+  // students[LEARN_KEY] = studentLearn;
   students[LEARN_KEY] = studentLearn.filter((x) => x.path || x.id);
 
   return (
