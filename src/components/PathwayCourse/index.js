@@ -40,7 +40,7 @@ import { useState } from "react";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import CustomSnackbar from "./customSnackbar";
-
+import CertificatePDF from "../common/CertificatePDF/CertificatePDF";
 const pathways = [
   {
     pathway: "Python",
@@ -132,19 +132,6 @@ function PathwayCourse() {
   const [loader, setLoader] = useState(false);
   const displayCert = pathwayId == 1;
 
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: isActive ? "300px" : "544px",
-    bgcolor: "background.paper",
-    outline: "none",
-    borderRadius: "8px",
-    boxShadow: 24,
-    p: 4,
-  };
-
   const data = useSelector((state) => {
     return state;
   });
@@ -185,29 +172,6 @@ function PathwayCourse() {
         setOpenModal(true);
       })
       .catch((err) => {});
-  };
-
-  const downloadCert = () => {
-    saveFile(certificate);
-  };
-
-  const onCloseHandle = () => {
-    setOpenModal((prev) => !prev);
-  };
-
-  const shareCertificate = () => {
-    if (navigator.share !== undefined) {
-      const title = `Check out my ${pathwayCourseData?.pathway} certificate`;
-      const text = `I completed a ${pathwayCourseData?.pathway} from Meraki!`;
-      const url = certificate;
-      navigator
-        .share({
-          title,
-          text,
-          url,
-        })
-        .catch((err) => console.error(err));
-    }
   };
 
   const loading = useSelector((state) => {
@@ -340,44 +304,14 @@ function PathwayCourse() {
         mb={isActive ? 32 : 48}
         maxWidth="lg"
       >
-        <Modal
-          open={openModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          onClose={onCloseHandle}
-        >
-          <Box sx={modalStyle}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography
-                sx={{ fontSize: "32px", fontWeight: "600" }}
-              >{`${pathwayCourseData?.pathway}  Certificate`}</Typography>
-
-              <CloseIcon
-                sx={{ cursor: "pointer", marginTop: "15px" }}
-                onClick={() => {
-                  setOpenModal(false);
-                }}
-              />
-            </div>
-
-            <div className={classes.pdfWrapper}>
-              <iframe
-                allowtransparency="true"
-                border="0"
-                className={classes.pdfFrame}
-                src={`${certificate}#toolbar=0`}
-              ></iframe>
-              {/* <ReactPDF/> */}
-            </div>
-            <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
-            <Box className={classes.certButtons}>
-              {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
-              <Button onClick={downloadCert} className={classes.greenButton}>
-                Get Certificate
-              </Button>
-            </Box>
-          </Box>
-        </Modal>
+        <CertificatePDF
+          item={pathwayCourseData?.pathway}
+          certificate={certificate}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          handleModal={handleModal}
+          loader={loader}
+        />
         {enrolledBatches ? (
           <>
             <PathwayCards

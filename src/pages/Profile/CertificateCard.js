@@ -26,25 +26,9 @@ import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { format } from "../../common/date";
-function saveFile(url) {
-  // Get file name from url.
-  var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
-  var xhr = new XMLHttpRequest();
-  xhr.responseType = "blob";
-  xhr.onload = function () {
-    let a = document.createElement("a");
-    a.href = window.URL.createObjectURL(xhr.response); // xhr.response is a blob
-    a.download = filename; // Set the file name.
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-  };
-  xhr.open("GET", url);
-  xhr.send();
-}
+import CertificatePDF from "../../components/common/CertificatePDF/CertificatePDF";
 
 function CertificateCard(props) {
-  const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const data = useSelector((state) => {
     return state;
@@ -53,6 +37,7 @@ function CertificateCard(props) {
 
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles({ isActive });
 
   const [completedPortion, setCompletedPortion] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -70,21 +55,7 @@ function CertificateCard(props) {
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "544px",
-    bgcolor: "background.paper",
-    outline: "none",
-    borderRadius: "8px",
-    boxShadow: 24,
-    p: 4,
-  };
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
+
   useEffect(() => {
     // setLoading(true);
     if (user?.data?.token && pathwayId) {
@@ -146,61 +117,16 @@ function CertificateCard(props) {
       .catch((err) => {});
   };
 
-  const downloadCert = () => {
-    saveFile(certificate);
-  };
-
-  const onCloseHandle = () => {
-    setOpenModal((prev) => !prev);
-  };
-
   return (
     <Container sx={{ marginTop: "16px" }} align="left">
-      <Modal
-        open={openModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        onClose={onCloseHandle}
-      >
-        <Box sx={modalStyle}>
-          <div className={classes.crossButton}>
-            <Typography
-              sx={{ fontSize: "32px", fontWeight: "600" }}
-            >{`${item.name}  Certificate`}</Typography>
-            <CloseIcon
-              className={classes.closeIcon}
-              onClick={() => {
-                setOpenModal(false);
-              }}
-            />
-          </div>
-          <div className={classes.pdfWrapper}>
-            <iframe
-              allowtransparency="true"
-              border="0"
-              className={classes.pdfFrame}
-              src={`${certificate}#toolbar=0`}
-              sx={{
-                height: "100%",
-                width: "100%",
-                border: "none",
-                outline: "none",
-                brackgroundColor: "transparent !important",
-              }}
-            ></iframe>
-            {/* <ReactPDF/> */}
-          </div>
-          <Typography>{`Meraki certifies that you have diligently 
-            attended all classes and taken the practice questions.
-             You have a good grasp of ${item.name} fundamentals.`}</Typography>
-          <Box className={classes.certButtons}>
-            {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
-            <Button onClick={downloadCert} className={classes.greenButton}>
-              Get Certificate
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+      <CertificatePDF
+        item={item.name}
+        certificate={certificate}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        handleModal={handleModal}
+        loader={loader}
+      />
 
       {completedAll ? (
         <>

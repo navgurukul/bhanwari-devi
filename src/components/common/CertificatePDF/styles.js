@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
   greenButton: {
     padding: "8px 16px !important",
     borderRadius: "8px !important",
-    backgroundColor: "primary.main !important",
-    color: "background.paper !important",
+    backgroundColor: "#48A145 !important",
+    color: "background !important",
     width: "295px !important",
   },
 
