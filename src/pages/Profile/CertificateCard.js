@@ -130,7 +130,7 @@ function CertificateCard(props) {
 
       {completedAll ? (
         <>
-          <Card sx={{ width: isActive ? "356px" : "448px" }} align="left">
+          <Card sx={{ width: { xs: "356px", sm: "448px" } }} align="left">
             <CardContent>
               <Grid sx={{ display: "flex" }}>
                 <Grid item md={2}>
