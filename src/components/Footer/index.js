@@ -64,7 +64,11 @@ const MenuList = (menuItem) => {
         studentLearn.push(obj);
       }
     });
-  menu[menuItem] = studentLearn;
+
+  if (menuItem === "LearningTracks") {
+    menu[menuItem] = studentLearn;
+  }
+
   const subMenu = menu[menuItem].filter((x) => x.link || x.id);
 
   return (
