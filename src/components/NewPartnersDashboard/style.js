@@ -30,5 +30,11 @@ const useStyles = makeStyles(() => ({
     fontWeight: "400",
     fontFamily: "Noto Sans",
   },
+  ChipInput: {
+    fontSize: "14px !important",
+    fontWeight: "400 !important",
+    fontFamily: "Noto Sans !important",
+    cursor: "pointer !important",
+  },
 }));
 export default useStyles;
