@@ -27,6 +27,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Pagination } from "@mui/material";
 import CreatePartner from "./CreatePartner";
+import { breakpoints } from "../../../theme/constant";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function RegularPartnes() {
   const [volunteer, setVolunteer] = useState([]);
@@ -38,6 +40,7 @@ function RegularPartnes() {
   const perPage = 10;
   const pageCount = Math.ceil(volunteer.length / perPage);
   const [open, setOpen] = useState(false);
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page - 1);
@@ -211,16 +214,17 @@ function RegularPartnes() {
 
   return (
     <Container sx={{ marginTop: "32px" }}>
-      <Stack spacing={2} direction="row" margin="16px 0px">
-        <Button>Regular Partners</Button>
-        <Button>State Level Partners</Button>
-      </Stack>
       <Grid container>
-        <Grid item md={10}>
+        <Grid item md={10} xs={12}>
           <TextField
             id="outlined-basic"
             placeholder="Search Partner, Point of Contact..."
+            className={classes.textField}
             InputProps={{
+              style: {
+                height: "48px",
+                padding: "0 14px",
+              },
               startAdornment: (
                 <InputAdornment position="start">
                   <SearchIcon />
@@ -229,12 +233,13 @@ function RegularPartnes() {
             }}
             variant="outlined"
             fullWidth
+            // size="small"
           />
         </Grid>
-        <Grid item md={2}>
+        <Grid item md={2} xs={12}>
           <Button
             variant="contained"
-            sx={{ padding: "30px 16px", marginLeft: "20px" }}
+            sx={{ padding: "8px 16px", marginLeft: "20px" }}
             onClick={handleClick}
           >
             + Add Partner
@@ -242,58 +247,43 @@ function RegularPartnes() {
           <CreatePartner open={open} handleClose={handleClose} />
         </Grid>
       </Grid>
-      <Stack direction="row" spacing={1} margin="16px 0px">
-        <Chip
-          label="All Partners"
-          color="primary"
-          sx={{
-            fontSize: "14px",
-            fontWeight: "400",
-            fontFamily: "Noto Sans",
-            cursor: "pointer",
-          }}
-        />
-        <Chip
-          label="Newly Onboarded"
-          variant="outlined"
-          sx={{
-            fontSize: "14px",
-            fontWeight: "400",
-            fontFamily: "Noto Sans",
-            cursor: "pointer",
-          }}
-        />
-        <Chip
-          label="Active"
-          variant="outlined"
-          sx={{
-            fontSize: "14px",
-            fontWeight: "400",
-            fontFamily: "Noto Sans",
-            cursor: "pointer",
-          }}
-        />
-        <Chip
-          label="Inactive"
-          variant="outlined"
-          sx={{
-            fontSize: "14px",
-            fontWeight: "400",
-            fontFamily: "Noto Sans",
-            cursor: "pointer",
-          }}
-        />
-        <Chip
-          label="Archived"
-          variant="outlined"
-          sx={{
-            fontSize: "14px",
-            fontWeight: "400",
-            fontFamily: "Noto Sans",
-            cursor: "pointer",
-          }}
-        />
-      </Stack>
+      <Grid container spacing={1} margin="16px 0px">
+        <Grid item>
+          <Chip
+            label="All Partners"
+            color="primary"
+            className={classes.ChipInput}
+          />
+        </Grid>
+        <Grid item>
+          <Chip
+            label="Newly Onboarded"
+            variant="outlined"
+            className={classes.ChipInput}
+          />
+        </Grid>
+        <Grid item>
+          <Chip
+            label="Active"
+            variant="outlined"
+            className={classes.ChipInput}
+          />
+        </Grid>
+        <Grid item>
+          <Chip
+            label="Inactive"
+            variant="outlined"
+            className={classes.ChipInput}
+          />
+        </Grid>
+        <Grid item>
+          <Chip
+            label="Archived"
+            variant="outlined"
+            className={classes.ChipInput}
+          />
+        </Grid>
+      </Grid>
       <MUIDataTable
         data={displayedData}
         columns={columns}
