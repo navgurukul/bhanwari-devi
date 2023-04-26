@@ -268,8 +268,8 @@ function ClassForm({
     } else {
       if (
         classFields.title !== "" &&
-        classFields.course_id &&
-        classFields.exercise_id &&
+        ((classFields.course_id && classFields.exercise_id) ||
+          classFields.pathway_id) &&
         classFields.description &&
         classFields.description.length < 555
       ) {
@@ -288,7 +288,7 @@ function ClassForm({
     classFields.exercise_id,
     classFields.description,
   ]);
-
+  console.log(classFields);
   const courses =
     (data.Pathways.data &&
       data.Pathways.data.pathways[0] &&
@@ -585,11 +585,15 @@ function ClassForm({
     ];
     let payload;
     if (classFields.type === "doubt_class") {
-      payload = _.pick(classFields, [
-        ...commonFields,
-        "course_id",
-        "exercise_id",
-      ]);
+      if (classFields.pathway_id === "7") {
+        payload = _.pick(classFields, [...commonFields, "partner_id"]);
+      } else {
+        payload = _.pick(classFields, [
+          ...commonFields,
+          "course_id",
+          "exercise_id",
+        ]);
+      }
     } else if (classFields.type === "batch") {
       payload = _.pick(classFields, [
         ...commonFields,
@@ -650,74 +654,7 @@ function ClassForm({
                 />
               </Grid>
             </Grid>
-            {classFields.type !== "batch" && (
-              <FormControl error={showError.course} fullWidth>
-                <InputLabel id="demo-simple-select-label">Courses</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Courses"
-                  onClick={() => {
-                    setOnInput((prev) => {
-                      return { ...prev, course: true };
-                    });
-                  }}
-                  value={selectedCourseLabel?.label}
-                  onChange={(e) => {
-                    onCourseChange(e.target.value);
-                  }}
-                >
-                  {data.Pathways &&
-                    data.Pathways.pathwayCourse &&
-                    data.Pathways.pathwayCourse.data &&
-                    data.Pathways.pathwayCourse.data.courses.map((course) => {
-                      return (
-                        <MenuItem key={course.id} value={course.id}>
-                          {course.name}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-                <FormHelperText>{helperText.course}</FormHelperText>
-              </FormControl>
-            )}
-            {classFields.type !== "batch" && (
-              <FormControl
-                error={showError.exercise}
-                fullWidth
-                sx={{
-                  mt: 3,
-                  mb: 4,
-                }}
-              >
-                <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Courses"
-                  onClick={() => {
-                    setOnInput((prev) => {
-                      return { ...prev, exercise: true };
-                    });
-                  }}
-                  disabled={exercisesForSelectedCourse.length === 0}
-                  value={selectedExerciseLabel?.label}
-                  onChange={(e) => {
-                    onExerciseChange(e.target.value);
-                  }}
-                >
-                  {exercisesForSelectedCourse &&
-                    exercisesForSelectedCourse.map((exercise) => {
-                      return (
-                        <MenuItem key={exercise.id} value={exercise.id}>
-                          {exercise.name}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-                <FormHelperText>{helperText.exercise}</FormHelperText>
-              </FormControl>
-            )}
+
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
@@ -771,14 +708,13 @@ function ClassForm({
                   : "The tutor has opted to teach Spoken English learning track"}
               </Typography>
             )}
-            {partnerPathwayId?.length == 2 && classFields.type === "batch" && (
+            {partnerPathwayId?.length >= 2 && (
               <>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   pr={2}
                   mt={4}
-                  // mb={3}
                 >
                   Learning Track
                 </Typography>
@@ -789,18 +725,29 @@ function ClassForm({
                       pathway_id: e.target.value,
                     });
                   }}
-                  mb={3}
+                  sx={{ marginBottom: "16px" }}
                 >
-                  <FormControlLabel
-                    value="1"
-                    control={<Radio />}
-                    label="Python"
-                  />
-                  <FormControlLabel
-                    value="2"
-                    control={<Radio />}
-                    label="Spoken English"
-                  />
+                  {partnerPathwayId.includes(1) && (
+                    <FormControlLabel
+                      value="1"
+                      control={<Radio />}
+                      label="Python"
+                    />
+                  )}
+                  {partnerPathwayId.includes(2) && (
+                    <FormControlLabel
+                      value="2"
+                      control={<Radio />}
+                      label="Spoken English"
+                    />
+                  )}
+                  {partnerPathwayId.includes(7) && (
+                    <FormControlLabel
+                      value="7"
+                      control={<Radio />}
+                      label="Amazon Coding Programmer"
+                    />
+                  )}
                 </RadioGroup>
                 {/* <RadioGroup
                   value={[
@@ -827,6 +774,75 @@ function ClassForm({
                   })}
                 </RadioGroup> */}
               </>
+            )}
+
+            {classFields.type !== "batch" && classFields.pathway_id !== "7" && (
+              <FormControl error={showError.course} fullWidth>
+                <InputLabel id="demo-simple-select-label">Courses</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Courses"
+                  onClick={() => {
+                    setOnInput((prev) => {
+                      return { ...prev, course: true };
+                    });
+                  }}
+                  value={selectedCourseLabel?.label}
+                  onChange={(e) => {
+                    onCourseChange(e.target.value);
+                  }}
+                >
+                  {data.Pathways &&
+                    data.Pathways.pathwayCourse &&
+                    data.Pathways.pathwayCourse.data &&
+                    data.Pathways.pathwayCourse.data.courses.map((course) => {
+                      return (
+                        <MenuItem key={course.id} value={course.id}>
+                          {course.name}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+                <FormHelperText>{helperText.course}</FormHelperText>
+              </FormControl>
+            )}
+            {classFields.type !== "batch" && classFields.pathway_id !== "7" && (
+              <FormControl
+                error={showError.exercise}
+                fullWidth
+                sx={{
+                  mt: 3,
+                  mb: 4,
+                }}
+              >
+                <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Courses"
+                  onClick={() => {
+                    setOnInput((prev) => {
+                      return { ...prev, exercise: true };
+                    });
+                  }}
+                  disabled={exercisesForSelectedCourse.length === 0}
+                  value={selectedExerciseLabel?.label}
+                  onChange={(e) => {
+                    onExerciseChange(e.target.value);
+                  }}
+                >
+                  {exercisesForSelectedCourse &&
+                    exercisesForSelectedCourse.map((exercise) => {
+                      return (
+                        <MenuItem key={exercise.id} value={exercise.id}>
+                          {exercise.name}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+                <FormHelperText>{helperText.exercise}</FormHelperText>
+              </FormControl>
             )}
 
             <TextField
@@ -860,8 +876,9 @@ function ClassForm({
                 titles and descriptions
               </Typography>
             )}
-            {classFields.type === "batch" && (
-              <Stack>
+            {(classFields.type === "batch" ||
+              classFields.pathway_id === "7") && (
+              <Stack mt="16px">
                 <Autocomplete
                   multiple
                   value={selectedPartners}

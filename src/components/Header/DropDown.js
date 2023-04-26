@@ -6,6 +6,7 @@ import web from "./asset/web.svg";
 import language from "./asset/language.svg";
 import residential from "./asset/residential.svg";
 import random from "./asset/random.svg";
+import amzbootcamp from "./asset/amzbootcamp.svg";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -30,7 +31,7 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, typing, language, web, residential, random],
+  image: [python, typing, language, web, residential, random, amzbootcamp],
   [LEARN_KEY]: [],
   [ABOUT_KEY]: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },

@@ -16,6 +16,7 @@ export const PATHS = {
   PATHWAY_COURSE: "/pathway/:pathwayId",
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
+  AMAZON_CODING_PROGRAMMER: "/amazon-coding-programmer",
   MENTOR: "/mentor",
   SCRATCH:
     production === "merakilearn.org"
@@ -180,6 +181,11 @@ export const PATHWAYS_INFO = [
     description: "Courses on Android, Game dev projects and more",
     type: "internal",
     path: PATHS.MISCELLANEOUS_COURSE,
+  },
+  {
+    title: "Amazon coding bootcamp",
+    code: "ACB",
+    image: "amzbootcamp",
   },
 ];
 

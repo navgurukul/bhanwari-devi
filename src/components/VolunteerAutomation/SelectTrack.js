@@ -47,14 +47,19 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
           We run the learning tracks in a batch format with multiple live
           classes.
         </Typography>
-
+      </Container>
+      <Container maxWidth="md" mb={3}>
         <Grid container columnSpacing={isActive ? 2 : 0} mt={2} mb={2}>
           {data &&
             data.pathways &&
             data.pathways.map((item) => {
-              if (item.name == "Python" || item.name == "Spoken English") {
+              if (
+                item.name == "Python" ||
+                item.name == "Spoken English" ||
+                item.name == "Amazon Coding Bootcamp"
+              ) {
                 return (
-                  <Grid item xs={6} ms={6} md={6}>
+                  <Grid item xs={4} ms={4} md={4} gap={1}>
                     <Card
                       elevation={2}
                       className={
