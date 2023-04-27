@@ -9,7 +9,7 @@ import createDOMPurify from "dompurify";
 import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
-import { Typography, useMediaQuery } from "@material-ui/core";
+import { Typography, useMediaQuery, Button } from "@material-ui/core";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 const window = new JSDOM("").window;
@@ -68,15 +68,18 @@ export default ({
   const renderOptions = (options) => {
     return options.map((option) => {
       return (
-        <button
-          className="option-button"
+        <Button
           key={option.value}
+          className={classes.labelButton}
           onClick={() => {
             onSendMessage(option.value);
           }}
+          style={{
+            backgroundColor: option.label === "No" ? "#d63447" : "#48A145",
+          }}
         >
           {option.label}
-        </button>
+        </Button>
       );
     });
   };
@@ -110,7 +113,7 @@ export default ({
           setIsMessageActionsDropdownOpen(false);
           navigator.clipboard.writeText(message.content?.body);
           setShowCopied(true);
-          setTimeout(()=>setShowCopied(false), 4000)
+          setTimeout(() => setShowCopied(false), 4000);
         },
       });
     }
@@ -239,9 +242,7 @@ export default ({
             <div className="message-time">
               {format(new Date(formattedMessage.origin_server_ts), "hh:mm aaa")}
             </div>
-            {showCopied && <div className="message-time">
-              Copied!
-            </div>}
+            {showCopied && <div className="message-time">Copied!</div>}
           </div>
         </div>
         {/*isSelf && senderName && (
