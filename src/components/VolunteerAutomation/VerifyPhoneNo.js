@@ -38,7 +38,7 @@ const CountryList = require("country-list-with-dial-code-and-flag");
 function VerifyPhoneNo(props) {
   const user = useSelector(({ User }) => User);
   const { setDisable, setContact, contact, setNextButton } = props;
-
+  console.log(contact);
   const [otp, setOtp] = useState("");
   const [bgColor, setBgColor] = useState(false);
   const [verifyOpen, setVerifyOpen] = useState(false);
@@ -52,7 +52,7 @@ function VerifyPhoneNo(props) {
     (contact && `${contact?.split(" ")[0]}`) || "+91"
   );
   const [phone, setPhone] = useState("");
-
+  const phoneData = `${countryCode.slice(1)}-${phone}`;
   const app = initializeApp(firebaseConfig);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
@@ -77,6 +77,7 @@ function VerifyPhoneNo(props) {
     setOpen(false);
     setMessage("");
   };
+  console.log(phone, countryCode);
 
   const setupRecaptcha = () => {
     const auth = getAuth();
@@ -116,36 +117,77 @@ function VerifyPhoneNo(props) {
     }, 1000);
   };
 
+  // const onSignInSubmit = async (event) => {
+  //   try {
+  //     const response = await axios({
+  //       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+  //       method: METHODS.GET,
+  //       headers: {
+  //         accept: "application/json",
+  //         Authorization: user.data.token,
+  //       },
+  //     });
+
+  //     const volunteers = response.data;
+  //     let contactMatch = false;
+
+  //     for (const item of volunteers) {
+  //       let contact = item.contact;
+  //       if (item.contact?.includes("-")) contact = item.contact?.split("-")[1];
+  //       if (phone === contact) {
+  //         setMessage(
+  //           "The number has already registered. Please try with another number."
+  //         );
+  //         setOpen(true);
+  //         // setIsStartTimer(true);
+  //         // countTimer();
+  //         contactMatch = true;
+  //         break;
+  //       }
+  //     }
+  //     if (!contactMatch) {
+  //       event.preventDefault();
+  //       if (!confirmationResult) {
+  //         setupRecaptcha();
+  //       }
+  //       const phoneNumber = `${countryCode} ${phone}`;
+  //       setContact(phoneNumber);
+  //       const appVerifier = window.recaptchaVerifier;
+  //       const auth = getAuth();
+  //       signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+  //         .then((result) => {
+  //           setMessage("OTP sent successfully");
+  //           setOpen(true);
+  //           setStartOtp(true);
+  //           setConfirmationResult(result);
+  //           setIsStartTimer(true);
+  //           countTimer();
+  //           setVerifyOpen(false);
+  //         })
+  //         .catch((error) => {
+  //           setMessage("Enter valid phone number or tried too many times");
+  //           setOpen(true);
+  //         });
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   const onSignInSubmit = async (event) => {
     try {
       const response = await axios({
-        url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/volunteers/${phoneData}`,
         method: METHODS.GET,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
         },
       });
-
-      const volunteers = response.data;
-      let contactMatch = false;
-
-      for (const item of volunteers) {
-        let contact = item.contact;
-        if (item.contact?.includes("-")) contact = item.contact?.split("-")[1];
-        if (phone === contact) {
-          setMessage(
-            "The number has already registered. Please try with another number."
-          );
-          setOpen(true);
-          // setIsStartTimer(true);
-          // countTimer();
-          contactMatch = true;
-          break;
-        }
-      }
-      if (!contactMatch) {
-        event.preventDefault();
+      if (response.data !== "please register your mobile number") {
+        setOpen(true);
+        setMessage(response.data);
+      } else {
+        // event.preventDefault();
         if (!confirmationResult) {
           setupRecaptcha();
         }
