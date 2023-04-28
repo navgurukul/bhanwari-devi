@@ -43,12 +43,12 @@ const pathwayData = [
     image: "python",
     description: "Get familiar with programming with bite sized lessons",
   },
-  {
-    title: "Scratch (CEL)",
-    code: "SHCEL",
-    image: "",
-    description: "Get started with programming with block-based games",
-  },
+  // {
+  //   title: "Scratch (CEL)",
+  //   code: "SHCEL",
+  //   image: "",
+  //   description: "Get started with programming with block-based games",
+  // },
   {
     title: "Typing",
     code: "TYPGRU",
@@ -107,15 +107,10 @@ function LearningTrackCard(props) {
     });
     setCourseIndex(COurseIndex);
   }, [item]);
-  // console.log(PathwayData,"pathwaydata");
-  // useEffect(()=>{
-  //   // setPathway(pathwayId)
-  // })
+
   const data = useSelector((state) => {
     return state;
   });
-
-  // console.log("upcomingdata", upcomingBatchesData);
 
   useEffect(() => {
     // setLoading(true);
@@ -134,7 +129,6 @@ function LearningTrackCard(props) {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        // console.log("response", response.data.total_completed_portion);
         setCompletedPortionJason(response.data.total_completed_portion);
       });
     }

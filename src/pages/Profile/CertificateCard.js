@@ -16,11 +16,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { interpolatePath, PATHS, versionCode } from "../../constant";
+import { PATHS, versionCode } from "../../constant";
 import { Link } from "react-router-dom";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -73,7 +72,6 @@ function CertificateCard(props) {
           Authorization: user?.data?.token,
         },
       }).then((response) => {
-        // console.log("response", response.data.total_completed_portion);
         setCompletedPortion(response.data.total_completed_portion);
         setCourseTime(response.data.complete_at);
       });

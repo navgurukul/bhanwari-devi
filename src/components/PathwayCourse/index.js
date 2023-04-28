@@ -41,6 +41,8 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import CustomSnackbar from "./customSnackbar";
 import CertificatePDF from "../common/CertificatePDF/CertificatePDF";
+import { StarRate } from "@material-ui/icons";
+
 const pathways = [
   {
     pathway: "Python",
@@ -53,12 +55,12 @@ const pathways = [
       "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
     ],
   },
-  {
-    pathway: "Scratch (CEL)",
-    code: "SHCEL",
-    description:
-      "Learn programming concepts via easy to understand project based block programming in Scratch",
-  },
+  // {
+  //   pathway: "Scratch (CEL)",
+  //   code: "SHCEL",
+  //   description:
+  //     "Learn programming concepts via easy to understand project based block programming in Scratch",
+  // },
   {
     pathway: "Javascript",
     code: "JSRPIT",
@@ -122,9 +124,6 @@ function PathwayCourse() {
   const params = useParams();
   const pathwayId = params.pathwayId;
   const [completedPortion, setCompletedPortion] = useState({});
-
-  // const [loading, setLoading] = useState(true);
-  // const [enrolledBatches, setEnrolledBatches] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
@@ -281,6 +280,7 @@ function PathwayCourse() {
   } else {
     filterPathwayCourse = pathwayCourse?.data?.courses;
   }
+
   return (
     <>
       {enrolledBatches && !loading ? (
