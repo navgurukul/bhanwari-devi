@@ -190,34 +190,7 @@ function VerifyPhoneNo(props) {
   // };
 
   const countryData = CountryList.findFlagByDialCode(countryCode);
-
-  // useEffect(() => {
-  //   return axios({
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
-  //     method: METHODS.GET,
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: user.data.token,
-  //     },
-  //   }).then((res) => {
-  //     console.log("res", res);
-  //     setVolunteer(res.data);
-  //   });
-  // }, [contact]);
-
-  // volunteer &&
-  //   volunteer?.length > 0 &&
-  //   volunteer.map((item) => {
-  //     console.log(item.contact);
-  //     if (item.contact == contact?.split(" ")[1]) {
-  //       console.log("number matched");
-  //       console.log(item.contact);
-  //     }
-  //   });
-
-  // console.log("volunteer", volunteer);
-  // console.log("contact", contact?.split(" ")[1]);
-
+  
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <div id="recaptcha-container"></div>
@@ -268,11 +241,6 @@ function VerifyPhoneNo(props) {
             <Grid item>
               <Typography variant="body1">
                 {`${countryData.dial_code} ${contact.split(" ")[1]}`}
-                {/* {`+${contact.split(" ")[0]} ${contact.split(" ")[1]}`} */}
-                {/* {console.log(
-                  "contact",
-                  contact.slice(countryData.dial_code.length)
-                )} */}
               </Typography>
             </Grid>
           </Grid>
