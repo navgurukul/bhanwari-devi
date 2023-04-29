@@ -178,6 +178,8 @@ function ClassForm({
     });
   }, [partnerPathwayId]);
 
+  console.log(partnerPathwayId, "partnerPathwayId");
+
   //For course error field (doubt class only)
   useEffect(() => {
     if (onInput.course && !classFields.course_id) {
@@ -410,6 +412,7 @@ function ClassForm({
       },
     }).then(
       (res) => {
+        console.log(res, "dataaaaaaa");
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
@@ -627,8 +630,7 @@ function ClassForm({
             sx={{
               width: { xs: 330, md: 500 },
               bgcolor: "background.paper",
-            }}
-          >
+            }}>
             <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
@@ -640,8 +642,7 @@ function ClassForm({
                 color="text.secondary"
                 item
                 xs={1}
-                className={classes.FormCloseIcon}
-              >
+                className={classes.FormCloseIcon}>
                 <CloseIcon
                   open
                   onClick={() => {
@@ -665,8 +666,7 @@ function ClassForm({
                   value={selectedCourseLabel?.label}
                   onChange={(e) => {
                     onCourseChange(e.target.value);
-                  }}
-                >
+                  }}>
                   {data.Pathways &&
                     data.Pathways.pathwayCourse &&
                     data.Pathways.pathwayCourse.data &&
@@ -688,8 +688,7 @@ function ClassForm({
                 sx={{
                   mt: 3,
                   mb: 4,
-                }}
-              >
+                }}>
                 <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -704,8 +703,7 @@ function ClassForm({
                   value={selectedExerciseLabel?.label}
                   onChange={(e) => {
                     onExerciseChange(e.target.value);
-                  }}
-                >
+                  }}>
                   {exercisesForSelectedCourse &&
                     exercisesForSelectedCourse.map((exercise) => {
                       return (
@@ -762,8 +760,7 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 // mb={isActive ? 3 : 4}
-                mb={3}
-              >
+                mb={3}>
                 {partnerPathwayId.includes(1) && partnerPathwayId.includes(2)
                   ? "The tutor has opted to teach both Python and Spoken English learning track "
                   : partnerPathwayId.includes(1)
@@ -789,8 +786,7 @@ function ClassForm({
                       pathway_id: e.target.value,
                     });
                   }}
-                  mb={3}
-                >
+                  mb={3}>
                   <FormControlLabel
                     value="1"
                     control={<Radio />}
@@ -854,8 +850,7 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 mb={isActive ? 3 : 4}
-                mt={2}
-              >
+                mt={2}>
                 We will automatically create 28 classes for a Python batch with
                 titles and descriptions
               </Typography>
@@ -872,6 +867,9 @@ function ClassForm({
                   }}
                   onChange={(e, newVal) => {
                     setSelectedPartners(newVal);
+                    {
+                      console.log(newVal, "newVal-");
+                    }
                     setClassFields({
                       ...classFields,
                       ["partner_id"]: newVal.map((item) => item.id),
@@ -901,8 +899,7 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 mb={isActive ? 3 : 4}
-                mt={2}
-              >
+                mt={2}>
                 This batch will be visible to students of only these partner
               </Typography>
             )}
@@ -949,8 +946,7 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mt: isActive ? 3 : 4, mb: isActive && 2 }}
-                  >
+                    sx={{ mt: isActive ? 3 : 4, mb: isActive && 2 }}>
                     Schedule on days
                   </Typography>
                 </FormLabel>
@@ -1016,14 +1012,12 @@ function ClassForm({
                   variant="body2"
                   color="text.secondary"
                   pr={2}
-                  mt={4}
-                >
+                  mt={4}>
                   Language
                 </Typography>
                 <RadioGroup
                   value={classFields.lang?.index}
-                  row={isActive ? false : true}
-                >
+                  row={isActive ? false : true}>
                   {Object.keys(lang)?.map((item) => {
                     if (item !== "mr") {
                       return (
@@ -1050,8 +1044,7 @@ function ClassForm({
                 color="text.secondary"
                 fullwidth
                 pt={1}
-                pr={2}
-              >
+                pr={2}>
                 Cap enrollments at
               </Typography>
               <RadioGroup row={isActive ? false : true}>
@@ -1084,8 +1077,7 @@ function ClassForm({
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
                 variant="contained"
                 fullWidth
-                onClick={submitHandle}
-              >
+                onClick={submitHandle}>
                 {(isEditMode ? "Update " : "Create ") +
                   (classFields.type == "batch" ? "Batch" : "Doubt Class")}
               </Button>
