@@ -329,12 +329,14 @@ function ClassCard({ item, editClass }) {
           )}
         </Menu>
         <Typography variant="subtitle1">{item.title}</Typography>
-        <Typography
-          sx={{ fontSize: "18px", fontWeight: "400" }}
-          variant="subtitle2"
-        >
-          {item.sub_title}
-        </Typography>
+        {!item.title.toLowerCase().includes("scratch") && (
+          <Typography
+            sx={{ fontSize: "18px", fontWeight: "400" }}
+            variant="subtitle2"
+          >
+            {item.sub_title}
+          </Typography>
+        )}
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
             className={classes.icons}
