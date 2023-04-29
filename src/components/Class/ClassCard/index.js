@@ -329,7 +329,7 @@ function ClassCard({ item, editClass }) {
           )}
         </Menu>
         <Typography variant="subtitle1">{item.title}</Typography>
-        {!item.title.toLowerCase().includes("scratch".toLowerCase()) && (
+        {!item.title.toLowerCase().includes("scratch") && (
           <Typography
             sx={{ fontSize: "18px", fontWeight: "400" }}
             variant="subtitle2"
