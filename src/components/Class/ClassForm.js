@@ -701,11 +701,22 @@ function ClassForm({
                 // mb={isActive ? 3 : 4}
                 mb={3}
               >
-                {partnerPathwayId.includes(1) && partnerPathwayId.includes(2)
-                  ? "The tutor has opted to teach both Python and Spoken English learning track "
-                  : partnerPathwayId.includes(1)
-                  ? "The tutor has opted to teach Python learning track"
-                  : "The tutor has opted to teach Spoken English learning track"}
+                {`The tutor has opted to teach 
+                  ${partnerPathwayId.length === 2 ? "both" : ""}
+                   ${partnerPathwayId.includes(1) ? "Python" : ""}
+                   ${
+                     partnerPathwayId.length === 2
+                       ? "and"
+                       : partnerPathwayId.length > 2
+                       ? ","
+                       : ""
+                   }
+                    ${partnerPathwayId.includes(2) ? "Spoken English" : ""} 
+                    ${partnerPathwayId.length > 2 ? "and" : ""}
+                  ${
+                    partnerPathwayId.includes(7) ? "Amazon Coding Bootcamp" : ""
+                  } 
+                  learning track.`}
               </Typography>
             )}
             {partnerPathwayId?.length >= 2 && (
