@@ -92,36 +92,24 @@ function AmazonCodingProgrammer() {
             of our modules below:
           </Typography>
 
-          <Table style={{ backgroundColor: "white" }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Module</TableCell>
-                <TableCell>Duration</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>Programming Foundation</TableCell>
-                <TableCell>1 month</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>DSA Level 1</TableCell>
-                <TableCell>4 month</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>1 month break*</TableCell>
-                <TableCell>-</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>DSA Level 2</TableCell>
-                <TableCell>3 months</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Role-Specific Training</TableCell>
-                <TableCell>1 months</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+          <Typography component="li" variant="body1" mb="16px">
+            <span className={classes.spanfont}> Module 1 </span>: aims to
+            provide students with a comprehensive understanding of the Java
+            Programming Language, enabling them to become familiar with its
+            syntax and key concepts.
+          </Typography>
+          <Typography component="li" variant="body1" mb="16px">
+            <span className={classes.spanfont}> Module 2 </span>: Students will
+            be introduced to Data Structures and Algorithms, empowering them
+            with the knowledge necessary to tackle complex programming problems
+            and optimize code efficiency.
+          </Typography>
+          <Typography component="li" variant="body1" mb="16px">
+            <span className={classes.spanfont}> Module 3 </span>: Designed to
+            inform students about the various Internship roles available at
+            Amazon while also equipping them with the necessary Aptitude and
+            Logical Reasoning skills.
+          </Typography>
           <Typography variant="body1" marginTop="32px">
             In addition to the technical curriculum, we offer dedicated
             workshops to help you develop soft skills such as resume building

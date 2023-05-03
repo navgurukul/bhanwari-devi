@@ -182,11 +182,6 @@ export const PATHWAYS_INFO = [
     type: "internal",
     path: PATHS.MISCELLANEOUS_COURSE,
   },
-  {
-    title: "Amazon coding bootcamp",
-    code: "ACB",
-    image: "amzbootcamp",
-  },
 ];
 
 /*
