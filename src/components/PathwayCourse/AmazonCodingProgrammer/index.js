@@ -25,6 +25,7 @@ import useStyles from "../styles";
 import PathwayCourseBatchEnroll1 from "../../BatchClassComponents/PathwayCourseBatchEnroll1";
 
 function AmazonCodingProgrammer({ pathwayId }) {
+  console.log(pathwayId);
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const { data } = useSelector((state) => state.Pathways);
@@ -48,7 +49,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
     if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
         upcomingClassActions.getupcomingEnrolledClasses({
-          pathwayId: 7,
+          pathwayId: pathwayId,
           authToken: user?.data?.token,
         })
       );
@@ -56,7 +57,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
       if (user?.data?.token) {
         dispatch(
           upcomingBatchesActions.getUpcomingBatches({
-            pathwayId: 7,
+            pathwayId: pathwayId,
             authToken: user?.data?.token,
           })
         );
