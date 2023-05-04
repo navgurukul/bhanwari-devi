@@ -32,7 +32,7 @@ function ResidentialProgramme() {
   //       authToken: user,
   //     })
   //   );
-  // }, [dispatch]);
+  // }, [dispatch,user]);
 
   const resPathway =
     data && data.pathways.find((pathway) => pathway.code === "PRCRSE");

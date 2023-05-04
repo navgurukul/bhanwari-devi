@@ -75,7 +75,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
         // ?.data?.token,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   // data?.pathways &&
   //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
@@ -176,7 +176,7 @@ export const DropDown = ({
         // ?.data?.token,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <>

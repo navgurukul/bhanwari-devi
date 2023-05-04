@@ -45,7 +45,7 @@ function SearchCourse(props) {
         authToken: user,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const handleSearchChange = (e) => {
     history.push(`?search=${e.target.value}`);

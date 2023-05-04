@@ -50,7 +50,7 @@ function Login(props) {
         authToken: user,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");

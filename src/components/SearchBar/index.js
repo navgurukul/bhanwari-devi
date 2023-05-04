@@ -63,7 +63,7 @@ function SearchCourse(props) {
         authToken: user,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const handleSearchChange = (e) => {
     if (e.key == "Enter") {

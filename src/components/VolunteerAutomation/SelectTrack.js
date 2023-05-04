@@ -41,7 +41,8 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
         authToken: user,
       })
     );
-  }, []);
+  }, [dispatch, user]);
+
   return (
     <Container sx={{ mt: 6 }} maxWidth="lg">
       <Container maxWidth="sm" mb={3}>

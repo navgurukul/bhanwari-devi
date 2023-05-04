@@ -53,7 +53,7 @@ const MenuList = (menuItem) => {
         // ?.data?.token,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const studentLearn = [];
 
@@ -175,7 +175,7 @@ function Footer() {
         // ?.data?.token,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   data &&
     data.pathways &&

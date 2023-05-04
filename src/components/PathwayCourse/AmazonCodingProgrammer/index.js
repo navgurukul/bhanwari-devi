@@ -74,7 +74,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
   //       authToken: user,
   //     })
   //   );
-  // }, [dispatch]);
+  // }, [dispatch, user]);
 
   return (
     <React.Fragment>

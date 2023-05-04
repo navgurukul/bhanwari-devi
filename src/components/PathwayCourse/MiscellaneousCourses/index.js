@@ -28,7 +28,7 @@ function MiscellaneousCourses() {
   //       authToken: user,
   //     })
   //   );
-  // }, [dispatch]);
+  // }, [dispatch, user]);
 
   const pathwayCourseId =
     (pathway.Pathways.data &&

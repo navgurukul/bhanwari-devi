@@ -25,7 +25,7 @@ const NewUserDashbord = () => {
         authToken: user,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     axios({
