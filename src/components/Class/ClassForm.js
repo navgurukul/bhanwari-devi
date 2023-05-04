@@ -729,7 +729,7 @@ function ClassForm({
                 >
                   Learning Track
                 </Typography>
-                <RadioGroup
+                {/* <RadioGroup
                   onChange={(e) => {
                     setClassFields({
                       ...classFields,
@@ -759,31 +759,60 @@ function ClassForm({
                       label="Amazon Coding Programmer"
                     />
                   )}
-                </RadioGroup>
+                </RadioGroup> */}
                 {/* <RadioGroup
-                  value={[
-                    { value: 1, label: "Python" },
-                    { value: 2, label: "Spoken English" },
-                  ]}
+                  // value={partnerPathwayId}
+                  // onChange={(e) => {
+                  //         setPartnerPathwayId(e.target.value);
+                  //       }}
                 >
                   {[
                     { value: 1, label: "Python" },
                     { value: 2, label: "Spoken English" },
-                  ].map((item) => {
-                    return (
+                    { value: 7, label: "Amazon Coding Bootcamp"}
+                  ].map((item) =>  (
                       <FormControlLabel
                         key={item}
                         value={item.value}
                         name="Learning Track"
                         control={<Radio />}
                         // checked={}
-                        onChange={(e) => {
-                          setPartnerPathwayId(e.target.value);
-                        }}
+                        
                       />
-                    );
-                  })}
+                    )
+                  )}
                 </RadioGroup> */}
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    aria-label="radio-group"
+                    name="radio-group"
+                    value={[
+                      { value: 1, label: "Python" },
+                      { value: 2, label: "Spoken English" },
+                      { value: 7, label: "Amazon Coding Bootcamp" },
+                    ]}
+                    onChange={(e) => {
+                      setPartnerPathwayId(e.target.value);
+                    }}
+                  >
+                    {[
+                      { value: 1, label: "Python" },
+                      { value: 2, label: "Spoken English" },
+                      { value: 7, label: "Amazon Coding Bootcamp" },
+                    ].map(
+                      (item, index) =>
+                        partnerPathwayId.includes(item.value) && (
+                          <FormControlLabel
+                            key={item.value}
+                            value={item.value}
+                            control={<Radio />}
+                            label={item.label}
+                            labelPlacement="end"
+                          />
+                        )
+                    )}
+                  </RadioGroup>
+                </FormControl>
               </>
             )}
 
