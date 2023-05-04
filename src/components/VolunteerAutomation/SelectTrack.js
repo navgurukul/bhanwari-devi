@@ -15,6 +15,7 @@ import useStyles from "./styles";
 
 function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const user = useSelector(({ User }) => User);
   const classes = useStyles();
   const { data } = useSelector((state) => state.Pathways);
   useEffect(() => {
@@ -35,7 +36,11 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
   }, []);
   return (
     <Container sx={{ mt: 6 }} maxWidth="lg">

@@ -68,9 +68,13 @@ function AmazonCodingProgrammer({ pathwayId }) {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathways({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch]);
 
   return (
     <React.Fragment>

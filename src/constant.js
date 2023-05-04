@@ -16,7 +16,6 @@ export const PATHS = {
   PATHWAY_COURSE: "/pathway/:pathwayId",
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
-  AMAZON_CODING_PROGRAMMER: "/amazon-coding-programmer",
   MENTOR: "/mentor",
   SCRATCH:
     production === "merakilearn.org"

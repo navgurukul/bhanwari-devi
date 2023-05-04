@@ -20,7 +20,11 @@ const NewUserDashbord = () => {
   const { loading, data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
   }, [dispatch]);
 
   useEffect(() => {

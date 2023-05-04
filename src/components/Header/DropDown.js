@@ -63,12 +63,18 @@ const students = {
 
 export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
   }, [dispatch]);
 
   // data?.pathways &&
@@ -159,11 +165,17 @@ export const DropDown = ({
   //handleMouseLeave,
 }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
   }, [dispatch]);
 
   return (

@@ -24,6 +24,7 @@ import SearchPopup from "../SearchPopup";
 
 function SearchCourse(props) {
   const { data } = useSelector(({ Course }) => Course);
+  const user = useSelector(({ User }) => User);
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
   // const query = new URLSearchParams(useLocation().search).get("search");
@@ -39,7 +40,11 @@ function SearchCourse(props) {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
   }, [dispatch]);
 
   const handleSearchChange = (e) => {

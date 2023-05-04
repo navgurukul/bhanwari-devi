@@ -58,7 +58,11 @@ function SearchCourse(props) {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
   }, [dispatch]);
 
   const handleSearchChange = (e) => {

@@ -37,14 +37,22 @@ const menu = {
 
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
+  const user = useSelector(({ User }) => User);
   const classes = useStyles();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => {
     return state.Pathways;
   });
 
+  // console.log("user in Menu", user);
+
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
   }, [dispatch]);
 
   const studentLearn = [];
@@ -150,6 +158,7 @@ function FooterIcon(props) {
 
 function Footer() {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => {
     return state.Pathways;
@@ -157,8 +166,15 @@ function Footer() {
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
+  // console.log("user in Footer", user);
+
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
   }, [dispatch]);
 
   data &&

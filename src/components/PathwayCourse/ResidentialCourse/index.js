@@ -19,15 +19,20 @@ import useStyles from "../styles";
 
 function ResidentialProgramme() {
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
   const { data } = useSelector((state) => state.Pathways);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
   const classes = useStyles();
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathways({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch]);
 
   const resPathway =
     data && data.pathways.find((pathway) => pathway.code === "PRCRSE");

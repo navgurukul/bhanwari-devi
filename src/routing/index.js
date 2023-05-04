@@ -35,7 +35,6 @@ import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
-import AmazonCodingProgrammer from "../components/PathwayCourse/AmazonCodingProgrammer";
 
 const Routing = () => {
   return (
@@ -85,12 +84,6 @@ const Routing = () => {
         component={VolunteerAutomation}
       />
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
-
-      <Route
-        exact
-        path={PATHS.AMAZON_CODING_PROGRAMMER}
-        component={AmazonCodingProgrammer}
-      />
 
       {/* Private routes */}
 
