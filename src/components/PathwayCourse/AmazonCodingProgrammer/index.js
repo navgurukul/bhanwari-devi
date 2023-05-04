@@ -24,10 +24,10 @@ import {
 import useStyles from "../styles";
 import PathwayCourseBatchEnroll1 from "../../BatchClassComponents/PathwayCourseBatchEnroll1";
 
-function AmazonCodingProgrammer() {
+function AmazonCodingProgrammer({ pathwayId }) {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
-  const { data } = useSelector(({ Course }) => Course);
+  const { data } = useSelector((state) => state.Pathways);
   const pathway = useSelector((state) => state);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -36,27 +36,41 @@ function AmazonCodingProgrammer() {
     return state.Pathways?.upcomingBatches?.data;
   });
 
+  const enrolledBatches = useSelector((state) => {
+    if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
+      return state?.Pathways?.enrolledBatches?.data;
+    } else {
+      return null;
+    }
+  });
+
   useEffect(() => {
-    dispatch(courseActions.getCourses());
-  }, [dispatch]);
+    if (user?.data?.token && enrolledBatches?.length > 0) {
+      dispatch(
+        upcomingClassActions.getupcomingEnrolledClasses({
+          pathwayId: 7,
+          authToken: user?.data?.token,
+        })
+      );
+    } else {
+      if (user?.data?.token) {
+        dispatch(
+          upcomingBatchesActions.getUpcomingBatches({
+            pathwayId: 7,
+            authToken: user?.data?.token,
+          })
+        );
+      }
+    }
+  }, [enrolledBatches]);
+
+  const userEnrolledClasses = useSelector((state) => {
+    return state.Pathways?.upcomingEnrolledClasses?.data;
+  });
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
-
-  const pathwayCourseId =
-    (pathway.Pathways.data &&
-      pathway.Pathways.data.pathways
-        .map((pathway) => pathway.courses || [])
-        .flat()
-        .map((course) => course.id)) ||
-    [];
-
-  const otherCourses =
-    data &&
-    data.allCourses.filter(
-      (item) => pathwayCourseId && !pathwayCourseId.includes(item.id)
-    );
 
   return (
     <React.Fragment>
@@ -81,8 +95,15 @@ function AmazonCodingProgrammer() {
               top jobs at product-based companies.
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6} sx={{ pl: 2, mt: "16px" }}>
-            <NoBatchEnroll />
+
+          <Grid Grid item xs={12} md={6} sx={{ pl: 2 }}>
+            {upcomingBatchesData?.length > 0 ? (
+              <PathwayCourseBatchEnroll1
+                upcomingBatchesData={upcomingBatchesData}
+              />
+            ) : (
+              <NoBatchEnroll />
+            )}
           </Grid>
         </Grid>
         <Container maxWidth="md">

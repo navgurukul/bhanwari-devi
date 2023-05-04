@@ -317,7 +317,7 @@ function PathwayCourse() {
   return (
     <>
       {pathwayId === "7" ? (
-        <AmazonCodingProgrammer />
+        <AmazonCodingProgrammer pathwayId={pathwayId} />
       ) : (
         <>
           {enrolledBatches && !loading ? (
