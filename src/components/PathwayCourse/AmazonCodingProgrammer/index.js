@@ -9,6 +9,7 @@ import { actions as upcomingBatchesActions } from "../redux/action";
 import { actions as upcomingClassActions } from "../redux/action";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../../constant";
+import PathwayCards from "../PathwayCards/index.js";
 import {
   Container,
   Skeleton,
@@ -25,7 +26,6 @@ import useStyles from "../styles";
 import PathwayCourseBatchEnroll1 from "../../BatchClassComponents/PathwayCourseBatchEnroll1";
 
 function AmazonCodingProgrammer({ pathwayId }) {
-  console.log(pathwayId);
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const { data } = useSelector((state) => state.Pathways);
@@ -69,14 +69,6 @@ function AmazonCodingProgrammer({ pathwayId }) {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
 
-  // useEffect(() => {
-  //   dispatch(
-  //     pathwayActions.getPathways({
-  //       authToken: user,
-  //     })
-  //   );
-  // }, [dispatch, user]);
-
   return (
     <React.Fragment>
       <Container className={classes.pathwayContainer} maxWidth="lg">
@@ -102,7 +94,14 @@ function AmazonCodingProgrammer({ pathwayId }) {
           </Grid>
 
           <Grid Grid item xs={12} md={6} sx={{ pl: 2 }}>
-            {upcomingBatchesData?.length > 0 ? (
+            {enrolledBatches ? (
+              <>
+                <PathwayCards
+                  userEnrolledClasses={userEnrolledClasses}
+                  pathwayId={pathwayId}
+                />
+              </>
+            ) : upcomingBatchesData?.length > 0 ? (
               <PathwayCourseBatchEnroll1
                 upcomingBatchesData={upcomingBatchesData}
               />
