@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import { METHODS } from "../../../services/api";
 import { METHODS } from "../../services/api";
-// import { PATHS } from "../../../constant";
-// import { format } from "../../../common/date";
 import { format } from "../../common/date";
 import { useSelector } from "react-redux";
+import ClassJoinTimerButton from "../../components/Class/ClassJoinTimerButton";
 import {
-  Box,
   Typography,
   Grid,
   Button,
@@ -29,6 +26,7 @@ function ABCBatchClass({ enrolledBatches }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const [enrollClasses, setEnrollClasses] = useState([]);
+  const [doubtclasses, setDoubtclasses] = useState([]);
   const user = useSelector(({ User }) => User);
 
   useEffect(() => {
@@ -41,8 +39,22 @@ function ABCBatchClass({ enrolledBatches }) {
       },
     }).then((res) => {
       setEnrollClasses(res.data);
-      // setPartner(response.data);
-      // console.log(res,'response')
+    });
+  }, []);
+
+  // /pathways/doubtclasses/{pathway_id}'
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/doubtclasses/7`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setDoubtclasses(res.data);
+      console.log(res, "ham aapke kon");
     });
   }, []);
 
@@ -127,13 +139,26 @@ function ABCBatchClass({ enrolledBatches }) {
 
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {enrollClasses.map((item) => (
+            {enrollClasses.map((item, index) => (
               <Grid item xs={12} ms={6} md={4}>
+                {index === 0 && (
+                  <Chip
+                    label="Upcoming Class"
+                    color="secondary"
+                    sx={{
+                      transform: "rotate(-4.29deg)",
+                      marginLeft: "8px",
+                      position: "absolute",
+                      // top: "0",
+                    }}
+                  />
+                )}
                 <Card
                   sx={{
                     padding: "32px 16px",
                     maxWidth: "384px",
                     background: "#FAFAFA",
+                    background: index === 0 ? "#E9F5E9" : "#FAFAFA",
                   }}
                   elevation={1}>
                   <CardContent>
@@ -161,14 +186,19 @@ function ABCBatchClass({ enrolledBatches }) {
                       <Grid display="flex">
                         <AccessTimeIcon />
                         <Typography variant="body1" marginLeft="8px">
-                          2 PM
+                          {/* 2 PM */}
+                          {format(item.start_time, "hh:mm aaa")}
                         </Typography>
                       </Grid>
                     </Grid>
                   </CardContent>
                   <CardActions sx={{ justifyContent: "right" }}>
-                    <Button disabled endIcon={<ArrowForwardIcon />}>
-                      Starts in 1 hour
+                    <Button endIcon={<ArrowForwardIcon />}>
+                      <ClassJoinTimerButton
+                        buttonType="text"
+                        startTime={item?.start_time}
+                        link={item?.meet_link}
+                      />
                     </Button>
                   </CardActions>
                 </Card>
@@ -177,11 +207,66 @@ function ABCBatchClass({ enrolledBatches }) {
           </Grid>
         </Container>
 
-        {/* 
         <Typography variant="h6" margin="32px 0px">
           Doubt Class
         </Typography>
-        <Grid container>
+
+        <Grid container spacing={isActive ? 2 : 4}>
+          {doubtclasses.map((item, index) => (
+            <Grid item xs={12} ms={6} md={4}>
+              <Card
+                sx={{
+                  padding: "32px 16px",
+                  maxWidth: "384px",
+                  background: "#FFF5CC",
+                  // background: index === 0 ? "#E9F5E9" : "#FAFAFA",
+                }}
+                elevation={1}>
+                <CardContent>
+                  <Grid container>
+                    <Grid item sm={2}>
+                      <img
+                        // className={classes.icons}
+                        src={require("./assets/playButton.svg")}
+                        alt="Students Img"
+                      />
+                    </Grid>
+                    <Grid item md={10} sm={8} xs={8}>
+                      <Typography marginLeft="16px" variant="subtitle1">
+                        {item.title}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container mt="32px">
+                    <Grid item md={7} xs={7} sx={{ display: "flex" }}>
+                      <DateRangeIcon />
+                      <Typography variant="body1" ml="8px">
+                        {format(item.start_time, "dd MMM yy")}
+                      </Typography>
+                    </Grid>
+                    <Grid display="flex">
+                      <AccessTimeIcon />
+                      <Typography variant="body1" marginLeft="8px">
+                        {/* 2 PM */}
+                        {format(item.start_time, "hh:mm aaa")}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+                <CardActions sx={{ justifyContent: "right" }}>
+                  <Button endIcon={<ArrowForwardIcon />}>
+                    <ClassJoinTimerButton
+                      buttonType="text"
+                      startTime={item.start_time}
+                      link={item.meet_link}
+                    />
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+        {/* <Grid container>
           <Grid item md="4px">
             <Card
               sx={{
