@@ -86,6 +86,7 @@ function ClassForm({
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
+    space_id: classToEdit?.id || "",
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -93,6 +94,7 @@ function ClassForm({
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
+  const [selectedPartners, setSelectedPartners] = useState([]);
   const [loading, setLoading] = useState(false);
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -119,6 +121,9 @@ function ClassForm({
     exercise: false,
     description: false,
   });
+  const [onSpace, setOnSpace] = useState([]);
+  const [selectSpace, setSelectSpace] = useState([]);
+
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
@@ -290,7 +295,7 @@ function ClassForm({
     classFields.exercise_id,
     classFields.description,
   ]);
-  console.log(classFields);
+
   const courses =
     (data.Pathways.data &&
       data.Pathways.data.pathways[0] &&
@@ -378,13 +383,14 @@ function ClassForm({
       setVolunteer(volunteers);
     });
   }, []);
-  const [selectedPartners, setSelectedPartners] = useState([]);
+
   useEffect(() => {
     let datass = partnerData.filter((item) => {
       return classFields.partner_id.includes(item.id);
     });
     setSelectedPartners(datass);
   }, [partnerData]);
+
   const convertToIST = (d) => {
     const b = d.split(/\D+/);
     const dateInObj = new Date(
@@ -585,7 +591,9 @@ function ClassForm({
       "lang",
       "type",
       "volunteer_id",
+      "space_id",
     ];
+
     let payload;
     if (classFields.type === "doubt_class") {
       if (classFields.pathway_id === "7") {
@@ -605,6 +613,7 @@ function ClassForm({
         "on_days",
       ]);
     }
+
     if (classFields.max_enrolment != "No Limit") {
       //add max_enrolment field only if it is not No Limit
       payload.max_enrolment = classFields.max_enrolment;
@@ -619,6 +628,28 @@ function ClassForm({
       setDisplay(true);
     }
   };
+
+  useEffect(() => {
+    if (selectedPartners.length === 1 && selectedPartners[0].id === 972) {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/partners/space/${selectedPartners[0].id}`,
+        headers: {
+          accept: "application/json",
+          "version-code": versionCode,
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        const space = res.data.data.map((item) => {
+          return {
+            label: item.space_name,
+            id: item.id,
+          };
+        });
+        setOnSpace(space);
+      });
+    }
+  }, [selectedPartners]);
 
   return (
     <>
@@ -662,8 +693,6 @@ function ClassForm({
                 label: classFields.facilitator_name || "",
                 id: classFields.volunteer_id || "",
               }}
-              // name="partner_id"
-
               sx={{ mb: 3 }}
               options={volunteer}
               isOptionEqualToValue={(option, value) => {
@@ -701,7 +730,7 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 // mb={isActive ? 3 : 4}
-                mb={3}
+                mb={2}
               >
                 {`The tutor has opted to teach 
                   ${partnerPathwayId.length === 2 ? "both" : ""}
@@ -727,7 +756,8 @@ function ClassForm({
                   variant="body2"
                   color="text.secondary"
                   pr={2}
-                  mt={4}
+                  mt={2}
+                  mb={1}
                 >
                   Learning Track
                 </Typography>
@@ -859,7 +889,7 @@ function ClassForm({
             )}
 
             <TextField
-              // sx={{ mt: 4 }}
+              // sx={{ mt: 1 }}
               error={showError.title}
               onClick={() => {
                 setOnInput((prev) => {
@@ -879,21 +909,16 @@ function ClassForm({
               }}
             />
             {classFields.type === "batch" && (
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                mb={isActive ? 3 : 4}
-                mt={2}
-              >
+              <Typography variant="body2" color="text.secondary" mb={3} mt={1}>
                 We will automatically create 28 classes for a Python batch with
                 titles and descriptions
               </Typography>
             )}
-            {(classFields.type === "batch" ||
-              classFields.pathway_id === "7") && (
+            {classFields.type === "batch" && (
               <Stack mt="16px">
                 <Autocomplete
                   multiple
+                  // sx={{ mb: 3 }}
                   value={selectedPartners}
                   name="partner_id"
                   options={partnerData}
@@ -929,14 +954,49 @@ function ClassForm({
                 />
               </Stack>
             )}
+
+            {selectedPartners.length === 1 && selectedPartners[0].id === 972 && (
+              <Autocomplete
+                value={selectSpace}
+                sx={{ mt: 3 }}
+                options={onSpace}
+                isOptionEqualToValue={(option, value) => {
+                  return option.id === value.id;
+                }}
+                onChange={(e, newVal) => {
+                  setSelectSpace(newVal);
+                  setClassFields({
+                    ...classFields,
+                    ["space_id"]: newVal.id,
+                  });
+                }}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="outlined-error-helper-text"
+                    error={showError.partner}
+                    onClick={() => {
+                      setOnInput((prev) => {
+                        return { ...prev, partner: true };
+                      });
+                    }}
+                    helperText={helperText.partner}
+                    variant="outlined"
+                    label="For Group"
+                  />
+                )}
+              />
+            )}
+
             {classFields.type === "batch" && (
               <Typography
                 variant="body2"
                 color="text.secondary"
                 mb={isActive ? 3 : 4}
-                mt={2}
+                mt={1}
               >
-                This batch will be visible to students of only these partner
+                This batch will be visible to students of only this partner
               </Typography>
             )}
             {classFields.type !== "batch" && (
@@ -962,7 +1022,6 @@ function ClassForm({
               />
             )}
             <TextField
-              // sx={{ mb: 4 }}
               type="date"
               variant="outlined"
               inputProps={{
@@ -982,7 +1041,7 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mt: isActive ? 3 : 4, mb: isActive && 2 }}
+                    sx={{ mt: 3, mb: isActive && 2 }}
                   >
                     Schedule on days
                   </Typography>
@@ -1049,7 +1108,7 @@ function ClassForm({
                   variant="body2"
                   color="text.secondary"
                   pr={2}
-                  mt={4}
+                  mt={3}
                 >
                   Language
                 </Typography>
@@ -1077,7 +1136,7 @@ function ClassForm({
                 </RadioGroup>
               </FormControl>
             </Box>
-            <FormControl sx={{ mb: 4, mt: 4 }}>
+            <FormControl sx={{ mb: 4, mt: 2 }}>
               <Typography
                 variant="body2"
                 color="text.secondary"
