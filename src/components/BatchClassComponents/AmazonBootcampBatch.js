@@ -3,7 +3,7 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import { format } from "../../common/date";
 import { useSelector } from "react-redux";
-import ClassJoinTimerButton from "../../components/Class/ClassJoinTimerButton";
+import ClassJoinTimerButton from "../Class/ClassJoinTimerButton";
 import {
   Typography,
   Grid,
@@ -14,7 +14,7 @@ import {
   Chip,
   CardActions,
 } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
+// import SettingsIcon from "@mui/icons-material/Settings";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -23,7 +23,7 @@ import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DoubtClassCard from "./DoubtClassCard";
 
-function ABCBatchClass({ enrolledBatches }) {
+function AmazonBootcampBatch({ enrolledBatches }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const [enrollClasses, setEnrollClasses] = useState([]);
@@ -43,7 +43,7 @@ function ABCBatchClass({ enrolledBatches }) {
     });
   }, []);
 
-  // /pathways/doubtclasses/{pathway_id}'
+///pathways/doubtclasses/{pathway_id}'
 
   useEffect(() => {
     axios({
@@ -76,69 +76,16 @@ function ABCBatchClass({ enrolledBatches }) {
             {enrolledBatches}
           </Typography>
         </Grid>
-        <Grid item justifyContent="right">
+        {/* <Grid item justifyContent="right">
           <Button startIcon={<SettingsIcon />} color="inherit">
             Preferences
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Container maxWidth="lg">
         <Typography variant="h6" sx={{ margin: "32px 0px" }}>
           Live Classes
         </Typography>
-        <Grid container>
-          <Grid item md="4px">
-            <Chip
-              label="Upcoming Class"
-              color="secondary"
-              sx={{ transform: "rotate(-4.29deg)", marginLeft: "8px" }}
-            />
-            <Card
-              sx={{
-                padding: "32px 16px",
-                maxWidth: "384px",
-                background: "#FAFAFA",
-              }}
-              elevation={1}
-            >
-              <CardContent>
-                <Grid container>
-                  <Grid item sm={2}>
-                    <img
-                      // className={classes.icons}
-                      src={require("./assets/playButton.svg")}
-                      alt="Students Img"
-                    />
-                  </Grid>
-                  <Grid item md={10} sm={8} xs={8}>
-                    <Typography marginLeft="16px" variant="subtitle1">
-                      Foundations of Data Structures and Algorithms
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container mt="32px">
-                  <Grid item md={7} xs={7} sx={{ display: "flex" }}>
-                    <DateRangeIcon />
-                    <Typography variant="body1" ml="8px">
-                      25 May 2023
-                    </Typography>
-                  </Grid>
-                  <Grid display="flex">
-                    <AccessTimeIcon />
-                    <Typography variant="body1" marginLeft="8px">
-                      2 PM
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </CardContent>
-              <CardActions sx={{ justifyContent: "right" }}>
-                <Button disabled endIcon={<ArrowForwardIcon />}>
-                  Starts in 1 hour
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
 
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
@@ -152,7 +99,8 @@ function ABCBatchClass({ enrolledBatches }) {
                       transform: "rotate(-4.29deg)",
                       marginLeft: "8px",
                       position: "absolute",
-                      // top: "0",
+                      height:"21px",
+
                     }}
                   />
                 )}
@@ -169,7 +117,6 @@ function ABCBatchClass({ enrolledBatches }) {
                     <Grid container>
                       <Grid item sm={2}>
                         <img
-                          // className={classes.icons}
                           src={require("./assets/playButton.svg")}
                           alt="Students Img"
                         />
@@ -197,7 +144,7 @@ function ABCBatchClass({ enrolledBatches }) {
                     </Grid>
                   </CardContent>
                   <CardActions sx={{ justifyContent: "right" }}>
-                    <Button endIcon={<ArrowForwardIcon />}>
+                    <Button endIcon={<ArrowForwardIcon color="grey" />}>
                       <ClassJoinTimerButton
                         buttonType="text"
                         startTime={item?.start_time}
@@ -222,55 +169,10 @@ function ABCBatchClass({ enrolledBatches }) {
             <DoubtClassCard item={item} setDoubtclasses={setDoubtclasses} />
           ))}
         </Grid>
-        {/* <Grid container>
-          <Grid item md="4px">
-            <Card
-              sx={{
-                padding: "32px 16px",
-                maxWidth: "384px",
-                background: "#FFF5CC",
-              }}>
-              <CardContent>
-                <Grid container>
-                  <Grid item>
-                    <img
-                      // className={classes.icons}
-                      src={require("./assets/playButton.svg")}
-                      alt="Students Img"
-                    />
-                  </Grid>
-                  <Grid item md={10} xs={8}>
-                    <Typography marginLeft="16px" variant="subtitle1">
-                      Foundations of Data Structures and Algorithms
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid container mt="32px">
-                  <Grid item md={7} sx={{ display: "flex" }}>
-                    <DateRangeIcon />
-                    <Typography variant="body1" ml="8px">
-                      25 May 2023
-                    </Typography>
-                  </Grid>
-                  <Grid display="flex">
-                    <AccessTimeIcon />
-                    <Typography variant="body1" marginLeft="8px">
-                      2 PM
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </CardContent>
-              <CardActions sx={{ justifyContent: "right" }}>
-                <Button disabled endIcon={<ArrowForwardIcon />}>
-                  Starts in 1 hour
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid> */}
       </Container>
     </>
   );
 }
 
-export default ABCBatchClass;
+export default AmazonBootcampBatch;
+
