@@ -43,7 +43,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
     });
   }, []);
 
-///pathways/doubtclasses/{pathway_id}'
+  ///pathways/doubtclasses/{pathway_id}'
 
   useEffect(() => {
     axios({
@@ -99,8 +99,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
                       transform: "rotate(-4.29deg)",
                       marginLeft: "8px",
                       position: "absolute",
-                      height:"21px",
-
+                      height: "21px",
                     }}
                   />
                 )}
@@ -108,7 +107,6 @@ function AmazonBootcampBatch({ enrolledBatches }) {
                   sx={{
                     padding: "32px 16px",
                     maxWidth: "384px",
-                    background: "#FAFAFA",
                     background: index === 0 ? "#E9F5E9" : "#FAFAFA",
                   }}
                   elevation={1}
@@ -175,4 +173,3 @@ function AmazonBootcampBatch({ enrolledBatches }) {
 }
 
 export default AmazonBootcampBatch;
-
