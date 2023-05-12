@@ -87,7 +87,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
                 ace the technical interviews at your favorite companies
               </Typography>
 
-              <ExternalLink
+              {/* <ExternalLink
                 style={{
                   textDecoration: "none",
                 }}
@@ -109,7 +109,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
                     <b>What's it all about?</b>
                   </section>
                 </Typography>
-              </ExternalLink>
+              </ExternalLink> */}
               <Typography variant="h6" mt="80px">
                 What Will You be Learning?
               </Typography>

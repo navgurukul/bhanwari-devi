@@ -183,8 +183,6 @@ function ClassForm({
     });
   }, [partnerPathwayId]);
 
-  console.log(partnerPathwayId, "partnerPathwayId");
-
   //For course error field (doubt class only)
   useEffect(() => {
     if (onInput.course && !classFields.course_id) {
@@ -418,7 +416,6 @@ function ClassForm({
       },
     }).then(
       (res) => {
-        console.log(res, "dataaaaaaa");
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
@@ -927,9 +924,6 @@ function ClassForm({
                   }}
                   onChange={(e, newVal) => {
                     setSelectedPartners(newVal);
-                    {
-                      console.log(newVal, "newVal-");
-                    }
                     setClassFields({
                       ...classFields,
                       ["partner_id"]: newVal.map((item) => item.id),

@@ -44,7 +44,6 @@ function DoubtClassCard({ item, setDoubtclasses }) {
         }).then((res) => {
           setLoading(false);
           setDoubtclasses(res.data);
-          console.log(res, "ham aapke kon");
         });
       })
       .catch((err) => {
@@ -111,7 +110,6 @@ function DoubtClassCard({ item, setDoubtclasses }) {
                 type="submit"
                 variant="contained"
                 onClick={() => {
-                  console.log("done");
                   handleSubmit(item.id);
                 }}
               >

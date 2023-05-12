@@ -14,7 +14,6 @@ import {
   Chip,
   CardActions,
 } from "@mui/material";
-// import SettingsIcon from "@mui/icons-material/Settings";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -43,8 +42,6 @@ function AmazonBootcampBatch({ enrolledBatches }) {
     });
   }, []);
 
-  ///pathways/doubtclasses/{pathway_id}'
-
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -55,9 +52,12 @@ function AmazonBootcampBatch({ enrolledBatches }) {
       },
     }).then((res) => {
       setDoubtclasses(res.data);
-      console.log(res, "ham aapke kon");
     });
   }, []);
+
+  const enrolledBatcheClasses = enrollClasses.filter(
+    (item) => item.type === "batch"
+  );
 
   return (
     <>
@@ -89,7 +89,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
 
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {enrollClasses.map((item, index) => (
+            {enrolledBatcheClasses.map((item, index) => (
               <Grid item xs={12} ms={6} md={4}>
                 {index === 0 && (
                   <Chip
