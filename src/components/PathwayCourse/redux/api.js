@@ -2,7 +2,12 @@ import axios from "axios";
 import { METHODS } from "../../../services/api";
 import { versionCode, PATHWAYS_INFO } from "../../../constant";
 
-export const getPathways = () => {
+export const getPathways = (authToken) => {
+  console.log(
+    "authToken",
+    authToken ? authToken?.authToken?.data?.token : null
+  );
+  const token = authToken ? authToken?.authToken?.data?.token : null;
   const branchDataSource = process.env.REACT_APP_MERAKI_URL.startsWith(
     "https://dev"
   )
@@ -19,6 +24,7 @@ export const getPathways = () => {
     method: METHODS.GET,
     headers: {
       "version-code": versionCode,
+      Authorization: token,
     },
     // headers: HeaderFactory(token),
   }).then((response) => {
