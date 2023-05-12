@@ -38,7 +38,6 @@ const CountryList = require("country-list-with-dial-code-and-flag");
 function VerifyPhoneNo(props) {
   const user = useSelector(({ User }) => User);
   const { setDisable, setContact, contact, setNextButton } = props;
-
   const [otp, setOtp] = useState("");
   const [bgColor, setBgColor] = useState(false);
   const [verifyOpen, setVerifyOpen] = useState(false);
@@ -52,7 +51,7 @@ function VerifyPhoneNo(props) {
     (contact && `${contact?.split(" ")[0]}`) || "+91"
   );
   const [phone, setPhone] = useState("");
-
+  const phoneData = `${countryCode.slice(1)}-${phone}`;
   const app = initializeApp(firebaseConfig);
   const handleChange = (event) => {
     const number = event.target.value?.replace(/[^0-9]/g, "") || "";
@@ -119,33 +118,18 @@ function VerifyPhoneNo(props) {
   const onSignInSubmit = async (event) => {
     try {
       const response = await axios({
-        url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/volunteers/${phoneData}`,
         method: METHODS.GET,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
         },
       });
-
-      const volunteers = response.data;
-      let contactMatch = false;
-
-      for (const item of volunteers) {
-        let contact = item.contact;
-        if (item.contact?.includes("-")) contact = item.contact?.split("-")[1];
-        if (phone === contact) {
-          setMessage(
-            "The number has already registered. Please try with another number."
-          );
-          setOpen(true);
-          // setIsStartTimer(true);
-          // countTimer();
-          contactMatch = true;
-          break;
-        }
-      }
-      if (!contactMatch) {
-        event.preventDefault();
+      if (response.data !== "please register your mobile number") {
+        setOpen(true);
+        setMessage(response.data);
+      } else {
+        // event.preventDefault();
         if (!confirmationResult) {
           setupRecaptcha();
         }
@@ -207,33 +191,6 @@ function VerifyPhoneNo(props) {
 
   const countryData = CountryList.findFlagByDialCode(countryCode);
 
-  // useEffect(() => {
-  //   return axios({
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
-  //     method: METHODS.GET,
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: user.data.token,
-  //     },
-  //   }).then((res) => {
-  //     console.log("res", res);
-  //     setVolunteer(res.data);
-  //   });
-  // }, [contact]);
-
-  // volunteer &&
-  //   volunteer?.length > 0 &&
-  //   volunteer.map((item) => {
-  //     console.log(item.contact);
-  //     if (item.contact == contact?.split(" ")[1]) {
-  //       console.log("number matched");
-  //       console.log(item.contact);
-  //     }
-  //   });
-
-  // console.log("volunteer", volunteer);
-  // console.log("contact", contact?.split(" ")[1]);
-
   return (
     <Container sx={{ mt: 5 }} maxWidth="sm">
       <div id="recaptcha-container"></div>
@@ -284,11 +241,6 @@ function VerifyPhoneNo(props) {
             <Grid item>
               <Typography variant="body1">
                 {`${countryData.dial_code} ${contact.split(" ")[1]}`}
-                {/* {`+${contact.split(" ")[0]} ${contact.split(" ")[1]}`} */}
-                {/* {console.log(
-                  "contact",
-                  contact.slice(countryData.dial_code.length)
-                )} */}
               </Typography>
             </Grid>
           </Grid>
