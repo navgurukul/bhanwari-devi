@@ -25,10 +25,6 @@ function Assessment({
   const [triedAgain, setTriedAgain] = useState(res?.attempt_count);
   const params = useParams();
 
-  // useEffect(() => {
-  //   console.log(res, correct);
-  // }, [answer]);
-
   // Assessment submit handler
   const submitAssessment = () => {
     setSubmit(true);

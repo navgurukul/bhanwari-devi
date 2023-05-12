@@ -3,10 +3,6 @@ import { METHODS } from "../../../services/api";
 import { versionCode, PATHWAYS_INFO } from "../../../constant";
 
 export const getPathways = (authToken) => {
-  console.log(
-    "authToken",
-    authToken ? authToken?.authToken?.data?.token : null
-  );
   const token = authToken ? authToken?.authToken?.data?.token : null;
   const branchDataSource = process.env.REACT_APP_MERAKI_URL.startsWith(
     "https://dev"
