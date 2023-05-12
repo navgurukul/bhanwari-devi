@@ -10,7 +10,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import useStyles from "../styles";
 import PathwayCourseBatchEnroll1 from "../../BatchClassComponents/PathwayCourseBatchEnroll1";
 import ExternalLink from "../../common/ExternalLink";
-import ABCBatchClass from "../../BatchClassComponents/ABCBatchClass";
+import AmazonBootcampBatch from "../../BatchClassComponents/AmazonBootcampBatch";
 
 function AmazonCodingProgrammer({ pathwayId }) {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
   return (
     <React.Fragment>
       {enrolledBatches ? (
-        <ABCBatchClass enrolledBatches={enrolledBatches[0]["title"]} />
+        <AmazonBootcampBatch enrolledBatches={enrolledBatches[0]["title"]} />
       ) : (
         <Container className={classes.pathwayContainer} maxWidth="lg">
           <Grid container>
