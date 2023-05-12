@@ -86,6 +86,7 @@ function ClassForm({
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
+    space_id: classToEdit?.id,
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -119,6 +120,7 @@ function ClassForm({
     exercise: false,
     description: false,
   });
+  const [onSpace, setOnSpace] = useState([]);
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
@@ -616,7 +618,40 @@ function ClassForm({
       setDisplay(true);
     }
   };
-
+  console.log(classFields, classToEdit);
+  useEffect(() => {
+    if (classFields.partner_id.includes(972)) {
+      classFields.partner_id.map((item) => {
+        axios({
+          method: METHODS.GET,
+          url: `${process.env.REACT_APP_MERAKI_URL}/partners/space/${item}`,
+          headers: {
+            accept: "application/json",
+            "version-code": versionCode,
+            Authorization: user.data.token,
+          },
+        }).then((res) => {
+          const space = res.data.data.map((item) => {
+            return {
+              label: item.space_name,
+              id: item.id,
+            };
+          });
+          setOnSpace(space);
+        });
+      });
+    }
+  });
+  console.log(onSpace, classFields, "fgggggggggggggggggg");
+  const [selectSpace, setSelectSpace] = useState([]);
+  useEffect(() => {
+    let datass = onSpace.filter((item) => {
+      return classFields.space_id.includes(item.id);
+    });
+    setSelectSpace(datass);
+  }, [onSpace]);
+  // console.log(onSpace,partnerData,"seleeeeeeeeeee")
+  // console.log(selectSpace,onSpace,"sssssssssss")
   return (
     <>
       {showSuccessModal ? (
@@ -924,6 +959,45 @@ function ClassForm({
                 />
               </Stack>
             )}
+
+            <Autocomplete
+              value={{
+                id: classFields.space_id || "",
+              }}
+              // name="partner_id"
+
+              sx={{ mb: 3 }}
+              options={onSpace}
+              isOptionEqualToValue={(option, value) => {
+                return option.id === value.id;
+              }}
+              onChange={(e, newVal) => {
+                setSelectSpace(newVal?.id);
+                setClassFields((prev) => {
+                  return {
+                    ...prev,
+                    space_id: prev.id,
+                  };
+                });
+              }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="outlined-error-helper-text"
+                  error={showError.partner}
+                  onClick={() => {
+                    setOnInput((prev) => {
+                      return { ...prev, partner: true };
+                    });
+                  }}
+                  helperText={helperText.partner}
+                  variant="outlined"
+                  label="For Space Class"
+                />
+              )}
+            />
+
             {classFields.type === "batch" && (
               <Typography
                 variant="body2"
