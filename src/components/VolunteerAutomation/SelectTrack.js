@@ -33,8 +33,6 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
     }
   };
 
-  console.log(data, "dataaaaaaaaaaa");
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -75,7 +73,8 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
                           ? classes.selectedTrack
                           : classes.TrackCard
                       }
-                      onClick={() => handleChange(item.id)}>
+                      onClick={() => handleChange(item.id)}
+                    >
                       <Box className={classes.TrackImages}>
                         <CardMedia component="img" src={item.logo} />
                         <Typography mt={2}>{item.name}</Typography>

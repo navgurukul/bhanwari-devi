@@ -64,19 +64,7 @@ export const getPathways = (authToken) => {
 };
 
 export const getPathwaysDropdown = (authToken) => {
-  console.log("authToken", authToken);
   const token = authToken ? authToken?.authToken?.data?.token : null;
-  const branchDataSource = process.env.REACT_APP_MERAKI_URL.startsWith(
-    "https://dev"
-  )
-    ? "dev"
-    : "main";
-  //update
-  // return axios(
-  //   "https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
-  //   branchDataSource +
-  //   "/src/data/pathway_data_v40.json"
-  // ).catch((err) => {
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/dropdown`,
     method: METHODS.GET,
@@ -84,9 +72,7 @@ export const getPathwaysDropdown = (authToken) => {
       "version-code": versionCode,
       Authorization: token,
     },
-    // headers: HeaderFactory(token),
   }).then((response) => {
-    console.log("response", response);
     if (!response?.data?.pathways) {
       return response;
     }
@@ -123,7 +109,6 @@ export const getPathwaysDropdown = (authToken) => {
 
     return response;
   });
-  // });
 };
 
 export const getPathwaysCourse = (data) => {
