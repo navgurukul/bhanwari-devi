@@ -128,6 +128,9 @@ const useStyles = makeStyles((theme) => ({
   pdfWrapper: {
     height: (props) => (props.isActive ? "200px" : "390px"),
   },
+  spanfont: {
+    fontWeight: "bold",
+  },
 }));
 
 export default useStyles;

@@ -10,49 +10,6 @@ import { METHODS } from "../../services/api";
 import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
 
-const pathwayData = [
-  {
-    title: "Python",
-    code: "PRGPYT",
-    image: "python",
-    description: "Get familiar with programming with bite sized lessons",
-  },
-  // {
-  //   title: "Scratch (CEL)",
-  //   code: "SHCEL",
-  //   image: "scratch",
-  //   description: "Get familiar with programming with bite sized lessons",
-  // },
-  {
-    title: "Typing",
-    code: "TYPGRU",
-    image: "typing",
-    description: "Learn to type with pinpoint accuracy and speed.",
-  },
-  {
-    title: "Spoken English",
-    code: "SPKENG",
-    image: "language",
-    description: "Master English with easy to understand courses",
-  },
-  {
-    title: "Web Development",
-    code: "JSRPIT",
-    image: "web-development",
-    description: "Learn the basics of tech that powers the web",
-  },
-  {
-    title: "Residential Programmes",
-    image: "residential",
-    description: "Explore Navgurukul’s on campus Software Engineering courses",
-  },
-  {
-    title: "Miscellaneous Courses",
-    image: "misc",
-    description: "Courses on Android, Game dev projects and more",
-  },
-];
-
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
   const UserName = user.data.user.name;
@@ -60,11 +17,15 @@ const NewUserDashbord = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [learningTracks, setLearningTracks] = useState(null);
-  const { loading, data } = useSelector((state) => state.Pathways);
+  const { loading, data } = useSelector((state) => state.PathwaysDropdow);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(
+      pathwayActions.getPathwaysDropdown({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   useEffect(() => {
     axios({
@@ -82,14 +43,22 @@ const NewUserDashbord = () => {
       }
     });
   }, []);
+
+  const pathwayData = [];
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      pathwayData.forEach((item) => {
-        if (pathway.code === item.code) {
-          item.id = pathway.id;
-        }
-      });
+      if (pathway.code !== "PRCRSE" || pathway.path) {
+        const obj = {
+          id: pathway.id || null,
+          title: pathway.name || pathway.title,
+          description: pathway.description,
+          image: pathway.image || pathway.logo,
+          link: pathway.path || null,
+          type: "internal",
+        };
+        pathwayData.push(obj);
+      }
     });
 
   return (

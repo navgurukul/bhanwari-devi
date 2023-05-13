@@ -45,44 +45,6 @@ function ReturningUserPage() {
       setLearningTracks(data);
     });
   }, []);
-  console.log(learningTracks, "learning");
-
-  // const Pathway = learningTracks.forEach((element)=>{
-  //     setPathway(element.pathway_id)
-  //   })
-  // console.log(Pathway)
-
-  // const userEnrolledClasses = useSelector((state) => {
-  //   return state.Pathways?.upcomingEnrolledClasses?.data;
-  // });
-
-  // const enrolledBatches = useSelector((state) => {
-  //   if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
-  //     return state?.Pathways?.enrolledBatches?.data;
-  //   } else {
-  //     return null;
-  //   }
-  // });
-  // console.log(pathway)
-  // useEffect(() => {
-  //   if (user?.data?.token && enrolledBatches?.length > 0) {
-  //     dispatch(
-  //       upcomingClassActions.getupcomingEnrolledClasses({
-  //         pathwayId: 1,
-  //         authToken: user?.data?.token,
-  //       })
-  //     );
-  //   } else {
-  //     if (user?.data?.token) {
-  //       dispatch(
-  //         upcomingBatchesActions.getUpcomingBatches({
-  //           pathwayId: 1,
-  //           authToken: user?.data?.token,
-  //         })
-  //       );
-  //     }
-  //   }
-  // }, []);
 
   return (
     <>

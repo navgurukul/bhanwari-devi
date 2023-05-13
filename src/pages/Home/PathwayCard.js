@@ -27,7 +27,12 @@ function PathwayCard({ id, title, description, image, hover }) {
           {image && (
             <CardMedia
               component="img"
-              src={require("./assets/" + image + ".svg")}
+              src={
+                title === "Machine Learning" ||
+                title === "Amazon Coding Bootcamp"
+                  ? image
+                  : require("./assets/" + image + ".svg")
+              }
               alt={image + "image"}
             />
           )}

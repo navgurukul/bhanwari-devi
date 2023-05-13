@@ -44,8 +44,6 @@ const AssessmentContent = ({
   submitDisable,
   submitAssessment,
 }) => {
-  // console.log(solution);
-
   const classes = useStyles();
   if (content.component === "header") {
     if (triedAgain > 1) {

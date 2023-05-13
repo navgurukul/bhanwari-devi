@@ -58,8 +58,12 @@ function SearchCourse(props) {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   const handleSearchChange = (e) => {
     if (e.key == "Enter") {
@@ -199,7 +203,6 @@ function SearchCourse(props) {
                         {pathway.name}
                       </Typography>
                       <Grid container spacing={2} align="center">
-                        {/* {console.log(pathway.courses[0].name)} */}
                         {pathway.courses.map((item, index) => (
                           <Grid
                             key={index}

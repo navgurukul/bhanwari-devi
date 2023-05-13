@@ -15,24 +15,7 @@ const menu = {
     { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
     { title: "Meraki Team", type: "internal", link: PATHS.TEAM },
   ],
-  LearningTracks: [
-    { title: "Python", code: "PRGPYT", type: "internal" },
-    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
-    { title: "Typing ", code: "TYPGRU", type: "internal" },
-    { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "Javascript", code: "JSRPIT", type: "internal" },
-    {
-      title: "Residential Programmes",
-      type: "internal",
-      link: PATHS.RESIDENTIAL_COURSE,
-    },
-    {
-      title: "Miscellaneous Courses",
-      type: "internal",
-      link: PATHS.MISCELLANEOUS_COURSE,
-    },
-  ],
-
+  LearningTracks: [],
   GetInvolved: [
     {
       title: "Volunteer With Us",
@@ -54,7 +37,46 @@ const menu = {
 
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
+  const user = useSelector(({ User }) => User);
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => {
+    return state.PathwaysDropdow;
+  });
+
+  // console.log("user in Menu", user);
+
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathwaysDropdown({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
+  }, [dispatch, user]);
+
+  const studentLearn = [];
+
+  data &&
+    data.pathways &&
+    data.pathways.forEach((pathway) => {
+      if (pathway.code !== "PRCRSE" || pathway.path) {
+        const obj = {
+          id: pathway.id || null,
+          title: pathway.name || pathway.title,
+          description: pathway.description,
+          image: pathway.image || pathway.logo,
+          link: pathway.path || null,
+          type: "internal",
+        };
+        studentLearn.push(obj);
+      }
+    });
+
+  if (menuItem === "LearningTracks") {
+    menu[menuItem] = studentLearn;
+  }
+
   const subMenu = menu[menuItem].filter((x) => x.link || x.id);
 
   return (
@@ -136,19 +158,51 @@ function FooterIcon(props) {
 
 function Footer() {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => {
+    return state.PathwaysDropdow;
+  });
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
+  // console.log("user in Footer", user);
+
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathways({
+  //       authToken: user,
+  //       // ?.data?.token,
+  //     })
+  //   );
+  // }, [dispatch, user]);
+
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(
+      pathwayActions.getPathwaysDropdown({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
+  }, [dispatch, user]);
+
+  // useEffect(() => {
+  //   axios({
+  //     method: METHODS.GET,
+  //     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/dropdown`,
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization: user.data.token,
+  //     },
+  //   }).then((res) => {
+  //     console.log()
+  //     // setEnrollClasses(res.data);
+  //   });
+  // }, []);
 
   data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      // console.log(pathway);
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
           item.id = pathway.id;

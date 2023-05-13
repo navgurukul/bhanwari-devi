@@ -328,6 +328,7 @@ function ClassCard({ item, editClass }) {
             </MenuItem>
           )}
         </Menu>
+
         <Typography variant="subtitle1">{item.title}</Typography>
         {!item.title.toLowerCase().includes("scratch") && (
           <Typography
