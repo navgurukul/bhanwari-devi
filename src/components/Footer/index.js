@@ -161,6 +161,7 @@ function Footer() {
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => {
+    console.log("state", state);
     return state.Pathways;
   });
 
@@ -176,6 +177,29 @@ function Footer() {
       })
     );
   }, [dispatch, user]);
+
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathwaysDropdown({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
+  }, [dispatch, user]);
+
+  // useEffect(() => {
+  //   axios({
+  //     method: METHODS.GET,
+  //     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/dropdown`,
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization: user.data.token,
+  //     },
+  //   }).then((res) => {
+  //     console.log()
+  //     // setEnrollClasses(res.data);
+  //   });
+  // }, []);
 
   data &&
     data.pathways &&
