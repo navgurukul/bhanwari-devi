@@ -41,14 +41,14 @@ const MenuList = (menuItem) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => {
-    return state.Pathways;
+    return state.PathwaysDropdow;
   });
 
   // console.log("user in Menu", user);
 
   useEffect(() => {
     dispatch(
-      pathwayActions.getPathways({
+      pathwayActions.getPathwaysDropdown({
         authToken: user,
         // ?.data?.token,
       })
@@ -85,8 +85,7 @@ const MenuList = (menuItem) => {
         color="text.primary"
         // sx={{ mt: 4 }}
         variant="subtitle1"
-        component="div"
-      >
+        component="div">
         {title}
       </Typography>
       <List>
@@ -104,8 +103,7 @@ const MenuList = (menuItem) => {
                   variant="body2"
                   color="text.primary"
                   sx={{ pb: "8px" }}
-                  className={classes.hover}
-                >
+                  className={classes.hover}>
                   {item.title}
                 </Typography>
               </Link>
@@ -115,14 +113,12 @@ const MenuList = (menuItem) => {
               <ExternalLink
                 className={classes.link}
                 href={item.link}
-                key={item.link}
-              >
+                key={item.link}>
                 <Typography
                   variant="body2"
                   color="text.primary"
                   mb={1}
-                  className={classes.CareerNDoner}
-                >
+                  className={classes.CareerNDoner}>
                   {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
                 </Typography>
               </ExternalLink>
@@ -162,21 +158,21 @@ function Footer() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => {
     console.log("state", state);
-    return state.Pathways;
+    return state.PathwaysDropdow;
   });
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   // console.log("user in Footer", user);
 
-  useEffect(() => {
-    dispatch(
-      pathwayActions.getPathways({
-        authToken: user,
-        // ?.data?.token,
-      })
-    );
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathways({
+  //       authToken: user,
+  //       // ?.data?.token,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
   useEffect(() => {
     dispatch(
@@ -247,15 +243,13 @@ function Footer() {
             <ExternalLink
               className={classes.link}
               sx={{ mt: "8px" }}
-              href="https://www.navgurukul.org/donate"
-            >
+              href="https://www.navgurukul.org/donate">
               <Typography
                 variant="body2"
                 color="text.primary"
                 mb={1}
                 mt={1}
-                className={classes.CareerNDoner}
-              >
+                className={classes.CareerNDoner}>
                 Donate <LaunchOutlinedIcon sx={{ pl: "5px" }} />
               </Typography>
             </ExternalLink>
@@ -265,14 +259,12 @@ function Footer() {
               color="text.primary"
               sx={{ mb: 1 }}
               variant="subtitle1"
-              component="div"
-            >
+              component="div">
               Learn on Mobile
             </Typography>
             <ExternalLink
               href="https://play.google.com/store/apps/details?id=org.merakilearn&hl=en_IN&gl=US"
-              className={classes.link}
-            >
+              className={classes.link}>
               <Box sx={{ display: "flex" }}>
                 <img
                   src={require("./asset/playStore.svg")}
@@ -283,8 +275,7 @@ function Footer() {
                   <Typography
                     variant="body2"
                     color="text.primary"
-                    component="div"
-                  >
+                    component="div">
                     Now on Playstore
                   </Typography>
                 </Box>
@@ -300,8 +291,7 @@ function Footer() {
                 <Typography
                   className={classes.hover}
                   variant="body2"
-                  color="text.primary"
-                >
+                  color="text.primary">
                   Legal & Privacy Policy
                 </Typography>
               </Link>
@@ -312,13 +302,11 @@ function Footer() {
               md={6}
               sx={{
                 pr: { sm: 0, md: "17px" },
-              }}
-            >
+              }}>
               <Typography
                 color="text.primary"
                 variant="body2"
-                sx={{ textAlign: { sm: "left", md: "right" } }}
-              >
+                sx={{ textAlign: { sm: "left", md: "right" } }}>
                 Made with ❤️ for our students{" "}
               </Typography>
             </Grid>

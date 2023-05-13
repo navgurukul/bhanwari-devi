@@ -65,12 +65,12 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.PathwaysDropdow);
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
   useEffect(() => {
     dispatch(
-      pathwayActions.getPathways({
+      pathwayActions.getPathwaysDropdown({
         authToken: user,
         // ?.data?.token,
       })
@@ -167,11 +167,11 @@ export const DropDown = ({
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.PathwaysDropdow);
 
   useEffect(() => {
     dispatch(
-      pathwayActions.getPathways({
+      pathwayActions.getPathwaysDropdown({
         authToken: user,
         // ?.data?.token,
       })
