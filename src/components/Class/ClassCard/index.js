@@ -258,14 +258,16 @@ function ClassCard({ item, editClass }) {
       <Card
         elevation={2}
         sx={{ p: 4, mt: isActive ? 4 : 5 }}
-        className={classes.card}>
+        className={classes.card}
+      >
         <Typography
           variant="subtitle1"
           color="#6D6D6D"
           sx={{
             display: "flex",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           {languageMap[item.type] === "Doubt Class"
             ? languageMap[item.type]
             : "Batch"}
@@ -298,17 +300,20 @@ function ClassCard({ item, editClass }) {
           open={Boolean(anchorElUser)}
           onClose={() => {
             setAnchorElUser(null);
-          }}>
+          }}
+        >
           {(item.facilitator.email === user.data.user.email || flag) && (
             <>
               <MenuItem
                 onClick={() => handleEdit(item.id)}
-                sx={{ width: 100, margin: "0px 10px" }}>
+                sx={{ width: 100, margin: "0px 10px" }}
+              >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
               <MenuItem
                 onClick={() => handleClickOpen(item.id)}
-                sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}>
+                sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}
+              >
                 <Typography textAlign="center">Delete</Typography>
               </MenuItem>
             </>
@@ -317,7 +322,8 @@ function ClassCard({ item, editClass }) {
           {!rolesList.includes("volunteer") && item.enrolled && (
             <MenuItem
               onClick={() => handleClickOpenUnenroll(item.id)}
-              sx={{ width: 120, margin: "0px 10px" }}>
+              sx={{ width: 120, margin: "0px 10px" }}
+            >
               <Typography textAlign="center">Dropout</Typography>
             </MenuItem>
           )}
@@ -327,7 +333,8 @@ function ClassCard({ item, editClass }) {
         {!item.title.toLowerCase().includes("scratch") && (
           <Typography
             sx={{ fontSize: "18px", fontWeight: "400" }}
-            variant="subtitle2">
+            variant="subtitle2"
+          >
             {item.sub_title}
           </Typography>
         )}
@@ -379,7 +386,8 @@ function ClassCard({ item, editClass }) {
               variant="contained"
               onClick={() => {
                 handleClickOpenEnroll(item.id);
-              }}>
+              }}
+            >
               Enroll
             </Button>
           )}
@@ -390,7 +398,8 @@ function ClassCard({ item, editClass }) {
           <Dialog
             open={showModal}
             aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description">
+            aria-describedby="alert-dialog-description"
+          >
             <DialogTitle>
               <Typography variant="h6" align="center">
                 Are you sure you want to delete this class?
@@ -420,14 +429,16 @@ function ClassCard({ item, editClass }) {
                     }}
                     color="error"
                     variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
                     Yes
                   </Button>
                   <Button
                     onClick={handleClose}
                     color="grey"
                     variant="contained"
-                    sx={{ width: "100px" }}>
+                    sx={{ width: "100px" }}
+                  >
                     No
                   </Button>
                 </Box>
@@ -445,7 +456,8 @@ function ClassCard({ item, editClass }) {
                 minWidth: "35%",
                 borderRadius: 8,
               },
-            }}>
+            }}
+          >
             <DialogTitle>
               <Typography variant="h6" align="center">
                 Do you want to edit this class?
@@ -477,14 +489,16 @@ function ClassCard({ item, editClass }) {
                     }}
                     color="primary"
                     variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
                     Yes
                   </Button>
                   <Button
                     onClick={handleCloseEdit}
                     color="grey"
                     variant="contained"
-                    sx={{ width: "100px" }}>
+                    sx={{ width: "100px" }}
+                  >
                     Cancel
                   </Button>
                 </Box>
@@ -503,7 +517,8 @@ function ClassCard({ item, editClass }) {
                 minWidth: "35%",
                 borderRadius: 8,
               },
-            }}>
+            }}
+          >
             <DialogTitle>
               <Typography variant="h6" align="center">
                 Are you sure you want to enroll?
@@ -534,14 +549,16 @@ function ClassCard({ item, editClass }) {
                     }}
                     color="primary"
                     variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
                     Yes
                   </Button>
                   <Button
                     onClick={handleCloseEnroll}
                     color="grey"
                     variant="contained"
-                    sx={{ width: "100px" }}>
+                    sx={{ width: "100px" }}
+                  >
                     Cancel
                   </Button>
                 </Box>
@@ -559,7 +576,8 @@ function ClassCard({ item, editClass }) {
                 minWidth: "35%",
                 borderRadius: 8,
               },
-            }}>
+            }}
+          >
             <DialogTitle>
               <Typography variant="h6" align="center">
                 Are you sure you want to drop out
@@ -590,14 +608,16 @@ function ClassCard({ item, editClass }) {
                     }}
                     color="primary"
                     variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
                     Yes
                   </Button>
                   <Button
                     onClick={handleCloseUnenroll}
                     color="grey"
                     variant="contained"
-                    sx={{ width: "100px" }}>
+                    sx={{ width: "100px" }}
+                  >
                     Cancel
                   </Button>
                 </Box>

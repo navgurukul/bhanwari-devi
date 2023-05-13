@@ -425,17 +425,20 @@ function Home() {
         </Container>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {pathwayData.map((item) => (
-              <Grid item xs={12} ms={6} md={4}>
-                <PathwayCard
-                  id={item.id}
-                  title={item.title}
-                  description={item.description}
-                  image={item.image}
-                  hover={true}
-                />
-              </Grid>
-            ))}
+            {pathwayData.map(
+              (item) =>
+                item.id !== "7" && (
+                  <Grid item xs={12} ms={6} md={4}>
+                    <PathwayCard
+                      id={item.id}
+                      title={item.title}
+                      description={item.description}
+                      image={item.image}
+                      hover={true}
+                    />
+                  </Grid>
+                )
+            )}
           </Grid>
         </Container>
 

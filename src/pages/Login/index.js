@@ -17,6 +17,7 @@ import { breakpoints } from "../../theme/constant";
 
 function Login(props) {
   const [queryString, setqueryString] = useState(null);
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const pathway = useSelector((state) => state.Pathways);
   const updateQueryString = (value) => {
@@ -44,8 +45,12 @@ function Login(props) {
   }
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");

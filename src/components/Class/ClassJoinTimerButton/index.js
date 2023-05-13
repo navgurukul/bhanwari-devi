@@ -3,7 +3,12 @@ import { timeLeftFormat } from "../../../common/date";
 import { Button } from "@mui/material";
 import ExternalLink from "../../common/ExternalLink";
 
-function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
+function ClassJoinTimerButton({
+  startTime = new Date(),
+  link,
+  joinOnClick,
+  buttonType,
+}) {
   const ONE_SECOND = 1000; //millisecs
   const ONE_MINUTE = 60 * ONE_SECOND;
   const CAN_JOIN_MSG = "Join Now";
@@ -42,18 +47,19 @@ function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
           style={{
             textDecoration: "none",
           }}
-          href={link}
-        >
+          href={link}>
           <Button
             variant="contained"
             fullWidth
-            onClick={joinOnClick ? joinOnClick : undefined}
-          >
+            onClick={joinOnClick ? joinOnClick : undefined}>
             {CAN_JOIN_MSG}
           </Button>
         </ExternalLink>
       ) : (
-        <Button fullWidth disabled={true} variant="contained">
+        <Button
+          fullWidth
+          disabled={true}
+          variant={buttonType === "text" ? "text" : "contained"}>
           Starts in {timeRemainingMsg}
         </Button>
       )}

@@ -86,6 +86,7 @@ function ClassForm({
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
+    space_id: classToEdit?.id || "",
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -93,6 +94,8 @@ function ClassForm({
   const [exercisesForSelectedCourse, setExercisesForSelectedCourse] = useState(
     []
   );
+  const [tutorPathwayId, setTutorPathwayId] = useState([]);
+  const [selectedPartners, setSelectedPartners] = useState([]);
   const [loading, setLoading] = useState(false);
   const [successModalMsg, setSuccessModalMsg] = useState("create");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -119,6 +122,9 @@ function ClassForm({
     exercise: false,
     description: false,
   });
+  const [onSpace, setOnSpace] = useState([]);
+  const [selectSpace, setSelectSpace] = useState([]);
+
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
@@ -177,8 +183,6 @@ function ClassForm({
       return { ...prev, pathway_id: partnerPathwayId?.[0] };
     });
   }, [partnerPathwayId]);
-
-  console.log(partnerPathwayId, "partnerPathwayId");
 
   //For course error field (doubt class only)
   useEffect(() => {
@@ -270,8 +274,8 @@ function ClassForm({
     } else {
       if (
         classFields.title !== "" &&
-        classFields.course_id &&
-        classFields.exercise_id &&
+        ((classFields.course_id && classFields.exercise_id) ||
+          classFields.pathway_id) &&
         classFields.description &&
         classFields.description.length < 555
       ) {
@@ -378,13 +382,14 @@ function ClassForm({
       setVolunteer(volunteers);
     });
   }, []);
-  const [selectedPartners, setSelectedPartners] = useState([]);
+
   useEffect(() => {
     let datass = partnerData.filter((item) => {
       return classFields.partner_id.includes(item.id);
     });
     setSelectedPartners(datass);
   }, [partnerData]);
+
   const convertToIST = (d) => {
     const b = d.split(/\D+/);
     const dateInObj = new Date(
@@ -412,7 +417,6 @@ function ClassForm({
       },
     }).then(
       (res) => {
-        console.log(res, "dataaaaaaa");
         if (res.status === 200) {
           setLoading(false);
           setShowSuccessModal(true);
@@ -585,14 +589,21 @@ function ClassForm({
       "lang",
       "type",
       "volunteer_id",
+      "space_id",
     ];
+
     let payload;
     if (classFields.type === "doubt_class") {
-      payload = _.pick(classFields, [
-        ...commonFields,
-        "course_id",
-        "exercise_id",
-      ]);
+      delete classFields.space_id;
+      if (classFields.pathway_id == 7) {
+        payload = _.pick(classFields, [...commonFields, "partner_id"]);
+      } else {
+        payload = _.pick(classFields, [
+          ...commonFields,
+          "course_id",
+          "exercise_id",
+        ]);
+      }
     } else if (classFields.type === "batch") {
       payload = _.pick(classFields, [
         ...commonFields,
@@ -601,6 +612,7 @@ function ClassForm({
         "on_days",
       ]);
     }
+
     if (classFields.max_enrolment != "No Limit") {
       //add max_enrolment field only if it is not No Limit
       payload.max_enrolment = classFields.max_enrolment;
@@ -616,6 +628,28 @@ function ClassForm({
     }
   };
 
+  useEffect(() => {
+    if (selectedPartners.length === 1 && selectedPartners[0].id === 972) {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/partners/space/${selectedPartners[0].id}`,
+        headers: {
+          accept: "application/json",
+          "version-code": versionCode,
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        const space = res.data.data.map((item) => {
+          return {
+            label: item.space_name,
+            id: item.id,
+          };
+        });
+        setOnSpace(space);
+      });
+    }
+  }, [selectedPartners]);
+
   return (
     <>
       {showSuccessModal ? (
@@ -630,7 +664,8 @@ function ClassForm({
             sx={{
               width: { xs: 330, md: 500 },
               bgcolor: "background.paper",
-            }}>
+            }}
+          >
             <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
@@ -642,7 +677,8 @@ function ClassForm({
                 color="text.secondary"
                 item
                 xs={1}
-                className={classes.FormCloseIcon}>
+                className={classes.FormCloseIcon}
+              >
                 <CloseIcon
                   open
                   onClick={() => {
@@ -651,84 +687,18 @@ function ClassForm({
                 />
               </Grid>
             </Grid>
-            {classFields.type !== "batch" && (
-              <FormControl error={showError.course} fullWidth>
-                <InputLabel id="demo-simple-select-label">Courses</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Courses"
-                  onClick={() => {
-                    setOnInput((prev) => {
-                      return { ...prev, course: true };
-                    });
-                  }}
-                  value={selectedCourseLabel?.label}
-                  onChange={(e) => {
-                    onCourseChange(e.target.value);
-                  }}>
-                  {data.Pathways &&
-                    data.Pathways.pathwayCourse &&
-                    data.Pathways.pathwayCourse.data &&
-                    data.Pathways.pathwayCourse.data.courses.map((course) => {
-                      return (
-                        <MenuItem key={course.id} value={course.id}>
-                          {course.name}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-                <FormHelperText>{helperText.course}</FormHelperText>
-              </FormControl>
-            )}
-            {classFields.type !== "batch" && (
-              <FormControl
-                error={showError.exercise}
-                fullWidth
-                sx={{
-                  mt: 3,
-                  mb: 4,
-                }}>
-                <InputLabel id="demo-simple-select-label">Exercises</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Courses"
-                  onClick={() => {
-                    setOnInput((prev) => {
-                      return { ...prev, exercise: true };
-                    });
-                  }}
-                  disabled={exercisesForSelectedCourse.length === 0}
-                  value={selectedExerciseLabel?.label}
-                  onChange={(e) => {
-                    onExerciseChange(e.target.value);
-                  }}>
-                  {exercisesForSelectedCourse &&
-                    exercisesForSelectedCourse.map((exercise) => {
-                      return (
-                        <MenuItem key={exercise.id} value={exercise.id}>
-                          {exercise.name}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-                <FormHelperText>{helperText.exercise}</FormHelperText>
-              </FormControl>
-            )}
             <Autocomplete
               value={{
                 label: classFields.facilitator_name || "",
                 id: classFields.volunteer_id || "",
               }}
-              // name="partner_id"
-
               sx={{ mb: 3 }}
               options={volunteer}
               isOptionEqualToValue={(option, value) => {
                 return option.id === value.id;
               }}
               onChange={(e, newVal) => {
+                setTutorPathwayId(newVal?.pathway_id);
                 setPartnerPathwayId(newVal?.pathway_id);
                 setClassFields((prev) => {
                   return {
@@ -760,22 +730,34 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 // mb={isActive ? 3 : 4}
-                mb={3}>
-                {partnerPathwayId.includes(1) && partnerPathwayId.includes(2)
-                  ? "The tutor has opted to teach both Python and Spoken English learning track "
-                  : partnerPathwayId.includes(1)
-                  ? "The tutor has opted to teach Python learning track"
-                  : "The tutor has opted to teach Spoken English learning track"}
+                mb={2}
+              >
+                {`The tutor has opted to teach 
+                  ${partnerPathwayId.length === 2 ? "both" : ""}
+                   ${partnerPathwayId.includes(1) ? "Python" : ""}
+                   ${
+                     partnerPathwayId.length === 2
+                       ? "and"
+                       : partnerPathwayId.length > 2
+                       ? ","
+                       : ""
+                   }
+                    ${partnerPathwayId.includes(2) ? "Spoken English" : ""} 
+                    ${partnerPathwayId.length > 2 ? "and" : ""}
+                  ${
+                    partnerPathwayId.includes(7) ? "Amazon Coding Bootcamp" : ""
+                  } 
+                  learning track.`}
               </Typography>
             )}
-            {partnerPathwayId?.length == 2 && classFields.type === "batch" && (
+            {partnerPathwayId?.length >= 2 && (
               <>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   pr={2}
-                  mt={4}
-                  // mb={3}
+                  mt={2}
+                  mb={1}
                 >
                   Learning Track
                 </Typography>
@@ -786,17 +768,29 @@ function ClassForm({
                       pathway_id: e.target.value,
                     });
                   }}
-                  mb={3}>
-                  <FormControlLabel
-                    value="1"
-                    control={<Radio />}
-                    label="Python"
-                  />
-                  <FormControlLabel
-                    value="2"
-                    control={<Radio />}
-                    label="Spoken English"
-                  />
+                  sx={{ marginBottom: "16px" }}
+                >
+                  {partnerPathwayId.includes(1) && (
+                    <FormControlLabel
+                      value="1"
+                      control={<Radio />}
+                      label="Python"
+                    />
+                  )}
+                  {partnerPathwayId.includes(2) && (
+                    <FormControlLabel
+                      value="2"
+                      control={<Radio />}
+                      label="Spoken English"
+                    />
+                  )}
+                  {partnerPathwayId.includes(7) && (
+                    <FormControlLabel
+                      value="7"
+                      control={<Radio />}
+                      label="Amazon Coding Programmer"
+                    />
+                  )}
                 </RadioGroup>
                 {/* <RadioGroup
                   value={[
@@ -825,8 +819,83 @@ function ClassForm({
               </>
             )}
 
+            {classFields.type !== "batch" &&
+              tutorPathwayId &&
+              tutorPathwayId[0] !== 7 && (
+                <FormControl error={showError.course} fullWidth>
+                  <InputLabel id="demo-simple-select-label">Courses</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Courses"
+                    onClick={() => {
+                      setOnInput((prev) => {
+                        return { ...prev, course: true };
+                      });
+                    }}
+                    value={selectedCourseLabel?.label}
+                    onChange={(e) => {
+                      onCourseChange(e.target.value);
+                    }}
+                  >
+                    {data.Pathways &&
+                      data.Pathways.pathwayCourse &&
+                      data.Pathways.pathwayCourse.data &&
+                      data.Pathways.pathwayCourse.data.courses.map((course) => {
+                        return (
+                          <MenuItem key={course.id} value={course.id}>
+                            {course.name}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                  <FormHelperText>{helperText.course}</FormHelperText>
+                </FormControl>
+              )}
+            {classFields.type !== "batch" &&
+              tutorPathwayId &&
+              tutorPathwayId[0] !== 7 && (
+                <FormControl
+                  error={showError.exercise}
+                  fullWidth
+                  sx={{
+                    mt: 3,
+                    mb: 4,
+                  }}
+                >
+                  <InputLabel id="demo-simple-select-label">
+                    Exercises
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Courses"
+                    onClick={() => {
+                      setOnInput((prev) => {
+                        return { ...prev, exercise: true };
+                      });
+                    }}
+                    disabled={exercisesForSelectedCourse.length === 0}
+                    value={selectedExerciseLabel?.label}
+                    onChange={(e) => {
+                      onExerciseChange(e.target.value);
+                    }}
+                  >
+                    {exercisesForSelectedCourse &&
+                      exercisesForSelectedCourse.map((exercise) => {
+                        return (
+                          <MenuItem key={exercise.id} value={exercise.id}>
+                            {exercise.name}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                  <FormHelperText>{helperText.exercise}</FormHelperText>
+                </FormControl>
+              )}
+
             <TextField
-              // sx={{ mt: 4 }}
+              // sx={{ mt: 1 }}
               error={showError.title}
               onClick={() => {
                 setOnInput((prev) => {
@@ -846,33 +915,64 @@ function ClassForm({
               }}
             />
             {classFields.type === "batch" && (
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                mb={isActive ? 3 : 4}
-                mt={2}>
+              <Typography variant="body2" color="text.secondary" mb={3} mt={1}>
                 We will automatically create 28 classes for a Python batch with
                 titles and descriptions
               </Typography>
             )}
-            {classFields.type === "batch" && (
-              <Stack>
+            {/* {classFields.type === "batch" && ( */}
+            <Stack mt="16px">
+              <Autocomplete
+                multiple
+                // sx={{ mb: 3 }}
+                value={selectedPartners}
+                name="partner_id"
+                options={partnerData}
+                isOptionEqualToValue={(option, value) => {
+                  return option.id === value.id;
+                }}
+                onChange={(e, newVal) => {
+                  setSelectedPartners(newVal);
+                  setClassFields({
+                    ...classFields,
+                    ["partner_id"]: newVal.map((item) => item.id),
+                  });
+                }}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="outlined-error-helper-text"
+                    error={showError.partner}
+                    onClick={() => {
+                      setOnInput((prev) => {
+                        return { ...prev, partner: true };
+                      });
+                    }}
+                    helperText={helperText.partner}
+                    variant="outlined"
+                    label="For Partner"
+                  />
+                )}
+              />
+            </Stack>
+            {/* )} */}
+
+            {classFields.type === "batch" &&
+              selectedPartners.length === 1 &&
+              selectedPartners[0].id === 972 && (
                 <Autocomplete
-                  multiple
-                  value={selectedPartners}
-                  name="partner_id"
-                  options={partnerData}
+                  value={selectSpace}
+                  sx={{ mt: 3 }}
+                  options={onSpace}
                   isOptionEqualToValue={(option, value) => {
                     return option.id === value.id;
                   }}
                   onChange={(e, newVal) => {
-                    setSelectedPartners(newVal);
-                    {
-                      console.log(newVal, "newVal-");
-                    }
+                    setSelectSpace(newVal);
                     setClassFields({
                       ...classFields,
-                      ["partner_id"]: newVal.map((item) => item.id),
+                      ["space_id"]: newVal.id,
                     });
                   }}
                   freeSolo
@@ -888,19 +988,20 @@ function ClassForm({
                       }}
                       helperText={helperText.partner}
                       variant="outlined"
-                      label="For Partner"
+                      label="For Group"
                     />
                   )}
                 />
-              </Stack>
-            )}
+              )}
+
             {classFields.type === "batch" && (
               <Typography
                 variant="body2"
                 color="text.secondary"
                 mb={isActive ? 3 : 4}
-                mt={2}>
-                This batch will be visible to students of only these partner
+                mt={1}
+              >
+                This batch will be visible to students of only this partner
               </Typography>
             )}
             {classFields.type !== "batch" && (
@@ -926,7 +1027,6 @@ function ClassForm({
               />
             )}
             <TextField
-              // sx={{ mb: 4 }}
               type="date"
               variant="outlined"
               inputProps={{
@@ -946,7 +1046,8 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mt: isActive ? 3 : 4, mb: isActive && 2 }}>
+                    sx={{ mt: 3, mb: isActive && 2 }}
+                  >
                     Schedule on days
                   </Typography>
                 </FormLabel>
@@ -1012,12 +1113,14 @@ function ClassForm({
                   variant="body2"
                   color="text.secondary"
                   pr={2}
-                  mt={4}>
+                  mt={3}
+                >
                   Language
                 </Typography>
                 <RadioGroup
                   value={classFields.lang?.index}
-                  row={isActive ? false : true}>
+                  row={isActive ? false : true}
+                >
                   {Object.keys(lang)?.map((item) => {
                     if (item !== "mr") {
                       return (
@@ -1038,13 +1141,14 @@ function ClassForm({
                 </RadioGroup>
               </FormControl>
             </Box>
-            <FormControl sx={{ mb: 4, mt: 4 }}>
+            <FormControl sx={{ mb: 4, mt: 2 }}>
               <Typography
                 variant="body2"
                 color="text.secondary"
                 fullwidth
                 pt={1}
-                pr={2}>
+                pr={2}
+              >
                 Cap enrollments at
               </Typography>
               <RadioGroup row={isActive ? false : true}>
@@ -1077,7 +1181,8 @@ function ClassForm({
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
                 variant="contained"
                 fullWidth
-                onClick={submitHandle}>
+                onClick={submitHandle}
+              >
                 {(isEditMode ? "Update " : "Create ") +
                   (classFields.type == "batch" ? "Batch" : "Doubt Class")}
               </Button>

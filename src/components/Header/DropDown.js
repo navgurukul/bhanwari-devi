@@ -6,6 +6,7 @@ import web from "./asset/web.svg";
 import language from "./asset/language.svg";
 import residential from "./asset/residential.svg";
 import random from "./asset/random.svg";
+import amzbootcamp from "./asset/amzbootcamp.svg";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -30,7 +31,7 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, typing, language, web, residential, random],
+  image: [python, typing, language, web, residential, random, amzbootcamp],
   [LEARN_KEY]: [],
   [ABOUT_KEY]: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
@@ -62,13 +63,19 @@ const students = {
 
 export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
+  }, [dispatch, user]);
 
   // data?.pathways &&
   //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
@@ -158,12 +165,18 @@ export const DropDown = ({
   //handleMouseLeave,
 }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+        // ?.data?.token,
+      })
+    );
+  }, [dispatch, user]);
 
   return (
     <>
