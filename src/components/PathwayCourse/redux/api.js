@@ -63,6 +63,69 @@ export const getPathways = (authToken) => {
   // });
 };
 
+export const getPathwaysDropdown = (authToken) => {
+  console.log("authToken", authToken);
+  const token = authToken ? authToken?.authToken?.data?.token : null;
+  const branchDataSource = process.env.REACT_APP_MERAKI_URL.startsWith(
+    "https://dev"
+  )
+    ? "dev"
+    : "main";
+  //update
+  // return axios(
+  //   "https://raw.githubusercontent.com/navgurukul/bhanwari-devi/" +
+  //   branchDataSource +
+  //   "/src/data/pathway_data_v40.json"
+  // ).catch((err) => {
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/pathways/dropdown`,
+    method: METHODS.GET,
+    headers: {
+      "version-code": versionCode,
+      Authorization: token,
+    },
+    // headers: HeaderFactory(token),
+  }).then((response) => {
+    console.log("response", response);
+    if (!response?.data?.pathways) {
+      return response;
+    }
+    // Augment pathways data from back-end with new data to simulate it all
+    //     coming from the back-end
+    // quick way to copy exported constant since it's being modified
+    const frontEndPathwayData = JSON.parse(JSON.stringify(PATHWAYS_INFO));
+    const backEndPathwayData = response?.data?.pathways || [];
+    const feCodeToIndexMap = frontEndPathwayData.reduce(
+      (codeMap, pathway, index) => {
+        if (pathway.code) {
+          codeMap[pathway.code] = index;
+        }
+        return codeMap;
+      },
+      {}
+    );
+
+    response.data.pathways = backEndPathwayData.reduce(
+      (pathwayData, pathway) => {
+        const indexOfPathway = feCodeToIndexMap[pathway.code];
+        if (indexOfPathway != undefined) {
+          pathwayData[indexOfPathway] = {
+            ...pathway,
+            ...pathwayData[indexOfPathway],
+          };
+        } else {
+          pathwayData.push(pathway);
+        }
+        return pathwayData;
+      },
+      frontEndPathwayData
+    );
+
+    return response;
+  });
+  // });
+};
+
 export const getPathwaysCourse = (data) => {
   const { pathwayId } = data;
   return axios({

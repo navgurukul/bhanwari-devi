@@ -17,11 +17,11 @@ const NewUserDashbord = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [learningTracks, setLearningTracks] = useState(null);
-  const { loading, data } = useSelector((state) => state.Pathways);
+  const { loading, data } = useSelector((state) => state.PathwaysDropdow);
 
   useEffect(() => {
     dispatch(
-      pathwayActions.getPathways({
+      pathwayActions.getPathwaysDropdown({
         authToken: user,
       })
     );

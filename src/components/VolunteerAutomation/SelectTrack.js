@@ -17,7 +17,7 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const user = useSelector(({ User }) => User);
   const classes = useStyles();
-  const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.PathwaysDropdow);
   useEffect(() => {
     if (pathwayId.length === 0) {
       setDisable(true);
@@ -33,11 +33,13 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
     }
   };
 
+  console.log(data, "dataaaaaaaaaaa");
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(
-      pathwayActions.getPathways({
+      pathwayActions.getPathwaysDropdown({
         authToken: user,
       })
     );
@@ -73,8 +75,7 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
                           ? classes.selectedTrack
                           : classes.TrackCard
                       }
-                      onClick={() => handleChange(item.id)}
-                    >
+                      onClick={() => handleChange(item.id)}>
                       <Box className={classes.TrackImages}>
                         <CardMedia component="img" src={item.logo} />
                         <Typography mt={2}>{item.name}</Typography>
