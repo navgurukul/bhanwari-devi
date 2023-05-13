@@ -87,39 +87,39 @@ export const getPathwaysDropdown = (authToken) => {
     // headers: HeaderFactory(token),
   }).then((response) => {
     console.log("response", response);
-    // if (!response?.data?.pathways) {
-    //   return response;
-    // }
-    // // Augment pathways data from back-end with new data to simulate it all
-    // //     coming from the back-end
-    // // quick way to copy exported constant since it's being modified
-    // const frontEndPathwayData = JSON.parse(JSON.stringify(PATHWAYS_INFO));
-    // const backEndPathwayData = response?.data?.pathways || [];
-    // const feCodeToIndexMap = frontEndPathwayData.reduce(
-    //   (codeMap, pathway, index) => {
-    //     if (pathway.code) {
-    //       codeMap[pathway.code] = index;
-    //     }
-    //     return codeMap;
-    //   },
-    //   {}
-    // );
+    if (!response?.data?.pathways) {
+      return response;
+    }
+    // Augment pathways data from back-end with new data to simulate it all
+    //     coming from the back-end
+    // quick way to copy exported constant since it's being modified
+    const frontEndPathwayData = JSON.parse(JSON.stringify(PATHWAYS_INFO));
+    const backEndPathwayData = response?.data?.pathways || [];
+    const feCodeToIndexMap = frontEndPathwayData.reduce(
+      (codeMap, pathway, index) => {
+        if (pathway.code) {
+          codeMap[pathway.code] = index;
+        }
+        return codeMap;
+      },
+      {}
+    );
 
-    // response.data.pathways = backEndPathwayData.reduce(
-    //   (pathwayData, pathway) => {
-    //     const indexOfPathway = feCodeToIndexMap[pathway.code];
-    //     if (indexOfPathway != undefined) {
-    //       pathwayData[indexOfPathway] = {
-    //         ...pathway,
-    //         ...pathwayData[indexOfPathway],
-    //       };
-    //     } else {
-    //       pathwayData.push(pathway);
-    //     }
-    //     return pathwayData;
-    //   },
-    //   frontEndPathwayData
-    // );
+    response.data.pathways = backEndPathwayData.reduce(
+      (pathwayData, pathway) => {
+        const indexOfPathway = feCodeToIndexMap[pathway.code];
+        if (indexOfPathway != undefined) {
+          pathwayData[indexOfPathway] = {
+            ...pathway,
+            ...pathwayData[indexOfPathway],
+          };
+        } else {
+          pathwayData.push(pathway);
+        }
+        return pathwayData;
+      },
+      frontEndPathwayData
+    );
 
     return response;
   });
