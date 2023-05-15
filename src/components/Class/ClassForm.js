@@ -605,6 +605,9 @@ function ClassForm({
         ]);
       }
     } else if (classFields.type === "batch") {
+      if (classFields.pathway_id != 7) {
+        delete classFields.space_id;
+      }
       payload = _.pick(classFields, [
         ...commonFields,
         "partner_id",
