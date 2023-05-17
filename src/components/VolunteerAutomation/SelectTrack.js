@@ -43,6 +43,8 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
     );
   }, [dispatch, user]);
 
+  console.log("data", data);
+
   return (
     <Container sx={{ mt: 6 }} maxWidth="lg">
       <Container maxWidth="sm" mb={3}>
@@ -60,9 +62,10 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
             data.pathways &&
             data.pathways.map((item) => {
               if (
-                item.name == "Python" ||
-                item.name == "Spoken English" ||
-                item.name == "Amazon Coding Bootcamp"
+                item.name === "Python" ||
+                item.name === "Spoken English" ||
+                item.name?.toLocaleLowerCase() ===
+                  "Amazon Coding Bootcamp".toLocaleLowerCase()
               ) {
                 return (
                   <Grid item xs={4} ms={4} md={4} gap={1}>
