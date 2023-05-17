@@ -156,16 +156,17 @@ function AmazonBootcampBatch({ enrolledBatches }) {
           </Grid>
         </Container>
 
-        {doubtclasses && (
+        {doubtclasses.length > 0 && (
           <Typography variant="h6" margin="32px 0px">
             Doubt Class
           </Typography>
         )}
 
         <Grid container spacing={isActive ? 2 : 4}>
-          {doubtclasses?.map((item, index) => (
-            <DoubtClassCard item={item} setDoubtclasses={setDoubtclasses} />
-          ))}
+          {doubtclasses.length > 0 &&
+            doubtclasses?.map((item, index) => (
+              <DoubtClassCard item={item} setDoubtclasses={setDoubtclasses} />
+            ))}
         </Grid>
       </Container>
     </>
