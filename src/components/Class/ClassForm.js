@@ -632,7 +632,11 @@ function ClassForm({
   };
 
   useEffect(() => {
-    if (selectedPartners.length === 1 && selectedPartners[0].id === 972) {
+    if (
+      selectedPartners.length === 1 &&
+      selectedPartners[0].label.toLocaleLowerCase() ===
+        "amazon coding bootcamp".toLocaleLowerCase()
+    ) {
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/partners/space/${selectedPartners[0].id}`,
@@ -824,7 +828,7 @@ function ClassForm({
 
             {classFields.type !== "batch" &&
               tutorPathwayId &&
-              tutorPathwayId[0] !== 7 && (
+              !tutorPathwayId.includes(7) && (
                 <FormControl error={showError.course} fullWidth>
                   <InputLabel id="demo-simple-select-label">Courses</InputLabel>
                   <Select
@@ -857,7 +861,7 @@ function ClassForm({
               )}
             {classFields.type !== "batch" &&
               tutorPathwayId &&
-              tutorPathwayId[0] !== 7 && (
+              !tutorPathwayId.includes(7) && (
                 <FormControl
                   error={showError.exercise}
                   fullWidth
@@ -963,7 +967,7 @@ function ClassForm({
 
             {classFields.type === "batch" &&
               selectedPartners.length === 1 &&
-              selectedPartners[0].id === 972 && (
+              selectedPartners[0].label === "amazon coding bootcamp" && (
                 <Autocomplete
                   value={selectSpace}
                   sx={{ mt: 3 }}
