@@ -45,7 +45,7 @@ function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
           href={link}
         >
           <Button
-            variant="contained"
+            // variant="contained"
             fullWidth
             onClick={joinOnClick ? joinOnClick : undefined}
           >
@@ -53,7 +53,7 @@ function ClassJoinTimerButton({ startTime = new Date(), link, joinOnClick }) {
           </Button>
         </ExternalLink>
       ) : (
-        <Button fullWidth disabled={true} variant="contained">
+        <Button fullWidth disabled={true}>
           Starts in {timeRemainingMsg}
         </Button>
       )}

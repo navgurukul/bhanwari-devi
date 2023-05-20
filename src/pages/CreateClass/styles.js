@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px",
     borderRadius: "8px",
   },
+  dividerColor: {
+    borderColor: "green",
+  },
 }));
 
 export default useStyles;

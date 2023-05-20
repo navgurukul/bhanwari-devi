@@ -12,13 +12,20 @@ import {
   Skeleton,
   Card,
   useMediaQuery,
+  Button,
+  Box,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 
-function ClassList({ editClass, isShow }) {
+function ClassList({
+  editClass,
+  isShow,
+  setFormType,
+  showClass,
+  toggleModalOpen,
+}) {
   const dispatch = useDispatch();
-
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
@@ -70,6 +77,7 @@ function ClassList({ editClass, isShow }) {
 
   let recurring_classes_data = [];
   let single_classes = [];
+  console.log(single_classes);
   data &&
     data.forEach((item) => {
       if (item.recurring_id) {
@@ -82,50 +90,67 @@ function ClassList({ editClass, isShow }) {
   const _ = require("lodash");
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
   var classData = recurring_classes_data_set || recurring_classes;
+  console.log(classData);
   return (
     <>
-      <TextField
-        size={isActive ? "normal" : "small"}
-        variant="outlined"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">{<SearchIcon />}</InputAdornment>
-          ),
-        }}
-        placeholder="Enter Batch or Class Name"
-        value={filterText}
-        sx={{
-          margin: isActive ? "0 0 0 4px" : "12px 0 0 2px",
-          width: isActive ? "98%" : "99%",
-          borderRadius: "8px",
-        }}
-        onPaste={(e) => {
-          e.preventDefault();
-          setFilterText(e.clipboardData.getData("text"));
+      <Box display="flex" sx={{ justifyContent: "space-between" }}>
+        <TextField
+          size="small"
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">{<SearchIcon />}</InputAdornment>
+            ),
+          }}
+          placeholder="Enter Batch or Class Name"
+          value={filterText}
+          sx={{
+            margin: isActive ? "0 0 0 4px" : "12px 0 0 2px",
+            maxWidth: isActive ? "50%" : "99%",
+            borderRadius: "8px",
+          }}
+          onPaste={(e) => {
+            e.preventDefault();
+            setFilterText(e.clipboardData.getData("text"));
 
-          let filtered_recurring_classes = recurring_classes.filter(
-            (item) =>
-              item.title
-                .toLowerCase()
-                .indexOf(e.clipboardData.getData("text").toLowerCase()) > -1
-          );
-
-          set_recurring_classes_data_set(filtered_recurring_classes);
-        }}
-        onChange={(e) => {
-          setFilterText(e.target.value);
-          if (filterText?.length > 0) {
             let filtered_recurring_classes = recurring_classes.filter(
               (item) =>
-                item.title.toLowerCase().indexOf(e.target.value.toLowerCase()) >
-                -1
+                item.title
+                  .toLowerCase()
+                  .indexOf(e.clipboardData.getData("text").toLowerCase()) > -1
             );
+
             set_recurring_classes_data_set(filtered_recurring_classes);
-          } else {
-            set_recurring_classes_data_set(null);
-          }
-        }}
-      />
+          }}
+          onChange={(e) => {
+            setFilterText(e.target.value);
+            if (filterText?.length > 0) {
+              let filtered_recurring_classes = recurring_classes.filter(
+                (item) =>
+                  item.title
+                    .toLowerCase()
+                    .indexOf(e.target.value.toLowerCase()) > -1
+              );
+              set_recurring_classes_data_set(filtered_recurring_classes);
+            } else {
+              set_recurring_classes_data_set(null);
+            }
+          }}
+        />
+        <Button
+          variant="contained"
+          style={{
+            width: isActive ? "100%" : "19%",
+          }}
+          onClick={() => {
+            setFormType(showClass ? "batch" : "doubt_class");
+            toggleModalOpen();
+          }}
+          sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px" }}
+        >
+          {showClass ? "Create Batch" : "Doubt Classes"}
+        </Button>
+      </Box>
       <>
         <Grid container spacing={isActive ? "0px" : "16px"}>
           {data && data.length > 0 ? (
@@ -148,16 +173,18 @@ function ClassList({ editClass, isShow }) {
                 : ""}
               {classData.map((item, index) => {
                 return (
-                  <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
-                    <ClassCard
-                      item={item}
-                      key={index}
-                      index={index}
-                      editClass={editClass}
-                      enroll="Enroll to Cohort class"
-                      style="class-enroll-cohort"
-                    />
-                  </Grid>
+                  item.type === `${showClass ? "batch" : "doubt_class"}` && (
+                    <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
+                      <ClassCard
+                        item={item}
+                        key={index}
+                        index={index}
+                        editClass={editClass}
+                        enroll="Enroll to Cohort class"
+                        style="class-enroll-cohort"
+                      />
+                    </Grid>
+                  )
                 );
               })}
             </>

@@ -19,12 +19,16 @@ import {
   Dialog,
   DialogTitle,
   DialogActions,
+  Drawer,
+  Grid,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
 
 import SuccessModel from "../../components/Class/SuccessModel";
 import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
+import DrawerLeft from "./Drawer";
+import { Divider } from "@material-ui/core";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -48,7 +52,7 @@ function ToggleClassFormModal() {
 
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
-
+  const [showClass, setShowClasses] = useState(true);
   const url = window.location.href;
 
   const toggleModalOpen = () => {
@@ -102,7 +106,7 @@ function ToggleClassFormModal() {
       setAuthUrl(res.data.url);
     });
   };
-
+  console.log(editClass);
   // console.log("authUrl", authUrl);
 
   const calledOnce = useRef(false);
@@ -155,124 +159,136 @@ function ToggleClassFormModal() {
     }
   }, [newVolunteer]);
   return (
-    <Container maxWidth="lg" sx={{ mt: "40px", width: "90%" }}>
-      {canSpecifyFacilitator && (
-        <span>
-          {newVolunteer && (
-            <NewVolunteerCard setNewVolunteer={setNewVolunteer} />
+    <Container sx={{ mt: "40px", width: "90%" }}>
+      <Grid container>
+        <Grid item>
+          <DrawerLeft />
+        </Grid>
+        <Grid item md={9}>
+          {canSpecifyFacilitator && (
+            <span>
+              {newVolunteer && (
+                <NewVolunteerCard setNewVolunteer={setNewVolunteer} />
+              )}
+              <Typography variant="h6">Python</Typography>
+              <Grid container marginTop="32px" gap={6}>
+                <Grid item>
+                  <Typography
+                    variant="subtitle2"
+                    onClick={() => {
+                      setShowClasses(true);
+                    }}
+                    style={{ cursor: "pointer" }}
+                    color="primary.main"
+                  >
+                    Batches
+                  </Typography>
+                  <Divider classname={classes.dividerColor} />
+                </Grid>
+                <Grid>
+                  <Typography
+                    sx={{ cursor: "pointer" }}
+                    variant="subtitle2"
+                    onClick={() => {
+                      setShowClasses(false);
+                    }}
+                  >
+                    Doubt Classes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Divider />
+
+              <ClassesList
+                editClass={editClass}
+                isShow={showModal}
+                // setIsEditMode={setIsEditMode}
+                showClass={showClass}
+                setFormType={setFormType}
+                toggleModalOpen={toggleModalOpen}
+              />
+            </span>
           )}
 
-          <Box sx={{ display: isActive ? "block" : "flex", direction: "row" }}>
-            <Button
-              variant="contained"
-              style={{
-                width: isActive ? "100%" : isActiveIpad ? "60%" : "19%",
-              }}
-              onClick={() => {
-                setFormType("batch");
-                toggleModalOpen();
-              }}
-              sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px" }}
+          {showModal && calenderConsent ? (
+            <Modal
+              open={showModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              style={{ overflow: "scroll" }}
             >
-              Create Batch
-            </Button>
-            <Button
-              variant="outlined"
-              style={{
-                width: isActive ? "100%" : isActiveIpad ? "60%" : "19%",
-              }}
-              onClick={() => {
-                setFormType("doubt_class");
-                toggleModalOpen();
-              }}
-              sx={{ m: !isActive ? "10px 8px 20px 10px" : "16px 0px " }}
-            >
-              Create Doubt Class
-            </Button>
-          </Box>
-        </span>
-      )}
-      <ClassesList
-        editClass={editClass}
-        isShow={showModal}
-        // setIsEditMode={setIsEditMode}
-      />
-      {showModal && calenderConsent ? (
-        <Modal
-          open={showModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          style={{ overflow: "scroll" }}
-        >
-          <ClassForm
-            isEditMode={isEditMode}
-            indicator={indicator}
-            classToEdit={classToEdit}
-            formType={formType}
-            setShowModal={setShowModal}
-            setOpenSuccessfullModal={setOpenSuccessfullModal}
-          />
-          {/* <CreateClassComponent
+              <ClassForm
+                isEditMode={isEditMode}
+                indicator={indicator}
+                classToEdit={classToEdit}
+                formType={formType}
+                setShowModal={setShowModal}
+                setOpenSuccessfullModal={setOpenSuccessfullModal}
+              />
+              {/* <CreateClassComponent
             classToEdit={classToEdit}
             indicator={indicator}
             toggleModalOpen={toggleModalOpen}
           /> */}
-        </Modal>
-      ) : (
-        showConsentModal && (
-          <Dialog
-            open={showConsentModal}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "45%",
-                borderRadius: 8,
-              },
-            }}
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Meraki needs access to your calendar to create classes. <br />
-                Do you want to go ahead?
-              </Typography>
-            </DialogTitle>
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={codeGenerate}
-                    color="error"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleClose}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    No
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        )
-      )}
+            </Modal>
+          ) : (
+            showConsentModal && (
+              <Dialog
+                open={showConsentModal}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                PaperProps={{
+                  style: {
+                    minWidth: "45%",
+                    borderRadius: 8,
+                  },
+                }}
+              >
+                <DialogTitle>
+                  <Typography variant="h6" align="center">
+                    Meraki needs access to your calendar to create classes.{" "}
+                    <br />
+                    Do you want to go ahead?
+                  </Typography>
+                </DialogTitle>
+                <Stack alignItems="center">
+                  <DialogActions>
+                    <Box sx={{ display: "flex", mb: 2 }}>
+                      <Button
+                        onClick={codeGenerate}
+                        color="error"
+                        variant="contained"
+                        sx={{ mr: "15px", width: "100px" }}
+                      >
+                        Yes
+                      </Button>
+                      <Button
+                        onClick={handleClose}
+                        color="grey"
+                        variant="contained"
+                        sx={{ width: "100px" }}
+                      >
+                        No
+                      </Button>
+                    </Box>
+                  </DialogActions>
+                </Stack>
+              </Dialog>
+            )
+          )}
 
-      {openSuccessfullModal && (
-        <Modal
-          open={openSuccessfullModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          style={{ overflow: "scroll" }}
-        >
-          <SuccessModel />
-        </Modal>
-      )}
+          {openSuccessfullModal && (
+            <Modal
+              open={openSuccessfullModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              style={{ overflow: "scroll" }}
+            >
+              <SuccessModel />
+            </Modal>
+          )}
+        </Grid>
+      </Grid>
 
       {authUrl && (window.location.href = authUrl)}
     </Container>

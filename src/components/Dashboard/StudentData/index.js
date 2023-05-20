@@ -58,6 +58,7 @@ function StudentData() {
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     }).then((res) => {
+      console.log(res);
       if (
         id == user.data.user.partner_id ||
         hasOneFrom(user.data.user.rolesList, [
@@ -232,6 +233,7 @@ function StudentData() {
     setFilterVal(value);
     setDisabled(false);
   };
+  console.log(students);
 
   const removeStudent = (id) => {
     return axios({
