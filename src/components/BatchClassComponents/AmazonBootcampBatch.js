@@ -51,6 +51,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
         Authorization: user.data.token,
       },
     }).then((res) => {
+      console.log("res", res);
       setDoubtclasses(res.data);
     });
   }, []);

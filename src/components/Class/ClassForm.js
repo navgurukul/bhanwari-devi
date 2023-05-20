@@ -296,7 +296,7 @@ function ClassForm({
   ]);
 
   const courses =
-    (data.Pathways.data &&
+    (data?.Pathways?.data &&
       data.Pathways.data.pathways[0] &&
       data.Pathways.data.pathways[0].courses.map((item) => {
         return {

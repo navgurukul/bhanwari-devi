@@ -1,16 +1,137 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../../theme/constant";
 import NoBatchEnroll from "../../BatchClassComponents/NoBatchEnroll";
 import { actions as upcomingBatchesActions } from "../redux/action";
 import { actions as upcomingClassActions } from "../redux/action";
-
+import axios from "axios";
+import { METHODS } from "../../../services/api";
+import { versionCode } from "../../../constant";
 import { Container, Grid, Typography } from "@mui/material";
 import useStyles from "../styles";
 import PathwayCourseBatchEnroll1 from "../../BatchClassComponents/PathwayCourseBatchEnroll1";
 import ExternalLink from "../../common/ExternalLink";
 import AmazonBootcampBatch from "../../BatchClassComponents/AmazonBootcampBatch";
+import { PATHS, interpolatePath } from "../../../constant";
+import { useHistory } from "react-router-dom";
+import { CardContent, Card, Button, Box } from "@mui/material";
+import { format } from "../../../common/date";
+import AlertDialog from "../../BatchClassComponents/AlertDialog";
+import CheckMoreBatches from "../../BatchClassComponents/CheckMoreBatches";
+
+const AmazonCodingBootcampBatch = ({ upcomingBatchesData }) => {
+  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
+  const classes = useStyles();
+  // const { upcomingBatchesData } = props;
+  const user = useSelector(({ User }) => User);
+  // const BatchData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data[0];
+  // });
+  const handleClickOpen = () => {
+    if (user?.data?.token) {
+      setOpen(!open);
+    } else {
+      history.push(interpolatePath(PATHS.LOGIN));
+    }
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+  const handleUpcomingBatchesClickOpen = () => {
+    setUpcomingBatchesOpen(true);
+  };
+  const handleUpcomingBatchesClickClose = () => {
+    setUpcomingBatchesOpen(false);
+  };
+
+  console.log("upcomingBatchesData", upcomingBatchesData);
+
+  return (
+    <>
+      <Container maxWidth="lg">
+        <Box mt={1} maxWidth={500} mb={10}>
+          <Card elevation={2} pl={10}>
+            <CardContent>
+              <Typography variant="h5" align="start">
+                {upcomingBatchesData[0]?.title}
+              </Typography>
+              <Typography
+                variant="body1"
+                my={2}
+                className={classes.FlexedContant}
+              >
+                <img
+                  className={classes.icons}
+                  src={require("../asset/calender.svg")}
+                  alt="Students Img"
+                />
+                From {format(upcomingBatchesData[0]?.start_time, "dd MMM yy")} -{" "}
+                {format(upcomingBatchesData[0]?.end_batch_time, "dd MMM yy")}
+              </Typography>
+              <Typography
+                variant="body1"
+                mb={2}
+                className={classes.FlexedContant}
+              >
+                <img
+                  className={classes.icons}
+                  src={require("../asset/degree.svg")}
+                  alt="Students Img"
+                />
+                Access to live classes
+              </Typography>
+              <Button variant="contained" onClick={handleClickOpen} fullWidth>
+                Enroll Batch
+              </Button>
+              <AlertDialog
+                open={open}
+                close={close}
+                title={upcomingBatchesData[0]?.title}
+                start_time={upcomingBatchesData[0]?.start_time}
+                end_time={upcomingBatchesData[0]?.end_batch_time}
+                id={upcomingBatchesData[0]?.id}
+                registerAll={true}
+                type="batch"
+              />
+              {console.log("upcomingBatchesData -------", upcomingBatchesData)}
+              <Typography
+                className={classes.FlexedContant}
+                mt={2}
+                align="start"
+                variant="body2"
+              >
+                Can’t start on{" "}
+                {format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
+                {" ? "}
+                <section
+                  className={classes.link}
+                  onClick={handleUpcomingBatchesClickOpen}
+                >
+                  {"  "} &nbsp;
+                  <b>Check out our other batches</b>
+                </section>
+                <CheckMoreBatches
+                  open={upcomingBatchesOpen}
+                  handleUpcomingBatchesClickOpen={
+                    handleUpcomingBatchesClickOpen
+                  }
+                  handleUpcomingBatchesClickClose={
+                    handleUpcomingBatchesClickClose
+                  }
+                  upcomingBatchesData={upcomingBatchesData}
+                />
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
+      </Container>
+    </>
+  );
+};
 
 function AmazonCodingProgrammer({ pathwayId }) {
   const dispatch = useDispatch();
@@ -19,10 +140,12 @@ function AmazonCodingProgrammer({ pathwayId }) {
   const pathway = useSelector((state) => state);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const [upcomingBatchesData, SetUpcomingBatchesData] = useState([]);
 
-  const upcomingBatchesData = useSelector((state) => {
-    return state.Pathways?.upcomingBatches?.data;
-  });
+  // const upcomingBatchesData = useSelector((state) => {
+  //   console.log("state", state);
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -34,6 +157,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
 
   useEffect(() => {
     if (user?.data?.token && enrolledBatches?.length > 0) {
+      console.log("True");
       dispatch(
         upcomingClassActions.getupcomingEnrolledClasses({
           pathwayId: pathwayId,
@@ -41,15 +165,34 @@ function AmazonCodingProgrammer({ pathwayId }) {
         })
       );
     } else {
+      console.log("False");
       if (user?.data?.token) {
-        dispatch(
-          upcomingBatchesActions.getUpcomingBatches({
-            pathwayId: pathwayId,
-            authToken: user?.data?.token,
+        console.log("If");
+        // dispatch(
+        //   upcomingBatchesActions.getUpcomingBatches({
+        //     pathwayId: pathwayId,
+        //     authToken: user?.data?.token,
+        //   })
+        // );
+        return axios({
+          url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
+          method: METHODS.GET,
+          headers: {
+            "version-code": versionCode,
+            Authorization: user?.data?.token,
+          },
+          // headers: HeaderFactory(token),
+        })
+          .then((res) => {
+            console.log("res", res);
+            SetUpcomingBatchesData(res.data);
           })
-        );
+          .catch((err) => {
+            console.log("err", err);
+          });
       }
     }
+    console.log("Getting call");
   }, [enrolledBatches]);
 
   const userEnrolledClasses = useSelector((state) => {
@@ -147,9 +290,18 @@ function AmazonCodingProgrammer({ pathwayId }) {
                 homework tasks to practice the concepts covered in class.
               </Typography>
             </Grid>
-            <Grid item xs={12} md={6} sx={{ pl: 1 }}>
+            {/* <Grid item xs={12} md={6} sx={{ pl: 1 }}>
               {upcomingBatchesData?.length > 0 ? (
                 <PathwayCourseBatchEnroll1
+                  upcomingBatchesData={upcomingBatchesData}
+                />
+              ) : (
+                <NoBatchEnroll />
+              )}
+            </Grid> */}
+            <Grid item xs={12} md={6} sx={{ pl: 1 }}>
+              {upcomingBatchesData?.length > 0 ? (
+                <AmazonCodingBootcampBatch
                   upcomingBatchesData={upcomingBatchesData}
                 />
               ) : (
