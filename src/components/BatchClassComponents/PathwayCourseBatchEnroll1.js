@@ -44,10 +44,6 @@ const PathwayCourseBatchEnroll1 = (props) => {
     ? upcomingBatchesData[0]
     : BatchData;
 
-  console.log("batch", batch);
-  console.log("upcomingBatchesData", upcomingBatchesData);
-  console.log("BatchData", BatchData);
-
   return batch ? (
     <>
       <Container maxWidth="lg">
