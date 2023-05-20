@@ -38,14 +38,24 @@ const PathwayCourseBatchEnroll1 = (props) => {
     setUpcomingBatchesOpen(false);
   };
 
-  return BatchData ? (
+  console.log("location", window.location.pathname.includes(7));
+
+  const batch = window.location.pathname.includes(7)
+    ? upcomingBatchesData[0]
+    : BatchData;
+
+  console.log("batch", batch);
+  console.log("upcomingBatchesData", upcomingBatchesData);
+  console.log("BatchData", BatchData);
+
+  return batch ? (
     <>
       <Container maxWidth="lg">
         <Box mt={1} maxWidth={500} mb={10}>
           <Card elevation={2} pl={10}>
             <CardContent>
               <Typography variant="h5" align="start">
-                {BatchData?.title}
+                {batch?.title}
               </Typography>
               <Typography
                 variant="body1"
@@ -57,8 +67,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
-                From {format(BatchData?.start_time, "dd MMM yy")} -{" "}
-                {format(BatchData?.end_batch_time, "dd MMM yy")}
+                From {format(batch?.start_time, "dd MMM yy")} -{" "}
+                {format(batch?.end_batch_time, "dd MMM yy")}
               </Typography>
               <Typography
                 variant="body1"
@@ -78,10 +88,10 @@ const PathwayCourseBatchEnroll1 = (props) => {
               <AlertDialog
                 open={open}
                 close={close}
-                title={BatchData?.title}
-                start_time={BatchData?.start_time}
-                end_time={BatchData?.end_batch_time}
-                id={BatchData?.id}
+                title={batch?.title}
+                start_time={batch?.start_time}
+                end_time={batch?.end_batch_time}
+                id={batch?.id}
                 registerAll={true}
                 type="batch"
               />
@@ -91,7 +101,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 align="start"
                 variant="body2"
               >
-                Can’t start on {format(BatchData?.start_time, "dd MMM yy")}
+                Can’t start on {format(batch?.start_time, "dd MMM yy")}
                 {" ? "}
                 <section
                   className={classes.link}
