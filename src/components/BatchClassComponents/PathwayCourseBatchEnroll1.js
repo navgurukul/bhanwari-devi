@@ -38,8 +38,6 @@ const PathwayCourseBatchEnroll1 = (props) => {
     setUpcomingBatchesOpen(false);
   };
 
-  console.log("location", window.location.pathname.includes(7));
-
   const batch = window.location.pathname.includes(7)
     ? upcomingBatchesData[0]
     : BatchData;

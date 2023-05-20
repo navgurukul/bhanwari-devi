@@ -46,7 +46,6 @@ function AmazonCodingProgrammer({ pathwayId }) {
       },
     })
       .then((res) => {
-        console.log("res", res);
         setUpcomingBatchesData(res.data);
       })
       .catch((err) => {
