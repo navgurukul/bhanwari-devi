@@ -44,7 +44,6 @@ const MenuList = (menuItem) => {
     return state.PathwaysDropdow;
   });
 
-  // console.log("user in Menu", user);
 
   useEffect(() => {
     dispatch(
