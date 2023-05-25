@@ -28,7 +28,7 @@ export default function AlertDialog(props) {
     type,
     reloadContent,
   } = props;
-  // console.log("props", props);
+  
   const user = useSelector(({ User }) => User);
   const params = useParams();
   const pathwayId = params.pathwayId;
