@@ -34,10 +34,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
+import MergeClass from "../MergeClass";
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 toast.configure();
 
-function ClassCard({ item, editClass }) {
+function ClassCard({ item, editClass,pathwayFilter }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -52,7 +54,7 @@ function ClassCard({ item, editClass }) {
   const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  console.log(item)
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const languageMap = {
@@ -257,7 +259,8 @@ function ClassCard({ item, editClass }) {
     <>
       <Card
         elevation={2}
-        sx={{ p: 4, mt: isActive ? 4 : 5 }}
+        sx={{ p: 2, mt: isActive ? 4 : 5, background: "#FAFAFA"
+        }}
         className={classes.card}
       >
         <Typography
@@ -268,12 +271,18 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {languageMap[item.type] === "Doubt Class"
+          {/* {languageMap[item.type] === "Doubt Class"
             ? languageMap[item.type]
             : "Batch"}
           {item.enrolled && (
             <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
-          )}
+          )} */}
+          <Typography
+            sx={{ fontSize: "18px", fontWeight: "400" }}
+            variant="subtitle2"
+          >
+            {item.title}
+          </Typography>
           {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
               (item.facilitator.email === user.data.user.email || flag))) && (
@@ -285,7 +294,7 @@ function ClassCard({ item, editClass }) {
           )}
         </Typography>
         <Menu
-          sx={{ mt: "15px" }}
+          sx={{ mt: "15px",  }}
           id="menu-appbar"
           anchorEl={anchorElUser}
           anchorOrigin={{
@@ -293,9 +302,13 @@ function ClassCard({ item, editClass }) {
             horizontal: "right",
           }}
           keepMounted
+          maxWidth="130px"
           transformOrigin={{
             vertical: "top",
             horizontal: "right",
+          }}
+          PaperProps={{
+            style: {width: '150px'},
           }}
           open={Boolean(anchorElUser)}
           onClose={() => {
@@ -310,6 +323,12 @@ function ClassCard({ item, editClass }) {
               >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
+              {(item.pathway_id ===7) &&
+                  <MergeClass
+                  itemID={item.id}
+                  PathwayID={item.pathway_id}
+                  pathwayFilter={pathwayFilter}
+                  />}
               <MenuItem
                 onClick={() => handleClickOpen(item.id)}
                 sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}
@@ -329,14 +348,10 @@ function ClassCard({ item, editClass }) {
           )}
         </Menu>
 
-        <Typography variant="subtitle1">{item.title}</Typography>
+        
         {!item.title.toLowerCase().includes("scratch") && (
-          <Typography
-            sx={{ fontSize: "18px", fontWeight: "400" }}
-            variant="subtitle2"
-          >
-            {item.sub_title}
-          </Typography>
+          <Typography variant="subtitle1">{item.sub_title}</Typography>
+        
         )}
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
@@ -364,7 +379,8 @@ function ClassCard({ item, editClass }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <CardActions style={{ padding: "0px" }}>
+        <CardActions sx={{ padding: "0px",alignItems:"right", justifyContent: 'flex-end' }}>
+          
           {item.enrolled ? (
             loading ? (
               <div className="loader-button">
@@ -383,14 +399,16 @@ function ClassCard({ item, editClass }) {
           ) : (
             <Button
               type="submit"
-              variant="contained"
+              variant="text"
               onClick={() => {
                 handleClickOpenEnroll(item.id);
               }}
+              endIcon={<ArrowRightAltIcon/>}
             >
               Enroll
             </Button>
           )}
+         
         </CardActions>
       </Card>
       <Box>

@@ -52,6 +52,7 @@
     "libphonenumber-js": "^1.10.6",
     "linkifyjs": "^3.0.0-beta.3",
     "lint-staged": "^10.5.3",
+    "loader": "^2.1.1",
     "material-ui-phone-number": "^3.0.0",
     "matrix-js-sdk": "^9.4.1",
     "moment": "^2.29.1",

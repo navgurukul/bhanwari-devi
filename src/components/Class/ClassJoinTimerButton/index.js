@@ -49,7 +49,7 @@ function ClassJoinTimerButton({
           }}
           href={link}>
           <Button
-            variant="contained"
+            // variant="contained"
             fullWidth
             onClick={joinOnClick ? joinOnClick : undefined}>
             {CAN_JOIN_MSG}

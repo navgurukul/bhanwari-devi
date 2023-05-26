@@ -13,11 +13,20 @@ import {
   Card,
   useMediaQuery,
   Alert,
+  Box,
+  Button
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
+import NoClassesFound from "../NoClassesFound";
 
-function ClassList({ editClass, isShow }) {
+function ClassList({ editClass,
+   isShow,
+   setFormType,
+  showClass,
+  toggleModalOpen,
+  pathwayID,
+  canSpecifyFacilitator }) {
   const dispatch = useDispatch();
 
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
@@ -32,6 +41,7 @@ function ClassList({ editClass, isShow }) {
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
+ 
   if (loading) {
     return (
       <Grid container spacing={2}>
@@ -83,10 +93,19 @@ function ClassList({ editClass, isShow }) {
   const _ = require("lodash");
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
   var classData = recurring_classes_data_set || recurring_classes;
+
+  const pathwayFilter = (canSpecifyFacilitator ? classData.filter((item)=>{
+    return item?.pathway_id===pathwayID
+  }) : classData)
+  console.log(pathwayFilter,classData)
+
   return (
     <>
+    <Box display="flex" 
+        sx={{ justifyContent: "space-between",
+         marginTop:"32px" }}>
       <TextField
-        size={isActive ? "normal" : "small"}
+        size={ "small"}
         variant="outlined"
         InputProps={{
           startAdornment: (
@@ -97,7 +116,7 @@ function ClassList({ editClass, isShow }) {
         value={filterText}
         sx={{
           margin: isActive ? "0 0 0 4px" : "12px 0 0 2px",
-          width: isActive ? "98%" : "99%",
+          maxWidth: isActive ? "100%" : "99%",
           borderRadius: "8px",
         }}
         onPaste={(e) => {
@@ -127,6 +146,24 @@ function ClassList({ editClass, isShow }) {
           }
         }}
       />
+      {canSpecifyFacilitator &&
+         <Button
+         variant="contained"
+         style={{
+           width: isActive ? "100%" : "22%",
+         }}
+         fullWidth
+         onClick={() => {
+           setFormType(showClass ? "batch" : "doubt_class");
+           toggleModalOpen();
+         }}
+         sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px" }}
+       >
+         {showClass ? "Create Batch" : "Doubt Classes"}
+       </Button>
+      
+        }
+      </Box>
       <>
         <Grid container spacing={isActive ? "0px" : "16px"}>
           {data && data.length > 0 ? (
@@ -134,37 +171,45 @@ function ClassList({ editClass, isShow }) {
               {!filterText?.length > 0
                 ? single_classes.map((item, index) => {
                     return (
-                      <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
-                        <ClassCard
-                          item={item}
-                          key={index}
-                          index={index}
-                          editClass={editClass}
-                          enroll="Enroll to class"
-                          style="class-enroll"
-                        />
-                      </Grid>
-                    );
+                      item.type === `${showClass ? "batch" : "doubt_class"}` && (
+                        <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
+                          <ClassCard
+                            item={item}
+                            key={index}
+                            index={index}
+                            editClass={editClass}
+                            enroll="Enroll to Cohort class"
+                            style="class-enroll-cohort"
+                            pathwayFilter={pathwayFilter}
+                          />
+                        </Grid>
+                      )
+                    )
                   })
                 : ""}
-              {classData.length > 0 ? (
-                classData.map((item, index) => {
+              {pathwayFilter.length > 0 ? (
+                pathwayFilter.map((item, index) => {
                   return (
+                    item.type === `${showClass ? "batch" : "doubt_class"}` && (
                     <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }} key={index}>
+                     
                       <ClassCard
                         item={item}
                         key={index}
                         index={index}
                         editClass={editClass}
+                        pathwayFilter={pathwayFilter}
                         enroll="Enroll to Cohort class"
                         style="class-enroll-cohort"
                       />
+                
                     </Grid>
+                    )
                   );
                 })
               ) : (
                 <Grid item md={12} sx={{ mb: 0, mt: 4, p: 1 }}>
-                  <Typography>No Classes Found</Typography>
+                  <NoClassesFound/>
                 </Grid>
               )}
             </>
