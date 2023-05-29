@@ -26,13 +26,13 @@ function ResidentialProgramme() {
 
   const classes = useStyles();
 
-  // useEffect(() => {
-  //   dispatch(
-  //     pathwayActions.getPathways({
-  //       authToken: user,
-  //     })
-  //   );
-  // }, [dispatch,user]);
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch]);
 
   const resPathway =
     data && data.pathways.find((pathway) => pathway.code === "PRCRSE");
