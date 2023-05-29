@@ -58,7 +58,7 @@ function ClassForm({
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
-      ? classToEdit.parent_class?.on_days.split(",")
+      ? classToEdit.parent_class?.on_days?.split(",")
       : [],
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
@@ -264,8 +264,8 @@ function ClassForm({
     if (classFields.type === "batch") {
       if (
         classFields.title !== "" &&
-        classFields.partner_id.length > 0 &&
-        classFields.on_days.length > 0
+        classFields.partner_id?.length > 0 &&
+        classFields.on_days?.length > 0
       ) {
         setButtonDisabled(false);
       } else {
@@ -1062,7 +1062,7 @@ function ClassForm({
                       control={
                         <Checkbox
                           value={item}
-                          checked={classFields.on_days.includes(item)}
+                          checked={classFields.on_days?.includes(item)}
                           onChange={handleDaySelection}
                         />
                       }
