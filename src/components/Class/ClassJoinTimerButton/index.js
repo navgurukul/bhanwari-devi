@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { timeLeftFormat } from "../../../common/date";
 import { Button } from "@mui/material";
 import ExternalLink from "../../common/ExternalLink";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function ClassJoinTimerButton({
   startTime = new Date(),
@@ -47,19 +48,24 @@ function ClassJoinTimerButton({
           style={{
             textDecoration: "none",
           }}
-          href={link}>
+          href={link}
+        >
           <Button
             // variant="contained"
             fullWidth
-            onClick={joinOnClick ? joinOnClick : undefined}>
+            endIcon={<ArrowRightAltIcon />}
+            onClick={joinOnClick ? joinOnClick : undefined}
+          >
             {CAN_JOIN_MSG}
           </Button>
         </ExternalLink>
       ) : (
         <Button
           fullWidth
-          disabled={true}
-          variant={buttonType === "text" ? "text" : "contained"}>
+          // disabled={true}
+          // variant={buttonType === "text" ? "text" : "contained"}
+          endIcon={<ArrowRightAltIcon />}
+        >
           Starts in {timeRemainingMsg}
         </Button>
       )}

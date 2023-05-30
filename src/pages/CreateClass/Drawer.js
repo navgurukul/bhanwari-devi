@@ -18,19 +18,19 @@ import {
 } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-function DrawerLeft({pathwayID,setPathwayId,setPathwayName}) {
+function DrawerLeft({ pathwayID, setPathwayId, setPathwayName }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { data } = useSelector((state) => state.Pathways);
   const handleChange = (id) => {
-    setPathwayId(id)
+    setPathwayId(id);
   };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   // const container = window !== undefined ? () => window().document.body : undefined;
-  
-  console.log(data,pathwayID);
+
+  console.log(data, pathwayID);
   return (
     <>
       <Drawer
@@ -40,10 +40,9 @@ function DrawerLeft({pathwayID,setPathwayId,setPathwayName}) {
         PaperProps={{
           style: {
             border: "none",
-            width: "270px",
+            width: "320px",
             position: "static",
             paddingTop: "40px",
-
           },
         }}
       >
@@ -51,28 +50,31 @@ function DrawerLeft({pathwayID,setPathwayId,setPathwayName}) {
           Learning Track
         </Typography>
 
-        <List >
+        <List>
           {data &&
             data.pathways &&
             data.pathways.map((item) => {
               if (
                 item.name == "Python" ||
                 item.name == "Spoken English" ||
-                item.name?.toLocaleLowerCase() === "Amazon Coding Bootcamp"?.toLocaleLowerCase()
+                item.name?.toLocaleLowerCase() ===
+                  "Amazon Coding Bootcamp"?.toLocaleLowerCase()
               ) {
                 return (
                   <ListItem key={item.id} disablePadding>
-                    <ListItemButton 
-                      onClick={(e) => {handleChange(item.id);
+                    <ListItemButton
+                      onClick={(e) => {
+                        handleChange(item.id);
                         setPathwayName(item.name);
-                      }
-                      }
-                      sx={{justifyContent:"space-between",padding:"8px 0px"}}
+                      }}
+                      sx={{
+                        justifyContent: "space-between",
+                        padding: "8px 0px 8px 16px",
+                        borderRadius: "8px",
+                      }}
                     >
-                      <Typography variant="subtitle2">
-                        {item.name}
-                      </Typography>
-                      <ListItemIcon >
+                      <Typography variant="subtitle2">{item.name}</Typography>
+                      <ListItemIcon>
                         <ChevronRightIcon />
                       </ListItemIcon>
                     </ListItemButton>

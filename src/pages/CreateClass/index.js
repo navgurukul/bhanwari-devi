@@ -19,7 +19,7 @@ import {
   Dialog,
   DialogTitle,
   DialogActions,
-  Grid
+  Grid,
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
@@ -43,8 +43,8 @@ function ToggleClassFormModal() {
   const handleOpen = () => setOpen(true);
   const [openSuccessfullModal, setOpenSuccessfullModal] = useState(false);
   const [isEditMode, setIsEditMode] = React.useState(false);
-  const [pathwayID, setPathwayId] = useState(1)
-  const [pathwayName,setPathwayName] =useState("Python")
+  const [pathwayID, setPathwayId] = useState(1);
+  const [pathwayName, setPathwayName] = useState("Python");
   const classes = useStyles();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -160,89 +160,106 @@ function ToggleClassFormModal() {
       setNewVolunteer(false);
     }
   }, [newVolunteer]);
-  console.log(pathwayID)
+  console.log(pathwayID);
   return (
-
-   <Container sx={{ mt: "40px"}} maxWidth="lg">
-     {canSpecifyFacilitator && (
-            <span>
-              {newVolunteer && (
-                <NewVolunteerCard setNewVolunteer={setNewVolunteer} />
-              )}
-               
-              </span>
+    <Container
+      sx={{ mt: "40px" }}
+      maxWidth={canSpecifyFacilitator ? "xl" : "lg"}
+    >
+      {canSpecifyFacilitator && (
+        <span>
+          {newVolunteer && (
+            <NewVolunteerCard setNewVolunteer={setNewVolunteer} />
           )}
+        </span>
+      )}
       <Grid container>
         {canSpecifyFacilitator && (
-           <Grid item md={3}>
-           <DrawerLeft
-             pathwayID={pathwayID}
-             setPathwayId={setPathwayId}
-             setPathwayName={setPathwayName}
-             />
-             
-           </Grid>
+          <Grid item md={3}>
+            <DrawerLeft
+              pathwayID={pathwayID}
+              setPathwayId={setPathwayId}
+              setPathwayName={setPathwayName}
+            />
+          </Grid>
         )}
-        
-          <Grid item md={9}>
-              <Typography variant="h6">{pathwayName}</Typography>
-              <Grid container marginTop="32px" gap={3}>
-                <Grid item align="center">
-                  <Typography
-                    variant="subtitle2"
-                    onClick={() => {
-                      setShowClasses(true);
-                    }}
-                    style={{ cursor: "pointer" }}
-                    color="primary.main"
-                  >
-                    Batches
-                  </Typography>
-                  <hr  
-                  style={{
-                    margin:"16px 0px 0px 0px",
-                    border:"none",
-                   height:"2px",
-                   color:"#48A145",
-                  backgroundColor:"#48A145",
-                  width:"140px"
-                  }}/>
-                </Grid>
-                <Grid>
-                  <Typography
-                    sx={{ cursor: "pointer" }}
-                    variant="subtitle2"
-                    onClick={() => {
-                      setShowClasses(false);
-                    }}
-                  >
-                    Doubt Classes
-                  </Typography>
-                </Grid>
-              </Grid>
-              <hr style={{border:
-                 "none",color:"#BDBDBD",height:"2px",backgroundColor:"#BDBDBD",
-                 margin:"0px"}}/>
-              
 
-              <ClassesList
-                editClass={editClass}
-                isShow={showModal}
-                canSpecifyFacilitator={canSpecifyFacilitator}
-                showClass={showClass}
-                setFormType={setFormType}
-                toggleModalOpen={toggleModalOpen}
-                pathwayID={pathwayID}
-              />
-          
-           {showModal && calenderConsent ? (
+        <Grid item md={canSpecifyFacilitator ? 9 : 12}>
+          <Typography variant="h6">{pathwayName}</Typography>
+          <Grid
+            container
+            marginTop="32px"
+            style={{
+              fontWeight: "bold",
+              borderBottom: "1px solid #BDBDBD",
+            }}
+          >
+            <Grid item align="center">
+              <Button>
+                <Typography
+                  variant="subtitle2"
+                  onClick={() => {
+                    setShowClasses(true);
+                  }}
+                  // style={{ cursor: "pointer" }}
+                  className={classes.underLine}
+                  style={
+                    showClass
+                      ? {
+                          fontWeight: "bold",
+                          borderBottom: "3px solid #48a145",
+                        }
+                      : { color: "#9c9999" }
+                  }
+                >
+                  Batches
+                </Typography>
+              </Button>
+            </Grid>
+            <Grid>
+              <Button>
+                <Typography
+                  className={classes.underLine}
+                  variant="subtitle2"
+                  onClick={() => {
+                    setShowClasses(false);
+                  }}
+                  style={
+                    !showClass
+                      ? {
+                          fontWeight: "bold",
+                          borderBottom: "3px solid #48a145",
+                        }
+                      : { color: "#9c9999" }
+                  }
+                >
+                  Doubt Classes
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+          {/* <hr style={{border:
+                 "none",color:"#BDBDBD",height:"2px",backgroundColor:"#BDBDBD",
+                 margin:"0px"}}/> */}
+
+          <ClassesList
+            editClass={editClass}
+            isShow={showModal}
+            canSpecifyFacilitator={canSpecifyFacilitator}
+            showClass={showClass}
+            setFormType={setFormType}
+            toggleModalOpen={toggleModalOpen}
+            pathwayID={pathwayID}
+          />
+
+          {showModal && calenderConsent ? (
             <Modal
               open={showModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
               style={{ overflow: "scroll" }}
             >
-               <ClassForm
+              <ClassForm
                 isEditMode={isEditMode}
                 indicator={indicator}
                 classToEdit={classToEdit}
@@ -250,7 +267,7 @@ function ToggleClassFormModal() {
                 setShowModal={setShowModal}
                 setOpenSuccessfullModal={setOpenSuccessfullModal}
               />
-                </Modal>
+            </Modal>
           ) : (
             showConsentModal && (
               <Dialog
@@ -296,7 +313,7 @@ function ToggleClassFormModal() {
               </Dialog>
             )
           )}
-            {openSuccessfullModal && (
+          {openSuccessfullModal && (
             <Modal
               open={openSuccessfullModal}
               aria-labelledby="modal-modal-title"
@@ -308,7 +325,7 @@ function ToggleClassFormModal() {
           )}
         </Grid>
       </Grid>
-        
+
       {/* <ClassesList
         editClass={editClass}
         isShow={showModal}

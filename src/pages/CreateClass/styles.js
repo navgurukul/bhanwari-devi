@@ -11,11 +11,15 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "8px",
   },
   dividerColor: {
-    color: "grey", 
+    color: "grey",
     backgroundColor: "grey",
-    height: "2px" ,
-    border: "none"
-    
+    height: "2px",
+    border: "none",
+  },
+  underLine: {
+    padding: "12px 35px",
+    borderBottom: "3px solid transparent",
+    cursor: "pointer",
   },
 }));
 

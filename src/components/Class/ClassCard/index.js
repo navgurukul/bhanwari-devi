@@ -35,11 +35,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
 import MergeClass from "../MergeClass";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 toast.configure();
 
-function ClassCard({ item, editClass,pathwayFilter }) {
+function ClassCard({ item, editClass, pathwayFilter, showClass }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -54,7 +54,7 @@ function ClassCard({ item, editClass,pathwayFilter }) {
   const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  console.log(item)
+  console.log(item);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const languageMap = {
@@ -259,8 +259,7 @@ function ClassCard({ item, editClass,pathwayFilter }) {
     <>
       <Card
         elevation={2}
-        sx={{ p: 2, mt: isActive ? 4 : 5, background: "#FAFAFA"
-        }}
+        sx={{ p: 2, mt: isActive ? 4 : 5, background: "#FAFAFA" }}
         className={classes.card}
       >
         <Typography
@@ -294,7 +293,7 @@ function ClassCard({ item, editClass,pathwayFilter }) {
           )}
         </Typography>
         <Menu
-          sx={{ mt: "15px",  }}
+          sx={{ mt: "15px" }}
           id="menu-appbar"
           anchorEl={anchorElUser}
           anchorOrigin={{
@@ -308,7 +307,7 @@ function ClassCard({ item, editClass,pathwayFilter }) {
             horizontal: "right",
           }}
           PaperProps={{
-            style: {width: '150px'},
+            style: { width: "150px" },
           }}
           open={Boolean(anchorElUser)}
           onClose={() => {
@@ -323,12 +322,14 @@ function ClassCard({ item, editClass,pathwayFilter }) {
               >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
-              {(item.pathway_id ===7) &&
-                  <MergeClass
+              {item.pathway_id === 7 && (
+                <MergeClass
                   itemID={item.id}
                   PathwayID={item.pathway_id}
                   pathwayFilter={pathwayFilter}
-                  />}
+                  showClass={showClass}
+                />
+              )}
               <MenuItem
                 onClick={() => handleClickOpen(item.id)}
                 sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}
@@ -348,10 +349,8 @@ function ClassCard({ item, editClass,pathwayFilter }) {
           )}
         </Menu>
 
-        
         {!item.title.toLowerCase().includes("scratch") && (
           <Typography variant="subtitle1">{item.sub_title}</Typography>
-        
         )}
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
@@ -379,8 +378,13 @@ function ClassCard({ item, editClass,pathwayFilter }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <CardActions sx={{ padding: "0px",alignItems:"right", justifyContent: 'flex-end' }}>
-          
+        <CardActions
+          sx={{
+            padding: "0px",
+            alignItems: "right",
+            justifyContent: "flex-end",
+          }}
+        >
           {item.enrolled ? (
             loading ? (
               <div className="loader-button">
@@ -403,12 +407,11 @@ function ClassCard({ item, editClass,pathwayFilter }) {
               onClick={() => {
                 handleClickOpenEnroll(item.id);
               }}
-              endIcon={<ArrowRightAltIcon/>}
+              endIcon={<ArrowRightAltIcon />}
             >
               Enroll
             </Button>
           )}
-         
         </CardActions>
       </Card>
       <Box>
