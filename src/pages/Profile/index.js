@@ -232,7 +232,6 @@ function Profile() {
       window.location.reload();
     });
   };
-  // console.log(user)
 
   return (
     <>

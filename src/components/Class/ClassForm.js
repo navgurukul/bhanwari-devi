@@ -297,6 +297,7 @@ function ClassForm({
 
   const courses =
     (data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
+      // data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
         return {
           label: item.name,
           value: item.id,
@@ -843,10 +844,8 @@ function ClassForm({
                       onCourseChange(e.target.value);
                     }}
                   >
-                    {data.Pathways &&
-                      data.Pathways.pathwayCourse &&
-                      data.Pathways.pathwayCourse.data &&
-                      data.Pathways.pathwayCourse.data.courses.map((course) => {
+                    {
+                      data?.Pathways?.pathwayCourse?.data?.courses?.map((course) => {
                         return (
                           <MenuItem key={course.id} value={course.id}>
                             {course.name}
