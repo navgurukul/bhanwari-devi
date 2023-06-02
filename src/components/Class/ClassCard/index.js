@@ -254,6 +254,7 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
     );
   };
   */
+  console.log(item);
   return (
     <>
       <Card

@@ -228,11 +228,11 @@ function ClassList({
             </>
           ) : (
             <div className="message">
-              <h2>No Classes Today....</h2>
+              <NoClassesFound />
             </div>
           )}
         </Grid>
-        {!(pathwayFilter.length > 0 && canSpecifyFacilitator) && (
+        {!pathwayFilter.length > 0 && !canSpecifyFacilitator && (
           <div>
             <NoVolunteerClass
               setFormType={setFormType}

@@ -11,6 +11,7 @@ function NoVolunteerClass({ setFormType, toggleModalOpen }) {
           with your classes
         </Typography>
         <Button
+          variant="contained"
           onClick={() => {
             setFormType("batch");
             toggleModalOpen();
