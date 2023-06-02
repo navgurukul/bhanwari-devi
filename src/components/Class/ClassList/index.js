@@ -19,6 +19,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import NoClassesFound from "../NoClassesFound";
+import NoVolunteerClass from "../NoVolunteerClass";
 
 function ClassList({
   editClass,
@@ -100,13 +101,12 @@ function ClassList({
         return item?.pathway_id === pathwayID;
       })
     : classData;
-  console.log(pathwayFilter, classData);
 
   return (
     <>
       <Box
         display="flex"
-        sx={{ justifyContent: "space-between", marginTop: "40px" }}
+        sx={{ justifyContent: "space-between", marginTop: "32px" }}
       >
         <TextField
           size={"small"}
@@ -232,6 +232,14 @@ function ClassList({
             </div>
           )}
         </Grid>
+        {!(pathwayFilter.length > 0 && canSpecifyFacilitator) && (
+          <div>
+            <NoVolunteerClass
+              setFormType={setFormType}
+              toggleModalOpen={toggleModalOpen}
+            />
+          </div>
+        )}
       </>
     </>
   );

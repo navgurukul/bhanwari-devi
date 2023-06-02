@@ -40,7 +40,7 @@ function DrawerLeft({ pathwayID, setPathwayId, setPathwayName }) {
         PaperProps={{
           style: {
             border: "none",
-            width: "320px",
+            width: "300px",
             position: "static",
             paddingTop: "40px",
           },

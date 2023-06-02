@@ -54,7 +54,6 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
   const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  console.log(item);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const languageMap = {
@@ -282,6 +281,7 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
           >
             {item.title}
           </Typography>
+
           {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
               (item.facilitator.email === user.data.user.email || flag))) && (
@@ -342,12 +342,22 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
           {!rolesList.includes("volunteer") && item.enrolled && (
             <MenuItem
               onClick={() => handleClickOpenUnenroll(item.id)}
-              sx={{ width: 120, margin: "0px 10px" }}
+              sx={{ width: 138, margin: "0px 10px" }}
             >
               <Typography textAlign="center">Dropout</Typography>
             </MenuItem>
           )}
         </Menu>
+
+        {item?.pathway_id === 7 && item?.merge_class && (
+          <Typography variant="body2">
+            <img
+              className={classes.icons}
+              src={require("../assets/mergeClass.png")}
+            />
+            {item?.merge_class}
+          </Typography>
+        )}
 
         {!item.title.toLowerCase().includes("scratch") && (
           <Typography variant="subtitle1">{item.sub_title}</Typography>

@@ -63,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     align: "center",
   },
+  dialogBox: {
+    "& .MuiPaper-root": {
+      padding: "32px",
+    },
+  },
 }));
 
 export default useStyles;

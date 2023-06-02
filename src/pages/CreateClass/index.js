@@ -160,7 +160,7 @@ function ToggleClassFormModal() {
       setNewVolunteer(false);
     }
   }, [newVolunteer]);
-  console.log(pathwayID);
+
   return (
     <Container
       sx={{ mt: "40px" }}
@@ -185,17 +185,19 @@ function ToggleClassFormModal() {
         )}
 
         <Grid item md={canSpecifyFacilitator ? 9 : 12}>
-          <Typography variant="h6">{pathwayName}</Typography>
+          {canSpecifyFacilitator && (
+            <Typography variant="h6">{pathwayName}</Typography>
+          )}
           <Grid
             container
-            marginTop="32px"
+            marginTop="16px"
             style={{
               fontWeight: "bold",
               borderBottom: "1px solid #BDBDBD",
             }}
           >
             <Grid item align="center">
-              <Button>
+              <Button sx={{ paddingLeft: "0px" }}>
                 <Typography
                   variant="subtitle2"
                   onClick={() => {

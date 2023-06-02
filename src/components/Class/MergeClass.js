@@ -5,6 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import useStyles from "./styles";
 import {
   MenuItem,
   Typography,
@@ -13,6 +14,7 @@ import {
   InputLabel,
   Select,
   Autocomplete,
+  FormHelperText,
 } from "@mui/material";
 import axios from "axios";
 import { METHODS } from "../../services/api";
@@ -20,10 +22,11 @@ import { useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 
 function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [marginId, setMarginId] = useState();
+  const [Mergeclassid, setMarginId] = useState();
   const user = useSelector(({ User }) => User);
-
+  const { UId, setUId } = useState();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -31,21 +34,44 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleSubmit = (Id) => {
+  console.log(itemID, UId, "hjgjkgjk");
+  const handleSubmit = (e) => {
     axios({
       method: METHODS.POST,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${marginId}/mergeClass`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Mergeclassid}/mergeClass`,
+      params: {
+        classId: itemID,
+      },
       headers: {
         "Content-Type": "application/json",
         Authorization: user.data.token,
       },
-      data: {
-        // mergeClassId: merginId,
-        classId: Id,
-      },
     });
   };
+
+  // const handleSubmit =(Id)=> {
+
+  //   const params = new URLSearchParams({
+  //     classId: Id,
+  //   }).toString();
+
+  //   const url =`${process.env.REACT_APP_MERAKI_URL}/classes/${Mergeclassid}/mergeClass`
+
+  //   axios
+  //     .post(url, params, {
+  //       headers: {
+  //         "Content-Type": "application/json; charset=utf-8",
+  //         Authorization: user.data.token,
+  //       }
+  //     })
+  //     .then(res => {
+  //        console.log(res)
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
+
   return (
     <div>
       <MenuItem
@@ -59,14 +85,14 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        sx={{ padding: "32px", margin: "32px" }}
+        className={classes.dialogBox}
       >
         <DialogTitle
           id="alert-dialog-title"
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
           <Typography variant="h6"> Merge Class</Typography>
-          <CloseIcon onClick={handleClose} sx={{ cursor: "pointer" }} />
+          <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -74,8 +100,13 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
               Please choose a batch to add students of this class to that
               batch’s same class
             </Typography>
-            <FormControl fullWidth sx={{ margin: "32px 0px" }}>
-              <InputLabel id="demo-simple-select-label">Merge Batch</InputLabel>
+            <FormControl
+              fullWidth
+              sx={{ margin: "32px 0px", borderRadius: "8px" }}
+            >
+              <InputLabel id="demo-simple-select-label">
+                Merge to Batch
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -87,7 +118,6 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
               >
                 {pathwayFilter?.map((item) => {
                   return (
-                    item.type === `${showClass ? "batch" : "doubt_class"}` &&
                     item.id !== itemID && (
                       <MenuItem key={item.id} value={item.id}>
                         {item.title}
@@ -96,7 +126,6 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
                   );
                 })}
               </Select>
-              {/* <FormHelperText>{helperText.course}</FormHelperText> */}
             </FormControl>
             <Typography variant="body2">
               The tutor and students will receive the updated class invitations
@@ -107,6 +136,7 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
           <Button
             variant="contained"
             onClick={() => {
+              // setUId(itemID);
               handleSubmit(itemID);
               handleClose();
             }}
