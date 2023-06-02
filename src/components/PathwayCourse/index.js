@@ -155,9 +155,6 @@ function PathwayCourse() {
     return state;
   });
 
-  console.log(pathwayId, "pathway id current")
-  console.log(completedAll, completedPortion, "completed portion")
-
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
