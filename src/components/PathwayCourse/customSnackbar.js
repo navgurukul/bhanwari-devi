@@ -4,15 +4,24 @@ import theme from "../../theme/theme";
 import Message from "../../components/common/Message/index";
 
 const CustomSnackbar = ({ openSnackbar, handleSnackbar, pathwayName }) => {
+  console.log(pathwayName);
+
   return (
     <Snackbar
       open={openSnackbar}
       autoHideDuration={6000}
       message={
-        <Message
-          constantKey="CERTIFICATE_COMPLETION_WARNING"
-          args={[pathwayName]}
-        />
+        pathwayName === "Teacher Capacity Building - Peepul India" ? (
+          <Message
+            constantKey="PEEPUL_CERTIFICATE_COMPLETE_WARNING"
+            args={[pathwayName]}
+          />
+        ) : (
+          <Message
+            constantKey="CERTIFICATE_COMPLETION_WARNING"
+            args={[pathwayName]}
+          />
+        )
       }
       onClose={handleSnackbar}
       ContentProps={{

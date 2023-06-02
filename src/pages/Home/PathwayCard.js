@@ -31,7 +31,9 @@ function PathwayCard({ id, title, description, image, hover }) {
                 title.toLocaleLowerCase() ===
                   "Machine Learning".toLocaleLowerCase() ||
                 title.toLocaleLowerCase() ===
-                  "Amazon Coding Bootcamp".toLocaleLowerCase()
+                  "Amazon Coding Bootcamp".toLocaleLowerCase() ||
+                title.toLocaleLowerCase() ===
+                  "Teacher Capacity Building - Peepul India".toLocaleLowerCase()
                   ? image
                   : require("./assets/" + image + ".svg")
               }

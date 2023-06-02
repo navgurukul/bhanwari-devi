@@ -369,6 +369,55 @@
       },
       "shouldShowCertificate": false,
       "lang_available": [{ "code": "en", "label": "English" }]
+    },
+    {
+      "id": 8,
+      "code": "TCBPI",
+      "name": "Teacher Capacity Building - Peepul India",
+      "logo": "https://merakilearn.s3.ap-south-1.amazonaws.com/Meraki+track+icons/python/Python.png",
+      "description": "Teacher Capacity Building (Digital Literacy)",
+      "courses": [
+        {
+          "id": 107,
+          "name": "MS Word",
+          "logo": "https://merakilearn.s3.ap-south-1.amazonaws.com/lowSizeCourseImages/python/dictionaries.jpg",
+          "short_description": "Learn MS Word",
+          "lang_available": [
+            "en"
+          ],
+          "completed_portion": 0
+        },
+        {
+          "id": 108,
+          "name": "MS Excel",
+          "logo": "https://merakilearn.s3.ap-south-1.amazonaws.com/lowSizeCourseImages/python/dictionaries.jpg",
+          "short_description": "Learn MS Excel",
+          "lang_available": [
+            "en"
+          ],
+          "completed_portion": 0
+        },
+        {
+          "id": 109,
+          "name": "Scratch JR",
+          "logo": "https://merakilearn.s3.ap-south-1.amazonaws.com/lowSizeCourseImages/python/dictionaries.jpg",
+          "short_description": "Learn Scratch JR",
+          "lang_available": [
+            "en"
+          ],
+          "completed_portion": 0
+        },
+        {
+          "id": 110,
+          "name": "Google form",
+          "logo": "https://merakilearn.s3.ap-south-1.amazonaws.com/lowSizeCourseImages/python/dictionaries.jpg",
+          "short_description": "Learn Google form",
+          "lang_available": [
+            "en"
+          ],
+          "completed_portion": 0
+        }
+      ]
     }
   ]
 }

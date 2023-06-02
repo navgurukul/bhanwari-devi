@@ -168,6 +168,8 @@ export const PATHWAYS_INFO = [
     ],
     type: "internal",
   },
+
+  
   {
     title: "Residential Programmes",
     image: "residential",
@@ -175,6 +177,7 @@ export const PATHWAYS_INFO = [
     type: "internal",
     path: PATHS.RESIDENTIAL_COURSE,
   },
+  
   {
     title: "Miscellaneous Courses",
     image: "misc",
@@ -182,7 +185,17 @@ export const PATHWAYS_INFO = [
     type: "internal",
     path: PATHS.MISCELLANEOUS_COURSE,
   },
+  {
+    title:"Teacher Capacity Building - Peepul India",
+    code: "TCBPI",
+    description: "Teacher Capacity Building (Digital Literacy)",
+    outcomes: [
+      
+    ],
+    type: "internal",
+  },
 ];
+
 
 /*
 export const dateTimeFormat = (date) => {
