@@ -28,10 +28,7 @@ function PathwayCard({ id, title, description, image, hover }) {
             <CardMedia
               component="img"
               src={
-                title.toLocaleLowerCase() ===
-                  "Machine Learning".toLocaleLowerCase() ||
-                title.toLocaleLowerCase() ===
-                  "Amazon Coding Bootcamp".toLocaleLowerCase()
+                image.includes('https')
                   ? image
                   : require("./assets/" + image + ".svg")
               }

@@ -44,13 +44,11 @@ const MenuList = (menuItem) => {
     return state.PathwaysDropdow;
   });
 
-  // console.log("user in Menu", user);
 
   useEffect(() => {
     dispatch(
       pathwayActions.getPathwaysDropdown({
         authToken: user,
-        // ?.data?.token,
       })
     );
   }, [dispatch, user]);
@@ -166,39 +164,13 @@ function Footer() {
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
-  // console.log("user in Footer", user);
-
-  // useEffect(() => {
-  //   dispatch(
-  //     pathwayActions.getPathways({
-  //       authToken: user,
-  //       // ?.data?.token,
-  //     })
-  //   );
-  // }, [dispatch, user]);
-
   useEffect(() => {
     dispatch(
       pathwayActions.getPathwaysDropdown({
         authToken: user,
-        // ?.data?.token,
       })
     );
   }, [dispatch, user]);
-
-  // useEffect(() => {
-  //   axios({
-  //     method: METHODS.GET,
-  //     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/dropdown`,
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: user.data.token,
-  //     },
-  //   }).then((res) => {
-  //     console.log()
-  //     // setEnrollClasses(res.data);
-  //   });
-  // }, []);
 
   data &&
     data.pathways &&

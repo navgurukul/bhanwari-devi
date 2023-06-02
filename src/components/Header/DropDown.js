@@ -73,7 +73,6 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     dispatch(
       pathwayActions.getPathwaysDropdown({
         authToken: user,
-        // ?.data?.token,
       })
     );
   }, [dispatch, user]);
@@ -174,7 +173,6 @@ export const DropDown = ({
     dispatch(
       pathwayActions.getPathwaysDropdown({
         authToken: user,
-        // ?.data?.token,
       })
     );
   }, [dispatch, user]);

@@ -22,13 +22,13 @@ function MiscellaneousCourses() {
     dispatch(courseActions.getCourses());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(
-  //     pathwayActions.getPathways({
-  //       authToken: user,
-  //     })
-  //   );
-  // }, [dispatch, user]);
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   const pathwayCourseId =
     (pathway.Pathways.data &&
