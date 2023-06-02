@@ -4,7 +4,6 @@ import theme from "../../theme/theme";
 import Message from "../../components/common/Message/index";
 
 const CustomSnackbar = ({ openSnackbar, handleSnackbar, pathwayName }) => {
-  console.log(pathwayName);
 
   return (
     <Snackbar
