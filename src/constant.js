@@ -186,7 +186,7 @@ export const PATHWAYS_INFO = [
     path: PATHS.MISCELLANEOUS_COURSE,
   },
   {
-    title:"Teacher Capacity Building - Peepul India",
+    title:"Teacher Capacity Building",
     code: "TCBPI",
     description: "Teacher Capacity Building (Digital Literacy)",
     outcomes: [

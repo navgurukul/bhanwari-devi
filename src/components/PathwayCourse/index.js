@@ -96,7 +96,7 @@ const pathways = [
     ],
   },
   {
-    pathway: "Teacher Capacity Building - Peepul India",
+    pathway: "Teacher Capacity Building",
     code: "TCBPI",
     description: "Teacher Capacity Building (Digital Literacy)",
     
