@@ -18,14 +18,14 @@ export const PATHS = {
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
 
-  SCRATCH:
-    process.env.NODE_ENV === "development"
-      ? "https://dev.scratch.merakilearn.org/"
-      : "https://scratch.merakilearn.org/",
   // SCRATCH:
-  //   production === "merakilearn.org"
-  //     ? "https://scratch.merakilearn.org/"
-  //     : "https://dev.scratch.merakilearn.org/",
+  //   process.env.NODE_ENV === "development"
+  //     ? "https://dev.scratch.merakilearn.org/"
+  //     : "https://scratch.merakilearn.org/",
+  SCRATCH:
+    production === "www.merakilearn.org"
+      ? "https://scratch.merakilearn.org/"
+      : "https://dev.scratch.merakilearn.org/",
 
   USER: "/user",
   PROFILE: "/profile",
