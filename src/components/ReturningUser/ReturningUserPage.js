@@ -53,8 +53,8 @@ function ReturningUserPage() {
           My Learning Tracks
         </Typography>
         <Grid container spacing={1}>
-          {learningTracks.map((item) => (
-            <LearningTrackCard item={item} />
+          {learningTracks.map((item, index) => (
+            <LearningTrackCard item={item} key={index} />
           ))}
         </Grid>
       </Container>

@@ -207,7 +207,7 @@ const PathwayCards = (props) => {
           {userEnrolledClasses?.slice(0, sliceNumber).map((item) => {
             return (
               <>
-                <UpcomingClassCardComponent item={item} />
+                <UpcomingClassCardComponent item={item} key={item.id} />
               </>
             );
           })}

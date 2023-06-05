@@ -591,7 +591,7 @@ function PathwayCourse() {
                         >
                           <div
                             className={classes.courseTitleNumber}
-                            disableGutters
+                            disablegutters="true"
                           >
                             <Typography
                               align={isActive ? "center" : "left"}

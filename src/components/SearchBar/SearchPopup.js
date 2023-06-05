@@ -200,7 +200,7 @@ function SearchPopup() {
 
                   <Grid container sx={{ mt: "16px", mb: "32px" }}>
                     {recentSearch.map((item) => (
-                      <Grid item mr={2}>
+                      <Grid item mr={2} key={item}>
                         <Button value={item} onClick={handleSearchBar}>
                           {item}
                         </Button>

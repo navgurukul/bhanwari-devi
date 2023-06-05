@@ -296,14 +296,13 @@ function ClassForm({
   ]);
 
   const courses =
-    (data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
+    data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
       // data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
-        return {
-          label: item.name,
-          value: item.id,
-        };
-      })) ||
-    [];
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    }) || [];
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id
@@ -844,14 +843,15 @@ function ClassForm({
                       onCourseChange(e.target.value);
                     }}
                   >
-                    {
-                      data?.Pathways?.pathwayCourse?.data?.courses?.map((course) => {
+                    {data?.Pathways?.pathwayCourse?.data?.courses?.map(
+                      (course) => {
                         return (
                           <MenuItem key={course.id} value={course.id}>
                             {course.name}
                           </MenuItem>
                         );
-                      })}
+                      }
+                    )}
                   </Select>
                   <FormHelperText>{helperText.course}</FormHelperText>
                 </FormControl>
@@ -1058,6 +1058,7 @@ function ClassForm({
                 <FormGroup aria-label="position" row>
                   {Object.keys(days).map((item) => (
                     <FormControlLabel
+                      key={item}
                       control={
                         <Checkbox
                           value={item}
@@ -1071,7 +1072,7 @@ function ClassForm({
                         });
                       }}
                       label={item}
-                      labelPlacement={item}
+                      // labelPlacementStart={item}
                     />
                   ))}
                 </FormGroup>
@@ -1087,7 +1088,7 @@ function ClassForm({
                 { label: "Start Time", prop: "start_time" },
                 { label: "End Time", prop: "end_time" },
               ].map(({ label, prop }) => (
-                <Grid item xs={isActive ? 12 : 6}>
+                <Grid item xs={isActive ? 12 : 6} key={label}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <Stack spacing={3}>
                       <DesktopTimePicker
@@ -1149,7 +1150,7 @@ function ClassForm({
               <Typography
                 variant="body2"
                 color="text.secondary"
-                fullwidth
+                // fullwidth
                 pt={1}
                 pr={2}
               >

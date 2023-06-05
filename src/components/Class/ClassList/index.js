@@ -94,7 +94,7 @@ function ClassList({ editClass, isShow }) {
           ),
         }}
         placeholder="Enter Batch or Class Name"
-        value={filterText}
+        value={filterText || ""}
         sx={{
           margin: isActive ? "0 0 0 4px" : "12px 0 0 2px",
           width: isActive ? "98%" : "99%",
