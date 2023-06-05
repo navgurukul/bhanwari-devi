@@ -58,7 +58,7 @@ function ClassForm({
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
-      ? classToEdit.parent_class?.on_days.split(",")
+      ? classToEdit.parent_class?.on_days?.split(",")
       : [],
     start_time: classToEdit.start_time
       ? new Date(classToEdit.start_time)
@@ -264,8 +264,8 @@ function ClassForm({
     if (classFields.type === "batch") {
       if (
         classFields.title !== "" &&
-        classFields.partner_id.length > 0 &&
-        classFields.on_days.length > 0
+        classFields.partner_id?.length > 0 &&
+        classFields.on_days?.length > 0
       ) {
         setButtonDisabled(false);
       } else {
@@ -296,9 +296,8 @@ function ClassForm({
   ]);
 
   const courses =
-    (data.Pathways.data &&
-      data.Pathways.data.pathways[0] &&
-      data.Pathways.data.pathways[0].courses.map((item) => {
+    (data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
+      // data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
         return {
           label: item.name,
           value: item.id,
@@ -845,10 +844,8 @@ function ClassForm({
                       onCourseChange(e.target.value);
                     }}
                   >
-                    {data.Pathways &&
-                      data.Pathways.pathwayCourse &&
-                      data.Pathways.pathwayCourse.data &&
-                      data.Pathways.pathwayCourse.data.courses.map((course) => {
+                    {
+                      data?.Pathways?.pathwayCourse?.data?.courses?.map((course) => {
                         return (
                           <MenuItem key={course.id} value={course.id}>
                             {course.name}
@@ -1064,7 +1061,7 @@ function ClassForm({
                       control={
                         <Checkbox
                           value={item}
-                          checked={classFields.on_days.includes(item)}
+                          checked={classFields.on_days?.includes(item)}
                           onChange={handleDaySelection}
                         />
                       }

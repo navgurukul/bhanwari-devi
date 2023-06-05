@@ -95,6 +95,12 @@ const pathways = [
       "Be able to give oral presentations, talk to friends and prospective colleagues",
     ],
   },
+  {
+    pathway: "Teacher Capacity Building",
+    code: "TCBPI",
+    description: "Teacher Capacity Building (Digital Literacy)",
+    
+  }
 ];
 
 function saveFile(url) {
@@ -126,9 +132,11 @@ function PathwayCourse() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  const completedAll = completedPortion?.total === 100;
+  let completedAll = pathwayId==8?completedPortion?.total>=80: completedPortion?.total === 100;
+  // let completedAll = true
   const [loader, setLoader] = useState(false);
-  const displayCert = pathwayId == 1;
+  const displayCert = pathwayId == 1 
+  // || pathwayId == 8;
 
   const modalStyle = {
     position: "absolute",

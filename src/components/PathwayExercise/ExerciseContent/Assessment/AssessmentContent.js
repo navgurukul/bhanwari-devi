@@ -153,6 +153,24 @@ const AssessmentContent = ({
       />
     );
   }
+  if (content.component === "image") {
+    const image = DOMPurify.sanitize(get(content, "value"));
+
+    const isImage = image.match(/\.(jpeg|jpg|gif|png)$/);
+  
+    if (isImage) {
+      return <img src={image} alt="Image" />;
+    }
+  
+    return (
+      <UnsafeHTML
+        Container={Typography}
+        sx={{ m: "2rem 0", fontWeight: 700, fontSize: "1.2rem" }}
+        variant="body1"
+        html={image}
+      />
+    );
+  }
 
   if (content.component === "options") {
     return (

@@ -43,8 +43,6 @@ function SelectTrack({ setDisable, pathwayId, setPathwayId }) {
     );
   }, [dispatch, user]);
 
-  console.log("data", data);
-
   return (
     <Container sx={{ mt: 6 }} maxWidth="lg">
       <Container maxWidth="sm" mb={3}>

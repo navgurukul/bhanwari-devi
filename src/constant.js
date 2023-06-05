@@ -17,14 +17,16 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
+
   SCRATCH:
-    production === "merakilearn.org"
-      ? "https://scratch.merakilearn.org/"
-      : "https://dev.scratch.merakilearn.org/",
+    process.env.NODE_ENV === "development"
+      ? "https://dev.scratch.merakilearn.org/"
+      : "https://scratch.merakilearn.org/",
   // SCRATCH:
-  //   process.env.NODE_ENV === "development"
-  //     ? "https://dev.scratch.merakilearn.org/"
-  //     : "https://scratch.merakilearn.org/",
+  //   production === "merakilearn.org"
+  //     ? "https://scratch.merakilearn.org/"
+  //     : "https://dev.scratch.merakilearn.org/",
+
   USER: "/user",
   PROFILE: "/profile",
   ME: "/me",
@@ -168,6 +170,7 @@ export const PATHWAYS_INFO = [
     ],
     type: "internal",
   },
+
   {
     title: "Residential Programmes",
     image: "residential",
@@ -175,12 +178,20 @@ export const PATHWAYS_INFO = [
     type: "internal",
     path: PATHS.RESIDENTIAL_COURSE,
   },
+
   {
     title: "Miscellaneous Courses",
     image: "misc",
     description: "Courses on Android, Game dev projects and more",
     type: "internal",
     path: PATHS.MISCELLANEOUS_COURSE,
+  },
+  {
+    title: "Teacher Capacity Building",
+    code: "TCBPI",
+    description: "Teacher Capacity Building (Digital Literacy)",
+    outcomes: [],
+    type: "internal",
   },
 ];
 
