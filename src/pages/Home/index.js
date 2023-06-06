@@ -161,24 +161,13 @@ function Home() {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  const pathwayData = [];
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE" || pathway.path) {
-        const obj = {
-          id: pathway.id || null,
-          title: pathway.name || pathway.title,
-          description: pathway.description,
-          image: pathway.image || pathway.logo,
-          link: pathway.path || null,
-          type: "internal",
-        };
-        pathwayData.push(obj);
-      }
-    });
-
-    console.log(pathwayData,'pathwayData')
+  const MiscellaneousCourses = data?.pathways.filter(item => item.name === 'Miscellaneous Courses')
+  // const pathwayData = data?.pathways.filter(item => item.name !== 'Miscellaneous Courses')
+  // pathwayData = [...pathwayData, ...MiscellaneousCourses]
+  const pathwayData = data?.pathways.filter(item => item.name !== 'Miscellaneous Courses').concat(MiscellaneousCourses)
+  console.log('data', data?.pathways)
+  console.log('MiscellaneousCourses', MiscellaneousCourses)
+  console.log('pathwayData', pathwayData)
 
   const partnerGroupId = user?.data?.user?.partner_group_id;
   const partnerId = user?.data?.user?.partner_id;
@@ -427,15 +416,14 @@ function Home() {
         </Container>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {pathwayData.map(
-              (item) =>
-                item.id !== "7" && (
+            {pathwayData?.map(
+              (item) => (
                   <Grid item xs={12} ms={6} md={4}>
                     <PathwayCard
                       id={item.id}
-                      title={item.title}
+                      name={item.name}
                       description={item.description}
-                      image={item.image}
+                      logo={item.logo}
                       hover={true}
                     />
                   </Grid>

@@ -4,37 +4,31 @@ import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import { Typography, CardMedia, CardContent, Card, Box } from "@mui/material";
 
-function PathwayCard({ id, title, description, image, hover }) {
+function PathwayCard({ id, name, description, logo, hover }) {
   const classes = useStyles();
-
-  console.log(image, "images---");
-
+  
   return (
     <Link
       to={
         id
           ? interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: id })
-          : title === "Miscellaneous Courses"
-          ? PATHS.MISCELLANEOUS_COURSE
-          : title === "Residential Programmes" && PATHS.RESIDENTIAL_COURSE
-      }
+          : PATHS.MISCELLANEOUS_COURSE
+        }
       className={classes.link}
       style={{ pointerEvents: hover === false && "none" }}>
       {hover ? (
         <Card
           elevation={2}
-          className={hover ? classes.card : image && classes.imageCard}>
-          {image && (
+          className={hover ? classes.card : logo && classes.imageCard}>
+          {logo && (
             <CardMedia
               component="img"
-              // src={
-              //   image.includes('https')
-              //     ? image
-              //     : require("./assets/" + image + ".svg")
-              // }
-              // alt={image + "image"}
-
-              src={image}
+              src={
+                logo.includes('https')
+                  ? logo
+                  : require("./assets/" + logo + ".svg")
+              }
+              alt={logo + "logo"}
             />
           )}
           <CardContent>
@@ -43,7 +37,7 @@ function PathwayCard({ id, title, description, image, hover }) {
               variant="subtitle1"
               align="center"
               component="div">
-              {title}
+              {name}
             </Typography>
             <Typography variant="body1" align="center">
               {description}
@@ -53,13 +47,13 @@ function PathwayCard({ id, title, description, image, hover }) {
       ) : (
         <Box
           elevation={2}
-          className={hover ? classes.card : image && classes.imageCard}>
-          {image && (
+          className={hover ? classes.card : logo && classes.imageCard}>
+          {logo && (
             <CardMedia
               component="img"
-              src={image}
-              // src={require("./assets/" + image + ".svg")}
-              alt={image + "image"}
+              src={logo}
+              // src={require("./assets/" + logo + ".svg")}
+              alt={logo + "image"}
             />
           )}
           <CardContent>
@@ -68,7 +62,7 @@ function PathwayCard({ id, title, description, image, hover }) {
               variant="subtitle1"
               align="center"
               component="div">
-              {title}
+              {name}
             </Typography>
             <Typography variant="body1" align="center">
               {description}
