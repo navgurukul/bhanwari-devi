@@ -9,12 +9,9 @@ import useStyles from "./styles";
 import {
   MenuItem,
   Typography,
-  TextField,
   FormControl,
   InputLabel,
   Select,
-  Autocomplete,
-  FormHelperText,
 } from "@mui/material";
 import axios from "axios";
 import { METHODS } from "../../services/api";
@@ -34,7 +31,7 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(itemID, UId, "hjgjkgjk");
+
   const handleSubmit = (e) => {
     axios({
       method: METHODS.POST,
@@ -46,31 +43,10 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
         "Content-Type": "application/json",
         Authorization: user.data.token,
       },
+    }).then(() => {
+      window.location.reload();
     });
   };
-
-  // const handleSubmit =(Id)=> {
-
-  //   const params = new URLSearchParams({
-  //     classId: Id,
-  //   }).toString();
-
-  //   const url =`${process.env.REACT_APP_MERAKI_URL}/classes/${Mergeclassid}/mergeClass`
-
-  //   axios
-  //     .post(url, params, {
-  //       headers: {
-  //         "Content-Type": "application/json; charset=utf-8",
-  //         Authorization: user.data.token,
-  //       }
-  //     })
-  //     .then(res => {
-  //        console.log(res)
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // }
 
   return (
     <div>

@@ -105,8 +105,8 @@ function ClassList({
   return (
     <>
       <Box
-        display="flex"
-        sx={{ justifyContent: "space-between", marginTop: "32px" }}
+        display={!isActive && "flex"}
+        sx={{ justifyContent: !isActive && "space-between", marginTop: "32px" }}
       >
         <TextField
           size={"small"}
@@ -124,6 +124,7 @@ function ClassList({
             maxWidth: isActive ? "100%" : "99%",
             borderRadius: "8px",
           }}
+          fullWidth={isActive && true}
           onPaste={(e) => {
             e.preventDefault();
             setFilterText(e.clipboardData.getData("text"));
@@ -155,9 +156,14 @@ function ClassList({
         {canSpecifyFacilitator && (
           <Button
             variant="contained"
-            style={{
-              width: isActive ? "100%" : "25%",
-            }}
+            style={
+              isActive
+                ? {
+                    width: "100%",
+                    marginTop: "32px",
+                  }
+                : { width: "25%" }
+            }
             fullWidth
             onClick={() => {
               setFormType(showClass ? "batch" : "doubt_class");

@@ -54,6 +54,7 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
   const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [timeZone, setTimeZone] = useState();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const languageMap = {
@@ -254,12 +255,16 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
     );
   };
   */
-  console.log(item);
+
   return (
     <>
       <Card
         elevation={2}
-        sx={{ p: 2, mt: isActive ? 4 : 5, background: "#FAFAFA" }}
+        sx={{
+          p: 2,
+          mt: isActive ? 4 : 5,
+          background: timeZone ? "#FFF5CC" : "#FAFAFA",
+        }}
         className={classes.card}
       >
         <Typography
@@ -351,11 +356,14 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
         </Menu>
 
         {item?.pathway_id === 7 && item?.merge_class && (
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ display: "flex" }}>
             <img
               className={classes.icons}
               src={require("../assets/mergeClass.png")}
+              height="26px"
+              width="26px"
             />
+
             {item?.merge_class}
           </Typography>
         )}
@@ -405,6 +413,7 @@ function ClassCard({ item, editClass, pathwayFilter, showClass }) {
               <ClassJoinTimerButton
                 startTime={item?.start_time}
                 link={item?.meet_link}
+                setTimeZone={setTimeZone}
               />
             )
           ) : loading ? (

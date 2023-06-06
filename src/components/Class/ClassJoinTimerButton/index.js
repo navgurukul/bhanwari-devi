@@ -9,6 +9,7 @@ function ClassJoinTimerButton({
   link,
   joinOnClick,
   buttonType,
+  setTimeZone,
 }) {
   const ONE_SECOND = 1000; //millisecs
   const ONE_MINUTE = 60 * ONE_SECOND;
@@ -40,6 +41,12 @@ function ClassJoinTimerButton({
     }, ONE_MINUTE);
     return () => clearInterval(timer); // cleans up on unmount
   }, [startTime]);
+
+  useEffect((e) => {
+    if (timeRemainingMsg === CAN_JOIN_MSG) {
+      setTimeZone(true);
+    }
+  });
 
   return (
     <>

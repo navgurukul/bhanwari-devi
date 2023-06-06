@@ -30,7 +30,6 @@ function DrawerLeft({ pathwayID, setPathwayId, setPathwayName }) {
   };
   // const container = window !== undefined ? () => window().document.body : undefined;
 
-  console.log(data, pathwayID);
   return (
     <>
       <Drawer
