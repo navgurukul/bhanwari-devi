@@ -178,6 +178,8 @@ function Home() {
       }
     });
 
+    console.log(pathwayData,'pathwayData')
+
   const partnerGroupId = user?.data?.user?.partner_group_id;
   const partnerId = user?.data?.user?.partner_id;
   const role = user?.data?.user?.rolesList;

@@ -7,6 +7,8 @@ import { Typography, CardMedia, CardContent, Card, Box } from "@mui/material";
 function PathwayCard({ id, title, description, image, hover }) {
   const classes = useStyles();
 
+  console.log(image, "images---");
+
   return (
     <Link
       to={
@@ -17,22 +19,22 @@ function PathwayCard({ id, title, description, image, hover }) {
           : title === "Residential Programmes" && PATHS.RESIDENTIAL_COURSE
       }
       className={classes.link}
-      style={{ pointerEvents: hover === false && "none" }}
-    >
+      style={{ pointerEvents: hover === false && "none" }}>
       {hover ? (
         <Card
           elevation={2}
-          className={hover ? classes.card : image && classes.imageCard}
-        >
+          className={hover ? classes.card : image && classes.imageCard}>
           {image && (
             <CardMedia
               component="img"
-              src={
-                image.includes('https')
-                  ? image
-                  : require("./assets/" + image + ".svg")
-              }
-              alt={image + "image"}
+              // src={
+              //   image.includes('https')
+              //     ? image
+              //     : require("./assets/" + image + ".svg")
+              // }
+              // alt={image + "image"}
+
+              src={image}
             />
           )}
           <CardContent>
@@ -40,8 +42,7 @@ function PathwayCard({ id, title, description, image, hover }) {
               pb={1}
               variant="subtitle1"
               align="center"
-              component="div"
-            >
+              component="div">
               {title}
             </Typography>
             <Typography variant="body1" align="center">
@@ -52,12 +53,12 @@ function PathwayCard({ id, title, description, image, hover }) {
       ) : (
         <Box
           elevation={2}
-          className={hover ? classes.card : image && classes.imageCard}
-        >
+          className={hover ? classes.card : image && classes.imageCard}>
           {image && (
             <CardMedia
               component="img"
-              src={require("./assets/" + image + ".svg")}
+              src={image}
+              // src={require("./assets/" + image + ".svg")}
               alt={image + "image"}
             />
           )}
@@ -66,8 +67,7 @@ function PathwayCard({ id, title, description, image, hover }) {
               pb={1}
               variant="subtitle1"
               align="center"
-              component="div"
-            >
+              component="div">
               {title}
             </Typography>
             <Typography variant="body1" align="center">

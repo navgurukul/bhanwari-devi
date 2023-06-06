@@ -114,7 +114,7 @@ export const PATHWAYS_INFO = [
   {
     title: "Python",
     code: "PRGPYT",
-    image: "python",
+    // image: "python",
     video_link: "https://youtu.be/DDFvJmC3J5M",
     description: "Get familiar with programming with bite sized lessons",
     outcomes: [
@@ -137,7 +137,7 @@ export const PATHWAYS_INFO = [
     title: "Typing",
     code: "TYPGRU",
     video_link: "https://youtu.be/HQ9IYtBJO0U",
-    image: "typing",
+    // image: "typing",
     description: "Learn to type with pinpoint accuracy and speed.",
     outcomes: [
       "Reach a typing speed of up to 30 to 40 words per minute",
@@ -148,7 +148,7 @@ export const PATHWAYS_INFO = [
   {
     title: "Spoken English", // or English (DropDown.js)
     code: "SPKENG",
-    image: "language",
+    // image: "language",
     video_link: "https://youtu.be/g05oD3i67_A",
     description: "Master English with easy to understand courses",
     outcomes: [
@@ -161,7 +161,7 @@ export const PATHWAYS_INFO = [
   {
     title: "JavaScript", // "Web Development" (New User Dashboard)
     code: "JSRPIT",
-    image: "web-development",
+    // image: "web-development",
     video_link: "https://youtu.be/EC7UaTE9Z2Q",
     description: "Learn the basics of tech that powers the web",
     outcomes: [
@@ -181,7 +181,7 @@ export const PATHWAYS_INFO = [
 
   {
     title: "Miscellaneous Courses",
-    image: "misc",
+    // image: "misc",
     description: "Courses on Android, Game dev projects and more",
     type: "internal",
     path: PATHS.MISCELLANEOUS_COURSE,
