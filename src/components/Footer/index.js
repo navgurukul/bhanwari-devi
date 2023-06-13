@@ -12,25 +12,25 @@ import { breakpoints } from "../../theme/constant";
 
 const menu = {
   About: [
-    { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
-    { title: "Meraki Team", type: "internal", link: PATHS.TEAM },
+    { name: "Our Story", type: "internal", path: PATHS.OUR_STORY },
+    { name: "Meraki Team", type: "internal", path: PATHS.TEAM },
   ],
   LearningTracks: [],
   GetInvolved: [
     {
-      title: "Volunteer With Us",
+      name: "Volunteer With Us",
       type: "internal",
-      link: PATHS.VOLUNTEER_AUTOMATION,
+      path: PATHS.VOLUNTEER_AUTOMATION,
     },
     {
-      title: "Our Partners",
+      name: "Our Partners",
       type: "internal",
-      link: PATHS.OUR_PARTNER,
+      path: PATHS.OUR_PARTNER,
     },
     {
-      title: "Careers",
-      type: "exernal",
-      link: "https://recruiterflow.com/navgurukul/jobs",
+      name: "Careers",
+      type: "external",
+      path: "https://recruiterflow.com/navgurukul/jobs",
     },
   ],
 };
@@ -44,7 +44,6 @@ const MenuList = (menuItem) => {
     return state.PathwaysDropdow;
   });
 
-
   useEffect(() => {
     dispatch(
       pathwayActions.getPathwaysDropdown({
@@ -53,29 +52,46 @@ const MenuList = (menuItem) => {
     );
   }, [dispatch, user]);
 
-  const studentLearn = [];
+  // const studentLearn = [];
 
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE" || pathway.path) {
-        const obj = {
-          id: pathway.id || null,
-          title: pathway.name || pathway.title,
-          description: pathway.description,
-          image: pathway.image || pathway.logo,
-          link: pathway.path || null,
-          type: "internal",
-        };
-        studentLearn.push(obj);
-      }
-    });
+  // data &&
+  //   data.pathways &&
+  //   data.pathways.forEach((pathway) => {
+  //     if (pathway.code !== "PRCRSE" || pathway.path) {
+  //       const obj = {
+  //         id: pathway.id || null,
+  //         title: pathway.name || pathway.title,
+  //         description: pathway.description,
+  //         image: pathway.image || pathway.logo,
+  //         link: pathway.path || null,
+  //         type: "internal",
+  //       };
+  //       studentLearn.push(obj);
+  //     }
+  //   });
+
+  // if (menuItem === "LearningTracks") {
+  //   menu[menuItem] = studentLearn;
+  // }
+
+  const MiscellaneousCourses = data?.pathways.filter(
+    (item) => item.name === "Miscellaneous Courses"
+  );
+  const pathwayData = data?.pathways
+    .filter((item) => item.name !== "Miscellaneous Courses")
+    .concat(MiscellaneousCourses);
 
   if (menuItem === "LearningTracks") {
-    menu[menuItem] = studentLearn;
+    menu[menuItem] = pathwayData;
   }
 
-  const subMenu = menu[menuItem].filter((x) => x.link || x.id);
+  const subMenu = menu[menuItem];
+
+  // console.log("menuItem", menuItem);
+  // console.log("subMenu", subMenu);
+  // console.log("menu", menu);
+  // // console.log('studentLearn',studentLearn)
+  // console.log("pathwayData", pathwayData);
 
   return (
     <>
@@ -83,47 +99,42 @@ const MenuList = (menuItem) => {
         color="text.primary"
         // sx={{ mt: 4 }}
         variant="subtitle1"
-        component="div"
-      >
+        component="div">
         {title}
       </Typography>
       <List>
-        {subMenu.map((item) => {
-          if (item.type === "internal") {
+        {subMenu?.map((item) => {
+          if (item.type === "external") {
+            return (
+              <ExternalLink
+                className={classes.link}
+                href={item.path}
+                key={item.path}>
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  mb={1}
+                  className={classes.CareerNDoner}>
+                  {item.name} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
+                </Typography>
+              </ExternalLink>
+            );
+          } else {
             const toLink = item.id
               ? interpolatePath(PATHS.PATHWAY_COURSE, {
                   pathwayId: item.id,
                 })
-              : item.link;
-
+              : item.path;
             return (
               <Link key={toLink} to={toLink} className={classes.link}>
                 <Typography
                   variant="body2"
                   color="text.primary"
                   sx={{ pb: "8px" }}
-                  className={classes.hover}
-                >
-                  {item.title}
+                  className={classes.hover}>
+                  {item.name}
                 </Typography>
               </Link>
-            );
-          } else {
-            return (
-              <ExternalLink
-                className={classes.link}
-                href={item.link}
-                key={item.link}
-              >
-                <Typography
-                  variant="body2"
-                  color="text.primary"
-                  mb={1}
-                  className={classes.CareerNDoner}
-                >
-                  {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
-                </Typography>
-              </ExternalLink>
             );
           }
         })}
@@ -172,7 +183,8 @@ function Footer() {
     );
   }, [dispatch, user]);
 
-  data &&
+  menu.LearningTracks &&
+    data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
       menu.LearningTracks.forEach((item) => {
@@ -218,15 +230,13 @@ function Footer() {
             <ExternalLink
               className={classes.link}
               sx={{ mt: "8px" }}
-              href="https://www.navgurukul.org/donate"
-            >
+              href="https://www.navgurukul.org/donate">
               <Typography
                 variant="body2"
                 color="text.primary"
                 mb={1}
                 mt={1}
-                className={classes.CareerNDoner}
-              >
+                className={classes.CareerNDoner}>
                 Donate <LaunchOutlinedIcon sx={{ pl: "5px" }} />
               </Typography>
             </ExternalLink>
@@ -236,14 +246,12 @@ function Footer() {
               color="text.primary"
               sx={{ mb: 1 }}
               variant="subtitle1"
-              component="div"
-            >
+              component="div">
               Learn on Mobile
             </Typography>
             <ExternalLink
               href="https://play.google.com/store/apps/details?id=org.merakilearn&hl=en_IN&gl=US"
-              className={classes.link}
-            >
+              className={classes.link}>
               <Box sx={{ display: "flex" }}>
                 <img
                   src={require("./asset/playStore.svg")}
@@ -254,8 +262,7 @@ function Footer() {
                   <Typography
                     variant="body2"
                     color="text.primary"
-                    component="div"
-                  >
+                    component="div">
                     Now on Playstore
                   </Typography>
                 </Box>
@@ -271,8 +278,7 @@ function Footer() {
                 <Typography
                   className={classes.hover}
                   variant="body2"
-                  color="text.primary"
-                >
+                  color="text.primary">
                   Legal & Privacy Policy
                 </Typography>
               </Link>
@@ -283,13 +289,11 @@ function Footer() {
               md={6}
               sx={{
                 pr: { sm: 0, md: "17px" },
-              }}
-            >
+              }}>
               <Typography
                 color="text.primary"
                 variant="body2"
-                sx={{ textAlign: { sm: "left", md: "right" } }}
-              >
+                sx={{ textAlign: { sm: "left", md: "right" } }}>
                 Made with ❤️ for our students{" "}
               </Typography>
             </Grid>

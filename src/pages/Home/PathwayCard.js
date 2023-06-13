@@ -6,14 +6,14 @@ import { Typography, CardMedia, CardContent, Card, Box } from "@mui/material";
 
 function PathwayCard({ id, name, description, logo, hover }) {
   const classes = useStyles();
-  
+
   return (
     <Link
       to={
         id
           ? interpolatePath(PATHS.PATHWAY_COURSE, { pathwayId: id })
           : PATHS.MISCELLANEOUS_COURSE
-        }
+      }
       className={classes.link}
       style={{ pointerEvents: hover === false && "none" }}>
       {hover ? (
@@ -24,7 +24,7 @@ function PathwayCard({ id, name, description, logo, hover }) {
             <CardMedia
               component="img"
               src={
-                logo.includes('https')
+                logo.includes("https")
                   ? logo
                   : require("./assets/" + logo + ".svg")
               }

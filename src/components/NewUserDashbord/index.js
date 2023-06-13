@@ -19,7 +19,6 @@ const NewUserDashbord = () => {
   const [learningTracks, setLearningTracks] = useState(null);
   const { loading, data } = useSelector((state) => state.PathwaysDropdow);
 
-
   useEffect(() => {
     dispatch(
       pathwayActions.getPathwaysDropdown({
@@ -45,22 +44,33 @@ const NewUserDashbord = () => {
     });
   }, []);
 
-  const pathwayData = [];
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE" || pathway.path) {
-        const obj = {
-          id: pathway.id || null,
-          title: pathway.name || pathway.title,
-          description: pathway.description,
-          image: pathway.image || pathway.logo,
-          link: pathway.path || null,
-          type: "internal",
-        };
-        pathwayData.push(obj);
-      }
-    });
+  const MiscellaneousCourses = data?.pathways.filter(
+    (item) => item.name === "Miscellaneous Courses"
+  );
+
+  const pathwayData = data?.pathways
+    .filter((item) => item.name !== "Miscellaneous Courses")
+    .concat(MiscellaneousCourses);
+  // console.log('data', data?.pathways)
+
+  // console.log('pathwayData', pathwayData)
+
+  // const pathwayData = [];
+  // data &&
+  //   data.pathways &&
+  //   data.pathways.forEach((pathway) => {
+  //     if (pathway.code !== "PRCRSE" || pathway.path) {
+  //       const obj = {
+  //         id: pathway.id || null,
+  //         title: pathway.name || pathway.title,
+  //         description: pathway.description,
+  //         image: pathway.image || pathway.logo,
+  //         link: pathway.path || null,
+  //         type: "internal",
+  //       };
+  //       pathwayData.push(obj);
+  //     }
+  //   });
 
   return (
     <>
@@ -76,19 +86,18 @@ const NewUserDashbord = () => {
           </Container>
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
-              {pathwayData.map((item) => (
+              {pathwayData?.map((item) => (
                 <Grid
                   item
                   xs={6}
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}
-                >
+                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}>
                   <PathwayCard
                     id={item.id}
-                    title={item.title}
-                    image={item.image}
+                    name={item.name}
+                    logo={item.logo}
                     hover={true}
                   />
                 </Grid>

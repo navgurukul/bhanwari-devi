@@ -7,7 +7,7 @@ import language from "./asset/language.svg";
 import residential from "./asset/residential.svg";
 import random from "./asset/random.svg";
 import amzbootcamp from "./asset/amzbootcamp.svg";
-import peepul from "./asset/peepul.png"
+import peepul from "./asset/peepul.png";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -32,7 +32,7 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [python, typing, language, web, residential, random, peepul],
+  // image: [python, typing, language, web, residential, random, peepul],
   [LEARN_KEY]: [],
   [ABOUT_KEY]: [
     { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
@@ -77,32 +77,56 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     );
   }, [dispatch, user]);
 
-  // data?.pathways &&
-  //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
+  console.log("DATA", data);
 
-  const studentLearn = [];
+  // data?.pathways && (students[LEARN_KEY] = data.pathways);
+  // .slice(0, students.image.length)
 
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE" || pathway.path) {
-        const obj = {
-          id: pathway.id || null,
-          title: pathway.name || pathway.title,
-          description: pathway.description,
-          image: pathway.image || pathway.logo || python,
-          path: pathway.path || null,
-          type: "internal",
-        };
-        studentLearn.push(obj);
-      }
-    });
-  // students[LEARN_KEY] = studentLearn;
-  students[LEARN_KEY] = studentLearn.filter((x) => x.path || x.id);
+ 
+
+  const MiscellaneousCourses = data?.pathways.filter(
+    (item) => item.name === "Miscellaneous Courses"
+  );
+  const pathwayData = data?.pathways
+    .filter((item) => item.name !== "Miscellaneous Courses")
+    .concat(MiscellaneousCourses);
+
+    data?.pathways && (students[LEARN_KEY] = pathwayData
+      // .filter((x) => x.path || x.id)
+      );
+
+  console.log("pathwayData", pathwayData);
+
+  // const studentLearn = [];
+
+  // data &&
+  //   data.pathways &&
+  //   data.pathways.forEach((pathway) => {
+  //     if (pathway.code !== "PRCRSE" || pathway.path) {
+  //       const obj = {
+  //         id: pathway.id || null,
+  //         title: pathway.name || pathway.title,
+  //         description: pathway.description,
+  //         image: pathway.image || pathway.logo || python,
+  //         path: pathway.path || null,
+  //         type: "internal",
+  //       };
+  //       studentLearn.push(obj);
+  //     }
+  //   });
+  // // students[LEARN_KEY] = studentLearn;
+  // students[LEARN_KEY] = studentLearn.filter((x) => x.path || x.id);
+
+  //   students[LEARN_KEY] = pathwayData;
+
+  // console.log("studentLearn", studentLearn);
+  console.log("students", students);
+  // console.log("pathwayData",pathwayData)
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
       {students[menuKey].map((menu, index) => {
+        console.log("menu",menu)
         if (menu.type === "internal") {
           return (
             <Link
@@ -114,18 +138,17 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
                   : menu.path
               }
               className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}
-            >
+              onClick={toggleDrawer && toggleDrawer(false)}>
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
                   <img
-                    src={students.image[index] || menu.image}
+                    src={students.logo[index] || menu.logo}
                     alt="course logo"
                   />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
-                    {menu.title}
+                    {menu.name}
                   </Typography>
                 </CardContent>
               </MenuItem>
@@ -136,15 +159,14 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
             <ExternalLink
               href={menu.path}
               className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}
-            >
+              onClick={toggleDrawer && toggleDrawer(false)}>
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
-                  <img src={students.image[index]} alt="course logo" />
+                  <img src={students.logo} alt="course logo" />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
-                    {menu.title}
+                    {menu.name}
                   </Typography>
                   <LaunchIcon />
                 </CardContent>
@@ -198,11 +220,10 @@ export const DropDown = ({
                   padding={
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
-                  margin="6px 16px"
-                >
+                  margin="6px 16px">
                   {dropDown === LEARN_KEY && (
                     <img
-                      src={students.image[index] || menu.image}
+                      src={students.logo[index] || menu.logo}
                       alt="course logo"
                     />
                   )}
@@ -211,7 +232,7 @@ export const DropDown = ({
                     sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
                     // component="span"
                   >
-                    {menu.title}
+                    {menu.name}
                   </Typography>
                 </DropdownLink>
                 {dropDown === LEARN_KEY &&
@@ -230,14 +251,12 @@ export const DropDown = ({
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
                   margin="6px 16px"
-                  external={true}
-                >
+                  external={true}>
                   <Typography
                     textAlign="center"
                     sx={{ paddingRight: 1 }}
-                    component="span"
-                  >
-                    {menu.title}
+                    component="span">
+                    {menu.name}
                   </Typography>
                   <LaunchIcon />
                 </DropdownLink>
