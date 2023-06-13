@@ -52,28 +52,6 @@ const MenuList = (menuItem) => {
     );
   }, [dispatch, user]);
 
-  // const studentLearn = [];
-
-  // data &&
-  //   data.pathways &&
-  //   data.pathways.forEach((pathway) => {
-  //     if (pathway.code !== "PRCRSE" || pathway.path) {
-  //       const obj = {
-  //         id: pathway.id || null,
-  //         title: pathway.name || pathway.title,
-  //         description: pathway.description,
-  //         image: pathway.image || pathway.logo,
-  //         link: pathway.path || null,
-  //         type: "internal",
-  //       };
-  //       studentLearn.push(obj);
-  //     }
-  //   });
-
-  // if (menuItem === "LearningTracks") {
-  //   menu[menuItem] = studentLearn;
-  // }
-
   const MiscellaneousCourses = data?.pathways.filter(
     (item) => item.name === "Miscellaneous Courses"
   );
@@ -86,12 +64,6 @@ const MenuList = (menuItem) => {
   }
 
   const subMenu = menu[menuItem];
-
-  // console.log("menuItem", menuItem);
-  // console.log("subMenu", subMenu);
-  // console.log("menu", menu);
-  // // console.log('studentLearn',studentLearn)
-  // console.log("pathwayData", pathwayData);
 
   return (
     <>

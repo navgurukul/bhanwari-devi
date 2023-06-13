@@ -141,11 +141,6 @@ function PathwayCourse() {
   // || pathwayId == 8;
 
 
-
-
-  console.log(pathways, "PATHWAY----------------");
-  console.log(pathwayCourse,'pathwayCourse')
-
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -416,7 +411,6 @@ function PathwayCourse() {
                             sx={{
                               textAlign: isActive && "center",
                               pb: "8px",
-                              backgroundColor: "red",
                             }}>
                             Learning Track
                           </Typography>
@@ -535,7 +529,7 @@ function PathwayCourse() {
                         {pathwayCourseData.outcomes.map((item, index) => (
                           <Grid item key={index} xs={12} md={4}>
                             <Card
-                              sx={{ margin: "10px", backgroundColor: "pink" }}
+                              sx={{ margin: "10px" }}
                               align="left"
                               elevation={0}>
                               <Box className={classes.flex}>

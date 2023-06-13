@@ -47,7 +47,8 @@ function PathwayCard({ id, name, description, logo, hover }) {
       ) : (
         <Box
           elevation={2}
-          className={hover ? classes.card : logo && classes.imageCard}>
+          className={hover ? classes.card : logo && classes.imageCard}
+          >
           {logo && (
             <CardMedia
               component="img"

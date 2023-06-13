@@ -51,26 +51,6 @@ const NewUserDashbord = () => {
   const pathwayData = data?.pathways
     .filter((item) => item.name !== "Miscellaneous Courses")
     .concat(MiscellaneousCourses);
-  // console.log('data', data?.pathways)
-
-  // console.log('pathwayData', pathwayData)
-
-  // const pathwayData = [];
-  // data &&
-  //   data.pathways &&
-  //   data.pathways.forEach((pathway) => {
-  //     if (pathway.code !== "PRCRSE" || pathway.path) {
-  //       const obj = {
-  //         id: pathway.id || null,
-  //         title: pathway.name || pathway.title,
-  //         description: pathway.description,
-  //         image: pathway.image || pathway.logo,
-  //         link: pathway.path || null,
-  //         type: "internal",
-  //       };
-  //       pathwayData.push(obj);
-  //     }
-  //   });
 
   return (
     <>

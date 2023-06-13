@@ -1,13 +1,4 @@
 import React, { useEffect } from "react";
-import python from "./asset/python.svg";
-import scratch from "./asset/scratch.svg";
-import typing from "./asset/typing.svg";
-import web from "./asset/web.svg";
-import language from "./asset/language.svg";
-import residential from "./asset/residential.svg";
-import random from "./asset/random.svg";
-import amzbootcamp from "./asset/amzbootcamp.svg";
-import peepul from "./asset/peepul.png";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -32,30 +23,29 @@ import {
 } from "@mui/material";
 
 const students = {
-  // image: [python, typing, language, web, residential, random, peepul],
   [LEARN_KEY]: [],
   [ABOUT_KEY]: [
-    { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
-    { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
+    { name: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
+    { name: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
   [GET_INVOLVED_KEY]: [
     {
-      title: <Message constantKey="VOLUNTEER_WITH_US" />,
+      name: <Message constantKey="VOLUNTEER_WITH_US" />,
       path: PATHS.VOLUNTEER_AUTOMATION,
       type: "internal",
     },
     {
-      title: "Our Partner",
+      name: "Our Partner",
       path: PATHS.OUR_PARTNER,
       type: "internal",
     },
     // {
-    //   title: <Message constantKey="DONATE" />,
+    //   name: <Message constantKey="DONATE" />,
     //   path: "https://www.navgurukul.org/donate",
     //   type: "external",
     // },
     {
-      title: "Careers",
+      name: "Careers",
       path: "https://recruiterflow.com/navgurukul/jobs",
       type: "external",
     },
@@ -77,13 +67,6 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     );
   }, [dispatch, user]);
 
-  console.log("DATA", data);
-
-  // data?.pathways && (students[LEARN_KEY] = data.pathways);
-  // .slice(0, students.image.length)
-
- 
-
   const MiscellaneousCourses = data?.pathways.filter(
     (item) => item.name === "Miscellaneous Courses"
   );
@@ -91,43 +74,39 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     .filter((item) => item.name !== "Miscellaneous Courses")
     .concat(MiscellaneousCourses);
 
-    data?.pathways && (students[LEARN_KEY] = pathwayData
-      // .filter((x) => x.path || x.id)
-      );
+  data?.pathways && (students[LEARN_KEY] = pathwayData);
 
-  console.log("pathwayData", pathwayData);
-
-  // const studentLearn = [];
-
-  // data &&
-  //   data.pathways &&
-  //   data.pathways.forEach((pathway) => {
-  //     if (pathway.code !== "PRCRSE" || pathway.path) {
-  //       const obj = {
-  //         id: pathway.id || null,
-  //         title: pathway.name || pathway.title,
-  //         description: pathway.description,
-  //         image: pathway.image || pathway.logo || python,
-  //         path: pathway.path || null,
-  //         type: "internal",
-  //       };
-  //       studentLearn.push(obj);
-  //     }
-  //   });
-  // // students[LEARN_KEY] = studentLearn;
-  // students[LEARN_KEY] = studentLearn.filter((x) => x.path || x.id);
-
-  //   students[LEARN_KEY] = pathwayData;
-
-  // console.log("studentLearn", studentLearn);
-  console.log("students", students);
-  // console.log("pathwayData",pathwayData)
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
       {students[menuKey].map((menu, index) => {
-        console.log("menu",menu)
-        if (menu.type === "internal") {
+        if (menu.type === "external") {
+          return (
+            <ExternalLink
+              href={menu.path}
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}>
+              <MenuItem key={index} onClick={handleClose}>
+                {menuKey === LEARN_KEY && (
+                  <img
+                    src={
+                      menu.logo.includes("https")
+                        ? menu.logo
+                        : require("./asset/" + menu.logo + ".svg")
+                    }
+                    alt="course logo"
+                  />
+                )}
+                <CardContent>
+                  <Typography textAlign="center" variant="body1">
+                    {menu.name}
+                  </Typography>
+                  <LaunchIcon />
+                </CardContent>
+              </MenuItem>
+            </ExternalLink>
+          );
+        } else {
           return (
             <Link
               to={
@@ -141,10 +120,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
               onClick={toggleDrawer && toggleDrawer(false)}>
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
-                  <img
-                    src={students.logo[index] || menu.logo}
-                    alt="course logo"
-                  />
+                  <img src={menu.logo} alt="course logo" />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
@@ -153,25 +129,6 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
                 </CardContent>
               </MenuItem>
             </Link>
-          );
-        } else {
-          return (
-            <ExternalLink
-              href={menu.path}
-              className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}>
-              <MenuItem key={index} onClick={handleClose}>
-                {menuKey === LEARN_KEY && (
-                  <img src={students.logo} alt="course logo" />
-                )}
-                <CardContent>
-                  <Typography textAlign="center" variant="body1">
-                    {menu.name}
-                  </Typography>
-                  <LaunchIcon />
-                </CardContent>
-              </MenuItem>
-            </ExternalLink>
           );
         }
       })}
@@ -203,43 +160,7 @@ export const DropDown = ({
     <>
       {dropDown &&
         students[dropDown].map((menu, index) => {
-          if (menu.type === "internal") {
-            return (
-              <>
-                <DropdownLink
-                  key={menu}
-                  //onClick={handleClose}
-                  to={
-                    menu.id
-                      ? interpolatePath(PATHS.PATHWAY_COURSE, {
-                          pathwayId: menu.id,
-                        })
-                      : menu.path
-                  }
-                  linkOnClick={toggleDrawer && toggleDrawer(false)}
-                  padding={
-                    dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
-                  }
-                  margin="6px 16px">
-                  {dropDown === LEARN_KEY && (
-                    <img
-                      src={students.logo[index] || menu.logo}
-                      alt="course logo"
-                    />
-                  )}
-                  <Typography
-                    textAlign="center"
-                    sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
-                    // component="span"
-                  >
-                    {menu.name}
-                  </Typography>
-                </DropdownLink>
-                {dropDown === LEARN_KEY &&
-                  index === students[dropDown].length - 3 && <Divider />}
-              </>
-            );
-          } else {
+          if (menu.type === "external") {
             return (
               <>
                 <DropdownLink
@@ -259,6 +180,47 @@ export const DropDown = ({
                     {menu.name}
                   </Typography>
                   <LaunchIcon />
+                </DropdownLink>
+                {dropDown === LEARN_KEY &&
+                  index === students[dropDown].length - 3 && <Divider />}
+              </>
+            );
+          } else {
+            return (
+              <>
+                <DropdownLink
+                  key={menu}
+                  //onClick={handleClose}
+                  to={
+                    menu.id
+                      ? interpolatePath(PATHS.PATHWAY_COURSE, {
+                          pathwayId: menu.id,
+                        })
+                      : menu.path
+                  }
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  padding={
+                    dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
+                  }
+                  margin="6px 16px">
+                  {dropDown === LEARN_KEY && (
+                    <img
+                      // src={ menu.logo}
+                      src={
+                        menu.logo.includes("https")
+                          ? menu.logo
+                          : require("./asset/" + menu.logo + ".svg")
+                      }
+                      alt="course logo"
+                    />
+                  )}
+                  <Typography
+                    textAlign="center"
+                    sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
+                    // component="span"
+                  >
+                    {menu.name}
+                  </Typography>
                 </DropdownLink>
                 {dropDown === LEARN_KEY &&
                   index === students[dropDown].length - 3 && <Divider />}

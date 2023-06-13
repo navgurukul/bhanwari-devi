@@ -162,13 +162,8 @@ function Home() {
   }, [dispatch]);
 
   const MiscellaneousCourses = data?.pathways.filter(item => item.name === 'Miscellaneous Courses')
-  // const pathwayData = data?.pathways.filter(item => item.name !== 'Miscellaneous Courses')
-  // pathwayData = [...pathwayData, ...MiscellaneousCourses]
-  const pathwayData = data?.pathways.filter(item => item.name !== 'Miscellaneous Courses').concat(MiscellaneousCourses)
-  console.log('data', data?.pathways)
-  console.log('MiscellaneousCourses', MiscellaneousCourses)
-  console.log('pathwayData', pathwayData)
 
+  const pathwayData = data?.pathways.filter(item => item.name !== 'Miscellaneous Courses').concat(MiscellaneousCourses)
   const partnerGroupId = user?.data?.user?.partner_group_id;
   const partnerId = user?.data?.user?.partner_id;
   const role = user?.data?.user?.rolesList;
