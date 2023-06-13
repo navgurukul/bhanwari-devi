@@ -15,7 +15,7 @@ import axios from "axios";
 import { METHODS } from "../../../services/api";
 import { versionCode } from "../../../constant";
 
-function AmazonCodingProgrammer({ pathwayId }) {
+function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const { data } = useSelector((state) => state.Pathways);
@@ -73,7 +73,7 @@ function AmazonCodingProgrammer({ pathwayId }) {
       }
     }
   }, [enrolledBatches]);
-
+  console.log(pathwayCourseData);
   const userEnrolledClasses = useSelector((state) => {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
@@ -105,33 +105,9 @@ function AmazonCodingProgrammer({ pathwayId }) {
                 maxWidth={"sm"}
                 align={isActive ? "center" : "left"}
               >
-                Master the necessary data structures and algorithms to help you
-                ace the technical interviews at your favorite companies
+                {pathwayCourseData?.description}
               </Typography>
 
-              {/* <ExternalLink
-                style={{
-                  textDecoration: "none",
-                }}
-                href={"yotubevideo"}
-              >
-                <Typography style={{ display: "flex" }} mt={2} variant="body2">
-                  <img
-                    src={require("../asset/ComputerScreen.svg")}
-                    alt="MonitorScreen Img"
-                  />
-                  <section
-                    className={classes.link}
-                    // onClick={handleVideo}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    {"  "} &nbsp; &nbsp;
-                    <b>What's it all about?</b>
-                  </section>
-                </Typography>
-              </ExternalLink> */}
               <Typography variant="h6" mt="80px">
                 What Will You be Learning?
               </Typography>
