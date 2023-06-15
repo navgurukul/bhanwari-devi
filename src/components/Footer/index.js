@@ -9,6 +9,7 @@ import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import { PATHWAYS_INFO } from "../../constant";
 
 const menu = {
   About: [
@@ -52,12 +53,12 @@ const MenuList = (menuItem) => {
     );
   }, [dispatch, user]);
 
-  const MiscellaneousCourses = data?.pathways.filter(
-    (item) => item.name === "Miscellaneous Courses"
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+    PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
   );
   const pathwayData = data?.pathways
-    .filter((item) => item.name !== "Miscellaneous Courses")
-    .concat(MiscellaneousCourses);
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
 
   if (menuItem === "LearningTracks") {
     menu[menuItem] = pathwayData;

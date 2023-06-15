@@ -11,6 +11,7 @@ import DropdownLink from "./DropdownLink";
 import LaunchIcon from "@mui/icons-material/Launch";
 import Message from "../common/Message";
 import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
+import { PATHWAYS_INFO } from "../../constant";
 import {
   Typography,
   Menu,
@@ -67,15 +68,15 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     );
   }, [dispatch, user]);
 
-  const MiscellaneousCourses = data?.pathways.filter(
-    (item) => item.name === "Miscellaneous Courses"
+
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+    PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
   );
   const pathwayData = data?.pathways
-    .filter((item) => item.name !== "Miscellaneous Courses")
-    .concat(MiscellaneousCourses);
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
 
   data?.pathways && (students[LEARN_KEY] = pathwayData);
-
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>

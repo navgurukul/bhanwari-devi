@@ -131,7 +131,7 @@ function PathwayCourse() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
-  let completedAll =
+  const completedAll =
     pathwayId == 8
       ? completedPortion?.total >= 80
       : completedPortion?.total === 100;
@@ -409,7 +409,8 @@ function PathwayCourse() {
                             variant="body2"
                             className={classes.cardSubtitle}
                             sx={{
-                              textAlign: isActive && "center",
+                              textAlign:{xs: "center", sm: "left"},
+                              
                               pb: "8px",
                             }}>
                             Learning Track

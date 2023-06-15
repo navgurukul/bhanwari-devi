@@ -9,6 +9,7 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
+import {  PATHWAYS_INFO } from "../../constant";
 
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
@@ -44,13 +45,12 @@ const NewUserDashbord = () => {
     });
   }, []);
 
-  const MiscellaneousCourses = data?.pathways.filter(
-    (item) => item.name === "Miscellaneous Courses"
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+  PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
   );
-
   const pathwayData = data?.pathways
-    .filter((item) => item.name !== "Miscellaneous Courses")
-    .concat(MiscellaneousCourses);
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
 
   return (
     <>

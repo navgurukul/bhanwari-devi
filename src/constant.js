@@ -117,9 +117,10 @@ export const PATHWAYS_INFO = [
     name: "Miscellaneous Courses",
     logo: "misc",
     description: "Courses on Android, Game dev projects and more",
+    sub_description: "Courses on Android, Game dev projects and more",
     // type: "internal",
     path: PATHS.MISCELLANEOUS_COURSE,
-    outcomes: []
+    outcomes: [],
   },
 ];
 
