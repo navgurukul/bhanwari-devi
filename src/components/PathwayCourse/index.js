@@ -159,6 +159,13 @@ function PathwayCourse() {
   const [loader, setLoader] = useState(false);
   const displayCert = pathwayId == 1;
   // || pathwayId == 8;
+  const [pathwayCode, setPathwayCode] =  useState(false);
+
+
+// setTimeout(() => {
+//   setPathwayCode(true)
+// }, 3000);
+
 
 
 
@@ -274,6 +281,7 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
+    
     if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
@@ -333,6 +341,7 @@ function PathwayCourse() {
       localStorage.removeItem("contentListScrollMobile");
     }
   }, []);
+  
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
@@ -376,9 +385,14 @@ function PathwayCourse() {
     setisFormModalOpen(true);
   };
 
-  const handleFormModalClose = () => {
-    setisFormModalOpen(false);
-  };
+
+  useEffect(()=>{
+   if(pathwayCourseData && pathwayCourseData.code === "TCBPI"){
+    setPathwayCode(true)
+   } else{
+    setPathwayCode(false)
+   }
+  },[pathwayCourseData])
 
 
 
@@ -637,7 +651,7 @@ function PathwayCourse() {
               >
                 Courses
               </Typography>
-              {!isFormFilled && pathwayId == 8 && user.data !== null ? (
+              {!isFormFilled && pathwayId == 8 && user.data !== null && pathwayCode==true ? ( 
                 <Box mt={2} p={"16px"} maxWidth={900} align="center" mb={5}>
                   <Card
                     sx={{
@@ -675,7 +689,7 @@ function PathwayCourse() {
               ) : null}
 
               <Grid container spacing={3} align="center">
-                {!isFormFilled && pathwayId == 8
+                {!isFormFilled && pathwayId == 8 
                   ? filterPathwayCourse?.map((item, index) => (
                       <Grid
                         item
