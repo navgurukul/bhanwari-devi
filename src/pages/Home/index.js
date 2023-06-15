@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
 import { useHistory } from "react-router-dom";
+import { PATHWAYS_INFO } from "../../constant";
 import {
   ADMIN_ROLE_KEY as ADMIN,
   PARTNER_ROLE_KEY as PARTNER,
@@ -161,22 +162,12 @@ function Home() {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
 
-  const pathwayData = [];
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE" || pathway.path) {
-        const obj = {
-          id: pathway.id || null,
-          title: pathway.name || pathway.title,
-          description: pathway.description,
-          image: pathway.image || pathway.logo,
-          link: pathway.path || null,
-          type: "internal",
-        };
-        pathwayData.push(obj);
-      }
-    });
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+    PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
+  );
+  const pathwayData = data?.pathways
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
 
   const partnerGroupId = user?.data?.user?.partner_group_id;
   const partnerId = user?.data?.user?.partner_id;
@@ -218,8 +209,7 @@ function Home() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ margin: "16px 0px 32px 0px" }}
-                >
+                  sx={{ margin: "16px 0px 32px 0px" }}>
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
@@ -228,8 +218,7 @@ function Home() {
                     variant="contained"
                     className={
                       isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }
-                  >
+                    }>
                     Start Learning
                   </Button>
                 </Link>
@@ -328,8 +317,7 @@ function Home() {
                   background: "#FFF5CC",
                   padding: "32px",
                   borderRadius: "8px",
-                }}
-              >
+                }}>
                 <img
                   src={require("./assets/scale.svg")}
                   alt={"Homeimage"}
@@ -348,8 +336,7 @@ function Home() {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}
-              >
+                }}>
                 <img
                   src={require("./assets/butterfly.svg")}
                   alt={"Homeimage"}
@@ -370,8 +357,7 @@ function Home() {
                   background: "#D3EAFD",
                   padding: "32px",
                   borderRadius: "8px",
-                }}
-              >
+                }}>
                 <img
                   src={require("./assets/livelessons.svg")}
                   alt={"Homeimage"}
@@ -391,8 +377,7 @@ function Home() {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}
-              >
+                }}>
                 <img
                   src={require("./assets/lang.svg")}
                   alt={"Homeimage"}
@@ -418,27 +403,23 @@ function Home() {
             component="h6"
             align="center"
             color="textPrimary"
-            gutterBottom
-          >
+            gutterBottom>
             Explore the Learning Tracks
           </Typography>
         </Container>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={isActive ? 2 : 4}>
-            {pathwayData.map(
-              (item) =>
-                item.id !== "7" && (
-                  <Grid item xs={12} ms={6} md={4}>
-                    <PathwayCard
-                      id={item.id}
-                      title={item.title}
-                      description={item.description}
-                      image={item.image}
-                      hover={true}
-                    />
-                  </Grid>
-                )
-            )}
+            {pathwayData?.map((item) => (
+              <Grid item xs={12} ms={6} md={4}>
+                <PathwayCard
+                  id={item.id}
+                  name={item.name}
+                  description={item.sub_description}
+                  logo={item.logo}
+                  hover={true}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Container>
 
@@ -454,8 +435,7 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center"
-              >
+                align="center">
                 <CardContent align="left">
                   <Box height="250px !important">
                     <img
@@ -495,8 +475,7 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center"
-              >
+                align="center">
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -533,8 +512,7 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center"
-              >
+                align="center">
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -573,14 +551,12 @@ function Home() {
 
         <Container
           sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
-          maxWidth="sm"
-        >
+          maxWidth="sm">
           <Typography
             variant="h5"
             component="h6"
             align="center"
-            color="textPrimary"
-          >
+            color="textPrimary">
             Have Questions?
           </Typography>
           <Grid
@@ -589,8 +565,7 @@ function Home() {
             container
             spacing={4}
             align="center"
-            justifyContent="center"
-          >
+            justifyContent="center">
             <Grid item sm={isActive && 12}>
               <ExternalLink
                 style={{
@@ -598,8 +573,7 @@ function Home() {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="mailto:team@meraki.org"
-              >
+                href="mailto:team@meraki.org">
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/Email.svg")}
@@ -618,8 +592,7 @@ function Home() {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="https://wa.me/918891300300"
-              >
+                href="https://wa.me/918891300300">
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/whatsapp.svg")}
