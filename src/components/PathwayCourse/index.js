@@ -40,7 +40,7 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import CustomSnackbar from "./customSnackbar";
 import { StarRate } from "@material-ui/icons";
-import AmazonBootcampBatch from "../BatchClassComponents/AmazonBootcampBatch";
+import AmazonCodingProgrammer from "./AmazonCodingProgrammer";
 
 function saveFile(url) {
   // Get file name from url.
@@ -255,9 +255,11 @@ function PathwayCourse() {
     filterPathwayCourse = pathwayCourse?.data?.courses;
   }
 
-  const Summery = pathwayCourseData?.summary?.split("\n");
-  return enrolledBatches && !loading && pathwayCourseData?.code == "ACB" ? (
-    <AmazonBootcampBatch enrolledBatches={enrolledBatches[0]["title"]} />
+  return pathwayCourseData?.code === "ACB" ? (
+    <AmazonCodingProgrammer
+      pathwayId={pathwayId}
+      pathwayCourseData={pathwayCourseData}
+    />
   ) : (
     <>
       {enrolledBatches && !loading ? (
@@ -416,8 +418,7 @@ function PathwayCourse() {
                 <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                   {user?.data?.token &&
                   (pathwayCourseData.code == "PRGPYT" ||
-                    pathwayCourseData.code == "SPKENG" ||
-                    pathwayCourseData.code == "ACB") ? (
+                    pathwayCourseData.code == "SPKENG") ? (
                     loading ? (
                       <Card sx={{ p: 4 }}>
                         <Typography variant="subtitle1">
@@ -484,135 +485,118 @@ function PathwayCourse() {
           )
         )}
 
-        {pathwayCourseData?.code == "ACB" ? (
-          <Grid container>
-            <Grid item md={6}>
-              <Typography variant="h6">{Summery[0]}</Typography>
-              <Typography variant="body1" component="ul" padding="0px">
-                {Summery.slice(1).map((line, index) => (
-                  <Typography key={index} marginTop="16px">
-                    {line}
-                  </Typography>
-                ))}
-              </Typography>
-            </Grid>
-          </Grid>
-        ) : (
-          <Box className={classes.box}>
-            <Typography
-              className={classes.course}
-              ml={2}
-              mt={pathwayCourseData?.code == "SHCEL" && 8}
-              variant="h6"
-              sx={{ textAlign: isActive && "center" }}
-            >
-              Courses
-            </Typography>
-            <Grid container spacing={3} align="center">
-              {filterPathwayCourse?.map((item, index) => (
-                <Grid
-                  item
-                  key={index}
-                  xs={12}
-                  md={3}
-                  className={classes.courseCard}
+        <Box className={classes.box}>
+          <Typography
+            className={classes.course}
+            ml={2}
+            mt={pathwayCourseData?.code == "SHCEL" && 8}
+            variant="h6"
+            sx={{ textAlign: isActive && "center" }}
+          >
+            Courses
+          </Typography>
+          <Grid container spacing={3} align="center">
+            {filterPathwayCourse?.map((item, index) => (
+              <Grid
+                item
+                key={index}
+                xs={12}
+                md={3}
+                className={classes.courseCard}
+              >
+                <Link
+                  className={classes.pathwayLink}
+                  to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                    courseId: item.id,
+                    exerciseId: 0,
+                    pathwayId: pathwayId,
+                  })}
                 >
-                  <Link
-                    className={classes.pathwayLink}
-                    to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                      courseId: item.id,
-                      exerciseId: 0,
-                      pathwayId: pathwayId,
-                    })}
+                  <Card
+                    className={classes.pathwayCard}
+                    elevation={0}
+                    sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
                   >
-                    <Card
-                      className={classes.pathwayCard}
-                      elevation={0}
-                      sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
+                    <img
+                      className={classes.courseImage}
+                      src={item.logo}
+                      alt="course"
+                    />
+                    <CardContent
+                      sx={{
+                        height: isActive ? "60px" : "70px",
+                        p: isActive ? "0px" : "0px 8px 0px 0px",
+                      }}
                     >
-                      <img
-                        className={classes.courseImage}
-                        src={item.logo}
-                        alt="course"
-                      />
-                      <CardContent
-                        sx={{
-                          height: isActive ? "60px" : "70px",
-                          p: isActive ? "0px" : "0px 8px 0px 0px",
-                        }}
-                      >
-                        <div
-                          className={classes.courseTitleNumber}
-                          disableGutters
+                      <div className={classes.courseTitleNumber} disableGutters>
+                        <Typography
+                          align={isActive ? "center" : "left"}
+                          variant="body2"
+                          className={classes.courseName}
+                          sx={{
+                            mr: "10px",
+                            padding: isActive ? "5px" : "5px 0 5px 13px",
+                            verticalAlign: "top",
+                          }}
                         >
-                          <Typography
-                            align={isActive ? "center" : "left"}
-                            variant="body2"
-                            className={classes.courseName}
-                            sx={{
-                              mr: "10px",
-                              padding: isActive ? "5px" : "5px 0 5px 13px",
-                              verticalAlign: "top",
-                            }}
-                          >
-                            {index + 1}
-                          </Typography>
-                          <Typography
-                            align={isActive ? "center" : "left"}
-                            variant="body1"
-                          >
-                            {item.name}
-                          </Typography>
-                        </div>
-                      </CardContent>
-                      <CardActions
-                        sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
-                      >
-                        <LinearProgress
-                          className={classes.progressBar}
-                          variant="determinate"
-                          value={parseInt(completedPortion[item.id]) || 0}
-                        />
-                      </CardActions>
-                    </Card>
-                  </Link>
-                </Grid>
-              ))}
-            </Grid>
-
-            {displayCert ? (
-              <Grid item sx={{ mb: 15 }} align="center">
-                <Grid item sx={{ mb: 3 }}>
-                  <img src={require("./asset/separator.svg")} alt="icon" />
-                </Grid>
-                <Grid item sx={{ cursor: "pointer" }}>
-                  {completedAll ? (
-                    loader ? (
-                      <CircularProgress color="primary" />
-                    ) : (
-                      <CertificateIconColored
-                        onClick={handleModal}
-                        className={classes.certificateIcon}
+                          {index + 1}
+                        </Typography>
+                        <Typography
+                          align={isActive ? "center" : "left"}
+                          variant="body1"
+                        >
+                          {item.name}
+                        </Typography>
+                      </div>
+                    </CardContent>
+                    <CardActions
+                      sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                    >
+                      <LinearProgress
+                        className={classes.progressBar}
+                        variant="determinate"
+                        value={parseInt(completedPortion[item.id]) || 0}
                       />
-                    )
+                    </CardActions>
+                  </Card>
+                </Link>
+              </Grid>
+            ))}
+          </Grid>
+
+          {displayCert ? (
+            <Grid item sx={{ mb: 15 }} align="center">
+              <Grid item sx={{ mb: 3 }}>
+                <img src={require("./asset/separator.svg")} alt="icon" />
+              </Grid>
+              <Grid item sx={{ cursor: "pointer" }}>
+                {completedAll ? (
+                  loader ? (
+                    <CircularProgress color="primary" />
                   ) : (
-                    <CertificateIcon
-                      onClick={handleSnackbar}
+                    <CertificateIconColored
+                      onClick={handleModal}
                       className={classes.certificateIcon}
                     />
-                  )}
-                  <Typography sx={{ mt: 2 }} variant="body1" mb={2}>
-                    {pathwayCourseData?.pathway} Certificate
-                  </Typography>
-                </Grid>
-                <CustomSnackbar
-                  openSnackbar={openSnackbar}
-                  pathwayName={pathwayCourseData?.pathway}
-                  handleSnackbar={handleSnackbar}
-                />
+                  )
+                ) : (
+                  <CertificateIcon
+                    onClick={handleSnackbar}
+                    className={classes.certificateIcon}
+                  />
+                )}
+                <Typography sx={{ mt: 2 }} variant="body1" mb={2}>
+                  {pathwayCourseData?.pathway} Certificate
+                </Typography>
               </Grid>
-            ) : null}
-            {/* 
+              <CustomSnackbar
+                openSnackbar={openSnackbar}
+                pathwayName={pathwayCourseData?.pathway}
+                handleSnackbar={handleSnackbar}
+              />
+            </Grid>
+          ) : null}
+          {/* 
           {!user?.data?.token ? (
             <Container align="center">
               <Box
@@ -657,8 +641,7 @@ function PathwayCourse() {
           ) : (
             ""
           )} */}
-          </Box>
-        )}
+        </Box>
 
         {SupplementalCourse && (
           <Box sx={{}}>

@@ -14,6 +14,19 @@ import AmazonBootcampBatch from "../../BatchClassComponents/AmazonBootcampBatch"
 import axios from "axios";
 import { METHODS } from "../../../services/api";
 import { versionCode } from "../../../constant";
+import DOMPurify from "dompurify";
+import get from "lodash/get";
+
+function UnsafeHTML(props) {
+  const { html, Container, ...otherProps } = props;
+  const sanitizedHTML = DOMPurify.sanitize(html);
+  return (
+    <Container
+      {...otherProps}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
+}
 
 function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
   const dispatch = useDispatch();
@@ -73,7 +86,7 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
       }
     }
   }, [enrolledBatches]);
-  console.log(pathwayCourseData);
+
   const userEnrolledClasses = useSelector((state) => {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
@@ -104,46 +117,32 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
                 variant="body1"
                 maxWidth={"sm"}
                 align={isActive ? "center" : "left"}
+                marginBottom="80px"
               >
                 {pathwayCourseData?.description}
               </Typography>
 
-              <Typography variant="h6" mt="80px">
-                What Will You be Learning?
-              </Typography>
-
-              <Typography variant="body1" margin="16px 0px">
-                Our curriculum consists of three modules i.e. Basic,
-                Intermediate and Advanced, which can be completed at your own
-                pace. A breakdown of the modules is as below:
-              </Typography>
-
-              <Typography variant="body1" mb="16px">
-                <span className={classes.spanfont}> Module 1 </span>: aims to
-                provide students with a comprehensive understanding of the Java
-                Programming Language, enabling them to become familiar with its
-                syntax and key concepts.
-              </Typography>
-              <Typography variant="body1" mb="16px">
-                <span className={classes.spanfont}> Module 2 </span>: Students
-                will be introduced to Data Structures and Algorithms, empowering
-                them with the knowledge necessary to tackle complex programming
-                problems and optimize code efficiency.
-              </Typography>
-              <Typography variant="body1" mb="16px">
-                <span className={classes.spanfont}> Module 3 </span>: Designed
-                to inform students about the various Internship roles available
-                at Amazon while also equipping them with the necessary Aptitude
-                and Logical Reasoning skills.
-              </Typography>
-              <Typography variant="body1" marginTop="32px">
-                In addition to the technical curriculum, we offer dedicated
-                workshops to help you develop soft skills such as resume
-                building and leveraging social network platforms like LinkedIn
-                and Twitter. Our experienced instructors will guide you every
-                step of the way, and you'll receive daily assignments and
-                homework tasks to practice the concepts covered in class.
-              </Typography>
+              {pathwayCourseData?.summary.map((content, index) => {
+                if (content.component === "header") {
+                  return (
+                    <UnsafeHTML
+                      Container={Typography}
+                      variant="h6"
+                      html={DOMPurify.sanitize(get(content, "value"))}
+                      sx={{ margin: "16px 0px" }}
+                    />
+                  );
+                } else {
+                  return (
+                    <UnsafeHTML
+                      Container={Typography}
+                      variant="body1"
+                      html={DOMPurify.sanitize(get(content, "value"))}
+                      sx={{ margin: "16px 0px" }}
+                    />
+                  );
+                }
+              })}
             </Grid>
             <Grid item xs={12} md={6} sx={{ pl: 1 }}>
               {upcomingBatchesData?.length > 0 ? (
