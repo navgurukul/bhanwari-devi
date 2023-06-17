@@ -45,7 +45,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
   return batch ? (
     <>
       <Container maxWidth="lg">
-        <Box mt={1} maxWidth={500} mb={10}>
+        <Box mt={1} maxWidth={500} mb={4}>
           <Card elevation={2} pl={10}>
             <CardContent>
               <Typography variant="h5" align="start">
