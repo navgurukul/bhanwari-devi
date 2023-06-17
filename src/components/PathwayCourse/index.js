@@ -14,7 +14,7 @@ import { actions as upcomingClassActions } from "./redux/action";
 import { actions as enrolledBatchesActions } from "./redux/action";
 import ExternalLink from "../common/ExternalLink";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
-import { CardContent } from "@mui/material";
+import { CardContent, ListItem } from "@mui/material";
 import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
 import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
 import Modal from "@mui/material/Modal";
@@ -41,66 +41,6 @@ import { METHODS } from "../../services/api";
 import CustomSnackbar from "./customSnackbar";
 import { StarRate } from "@material-ui/icons";
 import AmazonCodingProgrammer from "./AmazonCodingProgrammer";
-
-const pathways = [
-  {
-    pathway: "Python",
-    code: "PRGPYT",
-    yotubevideo: "https://youtu.be/DDFvJmC3J5M",
-    description:
-      "Learn the basics and become comfortable in one of the most popular programming languages Python.",
-    outcomes: [
-      "Get equipped to build small projects like calculator or to-do list",
-      "Get the base knowledge to apply to advanced bootcamps such as Navgurukul or Zoho Schools",
-    ],
-  },
-  // {
-  //   pathway: "Scratch (CEL)",
-  //   code: "SHCEL",
-  //   description:
-  //     "Learn programming concepts via easy to understand project based block programming in Scratch",
-  // },
-  {
-    pathway: "Javascript",
-    code: "JSRPIT",
-    yotubevideo: "https://youtu.be/EC7UaTE9Z2Q",
-    description:
-      "Learn the nuances and basics of the technology that powers the web. Start with learning what is Javascript and eventually build your own website.",
-    outcomes: [
-      "Build your first web page and power it with the interactive language of Javascript",
-      "Build your basics of HTML, CSS and Javascript to prepare for advanced web development courses",
-    ],
-  },
-  {
-    pathway: "Typing Guru",
-    code: "TYPGRU",
-    yotubevideo: "https://youtu.be/HQ9IYtBJO0U",
-
-    description:
-      "The typing track allows you to practice keyboard typing in a adaptive manner. You require a keyboard if on Android or use your laptop keyboard.",
-    outcomes: [
-      "Reach a typing speed of up to 30 to 40 words per minute",
-      "Be able to type long text with minimal inaccuracies",
-    ],
-  },
-  {
-    pathway: "Spoken English & Grammar",
-    code: "SPKENG",
-    yotubevideo: "https://youtu.be/g05oD3i67_A",
-    description:
-      "English is a great tool needed to navigate the tech world and also in an International setting. Whether you are a total beginner or already know some English, prepare for the challenge with our Spoken English classes and online courses.",
-    outcomes: [
-      "Start speaking English without fear in about 6 months",
-      "Be able to read, write, listen and speak English with fluency",
-      "Be able to give oral presentations, talk to friends and prospective colleagues",
-    ],
-  },
-  {
-    pathway: "Teacher Capacity Building",
-    code: "TCBPI",
-    description: "Teacher Capacity Building (Digital Literacy)",
-  },
-];
 
 function saveFile(url) {
   // Get file name from url.
@@ -235,7 +175,7 @@ function PathwayCourse() {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
 
-  // pathways 
+  ///////////////////////complete portion data////////////////////
 
   useEffect(() => {
     // setLoading(true);
@@ -269,6 +209,7 @@ function PathwayCourse() {
     }
   }, [dispatch, pathwayId]);
 
+  //////////////////// upcoming classes data   ///////////////////
   useEffect(() => {
     if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
@@ -299,16 +240,7 @@ function PathwayCourse() {
     }
   }, []);
 
-  data.Pathways.data &&
-    data.Pathways.data.pathways.forEach((pathway) => {
-      pathways.forEach((item) => {
-        if (pathway.code === item.code) {
-          item["id"] = pathway.id;
-        }
-      });
-    });
-
-  const pathwayCourseData = pathways.find((item) => {
+  const pathwayCourseData = data.Pathways.data?.pathways.find((item) => {
     return item.id == pathwayId;
   });
 
@@ -329,10 +261,15 @@ function PathwayCourse() {
 
   return (
     <>
-      {pathwayId === "7" ? (
-        <AmazonCodingProgrammer pathwayId={pathwayId} />
+      {/* ..............Amazon coding bootcamp .................*/}
+      {pathwayCourseData?.code === "ACB" ? (
+        <AmazonCodingProgrammer
+          pathwayId={pathwayId}
+          pathwayCourseData={pathwayCourseData}
+        />
       ) : (
         <>
+          {/* ............enroll class heading............... */}
           {enrolledBatches && !loading ? (
             <>
               <Typography
@@ -346,6 +283,8 @@ function PathwayCourse() {
           ) : (
             ""
           )}
+
+          {/*............... certificate modal.............. */}
 
           <Container
             // className={classes.pathwayContainer}
@@ -382,6 +321,9 @@ function PathwayCourse() {
                 </Box>
               </Box>
             </Modal>
+
+            {/* ................UserEnroll classs................. */}
+
             {enrolledBatches ? (
               <>
                 <PathwayCards
@@ -420,18 +362,19 @@ function PathwayCourse() {
                           variant="h4"
                           className={classes.heading}
                           sx={{ textAlign: isActive && "center", pb: "16px" }}>
-                          {pathwayCourseData.pathway}
+                          {pathwayCourseData.name}
                         </Typography>
                         <Typography variant="body1">
                           {pathwayCourseData.description}
                         </Typography>
 
-                        {pathwayCourseData.yotubevideo && (
+                        {pathwayCourseData.video_link && (
                           <ExternalLink
                             style={{
                               textDecoration: "none",
                             }}
-                            href={pathwayCourseData.yotubevideo}>
+                            href={pathwayCourseData.video_link}
+                          >
                             <Typography
                               style={{ display: "flex" }}
                               mt={2}
@@ -452,6 +395,8 @@ function PathwayCourse() {
                             </Typography>
                           </ExternalLink>
                         )}
+
+                        {/* ..........login button when user are not login............... */}
 
                         {!user?.data?.token &&
                           (pathwayCourseData.code == "PRGPYT" ||
@@ -481,6 +426,7 @@ function PathwayCourse() {
                           )}
                       </Card>
                     </Grid>
+                    {/* ........upcoming classes............ */}
                     <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                       {user?.data?.token &&
                       (pathwayCourseData.code == "PRGPYT" ||
@@ -519,6 +465,8 @@ function PathwayCourse() {
                     </Grid>
                   </Grid>
 
+                  {/* ...............Learning outcomes..................... */}
+
                   {pathwayCourseData?.outcomes && (
                     <Box className={classes.Box1}>
                       <Typography
@@ -548,6 +496,7 @@ function PathwayCourse() {
                 </>
               )
             )}
+            {/* ................Courses........................ */}
 
             <Box className={classes.box}>
               <Typography
@@ -625,6 +574,8 @@ function PathwayCourse() {
                   </Grid>
                 ))}
               </Grid>
+
+              {/* ...............certificate three dot button................ */}
 
               {displayCert ? (
                 <Grid item sx={{ mb: 15 }} align="center">
@@ -704,6 +655,7 @@ function PathwayCourse() {
             ""
           )} */}
             </Box>
+            {/* ...............................supplemetal courses................. */}
 
             {SupplementalCourse && (
               <Box sx={{}}>
@@ -752,7 +704,8 @@ function PathwayCourse() {
             )}
           </Container>
         </>
-      )}
+      )}{" "}
+      ;
     </>
   );
 }
