@@ -159,16 +159,7 @@ function PathwayCourse() {
   const [loader, setLoader] = useState(false);
   const displayCert = pathwayId == 1;
   // || pathwayId == 8;
-  const [pathwayCode, setPathwayCode] =  useState(false);
-
-
-// setTimeout(() => {
-//   setPathwayCode(true)
-// }, 3000);
-
-
-
-
+  const [pathwayCode, setPathwayCode] = useState(false);
 
   const modalStyle = {
     position: "absolute",
@@ -281,7 +272,7 @@ function PathwayCourse() {
 
   useEffect(() => {
     // setLoading(true);
-    
+
     if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
@@ -341,7 +332,6 @@ function PathwayCourse() {
       localStorage.removeItem("contentListScrollMobile");
     }
   }, []);
-  
 
   data.Pathways.data &&
     data.Pathways.data.pathways.forEach((pathway) => {
@@ -385,19 +375,9 @@ function PathwayCourse() {
     setisFormModalOpen(true);
   };
 
-
-  useEffect(()=>{
-   if(pathwayCourseData && pathwayCourseData.code === "TCBPI"){
-    setPathwayCode(true)
-   } else{
-    setPathwayCode(false)
-   }
-  },[pathwayCourseData])
-
-
-
   return (
     <>
+
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
         {user.data !== null ? (
           <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
@@ -409,7 +389,12 @@ function PathwayCourse() {
           </Alert>
         )}
       </Snackbar>
-      <CustomModal isFormModalOpen={isFormModalOpen} setisFormFilled={setisFormFilled} setisFormModalOpen={setisFormModalOpen}  user={user}/>
+      <CustomModal
+        isFormModalOpen={isFormModalOpen}
+        setisFormFilled={setisFormFilled}
+        setisFormModalOpen={setisFormModalOpen}
+        user={user}
+      />
       {pathwayId === "7" ? (
         <AmazonCodingProgrammer pathwayId={pathwayId} />
       ) : (
@@ -651,7 +636,10 @@ function PathwayCourse() {
               >
                 Courses
               </Typography>
-              {!isFormFilled && pathwayId == 8 && user.data !== null && pathwayCode==true ? ( 
+              {!isFormFilled &&
+              pathwayId == 8 &&
+              user.data !== null &&
+              pathwayCode == true ? (
                 <Box mt={2} p={"16px"} maxWidth={900} align="center" mb={5}>
                   <Card
                     sx={{
@@ -689,7 +677,7 @@ function PathwayCourse() {
               ) : null}
 
               <Grid container spacing={3} align="center">
-                {!isFormFilled && pathwayId == 8 
+                {!isFormFilled && pathwayId == 8
                   ? filterPathwayCourse?.map((item, index) => (
                       <Grid
                         item
