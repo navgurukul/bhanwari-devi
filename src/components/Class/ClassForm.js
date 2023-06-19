@@ -732,6 +732,7 @@ function ClassForm({
               )}
             />
             {partnerPathwayId && classFields.type === "batch" && (
+
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -739,6 +740,7 @@ function ClassForm({
                 mb={2}
               >
                 {`The tutor has opted to teach 
+              
                   ${partnerPathwayId.length === 2 ? "both" : ""}
                    ${partnerPathwayId.includes(1) ? "Python" : ""}
                    ${
