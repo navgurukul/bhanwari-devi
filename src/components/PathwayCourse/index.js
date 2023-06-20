@@ -351,7 +351,6 @@ function PathwayCourse() {
                               textAlign: { xs: "center", sm: "left" },
 
                               pb: "8px",
-                              backgroundColor: "pink",
                             }}>
                             Learning Track
                           </Typography>
