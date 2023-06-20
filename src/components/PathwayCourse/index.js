@@ -242,7 +242,6 @@ function PathwayCourse() {
     return item.id == pathwayId;
   });
 
-
   // let SupplementalCourse;
   // let filterPathwayCourse;
 
@@ -258,8 +257,6 @@ function PathwayCourse() {
   //   filterPathwayCourse = pathwayCourse?.data?.courses;
   // }
 
-
-  
   return (
     <>
       {/* ..............Amazon coding bootcamp .................*/}
@@ -354,6 +351,7 @@ function PathwayCourse() {
                               textAlign: { xs: "center", sm: "left" },
 
                               pb: "8px",
+                              backgroundColor: "pink",
                             }}>
                             Learning Track
                           </Typography>
@@ -507,7 +505,6 @@ function PathwayCourse() {
               </Typography>
               <Grid container spacing={3} align="center">
                 {pathwayCourse?.data?.courses?.map((item, index) => (
-               
                   <Grid
                     item
                     key={index}
