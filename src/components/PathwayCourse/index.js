@@ -157,8 +157,7 @@ function PathwayCourse() {
 
   const [open, setOpen] = React.useState(false);
   const [loader, setLoader] = useState(false);
-  const displayCert = pathwayId == 1;
-  // || pathwayId == 8;
+  const[displayCert,setDisplayCert] = useState(false)
   const [pathwayCode, setPathwayCode] = useState(false);
 
   const modalStyle = {
@@ -199,24 +198,43 @@ function PathwayCourse() {
 
   const handleModal = () => {
     setLoader(true);
-
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
+  //   pathwayCourseData.code==="TCBPI"?
+  //   axios({
+  //     method: METHODS.GET,
+  //     url:`${process.env.REACT_APP_MERAKI_URL}/certificate/teachercertificate?pathwayId=8`,
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization: user?.data?.token,
+  //     },
+  //   })
+  //     .then((response) => {
+  //       setLoader(false);
+  //       setCertificate(response?.data?.url);
+  //       if (response) {
+  //         setOpenModal((prev) => !prev);
+  //       }
+  //     })
+  //     .catch((err) => {})
+  // :
+  axios({
+    method: METHODS.GET,
+    url:  `${process.env.REACT_APP_MERAKI_URL}/certificate`,
+    headers: {
+      accept: "application/json",
+      Authorization: user?.data?.token,
+    },
+  })
+    .then((response) => {
+      setLoader(false);
+      setCertificate(response?.data?.url);
+      if (response) {
+        setOpenModal((prev) => !prev);
+      }
     })
-      .then((response) => {
-        setLoader(false);
-        setCertificate(response?.data?.url);
-        if (response) {
-          setOpenModal((prev) => !prev);
-        }
-      })
-      .catch((err) => {});
-  };
+    .catch((err) => {});
+};
+
+
 
   const downloadCert = () => {
     saveFile(certificate);
@@ -268,7 +286,9 @@ function PathwayCourse() {
         setisFormFilled(response.data);
       })
       .catch((err) => {});
-  }, [pathwayId]);
+
+    console.log(pathwayCourse, "pathwaycourse");
+  }, [pathwayId, pathwayCourse]);
 
   useEffect(() => {
     // setLoading(true);
@@ -346,6 +366,21 @@ function PathwayCourse() {
     return item.id == pathwayId;
   });
 
+  useEffect(() => {
+    if (pathwayCourseData && pathwayCourseData.code == "TCBPI") {
+      setPathwayCode(true);
+    } else {
+      setPathwayCode(false);
+    }
+    if(pathwayCourseData){
+      pathwayCourseData.code === "PRGPYT" || pathwayCourseData.code === "TCBPI"
+      ? setDisplayCert(true)
+      : setDisplayCert(false)
+    }
+
+    console.log(pathwayCourseData);
+  }, [pathwayCourseData]);
+
   let SupplementalCourse;
   let filterPathwayCourse;
 
@@ -377,7 +412,6 @@ function PathwayCourse() {
 
   return (
     <>
-
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
         {user.data !== null ? (
           <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
