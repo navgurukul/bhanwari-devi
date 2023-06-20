@@ -748,13 +748,16 @@ function ClassForm({
               )}
             />
             {partnerPathwayId && classFields.type === "batch" && (
+
               <Typography
                 variant="body2"
                 color="text.secondary"
                 // mb={isActive ? 3 : 4}
                 mb={2}
               >
+
                 {`The tutor has opted to teach ${formattedData} learning track.`}
+
               </Typography>
             )}
             {partnerPathwayId?.length >= 2 && (
