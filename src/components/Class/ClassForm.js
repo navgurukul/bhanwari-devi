@@ -296,14 +296,13 @@ function ClassForm({
   ]);
 
   const courses =
-    (data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
+    data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
       // data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
-        return {
-          label: item.name,
-          value: item.id,
-        };
-      })) ||
-    [];
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    }) || [];
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id
@@ -656,6 +655,23 @@ function ClassForm({
     }
   }, [selectedPartners]);
 
+  const pathwayName = partnerPathwayId?.map((item) => {
+    const foundDictionary = data.Pathways.data.pathways.find(
+      (dict) => dict.id === item
+    );
+    const name = foundDictionary.id ? foundDictionary.name : null;
+    return { id: item, label: name };
+  });
+
+  const sortedData =
+    partnerPathwayId?.length && [...pathwayName].sort((a, b) => a.id - b.id);
+  const formattedData =
+    partnerPathwayId?.length &&
+    sortedData
+      .map((item) => item.label)
+      .join(", ")
+      .replace(/,([^,]*)$/, " and$1");
+
   return (
     <>
       {showSuccessModal ? (
@@ -738,22 +754,7 @@ function ClassForm({
                 // mb={isActive ? 3 : 4}
                 mb={2}
               >
-                {`The tutor has opted to teach 
-                  ${partnerPathwayId.length === 2 ? "both" : ""}
-                   ${partnerPathwayId.includes(1) ? "Python" : ""}
-                   ${
-                     partnerPathwayId.length === 2
-                       ? "and"
-                       : partnerPathwayId.length > 2
-                       ? ","
-                       : ""
-                   }
-                    ${partnerPathwayId.includes(2) ? "Spoken English" : ""} 
-                    ${partnerPathwayId.length > 2 ? "and" : ""}
-                  ${
-                    partnerPathwayId.includes(7) ? "Amazon Coding Bootcamp" : ""
-                  } 
-                  learning track.`}
+                {`The tutor has opted to teach ${formattedData} learning track.`}
               </Typography>
             )}
             {partnerPathwayId?.length >= 2 && (
@@ -767,7 +768,7 @@ function ClassForm({
                 >
                   Learning Track
                 </Typography>
-                <RadioGroup
+                {/* <RadioGroup
                   onChange={(e) => {
                     setClassFields({
                       ...classFields,
@@ -797,31 +798,30 @@ function ClassForm({
                       label="Amazon Coding Programmer"
                     />
                   )}
-                </RadioGroup>
-                {/* <RadioGroup
-                  value={[
-                    { value: 1, label: "Python" },
-                    { value: 2, label: "Spoken English" },
-                  ]}
-                >
-                  {[
-                    { value: 1, label: "Python" },
-                    { value: 2, label: "Spoken English" },
-                  ].map((item) => {
-                    return (
-                      <FormControlLabel
-                        key={item}
-                        value={item.value}
-                        name="Learning Track"
-                        control={<Radio />}
-                        // checked={}
-                        onChange={(e) => {
-                          setPartnerPathwayId(e.target.value);
-                        }}
-                      />
-                    );
-                  })}
                 </RadioGroup> */}
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    aria-label="radio-group"
+                    name="radio-group"
+                    onChange={(e) => {
+                      setClassFields({
+                        ...classFields,
+                        pathway_id: e.target.value,
+                      });
+                    }}
+                    sx={{ marginBottom: "16px" }}
+                  >
+                    {sortedData.map((item, index) => (
+                      <FormControlLabel
+                        key={item.id}
+                        value={item.id}
+                        control={<Radio />}
+                        label={item.label}
+                        labelPlacement="end"
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
               </>
             )}
 
@@ -844,14 +844,15 @@ function ClassForm({
                       onCourseChange(e.target.value);
                     }}
                   >
-                    {
-                      data?.Pathways?.pathwayCourse?.data?.courses?.map((course) => {
+                    {data?.Pathways?.pathwayCourse?.data?.courses?.map(
+                      (course) => {
                         return (
                           <MenuItem key={course.id} value={course.id}>
                             {course.name}
                           </MenuItem>
                         );
-                      })}
+                      }
+                    )}
                   </Select>
                   <FormHelperText>{helperText.course}</FormHelperText>
                 </FormControl>
