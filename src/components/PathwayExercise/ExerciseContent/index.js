@@ -353,6 +353,7 @@ function ExerciseContent({
   }, [params.exerciseId]);
 
   useEffect(() => {
+    console.log(exercise, "exercise")
     if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
@@ -362,6 +363,7 @@ function ExerciseContent({
           Authorization: user.data.token,
         },
       }).then((res) => {
+        console.log(res, "response of result")
         setAssessmentResult(res.data);
       });
     }

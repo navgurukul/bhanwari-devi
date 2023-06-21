@@ -13,11 +13,13 @@ import { actions as upcomingBatchesActions } from "./redux/action";
 import { actions as upcomingClassActions } from "./redux/action";
 import { actions as enrolledBatchesActions } from "./redux/action";
 import ExternalLink from "../common/ExternalLink";
+import LockIcon from "@mui/icons-material/Lock";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
 import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
 import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
 import Modal from "@mui/material/Modal";
+import CustomModal from "./CustomModal";
 // import ReactPDF from "./ReactPDF.js";
 import {
   Container,
@@ -39,8 +41,9 @@ import { useState } from "react";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import CustomSnackbar from "./customSnackbar";
-import { StarRate } from "@material-ui/icons";
+import MuiAlert from "@mui/material/Alert";
 import AmazonCodingProgrammer from "./AmazonCodingProgrammer";
+import { max } from "date-fns";
 
 const pathways = [
   {
@@ -99,9 +102,12 @@ const pathways = [
     pathway: "Teacher Capacity Building",
     code: "TCBPI",
     description: "Teacher Capacity Building (Digital Literacy)",
-    
-  }
+  },
 ];
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function saveFile(url) {
   // Get file name from url.
@@ -119,6 +125,17 @@ function saveFile(url) {
   xhr.open("GET", url);
   xhr.send();
 }
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 function PathwayCourse() {
   const user = useSelector(({ User }) => User);
@@ -131,12 +148,17 @@ function PathwayCourse() {
   const [completedPortion, setCompletedPortion] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+
+  const [isFormModalOpen, setisFormModalOpen] = useState(false);
   const [certificate, setCertificate] = useState("");
-  let completedAll = pathwayId==8?completedPortion?.total>=80: completedPortion?.total === 100;
+  let completedAll = completedPortion?.total === 100;
   // let completedAll = true
+  let [isFormFilled, setisFormFilled] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
   const [loader, setLoader] = useState(false);
-  const displayCert = pathwayId == 1 
-  // || pathwayId == 8;
+  const[displayCert,setDisplayCert] = useState(false)
+  const [pathwayCode, setPathwayCode] = useState(false);
 
   const modalStyle = {
     position: "absolute",
@@ -175,25 +197,27 @@ function PathwayCourse() {
   };
 
   const handleModal = () => {
-    setLoader(true);
+  //   setLoader(true);
 
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/certificate`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
+  axios({
+    method: METHODS.GET,
+    url:  `${process.env.REACT_APP_MERAKI_URL}/certificate`,
+    headers: {
+      accept: "application/json",
+      Authorization: user?.data?.token,
+    },
+  })
+    .then((response) => {
+      setLoader(false);
+      setCertificate(response?.data?.url);
+      if (response) {
+        setOpenModal((prev) => !prev);
+      }
     })
-      .then((response) => {
-        setLoader(false);
-        setCertificate(response?.data?.url);
-        if (response) {
-          setOpenModal((prev) => !prev);
-        }
-      })
-      .catch((err) => {});
-  };
+    .catch((err) => {});
+};
+
+
 
   const downloadCert = () => {
     saveFile(certificate);
@@ -233,7 +257,24 @@ function PathwayCourse() {
   }, [dispatch, pathwayId]);
 
   useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/teacher/checking`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    })
+      .then((response) => {
+        setisFormFilled(response.data);
+      })
+      .catch((err) => {});
+
+  }, [pathwayId, pathwayCourse]);
+
+  useEffect(() => {
     // setLoading(true);
+
     if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
@@ -307,6 +348,20 @@ function PathwayCourse() {
     return item.id == pathwayId;
   });
 
+  useEffect(() => {
+    if (pathwayCourseData && pathwayCourseData.code == "TCBPI") {
+      setPathwayCode(true);
+    } else {
+      setPathwayCode(false);
+    }
+    if(pathwayCourseData){
+      pathwayCourseData.code === "PRGPYT" 
+      ? setDisplayCert(true)
+      : setDisplayCert(false)
+    }
+
+  }, [pathwayCourseData]);
+
   let SupplementalCourse;
   let filterPathwayCourse;
 
@@ -322,8 +377,39 @@ function PathwayCourse() {
     filterPathwayCourse = pathwayCourse?.data?.courses;
   }
 
+  const onHandleSnackbarOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleFormModal = () => {
+    setisFormModalOpen(true);
+  };
+
   return (
     <>
+      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+        {user.data !== null ? (
+          <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+            Please share your teacher details first to start the course
+          </Alert>
+        ) : (
+          <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+            Please Login First and Share your Details to Unlock The course
+          </Alert>
+        )}
+      </Snackbar>
+      <CustomModal
+        isFormModalOpen={isFormModalOpen}
+        setisFormFilled={setisFormFilled}
+        setisFormModalOpen={setisFormModalOpen}
+        user={user}
+      />
       {pathwayId === "7" ? (
         <AmazonCodingProgrammer pathwayId={pathwayId} />
       ) : (
@@ -404,7 +490,7 @@ function PathwayCourse() {
                         className={classes.titleCard}
                         mb={isActive ? 16 : 30}
                       >
-                        {pathwayCourseData.code !== "SHCEL" && (
+                        {/* {pathwayCourseData.code !== "SHCEL" && (
                           <Typography
                             variant="body2"
                             className={classes.cardSubtitle}
@@ -412,7 +498,7 @@ function PathwayCourse() {
                           >
                             Learning Track
                           </Typography>
-                        )}
+                        )} */}
                         <Typography
                           variant="h4"
                           className={classes.heading}
@@ -484,6 +570,7 @@ function PathwayCourse() {
                           )}
                       </Card>
                     </Grid>
+
                     <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                       {user?.data?.token &&
                       (pathwayCourseData.code == "PRGPYT" ||
@@ -564,76 +651,173 @@ function PathwayCourse() {
               >
                 Courses
               </Typography>
-              <Grid container spacing={3} align="center">
-                {filterPathwayCourse?.map((item, index) => (
-                  <Grid
-                    item
-                    key={index}
-                    xs={12}
-                    md={3}
-                    className={classes.courseCard}
+              {!isFormFilled &&
+              pathwayId == 8 &&
+              user.data !== null &&
+              pathwayCode == true ? (
+                <Box mt={2} p={"16px"} maxWidth={900} align="center" mb={5}>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingRight: "10px",
+                      "@media (max-width: 980px)": {
+                        flexDirection: "column",
+                        paddingBottom: "14px",
+                      },
+                    }}
                   >
-                    <Link
-                      className={classes.pathwayLink}
-                      to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                        courseId: item.id,
-                        exerciseId: 0,
-                        pathwayId: pathwayId,
-                      })}
+                    <CardContent
+                      sx={{
+                        display: "flex",
+                        gap: "15px",
+                        flexDirection: "column",
+                      }}
                     >
-                      <Card
-                        className={classes.pathwayCard}
-                        elevation={0}
-                        sx={{ ml: 3, p: "16px", mb: isActive ? "0px" : "16px" }}
+                      <Typography variant="h6">
+                        Please take out few minutes and share your teacher
+                        details
+                      </Typography>
+                      <Typography variant="body2">
+                        The details will be used for partner report purposes
+                        only
+                      </Typography>
+                    </CardContent>
+                    <Button variant="contained" onClick={handleFormModal}>
+                      Fill Your Details
+                    </Button>
+                  </Card>
+                </Box>
+              ) : null}
+
+              <Grid container spacing={3} align="center">
+                {!isFormFilled && pathwayCode
+                  ? filterPathwayCourse?.map((item, index) => (
+                      <Grid
+                        item
+                        key={index}
+                        xs={12}
+                        md={3}
+                        className={classes.courseCard}
                       >
-                        <img
-                          className={classes.courseImage}
-                          src={item.logo}
-                          alt="course"
-                        />
-                        <CardContent
+                        <Card
+                          className={classes.pathwayCard}
+                          elevation={0}
                           sx={{
-                            height: isActive ? "60px" : "70px",
-                            p: isActive ? "0px" : "0px 8px 0px 0px",
+                            ml: 3,
+                            p: "16px",
+                            mb: isActive ? "0px" : "16px",
                           }}
+                          onClick={onHandleSnackbarOpen}
                         >
-                          <div
-                            className={classes.courseTitleNumber}
-                            disableGutters
+                          <img
+                            className={classes.courseImage}
+                            src={item.logo}
+                            alt="course"
+                          />
+                          <CardContent
+                            sx={{
+                              height: isActive ? "60px" : "70px",
+                              p: isActive ? "0px" : "0px 8px 0px 0px",
+
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.6rem",
+                            }}
                           >
-                            <Typography
-                              align={isActive ? "center" : "left"}
-                              variant="body2"
-                              className={classes.courseName}
-                              sx={{
-                                mr: "10px",
-                                padding: isActive ? "5px" : "5px 0 5px 13px",
-                                verticalAlign: "top",
-                              }}
-                            >
-                              {index + 1}
-                            </Typography>
+                            <LockIcon />
                             <Typography
                               align={isActive ? "center" : "left"}
                               variant="body1"
                             >
                               {item.name}
                             </Typography>
-                          </div>
-                        </CardContent>
-                        <CardActions
-                          sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                          </CardContent>
+                          <CardActions
+                            sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                          >
+                            <LinearProgress
+                              className={classes.progressBar}
+                              variant="determinate"
+                              value={parseInt(completedPortion[item.id]) || 0}
+                            />
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))
+                  : filterPathwayCourse?.map((item, index) => (
+                      <Grid
+                        item
+                        key={index}
+                        xs={12}
+                        md={3}
+                        className={classes.courseCard}
+                      >
+                        <Link
+                          className={classes.pathwayLink}
+                          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                            courseId: item.id,
+                            exerciseId: 0,
+                            pathwayId: pathwayId,
+                          })}
                         >
-                          <LinearProgress
-                            className={classes.progressBar}
-                            variant="determinate"
-                            value={parseInt(completedPortion[item.id]) || 0}
-                          />
-                        </CardActions>
-                      </Card>
-                    </Link>
-                  </Grid>
-                ))}
+                          <Card
+                            className={classes.pathwayCard}
+                            elevation={0}
+                            sx={{
+                              ml: 3,
+                              p: "16px",
+                              mb: isActive ? "0px" : "16px",
+                            }}
+                          >
+                            <img
+                              className={classes.courseImage}
+                              src={item.logo}
+                              alt="course"
+                            />
+                            <CardContent
+                              sx={{
+                                height: isActive ? "60px" : "70px",
+                                p: isActive ? "0px" : "0px 8px 0px 0px",
+                              }}
+                            >
+                              <div className={classes.courseTitleNumber}>
+                                <Typography
+                                  align={isActive ? "center" : "left"}
+                                  variant="body2"
+                                  className={classes.courseName}
+                                  sx={{
+                                    mr: "10px",
+                                    padding: isActive
+                                      ? "5px"
+                                      : "5px 0 5px 13px",
+                                    verticalAlign: "top",
+                                  }}
+                                >
+                                  {index + 1}
+                                </Typography>
+                                <Typography
+                                  align={isActive ? "center" : "left"}
+                                  variant="body1"
+                                >
+                                  {item.name}
+                                </Typography>
+                              </div>
+                            </CardContent>
+                            <CardActions
+                              sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                            >
+                              <LinearProgress
+                                className={classes.progressBar}
+                                variant="determinate"
+                                value={parseInt(completedPortion[item.id]) || 0}
+                              />
+                            </CardActions>
+                          </Card>
+                        </Link>
+                      </Grid>
+                    ))}
               </Grid>
 
               {displayCert ? (
@@ -668,51 +852,6 @@ function PathwayCourse() {
                   />
                 </Grid>
               ) : null}
-              {/* 
-          {!user?.data?.token ? (
-            <Container align="center">
-              <Box
-                maxWidth={500}
-                bgcolor="#E9F5E9"
-                mb={isActive ? 1 : 10}
-                pt={3}
-                height={100}
-                style={{ padding: isActive ? "24px" : "15px" }}
-              >
-                <Typography
-                  variant="body1"
-                  mt={2}
-                  style={{
-                    fontWeight: "bold",
-                  }}
-                >
-                  Want to learn through live classes by a teacher?
-                </Typography>
-                <Button
-                  variant="contained"
-                  mt={4}
-                  sx={{
-                    margin: "10px 0",
-                    padding: isActive ? "0px 110px" : "0px 60px",
-                  }}
-                  onClick={() => {
-                    history.push(PATHS.LOGIN);
-                  }}
-                >
-                  Login
-                </Button>
-              </Box>
-            </Container>
-          ) : (
-            ""
-          )}
-          {!enrolledBatches && upcomingBatchesData?.length > 0 ? (
-            <PathwayCourseBatchEnroll2
-              upcomingBatchesData={upcomingBatchesData}
-            />
-          ) : (
-            ""
-          )} */}
             </Box>
 
             {SupplementalCourse && (
