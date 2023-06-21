@@ -296,8 +296,7 @@ function ClassForm({
   ]);
 
   const courses =
-    data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
-      // data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
+    data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
       return {
         label: item.name,
         value: item.id,
@@ -656,16 +655,15 @@ function ClassForm({
   }, [selectedPartners]);
 
   const pathwayName = partnerPathwayId?.map((item) => {
-    const foundDictionary = data.Pathways.data.pathways.find(
-      (dict) => dict.id === item
+    const pathway = data.Pathways.data.pathways.find(
+      (pathway) => pathway.id === item
     );
-    const name = foundDictionary.id ? foundDictionary.name : null;
-    return { id: item, label: name };
+    return { id: pathway.id, label: pathway.name };
   });
 
   const sortedData =
     partnerPathwayId?.length && [...pathwayName].sort((a, b) => a.id - b.id);
-  const formattedData =
+  const partnerFormattedData =
     partnerPathwayId?.length &&
     sortedData
       .map((item) => item.label)
@@ -748,18 +746,16 @@ function ClassForm({
               )}
             />
             {partnerPathwayId && classFields.type === "batch" && (
-
               <Typography
                 variant="body2"
                 color="text.secondary"
                 // mb={isActive ? 3 : 4}
                 mb={2}
               >
-
-                {`The tutor has opted to teach ${formattedData} learning track.`}
-
+                {`The tutor has opted to teach ${partnerFormattedData} learning track.`}
               </Typography>
             )}
+
             {partnerPathwayId?.length >= 2 && (
               <>
                 <Typography
@@ -771,37 +767,7 @@ function ClassForm({
                 >
                   Learning Track
                 </Typography>
-                {/* <RadioGroup
-                  onChange={(e) => {
-                    setClassFields({
-                      ...classFields,
-                      pathway_id: e.target.value,
-                    });
-                  }}
-                  sx={{ marginBottom: "16px" }}
-                >
-                  {partnerPathwayId.includes(1) && (
-                    <FormControlLabel
-                      value="1"
-                      control={<Radio />}
-                      label="Python"
-                    />
-                  )}
-                  {partnerPathwayId.includes(2) && (
-                    <FormControlLabel
-                      value="2"
-                      control={<Radio />}
-                      label="Spoken English"
-                    />
-                  )}
-                  {partnerPathwayId.includes(7) && (
-                    <FormControlLabel
-                      value="7"
-                      control={<Radio />}
-                      label="Amazon Coding Programmer"
-                    />
-                  )}
-                </RadioGroup> */}
+
                 <FormControl component="fieldset">
                   <RadioGroup
                     aria-label="radio-group"
