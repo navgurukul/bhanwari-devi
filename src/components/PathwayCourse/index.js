@@ -40,6 +40,19 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import CustomSnackbar from "./customSnackbar";
 import AmazonCodingProgrammer from "./AmazonCodingProgrammer";
+import DOMPurify from "dompurify";
+import get from "lodash/get";
+
+function UnsafeHTML(props) {
+  const { html, Container, ...otherProps } = props;
+  const sanitizedHTML = DOMPurify.sanitize(html);
+  return (
+    <Container
+      {...otherProps}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
+}
 
 function saveFile(url) {
   // Get file name from url.
@@ -372,9 +385,7 @@ function PathwayCourse() {
                           {pathwayCourseData.name}
                         </Typography>
                         <Typography variant="body1">
-                          {pathwayCourseData.code == "TCBPI"
-                            ? pathwayCourseData.sub_description
-                            : pathwayCourseData.description}
+                          {pathwayCourseData.description}
                         </Typography>
 
                         {pathwayCourseData.video_link && (
@@ -406,6 +417,27 @@ function PathwayCourse() {
                             </Typography>
                           </ExternalLink>
                         )}
+
+                        {/* .....summary .......*/}
+                        {pathwayCourseData?.code === "TCBPI" &&
+                          pathwayCourseData?.summary.map((content, index) => {
+                            if (content.component === "text") {
+                              return (
+                                <UnsafeHTML
+                                  Container={Typography}
+                                  variant="body1"
+                                  html={DOMPurify.sanitize(
+                                    get(content, "value")
+                                  )}
+                                  sx={{ margin: "16px 0px" }}
+                                  component={
+                                    content?.decoration?.type === "bullet" &&
+                                    "li"
+                                  }
+                                />
+                              );
+                            }
+                          })}
 
                         {/* ..........login button when user are not login............... */}
 
