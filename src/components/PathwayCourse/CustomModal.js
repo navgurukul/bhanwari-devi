@@ -54,7 +54,7 @@ function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, use
       },
     },
   };
-  const classesOfTeacher = ["Class 1", "Class 2", "Class 3", "Class 4"];
+  const classesOfTeacher = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"];
   const zoneArray = ["Central", "Civil Lines", "CTSP", "Karol Bagh", "Keshavpuram", "Narela", "Rohini", "Nazafgarh", "South", "Sharda.North", "Sharda.South", "West"]
 
   const [teacherClass, setTeacherClass] = React.useState([]);

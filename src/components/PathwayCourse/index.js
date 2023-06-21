@@ -197,25 +197,8 @@ function PathwayCourse() {
   };
 
   const handleModal = () => {
-    setLoader(true);
-  //   pathwayCourseData.code==="TCBPI"?
-  //   axios({
-  //     method: METHODS.GET,
-  //     url:`${process.env.REACT_APP_MERAKI_URL}/certificate/teachercertificate?pathwayId=8`,
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: user?.data?.token,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setLoader(false);
-  //       setCertificate(response?.data?.url);
-  //       if (response) {
-  //         setOpenModal((prev) => !prev);
-  //       }
-  //     })
-  //     .catch((err) => {})
-  // :
+  //   setLoader(true);
+
   axios({
     method: METHODS.GET,
     url:  `${process.env.REACT_APP_MERAKI_URL}/certificate`,
@@ -287,7 +270,6 @@ function PathwayCourse() {
       })
       .catch((err) => {});
 
-    console.log(pathwayCourse, "pathwaycourse");
   }, [pathwayId, pathwayCourse]);
 
   useEffect(() => {
@@ -373,12 +355,11 @@ function PathwayCourse() {
       setPathwayCode(false);
     }
     if(pathwayCourseData){
-      pathwayCourseData.code === "PRGPYT" || pathwayCourseData.code === "TCBPI"
+      pathwayCourseData.code === "PRGPYT" 
       ? setDisplayCert(true)
       : setDisplayCert(false)
     }
 
-    console.log(pathwayCourseData);
   }, [pathwayCourseData]);
 
   let SupplementalCourse;
@@ -711,7 +692,7 @@ function PathwayCourse() {
               ) : null}
 
               <Grid container spacing={3} align="center">
-                {!isFormFilled && pathwayId == 8
+                {!isFormFilled && pathwayCode
                   ? filterPathwayCourse?.map((item, index) => (
                       <Grid
                         item
