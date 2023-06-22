@@ -682,15 +682,11 @@ function PathwayCourse() {
                         className={classes.courseCard}>
                         <Link
                           className={classes.pathwayLink}
-                          to={
-                            !isFormFilled && pathwayCode
-                              ? null
-                              : interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                                  courseId: item.id,
-                                  exerciseId: 0,
-                                  pathwayId: pathwayId,
-                                })
-                          }>
+                          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                            courseId: item.id,
+                            exerciseId: 0,
+                            pathwayId: pathwayId,
+                          })}>
                           <Card
                             className={classes.pathwayCard}
                             elevation={0}
