@@ -790,7 +790,6 @@ function PathwayCourse() {
                       </Grid>
                     ))}
               </Grid>
-
               {displayCert ? (
                 <Grid item sx={{ mb: 15 }} align="center">
                   <Grid item sx={{ mb: 3 }}>
@@ -824,7 +823,6 @@ function PathwayCourse() {
                 </Grid>
               ) : null}
             </Box>
-
             {SupplementalCourse && (
               <Box sx={{}}>
                 <Typography variant="h6">
