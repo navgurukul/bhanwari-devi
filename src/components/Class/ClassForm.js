@@ -49,6 +49,7 @@ function ClassForm({
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
   const [volunteer, setVolunteer] = useState([]);
+  const [Newpathways, setNewPathways] = useState([]);
 
   const [classFields, setClassFields] = useState({
     category_id: 3,
@@ -654,10 +655,22 @@ function ClassForm({
     }
   }, [selectedPartners]);
 
+  //  ....partner pathway data that are showing in radio button....//
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setNewPathways(res.data);
+    });
+  }, [setNewPathways]);
+
   const pathwayName = partnerPathwayId?.map((item) => {
-    const pathway = data.Pathways.data.pathways.find(
-      (pathway) => pathway.id === item
-    );
+    const pathway = Newpathways.find((pathway) => pathway.id === item);
     return { id: pathway.id, label: pathway.name };
   });
 
