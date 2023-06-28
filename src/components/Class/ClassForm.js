@@ -667,7 +667,7 @@ function ClassForm({
     }).then((res) => {
       setNewPathways(res.data);
     });
-  }, [setNewPathways]);
+  }, []);
 
   const pathwayName = partnerPathwayId?.map((item) => {
     const pathway = Newpathways.find((pathway) => pathway.id === item);
@@ -697,8 +697,7 @@ function ClassForm({
             sx={{
               width: { xs: 330, md: 500 },
               bgcolor: "background.paper",
-            }}
-          >
+            }}>
             <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
@@ -710,8 +709,7 @@ function ClassForm({
                 color="text.secondary"
                 item
                 xs={1}
-                className={classes.FormCloseIcon}
-              >
+                className={classes.FormCloseIcon}>
                 <CloseIcon
                   open
                   onClick={() => {
@@ -763,8 +761,7 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 // mb={isActive ? 3 : 4}
-                mb={2}
-              >
+                mb={2}>
                 {`The tutor has opted to teach ${partnerFormattedData} learning track.`}
               </Typography>
             )}
@@ -776,8 +773,7 @@ function ClassForm({
                   color="text.secondary"
                   pr={2}
                   mt={2}
-                  mb={1}
-                >
+                  mb={1}>
                   Learning Track
                 </Typography>
 
@@ -791,8 +787,7 @@ function ClassForm({
                         pathway_id: e.target.value,
                       });
                     }}
-                    sx={{ marginBottom: "16px" }}
-                  >
+                    sx={{ marginBottom: "16px" }}>
                     {sortedData.map((item, index) => (
                       <FormControlLabel
                         key={item.id}
@@ -824,8 +819,7 @@ function ClassForm({
                     value={selectedCourseLabel?.label}
                     onChange={(e) => {
                       onCourseChange(e.target.value);
-                    }}
-                  >
+                    }}>
                     {data?.Pathways?.pathwayCourse?.data?.courses?.map(
                       (course) => {
                         return (
@@ -848,8 +842,7 @@ function ClassForm({
                   sx={{
                     mt: 3,
                     mb: 4,
-                  }}
-                >
+                  }}>
                   <InputLabel id="demo-simple-select-label">
                     Exercises
                   </InputLabel>
@@ -866,8 +859,7 @@ function ClassForm({
                     value={selectedExerciseLabel?.label}
                     onChange={(e) => {
                       onExerciseChange(e.target.value);
-                    }}
-                  >
+                    }}>
                     {exercisesForSelectedCourse &&
                       exercisesForSelectedCourse.map((exercise) => {
                         return (
@@ -986,8 +978,7 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 mb={isActive ? 3 : 4}
-                mt={1}
-              >
+                mt={1}>
                 This batch will be visible to students of only this partner
               </Typography>
             )}
@@ -1033,8 +1024,7 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mt: 3, mb: isActive && 2 }}
-                  >
+                    sx={{ mt: 3, mb: isActive && 2 }}>
                     Schedule on days
                   </Typography>
                 </FormLabel>
@@ -1100,14 +1090,12 @@ function ClassForm({
                   variant="body2"
                   color="text.secondary"
                   pr={2}
-                  mt={3}
-                >
+                  mt={3}>
                   Language
                 </Typography>
                 <RadioGroup
                   value={classFields.lang?.index}
-                  row={isActive ? false : true}
-                >
+                  row={isActive ? false : true}>
                   {Object.keys(lang)?.map((item) => {
                     if (item !== "mr") {
                       return (
@@ -1134,8 +1122,7 @@ function ClassForm({
                 color="text.secondary"
                 fullwidth
                 pt={1}
-                pr={2}
-              >
+                pr={2}>
                 Cap enrollments at
               </Typography>
               <RadioGroup row={isActive ? false : true}>
@@ -1168,8 +1155,7 @@ function ClassForm({
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
                 variant="contained"
                 fullWidth
-                onClick={submitHandle}
-              >
+                onClick={submitHandle}>
                 {(isEditMode ? "Update " : "Create ") +
                   (classFields.type == "batch" ? "Batch" : "Doubt Class")}
               </Button>
