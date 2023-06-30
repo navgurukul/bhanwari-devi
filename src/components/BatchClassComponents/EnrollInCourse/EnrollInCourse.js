@@ -9,14 +9,26 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { format } from "../../../common/date";
 import AlertDialog from "../AlertDialog.js";
+import { METHODS } from "../../../services/api";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const NotEnrolledSvg = require("./notEnrolled.svg");
+
 const CourseEnroll = (props) => {
   const classes = useStyles();
-  const upcomingBatchesData = useSelector((state) => {
-    return state.Pathways?.upcomingBatches?.data;
-  });
+  const params = useParams();
+  const user = useSelector(({ User }) => User);
+  //  ---------------------- Remove this useEfect when redux starts working -----------------------------
+  const [upcomingBatchesData, setUpcomingBatchesData] = useState();
+
+  //  ---------------------- Uncomment these lines of code when redux starts working -----------------------------
+  // const upcomingBatchesData = useSelector((state) => {
+  //   return state.Pathways?.upcomingBatches?.data;
+  // });
+
   const { reloadContent } = props;
+  const pathwayId = params.pathwayId;
   const data = upcomingBatchesData?.slice(0, 3).map((item) => {
     return {
       id: item.id,
@@ -25,12 +37,29 @@ const CourseEnroll = (props) => {
       endTime: item.end_time,
     };
   });
-  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
+  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(
+    data && data[0]
+  );
   useEffect(() => {}, [selectedBatchToEnroll]);
   const [open, setOpen] = useState(false);
   const close = () => {
     setOpen(false);
   };
+
+  //  ---------------------- Remove this useEfect when redux starts working -----------------------------
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((response) => {
+      setUpcomingBatchesData(response.data);
+    });
+  }, [pathwayId]);
+
   return (
     <>
       <Box className={classes.EnrollInCourseBox1}>

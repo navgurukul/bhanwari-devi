@@ -125,7 +125,18 @@ export const getPathwaysCourse = (data) => {
 
 export const getUpcomingBatches = (data) => {
   const { pathwayId, authToken } = data;
-  /*
+
+  // return axios({
+  //   method: METHODS.GET,
+  //   url: `${process.env.REACT_APP_MERAKI_URL}/classes/all?startDate=${new Date(
+  //     new Date().valueOf() - 7 * 24 * 60 * 60 * 1000
+  //   ).valueOf()}`,
+  //   headers: {
+  //     accept: "application/json",
+  //     Authorization: authToken,
+  //   },
+  // })
+
   return axios({
     method: METHODS.GET,
     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
@@ -133,18 +144,8 @@ export const getUpcomingBatches = (data) => {
       accept: "application/json",
       Authorization: authToken,
     },
-  });
-  */
-  return axios({
-    method: METHODS.GET,
-    url: `${process.env.REACT_APP_MERAKI_URL}/classes/all?startDate=${new Date(
-      new Date().valueOf() - 7 * 24 * 60 * 60 * 1000
-    ).valueOf()}`,
-    headers: {
-      accept: "application/json",
-      Authorization: authToken,
-    },
   }).then((response) => {
+    console.log("response", response);
     if (!Array.isArray(response?.data)) {
       return response;
     }

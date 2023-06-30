@@ -318,9 +318,9 @@ function ExerciseContent({
       setLoading(false);
     }
   }, [cashedData]);
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
 
   // const userEnrolledClasses = useSelector((state) => {
   //   return state.Pathways?.upcomingEnrolledClasses?.data;
@@ -353,7 +353,7 @@ function ExerciseContent({
   }, [params.exerciseId]);
 
   useEffect(() => {
-    console.log(exercise, "exercise")
+    console.log(exercise, "exercise");
     if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
@@ -363,19 +363,23 @@ function ExerciseContent({
           Authorization: user.data.token,
         },
       }).then((res) => {
-        console.log(res, "response of result")
+        console.log(res, "response of result");
         setAssessmentResult(res.data);
       });
     }
   }, [exerciseId, exercise?.content_type, exercise]);
 
   const enrolledBatches = useSelector((state) => {
+    console.log("state", state);
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
       return state?.Pathways?.enrolledBatches?.data;
     } else {
       return null;
     }
   });
+
+  console.log("enrolledBatches", enrolledBatches);
+
   useEffect(() => {
     // getupcomingEnrolledClasses
     if (
