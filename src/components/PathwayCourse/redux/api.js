@@ -145,7 +145,6 @@ export const getUpcomingBatches = (data) => {
       Authorization: authToken,
     },
   }).then((response) => {
-    console.log("response", response);
     if (!Array.isArray(response?.data)) {
       return response;
     }

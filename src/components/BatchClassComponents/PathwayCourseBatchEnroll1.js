@@ -10,18 +10,13 @@ import { useSelector } from "react-redux";
 import CheckMoreBatches from "./CheckMoreBatches";
 import { useHistory } from "react-router-dom";
 
-const PathwayCourseBatchEnroll1 = (props) => {
+const PathwayCourseBatchEnroll1 = ({ upcomingBatchesData }) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
   const classes = useStyles();
-  const { upcomingBatchesData } = props;
   const user = useSelector(({ User }) => User);
-  const BatchData = useSelector((state) => {
-    return state.Pathways?.upcomingBatches?.data[0];
-  });
 
-  console.log('class',upcomingBatchesData)
   const handleClickOpen = () => {
     if (user?.data?.token) {
       setOpen(!open);
@@ -40,9 +35,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
     setUpcomingBatchesOpen(false);
   };
 
-  const batch = window.location.pathname.includes(7)
-    ? upcomingBatchesData[0]
-    : BatchData;
+  const batch = upcomingBatchesData[0];
 
   return batch ? (
     <>
@@ -64,7 +57,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                   alt="Students Img"
                 />
                 From {format(batch?.start_time, "dd MMM yy")} -{" "}
-                {format(batch?.end_batch_time, "dd MMM yy")}
+                {format(batch?.end_time, "dd MMM yy")}
               </Typography>
               <Typography
                 variant="body1"
@@ -86,7 +79,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 close={close}
                 title={batch?.title}
                 start_time={batch?.start_time}
-                end_time={batch?.end_batch_time}
+                end_time={batch?.end_time}
                 id={batch?.id}
                 registerAll={true}
                 type="batch"

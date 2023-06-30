@@ -150,7 +150,6 @@ function PathwayCourse() {
         Authorization: user.data.token,
       },
     }).then((response) => {
-      console.log("response in Pathways", response);
       setUpcomingBatchesData(response.data);
     });
   }, [pathwayId]);
@@ -207,6 +206,7 @@ function PathwayCourse() {
     }
   };
 
+  //  ------------------------- Uncomment these code of lines when redux start working -------------------------
   // const loading = useSelector((state) => {
   //   const upcomingBatchesState = state?.Pathways?.upcomingBatches;
   //   const enrolledBatchesState = state?.Pathways?.enrolledBatches;
@@ -219,8 +219,6 @@ function PathwayCourse() {
   //     !(enrolledBatches?.length > 0)
   //   );
   // });
-
-  console.log("upcomingBatchesData in Pathways", upcomingBatchesData);
 
   const history = useHistory();
   useEffect(() => {
@@ -542,45 +540,40 @@ function PathwayCourse() {
                       </Card>
                     </Grid>
                     {/* ........upcoming classes............ */}
-                    <Grid item xs={12} md={6} sx={{ pl: 2, }}>
-                      {/* <h1>Hi</h1>
-                      {console.log(
-                        "upcomingBatchesData in JSX",
-                        upcomingBatchesData
-                      )} */}
-
+                    <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                       {user?.data?.token &&
-                      (pathwayCourseData.code == "PRGPYT" ||
-                        pathwayCourseData.code == "SPKENG") &&
-                      // loading ? (
-                      //   <Card sx={{ p: 4 }}>
-                      //     <Typography variant="subtitle1">
-                      //       <Skeleton />
-                      //     </Typography>
-                      //     <Typography variant="subtitle2">
-                      //       <Skeleton />
-                      //     </Typography>
-                      //     <Typography variant="body1">
-                      //       <Skeleton />
-                      //     </Typography>
-                      //     <Typography variant="body1">
-                      //       <Skeleton />
-                      //     </Typography>
-                      //     <Typography variant="body1">
-                      //       <Skeleton />
-                      //     </Typography>
-                      //     <Typography variant="body1">
-                      //       <Skeleton />
-                      //     </Typography>
-                      //   </Card>
-                      // ) :
-                      upcomingBatchesData?.length > 0 ? (
-                        <PathwayCourseBatchEnroll1
-                          upcomingBatchesData={upcomingBatchesData}
-                        />
-                      ) : (
-                        <NoBatchEnroll />
-                      )}
+                        (pathwayCourseData.code == "PRGPYT" ||
+                          pathwayCourseData.code == "SPKENG") &&
+                        //  ------------------- Uncomment these code of lines when redux start working ---------------------
+                        // loading ? (
+                        //   <Card sx={{ p: 4 }}>
+                        //     <Typography variant="subtitle1">
+                        //       <Skeleton />
+                        //     </Typography>
+                        //     <Typography variant="subtitle2">
+                        //       <Skeleton />
+                        //     </Typography>
+                        //     <Typography variant="body1">
+                        //       <Skeleton />
+                        //     </Typography>
+                        //     <Typography variant="body1">
+                        //       <Skeleton />
+                        //     </Typography>
+                        //     <Typography variant="body1">
+                        //       <Skeleton />
+                        //     </Typography>
+                        //     <Typography variant="body1">
+                        //       <Skeleton />
+                        //     </Typography>
+                        //   </Card>
+                        // ) :
+                        (upcomingBatchesData?.length > 0 ? (
+                          <PathwayCourseBatchEnroll1
+                            upcomingBatchesData={upcomingBatchesData}
+                          />
+                        ) : (
+                          <NoBatchEnroll />
+                        ))}
                     </Grid>
                   </Grid>
 
