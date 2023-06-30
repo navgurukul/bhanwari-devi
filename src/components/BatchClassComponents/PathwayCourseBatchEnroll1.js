@@ -20,6 +20,8 @@ const PathwayCourseBatchEnroll1 = (props) => {
   const BatchData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data[0];
   });
+
+  console.log('class',upcomingBatchesData)
   const handleClickOpen = () => {
     if (user?.data?.token) {
       setOpen(!open);

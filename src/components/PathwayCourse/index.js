@@ -542,12 +542,12 @@ function PathwayCourse() {
                       </Card>
                     </Grid>
                     {/* ........upcoming classes............ */}
-                    <Grid item xs={12} md={6} sx={{ pl: 2, background: "red" }}>
-                      <h1>Hi</h1>
+                    <Grid item xs={12} md={6} sx={{ pl: 2, }}>
+                      {/* <h1>Hi</h1>
                       {console.log(
                         "upcomingBatchesData in JSX",
                         upcomingBatchesData
-                      )}
+                      )} */}
 
                       {user?.data?.token &&
                       (pathwayCourseData.code == "PRGPYT" ||
