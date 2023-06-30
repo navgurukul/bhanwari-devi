@@ -151,9 +151,7 @@ function ClassCard({ item, editClass }) {
     setEnrollShowModal(!enrollShowModal);
     const timer = setTimeout(() => {
       getNotify = true;
-      dispatch(classActions.enrolledClass(Id));
       setLoading(false);
-      notify();
     }, 10000);
     axios
       .post(
@@ -175,9 +173,16 @@ function ClassCard({ item, editClass }) {
           setLoading(false);
         }
         dispatch(classActions.enrolledClass(Id));
+      })
+      .catch((res) => {
+        toast.error("Already enrolled in another batch", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2500,
+          color: "red",
+        });
+        setLoading(false);
       });
   };
-
   // API CALL FOR DROP OUT
   const handleDropOut = (Id) => {
     setLoading(true);
@@ -193,7 +198,6 @@ function ClassCard({ item, editClass }) {
       getNotify = true;
       dispatch(classActions.dropOutClass(Id));
       setLoading(false);
-
       notify();
     }, 10000);
     return axios({
