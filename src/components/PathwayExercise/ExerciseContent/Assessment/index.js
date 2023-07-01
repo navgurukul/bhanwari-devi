@@ -60,7 +60,6 @@ function Assessment({
           status: "Pass",
         },
       }).then((res) => {
-        // console.log("res", res);
       });
     } else {
       setCorrect(false);
@@ -80,7 +79,6 @@ function Assessment({
           status: "Fail",
         },
       }).then((res) => {
-        // console.log("res", res);
       });
     }
   };
