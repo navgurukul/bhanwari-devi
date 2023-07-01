@@ -96,7 +96,6 @@ function LearningTrackCard(props) {
   const [upcomingBatchesData, setUpcomingBatchesData] = useState();
   const params = useParams();
 
-  //  console.log(item,'item')
 
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
