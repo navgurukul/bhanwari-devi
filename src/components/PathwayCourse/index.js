@@ -136,10 +136,9 @@ function PathwayCourse() {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
       headers: {
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: user?.data?.token,
       },
     }).then((response) => {
-      console.log('data of batch',response,)
       setUpcomingBatchesData(response.data);
     });
   }, [pathwayId]);

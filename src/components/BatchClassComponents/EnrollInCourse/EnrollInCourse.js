@@ -53,7 +53,7 @@ const CourseEnroll = (props) => {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
       headers: {
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: user?.data?.token,
       },
     }).then((response) => {
       setUpcomingBatchesData(response.data);

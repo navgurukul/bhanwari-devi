@@ -26,8 +26,6 @@ export default function CheckMoreBatches(props) {
     setOpenDialog(true);
   };
 
-  console.log("upcomingBatchesData", upcomingBatchesData);
-
   const close = () => {
     setOpenDialog(false);
   };
