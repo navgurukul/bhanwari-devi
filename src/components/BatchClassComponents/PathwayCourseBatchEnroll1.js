@@ -10,16 +10,13 @@ import { useSelector } from "react-redux";
 import CheckMoreBatches from "./CheckMoreBatches";
 import { useHistory } from "react-router-dom";
 
-const PathwayCourseBatchEnroll1 = (props) => {
+const PathwayCourseBatchEnroll1 = ({ upcomingBatchesData }) => {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [upcomingBatchesOpen, setUpcomingBatchesOpen] = React.useState(false);
   const classes = useStyles();
-  const { upcomingBatchesData } = props;
   const user = useSelector(({ User }) => User);
-  const BatchData = useSelector((state) => {
-    return state.Pathways?.upcomingBatches?.data[0];
-  });
+
   const handleClickOpen = () => {
     if (user?.data?.token) {
       setOpen(!open);
@@ -38,14 +35,12 @@ const PathwayCourseBatchEnroll1 = (props) => {
     setUpcomingBatchesOpen(false);
   };
 
-  const batch = window.location.pathname.includes(7)
-    ? upcomingBatchesData[0]
-    : BatchData;
+  const batch = upcomingBatchesData[0];
 
   return batch ? (
     <>
       <Container maxWidth="lg">
-        <Box mt={1} maxWidth={500} mb={10}>
+        <Box mt={1} maxWidth={500} mb={4}>
           <Card elevation={2} pl={10}>
             <CardContent>
               <Typography variant="h5" align="start">
@@ -54,21 +49,19 @@ const PathwayCourseBatchEnroll1 = (props) => {
               <Typography
                 variant="body1"
                 my={2}
-                className={classes.FlexedContant}
-              >
+                className={classes.FlexedContant}>
                 <img
                   className={classes.icons}
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
                 From {format(batch?.start_time, "dd MMM yy")} -{" "}
-                {format(batch?.end_batch_time, "dd MMM yy")}
+                {format(batch?.last_class_date, "dd MMM yy")}
               </Typography>
               <Typography
                 variant="body1"
                 mb={2}
-                className={classes.FlexedContant}
-              >
+                className={classes.FlexedContant}>
                 <img
                   className={classes.icons}
                   src={require("./assets/degree.svg")}
@@ -84,7 +77,7 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 close={close}
                 title={batch?.title}
                 start_time={batch?.start_time}
-                end_time={batch?.end_batch_time}
+                end_time={batch?.end_time}
                 id={batch?.id}
                 registerAll={true}
                 type="batch"
@@ -93,14 +86,12 @@ const PathwayCourseBatchEnroll1 = (props) => {
                 className={classes.FlexedContant}
                 mt={2}
                 align="start"
-                variant="body2"
-              >
+                variant="body2">
                 Can’t start on {format(batch?.start_time, "dd MMM yy")}
                 {" ? "}
                 <section
                   className={classes.link}
-                  onClick={handleUpcomingBatchesClickOpen}
-                >
+                  onClick={handleUpcomingBatchesClickOpen}>
                   {"  "} &nbsp;
                   <b>Check out our other batches</b>
                 </section>

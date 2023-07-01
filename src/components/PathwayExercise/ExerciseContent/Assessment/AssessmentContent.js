@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Typography, Box, Button, Paper, Stack } from "@mui/material";
 import useStyles from "../../styles";
 import get from "lodash/get";
+
 import DOMPurify from "dompurify";
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -44,6 +45,7 @@ const AssessmentContent = ({
   submitDisable,
   submitAssessment,
 }) => {
+  
   const classes = useStyles();
   if (content.component === "header") {
     if (triedAgain > 1) {
@@ -91,18 +93,19 @@ const AssessmentContent = ({
         return (
           <Grid container spacing={2} mt={3} mb={10}>
             <Grid item xs={12} sm={6}>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => {
-                  setTriedAgain(triedAgain + 1);
-                  submitAssessment();
-                }}
-              >
-                <Typography variant="subtitle2">
-                  See Answer & Explanation
-                </Typography>
-              </Button>
+                <Button
+                  variant="outlined"
+                  disabled
+                  fullWidth
+                  onClick={() => {
+                    setTriedAgain(triedAgain + 1);
+                    submitAssessment();
+                  }}
+                >
+                  <Typography variant="subtitle2">
+                    See Answer & Explanation
+                  </Typography>
+                </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Button
@@ -157,11 +160,11 @@ const AssessmentContent = ({
     const image = DOMPurify.sanitize(get(content, "value"));
 
     const isImage = image.match(/\.(jpeg|jpg|gif|png)$/);
-  
+
     if (isImage) {
       return <img src={image} alt="Image" />;
     }
-  
+
     return (
       <UnsafeHTML
         Container={Typography}
@@ -192,9 +195,9 @@ const AssessmentContent = ({
                     ? answer === item.id && classes.correctAnswer
                     : triedAgain === 1
                     ? answer === item.id && classes.inCorrectAnswer
-                    : (answer === item.id && classes.inCorrectAnswer) ||
-                      (solution === item.id && classes.correctAnswer)
-                  : answer === item.id && classes.option
+                    : (answer == item.id && classes.inCorrectAnswer) ||
+                      (solution == item.id && classes.correctAnswer)
+                  : answer == item.id && classes.option
               }
               onClick={() => !submitDisable && setAnswer(item.id)}
             >

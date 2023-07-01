@@ -318,9 +318,9 @@ function ExerciseContent({
       setLoading(false);
     }
   }, [cashedData]);
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
 
   // const userEnrolledClasses = useSelector((state) => {
   //   return state.Pathways?.upcomingEnrolledClasses?.data;
@@ -374,6 +374,7 @@ function ExerciseContent({
       return null;
     }
   });
+
   useEffect(() => {
     // getupcomingEnrolledClasses
     if (
@@ -426,7 +427,7 @@ function ExerciseContent({
                     id={courseData.id}
                     facilitator={courseData.facilitator.name}
                     start_time={courseData.start_time}
-                    end_time={courseData.end_batch_time}
+                    end_time={courseData.end_time}
                     is_enrolled={courseData.is_enrolled}
                     meet_link={courseData.meet_link}
                   />

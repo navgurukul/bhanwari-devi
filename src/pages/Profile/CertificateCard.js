@@ -140,13 +140,11 @@ function CertificateCard(props) {
       })
       .catch((err) => {});
   };
-  // console.log(openModal, certificate);
+
 
   const downloadCert = () => {
     saveFile(certificate);
   };
-
-  // console.log(item);
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
       <Modal

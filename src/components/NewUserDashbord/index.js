@@ -9,6 +9,7 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
+import {  PATHWAYS_INFO } from "../../constant";
 
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
@@ -44,22 +45,12 @@ const NewUserDashbord = () => {
     });
   }, []);
 
-  const pathwayData = [];
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      if (pathway.code !== "PRCRSE" || pathway.path) {
-        const obj = {
-          id: pathway.id || null,
-          title: pathway.name || pathway.title,
-          description: pathway.description,
-          image: pathway.image || pathway.logo,
-          link: pathway.path || null,
-          type: "internal",
-        };
-        pathwayData.push(obj);
-      }
-    });
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+  PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
+  );
+  const pathwayData = data?.pathways
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
 
   return (
     <>
@@ -75,19 +66,18 @@ const NewUserDashbord = () => {
           </Container>
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
-              {pathwayData.map((item) => (
+              {pathwayData?.map((item) => (
                 <Grid
                   item
                   xs={6}
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}
-                >
+                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}>
                   <PathwayCard
                     id={item.id}
-                    title={item.title}
-                    image={item.image}
+                    name={item.name}
+                    logo={item.logo}
                     hover={true}
                   />
                 </Grid>

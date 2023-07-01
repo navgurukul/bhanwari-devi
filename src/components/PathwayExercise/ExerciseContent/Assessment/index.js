@@ -41,6 +41,7 @@ function Assessment({
         exercise_id: courseData.id,
       },
     });
+  
 
     if (answer == solution) {
       setCorrect(true);
@@ -101,7 +102,7 @@ function Assessment({
         setSubmit(true);
       }
     }
-  }, [res]);
+  }, [res,triedAgain]);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
@@ -121,6 +122,7 @@ function Assessment({
             submitDisable={submitDisable}
             triedAgain={triedAgain}
             submitAssessment={submitAssessment}
+            params = {params}
           />
         ))}
 
