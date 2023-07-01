@@ -49,6 +49,7 @@ function ClassForm({
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
   const [volunteer, setVolunteer] = useState([]);
+  const [Newpathways, setNewPathways] = useState([]);
 
   const [classFields, setClassFields] = useState({
     category_id: 3,
@@ -296,14 +297,12 @@ function ClassForm({
   ]);
 
   const courses =
-    (data?.Pathways?.data?.pathways[0]?.courses?.map((item) => {
-      // data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
-        return {
-          label: item.name,
-          value: item.id,
-        };
-      })) ||
-    [];
+    data?.Pathways?.pathwayCourse?.data?.courses?.map((item) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    }) || [];
 
   const selectedCourseLabel = courses.find(
     (item) => item.value === classFields.course_id
@@ -656,6 +655,34 @@ function ClassForm({
     }
   }, [selectedPartners]);
 
+  //  ....partner pathway data that are showing in radio button....//
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setNewPathways(res.data);
+    });
+  }, []);
+
+  const pathwayName = partnerPathwayId?.map((item) => {
+    const pathway = Newpathways.find((pathway) => pathway.id === item);
+    return { id: pathway.id, label: pathway.name };
+  });
+
+  const sortedData =
+    partnerPathwayId?.length && [...pathwayName].sort((a, b) => a.id - b.id);
+  const partnerFormattedData =
+    partnerPathwayId?.length &&
+    sortedData
+      .map((item) => item.label)
+      .join(", ")
+      .replace(/,([^,]*)$/, " and$1");
+
   return (
     <>
       {showSuccessModal ? (
@@ -670,8 +697,7 @@ function ClassForm({
             sx={{
               width: { xs: 330, md: 500 },
               bgcolor: "background.paper",
-            }}
-          >
+            }}>
             <Grid container mb={3}>
               <Grid item xs={11}>
                 <Typography variant="h6" component="h2">
@@ -683,8 +709,7 @@ function ClassForm({
                 color="text.secondary"
                 item
                 xs={1}
-                className={classes.FormCloseIcon}
-              >
+                className={classes.FormCloseIcon}>
                 <CloseIcon
                   open
                   onClick={() => {
@@ -736,26 +761,11 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 // mb={isActive ? 3 : 4}
-                mb={2}
-              >
-                {`The tutor has opted to teach 
-                  ${partnerPathwayId.length === 2 ? "both" : ""}
-                   ${partnerPathwayId.includes(1) ? "Python" : ""}
-                   ${
-                     partnerPathwayId.length === 2
-                       ? "and"
-                       : partnerPathwayId.length > 2
-                       ? ","
-                       : ""
-                   }
-                    ${partnerPathwayId.includes(2) ? "Spoken English" : ""} 
-                    ${partnerPathwayId.length > 2 ? "and" : ""}
-                  ${
-                    partnerPathwayId.includes(7) ? "Amazon Coding Bootcamp" : ""
-                  } 
-                  learning track.`}
+                mb={2}>
+                {`The tutor has opted to teach ${partnerFormattedData} learning track.`}
               </Typography>
             )}
+
             {partnerPathwayId?.length >= 2 && (
               <>
                 <Typography
@@ -763,65 +773,32 @@ function ClassForm({
                   color="text.secondary"
                   pr={2}
                   mt={2}
-                  mb={1}
-                >
+                  mb={1}>
                   Learning Track
                 </Typography>
-                <RadioGroup
-                  onChange={(e) => {
-                    setClassFields({
-                      ...classFields,
-                      pathway_id: e.target.value,
-                    });
-                  }}
-                  sx={{ marginBottom: "16px" }}
-                >
-                  {partnerPathwayId.includes(1) && (
-                    <FormControlLabel
-                      value="1"
-                      control={<Radio />}
-                      label="Python"
-                    />
-                  )}
-                  {partnerPathwayId.includes(2) && (
-                    <FormControlLabel
-                      value="2"
-                      control={<Radio />}
-                      label="Spoken English"
-                    />
-                  )}
-                  {partnerPathwayId.includes(7) && (
-                    <FormControlLabel
-                      value="7"
-                      control={<Radio />}
-                      label="Amazon Coding Programmer"
-                    />
-                  )}
-                </RadioGroup>
-                {/* <RadioGroup
-                  value={[
-                    { value: 1, label: "Python" },
-                    { value: 2, label: "Spoken English" },
-                  ]}
-                >
-                  {[
-                    { value: 1, label: "Python" },
-                    { value: 2, label: "Spoken English" },
-                  ].map((item) => {
-                    return (
+
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    aria-label="radio-group"
+                    name="radio-group"
+                    onChange={(e) => {
+                      setClassFields({
+                        ...classFields,
+                        pathway_id: e.target.value,
+                      });
+                    }}
+                    sx={{ marginBottom: "16px" }}>
+                    {sortedData.map((item, index) => (
                       <FormControlLabel
-                        key={item}
-                        value={item.value}
-                        name="Learning Track"
+                        key={item.id}
+                        value={item.id}
                         control={<Radio />}
-                        // checked={}
-                        onChange={(e) => {
-                          setPartnerPathwayId(e.target.value);
-                        }}
+                        label={item.label}
+                        labelPlacement="end"
                       />
-                    );
-                  })}
-                </RadioGroup> */}
+                    ))}
+                  </RadioGroup>
+                </FormControl>
               </>
             )}
 
@@ -842,16 +819,16 @@ function ClassForm({
                     value={selectedCourseLabel?.label}
                     onChange={(e) => {
                       onCourseChange(e.target.value);
-                    }}
-                  >
-                    {
-                      data?.Pathways?.pathwayCourse?.data?.courses?.map((course) => {
+                    }}>
+                    {data?.Pathways?.pathwayCourse?.data?.courses?.map(
+                      (course) => {
                         return (
                           <MenuItem key={course.id} value={course.id}>
                             {course.name}
                           </MenuItem>
                         );
-                      })}
+                      }
+                    )}
                   </Select>
                   <FormHelperText>{helperText.course}</FormHelperText>
                 </FormControl>
@@ -865,8 +842,7 @@ function ClassForm({
                   sx={{
                     mt: 3,
                     mb: 4,
-                  }}
-                >
+                  }}>
                   <InputLabel id="demo-simple-select-label">
                     Exercises
                   </InputLabel>
@@ -883,8 +859,7 @@ function ClassForm({
                     value={selectedExerciseLabel?.label}
                     onChange={(e) => {
                       onExerciseChange(e.target.value);
-                    }}
-                  >
+                    }}>
                     {exercisesForSelectedCourse &&
                       exercisesForSelectedCourse.map((exercise) => {
                         return (
@@ -1003,8 +978,7 @@ function ClassForm({
                 variant="body2"
                 color="text.secondary"
                 mb={isActive ? 3 : 4}
-                mt={1}
-              >
+                mt={1}>
                 This batch will be visible to students of only this partner
               </Typography>
             )}
@@ -1050,8 +1024,7 @@ function ClassForm({
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mt: 3, mb: isActive && 2 }}
-                  >
+                    sx={{ mt: 3, mb: isActive && 2 }}>
                     Schedule on days
                   </Typography>
                 </FormLabel>
@@ -1117,14 +1090,12 @@ function ClassForm({
                   variant="body2"
                   color="text.secondary"
                   pr={2}
-                  mt={3}
-                >
+                  mt={3}>
                   Language
                 </Typography>
                 <RadioGroup
                   value={classFields.lang?.index}
-                  row={isActive ? false : true}
-                >
+                  row={isActive ? false : true}>
                   {Object.keys(lang)?.map((item) => {
                     if (item !== "mr") {
                       return (
@@ -1151,8 +1122,7 @@ function ClassForm({
                 color="text.secondary"
                 fullwidth
                 pt={1}
-                pr={2}
-              >
+                pr={2}>
                 Cap enrollments at
               </Typography>
               <RadioGroup row={isActive ? false : true}>
@@ -1185,8 +1155,7 @@ function ClassForm({
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
                 variant="contained"
                 fullWidth
-                onClick={submitHandle}
-              >
+                onClick={submitHandle}>
                 {(isEditMode ? "Update " : "Create ") +
                   (classFields.type == "batch" ? "Batch" : "Doubt Class")}
               </Button>

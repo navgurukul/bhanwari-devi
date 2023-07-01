@@ -35,49 +35,7 @@ import { METHODS } from "../../services/api";
 import axios from "axios";
 import LearningTrackTimerButton from "./LearningTrackTimerButton";
 import path from "path";
-
-const pathwayData = [
-  {
-    title: "Python",
-    code: "PRGPYT",
-    image: "python",
-    description: "Get familiar with programming with bite sized lessons",
-  },
-  // {
-  //   title: "Scratch (CEL)",
-  //   code: "SHCEL",
-  //   image: "",
-  //   description: "Get started with programming with block-based games",
-  // },
-  {
-    title: "Typing",
-    code: "TYPGRU",
-    image: "typing",
-    description: "Learn to type with pinpoint accuracy and speed.",
-  },
-  {
-    title: "Spoken English",
-    code: "SPKENG",
-    image: "language",
-    description: "Master English with easy to understand courses",
-  },
-  {
-    title: "Web Development",
-    code: "JSRPIT",
-    image: "web-development",
-    description: "Learn the basics of tech that powers the web",
-  },
-  {
-    title: "Residential Programmes",
-    image: "residential",
-    description: "Explore Navgurukul’s on campus Software Engineering courses",
-  },
-  {
-    title: "Miscellaneous Courses",
-    image: "misc",
-    description: "Courses on Android, Game dev projects and more",
-  },
-];
+import { InsertEmoticonRounded } from "@mui/icons-material";
 
 function LearningTrackCard(props) {
   const user = useSelector(({ User }) => User);
@@ -154,16 +112,7 @@ function LearningTrackCard(props) {
   //   return state.Pathways?.upcomingBatches?.data;
   // });
 
-  data.Pathways.data &&
-    data.Pathways.data.pathways.forEach((pathway) => {
-      pathwayData.forEach((item) => {
-        if (pathway.code === item.code) {
-          item["id"] = pathway.id;
-        }
-      });
-    });
-
-  const pathwayCourseData = pathwayData.find((item) => {
+  const pathwayCourseData = data.Pathways?.data?.pathways.find((item) => {
     return item.id == pathwayId;
   });
 
@@ -187,13 +136,13 @@ function LearningTrackCard(props) {
                   height: "40px",
                 }}
                 // align="left"
-                src={PathwayData?.logo}
+                src={item?.logo}
                 alt="Students Img"
               />
             </Grid>
             <Grid item md={4} xs={3}>
               <Typography gutterBottom variant="body1" pt={1}>
-                {PathwayData?.name}
+                {item?.pathway_name}
               </Typography>
             </Grid>
             <Grid item md={2} xs={1}></Grid>

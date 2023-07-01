@@ -318,9 +318,9 @@ function ExerciseContent({
       setLoading(false);
     }
   }, [cashedData]);
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
 
   // const userEnrolledClasses = useSelector((state) => {
   //   return state.Pathways?.upcomingEnrolledClasses?.data;
@@ -353,7 +353,6 @@ function ExerciseContent({
   }, [params.exerciseId]);
 
   useEffect(() => {
-    console.log(exercise, "exercise")
     if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
@@ -363,7 +362,6 @@ function ExerciseContent({
           Authorization: user.data.token,
         },
       }).then((res) => {
-        console.log(res, "response of result")
         setAssessmentResult(res.data);
       });
     }
@@ -376,6 +374,7 @@ function ExerciseContent({
       return null;
     }
   });
+
   useEffect(() => {
     // getupcomingEnrolledClasses
     if (
@@ -428,7 +427,7 @@ function ExerciseContent({
                     id={courseData.id}
                     facilitator={courseData.facilitator.name}
                     start_time={courseData.start_time}
-                    end_time={courseData.end_batch_time}
+                    end_time={courseData.end_time}
                     is_enrolled={courseData.is_enrolled}
                     meet_link={courseData.meet_link}
                   />
