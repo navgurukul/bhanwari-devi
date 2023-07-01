@@ -37,49 +37,6 @@ import LearningTrackTimerButton from "./LearningTrackTimerButton";
 import path from "path";
 import { InsertEmoticonRounded } from "@mui/icons-material";
 
-// const pathwayData = [
-//   {
-//     title: "Python",
-//     code: "PRGPYT",
-//     image: "python",
-//     description: "Get familiar with programming with bite sized lessons",
-//   },
-//   // {
-//   //   title: "Scratch (CEL)",
-//   //   code: "SHCEL",
-//   //   image: "",
-//   //   description: "Get started with programming with block-based games",
-//   // },
-//   {
-//     title: "Typing",
-//     code: "TYPGRU",
-//     image: "typing",
-//     description: "Learn to type with pinpoint accuracy and speed.",
-//   },
-//   {
-//     title: "Spoken English",
-//     code: "SPKENG",
-//     image: "language",
-//     description: "Master English with easy to understand courses",
-//   },
-//   {
-//     title: "Web Development",
-//     code: "JSRPIT",
-//     image: "web-development",
-//     description: "Learn the basics of tech that powers the web",
-//   },
-//   {
-//     title: "Residential Programmes",
-//     image: "residential",
-//     description: "Explore Navgurukul’s on campus Software Engineering courses",
-//   },
-//   {
-//     title: "Miscellaneous Courses",
-//     image: "misc",
-//     description: "Courses on Android, Game dev projects and more",
-//   },
-// ];
-
 function LearningTrackCard(props) {
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
@@ -95,7 +52,6 @@ function LearningTrackCard(props) {
   const [completedPortionJason, setCompletedPortionJason] = useState();
   const [upcomingBatchesData, setUpcomingBatchesData] = useState();
   const params = useParams();
-
 
   useEffect(() => {
     getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
@@ -155,15 +111,6 @@ function LearningTrackCard(props) {
   // const upcomingBatchesData = useSelector((state) => {
   //   return state.Pathways?.upcomingBatches?.data;
   // });
-
-  // data.Pathways.data &&
-  //   data.Pathways.data.pathways.forEach((pathway) => {
-  //     pathwayData.forEach((item) => {
-  //       if (pathway.code === item.code) {
-  //         item["id"] = pathway.id;
-  //       }
-  //     });
-  //   });
 
   const pathwayCourseData = data.Pathways?.data?.pathways.find((item) => {
     return item.id == pathwayId;

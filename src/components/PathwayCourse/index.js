@@ -101,8 +101,6 @@ function PathwayCourse() {
   const [loader, setLoader] = useState(false);
   const [displayCert, setDisplayCert] = useState(false);
   const [pathwayCode, setPathwayCode] = useState(false);
-  //  ---------------------- Remove this useEfect when redux starts working -----------------------------
-  const [upcomingBatchesData, setUpcomingBatchesData] = useState();
 
   const modalStyle = {
     position: "absolute",
@@ -121,27 +119,13 @@ function PathwayCourse() {
     return state;
   });
 
-  //  ---------------------- Open these commented lines when redux starts working -----------------------------
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
+
   const userEnrolledClasses = useSelector((state) => {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
-
-  //  ---------------------- Remove this useEfect when redux starts working -----------------------------
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((response) => {
-      setUpcomingBatchesData(response.data);
-    });
-  }, [pathwayId]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -194,20 +178,6 @@ function PathwayCourse() {
         .catch((err) => console.error(err));
     }
   };
-
-  //  ------------------------- Uncomment these code of lines when redux start working -------------------------
-  // const loading = useSelector((state) => {
-  //   const upcomingBatchesState = state?.Pathways?.upcomingBatches;
-  //   const enrolledBatchesState = state?.Pathways?.enrolledBatches;
-  //   return (
-  //     (!upcomingBatchesState ||
-  //       !enrolledBatchesState ||
-  //       upcomingBatchesState.loading ||
-  //       enrolledBatchesState.loading) &&
-  //     !(upcomingBatchesData?.length > 0) &&
-  //     !(enrolledBatches?.length > 0)
-  //   );
-  // });
 
   const history = useHistory();
   useEffect(() => {
@@ -367,8 +337,8 @@ function PathwayCourse() {
             ""
           )}
           {/*............... certificate modal.............. */}
-          
-           <Container
+
+          <Container
             // className={classes.pathwayContainer}
             mt={isActive ? 0 : 55}
             mb={isActive ? 32 : 48}

@@ -19,13 +19,11 @@ const CourseEnroll = (props) => {
   const classes = useStyles();
   const params = useParams();
   const user = useSelector(({ User }) => User);
-  //  ---------------------- Remove this useEfect when redux starts working -----------------------------
-  const [upcomingBatchesData, setUpcomingBatchesData] = useState();
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
 
-  //  ---------------------- Uncomment these lines of code when redux starts working -----------------------------
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
+  console.log("upcomingBatchesData", upcomingBatchesData);
 
   const { reloadContent } = props;
   const pathwayId = params.pathwayId;
@@ -45,20 +43,6 @@ const CourseEnroll = (props) => {
   const close = () => {
     setOpen(false);
   };
-
-  //  ---------------------- Remove this useEfect when redux starts working -----------------------------
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((response) => {
-      setUpcomingBatchesData(response.data);
-    });
-  }, [pathwayId]);
 
   return (
     <>

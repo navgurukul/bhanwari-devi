@@ -35,11 +35,10 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
   const pathway = useSelector((state) => state);
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const [upcomingBatchesData, setUpcomingBatchesData] = useState([]);
 
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
+  const upcomingBatchesData = useSelector((state) => {
+    return state.Pathways?.upcomingBatches?.data;
+  });
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -48,23 +47,6 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
       return null;
     }
   });
-
-  const upcomingBatche = () => {
-    return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
-      method: METHODS.GET,
-      headers: {
-        "version-code": versionCode,
-        Authorization: user?.data?.token,
-      },
-    })
-      .then((res) => {
-        setUpcomingBatchesData(res.data);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
 
   useEffect(() => {
     if (user?.data?.token && enrolledBatches?.length > 0) {
@@ -76,13 +58,12 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
       );
     } else {
       if (user?.data?.token) {
-        // dispatch(
-        //   upcomingBatchesActions.getUpcomingBatches({
-        //     pathwayId: pathwayId,
-        //     authToken: user?.data?.token,
-        //   })
-        // );
-        upcomingBatche();
+        dispatch(
+          upcomingBatchesActions.getUpcomingBatches({
+            pathwayId: pathwayId,
+            authToken: user?.data?.token,
+          })
+        );
       }
     }
   }, [enrolledBatches]);
