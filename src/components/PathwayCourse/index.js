@@ -78,17 +78,6 @@ function saveFile(url) {
   xhr.open("GET", url);
   xhr.send();
 }
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 function PathwayCourse() {
   const user = useSelector(({ User }) => User);
@@ -150,6 +139,7 @@ function PathwayCourse() {
         Authorization: user.data.token,
       },
     }).then((response) => {
+      console.log('data of batch',response,)
       setUpcomingBatchesData(response.data);
     });
   }, [pathwayId]);
@@ -378,8 +368,8 @@ function PathwayCourse() {
             ""
           )}
           {/*............... certificate modal.............. */}
-
-          <Container
+          
+           <Container
             // className={classes.pathwayContainer}
             mt={isActive ? 0 : 55}
             mb={isActive ? 32 : 48}

@@ -49,21 +49,19 @@ const PathwayCourseBatchEnroll1 = ({ upcomingBatchesData }) => {
               <Typography
                 variant="body1"
                 my={2}
-                className={classes.FlexedContant}
-              >
+                className={classes.FlexedContant}>
                 <img
                   className={classes.icons}
                   src={require("./assets/calender.svg")}
                   alt="Students Img"
                 />
                 From {format(batch?.start_time, "dd MMM yy")} -{" "}
-                {format(batch?.end_time, "dd MMM yy")}
+                {format(batch?.last_class_date, "dd MMM yy")}
               </Typography>
               <Typography
                 variant="body1"
                 mb={2}
-                className={classes.FlexedContant}
-              >
+                className={classes.FlexedContant}>
                 <img
                   className={classes.icons}
                   src={require("./assets/degree.svg")}
@@ -88,14 +86,12 @@ const PathwayCourseBatchEnroll1 = ({ upcomingBatchesData }) => {
                 className={classes.FlexedContant}
                 mt={2}
                 align="start"
-                variant="body2"
-              >
+                variant="body2">
                 Can’t start on {format(batch?.start_time, "dd MMM yy")}
                 {" ? "}
                 <section
                   className={classes.link}
-                  onClick={handleUpcomingBatchesClickOpen}
-                >
+                  onClick={handleUpcomingBatchesClickOpen}>
                   {"  "} &nbsp;
                   <b>Check out our other batches</b>
                 </section>

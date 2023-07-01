@@ -26,6 +26,8 @@ export default function CheckMoreBatches(props) {
     setOpenDialog(true);
   };
 
+  console.log("upcomingBatchesData", upcomingBatchesData);
+
   const close = () => {
     setOpenDialog(false);
   };
@@ -35,8 +37,7 @@ export default function CheckMoreBatches(props) {
         {upcomingBatchesData?.length > 1 ? (
           <Box
             className={classes.MoreBatchWrap}
-            width={isActive ? "290px" : "448px"}
-          >
+            width={isActive ? "290px" : "448px"}>
             <Typography variant="h5" align="start">
               More Batches
             </Typography>
@@ -49,15 +50,14 @@ export default function CheckMoreBatches(props) {
                 <Typography
                   variant="body1"
                   mt={2}
-                  className={classes.FlexedContant}
-                >
+                  className={classes.FlexedContant}>
                   <img
                     className={classes.icons}
                     src={require("./assets/calender.svg")}
                     alt="Students Img"
                   />
                   {format(item.start_time, "dd MMM yy")} -{" "}
-                  {format(item.end_batch_time, "dd MMM yy")}
+                  {format(item.last_class_date, "dd MMM yy")}
                 </Typography>
                 <Button
                   fullWidth
@@ -70,8 +70,7 @@ export default function CheckMoreBatches(props) {
                       id: item.id,
                     });
                   }}
-                  variant="contained"
-                >
+                  variant="contained">
                   Enroll Batch
                 </Button>
               </Box>
@@ -90,8 +89,7 @@ export default function CheckMoreBatches(props) {
         ) : (
           <Box
             className={classes.MoreBatchWrap}
-            width={isActive ? "290px" : "448px"}
-          >
+            width={isActive ? "290px" : "448px"}>
             <img
               src={require("./assets/NoBatchesjpg.jpg")}
               alt="empty"
