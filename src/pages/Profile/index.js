@@ -50,7 +50,6 @@ const firebaseConfig = {
 };
 
 function Profile() {
-  // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
   const params = useParams();
   const pathwayId = params.pathwayId;
   const classes = useStyles();
