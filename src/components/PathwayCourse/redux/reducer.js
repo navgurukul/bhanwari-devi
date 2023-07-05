@@ -6,7 +6,7 @@ const initialState = {
   data: null,
 };
 
-export const Pathway = (state = initialState, action) => {
+export const Pathways = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_PATHWAY_INTENT:
       return {
