@@ -184,12 +184,14 @@ function PathwayExercise() {
     })
       .then((res) => {
         setCourse(res.data.course.exercises);
+        console.log("data", res.data);
         setAvailableLang(res.data.course.lang_available);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [currentCourse]);
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
@@ -205,6 +207,8 @@ function PathwayExercise() {
       setProgressTrackId(data);
     });
   }, [exerciseId]);
+
+  console.log("progressTrackId", progressTrackId);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -268,7 +272,9 @@ function PathwayExercise() {
     }
   };
 
+  console.log("courseLength", courseLength);
   const nextClickHandler = () => {
+    console.log("exerciseId", exerciseId);
     if (exerciseId < courseLength - 1) {
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
