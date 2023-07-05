@@ -23,14 +23,16 @@ function* handleGetPathways({ data }) {
 }
 
 function* handleGetPathwaysDropdown({ data }) {
-  const pathwaysResponse = yield call(getPathwaysDropdown, data);
+  const pathwaysDropdownResponse = yield call(getPathwaysDropdown, data);
   if (
-    pathwaysResponse &&
-    httpStatuses.SUCCESS.includes(pathwaysResponse.status)
+    pathwaysDropdownResponse &&
+    httpStatuses.SUCCESS.includes(pathwaysDropdownResponse.status)
   ) {
-    yield put(actions.getPathwaysDropdownResolved(pathwaysResponse.data));
+    yield put(
+      actions.getPathwaysDropdownResolved(pathwaysDropdownResponse.data)
+    );
   } else {
-    yield put(actions.getPathwaysDropdownRejected(pathwaysResponse));
+    yield put(actions.getPathwaysDropdownRejected(pathwaysDropdownResponse));
   }
 }
 
