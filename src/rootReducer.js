@@ -5,7 +5,7 @@ import { types as appTypes } from "./components/App/redux/action";
 import User from "./components/User/redux/reducer";
 import Class from "./components/Class/redux/reducer";
 import Course from "./components/Course/redux/reducer";
-import { Pathways, PathwaysDropdow } from "./components/PathwayCourse/redux/reducer";
+import { Pathways, PathwaysDropdown as PathwaysDropdow } from "./components/PathwayCourse/redux/reducer";
 
 // import Notifications from './Notifications'
 
