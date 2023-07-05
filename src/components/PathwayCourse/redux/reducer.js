@@ -155,7 +155,7 @@ export const Pathways = (state = initialState, action) => {
   }
 };
 
-export const PathwayDropdown = (state = initialState, action) => {
+export const PathwaysDropdown = (state = initialState, action) => {
   switch (action.type) {
     // getPathwaysDropdown
     case types.GET_PATHWAY_DROPDOWN_INTENT:
