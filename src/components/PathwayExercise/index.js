@@ -286,8 +286,8 @@ function PathwayExercise() {
           Authorization: user.data?.token || "",
         },
         data: {
-          pathway_id: params.pathwayId,
-          course_id: params.courseId,
+          pathway_id: parseInt(params.pathwayId),
+          course_id: parseInt(params.courseId),
           exercise_id: course[exerciseId].id,
         },
       });
@@ -304,8 +304,8 @@ function PathwayExercise() {
           Authorization: user.data?.token || "",
         },
         data: {
-          pathway_id: params.pathwayId,
-          course_id: params.courseId,
+          pathway_id: parseInt(params.pathwayId),
+          course_id: parseInt(params.courseId),
           exercise_id: course[exerciseId].id,
         },
       })

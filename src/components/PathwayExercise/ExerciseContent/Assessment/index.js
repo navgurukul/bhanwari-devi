@@ -36,12 +36,11 @@ function Assessment({
         Authorization: user.data?.token || "",
       },
       data: {
-        pathway_id: params.pathwayId,
-        course_id: params.courseId,
+        pathway_id: parseInt(params.pathwayId),
+        course_id: parseInt(params.courseId),
         exercise_id: courseData.id,
       },
     });
-  
 
     if (answer == solution) {
       setCorrect(true);
@@ -102,7 +101,7 @@ function Assessment({
         setSubmit(true);
       }
     }
-  }, [res,triedAgain]);
+  }, [res, triedAgain]);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
@@ -122,7 +121,7 @@ function Assessment({
             submitDisable={submitDisable}
             triedAgain={triedAgain}
             submitAssessment={submitAssessment}
-            params = {params}
+            params={params}
           />
         ))}
 
