@@ -75,7 +75,6 @@ function Login(props) {
   };
 
   if (isAuthenticated) {
-    console.log("queryString", queryString);
     if (queryString) {
       axios({
         method: METHODS.PUT,
