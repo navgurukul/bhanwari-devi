@@ -1,6 +1,6 @@
-import React from "react";
-import { isTouchScreen } from "../../common/utils";
+import React, { cloneElement, useEffect, useRef, useState } from "react";
 import Menu from "@mui/material/Menu";
+import { isTouchScreen } from "../../common/utils";
 
 /**
  * Component for representing a dropdown menu with a visible toggling button.
@@ -27,28 +27,22 @@ export default function DropDownMenu({
   onCloseMenu,
   children,
 }) {
-  const [inDropdown, setInDropdown] = React.useState({
+  const [inDropdown, setInDropdown] = useState({
     inProgress: false,
     value: false,
   });
 
-  // const ref = React.useRef(null);
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  // #802: part of hack to make button clickable over presentation layer
-  //   when menu is open, needed for sidebar
-  const [offsetX, setOffsetX] = React.useState(0);
-  const [offsetY, setOffsetY] = React.useState(0);
-  // We can just adjust the margin left/top of the presentation layer when
-  //   attaching the menu to the left, but the hack won't work if attaching
-  //   to the right. In that case, we use a preset margin-top which is set
-  //   for the current heading.
+  const [anchorEl, setAnchorEl] = useState(null);
+  // #802: part of hack to make button clickable over presentation layer when menu is open, needed for sidebar
+  const [offsetX, setOffsetX] = useState(0);
+  const [offsetY, setOffsetY] = useState(0);
+  // We can just adjust the margin left/top of the presentation layer when attaching the menu to the left, but the hack won't work if attaching to the right. In that case, we use a preset margin-top which is set for the current heading.
   const useOffset = !attachRight;
   const offset = useOffset
     ? { ml: offsetX + "px", mt: offsetY + "px" }
     : { mt: "45px" };
 
-  const inDropdownRef = React.useRef(inDropdown);
+  const inDropdownRef = useRef(inDropdown);
   inDropdownRef.current = inDropdown;
 
   const handleOpenMenu = (event) => {
@@ -56,13 +50,6 @@ export default function DropDownMenu({
     setAnchorEl(event.currentTarget);
     setOffsetX(event.currentTarget.getBoundingClientRect().left);
     setOffsetY(event.currentTarget.getBoundingClientRect().bottom);
-    /*
-    setOffsetY(
-      event.currentTarget.getBoundingClientRect().bottom -
-        event.currentTarget.getBoundingClientRect().height / 2 +
-        6
-    );
-    */
   };
 
   const handleCloseMenu = () => {
@@ -82,7 +69,7 @@ export default function DropDownMenu({
     );
   };
 
-  const DropDownButtonWithHandlers = React.cloneElement(DropDownButton, {
+  const DropDownButtonWithHandlers = cloneElement(DropDownButton, {
     onMouseEnter: (e) => {
       if (typeof DropDownButton.props.onMouseEnter === "function") {
         DropDownButton.props.onMouseEnter(e);
@@ -102,42 +89,14 @@ export default function DropDownMenu({
       }
     },
     onClick: (e) => (anchorEl ? handleCloseMenu() : handleOpenMenu(e)),
-    /*
-    style: {
-      // #802: hack to make button clickable over presentation layer when menu is open
-      //  This won't work because its header parent has a lower z-index than the modal
-      //  We can change this 
-      // (https://mui.com/material-ui/customization/default-theme/?expand-path=$.zIndex)
-      //  but its an even worse hack and the shadow will appear under the header. 
-      position: 'relative',
-      zIndex: (menuContainerProps?.zIndex || 0) + 10000,
-      ...DropDownButton.props.style,
-    },
-    */
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!inDropdown.inProgress && !inDropdown.value) {
-      // mouse has moved out of main menu item and its
-      //   dropdown after delay milliseconds
-      // menuCloseHandler();
-      //console.log(inDropdown);
+      // mouse has moved out of main menu item and its dropdown after delay milliseconds menuCloseHandler();
       handleCloseMenu();
     }
   }, [inDropdown]);
-
-  // React.useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       !ref?.current?.contains(event.target) &&
-  //       !inDropdown.inProgress &&
-  //       !inDropdown.value
-  //     ) {
-  //       handleCloseMenu();
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleClickOutside);
-  // }, []);
 
   return (
     <>
@@ -153,8 +112,6 @@ export default function DropDownMenu({
         // sx={{zIndex: 0}}
         // Use 45px for margin-top (as of now 1/2 the height of the header + 6px)
         {...menuContainerProps}
-        // TODO: height: 100% wasn't needed before, what changed for LEARN menu?
-        // style={{ height: 100% }}
         sx={{ ...offset, ...menuContainerProps?.sx }}
         anchorOrigin={{
           vertical: "top",
@@ -176,7 +133,6 @@ export default function DropDownMenu({
         }}
         hideBackdrop
         open={!!anchorEl}
-        // To resolve issue https://github.com/mui/material-ui/issues/5185
         disableScrollLock={true}>
         {children}
       </Menu>
