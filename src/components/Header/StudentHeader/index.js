@@ -1,6 +1,7 @@
 import React from "react";
 
-import { DropDown, MobileDropDown } from "../DropDown";
+import { DropDown } from "../DropDown";
+import { MobileDropDown } from "../MobileDropDown";
 import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
