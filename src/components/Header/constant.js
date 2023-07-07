@@ -7,9 +7,6 @@ export const VOLUNTEER_ROLE_KEY = "VOLUNTEER";
 export const PARTNER_ROLE_KEY = "PARTNER";
 export const PARTNER_VIEW_ROLE_KEY = "PARTNER_VIEW";
 export const PARTNER_EDIT_ROLE_KEY = "PARTNER_EDIT";
-// export const ROLE_KEYS =
-//    [ADMIN_ROLE_KEY, STUDENT_ROLE_KEY, VOLUNTEER_ROLE_KEY, PARTNER_ROLE_KEY];
-// export const DEFAULT_ROLE_KEYS = [STUDENT_ROLE_KEY];
 
 export const ROLES = {
   [ADMIN_ROLE_KEY]: {
@@ -77,10 +74,6 @@ export const MENU_MSG_KEY_MAP = {
   [LEARN_KEY]: LEARN_KEY,
   [ABOUT_KEY]: ABOUT_KEY,
   [GET_INVOLVED_KEY]: GET_INVOLVED_KEY,
-  // Learn: 'LEARN',
-  // About: 'ABOUT',
-  // GetInvolved: 'GET_INVOLVED',
 };
 
 export const PUBLIC_MENU_KEYS = [LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY];
-// export const PUBLIC_MENU_KEYS = ["LEARN", "ABOUT", "GET_INVOLVED"];
