@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ExternalLink from "../common/ExternalLink";
 import { MenuItem } from "@mui/material";
+import ExternalLink from "../common/ExternalLink";
 import useStyles from "./styles";
 
 export default function DropdownLink({
