@@ -30,7 +30,7 @@ const getQueryVariable = (queryVars) => {
   for (var i = 0; i < vars.length; i++) {
     var pair = vars[i].split("=");
     if (decodeURIComponent(pair[0]) == queryVars) {
-      return decodeURIComponent(pair[1]);
+      return decodeURIComponent(vars[i]);
     }
   }
 };
