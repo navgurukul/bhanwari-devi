@@ -1,32 +1,11 @@
 import React from "react";
-
-import { DropDown, MobileDropDown } from "../DropDown";
-import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { Box } from "@mui/material";
 import HeaderNavLink from "../HeaderNavlink";
-import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
-import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
-import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
-import {
-  LEARN_KEY,
-  MENU_ITEMS,
-  // ROLES,
-  // ADMIN_ROLE_KEY as ADMIN,
-  // PARTNER_ROLE_KEY as PARTNER,
-  // PARTNER_VIEW_ROLE_KEY as PARTNER_VIEW,
-  // PARTNER_EDIT_ROLE_KEY as PARTNER_EDIT,
-  // STUDENT_ROLE_KEY as STUDENT,
-  // VOLUNTEER_ROLE_KEY as VOLUNTEER,
-} from "../constant";
 import SearchPopup from "../../SearchBar/SearchPopup";
-import ExternalLink from "../../common/ExternalLink";
-import useStyles from "../../Header";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
-  const classes = useStyles();
   return (
     <>
       <HeaderNavLink
@@ -45,12 +24,6 @@ function CommonLeftStudentHeader({ toggleDrawer }) {
 }
 
 function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
-  const [learn, setLearn] = React.useState(null);
-
-  const handleCloseLearn = () => {
-    setLearn(null);
-  };
-
   return (
     <>
       <Box
@@ -62,32 +35,8 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
           },
         }}
       >
-        <TextButtonDropDownMenu
-          btnTextMsgKey={MENU_ITEMS[LEARN_KEY]?.msgKey}
-          // attachRight={!leftDrawer}
-          menuContainerProps={{
-            id: "menu-appbar",
-          }}
-          sx={{ color: "black" }}
-        >
-          <DropDown dropDown={LEARN_KEY} toggleDrawer={toggleDrawer} />
-        </TextButtonDropDownMenu>
-
         <CommonLeftStudentHeader toggleDrawer={toggleDrawer} />
       </Box>
-      <Box
-        sx={{
-          display: { xs: "block", md: "none" },
-        }}
-      >
-        <MobileDropDown
-          menuKey={LEARN_KEY}
-          handleClose={handleCloseLearn}
-          toggleDrawer={toggleDrawer}
-        />
-        <CommonLeftStudentHeader toggleDrawer={toggleDrawer} />
-      </Box>
-
       <Box
         sx={{
           display: { xs: "block", md: "flex" },
@@ -97,17 +46,6 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
         }}
       >
         {!leftDrawer && <SearchPopup />}
-
-        {/* <HeaderNavLink
-          to={PATHS.ADMISSION}
-          text={<Message constantKey="NAVGURUKUL_ADMISSION" />}
-          toggleDrawer={toggleDrawer}
-        />
-        <HeaderNavLink
-          to={PATHS.OPPORTUNITIES}
-          text={<Message constantKey="OPPORTUNITIES" />}
-          toggleDrawer={toggleDrawer}
-        /> */}
       </Box>
     </>
   );
