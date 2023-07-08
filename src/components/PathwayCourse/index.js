@@ -164,20 +164,20 @@ function PathwayCourse() {
     saveFile(certificate);
   };
 
-  const shareCertificate = () => {
-    if (navigator.share !== undefined) {
-      const title = `Check out my ${pathwayCourseData?.pathway} certificate`;
-      const text = `I completed a ${pathwayCourseData?.pathway} from Meraki!`;
-      const url = certificate;
-      navigator
-        .share({
-          title,
-          text,
-          url,
-        })
-        .catch((err) => console.error(err));
-    }
-  };
+  // const shareCertificate = () => {
+  //   if (navigator.share !== undefined) {
+  //     const title = `Check out my ${pathwayCourseData?.pathway} certificate`;
+  //     const text = `I completed a ${pathwayCourseData?.pathway} from Meraki!`;
+  //     const url = certificate;
+  //     navigator
+  //       .share({
+  //         title,
+  //         text,
+  //         url,
+  //       })
+  //       .catch((err) => console.error(err));
+  //   }
+  // };
 
   const loading = useSelector((state) => {
     const upcomingBatchesState = state?.Pathways?.upcomingBatches;
@@ -281,17 +281,17 @@ function PathwayCourse() {
   });
 
   useEffect(() => {
-    if (pathwayCourseData && pathwayCourseData.code == "TCBPI") {
+    if (pathwayCourse?.data && pathwayCourse?.data.code == "TCBPI") {
       setPathwayCode(true);
     } else {
       setPathwayCode(false);
     }
-    if (pathwayCourseData) {
-      pathwayCourseData.code === "PRGPYT"
+    if (pathwayCourse?.data) {
+      pathwayCourse?.data.code === "PRGPYT"
         ? setDisplayCert(true)
         : setDisplayCert(false);
     }
-  }, [pathwayCourseData]);
+  }, [pathwayCourse?.data]);
 
   const onHandleSnackbarOpen = () => {
     setOpen(true);
@@ -326,10 +326,10 @@ function PathwayCourse() {
         setisFormModalOpen={setisFormModalOpen}
         user={user}
       />
-      {pathwayCourseData?.type === "withoutCourse" ? (
+      {pathwayCourse?.data?.type === "withoutCourse" ? (
         <AmazonCodingProgrammer
           pathwayId={pathwayId}
-          pathwayCourseData={pathwayCourseData}
+          pathwayCourseData={pathwayCourse?.data}
         />
       ) : (
         <>
@@ -364,7 +364,7 @@ function PathwayCourse() {
                   sx={{
                     fontSize: "32px",
                     fontWeight: "600",
-                  }}>{`${pathwayCourseData?.name}  Certificate`}</Typography>
+                  }}>{`${pathwayCourse?.data?.name}  Certificate`}</Typography>
                 <div className={classes.pdfWrapper}>
                   <iframe
                     allowtransparency="true"
@@ -373,7 +373,7 @@ function PathwayCourse() {
                     src={`${certificate}#toolbar=0`}></iframe>
                   {/* <ReactPDF/> */}
                 </div>
-                <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourseData?.pathway} fundamentals.`}</Typography>
+                <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourse?.data?.name} fundamentals.`}</Typography>
                 <Box className={classes.certButtons}>
                   {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
                   <Button
@@ -391,11 +391,11 @@ function PathwayCourse() {
               <>
                 <PathwayCards
                   userEnrolledClasses={userEnrolledClasses}
-                  data={data}
+                  data={pathwayCourse.data}
                 />
               </>
             ) : (
-              pathwayCourseData && (
+              pathwayCourse?.data && (
                 <>
                   <Grid
                     container
@@ -412,18 +412,18 @@ function PathwayCourse() {
                           variant="h4"
                           className={classes.heading}
                           sx={{ textAlign: isActive && "center", pb: "16px" }}>
-                          {pathwayCourseData.name}
+                          {pathwayCourse?.data.name}
                         </Typography>
                         <Typography variant="body1">
-                          {pathwayCourseData.description}
+                          {pathwayCourse?.data.description}
                         </Typography>
 
-                        {pathwayCourseData.video_link && (
+                        {pathwayCourse?.data.video_link && (
                           <ExternalLink
                             style={{
                               textDecoration: "none",
                             }}
-                            href={pathwayCourseData.video_link}>
+                            href={pathwayCourse?.data.video_link}>
                             <Typography
                               style={{ display: "flex" }}
                               mt={2}
@@ -446,8 +446,8 @@ function PathwayCourse() {
                         )}
 
                         {/* .....summary .......*/}
-                        {pathwayCourseData?.code === "TCBPI" &&
-                          pathwayCourseData?.summary.map((content, index) => {
+                        {pathwayCourse?.data?.code === "TCBPI" &&
+                          pathwayCourse?.data?.summary.map((content, index) => {
                             if (content.component === "text") {
                               return (
                                 <UnsafeHTML
@@ -469,8 +469,8 @@ function PathwayCourse() {
                         {/* ..........login button when user are not login............... */}
 
                         {!user?.data?.token &&
-                          (pathwayCourseData.code == "PRGPYT" ||
-                            pathwayCourseData.code == "SPKENG") && (
+                          (pathwayCourse?.data.code == "PRGPYT" ||
+                            pathwayCourse?.data.code == "SPKENG") && (
                             <>
                               <Typography
                                 variant="body1"
@@ -499,8 +499,8 @@ function PathwayCourse() {
                     {/* ........upcoming classes............ */}
                     <Grid item xs={12} md={6} sx={{ pl: 2 }}>
                       {user?.data?.token &&
-                        (pathwayCourseData.code == "PRGPYT" ||
-                          pathwayCourseData.code == "SPKENG") &&
+                        (pathwayCourse?.data.code == "PRGPYT" ||
+                          pathwayCourse?.data.code == "SPKENG") &&
                         (loading ? (
                           <Card sx={{ p: 4 }}>
                             <Typography variant="subtitle1">
@@ -533,7 +533,7 @@ function PathwayCourse() {
                   </Grid>
 
                   {/* ...............Learning outcomes..................... */}
-                   {pathwayCourseData?.outcomes && (
+                   {pathwayCourse?.data?.outcomes && (
                     <Box className={classes.Box1}>
                       <Typography
                         variant="h6"
@@ -541,7 +541,7 @@ function PathwayCourse() {
                         Learning Outcomes
                       </Typography>
                       <Grid container spacing={0} align="center">
-                        {pathwayCourseData.outcomes.map((item, index) => (
+                        {pathwayCourse?.data.outcomes.map((item, index) => (
                           <Grid item key={index} xs={12} md={4}>
                             <Card
                               sx={{ margin: "10px" }}
@@ -755,12 +755,12 @@ function PathwayCourse() {
                       />
                     )}
                     <Typography sx={{ mt: 2 }} variant="body1" mb={2}>
-                      {pathwayCourseData?.name} Certificate
+                      {pathwayCourse?.data?.name} Certificate
                     </Typography>
                   </Grid>
                   <CustomSnackbar
                     openSnackbar={openSnackbar}
-                    pathwayName={pathwayCourseData?.name}
+                    pathwayName={pathwayCourse?.data?.name}
                     handleSnackbar={handleSnackbar}
                   />
                 </Grid>
