@@ -1,86 +1,11 @@
-import {
-  Chip,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-} from "@mui/material";
-import { PATHS, interpolatePath } from "../../constant";
-import axios from "axios";
-import { format } from "../../common/date";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { METHODS } from "../../services/api";
-import DropOut from "../BatchClassComponents/DropOut";
+import axios from "axios";
+import { Typography, Grid } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { METHODS } from "../../services/api";
 import { breakpoints } from "../../theme/constant";
-import useStyles from "./styles";
-import { Link } from "react-router-dom";
-
-function DropOutIndividualComponent(props) {
-  const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  const { title, id, pathway_name, open, setOpen, start_time, end_time } =
-    props;
-  const close = () => {
-    setOpen(false);
-  };
-
-  return (
-    <>
-      <Card className={classes.cardDrop}>
-        <Link
-          className={classes.link}
-          to={interpolatePath(PATHS.PATHWAY_COURSE, {
-            pathwayId: 1,
-          })}
-        >
-          <CardContent className={classes.cardContent}>
-            <Chip
-              variant="filled"
-              label={pathway_name}
-              // backgroundColor="lemonchiffon"
-              sx={{
-                background: "lemonchiffon",
-              }}
-              className={classes.cardChip}
-            />
-            <Typography variant="subtitle1" color="black">
-              {title}
-            </Typography>
-            <Typography variant="body1" mt={2} className={classes.cardImg}>
-              {/* <img src={require("./assest/calendar.svg")} /> */}
-              <Typography variant="body1" ml={1}>
-                From {format(start_time, "dd MMM yy")} -{" "}
-                {format(end_time, "dd MMM yy")}
-              </Typography>
-            </Typography>
-          </CardContent>
-        </Link>
-        <CardActions>
-          <Button
-            onClick={() => {
-              setOpen(true);
-            }}
-            color="error"
-          >
-            Drop Out
-          </Button>
-        </CardActions>
-      </Card>
-      <DropOut
-        open={open}
-        close={close}
-        title={title}
-        id={id}
-        unregister_all={true}
-      />
-    </>
-  );
-}
+import { DropOutIndividualComponent } from "./DropOutBatchIndividual";
 
 function DropOutBatchesProfile() {
   const [dropOutBatches, setDropOutBatches] = useState(null);
@@ -104,10 +29,6 @@ function DropOutBatchesProfile() {
       }
     });
   }, [open]);
-
-  // if (dropOutBatches !== null) {
-  //   dropOutBatches.map((item) => {console.log(item.pathway_id)})
-  // }
 
   return (
     <div
