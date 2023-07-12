@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { breakpoints } from "../../theme/constant";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  Box,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
+
+import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from "axios";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -15,10 +14,9 @@ import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import { METHODS } from "../../services/api";
-
 import TextField from "@mui/material/TextField";
 import { max } from "date-fns";
-
+import useStyles from "./styles";
 
 const style = {
   position: "absolute",
@@ -27,14 +25,19 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  margin: "2rem 0rem"
+  margin: "3rem 0rem",
 };
 
-function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, user }) {
-
+function CustomModal({
+  isFormModalOpen,
+  setisFormModalOpen,
+  setisFormFilled,
+  user,
+}) {
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const classes = useStyles({ isActive });
   let [teacherDetails, setTeacherDetails] = useState({
     zone: "",
     school_id: "",
@@ -54,8 +57,34 @@ function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, use
       },
     },
   };
-  const classesOfTeacher = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"];
-  const zoneArray = ["Central", "Civil Lines", "CTSP", "Karol Bagh", "Keshavpuram", "Narela", "Rohini", "Nazafgarh", "South", "Sharda.North", "Sharda.South", "West"]
+  const classesOfTeacher = [
+    "Class 1",
+    "Class 2",
+    "Class 3",
+    "Class 4",
+    "Class 5",
+  ];
+  const zoneArray = [
+    "Central",
+    "Civil Lines",
+    "CTSP",
+    "Karol Bagh",
+    "Keshavpuram",
+    "Narela",
+    "Rohini",
+    "Nazafgarh",
+    "South",
+    "Sharda.North",
+    "Sharda.South",
+    "West",
+  ];
+  const fieldArray =[
+    { label: "School Name", key: "school_name" },
+    { label: "School Id", key: "school_id", type: "number" },
+    { label: "Teacher Name", key: "teacher_name" },
+    { label: "Email", key: "email" },
+    { label: "Teacher ID", key: "teacher_id", type: "number" },
+  ]
 
   const [teacherClass, setTeacherClass] = React.useState([]);
 
@@ -64,22 +93,18 @@ function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, use
     const {
       target: { value },
     } = event;
-    setTeacherClass(
-      typeof value === "string" ? value.split(",") : value
-    );
+    setTeacherClass(typeof value === "string" ? value.split(",") : value);
   };
   useEffect(() => {
     setTeacherDetails((prev) => ({
       ...prev,
-      class_of_teacher: teacherClass.join(",")
+      class_of_teacher: teacherClass.join(","),
     }));
-  }, [teacherClass])
+  }, [teacherClass]);
 
   const handleFormModalClose = () => {
     setisFormModalOpen(false);
   };
-
-
 
   const validateForm = () => {
     const newErrors = {};
@@ -142,10 +167,16 @@ function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, use
     }
   };
 
+  const renderError = (field) =>
+    errors[field] && <small style={{ color: "red" }}>{errors[field]}</small>;
 
   return (
-    <Modal sx={{ overflow: "scroll", border: "none", borderRadius: "10px" }} open={isFormModalOpen} onClose={handleFormModalClose}>
-      <Box sx={style} style={{ border: "none", borderRadius: "10px" }}>
+    <Modal
+      className={classes.customModalContainer}
+      open={isFormModalOpen}
+      onClose={handleFormModalClose}
+    >
+      <Box className={classes.modalContainer} sx={style}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             id="modal-modal-title"
@@ -163,14 +194,7 @@ function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, use
           />
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
+        <Box className={classes.modalBox}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Select Zone</InputLabel>
             <Select
@@ -191,91 +215,29 @@ function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, use
               ))}
             </Select>
           </FormControl>
-          {errors.zone && (
-            <small style={{ color: "red" }}>{errors.zone}</small>
-          )}
-          <TextField
-            id="outlined-basic"
-            label="School Name"
-            variant="outlined"
-            value={teacherDetails.school_name}
-            onChange={(e) => {
-              e.persist();
-              setTeacherDetails((prev) => ({
-                ...prev,
-                school_name: e.target.value,
-              }));
-            }}
-          />
-          {errors.school_name && (
-            <small style={{ color: "red" }}>{errors.school_name}</small>
-          )}
-          <TextField
-            id="outlined-basic"
-            label="School Id"
-            type="number"
-            variant="outlined"
-            value={teacherDetails.school_id}
-            onChange={(e) => {
-              e.persist();
-              setTeacherDetails((prev) => ({
-                ...prev,
-                school_id: parseInt(e.target.value),
-              }));
-            }}
-          />
-          {errors.school_id && (
-            <small style={{ color: "red" }}>{errors.school_id}</small>
-          )}
-          <TextField
-            id="outlined-basic"
-            label="Teacher Name"
-            variant="outlined"
-            value={teacherDetails.teacher_name}
-            onChange={(e) => {
-              e.persist();
-              setTeacherDetails((prev) => ({
-                ...prev,
-                teacher_name: e.target.value,
-              }));
-            }}
-          />
-          {errors.teacher_name && (
-            <small style={{ color: "red" }}>{errors.teacher_name}</small>
-          )}
-          <TextField
-            id="outlined-basic"
-            label="Email "
-            variant="outlined"
-            value={teacherDetails.email}
-            onChange={(e) => {
-              e.persist();
-              setTeacherDetails((prev) => ({
-                ...prev,
-                email: e.target.value,
-              }));
-            }}
-          />
-          {errors.email && (
-            <small style={{ color: "red" }}>{errors.email}</small>
-          )}
-          <TextField
-            id="outlined-basic"
-            label="Teacher ID"
-            type="number"
-            variant="outlined"
-            value={teacherDetails.teacher_id}
-            onChange={(e) => {
-              e.persist();
-              setTeacherDetails((prev) => ({
-                ...prev,
-                teacher_id: parseInt(e.target.value),
-              }));
-            }}
-          />
-          {errors.teacher_id && (
-            <small style={{ color: "red" }}>{errors.teacher_id}</small>
-          )}
+          {renderError("zone")}
+          {fieldArray.map((field) => (
+            <React.Fragment key={field.key}>
+              <TextField
+                id="outlined-basic"
+                label={field.label}
+                variant="outlined"
+                type={field.type}
+                value={teacherDetails[field.key]}
+                onChange={(e) => {
+                  e.persist();
+                  setTeacherDetails((prev) => ({
+                    ...prev,
+                    [field.key]:
+                      field.type === "number"
+                        ? parseInt(e.target.value)
+                        : e.target.value,
+                  }));
+                }}
+              />
+              {renderError(field.key)}
+            </React.Fragment>
+          ))}
           <FormControl sx={{ width: max }}>
             <InputLabel id="demo-multiple-checkbox-label">
               Select Class
@@ -298,22 +260,19 @@ function CustomModal({ isFormModalOpen, setisFormModalOpen, setisFormFilled, use
               ))}
             </Select>
           </FormControl>
-          {errors.class_of_teacher && (
-            <small style={{ color: "red" }}>{errors.class_of_teacher}</small>
-          )}
+
+          {renderError("class_of_teacher")}
         </Box>
         <Button
           variant="contained"
-          sx={{
-            marginLeft: "60%",
-          }}
+          sx={{ marginLeft: "60%" }}
           onClick={handleSubmitteacherDetails}
         >
           Share Details
         </Button>
       </Box>
     </Modal>
-  )
+  );
 }
 
-export default CustomModal
+export default CustomModal;
