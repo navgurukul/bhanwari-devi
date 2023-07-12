@@ -23,7 +23,6 @@ const CourseEnroll = (props) => {
     return state.Pathways?.upcomingBatches?.data;
   });
 
-  console.log("upcomingBatchesData", upcomingBatchesData);
 
   const { reloadContent } = props;
   const pathwayId = params.pathwayId;
