@@ -28,20 +28,22 @@ function Assessment({
   // Assessment submit handler
   const submitAssessment = () => {
     setSubmit(true);
-    axios({
-      method: METHODS.POST,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-      data: {
-        pathway_id: params.pathwayId,
-        course_id: params.courseId,
-        exercise_id: courseData.id,
-      },
-    });
-  
+
+    // Commented this API to test if progress tracking is working fine now
+
+    // axios({
+    //   method: METHODS.POST,
+    //   url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+    //   headers: {
+    //     accept: "application/json",
+    //     Authorization: user.data?.token || "",
+    //   },
+    //   data: {
+    //     pathway_id: params.pathwayId,
+    //     course_id: params.courseId,
+    //     exercise_id: courseData.id,
+    //   },
+    // });
 
     if (answer == solution) {
       setCorrect(true);
@@ -102,7 +104,7 @@ function Assessment({
         setSubmit(true);
       }
     }
-  }, [res,triedAgain]);
+  }, [res, triedAgain]);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
@@ -122,7 +124,7 @@ function Assessment({
             submitDisable={submitDisable}
             triedAgain={triedAgain}
             submitAssessment={submitAssessment}
-            params = {params}
+            params={params}
           />
         ))}
 
