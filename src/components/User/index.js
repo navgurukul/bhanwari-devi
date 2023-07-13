@@ -4,7 +4,6 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import "./styles.scss";
 import { toast } from "react-toastify";
-import MerakiCreateRoom from "../CreateChatRoom/index";
 import MerakiUsers from "../MerakiUsers";
 
 function User() {
@@ -110,9 +109,6 @@ function User() {
         <button type="submit" className="submitData" onClick={submitHandler}>
           Add
         </button>
-      </div>
-      <div className="create-room">
-        <MerakiCreateRoom />
       </div>
     </>
   );
