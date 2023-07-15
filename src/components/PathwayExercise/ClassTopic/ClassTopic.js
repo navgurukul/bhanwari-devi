@@ -1,6 +1,5 @@
 import { Box, Chip, Typography } from "@mui/material";
 import React from "react";
-// import { TimeLeft } from "../../../constant";
 import { format } from "../../../common/date";
 import FutureOrPast from "../../common/FutureOrPast";
 import { breakpoints } from "../../../theme/constant";
