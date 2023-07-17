@@ -101,7 +101,40 @@ const PythonEditor = ({
                 disabled={isLoading || isRunning}
                 variant="contained"
                 onClick={() => {
-                  runPython(pythonEditorCode);
+                  const lines = pythonEditorCode.split(/\r?\n/g);
+                  const noInputIndex = lines.findIndex(
+                    (line) =>
+                      line.trim() &&
+                      !/^[a-zA-Z_]\w*[ ]*=[ ]*(int\(|float\()?input/.test(line.trim())
+                  );
+                  const initialPythonCode = lines.slice(0, noInputIndex).map((line) => {
+                    const jsCode = line
+                      .replace('input', 'prompt')
+                      .replace('int', 'parseInt')
+                      .replace('float', 'parseFloat');
+                    const varName = line.substring(0, line.search(/[^\w]/));
+                    // alert('const ' + jsCode + ';' + varName);
+                    /*
+x = float(input("Enter x"))
+y = int(input("Enter y"))
+z = input("Enter a word")
+print(x + y, z)
+                    */
+                    let valueOfVarName;
+                    try {
+                      valueOfVarName = eval('const ' + jsCode + ';' + varName);
+                    } catch (e) {
+                      console.log(e);
+                      valueOfVarName = '';
+                    }
+                    return `${varName} = ${
+                      typeof valueOfVarName === 'string'
+                        ? '"' + valueOfVarName.replace(/"/g, '\\"') + '"'
+                        : valueOfVarName
+                    }`;
+                  });
+
+                  runPython(initialPythonCode.join("\n") + "\n" + lines.slice(noInputIndex).join("\n"));
                 }}
               >
                 Run
