@@ -379,23 +379,25 @@ function PathwayCourse() {
               onClose={handleCloseModal}
             >
               <Box sx={modalStyle}>
-           <Box sx={{
-            display:"flex", justifyContent:"space-between", alignItems:"center"
-           }}>
-                <Typography
+                <Box
                   sx={{
-                    fontSize: "32px",
-                    fontWeight: "600",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
-                >{`${pathwayCourse?.data?.name}  Certificate`}</Typography>
-                      <CloseIcon
-                  sx={{ cursor: "pointer" }}
-                  onClick={handleCloseModal}
-                />
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "32px",
+                      fontWeight: "600",
+                    }}
+                  >{`${pathwayCourse?.data?.name}  Certificate`}</Typography>
+                  <CloseIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={handleCloseModal}
+                  />
                 </Box>
                 <div className={classes.pdfWrapper}>
-          
-                
                   <iframe
                     allowtransparency="true"
                     border="0"
@@ -435,7 +437,12 @@ function PathwayCourse() {
                     align="center"
                     className={classes.box}
                   >
-                    <Grid item xs={12} md={6} sx={{ pl: 2 }}>
+                    <Grid
+                      item
+                      xs={12}
+                      md={pathwayCourse?.data?.code === "TCBPI" ? 9 : 6}
+                      sx={{ pl: 2 }}
+                    >
                       <Card
                         align="left"
                         elevation={0}
