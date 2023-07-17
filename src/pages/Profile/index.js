@@ -229,7 +229,6 @@ function Profile() {
       dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
       setMsg(false);
       setUserData(res.data.user);
-      window.location.reload();
     });
   };
 
