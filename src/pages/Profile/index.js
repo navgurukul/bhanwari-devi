@@ -107,9 +107,7 @@ function Profile() {
     setStoreImg([...storeImg, { imgCrop }]);
     setImgDialoags(false);
   };
-
   const New_Profile = storeImg.map((item) => item.imgCrop);
-
   const handleClickOpen = () => {
     setIsEditing(true);
     setOpen(true);
@@ -155,6 +153,7 @@ function Profile() {
       auth
     );
   };
+
   useEffect(() => {}, [showError]);
   const OtpEnter = (event) => {
     confirmationResult
@@ -173,6 +172,7 @@ function Profile() {
         setOtp("");
       });
   };
+
   // OTP AUTH FUNCTION
   useEffect(() => {
     dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
@@ -210,7 +210,6 @@ function Profile() {
       name: editName,
       profile_picture: new_Profiles,
     };
-
     if (contact != null) {
       payload["contact"] = `${countryCode.replace("+", "")}-${contact}`;
     }
@@ -229,7 +228,6 @@ function Profile() {
       dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
       setMsg(false);
       setUserData(res.data.user);
-      window.location.reload();
     });
   };
 
@@ -307,6 +305,7 @@ function Profile() {
                               onFileLoad={(file) => {
                                 const formDatas = new FormData();
                                 formDatas.append("image", file);
+
                                 fetch(
                                   `${process.env.REACT_APP_MERAKI_URL}/courseEditor/ImageUploadS3`,
                                   {
