@@ -440,7 +440,7 @@ function PathwayCourse() {
                     <Grid
                       item
                       xs={12}
-                      md={pathwayCourse?.data?.code === "TCBPI" ? 9 : 6}
+                      md={pathwayCourse?.data?.code === "TCBPI" ? 11 : 6}
                       sx={{ pl: 2 }}
                     >
                       <Card
