@@ -45,7 +45,7 @@ function CustomModal({
     teacher_name: "",
     teacher_id: "",
     class_of_teacher: "",
-    // email: "",
+    
   });
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -82,7 +82,6 @@ function CustomModal({
     { label: "School Name", key: "school_name" },
     { label: "School Id", key: "school_id", type: "number" },
     { label: "Teacher Name", key: "teacher_name" },
-    // { label: "Email", key: "email" },
     { label: "Teacher ID", key: "teacher_id", type: "number" },
   ];
 
@@ -130,11 +129,6 @@ function CustomModal({
     if (!teacherDetails.class_of_teacher) {
       newErrors.class_of_teacher = "Class of Teacher is required.";
     }
-    // if (!teacherDetails.email) {
-    //   newErrors.email = "Email is required.";
-    // } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(teacherDetails.email)) {
-    //   newErrors.email = "Invalid email format.";
-    // }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
