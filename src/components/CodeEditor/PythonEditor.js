@@ -114,7 +114,6 @@ const PythonEditor = ({
                     runPython(pythonEditorCode);
                     return;
                   }
-                  ``;
 
                   const inputLines = lines
                     .slice(0, noInputIndex)
@@ -125,7 +124,6 @@ const PythonEditor = ({
                       .replace(/int[ ]*\(/g, "parseInt(")
                       .replace(/float[ ]*\(/g, "parseFloat(")
                   );
-                  console.log(inputLines);
                   const varNames = inputLines.map((line) =>
                     line.substring(0, line.search(/[^\w]/))
                   );
