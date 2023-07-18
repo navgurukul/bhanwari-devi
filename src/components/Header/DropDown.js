@@ -122,7 +122,14 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
             >
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
-                  <img src={menu.logo} alt="course logo" />
+                  <img
+                    src={
+                      menu.logo.includes("https")
+                        ? menu.logo
+                        : require("./asset/" + menu.logo + ".svg")
+                    }
+                    alt="course logo"
+                  />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
