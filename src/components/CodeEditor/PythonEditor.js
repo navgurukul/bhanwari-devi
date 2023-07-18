@@ -109,15 +109,23 @@ const PythonEditor = ({
                         line.trim()
                       )
                   );
+
+                  if (noInputIndex === 0) {
+                    runPython(pythonEditorCode);
+                    return;
+                  }
+                  ``;
+
                   const inputLines = lines
                     .slice(0, noInputIndex)
                     .filter((line) => line.trim());
                   const jsInputLines = inputLines.map((line) =>
                     line
-                      .replace(/input[ ]*\(/g, 'prompt(')
-                      .replace(/int[ ]*\(/g, 'parseInt(')
-                      .replace(/float[ ]*\(/g, 'parseFloat(')
+                      .replace(/input[ ]*\(/g, "prompt(")
+                      .replace(/int[ ]*\(/g, "parseInt(")
+                      .replace(/float[ ]*\(/g, "parseFloat(")
                   );
+                  console.log(inputLines);
                   const varNames = inputLines.map((line) =>
                     line.substring(0, line.search(/[^\w]/))
                   );
@@ -125,19 +133,19 @@ const PythonEditor = ({
                   let varValues;
                   try {
                     varValues = new Function(
-                      `let ${uniqueVarNames.join(',')};\n${jsInputLines.join(
-                        '\n'
+                      `let ${uniqueVarNames.join(",")};\n${jsInputLines.join(
+                        "\n"
                       )};\nreturn [${uniqueVarNames.map(
                         (varName) => `${varName}`
                       )}]`
                     )();
                   } catch (e) {
                     alert(
-                      'There was an error while running the code, but it may be because input does not fully work now.'
+                      "There was an error while running the code, but it may be because input does not fully work now."
                     );
                     console.log(e);
                   }
-/*
+                  /*
 x = float(input("Enter a number"))
 y = int(input("You entered " + x + ". Now enter another number."))
 x = int(input("You entered " + y + ". Enter first number again."))
@@ -148,14 +156,18 @@ print("Sum of two numbers is:", x + y, "Your word is:", z)
                     (varName, index) => {
                       const valueOfVarName = varValues[index];
                       return `${varName} = ${
-                        typeof valueOfVarName === 'string'
+                        typeof valueOfVarName === "string"
                           ? '"' + valueOfVarName.replace(/"/g, '\\"') + '"'
                           : valueOfVarName
                       }`;
                     }
                   );
 
-                  runPython(initialPythonCode.join("\n") + "\n" + lines.slice(noInputIndex).join("\n"));
+                  runPython(
+                    initialPythonCode.join("\n") +
+                      "\n" +
+                      lines.slice(noInputIndex).join("\n")
+                  );
                 }}
               >
                 Run
