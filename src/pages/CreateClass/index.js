@@ -207,6 +207,7 @@ function ToggleClassFormModal() {
             isEditMode={isEditMode}
             indicator={indicator}
             classToEdit={classToEdit}
+            setIsEditMode={setIsEditMode}
             formType={formType}
             setShowModal={setShowModal}
             setOpenSuccessfullModal={setOpenSuccessfullModal}

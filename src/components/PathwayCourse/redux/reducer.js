@@ -6,7 +6,7 @@ const initialState = {
   data: null,
 };
 
-export default (state = initialState, action) => {
+export const Pathways = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_PATHWAY_INTENT:
       return {
@@ -23,30 +23,6 @@ export default (state = initialState, action) => {
         data: action.data,
       };
     case types.GET_PATHWAY_INTENT_REJECTED:
-      return {
-        ...state,
-        loading: false,
-        error: action.error,
-        data: null,
-      };
-
-    // getPathwaysDropdown
-
-    case types.GET_PATHWAY_DROPDOWN_INTENT:
-      return {
-        ...state,
-        loading: true,
-        error: false,
-        data: null,
-      };
-    case types.GET_PATHWAY_DROPDOWN_INTENT_RESOLVED:
-      return {
-        ...state,
-        loading: false,
-        error: false,
-        data: action.data,
-      };
-    case types.GET_PATHWAY_DROPDOWN_INTENT_REJECTED:
       return {
         ...state,
         loading: false,
@@ -178,3 +154,32 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+export const PathwaysDropdown = (state = initialState, action) => {
+  switch (action.type) {
+    // getPathwaysDropdown
+    case types.GET_PATHWAY_DROPDOWN_INTENT:
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        data: null,
+      };
+    case types.GET_PATHWAY_DROPDOWN_INTENT_RESOLVED:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: action.data,
+      };
+    case types.GET_PATHWAY_DROPDOWN_INTENT_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        data: null,
+      };
+    default:
+      return state;
+  }
+}
