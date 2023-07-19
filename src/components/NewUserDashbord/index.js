@@ -73,7 +73,7 @@ const NewUserDashbord = () => {
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}>
+                  maxHeight={isActive && item.name.length < 12 ? 170 : 210}>
                   <PathwayCard
                     id={item.id}
                     name={item.name}
