@@ -165,13 +165,17 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
             toggleDrawer={toggleDrawer}
           />
         ))}
-        <MenuItem
-          sx={{
-            padding: 0,
-            borderRadius: "8px",
-          }}
+        <ExternalLink
+          href="https://www.navgurukul.org/donate"
+          className={classes.link}
+          onClick={toggleDrawer && toggleDrawer(false)}
         >
-          <NavLink to={PATHS.GSOC_IDEA} className={classes.link}>
+          <MenuItem
+            sx={{
+              padding: 0,
+              borderRadius: "8px",
+            }}
+          >
             <Typography
               variant="subtitle1"
               sx={{
@@ -185,10 +189,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                 },
               }}
             >
-              Gsoc Ideas 2023
+              Donate
+              <LaunchOutlinedIcon sx={{ pl: "5px" }} />
             </Typography>
-          </NavLink>
-        </MenuItem>
+          </MenuItem>
+        </ExternalLink>
       </Box>
 
       {!leftDrawer && (

@@ -68,7 +68,6 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
     );
   }, [dispatch, user]);
 
-
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
   );
@@ -86,7 +85,8 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
             <ExternalLink
               href={menu.path}
               className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}>
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
                   <img
@@ -102,8 +102,8 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
                   <Typography textAlign="center" variant="body1">
                     {menu.name}
                   </Typography>
-                  <LaunchIcon />
                 </CardContent>
+                <LaunchIcon />
               </MenuItem>
             </ExternalLink>
           );
@@ -118,10 +118,18 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
                   : menu.path
               }
               className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}>
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
-                  <img src={menu.logo} alt="course logo" />
+                  <img
+                    src={
+                      menu.logo.includes("https")
+                        ? menu.logo
+                        : require("./asset/" + menu.logo + ".svg")
+                    }
+                    alt="course logo"
+                  />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
@@ -173,11 +181,13 @@ export const DropDown = ({
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
                   margin="6px 16px"
-                  external={true}>
+                  external={true}
+                >
                   <Typography
                     textAlign="center"
                     sx={{ paddingRight: 1 }}
-                    component="span">
+                    component="span"
+                  >
                     {menu.name}
                   </Typography>
                   <LaunchIcon />
@@ -203,11 +213,12 @@ export const DropDown = ({
                   padding={
                     dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
                   }
-                  margin="6px 16px">
+                  margin="6px 16px"
+                >
                   {dropDown === LEARN_KEY && (
                     <img
                       // src={ menu.logo}
-                      
+
                       src={
                         menu.logo.includes("https")
                           ? menu.logo
