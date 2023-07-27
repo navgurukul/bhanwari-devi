@@ -118,12 +118,48 @@ const PythonEditor = ({
                   const inputLines = lines
                     .slice(0, noInputIndex)
                     .filter((line) => line.trim());
-                  const jsInputLines = inputLines.map((line) =>
-                    line
-                      .replace(/input[ ]*\(/g, "prompt(")
-                      .replace(/int[ ]*\(/g, "parseInt(")
-                      .replace(/float[ ]*\(/g, "parseFloat(")
-                  );
+                  const jsInputLines = inputLines.map((line) => {
+                    let currentOpenQuote = "";
+                    const replaceStrings = {
+                      input: "prompt",
+                      int: "parseInt",
+                      float: "parseFloat",
+                      "#": "//",
+                    };
+                    let lastStartQuoteIndex = -1;
+                    let lastCloseQuoteIndex = -1;
+                    let replacedLine = "";
+                    for (let i = 0; i < line.length; i++) {
+                      // When i === 0, line[i-1] will be undefined so condition will be false
+                      if (
+                        (line[i - 1] !== "\\" && (line[i] === `'` || line[i] === `"`)) ||
+                        i === line.length - 1
+                      ) {
+                        if (line[i] === currentOpenQuote) {
+                          // found end of string literal, add it as is
+                          replacedLine += line.substring(
+                            lastStartQuoteIndex + 1,
+                            i + 1
+                          );
+                          lastCloseQuoteIndex = i;
+                          currentOpenQuote = ""; // none
+                        } else {
+                          // start of string literal, add since last close quote with replacements
+                          currentOpenQuote = line[i];
+                          replacedLine += Object.keys(replaceStrings).reduce(
+                            (currentStr, strToReplace) =>
+                              currentStr.replace(
+                                RegExp(strToReplace, "g"),
+                                replaceStrings[strToReplace]
+                              ),
+                            line.substring(lastCloseQuoteIndex + 1, i + 1)
+                          );
+                          lastStartQuoteIndex = i;
+                        }
+                      }
+                    }
+                    return replacedLine;
+                  });
                   const varNames = inputLines.map((line) =>
                     line.substring(0, line.search(/[^\w]/))
                   );
