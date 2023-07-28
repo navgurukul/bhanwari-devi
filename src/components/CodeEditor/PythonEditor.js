@@ -130,32 +130,32 @@ const PythonEditor = ({
                     let lastCloseQuoteIndex = -1;
                     let replacedLine = "";
                     for (let i = 0; i < line.length; i++) {
-                      // When i === 0, line[i-1] will be undefined so condition will be false
-                      if (
-                        (line[i - 1] !== "\\" && (line[i] === `'` || line[i] === `"`)) ||
+                      // When i === 0, line[i-1] will be undefined so 1st part of condition will be true
+                      if (line[i - 1] !== "\\" && line[i] === currentOpenQuote) {
+                        // found end of string literal, add it as is
+                        replacedLine += line.substring(
+                          lastStartQuoteIndex + 1,
+                          i + 1
+                        );
+                        lastCloseQuoteIndex = i;
+                        currentOpenQuote = "";
+                      } else if (
+                        (!currentOpenQuote &&
+                          line[i - 1] !== "\\" &&
+                          (line[i] === `'` || line[i] === `"`)) ||
                         i === line.length - 1
                       ) {
-                        if (line[i] === currentOpenQuote) {
-                          // found end of string literal, add it as is
-                          replacedLine += line.substring(
-                            lastStartQuoteIndex + 1,
-                            i + 1
-                          );
-                          lastCloseQuoteIndex = i;
-                          currentOpenQuote = ""; // none
-                        } else {
-                          // start of string literal, add since last close quote with replacements
-                          currentOpenQuote = line[i];
-                          replacedLine += Object.keys(replaceStrings).reduce(
-                            (currentStr, strToReplace) =>
-                              currentStr.replace(
-                                RegExp(strToReplace, "g"),
-                                replaceStrings[strToReplace]
-                              ),
-                            line.substring(lastCloseQuoteIndex + 1, i + 1)
-                          );
-                          lastStartQuoteIndex = i;
-                        }
+                        // start of string literal or end of string, add since last close quote with replacements
+                        currentOpenQuote = line[i];
+                        replacedLine += Object.keys(replaceStrings).reduce(
+                          (currentStr, strToReplace) =>
+                            currentStr.replace(
+                              RegExp(strToReplace, "g"),
+                              replaceStrings[strToReplace]
+                            ),
+                          line.substring(lastCloseQuoteIndex + 1, i + 1)
+                        );
+                        lastStartQuoteIndex = i;
                       }
                     }
                     return replacedLine;
@@ -175,7 +175,9 @@ const PythonEditor = ({
                     )();
                   } catch (e) {
                     alert(
-                      "There was an error while running the code, but it may be because input does not fully work now."
+                      "There was an error while attempting to run the code, which was caused by a line with input.\n" +
+                      "However, the translation to code that's run in the browser is not perfect, so this may not be a problem with something you wrote.\n" +
+                      "Please try downloading Python (https://www.python.org/) and a code editor such as Visual Studio to run advanced Python code."
                     );
                     console.log(e);
                   }
