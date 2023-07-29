@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import "./style.scss";
-import { useEffect, useRef } from "react";
 import { METHODS } from "../../services/api";
 import FormHelperText from "@mui/material/FormHelperText";
+import OutsideAlerter from "./OutsideAlerter";
 
-function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
+function AddStudent({ openEditForm, setOpenEditForm, userId }) {
   const [openForm, setOpenForm] = useState(false);
   const [studentEmail, setStudentEmail] = useState("");
   const [studentName, setStudentName] = useState();
@@ -172,28 +171,3 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
 }
 
 export default AddStudent;
-function useOutsideAlerter(ref, handleClick = false) {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target) && handleClick) {
-        handleClick();
-      }
-    }
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [ref, handleClick]);
-}
-
-function OutsideAlerter(props) {
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, props.handleClick);
-
-  return (
-    <div ref={wrapperRef} className="d-inline">
-      {props.children}
-    </div>
-  );
-}
