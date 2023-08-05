@@ -39,13 +39,14 @@ import { InsertEmoticonRounded } from "@mui/icons-material";
 
 function LearningTrackCard(props) {
   const user = useSelector(({ User }) => User);
+  // const pathwaysData = useSelector(({ Pathways }) => Pathways);
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  // const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
   const history = useHistory();
-  const [PathwayData, setPathwayData] = useState([]);
-  const [courseIndex, setCourseIndex] = useState(0);
+  // const [PathwayData, setPathwayData] = useState([]);
+  // const [courseIndex, setCourseIndex] = useState(0);
   const [open, setOpen] = React.useState(false);
   const { item, setPathway } = props;
   const pathwayId = item.pathway_id;
@@ -53,18 +54,18 @@ function LearningTrackCard(props) {
   const [upcomingBatchesData, setUpcomingBatchesData] = useState();
   const params = useParams();
 
-  useEffect(() => {
-    getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
-      setPathwayData(res.data);
-    });
+  // useEffect(() => {
+  //   getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
+  //     setPathwayData(res.data);
+  //   });
 
-    const COurseIndex = PathwayData?.courses?.findIndex((course, index) => {
-      if (course.course_id === item.course_id) {
-        return index;
-      }
-    });
-    setCourseIndex(COurseIndex);
-  }, [item]);
+  //   const COurseIndex = PathwayData?.courses?.findIndex((course, index) => {
+  //     if (course.course_id === item.course_id) {
+  //       return index;
+  //     }
+  //   });
+  //   setCourseIndex(COurseIndex);
+  // }, [item]);
 
   const data = useSelector((state) => {
     return state;
@@ -92,9 +93,9 @@ function LearningTrackCard(props) {
     }
   }, [pathwayId]);
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  // }, [dispatch, pathwayId]);
 
   useEffect(() => {
     axios({

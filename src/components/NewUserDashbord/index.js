@@ -22,13 +22,13 @@ const NewUserDashbord = () => {
 
  
 
-  useEffect(() => {
-    dispatch(
-      pathwayActions.getPathwaysDropdown({
-        authToken: user,
-      })
-    );
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
   useEffect(() => {
     axios({

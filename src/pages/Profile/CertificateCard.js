@@ -64,9 +64,9 @@ function CertificateCard(props) {
   const options = { day: "numeric", month: "short", year: "2-digit" };
   const formattedDate = date.toLocaleDateString("en-US", options);
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  // }, [dispatch, pathwayId]);
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -79,9 +79,9 @@ function CertificateCard(props) {
     boxShadow: 24,
     p: 4,
   };
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  // }, [dispatch, pathwayId]);
   useEffect(() => {
     // setLoading(true);
     if (user?.data?.token && pathwayId) {
