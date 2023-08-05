@@ -60,13 +60,13 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   const { data } = useSelector((state) => state.PathwaysDropdow);
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
-  useEffect(() => {
-    dispatch(
-      pathwayActions.getPathwaysDropdown({
-        authToken: user,
-      })
-    );
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
@@ -157,13 +157,13 @@ export const DropDown = ({
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.PathwaysDropdow);
 
-  useEffect(() => {
-    dispatch(
-      pathwayActions.getPathwaysDropdown({
-        authToken: user,
-      })
-    );
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
   return (
     <>
