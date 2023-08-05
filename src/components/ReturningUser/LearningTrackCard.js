@@ -74,12 +74,12 @@ function LearningTrackCard(props) {
   useEffect(() => {
     // setLoading(true);
     if (user?.data?.token && pathwayId) {
-      dispatch(
-        enrolledBatchesActions.getEnrolledBatches({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
+      // dispatch(
+      //   enrolledBatchesActions.getEnrolledBatches({
+      //     pathwayId: pathwayId,
+      //     authToken: user?.data?.token,
+      //   })
+      // );
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
@@ -98,24 +98,35 @@ function LearningTrackCard(props) {
   // }, [dispatch, pathwayId]);
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    }).then((res) => {
-      setUpcomingBatchesData(res.data);
-    });
+    if (showUpcomingBatchData) {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/upcomingBatches`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      }).then((res) => {
+        setUpcomingBatchesData(res.data);
+      });
+    }
   }, []);
   // const upcomingBatchesData = useSelector((state) => {
   //   return state.Pathways?.upcomingBatches?.data;
   // });
 
-  const pathwayCourseData = data.Pathways?.data?.pathways.find((item) => {
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathways());
+  // }, [dispatch, pathwayId]);
+
+  const pathwayCourseData = data.PathwaysDropdow?.data?.pathways.find((item) => {
     return item.id == pathwayId;
   });
+
+  const showUpcomingBatchData = 
+    pathwayCourseData?.code == 'PRGPYT' || pathwayCourseData?.code == 'SPKENG';
+
+  // console.log(data, pathwayId, showUpcomingBatchData);
 
   return (
     <>
@@ -169,8 +180,7 @@ function LearningTrackCard(props) {
             </Grid>
           </Grid>
 
-          {(pathwayCourseData?.code == "PRGPYT" ||
-            pathwayCourseData?.code == "SPKENG") &&
+          {showUpcomingBatchData &&
             upcomingBatchesData?.length > 0 && (
               <>
                 <Typography variant="subtitle1" mb={2} mt={2}>
