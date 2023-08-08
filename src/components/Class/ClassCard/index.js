@@ -260,7 +260,6 @@ function ClassCard({ item, editClass, pathwayFilter }) {
     );
   };
   */
-  console.log(item);
   return (
     <>
       <Card
@@ -331,7 +330,7 @@ function ClassCard({ item, editClass, pathwayFilter }) {
             <>
               <MenuItem
                 onClick={() => handleEdit(item.id)}
-                sx={{ width: 100, margin: "0px 10px" }}
+                sx={{ width: 133, margin: "0px 10px" }}
               >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
@@ -344,7 +343,7 @@ function ClassCard({ item, editClass, pathwayFilter }) {
               )}
               <MenuItem
                 onClick={() => handleClickOpen(item.id)}
-                sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}
+                sx={{ width: 133, margin: "0px 10px", color: "#F44336" }}
               >
                 <Typography textAlign="center">Delete</Typography>
               </MenuItem>

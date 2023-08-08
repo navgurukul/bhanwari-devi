@@ -188,7 +188,7 @@ function ToggleClassFormModal() {
           )}
         </span>
       )}
-      <Grid container>
+      <Grid container spacing={2}>
         {canSpecifyFacilitator && (
           <Grid item md={3}>
             <DrawerLeft
@@ -197,17 +197,18 @@ function ToggleClassFormModal() {
               setPathwayName={setPathwayName}
               setNewPathways={setNewPathways}
               Newpathways={Newpathways}
+              pathwayName={pathwayName}
             />
           </Grid>
         )}
 
         <Grid item md={canSpecifyFacilitator ? 9 : 12}>
-          {canSpecifyFacilitator && (
+          {canSpecifyFacilitator && !isActive && (
             <Typography variant="h6">{pathwayName}</Typography>
           )}
           <Grid
             container
-            marginTop="16px"
+            marginTop={isActive ? "0px" : "16px"}
             style={{
               fontWeight: "bold",
               borderBottom: "1px solid #BDBDBD",

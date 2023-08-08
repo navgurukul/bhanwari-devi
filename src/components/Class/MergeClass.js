@@ -27,7 +27,7 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  console.log(itemID, pathwayFilter);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -53,7 +53,7 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
     <div>
       <MenuItem
         onClick={handleClickOpen}
-        sx={{ width: 138, margin: "0px 10px" }}
+        sx={{ width: 133, margin: "0px 10px" }}
       >
         <Typography textAlign="center">Merge Class</Typography>
       </MenuItem>
