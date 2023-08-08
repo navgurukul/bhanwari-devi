@@ -25,7 +25,10 @@ const PythonEditor = ({
   disableRun,
 }) => {
   const theme = useTheme();
-  const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
+  const packages = {
+    official: ['matplotlib'],
+  };
+  const { runPython, stdout, stderr, isLoading, isRunning } = usePython({packages: packages});
   const [pythonEditorCode, setPythonEditorCode] = useState(
     initialCodeEditorValue
   );
