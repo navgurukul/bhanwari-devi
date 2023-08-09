@@ -95,12 +95,12 @@ function* handleGetEnrolledBatches({ data }) {
   }
 }
 
-export default function* () {
+export function* Pathways() {
   yield takeLatest(types.GET_PATHWAY_INTENT, handleGetPathways);
-  yield takeLatest(
-    types.GET_PATHWAY_DROPDOWN_INTENT,
-    handleGetPathwaysDropdown
-  );
+  // yield takeLatest(
+  //   types.GET_PATHWAY_DROPDOWN_INTENT,
+  //   handleGetPathwaysDropdown
+  // );
   yield takeLatest(types.GET_PATHWAY_COURSE_INTENT, handleGetPathwaysCourse);
   yield takeLatest(types.GET_UPCOMING_BATCHES_INTENT, handleGetUpcomingBatches);
   yield takeLatest(
@@ -108,4 +108,11 @@ export default function* () {
     handleGetUpcomingEnrolledClasses
   );
   yield takeLatest(types.GET_ENROLLED_BATCHES_INTENT, handleGetEnrolledBatches);
+}
+
+export function* PathwaysDropdown() {
+  yield takeLatest(
+    types.GET_PATHWAY_DROPDOWN_INTENT,
+    handleGetPathwaysDropdown
+  );
 }

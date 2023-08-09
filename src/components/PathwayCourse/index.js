@@ -216,7 +216,8 @@ function PathwayCourse() {
         setisFormFilled(response.data);
       })
       .catch((err) => {});
-  }, [pathwayId, pathwayCourse]);
+//  }, [pathwayId, pathwayCourse]);
+    }, []);
 
   useEffect(() => {
     if (user?.data?.token && pathwayId) {
