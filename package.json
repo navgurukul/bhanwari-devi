@@ -127,7 +127,21 @@
     "@editorjs/code": "2.4.1",
     "@editorjs/image": "^2.6.2",
     "@editorjs/quote": "2.3.0",
+    "cypress": "^12.17.3",
     "prettier": "2.7.1",
     "redux-devtools-extension": "^2.13.8"
-  }
+  },
+  "description": "<img src=\"src/asset/bhanwari-devi.jpg\" width=\"300\"/>",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navgurukul/bhanwari-devi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/navgurukul/bhanwari-devi/issues"
+  },
+  "homepage": "https://github.com/navgurukul/bhanwari-devi#readme"
 }
