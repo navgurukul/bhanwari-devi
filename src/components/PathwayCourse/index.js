@@ -216,7 +216,8 @@ function PathwayCourse() {
         setisFormFilled(response.data);
       })
       .catch((err) => {});
-  }, [pathwayId, pathwayCourse]);
+//  }, [pathwayId, pathwayCourse]);
+    }, []);
 
   useEffect(() => {
     if (user?.data?.token && pathwayId) {
@@ -580,7 +581,7 @@ function PathwayCourse() {
                   </Grid>
 
                   {/* ...............Learning outcomes..................... */}
-                  {pathwayCourse?.data?.outcomes && (
+                  {pathwayCourse?.data?.outcomes.length > 0 && (
                     <Box className={classes.Box1}>
                       <Typography
                         variant="h6"
@@ -589,22 +590,31 @@ function PathwayCourse() {
                         Learning Outcomes
                       </Typography>
                       <Grid container spacing={0} align="center">
-                        {pathwayCourse?.data.outcomes.map((item, index) => (
-                          <Grid item key={index} xs={12} md={4}>
-                            <Card
-                              sx={{ margin: "10px" }}
-                              align="left"
-                              elevation={0}
-                            >
-                              <Box className={classes.flex}>
-                                <CheckIcon color="primary" />
-                                <Typography sx={{ ml: 1 }} variant="body1">
-                                  {item}
-                                </Typography>
-                              </Box>
-                            </Card>
-                          </Grid>
-                        ))}
+                        {pathwayCourse?.data.outcomes.map((content, index) => {
+                          if (content.component === "text") {
+                            return (
+                              <Grid item key={index} xs={12} md={4}>
+                                <Card
+                                  sx={{ margin: "10px" }}
+                                  align="left"
+                                  elevation={0}
+                                >
+                                  <Box className={classes.flex}>
+                                    <CheckIcon color="primary" />
+                                    <UnsafeHTML
+                                      Container={Typography}
+                                      variant="body1"
+                                      html={DOMPurify.sanitize(
+                                        get(content, "value")
+                                      )}
+                                      sx={{ ml: 1 }}
+                                    />
+                                  </Box>
+                                </Card>
+                              </Grid>
+                            );
+                          }
+                        })}
                       </Grid>
                     </Box>
                   )}

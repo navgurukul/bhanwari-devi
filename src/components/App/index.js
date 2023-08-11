@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Routing from "../../routing";
 import Header from "../Header";
 import Footer from "../Footer";
 import { useRouteMatch } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import { HideHeader, HideFooter } from "../../constant";
 import { ThemeProvider } from "@mui/material/styles";
 import { LanguageProvider } from "../../common/context";
@@ -20,6 +22,17 @@ function App() {
   const showFooter = !useRouteMatch({
     path: HideFooter,
   });
+
+  const user = useSelector(({ User }) => User);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathwaysDropdown({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   return (
     <LanguageProvider.Provider

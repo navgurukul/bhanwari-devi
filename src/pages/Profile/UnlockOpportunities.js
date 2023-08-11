@@ -23,9 +23,9 @@ import { Link } from "react-router-dom";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 function UnlockOpportunities(props) {
   const user = useSelector(({ User }) => User);
-  const data = useSelector((state) => {
-    return state;
-  });
+  // const data = useSelector((state) => {
+  //   return state;
+  // });
 
   const { item } = props;
 
@@ -39,18 +39,18 @@ function UnlockOpportunities(props) {
   const params = useParams();
   const pathwayId = item.id;
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  // }, [dispatch, pathwayId]);
   useEffect(() => {
     // setLoading(true);
     if (user?.data?.token && pathwayId) {
-      dispatch(
-        enrolledBatchesActions.getEnrolledBatches({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
+      // dispatch(
+      //   enrolledBatchesActions.getEnrolledBatches({
+      //     pathwayId: pathwayId,
+      //     authToken: user?.data?.token,
+      //   })
+      // );
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,

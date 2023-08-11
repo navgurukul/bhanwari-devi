@@ -15,7 +15,7 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
+// import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { PATHS, versionCode } from "../../constant";
 import { Link } from "react-router-dom";
@@ -43,9 +43,9 @@ function saveFile(url) {
 function CertificateCard(props) {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
-  const data = useSelector((state) => {
-    return state;
-  });
+  // const data = useSelector((state) => {
+  //   return state;
+  // });
   const { item } = props;
 
   const dispatch = useDispatch();
@@ -64,9 +64,9 @@ function CertificateCard(props) {
   const options = { day: "numeric", month: "short", year: "2-digit" };
   const formattedDate = date.toLocaleDateString("en-US", options);
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  // }, [dispatch, pathwayId]);
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -79,18 +79,18 @@ function CertificateCard(props) {
     boxShadow: 24,
     p: 4,
   };
-  useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
+  // useEffect(() => {
+  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+  // }, [dispatch, pathwayId]);
   useEffect(() => {
     // setLoading(true);
     if (user?.data?.token && pathwayId) {
-      dispatch(
-        enrolledBatchesActions.getEnrolledBatches({
-          pathwayId: pathwayId,
-          authToken: user?.data?.token,
-        })
-      );
+      // dispatch(
+      //   enrolledBatchesActions.getEnrolledBatches({
+      //     pathwayId: pathwayId,
+      //     authToken: user?.data?.token,
+      //   })
+      // );
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,

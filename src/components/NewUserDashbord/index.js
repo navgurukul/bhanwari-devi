@@ -19,14 +19,16 @@ const NewUserDashbord = () => {
   const dispatch = useDispatch();
   const [learningTracks, setLearningTracks] = useState(null);
   const { loading, data } = useSelector((state) => state.PathwaysDropdow);
-  
-  useEffect(() => {
-    dispatch(
-      pathwayActions.getPathwaysDropdown({
-        authToken: user,
-      })
-    );
-  }, [dispatch, user]);
+
+ 
+
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
   useEffect(() => {
     axios({
