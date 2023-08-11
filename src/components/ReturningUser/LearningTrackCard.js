@@ -126,8 +126,6 @@ function LearningTrackCard(props) {
   const showUpcomingBatchData = 
     pathwayCourseData?.code == 'PRGPYT' || pathwayCourseData?.code == 'SPKENG';
 
-  // console.log(data, pathwayId, showUpcomingBatchData);
-
   return (
     <>
       <Card
