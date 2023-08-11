@@ -9,7 +9,7 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
-import {  PATHWAYS_INFO } from "../../constant";
+import { PATHWAYS_INFO } from "../../constant";
 
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
@@ -48,7 +48,7 @@ const NewUserDashbord = () => {
   }, []);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
-  PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
+    PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
   );
   const pathwayData = data?.pathways
     .filter((pathway) => !miscellaneousPathway.includes(pathway))
@@ -75,8 +75,7 @@ const NewUserDashbord = () => {
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={isActive && item.name.length < 12 ? 170 : 210}
-                  >
+                  maxHeight={isActive && item.name.length < 12 ? 170 : 210}>
                   <PathwayCard
                     id={item.id}
                     name={item.name}
