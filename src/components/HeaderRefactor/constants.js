@@ -1,0 +1,1 @@
+export const COMMON_HEADER_ITEMS = ["USER_MENU", "CHANGE_ROLES"];

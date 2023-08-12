@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Routing from "../../routing";
-import Header from "../Header";
+import Header from "../HeaderRefactor";
 import Footer from "../Footer";
 import { useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
