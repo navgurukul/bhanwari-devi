@@ -4,12 +4,10 @@ import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
 import { useSelector } from "react-redux";
 import * as sdk from "matrix-js-sdk";
-import RoomNav from "./RoomNav";
-import ChatInput from "./ChatInput";
-import Messages from "./Messages";
 import { MATRIX_DOMAIN, fetchMessages, redactEvent, getMembers } from "./utils";
-import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
+import ChatRoom from "./ChatRoom";
+import RoomList from "./RoomList";
 import "./styles.scss";
 
 let PAGINATION_THRESHOLD = 200;
@@ -273,92 +271,33 @@ const Mentor = () => {
     }
   }, [selectedRoomId, accessToken]);
 
-  const renderRooms = () => {
-    return (
-      !(isMobile && selectedRoomId) && (
-        <nav
-          role="navigation"
-          style={{
-            Height: "100vh",
-            overflowY: "scroll",
-          }}
-        >
-          <ul className="rooms-navs-container">
-            {rooms.map((room) => {
-              return (
-                <RoomNav
-                  key={room.roomId}
-                  roomId={room.roomId}
-                  accessToken={accessToken}
-                  isSelected={room.roomId === selectedRoomId}
-                  name={room.name}
-                  onSelect={() => {
-                    setSelectedRoomId(room.roomId);
-                  }}
-                  lastMessage={
-                    roomMessages[room.roomId]
-                      ? roomMessages[room.roomId][0]
-                      : null
-                  }
-                />
-              );
-            })}
-          </ul>
-        </nav>
-      )
-    );
-  };
-
-  const renderChat = () => {
-    return (
-      <>
-        <div className="room-chat">
-          <Messages
-            messages={roomMessages[selectedRoomId]}
-            selfChatId={chat_id}
-            prevScrollPosition={prevScrollPosition}
-            onScroll={(e) => {
-              handleScroll(e.target);
-            }}
-            deleteMessage={deleteMessage}
-            members={members[selectedRoomId] || []}
-            activateReplyToMessageState={activateReplyToMessageState}
-            onSendMessage={(value) => {
-              onSendMessage(value, selectedRoomId);
-            }}
-          />
-          <ChatInput
-            replyMessage={replyMessage}
-            onNewMessage={onSendMessage}
-            activateReplyToMessageState={activateReplyToMessageState}
-            roomId={selectedRoomId}
-            members={members[selectedRoomId] || []}
-          />
-        </div>
-        {isMobile && selectedRoomId && (
-          <FloatingIcon
-            onClick={() => {
-              setSelectedRoomId(null);
-            }}
-            icon={<i className="fa fa-chevron-left" />}
-            styles={{
-              top: 16,
-              left: 16,
-            }}
-          />
-        )}
-      </>
-    );
-  };
-
   return (
     <div className="chat-container">
       {isInitializingClient ? (
         <Loader />
       ) : (
         <>
-          {renderRooms()}
-          {renderChat()}
+          <RoomList
+            rooms={rooms}
+            selectedRoomId={selectedRoomId}
+            accessToken={accessToken}
+            onSelect={(roomId) => setSelectedRoomId(roomId)}
+            roomMessages={roomMessages}
+          />
+          <ChatRoom
+            roomMessages={roomMessages}
+            chat_id={chat_id}
+            prevScrollPosition={prevScrollPosition}
+            handleScroll={handleScroll}
+            deleteMessage={deleteMessage}
+            members={members}
+            replyMessage={replyMessage}
+            onSendMessage={onSendMessage}
+            activateReplyToMessageState={activateReplyToMessageState}
+            selectedRoomId={selectedRoomId}
+            isMobile={isMobile}
+            setSelectedRoomId={setSelectedRoomId}
+          />
         </>
       )}
     </div>
