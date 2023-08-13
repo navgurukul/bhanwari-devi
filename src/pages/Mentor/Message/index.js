@@ -1,30 +1,17 @@
 import React, { useState } from "react";
 import LinkifyHtml from "linkifyjs/html";
-
 import { format } from "date-fns";
-import _ from "lodash";
 import Avatar from "../../../components/common/Avatar";
 import Dropdown from "../../../components/common/Dropdown";
 import createDOMPurify from "dompurify";
-import "./styles.scss";
 import { JSDOM } from "jsdom";
 import { getMemberName } from "../utils";
+import "./styles.scss";
 
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
 
-const getMessageClass = (type, isSelf) => {
-  let messageClass = "chat-message";
-  if (type === "action") {
-    messageClass += " chat-message-action";
-  }
-
-  // condition for self or not
-  messageClass += isSelf ? " chat-message-self" : " chat-message-other";
-  return messageClass;
-};
-
-export default ({
+const Message = ({
   message,
   isSelf,
   senderName,
@@ -36,6 +23,7 @@ export default ({
   const [isMessageActionsMenuOpen, setMessageActionsMenu] = useState(false);
   const [isMessageActionsDropdownOpen, setIsMessageActionsDropdownOpen] =
     useState(false);
+
   const handleMouseOver = () => {
     setMessageActionsMenu(true);
   };
@@ -55,29 +43,33 @@ export default ({
           ...message,
           value: message.content.body,
         };
+      default:
+        return null;
     }
   };
 
   const renderOptions = (options) => {
-    return options.map((option) => {
-      return (
-        <button
-          className="option-button"
-          key={option.value}
-          onClick={() => {
-            onSendMessage(option.value);
-          }}
-        >
-          {option.label}
-        </button>
-      );
-    });
+    return options.map((option) => (
+      <button
+        className="option-button"
+        key={option.value}
+        onClick={() => {
+          onSendMessage(option.value);
+        }}
+      >
+        {option.label}
+      </button>
+    ));
   };
 
   const formattedMessage = formatMessage(message);
 
   if (formattedMessage) {
-    let messageActions = [];
+    const isTextMessage = formattedMessage.content.msgtype === "m.text";
+    const replyToMessage =
+      formattedMessage.content["m.relates_to"]?.["m.in_reply_to"];
+
+    const messageActions = [];
     if (isSelf) {
       messageActions.push({
         label: "Delete message",
@@ -88,7 +80,7 @@ export default ({
       });
     }
 
-    if (formattedMessage && formattedMessage.content.msgtype === "m.text") {
+    if (isTextMessage) {
       messageActions.push({
         label: "Reply",
         value: "reply",
@@ -97,11 +89,6 @@ export default ({
         },
       });
     }
-
-    const replyToMessage = _.get(
-      formattedMessage,
-      "content['m.relates_to']['m.in_reply_to']"
-    );
 
     return (
       <div
@@ -131,7 +118,9 @@ export default ({
           </div>
           <div
             onMouseOver={handleMouseOver}
-            className={getMessageClass("", isSelf)}
+            className={`${
+              isSelf ? "chat-message-self" : "chat-message-other"
+            } chat-message`}
             onMouseLeave={() => {
               setMessageActionsMenu(false);
               setIsMessageActionsDropdownOpen(false);
@@ -195,7 +184,9 @@ export default ({
               </div>
             )}
           </div>
-          {formattedMessage.options && renderOptions(formattedMessage.options)}
+          {isTextMessage &&
+            formattedMessage.options &&
+            renderOptions(formattedMessage.options)}
         </div>
         {isSelf && senderName && (
           <Avatar name={senderName} style={{ marginLeft: 12 }} />
@@ -203,5 +194,8 @@ export default ({
       </div>
     );
   }
+
   return null;
 };
+
+export default Message;
