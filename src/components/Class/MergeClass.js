@@ -17,13 +17,17 @@ import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
+import { toast } from "react-toastify";
 
-function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
+toast.configure();
+
+function AlertDialog({ itemID, pathwayFilter }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [Mergeclassid, setMarginId] = useState();
   const user = useSelector(({ User }) => User);
-  const { UId, setUId } = useState();
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -43,11 +47,20 @@ function AlertDialog({ itemID, showClass, PathwayID, pathwayFilter }) {
         "Content-Type": "application/json",
         Authorization: user.data.token,
       },
+    }).then(() => {
+      toast.success("You successfully merge classes.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2500,
+      });
+      setRefreshKey(refreshKey + 1);
     });
-    // .then(() => {
-    //   window.location.reload();
-    // });
   };
+
+  useEffect(() => {
+    if (refreshKey === 1) {
+      handleSubmit();
+    }
+  }, [refreshKey]);
 
   return (
     <div>

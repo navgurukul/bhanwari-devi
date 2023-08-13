@@ -7,19 +7,8 @@ function NoVolunteerClass({ setFormType, toggleModalOpen }) {
       <Container mt={2} maxWidth={500} align="center" mb={5}>
         <img alt="img" src={require("./assets/ClassCreated.svg")} />
         <Typography variant="body1" margin="32px 0px">
-          Welcome to the Volunteer Dashboard! Take the next step to get started
-          with your classes
+          Welcome to the Volunteer Dashboard!
         </Typography>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setFormType("batch");
-            toggleModalOpen();
-          }}
-        >
-          {" "}
-          Create Button
-        </Button>
       </Container>
     </>
   );

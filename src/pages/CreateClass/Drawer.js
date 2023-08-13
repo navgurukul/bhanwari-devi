@@ -1,31 +1,21 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { useEffect, useRef } from "react";
-import { METHODS } from "../../services/api";
+
 import {
-  AppBar,
-  Button,
-  Container,
   Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
-  Toolbar,
   Typography,
-  Modal,
-  Box,
 } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import useStyles from "./styles";
 
 function DrawerLeft({
-  pathwayID,
   setPathwayId,
   setPathwayName,
   Newpathways,
@@ -41,6 +31,7 @@ function DrawerLeft({
   const user = useSelector(({ User }) => User);
   const [selectedValue, setSelectedValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const classes = useStyles();
 
   const handleItemClick = (value) => {
     setSelectedValue(value);
@@ -95,7 +86,6 @@ function DrawerLeft({
           PaperProps={{
             style: {
               border: "none",
-              // width: "300px",
               position: "static",
               paddingTop: "40px",
             },
@@ -114,31 +104,16 @@ function DrawerLeft({
               Learning Track
             </Typography>
             <List component="nav" style={{ maxWidth: "100%" }}>
-              <ListItem
-                button
-                sx={{
-                  margin: "0px",
-                  padding: "0px",
-                  justifyContent: "space-between",
-                }}
-              >
+              <ListItemButton className={classes.listButton}>
                 <Typography variant="subtitle2">{pathwayName}</Typography>
                 <ListItemIcon>
                   <ExpandMoreIcon />
                 </ListItemIcon>
-              </ListItem>
+              </ListItemButton>
             </List>
           </div>
           {isOpen && (
-            <div
-              sx={{
-                transform: "translate(0%, 0%)",
-                width: "100%",
-                bgcolor: "background.paper",
-                boxShadow: 24,
-                padding: "0px 0px",
-              }}
-            >
+            <div className={classes.drawerList}>
               {/* <Divider /> */}
               {listData}
             </div>

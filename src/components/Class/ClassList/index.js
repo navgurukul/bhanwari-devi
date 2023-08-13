@@ -20,6 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import NoClassesFound from "../NoClassesFound";
 import NoVolunteerClass from "../NoVolunteerClass";
+import { Filter } from "matrix-js-sdk";
 
 function ClassList({
   editClass,
@@ -29,6 +30,7 @@ function ClassList({
   toggleModalOpen,
   pathwayID,
   canSpecifyFacilitator,
+  Newpathways,
 }) {
   const dispatch = useDispatch();
 
@@ -101,6 +103,12 @@ function ClassList({
         return item?.pathway_id === pathwayID;
       })
     : classData;
+  const singlepathwayFilter = canSpecifyFacilitator
+    ? single_classes.filter((item) => {
+        return item?.pathway_id === pathwayID;
+      })
+    : single_classes;
+
   return (
     <>
       {data && data.length > 0 && (
@@ -134,24 +142,43 @@ function ClassList({
               e.preventDefault();
               setFilterText(e.clipboardData.getData("text"));
 
-              let filtered_recurring_classes = recurring_classes.filter(
-                (item) =>
-                  item.title
-                    .toLowerCase()
-                    .indexOf(e.clipboardData.getData("text").toLowerCase()) > -1
-              );
+              const filtered_recurring_classes = showClass
+                ? recurring_classes.filter(
+                    (item) =>
+                      item.title
+                        .toLowerCase()
+                        .indexOf(
+                          e.clipboardData.getData("text").toLowerCase()
+                        ) > -1
+                  )
+                : single_classes.filter(
+                    (item) =>
+                      item.title
+                        .toLowerCase()
+                        .indexOf(
+                          e.clipboardData.getData("text").toLowerCase()
+                        ) > -1
+                  );
 
               set_recurring_classes_data_set(filtered_recurring_classes);
             }}
             onChange={(e) => {
               setFilterText(e.target.value);
               if (filterText?.length > 0) {
-                let filtered_recurring_classes = recurring_classes.filter(
-                  (item) =>
-                    item.title
-                      .toLowerCase()
-                      .indexOf(e.target.value.toLowerCase()) > -1
-                );
+                let filtered_recurring_classes = showClass
+                  ? recurring_classes.filter(
+                      (item) =>
+                        item.title
+                          .toLowerCase()
+                          .indexOf(e.target.value.toLowerCase()) > -1
+                    )
+                  : single_classes.filter(
+                      (item) =>
+                        item.title
+                          .toLowerCase()
+                          .indexOf(e.target.value.toLowerCase()) > -1
+                    );
+
                 set_recurring_classes_data_set(filtered_recurring_classes);
               } else {
                 set_recurring_classes_data_set(null);
@@ -186,7 +213,7 @@ function ClassList({
           {data && data.length > 0 ? (
             <>
               {!filterText?.length > 0
-                ? single_classes.map((item, index) => {
+                ? singlepathwayFilter.map((item, index) => {
                     return (
                       item.type ===
                         `${showClass ? "batch" : "doubt_class"}` && (
@@ -200,6 +227,7 @@ function ClassList({
                             style="class-enroll-cohort"
                             pathwayFilter={pathwayFilter}
                             showClass={showClass}
+                            Newpathways={Newpathways}
                           />
                         </Grid>
                       )
@@ -214,7 +242,7 @@ function ClassList({
                         item
                         xs={12}
                         ms={6}
-                        md={canSpecifyFacilitator ? 4 : 3}
+                        md={4}
                         sx={{ mb: 0 }}
                         key={index}
                       >
@@ -224,6 +252,7 @@ function ClassList({
                           index={index}
                           editClass={editClass}
                           pathwayFilter={pathwayFilter}
+                          Newpathways={Newpathways}
                           enroll="Enroll to Cohort class"
                           style="class-enroll-cohort"
                           showClass={showClass}

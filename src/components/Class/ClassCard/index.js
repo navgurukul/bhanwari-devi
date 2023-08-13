@@ -39,7 +39,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 toast.configure();
 
-function ClassCard({ item, editClass, pathwayFilter }) {
+function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -50,7 +50,7 @@ function ClassCard({ item, editClass, pathwayFilter }) {
   const [indicator, setIndicator] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
-  const [timeZone, setTimeZone] = useState(false);
+  const [canJoin, setCanJoin] = useState(false);
 
   const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
@@ -260,6 +260,10 @@ function ClassCard({ item, editClass, pathwayFilter }) {
     );
   };
   */
+  const ACBPathway = Newpathways?.find((path) => {
+    return item.pathway_id === path.id;
+  });
+
   return (
     <>
       <Card
@@ -267,7 +271,7 @@ function ClassCard({ item, editClass, pathwayFilter }) {
         sx={{
           p: 4,
           mt: isActive ? 4 : 5,
-          background: timeZone ? "#FFF5CC" : "#FAFAFA",
+          bgcolor: canJoin ? "secondary.light" : "primary.lighter",
         }}
         className={classes.card}
       >
@@ -334,7 +338,7 @@ function ClassCard({ item, editClass, pathwayFilter }) {
               >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
-              {item.pathway_id === 7 && (
+              {ACBPathway?.code === "ACB" && (
                 <MergeClass
                   itemID={item.id}
                   PathwayID={item.pathway_id}
@@ -360,7 +364,7 @@ function ClassCard({ item, editClass, pathwayFilter }) {
           )}
         </Menu>
 
-        {item?.pathway_id === 7 && item?.merge_class && (
+        {ACBPathway?.code === "ACB" && item?.merge_class && (
           <Typography variant="body2" sx={{ display: "flex" }}>
             <img
               className={classes.icons}
@@ -424,7 +428,7 @@ function ClassCard({ item, editClass, pathwayFilter }) {
               <ClassJoinTimerButton
                 startTime={item?.start_time}
                 link={item?.meet_link}
-                setTimeZone={setTimeZone}
+                onCanJoin={setCanJoin}
               />
             )
           ) : loading ? (

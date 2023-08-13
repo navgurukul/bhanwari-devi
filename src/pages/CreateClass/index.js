@@ -23,13 +23,9 @@ import {
 } from "@mui/material";
 import { breakpoints } from "../../theme/constant";
 import ClassForm from "../../components/Class/ClassForm";
-
 import SuccessModel from "../../components/Class/SuccessModel";
 import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
-
 import DrawerLeft from "./Drawer";
-import { Divider } from "@material-ui/core";
-import { grey } from "@mui/material/colors";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -192,7 +188,6 @@ function ToggleClassFormModal() {
         {canSpecifyFacilitator && (
           <Grid item md={3}>
             <DrawerLeft
-              pathwayID={pathwayID}
               setPathwayId={setPathwayId}
               setPathwayName={setPathwayName}
               setNewPathways={setNewPathways}
@@ -270,6 +265,7 @@ function ToggleClassFormModal() {
             setFormType={setFormType}
             toggleModalOpen={toggleModalOpen}
             pathwayID={pathwayID}
+            Newpathways={Newpathways}
           />
 
           {showModal && calenderConsent ? (

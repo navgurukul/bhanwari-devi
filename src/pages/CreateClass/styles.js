@@ -21,6 +21,18 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "3px solid transparent",
     cursor: "pointer",
   },
+  drawerList: {
+    transform: "translate(0%, 0%)",
+    width: "100%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    padding: "0px 0px",
+  },
+  listButton: {
+    margin: "0px",
+    padding: "0px",
+    justifyContent: "space-between",
+  },
 }));
 
 export default useStyles;
