@@ -89,6 +89,7 @@ function ClassForm({
     volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
     space_id: classToEdit?.id || "",
+    schedule: classToEdit?.schedule || {},
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -126,12 +127,16 @@ function ClassForm({
   });
   const [onSpace, setOnSpace] = useState([]);
   const [selectSpace, setSelectSpace] = useState([]);
-
+  const [checked, setChecked] = useState(true);
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
     return state;
   });
+
+  const handleTimeCheckedChange = (event) => {
+    setChecked(!checked);
+  };
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
@@ -267,7 +272,10 @@ function ClassForm({
       if (
         classFields.title !== "" &&
         classFields.partner_id?.length > 0 &&
-        classFields.on_days?.length > 0
+        classFields.on_days?.length > 0 &&
+        (checked
+          ? Object.keys(classFields.schedule).length === 0
+          : Object.keys(classFields.schedule).length > 1)
       ) {
         setButtonDisabled(false);
       } else {
@@ -279,7 +287,10 @@ function ClassForm({
         ((classFields.course_id && classFields.exercise_id) ||
           classFields.pathway_id) &&
         classFields.description &&
-        classFields.description.length < 555
+        classFields.description.length < 555 &&
+        (checked
+          ? Object.keys(classFields.schedule).length === 0
+          : Object.keys(classFields.schedule).length > 1)
       ) {
         setButtonDisabled(false);
       } else {
@@ -295,6 +306,8 @@ function ClassForm({
     classFields.course_id,
     classFields.exercise_id,
     classFields.description,
+    checked,
+    classFields.schedule,
   ]);
 
   const courses =
@@ -325,6 +338,11 @@ function ClassForm({
     SA: "Sat",
     SU: "Sun",
   };
+
+  const commonElements = Object.keys(days).filter((element) =>
+    classFields.on_days.includes(element)
+  );
+  const filteredDayValues = commonElements.map((key) => days[key]);
 
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
@@ -390,18 +408,19 @@ function ClassForm({
   }, [partnerData]);
 
   const convertToIST = (d) => {
-    const b = d.split(/\D+/);
+    const b = String(d).split(/\D+/);
     const dateInObj = new Date(
       Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6])
     );
     const utc = dateInObj.getTime() + dateInObj.getTimezoneOffset() * 60000;
     return new Date(utc + 3600000 * +5.5).toISOString();
   };
-
   const createClass = (payload) => {
     setLoading(true);
-    payload.start_time = convertToIST(payload.start_time);
-    payload.end_time = convertToIST(payload.end_time);
+    if (checked) {
+      payload.start_time = classFields.start_time;
+      payload.end_time = classFields.end_time;
+    }
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
       method: METHODS.POST,
@@ -434,8 +453,10 @@ function ClassForm({
 
   const editClass = (payload) => {
     setLoading(true);
-    payload.start_time = convertToIST(payload.start_time);
-    payload.end_time = convertToIST(payload.end_time);
+    if (checked) {
+      payload = classFields.start_time;
+      payload = classFields.end_time;
+    }
     return axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${classToEdit.id}`,
@@ -549,34 +570,8 @@ function ClassForm({
       classFields.date = classFields.date;
     }
 
-    //taking hours and minues from the time
-    classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
-
-    classFields.end_time = `${classFields.end_time.getHours()}:${classFields.end_time.getMinutes()}`;
-
-    //combining time and date
-    const classStartTime = moment(
-      `${classFields.date} ${classFields.start_time}`
-    );
-    const classEndTime = moment(`${classFields.date} ${classFields.end_time}`);
-
-    if (classStartTime.valueOf() >= classEndTime.valueOf()) {
-    }
-
     //deleting partner_id when it's length is 0
     if (classFields.partner_id.length === 0) delete classFields.partner_id;
-
-    //deleting date as we have combined with time and we don't want date separately
-    delete classFields.date;
-    // delete classFields[date];
-
-    //adding combined date and time to start_time and end_time
-    classFields.start_time = `${moment(classStartTime).format(
-      "YYYY-MM-DDTHH:mm:ss"
-    )}Z`;
-    classFields.end_time = `${moment(classEndTime).format(
-      "YYYY-MM-DDTHH:mm:ss"
-    )}Z`;
 
     const commonFields = [
       "title",
@@ -614,13 +609,87 @@ function ClassForm({
         "on_days",
       ]);
     }
-
     if (classFields.max_enrolment != "No Limit") {
       //add max_enrolment field only if it is not No Limit
       payload.max_enrolment = classFields.max_enrolment;
+    } else {
+      delete classFields.max_enrolment;
     }
+
+    if (checked) {
+      //taking hours and minues from the time
+      classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
+
+      classFields.end_time = `${classFields.end_time.getHours()}:${classFields.end_time.getMinutes()}`;
+
+      //combining time and date
+      const classStartTime = moment(
+        `${classFields.date} ${classFields.start_time}`
+      );
+      const classEndTime = moment(
+        `${classFields.date} ${classFields.end_time}`
+      );
+
+      if (classStartTime.valueOf() >= classEndTime.valueOf()) {
+      }
+
+      //deleting partner_id when it's length is 0
+      if (classFields.partner_id.length === 0) delete classFields.partner_id;
+
+      //deleting date as we have combined with time and we don't want date separately
+      delete classFields.date;
+      // delete classFields[date];
+
+      //adding combined date and time to start_time and end_time
+      classFields.start_time = `${moment(classStartTime).format(
+        "YYYY-MM-DDTHH:mm:ss"
+      )}Z`;
+      classFields.end_time = `${moment(classEndTime).format(
+        "YYYY-MM-DDTHH:mm:ss"
+      )}Z`;
+    } else {
+      const startend =
+        classFields.schedule[Object.keys(classFields.schedule)[0]];
+      const startDate = new Date();
+      const endDate = new Date();
+      startDate.setHours(startend.startTime.split(":")[0]);
+      startDate.setMinutes(startend.startTime.split(":")[1]);
+      endDate.setHours(startend.endTime.split(":")[0]);
+      endDate.setMinutes(startend.endTime.split(":")[1]);
+
+      const originalStartString = moment(startDate).format(
+        "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+      );
+      const tStartIndex = originalStartString.toUpperCase().indexOf("T");
+      const modifiedStartDateString =
+        tStartIndex !== -1
+          ? `${classFields.date}T${originalStartString.substring(
+              tStartIndex + 1
+            )}`
+          : originalStartString;
+
+      const originalEndString = moment(endDate).format(
+        "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+      );
+      const tEndIndex = originalEndString.toUpperCase().indexOf("T");
+      const modifiedEndDateString =
+        tEndIndex !== -1
+          ? `${classFields.date}T${originalEndString.substring(tEndIndex + 1)}`
+          : originalEndString;
+
+      payload = {
+        ...classFields,
+        start_time: modifiedStartDateString,
+        end_time: modifiedEndDateString,
+      };
+
+      delete payload.date;
+      checked && delete payload.schedule;
+    }
+
     (!isEditMode ? createClass : editClass)(payload);
   };
+
   const handleFocus = (event) => {
     event.preventDefault();
     const { target } = event;
@@ -1066,43 +1135,121 @@ function ClassForm({
                 ) : null}
               </>
             )}
-            <Grid container mt={2} spacing={2}>
-              {[
-                { label: "Start Time", prop: "start_time" },
-                { label: "End Time", prop: "end_time" },
-              ].map(({ label, prop }) => (
-                <Grid item xs={isActive ? 12 : 6}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <Stack spacing={3}>
-                      <DesktopTimePicker
-                        label={label}
-                        value={classFields[prop]}
-                        onChange={(time) => {
-                          setClassFields({
-                            ...classFields,
-                            [prop]: time,
-                          });
-                        }}
-                        minTime={
-                          classFields.date === moment().format("YYYY-MM-DD")
-                            ? new Date(new Date().setSeconds(0))
-                            : null
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </Stack>
-                  </LocalizationProvider>
-                </Grid>
-              ))}
-            </Grid>
+            <Typography variant="body2" color="text.secondary" mt="16px">
+              Class Timings
+            </Typography>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={checked}
+                  checked={checked}
+                  onChange={handleTimeCheckedChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+              label="Keep the class timings same for all days"
+              sx={{ marginBottom: "16px" }}
+            />
+
+            {checked ? (
+              <Grid container spacing={2}>
+                {[
+                  { label: "Start Time", prop: "start_time" },
+                  { label: "End Time", prop: "end_time" },
+                ].map(({ label, prop }) => (
+                  <Grid item xs={isActive ? 12 : 6}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}>
+                        <DesktopTimePicker
+                          label={label}
+                          value={classFields[prop]}
+                          onChange={(time) => {
+                            setClassFields({
+                              ...classFields,
+                              [prop]: time,
+                            });
+                          }}
+                          minTime={
+                            classFields.date === moment().format("YYYY-MM-DD")
+                              ? new Date(new Date().setSeconds(0))
+                              : null
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              classFields.on_days?.map((item, index) => (
+                <>
+                  <Typography variant="body2" color="text.secondary">
+                    {filteredDayValues[index]} Time
+                  </Typography>
+                  {
+                    <Grid container spacing={2}>
+                      {[
+                        { label: "Start Time", prop: "startTime" },
+                        { label: "End Time", prop: "endTime" },
+                      ].map(({ label, prop }, index) => (
+                        <Grid
+                          item
+                          xs={isActive ? 12 : 6}
+                          key={index}
+                          marginBottom="16px"
+                        >
+                          <LocalizationProvider
+                            dateAdapter={AdapterDateFns}
+                            key={index}
+                          >
+                            <Stack spacing={3} key={index}>
+                              <DesktopTimePicker
+                                key={index}
+                                label={label}
+                                // ampm={false}
+                                value={
+                                  classFields.schedule[item]
+                                    ? new Date(
+                                        `${classFields.date}T${classFields.schedule[item][prop]}`
+                                      )
+                                    : null
+                                }
+                                onChange={(time) => {
+                                  setClassFields({
+                                    ...classFields,
+                                    schedule: {
+                                      ...classFields.schedule,
+                                      [item]: {
+                                        ...classFields.schedule[item],
+                                        [prop]: time.toLocaleTimeString(),
+                                      },
+                                    },
+                                  });
+                                }}
+                                minTime={
+                                  classFields.date ===
+                                  moment().format("YYYY-MM-DD")
+                                    ? new Date(new Date().setSeconds(0))
+                                    : null
+                                }
+                                renderInput={(params) => (
+                                  <TextField {...params} />
+                                )}
+                              />
+                            </Stack>
+                          </LocalizationProvider>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  }
+                </>
+              ))
+            )}
+
             <Box display="flex" justifyContent="start">
               <FormControl>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  pr={2}
-                  mt={3}
-                >
+                <Typography variant="body2" color="text.secondary" pr={2}>
                   Language
                 </Typography>
                 <RadioGroup
