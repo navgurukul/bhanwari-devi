@@ -96,13 +96,59 @@ function ClassList({
 
   const _ = require("lodash");
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
-  var classData = recurring_classes_data_set || recurring_classes;
+  var classData =
+    (filterText?.length > 0 && recurring_classes_data_set) || recurring_classes;
+
+  const handleFilterChange = (e) => {
+    setFilterText(e.target.value);
+    if (filterText?.length > 0) {
+      const filtered_recurring_classes = recurring_classes.filter(
+        (item) =>
+          item.title.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
+      );
+      const filter_single_class = single_classes.filter(
+        (item) =>
+          item.title.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
+      );
+
+      set_recurring_classes_data_set([
+        ...filtered_recurring_classes,
+        ...filter_single_class,
+      ]);
+    } else {
+      set_recurring_classes_data_set(null);
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    setFilterText(e.clipboardData.getData("text"));
+
+    const filtered_recurring_classes = recurring_classes.filter(
+      (item) =>
+        item.title
+          .toLowerCase()
+          .indexOf(e.clipboardData.getData("text").toLowerCase()) > -1
+    );
+    const filter_single_class = single_classes.filter(
+      (item) =>
+        item.title
+          .toLowerCase()
+          .indexOf(e.clipboardData.getData("text").toLowerCase()) > -1
+    );
+
+    set_recurring_classes_data_set([
+      ...filtered_recurring_classes,
+      ...filter_single_class,
+    ]);
+  };
 
   const pathwayFilter = canSpecifyFacilitator
     ? classData.filter((item) => {
         return item?.pathway_id === pathwayID;
       })
     : classData;
+
   const singlepathwayFilter = canSpecifyFacilitator
     ? single_classes.filter((item) => {
         return item?.pathway_id === pathwayID;
@@ -138,53 +184,10 @@ function ClassList({
               borderRadius: "8px",
             }}
             fullWidth={isActive && true}
-            onPaste={(e) => {
-              e.preventDefault();
-              setFilterText(e.clipboardData.getData("text"));
-
-              const filtered_recurring_classes = showClass
-                ? recurring_classes.filter(
-                    (item) =>
-                      item.title
-                        .toLowerCase()
-                        .indexOf(
-                          e.clipboardData.getData("text").toLowerCase()
-                        ) > -1
-                  )
-                : single_classes.filter(
-                    (item) =>
-                      item.title
-                        .toLowerCase()
-                        .indexOf(
-                          e.clipboardData.getData("text").toLowerCase()
-                        ) > -1
-                  );
-
-              set_recurring_classes_data_set(filtered_recurring_classes);
-            }}
-            onChange={(e) => {
-              setFilterText(e.target.value);
-              if (filterText?.length > 0) {
-                let filtered_recurring_classes = showClass
-                  ? recurring_classes.filter(
-                      (item) =>
-                        item.title
-                          .toLowerCase()
-                          .indexOf(e.target.value.toLowerCase()) > -1
-                    )
-                  : single_classes.filter(
-                      (item) =>
-                        item.title
-                          .toLowerCase()
-                          .indexOf(e.target.value.toLowerCase()) > -1
-                    );
-
-                set_recurring_classes_data_set(filtered_recurring_classes);
-              } else {
-                set_recurring_classes_data_set(null);
-              }
-            }}
+            onPaste={handlePaste}
+            onChange={handleFilterChange}
           />
+
           {canSpecifyFacilitator && (
             <Button
               variant="contained"
