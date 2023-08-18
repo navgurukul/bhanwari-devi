@@ -46,11 +46,13 @@ function StudentData() {
   const [partneName, setPartneName] = useState();
   const [userName, setUserName] = useState();
   const [isDisabled, setDisabled] = useState(true);
+  const [triggerdGet, setTriggerdGet] = useState(false);
   const loginUser = user.data.user.id;
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
-  useEffect(() => {
+
+  const fetchAPI = () =>
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users${
@@ -130,7 +132,17 @@ function StudentData() {
         }
       }
     });
+
+  useEffect(() => {
+    fetchAPI();
   }, [debouncedText]);
+
+  useEffect(() => {
+    if (triggerdGet) {
+      fetchAPI();
+      setTriggerdGet(false);
+    }
+  }, [triggerdGet]);
 
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
@@ -633,6 +645,7 @@ function StudentData() {
           setOpenEditForm={setOpenEditForm}
           userId={userId}
           userName={userName}
+          setTriggerdGet={setTriggerdGet}
         />
       </div>
     );
