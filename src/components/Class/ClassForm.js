@@ -408,12 +408,9 @@ function ClassForm({
   }, [partnerData]);
 
   const convertToIST = (d) => {
-    const b = String(d).split(/\D+/);
-    const dateInObj = new Date(
-      Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6])
-    );
+    const dateInObj = new Date(d);
     const utc = dateInObj.getTime() + dateInObj.getTimezoneOffset() * 60000;
-    return new Date(utc + 3600000 * +5.5).toISOString();
+    return new Date(utc + 3600000 * 5.5).toUTCString();
   };
   const createClass = (payload) => {
     setLoading(true);
@@ -1199,6 +1196,8 @@ function ClassForm({
                           key={index}
                           marginBottom="16px"
                         >
+                          {console.log()}
+
                           <LocalizationProvider
                             dateAdapter={AdapterDateFns}
                             key={index}
@@ -1211,7 +1210,10 @@ function ClassForm({
                                 value={
                                   classFields.schedule[item]
                                     ? new Date(
-                                        `${classFields.date}T${classFields.schedule[item][prop]}`
+                                        classFields.schedule[item][prop] &&
+                                          convertToIST(
+                                            `${classFields.date}T${classFields.schedule[item][prop]}`
+                                          )
                                       )
                                     : null
                                 }
