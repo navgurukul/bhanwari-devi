@@ -34,10 +34,18 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExternalLink from "../../common/ExternalLink";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
+import MergeClass from "../MergeClass";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 toast.configure();
 
-function ClassCard({ item, editClass }) {
+function ClassCard({
+  item,
+  editClass,
+  pathwayFilter,
+  Newpathways,
+  setRefreshKey,
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -48,6 +56,7 @@ function ClassCard({ item, editClass }) {
   const [indicator, setIndicator] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
+  const [canJoin, setCanJoin] = useState(false);
 
   const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
@@ -257,11 +266,19 @@ function ClassCard({ item, editClass }) {
     );
   };
   */
+  const ACBPathway = Newpathways?.find((path) => {
+    return item.pathway_id === path.id;
+  });
+
   return (
     <>
       <Card
         elevation={2}
-        sx={{ p: 4, mt: isActive ? 4 : 5 }}
+        sx={{
+          p: 4,
+          mt: isActive ? 4 : 5,
+          bgcolor: canJoin ? "secondary.light" : "primary.lighter",
+        }}
         className={classes.card}
       >
         <Typography
@@ -272,11 +289,20 @@ function ClassCard({ item, editClass }) {
             justifyContent: "space-between",
           }}
         >
-          {languageMap[item.type] === "Doubt Class"
-            ? languageMap[item.type]
-            : "Batch"}
+          <Typography
+            sx={{ fontSize: "18px", fontWeight: "400" }}
+            variant="subtitle2"
+          >
+            {item.title}
+          </Typography>
           {item.enrolled && (
-            <i className="check-icon check-icon fa fa-check-circle">Enrolled</i>
+            <i
+              className="check-icon check-icon fa fa-check-circle
+            "
+              style={{ backgroundColor: "transparent" }}
+            >
+              Enrolled
+            </i>
           )}
           {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
@@ -288,6 +314,7 @@ function ClassCard({ item, editClass }) {
             />
           )}
         </Typography>
+        {/* dialog box for edit delete and merge class  */}
         <Menu
           sx={{ mt: "15px" }}
           id="menu-appbar"
@@ -297,9 +324,13 @@ function ClassCard({ item, editClass }) {
             horizontal: "right",
           }}
           keepMounted
+          maxWidth="130px"
           transformOrigin={{
             vertical: "top",
             horizontal: "right",
+          }}
+          PaperProps={{
+            style: { width: "150px" },
           }}
           open={Boolean(anchorElUser)}
           onClose={() => {
@@ -310,13 +341,22 @@ function ClassCard({ item, editClass }) {
             <>
               <MenuItem
                 onClick={() => handleEdit(item.id)}
-                sx={{ width: 100, margin: "0px 10px" }}
+                sx={{ width: 133, margin: "0px 10px" }}
               >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
+
+              {ACBPathway?.code === "ACB" && (
+                <MergeClass
+                  itemID={item.id}
+                  PathwayID={item.pathway_id}
+                  pathwayFilter={pathwayFilter}
+                  setRefreshKey={setRefreshKey}
+                />
+              )}
               <MenuItem
                 onClick={() => handleClickOpen(item.id)}
-                sx={{ width: 100, margin: "0px 10px", color: "#F44336" }}
+                sx={{ width: 133, margin: "0px 10px", color: "#F44336" }}
               >
                 <Typography textAlign="center">Delete</Typography>
               </MenuItem>
@@ -333,11 +373,25 @@ function ClassCard({ item, editClass }) {
           )}
         </Menu>
 
-        <Typography variant="subtitle1">{item.title}</Typography>
+        {/* it will show when two class merged */}
+        {ACBPathway?.code === "ACB" && item?.merge_class && (
+          <Typography variant="body2" sx={{ display: "flex" }}>
+            <img
+              className={classes.icons}
+              src={require("../assets/mergeClass.png")}
+              height="26px"
+              width="26px"
+            />
+
+            {item?.merge_class}
+          </Typography>
+        )}
+
+        {/* <Typography variant="subtitle1">{item.sub_title}</Typography> */}
         {!item.title.toLowerCase().includes("scratch") && (
           <Typography
-            sx={{ fontSize: "18px", fontWeight: "400" }}
-            variant="subtitle2"
+            // sx={{ fontSize: "18px", fontWeight: "400" }}
+            variant="subtitle1"
           >
             {item.sub_title}
           </Typography>
@@ -368,7 +422,9 @@ function ClassCard({ item, editClass }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <CardActions style={{ padding: "0px" }}>
+
+        {/* it's for enroll class, join class and  class Timer button */}
+        <CardActions className={classes.cardActions}>
           {item.enrolled ? (
             loading ? (
               <div className="loader-button">
@@ -378,6 +434,7 @@ function ClassCard({ item, editClass }) {
               <ClassJoinTimerButton
                 startTime={item?.start_time}
                 link={item?.meet_link}
+                onCanJoin={setCanJoin}
               />
             )
           ) : loading ? (
@@ -387,10 +444,11 @@ function ClassCard({ item, editClass }) {
           ) : (
             <Button
               type="submit"
-              variant="contained"
+              variant="text"
               onClick={() => {
                 handleClickOpenEnroll(item.id);
               }}
+              endIcon={<ArrowRightAltIcon />}
             >
               Enroll
             </Button>
@@ -398,6 +456,7 @@ function ClassCard({ item, editClass }) {
         </CardActions>
       </Card>
       <Box>
+        {/* dialog box for delete button */}
         {showModal ? (
           <Dialog
             open={showModal}
@@ -450,6 +509,7 @@ function ClassCard({ item, editClass }) {
             </Stack>
           </Dialog>
         ) : null}
+        {/* dialog box for  edit class*/}
         {editShowModal ? (
           <Dialog
             open={editShowModal}
@@ -510,7 +570,7 @@ function ClassCard({ item, editClass }) {
             </Stack>
           </Dialog>
         ) : null}
-
+        {/* dialog box for enroll class */}
         {enrollShowModal ? (
           <Dialog
             open={() => enrollShowModal()}

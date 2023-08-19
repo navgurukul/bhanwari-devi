@@ -29,6 +29,7 @@ theme = createTheme(theme, {
       main: "#48A145",
       light: "#E9F5E9",
       dark: "#3A8137",
+      lighter: "#FAFAFA",
     },
     secondary: {
       //Violet
