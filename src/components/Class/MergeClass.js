@@ -21,12 +21,11 @@ import { toast } from "react-toastify";
 
 toast.configure();
 
-function AlertDialog({ itemID, pathwayFilter }) {
+function AlertDialog({ itemID, pathwayFilter, setRefreshKey }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [Mergeclassid, setMarginId] = useState();
   const user = useSelector(({ User }) => User);
-  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,6 +36,7 @@ function AlertDialog({ itemID, pathwayFilter }) {
   };
 
   const handleSubmit = (e) => {
+    // mergeClass put API
     axios({
       method: METHODS.POST,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Mergeclassid}/mergeClass`,
@@ -48,19 +48,13 @@ function AlertDialog({ itemID, pathwayFilter }) {
         Authorization: user.data.token,
       },
     }).then(() => {
+      setRefreshKey(true);
       toast.success("You successfully merge classes.", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2500,
       });
-      setRefreshKey(refreshKey + 1);
     });
   };
-
-  useEffect(() => {
-    if (refreshKey === 1) {
-      handleSubmit();
-    }
-  }, [refreshKey]);
 
   return (
     <div>
@@ -126,7 +120,6 @@ function AlertDialog({ itemID, pathwayFilter }) {
           <Button
             variant="contained"
             onClick={() => {
-              // setUId(itemID);
               handleSubmit(itemID);
               handleClose();
             }}

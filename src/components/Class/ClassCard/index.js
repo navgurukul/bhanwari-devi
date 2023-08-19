@@ -39,7 +39,13 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 toast.configure();
 
-function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
+function ClassCard({
+  item,
+  editClass,
+  pathwayFilter,
+  Newpathways,
+  setRefreshKey,
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -308,6 +314,7 @@ function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
             />
           )}
         </Typography>
+        {/* dialog box for edit delete and merge class  */}
         <Menu
           sx={{ mt: "15px" }}
           id="menu-appbar"
@@ -338,11 +345,13 @@ function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
               >
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
+
               {ACBPathway?.code === "ACB" && (
                 <MergeClass
                   itemID={item.id}
                   PathwayID={item.pathway_id}
                   pathwayFilter={pathwayFilter}
+                  setRefreshKey={setRefreshKey}
                 />
               )}
               <MenuItem
@@ -364,6 +373,7 @@ function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
           )}
         </Menu>
 
+        {/* it will show when two class merged */}
         {ACBPathway?.code === "ACB" && item?.merge_class && (
           <Typography variant="body2" sx={{ display: "flex" }}>
             <img
@@ -412,13 +422,9 @@ function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
           />
           {languageMap[item.lang]}
         </Typography>
-        <CardActions
-          sx={{
-            padding: "0px",
-            alignItems: "right",
-            justifyContent: "flex-end",
-          }}
-        >
+
+        {/* it's for enroll class, join class and  class Timer button */}
+        <CardActions className={classes.cardActions}>
           {item.enrolled ? (
             loading ? (
               <div className="loader-button">
@@ -450,6 +456,7 @@ function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
         </CardActions>
       </Card>
       <Box>
+        {/* dialog box for delete button */}
         {showModal ? (
           <Dialog
             open={showModal}
@@ -502,6 +509,7 @@ function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
             </Stack>
           </Dialog>
         ) : null}
+        {/* dialog box for  edit class*/}
         {editShowModal ? (
           <Dialog
             open={editShowModal}
@@ -562,7 +570,7 @@ function ClassCard({ item, editClass, pathwayFilter, Newpathways }) {
             </Stack>
           </Dialog>
         ) : null}
-
+        {/* dialog box for enroll class */}
         {enrollShowModal ? (
           <Dialog
             open={() => enrollShowModal()}

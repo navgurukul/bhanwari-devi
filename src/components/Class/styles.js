@@ -63,6 +63,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     align: "center",
   },
+  cardActions: {
+    padding: "0px",
+    alignItems: "right",
+    justifyContent: "flex-end",
+  },
+  delete: {
+    width: 113,
+    margin: "0px 8px 0px 8px",
+    color: "#F44336",
+  },
 }));
 
 export default useStyles;

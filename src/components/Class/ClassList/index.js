@@ -20,7 +20,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import NoClassesFound from "../NoClassesFound";
 import NoVolunteerClass from "../NoVolunteerClass";
-import { Filter } from "matrix-js-sdk";
 
 function ClassList({
   editClass,
@@ -37,12 +36,20 @@ function ClassList({
   const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
+  const [refreshKey, setRefreshKey] = useState(false);
   const [filterText, setFilterText] = useState(null);
   useEffect(() => {
     if (isShow === false) {
       dispatch(classActions.getClasses());
     }
   }, [dispatch, isShow]);
+
+  useEffect(() => {
+    if (refreshKey) {
+      dispatch(classActions.getClasses());
+      setRefreshKey(false);
+    }
+  }, [dispatch, refreshKey]);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -83,6 +90,7 @@ function ClassList({
     );
   }
 
+  // separate recurring classes and single classes
   let recurring_classes_data = [];
   let single_classes = [];
   data &&
@@ -95,17 +103,22 @@ function ClassList({
     });
 
   const _ = require("lodash");
+  // remove duplicate classes
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
+
+  // if user type in search box, it will filter the classes
   var classData =
     (filterText?.length > 0 && recurring_classes_data_set) || recurring_classes;
 
   const handleFilterChange = (e) => {
+    // for filter the batch
     setFilterText(e.target.value);
     if (filterText?.length > 0) {
       const filtered_recurring_classes = recurring_classes.filter(
         (item) =>
           item.title.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
       );
+      // for filter doubt class
       const filter_single_class = single_classes.filter(
         (item) =>
           item.title.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
@@ -121,15 +134,17 @@ function ClassList({
   };
 
   const handlePaste = (e) => {
+    // when user paste in search box, it will filter the classes
     e.preventDefault();
     setFilterText(e.clipboardData.getData("text"));
-
+    // when user paste in search box, batches should be filter by that pathway
     const filtered_recurring_classes = recurring_classes.filter(
       (item) =>
         item.title
           .toLowerCase()
           .indexOf(e.clipboardData.getData("text").toLowerCase()) > -1
     );
+    // when user paste in search box, doubt class should be filter by that pathway
     const filter_single_class = single_classes.filter(
       (item) =>
         item.title
@@ -145,12 +160,14 @@ function ClassList({
 
   const pathwayFilter = canSpecifyFacilitator
     ? classData.filter((item) => {
+        // if I click on a pathway, batches should be filter by that pathway
         return item?.pathway_id === pathwayID;
       })
     : classData;
 
   const singlepathwayFilter = canSpecifyFacilitator
-    ? single_classes.filter((item) => {
+    ? // if I click on pathway, doubt class should be filter by that pathway
+      single_classes.filter((item) => {
         return item?.pathway_id === pathwayID;
       })
     : single_classes;
@@ -231,6 +248,7 @@ function ClassList({
                             pathwayFilter={pathwayFilter}
                             showClass={showClass}
                             Newpathways={Newpathways}
+                            setRefreshKey={setRefreshKey}
                           />
                         </Grid>
                       )
@@ -259,6 +277,7 @@ function ClassList({
                           enroll="Enroll to Cohort class"
                           style="class-enroll-cohort"
                           showClass={showClass}
+                          setRefreshKey={setRefreshKey}
                         />
                       </Grid>
                     )

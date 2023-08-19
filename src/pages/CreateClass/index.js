@@ -177,6 +177,7 @@ function ToggleClassFormModal() {
       sx={{ mt: "40px" }}
       maxWidth={canSpecifyFacilitator ? "xl" : "lg"}
     >
+      {/* for New volunteer */}
       {canSpecifyFacilitator && (
         <span>
           {newVolunteer && (
@@ -185,18 +186,18 @@ function ToggleClassFormModal() {
         </span>
       )}
       <Grid container spacing={2}>
+        {/* pathway drawer if you have admin role  */}
         {canSpecifyFacilitator && (
           <Grid item md={3}>
             <DrawerLeft
               setPathwayId={setPathwayId}
               setPathwayName={setPathwayName}
-              setNewPathways={setNewPathways}
               Newpathways={Newpathways}
               pathwayName={pathwayName}
             />
           </Grid>
         )}
-
+        {/* for switch Batch to doubt class */}
         <Grid item md={canSpecifyFacilitator ? 9 : 12}>
           {canSpecifyFacilitator && !isActive && (
             <Typography variant="h6">{pathwayName}</Typography>
@@ -275,6 +276,7 @@ function ToggleClassFormModal() {
               aria-describedby="modal-modal-description"
               style={{ overflow: "scroll" }}
             >
+              {/* { class form modal for doubt class, batches and edit class} */}
               <ClassForm
                 isEditMode={isEditMode}
                 indicator={indicator}
@@ -300,6 +302,8 @@ function ToggleClassFormModal() {
                   },
                 }}
               >
+                {/*........ New user to take Calendar access to create class....... */}
+
                 <DialogTitle>
                   <Typography variant="h6" align="center">
                     Meraki needs access to your calendar to create classes.{" "}

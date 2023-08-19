@@ -78,6 +78,7 @@ function DrawerLeft({
 
   return (
     <>
+      {/* left drawer for Learning track  */}
       {!isActive ? (
         <Drawer
           variant="permanent"
@@ -99,19 +100,24 @@ function DrawerLeft({
         </Drawer>
       ) : (
         <div style={{ position: "relative", maxWidth: "100%" }}>
+          {/* Learning Track dropdown for mobile  viwes*/}
+
           <div onClick={toggleDropdown} style={{ maxWidth: "100%" }}>
             <Typography variant="body1" color="gray">
               Learning Track
             </Typography>
+
             <List component="nav" style={{ maxWidth: "100%" }}>
               <ListItemButton className={classes.listButton}>
                 <Typography variant="subtitle2">{pathwayName}</Typography>
+
                 <ListItemIcon>
                   <ExpandMoreIcon />
                 </ListItemIcon>
               </ListItemButton>
             </List>
           </div>
+
           {isOpen && (
             <div className={classes.drawerList}>
               {/* <Divider /> */}
