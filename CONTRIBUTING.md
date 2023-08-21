@@ -35,7 +35,7 @@ git checkout dev
 
    ```.env
     REACT_APP_GOOGLE_CLIENT_ID = ''
-    REACT_APP_MERAKI_URL = 'https://dev-api.merakilearn.org'
+    REACT_APP_MERAKI_URL = 'https://merd-api.merakilearn.org/'
     REACT_APP_CHANAKYA_BASE_URL = 'https://join.navgurukul.org/api/'
     REACT_APP_ADMISSIONS_URL = 'https://admissions.navgurukul.org/'
     REACT_APP_API_KEY = ''
