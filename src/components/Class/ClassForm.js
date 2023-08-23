@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import CloseIcon from "@material-ui/icons/Close";
 import { lang } from "../../constant";
@@ -338,11 +337,19 @@ function ClassForm({
     SA: "Sat",
     SU: "Sun",
   };
-
-  const commonElements = Object.keys(days).filter((element) =>
+  const formultipleDays = {
+    MO: "Monday",
+    TU: "Tuesday",
+    WE: "Wednesday",
+    TH: "Thursday",
+    FR: "Friday",
+    SA: "Saturday",
+    SU: "Sunday",
+  };
+  const commonElements = Object.keys(formultipleDays).filter((element) =>
     classFields.on_days.includes(element)
   );
-  const filteredDayValues = commonElements.map((key) => days[key]);
+  const filteredDayValues = commonElements.map((key) => formultipleDays[key]);
 
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
@@ -408,10 +415,14 @@ function ClassForm({
   }, [partnerData]);
 
   const convertToIST = (d) => {
-    const dateInObj = new Date(d);
+    const b = d.split(/\D+/);
+    const dateInObj = new Date(
+      Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6])
+    );
     const utc = dateInObj.getTime() + dateInObj.getTimezoneOffset() * 60000;
-    return new Date(utc + 3600000 * 5.5).toUTCString();
+    return new Date(utc + 3600000 * +5.5).toISOString();
   };
+
   const createClass = (payload) => {
     setLoading(true);
     if (checked) {
@@ -451,8 +462,8 @@ function ClassForm({
   const editClass = (payload) => {
     setLoading(true);
     if (checked) {
-      payload = classFields.start_time;
-      payload = classFields.end_time;
+      payload.start_time = classFields.start_time;
+      payload.end_time = classFields.end_time;
     }
     return axios({
       method: METHODS.PUT,
@@ -614,6 +625,7 @@ function ClassForm({
     }
 
     if (checked) {
+      // same time for differnt days
       //taking hours and minues from the time
       classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
 
@@ -628,7 +640,7 @@ function ClassForm({
       );
 
       if (classStartTime.valueOf() >= classEndTime.valueOf()) {
-      }
+      } //checking start time is greater than end time
 
       //deleting partner_id when it's length is 0
       if (classFields.partner_id.length === 0) delete classFields.partner_id;
@@ -645,10 +657,13 @@ function ClassForm({
         "YYYY-MM-DDTHH:mm:ss"
       )}Z`;
     } else {
+      // timing for multiple days
+      //taking first key value from schedule object
+      const startDate = new Date();
       const startend =
         classFields.schedule[Object.keys(classFields.schedule)[0]];
-      const startDate = new Date();
       const endDate = new Date();
+
       startDate.setHours(startend.startTime.split(":")[0]);
       startDate.setMinutes(startend.startTime.split(":")[1]);
       endDate.setHours(startend.endTime.split(":")[0]);
@@ -657,31 +672,32 @@ function ClassForm({
       const originalStartString = moment(startDate).format(
         "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
       );
-      const tStartIndex = originalStartString.toUpperCase().indexOf("T");
+      const tStartIndex = originalStartString.toUpperCase().indexOf("T"); //finding index of T
       const modifiedStartDateString =
         tStartIndex !== -1
           ? `${classFields.date}T${originalStartString.substring(
               tStartIndex + 1
             )}`
-          : originalStartString;
+          : originalStartString; //combining time and date
 
       const originalEndString = moment(endDate).format(
         "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
       );
+      //combining time and date with T and Z format for end time and start time
+
       const tEndIndex = originalEndString.toUpperCase().indexOf("T");
       const modifiedEndDateString =
         tEndIndex !== -1
           ? `${classFields.date}T${originalEndString.substring(tEndIndex + 1)}`
           : originalEndString;
-
       payload = {
         ...classFields,
         start_time: modifiedStartDateString,
         end_time: modifiedEndDateString,
-      };
+      }; //adding start time and end time to payload
 
       delete payload.date;
-      checked && delete payload.schedule;
+      checked && delete payload.schedule; //deleting date and schedule from payload
     }
 
     (!isEditMode ? createClass : editClass)(payload);
@@ -855,7 +871,7 @@ function ClassForm({
                     onChange={(e) => {
                       setClassFields({
                         ...classFields,
-                        pathway_id: e.target.value,
+                        pathway_id: parseInt(e.target.value),
                       });
                     }}
                     sx={{ marginBottom: "16px" }}
@@ -1149,12 +1165,13 @@ function ClassForm({
             />
 
             {checked ? (
-              <Grid container spacing={2}>
+              <Grid container spacing={2} mb={2}>
                 {[
                   { label: "Start Time", prop: "start_time" },
                   { label: "End Time", prop: "end_time" },
                 ].map(({ label, prop }) => (
                   <Grid item xs={isActive ? 12 : 6}>
+                    {/* same time for every class */}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <Stack spacing={3}>
                         <DesktopTimePicker
@@ -1181,7 +1198,12 @@ function ClassForm({
             ) : (
               classFields.on_days?.map((item, index) => (
                 <>
-                  <Typography variant="body2" color="text.secondary">
+                  {/* change time day wise  */}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    marginBottom="10px"
+                  >
                     {filteredDayValues[index]} Time
                   </Typography>
                   {
@@ -1196,8 +1218,6 @@ function ClassForm({
                           key={index}
                           marginBottom="16px"
                         >
-                          {console.log()}
-
                           <LocalizationProvider
                             dateAdapter={AdapterDateFns}
                             key={index}
@@ -1210,10 +1230,7 @@ function ClassForm({
                                 value={
                                   classFields.schedule[item]
                                     ? new Date(
-                                        classFields.schedule[item][prop] &&
-                                          convertToIST(
-                                            `${classFields.date}T${classFields.schedule[item][prop]}`
-                                          )
+                                        `${classFields.date}T${classFields.schedule[item][prop]}`
                                       )
                                     : null
                                 }
@@ -1224,7 +1241,10 @@ function ClassForm({
                                       ...classFields.schedule,
                                       [item]: {
                                         ...classFields.schedule[item],
-                                        [prop]: time.toLocaleTimeString(),
+                                        [prop]: time.toLocaleTimeString(
+                                          "en-US",
+                                          { hour12: false }
+                                        ),
                                       },
                                     },
                                   });
