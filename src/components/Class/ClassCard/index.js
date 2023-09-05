@@ -346,8 +346,9 @@ function ClassCard({
                 <Typography textAlign="center">Edit</Typography>
               </MenuItem>
 
-              {ACBPathway?.code === "ACB" && (
+              {ACBPathway?.code === "ACB" && !item?.merge_class && (
                 <MergeClass
+                  item={item}
                   itemID={item.id}
                   PathwayID={item.pathway_id}
                   pathwayFilter={pathwayFilter}

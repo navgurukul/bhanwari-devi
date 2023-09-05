@@ -352,6 +352,15 @@ function ClassForm({
   );
   const filteredDayValues = commonElements.map((key) => formultipleDays[key]);
 
+  function convert24To00(timeString) {
+    // If the input is "24:xx:xx", convert "24" to "00" and keep the rest unchanged
+    if (timeString.startsWith("24:")) {
+      return `00${timeString.substring(2)}`;
+    }
+
+    return timeString;
+  }
+
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
   };
@@ -598,15 +607,13 @@ function ClassForm({
     let payload;
     if (classFields.type === "doubt_class") {
       delete classFields.space_id;
-      if (classFields.pathway_id == 7) {
-        payload = _.pick(classFields, [...commonFields, "partner_id"]);
-      } else {
-        payload = _.pick(classFields, [
-          ...commonFields,
-          "course_id",
-          "exercise_id",
-        ]);
-      }
+
+      payload = _.pick(classFields, [
+        ...commonFields,
+        "course_id",
+        "exercise_id",
+        "partner_id",
+      ]);
     } else if (classFields.type === "batch") {
       if (classFields.pathway_id != 7) {
         delete classFields.space_id;
@@ -625,6 +632,9 @@ function ClassForm({
       delete classFields.max_enrolment;
     }
 
+    //deleting partner_id when it's length is 0
+    if (classFields.partner_id.length === 0) delete classFields.partner_id;
+
     if (checked) {
       // same time for differnt days
       //taking hours and minues from the time
@@ -642,9 +652,6 @@ function ClassForm({
 
       if (classStartTime.valueOf() >= classEndTime.valueOf()) {
       } //checking start time is greater than end time
-
-      //deleting partner_id when it's length is 0
-      if (classFields.partner_id.length === 0) delete classFields.partner_id;
 
       //deleting date as we have combined with time and we don't want date separately
       delete classFields.date;
@@ -669,7 +676,6 @@ function ClassForm({
       startDate.setMinutes(startend.startTime.split(":")[1]);
       endDate.setHours(startend.endTime.split(":")[0]);
       endDate.setMinutes(startend.endTime.split(":")[1]);
-
       const originalStartString = moment(startDate).format(
         "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
       );
@@ -691,6 +697,7 @@ function ClassForm({
         tEndIndex !== -1
           ? `${classFields.date}T${originalEndString.substring(tEndIndex + 1)}`
           : originalEndString;
+
       payload = {
         ...classFields,
         start_time: modifiedStartDateString,
@@ -1228,9 +1235,10 @@ function ClassForm({
                                       ...classFields.schedule,
                                       [item]: {
                                         ...classFields.schedule[item],
-                                        [prop]: time.toLocaleTimeString(
-                                          "en-US",
-                                          { hour12: false }
+                                        [prop]: convert24To00(
+                                          time.toLocaleTimeString("en-US", {
+                                            hour12: false,
+                                          })
                                         ),
                                       },
                                     },

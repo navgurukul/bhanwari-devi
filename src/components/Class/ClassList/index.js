@@ -174,7 +174,7 @@ function ClassList({
 
   return (
     <>
-      {data && data.length > 0 && (
+      {(data?.length > 0 || canSpecifyFacilitator) && (
         <Box
           display={!isActive && "flex"}
           sx={{
@@ -255,51 +255,48 @@ function ClassList({
                     );
                   })
                 : ""}
-              {pathwayFilter.length > 0 ? (
-                pathwayFilter.map((item, index) => {
-                  return (
-                    item.type === `${showClass ? "batch" : "doubt_class"}` && (
-                      <Grid
-                        item
-                        xs={12}
-                        ms={6}
-                        md={4}
-                        sx={{ mb: 0 }}
-                        key={index}
-                      >
-                        <ClassCard
-                          item={item}
+              {pathwayFilter.length > 0
+                ? pathwayFilter.map((item, index) => {
+                    return (
+                      item.type ===
+                        `${showClass ? "batch" : "doubt_class"}` && (
+                        <Grid
+                          item
+                          xs={12}
+                          ms={6}
+                          md={4}
+                          sx={{ mb: 0 }}
                           key={index}
-                          index={index}
-                          editClass={editClass}
-                          pathwayFilter={pathwayFilter}
-                          Newpathways={Newpathways}
-                          enroll="Enroll to Cohort class"
-                          style="class-enroll-cohort"
-                          showClass={showClass}
-                          setRefreshKey={setRefreshKey}
-                        />
-                      </Grid>
-                    )
-                  );
-                })
-              ) : (
-                <Grid item md={12} sx={{ mb: 0, mt: 4, p: 1 }}>
-                  <NoClassesFound />
-                </Grid>
-              )}
+                        >
+                          <ClassCard
+                            item={item}
+                            key={index}
+                            index={index}
+                            editClass={editClass}
+                            pathwayFilter={pathwayFilter}
+                            Newpathways={Newpathways}
+                            enroll="Enroll to Cohort class"
+                            style="class-enroll-cohort"
+                            showClass={showClass}
+                            setRefreshKey={setRefreshKey}
+                          />
+                        </Grid>
+                      )
+                    );
+                  })
+                : ""}
             </>
           ) : canSpecifyFacilitator ? (
             <Grid item md={12} sx={{ mb: 0, mt: 4, p: 1 }}>
               <NoClassesFound />
             </Grid>
           ) : (
-            <div className="message">
+            <Grid item md={12} xs={12} sm={12} sx={{ mb: 0, mt: 4, p: 1 }}>
               <NoVolunteerClass
                 setFormType={setFormType}
                 toggleModalOpen={toggleModalOpen}
               />
-            </div>
+            </Grid>
           )}
         </Grid>
       </>
