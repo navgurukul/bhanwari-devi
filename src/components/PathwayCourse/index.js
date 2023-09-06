@@ -123,11 +123,14 @@ function PathwayCourse() {
     return state.Pathways?.upcomingBatches?.data;
   });
 
+  console.log("upcomingBatchesData", upcomingBatchesData)
+
   const userEnrolledClasses = useSelector((state) => {
     return state.Pathways?.upcomingEnrolledClasses?.data;
   });
 
   const enrolledBatches = useSelector((state) => {
+    console.log("komal-----", state);
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
       return state?.Pathways?.enrolledBatches?.data;
     } else {
@@ -386,6 +389,7 @@ function PathwayCourse() {
             </Modal>
 
             {/* ................UserEnroll classs................. */}
+            {console.log("EnrolledClasses", enrolledBatches)}
 
             {enrolledBatches ? (
               <>
@@ -533,7 +537,7 @@ function PathwayCourse() {
                   </Grid>
 
                   {/* ...............Learning outcomes..................... */}
-                   {pathwayCourseData?.outcomes && (
+                   {/* {pathwayCourseData?.outcomes && (
                     <Box className={classes.Box1}>
                       <Typography
                         variant="h6"
@@ -558,7 +562,7 @@ function PathwayCourse() {
                         ))}
                       </Grid>
                     </Box>
-                  )}
+                  )} */}
                 </>
               )
             )}
