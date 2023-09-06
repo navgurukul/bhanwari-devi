@@ -216,8 +216,8 @@ function PathwayCourse() {
         setisFormFilled(response.data);
       })
       .catch((err) => {});
-//  }, [pathwayId, pathwayCourse]);
-    }, []);
+    //  }, [pathwayId, pathwayCourse]);
+  }, []);
 
   useEffect(() => {
     if (user?.data?.token && pathwayId) {
@@ -294,7 +294,8 @@ function PathwayCourse() {
     if (pathwayCourse?.data) {
       setCertificateCode(pathwayCourse?.data?.code);
       pathwayCourse?.data.code === "PRGPYT" ||
-      pathwayCourse?.data.code === "TCBPI"
+      pathwayCourse?.data.code === "TCBPI" ||
+      pathwayCourse?.data.code === "SCRTHB"
         ? setDisplayCert(true)
         : setDisplayCert(false);
     }
