@@ -57,7 +57,7 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
       });
     });
   };
-
+  console.log("mergedClasses", pathwayFilter);
   return (
     <div>
       <MenuItem

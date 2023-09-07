@@ -384,7 +384,9 @@ function ClassCard({
               width="26px"
             />
 
-            {item?.merge_class}
+            {`upcoming class 
+            ${item?.merge_class.split("and").join("with")}
+             upcomming class`}
           </Typography>
         )}
 
