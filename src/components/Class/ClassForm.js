@@ -1096,6 +1096,9 @@ function ClassForm({
               inputProps={{
                 min: moment().format("YYYY-MM-DD"),
               }}
+              InputLabelProps={{
+                shrink: true,
+              }}
               value={classFields.date}
               name="date"
               label="Start Date"
