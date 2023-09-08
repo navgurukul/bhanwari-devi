@@ -21,11 +21,13 @@ import { toast } from "react-toastify";
 
 toast.configure();
 
-function AlertDialog({ itemID, pathwayFilter, setRefreshKey }) {
+function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [Mergeclassid, setMarginId] = useState();
   const user = useSelector(({ User }) => User);
+
+  const mergedClasses = pathwayFilter.filter((item) => !item.merge_class);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,7 +57,7 @@ function AlertDialog({ itemID, pathwayFilter, setRefreshKey }) {
       });
     });
   };
-
+  console.log("mergedClasses", pathwayFilter);
   return (
     <div>
       <MenuItem
@@ -64,6 +66,7 @@ function AlertDialog({ itemID, pathwayFilter, setRefreshKey }) {
       >
         <Typography textAlign="center">Merge Class</Typography>
       </MenuItem>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -100,15 +103,19 @@ function AlertDialog({ itemID, pathwayFilter, setRefreshKey }) {
                   setMarginId(e.target.value);
                 }}
               >
-                {pathwayFilter?.map((item) => {
-                  return (
-                    item.id !== itemID && (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.title}
-                      </MenuItem>
-                    )
-                  );
-                })}
+                {mergedClasses.length === 1 ? (
+                  <MenuItem>No Batch </MenuItem>
+                ) : (
+                  mergedClasses?.map((item) => {
+                    return (
+                      item.id !== itemID && (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.title}
+                        </MenuItem>
+                      )
+                    );
+                  })
+                )}
               </Select>
             </FormControl>
             <Typography variant="body2">
@@ -131,4 +138,4 @@ function AlertDialog({ itemID, pathwayFilter, setRefreshKey }) {
     </div>
   );
 }
-export default AlertDialog;
+export default MergeClass;

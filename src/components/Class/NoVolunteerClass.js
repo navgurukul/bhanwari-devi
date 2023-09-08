@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Typography, Container, Button } from "@mui/material";
 
-function NoVolunteerClass({ setFormType, toggleModalOpen }) {
+function NoVolunteerClass() {
   return (
     <>
-      <Container mt={2} maxWidth={500} align="center" mb={5}>
+      <Container mt={2} align="center">
         <img alt="img" src={require("./assets/ClassCreated.svg")} />
-        <Typography variant="body1" margin="32px 0px">
+        <Typography variant="body1" margin="32px 0px" align="center">
           Welcome to the Volunteer Dashboard!
         </Typography>
       </Container>

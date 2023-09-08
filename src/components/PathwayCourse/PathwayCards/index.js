@@ -23,13 +23,6 @@ import { Link, useHistory } from "react-router-dom";
 import useStyles from "../styles";
 const PathwayCards = ({ userEnrolledClasses, data }) => {
 
-  // const language = {
-  //   hi: "Hindi",
-  //   en: "English",
-  //   mr: "Marathi",
-  // };
-
-  // const language ;
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const history = useHistory();
   const language = {
@@ -38,7 +31,7 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
     mr: "Marathi",
   };
 
-  const sliceNumber = data.code === "ACB" ? 1 : 3;
+  const sliceNumber = data?.code === "ACB" ? 1 : 3;
 
   function UpcomingClassCardComponent({ item }) {
     const classes = useStyles();
