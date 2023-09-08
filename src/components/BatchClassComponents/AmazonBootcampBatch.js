@@ -32,7 +32,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/7/userEnrolledClasses`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/7/ACBEnrolledBatches`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -41,6 +41,8 @@ function AmazonBootcampBatch({ enrolledBatches }) {
       setEnrollClasses(res.data);
     });
   }, []);
+
+  
 
   useEffect(() => {
     axios({
