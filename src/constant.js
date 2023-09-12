@@ -56,6 +56,7 @@ export const PATHS = {
   TUTOR: "/tutor-dashboard",
   GSOC_IDEA: "/gsoc-ideas-2023",
   ACB_BATCH: "/amazon-batch-class",
+  CREDITS: "/credits",
 };
 
 export const HideHeader = [
