@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import useStyles from "./styles";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { breakpoints } from "../../theme/constant";
+import it from "date-fns/locale/it/index";
 
 function VolunteerAutomation() {
   const classes = useStyles();
@@ -27,6 +28,7 @@ function VolunteerAutomation() {
 
   const pathname = window.location.pathname;
   const rolesList = user?.data?.user.rolesList; // TODO: Use selector
+  const { data } = useSelector((state) => state.PathwaysDropdow);
 
   const handleClick = () => {
     if (rolesList) {
@@ -96,7 +98,7 @@ function VolunteerAutomation() {
                 <Typography gutterBottom variant="h6" component="div">
                   Teaching
                 </Typography>
-                <Box className={classes.displayIcon}>
+                {/* <Box className={classes.displayIcon}>
                   <ArrowRightAltIcon className={classes.IconColor} />
                   <Typography
                     variant="subtitle1"
@@ -114,7 +116,22 @@ function VolunteerAutomation() {
                   >
                     Spoken English
                   </Typography>
-                </Box>
+                </Box> */}
+
+                {data?.pathways.map(
+                  (item) =>
+                    (item.code === "PRGPYT" || item.code === "SPKENG") && (
+                      <Box className={classes.displayIcon}>
+                        <ArrowRightAltIcon className={classes.IconColor} />
+                        <Typography
+                          variant="subtitle1"
+                          className={classes.TextContent}
+                        >
+                          {item.name}
+                        </Typography>
+                      </Box>
+                    )
+                )}
                 <Typography sx={{ mt: 2 }} variant="body1">
                   <span style={{ color: "#2E2E2E", fontWeight: "bold" }}>
                     {" "}

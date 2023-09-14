@@ -33,6 +33,8 @@ function DrawerLeft({
   const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
 
+  Newpathways && Newpathways.sort((a, b) => a.id - b.id);
+
   const handleItemClick = (value) => {
     setSelectedValue(value);
     setIsOpen(false);

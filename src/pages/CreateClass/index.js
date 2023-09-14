@@ -42,7 +42,8 @@ function ToggleClassFormModal() {
   const classes = useStyles();
   const [showClass, setShowClasses] = useState(true);
   const [pathwayID, setPathwayId] = useState(1);
-  const [pathwayName, setPathwayName] = useState("Python");
+  const [Newpathways, setNewPathways] = useState([]);
+  const [pathwayName, setPathwayName] = useState();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
@@ -52,7 +53,6 @@ function ToggleClassFormModal() {
 
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
-  const [Newpathways, setNewPathways] = useState([]);
 
   const url = window.location.href;
 
@@ -171,7 +171,11 @@ function ToggleClassFormModal() {
       setNewPathways(res.data);
     });
   }, []);
-
+  useEffect(() => {
+    if (pathwayName == undefined) {
+      setPathwayName(Newpathways[0]?.name);
+    }
+  }, [Newpathways]);
   return (
     <Container
       sx={{ mt: "40px" }}
