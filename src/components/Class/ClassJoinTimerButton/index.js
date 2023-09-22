@@ -29,7 +29,7 @@ function ClassJoinTimerButton({
 
   useEffect(() => {
     if (timeRemainingMsg === CAN_JOIN_MSG) {
-      onCanJoin(true);
+      onCanJoin && onCanJoin(true);
     }
     setTimeRemainingMsg(timeLeftFormat(startTime, timeLeftFormatOptions));
     const timer = setInterval(() => {
