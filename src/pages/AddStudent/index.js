@@ -7,7 +7,13 @@ import { useEffect, useRef } from "react";
 import { METHODS } from "../../services/api";
 import FormHelperText from "@mui/material/FormHelperText";
 
-function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
+function AddStudent({
+  openEditForm,
+  setOpenEditForm,
+  userId,
+  userName,
+  setTriggerdGet,
+}) {
   const [openForm, setOpenForm] = useState(false);
   const [studentEmail, setStudentEmail] = useState("");
   const [studentName, setStudentName] = useState();
@@ -18,8 +24,11 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
 
   const submit = () => {
     if (openEditForm) {
+      setOpenEditForm(false);
       editStudent();
+      setStudentName(null);
     } else {
+      setOpenForm(false);
       addStudent();
     }
   };
@@ -41,7 +50,7 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
         toast.success(`Student name ${data.data.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        window.location.reload(1);
+        setTriggerdGet(true);
       })
       .catch((e) => {
         toast.error(
@@ -110,7 +119,11 @@ function AddStudent({ openEditForm, setOpenEditForm, userId, userName }) {
                 >
                   X
                 </span>
-                <h2>Add New Student</h2>
+                {openEditForm ? (
+                  <h2>Edit Student Name</h2>
+                ) : (
+                  <h2>Add New Student</h2>
+                )}
                 {openEditForm ? (
                   <>
                     <label>Name of Student</label>

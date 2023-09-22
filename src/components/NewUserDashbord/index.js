@@ -3,7 +3,6 @@ import useStyles from "./styles";
 import PathwayCard from "../../pages/Home/PathwayCard";
 import { Container, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import ReturningUserPage from "../ReturningUser/ReturningUserPage";
 import axios from "axios";
 import { METHODS } from "../../services/api";
@@ -17,10 +16,8 @@ const NewUserDashbord = () => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [learningTracks, setLearningTracks] = useState(null);
+  const [learningTracks, setLearningTracks] = useState([]);
   const { loading, data } = useSelector((state) => state.PathwaysDropdow);
-
- 
 
   // useEffect(() => {
   //   dispatch(
@@ -41,9 +38,7 @@ const NewUserDashbord = () => {
       },
     }).then((res) => {
       const data = res.data;
-      if (data.length > 0) {
-        setLearningTracks(res.data);
-      }
+      setLearningTracks(res.data);
     });
   }, []);
 
@@ -56,7 +51,7 @@ const NewUserDashbord = () => {
 
   return (
     <>
-      {!learningTracks ? (
+      {learningTracks.length <= 0 ? (
         <>
           <Container className={classes.DashboardContainer}>
             <Typography variant="h5" align="center" mt={4} mb={3}>
@@ -75,7 +70,8 @@ const NewUserDashbord = () => {
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={isActive && item.name.length < 12 ? 170 : 210}>
+                  maxHeight={isActive && item.name.length < 12 ? 170 : 210}
+                >
                   <PathwayCard
                     id={item.id}
                     name={item.name}
@@ -88,7 +84,7 @@ const NewUserDashbord = () => {
           </Container>
         </>
       ) : (
-        <ReturningUserPage />
+        <ReturningUserPage learningTracks={learningTracks} />
       )}
     </>
   );

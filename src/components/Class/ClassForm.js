@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import CloseIcon from "@material-ui/icons/Close";
 import { lang } from "../../constant";
@@ -46,11 +45,12 @@ function ClassForm({
   indicator,
   formType,
   setIsEditMode,
+  Newpathways,
+  setNewPathways,
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
   const [volunteer, setVolunteer] = useState([]);
-  const [Newpathways, setNewPathways] = useState([]);
 
   const [classFields, setClassFields] = useState({
     category_id: 3,
@@ -89,6 +89,7 @@ function ClassForm({
     volunteer_id: classToEdit?.volunteer_id || "",
     facilitator_name: classToEdit?.volunteer?.name || "",
     space_id: classToEdit?.id || "",
+    schedule: classToEdit?.schedule || {},
   });
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
@@ -126,12 +127,16 @@ function ClassForm({
   });
   const [onSpace, setOnSpace] = useState([]);
   const [selectSpace, setSelectSpace] = useState([]);
-
+  const [checked, setChecked] = useState(true);
   //getting pathway courses
   const dispatch = useDispatch();
   const data = useSelector((state) => {
     return state;
   });
+
+  const handleTimeCheckedChange = (event) => {
+    setChecked(!checked);
+  };
 
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: 1 }));
@@ -267,7 +272,10 @@ function ClassForm({
       if (
         classFields.title !== "" &&
         classFields.partner_id?.length > 0 &&
-        classFields.on_days?.length > 0
+        classFields.on_days?.length > 0 &&
+        (checked
+          ? Object.keys(classFields.schedule).length === 0
+          : Object.keys(classFields.schedule).length > 1)
       ) {
         setButtonDisabled(false);
       } else {
@@ -279,7 +287,10 @@ function ClassForm({
         ((classFields.course_id && classFields.exercise_id) ||
           classFields.pathway_id) &&
         classFields.description &&
-        classFields.description.length < 555
+        classFields.description.length < 555 &&
+        (checked
+          ? Object.keys(classFields.schedule).length === 0
+          : Object.keys(classFields.schedule).length > 1)
       ) {
         setButtonDisabled(false);
       } else {
@@ -295,6 +306,8 @@ function ClassForm({
     classFields.course_id,
     classFields.exercise_id,
     classFields.description,
+    checked,
+    classFields.schedule,
   ]);
 
   const courses =
@@ -325,6 +338,28 @@ function ClassForm({
     SA: "Sat",
     SU: "Sun",
   };
+  const formultipleDays = {
+    MO: "Monday",
+    TU: "Tuesday",
+    WE: "Wednesday",
+    TH: "Thursday",
+    FR: "Friday",
+    SA: "Saturday",
+    SU: "Sunday",
+  };
+  const commonElements = Object.keys(formultipleDays).filter((element) =>
+    classFields.on_days.includes(element)
+  );
+  const filteredDayValues = commonElements.map((key) => formultipleDays[key]);
+
+  function convert24To00(timeString) {
+    // If the input is "24:xx:xx", convert "24" to "00" and keep the rest unchanged
+    if (timeString.startsWith("24:")) {
+      return `00${timeString.substring(2)}`;
+    }
+
+    return timeString;
+  }
 
   const changeHandler = (e) => {
     setClassFields({ ...classFields, [e.target.name]: e.target.value });
@@ -400,8 +435,10 @@ function ClassForm({
 
   const createClass = (payload) => {
     setLoading(true);
-    payload.start_time = convertToIST(payload.start_time);
-    payload.end_time = convertToIST(payload.end_time);
+    if (checked) {
+      payload.start_time = classFields.start_time;
+      payload.end_time = classFields.end_time;
+    }
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/classes`,
       method: METHODS.POST,
@@ -434,8 +471,10 @@ function ClassForm({
 
   const editClass = (payload) => {
     setLoading(true);
-    payload.start_time = convertToIST(payload.start_time);
-    payload.end_time = convertToIST(payload.end_time);
+    if (checked) {
+      payload.start_time = classFields.start_time;
+      payload.end_time = classFields.end_time;
+    }
     return axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${classToEdit.id}`,
@@ -549,34 +588,8 @@ function ClassForm({
       classFields.date = classFields.date;
     }
 
-    //taking hours and minues from the time
-    classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
-
-    classFields.end_time = `${classFields.end_time.getHours()}:${classFields.end_time.getMinutes()}`;
-
-    //combining time and date
-    const classStartTime = moment(
-      `${classFields.date} ${classFields.start_time}`
-    );
-    const classEndTime = moment(`${classFields.date} ${classFields.end_time}`);
-
-    if (classStartTime.valueOf() >= classEndTime.valueOf()) {
-    }
-
     //deleting partner_id when it's length is 0
     if (classFields.partner_id.length === 0) delete classFields.partner_id;
-
-    //deleting date as we have combined with time and we don't want date separately
-    delete classFields.date;
-    // delete classFields[date];
-
-    //adding combined date and time to start_time and end_time
-    classFields.start_time = `${moment(classStartTime).format(
-      "YYYY-MM-DDTHH:mm:ss"
-    )}Z`;
-    classFields.end_time = `${moment(classEndTime).format(
-      "YYYY-MM-DDTHH:mm:ss"
-    )}Z`;
 
     const commonFields = [
       "title",
@@ -594,15 +607,13 @@ function ClassForm({
     let payload;
     if (classFields.type === "doubt_class") {
       delete classFields.space_id;
-      if (classFields.pathway_id == 7) {
-        payload = _.pick(classFields, [...commonFields, "partner_id"]);
-      } else {
-        payload = _.pick(classFields, [
-          ...commonFields,
-          "course_id",
-          "exercise_id",
-        ]);
-      }
+
+      payload = _.pick(classFields, [
+        ...commonFields,
+        "course_id",
+        "exercise_id",
+        "partner_id",
+      ]);
     } else if (classFields.type === "batch") {
       if (classFields.pathway_id != 7) {
         delete classFields.space_id;
@@ -614,13 +625,92 @@ function ClassForm({
         "on_days",
       ]);
     }
-
     if (classFields.max_enrolment != "No Limit") {
       //add max_enrolment field only if it is not No Limit
       payload.max_enrolment = classFields.max_enrolment;
+    } else {
+      delete classFields.max_enrolment;
     }
+
+    //deleting partner_id when it's length is 0
+    if (classFields.partner_id.length === 0) delete classFields.partner_id;
+
+    if (checked) {
+      // same time for differnt days
+      //taking hours and minues from the time
+      classFields.start_time = `${classFields.start_time.getHours()}:${classFields.start_time.getMinutes()}`;
+
+      classFields.end_time = `${classFields.end_time.getHours()}:${classFields.end_time.getMinutes()}`;
+
+      //combining time and date
+      const classStartTime = moment(
+        `${classFields.date} ${classFields.start_time}`
+      );
+      const classEndTime = moment(
+        `${classFields.date} ${classFields.end_time}`
+      );
+
+      if (classStartTime.valueOf() >= classEndTime.valueOf()) {
+      } //checking start time is greater than end time
+
+      //deleting date as we have combined with time and we don't want date separately
+      delete classFields.date;
+      // delete classFields[date];
+
+      //adding combined date and time to start_time and end_time
+      classFields.start_time = `${moment(classStartTime).format(
+        "YYYY-MM-DDTHH:mm:ss"
+      )}Z`;
+      classFields.end_time = `${moment(classEndTime).format(
+        "YYYY-MM-DDTHH:mm:ss"
+      )}Z`;
+    } else {
+      // timing for multiple days
+      //taking first key value from schedule object
+      const startDate = new Date();
+      const startend =
+        classFields.schedule[Object.keys(classFields.schedule)[0]];
+      const endDate = new Date();
+
+      startDate.setHours(startend.startTime.split(":")[0]);
+      startDate.setMinutes(startend.startTime.split(":")[1]);
+      endDate.setHours(startend.endTime.split(":")[0]);
+      endDate.setMinutes(startend.endTime.split(":")[1]);
+      const originalStartString = moment(startDate).format(
+        "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+      );
+      const tStartIndex = originalStartString.toUpperCase().indexOf("T"); //finding index of T
+      const modifiedStartDateString =
+        tStartIndex !== -1
+          ? `${classFields.date}T${originalStartString.substring(
+              tStartIndex + 1
+            )}`
+          : originalStartString; //combining time and date
+
+      const originalEndString = moment(endDate).format(
+        "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
+      );
+      //combining time and date with T and Z format for end time and start time
+
+      const tEndIndex = originalEndString.toUpperCase().indexOf("T");
+      const modifiedEndDateString =
+        tEndIndex !== -1
+          ? `${classFields.date}T${originalEndString.substring(tEndIndex + 1)}`
+          : originalEndString;
+
+      payload = {
+        ...classFields,
+        start_time: modifiedStartDateString,
+        end_time: modifiedEndDateString,
+      }; //adding start time and end time to payload
+
+      delete payload.date;
+      checked && delete payload.schedule; //deleting date and schedule from payload
+    }
+
     (!isEditMode ? createClass : editClass)(payload);
   };
+
   const handleFocus = (event) => {
     event.preventDefault();
     const { target } = event;
@@ -654,20 +744,6 @@ function ClassForm({
       });
     }
   }, [selectedPartners]);
-
-  //  ....partner pathway data that are showing in radio button....//
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      setNewPathways(res.data);
-    });
-  }, []);
 
   const pathwayName = partnerPathwayId?.map((item) => {
     const pathway = Newpathways.find((pathway) => pathway.id === item);
@@ -789,7 +865,7 @@ function ClassForm({
                     onChange={(e) => {
                       setClassFields({
                         ...classFields,
-                        pathway_id: e.target.value,
+                        pathway_id: parseInt(e.target.value),
                       });
                     }}
                     sx={{ marginBottom: "16px" }}
@@ -1066,43 +1142,131 @@ function ClassForm({
                 ) : null}
               </>
             )}
-            <Grid container mt={2} spacing={2}>
-              {[
-                { label: "Start Time", prop: "start_time" },
-                { label: "End Time", prop: "end_time" },
-              ].map(({ label, prop }) => (
-                <Grid item xs={isActive ? 12 : 6}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <Stack spacing={3}>
-                      <DesktopTimePicker
-                        label={label}
-                        value={classFields[prop]}
-                        onChange={(time) => {
-                          setClassFields({
-                            ...classFields,
-                            [prop]: time,
-                          });
-                        }}
-                        minTime={
-                          classFields.date === moment().format("YYYY-MM-DD")
-                            ? new Date(new Date().setSeconds(0))
-                            : null
-                        }
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </Stack>
-                  </LocalizationProvider>
-                </Grid>
-              ))}
-            </Grid>
+            <Typography variant="body2" color="text.secondary" mt="16px">
+              Class Timings
+            </Typography>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={checked}
+                  checked={checked}
+                  onChange={handleTimeCheckedChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+              label="Keep the class timings same for all days"
+              sx={{ marginBottom: "16px" }}
+            />
+
+            {checked ? (
+              <Grid container spacing={2} mb={2}>
+                {[
+                  { label: "Start Time", prop: "start_time" },
+                  { label: "End Time", prop: "end_time" },
+                ].map(({ label, prop }) => (
+                  <Grid item xs={isActive ? 12 : 6}>
+                    {/* same time for every class */}
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}>
+                        <DesktopTimePicker
+                          label={label}
+                          value={classFields[prop]}
+                          onChange={(time) => {
+                            setClassFields({
+                              ...classFields,
+                              [prop]: time,
+                            });
+                          }}
+                          minTime={
+                            classFields.date === moment().format("YYYY-MM-DD")
+                              ? new Date(new Date().setSeconds(0))
+                              : null
+                          }
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              classFields.on_days?.map((item, index) => (
+                <>
+                  {/* change time day wise  */}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    marginBottom="10px"
+                  >
+                    {filteredDayValues[index]} Time
+                  </Typography>
+                  {
+                    <Grid container spacing={2}>
+                      {[
+                        { label: "Start Time", prop: "startTime" },
+                        { label: "End Time", prop: "endTime" },
+                      ].map(({ label, prop }, index) => (
+                        <Grid
+                          item
+                          xs={isActive ? 12 : 6}
+                          key={index}
+                          marginBottom="16px"
+                        >
+                          <LocalizationProvider
+                            dateAdapter={AdapterDateFns}
+                            key={index}
+                          >
+                            <Stack spacing={3} key={index}>
+                              <DesktopTimePicker
+                                key={index}
+                                label={label}
+                                // ampm={false}
+                                value={
+                                  classFields.schedule[item]
+                                    ? new Date(
+                                        `${classFields.date}T${classFields.schedule[item][prop]}`
+                                      )
+                                    : null
+                                }
+                                onChange={(time) => {
+                                  setClassFields({
+                                    ...classFields,
+                                    schedule: {
+                                      ...classFields.schedule,
+                                      [item]: {
+                                        ...classFields.schedule[item],
+                                        [prop]: convert24To00(
+                                          time.toLocaleTimeString("en-US", {
+                                            hour12: false,
+                                          })
+                                        ),
+                                      },
+                                    },
+                                  });
+                                }}
+                                minTime={
+                                  classFields.date ===
+                                  moment().format("YYYY-MM-DD")
+                                    ? new Date(new Date().setSeconds(0))
+                                    : null
+                                }
+                                renderInput={(params) => (
+                                  <TextField {...params} />
+                                )}
+                              />
+                            </Stack>
+                          </LocalizationProvider>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  }
+                </>
+              ))
+            )}
+
             <Box display="flex" justifyContent="start">
               <FormControl>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  pr={2}
-                  mt={3}
-                >
+                <Typography variant="body2" color="text.secondary" pr={2}>
                   Language
                 </Typography>
                 <RadioGroup

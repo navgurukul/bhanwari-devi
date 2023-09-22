@@ -63,7 +63,6 @@ function Assessment({
           status: "Pass",
         },
       }).then((res) => {
-        // console.log("res", res);
       });
     } else {
       setCorrect(false);

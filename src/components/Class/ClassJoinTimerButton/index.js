@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { timeLeftFormat } from "../../../common/date";
 import { Button } from "@mui/material";
 import ExternalLink from "../../common/ExternalLink";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function ClassJoinTimerButton({
   startTime = new Date(),
   link,
   joinOnClick,
   buttonType,
+  onCanJoin,
 }) {
   const ONE_SECOND = 1000; //millisecs
   const ONE_MINUTE = 60 * ONE_SECOND;
@@ -26,6 +28,9 @@ function ClassJoinTimerButton({
   );
 
   useEffect(() => {
+    if (timeRemainingMsg === CAN_JOIN_MSG) {
+      onCanJoin && onCanJoin(true);
+    }
     setTimeRemainingMsg(timeLeftFormat(startTime, timeLeftFormatOptions));
     const timer = setInterval(() => {
       const newTimeRemainingMsg = timeLeftFormat(
@@ -47,11 +52,14 @@ function ClassJoinTimerButton({
           style={{
             textDecoration: "none",
           }}
-          href={link}>
+          href={link}
+        >
           <Button
-            variant="contained"
+            // variant="contained"
             fullWidth
-            onClick={joinOnClick ? joinOnClick : undefined}>
+            endIcon={<ArrowRightAltIcon />}
+            onClick={joinOnClick ? joinOnClick : undefined}
+          >
             {CAN_JOIN_MSG}
           </Button>
         </ExternalLink>
@@ -59,7 +67,9 @@ function ClassJoinTimerButton({
         <Button
           fullWidth
           disabled={true}
-          variant={buttonType === "text" ? "text" : "contained"}>
+          // variant={buttonType === "text" ? "text" : "contained"}
+          endIcon={<ArrowRightAltIcon />}
+        >
           Starts in {timeRemainingMsg}
         </Button>
       )}

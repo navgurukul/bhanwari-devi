@@ -25,4 +25,5 @@ export const CLASS_FIELDS = {
   OCCURRENCE: "occurrence",
   UNTIL: "until",
   SPACE_ID: "space_id",
+  SCHEDULE: "schedule",
 };
