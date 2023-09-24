@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Typography,
-  MenuItem,
   Accordion,
   AccordionSummary,
   AccordionDetails,
