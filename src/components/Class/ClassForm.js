@@ -1120,6 +1120,7 @@ function ClassForm({
               onChange={(e) => {
                 changeHandler(e);
               }}
+              InputLabelProps={{ shrink: true }}
             />
             {classFields.type === "batch" && (
               <>

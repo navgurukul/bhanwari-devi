@@ -87,6 +87,7 @@ function EditdateForm({
             onChange={(e) => {
               changeHandler(e);
             }}
+            InputLabelProps={{ shrink: true }}
           />
           <Typography variant="body2" pt={3} color="gray">
             Class Time
