@@ -1,63 +1,37 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Container,
   CardContent,
   Button,
-  Box,
-  Modal,
+  Card,
+  Grid,
 } from "@mui/material";
-import { Card, Grid } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { PATHS, versionCode } from "../../constant";
 import { Link } from "react-router-dom";
-import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
-import { format } from "../../common/date";
-function saveFile(url) {
-  // Get file name from url.
-  var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
-  var xhr = new XMLHttpRequest();
-  xhr.responseType = "blob";
-  xhr.onload = function () {
-    let a = document.createElement("a");
-    a.href = window.URL.createObjectURL(xhr.response); // xhr.response is a blob
-    a.download = filename; // Set the file name.
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-  };
-  xhr.open("GET", url);
-  xhr.send();
-}
+import CertificateModal from "./CertificateModal";
 
 function CertificateCard(props) {
-  const classes = useStyles();
   const user = useSelector(({ User }) => User);
-  const data = useSelector((state) => {
-    return state;
-  });
   const { item } = props;
 
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const [completedPortion, setCompletedPortion] = useState({});
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [certificate, setCertificate] = useState("");
   const [courseTime, setCourseTime] = useState();
   const [loader, setLoader] = useState(false);
-  const params = useParams();
   const pathwayId = item.id;
 
   const date = new Date(courseTime);
@@ -67,23 +41,8 @@ function CertificateCard(props) {
   useEffect(() => {
     dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
   }, [dispatch, pathwayId]);
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "544px",
-    bgcolor: "background.paper",
-    outline: "none",
-    borderRadius: "8px",
-    boxShadow: 24,
-    p: 4,
-  };
+
   useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  }, [dispatch, pathwayId]);
-  useEffect(() => {
-    // setLoading(true);
     if (user?.data?.token && pathwayId) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
@@ -105,7 +64,25 @@ function CertificateCard(props) {
     }
   }, [pathwayId]);
 
-  const completedAll = completedPortion == 100;
+  function saveFile(url) {
+    // Get file name from url.
+    var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "blob";
+    xhr.onload = function () {
+      let a = document.createElement("a");
+      a.href = window.URL.createObjectURL(xhr.response); // xhr.response is a blob
+      a.download = filename; // Set the file name.
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+    };
+    xhr.open("GET", url);
+    xhr.send();
+  }
+
+  const completedAll = completedPortion === 100;
+
   useEffect(() => {
     if (completedAll) {
       axios({
@@ -138,49 +115,23 @@ function CertificateCard(props) {
         setOpenModal((prev) => !prev);
         setCertificate(response?.data?.url);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
 
   const downloadCert = () => {
     saveFile(certificate);
   };
+
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">
-      <Modal
+      <CertificateModal
         open={openModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        onClose={handleModal}
-      >
-        <Box sx={modalStyle}>
-          <Typography
-            sx={{ fontSize: "32px", fontWeight: "600" }}
-          >{`${item?.name}  Certificate`}</Typography>
-          <div>
-            <iframe
-              allowtransparency="true"
-              border="0"
-              src={`${certificate}#toolbar=0`}
-              sx={{
-                height: "100%",
-                width: "100%",
-                border: "none",
-                outline: "none",
-                brackgroundColor: "transparent !important",
-              }}
-            ></iframe>
-            {/* <ReactPDF/> */}
-          </div>
-          <Typography>{`Meraki certifies that you have diligently 
-            attended all classes and taken the practice questions.
-             You have a good grasp of ${item?.name} fundamentals.`}</Typography>
-          <Box>
-            {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
-            <Button onClick={downloadCert}>Get Certificate</Button>
-          </Box>
-        </Box>
-      </Modal>
+        onClose={() => setOpenModal(false)}
+        certificate={certificate}
+        downloadCert={downloadCert}
+      />
 
       {completedAll ? (
         <>
@@ -222,7 +173,6 @@ function CertificateCard(props) {
           <Link
             to={{
               pathname: PATHS.NEW_USER_DASHBOARD,
-
               pathwayId: item.id,
             }}
             style={{ textDecoration: "none" }}
