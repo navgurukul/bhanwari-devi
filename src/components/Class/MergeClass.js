@@ -41,9 +41,9 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
     // mergeClass put API
     axios({
       method: METHODS.POST,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Mergeclassid}/mergeClass`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${itemID}/mergeClass`,
       params: {
-        classId: itemID,
+        classId: Mergeclassid,
       },
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
       });
     });
   };
-  console.log("mergedClasses", pathwayFilter);
+
   return (
     <div>
       <MenuItem
@@ -84,15 +84,15 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <Typography variant="subtitle2">
-              Please choose a batch to add students of this class to that
-              batch’s same class
+              Please choose another batch's class to add students of this class
+              to it
             </Typography>
             <FormControl
               fullWidth
               sx={{ margin: "32px 0px", borderRadius: "8px" }}
             >
               <InputLabel id="demo-simple-select-label">
-                Merge to Batch
+                Merge to Class
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -119,7 +119,7 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
               </Select>
             </FormControl>
             <Typography variant="body2">
-              The tutor and students will receive the updated class invitations
+              The tutor and students will receive the updated class invitation
             </Typography>
           </DialogContentText>
         </DialogContent>
@@ -131,7 +131,7 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
               handleClose();
             }}
           >
-            Confirm Class Merger
+            Confirm Class Merge
           </Button>
         </DialogActions>
       </Dialog>

@@ -30,6 +30,7 @@ function ClassList({
   pathwayID,
   canSpecifyFacilitator,
   Newpathways,
+  setSingleTime,
 }) {
   const dispatch = useDispatch();
 
@@ -220,6 +221,7 @@ function ClassList({
               onClick={() => {
                 setFormType(showClass ? "batch" : "doubt_class");
                 toggleModalOpen();
+                setSingleTime(false);
               }}
               //  sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px"}}
             >
@@ -249,6 +251,7 @@ function ClassList({
                             showClass={showClass}
                             Newpathways={Newpathways}
                             setRefreshKey={setRefreshKey}
+                            setSingleTime={setSingleTime}
                           />
                         </Grid>
                       )
@@ -279,6 +282,7 @@ function ClassList({
                             style="class-enroll-cohort"
                             showClass={showClass}
                             setRefreshKey={setRefreshKey}
+                            setSingleTime={setSingleTime}
                           />
                         </Grid>
                       )
