@@ -37,6 +37,8 @@ import moment from "moment";
 import { formatInUtc } from "../../common/date";
 import _ from "lodash";
 import SuccessModel from "./SuccessModel";
+import EditdateForm from "./EditdateForm";
+import { set } from "date-fns";
 
 function ClassForm({
   isEditMode,
@@ -47,6 +49,8 @@ function ClassForm({
   setIsEditMode,
   Newpathways,
   setNewPathways,
+  singleTime,
+  setSingleTime,
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
@@ -471,10 +475,10 @@ function ClassForm({
 
   const editClass = (payload) => {
     setLoading(true);
-    if (checked) {
-      payload.start_time = classFields.start_time;
-      payload.end_time = classFields.end_time;
-    }
+
+    payload.start_time = classFields.start_time;
+    payload.end_time = classFields.end_time;
+
     return axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${classToEdit.id}`,
@@ -491,6 +495,7 @@ function ClassForm({
           setLoading(false);
           setShowSuccessModal(true);
           setSuccessModalMsg("edited");
+          setSingleTime(true);
           setTimeout(() => {
             setShowSuccessModal(false);
             setShowModal(false);
@@ -499,6 +504,7 @@ function ClassForm({
       },
       (error) => {
         setLoading(false);
+        setSingleTime(!singleTime);
       }
     );
   };
@@ -707,10 +713,21 @@ function ClassForm({
       delete payload.date;
       checked && delete payload.schedule; //deleting date and schedule from payload
     }
+    if (!indicator && isEditMode) {
+      delete payload.schedule;
+      delete payload.frequency;
+      // delete payload.partner_id;
+      // delete payload.type;
+      delete payload.volunteer_id;
+      delete payload.description;
+      delete payload.title;
+      delete payload.on_days;
+      delete payload.category_id;
+      delete payload.lang;
+    }
 
     (!isEditMode ? createClass : editClass)(payload);
   };
-
   const handleFocus = (event) => {
     event.preventDefault();
     const { target } = event;
@@ -718,7 +735,6 @@ function ClassForm({
       setDisplay(true);
     }
   };
-
   useEffect(() => {
     if (
       selectedPartners.length === 1 &&
@@ -766,7 +782,7 @@ function ClassForm({
           successModalMsg={successModalMsg}
           classType={classFields.type}
         />
-      ) : (
+      ) : !singleTime ? (
         <Stack alignItems="center">
           <Box
             className={classes.ModelBox}
@@ -793,6 +809,7 @@ function ClassForm({
                   onClick={() => {
                     setShowModal(false);
                     setIsEditMode(false);
+                    setSingleTime(true);
                   }}
                 />
               </Grid>
@@ -1103,6 +1120,7 @@ function ClassForm({
               onChange={(e) => {
                 changeHandler(e);
               }}
+              InputLabelProps={{ shrink: true }}
             />
             {classFields.type === "batch" && (
               <>
@@ -1333,7 +1351,9 @@ function ClassForm({
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
                 variant="contained"
                 fullWidth
-                onClick={submitHandle}
+                onClick={() => {
+                  submitHandle();
+                }}
               >
                 {(isEditMode ? "Update " : "Create ") +
                   (classFields.type == "batch" ? "Batch" : "Doubt Class")}
@@ -1341,6 +1361,19 @@ function ClassForm({
             )}
           </Box>
         </Stack>
+      ) : (
+        <EditdateForm
+          classFields={classFields}
+          classToEdit={classToEdit}
+          setClassFields={setClassFields}
+          changeHandler={changeHandler}
+          submitHandle={submitHandle}
+          buttonDisabled={buttonDisabled}
+          isEditMode={isEditMode}
+          setShowModal={setShowModal}
+          setIsEditMode={setIsEditMode}
+          setSingleTime={setSingleTime}
+        />
       )}
     </>
   );

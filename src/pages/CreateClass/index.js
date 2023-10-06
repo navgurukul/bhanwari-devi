@@ -43,7 +43,7 @@ function ToggleClassFormModal() {
   const [showClass, setShowClasses] = useState(true);
   const [pathwayID, setPathwayId] = useState(1);
   const [pathwayName, setPathwayName] = useState("Python");
-
+  const [singleTime, setSingleTime] = useState(true);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
@@ -267,6 +267,7 @@ function ToggleClassFormModal() {
             toggleModalOpen={toggleModalOpen}
             pathwayID={pathwayID}
             Newpathways={Newpathways}
+            setSingleTime={setSingleTime}
           />
 
           {showModal && calenderConsent ? (
@@ -287,6 +288,8 @@ function ToggleClassFormModal() {
                 setIsEditMode={setIsEditMode}
                 setNewPathways={setNewPathways}
                 Newpathways={Newpathways}
+                singleTime={singleTime}
+                setSingleTime={setSingleTime}
               />
             </Modal>
           ) : (
