@@ -69,7 +69,11 @@ function StudentData() {
           "partner",
         ])
       ) {
-        if (res.data.students && res?.data?.students.length < 1) {
+        if (
+          !Array.isArray(res.data.students) ||
+          res.data.students.length === 0
+        ) {
+          // if (res.data.students && res?.data?.students.length < 1) {
           setMessage("There are no results to display");
           setSlicedStudents([]);
         } else {

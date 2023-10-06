@@ -41,6 +41,7 @@ function Item({
     setOpen(false);
   };
   React.useEffect(() => {
+    console.log(progressTrackId.exercises);
     if (contentType === "assessment") {
       if (progressTrackId?.assessments?.includes(id)) {
         setCompleted(true);

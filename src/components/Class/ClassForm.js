@@ -674,7 +674,7 @@ function ClassForm({
 
       startDate.setHours(startend.startTime.split(":")[0]);
       startDate.setMinutes(startend.startTime.split(":")[1]);
-      endDate.setHours(startend.endTime.split(":")[0]);
+      endDate.setHours(startend?.endTime?.split(":")[0]);
       endDate.setMinutes(startend.endTime.split(":")[1]);
       const originalStartString = moment(startDate).format(
         "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
