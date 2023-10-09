@@ -44,8 +44,9 @@ const AssessmentContent = ({
   setTriedAgain,
   submitDisable,
   submitAssessment,
+  setContentArr,
+  contentArr,
 }) => {
-  
   const classes = useStyles();
   if (content.component === "header") {
     if (triedAgain > 1) {
@@ -93,19 +94,19 @@ const AssessmentContent = ({
         return (
           <Grid container spacing={2} mt={3} mb={10}>
             <Grid item xs={12} sm={6}>
-                <Button
-                  variant="outlined"
-                  disabled
-                  fullWidth
-                  onClick={() => {
-                    setTriedAgain(triedAgain + 1);
-                    submitAssessment();
-                  }}
-                >
-                  <Typography variant="subtitle2">
-                    See Answer & Explanation
-                  </Typography>
-                </Button>
+              <Button
+                variant="outlined"
+                disabled
+                fullWidth
+                onClick={() => {
+                  setTriedAgain(triedAgain + 1);
+                  submitAssessment();
+                }}
+              >
+                <Typography variant="subtitle2">
+                  See Answer & Explanation
+                </Typography>
+              </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Button
@@ -199,7 +200,17 @@ const AssessmentContent = ({
                       (solution == item.id && classes.correctAnswer)
                   : answer == item.id && classes.option
               }
-              onClick={() => !submitDisable && setAnswer(item.id)}
+              onClick={() => {
+                if (!submitDisable) {
+                  if (answer.includes(item.id)) {
+                    // Item is already selected, so remove it
+                    setAnswer(answer.filter((id) => id !== item.id));
+                  } else {
+                    // Item is not selected, so add it
+                    setAnswer([...answer, item.id]);
+                  }
+                }
+              }}
             >
               <Stack direction="row" gap={1}>
                 <Typography variant="body1">
@@ -219,6 +230,7 @@ const AssessmentContent = ({
   }
   if (content.component === "solution") {
     setSolution(content.value);
+    setContentArr(content?.value?.length);
   }
   return "";
 };

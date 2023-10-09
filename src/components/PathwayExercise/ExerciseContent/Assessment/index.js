@@ -16,7 +16,7 @@ function Assessment({
 }) {
   const user = useSelector(({ User }) => User);
 
-  const [answer, setAnswer] = useState(res?.selected_option);
+  const [answer, setAnswer] = useState([]);
   const [correct, setCorrect] = useState();
   const [solution, setSolution] = useState();
   const [submit, setSubmit] = useState();
@@ -24,8 +24,25 @@ function Assessment({
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(res?.attempt_count);
   const params = useParams();
+  const [contentArr, setContentArr] = useState([]);
 
   // Assessment submit handler
+
+  const areArraysEqual = arraysAreEqual(solution, answer);
+  console.log("areArraysEqual", areArraysEqual);
+
+  function arraysAreEqual(arr1, arr2) {
+    if (arr1?.length !== arr2?.length) {
+      return false;
+    }
+
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i].value !== arr2[i]) {
+        return true;
+      }
+    }
+    return false;
+  }
   const submitAssessment = () => {
     setSubmit(true);
 
@@ -45,7 +62,7 @@ function Assessment({
     //   },
     // });
 
-    if (answer == solution) {
+    if (areArraysEqual) {
       setCorrect(true);
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
@@ -87,18 +104,19 @@ function Assessment({
       });
     }
   };
+  console.log(answer, solution, submit, correct);
 
   useEffect(() => {
     if (res?.assessment_id === courseData.id) {
       if (res?.attempt_status === "CORRECT") {
-        setAnswer(res?.selected_option);
+        setAnswer([res?.selected_option]);
         setCorrect(true);
         setTriedAgain(2);
         setStatus("pass");
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "INCORRECT") {
-        setAnswer(res?.selected_option);
+        setAnswer([res?.selected_option]);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
@@ -125,6 +143,8 @@ function Assessment({
             triedAgain={triedAgain}
             submitAssessment={submitAssessment}
             params={params}
+            contentArr={contentArr}
+            setContentArr={setContentArr}
           />
         ))}
 
