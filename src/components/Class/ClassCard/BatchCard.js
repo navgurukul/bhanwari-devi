@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../common/Loader";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { Link, useHistory } from "react-router-dom";
 import {
   Typography,
   Card,
@@ -36,10 +37,10 @@ import ExternalLink from "../../common/ExternalLink";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
 import MergeClass from "../MergeClass";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useParams } from "react-router-dom";
+import { interpolatePath, PATHS } from "../../../constant";
 toast.configure();
 
-function ClassCard({
+function BatchCard({
   item,
   editClass,
   pathwayFilter,
@@ -47,9 +48,6 @@ function ClassCard({
   setRefreshKey,
   setSingleTime,
 }) {
-  const params = useParams();
-  const classId = params.batchId;
-
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -62,8 +60,8 @@ function ClassCard({
   const user = useSelector(({ User }) => User);
   const [canJoin, setCanJoin] = useState(false);
 
-  const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
-  const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
+  // const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
+  // const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -271,191 +269,201 @@ function ClassCard({
   const ACBPathway = Newpathways?.find((path) => {
     return item.pathway_id === path.id;
   });
-
+  // console.log(item.recurring_id)
   return (
     <>
-      <Card
-        elevation={2}
-        sx={{
-          p: 4,
-          mt: isActive ? 4 : 5,
-          bgcolor: canJoin ? "secondary.light" : "primary.lighter",
+      <Link
+        style={{
+          textDecoration: "none",
         }}
-        className={classes.card}
+        to={interpolatePath(PATHS.BATCH, {
+          batchId: item?.recurring_id,
+        })}
       >
-        <Typography
-          variant="subtitle1"
-          color="#6D6D6D"
+        <Card
+          elevation={2}
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
+            p: 4,
+            mt: isActive ? 4 : 5,
+            bgcolor: canJoin ? "secondary.light" : "primary.lighter",
           }}
+          className={classes.card}
         >
           <Typography
-            sx={{ fontSize: "18px", fontWeight: "400" }}
-            variant="subtitle2"
+            variant="subtitle1"
+            color="#6D6D6D"
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
           >
-            {item.title}
-          </Typography>
-          {item.enrolled && (
-            <i
-              className="check-icon check-icon fa fa-check-circle
+            <Typography
+              sx={{ fontSize: "18px", fontWeight: "400" }}
+              variant="subtitle2"
+            >
+              {item?.title}
+            </Typography>
+            {item?.enrolled && (
+              <i
+                className="check-icon check-icon fa fa-check-circle
             "
-              style={{ backgroundColor: "transparent" }}
-            >
-              Enrolled
-            </i>
-          )}
-          {((rolesList.length === 0 && item.enrolled) ||
-            (rolesList.length >= 1 &&
-              (item.facilitator.email === user.data.user.email || flag))) && (
-            <MoreVertIcon
-              style={{ color: "#BDBDBD", cursor: "pointer" }}
-              onClick={handleOpenUserMenu}
-              sx={{ p: 0 }}
-            />
-          )}
-        </Typography>
-        {/* dialog box for edit delete and merge class  */}
-        <Menu
-          sx={{ mt: "15px" }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          maxWidth="130px"
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          PaperProps={{
-            style: { width: "150px" },
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={() => {
-            setAnchorElUser(null);
-          }}
-        >
-          {(item.facilitator.email === user.data.user.email || flag) && (
-            <>
-              <MenuItem
-                onClick={() => handleEdit(item.id)}
-                sx={{ width: 133, margin: "0px 10px" }}
+                style={{ backgroundColor: "transparent" }}
               >
-                <Typography textAlign="center">Edit</Typography>
-              </MenuItem>
-
-              {ACBPathway?.code === "ACB" && !item?.merge_class && (
-                <MergeClass
-                  item={item}
-                  itemID={item.id}
-                  PathwayID={item.pathway_id}
-                  pathwayFilter={pathwayFilter}
-                  setRefreshKey={setRefreshKey}
-                />
-              )}
-              <MenuItem
-                onClick={() => handleClickOpen(item.id)}
-                sx={{ width: 133, margin: "0px 10px", color: "#F44336" }}
-              >
-                <Typography textAlign="center">Delete</Typography>
-              </MenuItem>
-            </>
-          )}
-
-          {!rolesList.includes("volunteer") && item.enrolled && (
-            <MenuItem
-              onClick={() => handleClickOpenUnenroll(item.id)}
-              sx={{ width: 120, margin: "0px 10px" }}
-            >
-              <Typography textAlign="center">Dropout</Typography>
-            </MenuItem>
-          )}
-        </Menu>
-
-        {/* it will show when two class merged */}
-        {ACBPathway?.code === "ACB" && item?.merge_class && (
-          <Typography variant="body2" sx={{ display: "flex" }}>
-            <img
-              className={classes.icons}
-              src={require("../assets/mergeClass.png")}
-              height="26px"
-              width="26px"
-            />
-
-            {item?.merge_class}
+                Enrolled
+              </i>
+            )}
+            {((rolesList.length === 0 && item.enrolled) ||
+              (rolesList.length >= 1 &&
+                (item.facilitator.email === user.data.user.email || flag))) && (
+              <MoreVertIcon
+                style={{ color: "#BDBDBD", cursor: "pointer" }}
+                onClick={handleOpenUserMenu}
+                sx={{ p: 0 }}
+              />
+            )}
           </Typography>
-        )}
-        {!item.title.toLowerCase().includes("scratch") && (
+          {/* dialog box for edit delete and merge class  */}
+          <Menu
+            sx={{ mt: "15px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            maxWidth="130px"
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            PaperProps={{
+              style: { width: "150px" },
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={() => {
+              setAnchorElUser(null);
+            }}
+          >
+            {(item?.facilitator.email === user.data.user.email || flag) && (
+              <>
+                <MenuItem
+                  onClick={() => handleEdit(item.id)}
+                  sx={{ width: 133, margin: "0px 10px" }}
+                >
+                  <Typography textAlign="center">Edit</Typography>
+                </MenuItem>
+
+                {ACBPathway?.code === "ACB" && !item?.merge_class && (
+                  <MergeClass
+                    item={item}
+                    itemID={item.id}
+                    PathwayID={item.pathway_id}
+                    pathwayFilter={pathwayFilter}
+                    setRefreshKey={setRefreshKey}
+                  />
+                )}
+                <MenuItem
+                  onClick={() => handleClickOpen(item.id)}
+                  sx={{ width: 133, margin: "0px 10px", color: "#F44336" }}
+                >
+                  <Typography textAlign="center">Delete</Typography>
+                </MenuItem>
+              </>
+            )}
+
+            {!rolesList.includes("volunteer") && item.enrolled && (
+              <MenuItem
+                onClick={() => handleClickOpenUnenroll(item.id)}
+                sx={{ width: 120, margin: "0px 10px" }}
+              >
+                <Typography textAlign="center">Dropout</Typography>
+              </MenuItem>
+            )}
+          </Menu>
+
+          {/* it will show when two class merged */}
+          {ACBPathway?.code === "ACB" && item?.merge_class && (
+            <Typography variant="body2" sx={{ display: "flex" }}>
+              <img
+                className={classes.icons}
+                src={require("../assets/mergeClass.png")}
+                height="26px"
+                width="26px"
+              />
+
+              {item?.merge_class}
+            </Typography>
+          )}
+          {/* {!item.title.toLowerCase().includes("scratch") && (
           <Typography
             // sx={{ fontSize: "18px", fontWeight: "400" }}
             variant="subtitle1"
           >
             {item.sub_title}
           </Typography>
-        )}
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/calendar.svg")}
-          />
-          {format(item.start_time, "dd MMM yy")}
-        </Typography>
-        <Typography variant="body1" sx={{ display: "flex" }}>
+        )} */}
+          <Typography variant="body1" sx={{ display: "flex" }}>
+            <img
+              className={classes.icons}
+              src={require("../assets/calendar.svg")}
+            />
+            {format(item.barch_start, "dd MMM yy")} -{" "}
+            {format(item.batch_end, "dd MMM yy")}
+          </Typography>
+          {/* <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
           {format(classStartTime, "hh:mm aaa")} -{" "}
           {format(classEndTime, "hh:mm aaa")}
-        </Typography>
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/facilitator.svg")}
-          />
-          {item?.volunteer?.name || item.facilitator.name}
-        </Typography>
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/language.svg")}
-          />
-          {languageMap[item.lang]}
-        </Typography>
+        </Typography> */}
+          <Typography variant="body1" sx={{ display: "flex" }}>
+            <img
+              className={classes.icons}
+              src={require("../assets/facilitator.svg")}
+            />
+            {item?.volunteer?.name || item.facilitator.name}
+          </Typography>
+          <Typography variant="body1" sx={{ display: "flex" }}>
+            <img
+              className={classes.icons}
+              src={require("../assets/language.svg")}
+            />
+            {languageMap[item.lang]}
+          </Typography>
 
-        {/* it's for enroll class, join class and  class Timer button */}
-        <CardActions className={classes.cardActions}>
-          {item.enrolled ? (
-            loading ? (
+          {/* it's for enroll class, join class and  class Timer button */}
+          <CardActions className={classes.cardActions}>
+            {item.enrolled ? (
+              loading ? (
+                <div className="loader-button">
+                  <Loader />
+                </div>
+              ) : (
+                <ClassJoinTimerButton
+                  startTime={item?.start_time}
+                  link={item?.meet_link}
+                  onCanJoin={setCanJoin}
+                />
+              )
+            ) : loading ? (
               <div className="loader-button">
                 <Loader />
               </div>
             ) : (
-              <ClassJoinTimerButton
-                startTime={item?.start_time}
-                link={item?.meet_link}
-                onCanJoin={setCanJoin}
-              />
-            )
-          ) : loading ? (
-            <div className="loader-button">
-              <Loader />
-            </div>
-          ) : (
-            <Button
-              type="submit"
-              variant="text"
-              onClick={() => {
-                handleClickOpenEnroll(item.id);
-              }}
-              endIcon={<ArrowRightAltIcon />}
-            >
-              Enroll
-            </Button>
-          )}
-        </CardActions>
-      </Card>
+              <Button
+                type="submit"
+                variant="text"
+                onClick={() => {
+                  handleClickOpenEnroll(item.id);
+                }}
+                endIcon={<ArrowRightAltIcon />}
+              >
+                Enroll
+              </Button>
+            )}
+          </CardActions>
+        </Card>
+      </Link>
       <Box>
         {/* dialog box for delete button */}
         {showModal ? (
@@ -697,4 +705,4 @@ function ClassCard({
   );
 }
 
-export default ClassCard;
+export default BatchCard;

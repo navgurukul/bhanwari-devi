@@ -20,7 +20,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import NoClassesFound from "../NoClassesFound";
 import NoVolunteerClass from "../NoVolunteerClass";
+import axios from "axios";
 
+import { METHODS } from "../../../services/api";
+import BatchCard from "../ClassCard/BatchCard";
 function ClassList({
   editClass,
   isShow,
@@ -31,14 +34,18 @@ function ClassList({
   canSpecifyFacilitator,
   Newpathways,
   setSingleTime,
+  data,
+  loading,
 }) {
   const dispatch = useDispatch();
 
-  const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
+  // const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
+  const [totalCount, setTotalCount] = useState();
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
   const [refreshKey, setRefreshKey] = useState(false);
   const [filterText, setFilterText] = useState(null);
+  const user = useSelector(({ User }) => User);
   useEffect(() => {
     if (isShow === false) {
       dispatch(classActions.getClasses());
@@ -106,7 +113,7 @@ function ClassList({
   const _ = require("lodash");
   // remove duplicate classes
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
-
+  console.log(recurring_classes_data, "kljihii", recurring_classes);
   // if user type in search box, it will filter the classes
   var classData =
     (filterText?.length > 0 && recurring_classes_data_set) || recurring_classes;
@@ -133,7 +140,7 @@ function ClassList({
       set_recurring_classes_data_set(null);
     }
   };
-
+  console.log(filterText, " filllllllllll");
   const handlePaste = (e) => {
     // when user paste in search box, it will filter the classes
     e.preventDefault();
@@ -165,6 +172,7 @@ function ClassList({
         return item?.pathway_id === pathwayID;
       })
     : classData;
+  console.log(classData, "khjkh", pathwayID);
 
   const singlepathwayFilter = canSpecifyFacilitator
     ? // if I click on pathway, doubt class should be filter by that pathway
@@ -230,6 +238,7 @@ function ClassList({
           )}
         </Box>
       )}
+
       <>
         <Grid container spacing={isActive ? "0px" : "16px"}>
           {data && data.length > 0 ? (
@@ -258,8 +267,8 @@ function ClassList({
                     );
                   })
                 : ""}
-              {pathwayFilter.length > 0
-                ? pathwayFilter.map((item, index) => {
+              {data.length > 0
+                ? data.map((item, index) => {
                     return (
                       item.type ===
                         `${showClass ? "batch" : "doubt_class"}` && (
@@ -271,7 +280,7 @@ function ClassList({
                           sx={{ mb: 0 }}
                           key={index}
                         >
-                          <ClassCard
+                          <BatchCard
                             item={item}
                             key={index}
                             index={index}
@@ -283,6 +292,8 @@ function ClassList({
                             showClass={showClass}
                             setRefreshKey={setRefreshKey}
                             setSingleTime={setSingleTime}
+                            // setPage={setPage}
+                            // page={page}
                           />
                         </Grid>
                       )

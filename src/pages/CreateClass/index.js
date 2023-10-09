@@ -26,6 +26,7 @@ import ClassForm from "../../components/Class/ClassForm";
 import SuccessModel from "../../components/Class/SuccessModel";
 import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
 import DrawerLeft from "./Drawer";
+import ReactPaginate from "react-paginate";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -33,7 +34,7 @@ function ToggleClassFormModal() {
   const [classToEdit, setClassToEdit] = useState({});
   const [indicator, setIndicator] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
-  const { data = [] } = useSelector(({ Class }) => Class.allClasses);
+  // const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -150,6 +151,36 @@ function ToggleClassFormModal() {
     }
   }, [calledOnce]);
   const [newVolunteer, setNewVolunteer] = useState(false);
+
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const limit = 10;
+  console.log(page, limit);
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/batches?limit=${limit}&page=${
+        page + 1
+      }`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setData(res.data);
+      setTotalCount(res);
+    });
+  }, []);
+
+  const pageCount = Math.ceil(totalCount / limit);
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
+  };
+
   useEffect(() => {
     const newVol = localStorage.getItem("isNewVolunteer");
     if (newVol == "true" && newVol != null) {
@@ -253,6 +284,26 @@ function ToggleClassFormModal() {
                 </Typography>
               </Button>
             </Grid>
+
+            <Grid
+              item
+              alignItems="self-end"
+              sx={{ paddingLeft: "300px", height: "0px" }}
+            >
+              <ReactPaginate
+                previousLabel={<i className="fa fa-angle-left"></i>}
+                nextLabel={<i className="fa fa-angle-right"></i>}
+                initialPage={0}
+                marginPagesDisplayed={0}
+                onPageChange={changePage}
+                pageCount={5}
+                containerClassName="paginationBttns"
+                previousLinkClassName="previousBttn"
+                nextLinkClassName="nextBttn"
+                disabledClassName="paginationDisabled"
+                activeClassName="paginationActive"
+              />
+            </Grid>
           </Grid>
           {/* <hr style={{border:
                "none",color:"#BDBDBD",height:"2px",backgroundColor:"#BDBDBD",
@@ -268,6 +319,8 @@ function ToggleClassFormModal() {
             pathwayID={pathwayID}
             Newpathways={Newpathways}
             setSingleTime={setSingleTime}
+            data={data}
+            loading={loading}
           />
 
           {showModal && calenderConsent ? (

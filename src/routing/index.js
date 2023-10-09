@@ -33,6 +33,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
+import BatchCard from "../components/Class/ClassCard/BatchCard";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
 
@@ -84,7 +85,7 @@ const Routing = () => {
         component={VolunteerAutomation}
       />
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
-      
+
       {/* Private routes */}
 
       <PrivateRoute
@@ -121,6 +122,7 @@ const Routing = () => {
       />
 
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
+      <PrivateRoute exact path={PATHS.BATCH} component={BatchCard} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
