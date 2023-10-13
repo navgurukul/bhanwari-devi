@@ -43,6 +43,7 @@ function ToggleClassFormModal() {
   const classes = useStyles();
   const [showClass, setShowClasses] = useState(true);
   const [pathwayID, setPathwayId] = useState(1);
+  console.log(pathwayID);
   const [pathwayName, setPathwayName] = useState("Python");
   const [singleTime, setSingleTime] = useState(true);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -155,25 +156,24 @@ function ToggleClassFormModal() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [totalCount, setTotalCount] = useState(0);
-  const limit = 10;
-  console.log(page, limit);
+  const [totalCount, setTotalCount] = useState();
+  const limit = 9;
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/batches?limit=${limit}&page=${
-        page + 1
-      }`,
+      url: `${
+        process.env.REACT_APP_MERAKI_URL
+      }/batches/${pathwayID}?limit=${limit}&page=${page + 1}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
     }).then((res) => {
-      setData(res.data);
-      setTotalCount(res);
+      setData(res.data.batches);
+      setTotalCount(res.data.total_count);
     });
-  }, []);
+  }, [pathwayID, limit, page]);
 
   const pageCount = Math.ceil(totalCount / limit);
 
@@ -296,7 +296,7 @@ function ToggleClassFormModal() {
                 initialPage={0}
                 marginPagesDisplayed={0}
                 onPageChange={changePage}
-                pageCount={5}
+                pageCount={pageCount}
                 containerClassName="paginationBttns"
                 previousLinkClassName="previousBttn"
                 nextLinkClassName="nextBttn"

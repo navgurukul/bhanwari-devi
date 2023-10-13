@@ -109,11 +109,9 @@ function ClassList({
         single_classes.push(item);
       }
     });
-
   const _ = require("lodash");
   // remove duplicate classes
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
-  console.log(recurring_classes_data, "kljihii", recurring_classes);
   // if user type in search box, it will filter the classes
   var classData =
     (filterText?.length > 0 && recurring_classes_data_set) || recurring_classes;
@@ -140,7 +138,7 @@ function ClassList({
       set_recurring_classes_data_set(null);
     }
   };
-  console.log(filterText, " filllllllllll");
+
   const handlePaste = (e) => {
     // when user paste in search box, it will filter the classes
     e.preventDefault();
@@ -172,7 +170,6 @@ function ClassList({
         return item?.pathway_id === pathwayID;
       })
     : classData;
-  console.log(classData, "khjkh", pathwayID);
 
   const singlepathwayFilter = canSpecifyFacilitator
     ? // if I click on pathway, doubt class should be filter by that pathway
@@ -267,8 +264,8 @@ function ClassList({
                     );
                   })
                 : ""}
-              {data.length > 0
-                ? data.map((item, index) => {
+              {classData.length > 0
+                ? classData.map((item, index) => {
                     return (
                       item.type ===
                         `${showClass ? "batch" : "doubt_class"}` && (
