@@ -23,6 +23,7 @@ import NoVolunteerClass from "../NoVolunteerClass";
 import axios from "axios";
 
 import { METHODS } from "../../../services/api";
+
 import BatchCard from "../ClassCard/BatchCard";
 function ClassList({
   editClass,

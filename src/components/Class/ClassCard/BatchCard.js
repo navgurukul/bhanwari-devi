@@ -38,6 +38,7 @@ import ClassJoinTimerButton from "../ClassJoinTimerButton";
 import MergeClass from "../MergeClass";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { interpolatePath, PATHS } from "../../../constant";
+import EditClass from "../EditClass";
 toast.configure();
 
 function BatchCard({
@@ -73,11 +74,6 @@ function BatchCard({
     en: "English",
     ta: "Tamil",
     doubt_class: "Doubt Class",
-  };
-
-  const handleOpenUserMenu = (event) => {
-    event.stopPropagation();
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -272,7 +268,6 @@ function BatchCard({
     return item.pathway_id === path.id;
   });
 
-  console.log(item);
   return (
     <>
       {/* <Link
@@ -296,12 +291,10 @@ function BatchCard({
           history.push(
             interpolatePath(PATHS.BATCH, {
               batchId: item?.recurring_id,
-              pathwayId: item?.PartnerSpecificBatches?.pathway_id,
             })
           );
         }}
       >
-        {console.log(item?.PartnerSpecificBatches?.pathway_id)}
         <Typography
           variant="subtitle1"
           color="#6D6D6D"
@@ -328,49 +321,12 @@ function BatchCard({
           {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
               (item?.facilitator?.email === user.data.user.email || flag))) && (
-            <MoreVertIcon
-              style={{ color: "#BDBDBD", cursor: "pointer" }}
-              onClick={handleOpenUserMenu}
-              sx={{ p: 0 }}
-            />
+            <EditClass item={item} editClass={editClass} />
           )}
         </Typography>
         {/* dialog box for edit delete and merge class  */}
-        <Menu
-          sx={{ mt: "15px" }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          maxWidth="130px"
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          PaperProps={{
-            style: { width: "150px" },
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={() => {
-            setAnchorElUser(null);
-          }}
-        >
-          {(item?.facilitator.email === user.data.user.email || flag) && (
-            <>
-              <MenuItem
-                onClick={(e) => {
-                  handleEdit(item.id);
-                  e.stopPropagation();
-                }}
-                sx={{ width: 133, margin: "0px 10px" }}
-              >
-                <Typography textAlign="center">Edit</Typography>
-              </MenuItem>
 
-              {/* {ACBPathway?.code === "ACB" && !item?.merge_class && (
+        {/* {ACBPathway?.code === "ACB" && !item?.merge_class && (
                   <MergeClass
                     item={item}
                     itemID={item.id}
@@ -379,27 +335,6 @@ function BatchCard({
                     setRefreshKey={setRefreshKey}
                   />
                 )} */}
-              <MenuItem
-                onClick={(e) => {
-                  handleClickOpen(item.id);
-                  e.stopPropagation();
-                }}
-                sx={{ width: 133, margin: "0px 10px", color: "#F44336" }}
-              >
-                <Typography textAlign="center">Delete</Typography>
-              </MenuItem>
-            </>
-          )}
-
-          {!rolesList.includes("volunteer") && item.enrolled && (
-            <MenuItem
-              onClick={() => handleClickOpenUnenroll(item.id)}
-              sx={{ width: 120, margin: "0px 10px" }}
-            >
-              <Typography textAlign="center">Dropout</Typography>
-            </MenuItem>
-          )}
-        </Menu>
 
         {/* it will show when two class merged */}
         {/* {ACBPathway?.code === "ACB" && item?.merge_class && (
@@ -485,243 +420,6 @@ function BatchCard({
         </CardActions>
       </Card>
       {/* </Link> */}
-      <Box>
-        {/* dialog box for delete button */}
-        {showModal ? (
-          <Dialog
-            open={showModal}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to delete this class?
-              </Typography>
-            </DialogTitle>
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setDeleteCohort(true);
-                      }}
-                    />
-                  }
-                  label="Delete all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return deleteHandler(item.id);
-                    }}
-                    color="error"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleClose}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    No
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-        {/* dialog box for  edit class*/}
-        {editShowModal ? (
-          <Dialog
-            open={editShowModal}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Do you want to edit this class?
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                        setSingleTime(false);
-                      }}
-                    />
-                  }
-                  label=" Edit all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      setEditShowModal(false);
-
-                      return editClass(item.id, indicator);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseEdit}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-        {/* dialog box for enroll class */}
-        {enrollShowModal ? (
-          <Dialog
-            open={() => enrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to enroll?
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(!indicator);
-                      }}
-                    />
-                  }
-                  label=" Enroll all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleSubmit(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseEnroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-        {unenrollShowModal ? (
-          <Dialog
-            open={() => unenrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to drop out
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                      }}
-                    />
-                  }
-                  label=" Drop all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleDropOut(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseUnenroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-      </Box>
     </>
   );
 }
