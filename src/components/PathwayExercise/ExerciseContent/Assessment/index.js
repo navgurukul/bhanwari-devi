@@ -24,25 +24,47 @@ function Assessment({
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(res?.attempt_count);
   const params = useParams();
-  const [contentArr, setContentArr] = useState([]);
+  const [type, setType] = useState("single");
+  const [wrongAnswer, setWrongAnswer] = useState();
 
   // Assessment submit handler
-
-  const areArraysEqual = arraysAreEqual(solution, answer);
-  console.log("areArraysEqual", areArraysEqual);
-
-  function arraysAreEqual(arr1, arr2) {
-    if (arr1?.length !== arr2?.length) {
-      return false;
+  const isValuesCorrect = (value1, value2) => {
+    if (value1?.length !== value2?.length) {
+      return false; // Lengths are different, so they are not the same
     }
 
-    for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i].value !== arr2[i]) {
-        return true;
+    for (let i = 0; i < value1?.length; i++) {
+      if (value1[i]?.value !== value2[i]) {
+        return false; // Elements are different, so they are not the same
       }
     }
-    return false;
-  }
+
+    return true; // Length and elements match, so they are the same
+  };
+
+  const isCorrect = isValuesCorrect(solution, answer);
+
+  const calculateSelections = () => {
+    let correctSelections = 0;
+    let incorrectSelections = 0;
+
+    answer &&
+      answer.forEach((option) => {
+        const isCorrect = solution?.some(
+          (correctOption) => correctOption?.value === option
+        );
+        if (isCorrect) {
+          correctSelections++;
+        } else {
+          incorrectSelections++;
+        }
+      });
+
+    return { correctSelections, incorrectSelections };
+  };
+
+  const { correctSelections, incorrectSelections } = calculateSelections();
+
   const submitAssessment = () => {
     setSubmit(true);
 
@@ -62,7 +84,7 @@ function Assessment({
     //   },
     // });
 
-    if (areArraysEqual) {
+    if (isCorrect) {
       setCorrect(true);
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
@@ -104,7 +126,7 @@ function Assessment({
       });
     }
   };
-  console.log(answer, solution, submit, correct);
+  // console.log(answer, solution, submit, correct);
 
   useEffect(() => {
     if (res?.assessment_id === courseData.id) {
@@ -123,6 +145,18 @@ function Assessment({
       }
     }
   }, [res, triedAgain]);
+
+  const handleOptionClick = (id) => {
+    if (!submitDisable) {
+      if (answer.includes(id)) {
+        // Item is already selected, so remove it
+        setAnswer(answer.filter((itemId) => itemId !== id));
+      } else {
+        // Item is not selected, so add it
+        setAnswer([...answer, id]);
+      }
+    }
+  };
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
@@ -143,8 +177,10 @@ function Assessment({
             triedAgain={triedAgain}
             submitAssessment={submitAssessment}
             params={params}
-            contentArr={contentArr}
-            setContentArr={setContentArr}
+            type={type}
+            setType={setType}
+            handleOptionClick={handleOptionClick}
+            setWrongAnswer={setWrongAnswer}
           />
         ))}
 
@@ -162,14 +198,15 @@ function Assessment({
 
       {data &&
         submit &&
-        data.map((content) => {
+        data?.map((content) => {
           const dataArr =
-            content.value && correct
-              ? content.value.correct
-              : content.value.incorrect;
+            content?.value && correct
+              ? content?.value?.correct
+              : content?.value?.incorrect;
+          console.log(dataArr, "khkk");
           return (
-            content.component === "output" &&
-            dataArr.map((content, index) => (
+            content?.component === "output" &&
+            dataArr?.map((content, index) => (
               <AssessmentContent
                 content={content}
                 index={index}
@@ -182,6 +219,10 @@ function Assessment({
                 triedAgain={triedAgain}
                 submitDisable={submitDisable}
                 submitAssessment={submitAssessment}
+                type={type}
+                setType={setType}
+                handleOptionClick={handleOptionClick}
+                setWrongAnswer={setWrongAnswer}
               />
             ))
           );

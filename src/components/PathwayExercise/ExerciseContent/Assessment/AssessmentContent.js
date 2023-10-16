@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography, Box, Button, Paper, Stack } from "@mui/material";
 import useStyles from "../../styles";
 import get from "lodash/get";
+import { Radio, Checkbox, FormControlLabel, RadioGroup } from "@mui/material";
 
 import DOMPurify from "dompurify";
 function UnsafeHTML(props) {
@@ -44,8 +45,10 @@ const AssessmentContent = ({
   setTriedAgain,
   submitDisable,
   submitAssessment,
-  setContentArr,
-  contentArr,
+  type,
+  setType,
+  handleOptionClick,
+  setWrongAnswer,
 }) => {
   const classes = useStyles();
   if (content.component === "header") {
@@ -180,7 +183,7 @@ const AssessmentContent = ({
     return (
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
-          const text = DOMPurify.sanitize(item.value.slice(2));
+          const text = DOMPurify.sanitize(item.value);
           return (
             <Paper
               elevation={3}
@@ -200,27 +203,38 @@ const AssessmentContent = ({
                       (solution == item.id && classes.correctAnswer)
                   : answer == item.id && classes.option
               }
-              onClick={() => {
-                if (!submitDisable) {
-                  if (answer.includes(item.id)) {
-                    // Item is already selected, so remove it
-                    setAnswer(answer.filter((id) => id !== item.id));
-                  } else {
-                    // Item is not selected, so add it
-                    setAnswer([...answer, item.id]);
-                  }
-                }
-              }}
             >
               <Stack direction="row" gap={1}>
-                <Typography variant="body1">
-                  {item.value.slice(0, 2)}
-                </Typography>
-                <UnsafeHTML
-                  Container={Typography}
-                  variant="body1"
-                  html={text}
-                />
+                {type === "single" ? (
+                  <RadioGroup
+                    value={answer}
+                    onChange={(e) => setAnswer([item.id])}
+                  >
+                    <FormControlLabel
+                      value={item.id}
+                      control={<Radio />}
+                      label={
+                        <UnsafeHTML
+                          Container={Typography}
+                          variant="body1"
+                          html={text}
+                        />
+                      }
+                    />
+                  </RadioGroup>
+                ) : (
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label={
+                      <UnsafeHTML
+                        Container={Typography}
+                        variant="body1"
+                        html={text}
+                      />
+                    }
+                    onClick={() => handleOptionClick(item.id)}
+                  />
+                )}
               </Stack>
             </Paper>
           );
@@ -229,8 +243,10 @@ const AssessmentContent = ({
     );
   }
   if (content.component === "solution") {
-    setSolution(content.value);
-    setContentArr(content?.value?.length);
+    console.log(content);
+    setSolution(content?.correct_options_value);
+    setType(content?.type);
+    setWrongAnswer();
   }
   return "";
 };
