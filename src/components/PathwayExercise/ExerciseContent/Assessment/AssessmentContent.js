@@ -184,6 +184,17 @@ const AssessmentContent = ({
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           const text = DOMPurify.sanitize(item.value);
+          const isChecked = answer.includes(item.id);
+          const isRadioChecked =
+            answer.length === 1 && answer.includes(item.id);
+
+          const paperStyles = isChecked
+            ? {
+                //backgroundColor: "#E9F5E9", // Change to your desired green color
+                boxShadow: "0 0 10px  rgba(233, 245, 233, 0.5)", // Light green shadow
+              }
+            : {};
+
           return (
             <Paper
               elevation={3}
@@ -192,49 +203,37 @@ const AssessmentContent = ({
                 mb: "16px",
                 cursor: "pointer",
                 p: "16px",
+                ...paperStyles, // Apply styles when the checkbox is clicked
               }}
-              className={
-                submit
-                  ? correct
-                    ? answer === item.id && classes.correctAnswer
-                    : triedAgain === 1
-                    ? answer === item.id && classes.inCorrectAnswer
-                    : (answer == item.id && classes.inCorrectAnswer) ||
-                      (solution == item.id && classes.correctAnswer)
-                  : answer == item.id && classes.option
-              }
+              className={answer.includes(item.id) && classes.option}
+              onClick={() => {
+                if (type === "single") {
+                  setAnswer([item.id]);
+                } else {
+                  const updatedAnswer = isChecked
+                    ? answer.filter((id) => id !== item.id)
+                    : [...answer, item.id];
+                  setAnswer(updatedAnswer);
+                }
+              }}
             >
               <Stack direction="row" gap={1}>
-                {type === "single" ? (
-                  <RadioGroup
-                    value={answer}
-                    onChange={(e) => setAnswer([item.id])}
-                  >
-                    <FormControlLabel
-                      value={item.id}
-                      control={<Radio />}
-                      label={
-                        <UnsafeHTML
-                          Container={Typography}
-                          variant="body1"
-                          html={text}
-                        />
-                      }
+                <FormControlLabel
+                  control={
+                    type === "single" ? (
+                      <Radio checked={isRadioChecked} />
+                    ) : (
+                      <Checkbox checked={isChecked} />
+                    )
+                  }
+                  label={
+                    <UnsafeHTML
+                      Container={Typography}
+                      variant="body1"
+                      html={text}
                     />
-                  </RadioGroup>
-                ) : (
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={
-                      <UnsafeHTML
-                        Container={Typography}
-                        variant="body1"
-                        html={text}
-                      />
-                    }
-                    onClick={() => handleOptionClick(item.id)}
-                  />
-                )}
+                  }
+                />
               </Stack>
             </Paper>
           );
