@@ -84,7 +84,9 @@ function Login(props) {
           Authorization: data.token,
         },
         data: { referrer: queryString },
-      }).then((res) => {});
+      })
+        .then((res) => {})
+        .catch((err) => {});
     }
     if (props.location.state == "/volunteer-with-us") {
       if (rolesList.includes("volunteer")) {

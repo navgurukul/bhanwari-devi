@@ -24,9 +24,11 @@ function User() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setAllClasses(res.data);
-    });
+    })
+      .then((res) => {
+        setAllClasses(res.data);
+      })
+      .catch((err) => {});
   }, []);
 
   const changeHandler = (e) => {
@@ -57,9 +59,11 @@ function User() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then(() => {
-      notify();
-    });
+    })
+      .then(() => {
+        notify();
+      })
+      .catch((err) => {});
   };
 
   return (

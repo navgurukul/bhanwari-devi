@@ -200,11 +200,13 @@ function PathwayExercise() {
         accept: "application/json",
         Authorization: user.data?.token || "",
       },
-    }).then((res) => {
-      const data = res.data;
+    })
+      .then((res) => {
+        const data = res.data;
 
-      setProgressTrackId(data);
-    });
+        setProgressTrackId(data);
+      })
+      .catch((err) => {});
   }, [exerciseId]);
 
   const LangDropDown = () => {

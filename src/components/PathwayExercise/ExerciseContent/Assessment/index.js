@@ -62,9 +62,11 @@ function Assessment({
           selected_option: answer,
           status: "Pass",
         },
-      }).then((res) => {
-        // console.log("res", res);
-      });
+      })
+        .then((res) => {
+          // console.log("res", res);
+        })
+        .catch((err) => {});
     } else {
       setCorrect(false);
       setStatus("Fail");
@@ -82,9 +84,11 @@ function Assessment({
           selected_option: answer,
           status: "Fail",
         },
-      }).then((res) => {
-        // console.log("res", res);
-      });
+      })
+        .then((res) => {
+          // console.log("res", res);
+        })
+        .catch((err) => {});
     }
   };
 

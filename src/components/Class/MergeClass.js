@@ -49,13 +49,15 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
         "Content-Type": "application/json",
         Authorization: user.data.token,
       },
-    }).then(() => {
-      setRefreshKey(true);
-      toast.success("You successfully merge classes.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    });
+    })
+      .then(() => {
+        setRefreshKey(true);
+        toast.success("You successfully merge classes.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2500,
+        });
+      })
+      .catch((err) => {});
   };
 
   return (

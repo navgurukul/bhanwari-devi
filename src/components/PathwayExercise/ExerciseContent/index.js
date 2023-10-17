@@ -361,9 +361,11 @@ function ExerciseContent({
           accept: "application/json",
           Authorization: user.data.token,
         },
-      }).then((res) => {
-        setAssessmentResult(res.data);
-      });
+      })
+        .then((res) => {
+          setAssessmentResult(res.data);
+        })
+        .catch((err) => {});
     }
   }, [exerciseId, exercise?.content_type, exercise]);
 

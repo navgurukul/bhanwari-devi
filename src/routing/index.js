@@ -35,7 +35,7 @@ import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
-import Credits from "../pages/Credits";
+// import Credits from "../pages/Credits";
 
 const Routing = () => {
   return (
@@ -61,7 +61,7 @@ const Routing = () => {
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
       <Route exact path={PATHS.TEAM} component={Team} />
-      <Route exact path={PATHS.CREDITS} component={Credits} />
+      {/* <Route exact path={PATHS.CREDITS} component={Credits} /> */}
 
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />

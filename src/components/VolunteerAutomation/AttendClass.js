@@ -216,7 +216,8 @@ function AttendClass({
       )
       .then((res) => {
         notify();
-      });
+      })
+      .catch((err) => {});
   };
 
   const dropOutClass = (Class) => {
@@ -238,9 +239,11 @@ function AttendClass({
         Authorization: user.data.token,
         "unregister-all": "false",
       },
-    }).then(() => {
-      notify();
-    });
+    })
+      .then(() => {
+        notify();
+      })
+      .catch((err) => {});
   };
 
   const EnrolledAndTimer = ({ item }) => {
