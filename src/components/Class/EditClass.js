@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 // import { dateTimeFormat, TimeLeft } from "../../../constant";
@@ -25,10 +25,11 @@ import {
 } from "@mui/material";
 // import { useHistory } from 'react-router-dom';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MergeClass from "./MergeClass";
 
 toast.configure();
 
-function EditClass({ item, editClass }) {
+function EditClass({ item, editClass, Newpathways, pathwayId }) {
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
   const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
@@ -39,6 +40,7 @@ function EditClass({ item, editClass }) {
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [refreshKey, setRefreshKey] = useState(false);
 
   const handleOpenUserMenu = (event) => {
     event.stopPropagation();
@@ -191,6 +193,25 @@ function EditClass({ item, editClass }) {
       dispatch(classActions.dropOutClass(Id));
     });
   };
+  const ACBPathway = Newpathways?.find((path) => {
+    return item?.PartnerSpecificBatches?.pathway_id === path.id;
+  });
+
+  useEffect(() => {
+    if (refreshKey) {
+      dispatch(classActions.getClasses());
+      setRefreshKey(false);
+    }
+  }, [dispatch, refreshKey]);
+
+  const { data = [] } = useSelector(({ Class }) => Class.allClasses);
+
+  const pathwayFilter =
+    data &&
+    data?.filter((data) => {
+      // if I click on a pathway, batches should be filter by that pathway
+      return data?.pathway_id === item?.PartnerSpecificBatches?.pathway_id;
+    });
 
   return (
     <>
@@ -235,15 +256,15 @@ function EditClass({ item, editClass }) {
               <Typography textAlign="center">Edit</Typography>
             </MenuItem>
 
-            {/* {ACBPathway?.code === "ACB" && !item?.merge_class && (
-                <MergeClass
-                  item={item}
-                  itemID={item.id}
-                  PathwayID={item.pathway_id}
-                  pathwayFilter={pathwayFilter}
-                  setRefreshKey={setRefreshKey}
-                />
-              )} */}
+            {ACBPathway?.code === "ACB" && !item?.merge_class && (
+              <MergeClass
+                item={item}
+                itemID={item.id}
+                PathwayID={pathwayId}
+                pathwayFilter={pathwayFilter}
+                setRefreshKey={setRefreshKey}
+              />
+            )}
             <MenuItem
               onClick={(e) => {
                 handleClickOpen(item.id);
@@ -386,124 +407,6 @@ function EditClass({ item, editClass }) {
           </Dialog>
         ) : null}
         {/* dialog box for enroll class */}
-        {enrollShowModal ? (
-          <Dialog
-            open={() => enrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to enroll?
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(!indicator);
-                      }}
-                    />
-                  }
-                  label=" Enroll all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleSubmit(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseEnroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-        {unenrollShowModal ? (
-          <Dialog
-            open={() => unenrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}
-          >
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to drop out
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                      }}
-                    />
-                  }
-                  label=" Drop all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleDropOut(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseUnenroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
       </Box>
     </>
   );

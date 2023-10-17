@@ -27,7 +27,8 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
   const [Mergeclassid, setMarginId] = useState();
   const user = useSelector(({ User }) => User);
 
-  const mergedClasses = pathwayFilter.filter((item) => !item.merge_class);
+  const mergedClasses =
+    pathwayFilter && pathwayFilter.filter((item) => !item.merge_class);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,7 +51,7 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
         Authorization: user.data.token,
       },
     }).then(() => {
-      setRefreshKey(true);
+      setRefreshKey(false);
       toast.success("You successfully merge classes.", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2500,
@@ -61,7 +62,10 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
   return (
     <div>
       <MenuItem
-        onClick={handleClickOpen}
+        onClick={() => {
+          handleClickOpen();
+          setRefreshKey(true);
+        }}
         sx={{ width: 133, margin: "0px 10px" }}
       >
         <Typography textAlign="center">Merge Class</Typography>
@@ -98,12 +102,12 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Merge to Batch"
-                onClick={() => {}}
+                // onClick={}
                 onChange={(e) => {
                   setMarginId(e.target.value);
                 }}
               >
-                {mergedClasses.length === 1 ? (
+                {mergedClasses?.length === 1 ? (
                   <MenuItem>No Batch </MenuItem>
                 ) : (
                   mergedClasses?.map((item) => {

@@ -12,9 +12,16 @@ import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../common/Loader";
-import { Typography, Card, Grid, Button, CardActions } from "@mui/material";
+import {
+  Typography,
+  Card,
+  Grid,
+  Button,
+  CardActions,
+  Container,
+} from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
 import MergeClass from "../MergeClass";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
@@ -24,9 +31,7 @@ toast.configure();
 
 function ClassCard() {
   const params = useParams();
-  console.log(params);
   const classId = params.batchId;
-
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -39,9 +44,11 @@ function ClassCard() {
   const user = useSelector(({ User }) => User);
   const [canJoin, setCanJoin] = useState(false);
   const [classesData, setClassesData] = useState([]);
+  const [Newpathways, setNewPathways] = useState([]);
   // const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   // const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { data } = useSelector((state) => state.Pathways);
 
   useEffect(() => {
     axios({
@@ -55,7 +62,7 @@ function ClassCard() {
       setClassesData(res.data);
     });
   }, [classId]);
-  console.log(classesData, "classes");
+
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   const languageMap = {
@@ -151,157 +158,166 @@ function ClassCard() {
     );
   };
   */
-  // const ACBPathway = classesData?.find((path) => {
-  //   return item.pathway_id === path.id;
-  // });
-  console.log(classesData);
+
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setNewPathways(res.data);
+    });
+  }, []);
 
   return (
     <>
-      <Grid container spacing={isActive ? "0px" : "16px"} maxWidth="lg">
-        {classesData.map((item) => (
-          <Grid item xs={12} ms={6} md={4}>
-            <Card
-              elevation={2}
-              sx={{
-                p: 4,
-                mt: isActive ? 4 : 5,
-                bgcolor: canJoin ? "secondary.light" : "primary.lighter",
-              }}
-              className={classes.card}
-            >
-              <Typography
-                variant="subtitle1"
-                color="#6D6D6D"
+      <Container maxWidth="lg">
+        <Grid spacing={isActive ? "0px" : "16px"} container>
+          {classesData.map((item) => (
+            <Grid item xs={12} ms={6} md={4}>
+              <Card
+                elevation={2}
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
+                  p: 4,
+                  mt: isActive ? 4 : 5,
+                  bgcolor: canJoin ? "secondary.light" : "primary.lighter",
+                  height: "362px",
                 }}
+                className={classes.card}
               >
                 <Typography
-                  sx={{ fontSize: "18px", fontWeight: "400" }}
-                  variant="subtitle2"
-                >
-                  {item?.title}
-                </Typography>
-                {/* {item?.enrolled && (
-            <i
-              className="check-icon check-icon fa fa-check-circle
-          "
-              style={{ backgroundColor: "transparent" }}
-            >
-              Enrolled
-            </i>
-          )} */}
-                {((rolesList.length === 0 && item.enrolled) ||
-                  (rolesList.length >= 1 &&
-                    (item?.facilitator?.email === user.data.user.email ||
-                      flag))) && <EditClass item={item} />}
-              </Typography>
-              {/* dialog box for edit delete and merge class  */}
-
-              {/* {ACBPathway?.code === "ACB" && !item?.merge_class && (
-                <MergeClass
-                  item={item}
-                  itemID={item.id}
-                  PathwayID={item.pathway_id}
-                  pathwayFilter={pathwayFilter}
-                  setRefreshKey={setRefreshKey}
-                />
-              )} */}
-
-              {/* it will show when two class merged */}
-              {/* {ACBPathway?.code === "ACB" && item?.merge_class && (
-          <Typography variant="body2" sx={{ display: "flex" }}>
-            <img
-              className={classes.icons}
-              src={require("../assets/mergeClass.png")}
-              height="26px"
-              width="26px"
-            />
-
-            {item?.merge_class}
-          </Typography>
-        )} */}
-              {!item.title.toLowerCase().includes("scratch") && (
-                <Typography
-                  // sx={{ fontSize: "18px", fontWeight: "400" }}
                   variant="subtitle1"
+                  color="#6D6D6D"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  {item.sub_title}
+                  <Typography
+                    sx={{ fontSize: "18px", fontWeight: "400" }}
+                    variant="subtitle2"
+                  >
+                    {item?.title}
+                  </Typography>
+
+                  {((rolesList.length === 0 && item.enrolled) ||
+                    (rolesList.length >= 1 &&
+                      (item?.facilitator?.email === user.data.user.email ||
+                        flag))) && (
+                    <Typography>
+                      <EditClass
+                        item={item}
+                        pathwayId={item?.PartnerSpecificBatches?.pathway_id}
+                        Newpathways={Newpathways}
+                      />
+                    </Typography>
+                  )}
                 </Typography>
-              )}
-              <Typography variant="body1" sx={{ display: "flex" }}>
-                <img
-                  className={classes.icons}
-                  src={require("../assets/calendar.svg")}
-                />
-                {format(item.start_time, "dd MMM yy")}
-              </Typography>
+                {/* dialog box for edit delete and merge class  */}
 
-              <Typography variant="body1" sx={{ display: "flex" }}>
-                <img
-                  className={classes.icons}
-                  src={require("../assets/time.svg")}
-                />
-                {format(item.start_time, "hh:mm aaa")} -{" "}
-                {format(item.end_time, "hh:mm aaa")}
-              </Typography>
-              {/* <Typography variant="body1" sx={{ display: "flex" }}>
-        <img className={classes.icons} src={require("../assets/time.svg")} />
-        {format(classStartTime, "hh:mm aaa")} -{" "}
-        {format(classEndTime, "hh:mm aaa")}
-      </Typography> 
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/facilitator.svg")}
-          />
-          {item?.volunteer?.name || item?.facilitator?.name}
-        </Typography>
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/language.svg")}
-          />
-          {languageMap[item?.lang]}
-        </Typography>
+                {/* it will show when two class merged */}
+                {item?.merge_class && (
+                  <Typography
+                    variant="body2"
+                    sx={{ display: "flex", mt: "16px" }}
+                  >
+                    <img
+                      className={classes.icons}
+                      src={require("../assets/mergeClass.png")}
+                      height="26px"
+                      width="26px"
+                    />
 
-        {/* it's for enroll class, join class and  class Timer button */}
-              <CardActions className={classes.cardActions}>
-                {item?.enrolled ? (
-                  loading ? (
+                    {item?.merge_class}
+                  </Typography>
+                )}
+                {!item.title.toLowerCase().includes("scratch") && (
+                  <Typography
+                    // sx={{ fontSize: "18px", fontWeight: "400" }}
+                    variant="subtitle1"
+                  >
+                    {item.sub_title}
+                  </Typography>
+                )}
+                <Typography variant="body1" sx={{ display: "flex" }}>
+                  <img
+                    className={classes.icons}
+                    src={require("../assets/calendar.svg")}
+                  />
+                  {format(item.start_time, "dd MMM yy")}
+                </Typography>
+
+                <Typography variant="body1" sx={{ display: "flex" }}>
+                  <img
+                    className={classes.icons}
+                    src={require("../assets/time.svg")}
+                  />
+                  {format(item.start_time, "hh:mm aaa")} -{" "}
+                  {format(item.end_time, "hh:mm aaa")}
+                </Typography>
+
+                <Typography variant="body1" sx={{ display: "flex" }}>
+                  <img
+                    className={classes.icons}
+                    src={require("../assets/facilitator.svg")}
+                  />
+                  {item?.volunteer?.name || item?.facilitator?.name}
+                </Typography>
+                <Typography variant="body1" sx={{ display: "flex" }}>
+                  <img
+                    className={classes.icons}
+                    src={require("../assets/language.svg")}
+                  />
+                  {languageMap[item?.lang]}
+                </Typography>
+
+                {/* it's for enroll class, join class and  class Timer button */}
+                <CardActions className={classes.cardActions}>
+                  {item?.enrolled ? (
+                    loading ? (
+                      <div className="loader-button">
+                        <Loader />
+                      </div>
+                    ) : (
+                      <ClassJoinTimerButton
+                        startTime={item?.start_time}
+                        link={item?.meet_link}
+                        onCanJoin={setCanJoin}
+                      />
+                    )
+                  ) : loading ? (
                     <div className="loader-button">
                       <Loader />
                     </div>
                   ) : (
-                    <ClassJoinTimerButton
-                      startTime={item?.start_time}
-                      link={item?.meet_link}
-                      onCanJoin={setCanJoin}
-                    />
-                  )
-                ) : loading ? (
-                  <div className="loader-button">
-                    <Loader />
-                  </div>
-                ) : (
-                  <Button
-                    type="submit"
-                    variant="text"
-                    onClick={() => {
-                      handleClickOpenEnroll(item.id);
-                    }}
-                    endIcon={<ArrowRightAltIcon />}
-                  >
-                    Enroll
-                  </Button>
-                )}
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                    <Button
+                      type="submit"
+                      variant="text"
+                      onClick={() => {
+                        handleClickOpenEnroll(item.id);
+                      }}
+                      endIcon={<ArrowRightAltIcon />}
+                    >
+                      Enroll
+                    </Button>
+                  )}
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
     </>
   );
 }

@@ -43,7 +43,7 @@ function ToggleClassFormModal() {
   const classes = useStyles();
   const [showClass, setShowClasses] = useState(true);
   const [pathwayID, setPathwayId] = useState(1);
-  console.log(pathwayID);
+
   const [pathwayName, setPathwayName] = useState("Python");
   const [singleTime, setSingleTime] = useState(true);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");

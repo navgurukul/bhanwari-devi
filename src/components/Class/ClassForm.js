@@ -59,25 +59,25 @@ function ClassForm({
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit?.title || "",
-    partner_id: classToEdit.partner_id || [],
+    partner_id: classToEdit?.partner_id || [],
     date: classToEdit.start_time
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class?.on_days?.split(",")
       : [],
-    start_time: classToEdit.start_time
-      ? new Date(classToEdit.start_time)
+    start_time: classToEdit?.start_time
+      ? new Date(classToEdit?.start_time)
       : new Date(new Date().setSeconds(0)),
-    end_time: classToEdit.end_time
-      ? new Date(classToEdit.end_time)
+    end_time: classToEdit?.end_time
+      ? new Date(classToEdit?.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
-    lang: classToEdit.lang || "en",
+    lang: classToEdit?.lang || "en",
     max_enrolment:
-      classToEdit.max_enrolment == null
+      classToEdit?.max_enrolment == null
         ? "No Limit"
-        : classToEdit.max_enrolment || "10",
-    frequency: classToEdit.parent_class
+        : classToEdit?.max_enrolment || "10",
+    frequency: classToEdit?.parent_class
       ? classToEdit.parent_class.frequency
       : "WEEKLY",
     description: classToEdit.description

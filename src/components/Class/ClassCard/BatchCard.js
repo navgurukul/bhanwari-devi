@@ -264,20 +264,9 @@ function BatchCard({
     );
   };
   */
-  const ACBPathway = Newpathways?.find((path) => {
-    return item.pathway_id === path.id;
-  });
 
   return (
     <>
-      {/* <Link
-        style={{
-          textDecoration: "none",
-        }}
-        to={interpolatePath(PATHS.BATCH, {
-          batchId: item?.recurring_id,
-        })}
-      > */}
       <Card
         elevation={2}
         sx={{
@@ -285,6 +274,7 @@ function BatchCard({
           mt: isActive ? 4 : 5,
           bgcolor: canJoin ? "secondary.light" : "primary.lighter",
           cursor: "pointer",
+          height: "332px",
         }}
         className={classes.card}
         onClick={() => {
@@ -301,6 +291,7 @@ function BatchCard({
           sx={{
             display: "flex",
             justifyContent: "space-between",
+            maxWidth: "100%",
           }}
         >
           <Typography
@@ -309,54 +300,24 @@ function BatchCard({
           >
             {item?.title}
           </Typography>
-          {/* {item?.enrolled && (
-              <i
-                className="check-icon check-icon fa fa-check-circle
+          {item?.enrolled && (
+            <i
+              className="check-icon check-icon fa fa-check-circle
             "
-                style={{ backgroundColor: "transparent" }}
-              >
-                Enrolled
-              </i>
-            )} */}
+              style={{ backgroundColor: "transparent" }}
+            >
+              Enrolled
+            </i>
+          )}
           {((rolesList.length === 0 && item.enrolled) ||
             (rolesList.length >= 1 &&
               (item?.facilitator?.email === user.data.user.email || flag))) && (
-            <EditClass item={item} editClass={editClass} />
+            <Typography>
+              <EditClass item={item} editClass={editClass} />
+            </Typography>
           )}
         </Typography>
-        {/* dialog box for edit delete and merge class  */}
 
-        {/* {ACBPathway?.code === "ACB" && !item?.merge_class && (
-                  <MergeClass
-                    item={item}
-                    itemID={item.id}
-                    PathwayID={item.pathway_id}
-                    pathwayFilter={pathwayFilter}
-                    setRefreshKey={setRefreshKey}
-                  />
-                )} */}
-
-        {/* it will show when two class merged */}
-        {/* {ACBPathway?.code === "ACB" && item?.merge_class && (
-            <Typography variant="body2" sx={{ display: "flex" }}>
-              <img
-                className={classes.icons}
-                src={require("../assets/mergeClass.png")}
-                height="26px"
-                width="26px"
-              />
-
-              {item?.merge_class}
-            </Typography>
-          )} */}
-        {/* {!item.title.toLowerCase().includes("scratch") && (
-          <Typography
-            // sx={{ fontSize: "18px", fontWeight: "400" }}
-            variant="subtitle1"
-          >
-            {item.sub_title}
-          </Typography>
-        )} */}
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
             className={classes.icons}
@@ -419,6 +380,126 @@ function BatchCard({
           )}
         </CardActions>
       </Card>
+      <Box>
+        {enrollShowModal ? (
+          <Dialog
+            open={() => enrollShowModal()}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            PaperProps={{
+              style: {
+                minWidth: "35%",
+                borderRadius: 8,
+              },
+            }}
+          >
+            <DialogTitle>
+              <Typography variant="h6" align="center">
+                Are you sure you want to enroll?
+              </Typography>
+            </DialogTitle>
+
+            {(item.type === "cohort" || item.type === "batch") && (
+              <Stack alignItems="center">
+                <FormControlLabel
+                  align="center"
+                  control={
+                    <Checkbox
+                      onClick={() => {
+                        setIndicator(!indicator);
+                      }}
+                    />
+                  }
+                  label=" Enroll all classes of this Batch?"
+                />
+              </Stack>
+            )}
+            <Stack alignItems="center">
+              <DialogActions>
+                <Box sx={{ display: "flex", mb: 2 }}>
+                  <Button
+                    onClick={() => {
+                      return handleSubmit(item.id);
+                    }}
+                    color="primary"
+                    variant="contained"
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={handleCloseEnroll}
+                    color="grey"
+                    variant="contained"
+                    sx={{ width: "100px" }}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </DialogActions>
+            </Stack>
+          </Dialog>
+        ) : null}
+        {unenrollShowModal ? (
+          <Dialog
+            open={() => unenrollShowModal()}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            PaperProps={{
+              style: {
+                minWidth: "35%",
+                borderRadius: 8,
+              },
+            }}
+          >
+            <DialogTitle>
+              <Typography variant="h6" align="center">
+                Are you sure you want to drop out
+              </Typography>
+            </DialogTitle>
+
+            {(item.type === "cohort" || item.type === "batch") && (
+              <Stack alignItems="center">
+                <FormControlLabel
+                  align="center"
+                  control={
+                    <Checkbox
+                      onClick={() => {
+                        setIndicator(true);
+                      }}
+                    />
+                  }
+                  label=" Drop all classes of this Batch?"
+                />
+              </Stack>
+            )}
+            <Stack alignItems="center">
+              <DialogActions>
+                <Box sx={{ display: "flex", mb: 2 }}>
+                  <Button
+                    onClick={() => {
+                      return handleDropOut(item.id);
+                    }}
+                    color="primary"
+                    variant="contained"
+                    sx={{ mr: "15px", width: "100px" }}
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={handleCloseUnenroll}
+                    color="grey"
+                    variant="contained"
+                    sx={{ width: "100px" }}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </DialogActions>
+            </Stack>
+          </Dialog>
+        ) : null}
+      </Box>
       {/* </Link> */}
     </>
   );
