@@ -29,14 +29,13 @@ import MergeClass from "./MergeClass";
 
 toast.configure();
 
-function EditClass({ item, editClass, Newpathways, pathwayId }) {
+function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
   const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
   const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -60,27 +59,24 @@ function EditClass({ item, editClass, Newpathways, pathwayId }) {
   const handleCloseEdit = (e) => {
     e.stopPropagation();
     setEditShowModal(false);
-    setIndicator(false);
   };
 
   const handleClickOpen = () => {
     setShowModal(!showModal);
-    setIndicator(false);
+
     setAnchorElUser(null);
   };
 
   const handleCloseEnroll = () => {
     setEnrollShowModal(false);
-    setIndicator(false);
   };
 
   const handleCloseUnenroll = () => {
     setunenrollShowModal(false);
-    setIndicator(false);
   };
   const handleClickOpenUnenroll = () => {
     setunenrollShowModal(!unenrollShowModal);
-    setIndicator(false);
+
     setAnchorElUser(null);
   };
 
@@ -361,22 +357,6 @@ function EditClass({ item, editClass, Newpathways, pathwayId }) {
               </Typography>
             </DialogTitle>
 
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                        // setSingleTime(false);
-                      }}
-                    />
-                  }
-                  label=" Edit all classes of this Batch?"
-                />
-              </Stack>
-            )}
             <Stack alignItems="center">
               <DialogActions>
                 <Box sx={{ display: "flex", mb: 2 }}>

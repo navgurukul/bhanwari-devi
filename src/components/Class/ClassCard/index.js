@@ -19,6 +19,7 @@ import {
   Button,
   CardActions,
   Container,
+  Modal,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
@@ -27,6 +28,7 @@ import MergeClass from "../MergeClass";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useParams } from "react-router-dom";
 import EditClass from "../EditClass";
+import ClassForm from "../ClassForm";
 toast.configure();
 
 function ClassCard() {
@@ -49,6 +51,15 @@ function ClassCard() {
   // const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { data } = useSelector((state) => state.Pathways);
+  const [classToEdit, setClassToEdit] = useState({});
+  const [isEditMode, setIsEditMode] = React.useState(false);
+  const [singleTime, setSingleTime] = useState(true);
+
+  const toggleModalOpen = () => {
+    // setFormType();
+    setClassToEdit({});
+    // setShowModal(!showModal);
+  };
 
   useEffect(() => {
     axios({
@@ -120,45 +131,6 @@ function ClassCard() {
     });
   };
 
-  //console.log("indicator", indicator);
-  /*
-  const EnrolledAndTimer = () => {
-    const timeLeftOptions = {
-      precision: [3, 3, 3, 2, 2, 1],
-      cutoffNumArr: [0, 0, 0, 0, 10, 60],
-      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
-      expiredText: "joinNow",
-    };
-    const [Timer, setTimer] = useState(
-      timeLeftFormat(item.start_time, timeLeftOptions)
-    );
-    const ONE_MINUTE = 60000; //millisecs
-    setInterval(() => {
-      setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
-    }, ONE_MINUTE);
-    return (
-      <>
-        {Timer === "joinNow" ? (
-          <ExternalLink
-            style={{
-              textDecoration: "none",
-            }}
-            href={item.meet_link}
-          >
-            <Button variant="contained" fullWidth>
-              Join Now
-            </Button>
-          </ExternalLink>
-        ) : (
-          <Button disabled={true} variant="contained">
-            Starts in {Timer}
-          </Button>
-        )}
-      </>
-    );
-  };
-  */
-
   useEffect(() => {
     dispatch(
       pathwayActions.getPathways({
@@ -166,6 +138,14 @@ function ClassCard() {
       })
     );
   }, [dispatch]);
+
+  const editClass = (classId, indicator) => {
+    setClassToEdit(classesData.find((classData) => classData.id === classId));
+    setIsEditMode(true);
+    setShowModal(true);
+    setIndicator(indicator);
+  };
+  console.log(data);
 
   useEffect(() => {
     axios({
@@ -220,6 +200,8 @@ function ClassCard() {
                         item={item}
                         pathwayId={item?.PartnerSpecificBatches?.pathway_id}
                         Newpathways={Newpathways}
+                        indicator={false}
+                        editClass={editClass}
                       />
                     </Typography>
                   )}
@@ -317,6 +299,27 @@ function ClassCard() {
             </Grid>
           ))}
         </Grid>
+
+        {showModal && (
+          <Modal
+            open={showModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            style={{ overflow: "scroll" }}
+          >
+            {/* { class form modal for doubt class, batches and edit class} */}
+            <ClassForm
+              isEditMode={isEditMode}
+              indicator={indicator}
+              classToEdit={classToEdit}
+              setShowModal={setShowModal}
+              setIsEditMode={setIsEditMode}
+              setNewPathways={setNewPathways}
+              Newpathways={Newpathways}
+              singleTime={true}
+            />
+          </Modal>
+        )}
       </Container>
     </>
   );

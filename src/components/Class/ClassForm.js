@@ -50,7 +50,6 @@ function ClassForm({
   Newpathways,
   setNewPathways,
   singleTime,
-  setSingleTime,
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
@@ -87,7 +86,7 @@ function ClassForm({
       : "",
     type: classToEdit.type || formType,
     pathway_id:
-      classToEdit?.pathway_id?.[0] ||
+      classToEdit?.PartnerSpecificBatches?.pathway_id?.[0] ||
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
@@ -420,7 +419,7 @@ function ClassForm({
       setVolunteer(volunteers);
     });
   }, []);
-
+  console.log(classFields.partner_id);
   useEffect(() => {
     let datass = partnerData.filter((item) => {
       return classFields.partner_id.includes(item.id);
@@ -495,7 +494,7 @@ function ClassForm({
           setLoading(false);
           setShowSuccessModal(true);
           setSuccessModalMsg("edited");
-          setSingleTime(true);
+          // setSingleTime(true);
           setTimeout(() => {
             setShowSuccessModal(false);
             setShowModal(false);
@@ -504,7 +503,7 @@ function ClassForm({
       },
       (error) => {
         setLoading(false);
-        setSingleTime(!singleTime);
+        // setSingleTime(!singleTime);
       }
     );
   };
@@ -534,7 +533,7 @@ function ClassForm({
   const onExerciseChange = (exerciseId) => {
     setClassFields({ ...classFields, exercise_id: exerciseId });
   };
-
+  console.log(classFields);
   const checkForDoubtClass =
     classFields.type === "doubt_class" &&
     classFields.course_id !== "" &&
@@ -809,7 +808,7 @@ function ClassForm({
                   onClick={() => {
                     setShowModal(false);
                     setIsEditMode(false);
-                    setSingleTime(true);
+                    // setSingleTime(true);
                   }}
                 />
               </Grid>
@@ -1372,7 +1371,7 @@ function ClassForm({
           isEditMode={isEditMode}
           setShowModal={setShowModal}
           setIsEditMode={setIsEditMode}
-          setSingleTime={setSingleTime}
+          // setSingleTime={setSingleTime}
         />
       )}
     </>

@@ -227,7 +227,7 @@ function ClassList({
               onClick={() => {
                 setFormType(showClass ? "batch" : "doubt_class");
                 toggleModalOpen();
-                setSingleTime(false);
+                // setSingleTime(false);
               }}
               //  sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px"}}
             >
