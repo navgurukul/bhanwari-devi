@@ -35,6 +35,7 @@ function ClassList({
   canSpecifyFacilitator,
   Newpathways,
   setSingleTime,
+  singleTime,
   data,
   loading,
 }) {
@@ -227,7 +228,6 @@ function ClassList({
               onClick={() => {
                 setFormType(showClass ? "batch" : "doubt_class");
                 toggleModalOpen();
-                // setSingleTime(false);
               }}
               //  sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px"}}
             >
@@ -242,12 +242,12 @@ function ClassList({
           {data && data.length > 0 ? (
             <>
               {!filterText?.length > 0
-                ? singlepathwayFilter.map((item, index) => {
+                ? single_classes.map((item, index) => {
                     return (
                       item.type ===
                         `${showClass ? "batch" : "doubt_class"}` && (
                         <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
-                          <ClassCard
+                          <BatchCard
                             item={item}
                             key={index}
                             index={index}
@@ -258,7 +258,6 @@ function ClassList({
                             showClass={showClass}
                             Newpathways={Newpathways}
                             setRefreshKey={setRefreshKey}
-                            setSingleTime={setSingleTime}
                           />
                         </Grid>
                       )
@@ -289,9 +288,6 @@ function ClassList({
                             style="class-enroll-cohort"
                             showClass={showClass}
                             setRefreshKey={setRefreshKey}
-                            setSingleTime={setSingleTime}
-                            // setPage={setPage}
-                            // page={page}
                           />
                         </Grid>
                       )

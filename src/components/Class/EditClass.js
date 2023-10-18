@@ -101,7 +101,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        "delete-all": deleteCohort,
+        "delete-all": indicator,
       },
     }).then(() => {
       notify();
@@ -240,7 +240,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
           setAnchorElUser(null);
         }}
       >
-        {(item?.facilitator.email === user.data.user.email || flag) && (
+        {(item?.facilitator?.email === user.data.user.email || flag) && (
           <>
             <MenuItem
               onClick={(e) => {
@@ -296,7 +296,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
                 Are you sure you want to delete this class?
               </Typography>
             </DialogTitle>
-            {(item.type === "cohort" || item.type === "batch") && (
+            {/* {(item.type === "cohort" || item.type === "batch") && (
               <Stack alignItems="center">
                 <FormControlLabel
                   align="center"
@@ -310,7 +310,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
                   label="Delete all classes of this Batch?"
                 />
               </Stack>
-            )}
+            )} */}
             <Stack alignItems="center">
               <DialogActions>
                 <Box sx={{ display: "flex", mb: 2 }}>

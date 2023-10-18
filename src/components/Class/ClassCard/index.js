@@ -145,7 +145,6 @@ function ClassCard() {
     setShowModal(true);
     setIndicator(indicator);
   };
-  console.log(data);
 
   useEffect(() => {
     axios({
@@ -224,12 +223,12 @@ function ClassCard() {
                     {item?.merge_class}
                   </Typography>
                 )}
-                {!item.title.toLowerCase().includes("scratch") && (
+                {!item?.title.toLowerCase().includes("scratch") && (
                   <Typography
                     // sx={{ fontSize: "18px", fontWeight: "400" }}
                     variant="subtitle1"
                   >
-                    {item.sub_title}
+                    {item?.sub_title}
                   </Typography>
                 )}
                 <Typography variant="body1" sx={{ display: "flex" }}>

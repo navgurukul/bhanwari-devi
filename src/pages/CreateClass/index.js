@@ -55,7 +55,7 @@ function ToggleClassFormModal() {
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
   const [Newpathways, setNewPathways] = useState([]);
-
+  const [typeOfClass, setTypeOfClass] = useState("batch");
   const url = window.location.href;
 
   const toggleModalOpen = () => {
@@ -155,7 +155,7 @@ function ToggleClassFormModal() {
 
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState();
   const limit = 9;
 
@@ -164,16 +164,23 @@ function ToggleClassFormModal() {
       method: METHODS.GET,
       url: `${
         process.env.REACT_APP_MERAKI_URL
-      }/batches/${pathwayID}?limit=${limit}&page=${page + 1}`,
+      }/batches/${pathwayID}?limit=${limit}&page=${
+        page + 1
+      }&typeOfClass=${typeOfClass}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setData(res.data.batches);
-      setTotalCount(res.data.total_count);
-    });
-  }, [pathwayID, limit, page]);
+    })
+      .then((res) => {
+        setData(res.data.batches);
+        setTotalCount(res.data.total_count);
+        setLoading(false);
+      })
+      .catch((res) => {
+        setLoading(false);
+      });
+  }, [pathwayID, limit, page, typeOfClass]);
 
   const pageCount = Math.ceil(totalCount / limit);
 
@@ -239,6 +246,7 @@ function ToggleClassFormModal() {
             style={{
               fontWeight: "bold",
               borderBottom: "1px solid #BDBDBD",
+              justifyContent: "space-between",
             }}
           >
             <Grid item align="center">
@@ -247,6 +255,7 @@ function ToggleClassFormModal() {
                   variant="subtitle2"
                   onClick={() => {
                     setShowClasses(true);
+                    setTypeOfClass("batch");
                   }}
                   // style={{ cursor: "pointer" }}
                   className={classes.underLine}
@@ -262,14 +271,13 @@ function ToggleClassFormModal() {
                   Batches
                 </Typography>
               </Button>
-            </Grid>
-            <Grid>
               <Button>
                 <Typography
                   className={classes.underLine}
                   variant="subtitle2"
                   onClick={() => {
                     setShowClasses(false);
+                    setTypeOfClass("doubt_class");
                   }}
                   style={
                     !showClass
@@ -285,11 +293,7 @@ function ToggleClassFormModal() {
               </Button>
             </Grid>
 
-            <Grid
-              item
-              alignItems="self-end"
-              sx={{ paddingLeft: "300px", height: "0px" }}
-            >
+            <Grid item sx={{ height: "0px" }} md={4} xs={4} sm={12}>
               <ReactPaginate
                 previousLabel={<i className="fa fa-angle-left"></i>}
                 nextLabel={<i className="fa fa-angle-right"></i>}

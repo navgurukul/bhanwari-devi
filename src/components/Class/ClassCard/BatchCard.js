@@ -48,6 +48,7 @@ function BatchCard({
   Newpathways,
   setRefreshKey,
   setSingleTime,
+  showClass,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -278,11 +279,12 @@ function BatchCard({
         }}
         className={classes.card}
         onClick={() => {
-          history.push(
-            interpolatePath(PATHS.BATCH, {
-              batchId: item?.recurring_id,
-            })
-          );
+          showClass &&
+            history.push(
+              interpolatePath(PATHS.BATCH, {
+                batchId: item?.recurring_id,
+              })
+            );
         }}
       >
         <Typography
@@ -317,15 +319,26 @@ function BatchCard({
             </Typography>
           )}
         </Typography>
+        {showClass ? (
+          <Typography variant="body1" sx={{ display: "flex" }}>
+            <img
+              className={classes.icons}
+              src={require("../assets/calendar.svg")}
+            />
+            {format(item?.barch_start, "dd MMM yy")} -{" "}
+            {format(item?.batch_end, "dd MMM yy")}
+          </Typography>
+        ) : (
+          <Typography variant="body1" sx={{ display: "flex" }}>
+            <img
+              className={classes.icons}
+              src={require("../assets/calendar.svg")}
+            />
+            {format(item?.start_time, "dd MMM yy")} -{" "}
+            {format(item?.end_time, "dd MMM yy")}
+          </Typography>
+        )}
 
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/calendar.svg")}
-          />
-          {format(item?.barch_start, "dd MMM yy")} -{" "}
-          {format(item?.batch_end, "dd MMM yy")}
-        </Typography>
         {/* <Typography variant="body1" sx={{ display: "flex" }}>
           <img className={classes.icons} src={require("../assets/time.svg")} />
           {format(classStartTime, "hh:mm aaa")} -{" "}
