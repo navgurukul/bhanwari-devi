@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 
 toast.configure();
 
-function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
+function MergeClass({ itemID, pathwayFilter, setRefreshKey, setClassRefresh }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [Mergeclassid, setMarginId] = useState();
@@ -51,7 +51,8 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
         Authorization: user.data.token,
       },
     }).then(() => {
-      setRefreshKey(false);
+      setRefreshKey(true);
+      setClassRefresh(false);
       toast.success("You successfully merge classes.", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2500,
@@ -64,7 +65,7 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
       <MenuItem
         onClick={() => {
           handleClickOpen();
-          setRefreshKey(true);
+          setClassRefresh(true);
         }}
         sx={{ width: 133, margin: "0px 10px" }}
       >

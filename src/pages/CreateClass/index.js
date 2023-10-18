@@ -34,6 +34,7 @@ function ToggleClassFormModal() {
   const [classToEdit, setClassToEdit] = useState({});
   const [indicator, setIndicator] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(true);
   // const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
   const [open, setOpen] = React.useState(false);
@@ -160,32 +161,35 @@ function ToggleClassFormModal() {
   const limit = 9;
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${
-        process.env.REACT_APP_MERAKI_URL
-      }/batches/${pathwayID}?limit=${limit}&page=${
-        page + 1
-      }&typeOfClass=${typeOfClass}`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    })
-      .then((res) => {
-        setData(res.data.batches);
-        setTotalCount(res.data.total_count);
-        setLoading(false);
+    refreshKey &&
+      axios({
+        method: METHODS.GET,
+        url: `${
+          process.env.REACT_APP_MERAKI_URL
+        }/batches/${pathwayID}?limit=${limit}&page=${
+          page + 1
+        }&typeOfClass=${typeOfClass}`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
       })
-      .catch((res) => {
-        setLoading(false);
-      });
-  }, [pathwayID, limit, page, typeOfClass]);
+        .then((res) => {
+          setData(res.data.batches);
+          setTotalCount(res.data.total_count);
+          setLoading(false);
+          setRefreshKey(false);
+        })
+        .catch((res) => {
+          setLoading(false);
+        });
+  }, [pathwayID, limit, page, typeOfClass, refreshKey, setRefreshKey]);
 
   const pageCount = Math.ceil(totalCount / limit);
 
   const changePage = ({ selected }) => {
     setPage(selected);
+    setRefreshKey(true);
   };
 
   useEffect(() => {
@@ -232,6 +236,7 @@ function ToggleClassFormModal() {
               setPathwayName={setPathwayName}
               Newpathways={Newpathways}
               pathwayName={pathwayName}
+              setRefreshKey={setRefreshKey}
             />
           </Grid>
         )}
@@ -256,6 +261,7 @@ function ToggleClassFormModal() {
                   onClick={() => {
                     setShowClasses(true);
                     setTypeOfClass("batch");
+                    setRefreshKey(true);
                   }}
                   // style={{ cursor: "pointer" }}
                   className={classes.underLine}
@@ -278,6 +284,7 @@ function ToggleClassFormModal() {
                   onClick={() => {
                     setShowClasses(false);
                     setTypeOfClass("doubt_class");
+                    setRefreshKey(true);
                   }}
                   style={
                     !showClass
@@ -324,6 +331,8 @@ function ToggleClassFormModal() {
             Newpathways={Newpathways}
             data={data}
             loading={loading}
+            setRefreshKey={setRefreshKey}
+            refreshKey={refreshKey}
           />
 
           {showModal && calenderConsent ? (
@@ -345,6 +354,7 @@ function ToggleClassFormModal() {
                 setNewPathways={setNewPathways}
                 Newpathways={Newpathways}
                 singleTime={false}
+                setRefreshKey={setRefreshKey}
               />
             </Modal>
           ) : (

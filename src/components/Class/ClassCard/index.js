@@ -53,7 +53,7 @@ function ClassCard() {
   const { data } = useSelector((state) => state.Pathways);
   const [classToEdit, setClassToEdit] = useState({});
   const [isEditMode, setIsEditMode] = React.useState(false);
-  const [singleTime, setSingleTime] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(true);
 
   const toggleModalOpen = () => {
     // setFormType();
@@ -62,17 +62,19 @@ function ClassCard() {
   };
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/batches/classes/${classId}`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-      },
-    }).then((res) => {
-      setClassesData(res.data);
-    });
-  }, [classId]);
+    refreshKey &&
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/batches/classes/${classId}`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      }).then((res) => {
+        setClassesData(res.data);
+        setRefreshKey(false);
+      });
+  }, [classId, refreshKey]);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -201,6 +203,7 @@ function ClassCard() {
                         Newpathways={Newpathways}
                         indicator={false}
                         editClass={editClass}
+                        setRefreshKey={setRefreshKey}
                       />
                     </Typography>
                   )}
@@ -316,6 +319,7 @@ function ClassCard() {
               setNewPathways={setNewPathways}
               Newpathways={Newpathways}
               singleTime={true}
+              setRefreshKey={setRefreshKey}
             />
           </Modal>
         )}

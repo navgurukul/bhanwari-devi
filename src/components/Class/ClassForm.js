@@ -50,6 +50,7 @@ function ClassForm({
   Newpathways,
   setNewPathways,
   singleTime,
+  setRefreshKey,
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
@@ -457,6 +458,7 @@ function ClassForm({
     }).then(
       (res) => {
         if (res.status === 200) {
+          setRefreshKey(true);
           setLoading(false);
           setShowSuccessModal(true);
           setSuccessModalMsg("created");
@@ -491,6 +493,7 @@ function ClassForm({
     }).then(
       (res) => {
         if (res.status === 200) {
+          setRefreshKey(true);
           setLoading(false);
           setShowSuccessModal(true);
           setSuccessModalMsg("edited");

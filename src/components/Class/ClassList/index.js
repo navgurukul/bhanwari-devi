@@ -38,6 +38,8 @@ function ClassList({
   singleTime,
   data,
   loading,
+  refreshKey,
+  setRefreshKey,
 }) {
   const dispatch = useDispatch();
 
@@ -45,7 +47,7 @@ function ClassList({
   const [totalCount, setTotalCount] = useState();
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
-  const [refreshKey, setRefreshKey] = useState(false);
+
   const [filterText, setFilterText] = useState(null);
   const user = useSelector(({ User }) => User);
   useEffect(() => {

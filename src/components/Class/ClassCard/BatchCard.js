@@ -315,7 +315,12 @@ function BatchCard({
             (rolesList.length >= 1 &&
               (item?.facilitator?.email === user.data.user.email || flag))) && (
             <Typography>
-              <EditClass item={item} editClass={editClass} indicator={true} />
+              <EditClass
+                item={item}
+                editClass={editClass}
+                indicator={true}
+                setRefreshKey={setRefreshKey}
+              />
             </Typography>
           )}
         </Typography>

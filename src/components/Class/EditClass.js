@@ -29,7 +29,14 @@ import MergeClass from "./MergeClass";
 
 toast.configure();
 
-function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
+function EditClass({
+  item,
+  editClass,
+  Newpathways,
+  pathwayId,
+  indicator,
+  setRefreshKey,
+}) {
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
   const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
@@ -39,7 +46,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [refreshKey, setRefreshKey] = useState(false);
+  const [classRefresh, setClassRefresh] = useState(false);
 
   const handleOpenUserMenu = (event) => {
     event.stopPropagation();
@@ -104,6 +111,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
         "delete-all": indicator,
       },
     }).then(() => {
+      setRefreshKey(true);
       notify();
       dispatch(classActions.deleteClass(id));
     });
@@ -185,6 +193,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
         notify();
         clearTimeout(timer);
         setLoading(false);
+        setRefreshKey(true);
       }
       dispatch(classActions.dropOutClass(Id));
     });
@@ -194,11 +203,11 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
   });
 
   useEffect(() => {
-    if (refreshKey) {
+    if (classRefresh) {
       dispatch(classActions.getClasses());
-      setRefreshKey(false);
+      setClassRefresh(false);
     }
-  }, [dispatch, refreshKey]);
+  }, [dispatch]);
 
   const { data = [] } = useSelector(({ Class }) => Class.allClasses);
 
@@ -259,6 +268,7 @@ function EditClass({ item, editClass, Newpathways, pathwayId, indicator }) {
                 PathwayID={pathwayId}
                 pathwayFilter={pathwayFilter}
                 setRefreshKey={setRefreshKey}
+                setClassRefresh={setClassRefresh}
               />
             )}
             <MenuItem
