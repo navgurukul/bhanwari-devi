@@ -41,9 +41,11 @@ function Opportunities() {
         accept: "application/json",
         Authorization: user.data ? user.data.token : "",
       },
-    }).then((res) => {
-      setPartner(res.data.partners);
-    });
+    })
+      .then((res) => {
+        setPartner(res.data.partners);
+      })
+      .catch((err) => {});
   }, []);
 
   return (

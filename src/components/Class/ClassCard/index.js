@@ -140,10 +140,12 @@ function ClassCard({
         Authorization: user.data.token,
         "delete-all": deleteCohort,
       },
-    }).then(() => {
-      notify();
-      dispatch(classActions.deleteClass(id));
-    });
+    })
+      .then(() => {
+        notify();
+        dispatch(classActions.deleteClass(id));
+      })
+      .catch((err) => {});
   };
 
   // API CALL FOR enroll class
@@ -217,14 +219,16 @@ function ClassCard({
         Authorization: user.data.token,
         // "unregister-to-all": indicator,
       },
-    }).then((res) => {
-      if (!getNotify) {
-        notify();
-        clearTimeout(timer);
-        setLoading(false);
-      }
-      dispatch(classActions.dropOutClass(Id));
-    });
+    })
+      .then((res) => {
+        if (!getNotify) {
+          notify();
+          clearTimeout(timer);
+          setLoading(false);
+        }
+        dispatch(classActions.dropOutClass(Id));
+      })
+      .catch((err) => {});
   };
 
   //console.log("indicator", indicator);

@@ -35,9 +35,11 @@ function TeamPage() {
   useEffect(() => {
     axios({
       url: `https://navgurukul.github.io/tarabai-shinde/data/meraki_team.json`,
-    }).then((res) => {
-      setTeam(res.data);
-    });
+    })
+      .then((res) => {
+        setTeam(res.data);
+      })
+      .catch((err) => {});
   }, []);
   const [team, setTeam] = useState([]);
   const [members, setMembers] = useState({

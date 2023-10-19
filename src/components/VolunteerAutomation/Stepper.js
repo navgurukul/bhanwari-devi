@@ -226,32 +226,41 @@ function HorizontalLinearStepper() {
         pathway_id: pathwayId,
         ...availability,
       },
-    }).then(
-      (res) => {
-        localStorage.setItem("isNewVolunteer", true);
-        history.push(PATHS.CLASS);
-        return axios({
-          url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
-          method: METHODS.POST,
-          headers: {
-            accept: "application/json",
-            Authorization: user.data.token,
-          },
-        }).then(
-          (res) => {
-            dispatch(
-              actions.onUserRefreshDataIntent({ token: user.data.token })
-            );
-          },
-          (error) => {
-            console.log(error);
+    })
+      .then(
+        (res) => {
+          try {
+            localStorage.setItem("isNewVolunteer", true);
+          } catch (error) {
+            //console.error('Error accessing localStorage:', error);
+            return {};
           }
-        );
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+          history.push(PATHS.CLASS);
+          return axios({
+            url: `${process.env.REACT_APP_MERAKI_URL}/users/volunteerRole`,
+            method: METHODS.POST,
+            headers: {
+              accept: "application/json",
+              Authorization: user.data.token,
+            },
+          })
+            .then(
+              (res) => {
+                dispatch(
+                  actions.onUserRefreshDataIntent({ token: user.data.token })
+                );
+              },
+              (error) => {
+                console.log(error);
+              }
+            )
+            .catch((err) => {});
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+      .catch((err) => {});
   };
 
   return (

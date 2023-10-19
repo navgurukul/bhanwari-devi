@@ -393,15 +393,17 @@ function ClassForm({
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const partners = res.data.partners.map((item, index) => {
-        return {
-          label: item.name,
-          id: item.id,
-        };
-      });
-      setPartnerData(partners);
-    });
+    })
+      .then((res) => {
+        const partners = res.data.partners.map((item, index) => {
+          return {
+            label: item.name,
+            id: item.id,
+          };
+        });
+        setPartnerData(partners);
+      })
+      .catch((err) => {});
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
@@ -409,16 +411,18 @@ function ClassForm({
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const volunteers = res?.data?.map((item, index) => {
-        return {
-          label: item.name,
-          id: item.volunteer_id,
-          pathway_id: item.pathway_id,
-        };
-      });
-      setVolunteer(volunteers);
-    });
+    })
+      .then((res) => {
+        const volunteers = res?.data?.map((item, index) => {
+          return {
+            label: item.name,
+            id: item.volunteer_id,
+            pathway_id: item.pathway_id,
+          };
+        });
+        setVolunteer(volunteers);
+      })
+      .catch((err) => {});
   }, []);
 
   useEffect(() => {
@@ -455,22 +459,24 @@ function ClassForm({
       data: {
         ...payload,
       },
-    }).then(
-      (res) => {
-        if (res.status === 200) {
+    })
+      .then(
+        (res) => {
+          if (res.status === 200) {
+            setLoading(false);
+            setShowSuccessModal(true);
+            setSuccessModalMsg("created");
+            setTimeout(() => {
+              setShowSuccessModal(false);
+              setShowModal(false);
+            }, 2000);
+          }
+        },
+        (error) => {
           setLoading(false);
-          setShowSuccessModal(true);
-          setSuccessModalMsg("created");
-          setTimeout(() => {
-            setShowSuccessModal(false);
-            setShowModal(false);
-          }, 2000);
         }
-      },
-      (error) => {
-        setLoading(false);
-      }
-    );
+      )
+      .catch((err) => {});
   };
 
   const editClass = (payload) => {
@@ -489,24 +495,26 @@ function ClassForm({
         "update-all": indicator,
       },
       data: payload,
-    }).then(
-      (res) => {
-        if (res.status === 200) {
+    })
+      .then(
+        (res) => {
+          if (res.status === 200) {
+            setLoading(false);
+            setShowSuccessModal(true);
+            setSuccessModalMsg("edited");
+            setSingleTime(true);
+            setTimeout(() => {
+              setShowSuccessModal(false);
+              setShowModal(false);
+            }, 2000);
+          }
+        },
+        (error) => {
           setLoading(false);
-          setShowSuccessModal(true);
-          setSuccessModalMsg("edited");
-          setSingleTime(true);
-          setTimeout(() => {
-            setShowSuccessModal(false);
-            setShowModal(false);
-          }, 2000);
+          setSingleTime(!singleTime);
         }
-      },
-      (error) => {
-        setLoading(false);
-        setSingleTime(!singleTime);
-      }
-    );
+      )
+      .catch((err) => {});
   };
 
   const onCourseChange = (courseId) => {
@@ -523,12 +531,14 @@ function ClassForm({
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const filteredExercises = res.data.course.exercises.filter(
-        (exercise) => exercise.content_type === "exercise"
-      );
-      setExercisesForSelectedCourse(filteredExercises);
-    });
+    })
+      .then((res) => {
+        const filteredExercises = res.data.course.exercises.filter(
+          (exercise) => exercise.content_type === "exercise"
+        );
+        setExercisesForSelectedCourse(filteredExercises);
+      })
+      .catch((err) => {});
   };
 
   const onExerciseChange = (exerciseId) => {
@@ -680,7 +690,7 @@ function ClassForm({
 
       startDate.setHours(startend.startTime.split(":")[0]);
       startDate.setMinutes(startend.startTime.split(":")[1]);
-      endDate.setHours(startend.endTime.split(":")[0]);
+      endDate.setHours(startend?.endTime?.split(":")[0]);
       endDate.setMinutes(startend.endTime.split(":")[1]);
       const originalStartString = moment(startDate).format(
         "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
@@ -749,15 +759,17 @@ function ClassForm({
           "version-code": versionCode,
           Authorization: user.data.token,
         },
-      }).then((res) => {
-        const space = res.data.data.map((item) => {
-          return {
-            label: item.space_name,
-            id: item.id,
-          };
-        });
-        setOnSpace(space);
-      });
+      })
+        .then((res) => {
+          const space = res.data.data.map((item) => {
+            return {
+              label: item.space_name,
+              id: item.id,
+            };
+          });
+          setOnSpace(space);
+        })
+        .catch((err) => {});
     }
   }, [selectedPartners]);
 

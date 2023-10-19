@@ -37,12 +37,12 @@ function AmazonBootcampBatch({ enrolledBatches }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setEnrollClasses(res.data);
-    });
+    })
+      .then((res) => {
+        setEnrollClasses(res.data);
+      })
+      .catch((err) => {});
   }, []);
-
-  
 
   useEffect(() => {
     axios({
@@ -52,9 +52,11 @@ function AmazonBootcampBatch({ enrolledBatches }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setDoubtclasses(res.data);
-    });
+    })
+      .then((res) => {
+        setDoubtclasses(res.data);
+      })
+      .catch((err) => {});
   }, []);
 
   const enrolledBatcheClasses = enrollClasses.filter(

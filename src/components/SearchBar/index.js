@@ -142,9 +142,11 @@ function SearchCourse(props) {
           name: name,
           user_id: userId,
         },
-      }).then((res) => {
-        // console.log(res)
-      });
+      })
+        .then((res) => {
+          // console.log(res)
+        })
+        .catch((err) => {});
     }
   };
 

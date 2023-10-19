@@ -21,16 +21,18 @@ function StateDashboard() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setStates(res.data);
-      if (clusterId) {
-        res.data.filter((item) => {
-          if (clusterId === item.id) setStateId(item.id);
-        });
-      } else {
-        setStateId(res.data[0].id);
-      }
-    });
+    })
+      .then((res) => {
+        setStates(res.data);
+        if (clusterId) {
+          res.data.filter((item) => {
+            if (clusterId === item.id) setStateId(item.id);
+          });
+        } else {
+          setStateId(res.data[0].id);
+        }
+      })
+      .catch((err) => {});
   }, []);
 
   const selectedState = (id) => {
