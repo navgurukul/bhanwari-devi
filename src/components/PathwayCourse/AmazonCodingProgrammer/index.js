@@ -3,6 +3,7 @@ import YouTubePlaylist from "./YouTubePlaylist";
 import { Grid, Typography, Box } from "@mui/material";
 
 const AmazonCodingProgrammerindex = () => {
+  let apikey = process.env.REACT_APP_amazon;
   return (
     <>
       <Grid
@@ -23,7 +24,7 @@ const AmazonCodingProgrammerindex = () => {
           <Typography variant="h6">Batch 1</Typography>
           <YouTubePlaylist
             playlistId="PLidpa_6o_TvdD_KxySG-NJ2rh2t7MNy1P"
-            apiKey="AIzaSyBkCnAfWzGXuZuW9s5gVrRzXXfH3mpkHFw"
+            apiKey={apikey}
             videoSpacing="20px"
           />
         </Grid>
