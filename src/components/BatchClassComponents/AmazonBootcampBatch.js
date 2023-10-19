@@ -21,6 +21,7 @@ import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DoubtClassCard from "./DoubtClassCard";
+import { Link } from "react-router-dom";
 
 function AmazonBootcampBatch({ enrolledBatches }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -76,6 +77,14 @@ function AmazonBootcampBatch({ enrolledBatches }) {
         <Grid item>
           <Typography variant="h6" marginTop="8px">
             {enrolledBatches}
+            <Button
+              component={Link}
+              to="/amazon-videos"
+              variant="contained"
+              sx={{ marginLeft: '1500px' }} 
+            >
+              Videos
+            </Button>
           </Typography>
         </Grid>
         {/* <Grid item justifyContent="right">
