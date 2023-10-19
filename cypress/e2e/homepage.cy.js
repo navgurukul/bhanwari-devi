@@ -72,23 +72,21 @@ describe('Home Page (About)', () => {
 describe('Home Page (Get Involved)', () => {
     it('home (get involved) should done successfully', () => {
         cy.visit('https://www.merakilearn.org/')
-        cy.get('.css-1t6c9ts > :nth-child(3)').contains('Get Involved').trigger('mouseover')
 
 
         cy.get('.css-1t6c9ts > :nth-child(3)').contains('Get Involved').trigger('mouseover')
-        cy.get('.css-1n5rj9b > .MuiPaper-root > .MuiList-root > :nth-child(1) > .jss1 > .MuiTypography-root').contains('Volunteer with Us').click()
+        cy.get('#menu-appbar > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiMenu-paper.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.css-19s8gux > ul > li:nth-child(1)').contains('Volunteer with Us').click()
         cy.contains('Help Students Get their Dream Job in Tech')
 
         cy.get('.css-1t6c9ts > :nth-child(3)').contains('Get Involved').trigger('mouseover')
-        cy.get('.css-1n5rj9b > .MuiPaper-root > .MuiList-root > :nth-child(2) > .jss1 > .MuiTypography-root').contains('Our Partner').click()
+        cy.get('.css-5afwf2 > .MuiPaper-root > .MuiList-root > :nth-child(2) > .jss1 > .MuiTypography-root').contains('Our Partner').click()
         cy.contains("Partners are ones who open the doors to quality education for our students")
 
         cy.get('.css-1t6c9ts > :nth-child(3)').contains('Get Involved').trigger('mouseover')
-        cy.get('.css-1n5rj9b > .MuiPaper-root > .MuiList-root > :nth-child(3) > .jss1 > .MuiTypography-root').contains('Careers').click()
+        cy.get('.css-5afwf2 > .MuiPaper-root > .MuiList-root > :nth-child(3) > .jss1 > .MuiTypography-root').contains('Careers').click()
         cy.contains('Partners are ones who open the doors to quality education for our students')
 
 
-        cy.get('.css-1t6c9ts > :nth-child(3)').contains('Get Involved').trigger('mouseover')
 
 
         
