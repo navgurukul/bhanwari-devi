@@ -33,6 +33,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
+import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/AmazonVideos";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
 // import Credits from "../pages/Credits";
@@ -72,6 +73,8 @@ const Routing = () => {
         component={ReturningUserPage}
       />
 
+
+
       <Route
         exact
         path={PATHS.NAVGURUKUL_INTRODUCE}
@@ -88,6 +91,12 @@ const Routing = () => {
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
 
       {/* Private routes */}
+  
+      <PrivateRoute
+         exact
+         path={PATHS.VIDEOS}
+         component={AmazonVideos}
+         />
 
       <PrivateRoute
         exact
