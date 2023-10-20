@@ -62,9 +62,11 @@ function Assessment({
           selected_option: answer,
           status: "Pass",
         },
-      }).then((res) => {
-        // console.log("res", res);
-      });
+      })
+        .then((res) => {
+          // console.log("res", res);
+        })
+        .catch((err) => {});
     } else {
       setCorrect(false);
       setStatus("Fail");
@@ -82,14 +84,18 @@ function Assessment({
           selected_option: answer,
           status: "Fail",
         },
-      }).then((res) => {
-        // console.log("res", res);
-      });
+      })
+        .then((res) => {
+          // console.log("res", res);
+        })
+        .catch((err) => {});
     }
   };
 
   useEffect(() => {
-    if (res?.assessment_id === courseData.id) {
+    // adding a nullish coalescing operator (??), so that the null value can no effect on the assessment.
+    if (res?.assessment_id === (courseData ?? {}).id) {
+      console.log(res);
       if (res?.attempt_status === "CORRECT") {
         setAnswer(res?.selected_option);
         setCorrect(true);

@@ -14,15 +14,22 @@ function RedirectComponent() {
   const redirect = (getQueryVariable("redirectUrl") || "").replace(/^\/+/g, "");
 
   useEffect(() => {
-    sendToken({ token }).then((res) => {
-      if (res.data.user.email) {
-        setEmailId(res.data.user.email);
-      }
-    });
+    sendToken({ token })
+      .then((res) => {
+        if (res.data.user.email) {
+          setEmailId(res.data.user.email);
+        }
+      })
+      .catch((err) => {});
   }, []);
 
-  if (emailId && !emailId.includes("@fake.com")) {
-    localStorage.setItem("Token", token);
+  try {
+    if (emailId && !emailId.includes("@fake.com")) {
+      localStorage.setItem("Token", token);
+    }
+  } catch (error) {
+    //console.error('Error accessing localStorage:', error);
+    return {};
   }
 
   return (

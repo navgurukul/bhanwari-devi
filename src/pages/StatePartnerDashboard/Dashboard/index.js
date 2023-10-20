@@ -28,31 +28,33 @@ function Dashboard({ stateId }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setRegion();
-      const partnerGroups = res.data.partner_groups_data;
-      const includesRegion =
-        partnerGroups[0].partner_group_name.includes("_REGION");
+    })
+      .then((res) => {
+        setRegion();
+        const partnerGroups = res.data.partner_groups_data;
+        const includesRegion =
+          partnerGroups[0].partner_group_name.includes("_REGION");
 
-      setDistrictPartner(res.data);
-      setIsRegion(includesRegion);
+        setDistrictPartner(res.data);
+        setIsRegion(includesRegion);
 
-      setDistrictPartnerData(partnerGroups);
-      setRegionData(partnerGroups);
+        setDistrictPartnerData(partnerGroups);
+        setRegionData(partnerGroups);
 
-      if (includesRegion) {
-        setValue();
-        setRegionDistrictPartner(
-          partnerGroups[0].partner_groups_data.partner_groups_data
-        );
-        setFilterData([
-          partnerGroups[0].partner_groups_data.partner_groups_data[0],
-        ]);
-      } else {
-        setFilterData([partnerGroups[0]]);
-        setDistrict();
-      }
-    });
+        if (includesRegion) {
+          setValue();
+          setRegionDistrictPartner(
+            partnerGroups[0].partner_groups_data.partner_groups_data
+          );
+          setFilterData([
+            partnerGroups[0].partner_groups_data.partner_groups_data[0],
+          ]);
+        } else {
+          setFilterData([partnerGroups[0]]);
+          setDistrict();
+        }
+      })
+      .catch((err) => {});
   }, [stateId]);
 
   const handleSelcet = (e) => {

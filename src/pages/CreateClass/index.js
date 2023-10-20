@@ -82,16 +82,18 @@ function ToggleClassFormModal() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      if (res.data.success) {
-        setCalenderConsent(true);
-        setShowModal(true);
-      } else {
-        setCalenderConsent(false);
-        setShowConsentModal(true);
-        setShowModal(false);
-      }
-    });
+    })
+      .then((res) => {
+        if (res.data.success) {
+          setCalenderConsent(true);
+          setShowModal(true);
+        } else {
+          setCalenderConsent(false);
+          setShowConsentModal(true);
+          setShowModal(false);
+        }
+      })
+      .catch((err) => {});
   };
 
   const handleClose = () => {
@@ -106,9 +108,11 @@ function ToggleClassFormModal() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setAuthUrl(res.data.url);
-    });
+    })
+      .then((res) => {
+        setAuthUrl(res.data.url);
+      })
+      .catch((err) => {});
   };
 
   // console.log("authUrl", authUrl);
@@ -144,12 +148,14 @@ function ToggleClassFormModal() {
           code: code,
         },
         data: payload,
-      }).then((res) => {
-        if (res.data.success) {
-          setShowModal(true);
-          history.push("/class");
-        }
-      });
+      })
+        .then((res) => {
+          if (res.data.success) {
+            setShowModal(true);
+            history.push("/class");
+          }
+        })
+        .catch((err) => {});
     }
   }, [calledOnce]);
   const [newVolunteer, setNewVolunteer] = useState(false);
@@ -193,11 +199,16 @@ function ToggleClassFormModal() {
   };
 
   useEffect(() => {
-    const newVol = localStorage.getItem("isNewVolunteer");
-    if (newVol == "true" && newVol != null) {
-      setNewVolunteer(true);
-    } else {
-      setNewVolunteer(false);
+    try {
+      const newVol = localStorage.getItem("isNewVolunteer");
+      if (newVol == "true" && newVol != null) {
+        setNewVolunteer(true);
+      } else {
+        setNewVolunteer(false);
+      }
+    } catch (error) {
+      //console.error('Error accessing localStorage:', error);
+      return {};
     }
   }, [newVolunteer]);
 
@@ -209,9 +220,11 @@ function ToggleClassFormModal() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setNewPathways(res.data);
-    });
+    })
+      .then((res) => {
+        setNewPathways(res.data);
+      })
+      .catch((err) => {});
   }, []);
 
   return (

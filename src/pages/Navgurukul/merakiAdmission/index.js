@@ -41,9 +41,11 @@ function Admission(props) {
         accept: "application/json",
         Authorization: userToken != null ? userToken : user.data.token,
       },
-    }).then((res) => {
-      setPartnerId(res.data.user.partner_id);
-    });
+    })
+      .then((res) => {
+        setPartnerId(res.data.user.partner_id);
+      })
+      .catch((err) => {});
   }, []);
 
   const generateTestLink = async () => {
@@ -130,7 +132,8 @@ function Admission(props) {
         } else {
           generateTestLink();
         }
-      });
+      })
+      .catch((err) => {});
   };
 
   const changeHandler = (e) => {

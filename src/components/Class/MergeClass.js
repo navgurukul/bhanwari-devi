@@ -21,14 +21,13 @@ import { toast } from "react-toastify";
 
 toast.configure();
 
-function MergeClass({ itemID, pathwayFilter, setRefreshKey, setClassRefresh }) {
+function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [Mergeclassid, setMarginId] = useState();
   const user = useSelector(({ User }) => User);
 
-  const mergedClasses =
-    pathwayFilter && pathwayFilter.filter((item) => !item.merge_class);
+  const mergedClasses = pathwayFilter.filter((item) => !item.merge_class);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,23 +49,21 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey, setClassRefresh }) {
         "Content-Type": "application/json",
         Authorization: user.data.token,
       },
-    }).then(() => {
-      setRefreshKey(true);
-      setClassRefresh(false);
-      toast.success("You successfully merge classes.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    });
+    })
+      .then(() => {
+        setRefreshKey(true);
+        toast.success("You successfully merge classes.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2500,
+        });
+      })
+      .catch((err) => {});
   };
 
   return (
     <div>
       <MenuItem
-        onClick={() => {
-          handleClickOpen();
-          setClassRefresh(true);
-        }}
+        onClick={handleClickOpen}
         sx={{ width: 133, margin: "0px 10px" }}
       >
         <Typography textAlign="center">Merge Class</Typography>
@@ -103,12 +100,12 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey, setClassRefresh }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Merge to Batch"
-                // onClick={}
+                onClick={() => {}}
                 onChange={(e) => {
                   setMarginId(e.target.value);
                 }}
               >
-                {mergedClasses?.length === 1 ? (
+                {mergedClasses.length === 1 ? (
                   <MenuItem>No Batch </MenuItem>
                 ) : (
                   mergedClasses?.map((item) => {

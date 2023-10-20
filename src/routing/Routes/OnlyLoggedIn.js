@@ -8,14 +8,20 @@ import { PATHS } from "../../constant";
 const OnlyLoggedIn = (passedProps) => {
   const { user = {}, component: Component, ...rest } = passedProps;
   const dispatch = useDispatch();
-  const token = localStorage.getItem("Token");
 
-  if (token && (!user || !user.isAuthenticated)) {
-    // Registered user attempting to log in by using redirect token;
-    //     let's send the token to our back-end to get profile data
-    //     from /users/me
-    dispatch(userActions.onUserSignin({ token }));
-    localStorage.removeItem("Token");
+  try {
+    const token = localStorage.getItem("Token");
+
+    if (token && (!user || !user.isAuthenticated)) {
+      // Registered user attempting to log in by using redirect token;
+      //     let's send the token to our back-end to get profile data
+      //     from /users/me
+      dispatch(userActions.onUserSignin({ token }));
+      localStorage.removeItem("Token");
+    }
+  } catch (error) {
+    //console.error('Error accessing localStorage:', error);
+    return {};
   }
 
   return (

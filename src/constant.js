@@ -18,6 +18,7 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
+  VIDEOS: "/amazon-videos",
 
   SCRATCH:
     process.env.NODE_ENV === "development"
@@ -57,6 +58,7 @@ export const PATHS = {
   TUTOR: "/tutor-dashboard",
   GSOC_IDEA: "/gsoc-ideas-2023",
   ACB_BATCH: "/amazon-batch-class",
+  // CREDITS: "/credits",
 };
 
 export const HideHeader = [

@@ -234,19 +234,21 @@ function PathwayCourse() {
           accept: "application/json",
           Authorization: user?.data?.token,
         },
-      }).then((response) => {
-        setCompletedPortion((prevState) => ({
-          ...prevState,
-          total: response?.data?.total_completed_portion,
-        }));
-
-        response.data.pathway.map((item) => {
+      })
+        .then((response) => {
           setCompletedPortion((prevState) => ({
             ...prevState,
-            [item.course_id]: item.completed_portion,
+            total: response?.data?.total_completed_portion,
           }));
-        });
-      });
+
+          response.data.pathway.map((item) => {
+            setCompletedPortion((prevState) => ({
+              ...prevState,
+              [item.course_id]: item.completed_portion,
+            }));
+          });
+        })
+        .catch((err) => {});
     }
   }, [dispatch, pathwayId]);
 
@@ -273,11 +275,21 @@ function PathwayCourse() {
 
   /*For Content List Scroll Position*/
   useEffect(() => {
-    if (localStorage.getItem("contentListScroll")) {
-      localStorage.removeItem("contentListScroll");
+    try {
+      if (localStorage.getItem("contentListScroll")) {
+        localStorage.removeItem("contentListScroll");
+      }
+    } catch (error) {
+      //console.error('Error accessing localStorage:', error);
+      return {};
     }
-    if (localStorage.getItem("contentListScrollMobile")) {
-      localStorage.removeItem("contentListScrollMobile");
+    try {
+      if (localStorage.getItem("contentListScrollMobile")) {
+        localStorage.removeItem("contentListScrollMobile");
+      }
+    } catch (error) {
+      //console.error('Error accessing localStorage:', error);
+      return {};
     }
   }, []);
 
