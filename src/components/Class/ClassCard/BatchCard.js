@@ -32,24 +32,13 @@ import {
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 // import { useHistory } from 'react-router-dom';
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ExternalLink from "../../common/ExternalLink";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
-import MergeClass from "../MergeClass";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { interpolatePath, PATHS } from "../../../constant";
 import EditClass from "../EditClass";
 toast.configure();
 
-function BatchCard({
-  item,
-  editClass,
-  pathwayFilter,
-  Newpathways,
-  setRefreshKey,
-  setSingleTime,
-  showClass,
-}) {
+function BatchCard({ item, editClass, setRefreshKey, showClass }) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -75,27 +64,6 @@ function BatchCard({
     en: "English",
     ta: "Tamil",
     doubt_class: "Doubt Class",
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-    setDeleteCohort(false);
-  };
-
-  const handleEdit = () => {
-    setEditShowModal(true);
-    setAnchorElUser(null);
-  };
-
-  const handleCloseEdit = () => {
-    setEditShowModal(false);
-    setIndicator(false);
-  };
-
-  const handleClickOpen = () => {
-    setShowModal(!showModal);
-    setIndicator(false);
-    setAnchorElUser(null);
   };
 
   const handleCloseEnroll = () => {
@@ -124,27 +92,6 @@ function BatchCard({
     : (flag = false);
 
   // API CALL FOR DELETE CLASS
-  const deleteHandler = (id) => {
-    const notify = () => {
-      toast.success(" Deleted the class successfully", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    };
-    setShowModal(!showModal);
-    return axios({
-      method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${id}`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-        "delete-all": deleteCohort,
-      },
-    }).then(() => {
-      notify();
-      dispatch(classActions.deleteClass(id));
-    });
-  };
 
   // API CALL FOR enroll class
   const handleSubmit = (Id) => {

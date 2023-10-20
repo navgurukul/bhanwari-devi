@@ -98,40 +98,6 @@ function ClassCard() {
     : (flag = false);
 
   // API CALL FOR DROP OUT
-  const handleDropOut = (Id) => {
-    setLoading(true);
-    const notify = () => {
-      toast.success("You have been dropped out of class successfully", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    };
-    let getNotify = false;
-    setunenrollShowModal(!unenrollShowModal);
-    const timer = setTimeout(() => {
-      getNotify = true;
-      dispatch(classActions.dropOutClass(Id));
-      setLoading(false);
-      notify();
-    }, 10000);
-    return axios({
-      method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-        // "unregister-to-all": indicator,
-      },
-    }).then((res) => {
-      if (!getNotify) {
-        notify();
-        clearTimeout(timer);
-        setLoading(false);
-      }
-      dispatch(classActions.dropOutClass(Id));
-    });
-  };
 
   useEffect(() => {
     dispatch(

@@ -43,7 +43,6 @@ function EditClass({
   const [showModal, setShowModal] = React.useState(false);
   const [editShowModal, setEditShowModal] = React.useState(false);
   const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [classRefresh, setClassRefresh] = useState(false);
@@ -74,13 +73,6 @@ function EditClass({
     setAnchorElUser(null);
   };
 
-  const handleCloseEnroll = () => {
-    setEnrollShowModal(false);
-  };
-
-  const handleCloseUnenroll = () => {
-    setunenrollShowModal(false);
-  };
   const handleClickOpenUnenroll = () => {
     setunenrollShowModal(!unenrollShowModal);
 
@@ -117,87 +109,6 @@ function EditClass({
     });
   };
 
-  // API CALL FOR enroll class
-  const handleSubmit = (Id) => {
-    setLoading(true);
-    const notify = () => {
-      toast.success("You have been enrolled to class successfully", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    };
-    let getNotify = false;
-    setEnrollShowModal(!enrollShowModal);
-    const timer = setTimeout(() => {
-      getNotify = true;
-      setLoading(false);
-    }, 10000);
-    axios
-      .post(
-        // `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register?register-all=${indicator}`,
-        `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/register`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: user.data.token,
-            "register-to-all": indicator,
-          },
-        }
-      )
-      .then((res) => {
-        if (!getNotify) {
-          notify();
-          clearTimeout(timer);
-          setLoading(false);
-        }
-        dispatch(classActions.enrolledClass(Id));
-      })
-      .catch((res) => {
-        toast.error("Already enrolled in another batch", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 2500,
-          color: "red",
-        });
-        setLoading(false);
-      });
-  };
-  // API CALL FOR DROP OUT
-  const handleDropOut = (Id) => {
-    setLoading(true);
-    const notify = () => {
-      toast.success("You have been dropped out of class successfully", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    };
-    let getNotify = false;
-    setunenrollShowModal(!unenrollShowModal);
-    const timer = setTimeout(() => {
-      getNotify = true;
-      dispatch(classActions.dropOutClass(Id));
-      setLoading(false);
-      notify();
-    }, 10000);
-    return axios({
-      method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-        // "unregister-to-all": indicator,
-      },
-    }).then((res) => {
-      if (!getNotify) {
-        notify();
-        clearTimeout(timer);
-        setLoading(false);
-        setRefreshKey(true);
-      }
-      dispatch(classActions.dropOutClass(Id));
-    });
-  };
   const ACBPathway = Newpathways?.find((path) => {
     return item?.PartnerSpecificBatches?.pathway_id === path.id;
   });
