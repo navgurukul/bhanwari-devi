@@ -28,6 +28,7 @@ const NewUserDashbord = () => {
   // }, [dispatch, user]);
 
   useEffect(() => {
+    localStorage.setItem("isFirstLogin", false);
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/ongoingTopic`,

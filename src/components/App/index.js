@@ -26,13 +26,22 @@ function App() {
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     dispatch(
       pathwayActions.getPathwaysDropdown({
         authToken: user,
       })
     );
+
   }, [dispatch, user]);
+
+  useEffect(() => {
+    !localStorage.getItem("token") && localStorage.setItem("token", "undefined");
+    !localStorage.getItem("loggedOut") && localStorage.setItem("loggedOut", null);
+    !localStorage.getItem("isFirstLogin") && localStorage.setItem("isFirstLogin", true);
+  },[])
+
 
   return (
     <LanguageProvider.Provider

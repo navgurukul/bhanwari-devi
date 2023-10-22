@@ -9,13 +9,13 @@ import { METHODS, HeaderFactory } from "../../../services/api";
  *
  * @returns {Promise}
  */
-export const sendGoogleUserData = (userData, tokens) => {
+export const sendGoogleUserData = (tokens) => {
   return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/users/auth/google`,
+    url: `${process.env.REACT_APP_MERAKI_URL}/users/auth/GoogleIdentityServices`,
     method: METHODS.POST,
     headers: HeaderFactory(tokens),
     data: {
-      idToken: userData.idToken,
+      idToken: tokens.token,
       mode: "web",
     },
   });
@@ -24,22 +24,23 @@ export const sendGoogleUserData = (userData, tokens) => {
 /**
  * Sends id-token to Meraki back-end to get profile data of registered user.
  */
-export const sendToken = (userData, tokens) => {
+export const sendToken = ( token) => {
+  console.log("token", token.token);
   return axios({
     method: METHODS.GET,
     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
     headers: {
       accept: "application/json",
-      Authorization: userData.token,
+      Authorization: token,
     },
   });
 };
 
-export const updateUser = (userData, tokens) => {
-  return axios({
-    url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-    method: METHODS.PUT,
-    headers: HeaderFactory(tokens),
-    data: userData,
-  });
-};
+// export const updateUser = (token) => {
+//   return axios({
+//     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+//     method: METHODS.PUT,
+//     headers: HeaderFactory(token),
+//     data: userData,
+//   });
+// };

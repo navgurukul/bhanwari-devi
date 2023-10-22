@@ -6,7 +6,6 @@ export const types = {
   ON_USER_REFRESH_DATA_INTENT: "ON_USER_REFRESH_DATA_INTENT",
   ON_USER_REFRESH_DATA_SUCCESS: "ON_USER_REFRESH_DATA_RESOLVED",
   ON_USER_REFRESH_DATA_FAILURE: "ON_USER_REFRESH_DATA_FAILURE",
-
   ON_LOGOUT_INTENT: "ON_LOGOUT_INTENT",
 };
 
@@ -55,6 +54,7 @@ export const actions = {
   },
 
   logout() {
+    localStorage.removeItem("token");
     return {
       type: types.ON_LOGOUT_INTENT,
     };

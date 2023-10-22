@@ -8,14 +8,14 @@ import { PATHS } from "../../constant";
 const OnlyLoggedIn = (passedProps) => {
   const { user = {}, component: Component, ...rest } = passedProps;
   const dispatch = useDispatch();
-  const token = localStorage.getItem("Token");
+  const token = localStorage.getItem("token");
 
-  if (token && (!user || !user.isAuthenticated)) {
+  if (token && token!== "undefined" && (!user || !user.isAuthenticated)) {
     // Registered user attempting to log in by using redirect token;
     //     let's send the token to our back-end to get profile data
     //     from /users/me
     dispatch(userActions.onUserSignin({ token }));
-    localStorage.removeItem("Token");
+    // localStorage.removeItem("token");
   }
 
   return (
@@ -27,7 +27,7 @@ const OnlyLoggedIn = (passedProps) => {
         ) : (
           <Redirect
             to={{
-              pathname: PATHS.LOGIN,
+              pathname: PATHS.HOME_PAGE,
               state: { from: props.location },
             }}
           />

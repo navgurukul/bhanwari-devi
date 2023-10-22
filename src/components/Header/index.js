@@ -63,6 +63,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     inProgress: false,
     value: false,
   });
+  
+  const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
+  const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
   const inDropdownRef = useRef(inDropdown);
   inDropdownRef.current = inDropdown;
   const classes = useStyles();
@@ -204,9 +207,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
-          <Link to={PATHS.LOGIN} className={classes.button}>
+            <a href={`https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
+          {/* <Link to={PATHS.LOGIN} className={classes.button}> */}
             <Button variant="contained">Log in</Button>
-          </Link>
+          {/* </Link> */}
+          </a>
         </Box>
       )}
     </>

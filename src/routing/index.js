@@ -55,7 +55,7 @@ const Routing = () => {
         component={ResidentialCourse}
       />
 
-      <Route exact path={PATHS.LOGIN} component={Login} />
+      <Route exact path={PATHS.LOGIN} component={Home} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />

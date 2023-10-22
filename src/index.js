@@ -12,6 +12,7 @@ import ScrollToTop from "./common/ScrollTotOP.js";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 
+import { LocationState } from "./common/stateContext.js";
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new BrowserTracing()],
@@ -27,6 +28,7 @@ Sentry.init({
 // https://redux.js.org/recipes/configuring-your-store
 ReactDOM.render(
   <React.StrictMode>
+  <LocationState>
     <Provider store={initialStore()}>
       <BrowserRouter>
         <DeviceProvider.Provider
@@ -40,6 +42,7 @@ ReactDOM.render(
         </DeviceProvider.Provider>
       </BrowserRouter>
     </Provider>
+    </LocationState>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Typography,
   CssBaseline,
@@ -12,15 +12,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectRolesData } from "../../components/User/redux/selectors";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { Grid } from "@mui/material";
+import { getQueryVariable } from "../../common/utils";
 import useStyles from "./styles";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+
+import { actions as userActions } from "../../components/User/redux/action";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"; import { axios } from "axios";
+import { Redirect } from "react-router-dom";
+import { METHODS } from "../../services/api";
 import { PATHWAYS_INFO } from "../../constant";
+import { StateContext } from "../../common/stateContext";
 import {
   ADMIN_ROLE_KEY as ADMIN,
   PARTNER_ROLE_KEY as PARTNER,
@@ -28,127 +34,8 @@ import {
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../../components/Header/constant";
 
-// const merakiConcerns = [
-//   {
-//     image: "learn-python",
-//     description: "How will I learn Python without a teacher?",
-//   },
-//   {
-//     image: "never-typed",
-//     description: "I have never typed on a computer keyboard before",
-//   },
-//   {
-//     image: "difficulty-english",
-//     description: "I face difficulty in understanding and speaking English",
-//   },
-// ];
 
-// const concernsText = [
-//   {
-//     description: "Learn through interactive classes and self study material",
-//   },
-//   {
-//     description: "I have never typed on a computer keyboard before",
-//   },
-//   {
-//     description: "I face difficulty in understanding and speaking English",
-//   },
-// ];
-
-// function MerakiEntry(props) {
-//   const user = useSelector(({ User }) => User);
-//   const roles = useSelector(selectRolesData);
-//   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-//   const isActiveIpad = useMediaQuery("(max-width:1300px)");
-
-//   const classes = useStyles();
-//   const history = useHistory();
-
-//   const partnerGroupId = user?.data?.user?.partner_group_id;
-//   const partnerId = user?.data?.user?.partner_id;
-//   const role = user?.data?.user?.rolesList;
-
-//   const rolesLandingPages = {
-//     [STUDENT]: PATHS.NEW_USER_DASHBOARD,
-//     [ADMIN]: PATHS.PARTNERS,
-//     [VOLUNTEER]: PATHS.CLASS,
-//     [PARTNER]: partnerGroupId
-//       ? `${PATHS.STATE}/${partnerGroupId}`
-//       : `${PATHS.PARTNERS}/${partnerId}`,
-//   };
-
-//   let defalutPage = "/";
-//   roles.map((userRole) => {
-//     if (role?.length == 0) {
-//       defalutPage = "/pathway/1";
-//     } else if (role && userRole.key === role[0].toUpperCase()) {
-//       defalutPage = rolesLandingPages[userRole.key];
-//     }
-//   });
-
-//   useEffect(() => {
-//     history.push(defalutPage);
-//   }, [defalutPage]);
-
-//   return (
-//     <div>
-//       <Typography
-//         color="textPrimary"
-//         align="center"
-//         gutterBottom
-//         {...props.headingAttr}
-//       >
-//         With Meraki, begin your programming journey for free today
-//       </Typography>
-//       <Grid
-//         sx={{ mt: isActive ? 2 : 3 }}
-//         container
-//         spacing={2}
-//         justifyContent="center"
-//       >
-//         <Grid
-//           alignItems="right"
-//           item
-//           xs={12}
-//           sm={6}
-//           md={4}
-//           sx={{
-//             display: isActiveIpad ? (isActive ? "flow" : "flex") : "",
-//             justifyContent: isActiveIpad && "flex-end",
-//           }}
-//         >
-//           <Link to={PATHS.LOGIN} className={classes.link}>
-//             <Button
-//               className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-//               variant="contained"
-//               color="primary"
-//             >
-//               Start Learning
-//             </Button>
-//           </Link>
-//         </Grid>
-//         <Grid item xs={12} sm={6} md={4}>
-//           <Button
-//             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-//             variant="outlined"
-//             color="primary"
-//             target="_blank"
-//             href="https://play.google.com/store/apps/details?id=org.merakilearn"
-//           >
-//             <img
-//               className={classes.playstoreImg}
-//               src={require("./assets/playstore.svg")}
-//               alt="Google Playstore Icon"
-//             />
-//             <span className={classes.downloadBtn}>Download Meraki</span>
-//           </Button>
-//         </Grid>
-//       </Grid>
-//     </div>
-//   );
-// }
-
-function Home() {
+function Home(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
@@ -157,10 +44,90 @@ function Home() {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const history = useHistory();
+  const { locationState, setlocationState } = useContext(StateContext);
+  const [queryString, setqueryString] = useState(null);
+  const rolesList = user !== null && user?.user?.rolesList;
+  const isAuthenticated = user && user?.data?.isAuthenticated;
+  const updateQueryString = (value) => {
+    setqueryString(value);
+  };
+  const pathway = useSelector((state) => state.Pathways);
+
+  const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
+  const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
+  useEffect(() => {
+    console.log(props.location.state?.from, "The props");
+
+    if (props.location.state?.from) {
+      setlocationState(props.location.state?.from?.pathname)
+    }
+    if (localStorage.getItem("locationState")) {
+      setlocationState(JSON.parse(localStorage.getItem("locationState")))
+    }
+    // console.log(isAuthenticated, "is auth")
+  }, [])
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("urlParams", urlParams);
+    let tokenVal = urlParams?.get("token");
+
+
+    localStorage.setItem("token", reverseLastFiveChars(tokenVal))
+  }, [])
+
+  function reverseLastFiveChars(inputString) {
+    if (inputString?.length < 5) {
+      // If the string has less than 5 characters, return it as it is
+      return inputString;
+    }
+
+    // Split the string into an array of characters
+    const charArray = inputString?.split('');
+
+    // Reverse the last five characters
+    const reversedChars = charArray?.slice(-5).reverse();
+
+    // Join the reversed characters with the rest of the string
+    return charArray?.slice(0, -5).concat(reversedChars).join('');
+  }
+
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("urlParams", urlParams);
+    let tokenVal = urlParams?.get("token");
+    localStorage.setItem("token", reverseLastFiveChars(tokenVal))
+
+    let token = localStorage.getItem("token");
+    console.log("tokenVal", tokenVal == null);
+    if (tokenVal !== null) {
+      dispatch(userActions.onUserSignin(token));
+      dispatch(
+        pathwayActions.getPathways({
+          authToken: user,
+        })
+      );
+
+      updateQueryString(getQueryVariable("referrer"));
+    }
+  }, [])
+
+  function reverseLastFiveChars (str){
+    if (str?.length < 5) {
+      return str;
+  }else{ 
+    const charArray = str?.slice(-5);
+    return str?.slice(0, str?.length-5).concat(charArray?.split("").reverse().join(""))
+  }
+  }
+
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
@@ -182,6 +149,11 @@ function Home() {
       : `${PATHS.PARTNERS}/${partnerId}`,
   };
 
+  const pythonPathway =
+    pathway.data &&
+    pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
+  const pythonPathwayId = pythonPathway && pythonPathway.id;
+
   let defalutPage = "/";
   roles.map((userRole) => {
     if (role?.length == 0) {
@@ -190,10 +162,44 @@ function Home() {
       defalutPage = rolesLandingPages[userRole.key];
     }
   });
+
   useEffect(() => {
     history.push(defalutPage);
   }, [defalutPage]);
 
+
+  if (isAuthenticated) {
+    if (queryString) {
+      axios({
+        method: METHODS.PUT,
+        url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+        headers: {
+          accept: "application/json",
+          Authorization: data.token,
+        },
+        data: { referrer: queryString },
+      }).then((res) => { });
+    }
+    if (props.location.state == "/volunteer-with-us") {
+      if (rolesList.includes("volunteer")) {
+        return <Redirect to={PATHS.CLASS} />;
+      } else {
+        return <Redirect to={PATHS.VOLUNTEER_FORM} />;
+      }
+    }
+    if (locationState) {
+      return <Redirect to={locationState} />;
+    }
+    return (
+      <>
+        {pythonPathwayId && (
+          <Redirect
+            to={rolesLandingPages[rolesList[0]] || rolesLandingPages?.default}
+          />
+        )}
+      </>
+    );
+  }
   return (
     <>
       <CssBaseline />
@@ -213,7 +219,8 @@ function Home() {
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
-                <Link to={PATHS.LOGIN} className={classes.link}>
+                <a href={locationState ? `https://accounts.navgurukul.org?q=${locationState}&loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}` : `https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
+                  {/* <Link to={PATHS.LOGIN} className={classes.link}> */}
                   <Button
                     variant="contained"
                     className={
@@ -221,7 +228,8 @@ function Home() {
                     }>
                     Start Learning
                   </Button>
-                </Link>
+                  {/* </Link> */}
+                </a>
               </Grid>
               <Grid md={6} mt={isActive ? "16px" : "0px"} sm={12}>
                 <img

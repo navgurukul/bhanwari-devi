@@ -9,12 +9,12 @@ import { PATHS } from "../../../constant";
  *     depending on login method
  * @param {object} payload
  */
-function* handleUserData({ data }) {
-  const res = data.idToken
+function* handleUserData({data} ) {
+  const res = data
     ? yield call(sendGoogleUserData, data)
     : yield call(sendToken, data);
   if (res.status === 200) {
-    res.data.token = res.data.token || data.token;
+    res.data.token = res?.data?.token || data?.token;
     const mappedUserData = { ...res.data, isAuthenticated: true };
     yield put(actions.onUserSigninResolved(mappedUserData));
   } else {
@@ -22,7 +22,7 @@ function* handleUserData({ data }) {
   }
 }
 
-function* refreshUserData({ data }) {
+function* refreshUserData( data ) {
   const res = yield call(sendToken, data);
   if (res.status === 200) {
     res.data.token = data.token;
