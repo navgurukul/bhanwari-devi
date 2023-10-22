@@ -15,7 +15,7 @@ const OnlyLoggedIn = (passedProps) => {
     //     let's send the token to our back-end to get profile data
     //     from /users/me
     dispatch(userActions.onUserSignin({ token }));
-    // localStorage.removeItem("token");
+    localStorage.removeItem("token");
   }
 
   return (

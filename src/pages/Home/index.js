@@ -68,10 +68,7 @@ function Home(props) {
   }, [])
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log("urlParams", urlParams);
     let tokenVal = urlParams?.get("token");
-
-
     localStorage.setItem("token", reverseLastFiveChars(tokenVal))
   }, [])
 
@@ -94,14 +91,12 @@ function Home(props) {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log("urlParams", urlParams);
     let tokenVal = urlParams?.get("token");
     localStorage.setItem("token", reverseLastFiveChars(tokenVal))
-
     let token = localStorage.getItem("token");
-    console.log("tokenVal", tokenVal == null);
+
     if (tokenVal !== null) {
-      dispatch(userActions.onUserSignin(token));
+      dispatch(userActions.onUserSignin((tokenVal)));
       dispatch(
         pathwayActions.getPathways({
           authToken: user,
@@ -169,6 +164,8 @@ function Home(props) {
 
 
   if (isAuthenticated) {
+    
+    localStorage.setItem("isFirstLogin", false);
     if (queryString) {
       axios({
         method: METHODS.PUT,
@@ -178,7 +175,8 @@ function Home(props) {
           Authorization: data.token,
         },
         data: { referrer: queryString },
-      }).then((res) => { });
+      }).then((res) => { 
+      });
     }
     if (props.location.state == "/volunteer-with-us") {
       if (rolesList.includes("volunteer")) {

@@ -10,6 +10,7 @@ import { PATHS } from "../../../constant";
  * @param {object} payload
  */
 function* handleUserData({data} ) {
+  // console.log("data", data);
   const res = data
     ? yield call(sendGoogleUserData, data)
     : yield call(sendToken, data);
