@@ -5,6 +5,7 @@ import get from "lodash/get";
 import { Radio, Checkbox, FormControlLabel, RadioGroup } from "@mui/material";
 
 import DOMPurify from "dompurify";
+import { fi } from "date-fns/locale";
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
   const sanitizedHTML = DOMPurify.sanitize(html);
@@ -49,6 +50,7 @@ const AssessmentContent = ({
   setType,
   handleOptionClick,
   setWrongAnswer,
+  finalDesicion,
 }) => {
   const classes = useStyles();
   if (content.component === "header") {
@@ -59,6 +61,8 @@ const AssessmentContent = ({
     }
   }
 
+  var displayOutput = finalDesicion;
+  displayOutput && console.log(displayOutput);
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
@@ -95,36 +99,44 @@ const AssessmentContent = ({
         );
       } else {
         return (
-          <Grid container spacing={2} mt={3} mb={10}>
-            <Grid item xs={12} sm={6}>
-              <Button
-                variant="outlined"
-                disabled
-                fullWidth
-                onClick={() => {
-                  setTriedAgain(triedAgain + 1);
-                  submitAssessment();
-                }}
-              >
-                <Typography variant="subtitle2">
-                  See Answer & Explanation
-                </Typography>
-              </Button>
+          <>
+            {displayOutput && displayOutput === "partially correct" ? (
+              <Typography>Partially Correct</Typography>
+            ) : (
+              <Typography>Incorrect</Typography>
+            )}
+            {/* <Typography>{displayOutput}</Typography> */}
+            <Grid container spacing={2} mt={3} mb={10}>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="outlined"
+                  disabled
+                  fullWidth
+                  onClick={() => {
+                    setTriedAgain(triedAgain + 1);
+                    submitAssessment();
+                  }}
+                >
+                  <Typography variant="subtitle2">
+                    See Answer & Explanation
+                  </Typography>
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  onClick={() => {
+                    setAnswer();
+                    setSubmit();
+                    setSubmitDisable();
+                  }}
+                >
+                  <Typography variant="subtitle2">Re-try</Typography>
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => {
-                  setAnswer();
-                  setSubmit();
-                  setSubmitDisable();
-                }}
-              >
-                <Typography variant="subtitle2">Re-try</Typography>
-              </Button>
-            </Grid>
-          </Grid>
+          </>
         );
       }
     }
@@ -242,7 +254,7 @@ const AssessmentContent = ({
     );
   }
   if (content.component === "solution") {
-    console.log(content);
+    // console.log(content);
     setSolution(content?.correct_options_value);
     setType(content?.type);
     setWrongAnswer();

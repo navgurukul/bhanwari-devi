@@ -65,6 +65,40 @@ function Assessment({
 
   const { correctSelections, incorrectSelections } = calculateSelections();
 
+  // implementing this logic to check if the answer is partially correct or not
+  // console.log("correctSelections", correctSelections);
+  // console.log("incorrectSelections", incorrectSelections);
+  // console.log("answer", answer);
+  const [finalDesicion, setFinalDesicion] = useState("");
+
+  useEffect(() => {
+    if (answer.length > 1) {
+      if (answer.length == 3) {
+        if (correctSelections == 3 && incorrectSelections == 0) {
+          setFinalDesicion("correct");
+          // console.log("correct");
+        } else if (correctSelections == 2 && incorrectSelections == 1) {
+          setFinalDesicion("partially correct");
+          // console.log("partially correct");
+        } else if (correctSelections == 1 && incorrectSelections == 2) {
+          setFinalDesicion("partially incorrect");
+          // console.log("partially incorrect");
+        }
+      } else if (answer.length == 2) {
+        if (correctSelections == 2 && incorrectSelections == 0) {
+          setFinalDesicion("correct");
+          // console.log("correct");
+        } else if (correctSelections == 0 && incorrectSelections == 2) {
+          setFinalDesicion("incorrect");
+          // console.log("incorrect");
+        } else if (correctSelections == 1 && incorrectSelections == 1) {
+          setFinalDesicion("partially correct");
+          // console.log("partially correct");
+        }
+      }
+    }
+  }, [answer]);
+
   const submitAssessment = () => {
     setSubmit(true);
 
@@ -138,7 +172,7 @@ function Assessment({
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "INCORRECT") {
-        setAnswer([res?.selected_option]);
+        // setAnswer([res?.selected_option]);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
@@ -163,6 +197,7 @@ function Assessment({
       {data &&
         data.map((content) => (
           <AssessmentContent
+            finalDesicion={finalDesicion}
             content={content}
             answer={answer}
             setAnswer={setAnswer}
@@ -195,7 +230,7 @@ function Assessment({
           Submit
         </Button>
       </Box>
-
+      {/* {console.log(data)} */}
       {data &&
         submit &&
         data?.map((content) => {
@@ -203,7 +238,6 @@ function Assessment({
             content?.value && correct
               ? content?.value?.correct
               : content?.value?.incorrect;
-          console.log(dataArr, "khkk");
           return (
             content?.component === "output" &&
             dataArr?.map((content, index) => (
