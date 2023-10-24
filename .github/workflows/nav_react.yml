@@ -1,5 +1,5 @@
 
-name: Chrome
+name: Ui Testing in Chrome
 on: push
 jobs:
   chrome:
