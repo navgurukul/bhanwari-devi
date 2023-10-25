@@ -117,7 +117,7 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            "register-to-all": indicator,
+            "register-to-all": true,
           },
         }
       )
@@ -336,7 +336,7 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
               onClick={(e) => {
                 e.stopPropagation();
 
-                handleClickOpenEnroll(item.id);
+                handleClickOpenEnroll();
               }}
               endIcon={<ArrowRightAltIcon />}
             >
@@ -364,21 +364,13 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
               </Typography>
             </DialogTitle>
 
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
+            {/* <Stack alignItems="center">
                 <FormControlLabel
                   align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(!indicator);
-                      }}
-                    />
-                  }
                   label=" Enroll all classes of this Batch?"
                 />
-              </Stack>
-            )}
+              </Stack> */}
+
             <Stack alignItems="center">
               <DialogActions>
                 <Box sx={{ display: "flex", mb: 2 }}>

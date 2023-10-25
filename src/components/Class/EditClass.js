@@ -165,7 +165,7 @@ function EditClass({
             <MenuItem
               onClick={(e) => {
                 e.stopPropagation();
-                handleEdit(item.id);
+                handleEdit();
               }}
               sx={{ width: 133, margin: "0px 10px" }}
             >
@@ -184,7 +184,7 @@ function EditClass({
             )}
             <MenuItem
               onClick={(e) => {
-                handleClickOpen(item.id);
+                handleClickOpen();
                 e.stopPropagation();
               }}
               sx={{ width: 133, margin: "0px 10px", color: "#F44336" }}

@@ -463,6 +463,7 @@ function ClassForm({
       .then(
         (res) => {
           if (res.status === 200) {
+            setRefreshKey(true);
             setLoading(false);
             setShowSuccessModal(true);
             setSuccessModalMsg("created");
