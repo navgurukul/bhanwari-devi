@@ -60,6 +60,7 @@ function ClassCard() {
   const [classToEdit, setClassToEdit] = useState({});
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [refreshKey, setRefreshKey] = useState(true);
+  const [merge, setMerge] = useState();
 
   const toggleModalOpen = () => {
     // setFormType();

@@ -187,10 +187,11 @@ function ClassList({
       {(data?.length > 0 || canSpecifyFacilitator) && (
         <Box
           display={!isActive && "flex"}
-          sx={{
-            justifyContent: !isActive && "space-between",
-            marginTop: "32px",
-          }}
+          sx={
+            isActive
+              ? { marginTop: "64px" }
+              : { justifyContent: "space-between", marginTop: "32px" }
+          }
         >
           <TextField
             size={"small"}

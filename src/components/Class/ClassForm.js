@@ -424,7 +424,7 @@ function ClassForm({
       })
       .catch((err) => {});
   }, []);
-  console.log(classFields.partner_id);
+
   useEffect(() => {
     let datass = partnerData.filter((item) => {
       return classFields.partner_id.includes(item.id);
@@ -544,7 +544,7 @@ function ClassForm({
   const onExerciseChange = (exerciseId) => {
     setClassFields({ ...classFields, exercise_id: exerciseId });
   };
-  console.log(classFields);
+
   const checkForDoubtClass =
     classFields.type === "doubt_class" &&
     classFields.course_id !== "" &&

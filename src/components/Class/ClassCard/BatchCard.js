@@ -249,7 +249,8 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
           >
             {item?.title}
           </Typography>
-          {item?.enrolled && (
+
+          {item?.enroled && (
             <i
               className="check-icon check-icon fa fa-check-circle
             "

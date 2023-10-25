@@ -267,7 +267,7 @@ function ToggleClassFormModal() {
               justifyContent: "space-between",
             }}
           >
-            <Grid item align="center">
+            <Grid item md={8} xs={12} sm={6} display="flex">
               <Button sx={{ paddingLeft: "0px" }}>
                 <Typography
                   variant="subtitle2"
@@ -313,20 +313,35 @@ function ToggleClassFormModal() {
               </Button>
             </Grid>
 
-            <Grid item sx={{ height: "0px" }} md={4} xs={4} sm={12}>
-              <ReactPaginate
-                previousLabel={<i className="fa fa-angle-left"></i>}
-                nextLabel={<i className="fa fa-angle-right"></i>}
-                initialPage={0}
-                marginPagesDisplayed={0}
-                onPageChange={changePage}
-                pageCount={pageCount}
-                containerClassName="paginationBttns"
-                previousLinkClassName="previousBttn"
-                nextLinkClassName="nextBttn"
-                disabledClassName="paginationDisabled"
-                activeClassName="paginationActive"
-              />
+            <Grid
+              item
+              sx={{ height: "0px" }}
+              md={4}
+              xs={12}
+              sm={6}
+              align="right"
+            >
+              <div
+                style={{
+                  justifyContent: "right",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <ReactPaginate
+                  previousLabel={<i className="fa fa-angle-left"></i>}
+                  nextLabel={<i className="fa fa-angle-right"></i>}
+                  initialPage={0}
+                  marginPagesDisplayed={0}
+                  onPageChange={changePage}
+                  pageCount={pageCount}
+                  containerClassName="paginationBttns"
+                  previousLinkClassName="previousBttn"
+                  nextLinkClassName="nextBttn"
+                  disabledClassName="paginationDisabled"
+                  activeClassName="paginationActive"
+                />
+              </div>
             </Grid>
           </Grid>
           {/* <hr style={{border:

@@ -9,7 +9,7 @@ import { actions as classActions } from "./redux/action";
 import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import { format, dateTimeFormat, timeLeftFormat } from "../../common/date";
 
 import {
   Typography,
@@ -36,6 +36,7 @@ function EditClass({
   pathwayId,
   indicator,
   setRefreshKey,
+  mergeDate,
 }) {
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -113,21 +114,7 @@ function EditClass({
     return item?.PartnerSpecificBatches?.pathway_id === path.id;
   });
 
-  useEffect(() => {
-    if (classRefresh) {
-      dispatch(classActions.getClasses());
-      setClassRefresh(false);
-    }
-  }, [dispatch]);
-
-  const { data = [] } = useSelector(({ Class }) => Class.allClasses);
-
-  const pathwayFilter =
-    data &&
-    data?.filter((data) => {
-      // if I click on a pathway, batches should be filter by that pathway
-      return data?.pathway_id === item?.PartnerSpecificBatches?.pathway_id;
-    });
+  const merge_date = format(item.start_time, "yyyy-MM-dd");
 
   return (
     <>
@@ -177,9 +164,10 @@ function EditClass({
                 item={item}
                 itemID={item.id}
                 PathwayID={pathwayId}
-                pathwayFilter={pathwayFilter}
                 setRefreshKey={setRefreshKey}
                 setClassRefresh={setClassRefresh}
+                merge_date={merge_date}
+                itemName={item.title}
               />
             )}
             <MenuItem

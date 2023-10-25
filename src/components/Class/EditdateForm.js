@@ -25,7 +25,6 @@ function EditdateForm({
   setShowModal,
   isEditMode,
   setIsEditMode,
-  setSingleTime,
 }) {
   const classes = useStyles();
 
@@ -57,7 +56,6 @@ function EditdateForm({
                 onClick={() => {
                   setShowModal(false);
                   setIsEditMode(false);
-                  setSingleTime(false);
                 }}
               />
             </Grid>
