@@ -196,7 +196,7 @@ function EditClass({
 
         {!rolesList.includes("volunteer") && item.enrolled && (
           <MenuItem
-            onClick={() => handleClickOpenUnenroll(item.id)}
+            onClick={() => handleClickOpenUnenroll()}
             sx={{ width: 120, margin: "0px 10px" }}
           >
             <Typography textAlign="center">Dropout</Typography>
