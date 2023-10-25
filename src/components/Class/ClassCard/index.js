@@ -321,7 +321,7 @@ function ClassCard() {
                     )}
                   </CardActions>
                 </Card>
-                {console.log(enrollShowModal, item.id)}
+
                 <Box>
                   {enrollShowModal ? (
                     <Dialog
