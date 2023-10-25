@@ -5,6 +5,8 @@ jobs:
   chrome:
     runs-on: ubuntu-22.04
     name: E2E on Chrome
+    env:
+      USERTOKEN : ${{ secrets.USERTOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: cypress-io/github-action@v6

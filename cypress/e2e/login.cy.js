@@ -28,7 +28,19 @@ describe('Google auth', function () {
 
       // cy.get('.MuiBox-root > .MuiButton-root').click()
       // cy.get(':nth-child(2) > .jss157 > .MuiPaper-root > .MuiCardContent-root').click()
-      
+      cy.contains('40. Practice Question').click()
+      // cy.get(':nth-child(41) > .jss148 > .MuiListItemButton-root > .MuiTypography-root')
+      // "#root > div > div > div:nth-child(2) > div > div > button"
+      cy.get('#root > div > div > div.MuiBox-root.css-0 > div > button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-u2q5au').click()
+
+      cy.get('#root > div > div > div:nth-child(2) > div > div > button').click()
+
+      cy.pause()
+      cy.contains('41. Practice Question').click()
+      cy.get('#root > div > div > div.MuiBox-root.css-0 > div > button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-u2q5au').click()
+
+      cy.get('#root > div > div > div:nth-child(2) > div > div > button').click()
+      cy.pause()
 
 
 
