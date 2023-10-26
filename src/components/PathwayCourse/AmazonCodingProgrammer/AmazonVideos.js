@@ -6,11 +6,7 @@ const AmazonVideos = () => {
   let apikey = process.env.REACT_APP_amazon;
   return (
     <>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid container justifyContent="center" alignItems="center">
         <h1>Amazon Coding Bootcamp</h1>
       </Grid>
 
@@ -20,7 +16,7 @@ const AmazonVideos = () => {
         alignItems="center"
         style={{ height: "100vh" }}
       >
-             <Grid item>
+        <Grid item>
           <Typography variant="h6">Batch 1</Typography>
           <YouTubePlaylist
             playlistId="PLidpa_6o_TvdD_KxySG-NJ2rh2t7MNy1P"

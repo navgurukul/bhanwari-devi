@@ -20,7 +20,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import NoClassesFound from "../NoClassesFound";
 import NoVolunteerClass from "../NoVolunteerClass";
+import axios from "axios";
 
+import { METHODS } from "../../../services/api";
+
+import BatchCard from "../ClassCard/BatchCard";
 function ClassList({
   editClass,
   isShow,
@@ -31,14 +35,21 @@ function ClassList({
   canSpecifyFacilitator,
   Newpathways,
   setSingleTime,
+  singleTime,
+  data,
+  loading,
+  refreshKey,
+  setRefreshKey,
 }) {
   const dispatch = useDispatch();
 
-  const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
+  // const { loading, data = [] } = useSelector(({ Class }) => Class.allClasses);
+  const [totalCount, setTotalCount] = useState();
   const [recurring_classes_data_set, set_recurring_classes_data_set] =
     useState(null);
-  const [refreshKey, setRefreshKey] = useState(false);
+
   const [filterText, setFilterText] = useState(null);
+  const user = useSelector(({ User }) => User);
   useEffect(() => {
     if (isShow === false) {
       dispatch(classActions.getClasses());
@@ -102,11 +113,9 @@ function ClassList({
         single_classes.push(item);
       }
     });
-
   const _ = require("lodash");
   // remove duplicate classes
   var recurring_classes = _.uniqBy(recurring_classes_data, "recurring_id");
-
   // if user type in search box, it will filter the classes
   var classData =
     (filterText?.length > 0 && recurring_classes_data_set) || recurring_classes;
@@ -178,10 +187,11 @@ function ClassList({
       {(data?.length > 0 || canSpecifyFacilitator) && (
         <Box
           display={!isActive && "flex"}
-          sx={{
-            justifyContent: !isActive && "space-between",
-            marginTop: "32px",
-          }}
+          sx={
+            isActive
+              ? { marginTop: "64px" }
+              : { justifyContent: "space-between", marginTop: "32px" }
+          }
         >
           <TextField
             size={"small"}
@@ -221,7 +231,6 @@ function ClassList({
               onClick={() => {
                 setFormType(showClass ? "batch" : "doubt_class");
                 toggleModalOpen();
-                setSingleTime(false);
               }}
               //  sx={{ m: !isActive ? "10px 16px 20px 5px" : "0px 0px"}}
             >
@@ -230,17 +239,18 @@ function ClassList({
           )}
         </Box>
       )}
+
       <>
         <Grid container spacing={isActive ? "0px" : "16px"}>
           {data && data.length > 0 ? (
             <>
               {!filterText?.length > 0
-                ? singlepathwayFilter.map((item, index) => {
+                ? single_classes.map((item, index) => {
                     return (
                       item.type ===
                         `${showClass ? "batch" : "doubt_class"}` && (
                         <Grid item xs={12} ms={6} md={4} sx={{ mb: 0 }}>
-                          <ClassCard
+                          <BatchCard
                             item={item}
                             key={index}
                             index={index}
@@ -251,15 +261,14 @@ function ClassList({
                             showClass={showClass}
                             Newpathways={Newpathways}
                             setRefreshKey={setRefreshKey}
-                            setSingleTime={setSingleTime}
                           />
                         </Grid>
                       )
                     );
                   })
                 : ""}
-              {pathwayFilter.length > 0
-                ? pathwayFilter.map((item, index) => {
+              {classData.length > 0
+                ? classData.map((item, index) => {
                     return (
                       item.type ===
                         `${showClass ? "batch" : "doubt_class"}` && (
@@ -271,7 +280,7 @@ function ClassList({
                           sx={{ mb: 0 }}
                           key={index}
                         >
-                          <ClassCard
+                          <BatchCard
                             item={item}
                             key={index}
                             index={index}
@@ -282,7 +291,6 @@ function ClassList({
                             style="class-enroll-cohort"
                             showClass={showClass}
                             setRefreshKey={setRefreshKey}
-                            setSingleTime={setSingleTime}
                           />
                         </Grid>
                       )

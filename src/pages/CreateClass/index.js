@@ -26,6 +26,7 @@ import ClassForm from "../../components/Class/ClassForm";
 import SuccessModel from "../../components/Class/SuccessModel";
 import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
 import DrawerLeft from "./Drawer";
+import ReactPaginate from "react-paginate";
 
 function ToggleClassFormModal() {
   const [showModal, setShowModal] = useState(false);
@@ -33,7 +34,8 @@ function ToggleClassFormModal() {
   const [classToEdit, setClassToEdit] = useState({});
   const [indicator, setIndicator] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
-  const { data = [] } = useSelector(({ Class }) => Class.allClasses);
+  const [refreshKey, setRefreshKey] = useState(true);
+  // const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -42,8 +44,9 @@ function ToggleClassFormModal() {
   const classes = useStyles();
   const [showClass, setShowClasses] = useState(true);
   const [pathwayID, setPathwayId] = useState(1);
+
   const [pathwayName, setPathwayName] = useState("Python");
-  const [singleTime, setSingleTime] = useState(true);
+
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
@@ -53,7 +56,7 @@ function ToggleClassFormModal() {
   const [calenderConsent, setCalenderConsent] = useState(true);
   const [authUrl, setAuthUrl] = useState("");
   const [Newpathways, setNewPathways] = useState([]);
-
+  const [typeOfClass, setTypeOfClass] = useState("batch");
   const url = window.location.href;
 
   const toggleModalOpen = () => {
@@ -156,6 +159,45 @@ function ToggleClassFormModal() {
     }
   }, [calledOnce]);
   const [newVolunteer, setNewVolunteer] = useState(false);
+
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [totalCount, setTotalCount] = useState();
+  const limit = 9;
+
+  useEffect(() => {
+    refreshKey &&
+      axios({
+        method: METHODS.GET,
+        url: `${
+          process.env.REACT_APP_MERAKI_URL
+        }/batches/${pathwayID}?limit=${limit}&page=${
+          page + 1
+        }&typeOfClass=${typeOfClass}`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      })
+        .then((res) => {
+          setData(res.data.batches);
+          setTotalCount(res.data.total_count);
+          setLoading(false);
+          setRefreshKey(false);
+        })
+        .catch((res) => {
+          setLoading(false);
+        });
+  }, [pathwayID, limit, page, typeOfClass, refreshKey, setRefreshKey]);
+
+  const pageCount = Math.ceil(totalCount / limit);
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
+    setRefreshKey(true);
+  };
+
   useEffect(() => {
     try {
       const newVol = localStorage.getItem("isNewVolunteer");
@@ -207,6 +249,7 @@ function ToggleClassFormModal() {
               setPathwayName={setPathwayName}
               Newpathways={Newpathways}
               pathwayName={pathwayName}
+              setRefreshKey={setRefreshKey}
             />
           </Grid>
         )}
@@ -221,14 +264,17 @@ function ToggleClassFormModal() {
             style={{
               fontWeight: "bold",
               borderBottom: "1px solid #BDBDBD",
+              justifyContent: "space-between",
             }}
           >
-            <Grid item align="center">
+            <Grid item md={8} xs={12} sm={6} display="flex">
               <Button sx={{ paddingLeft: "0px" }}>
                 <Typography
                   variant="subtitle2"
                   onClick={() => {
                     setShowClasses(true);
+                    setTypeOfClass("batch");
+                    setRefreshKey(true);
                   }}
                   // style={{ cursor: "pointer" }}
                   className={classes.underLine}
@@ -244,14 +290,14 @@ function ToggleClassFormModal() {
                   Batches
                 </Typography>
               </Button>
-            </Grid>
-            <Grid>
               <Button>
                 <Typography
                   className={classes.underLine}
                   variant="subtitle2"
                   onClick={() => {
                     setShowClasses(false);
+                    setTypeOfClass("doubt_class");
+                    setRefreshKey(true);
                   }}
                   style={
                     !showClass
@@ -265,6 +311,37 @@ function ToggleClassFormModal() {
                   Doubt Classes
                 </Typography>
               </Button>
+            </Grid>
+
+            <Grid
+              item
+              sx={{ height: "0px" }}
+              md={4}
+              xs={12}
+              sm={6}
+              align="right"
+            >
+              <div
+                style={{
+                  justifyContent: "right",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <ReactPaginate
+                  previousLabel={<i className="fa fa-angle-left"></i>}
+                  nextLabel={<i className="fa fa-angle-right"></i>}
+                  initialPage={0}
+                  marginPagesDisplayed={0}
+                  onPageChange={changePage}
+                  pageCount={pageCount}
+                  containerClassName="paginationBttns"
+                  previousLinkClassName="previousBttn"
+                  nextLinkClassName="nextBttn"
+                  disabledClassName="paginationDisabled"
+                  activeClassName="paginationActive"
+                />
+              </div>
             </Grid>
           </Grid>
           {/* <hr style={{border:
@@ -280,7 +357,10 @@ function ToggleClassFormModal() {
             toggleModalOpen={toggleModalOpen}
             pathwayID={pathwayID}
             Newpathways={Newpathways}
-            setSingleTime={setSingleTime}
+            data={data}
+            loading={loading}
+            setRefreshKey={setRefreshKey}
+            refreshKey={refreshKey}
           />
 
           {showModal && calenderConsent ? (
@@ -301,8 +381,8 @@ function ToggleClassFormModal() {
                 setIsEditMode={setIsEditMode}
                 setNewPathways={setNewPathways}
                 Newpathways={Newpathways}
-                singleTime={singleTime}
-                setSingleTime={setSingleTime}
+                singleTime={false}
+                setRefreshKey={setRefreshKey}
               />
             </Modal>
           ) : (

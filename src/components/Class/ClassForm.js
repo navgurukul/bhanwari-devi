@@ -50,7 +50,7 @@ function ClassForm({
   Newpathways,
   setNewPathways,
   singleTime,
-  setSingleTime,
+  setRefreshKey,
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
@@ -59,25 +59,25 @@ function ClassForm({
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit?.title || "",
-    partner_id: classToEdit.partner_id || [],
+    partner_id: classToEdit?.partner_id || [],
     date: classToEdit.start_time
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class?.on_days?.split(",")
       : [],
-    start_time: classToEdit.start_time
-      ? new Date(classToEdit.start_time)
+    start_time: classToEdit?.start_time
+      ? new Date(classToEdit?.start_time)
       : new Date(new Date().setSeconds(0)),
-    end_time: classToEdit.end_time
-      ? new Date(classToEdit.end_time)
+    end_time: classToEdit?.end_time
+      ? new Date(classToEdit?.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
-    lang: classToEdit.lang || "en",
+    lang: classToEdit?.lang || "en",
     max_enrolment:
-      classToEdit.max_enrolment == null
+      classToEdit?.max_enrolment == null
         ? "No Limit"
-        : classToEdit.max_enrolment || "10",
-    frequency: classToEdit.parent_class
+        : classToEdit?.max_enrolment || "10",
+    frequency: classToEdit?.parent_class
       ? classToEdit.parent_class.frequency
       : "WEEKLY",
     description: classToEdit.description
@@ -87,7 +87,7 @@ function ClassForm({
       : "",
     type: classToEdit.type || formType,
     pathway_id:
-      classToEdit?.pathway_id?.[0] ||
+      classToEdit?.PartnerSpecificBatches?.pathway_id?.[0] ||
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
@@ -463,6 +463,7 @@ function ClassForm({
       .then(
         (res) => {
           if (res.status === 200) {
+            setRefreshKey(true);
             setLoading(false);
             setShowSuccessModal(true);
             setSuccessModalMsg("created");
@@ -495,26 +496,25 @@ function ClassForm({
         "update-all": indicator,
       },
       data: payload,
-    })
-      .then(
-        (res) => {
-          if (res.status === 200) {
-            setLoading(false);
-            setShowSuccessModal(true);
-            setSuccessModalMsg("edited");
-            setSingleTime(true);
-            setTimeout(() => {
-              setShowSuccessModal(false);
-              setShowModal(false);
-            }, 2000);
-          }
-        },
-        (error) => {
+    }).then(
+      (res) => {
+        if (res.status === 200) {
+          setRefreshKey(true);
           setLoading(false);
-          setSingleTime(!singleTime);
+          setShowSuccessModal(true);
+          setSuccessModalMsg("edited");
+          // setSingleTime(true);
+          setTimeout(() => {
+            setShowSuccessModal(false);
+            setShowModal(false);
+          }, 2000);
         }
-      )
-      .catch((err) => {});
+      },
+      (error) => {
+        setLoading(false);
+        // setSingleTime(!singleTime);
+      }
+    );
   };
 
   const onCourseChange = (courseId) => {
@@ -821,7 +821,7 @@ function ClassForm({
                   onClick={() => {
                     setShowModal(false);
                     setIsEditMode(false);
-                    setSingleTime(true);
+                    // setSingleTime(true);
                   }}
                 />
               </Grid>
@@ -1384,7 +1384,8 @@ function ClassForm({
           isEditMode={isEditMode}
           setShowModal={setShowModal}
           setIsEditMode={setIsEditMode}
-          setSingleTime={setSingleTime}
+          loading={loading}
+          // setSingleTime={setSingleTime}
         />
       )}
     </>

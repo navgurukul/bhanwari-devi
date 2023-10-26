@@ -33,6 +33,7 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
+import ClassCard from "../components/Class/ClassCard";
 import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/AmazonVideos";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
@@ -73,8 +74,6 @@ const Routing = () => {
         component={ReturningUserPage}
       />
 
-
-
       <Route
         exact
         path={PATHS.NAVGURUKUL_INTRODUCE}
@@ -91,12 +90,8 @@ const Routing = () => {
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
 
       {/* Private routes */}
-  
-      <PrivateRoute
-         exact
-         path={PATHS.VIDEOS}
-         component={AmazonVideos}
-         />
+
+      <PrivateRoute exact path={PATHS.VIDEOS} component={AmazonVideos} />
 
       <PrivateRoute
         exact
@@ -132,6 +127,7 @@ const Routing = () => {
       />
 
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
+      <PrivateRoute exact path={PATHS.BATCH} component={ClassCard} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />

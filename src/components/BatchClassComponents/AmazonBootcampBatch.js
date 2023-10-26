@@ -83,7 +83,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
               component={Link}
               to="/amazon-videos"
               variant="contained"
-              sx={{ marginLeft: '1500px' }} 
+              sx={{ marginLeft: "1500px" }}
             >
               Videos
             </Button>
