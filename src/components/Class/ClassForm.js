@@ -1384,6 +1384,7 @@ function ClassForm({
           isEditMode={isEditMode}
           setShowModal={setShowModal}
           setIsEditMode={setIsEditMode}
+          loading={loading}
           // setSingleTime={setSingleTime}
         />
       )}

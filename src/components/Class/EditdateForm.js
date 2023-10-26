@@ -14,6 +14,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import CloseIcon from "@mui/icons-material/Close";
+import { CircularProgress } from "@mui/material";
 
 function EditdateForm({
   classFields,
@@ -25,6 +26,7 @@ function EditdateForm({
   setShowModal,
   isEditMode,
   setIsEditMode,
+  loading,
 }) {
   const classes = useStyles();
 
@@ -126,15 +128,21 @@ function EditdateForm({
               </Grid>
             ))}
           </Grid>
-          <Button
-            variant="contained"
-            style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
-            fullWidth
-            onClick={submitHandle}
-            mt={4}
-          >
-            Update Class Details
-          </Button>
+          {loading ? (
+            <div style={{ textAlign: "center" }}>
+              <CircularProgress color="primary" />
+            </div>
+          ) : (
+            <Button
+              variant="contained"
+              style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
+              fullWidth
+              onClick={submitHandle}
+              mt={4}
+            >
+              Update Class Details
+            </Button>
+          )}
         </Box>
       </Stack>
     </>
