@@ -47,7 +47,7 @@ const YouTubePlaylist = ({
   return (
     <Grid container spacing={2}>
       {slicedVideos.map((video, index) => (
-        <Grid item md={4} sm={6} xs={12}>
+        <Grid item md={4} sm={6} xs={12} key={video.id}>
           <Paper elevation={3} style={{ padding: 20 }}>
             <Typography variant="h6" mt={1} mb={2}>
               {video.snippet.title}
@@ -65,6 +65,7 @@ const YouTubePlaylist = ({
                 src={`https://www.youtube.com/embed/${video.snippet.resourceId.videoId}`}
                 title={video.snippet.title}
                 style={{ width: "100%", height: "100%", borderRadius: "8px" }}
+                allowFullScreen
               ></iframe>
             </div>
             <Button
