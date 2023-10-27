@@ -69,37 +69,30 @@ function Home(props) {
     }
     // console.log(isAuthenticated, "is auth")
   }, []);
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    let tokenVal = urlParams?.get("token");
-    let qValue = urlParams?.get("q");
-    qValue ? setlocationState(qValue) : console.log("no location state");
-    localStorage.setItem("token", reverseLastFiveChars(tokenVal));
-  }, []);
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   let tokenVal = urlParams?.get("token");
+  //   let qValue = urlParams?.get("q");
+  //   qValue ? setlocationState(qValue) : console.log("no location state");
+  //   localStorage.setItem("token", reverseJwtBody(tokenVal));
+  // }, []);
 
-  function reverseLastFiveChars(inputString) {
-    if (inputString?.length < 5) {
-      // If the string has less than 5 characters, return it as it is
-      return inputString;
-    }
-
-    // Split the string into an array of characters
-    const charArray = inputString?.split("");
-
-    // Reverse the last five characters
-    const reversedChars = charArray?.slice(-5).reverse();
-
-    // Join the reversed characters with the rest of the string
-    return charArray?.slice(0, -5).concat(reversedChars).join("");
+  function reverseJwtBody(jwt) {
+    const [header, body, signature] = jwt?.split('.');
+    const reversedBody = body?.split('').reverse().join('');
+    return [header, reversedBody, signature].join('.');
   }
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     let tokenVal = urlParams?.get("token");
-    localStorage.setItem("token", reverseLastFiveChars(tokenVal));
-    let token = localStorage.getItem("token");
+    let qValue = urlParams?.get("q");
+    qValue ? setlocationState(qValue) : console.log("no location state");
 
     if (tokenVal !== null) {
+      
+    localStorage.setItem("token", reverseJwtBody(tokenVal));
+    console.log(tokenVal, "token val");
       dispatch(userActions.onUserSignin(tokenVal));
       dispatch(
         pathwayActions.getPathways({
@@ -110,17 +103,6 @@ function Home(props) {
       updateQueryString(getQueryVariable("referrer"));
     }
   }, []);
-
-  function reverseLastFiveChars(str) {
-    if (str?.length < 5) {
-      return str;
-    } else {
-      const charArray = str?.slice(-5);
-      return str
-        ?.slice(0, str?.length - 5)
-        .concat(charArray?.split("").reverse().join(""));
-    }
-  }
 
   useEffect(() => {
     dispatch(
