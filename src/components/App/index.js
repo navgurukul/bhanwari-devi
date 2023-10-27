@@ -38,7 +38,7 @@ function App() {
 
   useEffect(() => {
     !localStorage.getItem("token") && localStorage.setItem("token", "undefined");
-    !localStorage.getItem("loggedOut") && localStorage.setItem("loggedOut", null);
+    !localStorage.getItem("loggedOut") && localStorage.setItem("loggedOut", false);
     !localStorage.getItem("isFirstLogin") && localStorage.setItem("isFirstLogin", true);
   },[])
 

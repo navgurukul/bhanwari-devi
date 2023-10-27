@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -50,6 +50,7 @@ import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
 import SearchPopup from "../SearchBar/SearchPopup";
 import LaunchOutlinedIcon from "@mui/icons-material/Launch";
+import { StateContext } from "../../common/stateContext";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -63,6 +64,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     inProgress: false,
     value: false,
   });
+  const { locationState, setlocationState } = useContext(StateContext);
   
   const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
   const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
@@ -207,7 +209,13 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {showLoginButton && !leftDrawer && (
         <Box sx={{ flexGrow: 0 }}>
-            <a href={`https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
+               <a
+                  href={
+                    locationState
+                      ? `https://accounts.navgurukul.org/?q=${locationState}&loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`
+                      : `https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`
+                  }
+                >
           {/* <Link to={PATHS.LOGIN} className={classes.button}> */}
             <Button variant="contained">Log in</Button>
           {/* </Link> */}

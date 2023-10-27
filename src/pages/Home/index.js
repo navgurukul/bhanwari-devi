@@ -22,7 +22,8 @@ import { actions as userActions } from "../../components/User/redux/action";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
-import { useHistory } from "react-router-dom"; import { axios } from "axios";
+import { useHistory } from "react-router-dom";
+import { axios } from "axios";
 import { Redirect } from "react-router-dom";
 import { METHODS } from "../../services/api";
 import { PATHWAYS_INFO } from "../../constant";
@@ -33,7 +34,7 @@ import {
   STUDENT_ROLE_KEY as STUDENT,
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../../components/Header/constant";
-
+import { CollectionsBookmarkRounded } from "@mui/icons-material";
 
 function Home(props) {
   const isActive = useMediaQuery("(max-width:600px)");
@@ -53,24 +54,28 @@ function Home(props) {
   };
   const pathway = useSelector((state) => state.Pathways);
 
-  const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"))
-  const [isFirstLogin, setIsFirstLogin] = useState(localStorage.getItem("isFirstLogin"))
+  const [loggedOut, setLoggedOut] = useState(localStorage.getItem("loggedOut"));
+  const [isFirstLogin, setIsFirstLogin] = useState(
+    localStorage.getItem("isFirstLogin")
+  );
   useEffect(() => {
     console.log(props.location.state?.from, "The props");
 
     if (props.location.state?.from) {
-      setlocationState(props.location.state?.from?.pathname)
+      setlocationState(props.location.state?.from?.pathname);
     }
     if (localStorage.getItem("locationState")) {
-      setlocationState(JSON.parse(localStorage.getItem("locationState")))
+      setlocationState(JSON.parse(localStorage.getItem("locationState")));
     }
     // console.log(isAuthenticated, "is auth")
-  }, [])
+  }, []);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     let tokenVal = urlParams?.get("token");
-    localStorage.setItem("token", reverseLastFiveChars(tokenVal))
-  }, [])
+    let qValue = urlParams?.get("q");
+    qValue ? setlocationState(qValue) : console.log("no location state");
+    localStorage.setItem("token", reverseLastFiveChars(tokenVal));
+  }, []);
 
   function reverseLastFiveChars(inputString) {
     if (inputString?.length < 5) {
@@ -79,24 +84,23 @@ function Home(props) {
     }
 
     // Split the string into an array of characters
-    const charArray = inputString?.split('');
+    const charArray = inputString?.split("");
 
     // Reverse the last five characters
     const reversedChars = charArray?.slice(-5).reverse();
 
     // Join the reversed characters with the rest of the string
-    return charArray?.slice(0, -5).concat(reversedChars).join('');
+    return charArray?.slice(0, -5).concat(reversedChars).join("");
   }
-
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     let tokenVal = urlParams?.get("token");
-    localStorage.setItem("token", reverseLastFiveChars(tokenVal))
+    localStorage.setItem("token", reverseLastFiveChars(tokenVal));
     let token = localStorage.getItem("token");
 
     if (tokenVal !== null) {
-      dispatch(userActions.onUserSignin((tokenVal)));
+      dispatch(userActions.onUserSignin(tokenVal));
       dispatch(
         pathwayActions.getPathways({
           authToken: user,
@@ -105,15 +109,17 @@ function Home(props) {
 
       updateQueryString(getQueryVariable("referrer"));
     }
-  }, [])
+  }, []);
 
-  function reverseLastFiveChars (str){
+  function reverseLastFiveChars(str) {
     if (str?.length < 5) {
       return str;
-  }else{ 
-    const charArray = str?.slice(-5);
-    return str?.slice(0, str?.length-5).concat(charArray?.split("").reverse().join(""))
-  }
+    } else {
+      const charArray = str?.slice(-5);
+      return str
+        ?.slice(0, str?.length - 5)
+        .concat(charArray?.split("").reverse().join(""));
+    }
   }
 
   useEffect(() => {
@@ -162,9 +168,7 @@ function Home(props) {
     history.push(defalutPage);
   }, [defalutPage]);
 
-
   if (isAuthenticated) {
-    
     localStorage.setItem("isFirstLogin", false);
     if (queryString) {
       axios({
@@ -175,18 +179,19 @@ function Home(props) {
           Authorization: data.token,
         },
         data: { referrer: queryString },
-      }).then((res) => { 
-      });
+      }).then((res) => {});
     }
-    if (props.location.state == "/volunteer-with-us") {
+    if (locationState == "/volunteer-with-us") {
       if (rolesList.includes("volunteer")) {
         return <Redirect to={PATHS.CLASS} />;
       } else {
         return <Redirect to={PATHS.VOLUNTEER_FORM} />;
       }
     }
-    if (locationState) {
-      return <Redirect to={locationState} />;
+    if (locationState && locationState!=="null") {
+      console.log(locationState, "location state inside its own condition")
+      return defalutPage = locationState;
+    
     }
     return (
       <>
@@ -213,17 +218,25 @@ function Home(props) {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ margin: "16px 0px 32px 0px" }}>
+                  sx={{ margin: "16px 0px 32px 0px" }}
+                >
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
-                <a href={locationState ? `https://accounts.navgurukul.org?q=${locationState}&loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}` : `https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`}>
+                <a
+                  href={
+                    locationState
+                      ? `https://accounts.navgurukul.org?q=${locationState}&loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`
+                      : `https://accounts.navgurukul.org/?loggedOut=${loggedOut}&isFirstLogin=${isFirstLogin}`
+                  }
+                >
                   {/* <Link to={PATHS.LOGIN} className={classes.link}> */}
                   <Button
                     variant="contained"
                     className={
                       isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }>
+                    }
+                  >
                     Start Learning
                   </Button>
                   {/* </Link> */}
@@ -323,7 +336,8 @@ function Home(props) {
                   background: "#FFF5CC",
                   padding: "32px",
                   borderRadius: "8px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/scale.svg")}
                   alt={"Homeimage"}
@@ -342,7 +356,8 @@ function Home(props) {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/butterfly.svg")}
                   alt={"Homeimage"}
@@ -363,7 +378,8 @@ function Home(props) {
                   background: "#D3EAFD",
                   padding: "32px",
                   borderRadius: "8px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/livelessons.svg")}
                   alt={"Homeimage"}
@@ -383,7 +399,8 @@ function Home(props) {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/lang.svg")}
                   alt={"Homeimage"}
@@ -409,7 +426,8 @@ function Home(props) {
             component="h6"
             align="center"
             color="textPrimary"
-            gutterBottom>
+            gutterBottom
+          >
             Explore the Learning Tracks
           </Typography>
         </Container>
@@ -441,7 +459,8 @@ function Home(props) {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px !important">
                     <img
@@ -481,7 +500,8 @@ function Home(props) {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -518,7 +538,8 @@ function Home(props) {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -557,12 +578,14 @@ function Home(props) {
 
         <Container
           sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
-          maxWidth="sm">
+          maxWidth="sm"
+        >
           <Typography
             variant="h5"
             component="h6"
             align="center"
-            color="textPrimary">
+            color="textPrimary"
+          >
             Have Questions?
           </Typography>
           <Grid
@@ -571,7 +594,8 @@ function Home(props) {
             container
             spacing={4}
             align="center"
-            justifyContent="center">
+            justifyContent="center"
+          >
             <Grid item sm={isActive && 12}>
               <ExternalLink
                 style={{
@@ -579,7 +603,8 @@ function Home(props) {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="mailto:team@meraki.org">
+                href="mailto:team@meraki.org"
+              >
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/Email.svg")}
@@ -598,7 +623,8 @@ function Home(props) {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="https://wa.me/918891300300">
+                href="https://wa.me/918891300300"
+              >
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/whatsapp.svg")}

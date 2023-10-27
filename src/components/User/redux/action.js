@@ -55,6 +55,7 @@ export const actions = {
 
   logout() {
     localStorage.removeItem("token");
+    localStorage.setItem("loggedOut", true);
     return {
       type: types.ON_LOGOUT_INTENT,
     };
