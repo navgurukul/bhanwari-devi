@@ -13,6 +13,8 @@ import {
   CardContent,
   Chip,
   CardActions,
+  Box,
+  Stack,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
@@ -79,15 +81,12 @@ function AmazonBootcampBatch({ enrolledBatches }) {
         <Grid item>
           <Typography variant="h6" marginTop="8px">
             {enrolledBatches}
-            <Button
-              component={Link}
-              to="/amazon-videos"
-              variant="contained"
-              sx={{ marginLeft: "1500px" }}
-            >
-              Videos
-            </Button>
           </Typography>
+        </Grid>
+        <Grid item>
+          <Button component={Link} to="/amazon-videos" variant="outlined">
+            Videos
+          </Button>
         </Grid>
         {/* <Grid item justifyContent="right">
           <Button startIcon={<SettingsIcon />} color="inherit">
