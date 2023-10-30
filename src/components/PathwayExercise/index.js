@@ -191,6 +191,8 @@ function PathwayExercise() {
       });
   }, [currentCourse]);
 
+  console.log(courseId, "courseID");
+
   useEffect(() => {
     axios({
       method: METHODS.GET,

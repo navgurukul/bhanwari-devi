@@ -36,6 +36,7 @@ import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/AmazonVideos";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
+import C4CApathway from "../components/PathwayCourse/C4CApathway";
 // import Credits from "../pages/Credits";
 
 const Routing = () => {
@@ -73,8 +74,6 @@ const Routing = () => {
         component={ReturningUserPage}
       />
 
-
-
       <Route
         exact
         path={PATHS.NAVGURUKUL_INTRODUCE}
@@ -91,12 +90,8 @@ const Routing = () => {
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
 
       {/* Private routes */}
-  
-      <PrivateRoute
-         exact
-         path={PATHS.VIDEOS}
-         component={AmazonVideos}
-         />
+
+      <PrivateRoute exact path={PATHS.VIDEOS} component={AmazonVideos} />
 
       <PrivateRoute
         exact
@@ -137,6 +132,8 @@ const Routing = () => {
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
       <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
       <PrivateRoute exact path={PATHS.STUDENT} component={StudentClassData} />
+
+      <PrivateRoute exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
     </>
   );
 };
