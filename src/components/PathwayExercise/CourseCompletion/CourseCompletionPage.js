@@ -17,8 +17,6 @@ function CourseCompletionPage(props) {
   const params = useParams();
   const history = useHistory();
 
-  console.log("data", data, pathwayModuleIndex, pathwayModule);
-
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   return (

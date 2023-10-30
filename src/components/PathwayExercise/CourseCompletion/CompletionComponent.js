@@ -60,16 +60,13 @@ function CompletionComponent({ setSuccessfulExerciseCompletion }) {
       (course) => course.id == courseID
     );
     if (currentIndex !== -1) {
-      console.log("currentIndex", pathwayModule[currentIndex]);
       if (pathwayModule[currentIndex].completed_portion === 100) {
         setPathwayModuleIndex(currentIndex + 1);
-        console.log("currentIndex", currentIndex);
       }
     }
   }, [pathwayModule]);
 
   const C4CALastPage = pathwayModule.some((item) => item.id == courseID);
-  console.log("C4CALastPage", C4CALastPage);
 
   const courseComplete = !C4CALastPage
     ? pathwayCourses && pathwayCourses[nextPathwayIndex]

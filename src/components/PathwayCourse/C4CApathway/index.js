@@ -94,11 +94,6 @@ function C4CApathway() {
             }
           }
           if (item.completed_portion === 100) {
-            console.log(
-              item.completed_portion,
-              item.name,
-              "item.completed_portion"
-            );
             if (index < filterCourses.length - 1) {
               const nextItem = filterCourses[index + 1];
               const firstCourseOfNextItem = nextItem.courses[0];
