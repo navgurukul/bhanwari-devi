@@ -7,13 +7,8 @@ import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { format } from "../../common/date";
 import Avatar from "react-avatar-edit";
-
 import {
   Grid,
   TextField,
@@ -21,13 +16,10 @@ import {
   Button,
   Container,
   Box,
-  FormControl,
-  FormHelperText,
   Snackbar,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
 import useStyles from "./styles";
-import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 import {
   getAuth,
   RecaptchaVerifier,
@@ -36,9 +28,8 @@ import {
 import { initializeApp } from "firebase/app";
 import CertificateCard from "./CertificateCard";
 import { useParams, useHistory } from "react-router-dom";
-
 import UnlockOpportunities from "./UnlockOpportunities";
-import LastLoginTime from "./LastLoginTime/LastLoginTime";
+import C4CAProfile from "./c4ca";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -67,6 +58,7 @@ function Profile() {
   const [msg, setMsg] = useState();
   const [LoadBatches, setLoadBatches] = useState(false);
   const dispatch = useDispatch();
+  const [status, setStatus] = useState();
   const [helperText, setHelperText] = useState();
   const [showError, setShowError] = useState(true);
   const [open, setOpen] = React.useState(false);
@@ -81,6 +73,8 @@ function Profile() {
   const [contact, setContact] = useState(
     user?.data?.user?.contact?.split("-")?.[1] || null
   );
+
+  const [teacherData, setTeacherData] = useState({});
 
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [message, setMessage] = React.useState("");
@@ -259,6 +253,22 @@ function Profile() {
 
   // console.log(data.,"pathwayId")
 
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/c4ca/team/${223}`,
+      headers: {
+        accept: "application/json",
+        Authorization: user?.data?.token,
+      },
+    })
+      .then((response) => {
+        setTeacherData(response?.data);
+        setStatus(response?.data.status);
+      })
+      .catch((err) => {});
+  }, []);
+
   return (
     <>
       <Container
@@ -269,259 +279,267 @@ function Profile() {
           alignItems: isActive && "center",
         }}
       >
-        <Grid container>
-          <Grid item md={4} xs={12}>
-            <div
-              item
-              xs={12}
-              md={6}
-              className={classes.profileBox}
-              align={isActive && "center"}
-            >
-              <img
-                alt={userData.name}
-                style={{
-                  height: 100,
-                  width: 100,
-                  borderRadius: "50%",
-                }}
-                src={
-                  New_Profile.length ? New_Profile : userData.profile_picture
-                }
-              />
-              {isEditing && (
-                <Dialog open={open} onClose={handleClose}>
-                  <Box sx={{ p: isActive ? "8px" : "32px" }}>
-                    <Typography variant="h6" pl={1} pb={4}>
-                      {"Edit Profile"}
-                    </Typography>
-                    <Grid container columnSpacing={2}>
-                      <Grid item xs={5} sm={3} pr={2}>
-                        <img
-                          style={{ width: "120px", height: "120px" }}
-                          src={
-                            New_Profile.length
-                              ? New_Profile
-                              : userData.profile_picture
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={7} sm={9}>
-                        <Box>
-                          <Typography
-                            variant="body1"
-                            onClick={() => {
-                              setImgDialoags(true);
-                              setImgCrop(false);
-                            }}
-                            color="primary"
-                            sx={{ cursor: "pointer", pb: 2 }}
-                          >
-                            Update Photo
-                          </Typography>
-                          <Dialog
-                            open={imgDialogs}
-                            onClose={() => setImgDialoags(false)}
-                          >
-                            <Typography variant="h5" mb={4} p={0}>
+        {status === "success" ? (
+          <C4CAProfile setStatus={setStatus} teacherData={teacherData} />
+        ) : (
+          <Grid container>
+            <Grid item md={4} xs={12}>
+              <div
+                item
+                xs={12}
+                md={6}
+                className={classes.profileBox}
+                align={isActive && "center"}
+              >
+                <img
+                  alt={userData.name}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    borderRadius: "50%",
+                  }}
+                  src={
+                    New_Profile.length ? New_Profile : userData.profile_picture
+                  }
+                />
+                {isEditing && (
+                  <Dialog open={open} onClose={handleClose}>
+                    <Box sx={{ p: isActive ? "8px" : "32px" }}>
+                      <Typography variant="h6" pl={1} pb={4}>
+                        {"Edit Profile"}
+                      </Typography>
+                      <Grid container columnSpacing={2}>
+                        <Grid item xs={5} sm={3} pr={2}>
+                          <img
+                            style={{ width: "120px", height: "120px" }}
+                            src={
+                              New_Profile.length
+                                ? New_Profile
+                                : userData.profile_picture
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={7} sm={9}>
+                          <Box>
+                            <Typography
+                              variant="body1"
+                              onClick={() => {
+                                setImgDialoags(true);
+                                setImgCrop(false);
+                              }}
+                              color="primary"
+                              sx={{ cursor: "pointer", pb: 2 }}
+                            >
                               Update Photo
                             </Typography>
-                            <Avatar
-                              width={300}
-                              height={200}
-                              onExit={onExit}
-                              onFileLoad={(file) => {
-                                const formDatas = new FormData();
-                                formDatas.append("image", file);
-                                fetch(
-                                  `${process.env.REACT_APP_MERAKI_URL}/courseEditor/ImageUploadS3`,
-                                  {
-                                    headers: {
-                                      accept:
-                                        "application/json, text/plain, */*",
-                                      "accept-language":
-                                        "en-GB,en-US;q=0.9,en;q=0.8",
-                                    },
-                                    referrerPolicy:
-                                      "strict-origin-when-cross-origin",
-                                    body: formDatas,
-                                    method: "POST",
-                                    mode: "cors",
-                                    credentials: "omit",
-                                  }
-                                ).then((res) => {
-                                  res.json().then((data) => {
-                                    setNew_Profiles(data.file.url);
+                            <Dialog
+                              open={imgDialogs}
+                              onClose={() => setImgDialoags(false)}
+                            >
+                              <Typography variant="h5" mb={4} p={0}>
+                                Update Photo
+                              </Typography>
+                              <Avatar
+                                width={300}
+                                height={200}
+                                onExit={onExit}
+                                onFileLoad={(file) => {
+                                  const formDatas = new FormData();
+                                  formDatas.append("image", file);
+                                  fetch(
+                                    `${process.env.REACT_APP_MERAKI_URL}/courseEditor/ImageUploadS3`,
+                                    {
+                                      headers: {
+                                        accept:
+                                          "application/json, text/plain, */*",
+                                        "accept-language":
+                                          "en-GB,en-US;q=0.9,en;q=0.8",
+                                      },
+                                      referrerPolicy:
+                                        "strict-origin-when-cross-origin",
+                                      body: formDatas,
+                                      method: "POST",
+                                      mode: "cors",
+                                      credentials: "omit",
+                                    }
+                                  ).then((res) => {
+                                    res.json().then((data) => {
+                                      setNew_Profiles(data.file.url);
+                                    });
                                   });
-                                });
-                              }}
-                              onCrop={onCrop}
-                            />
-                            <Button disabled={!imgCrop} onClick={saveImg}>
-                              Save
-                            </Button>
-                          </Dialog>
+                                }}
+                                onCrop={onCrop}
+                              />
+                              <Button disabled={!imgCrop} onClick={saveImg}>
+                                Save
+                              </Button>
+                            </Dialog>
+                            <Typography variant="body2" color="text.secondary">
+                              Tips: Try square JPG or PNG with atleast 500*500
+                              resolution for high quality profile display
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <div id="recaptcha-container"></div>
+                      <DialogActions>
+                        <Box>
+                          <TextField
+                            error={
+                              editName?.length == 0 || helperText?.length > 0
+                            }
+                            // id="standard-basic"
+                            label="Name"
+                            fullWidth
+                            sx={{ mt: "10px", width: "100%" }}
+                            value={editName}
+                            helperText={helperText}
+                            onChange={(e) => {
+                              setEditName(e.target.value);
+                              if (e.target.value != userData.name) {
+                                setShowError(false);
+                              }
+                            }}
+                          />
+                          <TextField
+                            align="center"
+                            sx={{ mt: 4, mb: 1 }}
+                            fullWidth
+                            disabled
+                            value={userData.email}
+                          />
                           <Typography variant="body2" color="text.secondary">
-                            Tips: Try square JPG or PNG with atleast 500*500
-                            resolution for high quality profile display
+                            Email cannot be changed as it is linked to your
+                            Google account
                           </Typography>
                         </Box>
-                      </Grid>
-                    </Grid>
-                    <div id="recaptcha-container"></div>
-                    <DialogActions>
-                      <Box>
-                        <TextField
-                          error={
-                            editName?.length == 0 || helperText?.length > 0
-                          }
-                          // id="standard-basic"
-                          label="Name"
-                          fullWidth
-                          sx={{ mt: "10px", width: "100%" }}
-                          value={editName}
-                          helperText={helperText}
-                          onChange={(e) => {
-                            setEditName(e.target.value);
-                            if (e.target.value != userData.name) {
-                              setShowError(false);
-                            }
-                          }}
-                        />
-                        <TextField
-                          align="center"
-                          sx={{ mt: 4, mb: 1 }}
-                          fullWidth
-                          disabled
-                          value={userData.email}
-                        />
-                        <Typography variant="body2" color="text.secondary">
-                          Email cannot be changed as it is linked to your Google
-                          account
-                        </Typography>
+                      </DialogActions>
+                      <Box my={2} p={1}>
+                        <Grid container columnSpacing={isActive ? 1 : 2}>
+                          <Grid item sm={3} xs={4}>
+                            <MuiPhoneNumber
+                              preferredCountries={["in"]}
+                              defaultCountry={"in"}
+                              variant="outlined"
+                              id="countryCode"
+                              value={countryCode}
+                              onChange={(val) => {
+                                setCountryCode(val);
+                              }}
+                            />
+                          </Grid>
+                          <Grid item sm={9} xs={8}>
+                            <TextField
+                              label="Phone Number"
+                              onChange={(e) => {
+                                setContact(e.target.value);
+                              }}
+                              value={contact}
+                              name="contact"
+                              id="contact"
+                              variant="outlined"
+                              helperText="Enter Phone Number"
+                              fullWidth
+                              maxLength={10}
+                              error={
+                                contact?.length != 10 && contact?.length > 0
+                              }
+                            />
+                          </Grid>
+                          <Grid item xs={8}>
+                            <Button
+                              variant="outlined"
+                              onClick={(event) => {
+                                onSignInSubmit(event);
+                                setShowError(true);
+                              }}
+                              disabled={contact?.length != 10}
+                            >
+                              Get OTP
+                            </Button>{" "}
+                          </Grid>
+                          {startOtp && (
+                            <>
+                              <Grid item xs={8}>
+                                <TextField
+                                  label="OTP"
+                                  onChange={(e) => {
+                                    setOtp(e.target.value);
+                                  }}
+                                  value={otp}
+                                  name="OTP"
+                                  id="contact"
+                                  variant="outlined"
+                                  helperText="Enter OTP"
+                                  fullWidth
+                                  maxLength={6}
+                                  error={otp.length != 6 && otp.length > 0}
+                                />
+                              </Grid>
+                              <Grid item xs={8}>
+                                <Button
+                                  variant="outlined"
+                                  onClick={(e) => {
+                                    OtpEnter(e);
+                                  }}
+                                  disabled={otp.length != 6}
+                                >
+                                  Verify OTP
+                                </Button>{" "}
+                              </Grid>
+                            </>
+                          )}
+                        </Grid>
                       </Box>
-                    </DialogActions>
-                    <Box my={2} p={1}>
-                      <Grid container columnSpacing={isActive ? 1 : 2}>
-                        <Grid item sm={3} xs={4}>
-                          <MuiPhoneNumber
-                            preferredCountries={["in"]}
-                            defaultCountry={"in"}
-                            variant="outlined"
-                            id="countryCode"
-                            value={countryCode}
-                            onChange={(val) => {
-                              setCountryCode(val);
-                            }}
-                          />
-                        </Grid>
-                        <Grid item sm={9} xs={8}>
-                          <TextField
-                            label="Phone Number"
-                            onChange={(e) => {
-                              setContact(e.target.value);
-                            }}
-                            value={contact}
-                            name="contact"
-                            id="contact"
-                            variant="outlined"
-                            helperText="Enter Phone Number"
-                            fullWidth
-                            maxLength={10}
-                            error={contact?.length != 10 && contact?.length > 0}
-                          />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <Button
-                            variant="outlined"
-                            onClick={(event) => {
-                              onSignInSubmit(event);
-                              setShowError(true);
-                            }}
-                            disabled={contact?.length != 10}
-                          >
-                            Get OTP
-                          </Button>{" "}
-                        </Grid>
-                        {startOtp && (
-                          <>
-                            <Grid item xs={8}>
-                              <TextField
-                                label="OTP"
-                                onChange={(e) => {
-                                  setOtp(e.target.value);
-                                }}
-                                value={otp}
-                                name="OTP"
-                                id="contact"
-                                variant="outlined"
-                                helperText="Enter OTP"
-                                fullWidth
-                                maxLength={6}
-                                error={otp.length != 6 && otp.length > 0}
-                              />
-                            </Grid>
-                            <Grid item xs={8}>
-                              <Button
-                                variant="outlined"
-                                onClick={(e) => {
-                                  OtpEnter(e);
-                                }}
-                                disabled={otp.length != 6}
-                              >
-                                Verify OTP
-                              </Button>{" "}
-                            </Grid>
-                          </>
-                        )}
-                      </Grid>
+                      <Snackbar
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "right",
+                        }}
+                        open={snackBarOpen}
+                        onClose={handleSnackBarClose}
+                        message={message}
+                      />
+                      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                        <Button
+                          variant="outlined"
+                          sx={{ mr: "30px" }}
+                          onClick={() => setIsEditing(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          variant="contained"
+                          onClick={editProfile}
+                          disabled={showError}
+                        >
+                          Save Changes
+                        </Button>
+                      </Box>
                     </Box>
-                    <Snackbar
-                      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                      open={snackBarOpen}
-                      onClose={handleSnackBarClose}
-                      message={message}
-                    />
-                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                      <Button
-                        variant="outlined"
-                        sx={{ mr: "30px" }}
-                        onClick={() => setIsEditing(false)}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="contained"
-                        onClick={editProfile}
-                        disabled={showError}
-                      >
-                        Save Changes
-                      </Button>
-                    </Box>
-                  </Box>
-                </Dialog>
-              )}
+                  </Dialog>
+                )}
 
-              {msg ? (
-                <Typography>Please wait...</Typography>
-              ) : (
-                <Typography
-                  variant="h6"
-                  sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
-                >
-                  {userData.name}
-                  {isActive && !isEditing && (
-                    <Button onClick={handleClickOpen}>
-                      <EditIcon />
-                    </Button>
-                  )}
+                {msg ? (
+                  <Typography>Please wait...</Typography>
+                ) : (
+                  <Typography
+                    variant="h6"
+                    sx={{ mt: "10px", textAlign: isActive ? "center" : "left" }}
+                  >
+                    {userData.name}
+                    {isActive && !isEditing && (
+                      <Button onClick={handleClickOpen}>
+                        <EditIcon />
+                      </Button>
+                    )}
+                  </Typography>
+                )}
+
+                <Typography my={1} align={isActive ? "center" : "left"}>
+                  {userData.email}
                 </Typography>
-              )}
-
-              <Typography my={1} align={isActive ? "center" : "left"}>
-                {userData.email}
-              </Typography>
-              {/* <Typography my={1} align="left">
+                {/* <Typography my={1} align="left">
             {user.data.user.rolesList.includes("volunteer") &&
               userData.contact !== null && (
                 <>
@@ -537,50 +555,51 @@ function Profile() {
               )}
           </Typography> */}
 
-              <Button
-                pt={1}
-                onClick={handleClickOpen}
-                variant="outlined"
-                sx={{
-                  alignItems: isActive ? "center" : "left",
-                  marginBottom: "16px",
-                }}
-                align={isActive && "center"}
-              >
-                {/* {!isActive && "Edit Profile"} */}
-                Edit Profile
-              </Button>
+                <Button
+                  pt={1}
+                  onClick={handleClickOpen}
+                  variant="outlined"
+                  sx={{
+                    alignItems: isActive ? "center" : "left",
+                    marginBottom: "16px",
+                  }}
+                  align={isActive && "center"}
+                >
+                  {/* {!isActive && "Edit Profile"} */}
+                  Edit Profile
+                </Button>
 
-              {/* <LastLoginTime /> */}
-            </div>
-          </Grid>
-          <Grid item md={6}>
-            <Typography variant="h6" sx={{ marginLeft: "22px" }}>
-              My Certificates
-            </Typography>
-            {data?.pathways?.map(
-              (item) =>
-                item.code === "PRGPYT" && (
-                  <CertificateCard
-                    item={item}
-                    completedPortion={completedPortion}
-                    courseTime={courseTime}
-                  />
-                )
-            )}
+                {/* <LastLoginTime /> */}
+              </div>
+            </Grid>
+            <Grid item md={6}>
+              <Typography variant="h6" sx={{ marginLeft: "22px" }}>
+                My Certificates
+              </Typography>
+              {data?.pathways?.map(
+                (item) =>
+                  item.code === "PRGPYT" && (
+                    <CertificateCard
+                      item={item}
+                      completedPortion={completedPortion}
+                      courseTime={courseTime}
+                    />
+                  )
+              )}
 
-            {data?.pathways?.map(
-              (item) =>
-                item.code === "PRGPYT" && (
-                  <UnlockOpportunities
-                    item={item}
-                    completedPortion={completedPortion}
-                    // courseTime={courseTime}
-                  />
-                )
-            )}
+              {data?.pathways?.map(
+                (item) =>
+                  item.code === "PRGPYT" && (
+                    <UnlockOpportunities
+                      item={item}
+                      completedPortion={completedPortion}
+                      // courseTime={courseTime}
+                    />
+                  )
+              )}
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Container>
     </>
   );
