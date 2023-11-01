@@ -26,6 +26,7 @@ import {
   FormControlLabel,
   DialogActions,
   DialogTitle,
+  Skeleton,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
@@ -184,6 +185,51 @@ function ClassCard() {
     });
   }, []);
 
+  // Loading effect
+
+  if (classesData.length === 0) {
+    return (
+      <Grid container spacing={2} ml={"200px"}>
+        {Array.from(Array(8)).map((_, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={3}
+            key={index}
+            sx={{ ml: "10px", mr: "10px" }}
+          >
+            <Card sx={{ p: 4 }}>
+              <Typography variant="subtitle1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="subtitle2">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
   return (
     <>
       <Container maxWidth="lg">
