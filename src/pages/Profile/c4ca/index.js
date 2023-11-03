@@ -10,6 +10,10 @@ import axios from "axios";
 import { Grid } from "@mui/material";
 import { METHODS } from "../../../services/api";
 import { useSelector, useDispatch } from "react-redux";
+import DownloadIcon from "@mui/icons-material/Download";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Avatar from "@mui/material/Avatar";
+import img1 from "../assest/c4ca-profile-icon.svg";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,12 +32,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
   },
   c4ca: {
-    fontSize: 24,
+    fontSize: 4,
     fontWeight: "bold",
   },
   downloadLink: {
     textAlign: "center",
     marginTop: 16,
+  },
+  flex: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "0.5rem",
   },
 }));
 
@@ -42,16 +52,43 @@ function C4CAProfile({ teacherData }) {
   const user = useSelector(({ User }) => User);
 
   console.log(teacherData);
-  const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  // Create a new Date object to get the current date
+  const today = new Date();
 
+  // Define an array of month names
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Get the day, month, and year
+  const day = today.getDate();
+  const month = monthNames[today.getMonth()];
+  const year = today.getFullYear();
+
+  // Create the formatted date string
+  const formattedDate = `${day} ${month} ${year}`;
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} sm={6} md={4} marginLeft={4}>
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={4}
+        width={"60px"}
+        marginTop={"144px"}
+        marginLeft={"100px"}
+      >
         {/* <img
           alt={userData.name}
           style={{
@@ -63,7 +100,22 @@ function C4CAProfile({ teacherData }) {
             
           }
         /> */}
-        <Typography variant="h6" style={{ color: "#000000" }}>
+        <Avatar
+          sx={{
+            color: "black",
+            width: "50px",
+            height: "50px",
+            fontSize: "1rem",
+            fontWeight: "bold",
+          }}
+        >
+          SR
+        </Avatar>
+        <Typography
+          variant="h6"
+          style={{ color: "#000000", marginTop: "2rem" }}
+        >
+          {teacherData?.data?.team_name}
           SkyRider
         </Typography>
         <Typography
@@ -74,119 +126,168 @@ function C4CAProfile({ teacherData }) {
           to have them corrected
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={6}>
-        <Typography variant="h6" style={{ color: "#000000" }}>
-          My Certificate
-        </Typography>
-        <Box>
-          <Paper className={classes.container}>
-            <div className={classes.leftSide}>
-              <Typography variant="h4" className={classes.c4ca}>
-                c4ca
-              </Typography>
-              <br /> {/* Add a line break here */}
-              <div className={classes.downloadLink}>
-                <Link href="#">Download Certificate</Link>
-              </div>
-            </div>
-            <div className={classes.rightSide}>
-              <Typography variant="h6">{formattedDate}</Typography>
-            </div>
-          </Paper>
-        </Box>
-        <Typography
-          variant="h6"
-          mt={"3rem"}
-          mb={"1rem"}
-          style={{ color: "#000000" }}
-        >
-          School Details
-        </Typography>
-        <hr style={{ width: "620px" }} />
-        <Container
-          maxWidth="sm"
-          style={{
-            width: "588px",
-            height: "188px",
-            gap: "16px",
-          }}
-        >
+      <Box
+        width={"588px"}
+        marginTop={"144px"}
+        marginLeft={"100px"}
+        gap={"36PX"}
+      >
+        <Grid item xs={12} sm={6}>
           <Typography
             variant="h6"
-            ml={"-1.5rem"}
-            mt={"1rem"}
-            fontWeight={"lighter"}
-            style={{ color: "#708090" }}
+            style={{ color: "#000000", marginBottom: "1rem" }}
           >
-            School Name {teacherData?.data?.school}
+            My Certificate
           </Typography>
+          <Box>
+            <Paper
+              className={classes.container}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box className={classes.leftSide}>
+                <Box className={classes.flex} marginLeft={"-3rem"}>
+                  <img src={img1} alt="c4ca" />
+                  <Typography variant="subtitle1">C4CA</Typography>
+                </Box>
+                <br /> {/* Add a line break here */}
+                <Box
+                  className={classes.downloadLink}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "5px",
+                    marginLeft: "0.5rem",
+                  }}
+                >
+                  <Box color="green">
+                    <DownloadIcon />
+                  </Box>
+                  <Link href="#"> Download Certificate</Link>
+                </Box>
+              </Box>
+              <Box
+                className={classes.flex}
+                textAlign="right"
+                marginTop={"-4rem"}
+              >
+                <Box color="green">
+                  <CheckCircleIcon />
+                </Box>
+                <Typography variant="h6">{formattedDate}</Typography>
+              </Box>
+            </Paper>
+          </Box>
+          <Typography
+            variant="h6"
+            mt={"3rem"}
+            mb={"1rem"}
+            style={{ color: "#000000" }}
+          >
+            School Details
+          </Typography>
+          <hr style={{ width: "620px" }} />
+          <Box style={{ display: "flex", gap: "2rem" }}>
+            <Typography
+              variant="h6"
+              mt={"1rem"}
+              fontWeight={"lighter"}
+              style={{ color: "#708090" }}
+            >
+              School Name
+            </Typography>
+            <Typography
+              variant="body1"
+              mt={"1rem"}
+              // style={{ color: "#708090" }}
+            >
+              {teacherData?.data?.school}
+            </Typography>
+          </Box>
+          <Box style={{ display: "flex", gap: "6rem" }}>
+            <Typography variant="h6" mt={"1rem"} style={{ color: "#708090" }}>
+              District
+            </Typography>
+            <Typography
+              variant="body1"
+              mt={"1rem"}
+              // style={{ color: "#708090" }}
+            >
+              {teacherData?.data?.district}
+            </Typography>
+          </Box>
+          <Box style={{ display: "flex", gap: "7rem" }}>
+            <Typography
+              variant="h6"
+              mt={"1rem"}
+              fontWeight={"lighter"}
+              style={{ color: "#708090" }}
+            >
+              State
+            </Typography>
+            <Typography
+              variant="body1"
+              mt={"1rem"}
+              fontWeight={"lighter"}
+              // style={{ color: "#708090" }}
+            >
+              {teacherData?.data?.state}
+            </Typography>
+          </Box>
+          <Typography
+            variant="h6"
+            style={{ color: "#000000", marginTop: "2rem" }}
+          >
+            Team Members
+          </Typography>
+          <hr style={{ width: "620px" }} />
 
-          <Typography
-            variant="h6"
-            ml={"-1.5rem"}
-            mt={"1rem"}
-            fontWeight={"lighter"}
-            style={{ color: "#708090" }}
-          >
-            District&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {teacherData?.data?.district}
-          </Typography>
-          <Typography
-            variant="h6"
-            ml={"-1.5rem"}
-            mt={"1rem"}
-            fontWeight={"lighter"}
-            style={{ color: "#D1D5DB" }}
-          >
-            State&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {teacherData?.data?.state}
-          </Typography>
-        </Container>
-        <Typography variant="h6" style={{ color: "#000000" }}>
-          Team Members
-        </Typography>
-        <hr style={{ width: "620px" }} />
-
-        {teacherData?.data?.team_members?.map((item, index) => (
-          <>
-            <Grid container spacing={3}>
-              <Grid item>
-                <Typography
-                  variant="h6"
-                  ml={"-1.5rem"}
-                  mt={"1rem"}
-                  fontWeight={"lighter"}
-                  style={{ color: "light" }}
-                >
-                  student {index + 1}
-                </Typography>
+          {teacherData?.data?.team_members?.map((item, index) => (
+            <>
+              <Grid container spacing={3}>
+                <Grid item>
+                  <Typography
+                    variant="h6"
+                    ml={"-1.5rem"}
+                    mt={"1rem"}
+                    fontWeight={"lighter"}
+                    // style={{ color: "light" }}
+                    style={{ color: "#708090" }}
+                  >
+                    student {index + 1}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="h6"
+                    mt={"1rem"}
+                    ml={"1rem"}
+                    fontWeight={"lighter"}
+                    style={{ color: "light" }}
+                  >
+                    {item?.name}
+                  </Typography>
+                </Grid>
+                <Grid item style={{ marginLeft: "auto" }}>
+                  <Typography
+                    variant="h6"
+                    ml={"-1.5rem"}
+                    mt={"1rem"}
+                    fontWeight={"lighter"}
+                    style={{ color: "light" }}
+                  >
+                    Class {item?.class}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography
-                  variant="h6"
-                  mt={"1rem"}
-                  ml={"1rem"}
-                  fontWeight={"lighter"}
-                  style={{ color: "light" }}
-                >
-                  {item?.name}
-                </Typography>
-              </Grid>
-              <Grid item style={{ marginLeft: "auto" }}>
-                <Typography
-                  variant="h6"
-                  ml={"-1.5rem"}
-                  mt={"1rem"}
-                  fontWeight={"lighter"}
-                  style={{ color: "light" }}
-                >
-                  Class {item?.class}
-                </Typography>
-              </Grid>
-            </Grid>
-          </>
-        ))}
-      </Grid>
+            </>
+          ))}
+        </Grid>
+      </Box>
     </Grid>
   );
 }
