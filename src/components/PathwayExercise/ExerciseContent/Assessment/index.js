@@ -13,6 +13,8 @@ function Assessment({
   setCourseData,
   setProgressTrackId,
   res,
+  triger,
+  setTriger,
 }) {
   const user = useSelector(({ User }) => User);
 
@@ -34,7 +36,8 @@ function Assessment({
     }
 
     for (let i = 0; i < value1?.length; i++) {
-      if (value1[i]?.value !== value2[i]) {
+      if (!value2?.includes(value1[i]?.value)) {
+        // if (value1[i]?.value !== value2[i]) {
         return false; // Elements are different, so they are not the same
       }
     }
@@ -66,40 +69,34 @@ function Assessment({
   const { correctSelections, incorrectSelections } = calculateSelections();
 
   // implementing this logic to check if the answer is partially correct or not
-  // console.log("correctSelections", correctSelections);
-  // console.log("incorrectSelections", incorrectSelections);
-  // console.log("answer", answer);
+
   const [finalDesicion, setFinalDesicion] = useState("");
 
   useEffect(() => {
-    if (answer.length > 1) {
-      if (answer.length == 3) {
+    if (answer?.length > 1) {
+      if (answer?.length == 3) {
         if (correctSelections == 3 && incorrectSelections == 0) {
           setFinalDesicion("correct");
-          // console.log("correct");
         } else if (correctSelections == 2 && incorrectSelections == 1) {
-          setFinalDesicion("partially correct");
-          // console.log("partially correct");
-        } else if (correctSelections == 1 && incorrectSelections == 2) {
           setFinalDesicion("partially incorrect");
-          // console.log("partially incorrect");
+        } else if (correctSelections == 1 && incorrectSelections == 2) {
+          setFinalDesicion("partially correct");
         }
       } else if (answer.length == 2) {
         if (correctSelections == 2 && incorrectSelections == 0) {
           setFinalDesicion("correct");
-          // console.log("correct");
         } else if (correctSelections == 0 && incorrectSelections == 2) {
           setFinalDesicion("incorrect");
-          // console.log("incorrect");
         } else if (correctSelections == 1 && incorrectSelections == 1) {
           setFinalDesicion("partially correct");
-          // console.log("partially correct");
         }
       }
     }
-  }, [answer]);
+  }, [answer, correctSelections, incorrectSelections]);
 
-  const submitAssessment = () => {
+  console.log(finalDesicion, "finalDesicion1");
+
+  const submitAssessment = (isCorrect) => {
     setSubmit(true);
 
     // Commented this API to test if progress tracking is working fine now
@@ -117,7 +114,6 @@ function Assessment({
     //     exercise_id: courseData.id,
     //   },
     // });
-
     if (isCorrect) {
       setCorrect(true);
       setStatus("Pass");
@@ -125,14 +121,16 @@ function Assessment({
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
         },
         data: {
           assessment_id: exerciseId,
-          selected_option: answer,
+          // selected_option: answer,
+          selected_multiple_option: answer,
           status: "Pass",
         },
       }).then((res) => {
@@ -145,33 +143,53 @@ function Assessment({
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
         },
         data: {
           assessment_id: exerciseId,
-          selected_option: answer,
+          // selected_option: answer,
+          selected_multiple_option: answer,
           status: "Fail",
         },
       }).then((res) => {
         // console.log("res", res);
       });
     }
+    setTriger(!triger);
   };
-  // console.log(answer, solution, submit, correct);
 
   useEffect(() => {
     if (res?.assessment_id === courseData.id) {
       if (res?.attempt_status === "CORRECT") {
-        setAnswer([res?.selected_option]);
+        // replaced selected_option with selected_multiple_option
+        // setAnswer([res?.selected_option]);
+        setAnswer([res?.selected_multiple_option]);
         setCorrect(true);
         setTriedAgain(2);
         setStatus("pass");
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "INCORRECT") {
+        setAnswer([res?.selected_multiple_option]);
+        // setFinalDesicion("incorrect");
+        // setAnswer([res?.selected_option]);
+        setTriedAgain(res?.attempt_count);
+        setSubmitDisable(true);
+        setSubmit(true);
+      } else if (res?.attempt_status === "PARTIALLY_CORRECT") {
+        setAnswer([res?.selected_multiple_option]);
+        // setFinalDesicion("partially correct");
+        // setAnswer([res?.selected_option]);
+        setTriedAgain(res?.attempt_count);
+        setSubmitDisable(true);
+        setSubmit(true);
+      } else if (res?.attempt_status === "PARTIALLY_INCORRECT") {
+        setAnswer([res?.selected_multiple_option]);
+        // setFinalDesicion("partially incorrect");
         // setAnswer([res?.selected_option]);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
@@ -197,7 +215,7 @@ function Assessment({
       {data &&
         data.map((content) => (
           <AssessmentContent
-            finalDesicion={finalDesicion}
+            // finalDesicion={finalDesicion}
             content={content}
             answer={answer}
             setAnswer={setAnswer}
@@ -230,19 +248,34 @@ function Assessment({
           Submit
         </Button>
       </Box>
-      {/* {console.log(data)} */}
+
       {data &&
         submit &&
         data?.map((content) => {
-          const dataArr =
-            content?.value && correct
-              ? content?.value?.correct
-              : content?.value?.incorrect;
+          let dataArr = [];
+          if (data[2]?.type === "single") {
+            dataArr =
+              content?.value && correct
+                ? content?.value?.correct
+                : content?.value?.incorrect;
+          } else if (data[2]?.type === "multiple") {
+            dataArr =
+              content?.value && finalDesicion == "partially correct"
+                ? content?.value?.partially_correct
+                : content?.value && finalDesicion == "partially incorrect"
+                ? content?.value?.partially_incorrect
+                : content?.value && finalDesicion == "correct"
+                ? content?.value?.correct
+                : content?.value?.incorrect;
+          }
+
           return (
             content?.component === "output" &&
             dataArr?.map((content, index) => (
               <AssessmentContent
+                finalDesicion={finalDesicion}
                 content={content}
+                Partially_ans={dataArr[0]}
                 index={index}
                 correct={correct}
                 setTriedAgain={setTriedAgain}

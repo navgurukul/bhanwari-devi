@@ -427,7 +427,7 @@ function PathwayCourse() {
               <>
                 <PathwayCards
                   userEnrolledClasses={userEnrolledClasses}
-                  data={pathwayCourse.data}
+                  data={pathwayCourse?.data}
                 />
               </>
             ) : (

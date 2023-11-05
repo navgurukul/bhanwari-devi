@@ -201,7 +201,8 @@ function Class({ classToEdit, indicator }) {
     }
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      // url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises/v2`,
       headers: {
         accept: "application/json",
         "version-code": versionCode,
@@ -431,7 +432,8 @@ function Class({ classToEdit, indicator }) {
       <Form
         className="form"
         onSubmit={onFormSubmit}
-        initialFieldsState={initialFormState}>
+        initialFieldsState={initialFormState}
+      >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
           // const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
           let checkEquivalence = true;
@@ -514,14 +516,16 @@ function Class({ classToEdit, indicator }) {
               <div
                 className={
                   formFieldsState[PATHWAY_ID] && "radio-field-with-validation"
-                }>
+                }
+              >
                 <span>
                   {pathways.map((item, index) => {
                     if (item.code == "PRGPYT" || item.code == "SPKENG") {
                       return (
                         <label
                           htmlFor={`pathway-${index}`}
-                          className="radio-pointer">
+                          className="radio-pointer"
+                        >
                           <input
                             type="radio"
                             className="radio-field"
@@ -569,7 +573,8 @@ function Class({ classToEdit, indicator }) {
                             onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
                           }}
-                          id="course_id">
+                          id="course_id"
+                        >
                           <option value="">Select a course</option>
                           {pathway.courses.map((course) => {
                             return (
@@ -601,7 +606,8 @@ function Class({ classToEdit, indicator }) {
                     onChange={(e) => {
                       setFormField(e.target.value, EXERCISE_ID);
                     }}
-                    id="exercise_id">
+                    id="exercise_id"
+                  >
                     <option value="">Select an exercise</option>
                     {(
                       exercisesForSelectedCourse[formFieldsState[COURSE_ID]] ||
@@ -1222,7 +1228,8 @@ function Class({ classToEdit, indicator }) {
                 <button
                   type="submit"
                   className={checkEquivalence ? "submit disabled" : "submit"}
-                  disabled={checkEquivalence}>
+                  disabled={checkEquivalence}
+                >
                   {isEditMode ? `UPDATE CLASS` : "Create Class"}
                 </button>
               )}

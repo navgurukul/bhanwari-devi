@@ -311,6 +311,7 @@ function ExerciseContent({
   const [loading, setLoading] = useState(true);
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
+  const [triger, setTriger] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -344,7 +345,7 @@ function ExerciseContent({
       setCourseData(res?.data?.course?.exercises?.[params.exerciseId]);
       setCashedData(res?.data?.course?.exercises);
     });
-  }, [courseId, lang]);
+  }, [courseId, lang, triger]);
 
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
@@ -356,16 +357,31 @@ function ExerciseContent({
     if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result/v2`,
         headers: {
           accept: "application/json",
           Authorization: user.data.token,
         },
       }).then((res) => {
-        setAssessmentResult(res.data);
+        const keyToModify = "selected_multiple_option";
+        // const newValue = JSON.parse(res?.data?.selected_multiple_option);
+        const newValue = res?.data?.selected_multiple_option;
+        const modifiedObject = {
+          ...res,
+          data: {
+            ...res.data,
+            [keyToModify]: newValue,
+          },
+        };
+
+        // console.log(modifiedObject, 'modifiedObject');
+        // console.log(res, 'res');
+        setAssessmentResult(modifiedObject.data); // passing this after parsing the data.
+        // setAssessmentResult(res.data);
       });
     }
-  }, [exerciseId, exercise?.content_type, exercise]);
+  }, [triger, exerciseId, exercise?.content_type, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -490,6 +506,8 @@ function ExerciseContent({
           )}
           {exercise && exercise.content_type === "assessment" && (
             <Assessment
+              triger={triger}
+              setTriger={setTriger}
               res={assessmentResult}
               data={content}
               exerciseId={exercise.id}

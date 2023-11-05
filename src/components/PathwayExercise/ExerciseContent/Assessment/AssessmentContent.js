@@ -48,7 +48,8 @@ const AssessmentContent = ({
   submitAssessment,
   type,
   setType,
-  handleOptionClick,
+  Partially_ans,
+  // handleOptionClick,
   setWrongAnswer,
   finalDesicion,
 }) => {
@@ -62,7 +63,7 @@ const AssessmentContent = ({
   }
 
   var displayOutput = finalDesicion;
-  displayOutput && console.log(displayOutput);
+
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
     if (index === 0) {
@@ -98,14 +99,20 @@ const AssessmentContent = ({
           </Box>
         );
       } else {
+        const Partially_retry = DOMPurify.sanitize(get(Partially_ans, "value"));
         return (
           <>
-            {displayOutput && displayOutput === "partially correct" ? (
-              <Typography>Partially Correct</Typography>
+            {(finalDesicion && finalDesicion === "partially correct") ||
+            finalDesicion === "partially incorrect" ? (
+              <UnsafeHTML
+                Container={Typography}
+                variant="body1"
+                html={Partially_retry}
+              />
             ) : (
-              <Typography>Incorrect</Typography>
+              ""
             )}
-            {/* <Typography>{displayOutput}</Typography> */}
+
             <Grid container spacing={2} mt={3} mb={10}>
               <Grid item xs={12} sm={6}>
                 <Button
@@ -196,9 +203,9 @@ const AssessmentContent = ({
       <Box sx={{ m: "32px 0px" }}>
         {Object.values(content.value).map((item, index) => {
           const text = DOMPurify.sanitize(item.value);
-          const isChecked = answer.includes(item.id);
+          const isChecked = answer?.includes(item.id);
           const isRadioChecked =
-            answer.length === 1 && answer.includes(item.id);
+            answer?.length === 1 && answer?.includes(item.id);
 
           const paperStyles = isChecked
             ? {
@@ -217,7 +224,7 @@ const AssessmentContent = ({
                 p: "16px",
                 ...paperStyles, // Apply styles when the checkbox is clicked
               }}
-              className={answer.includes(item.id) && classes.option}
+              className={answer?.includes(item.id) && classes.option}
               onClick={() => {
                 if (type === "single") {
                   setAnswer([item.id]);
