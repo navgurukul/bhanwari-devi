@@ -50,18 +50,6 @@ function ClassList({
 
   const [filterText, setFilterText] = useState(null);
   const user = useSelector(({ User }) => User);
-  useEffect(() => {
-    if (isShow === false) {
-      dispatch(classActions.getClasses());
-    }
-  }, [dispatch, isShow]);
-
-  useEffect(() => {
-    if (refreshKey) {
-      dispatch(classActions.getClasses());
-      setRefreshKey(false);
-    }
-  }, [dispatch, refreshKey]);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 

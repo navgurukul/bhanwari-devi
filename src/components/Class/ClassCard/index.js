@@ -26,6 +26,7 @@ import {
   FormControlLabel,
   DialogActions,
   DialogTitle,
+  Skeleton,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
@@ -35,6 +36,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useParams } from "react-router-dom";
 import EditClass from "../EditClass";
 import ClassForm from "../ClassForm";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 toast.configure();
 
 function ClassCard() {
@@ -43,10 +45,7 @@ function ClassCard() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
-  const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
-  const [editShowModal, setEditShowModal] = React.useState(false);
-  const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
@@ -56,11 +55,10 @@ function ClassCard() {
   // const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
   // const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { data } = useSelector((state) => state.Pathways);
   const [classToEdit, setClassToEdit] = useState({});
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [refreshKey, setRefreshKey] = useState(true);
-  const [merge, setMerge] = useState();
+  const [skeletonloading, setSkeletonloading] = useState(true);
 
   const toggleModalOpen = () => {
     // setFormType();
@@ -127,10 +125,15 @@ function ClassCard() {
           accept: "application/json",
           Authorization: user.data.token,
         },
-      }).then((res) => {
-        setClassesData(res.data);
-        setRefreshKey(false);
-      });
+      })
+        .then((res) => {
+          setClassesData(res.data);
+          setRefreshKey(false);
+          setSkeletonloading(false);
+        })
+        .catch((err) => {
+          setSkeletonloading(true);
+        });
   }, [classId, refreshKey]);
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -183,12 +186,59 @@ function ClassCard() {
       setNewPathways(res.data);
     });
   }, []);
+  const currentTime = new Date();
 
+  // Loading effect
+
+  if (skeletonloading) {
+    return (
+      <Grid container spacing={2} ml={"200px"}>
+        {Array.from(Array(8)).map((_, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={3}
+            key={index}
+            sx={{ ml: "10px", mr: "10px" }}
+          >
+            <Card sx={{ p: 4 }}>
+              <Typography variant="subtitle1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="subtitle2">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
   return (
     <>
       <Container maxWidth="lg">
         <Grid spacing={isActive ? "0px" : "16px"} container>
           {classesData.map((item) => (
+            // && item.start_time.replace("Z", "");
             <Grid item xs={12} ms={6} md={4}>
               <>
                 <Card
@@ -196,7 +246,11 @@ function ClassCard() {
                   sx={{
                     p: 4,
                     mt: isActive ? 4 : 5,
-                    bgcolor: canJoin ? "secondary.light" : "primary.lighter",
+                    bgcolor:
+                      currentTime > new Date(item.start_time)
+                        ? "primary.lighter"
+                        : "background.paper",
+
                     height: "362px",
                   }}
                   className={classes.card}
@@ -221,14 +275,16 @@ function ClassCard() {
                         (item?.facilitator?.email === user.data.user.email ||
                           flag))) && (
                       <Typography>
-                        <EditClass
-                          item={item}
-                          pathwayId={item?.PartnerSpecificBatches?.pathway_id}
-                          Newpathways={Newpathways}
-                          indicator={false}
-                          editClass={editClass}
-                          setRefreshKey={setRefreshKey}
-                        />
+                        {!(currentTime > new Date(item.start_time)) && (
+                          <EditClass
+                            item={item}
+                            pathwayId={item?.PartnerSpecificBatches?.pathway_id}
+                            Newpathways={Newpathways}
+                            indicator={false}
+                            editClass={editClass}
+                            setRefreshKey={setRefreshKey}
+                          />
+                        )}
                       </Typography>
                     )}
                   </Typography>
@@ -292,7 +348,26 @@ function ClassCard() {
 
                   {/* it's for enroll class, join class and  class Timer button */}
                   <CardActions className={classes.cardActions}>
-                    {item?.enrolled ? (
+                    {currentTime > new Date(item.start_time) ? (
+                      <Stack
+                        direction="row"
+                        sx={{
+                          justifyContent: "start-flex",
+                          width: "100%",
+                          cursor: "none",
+                          padding: "0px !important",
+                        }}
+                      >
+                        <Button
+                          type="submit"
+                          variant="text"
+                          startIcon={<CheckCircleIcon />}
+                          padding="0px !important"
+                        >
+                          completed
+                        </Button>
+                      </Stack>
+                    ) : item?.enrolled ? (
                       loading ? (
                         <div className="loader-button">
                           <Loader />

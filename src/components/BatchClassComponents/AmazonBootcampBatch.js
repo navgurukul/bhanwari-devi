@@ -84,7 +84,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
           </Typography>
         </Grid>
         <Grid item>
-          <Button component={Link} to="/amazon-videos" variant="outlined">
+          <Button component={Link} to="/classes-video" variant="outlined">
             Videos
           </Button>
         </Grid>

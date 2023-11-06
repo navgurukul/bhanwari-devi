@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     align: "center",
   },
   cardActions: {
-    padding: "0px",
+    padding: "0px !important",
     alignItems: "right",
     justifyContent: "flex-end",
   },
