@@ -37,7 +37,6 @@ import ClassCard from "../components/Class/ClassCard";
 import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/AmazonVideos";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
-import C4CApathway from "../components/PathwayCourse/C4CApathway";
 // import Credits from "../pages/Credits";
 
 const Routing = () => {
@@ -89,6 +88,7 @@ const Routing = () => {
         component={VolunteerAutomation}
       />
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
+      
 
       {/* Private routes */}
 
@@ -134,8 +134,6 @@ const Routing = () => {
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
       <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
       <PrivateRoute exact path={PATHS.STUDENT} component={StudentClassData} />
-
-      <PrivateRoute exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
     </>
   );
 };

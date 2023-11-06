@@ -13,10 +13,12 @@ import { selectRolesData } from "../../components/User/redux/selectors";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
+import axios from "axios";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
 import { useHistory } from "react-router-dom";
@@ -28,126 +30,6 @@ import {
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../../components/Header/constant";
 
-// const merakiConcerns = [
-//   {
-//     image: "learn-python",
-//     description: "How will I learn Python without a teacher?",
-//   },
-//   {
-//     image: "never-typed",
-//     description: "I have never typed on a computer keyboard before",
-//   },
-//   {
-//     image: "difficulty-english",
-//     description: "I face difficulty in understanding and speaking English",
-//   },
-// ];
-
-// const concernsText = [
-//   {
-//     description: "Learn through interactive classes and self study material",
-//   },
-//   {
-//     description: "I have never typed on a computer keyboard before",
-//   },
-//   {
-//     description: "I face difficulty in understanding and speaking English",
-//   },
-// ];
-
-// function MerakiEntry(props) {
-//   const user = useSelector(({ User }) => User);
-//   const roles = useSelector(selectRolesData);
-//   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-//   const isActiveIpad = useMediaQuery("(max-width:1300px)");
-
-//   const classes = useStyles();
-//   const history = useHistory();
-
-//   const partnerGroupId = user?.data?.user?.partner_group_id;
-//   const partnerId = user?.data?.user?.partner_id;
-//   const role = user?.data?.user?.rolesList;
-
-//   const rolesLandingPages = {
-//     [STUDENT]: PATHS.NEW_USER_DASHBOARD,
-//     [ADMIN]: PATHS.PARTNERS,
-//     [VOLUNTEER]: PATHS.CLASS,
-//     [PARTNER]: partnerGroupId
-//       ? `${PATHS.STATE}/${partnerGroupId}`
-//       : `${PATHS.PARTNERS}/${partnerId}`,
-//   };
-
-//   let defalutPage = "/";
-//   roles.map((userRole) => {
-//     if (role?.length == 0) {
-//       defalutPage = "/pathway/1";
-//     } else if (role && userRole.key === role[0].toUpperCase()) {
-//       defalutPage = rolesLandingPages[userRole.key];
-//     }
-//   });
-
-//   useEffect(() => {
-//     history.push(defalutPage);
-//   }, [defalutPage]);
-
-//   return (
-//     <div>
-//       <Typography
-//         color="textPrimary"
-//         align="center"
-//         gutterBottom
-//         {...props.headingAttr}
-//       >
-//         With Meraki, begin your programming journey for free today
-//       </Typography>
-//       <Grid
-//         sx={{ mt: isActive ? 2 : 3 }}
-//         container
-//         spacing={2}
-//         justifyContent="center"
-//       >
-//         <Grid
-//           alignItems="right"
-//           item
-//           xs={12}
-//           sm={6}
-//           md={4}
-//           sx={{
-//             display: isActiveIpad ? (isActive ? "flow" : "flex") : "",
-//             justifyContent: isActiveIpad && "flex-end",
-//           }}
-//         >
-//           <Link to={PATHS.LOGIN} className={classes.link}>
-//             <Button
-//               className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-//               variant="contained"
-//               color="primary"
-//             >
-//               Start Learning
-//             </Button>
-//           </Link>
-//         </Grid>
-//         <Grid item xs={12} sm={6} md={4}>
-//           <Button
-//             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-//             variant="outlined"
-//             color="primary"
-//             target="_blank"
-//             href="https://play.google.com/store/apps/details?id=org.merakilearn"
-//           >
-//             <img
-//               className={classes.playstoreImg}
-//               src={require("./assets/playstore.svg")}
-//               alt="Google Playstore Icon"
-//             />
-//             <span className={classes.downloadBtn}>Download Meraki</span>
-//           </Button>
-//         </Grid>
-//       </Grid>
-//     </div>
-//   );
-// }
-
 function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
@@ -157,7 +39,26 @@ function Home() {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const history = useHistory();
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentAuthParam = urlParams.get('studentAuth');
+    if(studentAuthParam) localStorage.setItem("studentAuthToken", studentAuthParam);
+    if(studentAuthParam || localStorage.getItem("studentAuthToken")!=="null" && localStorage.getItem("studentAuthToken")){
+    
+      console.log('StudentAuth Parameter:', studentAuthParam);
+      axios.get("https://merd-api.merakilearn.org/c4ca/team", {
+        headers: {
+          Authorization: studentAuthParam ?? localStorage.getItem("studentAuthToken") ?? null,
+        }})
+      .then((res) => {  
+        console.log(res.data);
+        localStorage.setItem("studentAuth", JSON.stringify(res.data));
+        history.push("/c4ca-pathway");
+      })
+      .catch((err) => {console.error(err);})
+    }
 
+  },[])
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);

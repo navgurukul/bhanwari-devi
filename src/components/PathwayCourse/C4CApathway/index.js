@@ -33,13 +33,16 @@ function C4CApathway() {
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/c4ca`,
       headers: {
         accept: "application/json",
-        Authorization: user?.data?.token,
+        Authorization: localStorage.getItem("studentAuthToken"),
       },
     })
       .then((response) => {
         setPathway(response?.data);
+        console.log(response?.data)
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.error(err);
+      });
   }, [setPathway]);
 
   const filterCourses = pathway?.modules?.filter((item) => {
