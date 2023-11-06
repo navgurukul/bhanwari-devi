@@ -187,14 +187,6 @@ function ClassCard() {
     });
   }, []);
   const currentTime = new Date();
-  const [currentClass, setCurrentClass] = useState(false);
-  useEffect(() => {
-    classesData.map((item) => {
-      if (currentTime > new Date(item.start_time)) {
-        setCurrentClass(true);
-      }
-    });
-  }, [classesData]);
 
   // Loading effect
 
