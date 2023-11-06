@@ -22,7 +22,10 @@ function CompletionComponent({ setSuccessfulExerciseCompletion }) {
   const [nextPathwayIndex, setNextPathwayIndex] = React.useState();
   const [pathwayModuleIndex, setPathwayModuleIndex] = useState();
   useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: params.pathwayId }));
+    params.pathwayId !== "c4caPathway" &&
+      dispatch(
+        pathwayActions.getPathwaysCourse({ pathwayId: params.pathwayId })
+      );
   }, [dispatch, params.pathwayId]);
 
   useEffect(() => {

@@ -7,26 +7,25 @@ import {
   Card,
   CardContent,
   CardActions,
+  LinearProgress,
 } from "@mui/material";
 import { METHODS } from "../../../services/api";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import useStyles from "../styles";
 import { PATHS, interpolatePath } from "../../../constant";
-import { Link, useHistory } from "react-router-dom";
-import { LinearProgress } from "@mui/material";
+import { Link } from "react-router-dom";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { useMediaQuery } from "@mui/material";
-import { breakpoints } from "../../../theme/constant";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 function C4CApathway() {
   const user = useSelector(({ User }) => User);
   const [pathway, setPathway] = useState([]);
-  const [completedPortion, setCompletedPortion] = useState({});
   const classes = useStyles();
-  let completedAll = completedPortion?.total === 100;
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     axios({
@@ -43,32 +42,6 @@ function C4CApathway() {
       .catch((err) => {});
   }, [setPathway]);
 
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathway.id}/completePortion`,
-      headers: {
-        accept: "application/json",
-        Authorization: user?.data?.token,
-      },
-    })
-      .then((response) => {
-        setCompletedPortion((prevState) => ({
-          ...prevState,
-          total: response?.data?.total_completed_portion,
-        }));
-
-        response.data.pathway.map((item) => {
-          setCompletedPortion((prevState) => ({
-            ...prevState,
-            [item.course_id]: item.completed_portion,
-          }));
-        });
-      })
-      .catch((err) => {});
-  }, [pathway]);
-  // console.log(completedPortion)
-
   const filterCourses = pathway?.modules?.filter((item) => {
     return item.courses.length > 0;
   });
@@ -81,12 +54,11 @@ function C4CApathway() {
   useEffect(() => {
     filterCourses &&
       filterCourses.forEach((item, index) => {
-        const isLastCourse = item.courses.length - 1;
+        const lastCourseIndex = item.courses.length - 1;
         item.courses.forEach((course, courseindex) => {
-          if (parseInt(course.completed_portion) === 100) {
-            if (courseindex < isLastCourse) {
+          if (course.completed_portion === 100) {
+            if (courseindex < lastCourseIndex) {
               const nextCourse = item.courses[courseindex + 1];
-
               if (!isCourseUnlocked(nextCourse.id)) {
                 // Automatically unlock the next course
                 setUnlockedCourses([...unlockedCourses, nextCourse.id]);
@@ -108,7 +80,7 @@ function C4CApathway() {
           }
         });
       });
-  }, [completedPortion, unlockedCourses, filterCourses]);
+  }, [unlockedCourses, filterCourses]);
 
   const isCourseUnlocked = (courseId) => {
     return unlockedCourses.includes(courseId);
@@ -151,7 +123,7 @@ function C4CApathway() {
                       interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
                         courseId: course.id,
                         exerciseId: 0,
-                        pathwayId: pathway.id,
+                        pathwayId: "c4caPathway",
                       })
                     }
                   >
@@ -161,7 +133,20 @@ function C4CApathway() {
                       sx={{
                         ml: 3,
                         // p: "16px",
-                        mb: isActive ? "0px" : "16px",
+                        mb: { xs: "0px", sm: "16px" },
+                      }}
+                      onClick={() => {
+                        !(
+                          isCourseUnlocked(course.id) ||
+                          (index === 0 && courseindex === 0)
+                        ) &&
+                          toast.success(
+                            "Complete your previous course to unlock this course",
+                            {
+                              position: toast.POSITION.BOTTOM_RIGHT,
+                              autoClose: 2500,
+                            }
+                          );
                       }}
                     >
                       <CardContent>
@@ -180,13 +165,13 @@ function C4CApathway() {
                           (index === 0 && courseindex === 0) ? (
                             <LockOpenIcon
                               color="primary"
-                              fontSize="small"
+                              fontSize="medium"
                               style={{ marginTop: "6px", marginRight: "8px" }}
                             />
                           ) : (
                             <LockIcon
-                              color="black"
-                              fontSize="small"
+                              color="grey"
+                              fontSize="medium"
                               style={{ marginTop: "6px", marginRight: "8px" }}
                             />
                           )}

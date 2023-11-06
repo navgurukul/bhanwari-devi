@@ -21,13 +21,13 @@ function LastCoursePage({ C4CALastPage }) {
           </Typography>
           <Button
             onClick={() => {
-              C4CALastPage
-                ? history.push("/c4ca-pathway")
-                : history.push(
-                    interpolatePath(PATHS.PATHWAY_COURSE, {
+              history.push(
+                C4CALastPage
+                  ? "/c4ca-pathway"
+                  : interpolatePath(PATHS.PATHWAY_COURSE, {
                       pathwayId: params.pathwayId,
                     })
-                  );
+              );
             }}
             variant="contained"
           >

@@ -15,6 +15,8 @@ function CourseCompletionPage(props) {
     C4CALastPage,
   } = props;
   const params = useParams();
+  const { pathwayId } = params;
+
   const history = useHistory();
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -32,21 +34,15 @@ function CourseCompletionPage(props) {
           </Typography>
           <Button
             onClick={() => {
-              C4CALastPage
-                ? history.push(
-                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                      courseId: pathwayModule?.[pathwayModuleIndex]?.id,
-                      exerciseId: 0,
-                      pathwayId: params.pathwayId,
-                    })
-                  )
-                : history.push(
-                    interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                      courseId: data?.[nextPathwayIndex]?.id,
-                      exerciseId: 0,
-                      pathwayId: params.pathwayId,
-                    })
-                  );
+              history.push(
+                interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                  courseId: C4CALastPage
+                    ? pathwayModule?.[pathwayModuleIndex]?.id
+                    : data?.[nextPathwayIndex]?.id,
+                  exerciseId: 0,
+                  pathwayId: params.pathwayId,
+                })
+              );
               setSuccessfulExerciseCompletion(false);
             }}
             variant="contained"
