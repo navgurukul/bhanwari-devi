@@ -58,6 +58,7 @@ export const PATHS = {
   TUTOR: "/tutor-dashboard",
   GSOC_IDEA: "/gsoc-ideas-2023",
   ACB_BATCH: "/amazon-batch-class",
+  C4CA_PATHWAY: "/c4ca-pathway",
   // CREDITS: "/credits",
 };
 

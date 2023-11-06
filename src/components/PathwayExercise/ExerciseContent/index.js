@@ -382,7 +382,8 @@ function ExerciseContent({
     if (
       user?.data?.token &&
       pathwayId !== "miscellaneous" &&
-      pathwayId !== "residential"
+      pathwayId !== "residential" &&
+      pathwayId !== "c4caPathway"
     ) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
