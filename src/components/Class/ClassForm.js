@@ -792,11 +792,12 @@ function ClassForm({
   });
 
   useEffect(() => {
+
     if (pathwayData?.code === "ACB") {
       const amazonCodingBootcamp = partnerData.find(
         (partner) => partner.label?.toLowerCase() === "amazon coding bootcamp"
       );
-      if (amazonCodingBootcamp) {
+      if (amazonCodingBootcamp ) {
         setSelectedPartners([amazonCodingBootcamp]);
         setClassFields({
           ...classFields,
