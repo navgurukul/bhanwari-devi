@@ -63,6 +63,7 @@ const AssessmentContent = ({
   }
 
   var displayOutput = finalDesicion;
+  console.log(submit);
 
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
@@ -100,10 +101,12 @@ const AssessmentContent = ({
         );
       } else {
         const Partially_retry = DOMPurify.sanitize(get(Partially_ans, "value"));
+        console.log(Partially_retry);
         return (
           <>
-            {(finalDesicion && finalDesicion === "partially correct") ||
-            finalDesicion === "partially incorrect" ? (
+            {submit &&
+            ((finalDesicion && finalDesicion === "partially correct") ||
+              finalDesicion === "partially incorrect") ? (
               <UnsafeHTML
                 Container={Typography}
                 variant="body1"
@@ -134,7 +137,7 @@ const AssessmentContent = ({
                   variant="outlined"
                   fullWidth
                   onClick={() => {
-                    setAnswer();
+                    setAnswer([]);
                     setSubmit();
                     setSubmitDisable();
                   }}
@@ -222,17 +225,23 @@ const AssessmentContent = ({
                 mb: "16px",
                 cursor: "pointer",
                 p: "16px",
-                ...paperStyles, // Apply styles when the checkbox is clicked
+                // ...paperStyles, // Apply styles when the checkbox is clicked
               }}
-              className={answer?.includes(item.id) && classes.option}
+              // className={answer?.includes(item.id) && classes.option}
               onClick={() => {
+                console.log("clicked");
                 if (type === "single") {
                   setAnswer([item.id]);
                 } else {
-                  const updatedAnswer = isChecked
-                    ? answer.filter((id) => id !== item.id)
-                    : [...answer, item.id];
-                  setAnswer(updatedAnswer);
+                  if (submit === true) {
+                    return;
+                  } else {
+                    const updatedAnswer = isChecked
+                      ? answer.filter((id) => id !== item.id)
+                      : [...answer, item.id];
+                    setAnswer();
+                    setAnswer(updatedAnswer);
+                  }
                 }
               }}
             >
@@ -240,9 +249,12 @@ const AssessmentContent = ({
                 <FormControlLabel
                   control={
                     type === "single" ? (
-                      <Radio checked={isRadioChecked} />
+                      <Radio
+                        checked={isRadioChecked}
+                        disabled={submit && true}
+                      />
                     ) : (
-                      <Checkbox checked={isChecked} />
+                      <Checkbox checked={isChecked} disabled={submit && true} />
                     )
                   }
                   label={
