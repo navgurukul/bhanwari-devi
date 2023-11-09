@@ -172,6 +172,15 @@ function PathwayExercise() {
   };
 
   useEffect(() => {
+    if(localStorage.getItem("studentAuth")|| (user && user?.data?.token)){
+      return
+    }else{
+      history.push("/login");
+    }
+
+  },[])
+
+  useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
@@ -179,7 +188,7 @@ function PathwayExercise() {
       headers: {
         "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data?.token || "",
+        Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
       },
     })
       .then((res) => {
@@ -198,7 +207,7 @@ function PathwayExercise() {
       headers: {
         "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data?.token || "",
+        Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
       },
     })
       .then((res) => {
@@ -290,7 +299,7 @@ function PathwayExercise() {
           headers: {
             "version-code": versionCode,
             accept: "application/json",
-            Authorization: user.data?.token || "",
+            Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
           },
           data: {
             pathway_id: params.pathwayId,
@@ -313,7 +322,7 @@ function PathwayExercise() {
           headers: {
             "version-code": versionCode,
             accept: "application/json",
-            Authorization: user.data?.token || "",
+            Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
           },
           data: {
             pathway_id: params.pathwayId,
@@ -347,7 +356,7 @@ function PathwayExercise() {
         headers: {
           "version-code": versionCode,
           accept: "application/json",
-          Authorization: user.data?.token || "",
+          Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
         },
         data: {
           exerciseId: course[exerciseId].id,

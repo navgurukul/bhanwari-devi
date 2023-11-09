@@ -19,6 +19,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 toast.configure();
 
@@ -26,21 +27,27 @@ function C4CApathway() {
   const user = useSelector(({ User }) => User);
   const [pathway, setPathway] = useState([]);
   const classes = useStyles();
+  const history = useHistory();
 
   useEffect(() => {
+
+if(localStorage.getItem("studentAuth")===null)
+    history.push("/login");
+
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/c4ca`,
       headers: {
         accept: "application/json",
-        Authorization: user?.data?.token,
+        Authorization: localStorage.getItem("studentAuthToken"),
       },
     })
       .then((response) => {
+       if(pathway?.length<1)
         setPathway(response?.data);
       })
       .catch((err) => {});
-  }, [setPathway]);
+  }, []);
 
   const filterCourses = pathway?.modules?.filter((item) => {
     return item.courses.length > 0;

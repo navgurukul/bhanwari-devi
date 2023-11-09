@@ -151,7 +151,7 @@ function PathwayCourse() {
       url: `${process.env.REACT_APP_MERAKI_URL}/certificate?pathway_code=${certificateCode}`,
       headers: {
         accept: "application/json",
-        Authorization: user?.data?.token,
+        Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
       },
     })
       .then((response) => {
@@ -209,7 +209,7 @@ function PathwayCourse() {
       url: `${process.env.REACT_APP_MERAKI_URL}/teacher/checking`,
       headers: {
         accept: "application/json",
-        Authorization: user?.data?.token,
+        Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
       },
     })
       .then((response) => {
@@ -232,7 +232,7 @@ function PathwayCourse() {
         url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
         headers: {
           accept: "application/json",
-          Authorization: user?.data?.token,
+          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
       })
         .then((response) => {

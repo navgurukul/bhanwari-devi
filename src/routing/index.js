@@ -58,6 +58,7 @@ const Routing = () => {
         path={PATHS.RESIDENTIAL_COURSE}
         component={ResidentialCourse}
       />
+      <Route path={PATHS.PATHWAY_COURSE_CONTENT} component={PathwayExercise} />
 
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
@@ -68,7 +69,7 @@ const Routing = () => {
 
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
-
+      <Route exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
       <Route
         exact
         path={PATHS.RETURNING_USER_PAGE}
@@ -99,10 +100,10 @@ const Routing = () => {
         path={PATHS.VOLUNTEER_FORM}
         component={VolunteerForm}
       />
-      <PrivateRoute
+      {/* <PrivateRoute
         path={PATHS.PATHWAY_COURSE_CONTENT}
         component={PathwayExercise}
-      />
+      /> */}
       <PrivateRoute
         exact
         path={PATHS.NEW_USER_DASHBOARD}
@@ -134,8 +135,6 @@ const Routing = () => {
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
       <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
       <PrivateRoute exact path={PATHS.STUDENT} component={StudentClassData} />
-
-      <PrivateRoute exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
     </>
   );
 };
