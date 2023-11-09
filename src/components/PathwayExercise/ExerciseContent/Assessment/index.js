@@ -55,7 +55,8 @@ function Assessment({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
         headers: {
           accept: "application/json",
-          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
@@ -63,9 +64,7 @@ function Assessment({
           status: "Pass",
         },
       })
-        .then((res) => {
-          // console.log("res", res);
-        })
+        .then((res) => {})
         .catch((err) => {});
     } else {
       setCorrect(false);
@@ -77,7 +76,8 @@ function Assessment({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
         headers: {
           accept: "application/json",
-          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
