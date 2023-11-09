@@ -359,7 +359,7 @@ function ExerciseContent({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
         headers: {
           accept: "application/json",
-          Authorization: user.data.token,
+          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
       })
         .then((res) => {

@@ -39,26 +39,38 @@ function Home() {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const history = useHistory();
+
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const studentAuthParam = urlParams.get('studentAuth');
-    if(studentAuthParam) localStorage.setItem("studentAuthToken", studentAuthParam);
-    if(studentAuthParam || localStorage.getItem("studentAuthToken")!=="null" && localStorage.getItem("studentAuthToken")){
-    
-      console.log('StudentAuth Parameter:', studentAuthParam);
-      axios.get("https://merd-api.merakilearn.org/c4ca/team", {
-        headers: {
-          Authorization: studentAuthParam ?? localStorage.getItem("studentAuthToken") ?? null,
-        }})
-      .then((res) => {  
-        console.log(res.data);
-        localStorage.setItem("studentAuth", JSON.stringify(res.data));
-        history.push("/c4ca-pathway");
-      })
-      .catch((err) => {console.error(err);})
+    const studentAuthParam = urlParams.get("studentAuth");
+    if (studentAuthParam)
+      localStorage.setItem("studentAuthToken", studentAuthParam);
+    if (
+      studentAuthParam ||
+      (localStorage.getItem("studentAuthToken") !== "null" &&
+        localStorage.getItem("studentAuthToken"))
+    ) {
+      axios
+        .get(`${process.env.REACT_APP_MERAKI_URL}/c4ca/team`, {
+          headers: {
+            Authorization:
+              studentAuthParam ??
+              localStorage.getItem("studentAuthToken") ??
+              null,
+          },
+        })
+        .then((res) => {
+          localStorage.setItem("studentAuth", JSON.stringify(res.data));
+          history.push("/c4ca-pathway");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
+  }, []);
 
-  },[])
+  
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
@@ -110,7 +122,8 @@ function Home() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ margin: "16px 0px 32px 0px" }}>
+                  sx={{ margin: "16px 0px 32px 0px" }}
+                >
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
@@ -119,7 +132,8 @@ function Home() {
                     variant="contained"
                     className={
                       isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }>
+                    }
+                  >
                     Start Learning
                   </Button>
                 </Link>
@@ -218,7 +232,8 @@ function Home() {
                   background: "#FFF5CC",
                   padding: "32px",
                   borderRadius: "8px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/scale.svg")}
                   alt={"Homeimage"}
@@ -237,7 +252,8 @@ function Home() {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/butterfly.svg")}
                   alt={"Homeimage"}
@@ -258,7 +274,8 @@ function Home() {
                   background: "#D3EAFD",
                   padding: "32px",
                   borderRadius: "8px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/livelessons.svg")}
                   alt={"Homeimage"}
@@ -278,7 +295,8 @@ function Home() {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/lang.svg")}
                   alt={"Homeimage"}
@@ -304,7 +322,8 @@ function Home() {
             component="h6"
             align="center"
             color="textPrimary"
-            gutterBottom>
+            gutterBottom
+          >
             Explore the Learning Tracks
           </Typography>
         </Container>
@@ -336,7 +355,8 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px !important">
                     <img
@@ -376,7 +396,8 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -413,7 +434,8 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -452,12 +474,14 @@ function Home() {
 
         <Container
           sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
-          maxWidth="sm">
+          maxWidth="sm"
+        >
           <Typography
             variant="h5"
             component="h6"
             align="center"
-            color="textPrimary">
+            color="textPrimary"
+          >
             Have Questions?
           </Typography>
           <Grid
@@ -466,7 +490,8 @@ function Home() {
             container
             spacing={4}
             align="center"
-            justifyContent="center">
+            justifyContent="center"
+          >
             <Grid item sm={isActive && 12}>
               <ExternalLink
                 style={{
@@ -474,7 +499,8 @@ function Home() {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="mailto:team@meraki.org">
+                href="mailto:team@meraki.org"
+              >
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/Email.svg")}
@@ -493,7 +519,8 @@ function Home() {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="https://wa.me/918891300300">
+                href="https://wa.me/918891300300"
+              >
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/whatsapp.svg")}

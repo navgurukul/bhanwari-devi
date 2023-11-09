@@ -20,10 +20,10 @@ const OnlyLoggedIn = (passedProps) => {
       dispatch(userActions.onUserSignin({ token }));
       localStorage.removeItem("Token");
     }
-    if (studentAuth && (!user || !user.isAuthenticated)) {
-      // Render the Component if the user is not authenticated but studentAuth is present
-      return  <Route exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
-    }
+    // if (studentAuth) {
+    //   // Render the Component if the user is not authenticated but studentAuth is present
+    //   return  <Route exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
+    // }
   
   } catch (error) {
     //console.error('Error accessing localStorage:', error);

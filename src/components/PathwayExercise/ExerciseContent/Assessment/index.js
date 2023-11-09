@@ -55,7 +55,7 @@ function Assessment({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
         headers: {
           accept: "application/json",
-          Authorization: user.data.token,
+          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
@@ -77,7 +77,7 @@ function Assessment({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
         headers: {
           accept: "application/json",
-          Authorization: user.data.token,
+          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
