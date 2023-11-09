@@ -73,8 +73,6 @@ const Routing = () => {
         component={ReturningUserPage}
       />
 
-
-
       <Route
         exact
         path={PATHS.NAVGURUKUL_INTRODUCE}
@@ -89,14 +87,9 @@ const Routing = () => {
         component={VolunteerAutomation}
       />
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
-
       {/* Private routes */}
-  
-      <PrivateRoute
-         exact
-         path={PATHS.VIDEOS}
-         component={AmazonVideos}
-         />
+
+      <PrivateRoute exact path={PATHS.VIDEOS} component={AmazonVideos} />
 
       <PrivateRoute
         exact

@@ -79,27 +79,9 @@ function C4CAProfile({ teacherData }) {
   // Create the formatted date string
   const formattedDate = `${day} ${month} ${year}`;
   return (
-    <Grid container spacing={3}>
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={4}
-        width={"60px"}
-        marginTop={"144px"}
-        marginLeft={"100px"}
-      >
-        {/* <img
-          alt={userData.name}
-          style={{
-            height: 100,
-            width: 100,
-            borderRadius: "50%",
-          }}
-          src={
-            
-          }
-        /> */}
+    <Box display={"flex"} gap={"4rem"} marginLeft={"-16rem"}>
+      {/* <Grid container spacing={3}> */}
+      <Grid item xs={12} sm={6} md={4}>
         <Avatar
           sx={{
             color: "black",
@@ -109,29 +91,24 @@ function C4CAProfile({ teacherData }) {
             fontWeight: "bold",
           }}
         >
-          SR
+          {teacherData?.data?.team_name[0]}
         </Avatar>
         <Typography
           variant="h6"
-          style={{ color: "#000000", marginTop: "2rem" }}
+          style={{ color: "#000000", marginTop: "1rem" }}
         >
           {teacherData?.data?.team_name}
-          SkyRider
         </Typography>
         <Typography
           variant="body1"
-          style={{ color: "#6D6D6D", marginTop: "32px" }}
+          style={{ color: "#6D6D6D", marginTop: "2rem", width: "350px" }}
         >
           Note: If any details are incorrect, please reach out to your teacher
           to have them corrected
         </Typography>
       </Grid>
-      <Box
-        width={"588px"}
-        marginTop={"144px"}
-        marginLeft={"100px"}
-        gap={"36PX"}
-      >
+      {/* </Grid> */}
+      <Box width={"588px"}>
         <Grid item xs={12} sm={6}>
           <Typography
             variant="h6"
@@ -182,113 +159,94 @@ function C4CAProfile({ teacherData }) {
               </Box>
             </Paper>
           </Box>
-          <Typography
-            variant="h6"
-            mt={"3rem"}
-            mb={"1rem"}
-            style={{ color: "#000000" }}
-          >
-            School Details
-          </Typography>
-          <hr style={{ width: "620px" }} />
-          <Box style={{ display: "flex", gap: "2rem" }}>
-            <Typography
-              variant="h6"
-              mt={"1rem"}
-              fontWeight={"lighter"}
-              style={{ color: "#708090" }}
-            >
-              School Name
-            </Typography>
-            <Typography
-              variant="body1"
-              mt={"1rem"}
-              // style={{ color: "#708090" }}
-            >
-              {teacherData?.data?.school}
-            </Typography>
-          </Box>
-          <Box style={{ display: "flex", gap: "6rem" }}>
-            <Typography variant="h6" mt={"1rem"} style={{ color: "#708090" }}>
-              District
-            </Typography>
-            <Typography
-              variant="body1"
-              mt={"1rem"}
-              // style={{ color: "#708090" }}
-            >
-              {teacherData?.data?.district}
-            </Typography>
-          </Box>
-          <Box style={{ display: "flex", gap: "7rem" }}>
-            <Typography
-              variant="h6"
-              mt={"1rem"}
-              fontWeight={"lighter"}
-              style={{ color: "#708090" }}
-            >
-              State
-            </Typography>
-            <Typography
-              variant="body1"
-              mt={"1rem"}
-              fontWeight={"lighter"}
-              // style={{ color: "#708090" }}
-            >
-              {teacherData?.data?.state}
-            </Typography>
-          </Box>
-          <Typography
-            variant="h6"
-            style={{ color: "#000000", marginTop: "2rem" }}
-          >
-            Team Members
-          </Typography>
-          <hr style={{ width: "620px" }} />
-
-          {teacherData?.data?.team_members?.map((item, index) => (
-            <>
-              <Grid container spacing={3}>
-                <Grid item>
-                  <Typography
-                    variant="h6"
-                    ml={"-1.5rem"}
-                    mt={"1rem"}
-                    fontWeight={"lighter"}
-                    // style={{ color: "light" }}
-                    style={{ color: "#708090" }}
-                  >
-                    student {index + 1}
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography
-                    variant="h6"
-                    mt={"1rem"}
-                    ml={"1rem"}
-                    fontWeight={"lighter"}
-                    style={{ color: "light" }}
-                  >
-                    {item?.name}
-                  </Typography>
-                </Grid>
-                <Grid item style={{ marginLeft: "auto" }}>
-                  <Typography
-                    variant="h6"
-                    ml={"-1.5rem"}
-                    mt={"1rem"}
-                    fontWeight={"lighter"}
-                    style={{ color: "light" }}
-                  >
-                    Class {item?.class}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </>
-          ))}
         </Grid>
+        <Typography
+          variant="h6"
+          style={{ color: "#000000", marginBottom: "1rem" }}
+          mt={5}
+        >
+          School Details
+        </Typography>
+        <hr style={{ width: "620px" }} />
+        <Box style={{ display: "flex", gap: "2rem" }}>
+          <Typography
+            variant="h6"
+            mt={"1rem"}
+            fontWeight={"lighter"}
+            style={{ color: "#6D6D6D" }}
+          >
+            School Name
+          </Typography>
+          <Typography variant="h6" mt={"1rem"}>
+            {teacherData?.data?.school}
+          </Typography>
+        </Box>
+        <Box style={{ display: "flex", gap: "6rem" }}>
+          <Typography variant="h6" mt={"1rem"} style={{ color: "#6D6D6D" }}>
+            District
+          </Typography>
+          <Typography variant="h6" mt={"1rem"}>
+            {teacherData?.data?.district}
+          </Typography>
+        </Box>
+        <Box style={{ display: "flex", gap: "7rem" }}>
+          <Typography
+            variant="h6"
+            mt={"1rem"}
+            fontWeight={"lighter"}
+            style={{ color: "#6D6D6D" }}
+          >
+            State
+          </Typography>
+          <Typography variant="h6" mt={"1rem"} fontWeight={"lighter"}>
+            {teacherData?.data?.state}
+          </Typography>
+        </Box>
+        <Typography
+          variant="h6"
+          style={{ color: "#000000", marginTop: "2rem", marginBottom: "1rem" }}
+        >
+          Team Members
+        </Typography>
+        <hr style={{ width: "620px" }} />
+        {teacherData?.data?.team_members?.map((item, index) => (
+          <>
+            <Grid container spacing={3}>
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  fontWeight={"lighter"}
+                  style={{ color: "#6D6D6D" }}
+                  mt={"1rem"}
+                >
+                  student {index + 1}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  mt={"1rem"}
+                  ml={"1rem"}
+                  fontWeight={"lighter"}
+                >
+                  {item?.name}
+                </Typography>
+              </Grid>
+              <Grid item style={{ marginLeft: "auto" }}>
+                <Typography
+                  variant="h6"
+                  ml={"15rem"}
+                  mt={"1rem"}
+                  fontWeight={"lighter"}
+                >
+                  Class {item?.class}
+                </Typography>
+              </Grid>
+            </Grid>
+          </>
+        ))}
       </Box>
-    </Grid>
+    </Box>
   );
 }
 export default C4CAProfile;
