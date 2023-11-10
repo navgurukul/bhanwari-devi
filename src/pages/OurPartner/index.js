@@ -33,7 +33,8 @@ const OurPartner = () => {
       )
       .then((response) => {
         setPartner(response.data);
-      });
+      })
+      .catch((err) => {});
   }, []);
 
   return (

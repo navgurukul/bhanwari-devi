@@ -21,13 +21,18 @@ import { toast } from "react-toastify";
 
 toast.configure();
 
-function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
+function MergeClass({
+  itemID,
+  setRefreshKey,
+  setClassRefresh,
+  itemName,
+  merge_date,
+}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [Mergeclassid, setMarginId] = useState();
+  const [Mergeclasses, setMergeclasses] = useState([]);
   const user = useSelector(({ User }) => User);
-
-  const mergedClasses = pathwayFilter.filter((item) => !item.merge_class);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,6 +40,19 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleMerge = () => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/classes/upcoming/${merge_date}`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    }).then((res) => {
+      setMergeclasses(res.data);
+    });
   };
 
   const handleSubmit = (e) => {
@@ -51,17 +69,25 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
       },
     }).then(() => {
       setRefreshKey(true);
+      setClassRefresh(false);
       toast.success("You successfully merge classes.", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2500,
       });
     });
   };
+  const Pathwayfilter = Mergeclasses?.filter((item) => {
+    return item.title !== itemName;
+  });
 
   return (
     <div>
       <MenuItem
-        onClick={handleClickOpen}
+        onClick={() => {
+          handleClickOpen();
+          setClassRefresh(true);
+          handleMerge();
+        }}
         sx={{ width: 133, margin: "0px 10px" }}
       >
         <Typography textAlign="center">Merge Class</Typography>
@@ -98,15 +124,15 @@ function MergeClass({ itemID, pathwayFilter, setRefreshKey }) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Merge to Batch"
-                onClick={() => {}}
+                // onClick={}
                 onChange={(e) => {
                   setMarginId(e.target.value);
                 }}
               >
-                {mergedClasses.length === 1 ? (
+                {Pathwayfilter?.length === 1 ? (
                   <MenuItem>No Batch </MenuItem>
                 ) : (
-                  mergedClasses?.map((item) => {
+                  Pathwayfilter?.map((item) => {
                     return (
                       item.id !== itemID && (
                         <MenuItem key={item.id} value={item.id}>

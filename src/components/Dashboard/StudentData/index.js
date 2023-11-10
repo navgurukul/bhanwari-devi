@@ -59,79 +59,85 @@ function StudentData() {
         searchTerm.length > 0 ? `?name=${searchTerm}` : ""
       }`,
       headers: { accept: "application/json", Authorization: user.data.token },
-    }).then((res) => {
-      if (
-        id == user.data.user.partner_id ||
-        hasOneFrom(user.data.user.rolesList, [
-          "admin",
-          "partner_view",
-          "partner_edit",
-          "partner",
-        ])
-      ) {
-        if (res.data.students.length < 1) {
-          setMessage("There are no results to display");
-          setSlicedStudents([]);
-        } else {
-          const data = res.data.students
-            .map((item) => {
-              if (item.classes_registered.length > 0) {
-                item.averageRating = 0;
-                let avg = 0;
-                let count = 0;
-                item.classes_registered.map((f) => {
-                  if (f.feedback.feedback) {
-                    avg = avg + parseInt(f.feedback.feedback);
-                    count += 1;
-                  }
-                });
-                if (avg > 0) item.averageRating = avg / count;
-                else item.averageRating = avg;
-                item.classes_registered = item.classes_registered.sort(
-                  (c1, c2) => {
-                    return new Date(c1.start_time) - new Date(c2.start_time);
-                  }
-                );
-              }
-              return {
-                ...item,
-                // not overwriting original created_at because we need the date object to sort by date
-                formatted_created_at: moment(item.created_at).format(
-                  "DD-MM-YYYY"
-                ),
-                // formatted_created_at: moment(
-                //   // item.created_at.replace("Z")
-                // ).format("DD-MM-YYYY"),
-                classes_registered: item.classes_registered.map((item) => {
-                  return {
-                    ...item,
-                    formatted_start_time: moment(
-                      item.start_time.replace("Z", "")
-                    ).format("DD-MM-YYYY"),
-                    /**
-                     * REVIEW
-                     * Why item is there again in the next line?
-                     */
-                    item,
-                    formatted_end_time: moment(
-                      item.end_time.replace("Z", "")
-                    ).format("hh:mm a"),
-                  };
-                }),
-              };
-            })
-            .sort((a, b) => {
-              return a.name.localeCompare(b.name);
-            });
-          setStudents(data);
-          setSlicedStudents(
-            data.slice(pageNumber * limit, (pageNumber + 1) * limit)
-          );
-          setTotalCount(data.length);
-          setPartneName(res.data.partner_name);
+    })
+      .then((res) => {
+        if (
+          id == user.data.user.partner_id ||
+          hasOneFrom(user.data.user.rolesList, [
+            "admin",
+            "partner_view",
+            "partner_edit",
+            "partner",
+          ])
+        ) {
+          if (
+            !Array.isArray(res.data.students) ||
+            res.data.students.length === 0
+          ) {
+            // if (res.data.students && res?.data?.students.length < 1) {
+            setMessage("There are no results to display");
+            setSlicedStudents([]);
+          } else {
+            const data = res.data.students
+              .map((item) => {
+                if (item.classes_registered.length > 0) {
+                  item.averageRating = 0;
+                  let avg = 0;
+                  let count = 0;
+                  item.classes_registered.map((f) => {
+                    if (f.feedback.feedback) {
+                      avg = avg + parseInt(f.feedback.feedback);
+                      count += 1;
+                    }
+                  });
+                  if (avg > 0) item.averageRating = avg / count;
+                  else item.averageRating = avg;
+                  item.classes_registered = item.classes_registered.sort(
+                    (c1, c2) => {
+                      return new Date(c1.start_time) - new Date(c2.start_time);
+                    }
+                  );
+                }
+                return {
+                  ...item,
+                  // not overwriting original created_at because we need the date object to sort by date
+                  formatted_created_at: moment(item.created_at).format(
+                    "DD-MM-YYYY"
+                  ),
+                  // formatted_created_at: moment(
+                  //   // item.created_at.replace("Z")
+                  // ).format("DD-MM-YYYY"),
+                  classes_registered: item.classes_registered.map((item) => {
+                    return {
+                      ...item,
+                      formatted_start_time: moment(
+                        item.start_time.replace("Z", "")
+                      ).format("DD-MM-YYYY"),
+                      /**
+                       * REVIEW
+                       * Why item is there again in the next line?
+                       */
+                      item,
+                      formatted_end_time: moment(
+                        item.end_time.replace("Z", "")
+                      ).format("hh:mm a"),
+                    };
+                  }),
+                };
+              })
+              .sort((a, b) => {
+                return a.name.localeCompare(b.name);
+              });
+            setStudents(data);
+            setSlicedStudents(
+              data.slice(pageNumber * limit, (pageNumber + 1) * limit)
+            );
+            setTotalCount(data.length);
+            setPartneName(res.data.partner_name);
+          }
         }
-      }
-    });
+      })
+      .catch((err) => {});
 
   useEffect(() => {
     fetchAPI();

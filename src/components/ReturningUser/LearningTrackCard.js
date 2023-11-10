@@ -87,9 +87,11 @@ function LearningTrackCard(props) {
           accept: "application/json",
           Authorization: user?.data?.token,
         },
-      }).then((response) => {
-        setCompletedPortionJason(response.data.total_completed_portion);
-      });
+      })
+        .then((response) => {
+          setCompletedPortionJason(response.data.total_completed_portion);
+        })
+        .catch((err) => {});
     }
   }, [pathwayId]);
 
@@ -106,9 +108,11 @@ function LearningTrackCard(props) {
           accept: "application/json",
           Authorization: user?.data?.token,
         },
-      }).then((res) => {
-        setUpcomingBatchesData(res.data);
-      });
+      })
+        .then((res) => {
+          setUpcomingBatchesData(res.data);
+        })
+        .catch((err) => {});
     }
   }, []);
   // const upcomingBatchesData = useSelector((state) => {
@@ -119,12 +123,14 @@ function LearningTrackCard(props) {
   //   dispatch(pathwayActions.getPathways());
   // }, [dispatch, pathwayId]);
 
-  const pathwayCourseData = data.PathwaysDropdow?.data?.pathways.find((item) => {
-    return item.id == pathwayId;
-  });
+  const pathwayCourseData = data.PathwaysDropdow?.data?.pathways.find(
+    (item) => {
+      return item.id == pathwayId;
+    }
+  );
 
-  const showUpcomingBatchData = 
-    pathwayCourseData?.code == 'PRGPYT' || pathwayCourseData?.code == 'SPKENG';
+  const showUpcomingBatchData =
+    pathwayCourseData?.code == "PRGPYT" || pathwayCourseData?.code == "SPKENG";
 
   return (
     <>
@@ -178,60 +184,59 @@ function LearningTrackCard(props) {
             </Grid>
           </Grid>
 
-          {showUpcomingBatchData &&
-            upcomingBatchesData?.length > 0 && (
-              <>
-                <Typography variant="subtitle1" mb={2} mt={2}>
-                  Batch : {upcomingBatchesData[0].title}
-                </Typography>
-                <Typography variant="body1" mb={2} color="text.secondary">
-                  Upcoming Classes
-                </Typography>
-                <Grid container spacing={2} mb={2}>
-                  <Grid item>
-                    <img
-                      src={require("./assets/classtype.svg")}
-                      alt="Google Playstore Icon"
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={4}>
-                    <Typography variant="body1">
-                      {upcomingBatchesData[0]?.sub_title}
-                    </Typography>
-                  </Grid>
-                  <Grid item md={2} xs={2} sx={{ justifyItems: "left" }}>
-                    {upcomingBatchesData[0]?.type === "batch" && (
-                      <Chip
-                        label="Batch"
-                        textAlign="left"
-                        sx={{
-                          backgroundColor: "primary.light",
-                          color: "primary.main",
-                        }}
-                      />
-                    )}
-                  </Grid>
-                  <Grid
-                    item
-                    md={2}
-                    sx={{
-                      marginLeft: isActive ? "15px" : "20px",
-                      color: "text.secondary",
-                    }}
-                  >
-                    <Typography variant="body1">
-                      {upcomingBatchesData[0]?.start_time &&
-                        format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
-                    </Typography>
-                  </Grid>
+          {showUpcomingBatchData && upcomingBatchesData?.length > 0 && (
+            <>
+              <Typography variant="subtitle1" mb={2} mt={2}>
+                Batch : {upcomingBatchesData[0].title}
+              </Typography>
+              <Typography variant="body1" mb={2} color="text.secondary">
+                Upcoming Classes
+              </Typography>
+              <Grid container spacing={2} mb={2}>
+                <Grid item>
+                  <img
+                    src={require("./assets/classtype.svg")}
+                    alt="Google Playstore Icon"
+                  />
                 </Grid>
+                <Grid item md={6} xs={4}>
+                  <Typography variant="body1">
+                    {upcomingBatchesData[0]?.sub_title}
+                  </Typography>
+                </Grid>
+                <Grid item md={2} xs={2} sx={{ justifyItems: "left" }}>
+                  {upcomingBatchesData[0]?.type === "batch" && (
+                    <Chip
+                      label="Batch"
+                      textAlign="left"
+                      sx={{
+                        backgroundColor: "primary.light",
+                        color: "primary.main",
+                      }}
+                    />
+                  )}
+                </Grid>
+                <Grid
+                  item
+                  md={2}
+                  sx={{
+                    marginLeft: isActive ? "15px" : "20px",
+                    color: "text.secondary",
+                  }}
+                >
+                  <Typography variant="body1">
+                    {upcomingBatchesData[0]?.start_time &&
+                      format(upcomingBatchesData[0]?.start_time, "dd MMM yy")}
+                  </Typography>
+                </Grid>
+              </Grid>
 
-                <LearningTrackTimerButton
-                  startTime={upcomingBatchesData[0]?.start_time}
-                  link={upcomingBatchesData[0]?.meet_link}
-                />
-              </>
-            )}
+              <LearningTrackTimerButton
+                startTime={upcomingBatchesData[0]?.start_time}
+                link={upcomingBatchesData[0]?.meet_link}
+              />
+            </>
+          )}
           <Button
             variant="outlined"
             sx={{

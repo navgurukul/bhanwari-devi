@@ -23,4 +23,13 @@
     font-weight: 500;
     padding: 10px;
   }
+  .paginationBttns {
+    height: 0px !important;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+  }
+  .pagination {
+    padding-left: 70px;
+  }
 }

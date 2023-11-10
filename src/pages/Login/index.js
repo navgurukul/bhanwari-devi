@@ -14,8 +14,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
+import { useParams } from "react-router-dom";
 
 function Login(props) {
+  // for amazon coding bootcamp redirect:-
+  const { utm_medium } = useParams();
+  // console.log(utm_medium);
   const [queryString, setqueryString] = useState(null);
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
@@ -84,7 +88,9 @@ function Login(props) {
           Authorization: data.token,
         },
         data: { referrer: queryString },
-      }).then((res) => {});
+      })
+        .then((res) => {})
+        .catch((err) => {});
     }
     if (props.location.state == "/volunteer-with-us") {
       if (rolesList.includes("volunteer")) {
@@ -108,7 +114,11 @@ function Login(props) {
   }
 
   if (rolesList != false) {
+   
     if (!(rolesList.includes("partner") || rolesList.includes("admin"))) {
+      if (utm_medium.includes("amazon")) {
+        return <Redirect to={"/pathway/:7"} />;
+      }
       return <Redirect to={PATHS.COURSE} />;
     }
   } else if (rolesList.length == 0) {

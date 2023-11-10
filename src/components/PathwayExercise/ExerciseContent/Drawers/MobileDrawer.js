@@ -42,15 +42,15 @@ function Item({
   };
   React.useEffect(() => {
     if (contentType === "assessment") {
-      if (progressTrackId?.assessments.includes(id)) {
+      if (progressTrackId?.assessments?.includes(id)) {
         setCompleted(true);
       }
     } else if (contentType === "class_topic") {
-      if (progressTrackId?.classes.includes(id)) {
+      if (progressTrackId?.classes?.includes(id)) {
         setCompleted(true);
       }
     } else if (contentType === "exercise") {
-      if (progressTrackId?.exercises.includes(id)) {
+      if (progressTrackId?.exercises?.includes(id)) {
         setCompleted(true);
       }
     }

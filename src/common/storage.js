@@ -2,8 +2,13 @@
 const getKeyName = (namespace, key) => namespace + "--" + key;
 
 const saveObjectState = (namespace, key, data) => {
-  const lsKey = getKeyName(namespace, key);
-  localStorage.setItem(lsKey, JSON.stringify(data));
+  try {
+    const lsKey = getKeyName(namespace, key);
+    localStorage.setItem(lsKey, JSON.stringify(data));
+  } catch (error) {
+    //console.error('Error accessing localStorage:', error);
+    return {};
+  }
 };
 
 const getObjectState = (namespace, key) => {
