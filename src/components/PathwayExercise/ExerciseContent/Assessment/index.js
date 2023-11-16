@@ -29,7 +29,6 @@ function Assessment({
   const [type, setType] = useState("single");
   const [wrongAnswer, setWrongAnswer] = useState();
 
-  console.log(solution, "solution");
   // Assessment submit handler
   const isValuesCorrect = (value1, value2) => {
     if (value1?.length !== value2?.length) {
@@ -74,38 +73,50 @@ function Assessment({
   const [finalDesicion, setFinalDesicion] = useState("");
 
   useEffect(() => {
-    console.log(answer, "answer");
     if (answer?.length > 1) {
-      console.log("-1");
-      console.log(answer, "answer");
+      // console.log(answer, "answer");
       if (answer?.length == 3) {
-        console.log("0");
+        // console.log("0");
         if (correctSelections == 3 && incorrectSelections == 0) {
-          console.log("1");
+          // console.log("1");
           setFinalDesicion("correct");
         } else if (correctSelections == 2 && incorrectSelections == 1) {
           setFinalDesicion("partially incorrect");
-          console.log("2");
+          // console.log("2");
         } else if (correctSelections == 1 && incorrectSelections == 2) {
           setFinalDesicion("partially correct");
-          console.log("3");
+          // console.log("3");
         }
       } else if (answer.length == 2) {
         if (correctSelections == 2 && incorrectSelections == 0) {
           setFinalDesicion("correct");
-          console.log("4");
+          // console.log("4");
         } else if (correctSelections == 0 && incorrectSelections == 2) {
           setFinalDesicion("incorrect");
-          console.log("5");
+          // console.log("5");
         } else if (correctSelections == 1 && incorrectSelections == 1) {
           setFinalDesicion("partially correct");
-          console.log("6");
+          // console.log("6");
+        }
+      }
+    } else {
+      if (solution?.length > 1) {
+        if (correctSelections == 1) {
+          setFinalDesicion("partially correct");
+          // console.log("7");
+        } else {
+          setFinalDesicion("incorrect");
+        }
+      } else {
+        if (answer?.[0] === solution?.[0]?.value) {
+          setFinalDesicion("correct");
+        } else {
+          setFinalDesicion("incorrect");
         }
       }
     }
-  }, [answer, correctSelections, incorrectSelections, triedAgain]);
+  }, [answer, correctSelections, incorrectSelections, triedAgain, solution]);
 
-  console.log(finalDesicion, "finalDesicion");
   const submitAssessment = (isCorrect) => {
     setSubmit(true);
 
@@ -209,8 +220,6 @@ function Assessment({
     }
   }, [res, triedAgain]);
 
-  console.log(res, "res");
-  console.log(data, "data");
   // const handleOptionClick = (id) => {
   //   if (!submitDisable) {
   //     if (answer.includes(id)) {

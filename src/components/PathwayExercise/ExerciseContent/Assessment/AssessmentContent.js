@@ -3,7 +3,7 @@ import { Grid, Typography, Box, Button, Paper, Stack } from "@mui/material";
 import useStyles from "../../styles";
 import get from "lodash/get";
 import { Radio, Checkbox, FormControlLabel, RadioGroup } from "@mui/material";
-
+import CancelIcon from "@mui/icons-material/Cancel";
 import DOMPurify from "dompurify";
 import { fi } from "date-fns/locale";
 function UnsafeHTML(props) {
@@ -63,7 +63,6 @@ const AssessmentContent = ({
   }
 
   var displayOutput = finalDesicion;
-  console.log(submit);
 
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
@@ -101,12 +100,12 @@ const AssessmentContent = ({
         );
       } else {
         const Partially_retry = DOMPurify.sanitize(get(Partially_ans, "value"));
-        console.log(Partially_retry);
         return (
           <>
-            {submit &&
-            ((finalDesicion && finalDesicion === "partially correct") ||
-              finalDesicion === "partially incorrect") ? (
+            {(submit &&
+              ((finalDesicion && finalDesicion === "partially correct") ||
+                finalDesicion === "partially incorrect")) ||
+            finalDesicion === "incorrect" ? (
               <UnsafeHTML
                 Container={Typography}
                 variant="body1"
@@ -210,12 +209,24 @@ const AssessmentContent = ({
           const isRadioChecked =
             answer?.length === 1 && answer?.includes(item.id);
 
+          const isValuePresent = solution?.some(
+            (sitem) => sitem.value === item.id
+          );
+
+          // submit
+          //   ? answer?.includes(item.id) && isValuePresent
+          //     ? (console.log("green"))
+          //     : (console.log("red"))
+          //   : (console.log("empty"))
+
           const paperStyles = isChecked
             ? {
                 //backgroundColor: "#E9F5E9", // Change to your desired green color
                 boxShadow: "0 0 10px  rgba(233, 245, 233, 0.5)", // Light green shadow
               }
-            : {};
+            : {
+                // boxShadow: "0 0 10px  rgba(2, 24, 233, 0.5)"
+              };
 
           return (
             <Paper
@@ -227,11 +238,49 @@ const AssessmentContent = ({
                 p: "16px",
                 // ...paperStyles, // Apply styles when the checkbox is clicked
               }}
+              className={
+                submit
+                  ? answer?.includes(item.id) && isValuePresent
+                    ? classes.correctAnswer
+                    : answer?.includes(item.id) && classes.inCorrectAnswer
+                  : ""
+              }
+              // className={
+              //   submit
+              //     ? answer?.includes(item.id) && solution?.includes(item.id)
+              //       ? classes.correctAnswer
+              //       : classes.inCorrectAnswer
+              //     : classes.option
+              // }
+              // className = {{if (submit){
+              //   if (answer?.includes(item.id) && solution?.includes(item.id)){
+              //     // setWrongAnswer(true)
+              //     classes.correctAnswer
+              //     // console.log("Works");
+              //   }
+              //   else{
+              //     classes.inCorrectAnswer
+              //     // console.log("Not Works");
+              //   }
+              // }}}
+              // className={
+              //   submit
+              //     ? correct
+              //       ? answer === item.id && classes.correctAnswer
+              //       : triedAgain === 1
+              //       ? answer === item.id && classes.inCorrectAnswer
+              //       : (answer == item.id && classes.inCorrectAnswer) ||
+              //         (solution == item.id && classes.correctAnswer)
+              //     : answer == item.id && classes.option
+              // }
               // className={answer?.includes(item.id) && classes.option}
               onClick={() => {
-                console.log("clicked");
                 if (type === "single") {
-                  setAnswer([item.id]);
+                  if (submit === true) {
+                    return;
+                  } else {
+                    setAnswer([item.id]);
+                  }
                 } else {
                   if (submit === true) {
                     return;
@@ -249,13 +298,52 @@ const AssessmentContent = ({
                 <FormControlLabel
                   control={
                     type === "single" ? (
-                      <Radio
-                        checked={isRadioChecked}
-                        disabled={submit && true}
-                      />
+                      submit ? (
+                        answer?.includes(item.id) && isValuePresent ? (
+                          <Radio
+                            checked={isRadioChecked}
+                            disabled={submit && true}
+                          />
+                        ) : answer?.includes(item.id) ? (
+                          <CancelIcon
+                            sx={{ color: "red", marginLeft: 1, marginRight: 1 }}
+                          />
+                        ) : (
+                          <Radio
+                            checked={isRadioChecked}
+                            disabled={submit && true}
+                          />
+                        )
+                      ) : (
+                        <Radio
+                          checked={isRadioChecked}
+                          disabled={submit && true}
+                        />
+                      )
+                    ) : // disabled={submit && true}
+                    // />
+                    submit ? (
+                      answer?.includes(item.id) && isValuePresent ? (
+                        <Checkbox
+                          checked={isChecked}
+                          // disabled={submit && true}
+                        />
+                      ) : answer?.includes(item.id) ? (
+                        <CancelIcon
+                          sx={{ color: "red", marginLeft: 1, marginRight: 1 }}
+                        />
+                      ) : (
+                        <Checkbox checked={isChecked} />
+                      )
                     ) : (
                       <Checkbox checked={isChecked} disabled={submit && true} />
                     )
+                    // answer?.includes(item.id) ?
+
+                    // <Checkbox checked={isChecked}
+                    // disabled={submit && true}
+                    // /> :
+                    // <CancelIcon sx={{ color: "red" }} />
                   }
                   label={
                     <UnsafeHTML
