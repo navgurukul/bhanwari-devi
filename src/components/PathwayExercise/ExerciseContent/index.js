@@ -357,7 +357,6 @@ function ExerciseContent({
     if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
-        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result/v2`,
         headers: {
           accept: "application/json",
@@ -365,7 +364,6 @@ function ExerciseContent({
         },
       }).then((res) => {
         const keyToModify = "selected_multiple_option";
-        // const newValue = JSON.parse(res?.data?.selected_multiple_option);
         const newValue = res?.data?.selected_multiple_option;
         const modifiedObject = {
           ...res,
@@ -374,11 +372,7 @@ function ExerciseContent({
             [keyToModify]: newValue,
           },
         };
-
-        // console.log(modifiedObject, 'modifiedObject');
-        // console.log(res, 'res');
         setAssessmentResult(modifiedObject.data); // passing this after parsing the data.
-        // setAssessmentResult(res.data);
       });
     }
   }, [triger, exerciseId, exercise?.content_type, exercise]);

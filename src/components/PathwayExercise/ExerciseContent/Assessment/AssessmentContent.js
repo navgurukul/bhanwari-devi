@@ -49,7 +49,6 @@ const AssessmentContent = ({
   type,
   setType,
   Partially_ans,
-  // handleOptionClick,
   setWrongAnswer,
   finalDesicion,
 }) => {
@@ -61,8 +60,6 @@ const AssessmentContent = ({
       );
     }
   }
-
-  var displayOutput = finalDesicion;
 
   if (content.component === "text") {
     const text = DOMPurify.sanitize(get(content, "value"));
@@ -115,8 +112,8 @@ const AssessmentContent = ({
               ""
             )}
 
-            <Grid container spacing={2} mt={3} mb={10}>
-              <Grid item xs={12} sm={6}>
+            <Grid container spacing={2} mt={1} mb={10}>
+              {/* <Grid item xs={12} sm={6}>
                 <Button
                   variant="outlined"
                   disabled
@@ -130,7 +127,7 @@ const AssessmentContent = ({
                     See Answer & Explanation
                   </Typography>
                 </Button>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} sm={6}>
                 <Button
                   variant="outlined"
@@ -213,21 +210,6 @@ const AssessmentContent = ({
             (sitem) => sitem.value === item.id
           );
 
-          // submit
-          //   ? answer?.includes(item.id) && isValuePresent
-          //     ? (console.log("green"))
-          //     : (console.log("red"))
-          //   : (console.log("empty"))
-
-          const paperStyles = isChecked
-            ? {
-                //backgroundColor: "#E9F5E9", // Change to your desired green color
-                boxShadow: "0 0 10px  rgba(233, 245, 233, 0.5)", // Light green shadow
-              }
-            : {
-                // boxShadow: "0 0 10px  rgba(2, 24, 233, 0.5)"
-              };
-
           return (
             <Paper
               elevation={3}
@@ -236,44 +218,16 @@ const AssessmentContent = ({
                 mb: "16px",
                 cursor: "pointer",
                 p: "16px",
-                // ...paperStyles, // Apply styles when the checkbox is clicked
               }}
               className={
                 submit
                   ? answer?.includes(item.id) && isValuePresent
                     ? classes.correctAnswer
-                    : answer?.includes(item.id) && classes.inCorrectAnswer
+                    : answer?.includes(item.id)
+                    ? classes.inCorrectAnswer
+                    : ""
                   : ""
               }
-              // className={
-              //   submit
-              //     ? answer?.includes(item.id) && solution?.includes(item.id)
-              //       ? classes.correctAnswer
-              //       : classes.inCorrectAnswer
-              //     : classes.option
-              // }
-              // className = {{if (submit){
-              //   if (answer?.includes(item.id) && solution?.includes(item.id)){
-              //     // setWrongAnswer(true)
-              //     classes.correctAnswer
-              //     // console.log("Works");
-              //   }
-              //   else{
-              //     classes.inCorrectAnswer
-              //     // console.log("Not Works");
-              //   }
-              // }}}
-              // className={
-              //   submit
-              //     ? correct
-              //       ? answer === item.id && classes.correctAnswer
-              //       : triedAgain === 1
-              //       ? answer === item.id && classes.inCorrectAnswer
-              //       : (answer == item.id && classes.inCorrectAnswer) ||
-              //         (solution == item.id && classes.correctAnswer)
-              //     : answer == item.id && classes.option
-              // }
-              // className={answer?.includes(item.id) && classes.option}
               onClick={() => {
                 if (type === "single") {
                   if (submit === true) {
@@ -320,14 +274,9 @@ const AssessmentContent = ({
                           disabled={submit && true}
                         />
                       )
-                    ) : // disabled={submit && true}
-                    // />
-                    submit ? (
+                    ) : submit ? (
                       answer?.includes(item.id) && isValuePresent ? (
-                        <Checkbox
-                          checked={isChecked}
-                          // disabled={submit && true}
-                        />
+                        <Checkbox checked={isChecked} />
                       ) : answer?.includes(item.id) ? (
                         <CancelIcon
                           sx={{ color: "red", marginLeft: 1, marginRight: 1 }}
@@ -338,12 +287,6 @@ const AssessmentContent = ({
                     ) : (
                       <Checkbox checked={isChecked} disabled={submit && true} />
                     )
-                    // answer?.includes(item.id) ?
-
-                    // <Checkbox checked={isChecked}
-                    // disabled={submit && true}
-                    // /> :
-                    // <CancelIcon sx={{ color: "red" }} />
                   }
                   label={
                     <UnsafeHTML
@@ -361,7 +304,6 @@ const AssessmentContent = ({
     );
   }
   if (content.component === "solution") {
-    // console.log(content);
     setSolution(content?.correct_options_value);
     setType(content?.type);
     setWrongAnswer();
