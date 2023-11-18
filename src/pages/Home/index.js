@@ -13,10 +13,12 @@ import { selectRolesData } from "../../components/User/redux/selectors";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
+import axios from "axios";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
 import { useHistory } from "react-router-dom";
@@ -28,126 +30,6 @@ import {
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../../components/Header/constant";
 
-// const merakiConcerns = [
-//   {
-//     image: "learn-python",
-//     description: "How will I learn Python without a teacher?",
-//   },
-//   {
-//     image: "never-typed",
-//     description: "I have never typed on a computer keyboard before",
-//   },
-//   {
-//     image: "difficulty-english",
-//     description: "I face difficulty in understanding and speaking English",
-//   },
-// ];
-
-// const concernsText = [
-//   {
-//     description: "Learn through interactive classes and self study material",
-//   },
-//   {
-//     description: "I have never typed on a computer keyboard before",
-//   },
-//   {
-//     description: "I face difficulty in understanding and speaking English",
-//   },
-// ];
-
-// function MerakiEntry(props) {
-//   const user = useSelector(({ User }) => User);
-//   const roles = useSelector(selectRolesData);
-//   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-//   const isActiveIpad = useMediaQuery("(max-width:1300px)");
-
-//   const classes = useStyles();
-//   const history = useHistory();
-
-//   const partnerGroupId = user?.data?.user?.partner_group_id;
-//   const partnerId = user?.data?.user?.partner_id;
-//   const role = user?.data?.user?.rolesList;
-
-//   const rolesLandingPages = {
-//     [STUDENT]: PATHS.NEW_USER_DASHBOARD,
-//     [ADMIN]: PATHS.PARTNERS,
-//     [VOLUNTEER]: PATHS.CLASS,
-//     [PARTNER]: partnerGroupId
-//       ? `${PATHS.STATE}/${partnerGroupId}`
-//       : `${PATHS.PARTNERS}/${partnerId}`,
-//   };
-
-//   let defalutPage = "/";
-//   roles.map((userRole) => {
-//     if (role?.length == 0) {
-//       defalutPage = "/pathway/1";
-//     } else if (role && userRole.key === role[0].toUpperCase()) {
-//       defalutPage = rolesLandingPages[userRole.key];
-//     }
-//   });
-
-//   useEffect(() => {
-//     history.push(defalutPage);
-//   }, [defalutPage]);
-
-//   return (
-//     <div>
-//       <Typography
-//         color="textPrimary"
-//         align="center"
-//         gutterBottom
-//         {...props.headingAttr}
-//       >
-//         With Meraki, begin your programming journey for free today
-//       </Typography>
-//       <Grid
-//         sx={{ mt: isActive ? 2 : 3 }}
-//         container
-//         spacing={2}
-//         justifyContent="center"
-//       >
-//         <Grid
-//           alignItems="right"
-//           item
-//           xs={12}
-//           sm={6}
-//           md={4}
-//           sx={{
-//             display: isActiveIpad ? (isActive ? "flow" : "flex") : "",
-//             justifyContent: isActiveIpad && "flex-end",
-//           }}
-//         >
-//           <Link to={PATHS.LOGIN} className={classes.link}>
-//             <Button
-//               className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-//               variant="contained"
-//               color="primary"
-//             >
-//               Start Learning
-//             </Button>
-//           </Link>
-//         </Grid>
-//         <Grid item xs={12} sm={6} md={4}>
-//           <Button
-//             className={isActive ? classes.responsiveBtn : classes.LearningBtn}
-//             variant="outlined"
-//             color="primary"
-//             target="_blank"
-//             href="https://play.google.com/store/apps/details?id=org.merakilearn"
-//           >
-//             <img
-//               className={classes.playstoreImg}
-//               src={require("./assets/playstore.svg")}
-//               alt="Google Playstore Icon"
-//             />
-//             <span className={classes.downloadBtn}>Download Meraki</span>
-//           </Button>
-//         </Grid>
-//       </Grid>
-//     </div>
-//   );
-// }
-
 function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
@@ -157,6 +39,35 @@ function Home() {
   const user = useSelector(({ User }) => User);
   const roles = useSelector(selectRolesData);
   const history = useHistory();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentAuthParam = urlParams.get("studentAuth");
+    if (studentAuthParam)
+      localStorage.setItem("studentAuthToken", studentAuthParam);
+    if (
+      studentAuthParam ||
+      (localStorage.getItem("studentAuthToken") !== "null" &&
+        localStorage.getItem("studentAuthToken"))
+    ) {
+      axios
+        .get(`${process.env.REACT_APP_MERAKI_URL}/c4ca/team`, {
+          headers: {
+            Authorization:
+              studentAuthParam ??
+              localStorage.getItem("studentAuthToken") ??
+              null,
+          },
+        })
+        .then((res) => {
+          localStorage.setItem("studentAuth", JSON.stringify(res.data));
+          history.push("/c4ca-pathway");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
@@ -209,7 +120,8 @@ function Home() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ margin: "16px 0px 32px 0px" }}>
+                  sx={{ margin: "16px 0px 32px 0px" }}
+                >
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
@@ -218,7 +130,8 @@ function Home() {
                     variant="contained"
                     className={
                       isActive ? classes.responsiveBtn : classes.LearningBtn
-                    }>
+                    }
+                  >
                     Start Learning
                   </Button>
                 </Link>
@@ -317,7 +230,8 @@ function Home() {
                   background: "#FFF5CC",
                   padding: "32px",
                   borderRadius: "8px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/scale.svg")}
                   alt={"Homeimage"}
@@ -336,7 +250,8 @@ function Home() {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/butterfly.svg")}
                   alt={"Homeimage"}
@@ -357,7 +272,8 @@ function Home() {
                   background: "#D3EAFD",
                   padding: "32px",
                   borderRadius: "8px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/livelessons.svg")}
                   alt={"Homeimage"}
@@ -377,7 +293,8 @@ function Home() {
                   padding: "32px",
                   borderRadius: "8px",
                   marginTop: "32px",
-                }}>
+                }}
+              >
                 <img
                   src={require("./assets/lang.svg")}
                   alt={"Homeimage"}
@@ -403,7 +320,8 @@ function Home() {
             component="h6"
             align="center"
             color="textPrimary"
-            gutterBottom>
+            gutterBottom
+          >
             Explore the Learning Tracks
           </Typography>
         </Container>
@@ -435,7 +353,8 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px !important">
                     <img
@@ -475,7 +394,8 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -512,7 +432,8 @@ function Home() {
                 sx={{
                   padding: "16px",
                 }}
-                align="center">
+                align="center"
+              >
                 <CardContent align="left">
                   <Box height="250px">
                     <img
@@ -551,12 +472,14 @@ function Home() {
 
         <Container
           sx={{ mt: isActive ? 3 : 6, mb: isActive ? 3 : 6 }}
-          maxWidth="sm">
+          maxWidth="sm"
+        >
           <Typography
             variant="h5"
             component="h6"
             align="center"
-            color="textPrimary">
+            color="textPrimary"
+          >
             Have Questions?
           </Typography>
           <Grid
@@ -565,7 +488,8 @@ function Home() {
             container
             spacing={4}
             align="center"
-            justifyContent="center">
+            justifyContent="center"
+          >
             <Grid item sm={isActive && 12}>
               <ExternalLink
                 style={{
@@ -573,7 +497,8 @@ function Home() {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="mailto:team@meraki.org">
+                href="mailto:team@meraki.org"
+              >
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/Email.svg")}
@@ -592,7 +517,8 @@ function Home() {
                   color: "#48a145",
                   fontStyle: "normal",
                 }}
-                href="https://wa.me/918891300300">
+                href="https://wa.me/918891300300"
+              >
                 <img
                   // className={classes.playstoreImg}
                   src={require("./assets/whatsapp.svg")}

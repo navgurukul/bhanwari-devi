@@ -182,17 +182,19 @@ function Tutor(props) {
       data: {
         volunteer_ids: selected,
       },
-    }).then((res) => {
-      if (res.status === 200) {
-        snackbarMsg({
-          vertical: "bottom",
-          horizontal: "right",
-        });
-        setTimeout(() => {
-          setdelFun(true);
-        }, 1000);
-      }
-    });
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          snackbarMsg({
+            vertical: "bottom",
+            horizontal: "right",
+          });
+          setTimeout(() => {
+            setdelFun(true);
+          }, 1000);
+        }
+      })
+      .catch((err) => {});
   };
 
   const handleChangeRowsPerPage = (event) => {

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
 import { breakpoints } from "../../../theme/constant";
-
 // import { dateTimeFormat, TimeLeft } from "../../../constant";
 // import { timeLeftFormat } from "../../common/date";
 import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
@@ -13,139 +12,65 @@ import "./styles.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../common/Loader";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import {
   Typography,
   Card,
   Grid,
   Button,
+  CardActions,
+  Container,
+  Modal,
   Box,
   Stack,
-  Menu,
-  MenuItem,
-  Checkbox,
-  CardActions,
   Dialog,
-  DialogTitle,
+  FormControlLabel,
   DialogActions,
+  DialogTitle,
+  Skeleton,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ExternalLink from "../../common/ExternalLink";
+import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
 import MergeClass from "../MergeClass";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-
+import { useParams } from "react-router-dom";
+import EditClass from "../EditClass";
+import ClassForm from "../ClassForm";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 toast.configure();
 
-function ClassCard({
-  item,
-  editClass,
-  pathwayFilter,
-  Newpathways,
-  setRefreshKey,
-}) {
+function ClassCard() {
+  const params = useParams();
+  const classId = params.batchId;
   const classes = useStyles();
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
-  const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
-  const [editShowModal, setEditShowModal] = React.useState(false);
-  const [deleteCohort, setDeleteCohort] = React.useState(false);
-  const [indicator, setIndicator] = React.useState(true);
+  const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
   const [canJoin, setCanJoin] = useState(false);
-
-  const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
-  const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
+  const [classesData, setClassesData] = useState([]);
+  const [Newpathways, setNewPathways] = useState([]);
+  // const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
+  // const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [classToEdit, setClassToEdit] = useState({});
+  const [isEditMode, setIsEditMode] = React.useState(false);
+  const [refreshKey, setRefreshKey] = useState(true);
+  const [skeletonloading, setSkeletonloading] = useState(true);
 
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  const languageMap = {
-    hi: "Hindi",
-    te: "Telugu",
-    en: "English",
-    ta: "Tamil",
-    doubt_class: "Doubt Class",
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-    setDeleteCohort(false);
-  };
-
-  const handleEdit = () => {
-    setEditShowModal(true);
-    setAnchorElUser(null);
-  };
-
-  const handleCloseEdit = () => {
-    setEditShowModal(false);
-    setIndicator(false);
-  };
-
-  const handleClickOpen = () => {
-    setShowModal(!showModal);
-    setIndicator(false);
-    setAnchorElUser(null);
+  const toggleModalOpen = () => {
+    // setFormType();
+    setClassToEdit({});
+    // setShowModal(!showModal);
   };
 
   const handleCloseEnroll = () => {
     setEnrollShowModal(false);
     setIndicator(false);
   };
-  const handleClickOpenEnroll = () => {
-    setEnrollShowModal(!enrollShowModal);
-    setIndicator(false);
-  };
 
-  const handleCloseUnenroll = () => {
-    setunenrollShowModal(false);
-    setIndicator(false);
-  };
-  const handleClickOpenUnenroll = () => {
-    setunenrollShowModal(!unenrollShowModal);
-    setIndicator(false);
-    setAnchorElUser(null);
-  };
-
-  const rolesList = user.data.user.rolesList;
-  let flag = false;
-  rolesList.includes("admin") || rolesList.includes("classAdmin")
-    ? (flag = true)
-    : (flag = false);
-
-  // API CALL FOR DELETE CLASS
-  const deleteHandler = (id) => {
-    const notify = () => {
-      toast.success(" Deleted the class successfully", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    };
-    setShowModal(!showModal);
-    return axios({
-      method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${id}`,
-      headers: {
-        accept: "application/json",
-        Authorization: user.data.token,
-        "delete-all": deleteCohort,
-      },
-    }).then(() => {
-      notify();
-      dispatch(classActions.deleteClass(id));
-    });
-  };
-
-  // API CALL FOR enroll class
   const handleSubmit = (Id) => {
     setLoading(true);
     const notify = () => {
@@ -169,7 +94,7 @@ function ClassCard({
           headers: {
             "Content-Type": "application/json",
             Authorization: user.data.token,
-            "register-to-all": indicator,
+            "register-to-all": false,
           },
         }
       )
@@ -190,481 +115,362 @@ function ClassCard({
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    refreshKey &&
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/batches/classes/${classId}`,
+        headers: {
+          accept: "application/json",
+          Authorization: user.data.token,
+        },
+      })
+        .then((res) => {
+          setClassesData(res.data);
+          setRefreshKey(false);
+          setSkeletonloading(false);
+        })
+        .catch((err) => {
+          setSkeletonloading(true);
+        });
+  }, [classId, refreshKey]);
+
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+
+  const languageMap = {
+    hi: "Hindi",
+    te: "Telugu",
+    en: "English",
+    ta: "Tamil",
+    doubt_class: "Doubt Class",
+  };
+
+  const handleClickOpenEnroll = () => {
+    setEnrollShowModal(!enrollShowModal);
+    setIndicator(false);
+  };
+
+  const rolesList = user.data.user.rolesList;
+  let flag = false;
+  rolesList.includes("admin") || rolesList.includes("classAdmin")
+    ? (flag = true)
+    : (flag = false);
+
   // API CALL FOR DROP OUT
-  const handleDropOut = (Id) => {
-    setLoading(true);
-    const notify = () => {
-      toast.success("You have been dropped out of class successfully", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2500,
-      });
-    };
-    let getNotify = false;
-    setunenrollShowModal(!unenrollShowModal);
-    const timer = setTimeout(() => {
-      getNotify = true;
-      dispatch(classActions.dropOutClass(Id));
-      setLoading(false);
-      notify();
-    }, 10000);
-    return axios({
-      method: METHODS.DELETE,
-      url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister?unregister-all=${indicator}`,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/classes/${Id}/unregister`,
+
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch]);
+
+  const editClass = (classId, indicator) => {
+    setClassToEdit(classesData.find((classData) => classData.id === classId));
+    setIsEditMode(true);
+    setShowModal(true);
+    setIndicator(indicator);
+  };
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
-        // "unregister-to-all": indicator,
       },
     }).then((res) => {
-      if (!getNotify) {
-        notify();
-        clearTimeout(timer);
-        setLoading(false);
-      }
-      dispatch(classActions.dropOutClass(Id));
+      setNewPathways(res.data);
     });
-  };
+  }, []);
+  const currentTime = new Date();
 
-  //console.log("indicator", indicator);
-  /*
-  const EnrolledAndTimer = () => {
-    const timeLeftOptions = {
-      precision: [3, 3, 3, 2, 2, 1],
-      cutoffNumArr: [0, 0, 0, 0, 10, 60],
-      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
-      expiredText: "joinNow",
-    };
-    const [Timer, setTimer] = useState(
-      timeLeftFormat(item.start_time, timeLeftOptions)
-    );
-    const ONE_MINUTE = 60000; //millisecs
-    setInterval(() => {
-      setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
-    }, ONE_MINUTE);
+  // Loading effect
+
+  if (skeletonloading) {
     return (
-      <>
-        {Timer === "joinNow" ? (
-          <ExternalLink
-            style={{
-              textDecoration: "none",
-            }}
-            href={item.meet_link}
+      <Grid container spacing={2} ml={"200px"}>
+        {Array.from(Array(8)).map((_, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={3}
+            key={index}
+            sx={{ ml: "10px", mr: "10px" }}
           >
-            <Button variant="contained" fullWidth>
-              Join Now
-            </Button>
-          </ExternalLink>
-        ) : (
-          <Button disabled={true} variant="contained">
-            Starts in {Timer}
-          </Button>
-        )}
-      </>
+            <Card sx={{ p: 4 }}>
+              <Typography variant="subtitle1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="subtitle2">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+              <Typography variant="body1">
+                <Skeleton />
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     );
-  };
-  */
-  const ACBPathway = Newpathways?.find((path) => {
-    return item.pathway_id === path.id;
-  });
-
+  }
   return (
     <>
-      <Card
-        elevation={2}
-        sx={{
-          p: 4,
-          mt: isActive ? 4 : 5,
-          bgcolor: canJoin ? "secondary.light" : "primary.lighter",
-        }}
-        className={classes.card}>
-        <Typography
-          variant="subtitle1"
-          color="#6D6D6D"
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}>
-          <Typography
-            sx={{ fontSize: "18px", fontWeight: "400" }}
-            variant="subtitle2">
-            {item.title}
-          </Typography>
-          {item.enrolled && (
-            <i
-              className="check-icon check-icon fa fa-check-circle
-            "
-              style={{ backgroundColor: "transparent" }}>
-              Enrolled
-            </i>
-          )}
-          {((rolesList.length === 0 && item.enrolled) ||
-            (rolesList.length >= 1 &&
-              (item.facilitator.email === user.data.user.email || flag))) && (
-            <MoreVertIcon
-              style={{ color: "#BDBDBD", cursor: "pointer" }}
-              onClick={handleOpenUserMenu}
-              sx={{ p: 0 }}
-            />
-          )}
-        </Typography>
-        {/* dialog box for edit delete and merge class  */}
-        <Menu
-          sx={{ mt: "15px" }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          maxWidth="130px"
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          PaperProps={{
-            style: { width: "150px" },
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={() => {
-            setAnchorElUser(null);
-          }}>
-          {(item.facilitator.email === user.data.user.email || flag) && (
-            <>
-              <MenuItem
-                onClick={() => handleEdit(item.id)}
-                sx={{ width: 133, margin: "0px 10px" }}>
-                <Typography textAlign="center">Edit</Typography>
-              </MenuItem>
+      <Container maxWidth="lg">
+        <Grid spacing={isActive ? "0px" : "16px"} container>
+          {classesData.map((item) => (
+            // && item.start_time.replace("Z", "");
+            <Grid item xs={12} ms={6} md={4}>
+              <>
+                <Card
+                  elevation={2}
+                  sx={{
+                    p: 4,
+                    mt: isActive ? 4 : 5,
+                    bgcolor:
+                      currentTime > new Date(item.start_time)
+                        ? "primary.lighter"
+                        : "background.paper",
 
-              {ACBPathway?.code === "ACB" && !item?.merge_class && (
-                <MergeClass
-                  item={item}
-                  itemID={item.id}
-                  PathwayID={item.pathway_id}
-                  pathwayFilter={pathwayFilter}
-                  setRefreshKey={setRefreshKey}
-                />
-              )}
-              <MenuItem
-                onClick={() => handleClickOpen(item.id)}
-                sx={{ width: 133, margin: "0px 10px", color: "#F44336" }}>
-                <Typography textAlign="center">Delete</Typography>
-              </MenuItem>
-            </>
-          )}
+                    height: "362px",
+                  }}
+                  className={classes.card}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    color="#6D6D6D"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography
+                      sx={{ fontSize: "18px", fontWeight: "400" }}
+                      variant="subtitle2"
+                    >
+                      {item?.title}
+                    </Typography>
 
-          {!rolesList.includes("volunteer") && item.enrolled && (
-            <MenuItem
-              onClick={() => handleClickOpenUnenroll(item.id)}
-              sx={{ width: 120, margin: "0px 10px" }}>
-              <Typography textAlign="center">Dropout</Typography>
-            </MenuItem>
-          )}
-        </Menu>
+                    {((rolesList.length === 0 && item.enrolled) ||
+                      (rolesList.length >= 1 &&
+                        (item?.facilitator?.email === user.data.user.email ||
+                          flag))) && (
+                      <Typography>
+                        {!(currentTime > new Date(item.start_time)) && (
+                          <EditClass
+                            item={item}
+                            pathwayId={item?.PartnerSpecificBatches?.pathway_id}
+                            Newpathways={Newpathways}
+                            indicator={false}
+                            editClass={editClass}
+                            setRefreshKey={setRefreshKey}
+                          />
+                        )}
+                      </Typography>
+                    )}
+                  </Typography>
+                  {/* dialog box for edit delete and merge class  */}
 
-        {/* it will show when two class merged */}
-        {ACBPathway?.code === "ACB" && item?.merge_class && (
-          <Typography variant="body2" sx={{ display: "flex" }}>
-            <img
-              className={classes.icons}
-              src={require("../assets/mergeClass.png")}
-              height="26px"
-              width="26px"
-            />
+                  {/* it will show when two class merged */}
+                  {item?.merge_class && (
+                    <Typography
+                      variant="body2"
+                      sx={{ display: "flex", mt: "16px" }}
+                    >
+                      <img
+                        className={classes.icons}
+                        src={require("../assets/mergeClass.png")}
+                        height="26px"
+                        width="26px"
+                      />
 
-            {item?.merge_class}
-          </Typography>
-        )}
-        {!item.title.toLowerCase().includes("scratch") && (
-          <Typography
-            // sx={{ fontSize: "18px", fontWeight: "400" }}
-            variant="subtitle1">
-            {item.sub_title}
-          </Typography>
-        )}
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/calendar.svg")}
-          />
-          {format(item.start_time, "dd MMM yy")}
-        </Typography>
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img className={classes.icons} src={require("../assets/time.svg")} />
-          {format(classStartTime, "hh:mm aaa")} -{" "}
-          {format(classEndTime, "hh:mm aaa")}
-        </Typography>
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/facilitator.svg")}
-          />
-          {item?.volunteer?.name || item.facilitator.name}
-        </Typography>
-        <Typography variant="body1" sx={{ display: "flex" }}>
-          <img
-            className={classes.icons}
-            src={require("../assets/language.svg")}
-          />
-          {languageMap[item.lang]}
-        </Typography>
+                      {item?.merge_class}
+                    </Typography>
+                  )}
+                  {!item?.title.toLowerCase().includes("scratch") && (
+                    <Typography
+                      // sx={{ fontSize: "18px", fontWeight: "400" }}
+                      variant="subtitle1"
+                    >
+                      {item?.sub_title}
+                    </Typography>
+                  )}
+                  <Typography variant="body1" sx={{ display: "flex" }}>
+                    <img
+                      className={classes.icons}
+                      src={require("../assets/calendar.svg")}
+                    />
+                    {format(item.start_time, "dd MMM yy")}
+                  </Typography>
 
-        {/* it's for enroll class, join class and  class Timer button */}
-        <CardActions className={classes.cardActions}>
-          {item.enrolled ? (
-            loading ? (
-              <div className="loader-button">
-                <Loader />
-              </div>
-            ) : (
-              <ClassJoinTimerButton
-                startTime={item?.start_time}
-                link={item?.meet_link}
-                onCanJoin={setCanJoin}
-              />
-            )
-          ) : loading ? (
-            <div className="loader-button">
-              <Loader />
-            </div>
-          ) : (
-            <Button
-              type="submit"
-              variant="text"
-              onClick={() => {
-                handleClickOpenEnroll(item.id);
-              }}
-              endIcon={<ArrowRightAltIcon />}>
-              Enroll
-            </Button>
-          )}
-        </CardActions>
-      </Card>
-      <Box>
-        {/* dialog box for delete button */}
-        {showModal ? (
-          <Dialog
+                  <Typography variant="body1" sx={{ display: "flex" }}>
+                    <img
+                      className={classes.icons}
+                      src={require("../assets/time.svg")}
+                    />
+                    {format(item.start_time, "hh:mm aaa")} -{" "}
+                    {format(item.end_time, "hh:mm aaa")}
+                  </Typography>
+
+                  <Typography variant="body1" sx={{ display: "flex" }}>
+                    <img
+                      className={classes.icons}
+                      src={require("../assets/facilitator.svg")}
+                    />
+                    {item?.volunteer?.name || item?.facilitator?.name}
+                  </Typography>
+                  <Typography variant="body1" sx={{ display: "flex" }}>
+                    <img
+                      className={classes.icons}
+                      src={require("../assets/language.svg")}
+                    />
+                    {languageMap[item?.lang]}
+                  </Typography>
+
+                  {/* it's for enroll class, join class and  class Timer button */}
+                  <CardActions className={classes.cardActions}>
+                    {currentTime > new Date(item.start_time) ? (
+                      <Stack
+                        direction="row"
+                        sx={{
+                          justifyContent: "start-flex",
+                          width: "100%",
+                          cursor: "none",
+                          padding: "0px !important",
+                        }}
+                      >
+                        <Button
+                          type="submit"
+                          variant="text"
+                          startIcon={<CheckCircleIcon />}
+                          padding="0px !important"
+                        >
+                          completed
+                        </Button>
+                      </Stack>
+                    ) : item?.enrolled ? (
+                      loading ? (
+                        <div className="loader-button">
+                          <Loader />
+                        </div>
+                      ) : (
+                        <ClassJoinTimerButton
+                          startTime={item?.start_time}
+                          link={item?.meet_link}
+                          onCanJoin={setCanJoin}
+                        />
+                      )
+                    ) : loading ? (
+                      <div className="loader-button">
+                        <Loader />
+                      </div>
+                    ) : (
+                      <Button
+                        type="submit"
+                        variant="text"
+                        onClick={() => {
+                          handleClickOpenEnroll();
+                        }}
+                        endIcon={<ArrowRightAltIcon />}
+                      >
+                        Enroll
+                      </Button>
+                    )}
+                  </CardActions>
+                </Card>
+
+                <Box>
+                  {enrollShowModal ? (
+                    <Dialog
+                      open={enrollShowModal}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                      PaperProps={{
+                        style: {
+                          minWidth: "35%",
+                          borderRadius: 8,
+                        },
+                      }}
+                    >
+                      <DialogTitle>
+                        <Typography variant="h6" align="center">
+                          Are you sure you want to enroll?
+                        </Typography>
+                      </DialogTitle>
+
+                      <Stack alignItems="center">
+                        <DialogActions>
+                          <Box sx={{ display: "flex", mb: 2 }}>
+                            <Button
+                              onClick={() => {
+                                return handleSubmit(item.id);
+                              }}
+                              color="primary"
+                              variant="contained"
+                              sx={{ mr: "15px", width: "100px" }}
+                            >
+                              Yes
+                            </Button>
+                            <Button
+                              onClick={handleCloseEnroll}
+                              color="grey"
+                              variant="contained"
+                              sx={{ width: "100px" }}
+                            >
+                              Cancel
+                            </Button>
+                          </Box>
+                        </DialogActions>
+                      </Stack>
+                    </Dialog>
+                  ) : null}
+                </Box>
+              </>
+            </Grid>
+          ))}
+        </Grid>
+
+        {showModal && (
+          <Modal
             open={showModal}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description">
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to delete this class?
-              </Typography>
-            </DialogTitle>
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setDeleteCohort(true);
-                      }}
-                    />
-                  }
-                  label="Delete all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return deleteHandler(item.id);
-                    }}
-                    color="error"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleClose}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}>
-                    No
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-        {/* dialog box for  edit class*/}
-        {editShowModal ? (
-          <Dialog
-            open={editShowModal}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}>
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Do you want to edit this class?
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                      }}
-                    />
-                  }
-                  label=" Edit all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      setEditShowModal(false);
-                      return editClass(item.id, indicator);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseEdit}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}>
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-        {/* dialog box for enroll class */}
-        {enrollShowModal ? (
-          <Dialog
-            open={() => enrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}>
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to enroll?
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(!indicator);
-                      }}
-                    />
-                  }
-                  label=" Enroll all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleSubmit(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseEnroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}>
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-        {unenrollShowModal ? (
-          <Dialog
-            open={() => unenrollShowModal()}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            PaperProps={{
-              style: {
-                minWidth: "35%",
-                borderRadius: 8,
-              },
-            }}>
-            <DialogTitle>
-              <Typography variant="h6" align="center">
-                Are you sure you want to drop out
-              </Typography>
-            </DialogTitle>
-
-            {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setIndicator(true);
-                      }}
-                    />
-                  }
-                  label=" Drop all classes of this Batch?"
-                />
-              </Stack>
-            )}
-            <Stack alignItems="center">
-              <DialogActions>
-                <Box sx={{ display: "flex", mb: 2 }}>
-                  <Button
-                    onClick={() => {
-                      return handleDropOut(item.id);
-                    }}
-                    color="primary"
-                    variant="contained"
-                    sx={{ mr: "15px", width: "100px" }}>
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={handleCloseUnenroll}
-                    color="grey"
-                    variant="contained"
-                    sx={{ width: "100px" }}>
-                    Cancel
-                  </Button>
-                </Box>
-              </DialogActions>
-            </Stack>
-          </Dialog>
-        ) : null}
-      </Box>
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            style={{ overflow: "scroll" }}
+          >
+            {/* { class form modal for doubt class, batches and edit class} */}
+            <ClassForm
+              isEditMode={isEditMode}
+              indicator={indicator}
+              classToEdit={classToEdit}
+              setShowModal={setShowModal}
+              setIsEditMode={setIsEditMode}
+              setNewPathways={setNewPathways}
+              Newpathways={Newpathways}
+              singleTime={true}
+              setRefreshKey={setRefreshKey}
+            />
+          </Modal>
+        )}
+      </Container>
     </>
   );
 }

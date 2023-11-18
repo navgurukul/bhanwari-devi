@@ -219,10 +219,12 @@ function Profile() {
           accept: "application/json",
           Authorization: user?.data?.token,
         },
-      }).then((response) => {
-        setCompletedPortion(response.data.total_completed_portion);
-        setCourseTime(response.data.complete_at);
-      });
+      })
+        .then((response) => {
+          setCompletedPortion(response.data.total_completed_portion);
+          setCourseTime(response.data.complete_at);
+        })
+        .catch((err) => {});
     }
   }, [pathwayId]);
 
@@ -246,11 +248,13 @@ function Profile() {
         Authorization: user.data.token,
       },
       data: payload,
-    }).then((res) => {
-      dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
-      setMsg(false);
-      setUserData(res.data.user);
-    });
+    })
+      .then((res) => {
+        dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+        setMsg(false);
+        setUserData(res.data.user);
+      })
+      .catch((err) => {});
   };
 
   // console.log(data.,"pathwayId")

@@ -37,6 +37,8 @@ import moment from "moment";
 import { formatInUtc } from "../../common/date";
 import _ from "lodash";
 import SuccessModel from "./SuccessModel";
+import EditdateForm from "./EditdateForm";
+import { set } from "date-fns";
 
 function ClassForm({
   isEditMode,
@@ -47,6 +49,8 @@ function ClassForm({
   setIsEditMode,
   Newpathways,
   setNewPathways,
+  singleTime,
+  setRefreshKey,
 }) {
   const user = useSelector(({ User }) => User);
   const [partnerPathwayId, setPartnerPathwayId] = useState();
@@ -55,25 +59,25 @@ function ClassForm({
   const [classFields, setClassFields] = useState({
     category_id: 3,
     title: classToEdit?.title || "",
-    partner_id: classToEdit.partner_id || [],
+    partner_id: classToEdit?.partner_id || [],
     date: classToEdit.start_time
       ? moment.utc(classToEdit.start_time.split("T")[0]).format("YYYY-MM-DD")
       : moment.utc(new Date()).format("YYYY-MM-DD"),
     on_days: classToEdit.parent_class
       ? classToEdit.parent_class?.on_days?.split(",")
       : [],
-    start_time: classToEdit.start_time
-      ? new Date(classToEdit.start_time)
+    start_time: classToEdit?.start_time
+      ? new Date(classToEdit?.start_time)
       : new Date(new Date().setSeconds(0)),
-    end_time: classToEdit.end_time
-      ? new Date(classToEdit.end_time)
+    end_time: classToEdit?.end_time
+      ? new Date(classToEdit?.end_time)
       : new Date(new Date().setTime(new Date().getTime() + 1 * 60 * 60 * 1000)),
-    lang: classToEdit.lang || "en",
+    lang: classToEdit?.lang || "en",
     max_enrolment:
-      classToEdit.max_enrolment == null
+      classToEdit?.max_enrolment == null
         ? "No Limit"
-        : classToEdit.max_enrolment || "10",
-    frequency: classToEdit.parent_class
+        : classToEdit?.max_enrolment || "10",
+    frequency: classToEdit?.parent_class
       ? classToEdit.parent_class.frequency
       : "WEEKLY",
     description: classToEdit.description
@@ -83,7 +87,7 @@ function ClassForm({
       : "",
     type: classToEdit.type || formType,
     pathway_id:
-      classToEdit?.pathway_id?.[0] ||
+      classToEdit?.PartnerSpecificBatches?.pathway_id?.[0] ||
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
@@ -389,15 +393,17 @@ function ClassForm({
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const partners = res.data.partners.map((item, index) => {
-        return {
-          label: item.name,
-          id: item.id,
-        };
-      });
-      setPartnerData(partners);
-    });
+    })
+      .then((res) => {
+        const partners = res.data.partners.map((item, index) => {
+          return {
+            label: item.name,
+            id: item.id,
+          };
+        });
+        setPartnerData(partners);
+      })
+      .catch((err) => {});
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/volunteers`,
@@ -405,16 +411,18 @@ function ClassForm({
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const volunteers = res?.data?.map((item, index) => {
-        return {
-          label: item.name,
-          id: item.volunteer_id,
-          pathway_id: item.pathway_id,
-        };
-      });
-      setVolunteer(volunteers);
-    });
+    })
+      .then((res) => {
+        const volunteers = res?.data?.map((item, index) => {
+          return {
+            label: item.name,
+            id: item.volunteer_id,
+            pathway_id: item.pathway_id,
+          };
+        });
+        setVolunteer(volunteers);
+      })
+      .catch((err) => {});
   }, []);
 
   useEffect(() => {
@@ -451,30 +459,33 @@ function ClassForm({
       data: {
         ...payload,
       },
-    }).then(
-      (res) => {
-        if (res.status === 200) {
+    })
+      .then(
+        (res) => {
+          if (res.status === 200) {
+            setRefreshKey(true);
+            setLoading(false);
+            setShowSuccessModal(true);
+            setSuccessModalMsg("created");
+            setTimeout(() => {
+              setShowSuccessModal(false);
+              setShowModal(false);
+            }, 2000);
+          }
+        },
+        (error) => {
           setLoading(false);
-          setShowSuccessModal(true);
-          setSuccessModalMsg("created");
-          setTimeout(() => {
-            setShowSuccessModal(false);
-            setShowModal(false);
-          }, 2000);
         }
-      },
-      (error) => {
-        setLoading(false);
-      }
-    );
+      )
+      .catch((err) => {});
   };
 
   const editClass = (payload) => {
     setLoading(true);
-    if (checked) {
-      payload.start_time = classFields.start_time;
-      payload.end_time = classFields.end_time;
-    }
+
+    payload.start_time = classFields.start_time;
+    payload.end_time = classFields.end_time;
+
     return axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/classes/${classToEdit.id}`,
@@ -488,9 +499,11 @@ function ClassForm({
     }).then(
       (res) => {
         if (res.status === 200) {
+          setRefreshKey(true);
           setLoading(false);
           setShowSuccessModal(true);
           setSuccessModalMsg("edited");
+          // setSingleTime(true);
           setTimeout(() => {
             setShowSuccessModal(false);
             setShowModal(false);
@@ -499,6 +512,7 @@ function ClassForm({
       },
       (error) => {
         setLoading(false);
+        // setSingleTime(!singleTime);
       }
     );
   };
@@ -517,12 +531,14 @@ function ClassForm({
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const filteredExercises = res.data.course.exercises.filter(
-        (exercise) => exercise.content_type === "exercise"
-      );
-      setExercisesForSelectedCourse(filteredExercises);
-    });
+    })
+      .then((res) => {
+        const filteredExercises = res.data.course.exercises.filter(
+          (exercise) => exercise.content_type === "exercise"
+        );
+        setExercisesForSelectedCourse(filteredExercises);
+      })
+      .catch((err) => {});
   };
 
   const onExerciseChange = (exerciseId) => {
@@ -674,7 +690,7 @@ function ClassForm({
 
       startDate.setHours(startend.startTime.split(":")[0]);
       startDate.setMinutes(startend.startTime.split(":")[1]);
-      endDate.setHours(startend.endTime.split(":")[0]);
+      endDate.setHours(startend?.endTime?.split(":")[0]);
       endDate.setMinutes(startend.endTime.split(":")[1]);
       const originalStartString = moment(startDate).format(
         "YYYY-MM-DDTHH:mm:ss.SSS[Z]"
@@ -707,10 +723,21 @@ function ClassForm({
       delete payload.date;
       checked && delete payload.schedule; //deleting date and schedule from payload
     }
+    if (!indicator && isEditMode) {
+      delete payload.schedule;
+      delete payload.frequency;
+      // delete payload.partner_id;
+      // delete payload.type;
+      delete payload.volunteer_id;
+      delete payload.description;
+      delete payload.title;
+      delete payload.on_days;
+      delete payload.category_id;
+      delete payload.lang;
+    }
 
     (!isEditMode ? createClass : editClass)(payload);
   };
-
   const handleFocus = (event) => {
     event.preventDefault();
     const { target } = event;
@@ -718,7 +745,6 @@ function ClassForm({
       setDisplay(true);
     }
   };
-
   useEffect(() => {
     if (
       selectedPartners.length === 1 &&
@@ -733,15 +759,17 @@ function ClassForm({
           "version-code": versionCode,
           Authorization: user.data.token,
         },
-      }).then((res) => {
-        const space = res.data.data.map((item) => {
-          return {
-            label: item.space_name,
-            id: item.id,
-          };
-        });
-        setOnSpace(space);
-      });
+      })
+        .then((res) => {
+          const space = res.data.data.map((item) => {
+            return {
+              label: item.space_name,
+              id: item.id,
+            };
+          });
+          setOnSpace(space);
+        })
+        .catch((err) => {});
     }
   }, [selectedPartners]);
 
@@ -766,7 +794,7 @@ function ClassForm({
           successModalMsg={successModalMsg}
           classType={classFields.type}
         />
-      ) : (
+      ) : !singleTime ? (
         <Stack alignItems="center">
           <Box
             className={classes.ModelBox}
@@ -793,6 +821,7 @@ function ClassForm({
                   onClick={() => {
                     setShowModal(false);
                     setIsEditMode(false);
+                    // setSingleTime(true);
                   }}
                 />
               </Grid>
@@ -1103,6 +1132,7 @@ function ClassForm({
               onChange={(e) => {
                 changeHandler(e);
               }}
+              InputLabelProps={{ shrink: true }}
             />
             {classFields.type === "batch" && (
               <>
@@ -1333,7 +1363,9 @@ function ClassForm({
                 style={buttonDisabled ? { backgroundColor: "#B3B3B3" } : null}
                 variant="contained"
                 fullWidth
-                onClick={submitHandle}
+                onClick={() => {
+                  submitHandle();
+                }}
               >
                 {(isEditMode ? "Update " : "Create ") +
                   (classFields.type == "batch" ? "Batch" : "Doubt Class")}
@@ -1341,6 +1373,20 @@ function ClassForm({
             )}
           </Box>
         </Stack>
+      ) : (
+        <EditdateForm
+          classFields={classFields}
+          classToEdit={classToEdit}
+          setClassFields={setClassFields}
+          changeHandler={changeHandler}
+          submitHandle={submitHandle}
+          buttonDisabled={buttonDisabled}
+          isEditMode={isEditMode}
+          setShowModal={setShowModal}
+          setIsEditMode={setIsEditMode}
+          loading={loading}
+          // setSingleTime={setSingleTime}
+        />
       )}
     </>
   );

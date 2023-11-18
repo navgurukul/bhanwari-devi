@@ -13,6 +13,8 @@ import {
   CardContent,
   Chip,
   CardActions,
+  Box,
+  Stack,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
@@ -21,6 +23,7 @@ import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DoubtClassCard from "./DoubtClassCard";
+import { Link } from "react-router-dom";
 
 function AmazonBootcampBatch({ enrolledBatches }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -37,12 +40,12 @@ function AmazonBootcampBatch({ enrolledBatches }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setEnrollClasses(res.data);
-    });
+    })
+      .then((res) => {
+        setEnrollClasses(res.data);
+      })
+      .catch((err) => {});
   }, []);
-
-  
 
   useEffect(() => {
     axios({
@@ -52,9 +55,11 @@ function AmazonBootcampBatch({ enrolledBatches }) {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setDoubtclasses(res.data);
-    });
+    })
+      .then((res) => {
+        setDoubtclasses(res.data);
+      })
+      .catch((err) => {});
   }, []);
 
   const enrolledBatcheClasses = enrollClasses.filter(
@@ -77,6 +82,11 @@ function AmazonBootcampBatch({ enrolledBatches }) {
           <Typography variant="h6" marginTop="8px">
             {enrolledBatches}
           </Typography>
+        </Grid>
+        <Grid item>
+          <Button component={Link} to="/classes-video" variant="outlined">
+            Videos
+          </Button>
         </Grid>
         {/* <Grid item justifyContent="right">
           <Button startIcon={<SettingsIcon />} color="inherit">

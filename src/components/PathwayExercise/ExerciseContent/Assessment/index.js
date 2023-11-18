@@ -135,16 +135,19 @@ function Assessment({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
         headers: {
           accept: "application/json",
-          Authorization: user.data.token,
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
           selected_multiple_option: answer,
           status: "Pass",
         },
-      }).then((res) => {
-        // console.log("res", res);
-      });
+      })
+        .then((res) => {
+          // console.log("res", res);
+        })
+        .catch((err) => {});
     } else {
       setCorrect(false);
       setStatus("Fail");
@@ -155,22 +158,27 @@ function Assessment({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
         headers: {
           accept: "application/json",
-          Authorization: user.data.token,
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
           selected_multiple_option: answer,
           status: "Fail",
         },
-      }).then((res) => {
-        // console.log("res", res);
-      });
+      })
+        .then((res) => {
+          // console.log("res", res);
+        })
+        .catch((err) => {});
     }
     setTriger(!triger);
   };
 
   useEffect(() => {
-    if (res?.assessment_id === courseData.id) {
+    // adding a nullish coalescing operator (??), so that the null value can no effect on the assessment.
+    if (res?.assessment_id === (courseData ?? {}).id) {
+      console.log(res);
       if (res?.attempt_status === "CORRECT") {
         setAnswer(res?.selected_multiple_option);
         setCorrect(true);

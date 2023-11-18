@@ -360,7 +360,8 @@ function ExerciseContent({
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result/v2`,
         headers: {
           accept: "application/json",
-          Authorization: user.data.token,
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
       }).then((res) => {
         const keyToModify = "selected_multiple_option";
@@ -390,7 +391,8 @@ function ExerciseContent({
     if (
       user?.data?.token &&
       pathwayId !== "miscellaneous" &&
-      pathwayId !== "residential"
+      pathwayId !== "residential" &&
+      pathwayId !== "c4caPathway"
     ) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
