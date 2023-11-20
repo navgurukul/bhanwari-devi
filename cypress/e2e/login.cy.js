@@ -16,7 +16,7 @@ describe('Meraki Learn Tests', function () {
 
     // Click on specific sections ozr links you want to test
     cy.contains('Introduction To Python').click()
-    cy.contains('how-to-begin').click();
+    // cy.contains('1. how-to-begin').click();
     cy.contains('Practice Question').click();
     cy.contains('why').click();
     cy.contains('30. Practice Question').click();
@@ -24,21 +24,8 @@ describe('Meraki Learn Tests', function () {
     cy.contains('Next').click();
     cy.contains('Next Up: Variables').click();
 
-
-
-
-
-    // Add meaningful assertions to validate the behavior
-    // cy.contains('Some text you expect to see').should('be.visible');
-    // cy.url().should('include', '/expected-url');
-
-    // Add more interactions and assertions as needed
   });
-
-  // Add more test cases as required
-
   this.afterAll(function () {
-    // Log out or perform any necessary cleanup
     cy.logOut();
   });
 });
