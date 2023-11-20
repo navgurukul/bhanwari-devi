@@ -7,7 +7,7 @@ export const PATHS = {
   HOME_PAGE: "/home",
   LOGIN: "/login",
   CLASS: "/batch",
-  BATCH: "/batch/:batchId",
+  BATCH_CLASSES: "/batch/:batchId",
   COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
   PATHWAY_COURSE_CONTENT_EDIT:
