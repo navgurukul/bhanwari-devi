@@ -115,8 +115,6 @@ function ToggleClassFormModal() {
       .catch((err) => {});
   };
 
-  console.log("authUrl", authUrl);
-
   const calledOnce = useRef(false);
   const history = useHistory();
 
@@ -127,13 +125,9 @@ function ToggleClassFormModal() {
     let user_email;
     if (url.includes("code")) {
       const decodedUri = decodeURIComponent(url);
-      console.log("decodedUri", decodedUri);
       user_id = decodedUri.split("=")[2].split("+")[0];
       user_email = decodedUri.split("=")[3].split("&")[0];
       code = url.split("code=")[1].split("scope")[0];
-      console.log("code", code);
-      console.log("user_id", user_id);
-      console.log("user_email", user_email);
       payload = {
         ...payload,
         user_id: parseInt(user_id, 10),
