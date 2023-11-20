@@ -24,7 +24,7 @@ describe('Meraki Learn Tests', function () {
         cy.contains(link1).click();
       });
       cy.contains('Next').click();
-      cy.contains('Next Up:Loops: Repeat').click();
+      cy.contains('Next Up: Loops: Repeat').click();
 
     });
     after(function () {

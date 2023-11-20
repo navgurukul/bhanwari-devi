@@ -12,8 +12,9 @@ describe('Meraki Learn Tests', function () {
         cy.get('.css-1bsvif8 > .MuiPaper-root > .MuiList-root > :nth-child(1)').contains('Introduction to Python').click();
         cy.contains('Lists 101 (Using Python)').click()
   
-        const practiceQuestions6 = [
+        const pr = [
             '2. Practice Question',
+            '3. Practice Question',
             'defining-lists','defining-lists-2',
             '5. Practice Question',
             '6. Practice Question',
@@ -55,14 +56,12 @@ describe('Meraki Learn Tests', function () {
         '67. Practice Question','68. Practice Question','69. Practice Question','70. Practice Question','71. Practice Question','72. Practice Question','73. Practice Question',
         '74. Practice Question','75. Practice Question','76. Practice Question'
     ];
-                      
-        practiceQuestions6.forEach((link6) => {
-          cy.contains(link6).click();
-        });
-  
-        cy.contains('Next').click();
-        cy.contains('Dictionary (Using Python)').click();
-      });
+    pr.forEach((link) => {
+      cy.contains(link).click();
+    });
+    cy.contains('Next').click();
+      cy.contains('Dictionary (Using Python)').click();
+    });
   
 
 

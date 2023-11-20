@@ -11,7 +11,9 @@ describe('Meraki Learn Tests', function () {
         cy.get('.css-1bsvif8 > .MuiPaper-root > .MuiList-root > :nth-child(1)').contains('Introduction to Python').click();
         cy.contains('Variables').click()
       // cy.pause()
-      const practiceQuestions3 = ['2. Practice Question', '3. Practice Question', '4. Practice Question', '5. Practice Question',
+      const practiceQuestions3 = [
+      '2. Practice Question', 
+      '3. Practice Question', '4. Practice Question', '5. Practice Question',
       'variables_variables-question', 'variables_variables-naming-rules', '8. Practice Question', '9. Practice Question',
       '10. Practice Question', '11. Practice Question', '12. Practice Question', 'variables_variables-naming-conventions',
       '14. Practice Question', '15. Practice Question', '16. Practice Question', '17. Practice Question', '18. Practice Question',
