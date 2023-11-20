@@ -11,7 +11,7 @@ describe('Meraki Learn Tests', function () {
       cy.visit('https://www.merakilearn.org/');
       cy.get('.css-1t6c9ts > :nth-child(1)').contains('Learn').trigger('mouseover');
       cy.get(':nth-child(4) > .jss1 > .MuiTypography-root').contains('JavaScript').click();
-      cy.contains('JS Data Types)').click();
+      cy.contains('JS Data Types').click();
   
       const practiceQuestions2 = [
         'DataTypes_StringExercises',
@@ -26,8 +26,8 @@ describe('Meraki Learn Tests', function () {
         'DataTypes_Array',
         'DataTypes_Array',
         'DataTypes_ArrayExercises',
-        'DataTypes_Typeof',
-        'DataTypes_TypeofExercises'
+        'DataTypes_TypeOf',
+        'DataTypes_TypeOfExercises'
   
       ];
   
