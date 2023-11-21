@@ -228,7 +228,7 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
         onClick={() => {
           showClass &&
             history.push(
-              interpolatePath(PATHS.BATCH, {
+              interpolatePath(PATHS.BATCH_CLASSES, {
                 batchId: item?.recurring_id,
               })
             );

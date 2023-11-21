@@ -115,8 +115,6 @@ function ToggleClassFormModal() {
       .catch((err) => {});
   };
 
-  // console.log("authUrl", authUrl);
-
   const calledOnce = useRef(false);
   const history = useHistory();
 
@@ -152,7 +150,7 @@ function ToggleClassFormModal() {
         .then((res) => {
           if (res.data.success) {
             setShowModal(true);
-            history.push("/class");
+            history.push("/batch");
           }
         })
         .catch((err) => {});
