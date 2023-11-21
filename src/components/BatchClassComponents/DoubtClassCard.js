@@ -41,10 +41,12 @@ function DoubtClassCard({ item, setDoubtclasses }) {
             accept: "application/json",
             Authorization: user.data.token,
           },
-        }).then((res) => {
-          setLoading(false);
-          setDoubtclasses(res.data);
-        });
+        })
+          .then((res) => {
+            setLoading(false);
+            setDoubtclasses(res.data);
+          })
+          .catch((err) => {});
       })
       .catch((err) => {
         setLoading(false);

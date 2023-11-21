@@ -36,10 +36,12 @@ const NewUserDashbord = () => {
         accept: "application/json",
         Authorization: user?.data?.token || "",
       },
-    }).then((res) => {
-      const data = res.data;
-      setLearningTracks(res.data);
-    });
+    })
+      .then((res) => {
+        const data = res.data;
+        setLearningTracks(res.data);
+      })
+      .catch((err) => {});
   }, []);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>

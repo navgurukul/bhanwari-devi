@@ -38,7 +38,7 @@ export const getCourseContent = (data) => {
     headers: {
       "version-code": versionCode,
       accept: "application/json",
-      Authorization: user.data.token,
+      Authorization: user?.data?.token ?? localStorage.getItem("studentAuthToken"),
     },
     // headers: HeaderFactory(token),
   });

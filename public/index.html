@@ -34,9 +34,12 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap"
       rel="stylesheet"
     /> -->
-     <!--  Link for Josefin Sans google font stylesheet  -->
+    <!--  Link for Josefin Sans google font stylesheet  -->
 
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Josefin+Sans:wght@600;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">             
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Josefin+Sans:wght@600;700&family=Noto+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link
       rel="stylesheet"
@@ -59,12 +62,19 @@
       src="https://www.googletagmanager.com/gtag/js?id=G-JX5JRJP8GK"
     ></script>
     <script>
+      let userId = window.localStorage.getItem("__AUTH__");
+      if (userId) {
+        userId = JSON.parse(userId).data?.user?.id;
+      }
+
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-JX5JRJP8GK");
+      gtag("config", "G-JX5JRJP8GK", {
+        user_id: userId,
+      });
     </script>
   </head>
   <body>
