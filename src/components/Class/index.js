@@ -311,6 +311,7 @@ function Class({ classToEdit, indicator }) {
   };
 
   const createClass = (payload) => {
+    
     payload.start_time = convertToIST(payload.start_time);
     payload.end_time = convertToIST(payload.end_time);
     setLoading(true);
@@ -332,6 +333,7 @@ function Class({ classToEdit, indicator }) {
           toast.success("You successfully created a class.", {
             position: toast.POSITION.BOTTOM_RIGHT,
           });
+          
           setLoading(false);
           window.location.reload(1);
         },

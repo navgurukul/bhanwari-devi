@@ -13,11 +13,9 @@ const YouTubePlaylist = ({
   limit,
 }) => {
   const classes = useStyles();
-
   useEffect(() => {
     async function getPlaylistVideos() {
       const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${apiKey}`;
-
       try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -32,21 +30,19 @@ const YouTubePlaylist = ({
         console.error("Error fetching data:", error);
       }
     }
-
     getPlaylistVideos();
   }, [playlistId, apiKey]);
-
   useEffect(() => {
-    const slicedData = playlistVideos.slice(
+    const slicedData = playlistVideos?.slice(
       pageNumber * limit,
       (pageNumber + 1) * limit
     );
     setSlicedVideos(slicedData);
+    console.log(slicedData)
   }, [pageNumber]);
-
   return (
     <Grid container spacing={2}>
-      {slicedVideos.map((video, index) => (
+      {slicedVideos && slicedVideos.map((video, index) => (
         <Grid item md={4} sm={6} xs={12} key={video.id}>
           <Paper elevation={3} style={{ padding: 20 }}>
             <Typography variant="h6" mt={1} mb={2}>
@@ -82,12 +78,10 @@ const YouTubePlaylist = ({
               Go to YouTube
             </Button>
           </Paper>
-
           {/* Add a button to go to YouTube */}
         </Grid>
       ))}
     </Grid>
   );
 };
-
 export default YouTubePlaylist;

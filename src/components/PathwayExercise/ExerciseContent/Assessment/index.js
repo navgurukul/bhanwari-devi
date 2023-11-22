@@ -62,16 +62,11 @@ function Assessment({
           selected_option: answer,
           status: "Pass",
         },
-<<<<<<< HEAD
-      }).then((res) => {
-      });
-=======
       })
         .then((res) => {
           // console.log("res", res);
         })
         .catch((err) => {});
->>>>>>> 110b6d8dd76d42a491e7a90aa24c51e5e1b1fd5b
     } else {
       setCorrect(false);
       setStatus("Fail");

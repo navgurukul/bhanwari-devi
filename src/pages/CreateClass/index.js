@@ -100,10 +100,11 @@ function ToggleClassFormModal() {
     setShowConsentModal(false);
   };
 
+  const urlSuffix = user.data.user.email === 'team@zuvy.org' ? '?choose=both' : '';
   const codeGenerate = async () => {
     return axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/users/calendar/generateAuthURL`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/users/calendar/generateAuthURL${urlSuffix}}`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -150,7 +151,6 @@ function ToggleClassFormModal() {
         .then((res) => {
           if (res.data.success) {
             setShowModal(true);
-            history.push("/batch");
           }
         })
         .catch((err) => {});
