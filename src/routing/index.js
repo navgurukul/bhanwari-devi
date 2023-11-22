@@ -129,7 +129,7 @@ const Routing = () => {
       />
 
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
-      <PrivateRoute exact path={PATHS.BATCH} component={ClassCard} />
+      <PrivateRoute exact path={PATHS.BATCH_CLASSES} component={ClassCard} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
