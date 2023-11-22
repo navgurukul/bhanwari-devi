@@ -211,7 +211,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {localStorage.getItem("studentAuth") ? 
          <a
-         href={`http://localhost:8080/login/?studentAuth=${localStorage.getItem("studentAuthToken")}`}
+         href={`https://dev.scratch.merakilearn.org/login/?studentAuth=${localStorage.getItem("studentAuthToken")}`}
          target="_blank"
          style={{ textDecoration: "none", color:"black" }}
        >
