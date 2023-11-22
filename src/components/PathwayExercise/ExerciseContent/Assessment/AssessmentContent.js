@@ -200,106 +200,128 @@ const AssessmentContent = ({
   if (content.component === "options") {
     return (
       <Box sx={{ m: "32px 0px" }}>
-        {Object.values(content.value).map((item, index) => {
-          const text = DOMPurify.sanitize(item.value);
-          const isChecked = answer?.includes(item.id);
-          const isRadioChecked =
-            answer?.length === 1 && answer?.includes(item.id);
+        <Grid container spacing={2}>
+          {Object.values(content.value).map((item, index) => {
+            const text = DOMPurify.sanitize(item.value);
+            const isChecked = answer?.includes(item.id);
+            const isRadioChecked =
+              answer?.length === 1 && answer?.includes(item.id);
 
-          const isValuePresent = solution?.some(
-            (sitem) => sitem.value === item.id
-          );
-
-          return (
-            <Paper
-              elevation={3}
-              sx={{
-                height: "auto",
-                mb: "16px",
-                cursor: "pointer",
-                p: "16px",
-              }}
-              className={
-                submit
-                  ? answer?.includes(item.id) && isValuePresent
-                    ? classes.correctAnswer
-                    : answer?.includes(item.id)
-                    ? classes.inCorrectAnswer
-                    : ""
-                  : ""
-              }
-              onClick={() => {
-                if (type === "single") {
-                  if (submit === true) {
-                    return;
-                  } else {
-                    setAnswer([item.id]);
+            const isValuePresent = solution?.some(
+              (sitem) => sitem.value === item.id
+            );
+            return (
+              <Grid item xs={item.option_type !== "image" ? 12 : 6}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    height: "auto",
+                    mb: "16px",
+                    cursor: "pointer",
+                    p: "16px",
+                  }}
+                  className={
+                    submit
+                      ? answer?.includes(item.id) && isValuePresent
+                        ? classes.correctAnswer
+                        : answer?.includes(item.id)
+                        ? classes.inCorrectAnswer
+                        : ""
+                      : ""
                   }
-                } else {
-                  if (submit === true) {
-                    return;
-                  } else {
-                    const updatedAnswer = isChecked
-                      ? answer.filter((id) => id !== item.id)
-                      : [...answer, item.id];
-                    setAnswer();
-                    setAnswer(updatedAnswer);
-                  }
-                }
-              }}
-            >
-              <Stack direction="row" gap={1}>
-                <FormControlLabel
-                  control={
-                    type === "single" ? (
-                      submit ? (
-                        answer?.includes(item.id) && isValuePresent ? (
-                          <Radio
-                            checked={isRadioChecked}
-                            disabled={submit && true}
-                          />
-                        ) : answer?.includes(item.id) ? (
-                          <CancelIcon
-                            sx={{ color: "red", marginLeft: 1, marginRight: 1 }}
-                          />
+                  onClick={() => {
+                    if (type === "single") {
+                      if (submit === true) {
+                        return;
+                      } else {
+                        setAnswer([item.id]);
+                      }
+                    } else {
+                      if (submit === true) {
+                        return;
+                      } else {
+                        const updatedAnswer = isChecked
+                          ? answer.filter((id) => id !== item.id)
+                          : [...answer, item.id];
+                        setAnswer();
+                        setAnswer(updatedAnswer);
+                      }
+                    }
+                  }}
+                >
+                  <Stack direction="row" gap={1}>
+                    <FormControlLabel
+                      control={
+                        type === "single" ? (
+                          submit ? (
+                            answer?.includes(item.id) && isValuePresent ? (
+                              <Radio
+                                checked={isRadioChecked}
+                                disabled={submit && true}
+                              />
+                            ) : answer?.includes(item.id) ? (
+                              <CancelIcon
+                                sx={{
+                                  color: "red",
+                                  marginLeft: 1,
+                                  marginRight: 1,
+                                }}
+                              />
+                            ) : (
+                              <Radio
+                                checked={isRadioChecked}
+                                disabled={submit && true}
+                              />
+                            )
+                          ) : (
+                            <Radio
+                              checked={isRadioChecked}
+                              disabled={submit && true}
+                            />
+                          )
+                        ) : submit ? (
+                          answer?.includes(item.id) && isValuePresent ? (
+                            <Checkbox checked={isChecked} />
+                          ) : answer?.includes(item.id) ? (
+                            <CancelIcon
+                              sx={{
+                                color: "red",
+                                marginLeft: 1,
+                                marginRight: 1,
+                              }}
+                            />
+                          ) : (
+                            <Checkbox checked={isChecked} />
+                          )
                         ) : (
-                          <Radio
-                            checked={isRadioChecked}
+                          <Checkbox
+                            checked={isChecked}
                             disabled={submit && true}
                           />
                         )
-                      ) : (
-                        <Radio
-                          checked={isRadioChecked}
-                          disabled={submit && true}
-                        />
-                      )
-                    ) : submit ? (
-                      answer?.includes(item.id) && isValuePresent ? (
-                        <Checkbox checked={isChecked} />
-                      ) : answer?.includes(item.id) ? (
-                        <CancelIcon
-                          sx={{ color: "red", marginLeft: 1, marginRight: 1 }}
-                        />
-                      ) : (
-                        <Checkbox checked={isChecked} />
-                      )
-                    ) : (
-                      <Checkbox checked={isChecked} disabled={submit && true} />
-                    )
-                  }
-                  label={
-                    <UnsafeHTML
-                      Container={Typography}
-                      variant="body1"
-                      html={text}
+                      }
+                      label={
+                        item.option_type !== "image" ? (
+                          <UnsafeHTML
+                            Container={Typography}
+                            variant="body1"
+                            html={text}
+                          />
+                        ) : (
+                          <img
+                            src={text}
+                            className={classes.optionImg}
+                            alt="Your Alt Text"
+                          />
+                        )
+                      }
                     />
-                  }
-                />
-              </Stack>
-            </Paper>
-          );
-        })}
+                  </Stack>
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
       </Box>
     );
   }

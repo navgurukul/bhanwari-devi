@@ -73,26 +73,26 @@ function Assessment({
 
   useEffect(() => {
     if (answer?.length > 1) {
-      if (answer?.length == 3) {
-        if (correctSelections == 3 && incorrectSelections == 0) {
+      if (answer?.length === 3) {
+        if (correctSelections === 3 && incorrectSelections === 0) {
           setFinalDesicion("correct");
-        } else if (correctSelections == 2 && incorrectSelections == 1) {
+        } else if (correctSelections === 2 && incorrectSelections === 1) {
           setFinalDesicion("partially incorrect");
-        } else if (correctSelections == 1 && incorrectSelections == 2) {
+        } else if (correctSelections === 1 && incorrectSelections === 2) {
           setFinalDesicion("partially correct");
         }
-      } else if (answer.length == 2) {
-        if (correctSelections == 2 && incorrectSelections == 0) {
+      } else if (answer.length === 2) {
+        if (correctSelections === 2 && incorrectSelections === 0) {
           setFinalDesicion("correct");
-        } else if (correctSelections == 0 && incorrectSelections == 2) {
+        } else if (correctSelections === 0 && incorrectSelections === 2) {
           setFinalDesicion("incorrect");
-        } else if (correctSelections == 1 && incorrectSelections == 1) {
+        } else if (correctSelections === 1 && incorrectSelections === 1) {
           setFinalDesicion("partially correct");
         }
       }
     } else {
       if (solution?.length > 1) {
-        if (correctSelections == 1) {
+        if (correctSelections === 1) {
           setFinalDesicion("partially correct");
         } else {
           setFinalDesicion("incorrect");
