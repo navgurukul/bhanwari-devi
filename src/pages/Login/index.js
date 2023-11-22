@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
 import { actions as userActions } from "../../components/User/redux/action";
@@ -30,6 +30,8 @@ function Login(props) {
   const { loading, data } = useSelector(({ User }) => User);
   const rolesList = data !== null && data.user.rolesList;
   const isAuthenticated = data && data.isAuthenticated;
+  const history = useHistory();
+  const location = useLocation();
 
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
@@ -89,7 +91,14 @@ function Login(props) {
         },
         data: { referrer: queryString },
       })
-        .then((res) => {})
+        .then((res) => {
+            // For ACB Students joining using referrer link redirection below:-
+            const queryParams = new URLSearchParams(location.search);
+            const referrer = queryParams.get('referrer');
+            if(referrer.includes('amazon')){
+              history.push('/pathway/7');
+            }
+        })
         .catch((err) => {});
     }
     if (props.location.state == "/volunteer-with-us") {
@@ -102,6 +111,16 @@ function Login(props) {
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;
     }
+
+     // For already registered ACB Students redirection below:-
+     if (
+      data?.user?.partner_id == 932 &&
+      !data?.user?.rolesList.includes("partner") &&
+      !data?.user?.rolesList.includes("admin")
+    ) {
+      return <Redirect to="/pathway/7" />;
+    }
+
     return (
       <>
         {pythonPathwayId && (

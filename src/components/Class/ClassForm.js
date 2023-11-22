@@ -441,6 +441,48 @@ function ClassForm({
     return new Date(utc + 3600000 * +5.5).toISOString();
   };
 
+  // YouTube Live Scheduling code below:-
+  const transformData = (data) => {
+    return data.map((item) => ({
+      title: item.title,
+      description: item.description,
+      start_time: item.start_time,
+      end_time: item.end_time,
+      id: item.id,
+    }));
+  };
+
+  const YouTubeScheduling = (payload) => {
+    const transformedData = transformData(payload);
+
+    return axios({
+      url: `${process.env.REACT_APP_MERAKI_URL}/youtubeBroadcast/schedule`,
+      method: METHODS.POST,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+        "version-code": versionCode,
+        role: "volunteer",
+      },
+      data: {
+        "classes": transformedData,
+      },
+    })
+      .then(
+        (res) => {
+          if (res.status === 200) {
+           console.log('YouTube Live Scheduled Successfully')
+          }
+        },
+        (error) => {
+          console.log(error, "error for YouTube Live")
+        }
+      )
+      .catch((err) => {});
+  };
+  // YouTube Live Scheduling code above:-
+
+
   const createClass = (payload) => {
     setLoading(true);
     if (checked) {
@@ -463,6 +505,9 @@ function ClassForm({
       .then(
         (res) => {
           if (res.status === 200) {
+            if(user.data.user.email === "team@zuvy.org"){
+              YouTubeScheduling(res.data)
+            }
             setRefreshKey(true);
             setLoading(false);
             setShowSuccessModal(true);
