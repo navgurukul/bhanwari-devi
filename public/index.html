@@ -62,12 +62,20 @@
       src="https://www.googletagmanager.com/gtag/js?id=G-JX5JRJP8GK"
     ></script>
     <script>
+      
+      let userId = window.localStorage.getItem("__AUTH__");
+      if (userId) {
+        userId = JSON.parse(userId).data?.user?.id;
+      }
+
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-JX5JRJP8GK");
+      gtag("config", "G-JX5JRJP8GK", {
+        user_id: userId,
+      });
     </script>
   </head>
   <body>
