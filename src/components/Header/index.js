@@ -189,16 +189,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
               >
                 <Typography
                   variant="subtitle1"
-                  sx={{
-                    height: "36px",
-                    padding: "6px 16px",
-                    display: "flex",
-                    alignItems: "center",
-                    "&:hover": {
-                      backgroundColor: "#E9F5E9",
-                      borderRadius: "8px",
-                    },
-                  }}
+                  className={classes.donate}
                 >
                   Donate
                   <LaunchOutlinedIcon sx={{ pl: "5px" }} />
@@ -209,31 +200,23 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         )}
       </Box>
 
-      {localStorage.getItem("studentAuth") ? 
-         <a
-         href={`https://dev.scratch.merakilearn.org/login/?studentAuth=${localStorage.getItem("studentAuthToken")}`}
-         target="_blank"
-         style={{ textDecoration: "none", color:"black" }}
-       >
-      <Typography
-      variant="subtitle1"
-      sx={{
-        height: "36px",
-        padding: "6px 16px",
-        display: "flex",
-        alignItems: "center",
-        "&:hover": {
-          backgroundColor: "#E9F5E9",
-          borderRadius: "8px",
-        },
-      }}
-    >
-      Scratch
-        <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
- 
-    </Typography>
-      </a>
-      : (
+      {localStorage.getItem("studentAuth") ? (
+        <a
+          href={`${
+            process.env.REACT_APP_SCRATCH_URL
+          }?studentAuth=${localStorage.getItem("studentAuthToken")}`}
+          target="_blank"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <Typography
+            variant="subtitle1"
+           className={classes.scratchLink}
+          >
+            Scratch
+            <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
+          </Typography>
+        </a>
+      ) : (
         <>
           {!leftDrawer && (
             <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
@@ -250,8 +233,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           )}
         </>
       )}
-
-
     </>
   );
 };

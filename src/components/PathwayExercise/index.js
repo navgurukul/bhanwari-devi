@@ -175,7 +175,7 @@ function PathwayExercise() {
     if(localStorage.getItem("studentAuth")|| (user && user?.data?.token)){
       return
     }else{
-      history.push("/login");
+      history.push(PATHS.LOGIN);
     }
 
   },[])
