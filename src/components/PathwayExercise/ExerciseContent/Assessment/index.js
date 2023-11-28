@@ -72,36 +72,52 @@ function Assessment({
   const [finalDesicion, setFinalDesicion] = useState("");
 
   useEffect(() => {
+    let correctSelection = "correct";
+    let incorrectSelection = "incorrect";
+    let partiallyCorrectSelection = "partially correct";
+    let partiallyIncorrectSelection = "partially incorrect";
     if (answer?.length > 1) {
-      if (answer?.length === 3) {
+      if (answer?.length === 4) {
+        if (correctSelections === 1 && incorrectSelections === 3) {
+          setFinalDesicion(partiallyCorrectSelection);
+        } else if (correctSelections === 2 && incorrectSelections === 2) {
+          setFinalDesicion(partiallyCorrectSelection);
+        } else if (correctSelections === 3 && incorrectSelections === 1) {
+          setFinalDesicion(partiallyIncorrectSelection);
+        } else if (correctSelections === 4 && incorrectSelections === 0) {
+          setFinalDesicion(correctSelection);
+        } else if (correctSelections === 0 && incorrectSelections === 4) {
+          setFinalDesicion(incorrectSelection);
+        }
+      } else if (answer?.length === 3) {
         if (correctSelections === 3 && incorrectSelections === 0) {
-          setFinalDesicion("correct");
+          setFinalDesicion(correctSelection);
         } else if (correctSelections === 2 && incorrectSelections === 1) {
-          setFinalDesicion("partially incorrect");
+          setFinalDesicion(partiallyIncorrectSelection);
         } else if (correctSelections === 1 && incorrectSelections === 2) {
-          setFinalDesicion("partially correct");
+          setFinalDesicion(partiallyCorrectSelection);
         }
       } else if (answer.length === 2) {
         if (correctSelections === 2 && incorrectSelections === 0) {
-          setFinalDesicion("correct");
+          setFinalDesicion(correctSelection);
         } else if (correctSelections === 0 && incorrectSelections === 2) {
-          setFinalDesicion("incorrect");
+          setFinalDesicion(incorrectSelection);
         } else if (correctSelections === 1 && incorrectSelections === 1) {
-          setFinalDesicion("partially correct");
+          setFinalDesicion(partiallyCorrectSelection);
         }
       }
     } else {
       if (solution?.length > 1) {
         if (correctSelections === 1) {
-          setFinalDesicion("partially correct");
+          setFinalDesicion(partiallyCorrectSelection);
         } else {
-          setFinalDesicion("incorrect");
+          setFinalDesicion(incorrectSelection);
         }
       } else {
         if (answer?.[0] === solution?.[0]?.value) {
-          setFinalDesicion("correct");
+          setFinalDesicion(correctSelection);
         } else {
-          setFinalDesicion("incorrect");
+          setFinalDesicion(incorrectSelection);
         }
       }
     }
@@ -178,7 +194,6 @@ function Assessment({
   useEffect(() => {
     // adding a nullish coalescing operator (??), so that the null value can no effect on the assessment.
     if (res?.assessment_id === (courseData ?? {}).id) {
-      console.log(res);
       if (res?.attempt_status === "CORRECT") {
         setAnswer(res?.selected_multiple_option);
         setCorrect(true);
@@ -265,11 +280,11 @@ function Assessment({
                 : content?.value?.incorrect;
           } else if (data[2]?.type === "multiple") {
             dataArr =
-              content?.value && finalDesicion == "partially correct"
+              content?.value && finalDesicion === "partially correct"
                 ? content?.value?.partially_correct
-                : content?.value && finalDesicion == "partially incorrect"
+                : content?.value && finalDesicion === "partially incorrect"
                 ? content?.value?.partially_incorrect
-                : content?.value && finalDesicion == "correct"
+                : content?.value && finalDesicion === "correct"
                 ? content?.value?.correct
                 : content?.value?.incorrect;
           }

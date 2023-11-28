@@ -5,7 +5,7 @@ import get from "lodash/get";
 import { Radio, Checkbox, FormControlLabel, RadioGroup } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DOMPurify from "dompurify";
-import { fi } from "date-fns/locale";
+// import { fi } from "date-fns/locale";
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
   const sanitizedHTML = DOMPurify.sanitize(html);
@@ -216,7 +216,7 @@ const AssessmentContent = ({
                   elevation={3}
                   sx={{
                     height: "auto",
-                    mb: "16px",
+                    // mb: "16px",
                     cursor: "pointer",
                     p: "16px",
                   }}
@@ -230,20 +230,14 @@ const AssessmentContent = ({
                       : ""
                   }
                   onClick={() => {
-                    if (type === "single") {
-                      if (submit === true) {
-                        return;
-                      } else {
+                    if (!submit) {
+                      if (type === "single") {
                         setAnswer([item.id]);
-                      }
-                    } else {
-                      if (submit === true) {
-                        return;
                       } else {
                         const updatedAnswer = isChecked
                           ? answer.filter((id) => id !== item.id)
                           : [...answer, item.id];
-                        setAnswer();
+                        // setAnswer();
                         setAnswer(updatedAnswer);
                       }
                     }

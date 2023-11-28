@@ -20,14 +20,31 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import DOMPurify from "dompurify";
+import CheckIcon from "@mui/icons-material/Check";
+import get from "lodash/get";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { breakpoints } from "../../../theme/constant";
 
 toast.configure();
+
+function UnsafeHTML(props) {
+  const { html, Container, ...otherProps } = props;
+  const sanitizedHTML = DOMPurify.sanitize(html);
+  return (
+    <Container
+      {...otherProps}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
+}
 
 function C4CApathway() {
   const user = useSelector(({ User }) => User);
   const [pathway, setPathway] = useState([]);
   const classes = useStyles();
   const history = useHistory();
+  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   useEffect(() => {
     if (localStorage.getItem("studentAuth") === null) history.push("/login");
@@ -105,8 +122,39 @@ function C4CApathway() {
           </Typography>
         </Grid>
       </Grid>
+      {pathway?.outcomes?.length > 0 && (
+        <Box className={classes.Box1}>
+          <Typography
+            variant="h6"
+            sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
+          >
+            Learning Outcomes
+          </Typography>
+          <Grid container spacing={0} align="center">
+            {pathway?.outcomes.map((content, index) => {
+              if (content.component === "text") {
+                return (
+                  <Grid item key={index} xs={12} md={4}>
+                    <Card sx={{ margin: "10px" }} align="left" elevation={0}>
+                      <Box className={classes.flex}>
+                        <CheckIcon color="primary" />
+                        <UnsafeHTML
+                          Container={Typography}
+                          variant="body1"
+                          html={DOMPurify.sanitize(get(content, "value"))}
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+                    </Card>
+                  </Grid>
+                );
+              }
+            })}
+          </Grid>
+        </Box>
+      )}
       {filterCourses?.map((item, index) => (
-        <Box key={item.id}>
+        <Box key={item.id} marginTop={8}>
           <Typography variant="h6" marginLeft="24px">
             {item.name}
           </Typography>

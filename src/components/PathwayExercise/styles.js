@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
   optionImg: {
     objectFit: "cover",
     width: "100%",
-    height: "200px",
+    height: "140px",
     borderRadius: "8px",
   },
 }));
