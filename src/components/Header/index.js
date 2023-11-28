@@ -187,19 +187,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                   borderRadius: "8px",
                 }}
               >
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    height: "36px",
-                    padding: "6px 16px",
-                    display: "flex",
-                    alignItems: "center",
-                    "&:hover": {
-                      backgroundColor: "#E9F5E9",
-                      borderRadius: "8px",
-                    },
-                  }}
-                >
+                <Typography variant="subtitle1" className={classes.donate}>
                   Donate
                   <LaunchOutlinedIcon sx={{ pl: "5px" }} />
                 </Typography>
@@ -211,25 +199,13 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {localStorage.getItem("studentAuth") ? (
         <a
-          href={`https://dev.scratch.merakilearn.org/login/?studentAuth=${localStorage.getItem(
-            "studentAuthToken"
-          )}`}
+          href={`${
+            process.env.REACT_APP_SCRATCH_URL
+          }?studentAuth=${localStorage.getItem("studentAuthToken")}`}
           target="_blank"
           style={{ textDecoration: "none", color: "black" }}
         >
-          <Typography
-            variant="subtitle1"
-            sx={{
-              height: "36px",
-              padding: "6px 16px",
-              display: "flex",
-              alignItems: "center",
-              "&:hover": {
-                backgroundColor: "#E9F5E9",
-                borderRadius: "8px",
-              },
-            }}
-          >
+          <Typography variant="subtitle1" className={classes.scratchLink}>
             Scratch
             <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
           </Typography>

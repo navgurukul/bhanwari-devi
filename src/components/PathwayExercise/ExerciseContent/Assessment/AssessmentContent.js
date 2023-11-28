@@ -251,7 +251,7 @@ const AssessmentContent = ({
                             answer?.includes(item.id) && isValuePresent ? (
                               <Radio
                                 checked={isRadioChecked}
-                                disabled={submit && true}
+                                disabled={submit}
                               />
                             ) : answer?.includes(item.id) ? (
                               <CancelIcon
@@ -264,14 +264,11 @@ const AssessmentContent = ({
                             ) : (
                               <Radio
                                 checked={isRadioChecked}
-                                disabled={submit && true}
+                                disabled={submit}
                               />
                             )
                           ) : (
-                            <Radio
-                              checked={isRadioChecked}
-                              disabled={submit && true}
-                            />
+                            <Radio checked={isRadioChecked} disabled={submit} />
                           )
                         ) : submit ? (
                           answer?.includes(item.id) && isValuePresent ? (
@@ -288,10 +285,7 @@ const AssessmentContent = ({
                             <Checkbox checked={isChecked} />
                           )
                         ) : (
-                          <Checkbox
-                            checked={isChecked}
-                            disabled={submit && true}
-                          />
+                          <Checkbox checked={isChecked} disabled={submit} />
                         )
                       }
                       label={
