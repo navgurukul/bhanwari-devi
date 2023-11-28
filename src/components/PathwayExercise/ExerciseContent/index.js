@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
-import { versionCode } from "../../../constant";
+import { INDENT, versionCode, CODE_EDITOR_FIELDS } from "../../../constant";
 
 import useStyles from "../styles";
 import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
@@ -43,23 +43,7 @@ import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
-
-const createVisulizeURL = (code, lang, mode) => {
-  // only support two languages for now
-  const l = lang == "python" ? "2" : "js";
-  const replacedCode = code && code.replace(/<br>/g, "\n");
-  const visualizerCode = replacedCode.replace(/&emsp;/g, " ");
-  const url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
-    visualizerCode
-  )
-    .replace(/%2C|%2F/g, decodeURIComponent)
-    .replace(/\(/g, "%28")
-    .replace(
-      /\)/g,
-      "%29"
-    )}&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=${mode}&origin=opt-frontend.js&py=${l}&rawInputLstJSON=%5B%5D&textReferences=false`;
-  return url;
-};
+import PythonEditor from "../../CodeEditor/PythonEditor";
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -102,7 +86,6 @@ const RenderDoubtClass = ({ data, exercise }) => {
         {start_time && end_time && (
           <>
             <DoubtClassExerciseComponent value={value} actions={actions} />
-
             <div
               style={{
                 borderBottom: "1px solid #BDBDBD",
@@ -119,7 +102,7 @@ const RenderDoubtClass = ({ data, exercise }) => {
 
 const RenderContent = ({ data, exercise }) => {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
   if (data.component === "header") {
     return (
@@ -240,8 +223,9 @@ const RenderContent = ({ data, exercise }) => {
     );
   }
 
-  if (data.component === "code") {
+  if (data.component === "code" && data.type !== "python") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
+
     return (
       <div>
         <Box className={classes.codeBackground}>
@@ -255,24 +239,28 @@ const RenderContent = ({ data, exercise }) => {
             <Typography variant="subtitle1">Code Example</Typography>
           </Box>
           {/* </Toolbar> */}
+
           <Typography
             className={classes.codeWrap}
             dangerouslySetInnerHTML={{
               __html: codeContent,
             }}
           />
-          <Grid container justifyContent="flex-end" mt={2}>
-            <Button
-              variant="contained"
-              color="dark"
-              target="_blank"
-              href={createVisulizeURL(get(data, "value"), data.type, "display")}
-            >
-              Visualize
-            </Button>
-          </Grid>
         </Box>
       </div>
+    );
+  }
+
+  if (data.component === "code" && data.type === "python") {
+    const pythonCode = data.value
+      .replace(/<br>/g, "\n")
+      .replace(/&emsp;/g, " ".repeat(INDENT));
+    return (
+      <PythonEditor
+        initialCodeEditorValue={pythonCode}
+        disableEditing={data[CODE_EDITOR_FIELDS.IS_NOT_EDITABLE]}
+        disableRun={data[CODE_EDITOR_FIELDS.IS_NOT_EXECUTABLE]}
+      />
     );
   }
   // if (data.type === "solution") {
@@ -296,7 +284,7 @@ function ExerciseContent({
   setProgressTrackId,
   progressTrackId,
 }) {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
