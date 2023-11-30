@@ -40,6 +40,26 @@ const useStyles = makeStyles((theme) => ({
   buttonLink: {
     textDecoration: "none",
   },
+  scratchLink: {
+    height: "36px",
+    padding: "6px 16px",
+    display: "flex",
+    alignItems: "center",
+    "&:hover": {
+      backgroundColor: "#E9F5E9",
+      borderRadius: "8px",
+    },
+  },
+  donate: {
+    height: "36px",
+    padding: "6px 16px",
+    display: "flex",
+    alignItems: "center",
+    "&:hover": {
+      backgroundColor: "#E9F5E9",
+      borderRadius: "8px",
+    },
+  }
 }));
 
 export default useStyles;
