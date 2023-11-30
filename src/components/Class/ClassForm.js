@@ -787,6 +787,26 @@ function ClassForm({
       .join(", ")
       .replace(/,([^,]*)$/, " and$1");
 
+  const pathwayData = Newpathways.find((item) => {
+    return item.id === classFields.pathway_id;
+  });
+
+  useEffect(() => {
+
+    if (pathwayData?.code === "ACB") {
+      const amazonCodingBootcamp = partnerData.find(
+        (partner) => partner.label?.toLowerCase() === "amazon coding bootcamp"
+      );
+      if (amazonCodingBootcamp ) {
+        setSelectedPartners([amazonCodingBootcamp]);
+        setClassFields({
+          ...classFields,
+          ["partner_id"]: [amazonCodingBootcamp.id],
+        });
+      }
+    }
+  }, [pathwayData, partnerData]);
+
   return (
     <>
       {showSuccessModal ? (
