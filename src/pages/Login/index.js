@@ -69,10 +69,19 @@ function Login(props) {
     pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
   const pythonPathwayId = pythonPathway && pythonPathway.id;
 
+  // PathwayId for Amazon Pathway:-
   const amazonPathway =
     pathway.data &&
     pathway.data.pathways.find((pathway) => pathway.code === "ACB");
-  const amazonPathwayId = amazonPathway && amazonPathway.id;
+  const [amazonPathwayId, setAmazonPathwayId] = useState(null);
+
+  useEffect(() => {
+    if(amazonPathwayId == null){
+      setAmazonPathwayId(amazonPathway && amazonPathway.id)
+    }
+  }, [user]);
+
+  // ---------------------------------------------
 
   const rolesLandingPages = {
     volunteer: PATHS.CLASS,
