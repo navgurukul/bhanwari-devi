@@ -71,6 +71,11 @@ const useStyles = makeStyles((theme) => ({
       "0px 1px 2px #F44336, 0px 2px 1px #F44336, 0px 1px 5px #F44336 !important",
     background: "#FFE5E3 !important",
   },
+  greishOption: {
+    boxShadow:
+      "0px 1px 2px #F5F5F5, 0px 2px 1px grey, 0px 1px 5px #F5F5F5 !important",
+    background: "#F5F5F5 !important",
+  },
   bottomRow: {
     display: "flex",
     justifyContent: "space-between",

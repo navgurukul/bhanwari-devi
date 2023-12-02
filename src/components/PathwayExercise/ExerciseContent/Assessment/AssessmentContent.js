@@ -208,8 +208,11 @@ const AssessmentContent = ({
               answer?.length === 1 && answer?.includes(item.id);
 
             const isValuePresent = solution?.some(
-              (sitem) => sitem.value === item.id
+              (sitem) =>
+                // sitem.value
+                sitem.value === item.id
             );
+
             return (
               <Grid item xs={item.option_type !== "image" ? 12 : 6}>
                 <Paper
@@ -221,13 +224,15 @@ const AssessmentContent = ({
                     p: "16px",
                   }}
                   className={
-                    submit
+                    submit && triedAgain > 1
                       ? answer?.includes(item.id) && isValuePresent
                         ? classes.correctAnswer
                         : answer?.includes(item.id)
                         ? classes.inCorrectAnswer
                         : ""
-                      : ""
+                      : submit &&
+                        answer?.includes(item.id) &&
+                        classes.greishOption
                   }
                   onClick={() => {
                     if (!submit) {
@@ -253,7 +258,7 @@ const AssessmentContent = ({
                                 checked={isRadioChecked}
                                 disabled={submit}
                               />
-                            ) : answer?.includes(item.id) ? (
+                            ) : answer?.includes(item.id) && triedAgain > 1 ? (
                               <CancelIcon
                                 sx={{
                                   color: "red",
@@ -273,7 +278,7 @@ const AssessmentContent = ({
                         ) : submit ? (
                           answer?.includes(item.id) && isValuePresent ? (
                             <Checkbox checked={isChecked} />
-                          ) : answer?.includes(item.id) ? (
+                          ) : answer?.includes(item.id) && triedAgain > 1 ? (
                             <CancelIcon
                               sx={{
                                 color: "red",

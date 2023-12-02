@@ -72,52 +72,58 @@ function Assessment({
   const [finalDesicion, setFinalDesicion] = useState("");
 
   useEffect(() => {
-    let correctSelection = "correct";
-    let incorrectSelection = "incorrect";
+    let corrects = "correct";
+    let incorrects = "incorrect";
     let partiallyCorrectSelection = "partially correct";
     let partiallyIncorrectSelection = "partially incorrect";
     if (answer?.length > 1) {
-      if (answer?.length === 4) {
-        if (correctSelections === 1 && incorrectSelections === 3) {
+      if (data[1]?.value.length === answer.length) {
+        if (
+          data[2]?.correct_options_value.length >
+          data[2]?.incorrect_options_value.length
+        ) {
           setFinalDesicion(partiallyCorrectSelection);
-        } else if (correctSelections === 2 && incorrectSelections === 2) {
-          setFinalDesicion(partiallyCorrectSelection);
-        } else if (correctSelections === 3 && incorrectSelections === 1) {
+        } else if (correctSelections) {
+          setFinalDesicion(corrects);
+        } else if (incorrectSelections) {
+          setFinalDesicion(incorrects);
+        } else {
           setFinalDesicion(partiallyIncorrectSelection);
-        } else if (correctSelections === 4 && incorrectSelections === 0) {
-          setFinalDesicion(correctSelection);
-        } else if (correctSelections === 0 && incorrectSelections === 4) {
-          setFinalDesicion(incorrectSelection);
         }
-      } else if (answer?.length === 3) {
-        if (correctSelections === 3 && incorrectSelections === 0) {
-          setFinalDesicion(correctSelection);
-        } else if (correctSelections === 2 && incorrectSelections === 1) {
-          setFinalDesicion(partiallyIncorrectSelection);
-        } else if (correctSelections === 1 && incorrectSelections === 2) {
-          setFinalDesicion(partiallyCorrectSelection);
-        }
-      } else if (answer.length === 2) {
-        if (correctSelections === 2 && incorrectSelections === 0) {
-          setFinalDesicion(correctSelection);
-        } else if (correctSelections === 0 && incorrectSelections === 2) {
-          setFinalDesicion(incorrectSelection);
-        } else if (correctSelections === 1 && incorrectSelections === 1) {
-          setFinalDesicion(partiallyCorrectSelection);
-        }
+      } else if (
+        correctSelections === solution.length &&
+        incorrectSelections === 0
+      ) {
+        setFinalDesicion(corrects);
+      } else if (
+        incorrectSelections === solution.length &&
+        correctSelections === 0
+      ) {
+        setFinalDesicion(incorrects);
+      } else if (correctSelections < incorrectSelections) {
+        setFinalDesicion(partiallyIncorrectSelection);
+      } else if (
+        correctSelections < solution.length ||
+        (correctSelections < solution.length &&
+          incorrectSelections < correctSelections) ||
+        (correctSelections === solution.length && incorrectSelections)
+      ) {
+        setFinalDesicion(partiallyCorrectSelection);
+      } else {
+        setFinalDesicion(partiallyIncorrectSelection);
       }
     } else {
       if (solution?.length > 1) {
         if (correctSelections === 1) {
           setFinalDesicion(partiallyCorrectSelection);
         } else {
-          setFinalDesicion(incorrectSelection);
+          setFinalDesicion(incorrects);
         }
       } else {
         if (answer?.[0] === solution?.[0]?.value) {
-          setFinalDesicion(correctSelection);
+          setFinalDesicion(corrects);
         } else {
-          setFinalDesicion(incorrectSelection);
+          setFinalDesicion(incorrects);
         }
       }
     }
