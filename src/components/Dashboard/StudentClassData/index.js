@@ -13,7 +13,7 @@ function StudentClassData(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedText] = useDebounce(searchTerm);
   const [totalCount, setTotalCount] = useState(
-    props.location.state.pass.length
+    props?.location?.state?.pass?.length || 0
   );
 
   const limit = 10;
