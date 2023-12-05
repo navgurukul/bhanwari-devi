@@ -70,7 +70,6 @@ function Assessment({
   // implementing this logic to check if the answer is partially correct or not
 
   const [finalDesicion, setFinalDesicion] = useState("");
-
   useEffect(() => {
     let corrects = "correct";
     let incorrects = "incorrect";
@@ -96,8 +95,8 @@ function Assessment({
       ) {
         setFinalDesicion(corrects);
       } else if (
-        incorrectSelections === solution.length &&
-        correctSelections === 0
+        (incorrectSelections === solution.length && correctSelections === 0) ||
+        answer.length === incorrectSelections
       ) {
         setFinalDesicion(incorrects);
       } else if (correctSelections < incorrectSelections) {

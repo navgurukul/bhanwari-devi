@@ -225,7 +225,7 @@ const AssessmentContent = ({
                   }}
                   className={
                     submit && triedAgain > 1
-                      ? answer?.includes(item.id) && isValuePresent
+                      ? isValuePresent
                         ? classes.correctAnswer
                         : answer?.includes(item.id)
                         ? classes.inCorrectAnswer
