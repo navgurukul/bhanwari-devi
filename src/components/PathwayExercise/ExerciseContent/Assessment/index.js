@@ -67,67 +67,6 @@ function Assessment({
 
   const { correctSelections, incorrectSelections } = calculateSelections();
 
-  // implementing this logic to check if the answer is partially correct or not
-
-  const [finalDesicion, setFinalDesicion] = useState("");
-  useEffect(() => {
-    let corrects = "correct";
-    let incorrects = "incorrect";
-    let partiallyCorrectSelection = "partially correct";
-    let partiallyIncorrectSelection = "partially incorrect";
-    if (answer?.length > 1) {
-      if (data[1]?.value.length === answer.length) {
-        if (
-          data[2]?.correct_options_value.length >
-          data[2]?.incorrect_options_value.length
-        ) {
-          setFinalDesicion(partiallyCorrectSelection);
-        } else if (correctSelections) {
-          setFinalDesicion(corrects);
-        } else if (incorrectSelections) {
-          setFinalDesicion(incorrects);
-        } else {
-          setFinalDesicion(partiallyIncorrectSelection);
-        }
-      } else if (
-        correctSelections === solution.length &&
-        incorrectSelections === 0
-      ) {
-        setFinalDesicion(corrects);
-      } else if (
-        (incorrectSelections === solution.length && correctSelections === 0) ||
-        answer.length === incorrectSelections
-      ) {
-        setFinalDesicion(incorrects);
-      } else if (correctSelections < incorrectSelections) {
-        setFinalDesicion(partiallyIncorrectSelection);
-      } else if (
-        correctSelections < solution.length ||
-        (correctSelections < solution.length &&
-          incorrectSelections < correctSelections) ||
-        (correctSelections === solution.length && incorrectSelections)
-      ) {
-        setFinalDesicion(partiallyCorrectSelection);
-      } else {
-        setFinalDesicion(partiallyIncorrectSelection);
-      }
-    } else {
-      if (solution?.length > 1) {
-        if (correctSelections === 1) {
-          setFinalDesicion(partiallyCorrectSelection);
-        } else {
-          setFinalDesicion(incorrects);
-        }
-      } else {
-        if (answer?.[0] === solution?.[0]?.value) {
-          setFinalDesicion(corrects);
-        } else {
-          setFinalDesicion(incorrects);
-        }
-      }
-    }
-  }, [answer, correctSelections, incorrectSelections, triedAgain, solution]);
-
   const submitAssessment = (isCorrect) => {
     setSubmit(true);
 
@@ -285,11 +224,12 @@ function Assessment({
                 : content?.value?.incorrect;
           } else if (data[2]?.type === "multiple") {
             dataArr =
-              content?.value && finalDesicion === "partially correct"
+              content?.value && res?.attempt_status === "PARTIALLY_CORRECT"
                 ? content?.value?.partially_correct
-                : content?.value && finalDesicion === "partially incorrect"
+                : content?.value &&
+                  res?.attempt_status === "PARTIALLY_INCORRECT"
                 ? content?.value?.partially_incorrect
-                : content?.value && finalDesicion === "correct"
+                : content?.value && res?.attempt_status === "CORRECT"
                 ? content?.value?.correct
                 : content?.value?.incorrect;
           }
@@ -298,7 +238,7 @@ function Assessment({
             content?.component === "output" &&
             dataArr?.map((content, index) => (
               <AssessmentContent
-                finalDesicion={finalDesicion}
+                finalDesicion={res?.attempt_status}
                 content={content}
                 Partially_ans={dataArr[0]}
                 index={index}

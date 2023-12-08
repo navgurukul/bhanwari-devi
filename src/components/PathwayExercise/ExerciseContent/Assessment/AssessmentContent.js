@@ -99,10 +99,7 @@ const AssessmentContent = ({
         const Partially_retry = DOMPurify.sanitize(get(Partially_ans, "value"));
         return (
           <>
-            {(submit &&
-              ((finalDesicion && finalDesicion === "partially correct") ||
-                finalDesicion === "partially incorrect")) ||
-            finalDesicion === "incorrect" ? (
+            {submit && finalDesicion && finalDesicion !== "CORRECT" ? (
               <UnsafeHTML
                 Container={Typography}
                 variant="body1"
@@ -208,9 +205,7 @@ const AssessmentContent = ({
               answer?.length === 1 && answer?.includes(item.id);
 
             const isValuePresent = solution?.some(
-              (sitem) =>
-                // sitem.value
-                sitem.value === item.id
+              (sitem) => sitem.value === item.id
             );
 
             return (
