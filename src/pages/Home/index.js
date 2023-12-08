@@ -40,7 +40,6 @@ function Home() {
   const roles = useSelector(selectRolesData);
   const history = useHistory();
 
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const studentAuthParam = urlParams.get("studentAuth");
@@ -70,7 +69,6 @@ function Home() {
     }
   }, []);
 
-  
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
@@ -344,7 +342,6 @@ function Home() {
         </Container>
 
         {/* Section 5 */}
-
         <Container maxWidth="lg" sx={{ marginTop: "64px" }}>
           <Typography variant="h5" textAlign="center" marginBottom="32px">
             Hear from our Users

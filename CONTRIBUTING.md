@@ -38,6 +38,7 @@ git checkout dev
     REACT_APP_MERAKI_URL = 'https://merd-api.merakilearn.org/'
     REACT_APP_CHANAKYA_BASE_URL = 'https://join.navgurukul.org/api/'
     REACT_APP_ADMISSIONS_URL = 'https://admissions.navgurukul.org/'
+    REACT_APP_SCRATCH_URL = 'https://dev.scratch.merakilearn.org/login/'
     REACT_APP_API_KEY = ''
     REACT_APP_authDomain = ''
     REACT_APP_projectId = ''
