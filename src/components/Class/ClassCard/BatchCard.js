@@ -278,7 +278,7 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
               className={classes.icons}
               src={require("../assets/calendar.svg")}
             />
-            {format(item?.barch_start, "dd MMM yy")} -{" "}
+            {format(item?.batch_start, "dd MMM yy")} -{" "}
             {format(item?.batch_end, "dd MMM yy")}
           </Typography>
         ) : (
