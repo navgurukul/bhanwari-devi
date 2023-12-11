@@ -91,10 +91,11 @@ function ClassForm({
       classToEdit?.pathway_v2?.[0] ||
       partnerPathwayId?.[0],
     volunteer_id: classToEdit?.volunteer_id || "",
-    facilitator_name: classToEdit?.volunteer?.name || "",
+    facilitator_name: classToEdit?.facilitator?.name || "",
     space_id: classToEdit?.id || "",
     schedule: classToEdit?.schedule || {},
   });
+  console.log(classFields, classToEdit);
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
@@ -792,12 +793,11 @@ function ClassForm({
   });
 
   useEffect(() => {
-
     if (pathwayData?.code === "ACB") {
       const amazonCodingBootcamp = partnerData.find(
         (partner) => partner.label?.toLowerCase() === "amazon coding bootcamp"
       );
-      if (amazonCodingBootcamp ) {
+      if (amazonCodingBootcamp) {
         setSelectedPartners([amazonCodingBootcamp]);
         setClassFields({
           ...classFields,
