@@ -40,15 +40,14 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
     return state.Pathways?.upcomingBatches?.data;
   });
 
-  console.log(upcomingBatchesData, "upcomingBatchesData")
+   // Filter batches with less than the dynamic max_enrolment value or no limit if null
+   const filteredUpcomingBatches = upcomingBatchesData
+   ?.filter((batch) => {
+     const maxEnrolment = batch.max_enrolment;
+     return maxEnrolment === null || batch.registrations.length < maxEnrolment;
+   })
+   .slice(0, 1);
 
-    // Find the first batch with less than 50 registered students:-
-    const filteredUpcomingBatches = upcomingBatchesData
-    ?.filter((batch) => batch.registrations.length < 50)
-    .slice(0, 1);
-    // ----------------------------------------------------------------
-
-    console.log(filteredUpcomingBatches, "filtered")
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {

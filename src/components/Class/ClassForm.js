@@ -333,7 +333,7 @@ function ClassForm({
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
-  const capEnrollment = ["No Limit", 10, 20, 30];
+  const capEnrollment = ["No Limit", 30, 50, 100];
   const days = {
     MO: "Mon",
     TU: "Tue",
