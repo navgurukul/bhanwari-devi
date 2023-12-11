@@ -168,7 +168,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
           </Grid>
         </Container>
 
-        {doubtclasses.length > 0 && (
+        {/* {doubtclasses.length > 0 && (
           <Typography variant="h6" margin="32px 0px">
             Doubt Class
           </Typography>
@@ -179,7 +179,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
             doubtclasses?.map((item, index) => (
               <DoubtClassCard item={item} setDoubtclasses={setDoubtclasses} />
             ))}
-        </Grid>
+        </Grid> */}
       </Container>
     </>
   );
