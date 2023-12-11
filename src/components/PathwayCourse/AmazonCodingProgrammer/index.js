@@ -40,6 +40,16 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
     return state.Pathways?.upcomingBatches?.data;
   });
 
+  console.log(upcomingBatchesData, "upcomingBatchesData")
+
+    // Find the first batch with less than 50 registered students:-
+    const filteredUpcomingBatches = upcomingBatchesData
+    ?.filter((batch) => batch.registrations.length < 50)
+    .slice(0, 1);
+    // ----------------------------------------------------------------
+
+    console.log(filteredUpcomingBatches, "filtered")
+
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
       return state?.Pathways?.enrolledBatches?.data;
@@ -126,9 +136,9 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
               })}
             </Grid>
             <Grid item xs={12} md={6} sx={{ pl: 1 }}>
-              {upcomingBatchesData?.length > 0 ? (
+              {filteredUpcomingBatches?.length > 0 ? (
                 <PathwayCourseBatchEnroll1
-                  upcomingBatchesData={upcomingBatchesData}
+                  upcomingBatchesData={filteredUpcomingBatches}
                 />
               ) : (
                 <NoBatchEnroll />
