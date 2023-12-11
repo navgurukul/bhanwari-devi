@@ -75,7 +75,7 @@ function ClassForm({
     lang: classToEdit?.lang || "en",
     max_enrolment:
       classToEdit?.max_enrolment == null
-        ? "No Limit"
+        ? ""
         : classToEdit?.max_enrolment || "10",
     frequency: classToEdit?.parent_class
       ? classToEdit.parent_class.frequency
@@ -95,7 +95,7 @@ function ClassForm({
     space_id: classToEdit?.id || "",
     schedule: classToEdit?.schedule || {},
   });
-  console.log(classFields, classToEdit);
+
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
@@ -277,6 +277,7 @@ function ClassForm({
       if (
         classFields.title !== "" &&
         classFields.partner_id?.length > 0 &&
+        classFields.max_enrolment !== "" &&
         classFields.on_days?.length > 0 &&
         (checked
           ? Object.keys(classFields.schedule).length === 0
@@ -313,6 +314,7 @@ function ClassForm({
     classFields.description,
     checked,
     classFields.schedule,
+    classFields.max_enrolment,
   ]);
 
   const courses =
@@ -330,6 +332,10 @@ function ClassForm({
   const selectedExerciseLabel = exercisesForSelectedCourse.find(
     (item) => item.id === classFields.exercise_id
   );
+
+  const pathwayData = Newpathways.find((item) => {
+    return item.id === classFields.pathway_id;
+  });
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
@@ -787,10 +793,6 @@ function ClassForm({
       .map((item) => item.label)
       .join(", ")
       .replace(/,([^,]*)$/, " and$1");
-
-  const pathwayData = Newpathways.find((item) => {
-    return item.id === classFields.pathway_id;
-  });
 
   useEffect(() => {
     if (pathwayData?.code === "ACB") {

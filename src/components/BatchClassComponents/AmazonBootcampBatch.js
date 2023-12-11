@@ -66,8 +66,6 @@ function AmazonBootcampBatch({ enrolledBatches }) {
     (item) => item.type === "batch"
   );
 
-  console.log(enrollClasses)
-
   return (
     <>
       <Grid
