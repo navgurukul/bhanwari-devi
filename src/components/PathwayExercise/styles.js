@@ -62,18 +62,15 @@ const useStyles = makeStyles((theme) => ({
       "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",
   },
   correctAnswer: {
-    boxShadow:
-      "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",
+    border: "2px solid #48A145",
     background: "#E9F5E9 !important",
   },
   inCorrectAnswer: {
-    boxShadow:
-      "0px 1px 2px #F44336, 0px 2px 1px #F44336, 0px 1px 5px #F44336 !important",
+    border: "2px solid #F44336",
     background: "#FFE5E3 !important",
   },
   greishOption: {
-    boxShadow:
-      "0px 1px 2px #F5F5F5, 0px 2px 1px grey, 0px 1px 5px #F5F5F5 !important",
+    border: "2px solid #F5F5F5",
     background: "#F5F5F5 !important",
   },
   bottomRow: {
@@ -113,9 +110,6 @@ const useStyles = makeStyles((theme) => ({
     "&:focus": {
       border: "2px solid #48A145 !important",
     },
-    // "&:hover": {
-    //   border: "1px solid #000 !important",
-    // },
   },
   mainHeader: {
     position: "sticky",

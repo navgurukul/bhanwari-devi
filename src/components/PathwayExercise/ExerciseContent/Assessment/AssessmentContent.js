@@ -4,6 +4,7 @@ import useStyles from "../../styles";
 import get from "lodash/get";
 import { Radio, Checkbox, FormControlLabel, RadioGroup } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import DOMPurify from "dompurify";
 // import { fi } from "date-fns/locale";
 function UnsafeHTML(props) {
@@ -193,7 +194,6 @@ const AssessmentContent = ({
       />
     );
   }
-
   if (content.component === "options") {
     return (
       <Box sx={{ m: "32px 0px" }}>
@@ -207,16 +207,14 @@ const AssessmentContent = ({
             const isValuePresent = solution?.some(
               (sitem) => sitem.value === item.id
             );
-
             return (
               <Grid item xs={item.option_type !== "image" ? 12 : 6}>
                 <Paper
-                  elevation={3}
+                  elevation={0}
                   sx={{
                     height: "auto",
-                    // mb: "16px",
                     cursor: "pointer",
-                    p: "16px",
+                    p: "4px",
                   }}
                   className={
                     submit && triedAgain > 1
@@ -229,19 +227,6 @@ const AssessmentContent = ({
                         answer?.includes(item.id) &&
                         classes.greishOption
                   }
-                  onClick={() => {
-                    if (!submit) {
-                      if (type === "single") {
-                        setAnswer([item.id]);
-                      } else {
-                        const updatedAnswer = isChecked
-                          ? answer.filter((id) => id !== item.id)
-                          : [...answer, item.id];
-                        // setAnswer();
-                        setAnswer(updatedAnswer);
-                      }
-                    }
-                  }}
                 >
                   <Stack direction="row" gap={1}>
                     <FormControlLabel
@@ -251,7 +236,8 @@ const AssessmentContent = ({
                             answer?.includes(item.id) && isValuePresent ? (
                               <Radio
                                 checked={isRadioChecked}
-                                disabled={submit}
+                                onChange={() => {}}
+                                checkedIcon={<CheckCircleIcon />}
                               />
                             ) : answer?.includes(item.id) && triedAgain > 1 ? (
                               <CancelIcon
@@ -265,14 +251,33 @@ const AssessmentContent = ({
                               <Radio
                                 checked={isRadioChecked}
                                 disabled={submit}
+                                onChange={() => {
+                                  if (!submit) {
+                                    setAnswer([item.id]);
+                                  }
+                                }}
                               />
                             )
                           ) : (
-                            <Radio checked={isRadioChecked} disabled={submit} />
+                            <Radio
+                              checked={isRadioChecked}
+                              disabled={submit}
+                              onChange={() => {
+                                if (!submit) {
+                                  setAnswer([item.id]);
+                                }
+                              }}
+                            />
                           )
                         ) : submit ? (
-                          answer?.includes(item.id) && isValuePresent ? (
-                            <Checkbox checked={isChecked} />
+                          answer?.includes(item.id) &&
+                          isValuePresent &&
+                          triedAgain > 1 ? (
+                            <Checkbox
+                              checked={isChecked}
+                              onChange={() => {}} //this is for not changing the state
+                              checkedIcon={<CheckCircleIcon />}
+                            />
                           ) : answer?.includes(item.id) && triedAgain > 1 ? (
                             <CancelIcon
                               sx={{
@@ -282,10 +287,31 @@ const AssessmentContent = ({
                               }}
                             />
                           ) : (
-                            <Checkbox checked={isChecked} />
+                            <Checkbox
+                              checked={isChecked}
+                              onChange={() => {
+                                if (!submit) {
+                                  const updatedAnswer = isChecked
+                                    ? answer.filter((id) => id !== item.id)
+                                    : [...answer, item.id];
+                                  setAnswer(updatedAnswer);
+                                }
+                              }}
+                            />
                           )
                         ) : (
-                          <Checkbox checked={isChecked} disabled={submit} />
+                          <Checkbox
+                            checked={isChecked}
+                            disabled={submit}
+                            onChange={() => {
+                              if (!submit) {
+                                const updatedAnswer = isChecked
+                                  ? answer.filter((id) => id !== item.id)
+                                  : [...answer, item.id];
+                                setAnswer(updatedAnswer);
+                              }
+                            }}
+                          />
                         )
                       }
                       label={
