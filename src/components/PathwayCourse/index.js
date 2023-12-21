@@ -15,7 +15,7 @@ import { actions as enrolledBatchesActions } from "./redux/action";
 import ExternalLink from "../common/ExternalLink";
 import LockIcon from "@mui/icons-material/Lock";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
-import { CardContent, ListItem } from "@mui/material";
+import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
 import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
 import Modal from "@mui/material/Modal";
@@ -151,7 +151,8 @@ function PathwayCourse() {
       url: `${process.env.REACT_APP_MERAKI_URL}/certificate?pathway_code=${certificateCode}`,
       headers: {
         accept: "application/json",
-        Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+        Authorization:
+          user?.data?.token || localStorage.getItem("studentAuthToken"),
       },
     })
       .then((response) => {
@@ -209,7 +210,8 @@ function PathwayCourse() {
       url: `${process.env.REACT_APP_MERAKI_URL}/teacher/checking`,
       headers: {
         accept: "application/json",
-        Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+        Authorization:
+          user?.data?.token || localStorage.getItem("studentAuthToken"),
       },
     })
       .then((response) => {
@@ -232,7 +234,8 @@ function PathwayCourse() {
         url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
         headers: {
           accept: "application/json",
-          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
       })
         .then((response) => {

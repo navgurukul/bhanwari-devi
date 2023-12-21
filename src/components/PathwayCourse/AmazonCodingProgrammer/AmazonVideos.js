@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-
 import YouTubePlaylist from "./YouTubePlaylist";
-import { Grid, Typography, Box, Container } from "@mui/material";
+import { Typography, Box, Container } from "@mui/material";
 import ReactPaginate from "react-paginate";
 
 const AmazonVideos = () => {
-  let apikey = process.env.REACT_APP_amazon;
   const [playlistVideos, setPlaylistVideos] = useState([]);
   const [slicedVideos, setSlicedVideos] = useState([]);
-
   const [pageNumber, setPageNumber] = useState(0);
   const limit = 6;
-  const offset = pageNumber * limit;
   const totalCount = playlistVideos?.length;
   const pageCount = Math.ceil(totalCount / limit);
   const changePage = ({ selected }) => {
@@ -45,9 +41,6 @@ const AmazonVideos = () => {
             Batch 1
           </Typography>
           <YouTubePlaylist
-            playlistId="PLidpa_6o_TvdD_KxySG-NJ2rh2t7MNy1P"
-            apiKey={apikey}
-            videoSpacing="20px"
             setPlaylistVideos={setPlaylistVideos}
             playlistVideos={playlistVideos}
             slicedVideos={slicedVideos}
