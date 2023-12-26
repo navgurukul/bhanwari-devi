@@ -248,6 +248,7 @@ const AssessmentContent = ({
                                 triedAgain > 1 ? (
                                 <CancelIcon
                                   sx={{
+                                    marginBlock: "9px",
                                     color: "red",
                                     marginLeft: 1,
                                     marginRight: 1,
