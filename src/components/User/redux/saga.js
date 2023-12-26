@@ -10,9 +10,8 @@ import { PATHS } from "../../../constant";
  * @param {object} payload
  */
 function* handleUserData({ data }) {
-  const res = data.idToken
-    ? yield call(sendGoogleUserData, data)
-    : yield call(sendToken, data);
+  console.log(data, "data in saga")
+  const res = data.idToken? yield call(sendToken, data): null;
   if (res.status === 200) {
     res.data.token = res.data.token || data.token;
     const mappedUserData = { ...res.data, isAuthenticated: true };

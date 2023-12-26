@@ -17,7 +17,7 @@ const OnlyLoggedIn = (passedProps) => {
       // Registered user attempting to log in by using redirect token;
       //     let's send the token to our back-end to get profile data
       //     from /users/me
-      dispatch(userActions.onUserSignin({ token }));
+      dispatch(userActions.onUserSignin(token));
       localStorage.removeItem("Token");
     }
     // if (studentAuth) {

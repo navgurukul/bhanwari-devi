@@ -24,13 +24,14 @@ export const sendGoogleUserData = (userData, tokens) => {
 /**
  * Sends id-token to Meraki back-end to get profile data of registered user.
  */
-export const sendToken = (userData, tokens) => {
+export const sendToken = (token) => {
+  console.log(token, "token in users/me api");
   return axios({
     method: METHODS.GET,
     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
     headers: {
       accept: "application/json",
-      Authorization: userData.token,
+      Authorization: token.idToken,
     },
   });
 };

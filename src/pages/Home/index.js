@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   CssBaseline,
@@ -17,12 +17,14 @@ import axios from "axios";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
-import { Link } from "react-router-dom";
-import { Redirect } from "react-router-dom";
-import { PATHS } from "../../constant";
+import { Link, useLocation, Redirect } from "react-router-dom";
 import ExternalLink from "../../components/common/ExternalLink";
+import { actions as userActions } from "../../components/User/redux/action";
 import { useHistory } from "react-router-dom";
 import { PATHWAYS_INFO } from "../../constant";
+import { PATHS, interpolatePath } from "../../constant";
+
+import { METHODS } from "../../services/api";
 import {
   ADMIN_ROLE_KEY as ADMIN,
   PARTNER_ROLE_KEY as PARTNER,
@@ -30,7 +32,7 @@ import {
   VOLUNTEER_ROLE_KEY as VOLUNTEER,
 } from "../../components/Header/constant";
 
-function Home() {
+function Home(props) {
   const isActive = useMediaQuery("(max-width:600px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
@@ -40,40 +42,20 @@ function Home() {
   const roles = useSelector(selectRolesData);
   const history = useHistory();
 
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const studentAuthParam = urlParams.get("studentAuth");
-    if (studentAuthParam)
-      localStorage.setItem("studentAuthToken", studentAuthParam);
-    if (
-      studentAuthParam ||
-      (localStorage.getItem("studentAuthToken") !== "null" &&
-        localStorage.getItem("studentAuthToken"))
-    ) {
-      axios
-        .get(`${process.env.REACT_APP_MERAKI_URL}/c4ca/team`, {
-          headers: {
-            Authorization:
-              studentAuthParam ??
-              localStorage.getItem("studentAuthToken") ??
-              null,
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("studentAuth", JSON.stringify(res.data));
-          history.push("/c4ca-pathway");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, []);
+  const [loggedOut, setLoggedOut] = useState("");
+  const location = useLocation();
+  const [queryString, setqueryString] = useState(null);
+  const pathway = useSelector((state) => state.Pathways);
+  const updateQueryString = (value) => {
+    setqueryString(value);
+  };
+  
+  const { userLoading, userData } = useSelector(({ User }) => User);
+  const rolesList = userData !== null && userData?.user?.rolesList;
+  const isAuthenticated = userData && userData?.isAuthenticated;
 
   
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
@@ -103,9 +85,185 @@ function Home() {
       defalutPage = rolesLandingPages[userRole.key];
     }
   });
+  function reverseJwtBody(jwt) {
+    const [header, body, signature] = jwt.split(".");
+    const reversedBody = body.split("").reverse().join("");
+    return [header, reversedBody, signature].join(".");
+  }
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentAuthParam = urlParams.get("studentAuth");
+    let tokenVal = urlParams?.get("token");
+    let loggedOutToken = urlParams?.get("loggedOutToken");
+
+    if (tokenVal) {
+
+      localStorage.setItem("loggedOutToken", JSON.stringify(loggedOutToken));
+      localStorage.setItem("token", reverseJwtBody(tokenVal));
+      dispatch(userActions.onUserSignin({idToken:reverseJwtBody(tokenVal)}));
+    } else {
+
+    }
+
+    if (studentAuthParam)
+      localStorage.setItem("studentAuthToken", studentAuthParam);
+    if (
+      studentAuthParam ||
+      (localStorage.getItem("studentAuthToken") !== "null" &&
+        localStorage.getItem("studentAuthToken"))
+    ) {
+      axios
+        .get(`${process.env.REACT_APP_MERAKI_URL}/c4ca/team`, {
+          headers: {
+            Authorization:
+              studentAuthParam ??
+              localStorage.getItem("studentAuthToken") ??
+              null,
+          },
+        })
+        .then((res) => {
+          localStorage.setItem("studentAuth", JSON.stringify(res.data));
+          history.push("/c4ca-pathway");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+
+    !localStorage.getItem("token") && localStorage.setItem("token", null);
+    !localStorage.getItem("loggedOut") &&
+      localStorage.setItem("loggedOut", null);
+
+  }, []);
+
+  useEffect(() => {
+    setLoggedOut(localStorage.getItem("loggedOut"));
+  }, [loggedOut]);
+
+
+  useEffect(() => {
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
+
+  
   useEffect(() => {
     history.push(defalutPage);
   }, [defalutPage]);
+
+
+// SSO LOGIN CODE
+
+
+
+
+const pythonPathway =
+pathway.data &&
+pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
+const pythonPathwayId = pythonPathway && pythonPathway.id;
+
+// PathwayId for Amazon Pathway:-
+const amazonPathway =
+pathway.data &&
+pathway.data.pathways.find((pathway) => pathway.code === "ACB");
+const [amazonPathwayId, setAmazonPathwayId] = useState(null);
+
+useEffect(() => {
+if(amazonPathwayId == null){
+  setAmazonPathwayId(amazonPathway && amazonPathway.id)
+}
+}, [user]);
+
+// ---------------------------------------------
+
+
+
+if (isAuthenticated) {
+if (queryString) {
+  axios({
+    method: METHODS.PUT,
+    url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+    headers: {
+      accept: "application/json",
+      Authorization: data.token,
+    },
+    data: { referrer: queryString },
+  })
+    .then((res) => {
+      // For ACB Students joining using referrer link redirection below:-
+      const queryParams = new URLSearchParams(location.search);
+      const referrer = queryParams.get("referrer");
+      if (referrer.includes("amazon")) {
+        history.push(
+          interpolatePath(PATHS.PATHWAY_COURSE, {
+            pathwayId: amazonPathwayId,
+          })
+        );
+      }
+    })
+    .catch((err) => {});
+}
+if (props.location.state == "/volunteer-with-us") {
+  if (rolesList.includes("volunteer")) {
+    return <Redirect to={PATHS.CLASS} />;
+  } else {
+    return <Redirect to={PATHS.VOLUNTEER_FORM} />;
+  }
+}
+if (props.location.state) {
+  return <Redirect to={props.location.state.from.pathname} />;
+}
+
+// For already registered ACB Students redirection below:-
+if (
+  data?.user?.partner_id == 932 &&
+  !data?.user?.rolesList.includes("partner") &&
+  !data?.user?.rolesList.includes("admin")
+) {
+  return (
+    <Redirect
+      to={interpolatePath(PATHS.PATHWAY_COURSE, {
+        pathwayId: amazonPathwayId,
+      })}
+    />
+  );
+}
+if (rolesList != false) {
+  if (!(rolesList?.includes("partner") || rolesList?.includes("admin"))) {
+    return <Redirect to={PATHS.COURSE} />;
+  }
+  } else if (rolesList?.length == 0) {
+  return <Redirect to={PATHS.COURSE} />;
+  }
+
+return (
+  <>
+    {pythonPathwayId && (
+      <Redirect
+        to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
+      />
+    )}
+  </>
+);
+
+}
+
+
+
+
+// SS0 LOGIN CODE END
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -127,7 +285,9 @@ function Home() {
                   Affordable and accessible programming education to the makers
                   of the future India
                 </Typography>
-                <Link to={PATHS.LOGIN} className={classes.link}>
+                <a
+                  href={`https://dev.dcckrjm3h0sxm.amplifyapp.com/?loggeOut=${loggedOut}`}
+                >
                   <Button
                     variant="contained"
                     className={
@@ -136,7 +296,7 @@ function Home() {
                   >
                     Start Learning
                   </Button>
-                </Link>
+                </a>
               </Grid>
               <Grid md={6} mt={isActive ? "16px" : "0px"} sm={12}>
                 <img
