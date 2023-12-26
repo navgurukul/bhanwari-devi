@@ -235,9 +235,9 @@ function Profile() {
     };
 
     if (contact != null) {
-      payload["contact"] = `${countryCode.replace("+", "")}-${contact}`;
+      // payload["contact"] = `${countryCode.replace("+", "")}-${contact}`;
+      payload["contact"] = contact;
     }
-
     setIsEditing(false);
     setMsg(true);
     axios({
