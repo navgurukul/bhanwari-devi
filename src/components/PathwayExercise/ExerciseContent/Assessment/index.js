@@ -13,10 +13,12 @@ function Assessment({
   setCourseData,
   setProgressTrackId,
   res,
+  triger,
+  setTriger,
 }) {
   const user = useSelector(({ User }) => User);
 
-  const [answer, setAnswer] = useState(res?.selected_option);
+  const [answer, setAnswer] = useState([]);
   const [correct, setCorrect] = useState();
   const [solution, setSolution] = useState();
   const [submit, setSubmit] = useState();
@@ -24,9 +26,48 @@ function Assessment({
   const [status, setStatus] = useState();
   const [triedAgain, setTriedAgain] = useState(res?.attempt_count);
   const params = useParams();
+  const [type, setType] = useState("single");
+  const [wrongAnswer, setWrongAnswer] = useState();
 
   // Assessment submit handler
-  const submitAssessment = () => {
+  const isValuesCorrect = (value1, value2) => {
+    if (value1?.length !== value2?.length) {
+      return false; // Lengths are different, so they are not the same
+    }
+
+    for (let i = 0; i < value1?.length; i++) {
+      if (!value2?.includes(value1[i]?.value)) {
+        return false; // Elements are different, so they are not the same
+      }
+    }
+
+    return true; // Length and elements match, so they are the same
+  };
+
+  const isCorrect = isValuesCorrect(solution, answer);
+
+  const calculateSelections = () => {
+    let correctSelections = 0;
+    let incorrectSelections = 0;
+
+    answer &&
+      answer.forEach((option) => {
+        const isCorrect = solution?.some(
+          (correctOption) => correctOption?.value === option
+        );
+        if (isCorrect) {
+          correctSelections++;
+        } else {
+          incorrectSelections++;
+        }
+      });
+
+    return { correctSelections, incorrectSelections };
+  };
+
+  const { correctSelections, incorrectSelections } = calculateSelections();
+
+  const submitAssessment = (isCorrect) => {
     setSubmit(true);
 
     // Commented this API to test if progress tracking is working fine now
@@ -44,22 +85,22 @@ function Assessment({
     //     exercise_id: courseData.id,
     //   },
     // });
-
-    if (answer == solution) {
+    if (isCorrect) {
       setCorrect(true);
       setStatus("Pass");
       setTriedAgain(triedAgain + 2);
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
         headers: {
           accept: "application/json",
-          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
-          selected_option: answer,
+          selected_multiple_option: answer,
           status: "Pass",
         },
       })
@@ -74,14 +115,15 @@ function Assessment({
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
         headers: {
           accept: "application/json",
-          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
           assessment_id: exerciseId,
-          selected_option: answer,
+          selected_multiple_option: answer,
           status: "Fail",
         },
       })
@@ -90,27 +132,49 @@ function Assessment({
         })
         .catch((err) => {});
     }
+    setTriger(!triger);
   };
 
   useEffect(() => {
     // adding a nullish coalescing operator (??), so that the null value can no effect on the assessment.
     if (res?.assessment_id === (courseData ?? {}).id) {
-      console.log(res);
       if (res?.attempt_status === "CORRECT") {
-        setAnswer(res?.selected_option);
+        setAnswer(res?.selected_multiple_option);
         setCorrect(true);
         setTriedAgain(2);
         setStatus("pass");
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "INCORRECT") {
-        setAnswer(res?.selected_option);
+        setAnswer(res?.selected_multiple_option);
+        setTriedAgain(res?.attempt_count);
+        setSubmitDisable(true);
+        setSubmit(true);
+      } else if (res?.attempt_status === "PARTIALLY_CORRECT") {
+        setAnswer(res?.selected_multiple_option);
+        setTriedAgain(res?.attempt_count);
+        setSubmitDisable(true);
+        setSubmit(true);
+      } else if (res?.attempt_status === "PARTIALLY_INCORRECT") {
+        setAnswer(res?.selected_multiple_option);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
       }
     }
   }, [res, triedAgain]);
+
+  // const handleOptionClick = (id) => {
+  //   if (!submitDisable) {
+  //     if (answer.includes(id)) {
+  //       // Item is already selected, so remove it
+  //       setAnswer(answer.filter((itemId) => itemId !== id));
+  //     } else {
+  //       // Item is not selected, so add it
+  //       setAnswer([...answer, id]);
+  //     }
+  //   }
+  // };
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
@@ -131,6 +195,9 @@ function Assessment({
             triedAgain={triedAgain}
             submitAssessment={submitAssessment}
             params={params}
+            type={type}
+            setType={setType}
+            setWrongAnswer={setWrongAnswer}
           />
         ))}
 
@@ -139,7 +206,7 @@ function Assessment({
           variant="contained"
           sx={{ width: "256px", p: "8px 16px 8px 16px" }}
           color={answer ? "primary" : "secondary"}
-          disabled={!answer}
+          disabled={answer.length === 0 ? true : false}
           onClick={submitAssessment}
         >
           Submit
@@ -148,16 +215,32 @@ function Assessment({
 
       {data &&
         submit &&
-        data.map((content) => {
-          const dataArr =
-            content.value && correct
-              ? content.value.correct
-              : content.value.incorrect;
+        data?.map((content) => {
+          let dataArr = [];
+          if (data[2]?.type === "single") {
+            dataArr =
+              content?.value && correct
+                ? content?.value?.correct
+                : content?.value?.incorrect;
+          } else if (data[2]?.type === "multiple") {
+            dataArr =
+              content?.value && res?.attempt_status === "PARTIALLY_CORRECT"
+                ? content?.value?.partially_correct
+                : content?.value &&
+                  res?.attempt_status === "PARTIALLY_INCORRECT"
+                ? content?.value?.partially_incorrect
+                : content?.value && res?.attempt_status === "CORRECT"
+                ? content?.value?.correct
+                : content?.value?.incorrect;
+          }
+
           return (
-            content.component === "output" &&
-            dataArr.map((content, index) => (
+            content?.component === "output" &&
+            dataArr?.map((content, index) => (
               <AssessmentContent
+                finalDesicion={res?.attempt_status}
                 content={content}
+                Partially_ans={dataArr[0]}
                 index={index}
                 correct={correct}
                 setTriedAgain={setTriedAgain}
@@ -168,6 +251,9 @@ function Assessment({
                 triedAgain={triedAgain}
                 submitDisable={submitDisable}
                 submitAssessment={submitAssessment}
+                type={type}
+                setType={setType}
+                setWrongAnswer={setWrongAnswer}
               />
             ))
           );

@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#E9F5E9",
       borderRadius: "8px",
     },
-  }
+  },
 }));
 
 export default useStyles;

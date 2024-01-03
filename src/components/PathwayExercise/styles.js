@@ -61,15 +61,20 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",
   },
-  correctAnswer: {
-    boxShadow:
-      "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",
+  userSelectedCorrect: {
+    border: "2px solid #48A145",
     background: "#E9F5E9 !important",
   },
+  correctAnswer: {
+    border: "2px solid #48A145 !important",
+  },
   inCorrectAnswer: {
-    boxShadow:
-      "0px 1px 2px #F44336, 0px 2px 1px #F44336, 0px 1px 5px #F44336 !important",
+    border: "2px solid #F44336 !important",
     background: "#FFE5E3 !important",
+  },
+  greishOption: {
+    border: "2px solid #F5F5F5 !important",
+    background: "#F5F5F5 !important",
   },
   bottomRow: {
     display: "flex",
@@ -108,9 +113,6 @@ const useStyles = makeStyles((theme) => ({
     "&:focus": {
       border: "2px solid #48A145 !important",
     },
-    // "&:hover": {
-    //   border: "1px solid #000 !important",
-    // },
   },
   mainHeader: {
     position: "sticky",
@@ -122,6 +124,18 @@ const useStyles = makeStyles((theme) => ({
   editingHeaderMobile: {
     position: "sticky",
     marginTop: 104,
+  },
+  optionImg: {
+    objectFit: "cover",
+    width: "100%",
+    height: "140px",
+    borderRadius: "8px",
+  },
+  cursorA: {
+    cursor: "default !important",
+  },
+  cursorP: {
+    cursor: "pointer !important",
   },
 }));
 

@@ -187,10 +187,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                   borderRadius: "8px",
                 }}
               >
-                <Typography
-                  variant="subtitle1"
-                  className={classes.donate}
-                >
+                <Typography variant="subtitle1" className={classes.donate}>
                   Donate
                   <LaunchOutlinedIcon sx={{ pl: "5px" }} />
                 </Typography>
@@ -208,10 +205,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           target="_blank"
           style={{ textDecoration: "none", color: "black" }}
         >
-          <Typography
-            variant="subtitle1"
-           className={classes.scratchLink}
-          >
+          <Typography variant="subtitle1" className={classes.scratchLink}>
             Scratch
             <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
           </Typography>

@@ -40,7 +40,6 @@ function Home() {
   const roles = useSelector(selectRolesData);
   const history = useHistory();
 
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const studentAuthParam = urlParams.get("studentAuth");
@@ -70,7 +69,6 @@ function Home() {
     }
   }, []);
 
-  
   useEffect(() => {
     dispatch(pathwayActions.getPathways());
   }, [dispatch]);
