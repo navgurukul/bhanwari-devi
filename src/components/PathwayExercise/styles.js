@@ -61,16 +61,19 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "0px 1px 2px #48A145, 0px 2px 1px #48A145, 0px 1px 5px #48A145 !important",
   },
-  correctAnswer: {
+  userSelectedCorrect: {
     border: "2px solid #48A145",
     background: "#E9F5E9 !important",
   },
+  correctAnswer: {
+    border: "2px solid #48A145 !important",
+  },
   inCorrectAnswer: {
-    border: "2px solid #F44336",
+    border: "2px solid #F44336 !important",
     background: "#FFE5E3 !important",
   },
   greishOption: {
-    border: "2px solid #F5F5F5",
+    border: "2px solid #F5F5F5 !important",
     background: "#F5F5F5 !important",
   },
   bottomRow: {
@@ -127,6 +130,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "140px",
     borderRadius: "8px",
+  },
+  cursorA: {
+    cursor: "default !important",
+  },
+  cursorP: {
+    cursor: "pointer !important",
   },
 }));
 

@@ -208,45 +208,63 @@ const AssessmentContent = ({
               (sitem) => sitem.value === item.id
             );
             return (
-              <Grid item xs={item.option_type !== "image" ? 12 : 6}>
-                <Paper
-                  elevation={0}
-                  sx={{
-                    height: "auto",
-                    cursor: "pointer",
-                    p: "4px",
-                  }}
-                  className={
-                    submit && triedAgain > 1
-                      ? isValuePresent
-                        ? classes.correctAnswer
-                        : answer?.includes(item.id)
-                        ? classes.inCorrectAnswer
-                        : ""
-                      : submit &&
-                        answer?.includes(item.id) &&
-                        classes.greishOption
-                  }
-                >
-                  <Stack direction="row" gap={1}>
-                    <FormControlLabel
-                      control={
-                        type === "single" ? (
-                          submit ? (
-                            answer?.includes(item.id) && isValuePresent ? (
-                              <Radio
-                                checked={isRadioChecked}
-                                onChange={() => {}}
-                                checkedIcon={<CheckCircleIcon />}
-                              />
-                            ) : answer?.includes(item.id) && triedAgain > 1 ? (
-                              <CancelIcon
-                                sx={{
-                                  color: "red",
-                                  marginLeft: 1,
-                                  marginRight: 1,
-                                }}
-                              />
+              <>
+                <Grid item xs={item.option_type !== "image" ? 12 : 6}>
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      height: "auto",
+                      cursor: submit ? "default" : "pointer",
+                      p: "4px",
+                    }}
+                    className={
+                      submit && triedAgain > 1
+                        ? isValuePresent
+                          ? answer?.includes(item.id)
+                            ? classes.userSelectedCorrect
+                            : classes.correctAnswer
+                          : answer?.includes(item.id)
+                          ? classes.inCorrectAnswer
+                          : ""
+                        : submit &&
+                          answer?.includes(item.id) &&
+                          classes.greishOption
+                    }
+                  >
+                    <Stack direction="row" gap={1}>
+                      <FormControlLabel
+                        sx={{ marginLeft: "8px" }}
+                        className={submit ? classes.cursorA : classes.cursorP}
+                        control={
+                          type === "single" ? (
+                            submit ? (
+                              answer?.includes(item.id) && isValuePresent ? (
+                                <Radio
+                                  checked={isRadioChecked}
+                                  onChange={() => {}}
+                                  checkedIcon={<CheckCircleIcon />}
+                                />
+                              ) : answer?.includes(item.id) &&
+                                triedAgain > 1 ? (
+                                <CancelIcon
+                                  sx={{
+                                    marginBlock: "9px",
+                                    color: "red",
+                                    marginLeft: 1,
+                                    marginRight: 1,
+                                  }}
+                                />
+                              ) : (
+                                <Radio
+                                  checked={isRadioChecked}
+                                  disabled={submit}
+                                  onChange={() => {
+                                    if (!submit) {
+                                      setAnswer([item.id]);
+                                    }
+                                  }}
+                                />
+                              )
                             ) : (
                               <Radio
                                 checked={isRadioChecked}
@@ -258,37 +276,47 @@ const AssessmentContent = ({
                                 }}
                               />
                             )
-                          ) : (
-                            <Radio
-                              checked={isRadioChecked}
-                              disabled={submit}
-                              onChange={() => {
-                                if (!submit) {
-                                  setAnswer([item.id]);
+                          ) : submit ? (
+                            answer?.includes(item.id) &&
+                            isValuePresent &&
+                            triedAgain > 1 ? (
+                              <Checkbox
+                                checked={isChecked}
+                                onChange={() => {}} //this is for not changing the state
+                                checkedIcon={<CheckCircleIcon />}
+                                className={
+                                  submit ? classes.cursorA : classes.cursorP
                                 }
-                              }}
-                            />
-                          )
-                        ) : submit ? (
-                          answer?.includes(item.id) &&
-                          isValuePresent &&
-                          triedAgain > 1 ? (
-                            <Checkbox
-                              checked={isChecked}
-                              onChange={() => {}} //this is for not changing the state
-                              checkedIcon={<CheckCircleIcon />}
-                            />
-                          ) : answer?.includes(item.id) && triedAgain > 1 ? (
-                            <CancelIcon
-                              sx={{
-                                color: "red",
-                                marginLeft: 1,
-                                marginRight: 1,
-                              }}
-                            />
+                              />
+                            ) : answer?.includes(item.id) && triedAgain > 1 ? (
+                              <CancelIcon
+                                sx={{
+                                  marginBlock: "9px",
+                                  color: "red",
+                                  marginLeft: 1,
+                                  marginRight: 1,
+                                }}
+                              />
+                            ) : (
+                              <Checkbox
+                                checked={isChecked}
+                                onChange={() => {
+                                  if (!submit) {
+                                    const updatedAnswer = isChecked
+                                      ? answer.filter((id) => id !== item.id)
+                                      : [...answer, item.id];
+                                    setAnswer(updatedAnswer);
+                                  }
+                                }}
+                                className={
+                                  submit ? classes.cursorA : classes.cursorP
+                                }
+                              />
+                            )
                           ) : (
                             <Checkbox
                               checked={isChecked}
+                              disabled={submit}
                               onChange={() => {
                                 if (!submit) {
                                   const updatedAnswer = isChecked
@@ -297,42 +325,32 @@ const AssessmentContent = ({
                                   setAnswer(updatedAnswer);
                                 }
                               }}
+                              className={
+                                submit ? classes.cursorA : classes.cursorP
+                              }
                             />
                           )
-                        ) : (
-                          <Checkbox
-                            checked={isChecked}
-                            disabled={submit}
-                            onChange={() => {
-                              if (!submit) {
-                                const updatedAnswer = isChecked
-                                  ? answer.filter((id) => id !== item.id)
-                                  : [...answer, item.id];
-                                setAnswer(updatedAnswer);
-                              }
-                            }}
-                          />
-                        )
-                      }
-                      label={
-                        item.option_type !== "image" ? (
-                          <UnsafeHTML
-                            Container={Typography}
-                            variant="body1"
-                            html={text}
-                          />
-                        ) : (
-                          <img
-                            src={text}
-                            className={classes.optionImg}
-                            alt="Your Alt Text"
-                          />
-                        )
-                      }
-                    />
-                  </Stack>
-                </Paper>
-              </Grid>
+                        }
+                        label={
+                          item.option_type !== "image" ? (
+                            <UnsafeHTML
+                              Container={Typography}
+                              variant="body1"
+                              html={text}
+                            />
+                          ) : (
+                            <img
+                              src={text}
+                              className={classes.optionImg}
+                              alt="Your Alt Text"
+                            />
+                          )
+                        }
+                      />
+                    </Stack>
+                  </Paper>
+                </Grid>
+              </>
             );
           })}
         </Grid>
