@@ -17,11 +17,8 @@ theme = createTheme(theme, {
   palette: {
     mode: "light",
     default: {
-      // main: "#FFFFFF",
-      // contrastText: "#000000",
       light: "#0066FF",
       main: "#fff",
-      // dark: will be calculated from palette.secondary.main,
       contrastText: "#FFCC00",
     },
     primary: {
@@ -65,7 +62,6 @@ theme = createTheme(theme, {
     },
     grey: {
       main: "#BDBDBD",
-      // main: "rgba(0, 0, 0, 0.12)",
     },
     text: {
       primary: "#2E2E2E",
@@ -255,7 +251,6 @@ theme.components = {
     styleOverrides: {
       root: {
         height: "48px",
-        // margin: "10px 16px 10px 16px",
         "&:hover": {
           backgroundColor: "#E9F5E9",
           borderRadius: "8px",
@@ -266,7 +261,6 @@ theme.components = {
   MuiTableRow: {
     styleOverrides: {
       root: {
-        // backgroundColor: theme.palette.divider,
         backgroundColor: "#F5F5F5",
         "&:hover": {
           backgroundColor: "#F5F5F5",
@@ -275,24 +269,5 @@ theme.components = {
       },
     },
   },
-  // MuiTextareaAutosize: {
-  //   styleOverrides: {
-  //     root: {
-  //       width: 529,
-  //       margin: "10px 0px",
-  //       padding: "20px 10px",
-  //       border: "1px solid #BDBDBD",
-  //       borderRadius: "4px",
-  //       fontSize: "1.125rem",
-  //       color: "#2E2E2E",
-  //       fontFamily: "Noto Sans",
-  //       resize: "none",
-  //       outline: "none",
-  //       "&:focus": {
-  //         border: "2px solid #48A145 !important",
-  //       },
-  //     },
-  //   },
-  // },
 };
 export default theme;

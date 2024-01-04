@@ -16,9 +16,7 @@ import useStyles from "./styles";
 import axios from "axios";
 import PathwayCard from "./PathwayCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { breakpoints } from "../../theme/constant";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router-dom";
 import { PATHS } from "../../constant";
 import ExternalLink from "../../components/common/ExternalLink";
 import { useHistory } from "react-router-dom";
@@ -32,7 +30,6 @@ import {
 
 function Home() {
   const isActive = useMediaQuery("(max-width:600px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
   const classes = useStyles();
   const dispatch = useDispatch();
   const { loading, data } = useSelector((state) => state.Pathways);
@@ -500,7 +497,6 @@ function Home() {
                 href="mailto:team@meraki.org"
               >
                 <img
-                  // className={classes.playstoreImg}
                   src={require("./assets/Email.svg")}
                   alt="Google Playstore Icon"
                   height="32px !important"
@@ -520,7 +516,6 @@ function Home() {
                 href="https://wa.me/918891300300"
               >
                 <img
-                  // className={classes.playstoreImg}
                   src={require("./assets/whatsapp.svg")}
                   alt="Google Playstore Icon"
                   height="32px"

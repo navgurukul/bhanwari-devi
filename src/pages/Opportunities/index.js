@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
-import { PATHS } from "../../constant";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { METHODS } from "../../services/api";
 import { breakpoints } from "../../theme/constant";
 import { getQueryVariable } from "../../common/utils";
-import { Link } from "react-router-dom";
 import ExternalLink from "../../components/common/ExternalLink";
 
 import {
   Container,
   Typography,
-  Chip,
   Grid,
   Button,
   CardContent,

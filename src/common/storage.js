@@ -6,7 +6,6 @@ const saveObjectState = (namespace, key, data) => {
     const lsKey = getKeyName(namespace, key);
     localStorage.setItem(lsKey, JSON.stringify(data));
   } catch (error) {
-    //console.error('Error accessing localStorage:', error);
     return {};
   }
 };

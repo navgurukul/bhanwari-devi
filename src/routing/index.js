@@ -1,7 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { PrivateRoute } from "./Routes";
-// import { userRoles } from '../services/auth'
 import Home from "../pages/Home";
 import { PATHS } from "../constant";
 import Login from "../pages/Login";
@@ -16,7 +15,6 @@ import Profile from "../pages/Profile";
 import Opportunities from "../pages/Opportunities";
 import AFEpage from "../components/AFEpage";
 import NavgurukulIntroduce from "../pages/Navgurukul";
-// import Admission from "../pages/Navgurukul/merakiAdmission";
 import RedirectComponent from "../components/common/RedirectComponent";
 import VolunteerDashboard from "../components/VolunteerDashbord/VolunteerDetails";
 import VolunteerOverview from "../components/VolunteerDashbord/IndividualVolunteers";
@@ -35,10 +33,8 @@ import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
 import ClassCard from "../components/Class/ClassCard";
 import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/AmazonVideos";
-// import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
 import C4CApathway from "../components/PathwayCourse/C4CApathway";
-// import Credits from "../pages/Credits";
 
 const Routing = () => {
   return (
@@ -65,8 +61,6 @@ const Routing = () => {
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
       <Route exact path={PATHS.TEAM} component={Team} />
-      {/* <Route exact path={PATHS.CREDITS} component={Credits} /> */}
-
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
       <Route exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
@@ -109,7 +103,6 @@ const Routing = () => {
         path={PATHS.NEW_USER_DASHBOARD}
         component={NewUserDashbord}
       />
-      {/* <PrivateRoute exact path={PATHS.ADMISSION} component={Admission} /> */}
       <PrivateRoute
         exact
         path={PATHS.STATEPARTNER}

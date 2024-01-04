@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import LinkifyHtml from "linkifyjs/html";
-
 import { format } from "date-fns";
 import _ from "lodash";
 import Avatar from "../../../components/common/Avatar";

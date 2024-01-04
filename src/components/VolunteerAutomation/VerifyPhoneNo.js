@@ -15,11 +15,9 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { initializeApp } from "firebase/app";
 import { MuiOtpInput } from "mui-one-time-password-input";
-
-// import AppConfig from "App.config";
 import MuiPhoneNumber from "material-ui-phone-number";
 
 const firebaseConfig = {
@@ -30,8 +28,6 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_messagingSenderId,
   appId: process.env.REACT_APP_appId,
 };
-
-// const appVerifier = window.recaptchaVerifier;
 
 const CountryList = require("country-list-with-dial-code-and-flag");
 
@@ -129,7 +125,6 @@ function VerifyPhoneNo(props) {
         setOpen(true);
         setMessage(response.data);
       } else {
-        // event.preventDefault();
         if (!confirmationResult) {
           setupRecaptcha();
         }
@@ -152,9 +147,7 @@ function VerifyPhoneNo(props) {
             setOpen(true);
           });
       }
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   const OtpEnter = (event) => {
@@ -180,14 +173,6 @@ function VerifyPhoneNo(props) {
         setBgColor(true);
       });
   };
-  //International
-  // const handleChange = (number, countryInfo, phoneType) => {
-  //   const isValid = !!phoneType;
-  //   console.log(number, countryInfo, phoneType);
-  //   setDisable(!isValid);
-  //   setContact(number);
-  //   //setContact(number.replace(/[^0-9]/g, "") || "");
-  // };
 
   const countryData = CountryList.findFlagByDialCode(countryCode);
 

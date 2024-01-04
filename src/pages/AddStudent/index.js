@@ -7,13 +7,7 @@ import { useEffect, useRef } from "react";
 import { METHODS } from "../../services/api";
 import FormHelperText from "@mui/material/FormHelperText";
 
-function AddStudent({
-  openEditForm,
-  setOpenEditForm,
-  userId,
-  userName,
-  setTriggerdGet,
-}) {
+function AddStudent({ openEditForm, setOpenEditForm, userId, setTriggerdGet }) {
   const [openForm, setOpenForm] = useState(false);
   const [studentEmail, setStudentEmail] = useState("");
   const [studentName, setStudentName] = useState();

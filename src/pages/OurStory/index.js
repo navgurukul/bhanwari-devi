@@ -5,7 +5,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 
 const OurStory = () => {
-  const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   return (
     <>
@@ -20,7 +19,6 @@ const OurStory = () => {
             communities”
           </Typography>
           <Container
-            //  maxWidth = "md"
             sx={{
               mb: !isActive && 4,
               width: !isActive ? 655 : {},
