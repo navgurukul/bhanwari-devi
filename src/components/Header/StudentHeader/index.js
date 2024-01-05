@@ -1,28 +1,13 @@
 import React from "react";
 
 import { DropDown, MobileDropDown } from "../DropDown";
-import { Box, Typography, Menu, MenuItem, Button } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { Box } from "@mui/material";
 import HeaderNavLink from "../HeaderNavlink";
-import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
-import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
-import {
-  LEARN_KEY,
-  MENU_ITEMS,
-  // ROLES,
-  // ADMIN_ROLE_KEY as ADMIN,
-  // PARTNER_ROLE_KEY as PARTNER,
-  // PARTNER_VIEW_ROLE_KEY as PARTNER_VIEW,
-  // PARTNER_EDIT_ROLE_KEY as PARTNER_EDIT,
-  // STUDENT_ROLE_KEY as STUDENT,
-  // VOLUNTEER_ROLE_KEY as VOLUNTEER,
-} from "../constant";
+import { LEARN_KEY, MENU_ITEMS } from "../constant";
 import SearchPopup from "../../SearchBar/SearchPopup";
-import ExternalLink from "../../common/ExternalLink";
 import useStyles from "../../Header";
 
 function CommonLeftStudentHeader({ toggleDrawer }) {
@@ -97,17 +82,6 @@ function StudentHeader({ leftDrawer, toggleDrawer, onlyRole }) {
         }}
       >
         {!leftDrawer && <SearchPopup />}
-
-        {/* <HeaderNavLink
-          to={PATHS.ADMISSION}
-          text={<Message constantKey="NAVGURUKUL_ADMISSION" />}
-          toggleDrawer={toggleDrawer}
-        />
-        <HeaderNavLink
-          to={PATHS.OPPORTUNITIES}
-          text={<Message constantKey="OPPORTUNITIES" />}
-          toggleDrawer={toggleDrawer}
-        /> */}
       </Box>
     </>
   );

@@ -126,19 +126,6 @@ export default function DropDownMenu({
     }
   }, [inDropdown]);
 
-  // React.useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       !ref?.current?.contains(event.target) &&
-  //       !inDropdown.inProgress &&
-  //       !inDropdown.value
-  //     ) {
-  //       handleCloseMenu();
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleClickOutside);
-  // }, []);
-
   return (
     <>
       {DropDownButtonWithHandlers}
@@ -177,7 +164,8 @@ export default function DropDownMenu({
         hideBackdrop
         open={!!anchorEl}
         // To resolve issue https://github.com/mui/material-ui/issues/5185
-        disableScrollLock={true}>
+        disableScrollLock={true}
+      >
         {children}
       </Menu>
     </>

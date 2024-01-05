@@ -95,7 +95,7 @@ function ClassForm({
     space_id: classToEdit?.id || "",
     schedule: classToEdit?.schedule || {},
   });
-  console.log(classFields, classToEdit);
+
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);

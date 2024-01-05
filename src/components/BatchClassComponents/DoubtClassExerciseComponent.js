@@ -242,31 +242,7 @@ const DoubtClassExerciseComponent = (props) => {
         </Typography>
 
         <ClassDetails setOpen={setOpen} isActive={isActive} />
-        {/* <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            endIcon={<ArrowForwardIosIcon />}
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            View Class Details
-          </Button>
-        </div> */}
-        {/* <MoreDetails
-        open={open}
-        setOpen={setOpen}
-        actions={actions}
-        value={value}
-        isEnrolled={isEnrolled}
-        setIsEnrolled={setIsEnrolled}
-      /> */}
+
         <MoreDetails
           {...{ open, setOpen, actions, value, isEnrolled, setIsEnrolled }}
         />
@@ -315,23 +291,6 @@ const DoubtClassExerciseComponent = (props) => {
             {/* {actions.facilitator_name} */}
           </Typography>
           <ClassDetails setOpen={setOpen} isActive={isActive} />
-          {/* <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <Button
-              endIcon={<ArrowForwardIosIcon />}
-              onClick={() => {
-                setOpen(true);
-              }}
-              width={isActive ? "90%" : "215px"} >
-              View Class Details
-            </Button>
-          </div> */}
         </Box>
       </>
     </>

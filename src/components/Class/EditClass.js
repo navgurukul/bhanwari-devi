@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-// import { dateTimeFormat, TimeLeft } from "../../../constant";
-// import { timeLeftFormat } from "../../common/date";
-// import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../services/api";
 import { actions as classActions } from "./redux/action";
 import "./styles.scss";
@@ -18,7 +15,6 @@ import {
   Stack,
   Menu,
   MenuItem,
-  Checkbox,
   Dialog,
   DialogTitle,
   DialogActions,
@@ -36,7 +32,6 @@ function EditClass({
   pathwayId,
   indicator,
   setRefreshKey,
-  mergeDate,
 }) {
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
@@ -205,21 +200,7 @@ function EditClass({
                 Are you sure you want to delete this class?
               </Typography>
             </DialogTitle>
-            {/* {(item.type === "cohort" || item.type === "batch") && (
-              <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  control={
-                    <Checkbox
-                      onClick={() => {
-                        setDeleteCohort(true);
-                      }}
-                    />
-                  }
-                  label="Delete all classes of this Batch?"
-                />
-              </Stack>
-            )} */}
+
             <Stack alignItems="center">
               <DialogActions>
                 <Box sx={{ display: "flex", mb: 2 }}>

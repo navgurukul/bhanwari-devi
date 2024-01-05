@@ -415,13 +415,7 @@ function Class({ classToEdit, indicator }) {
           }
         } else if (fieldName === "on_days") {
           formFields[fieldName] = value.split(",");
-        }
-        // if (fieldName === "pathway_id") {
-        //   // formFields[fieldName] = parseInt(value);
-        //   console.log("removing pathway_id from payload");
-        //   continue;
-        // }
-        else {
+        } else {
           formFields[fieldName] = value;
         }
       }
@@ -1173,34 +1167,7 @@ function Class({ classToEdit, indicator }) {
                       Days does not match to selected date
                     </span>
                   )}
-                  {/* <label htmlFor={UNTIL} className="label-field">
-                    Until
-                    <span className="optional-field">
-                      (either until or occurrence is required)
-                    </span>
-                  </label>
-                  <input
-                    className="input-field input-field--short"
-                    type="date"
-                    data-date-format="YYYY MM DD"
-                    name={UNTIL}
-                    id={UNTIL}
-                    onChange={(e) =>
-                      changeHandler(e, setFormFieldsState, formFieldsState)
-                    }
-                    value={formFieldsState[UNTIL]}
-                    placeholder="Until when recurring classes"
-                    disabled={isEditMode && !indicator ? true : false}
-                    required={
-                      formFieldsState[TYPE] === "batch" &&
-                      formFieldsState[OCCURRENCE] === ""
-                        ? true
-                        : false
-                    }
-                  />
-                  {!formFieldsState[UNTIL] && !formFieldsState[OCCURRENCE] && (
-                    <span className="field-validation">Select date</span>
-                  )} */}
+
                   <label htmlFor={OCCURRENCE} className="label-field">
                     Occurrence
                     <span className="optional-field">

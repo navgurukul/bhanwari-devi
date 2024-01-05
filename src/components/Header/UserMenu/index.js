@@ -14,34 +14,13 @@ import {
 import useStyles from "../styles";
 import Message from "../../common/Message";
 import DropDownMenu from "../DropDownMenu";
-// import { isTouchScreen } from "../../../common/utils";
 
-// function UserMenu({ profile }) {
 function UserMenu() {
-  // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(({ User }) => User);
   const profilePict = user?.data?.user?.profile_picture;
   const name = user?.data?.user?.name;
-
-  /*
-  React.useEffect(() => {
-    sendToken({ token: user.data.token }).then((res) => {
-      setProfile(res.data.user.profile_picture);
-    });
-  }, []);
-*/
-
-  /*
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-  */
 
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -54,17 +33,6 @@ function UserMenu() {
         menuContainerProps={{
           // sx: { mt: '45px' },
           id: "menu-appbar",
-          /*
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
-          },
-          keepMounted: true,
-          transformOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
-          },
-          */
         }}
         attachRight
       >
@@ -78,14 +46,7 @@ function UserMenu() {
             </Typography>
           </MenuItem>
         </NavLink>
-        {/* <NavLink to={PATHS.ADMISSION} className={classes.link}>
-          <MenuItem
-            onClick={handleCloseUserMenu}
-            sx={{ width: 150, margin: "0px 13px" }}
-          >
-            <Typography textAlign="center">NG Admissions</Typography>
-          </MenuItem>
-        </NavLink> */}
+
         <NavLink to={PATHS.OPPORTUNITIES} className={classes.link}>
           <MenuItem
             /*onClick={handleCloseUserMenu}*/

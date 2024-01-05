@@ -3,10 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
 import { breakpoints } from "../../../theme/constant";
-
-// import { dateTimeFormat, TimeLeft } from "../../../constant";
-// import { timeLeftFormat } from "../../common/date";
-import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
+import { format } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
 import "./styles.scss";
@@ -18,12 +15,9 @@ import { Link, useHistory } from "react-router-dom";
 import {
   Typography,
   Card,
-  Grid,
   Button,
   Box,
   Stack,
-  Menu,
-  MenuItem,
   Checkbox,
   CardActions,
   Dialog,
@@ -31,7 +25,6 @@ import {
   DialogActions,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-// import { useHistory } from 'react-router-dom';
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { interpolatePath, PATHS } from "../../../constant";
@@ -44,9 +37,6 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
   const dispatch = useDispatch();
   const [enrollShowModal, setEnrollShowModal] = React.useState(false);
   const [unenrollShowModal, setunenrollShowModal] = React.useState(false);
-  const [showModal, setShowModal] = React.useState(false);
-  const [editShowModal, setEditShowModal] = React.useState(false);
-  const [deleteCohort, setDeleteCohort] = React.useState(false);
   const [indicator, setIndicator] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const user = useSelector(({ User }) => User);
@@ -174,45 +164,6 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
     });
   };
 
-  //console.log("indicator", indicator);
-  /*
-  const EnrolledAndTimer = () => {
-    const timeLeftOptions = {
-      precision: [3, 3, 3, 2, 2, 1],
-      cutoffNumArr: [0, 0, 0, 0, 10, 60],
-      cutoffTextArr: ["", "", "", "", "joinNow", "joinNow"],
-      expiredText: "joinNow",
-    };
-    const [Timer, setTimer] = useState(
-      timeLeftFormat(item.start_time, timeLeftOptions)
-    );
-    const ONE_MINUTE = 60000; //millisecs
-    setInterval(() => {
-      setTimer(timeLeftFormat(item.start_time, timeLeftOptions));
-    }, ONE_MINUTE);
-    return (
-      <>
-        {Timer === "joinNow" ? (
-          <ExternalLink
-            style={{
-              textDecoration: "none",
-            }}
-            href={item.meet_link}
-          >
-            <Button variant="contained" fullWidth>
-              Join Now
-            </Button>
-          </ExternalLink>
-        ) : (
-          <Button disabled={true} variant="contained">
-            Starts in {Timer}
-          </Button>
-        )}
-      </>
-    );
-  };
-  */
-
   return (
     <>
       <Card
@@ -292,11 +243,6 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
           </Typography>
         )}
 
-        {/* <Typography variant="body1" sx={{ display: "flex" }}>
-          <img className={classes.icons} src={require("../assets/time.svg")} />
-          {format(classStartTime, "hh:mm aaa")} -{" "}
-          {format(classEndTime, "hh:mm aaa")}
-        </Typography> */}
         <Typography variant="body1" sx={{ display: "flex" }}>
           <img
             className={classes.icons}
@@ -364,13 +310,6 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
                 Are you sure you want to enroll?
               </Typography>
             </DialogTitle>
-
-            {/* <Stack alignItems="center">
-                <FormControlLabel
-                  align="center"
-                  label=" Enroll all classes of this Batch?"
-                />
-              </Stack> */}
 
             <Stack alignItems="center">
               <DialogActions>

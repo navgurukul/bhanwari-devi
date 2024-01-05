@@ -1,13 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-
 import { METHODS } from "../../services/api";
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Link } from "react-router-dom";
-import { PATHS, interpolatePath } from "../../constant";
 import { useSearchQuery } from "../../common/search";
 import {
   Box,
@@ -15,14 +11,10 @@ import {
   Container,
   Typography,
   Grid,
-  Card,
   Button,
-  Tooltip,
-  Popper,
-  setRef,
 } from "@mui/material";
 import useStyles from "./styles";
-import { Popover, InputAdornment, Modal } from "@mui/material";
+import { InputAdornment, Modal } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import Backdrop from "@mui/material/Backdrop";
 import axios from "axios";

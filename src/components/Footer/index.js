@@ -45,14 +45,6 @@ const MenuList = (menuItem) => {
     return state.PathwaysDropdow;
   });
 
-  // useEffect(() => {
-  //   dispatch(
-  //     pathwayActions.getPathwaysDropdown({
-  //       authToken: user,
-  //     })
-  //   );
-  // }, [dispatch, user]);
-
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
   );
@@ -151,14 +143,6 @@ function Footer() {
   });
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-
-  // useEffect(() => {
-  //   dispatch(
-  //     pathwayActions.getPathwaysDropdown({
-  //       authToken: user,
-  //     })
-  //   );
-  // }, [dispatch, user]);
 
   menu.LearningTracks &&
     data &&

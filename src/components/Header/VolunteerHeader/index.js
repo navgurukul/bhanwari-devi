@@ -1,7 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
 import HeaderNavLink from "../HeaderNavlink";
-import SearchHeader from "../SearchHeader";
 import Message from "../../common/Message";
 import { PATHS } from "../../../constant";
 import SearchPopup from "../../SearchBar/SearchPopup";

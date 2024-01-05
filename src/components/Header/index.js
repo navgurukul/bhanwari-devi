@@ -3,15 +3,11 @@ import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import List from "@mui/material/List";
 import { DropDown, MobileDropDown } from "./DropDown";
 import { useRouteMatch } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import Tooltip from "@mui/material/Tooltip";
 import { breakpoints } from "../../theme/constant";
 import {
   AppBar,
@@ -25,9 +21,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router";
-import { NavLink } from "react-router-dom";
+
 import {
   PUBLIC_MENU_KEYS,
   // LEARN_KEY,
@@ -43,20 +37,12 @@ import {
 import ExternalLink from "../common/ExternalLink";
 import { selectRolesData } from "../User/redux/selectors";
 import AuthenticatedHeaderOption from "./AuthenticatedHeaderOption";
-import SearchBar from "../SearchBar";
-import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
 import SearchPopup from "../SearchBar/SearchPopup";
 import LaunchOutlinedIcon from "@mui/icons-material/Launch";
-import HeaderNavLink from "./HeaderNavlink";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-// import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
-// import { useContext } from "react";
-// import { useLanguageConstants, getTranslationKey } from "../../common/language";
-// import { LanguageProvider } from "../../common/context";
 
 const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   const [indicator, setIndicator] = useState(null);
@@ -407,13 +393,6 @@ function Header() {
               </Link>
             </Box>
             <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-              {/* <Link to={PATHS.SEARCHED_COURSE}>
-                <Tooltip title="Search the course...">
-                  <Button color="dark">
-                    <SearchIcon />
-                  </Button>
-                </Tooltip>
-              </Link> */}
               <SearchPopup />
             </Box>
             <Box

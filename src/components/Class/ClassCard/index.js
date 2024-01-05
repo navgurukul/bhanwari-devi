@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import useStyles from "../styles";
 import { breakpoints } from "../../../theme/constant";
-// import { dateTimeFormat, TimeLeft } from "../../../constant";
-// import { timeLeftFormat } from "../../common/date";
 import { format, dateTimeFormat, timeLeftFormat } from "../../../common/date";
 import { METHODS } from "../../../services/api";
 import { actions as classActions } from "../redux/action";
@@ -23,7 +21,6 @@ import {
   Box,
   Stack,
   Dialog,
-  FormControlLabel,
   DialogActions,
   DialogTitle,
   Skeleton,
@@ -31,7 +28,6 @@ import {
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { actions as pathwayActions } from "../../PathwayCourse/redux/action";
 import ClassJoinTimerButton from "../ClassJoinTimerButton";
-import MergeClass from "../MergeClass";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useParams } from "react-router-dom";
 import EditClass from "../EditClass";
@@ -52,18 +48,13 @@ function ClassCard() {
   const [canJoin, setCanJoin] = useState(false);
   const [classesData, setClassesData] = useState([]);
   const [Newpathways, setNewPathways] = useState([]);
-  // const classStartTime = item.start_time; // && item.start_time.replace("Z", "");
-  // const classEndTime = item.end_time; // && item.end_time.replace("Z", "");
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [classToEdit, setClassToEdit] = useState({});
   const [isEditMode, setIsEditMode] = React.useState(false);
   const [refreshKey, setRefreshKey] = useState(true);
   const [skeletonloading, setSkeletonloading] = useState(true);
 
   const toggleModalOpen = () => {
-    // setFormType();
     setClassToEdit({});
-    // setShowModal(!showModal);
   };
 
   const handleCloseEnroll = () => {

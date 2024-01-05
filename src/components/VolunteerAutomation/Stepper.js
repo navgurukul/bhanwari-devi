@@ -17,8 +17,6 @@ import {
   Toolbar,
   Typography,
   Button,
-  Select,
-  MenuItem,
   IconButton,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -91,13 +89,6 @@ function HorizontalLinearStepper() {
       [uid]: currentState,
     });
   };
-
-  // Commented below code to redirect to volunteer onboarded form, even if the user has volunteer role.
-  // React.useEffect(() => {
-  //   if (roles?.includes("volunteer")) {
-  //     history.push(PATHS.CLASS);
-  //   }
-  // }, [roles]);
 
   const setActiveStepCompleted = () => {
     const newCompleted = completed.slice();

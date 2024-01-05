@@ -403,15 +403,7 @@ function StudentData() {
                   <BsArrowUpDown />
                 </button>
               </th>
-              {/* <th>
-                Enroll date
-                <button
-                  className={sort_class}
-                  onClick={() => sortStudents("enroll_date")}
-                >
-                  <BsArrowUpDown />
-                </button>
-              </th> */}
+
               <th>
                 Classes Enrolled to
                 <button
@@ -558,9 +550,7 @@ function StudentData() {
                           {item.name}
                         </Link>
                       </td>
-                      {/* <td data-column="Enrolled On">
-                        {item.formatted_created_at}
-                      </td> */}
+
                       <td data-column="Total classes ">
                         {" "}
                         {item.classes_registered.length}

@@ -5,8 +5,6 @@ import { PATHS } from "../../../constant";
 import useStyles from "../styles";
 import { Box, Typography, Menu, MenuItem } from "@mui/material";
 import TextButtonDropDownMenu from "../TextButtonDropDownMenu";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Message from "../../common/Message";
 import {
   MENU_ITEMS,
@@ -21,16 +19,6 @@ import {
 import AccordionDropDownMenu from "../AccordionDropDownMenu";
 // import { isTouchScreen } from "../../../common/utils";
 
-/*
-const rolesLandingPages = {
-  [STUDENT]: PATHS.NEW_USER_DASHBOARD,
-  [ADMIN]: PATHS.PARTNERS,
-  [VOLUNTEER]: PATHS.CLASS,
-  [PARTNER]: PATHS.PARTNERS,
-};
-*/
-
-// const SELECTED_ROLE_KEY = "selectedRole";
 const ID_TO_SELECTED_ROLE_MAP_KEY = "idToSelectedRoleMap";
 
 function ChangeRole({ isToggle, role, setRoleView, roleView, uid }) {
@@ -109,17 +97,6 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
         menuContainerProps={{
           // sx: { mt: '45px' },
           id: "menu-appbar",
-          /*
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: leftDrawer ? "left" : "right",
-            },
-            keepMounted: true,
-            transformOrigin: {
-              vertical: "top",
-              horizontal: leftDrawer ? "left" : "right",
-            },
-            */
         }}
       >
         {menuContents}
@@ -132,16 +109,7 @@ function ChangeRolesView({ setRole, roles, uid, leftDrawer }) {
 
   React.useEffect(() => {
     setRole(roleView);
-    // if (location !== roles[roleView]) {
-    // for load
-    //  history.push(roles[roleView]);
-    //}
   }, [roleView]);
-
-  // React.useEffect(() => {
-  //   const roleData = roles.find((role) => role.key === roleView);
-  //   roleData?.landingPage && history.push(roleData.landingPage);
-  // }, []);
 
   return (
     <Box

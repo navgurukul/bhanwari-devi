@@ -36,7 +36,6 @@ import {
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
-import PathwayCourseBatchEnroll2 from "../BatchClassComponents/PathwayCourseBatchEnroll2";
 import PathwayCards from "./PathwayCards/index.js";
 import { useState } from "react";
 import axios from "axios";
@@ -168,21 +167,6 @@ function PathwayCourse() {
   const downloadCert = () => {
     saveFile(certificate);
   };
-
-  // const shareCertificate = () => {
-  //   if (navigator.share !== undefined) {
-  //     const title = `Check out my ${pathwayCourseData?.pathway} certificate`;
-  //     const text = `I completed a ${pathwayCourseData?.pathway} from Meraki!`;
-  //     const url = certificate;
-  //     navigator
-  //       .share({
-  //         title,
-  //         text,
-  //         url,
-  //       })
-  //       .catch((err) => console.error(err));
-  //   }
-  // };
 
   const loading = useSelector((state) => {
     const upcomingBatchesState = state?.Pathways?.upcomingBatches;

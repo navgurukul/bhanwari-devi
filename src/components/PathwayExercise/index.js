@@ -570,48 +570,7 @@ function PathwayExercise() {
           </div>
         </Container>
       </AppBar>
-      {/* {editor && (
-        <AppBar
-          fullWidth
-          // position="stick"
-          sx={{ bgcolor: "info.light" }}
-          className={
-            isActive ? classes.editingHeaderMobile : classes.editingHeader
-          }
-          elevation={2}
-        >
-          <Box>
-            <Container maxWidth>
-              <Toolbar sx={{ alignItems: "center" }}>
-                <Box sx={{ flexGrow: 1 }} />
-                <ModeEditOutlineOutlinedIcon
-                  className={classes.edit}
-                  sx={{ mr: "11px" }}
-                />
-                <Typography className={classes.edit}>
-                  Want to update the content?
-                </Typography>
-                <Button
-                  sx={{ color: "#000000", ml: "24px" }}
-                  className={classes.edit}
-                  onClick={() => {
-                    history.push(
-                      interpolatePath(PATHS.PATHWAY_COURSE_CONTENT_EDIT, {
-                        courseId: params.courseId,
-                        exerciseId: params.exerciseId,
-                        pathwayId: params.pathwayId,
-                      })
-                    );
-                  }}
-                >
-                  Start Editing
-                </Button>
-                <Box sx={{ flexGrow: 1 }} />
-              </Toolbar>
-            </Container>
-          </Box>
-        </AppBar>
-      )} */}
+
       {successfulExerciseCompletion ? (
         <CompletionComponent
           setSuccessfulExerciseCompletion={setSuccessfulExerciseCompletion}
