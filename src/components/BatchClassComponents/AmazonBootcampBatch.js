@@ -13,8 +13,6 @@ import {
   CardContent,
   Chip,
   CardActions,
-  Box,
-  Stack,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
@@ -22,7 +20,6 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import DoubtClassCard from "./DoubtClassCard";
 import { Link } from "react-router-dom";
 
 function AmazonBootcampBatch({ enrolledBatches }) {
@@ -65,8 +62,6 @@ function AmazonBootcampBatch({ enrolledBatches }) {
   const enrolledBatcheClasses = enrollClasses.filter(
     (item) => item.type === "batch"
   );
-
-  console.log(enrollClasses)
 
   return (
     <>
@@ -169,19 +164,6 @@ function AmazonBootcampBatch({ enrolledBatches }) {
             ))}
           </Grid>
         </Container>
-
-        {/* {doubtclasses.length > 0 && (
-          <Typography variant="h6" margin="32px 0px">
-            Doubt Class
-          </Typography>
-        )}
-
-        <Grid container spacing={isActive ? 2 : 4}>
-          {doubtclasses.length > 0 &&
-            doubtclasses?.map((item, index) => (
-              <DoubtClassCard item={item} setDoubtclasses={setDoubtclasses} />
-            ))}
-        </Grid> */}
       </Container>
     </>
   );

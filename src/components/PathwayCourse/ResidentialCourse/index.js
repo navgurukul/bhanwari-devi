@@ -127,20 +127,6 @@ function ResidentialProgramme() {
             ))}
         </Grid>
       </Box>
-
-      {/* <Stack sx={{ mt: isActive ? 4 : 8 }} alignItems="center">
-        <Typography variant="h6">Have you completed the overview?</Typography>
-        <Link
-          style={{
-            textDecoration: "none",
-          }}
-          to={PATHS.ADMISSION}
-        >
-          <Button sx={{ mt: 2 }} variant="contained" color="primary">
-            Yes, let's take the test
-          </Button>
-        </Link>
-      </Stack> */}
     </Container>
   );
 }

@@ -76,13 +76,6 @@ function SearchCourse(props) {
     }
   };
 
-  // useEffect(() => {
-  //   const data = JSON.parse(localStorage.getItem("recent"));
-  //   if (data !== null) {
-  //     setrecentSearch(data);
-  //   }
-  // }, [setrecentSearch]);
-
   const pathwayCourseIds =
     pathway.data?.pathways
       .map((pathway) => pathway.courses || [])
@@ -110,12 +103,6 @@ function SearchCourse(props) {
 
   const hasSearchResults =
     pathwayTrackResults?.length > 0 || otherCourseResults?.length > 0;
-
-  // const handleDataBar = (name) => {
-  //   if (!recentSearch.includes(name)) {
-  //     localStorage.setItem("recent", JSON.stringify([...recentSearch, name]));
-  //   }
-  // };
 
   const countCourse = pathwayTrackResults?.map((item) => {
     return item.courses?.length;

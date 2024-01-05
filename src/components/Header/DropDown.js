@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
-import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import AccordionDropDownMenu from "./AccordionDropDownMenu";
 import ExternalLink from "../common/ExternalLink";
 import DropdownLink from "./DropdownLink";
@@ -18,9 +16,6 @@ import {
   MenuItem,
   CardContent,
   Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@mui/material";
 
 const students = {
@@ -145,13 +140,7 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   );
 };
 
-export const DropDown = ({
-  dropDown,
-  //handleClose,
-  toggleDrawer,
-  //setInDropdown,
-  //handleMouseLeave,
-}) => {
+export const DropDown = ({ dropDown, toggleDrawer }) => {
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();

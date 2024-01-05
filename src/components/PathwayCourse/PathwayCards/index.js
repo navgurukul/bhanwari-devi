@@ -22,7 +22,6 @@ import { Link, useHistory } from "react-router-dom";
 
 import useStyles from "../styles";
 const PathwayCards = ({ userEnrolledClasses, data }) => {
-
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const history = useHistory();
   const language = {
@@ -62,19 +61,11 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
             courseId: item.course_id,
             exerciseId: classIndex,
             pathwayId: item.pathway_id,
-          })}>
+          })}
+        >
           <Card
             className={classes.UpcomingCard}
             elevation={2}
-            // onClick={() => {
-            //   history.push(
-            //     interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-            //       courseId: item.course_id,
-            //       exerciseId: classIndex,
-            //       pathwayId: item.pathway_id,
-            //     })
-            //   );
-            // }}
             style={
               item.pathway_id === 7
                 ? {
@@ -87,7 +78,8 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
                     marginRight: isActive ? "500px" : "40px",
                     marginLeft: isActive ? "5px" : "15px",
                   }
-            }>
+            }
+          >
             <Box
               sx={{
                 borderTop: 5,
@@ -104,7 +96,8 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
               <Stack
                 direction="row"
                 justifyContent="space-between"
-                className={classes.cardContent}>
+                className={classes.cardContent}
+              >
                 <Typography variant="body1" gutterBottom>
                   {item.sub_title || item.title}
                 </Typography>
@@ -142,7 +135,8 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
                 <Grid item xs={4} md={3}>
                   <Typography
                     style={{ color: "#6D6D6D", fontSize: "13px" }}
-                    variant="body2">
+                    variant="body2"
+                  >
                     {format(item.start_time, "dd MMM yy")}
                   </Typography>
                 </Grid>
@@ -159,7 +153,8 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
                   <Typography
                     // aman this style should be in the css file and refactor it
                     style={{ color: "#6D6D6D", fontSize: "13px", pl: "30px" }}
-                    variant="body2">
+                    variant="body2"
+                  >
                     {language[item.lang]}
                   </Typography>
                 </Grid>
@@ -178,7 +173,8 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
           style={{ marginLeft: isActive ? "5px" : "15px" }}
           mb={2}
           mt={2}
-          variant="h6">
+          variant="h6"
+        >
           Upcoming Classes
         </Typography>
 
@@ -189,7 +185,8 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
             maxWidth: "100%",
             overflowX: "scroll",
             paddingBottom: "10px",
-          }}>
+          }}
+        >
           {userEnrolledClasses?.slice(0, sliceNumber).map((item) => {
             return (
               <>

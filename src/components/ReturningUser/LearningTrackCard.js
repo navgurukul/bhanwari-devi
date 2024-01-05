@@ -2,70 +2,39 @@ import React, { useEffect, useState } from "react";
 import { format } from "../../common/date";
 import {
   Typography,
-  Container,
-  CardActionArea,
-  CardMedia,
   Card,
   CardContent,
-  Box,
-  Link,
   LinearProgress,
-  Collapse,
   Button,
   Chip,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, IconButton } from "@mui/material";
-import { actions as pathwayActions } from "../PathwayCourse/redux/action";
-import { actions as upcomingBatchesActions } from "../PathwayCourse/redux/action";
-import { actions as upcomingClassActions } from "../PathwayCourse/redux/action";
-import { actions as enrolledBatchesActions } from "../PathwayCourse/redux/action";
+import { Grid } from "@mui/material";
 
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 import { useHistory } from "react-router-dom";
 import { interpolatePath, PATHS } from "../../constant";
-import { getPathwaysCourse } from "../PathwayCourse/redux/api";
-import { getUpcomingBatches } from "../PathwayCourse/redux/api";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { METHODS } from "../../services/api";
 import axios from "axios";
 import LearningTrackTimerButton from "./LearningTrackTimerButton";
-import path from "path";
-import { InsertEmoticonRounded } from "@mui/icons-material";
 
 function LearningTrackCard(props) {
   const user = useSelector(({ User }) => User);
-  // const pathwaysData = useSelector(({ Pathways }) => Pathways);
   const dispatch = useDispatch();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  // const isActiveIpad = useMediaQuery("(max-width:1300px)");
+
   const classes = useStyles();
   const history = useHistory();
-  // const [PathwayData, setPathwayData] = useState([]);
-  // const [courseIndex, setCourseIndex] = useState(0);
+
   const [open, setOpen] = React.useState(false);
   const { item, setPathway } = props;
   const pathwayId = item.pathway_id;
   const [completedPortionJason, setCompletedPortionJason] = useState();
   const [upcomingBatchesData, setUpcomingBatchesData] = useState();
   const params = useParams();
-
-  // useEffect(() => {
-  //   getPathwaysCourse({ pathwayId: pathwayId }).then((res) => {
-  //     setPathwayData(res.data);
-  //   });
-
-  //   const COurseIndex = PathwayData?.courses?.findIndex((course, index) => {
-  //     if (course.course_id === item.course_id) {
-  //       return index;
-  //     }
-  //   });
-  //   setCourseIndex(COurseIndex);
-  // }, [item]);
 
   const data = useSelector((state) => {
     return state;
@@ -74,12 +43,6 @@ function LearningTrackCard(props) {
   useEffect(() => {
     // setLoading(true);
     if (user?.data?.token && pathwayId) {
-      // dispatch(
-      //   enrolledBatchesActions.getEnrolledBatches({
-      //     pathwayId: pathwayId,
-      //     authToken: user?.data?.token,
-      //   })
-      // );
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
@@ -94,10 +57,6 @@ function LearningTrackCard(props) {
         .catch((err) => {});
     }
   }, [pathwayId]);
-
-  // useEffect(() => {
-  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  // }, [dispatch, pathwayId]);
 
   useEffect(() => {
     if (showUpcomingBatchData) {
@@ -115,13 +74,6 @@ function LearningTrackCard(props) {
         .catch((err) => {});
     }
   }, []);
-  // const upcomingBatchesData = useSelector((state) => {
-  //   return state.Pathways?.upcomingBatches?.data;
-  // });
-
-  // useEffect(() => {
-  //   dispatch(pathwayActions.getPathways());
-  // }, [dispatch, pathwayId]);
 
   const pathwayCourseData = data.PathwaysDropdow?.data?.pathways.find(
     (item) => {
@@ -131,8 +83,6 @@ function LearningTrackCard(props) {
 
   const showUpcomingBatchData =
     pathwayCourseData?.code == "PRGPYT" || pathwayCourseData?.code == "SPKENG";
-
-  // console.log(data, pathwayId, showUpcomingBatchData);
 
   return (
     <>

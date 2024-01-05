@@ -20,25 +20,18 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import NoClassesFound from "../NoClassesFound";
 import NoVolunteerClass from "../NoVolunteerClass";
-import axios from "axios";
-
-import { METHODS } from "../../../services/api";
-
 import BatchCard from "../ClassCard/BatchCard";
+
 function ClassList({
   editClass,
-  isShow,
   setFormType,
   showClass,
   toggleModalOpen,
   pathwayID,
   canSpecifyFacilitator,
   Newpathways,
-  setSingleTime,
-  singleTime,
   data,
   loading,
-  refreshKey,
   setRefreshKey,
 }) {
   const dispatch = useDispatch();

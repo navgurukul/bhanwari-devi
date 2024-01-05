@@ -25,7 +25,6 @@ function PartnerDashboard() {
   const [sort_class, setSortClass] = useState("sorter");
   const [debouncedText] = useDebounce(searchTerm, 400);
   const [message, setMessage] = useState("");
-  const [isDisabled, setDisabled] = useState(false);
 
   const user = useSelector(({ User }) => User);
   const limit = 15;
@@ -271,27 +270,6 @@ function PartnerDashboard() {
                         </div>
                       </td>
                     )}
-                    {/* <td data-column="Meraki Link">
-                      <a
-                        className="meraki_link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`https://www.merakilearn.org/navgurukul/${item.id}`}
-                      >
-                        Get Url
-                      </a>
-                      <CopyToClipboard
-                        text={`https://www.merakilearn.org/navgurukul/${item.id}`}
-                        onCopy={() => {
-                          toast.success("Copied to Clipboard", {
-                            position: toast.POSITION.BOTTOM_RIGHT,
-                            autoClose: 1200,
-                          });
-                        }}
-                      >
-                        <i className="clipboard fa fa-copy"></i>
-                      </CopyToClipboard>
-                    </td> */}
                   </tr>
                 );
               })}

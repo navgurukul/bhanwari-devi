@@ -107,10 +107,6 @@ function DropOutBatchesProfile() {
       .catch((err) => {});
   }, [open]);
 
-  // if (dropOutBatches !== null) {
-  //   dropOutBatches.map((item) => {console.log(item.pathway_id)})
-  // }
-
   return (
     <div
       style={{
