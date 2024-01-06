@@ -11,7 +11,7 @@ import { PATHS } from "../../../constant";
  */
 function* handleUserData({ data }) {
   console.log(data, "data in saga")
-  const res = data.idToken? yield call(sendToken, data): null;
+  const res = yield call(sendToken, data);
   if (res.status === 200) {
     res.data.token = res.data.token || data.token;
     const mappedUserData = { ...res.data, isAuthenticated: true };

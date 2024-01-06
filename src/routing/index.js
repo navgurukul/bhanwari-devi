@@ -50,8 +50,8 @@ const Routing = () => {
       <Route exact path={PATHS.PATHWAY_COURSE} component={PathwayCourse} />
       <Route
         exact
-        path={PATHS.MISCELLANEOUS_COURSE}
-        component={MiscellaneousCourses}
+        path={PATHS.MISCELLANEOUS_COURSE} 
+        component={MiscellaneousCourses} 
       />
       <Route
         exact
@@ -60,7 +60,7 @@ const Routing = () => {
       />
       <Route path={PATHS.PATHWAY_COURSE_CONTENT} component={PathwayExercise} />
 
-      <Route exact path={PATHS.LOGIN} component={Login} />
+      <Route exact path={PATHS.LOGIN} component={Home} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />

@@ -4,6 +4,7 @@ import { types } from "../components/User/redux/action";
 export function getUserInitialState() {
   try {
     const state = localStorage.getItem(AUTH_KEY);
+    console.log(state, "state in storage")
     if (state) {
       try {
         let parsedState = JSON.parse(state);

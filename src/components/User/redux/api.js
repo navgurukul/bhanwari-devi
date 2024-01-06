@@ -31,7 +31,7 @@ export const sendToken = (token) => {
     url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
     headers: {
       accept: "application/json",
-      Authorization: token.idToken,
+      Authorization: token?.idToken,
     },
   });
 };

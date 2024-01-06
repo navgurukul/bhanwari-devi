@@ -29,6 +29,10 @@ function Login(props) {
   const rolesList = data !== null && data.user.rolesList;
   const isAuthenticated = data && data.isAuthenticated;
 
+  useEffect(()=>{
+    console.log(props.location.state, "props.location.state")
+  })
+
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
     let { id_token: idToken } = googleUser.getAuthResponse();

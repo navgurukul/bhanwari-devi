@@ -55,7 +55,9 @@ function Home(props) {
   const isAuthenticated = userData && userData?.isAuthenticated;
 
   
-
+  useEffect(() => { 
+    console.log(props.location.state, "props location state")
+  },[])
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
@@ -81,7 +83,7 @@ function Home(props) {
   roles.map((userRole) => {
     if (role?.length == 0) {
       defalutPage = "/pathway/1";
-    } else if (role && userRole.key === role[0].toUpperCase()) {
+    } else if (role && userRole.key === role[0].twoUpperCase()) {
       defalutPage = rolesLandingPages[userRole.key];
     }
   });
@@ -179,7 +181,7 @@ if(amazonPathwayId == null){
 
 // ---------------------------------------------
 
-
+console.log("isauthenticated", isAuthenticated);  
 
 if (isAuthenticated) {
 if (queryString) {

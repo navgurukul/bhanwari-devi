@@ -39,7 +39,7 @@ const OnlyLoggedIn = (passedProps) => {
         ) : (
           <Redirect
             to={{
-              pathname: PATHS.LOGIN,
+              pathname: PATHS.HOME_PAGE,
               state: { from: props.location },
             }}
           />

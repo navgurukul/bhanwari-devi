@@ -12,6 +12,7 @@ export const types = {
 
 export const actions = {
   onUserSignin(data) {
+    console.log(data, "data in action")
     return {
       type: types.ON_USER_SIGN_INTENT,
       data,
