@@ -44,20 +44,21 @@ function Home(props) {
 
   const [loggedOut, setLoggedOut] = useState("");
   const location = useLocation();
-  const [queryString, setqueryString] = useState(null);
   const pathway = useSelector((state) => state.Pathways);
-  const updateQueryString = (value) => {
-    setqueryString(value);
-  };
-  
-  const { userLoading, userData } = useSelector(({ User }) => User);
-  const rolesList = userData !== null && userData?.user?.rolesList;
-  const isAuthenticated = userData && userData?.isAuthenticated;
 
-  
-  useEffect(() => { 
-    console.log(props.location.state, "props location state")
-  },[])
+  const { ...userData } = useSelector(({ User }) => User);
+  const rolesList = data !== null && data?.user?.rolesList;
+  const isAuthenticated = userData && userData?.data?.isAuthenticated;
+
+  let defalutPage = "/";
+  // console.log(userData, "user in home")
+  useEffect(() => {
+    console.log(props.location.state, "props location state");
+
+    if (props.location.state) {
+      localStorage.setItem("locationState", props.location.state.from.pathname);
+    }
+  }, []);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
@@ -79,14 +80,6 @@ function Home(props) {
       : `${PATHS.PARTNERS}/${partnerId}`,
   };
 
-  let defalutPage = "/";
-  roles.map((userRole) => {
-    if (role?.length == 0) {
-      defalutPage = "/pathway/1";
-    } else if (role && userRole.key === role[0].twoUpperCase()) {
-      defalutPage = rolesLandingPages[userRole.key];
-    }
-  });
   function reverseJwtBody(jwt) {
     const [header, body, signature] = jwt.split(".");
     const reversedBody = body.split("").reverse().join("");
@@ -97,14 +90,17 @@ function Home(props) {
     const studentAuthParam = urlParams.get("studentAuth");
     let tokenVal = urlParams?.get("token");
     let loggedOutToken = urlParams?.get("loggedOutToken");
+    const queryString = new URLSearchParams(window.location.search)?.get(
+      "referrer"
+    );
+    queryString &&
+      localStorage.setItem("queryString", `referrer=${queryString}`);
 
     if (tokenVal) {
-
       localStorage.setItem("loggedOutToken", JSON.stringify(loggedOutToken));
       localStorage.setItem("token", reverseJwtBody(tokenVal));
-      dispatch(userActions.onUserSignin({idToken:reverseJwtBody(tokenVal)}));
+      dispatch(userActions.onUserSignin({ idToken: reverseJwtBody(tokenVal) }));
     } else {
-
     }
 
     if (studentAuthParam)
@@ -135,13 +131,11 @@ function Home(props) {
     !localStorage.getItem("token") && localStorage.setItem("token", null);
     !localStorage.getItem("loggedOut") &&
       localStorage.setItem("loggedOut", null);
-
   }, []);
 
   useEffect(() => {
     setLoggedOut(localStorage.getItem("loggedOut"));
   }, [loggedOut]);
-
 
   useEffect(() => {
     dispatch(
@@ -151,121 +145,114 @@ function Home(props) {
     );
   }, [dispatch, user]);
 
-  
   useEffect(() => {
     history.push(defalutPage);
   }, [defalutPage]);
 
+  // SSO LOGIN CODE
 
-// SSO LOGIN CODE
+  const pythonPathway =
+    pathway.data &&
+    pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
 
+  const pythonPathwayId = pythonPathway && pythonPathway.id;
 
+  // PathwayId for Amazon Pathway:-
+  const amazonPathway =
+    pathway.data &&
+    pathway.data.pathways.find((pathway) => pathway.code === "ACB");
+  const [amazonPathwayId, setAmazonPathwayId] = useState(null);
 
+  useEffect(() => {
+    if (amazonPathwayId == null) {
+      setAmazonPathwayId(amazonPathway && amazonPathway.id);
+    }
+  }, [user]);
 
-const pythonPathway =
-pathway.data &&
-pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
-const pythonPathwayId = pythonPathway && pythonPathway.id;
+  // ---------------------------------------------
 
-// PathwayId for Amazon Pathway:-
-const amazonPathway =
-pathway.data &&
-pathway.data.pathways.find((pathway) => pathway.code === "ACB");
-const [amazonPathwayId, setAmazonPathwayId] = useState(null);
-
-useEffect(() => {
-if(amazonPathwayId == null){
-  setAmazonPathwayId(amazonPathway && amazonPathway.id)
-}
-}, [user]);
-
-// ---------------------------------------------
-
-console.log("isauthenticated", isAuthenticated);  
-
-if (isAuthenticated) {
-if (queryString) {
-  axios({
-    method: METHODS.PUT,
-    url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
-    headers: {
-      accept: "application/json",
-      Authorization: data.token,
-    },
-    data: { referrer: queryString },
-  })
-    .then((res) => {
-      // For ACB Students joining using referrer link redirection below:-
-      const queryParams = new URLSearchParams(location.search);
-      const referrer = queryParams.get("referrer");
-      if (referrer.includes("amazon")) {
-        history.push(
-          interpolatePath(PATHS.PATHWAY_COURSE, {
-            pathwayId: amazonPathwayId,
-          })
-        );
+  if (isAuthenticated) {
+    if (localStorage.getItem("queryString")) {
+      axios({
+        method: METHODS.PUT,
+        url: `${process.env.REACT_APP_MERAKI_URL}/users/me`,
+        headers: {
+          accept: "application/json",
+          Authorization: userData?.data?.token,
+        },
+        data: { referrer: localStorage.getItem("queryString") },
+      })
+        .then((res) => {
+          // For ACB Students joining using referrer link redirection below:-
+          const queryParams = new URLSearchParams(location.search);
+          const referrer = queryParams.get("referrer");
+          if (referrer.includes("amazon")) {
+            history.push(
+              interpolatePath(PATHS.PATHWAY_COURSE, {
+                pathwayId: amazonPathwayId,
+              })
+            );
+          }
+        })
+        .catch((err) => {});
+    }
+    if (localStorage.getItem("locationState") == "/volunteer-with-us") {
+      if (rolesList.includes("volunteer")) {
+        return <Redirect to={PATHS.CLASS} />;
+      } else {
+        return <Redirect to={PATHS.VOLUNTEER_FORM} />;
       }
-    })
-    .catch((err) => {});
-}
-if (props.location.state == "/volunteer-with-us") {
-  if (rolesList.includes("volunteer")) {
-    return <Redirect to={PATHS.CLASS} />;
-  } else {
-    return <Redirect to={PATHS.VOLUNTEER_FORM} />;
+    }
+    if (localStorage.getItem("locationState")) {
+      return <Redirect to={localStorage.getItem("locationState")} />;
+    }
+    if (userData.data.user.rolesList.length == 0) {
+      return <Redirect to={"/user-dashboard"} />;
+    }
+
+    // For already registered ACB Students redirection below:-
+    if (
+      data?.user?.partner_id == 932 &&
+      !data?.user?.rolesList.includes("partner") &&
+      !data?.user?.rolesList.includes("admin")
+    ) {
+      return (
+        <Redirect
+          to={interpolatePath(PATHS.PATHWAY_COURSE, {
+            pathwayId: amazonPathwayId,
+          })}
+        />
+      );
+    }
+    // if (rolesList != false) {
+    //   if (!(rolesList?.includes("partner") || rolesList?.includes("admin"))) {
+    //     return <Redirect to={PATHS.COURSE} />;
+    //   }
+    //   } else if (rolesList?.length == 0) {
+    //   return <Redirect to={PATHS.COURSE} />;
+    //   }
+
+    roles.map((userRole) => {
+      console.log(localStorage.getItem("locationState"), "location state");
+      if (role?.length == 0) {
+        defalutPage = "/pathway/1";
+      } else if (role && userRole.key === role[0].toUpperCase()) {
+        defalutPage = rolesLandingPages[userRole.key];
+      }
+    });
+
+    return (
+      <>
+        {pythonPathwayId && (
+          <Redirect
+            to={userData?.data?.user?.roleslist[0] || rolesLandingPages.default}
+          />
+        )}
+      </>
+    );
   }
-}
-if (props.location.state) {
-  return <Redirect to={props.location.state.from.pathname} />;
-}
 
-// For already registered ACB Students redirection below:-
-if (
-  data?.user?.partner_id == 932 &&
-  !data?.user?.rolesList.includes("partner") &&
-  !data?.user?.rolesList.includes("admin")
-) {
-  return (
-    <Redirect
-      to={interpolatePath(PATHS.PATHWAY_COURSE, {
-        pathwayId: amazonPathwayId,
-      })}
-    />
-  );
-}
-if (rolesList != false) {
-  if (!(rolesList?.includes("partner") || rolesList?.includes("admin"))) {
-    return <Redirect to={PATHS.COURSE} />;
-  }
-  } else if (rolesList?.length == 0) {
-  return <Redirect to={PATHS.COURSE} />;
-  }
-
-return (
-  <>
-    {pythonPathwayId && (
-      <Redirect
-        to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
-      />
-    )}
-  </>
-);
-
-}
-
-
-
-
-// SS0 LOGIN CODE END
-
-
-
-
-
-
-
-
-
+  // SS0 LOGIN CODE END
 
   return (
     <>

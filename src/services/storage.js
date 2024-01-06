@@ -34,6 +34,7 @@ export const userStateMiddleware = (store) => (next) => (action) => {
     } else if (action.type === types.ON_LOGOUT_INTENT) {
       let result = next(action);
       localStorage.removeItem(AUTH_KEY);
+      localStorage.clear()
       return result;
     } else return next(action);
   } catch (error) {

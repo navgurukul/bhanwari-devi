@@ -33,7 +33,7 @@ function* refreshUserData({ data }) {
 }
 
 function* handleLogout() {
-  yield (window.location.pathname = PATHS.LOGIN);
+  yield (window.location.pathname = PATHS.HOME_PAGE);
 }
 
 export default function* () {
