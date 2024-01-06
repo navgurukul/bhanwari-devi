@@ -47,7 +47,7 @@ function Home(props) {
   const pathway = useSelector((state) => state.Pathways);
 
   const { ...userData } = useSelector(({ User }) => User);
-  const rolesList = data !== null && data?.user?.rolesList;
+  const rolesList = userData !== null && userData.data?.user?.rolesList;
   const isAuthenticated = userData && userData?.data?.isAuthenticated;
 
   let defalutPage = "/";
@@ -170,8 +170,10 @@ function Home(props) {
   }, [user]);
 
   // ---------------------------------------------
-
+  
   if (isAuthenticated) {
+   
+  
     if (localStorage.getItem("queryString")) {
       axios({
         method: METHODS.PUT,
@@ -232,26 +234,33 @@ function Home(props) {
     //   return <Redirect to={PATHS.COURSE} />;
     //   }
 
-    roles.map((userRole) => {
-      console.log(localStorage.getItem("locationState"), "location state");
-      if (role?.length == 0) {
-        defalutPage = "/pathway/1";
-      } else if (role && userRole.key === role[0].toUpperCase()) {
-        defalutPage = rolesLandingPages[userRole.key];
-      }
-    });
+ 
 
+    const rolesLandingPages = {
+      volunteer: PATHS.CLASS,
+      admin: PATHS.PARTNERS,
+      partner: PATHS.PARTNERS,
+      default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
+    };
+    console.log(userData.data.user.rolesList, "rolesLandingPages.rolesList")
     return (
       <>
         {pythonPathwayId && (
           <Redirect
-            to={userData?.data?.user?.roleslist[0] || rolesLandingPages.default}
+          to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
           />
         )}
       </>
     );
   }
-
+  roles.map((userRole) => {
+    console.log(localStorage.getItem("locationState"), "location state");
+    if (role?.length == 0) {
+      defalutPage = "/pathway/1";
+    } else if (role && userRole.key === role[0].toUpperCase()) {
+      defalutPage = rolesLandingPages[userRole.key];
+    }
+  });
   // SS0 LOGIN CODE END
 
   return (
