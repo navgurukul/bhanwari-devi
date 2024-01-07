@@ -177,7 +177,7 @@ function Profile() {
   // OTP AUTH FUNCTION
   useEffect(() => {
     if (loading) {
-      dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+      dispatch(actions.onUserRefreshDataIntent({ token: user?.data?.token }));
     }
   }, []);
 
@@ -257,7 +257,6 @@ function Profile() {
       .catch((err) => {});
   };
 
-  // console.log(data.,"pathwayId")
 
   return (
     <>

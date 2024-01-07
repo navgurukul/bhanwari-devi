@@ -10,7 +10,6 @@ import { PATHS } from "../../../constant";
  * @param {object} payload
  */
 function* handleUserData({ data }) {
-  console.log(data, "data in saga")
   const res = yield call(sendToken, data);
   if (res.status === 200) {
     res.data.token = res.data.token || data.token;

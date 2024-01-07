@@ -50,7 +50,7 @@ function Home(props) {
   const rolesList = userData !== null && userData.data?.user?.rolesList;
   const isAuthenticated = userData && userData?.data?.isAuthenticated;
 
-  let defalutPage = "/";
+  let defaultPage = "/";
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
@@ -71,11 +71,12 @@ function Home(props) {
       ? `${PATHS.STATE}/${partnerGroupId}`
       : `${PATHS.PARTNERS}/${partnerId}`,
   };
+
   roles.map((userRole) => {
     if (role?.length == 0) {
-      defalutPage = "/user-dashboard";
+      defaultPage = "/user-dashboard";
     } else if (role && userRole.key === role[0].toUpperCase()) {
-      defalutPage = rolesLandingPages[userRole.key];
+      defaultPage = rolesLandingPages[userRole.key];
     }
   });
 
@@ -102,7 +103,7 @@ function Home(props) {
     if (tokenVal) {
       localStorage.setItem("loggedOutToken", JSON.stringify(loggedOutToken));
       localStorage.setItem("token", reverseJwtBody(tokenVal));
-      dispatch(userActions.onUserSignin({ idToken: reverseJwtBody(tokenVal) }));
+      dispatch(userActions.onUserSignin({ token: reverseJwtBody(tokenVal) }));
     } else {
     }
 
@@ -149,8 +150,8 @@ function Home(props) {
   }, [dispatch, user]);
 
   useEffect(() => {
-    history.push(defalutPage);
-  }, [defalutPage]);
+    history.push(defaultPage);
+  }, [defaultPage]);
 
   // SSO LOGIN CODE
 
@@ -207,7 +208,7 @@ function Home(props) {
       }
     }
     if (localStorage.getItem("locationState")) {
-      return <Redirect to={localStorage.getItem("locationState")} />;
+      return defaultPage = localStorage.getItem("locationState");
     }
     if (userData.data.user.rolesList.length == 0) {
       return <Redirect to={"/user-dashboard"} />;
@@ -243,7 +244,6 @@ function Home(props) {
         : `${PATHS.PARTNERS}/${partnerId}`,
       default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
     };
-    console.log(userData.data.user.rolesList, "rolesLandingPages.rolesList");
     return (
       <>
         {pythonPathwayId && (
@@ -256,9 +256,9 @@ function Home(props) {
   }
   roles.map((userRole) => {
     if (role?.length == 0) {
-      defalutPage = "/pathway/1";
+      defaultPage = "/pathway/1";
     } else if (role && userRole.key === role[0].toUpperCase()) {
-      defalutPage = rolesLandingPages[userRole.key];
+      defaultPage = rolesLandingPages[userRole.key];
     }
   });
 
