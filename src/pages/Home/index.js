@@ -51,14 +51,6 @@ function Home(props) {
   const isAuthenticated = userData && userData?.data?.isAuthenticated;
 
   let defalutPage = "/";
-  // console.log(userData, "user in home")
-  useEffect(() => {
-    console.log(props.location.state, "props location state");
-
-    if (props.location.state) {
-      localStorage.setItem("locationState", props.location.state.from.pathname);
-    }
-  }, []);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
     PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
@@ -79,12 +71,20 @@ function Home(props) {
       ? `${PATHS.STATE}/${partnerGroupId}`
       : `${PATHS.PARTNERS}/${partnerId}`,
   };
+  roles.map((userRole) => {
+    if (role?.length == 0) {
+      defalutPage = "/user-dashboard";
+    } else if (role && userRole.key === role[0].toUpperCase()) {
+      defalutPage = rolesLandingPages[userRole.key];
+    }
+  });
 
   function reverseJwtBody(jwt) {
     const [header, body, signature] = jwt.split(".");
     const reversedBody = body.split("").reverse().join("");
     return [header, reversedBody, signature].join(".");
   }
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const studentAuthParam = urlParams.get("studentAuth");
@@ -93,6 +93,9 @@ function Home(props) {
     const queryString = new URLSearchParams(window.location.search)?.get(
       "referrer"
     );
+    if (props.location.state) {
+      localStorage.setItem("locationState", props.location.state.from.pathname);
+    }
     queryString &&
       localStorage.setItem("queryString", `referrer=${queryString}`);
 
@@ -169,11 +172,9 @@ function Home(props) {
     }
   }, [user]);
 
-  // ---------------------------------------------
-  
+  // ---------------------------------------------    //
+
   if (isAuthenticated) {
-   
-  
     if (localStorage.getItem("queryString")) {
       axios({
         method: METHODS.PUT,
@@ -234,34 +235,34 @@ function Home(props) {
     //   return <Redirect to={PATHS.COURSE} />;
     //   }
 
- 
-
     const rolesLandingPages = {
       volunteer: PATHS.CLASS,
       admin: PATHS.PARTNERS,
-      partner: PATHS.PARTNERS,
+      partner: partnerGroupId
+        ? `${PATHS.STATE}/${partnerGroupId}`
+        : `${PATHS.PARTNERS}/${partnerId}`,
       default: interpolatePath(PATHS.NEW_USER_DASHBOARD),
     };
-    console.log(userData.data.user.rolesList, "rolesLandingPages.rolesList")
+    console.log(userData.data.user.rolesList, "rolesLandingPages.rolesList");
     return (
       <>
         {pythonPathwayId && (
           <Redirect
-          to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
+            to={rolesLandingPages[rolesList[0]] || rolesLandingPages.default}
           />
         )}
       </>
     );
   }
   roles.map((userRole) => {
-    console.log(localStorage.getItem("locationState"), "location state");
     if (role?.length == 0) {
       defalutPage = "/pathway/1";
     } else if (role && userRole.key === role[0].toUpperCase()) {
       defalutPage = rolesLandingPages[userRole.key];
     }
   });
-  // SS0 LOGIN CODE END
+
+  // ==================================================================================== //
 
   return (
     <>
