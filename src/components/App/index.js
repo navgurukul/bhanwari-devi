@@ -47,7 +47,7 @@ function App() {
             .then((res) => {
               if (res.data === false) {
                 console.log("session expired");
-                dispatch(userActions.logout());
+                // dispatch(userActions.logout());
                 clearInterval(interval);
                 history.push(PATHS.HOME_PAGE);
                 localStorage.setItem("loggedOut", false)
