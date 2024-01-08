@@ -134,7 +134,7 @@ function Home(props) {
 
     !localStorage.getItem("token") && localStorage.setItem("token", null);
     !localStorage.getItem("loggedOut") &&
-      localStorage.setItem("loggedOut", null);
+      localStorage.setItem("loggedOut", false);
   }, []);
 
   useEffect(() => {

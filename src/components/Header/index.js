@@ -66,6 +66,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     inProgress: false,
     value: false,
   });
+  const [loggedOut, setLoggedOut] = useState("");
   const inDropdownRef = useRef(inDropdown);
   inDropdownRef.current = inDropdown;
   const classes = useStyles();
@@ -104,6 +105,12 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       menuCloseHandler();
     }
   }, [inDropdown]);
+
+  
+  useEffect(() => {
+    setLoggedOut(localStorage.getItem("loggedOut"));
+  }, [loggedOut]);
+
 
   return (
     <>
@@ -226,9 +233,11 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
           {showLoginButton && !leftDrawer && (
             <Box sx={{ flexGrow: 0 }}>
-              <Link to={PATHS.LOGIN} className={classes.button}>
+                   <a
+                  href={`https://dev.dcckrjm3h0sxm.amplifyapp.com/?loggeOut=${loggedOut}`}
+                >
                 <Button variant="contained">Log in</Button>
-              </Link>
+                           </a>
             </Box>
           )}
         </>
