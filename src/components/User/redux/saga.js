@@ -32,7 +32,7 @@ function* refreshUserData({ data }) {
 }
 
 function* handleLogout() {
-  yield (window.location.pathname = PATHS.HOME_PAGE);
+  yield (window.location.href = `https://dev.dcckrjm3h0sxm.amplifyapp.com/?loggeOut=true`);
 }
 
 export default function* () {
