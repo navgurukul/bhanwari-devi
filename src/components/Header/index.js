@@ -234,7 +234,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
           {showLoginButton && !leftDrawer && (
             <Box sx={{ flexGrow: 0 }}>
                    <a
-                  href={`https://dev.dcckrjm3h0sxm.amplifyapp.com/?loggeOut=${loggedOut}`}
+                  href={`https://dev.dcckrjm3h0sxm.amplifyapp.com/?loggedOut=${loggedOut}`}
                 >
                 <Button variant="contained">Log in</Button>
                            </a>
