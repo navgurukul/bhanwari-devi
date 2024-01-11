@@ -214,20 +214,16 @@ function C4CApathway() {
                           mt={1}
                         >
                           {isCourseUnlocked(course.id) ||
-                          (index === 0 && courseindex === 0) ? (
-                            <LockOpenIcon
-                              color="primary"
-                              fontSize="medium"
-                              style={{ marginTop: "6px", marginRight: "8px" }}
-                            />
-                          ) : (
+                          (index === 0 && courseindex === 0) ? null : (
                             <LockIcon
                               color="grey"
                               fontSize="medium"
-                              style={{ marginTop: "6px", marginRight: "8px" }}
+                              style={{ marginTop: "6px" }}
                             />
                           )}
-                          <Typography variant="body1">{course.name}</Typography>
+                          <Typography variant="body1" marginLeft="8px">
+                            {course.name}
+                          </Typography>
                         </Typography>
                       </CardContent>
                       <CardActions
