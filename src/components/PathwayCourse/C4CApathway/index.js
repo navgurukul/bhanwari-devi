@@ -108,7 +108,7 @@ function C4CApathway() {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mb: 4 }}>
       <Grid container mb="48px">
         <Grid item md={6} sx={{ ml: 2 }}>
           <Typography variant="body1" sx={{ mt: 8 }}>

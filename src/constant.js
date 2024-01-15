@@ -76,6 +76,7 @@ export const HideFooter = [
   // PATHS.PRIVACY_POLICY,
   PATHS.NEW_USER_DASHBOARD,
   PATHS.VOLUNTEER_FORM,
+  PATHS.C4CA_PATHWAY,
 ];
 
 export const LEARN_KEY = "LEARN";
