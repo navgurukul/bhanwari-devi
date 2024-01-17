@@ -217,12 +217,18 @@ function Assessment({
         submit &&
         data?.map((content) => {
           let dataArr = [];
-          if (data[2]?.type === "single") {
+          if (
+            data[2]?.type === "single" ||
+            data[2]?.assessment_type === "single"
+          ) {
             dataArr =
               content?.value && correct
                 ? content?.value?.correct
                 : content?.value?.incorrect;
-          } else if (data[2]?.type === "multiple") {
+          } else if (
+            data[2]?.type === "multiple" ||
+            data[2]?.assessment_type === "multiple"
+          ) {
             dataArr =
               content?.value && res?.attempt_status === "PARTIALLY_CORRECT"
                 ? content?.value?.partially_correct
