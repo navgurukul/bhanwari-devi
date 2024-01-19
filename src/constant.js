@@ -18,7 +18,7 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
-  VIDEOS: "/classes-video",
+  VIDEOS: "/classes-video/:pathwayId",
 
   SCRATCH:
     process.env.NODE_ENV === "development"

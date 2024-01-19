@@ -4,6 +4,7 @@ import { METHODS } from "../../services/api";
 import { format } from "../../common/date";
 import { useSelector } from "react-redux";
 import ClassJoinTimerButton from "../Class/ClassJoinTimerButton";
+import { PATHS, interpolatePath } from "../../constant";
 import {
   Typography,
   Grid,
@@ -84,7 +85,13 @@ function AmazonBootcampBatch({ enrolledBatches, pathId }) {
           </Typography>
         </Grid>
         <Grid item>
-          <Button component={Link} to="/classes-video" variant="outlined">
+          <Button
+            component={Link}
+            to={interpolatePath(PATHS.VIDEOS, {
+              pathwayId: pathId,
+            })}
+            variant="outlined"
+          >
             Videos
           </Button>
         </Grid>
