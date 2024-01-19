@@ -25,7 +25,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import DoubtClassCard from "./DoubtClassCard";
 import { Link } from "react-router-dom";
 
-function AmazonBootcampBatch({ enrolledBatches }) {
+function AmazonBootcampBatch({ enrolledBatches, pathId }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const [enrollClasses, setEnrollClasses] = useState([]);
@@ -35,7 +35,7 @@ function AmazonBootcampBatch({ enrolledBatches }) {
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/7/ACBEnrolledBatches`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathId}/ACBEnrolledBatches`,
       headers: {
         accept: "application/json",
         Authorization: user.data.token,
@@ -65,8 +65,6 @@ function AmazonBootcampBatch({ enrolledBatches }) {
   const enrolledBatcheClasses = enrollClasses.filter(
     (item) => item.type === "batch"
   );
-
-  console.log(enrollClasses)
 
   return (
     <>
