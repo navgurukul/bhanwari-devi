@@ -34,10 +34,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   team_button_box_mob: {
-    // commented code is for button scroll feature
     display: "flex",
-    // overflow: "auto",
-    // whiteSpace: "nowrap",
     alignItems: "center",
     justifyContent: "space-around",
   },
@@ -66,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
   },
   team_responsiveContainer: {
     marginTop: "61px",
-    // marginTop: "4rem",
     padding: "0",
   },
   team_infoResponsiveContainer: {

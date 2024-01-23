@@ -13,12 +13,9 @@ import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import axios from "axios";
 import { METHODS } from "../../services/api";
-import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-// import { actions as enrolledBatchesActions } from "../../components/PathwayCourse/redux/action";
+import { useSelector } from "react-redux";
 import { PATHS, versionCode } from "../../constant";
 import { Link } from "react-router-dom";
-import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
 
@@ -52,9 +49,6 @@ function CertificateCard({ item, courseTime, completedPortion }) {
   const options = { day: "numeric", month: "short", year: "2-digit" };
   const formattedDate = date.toLocaleDateString("en-US", options);
 
-  // useEffect(() => {
-  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  // }, [dispatch, pathwayId]);
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -67,9 +61,6 @@ function CertificateCard({ item, courseTime, completedPortion }) {
     boxShadow: 24,
     p: 4,
   };
-  // useEffect(() => {
-  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  // }, [dispatch, pathwayId]);
 
   const completedAll = completedPortion == 100;
 
@@ -136,13 +127,11 @@ function CertificateCard({ item, courseTime, completedPortion }) {
                 brackgroundColor: "transparent !important",
               }}
             ></iframe>
-            {/* <ReactPDF/> */}
           </div>
           <Typography>{`Meraki certifies that you have diligently 
             attended all classes and taken the practice questions.
              You have a good grasp of ${item?.name} fundamentals.`}</Typography>
           <Box>
-            {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
             <Button onClick={downloadCert}>Get Certificate</Button>
           </Box>
         </Box>

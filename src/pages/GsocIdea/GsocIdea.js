@@ -1,31 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import CreateClassComponent from "../../components/Class";
-import ClassesList from "../../components/Class/ClassList";
-import { useSelector } from "react-redux";
+import React from "react";
 import "../../components/Class/ClassList/styles.scss";
-import axios from "axios";
-import { METHODS } from "../../services/api";
-// import "./styles.scss";
 import useStyles from "./styles";
-import {
-  Container,
-  Button,
-  Modal,
-  useMediaQuery,
-  Box,
-  Stack,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-} from "@mui/material";
-import { List, ListItem, ListSubheader } from "@mui/material";
-import { breakpoints } from "../../theme/constant";
-import ClassForm from "../../components/Class/ClassForm";
-
-import SuccessModel from "../../components/Class/SuccessModel";
-import NewVolunteerCard from "../../components/Class/NewVolunteerCard";
+import { Container, Typography } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 
 function GscoIdea() {
   const classes = useStyles();

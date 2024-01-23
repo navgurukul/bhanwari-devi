@@ -7,13 +7,8 @@ import { breakpoints } from "../../theme/constant";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { format } from "../../common/date";
 import Avatar from "react-avatar-edit";
-
 import {
   Grid,
   TextField,
@@ -21,13 +16,10 @@ import {
   Button,
   Container,
   Box,
-  FormControl,
-  FormHelperText,
   Snackbar,
 } from "@mui/material";
 import { actions } from "../../components/User/redux/action";
 import useStyles from "./styles";
-import DropOutBatchesProfile from "../../components/DropOutBatches/DropOutBatchesProfile";
 import {
   getAuth,
   RecaptchaVerifier,
@@ -35,10 +27,8 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import CertificateCard from "./CertificateCard";
-import { useParams, useHistory } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 import UnlockOpportunities from "./UnlockOpportunities";
-import LastLoginTime from "./LastLoginTime/LastLoginTime";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -50,22 +40,16 @@ const firebaseConfig = {
 };
 
 function Profile() {
-  // console.log(format(new Date(), 'yyyy/MM/dd kk:mm:ss'))
   const params = useParams();
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const date = user.data.user.last_login_at;
-
   const [completedPortion, setCompletedPortion] = useState({});
   const [courseTime, setCourseTime] = useState();
-
-  // console.log(timeData,timehourData,min,loginMin,hour,loginHour)
-
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(null);
   const [msg, setMsg] = useState();
-  const [LoadBatches, setLoadBatches] = useState(false);
   const dispatch = useDispatch();
   const [helperText, setHelperText] = useState();
   const [showError, setShowError] = useState(true);
@@ -138,7 +122,6 @@ function Profile() {
         setConfirmationResult(result);
       })
       .catch((error) => {
-        console.log(error);
         setMessage("Enter valid phone number");
         setOpen(true);
       });
@@ -257,8 +240,6 @@ function Profile() {
       .catch((err) => {});
   };
 
-  // console.log(data.,"pathwayId")
-
   return (
     <>
       <Container
@@ -375,7 +356,6 @@ function Profile() {
                           error={
                             editName?.length == 0 || helperText?.length > 0
                           }
-                          // id="standard-basic"
                           label="Name"
                           fullWidth
                           sx={{ mt: "10px", width: "100%" }}
@@ -521,21 +501,6 @@ function Profile() {
               <Typography my={1} align={isActive ? "center" : "left"}>
                 {userData.email}
               </Typography>
-              {/* <Typography my={1} align="left">
-            {user.data.user.rolesList.includes("volunteer") &&
-              userData.contact !== null && (
-                <>
-                  <Typography>
-                    {`+${userData.contact?.replace("-", "")}`}
-                    <img
-                      className={classes.Right_tick}
-                      alt="Right tick"
-                      src={require("./assest/right_tick.svg")}
-                    />
-                  </Typography>
-                </>
-              )}
-          </Typography> */}
 
               <Button
                 pt={1}
@@ -547,11 +512,8 @@ function Profile() {
                 }}
                 align={isActive && "center"}
               >
-                {/* {!isActive && "Edit Profile"} */}
                 Edit Profile
               </Button>
-
-              {/* <LastLoginTime /> */}
             </div>
           </Grid>
           <Grid item md={6}>
@@ -575,7 +537,6 @@ function Profile() {
                   <UnlockOpportunities
                     item={item}
                     completedPortion={completedPortion}
-                    // courseTime={courseTime}
                   />
                 )
             )}

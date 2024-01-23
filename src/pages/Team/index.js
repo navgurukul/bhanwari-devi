@@ -126,14 +126,7 @@ function Team() {
             helping us build one of the best learning platforms out there.
           </Typography>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={5}
-          md={5}
-          // sx={isActive && {marginTop:"32px"}}
-          // align="center"
-        >
+        <Grid item xs={12} sm={5} md={5}>
           <img
             src={require("./Asset/real_time.svg")}
             alt="undraw Agreement"
@@ -152,7 +145,6 @@ function Team() {
             ? classes.team_containerTopSpace
             : `${classes.team_responsiveContainer}`
         }
-        // sx={{ p: 0 }}
       >
         <Box
           container
@@ -212,33 +204,6 @@ function Team() {
             </Typography>
           </Button>
         </Box>
-        {/* Commented code is containing & sowing the data of Ex-team members */}
-        {/* <Button>
-            <Typography
-              onClick={() => {
-                setMembers({
-                  exTeam: true,
-                  teamMembers: false,
-                  volunteers: false,
-                });
-              }}
-              variant="subtitle1"
-              className={
-                !isActive ? classes.team_selector : classes.team_MobileSelector
-              }
-              style={
-                members.exTeam
-                  ? {
-                      fontWeight: "bold",
-                      borderBottom: "3px solid #48a145",
-                    }
-                  : { color: "#9c9999" }
-              }
-            >
-              Ex-Team
-            </Typography>
-          </Button> */}
-
         <Box
           className={
             !isActive
@@ -247,14 +212,9 @@ function Team() {
           }
           sx={{
             marginTop: isActive ? 2 : 4,
-            // px: 0
           }}
         >
-          <Grid
-            container
-            // sx={{ p: 0, m: 0 }}
-            // disablePadding
-          >
+          <Grid container>
             {teamData ? (
               shuffleArray(teamData).map((item) => {
                 if (

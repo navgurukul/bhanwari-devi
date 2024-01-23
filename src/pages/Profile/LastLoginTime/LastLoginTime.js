@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { timeLeftFormat } from "../../../common/date";
-import { Button, Typography } from "@mui/material";
-import { format } from "../../../common/date";
-import { useSelector, useDispatch } from "react-redux";
+import { Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function LastLoginTime() {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
 
   const user = useSelector(({ User }) => User);
   const date = user.data.user.last_login_at;
@@ -26,20 +23,6 @@ function LastLoginTime() {
     return () => clearInterval(interval);
   }, []);
 
-  // var currentDate = new Date();
-  // var diffMs = (currentDate - loginTime);
-  // var diffDays = Math.floor(diffMs / 86400000);
-  // var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
-  // var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-  //     const [timedate,setDate]=useEffect()
-  //     useEffect(() => {
-  //         var timer = setInterval(() => setDate(diffMins), 1000);
-  //         return function cleanup() {
-  //           clearInterval(timer);
-  //         };
-  //       });
-
-  //    console.log(timedate)
   return (
     <>
       <Typography

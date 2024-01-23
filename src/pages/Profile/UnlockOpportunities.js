@@ -1,25 +1,14 @@
 import React from "react";
-import {
-  Typography,
-  Container,
-  CardContent,
-  Button,
-  Box,
-  Modal,
-} from "@mui/material";
+import { Typography, Container, Button } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { interpolatePath, PATHS } from "../../constant";
+import { PATHS } from "../../constant";
 import { Link } from "react-router-dom";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 function UnlockOpportunities(props) {
   const { item, completedPortion } = props;
 
   const completedAll = completedPortion >= 100;
-
-  // useEffect(() => {
-  //   dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
-  // }, [dispatch, pathwayId]);
 
   return (
     <Container sx={{ marginTop: "16px" }} maxWidth="lg" align="left">

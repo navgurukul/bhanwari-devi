@@ -24,10 +24,6 @@ export const PATHS = {
     process.env.NODE_ENV === "development"
       ? "https://dev.scratch.merakilearn.org/"
       : "https://scratch.merakilearn.org/",
-  // SCRATCH:
-  //   production === "merakilearn.org"
-  //     ? "https://scratch.merakilearn.org/"
-  //     : "https://dev.scratch.merakilearn.org/",
 
   USER: "/user",
   PROFILE: "/profile",
@@ -39,7 +35,6 @@ export const PATHS = {
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   NAVGURUKUL_INTRODUCE: "/navgurukul/:partnerId",
-  // ADMISSION: "/admission",
   REDIRECT: "/redirect",
   VOLUNTEER: "/volunteer",
   TEAM: "/team",
@@ -59,7 +54,6 @@ export const PATHS = {
   GSOC_IDEA: "/gsoc-ideas-2023",
   ACB_BATCH: "/amazon-batch-class",
   C4CA_PATHWAY: "/c4ca-pathway",
-  // CREDITS: "/credits",
 };
 
 export const HideHeader = [
@@ -73,7 +67,6 @@ export const HideFooter = [
   PATHS.PATHWAY_COURSE_CONTENT_EDIT,
   PATHS.PROFILE,
   PATHS.MENTOR,
-  // PATHS.PRIVACY_POLICY,
   PATHS.NEW_USER_DASHBOARD,
   PATHS.VOLUNTEER_FORM,
   PATHS.C4CA_PATHWAY,
@@ -90,12 +83,6 @@ export const MENU_ITEMS = {
     { titleMsgKey: "MERAKI_TEAM", path: PATHS.TEAM, type: "internal" },
   ],
   [GET_INVOLVED_KEY]: [
-    // {
-    //   title: "Become a Partner",
-    //   path: PATHS.OUR_PARTNER,
-    //   type: "internal",
-    // },
-
     {
       titleMsgKey: "VOLUNTEER_WITH_US",
       path: PATHS.VOLUNTEER_AUTOMATION,
@@ -123,25 +110,10 @@ export const PATHWAYS_INFO = [
     logo: "misc",
     description: "Courses on Android, Game dev projects and more",
     sub_description: "Courses on Android, Game dev projects and more",
-    // type: "internal",
     path: PATHS.MISCELLANEOUS_COURSE,
     outcomes: [],
   },
 ];
-
-/*
-export const dateTimeFormat = (date) => {
-  try {
-    const datePart = date?.split("T")[0].split("-").reverse();
-    const TimePart = date?.split("T")[1].split(":");
-    const finalDate = `${datePart[0]} ${month[datePart[1]]}, ${datePart[2]} `;
-    const finalTime = `${TimePart[0]} : ${TimePart[1]}`;
-    return { finalTime, finalDate };
-  } catch {
-    return { finalTime: "", finalDate: "" };
-  }
-};
-*/
 
 const month = {
   "01": "Jan",
@@ -199,7 +171,6 @@ export const TimeLeft = (date) => {
         hour12: true,
       })
     );
-    // const now = new Date();
     const diff = timeLeft - now;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

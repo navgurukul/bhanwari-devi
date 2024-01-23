@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import YouTube from "react-youtube";
 import { METHODS } from "../../../services/api";
 import { useSelector } from "react-redux";
-
 import { Container, Box, Grid, Typography, CardMedia } from "@mui/material";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -172,11 +171,7 @@ function Admission(props) {
             <Typography variant="subtitle1" gutterBottom align="center">
               Experience of NG Alumni & Graduates
             </Typography>
-            {/* <hr
-              className={isActive ? classes.admitionHr1 : classes.admitionHr}
-            /> */}
           </div>
-
           <div
             style={{
               display: "flex",

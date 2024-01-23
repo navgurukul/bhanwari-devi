@@ -1,11 +1,8 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
-// import { routerMiddleware } from 'connected-react-router'
 import { getUserInitialState, userStateMiddleware } from "./services/storage";
-
 import rootSaga from "./rootSaga";
 import rootReducer from "./rootReducer";
-// import UserStorage from './middlewares/UserStorage'
 
 const composeEnhanced =
   process.env.NODE_ENV === "development" &&
@@ -18,13 +15,7 @@ const initialStore = () => {
   const store = createStore(
     rootReducer,
     getUserInitialState(),
-    composeEnhanced(
-      applyMiddleware(
-        sagaMiddleware,
-        userStateMiddleware
-        // routerMiddleware(history)
-      )
-    )
+    composeEnhanced(applyMiddleware(sagaMiddleware, userStateMiddleware))
   );
   sagaMiddleware.run(rootSaga);
   return store;

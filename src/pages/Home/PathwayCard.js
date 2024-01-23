@@ -15,11 +15,13 @@ function PathwayCard({ id, name, description, logo, hover }) {
           : PATHS.MISCELLANEOUS_COURSE
       }
       className={classes.link}
-      style={{ pointerEvents: hover === false && "none" }}>
+      style={{ pointerEvents: hover === false && "none" }}
+    >
       {hover ? (
         <Card
           elevation={2}
-          className={hover ? classes.card : logo && classes.imageCard}>
+          className={hover ? classes.card : logo && classes.imageCard}
+        >
           {logo && (
             <CardMedia
               component="img"
@@ -36,7 +38,8 @@ function PathwayCard({ id, name, description, logo, hover }) {
               pb={1}
               variant="subtitle1"
               align="center"
-              component="div">
+              component="div"
+            >
               {name}
             </Typography>
             <Typography variant="body1" align="center">
@@ -48,21 +51,17 @@ function PathwayCard({ id, name, description, logo, hover }) {
         <Box
           elevation={2}
           className={hover ? classes.card : logo && classes.imageCard}
-          >
+        >
           {logo && (
-            <CardMedia
-              component="img"
-              src={logo}
-              // src={require("./assets/" + logo + ".svg")}
-              alt={logo + "image"}
-            />
+            <CardMedia component="img" src={logo} alt={logo + "image"} />
           )}
           <CardContent>
             <Typography
               pb={1}
               variant="subtitle1"
               align="center"
-              component="div">
+              component="div"
+            >
               {name}
             </Typography>
             <Typography variant="body1" align="center">

@@ -17,15 +17,12 @@ import {
   Toolbar,
   Typography,
   Button,
-  Select,
-  MenuItem,
   IconButton,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SelectTrack from "./SelectTrack";
 import Confirmation from "./Confirmation";
-import AttendClass from "./AttendClass";
 import Availability from "./Availability";
 import CodeOfConduct from "./CodeOfConduct";
 import VerifyPhoneNo from "./VerifyPhoneNo";
@@ -92,13 +89,6 @@ function HorizontalLinearStepper() {
     });
   };
 
-  // Commented below code to redirect to volunteer onboarded form, even if the user has volunteer role.
-  // React.useEffect(() => {
-  //   if (roles?.includes("volunteer")) {
-  //     history.push(PATHS.CLASS);
-  //   }
-  // }, [roles]);
-
   const setActiveStepCompleted = () => {
     const newCompleted = completed.slice();
     newCompleted[activeStep] = true;
@@ -152,20 +142,6 @@ function HorizontalLinearStepper() {
       label: "Code of Conduct",
       component: <CodeOfConduct setDisable={setDisable} />,
     },
-    // {
-    //   label: "Attend Class",
-    //   itemKey: "enrollId",
-    //   component: (
-    //     <AttendClass
-    //       setEnrollId={updateAndSaveState.bind(null, setEnrollId, "enrollId")}
-    //       enrollId={enrollId}
-    //       pathwayId={pathwayId}
-    //       setStepCompleted={setActiveStepCompleted}
-    //       setDisable={setDisable}
-    //       completed={completed[4]}
-    //     />
-    //   ),
-    // },
     {
       label: "Confirmation",
       component: <Confirmation setDisable={setDisable} />,
@@ -232,7 +208,6 @@ function HorizontalLinearStepper() {
           try {
             localStorage.setItem("isNewVolunteer", true);
           } catch (error) {
-            //console.error('Error accessing localStorage:', error);
             return {};
           }
           history.push(PATHS.CLASS);
@@ -250,15 +225,11 @@ function HorizontalLinearStepper() {
                   actions.onUserRefreshDataIntent({ token: user.data.token })
                 );
               },
-              (error) => {
-                console.log(error);
-              }
+              (error) => {}
             )
             .catch((err) => {});
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => {}
       )
       .catch((err) => {});
   };

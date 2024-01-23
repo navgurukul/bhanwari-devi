@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import CreateClassComponent from "../../components/Class";
 import ClassesList from "../../components/Class/ClassList";
 import { useSelector } from "react-redux";
 import "../../components/Class/ClassList/styles.scss";
@@ -35,7 +34,6 @@ function ToggleClassFormModal() {
   const [indicator, setIndicator] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [refreshKey, setRefreshKey] = useState(true);
-  // const { data = [] } = useSelector(({ Class }) => Class.allClasses);
   const user = useSelector(({ User }) => User);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -60,9 +58,7 @@ function ToggleClassFormModal() {
   const url = window.location.href;
 
   const toggleModalOpen = () => {
-    // setFormType();
     setClassToEdit({});
-    // setShowModal(!showModal);
     CalenderConsent();
   };
 
@@ -205,7 +201,6 @@ function ToggleClassFormModal() {
         setNewVolunteer(false);
       }
     } catch (error) {
-      //console.error('Error accessing localStorage:', error);
       return {};
     }
   }, [newVolunteer]);
@@ -274,7 +269,6 @@ function ToggleClassFormModal() {
                     setTypeOfClass("batch");
                     setRefreshKey(true);
                   }}
-                  // style={{ cursor: "pointer" }}
                   className={classes.underLine}
                   style={
                     showClass
@@ -342,10 +336,6 @@ function ToggleClassFormModal() {
               </div>
             </Grid>
           </Grid>
-          {/* <hr style={{border:
-               "none",color:"#BDBDBD",height:"2px",backgroundColor:"#BDBDBD",
-               margin:"0px"}}/> */}
-
           <ClassesList
             editClass={editClass}
             isShow={showModal}

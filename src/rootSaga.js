@@ -3,9 +3,10 @@ import { fork, all } from "redux-saga/effects";
 import User from "./components/User/redux/saga";
 import Class from "./components/Class/redux/saga";
 import Course from "./components/Course/redux/saga";
-import { Pathways, PathwaysDropdown } from "./components/PathwayCourse/redux/saga";
-// import PathwaysDropdow from "./components/PathwayCourse/redux/saga";
-// import Notifications from './Notifications'
+import {
+  Pathways,
+  PathwaysDropdown,
+} from "./components/PathwayCourse/redux/saga";
 
 export default function* () {
   yield all([

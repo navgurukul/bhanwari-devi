@@ -120,12 +120,7 @@ function DrawerLeft({
             </List>
           </div>
 
-          {isOpen && (
-            <div className={classes.drawerList}>
-              {/* <Divider /> */}
-              {listData}
-            </div>
-          )}
+          {isOpen && <div className={classes.drawerList}>{listData}</div>}
         </div>
       )}
     </>

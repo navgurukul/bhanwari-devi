@@ -43,7 +43,6 @@ function Login(props) {
     // let's send the data to our backend.
     dispatch(userActions.onUserSignin(googleData));
     updateQueryString(getQueryVariable("referrer"));
-    // dispatch(userActions.onUserUpdate(referrer));
   }
 
   useEffect(() => {
@@ -55,14 +54,10 @@ function Login(props) {
   }, [dispatch, user]);
 
   const classes = useStyles();
-  // const isActive = useMediaQuery("(max-width:600px)");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
 
-  const onGoogleLoginFail = (errorResponse) => {
-    // eslint-disable-next-line no-console
-    console.log(errorResponse);
-  };
+  const onGoogleLoginFail = (errorResponse) => {};
 
   const pythonPathway =
     pathway.data &&
@@ -76,8 +71,8 @@ function Login(props) {
   const [amazonPathwayId, setAmazonPathwayId] = useState(null);
 
   useEffect(() => {
-    if(amazonPathwayId == null){
-      setAmazonPathwayId(amazonPathway && amazonPathway.id)
+    if (amazonPathwayId == null) {
+      setAmazonPathwayId(amazonPathway && amazonPathway.id);
     }
   }, [user]);
 
