@@ -33,7 +33,7 @@ function App() {
 
   const history = useHistory();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!interval) {
       interval = setInterval(() => {
         const token =
@@ -46,13 +46,15 @@ function App() {
             )
             .then((res) => {
               if (res.data === false) {
-                console.log("session expired");
-                history.push(PATHS.HOME_PAGE);
-                localStorage.setItem("loggedOut", false)
+                console.log(
+                  "session expired  the user is logged out forcefully"
+                );
+
+                localStorage.setItem("loggedOut", false);
                 localStorage.clear();
+                window.location.reload();
                 // dispatch(userActions.logout());
                 clearInterval(interval);
-                
               }
             })
             .catch((err) => {
@@ -61,8 +63,7 @@ function App() {
         }
       }, 3000); // Call the API every 60 seconds
     }
-  },[])
-
+  }, []);
 
   useEffect(() => {
     dispatch(
@@ -70,8 +71,6 @@ function App() {
         authToken: user,
       })
     );
-
-
   }, [dispatch, user]);
 
   return (
