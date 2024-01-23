@@ -47,10 +47,11 @@ function App() {
             .then((res) => {
               if (res.data === false) {
                 console.log("session expired");
-                // dispatch(userActions.logout());
-                clearInterval(interval);
                 history.push(PATHS.HOME_PAGE);
                 localStorage.setItem("loggedOut", false)
+                localStorage.clear();
+                // dispatch(userActions.logout());
+                clearInterval(interval);
                 
               }
             })
@@ -58,7 +59,7 @@ function App() {
               console.error(err);
             });
         }
-      }, 1000); // Call the API every 60 seconds
+      }, 3000); // Call the API every 60 seconds
     }
   },[])
 
