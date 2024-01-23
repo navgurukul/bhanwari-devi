@@ -105,6 +105,29 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     }
   }, [inDropdown]);
 
+  const [scratchUrl, setScratchUrl] = useState(
+    `https://scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
+      "studentAuthToken"
+    )}`
+  );
+
+  useEffect(() => {
+
+    if (window.location.origin === "https://merakilearn.org") {
+      setScratchUrl(
+        `https://scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
+          "studentAuthToken"
+        )}`
+      );
+    } else {
+      setScratchUrl(
+        `https://dev.scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
+          "studentAuthToken"
+        )}`
+      );
+    }
+  }, []);
+
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -187,10 +210,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
                   borderRadius: "8px",
                 }}
               >
-                <Typography
-                  variant="subtitle1"
-                  className={classes.donate}
-                >
+                <Typography variant="subtitle1" className={classes.donate}>
                   Donate
                   <LaunchOutlinedIcon sx={{ pl: "5px" }} />
                 </Typography>
@@ -203,15 +223,12 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       {localStorage.getItem("studentAuth") ? (
         <a
           href={`${
-            process.env.REACT_APP_SCRATCH_URL
+            scratchUrl
           }?studentAuth=${localStorage.getItem("studentAuthToken")}`}
           target="_blank"
           style={{ textDecoration: "none", color: "black" }}
         >
-          <Typography
-            variant="subtitle1"
-           className={classes.scratchLink}
-          >
+          <Typography variant="subtitle1" className={classes.scratchLink}>
             Scratch
             <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
           </Typography>
