@@ -10,7 +10,7 @@ function LastCoursePage({ C4CALastPage }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const history = useHistory();
   const params = useParams();
-const studentAuthToken = localStorage.getItem("studentAuthToken");
+  const studentAuthToken = localStorage.getItem("studentAuthToken");
   return (
     <>
       <Container maxWidth="lg" align="center">

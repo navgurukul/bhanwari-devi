@@ -172,23 +172,23 @@ function PathwayExercise() {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("studentAuth")|| (user && user?.data?.token)){
-      return
-    }else{
+    if (localStorage.getItem("studentAuth") || (user && user?.data?.token)) {
+      return;
+    } else {
       history.push(PATHS.LOGIN);
     }
-
-  },[])
+  }, []);
 
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises/v2`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        Authorization:
+          user.data?.token || localStorage.getItem("studentAuthToken") || "",
       },
     })
       .then((res) => {
@@ -207,7 +207,8 @@ function PathwayExercise() {
       headers: {
         "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        Authorization:
+          user.data?.token || localStorage.getItem("studentAuthToken") || "",
       },
     })
       .then((res) => {
@@ -299,7 +300,10 @@ function PathwayExercise() {
           headers: {
             "version-code": versionCode,
             accept: "application/json",
-            Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+            Authorization:
+              user.data?.token ||
+              localStorage.getItem("studentAuthToken") ||
+              "",
           },
           data: {
             pathway_id: params.pathwayId,
@@ -322,7 +326,10 @@ function PathwayExercise() {
           headers: {
             "version-code": versionCode,
             accept: "application/json",
-            Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+            Authorization:
+              user.data?.token ||
+              localStorage.getItem("studentAuthToken") ||
+              "",
           },
           data: {
             pathway_id: params.pathwayId,
@@ -356,7 +363,8 @@ function PathwayExercise() {
         headers: {
           "version-code": versionCode,
           accept: "application/json",
-          Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
         },
         data: {
           exerciseId: course[exerciseId].id,
