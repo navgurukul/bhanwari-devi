@@ -329,21 +329,22 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course?.name);
-      setExercise(res.data.course?.exercises[exerciseId]);
-      setContent(res.data.course?.exercises[exerciseId]?.content);
-      setCourseData(res.data.course?.exercises[exerciseId]);
-      setCashedData(res.data.course?.exercises);
+      console.log(res);
+      setExercise(res.data.course[0]?.content[exerciseId]);
+      setContent(res.data.course[0]?.content[exerciseId]?.exercise);
+      setCourseData(res.data.course[0]?.content[exerciseId]);
+      setCashedData(res.data.course[0]?.content);
     });
   };
-
+  console.log(exercise, course);
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
+      console.log(res?.data);
       setCourse(res?.data?.name);
-      setExercise(res?.data?.course?.exercises?.[params.exerciseId]);
-      setContent(res?.data?.course?.exercises?.[params.exerciseId]?.content);
-      setCourseData(res?.data?.course?.exercises?.[params.exerciseId]);
-      setCashedData(res?.data?.course?.exercises);
+      setExercise(res?.data?.course[0]?.content?.[params.exerciseId]);
+      setContent(res?.data?.course[0]?.content?.[params.exerciseId]?.exercise);
+      setCourseData(res?.data?.course[0]?.content?.[params.exerciseId]);
+      setCashedData(res?.data?.course[0]?.content);
     });
   }, [courseId, lang, triger]);
 
@@ -482,7 +483,7 @@ function ExerciseContent({
               />
             ))}
 
-          {exercise && exercise.content_type === "exercise" && (
+          {exercise && exercise.type === "exercise" && (
             <Box sx={{ m: "32px 0px" }}>
               {/* <Typography variant="h5">{course}</Typography> */}
               {/* <Typography variant="h6" sx={{ mt: "16px" }}>
@@ -500,7 +501,7 @@ function ExerciseContent({
               </Box>
             </Box>
           )}
-          {exercise && exercise.content_type === "assessment" && (
+          {exercise && exercise.type === "assessment" && (
             <Assessment
               triger={triger}
               setTriger={setTriger}

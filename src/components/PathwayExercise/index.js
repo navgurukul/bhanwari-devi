@@ -32,7 +32,7 @@ import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 import { breakpoints } from "../../theme/constant";
 
 const languageMap = {
-  hi: "Hindi",
+  "hi-IN": "Hindi",
   en: "English",
   te: "Telugu",
   ta: "Tamil",
@@ -110,8 +110,9 @@ function NavigationComponent({
         index={index}
         imageRef={imageRef}
         selected={exerciseId == index}
-        contentType={exercise.content_type}
+        contentType={exercise.type}
         setExerciseId={setExerciseId}
+        useSelector
         progressTrackId={progressTrackId}
       />
     </>
@@ -121,6 +122,7 @@ function NavigationComponent({
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
+  console.log(user, "user");
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
@@ -134,7 +136,7 @@ function PathwayExercise() {
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
-
+  const [language, setLanguage] = useState("en");
   // const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
@@ -172,6 +174,25 @@ function PathwayExercise() {
   };
 
   useEffect(() => {
+    // Disable automatic scroll restoration
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    // Reset scroll position on page load
+    window.onload = () => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+    };
+
+    // Clean up
+    return () => {
+      window.onload = null; // Remove the onload event handler when the component unmounts
+    };
+  }, []);
+
+  useEffect(() => {
     if (localStorage.getItem("studentAuth") || (user && user?.data?.token)) {
       return;
     } else {
@@ -183,7 +204,7 @@ function PathwayExercise() {
     setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises/v2`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/content/slug?lang=${language}`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
@@ -192,8 +213,8 @@ function PathwayExercise() {
       },
     })
       .then((res) => {
-        setCourse(res.data.course.exercises);
-        setAvailableLang(res.data.course.lang_available);
+        setCourse(res?.data?.course[0]?.content);
+        setAvailableLang(res?.data?.course[0]?.lang_available);
       })
       .catch((err) => {
         console.log(err);
@@ -250,7 +271,7 @@ function PathwayExercise() {
         }}
         variant="standard"
       >
-        {availableLang.map((lang) => {
+        {availableLang?.map((lang) => {
           return (
             <MenuItem
               style={{ borderRadius: "8px" }}
@@ -378,7 +399,6 @@ function PathwayExercise() {
         });
     }
   };
-  const [language, setLanguage] = useState("en");
 
   // to avoid duplication
   function languageSelectMenu() {
@@ -534,7 +554,7 @@ function PathwayExercise() {
                 }}
               >
                 {course &&
-                  course.map((exercise, index) => {
+                  course?.map((exercise, index) => {
                     return (
                       <>
                         <Link
@@ -550,7 +570,7 @@ function PathwayExercise() {
                           <ExerciseImage
                             id={exercise.id}
                             selected={exerciseId == index}
-                            contentType={exercise.content_type}
+                            contentType={exercise?.type}
                             exerciseName={
                               exercise.name ||
                               exercise.sub_title ||
