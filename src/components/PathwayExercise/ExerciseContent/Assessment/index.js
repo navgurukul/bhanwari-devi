@@ -9,6 +9,7 @@ import AssessmentContent from "./AssessmentContent";
 function Assessment({
   data,
   exerciseId,
+  exerciseSlugId,
   courseData,
   setCourseData,
   setProgressTrackId,
@@ -92,20 +93,22 @@ function Assessment({
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
         headers: {
           accept: "application/json",
           Authorization:
             user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
-          assessment_id: exerciseId,
+          // assessment_id: exerciseId,
+          slug_id: exerciseSlugId,
           selected_multiple_option: answer,
           status: "Pass",
         },
       })
         .then((res) => {
-          // console.log("res", res);
+          console.log("res", res);
         })
         .catch((err) => {});
     } else {
@@ -115,20 +118,22 @@ function Assessment({
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
         headers: {
           accept: "application/json",
           Authorization:
             user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
-          assessment_id: exerciseId,
+          // assessment_id: exerciseId,
+          slug_id: exerciseSlugId,
           selected_multiple_option: answer,
           status: "Fail",
         },
       })
         .then((res) => {
-          // console.log("res", res);
+          console.log("res", res);
         })
         .catch((err) => {});
     }
@@ -136,8 +141,9 @@ function Assessment({
   };
 
   useEffect(() => {
-    // adding a nullish coalescing operator (??), so that the null value can no effect on the assessment.
-    if (res?.assessment_id === (courseData ?? {}).id) {
+    // adding a nullish coalescing operator (??), so that the null value can not effect on the assessment.
+    // if (res?.assessment_id === (courseData ?? {}).id) {
+    if (res?.slug_id === (courseData ?? {}).id) {
       if (res?.attempt_status === "CORRECT") {
         setAnswer(res?.selected_multiple_option);
         setCorrect(true);
@@ -175,7 +181,7 @@ function Assessment({
   //     }
   //   }
   // };
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>

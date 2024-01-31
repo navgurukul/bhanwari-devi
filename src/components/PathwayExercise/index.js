@@ -122,7 +122,7 @@ function NavigationComponent({
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
-  console.log(user, "user");
+  // console.log(user, "user");
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
@@ -220,7 +220,7 @@ function PathwayExercise() {
         console.log(err);
       });
   }, [currentCourse, language, courseId]);
-  console.log(language, "header");
+  // console.log(language, "header");
 
   useEffect(() => {
     axios({
