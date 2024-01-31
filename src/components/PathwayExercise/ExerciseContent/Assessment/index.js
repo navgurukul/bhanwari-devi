@@ -175,6 +175,7 @@ function Assessment({
   //     }
   //   }
   // };
+  console.log("data", data);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>

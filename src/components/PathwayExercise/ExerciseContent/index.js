@@ -312,7 +312,9 @@ function ExerciseContent({
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const [triger, setTriger] = useState(false);
+  const [contentAssessment, setContentAssessment] = useState();
   const dispatch = useDispatch();
+  console.log(content);
 
   useEffect(() => {
     if (cashedData?.length > 0) {
@@ -329,9 +331,9 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      console.log(res);
+      setContentAssessment(res.data.course[0]?.content[exerciseId]?.assessment);
       setExercise(res.data.course[0]?.content[exerciseId]);
-      setContent(res.data.course[0]?.content[exerciseId]?.exercise);
+      setContent(res.data.course[0]?.content[exerciseId].exercise);
       setCourseData(res.data.course[0]?.content[exerciseId]);
       setCashedData(res.data.course[0]?.content);
     });
@@ -339,9 +341,12 @@ function ExerciseContent({
   console.log(exercise, course);
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res?.data?.name);
+      setCourse(res?.data?.course[0].name);
       setExercise(res?.data?.course[0]?.content?.[params.exerciseId]);
       setContent(res?.data?.course[0]?.content?.[params.exerciseId]?.exercise);
+      setContentAssessment(
+        res?.data?.course[0]?.content?.[params.exerciseId]?.assessment
+      );
       setCourseData(res?.data?.course[0]?.content?.[params.exerciseId]);
       setCashedData(res?.data?.course[0]?.content);
     });
@@ -350,11 +355,12 @@ function ExerciseContent({
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
+    setContentAssessment(cashedData?.[params.exerciseId]?.assessment);
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
 
   useEffect(() => {
-    if (exercise?.content_type === "assessment") {
+    if (exercise?.type === "assessment") {
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result/v2`,
@@ -376,7 +382,7 @@ function ExerciseContent({
         setAssessmentResult(modifiedObject.data); // passing this after parsing the data.
       });
     }
-  }, [triger, exerciseId, exercise?.content_type, exercise]);
+  }, [triger, exerciseId, exercise?.type, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -420,8 +426,9 @@ function ExerciseContent({
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
               <Box>
-                {courseData?.content_type == "class_topic" &&
-                  enrolledBatches && <ClassTopic courseData={courseData} />}
+                {courseData?.type == "class_topic" && enrolledBatches && (
+                  <ClassTopic courseData={courseData} />
+                )}
               </Box>
             </Box>
           </Grid>
@@ -432,7 +439,7 @@ function ExerciseContent({
             }}
             item
           >
-            {courseData?.content_type == "class_topic" && (
+            {courseData?.type == "class_topic" && (
               <>
                 {enrolledBatches ? (
                   <ExerciseBatchClass
@@ -505,7 +512,7 @@ function ExerciseContent({
               triger={triger}
               setTriger={setTriger}
               res={assessmentResult}
-              data={content}
+              data={contentAssessment}
               exerciseId={exercise.id}
               courseData={courseData}
               setCourseData={setCourseData}
