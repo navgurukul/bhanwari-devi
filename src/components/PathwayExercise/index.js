@@ -219,7 +219,8 @@ function PathwayExercise() {
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse]);
+  }, [currentCourse, language, courseId]);
+  console.log(language, "header");
 
   useEffect(() => {
     axios({

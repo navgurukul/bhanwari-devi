@@ -339,14 +339,13 @@ function ExerciseContent({
   console.log(exercise, course);
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      console.log(res?.data);
       setCourse(res?.data?.name);
       setExercise(res?.data?.course[0]?.content?.[params.exerciseId]);
       setContent(res?.data?.course[0]?.content?.[params.exerciseId]?.exercise);
       setCourseData(res?.data?.course[0]?.content?.[params.exerciseId]);
       setCashedData(res?.data?.course[0]?.content);
     });
-  }, [courseId, lang, triger]);
+  }, [courseId, lang, triger, params.exerciseId, user]);
 
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
