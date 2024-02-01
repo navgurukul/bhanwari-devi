@@ -3,8 +3,6 @@ import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import List from "@mui/material/List";
@@ -25,9 +23,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router";
-import { NavLink } from "react-router-dom";
 import {
   PUBLIC_MENU_KEYS,
   // LEARN_KEY,
@@ -112,7 +107,6 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   );
 
   useEffect(() => {
-
     if (window.location.origin === "https://merakilearn.org") {
       setScratchUrl(
         `https://scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
@@ -127,6 +121,8 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
       );
     }
   }, []);
+
+  console.log("scratchUrl", scratchUrl);
 
   return (
     <>
@@ -222,9 +218,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {localStorage.getItem("studentAuth") ? (
         <a
-          href={`${
-            scratchUrl
-          }?studentAuth=${localStorage.getItem("studentAuthToken")}`}
+          href={`${scratchUrl}?studentAuth=${localStorage.getItem(
+            "studentAuthToken"
+          )}`}
           target="_blank"
           style={{ textDecoration: "none", color: "black" }}
         >
