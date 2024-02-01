@@ -107,7 +107,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   );
 
   useEffect(() => {
-    if (window.location.origin === "https://merakilearn.org") {
+    if (window.location.origin == "https://merakilearn.org") {
       setScratchUrl(
         `https://scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
           "studentAuthToken"
@@ -120,9 +120,13 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
         )}`
       );
     }
+
+    console.log("scratchUrl-inside", scratchUrl);
+    console.log("originUrl-inside", window.location.origin);
   }, []);
 
-  console.log("scratchUrl", scratchUrl);
+  console.log("scratchUrl-outside", scratchUrl);
+  console.log("originUrl-outside", window.location.origin);
 
   return (
     <>
