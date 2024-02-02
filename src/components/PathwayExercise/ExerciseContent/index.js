@@ -314,7 +314,6 @@ function ExerciseContent({
   const [triger, setTriger] = useState(false);
   const [contentAssessment, setContentAssessment] = useState();
   const dispatch = useDispatch();
-  // console.log(content);
 
   useEffect(() => {
     if (cashedData?.length > 0) {
@@ -338,7 +337,7 @@ function ExerciseContent({
       setCashedData(res.data.course[0]?.content);
     });
   };
-  // console.log(exercise, course);
+
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
       setCourse(res?.data?.course[0].name);
@@ -361,7 +360,6 @@ function ExerciseContent({
 
   useEffect(() => {
     if (exercise?.type === "assessment") {
-      console.log(exercise);
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.slug_id}/complete`,
@@ -372,9 +370,8 @@ function ExerciseContent({
             user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
       }).then((res) => {
-        console.log(res.data, "king");
-        const keyToModify = "selected_multiple_option";
-        const newValue = res?.data?.selected_multiple_option;
+        const keyToModify = "selected_option";
+        const newValue = res?.data?.selected_option;
         const modifiedObject = {
           ...res,
           data: {
@@ -386,8 +383,6 @@ function ExerciseContent({
       });
     }
   }, [triger, exerciseId, exercise?.type, exercise]);
-
-  console.log(assessmentResult, "asmntrslt");
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -523,6 +518,7 @@ function ExerciseContent({
               courseData={courseData}
               setCourseData={setCourseData}
               setProgressTrackId={setProgressTrackId}
+              lang={lang}
             />
           )}
         </Container>

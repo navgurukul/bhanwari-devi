@@ -164,7 +164,7 @@ function PersistentDrawerLeft({
                 classes={classes}
                 params={params}
                 contentType={obj.type}
-                id={obj.id}
+                id={obj.slug_id}
                 title={obj.name || obj.sub_title || obj.type || "N/A"}
               />
             ))}

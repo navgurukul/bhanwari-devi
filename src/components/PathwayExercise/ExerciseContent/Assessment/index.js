@@ -16,6 +16,7 @@ function Assessment({
   res,
   triger,
   setTriger,
+  lang,
 }) {
   const user = useSelector(({ User }) => User);
 
@@ -103,13 +104,13 @@ function Assessment({
         data: {
           // assessment_id: exerciseId,
           slug_id: exerciseSlugId,
-          selected_multiple_option: answer,
+          selected_option: answer,
           status: "Pass",
+          course_id: params.courseId,
+          lang: lang,
         },
       })
-        .then((res) => {
-          console.log("res", res);
-        })
+        .then((res) => {})
         .catch((err) => {});
     } else {
       setCorrect(false);
@@ -128,13 +129,13 @@ function Assessment({
         data: {
           // assessment_id: exerciseId,
           slug_id: exerciseSlugId,
-          selected_multiple_option: answer,
+          selected_option: answer,
           status: "Fail",
+          course_id: params.courseId,
+          lang: lang,
         },
       })
-        .then((res) => {
-          console.log("res", res);
-        })
+        .then((res) => {})
         .catch((err) => {});
     }
     setTriger(!triger);
@@ -143,26 +144,26 @@ function Assessment({
   useEffect(() => {
     // adding a nullish coalescing operator (??), so that the null value can not effect on the assessment.
     // if (res?.assessment_id === (courseData ?? {}).id) {
-    if (res?.slug_id === (courseData ?? {}).id) {
+    if (res?.slug_id === (courseData ?? {}).slug_id) {
       if (res?.attempt_status === "CORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_option);
         setCorrect(true);
         setTriedAgain(2);
         setStatus("pass");
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "INCORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_optionn);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "PARTIALLY_CORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_option);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "PARTIALLY_INCORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_option);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
@@ -213,7 +214,7 @@ function Assessment({
           variant="contained"
           sx={{ width: "256px", p: "8px 16px 8px 16px" }}
           color={answer ? "primary" : "secondary"}
-          disabled={answer.length === 0 ? true : false}
+          disabled={answer?.length === 0 ? true : false}
           onClick={submitAssessment}
         >
           Submit

@@ -94,9 +94,9 @@ function NavigationComponent({
   return (
     <>
       <ExerciseImage
-        id={exercise.id}
+        id={exercise.slug_id}
         exerciseName={
-          exercise.name || exercise.sub_title || exercise.content_type || "N/A"
+          exercise.name || exercise.sub_title || exercise.type || "N/A"
         }
         onClick={() => {
           history.push(
@@ -122,7 +122,7 @@ function NavigationComponent({
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
-  // console.log(user, "user");
+
   const [course, setCourse] = useState([]);
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
@@ -137,6 +137,7 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
   const [language, setLanguage] = useState("en");
+  const [slugId, setSlugId] = useState();
   // const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
@@ -215,17 +216,17 @@ function PathwayExercise() {
       .then((res) => {
         setCourse(res?.data?.course[0]?.content);
         setAvailableLang(res?.data?.course[0]?.lang_available);
+        setSlugId(res?.data?.course[0]?.content[params.exerciseId]);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse, language, courseId]);
-  // console.log(language, "header");
+  }, [currentCourse, language, courseId, params.exerciseId]);
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
@@ -313,12 +314,13 @@ function PathwayExercise() {
         })
       );
       if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].id)
+        course[exerciseId].type === "exercise" &&
+        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
       ) {
         axios({
           method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
+          `,
           headers: {
             "version-code": versionCode,
             accept: "application/json",
@@ -330,7 +332,9 @@ function PathwayExercise() {
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            exercise_id: course[exerciseId].id,
+            slug_id: slugId.slug_id,
+            type: "exercise",
+            lang: language,
           },
         });
       }
@@ -339,12 +343,13 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
       if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].id)
+        course[exerciseId].type === "exercise" &&
+        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
       ) {
         axios({
           method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
+          `,
           headers: {
             "version-code": versionCode,
             accept: "application/json",
@@ -356,7 +361,9 @@ function PathwayExercise() {
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            exercise_id: course[exerciseId].id,
+            slug_id: slugId.slug_id,
+            type: "exercise",
+            lang: language,
           },
         });
       }
@@ -374,22 +381,24 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
     }
   };
+
   const onChangeHandlerClick = () => {
     if (
-      course[exerciseId].content_type === "exercise" &&
-      !progressTrackId?.exercises?.includes(course[exerciseId].id)
+      course[exerciseId].type === "exercise" &&
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
     ) {
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].id}/complete`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${slugId.slug_id}/markcomplete`,
         headers: {
           "version-code": versionCode,
           accept: "application/json",
           Authorization:
             user.data?.token || localStorage.getItem("studentAuthToken") || "",
         },
-        data: {
-          exerciseId: course[exerciseId].id,
+        params: {
+          lang: language,
+          type: slugId.type,
         },
       })
         .then((res) => {
@@ -569,13 +578,13 @@ function PathwayExercise() {
                           }}
                         >
                           <ExerciseImage
-                            id={exercise.id}
+                            id={exercise.slug_id}
                             selected={exerciseId == index}
                             contentType={exercise?.type}
                             exerciseName={
                               exercise.name ||
                               exercise.sub_title ||
-                              exercise.content_type ||
+                              exercise.type ||
                               "N/A"
                             }
                             index={index}
