@@ -34,7 +34,7 @@ import { breakpoints } from "../../theme/constant";
 const languageMap = {
   "hi-IN": "Hindi",
   en: "English",
-  te: "Telugu",
+  "te-IN": "Telugu",
   ta: "Tamil",
   mr: "Marathi",
 };
@@ -96,7 +96,7 @@ function NavigationComponent({
       <ExerciseImage
         id={exercise.slug_id}
         exerciseName={
-          exercise.name || exercise.sub_title || exercise.type || "N/A"
+          exercise.name || exercise.sub_title || exercise.content_type || "N/A"
         }
         onClick={() => {
           history.push(
@@ -110,7 +110,7 @@ function NavigationComponent({
         index={index}
         imageRef={imageRef}
         selected={exerciseId == index}
-        contentType={exercise.type}
+        contentType={exercise.content_type}
         setExerciseId={setExerciseId}
         useSelector
         progressTrackId={progressTrackId}
@@ -137,7 +137,7 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
   const [language, setLanguage] = useState("en");
-  const [slugId, setSlugId] = useState();
+  const [excersiseSlugId, setExerciseSlugId] = useState();
   // const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
@@ -214,9 +214,11 @@ function PathwayExercise() {
       },
     })
       .then((res) => {
-        setCourse(res?.data?.course[0]?.content);
+        setCourse(res?.data?.course[0]?.course_content);
         setAvailableLang(res?.data?.course[0]?.lang_available);
-        setSlugId(res?.data?.course[0]?.content[params.exerciseId]);
+        setExerciseSlugId(
+          res?.data?.course[0]?.course_content[params.exerciseId]
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -314,7 +316,7 @@ function PathwayExercise() {
         })
       );
       if (
-        course[exerciseId].type === "exercise" &&
+        course[exerciseId].content_type === "exercise" &&
         !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
       ) {
         axios({
@@ -332,7 +334,7 @@ function PathwayExercise() {
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            slug_id: slugId.slug_id,
+            slug_id: excersiseSlugId.slug_id,
             type: "exercise",
             lang: language,
           },
@@ -343,7 +345,7 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
       if (
-        course[exerciseId].type === "exercise" &&
+        course[exerciseId].content_type === "exercise" &&
         !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
       ) {
         axios({
@@ -361,7 +363,7 @@ function PathwayExercise() {
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            slug_id: slugId.slug_id,
+            slug_id: excersiseSlugId.slug_id,
             type: "exercise",
             lang: language,
           },
@@ -384,12 +386,12 @@ function PathwayExercise() {
 
   const onChangeHandlerClick = () => {
     if (
-      course[exerciseId].type === "exercise" &&
+      course[exerciseId].content_type === "exercise" &&
       !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
     ) {
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${slugId.slug_id}/markcomplete`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${excersiseSlugId.slug_id}/markcomplete`,
         headers: {
           "version-code": versionCode,
           accept: "application/json",
@@ -398,7 +400,7 @@ function PathwayExercise() {
         },
         params: {
           lang: language,
-          type: slugId.type,
+          type: excersiseSlugId.content_type,
         },
       })
         .then((res) => {
@@ -580,11 +582,11 @@ function PathwayExercise() {
                           <ExerciseImage
                             id={exercise.slug_id}
                             selected={exerciseId == index}
-                            contentType={exercise?.type}
+                            contentType={exercise?.content_type}
                             exerciseName={
                               exercise.name ||
                               exercise.sub_title ||
-                              exercise.type ||
+                              exercise.content_type ||
                               "N/A"
                             }
                             index={index}

@@ -312,7 +312,6 @@ function ExerciseContent({
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const [triger, setTriger] = useState(false);
-  const [contentAssessment, setContentAssessment] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -330,36 +329,34 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setContentAssessment(res.data.course[0]?.content[exerciseId]?.assessment);
-      setExercise(res.data.course[0]?.content[exerciseId]);
-      setContent(res.data.course[0]?.content[exerciseId].exercise);
-      setCourseData(res.data.course[0]?.content[exerciseId]);
-      setCashedData(res.data.course[0]?.content);
+      setExercise(res.data.course[0]?.course_content[exerciseId]);
+      setContent(res.data.course[0]?.course_content[exerciseId].content);
+      setCourseData(res.data.course[0]?.course_content[exerciseId]);
+      setCashedData(res.data.course[0]?.course_content);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
       setCourse(res?.data?.course[0].name);
-      setExercise(res?.data?.course[0]?.content?.[params.exerciseId]);
-      setContent(res?.data?.course[0]?.content?.[params.exerciseId]?.exercise);
-      setContentAssessment(
-        res?.data?.course[0]?.content?.[params.exerciseId]?.assessment
+      setExercise(res?.data?.course[0]?.course_content?.[params.exerciseId]);
+      setContent(
+        res?.data?.course[0]?.course_content?.[params.exerciseId]?.content
       );
-      setCourseData(res?.data?.course[0]?.content?.[params.exerciseId]);
-      setCashedData(res?.data?.course[0]?.content);
+      setCourseData(res?.data?.course[0]?.course_content?.[params.exerciseId]);
+      setCashedData(res?.data?.course[0]?.course_content);
     });
   }, [courseId, lang, triger, params.exerciseId, user]);
 
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
-    setContentAssessment(cashedData?.[params.exerciseId]?.assessment);
+
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
 
   useEffect(() => {
-    if (exercise?.type === "assessment") {
+    if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
         url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.slug_id}/complete`,
@@ -382,7 +379,7 @@ function ExerciseContent({
         setAssessmentResult(modifiedObject.data); // passing this after parsing the data.
       });
     }
-  }, [triger, exerciseId, exercise?.type, exercise]);
+  }, [triger, exerciseId, exercise?.content_type, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -426,9 +423,8 @@ function ExerciseContent({
           <Grid xs={0} item>
             <Box sx={{ m: "32px 0px" }}>
               <Box>
-                {courseData?.type == "class_topic" && enrolledBatches && (
-                  <ClassTopic courseData={courseData} />
-                )}
+                {courseData?.content_type == "class_topic" &&
+                  enrolledBatches && <ClassTopic courseData={courseData} />}
               </Box>
             </Box>
           </Grid>
@@ -439,7 +435,7 @@ function ExerciseContent({
             }}
             item
           >
-            {courseData?.type == "class_topic" && (
+            {courseData?.content_type == "class_topic" && (
               <>
                 {enrolledBatches ? (
                   <ExerciseBatchClass
@@ -489,7 +485,7 @@ function ExerciseContent({
               />
             ))}
 
-          {exercise && exercise.type === "exercise" && (
+          {exercise && exercise.content_type === "exercise" && (
             <Box sx={{ m: "32px 0px" }}>
               {/* <Typography variant="h5">{course}</Typography> */}
               {/* <Typography variant="h6" sx={{ mt: "16px" }}>
@@ -507,12 +503,12 @@ function ExerciseContent({
               </Box>
             </Box>
           )}
-          {exercise && exercise.type === "assessment" && (
+          {exercise && exercise.content_type === "assessment" && (
             <Assessment
               triger={triger}
               setTriger={setTriger}
               res={assessmentResult}
-              data={contentAssessment}
+              data={content}
               // exerciseId={exercise.id}
               exerciseSlugId={exercise.slug_id}
               courseData={courseData}

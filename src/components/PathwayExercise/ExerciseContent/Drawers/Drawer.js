@@ -148,7 +148,7 @@ function PersistentDrawerLeft({
                   variant="subtitle2"
                   mt={4}
                 >
-                  {courseName}
+                  {/* {courseName} */}
                 </Typography>
               </ListItemButton>
             </ListItem>
@@ -163,9 +163,9 @@ function PersistentDrawerLeft({
                 setExerciseId={setExerciseId}
                 classes={classes}
                 params={params}
-                contentType={obj.type}
+                contentType={obj.content_type}
                 id={obj.slug_id}
-                title={obj.name || obj.sub_title || obj.type || "N/A"}
+                title={obj.name || obj.sub_title || obj.content_type || "N/A"}
               />
             ))}
           </List>
