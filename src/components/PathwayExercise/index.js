@@ -139,7 +139,7 @@ function PathwayExercise() {
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
   const [language, setLanguage] = useState("en");
-  const [excersiseSlugId, setExerciseSlugId] = useState();
+  // const [excersiseSlugId, setExerciseSlugId] = useState();
   // const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
@@ -218,12 +218,12 @@ function PathwayExercise() {
       .then((res) => {
         setCourse(res?.data?.course?.course_content);
         setAvailableLang(res?.data?.course?.lang_available);
-        setExerciseSlugId(res?.data?.course?.course_content[params.exerciseId]);
+        // setExerciseSlugId(res?.data?.course?.course_content[params.exerciseId]);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse, language, courseId, params.exerciseId]);
+  }, [currentCourse, language, courseId]);
 
   useEffect(() => {
     axios({
@@ -334,7 +334,7 @@ function PathwayExercise() {
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            slug_id: excersiseSlugId.slug_id,
+            slug_id: course[exerciseId].slug_id,
             type: "exercise",
             lang: language,
           },
@@ -363,7 +363,7 @@ function PathwayExercise() {
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            slug_id: excersiseSlugId.slug_id,
+            slug_id: course[exerciseId].slug_id,
             type: "exercise",
             lang: language,
           },
@@ -391,7 +391,7 @@ function PathwayExercise() {
     ) {
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${excersiseSlugId.slug_id}/markcomplete`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].slug_id}/markcomplete`,
         headers: {
           "version-code": versionCode,
           accept: "application/json",
@@ -400,7 +400,7 @@ function PathwayExercise() {
         },
         params: {
           lang: language,
-          type: excersiseSlugId.content_type,
+          type: course[exerciseId].content_type,
         },
       })
         .then((res) => {

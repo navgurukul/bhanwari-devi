@@ -346,7 +346,7 @@ function ExerciseContent({
       setCourseData(res?.data?.course?.course_content?.[params.exerciseId]);
       setCashedData(res?.data?.course?.course_content);
     });
-  }, [courseId, lang, triger, params.exerciseId, user]);
+  }, [courseId, lang, triger, user]);
 
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
@@ -379,7 +379,7 @@ function ExerciseContent({
         setAssessmentResult(modifiedObject.data); // passing this after parsing the data.
       });
     }
-  }, [triger, exerciseId, exercise?.content_type, exercise]);
+  }, [triger, exerciseId, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
