@@ -329,22 +329,22 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setExercise(res.data.course[0]?.course_content[exerciseId]);
-      setContent(res.data.course[0]?.course_content[exerciseId].content);
-      setCourseData(res.data.course[0]?.course_content[exerciseId]);
-      setCashedData(res.data.course[0]?.course_content);
+      setExercise(res.data.course?.course_content[exerciseId]);
+      setContent(res.data.course?.course_content[exerciseId].content);
+      setCourseData(res.data.course?.course_content[exerciseId]);
+      setCashedData(res.data.course?.course_content);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res?.data?.course[0].name);
-      setExercise(res?.data?.course[0]?.course_content?.[params.exerciseId]);
+      setCourse(res?.data?.course.name);
+      setExercise(res?.data?.course?.course_content?.[params.exerciseId]);
       setContent(
-        res?.data?.course[0]?.course_content?.[params.exerciseId]?.content
+        res?.data?.course?.course_content?.[params.exerciseId]?.content
       );
-      setCourseData(res?.data?.course[0]?.course_content?.[params.exerciseId]);
-      setCashedData(res?.data?.course[0]?.course_content);
+      setCourseData(res?.data?.course?.course_content?.[params.exerciseId]);
+      setCashedData(res?.data?.course?.course_content);
     });
   }, [courseId, lang, triger, params.exerciseId, user]);
 

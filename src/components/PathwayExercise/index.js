@@ -37,6 +37,8 @@ const languageMap = {
   "te-IN": "Telugu",
   ta: "Tamil",
   mr: "Marathi",
+  "or-IN": "Oriya",
+  "kn-IN": "Kannada",
 };
 
 const Exercise = ({
@@ -214,11 +216,9 @@ function PathwayExercise() {
       },
     })
       .then((res) => {
-        setCourse(res?.data?.course[0]?.course_content);
-        setAvailableLang(res?.data?.course[0]?.lang_available);
-        setExerciseSlugId(
-          res?.data?.course[0]?.course_content[params.exerciseId]
-        );
+        setCourse(res?.data?.course?.course_content);
+        setAvailableLang(res?.data?.course?.lang_available);
+        setExerciseSlugId(res?.data?.course?.course_content[params.exerciseId]);
       })
       .catch((err) => {
         console.log(err);

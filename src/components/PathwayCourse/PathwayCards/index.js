@@ -43,7 +43,7 @@ const PathwayCards = ({ userEnrolledClasses, data }) => {
     useEffect(() => {
       const courseId = item.course_id;
       getCourseContent({ courseId, versionCode, user }).then((res) => {
-        const index = res.data.course[0].course_content.findIndex(
+        const index = res.data.course.course_content.findIndex(
           (ex) => ex.id === item.id
         );
 
