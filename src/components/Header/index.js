@@ -3,6 +3,8 @@ import theme from "../../theme/theme";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constant";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import CloseIcon from "@mui/icons-material/Close";
 import useStyles from "./styles";
 import List from "@mui/material/List";
@@ -23,6 +25,9 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
+import { NavLink } from "react-router-dom";
 import {
   PUBLIC_MENU_KEYS,
   // LEARN_KEY,
@@ -101,33 +106,18 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   }, [inDropdown]);
 
   const [scratchUrl, setScratchUrl] = useState(
-    `https://scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
-      "studentAuthToken"
-    )}`
+    `https://scratch.merakilearn.org/login`
   );
 
   useEffect(() => {
-    console.log(window.location.origin ,"window.location.origin inside the useeffect");
-    if (window.location.origin == "https://merakilearn.org") {
-      setScratchUrl(
-        `https://scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
-          "studentAuthToken"
-        )}`
-      );
-    } else {
-      setScratchUrl(
-        `https://dev.scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
-          "studentAuthToken"
-        )}`
-      );
+    if (
+      window.location.origin === "http://localhost:3000" ||
+      window.location.origin ===
+        "https://www.merd-bhanwaridevi.merakilearn.org"
+    ) {
+      setScratchUrl(`https://dev.scratch.merakilearn.org/login`);
     }
-
-    console.log("scratchUrl-inside", scratchUrl);
-    console.log("originUrl-inside", window.location.origin);
   }, []);
-
-  console.log("scratchUrl-outside", scratchUrl);
-  console.log("originUrl-outside", window.location.origin);
 
   return (
     <>
