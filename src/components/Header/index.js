@@ -107,6 +107,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
   );
 
   useEffect(() => {
+    console.log(window.location.origin ,"window.location.origin inside the useeffect");
     if (window.location.origin == "https://merakilearn.org") {
       setScratchUrl(
         `https://scratch.merakilearn.org/login?studentAuth=${localStorage.getItem(
