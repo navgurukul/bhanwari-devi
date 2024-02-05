@@ -153,7 +153,7 @@ function Assessment({
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "INCORRECT") {
-        setAnswer(res?.selected_optionn);
+        setAnswer(res?.selected_option);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
