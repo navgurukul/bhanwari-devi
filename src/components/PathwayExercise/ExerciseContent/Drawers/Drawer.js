@@ -97,11 +97,12 @@ function PersistentDrawerLeft({
   setSelected,
   setExerciseId,
   progressTrackId,
+  courseTitle,
 }) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
-  const courseName = list[0]?.name.toUpperCase();
+  const courseName = courseTitle.toUpperCase();
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
@@ -109,6 +110,7 @@ function PersistentDrawerLeft({
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
+
   const ref1 = React.useRef();
   React.useEffect(() => {
     if (ref1.current) {
@@ -148,7 +150,7 @@ function PersistentDrawerLeft({
                   variant="subtitle2"
                   mt={4}
                 >
-                  {/* {courseName} */}
+                  {courseName}
                 </Typography>
               </ListItemButton>
             </ListItem>

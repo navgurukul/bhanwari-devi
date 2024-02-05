@@ -126,6 +126,7 @@ function PathwayExercise() {
   const user = useSelector(({ User }) => User);
 
   const [course, setCourse] = useState([]);
+  const [courseTitle, setCourseTitle] = useState("");
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
   const params = useParams();
@@ -217,6 +218,7 @@ function PathwayExercise() {
     })
       .then((res) => {
         setCourse(res?.data?.course?.course_content);
+        setCourseTitle(res?.data?.course?.name);
         setAvailableLang(res?.data?.course?.lang_available);
         // setExerciseSlugId(res?.data?.course?.course_content[params.exerciseId]);
       })
@@ -653,6 +655,7 @@ function PathwayExercise() {
         <Box sx={{ marginTop: "50px" }}>
           <ExerciseContent
             contentList={course}
+            courseTitle={courseTitle}
             exerciseId={exerciseId}
             lang={language}
             setExerciseId={setExerciseId}

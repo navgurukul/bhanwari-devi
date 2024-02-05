@@ -294,6 +294,7 @@ function ExerciseContent({
   contentList,
   setExerciseId,
   setProgressTrackId,
+  courseTitle,
   progressTrackId,
 }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -462,6 +463,7 @@ function ExerciseContent({
             <PersistentDrawerLeft
               setSelected={setSelected}
               list={contentList}
+              courseTitle={courseTitle}
               setExerciseId={setExerciseId}
               progressTrackId={progressTrackId}
             />
