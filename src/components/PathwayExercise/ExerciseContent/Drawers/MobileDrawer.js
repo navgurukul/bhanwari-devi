@@ -149,7 +149,7 @@ function MobileDrawer(props) {
             classes={classes}
             params={params}
             contentType={obj.content_type}
-            id={obj.id}
+            id={obj.slug_id}
             title={obj.name || obj.sub_title || obj.content_type || "N/A"}
           />
         ))}
