@@ -148,7 +148,7 @@ function PersistentDrawerLeft({
                   variant="subtitle2"
                   mt={4}
                 >
-                  {/* {courseName} */}
+                  {courseName}
                 </Typography>
               </ListItemButton>
             </ListItem>
