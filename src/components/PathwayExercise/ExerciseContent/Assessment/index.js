@@ -214,7 +214,7 @@ function Assessment({
           variant="contained"
           sx={{ width: "256px", p: "8px 16px 8px 16px" }}
           color={answer ? "primary" : "secondary"}
-          disabled={answer?.length === 0 ? true : false}
+          disabled={!answer?.length}
           onClick={submitAssessment}
         >
           Submit
