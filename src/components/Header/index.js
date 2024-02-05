@@ -213,7 +213,7 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {localStorage.getItem("studentAuth") ? (
         <a
-          href={`${scratchUrl}?studentAuth=${localStorage.getItem(
+          href={`${scratchUrl}/?studentAuth=${localStorage.getItem(
             "studentAuthToken"
           )}`}
           target="_blank"
