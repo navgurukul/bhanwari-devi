@@ -45,7 +45,7 @@ function CustomModal({
     teacher_name: "",
     teacher_id: "",
     class_of_teacher: "",
-    
+    phone_number: "",
   });
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -83,6 +83,7 @@ function CustomModal({
     { label: "School Id", key: "school_id", type: "number" },
     { label: "Teacher Name", key: "teacher_name" },
     { label: "Teacher ID", key: "teacher_id", type: "number" },
+    { label: "Phone Number", key: "phone_number", type: "number" },
   ];
 
   const [teacherClass, setTeacherClass] = React.useState([]);
@@ -129,6 +130,11 @@ function CustomModal({
     if (!teacherDetails.class_of_teacher) {
       newErrors.class_of_teacher = "Class of Teacher is required.";
     }
+    if (!teacherDetails.phone_number) {
+      newErrors.phone_number = "Phone Number is required.";
+    } else if (teacherDetails.phone_number.toString().length !== 10) {
+      newErrors.phone_number = "Phone Number must be of 10 digits only";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -154,6 +160,7 @@ function CustomModal({
             teacher_name: "",
             teacher_id: "",
             class_of_teacher: "",
+            phone_number: "",
           });
         })
         .catch((err) => console.log(err));
@@ -222,7 +229,7 @@ function CustomModal({
                   setTeacherDetails((prev) => ({
                     ...prev,
                     [field.key]:
-                      field.type === "number"
+                      field.type === "number" && field.key !== "phone_number"
                         ? parseInt(e.target.value)
                         : e.target.value,
                   }));

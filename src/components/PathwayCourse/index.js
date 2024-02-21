@@ -15,7 +15,7 @@ import { actions as enrolledBatchesActions } from "./redux/action";
 import ExternalLink from "../common/ExternalLink";
 import LockIcon from "@mui/icons-material/Lock";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
-import { CardContent, ListItem } from "@mui/material";
+import { CardContent } from "@mui/material";
 import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
 import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
 import Modal from "@mui/material/Modal";
