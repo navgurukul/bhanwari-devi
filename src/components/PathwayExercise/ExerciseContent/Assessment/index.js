@@ -9,12 +9,14 @@ import AssessmentContent from "./AssessmentContent";
 function Assessment({
   data,
   exerciseId,
+  exerciseSlugId,
   courseData,
   setCourseData,
   setProgressTrackId,
   res,
   triger,
   setTriger,
+  lang,
 }) {
   const user = useSelector(({ User }) => User);
 
@@ -92,21 +94,23 @@ function Assessment({
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
         headers: {
           accept: "application/json",
           Authorization:
             user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
-          assessment_id: exerciseId,
-          selected_multiple_option: answer,
+          // assessment_id: exerciseId,
+          slug_id: exerciseSlugId,
+          selected_option: answer,
           status: "Pass",
+          course_id: params.courseId,
+          lang: lang,
         },
       })
-        .then((res) => {
-          // console.log("res", res);
-        })
+        .then((res) => {})
         .catch((err) => {});
     } else {
       setCorrect(false);
@@ -115,48 +119,51 @@ function Assessment({
       setSubmitDisable(true);
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
         headers: {
           accept: "application/json",
           Authorization:
             user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
         data: {
-          assessment_id: exerciseId,
-          selected_multiple_option: answer,
+          // assessment_id: exerciseId,
+          slug_id: exerciseSlugId,
+          selected_option: answer,
           status: "Fail",
+          course_id: params.courseId,
+          lang: lang,
         },
       })
-        .then((res) => {
-          // console.log("res", res);
-        })
+        .then((res) => {})
         .catch((err) => {});
     }
     setTriger(!triger);
   };
 
   useEffect(() => {
-    // adding a nullish coalescing operator (??), so that the null value can no effect on the assessment.
-    if (res?.assessment_id === (courseData ?? {}).id) {
+    // adding a nullish coalescing operator (??), so that the null value can not effect on the assessment.
+    // if (res?.assessment_id === (courseData ?? {}).id) {
+    if (res?.slug_id === (courseData ?? {}).slug_id) {
       if (res?.attempt_status === "CORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_option);
         setCorrect(true);
         setTriedAgain(2);
         setStatus("pass");
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "INCORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_option);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "PARTIALLY_CORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_option);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
       } else if (res?.attempt_status === "PARTIALLY_INCORRECT") {
-        setAnswer(res?.selected_multiple_option);
+        setAnswer(res?.selected_option);
         setTriedAgain(res?.attempt_count);
         setSubmitDisable(true);
         setSubmit(true);
@@ -175,6 +182,7 @@ function Assessment({
   //     }
   //   }
   // };
+  // console.log("data", data);
 
   return (
     <Container maxWidth="sm" sx={{ align: "center", m: "40px 0 62px 0" }}>
@@ -206,7 +214,7 @@ function Assessment({
           variant="contained"
           sx={{ width: "256px", p: "8px 16px 8px 16px" }}
           color={answer ? "primary" : "secondary"}
-          disabled={answer.length === 0 ? true : false}
+          disabled={!answer?.length}
           onClick={submitAssessment}
         >
           Submit

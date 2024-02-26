@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
   },
   scrollContainer: {
     "&::-webkit-scrollbar": { display: "none" },
-    overflowX: "scroll",
+    overflowX: "auto",
     width: "325px",
     whiteSpace: "nowrap",
   },
