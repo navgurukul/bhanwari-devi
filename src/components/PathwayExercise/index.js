@@ -32,11 +32,13 @@ import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 import { breakpoints } from "../../theme/constant";
 
 const languageMap = {
-  hi: "Hindi",
+  "hi-IN": "Hindi",
   en: "English",
-  te: "Telugu",
+  "te-IN": "Telugu",
   ta: "Tamil",
   mr: "Marathi",
+  "or-IN": "Oriya",
+  "kn-IN": "Kannada",
 };
 
 const Exercise = ({
@@ -94,7 +96,7 @@ function NavigationComponent({
   return (
     <>
       <ExerciseImage
-        id={exercise.id}
+        id={exercise.slug_id}
         exerciseName={
           exercise.name || exercise.sub_title || exercise.content_type || "N/A"
         }
@@ -112,6 +114,7 @@ function NavigationComponent({
         selected={exerciseId == index}
         contentType={exercise.content_type}
         setExerciseId={setExerciseId}
+        useSelector
         progressTrackId={progressTrackId}
       />
     </>
@@ -121,7 +124,9 @@ function NavigationComponent({
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
+
   const [course, setCourse] = useState([]);
+  const [courseTitle, setCourseTitle] = useState("");
   const [exerciseId, setExerciseId] = useState(0);
   const classes = useStyles();
   const params = useParams();
@@ -134,7 +139,8 @@ function PathwayExercise() {
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
   const currentCourse = params.courseId;
   const scrollRef = React.useRef();
-
+  const [language, setLanguage] = useState("en");
+  // const [excersiseSlugId, setExerciseSlugId] = useState();
   // const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
@@ -172,42 +178,64 @@ function PathwayExercise() {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("studentAuth")|| (user && user?.data?.token)){
-      return
-    }else{
-      history.push(PATHS.LOGIN);
+    // Disable automatic scroll restoration
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
     }
 
-  },[])
+    // Reset scroll position on page load
+    window.onload = () => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+    };
+
+    // Clean up
+    return () => {
+      window.onload = null; // Remove the onload event handler when the component unmounts
+    };
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("studentAuth") || (user && user?.data?.token)) {
+      return;
+    } else {
+      history.push(PATHS.LOGIN);
+    }
+  }, []);
 
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/content/slug?lang=${language}`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        Authorization:
+          user.data?.token || localStorage.getItem("studentAuthToken") || "",
       },
     })
       .then((res) => {
-        setCourse(res.data.course.exercises);
-        setAvailableLang(res.data.course.lang_available);
+        setCourse(res?.data?.course?.course_content);
+        setCourseTitle(res?.data?.course?.name);
+        setAvailableLang(res?.data?.course?.lang_available);
+        // setExerciseSlugId(res?.data?.course?.course_content[params.exerciseId]);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse]);
+  }, [currentCourse, language, courseId]);
 
   useEffect(() => {
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        Authorization:
+          user.data?.token || localStorage.getItem("studentAuthToken") || "",
       },
     })
       .then((res) => {
@@ -249,7 +277,7 @@ function PathwayExercise() {
         }}
         variant="standard"
       >
-        {availableLang.map((lang) => {
+        {availableLang?.map((lang) => {
           return (
             <MenuItem
               style={{ borderRadius: "8px" }}
@@ -291,20 +319,26 @@ function PathwayExercise() {
       );
       if (
         course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].id)
+        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
       ) {
         axios({
           method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
+          `,
           headers: {
             "version-code": versionCode,
             accept: "application/json",
-            Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+            Authorization:
+              user.data?.token ||
+              localStorage.getItem("studentAuthToken") ||
+              "",
           },
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            exercise_id: course[exerciseId].id,
+            slug_id: course[exerciseId].slug_id,
+            type: "exercise",
+            lang: language,
           },
         });
       }
@@ -314,20 +348,26 @@ function PathwayExercise() {
       setSuccessfulExerciseCompletion(true);
       if (
         course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].id)
+        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
       ) {
         axios({
           method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
+          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
+          `,
           headers: {
             "version-code": versionCode,
             accept: "application/json",
-            Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+            Authorization:
+              user.data?.token ||
+              localStorage.getItem("studentAuthToken") ||
+              "",
           },
           data: {
             pathway_id: params.pathwayId,
             course_id: params.courseId,
-            exercise_id: course[exerciseId].id,
+            slug_id: course[exerciseId].slug_id,
+            type: "exercise",
+            lang: language,
           },
         });
       }
@@ -345,21 +385,24 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
     }
   };
+
   const onChangeHandlerClick = () => {
     if (
       course[exerciseId].content_type === "exercise" &&
-      !progressTrackId?.exercises?.includes(course[exerciseId].id)
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
     ) {
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].id}/complete`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].slug_id}/markcomplete`,
         headers: {
           "version-code": versionCode,
           accept: "application/json",
-          Authorization: user.data?.token || localStorage.getItem("studentAuthToken") || "",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
         },
-        data: {
-          exerciseId: course[exerciseId].id,
+        params: {
+          lang: language,
+          type: course[exerciseId].content_type,
         },
       })
         .then((res) => {
@@ -370,7 +413,6 @@ function PathwayExercise() {
         });
     }
   };
-  const [language, setLanguage] = useState("en");
 
   // to avoid duplication
   function languageSelectMenu() {
@@ -526,7 +568,7 @@ function PathwayExercise() {
                 }}
               >
                 {course &&
-                  course.map((exercise, index) => {
+                  course?.map((exercise, index) => {
                     return (
                       <>
                         <Link
@@ -540,9 +582,9 @@ function PathwayExercise() {
                           }}
                         >
                           <ExerciseImage
-                            id={exercise.id}
+                            id={exercise.slug_id}
                             selected={exerciseId == index}
-                            contentType={exercise.content_type}
+                            contentType={exercise?.content_type}
                             exerciseName={
                               exercise.name ||
                               exercise.sub_title ||
@@ -613,6 +655,7 @@ function PathwayExercise() {
         <Box sx={{ marginTop: "50px" }}>
           <ExerciseContent
             contentList={course}
+            courseTitle={courseTitle}
             exerciseId={exerciseId}
             lang={language}
             setExerciseId={setExerciseId}

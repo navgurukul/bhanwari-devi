@@ -207,7 +207,7 @@ function Class({ classToEdit, indicator }) {
     }
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises/v2`,
       headers: {
         accept: "application/json",
         "version-code": versionCode,

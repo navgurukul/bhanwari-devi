@@ -95,7 +95,7 @@ function ClassForm({
     space_id: classToEdit?.id || "",
     schedule: classToEdit?.schedule || {},
   });
-  console.log(classFields, classToEdit);
+
   const [display, setDisplay] = useState(false);
   const [matchDay, setMatchDay] = useState(false);
   const [partnerData, setPartnerData] = useState([]);
@@ -217,7 +217,7 @@ function ClassForm({
 
   //For exercise error field (doubt class only)
   useEffect(() => {
-    if (onInput.exercise && !classFields.exercise_id && classFields.course_id) {
+    if (onInput.exercise && !classFields.slug_id && classFields.course_id) {
       setShowError((prev) => {
         return { ...prev, exercise: true };
       });
@@ -235,7 +235,7 @@ function ClassForm({
         return { ...prev, exercise: "" };
       });
     }
-  }, [classFields.exercise_id, onInput.exercise]);
+  }, [classFields.slug_id, onInput.exercise]);
 
   //For description error field (doubt class only)
   useEffect(() => {
@@ -289,7 +289,7 @@ function ClassForm({
     } else {
       if (
         classFields.title !== "" &&
-        ((classFields.course_id && classFields.exercise_id) ||
+        ((classFields.course_id && classFields.slug_id) ||
           classFields.pathway_id) &&
         classFields.description &&
         classFields.description.length < 555 &&
@@ -309,7 +309,7 @@ function ClassForm({
     classFields.start_time,
     classFields.end_time,
     classFields.course_id,
-    classFields.exercise_id,
+    classFields.slug_id,
     classFields.description,
     checked,
     classFields.schedule,
@@ -328,7 +328,7 @@ function ClassForm({
   );
 
   const selectedExerciseLabel = exercisesForSelectedCourse.find(
-    (item) => item.id === classFields.exercise_id
+    (item) => item.id === classFields.slug_id
   );
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -526,7 +526,7 @@ function ClassForm({
     }
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/content/slug?lang=en`,
       headers: {
         accept: "application/json",
         "version-code": versionCode,
@@ -534,7 +534,7 @@ function ClassForm({
       },
     })
       .then((res) => {
-        const filteredExercises = res.data.course.exercises.filter(
+        const filteredExercises = res.data.course.course_content.filter(
           (exercise) => exercise.content_type === "exercise"
         );
         setExercisesForSelectedCourse(filteredExercises);
@@ -543,13 +543,13 @@ function ClassForm({
   };
 
   const onExerciseChange = (exerciseId) => {
-    setClassFields({ ...classFields, exercise_id: exerciseId });
+    setClassFields({ ...classFields, slug_id: exerciseId });
   };
 
   const checkForDoubtClass =
     classFields.type === "doubt_class" &&
     classFields.course_id !== "" &&
-    classFields.exercise_id !== "" &&
+    classFields.slug_id !== "" &&
     classFields.title !== "" &&
     classFields.description !== "" &&
     classFields.start_time !== "" &&
@@ -628,7 +628,7 @@ function ClassForm({
       payload = _.pick(classFields, [
         ...commonFields,
         "course_id",
-        "exercise_id",
+        "slug_id",
         "partner_id",
       ]);
     } else if (classFields.type === "batch") {
@@ -997,7 +997,10 @@ function ClassForm({
                     {exercisesForSelectedCourse &&
                       exercisesForSelectedCourse.map((exercise) => {
                         return (
-                          <MenuItem key={exercise.id} value={exercise.id}>
+                          <MenuItem
+                            key={exercise.slug_id}
+                            value={exercise.slug_id}
+                          >
                             {exercise.name}
                           </MenuItem>
                         );

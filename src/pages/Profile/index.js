@@ -214,7 +214,7 @@ function Profile() {
     if (user?.data?.token && pathwayId) {
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/totalProgress`,
         headers: {
           accept: "application/json",
           Authorization: user?.data?.token,
@@ -256,8 +256,6 @@ function Profile() {
       })
       .catch((err) => {});
   };
-
-  // console.log(data.,"pathwayId")
 
   return (
     <>

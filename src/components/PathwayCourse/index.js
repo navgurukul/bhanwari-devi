@@ -231,7 +231,7 @@ function PathwayCourse() {
       );
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/completePortion`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/totalProgress`,
         headers: {
           accept: "application/json",
           Authorization:
@@ -442,7 +442,7 @@ function PathwayCourse() {
               <>
                 <PathwayCards
                   userEnrolledClasses={userEnrolledClasses}
-                  data={pathwayCourse.data}
+                  data={pathwayCourse?.data}
                 />
               </>
             ) : (

@@ -294,6 +294,7 @@ function ExerciseContent({
   contentList,
   setExerciseId,
   setProgressTrackId,
+  courseTitle,
   progressTrackId,
 }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -311,6 +312,7 @@ function ExerciseContent({
   const [loading, setLoading] = useState(true);
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
+  const [triger, setTriger] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -328,27 +330,29 @@ function ExerciseContent({
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course?.name);
-      setExercise(res.data.course?.exercises[exerciseId]);
-      setContent(res.data.course?.exercises[exerciseId]?.content);
-      setCourseData(res.data.course?.exercises[exerciseId]);
-      setCashedData(res.data.course?.exercises);
+      setExercise(res.data.course?.course_content[exerciseId]);
+      setContent(res.data.course?.course_content[exerciseId].content);
+      setCourseData(res.data.course?.course_content[exerciseId]);
+      setCashedData(res.data.course?.course_content);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res?.data?.name);
-      setExercise(res?.data?.course?.exercises?.[params.exerciseId]);
-      setContent(res?.data?.course?.exercises?.[params.exerciseId]?.content);
-      setCourseData(res?.data?.course?.exercises?.[params.exerciseId]);
-      setCashedData(res?.data?.course?.exercises);
+      setCourse(res?.data?.course.name);
+      setExercise(res?.data?.course?.course_content?.[params.exerciseId]);
+      setContent(
+        res?.data?.course?.course_content?.[params.exerciseId]?.content
+      );
+      setCourseData(res?.data?.course?.course_content?.[params.exerciseId]);
+      setCashedData(res?.data?.course?.course_content);
     });
-  }, [courseId, lang]);
+  }, [courseId, lang, triger, user]);
 
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
+
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
 
@@ -356,18 +360,27 @@ function ExerciseContent({
     if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.slug_id}/complete`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result/v2`,
         headers: {
           accept: "application/json",
-          Authorization: user?.data?.token || localStorage.getItem("studentAuthToken"),
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
-      })
-        .then((res) => {
-          setAssessmentResult(res.data);
-        })
-        .catch((err) => {});
+      }).then((res) => {
+        const keyToModify = "selected_option";
+        const newValue = res?.data?.selected_option;
+        const modifiedObject = {
+          ...res,
+          data: {
+            ...res.data,
+            [keyToModify]: newValue,
+          },
+        };
+        setAssessmentResult(modifiedObject.data); // passing this after parsing the data.
+      });
     }
-  }, [exerciseId, exercise?.content_type, exercise]);
+  }, [triger, exerciseId, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -450,6 +463,7 @@ function ExerciseContent({
             <PersistentDrawerLeft
               setSelected={setSelected}
               list={contentList}
+              courseTitle={courseTitle}
               setExerciseId={setExerciseId}
               progressTrackId={progressTrackId}
             />
@@ -493,12 +507,16 @@ function ExerciseContent({
           )}
           {exercise && exercise.content_type === "assessment" && (
             <Assessment
+              triger={triger}
+              setTriger={setTriger}
               res={assessmentResult}
               data={content}
-              exerciseId={exercise.id}
+              // exerciseId={exercise.id}
+              exerciseSlugId={exercise.slug_id}
               courseData={courseData}
               setCourseData={setCourseData}
               setProgressTrackId={setProgressTrackId}
+              lang={lang}
             />
           )}
         </Container>
