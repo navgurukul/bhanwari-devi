@@ -202,13 +202,18 @@ function Home(props) {
     }
     if (localStorage.getItem("locationState") == "/volunteer-with-us") {
       if (rolesList.includes("volunteer")) {
-        return <Redirect to={PATHS.CLASS} />;
+        <Redirect to={PATHS.CLASS} />;
+
+        return localStorage.removeItem("locationState");
       } else {
-        return <Redirect to={PATHS.VOLUNTEER_FORM} />;
+        <Redirect to={PATHS.VOLUNTEER_FORM} />;
+
+        return localStorage.removeItem("locationState");
       }
     }
     if (localStorage.getItem("locationState")) {
-      return defaultPage = localStorage.getItem("locationState");
+      defaultPage = localStorage.getItem("locationState");
+      return localStorage.removeItem("locationState");
     }
     if (userData.data.user.rolesList.length == 0) {
       return <Redirect to={"/user-dashboard"} />;
