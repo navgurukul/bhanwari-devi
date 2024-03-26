@@ -230,7 +230,7 @@ function PathwayExercise() {
   useEffect(() => {
     if(
       course[previousExerciseId]?.content_type !== "exercise" &&
-      !progressTrackId?.exercises?.includes(course[previousExerciseId].slug_id)
+      !progressTrackId?.exercises?.includes(course[previousExerciseId]?.slug_id)
     ) {
       // fixes #1105: https://github.com/navgurukul/bhanwari-devi/issues/1105
       // Manually add completed exercises (not assessments) as completed so don't make API
