@@ -128,6 +128,7 @@ function PathwayExercise() {
   const [course, setCourse] = useState([]);
   const [courseTitle, setCourseTitle] = useState("");
   const [exerciseId, setExerciseId] = useState(0);
+  const [previousExerciseId, setPreviousExerciseId] = useState(-1);
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
@@ -228,8 +229,8 @@ function PathwayExercise() {
 
   useEffect(() => {
     if(
-      course[exerciseId]?.content_type !== "exercise" &&
-      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
+      course[previousExerciseId]?.content_type !== "exercise" &&
+      !progressTrackId?.exercises?.includes(course[previousExerciseId].slug_id)
     ) {
       // fixes #1105: https://github.com/navgurukul/bhanwari-devi/issues/1105
       // Manually add completed exercises (not assessments) as completed so don't make API
@@ -249,6 +250,7 @@ function PathwayExercise() {
         })
         .catch((err) => {});
     }
+    setPreviousExerciseId(exerciseId);
   }, [exerciseId])
 
   const LangDropDown = () => {
