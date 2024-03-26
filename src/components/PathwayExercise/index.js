@@ -224,23 +224,32 @@ function PathwayExercise() {
       .catch((err) => {
         console.log(err);
       });
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization:
-          user.data?.token || localStorage.getItem("studentAuthToken") || "",
-      },
-    })
-      .then((res) => {
-        const data = res.data;
-
-        setProgressTrackId(data);
-      })
-      .catch((err) => {});
   }, [currentCourse, language]);
+
+  useEffect(() => {
+    if(
+      course[exerciseId]?.content_type !== "exercise" &&
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
+    ) {
+      // fixes #1105: https://github.com/navgurukul/bhanwari-devi/issues/1105
+      // Manually add completed exercises (not assessments) as completed so don't make API
+      //   request in this case or when the exercise has already been marked as completed
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        },
+      })
+        .then((res) => {
+          setProgressTrackId(res.data);
+        })
+        .catch((err) => {});
+    }
+  }, [exerciseId])
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
