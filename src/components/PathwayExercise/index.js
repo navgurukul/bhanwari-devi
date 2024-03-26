@@ -224,7 +224,7 @@ function PathwayExercise() {
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse, language]);
+  }, [courseId, language]);
 
   useEffect(() => {
     if(
