@@ -137,7 +137,6 @@ function PathwayExercise() {
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
-  const currentCourse = params.courseId;
   const scrollRef = React.useRef();
   const [language, setLanguage] = useState("en");
   // const [excersiseSlugId, setExerciseSlugId] = useState();
@@ -225,9 +224,6 @@ function PathwayExercise() {
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse, language, courseId]);
-
-  useEffect(() => {
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
@@ -244,7 +240,7 @@ function PathwayExercise() {
         setProgressTrackId(data);
       })
       .catch((err) => {});
-  }, [exerciseId]);
+  }, [currentCourse, language]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -317,61 +313,35 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
-          `,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization:
-              user.data?.token ||
-              localStorage.getItem("studentAuthToken") ||
-              "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            slug_id: course[exerciseId].slug_id,
-            type: "exercise",
-            lang: language,
-          },
-        });
-      }
-      setExerciseId(exerciseId + 1);
     } else {
-      setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
-          `,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization:
-              user.data?.token ||
-              localStorage.getItem("studentAuthToken") ||
-              "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            slug_id: course[exerciseId].slug_id,
-            type: "exercise",
-            lang: language,
-          },
-        });
-      }
     }
+    if (
+      course[exerciseId].content_type === "exercise" &&
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
+    ) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token ||
+            localStorage.getItem("studentAuthToken") ||
+            "",
+        },
+        data: {
+          pathway_id: params.pathwayId,
+          course_id: params.courseId,
+          slug_id: course[exerciseId].slug_id,
+          type: "exercise",
+          lang: language,
+        },
+      });
+      setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
+    }
+    setExerciseId(exerciseId + 1);
   };
   const nextArrowClickHandler = () => {
     if (exerciseId < courseLength - 1) {
@@ -411,6 +381,7 @@ function PathwayExercise() {
         .catch((err) => {
           console.log(err);
         });
+      setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
     }
   };
 
@@ -500,18 +471,6 @@ function PathwayExercise() {
                   ref={scrollRef}
                   className={classes.scrollContainer}
                 >
-                  {exerciseId >
-                  (
-                    <Exercise
-                      course={course}
-                      params={params}
-                      history={history}
-                      exerciseId={exerciseId + 1}
-                      setExerciseId={setExerciseId}
-                      classes={classes}
-                      progressTrackId={progressTrackId}
-                    />
-                  )}
                   <Exercise
                     course={course}
                     params={params}
