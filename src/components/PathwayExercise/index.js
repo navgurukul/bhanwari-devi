@@ -128,6 +128,7 @@ function PathwayExercise() {
   const [course, setCourse] = useState([]);
   const [courseTitle, setCourseTitle] = useState("");
   const [exerciseId, setExerciseId] = useState(0);
+  const [previousExerciseId, setPreviousExerciseId] = useState(-1);
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
@@ -137,7 +138,6 @@ function PathwayExercise() {
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
-  const currentCourse = params.courseId;
   const scrollRef = React.useRef();
   const [language, setLanguage] = useState("en");
   // const [excersiseSlugId, setExerciseSlugId] = useState();
@@ -175,6 +175,10 @@ function PathwayExercise() {
         });
       }
     }
+  };
+
+  const addCompletedExercise = () => {
+    setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
   };
 
   useEffect(() => {
@@ -225,26 +229,33 @@ function PathwayExercise() {
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse, language, courseId]);
+  }, [courseId, language]);
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization:
-          user.data?.token || localStorage.getItem("studentAuthToken") || "",
-      },
-    })
-      .then((res) => {
-        const data = res.data;
-
-        setProgressTrackId(data);
+    if(
+      course[previousExerciseId]?.content_type !== "exercise" &&
+      !progressTrackId?.exercises?.includes(course[previousExerciseId]?.slug_id)
+    ) {
+      // fixes #1105: https://github.com/navgurukul/bhanwari-devi/issues/1105
+      // Manually add completed exercises (not assessments) as completed so don't make API
+      //   request in this case or when the exercise has already been marked as completed
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        },
       })
-      .catch((err) => {});
-  }, [exerciseId]);
+        .then((res) => {
+          setProgressTrackId(res.data);
+        })
+        .catch((err) => {});
+    }
+    setPreviousExerciseId(exerciseId);
+  }, [exerciseId])
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -317,61 +328,37 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
-          `,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization:
-              user.data?.token ||
-              localStorage.getItem("studentAuthToken") ||
-              "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            slug_id: course[exerciseId].slug_id,
-            type: "exercise",
-            lang: language,
-          },
-        });
-      }
-      setExerciseId(exerciseId + 1);
     } else {
-      setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
-          `,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization:
-              user.data?.token ||
-              localStorage.getItem("studentAuthToken") ||
-              "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            slug_id: course[exerciseId].slug_id,
-            type: "exercise",
-            lang: language,
-          },
-        });
-      }
     }
+    if (
+      course[exerciseId].content_type === "exercise" &&
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
+    ) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token ||
+            localStorage.getItem("studentAuthToken") ||
+            "",
+        },
+        data: {
+          pathway_id: params.pathwayId,
+          course_id: params.courseId,
+          slug_id: course[exerciseId].slug_id,
+          type: "exercise",
+          lang: language,
+        },
+      }).then((res) => {
+        addCompletedExercise();
+      })
+      addCompletedExercise();
+    }
+    setExerciseId(exerciseId + 1);
   };
   const nextArrowClickHandler = () => {
     if (exerciseId < courseLength - 1) {
@@ -407,10 +394,15 @@ function PathwayExercise() {
       })
         .then((res) => {
           // console.log(res);
+          // add it here in case it gets overwritten as incomplete by a response from `/completedContent` 
+          // that comes in before the request marking it as complete is handled 
+          addCompletedExercise();
         })
         .catch((err) => {
           console.log(err);
         });
+      // add it here so it gets marked as completed before response comes in
+      addCompletedExercise();
     }
   };
 
@@ -500,18 +492,6 @@ function PathwayExercise() {
                   ref={scrollRef}
                   className={classes.scrollContainer}
                 >
-                  {exerciseId >
-                  (
-                    <Exercise
-                      course={course}
-                      params={params}
-                      history={history}
-                      exerciseId={exerciseId + 1}
-                      setExerciseId={setExerciseId}
-                      classes={classes}
-                      progressTrackId={progressTrackId}
-                    />
-                  )}
                   <Exercise
                     course={course}
                     params={params}

@@ -257,8 +257,6 @@ function Profile() {
       .catch((err) => {});
   };
 
-  // console.log(data.,"pathwayId")
-
   return (
     <>
       <Container

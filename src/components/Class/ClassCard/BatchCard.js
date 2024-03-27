@@ -174,7 +174,6 @@ function BatchCard({ item, editClass, setRefreshKey, showClass }) {
     });
   };
 
-  //console.log("indicator", indicator);
   /*
   const EnrolledAndTimer = () => {
     const timeLeftOptions = {
