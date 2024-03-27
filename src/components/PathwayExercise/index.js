@@ -177,6 +177,10 @@ function PathwayExercise() {
     }
   };
 
+  const addCompletedExercise = () => {
+    setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
+  };
+
   useEffect(() => {
     // Disable automatic scroll restoration
     if ("scrollRestoration" in window.history) {
@@ -349,8 +353,10 @@ function PathwayExercise() {
           type: "exercise",
           lang: language,
         },
-      });
-      setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
+      }).then((res) => {
+        addCompletedExercise();
+      })
+      addCompletedExercise();
     }
     setExerciseId(exerciseId + 1);
   };
@@ -388,11 +394,15 @@ function PathwayExercise() {
       })
         .then((res) => {
           // console.log(res);
+          // add it here in case it gets overwritten as incomplete by a response from `/completedContent` 
+          // that comes in before the request marking it as complete is handled 
+          addCompletedExercise();
         })
         .catch((err) => {
           console.log(err);
         });
-      setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
+      // add it here so it gets marked as completed before response comes in
+      addCompletedExercise();
     }
   };
 
