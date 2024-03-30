@@ -105,6 +105,20 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     }
   }, [inDropdown]);
 
+  const [scratchUrl, setScratchUrl] = useState(
+    `https://scratch.merakilearn.org/login`
+  );
+
+  useEffect(() => {
+    if (
+      window.location.origin === "http://localhost:3000" ||
+      window.location.origin ===
+        "https://www.merd-bhanwaridevi.merakilearn.org"
+    ) {
+      setScratchUrl(`https://dev.scratch.merakilearn.org/login`);
+    }
+  }, []);
+
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -199,9 +213,9 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
 
       {localStorage.getItem("studentAuth") ? (
         <a
-          href={`${
-            process.env.REACT_APP_SCRATCH_URL
-          }?studentAuth=${localStorage.getItem("studentAuthToken")}`}
+          href={`${scratchUrl}/?studentAuth=${localStorage.getItem(
+            "studentAuthToken"
+          )}`}
           target="_blank"
           style={{ textDecoration: "none", color: "black" }}
         >
