@@ -14,6 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
+import LoginWithStudentUserName from "./LoginWithStudentUserName";
 
 function Login(props) {
   const history = useHistory();
@@ -76,8 +77,8 @@ function Login(props) {
   const [amazonPathwayId, setAmazonPathwayId] = useState(null);
 
   useEffect(() => {
-    if(amazonPathwayId == null){
-      setAmazonPathwayId(amazonPathway && amazonPathway.id)
+    if (amazonPathwayId == null) {
+      setAmazonPathwayId(amazonPathway && amazonPathway.id);
     }
   }, [user]);
 
@@ -164,17 +165,18 @@ function Login(props) {
     <>
       <Container
         className={isActive ? classes.resMerakilogin : classes.merakiLogin}
-        maxWidth="lg"
+        maxWidth="md"
       >
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
             <Container maxWidth="md">
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
-                variant="h4"
+                variant="h6"
                 align={isActive || isActiveIpad ? "center" : "left"}
                 mt={isActive ? 0 : isActiveIpad ? 12 : 0}
                 color="textPrimary"
+                marginLeft="20px"
                 gutterBottom
               >
                 Embark on your learning journey with Meraki
@@ -192,7 +194,8 @@ function Login(props) {
                 </Box>
               ) : (
                 <Stack
-                  alignItems={isActive || isActiveIpad ? "center" : "left"}
+                  alignItems={isActive || isActiveIpad ? "center" : "center"}
+                  marginTop={0}
                 >
                   <GoogleLogin
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -207,8 +210,11 @@ function Login(props) {
                           backgroundColor: "white",
                           color: "black",
                           width: isActive ? "100%" : "max-content",
+                          // width:"100%",
                           margin: "10px 0",
                           fontSize: "18px",
+                          padding: "30px",
+                          paddingInline: "62px",
                         }}
                       >
                         Log In with Google
@@ -222,6 +228,7 @@ function Login(props) {
                         : classes.googleLogin
                     }
                   />
+                  <LoginWithStudentUserName />
                 </Stack>
               )}
             </Container>
@@ -231,9 +238,16 @@ function Login(props) {
             xs={12}
             ms={6}
             md={6}
-            sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
+            sx={{
+              mb: 0,
+              marginTop: "200px",
+              marginLeft: "-0",
+              width: "348.99px",
+              height: "348px",
+              display: { xs: "none", md: "flex" },
+            }}
           >
-            <img src={require("./assets/login.svg")} alt="img" />
+            <img src={require("./assets/login illustration.svg")} alt="img" />
           </Grid>
         </Grid>
       </Container>
