@@ -9,7 +9,15 @@ import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import { Typography, Container, Grid, Stack, Box, Button } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Grid,
+  Stack,
+  Box,
+  Button,
+  TextField,
+} from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
@@ -26,8 +34,51 @@ function Login(props) {
     setqueryString(value);
   };
   const { loading, data } = useSelector(({ User }) => User);
-  const rolesList = data !== null && data.user.rolesList;
-  const isAuthenticated = data && data.isAuthenticated;
+  const rolesList = data !== null && data?.user?.rolesList;
+  const isAuthenticated = data && data?.isAuthenticated;
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setIsEmpty(false);
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors({ username: "", password: "" });
+    if (formData.username === "" && formData.password === "") {
+      setIsEmpty(true);
+      setErrors({
+        ...errors,
+        username: "Please enter a username",
+        password: "Please enter a password",
+      });
+      return;
+    }
+    if (formData.username === "") {
+      setIsEmpty(true);
+      setErrors({ ...errors, username: "Please enter a username" });
+      return;
+    }
+    if (formData.password === "") {
+      setIsEmpty(true);
+      setErrors({ ...errors, password: "Please enter a password" });
+      return;
+    }
+    dispatch(userActions.onUserLogin(formData));
+  };
 
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
@@ -47,6 +98,13 @@ function Login(props) {
   }
 
   useEffect(() => {
+    if (user.error) {
+      if (user.error.message.includes("Invalid username or password.")) {
+        setErrors({ ...errors, username: "This username does not exist" });
+      } else if (user.error.message.includes("The password does not match")) {
+        setErrors({ ...errors, password: user.error.message });
+      }
+    }
     dispatch(
       pathwayActions.getPathways({
         authToken: user,
@@ -76,8 +134,8 @@ function Login(props) {
   const [amazonPathwayId, setAmazonPathwayId] = useState(null);
 
   useEffect(() => {
-    if(amazonPathwayId == null){
-      setAmazonPathwayId(amazonPathway && amazonPathway.id)
+    if (amazonPathwayId == null) {
+      setAmazonPathwayId(amazonPathway && amazonPathway.id);
     }
   }, [user]);
 
@@ -164,14 +222,21 @@ function Login(props) {
     <>
       <Container
         className={isActive ? classes.resMerakilogin : classes.merakiLogin}
+        sx={{ width: "768px", height: "571px", marginTop: "-60px" }}
         maxWidth="lg"
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} ms={6} md={6}>
+          <Grid
+            item
+            xs={12}
+            ms={6}
+            md={6}
+            sx={{ gap: "32px", width: "352px", height: "571px" }}
+          >
             <Container maxWidth="md">
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
-                variant="h4"
+                variant="h6"
                 align={isActive || isActiveIpad ? "center" : "left"}
                 mt={isActive ? 0 : isActiveIpad ? 12 : 0}
                 color="textPrimary"
@@ -208,6 +273,7 @@ function Login(props) {
                           color: "black",
                           width: isActive ? "100%" : "max-content",
                           margin: "10px 0",
+                          paddingInline: "50px",
                           fontSize: "18px",
                         }}
                       >
@@ -222,6 +288,132 @@ function Login(props) {
                         : classes.googleLogin
                     }
                   />
+                  <Typography
+                    variant="subtitle1"
+                    fontSize="12px"
+                    textAlign="center"
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: "10px",
+                        padding: "20px 0",
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: "1px",
+                          width: "40%",
+                          backgroundColor: "gray",
+                        }}
+                      ></div>
+                      <Typography
+                        variant="body1"
+                        style={{
+                          fontSize: "12px",
+                          color: "black",
+                          whiteSpace: "nowrap",
+                          backgroundColor: "white",
+                        }}
+                      >
+                        or login with Username and Password
+                      </Typography>
+                      <div
+                        style={{
+                          height: "1px",
+                          width: "40%",
+                          backgroundColor: "gray",
+                        }}
+                      ></div>
+                    </div>
+                  </Typography>
+                  <form onSubmit={handleSubmit}>
+                    <Box
+                      sx={{
+                        marginBottom: errors.username ? "40px" : "25px",
+                        marginBlock: "10px",
+                      }}
+                    >
+                      <TextField
+                        fullWidth
+                        id="username"
+                        name="username"
+                        placeholder="Username"
+                        label={user.error ? "Username" : ""}
+                        value={formData.username}
+                        onChange={handleChange}
+                        error={!!errors.username}
+                        helperText={errors.username}
+                        InputProps={{
+                          sx: {
+                            borderRadius: "8px",
+                            padding: "25px 2px",
+                            height: "56px",
+                            color: isEmpty && "red",
+                          },
+                        }}
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{
+                        marginBottom: errors.password ? "40px" : "25px",
+                        marginBlock: "25px",
+                      }}
+                    >
+                      <TextField
+                        fullWidth
+                        id="password"
+                        name="password"
+                        type={"password"}
+                        placeholder="Password"
+                        label={user.error ? "Password" : ""}
+                        value={formData.password}
+                        onChange={handleChange}
+                        error={!!errors.password}
+                        helperText={errors.password}
+                        InputProps={{
+                          sx: {
+                            borderRadius: "8px",
+                            padding: "25px 2px",
+                            height: "56px",
+                            color: isEmpty && "red",
+                          },
+                        }}
+                      />
+                    </Box>
+
+                    <Grid container justifyContent="center" sx={{ mb: 3 }}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={loading}
+                        sx={{
+                          borderRadius: "10px",
+                          padding: "18px",
+                          width: "100%",
+                        }}
+                      >
+                        Login
+                      </Button>
+                    </Grid>
+
+                    <Grid container justifyContent="left" sx={{ mb: 4 }}>
+                      <Typography variant="subtitle1" fontSize="12px">
+                        Forgot password or Don't have login details?
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        fontSize="13px"
+                        textAlign="left"
+                      >
+                        Please connect with your teacher to get the Username and
+                        Password
+                      </Typography>
+                    </Grid>
+                  </form>
                 </Stack>
               )}
             </Container>
@@ -231,9 +423,15 @@ function Login(props) {
             xs={12}
             ms={6}
             md={6}
-            sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
+            sx={{
+              mb: 5,
+              width: "348px",
+              height: "348px",
+              marginTop: "190px",
+              display: { xs: "none", md: "flex" },
+            }}
           >
-            <img src={require("./assets/login.svg")} alt="img" />
+            <img src={require("./assets/login illustration.png")} alt="img" />
           </Grid>
         </Grid>
       </Container>

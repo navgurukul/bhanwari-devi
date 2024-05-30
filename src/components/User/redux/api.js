@@ -1,5 +1,6 @@
 import axios from "axios";
 import { METHODS, HeaderFactory } from "../../../services/api";
+import { convertLength } from "@mui/material/styles/cssUtils";
 
 /**
  * Sends google id-token to meraki back-end to register the user.
@@ -17,6 +18,17 @@ export const sendGoogleUserData = (userData, tokens) => {
     data: {
       idToken: userData.idToken,
       mode: "web",
+    },
+  });
+};
+
+export const sendUserCredentials = async (userData) => {
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/users/auth/merakiStudent`,
+    method: METHODS.POST,
+    data: {
+      user_name: userData.username,
+      password: userData.password,
     },
   });
 };
