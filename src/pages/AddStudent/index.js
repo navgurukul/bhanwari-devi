@@ -1,32 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "./style.scss";
-import { useEffect, useRef } from "react";
 import { METHODS } from "../../services/api";
-import FormHelperText from "@mui/material/FormHelperText";
+import {
+  TextField,
+  Box,
+  InputAdornment,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FormHelperText } from "@mui/material";
 
 function AddStudent({
   openEditForm,
   setOpenEditForm,
   userId,
   userName,
-  setTriggerdGet,
+  userEmail,
+  setTriggeredGet,
 }) {
   const [openForm, setOpenForm] = useState(false);
-  const [studentEmail, setStudentEmail] = useState("");
-  const [studentName, setStudentName] = useState();
+  const [studentEmail, setStudentEmail] = useState(userEmail || "");
+  const [studentName, setStudentName] = useState(userName || "");
+  const [newUserName, setNewUserName] = useState(userName || "");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginMethod, setLoginMethod] = useState(
+    userEmail ? "email" : "username"
+  );
   const user = useSelector(({ User }) => User);
   const partnerId = window.location.pathname.split("/")[2];
   const [error, setError] = useState(false);
   const [errorData, setErrorData] = useState("");
+  const [isEmpty, setIsEmpty] = useState("");
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handlePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const validateForm = () => {
+    if (!studentName) return "Student name is required";
+    if (loginMethod === "email" && !studentEmail) return "Email is required";
+    if (
+      loginMethod === "username" &&
+      (!newUserName || (!password && !openEditForm))
+    )
+      return "Username and Password are required";
+    return null;
+  };
 
   const submit = () => {
+    setErrors({ username: "", password: "" });
+
+    if (!studentName) {
+      setIsEmpty(true);
+      setErrors({ ...errors, username: "Please enter a student name" });
+      return;
+    }
+
+    if (loginMethod === "email" && !studentEmail) {
+      setIsEmpty(true);
+      setErrors({ ...errors, username: "Please enter an email" });
+      return;
+    }
+
+    if (
+      loginMethod === "username" &&
+      (!newUserName || (!password && !openEditForm))
+    ) {
+      setIsEmpty(true);
+      setErrors({
+        ...errors,
+        username: "Please enter a username",
+        password: "Please enter a password",
+      });
+      return;
+    }
+
+    if (loginMethod === "username" && !newUserName) {
+      setIsEmpty(true);
+      setErrors({ ...errors, username: "Please enter a username" });
+      return;
+    }
+
+    setError(false);
+
     if (openEditForm) {
       setOpenEditForm(false);
       editStudent();
-      setStudentName(null);
+      setStudentName("");
     } else {
       setOpenForm(false);
       addStudent();
@@ -34,6 +109,11 @@ function AddStudent({
   };
 
   const editStudent = () => {
+    const data = { name: studentName };
+    if (password) {
+      data.password = password;
+    }
+
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${userId}/user`,
       method: METHODS.PUT,
@@ -41,16 +121,13 @@ function AddStudent({
         "Content-Type": "application/json",
         Authorization: user.data.token,
       },
-      data: {
-        name: studentName,
-      },
+      data,
     })
       .then((data) => {
         if (data.data.error) throw new Error(data.data.message);
-        toast.success(`Student name ${data.data.message}`, {
+        toast.success(`Student ${data.data.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        setTriggerdGet(true);
       })
       .catch((e) => {
         toast.error(
@@ -63,24 +140,32 @@ function AddStudent({
   };
 
   const addStudent = () => {
+    const url = `${process.env.REACT_APP_MERAKI_URL}/partners/addUser?partner_id=${partnerId}`;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: user.data.token,
+    };
+    const data =
+      loginMethod === "email"
+        ? { name: studentName, email: studentEmail }
+        : { name: studentName, user_name: newUserName, password: password };
     return axios({
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners/addUser?partner_id=${partnerId}`,
+      url,
       method: METHODS.POST,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: user.data.token,
-      },
-      data: {
-        email: studentEmail,
-      },
+      headers,
+      data,
     })
-      .then((data) => {
-        if (data.data.error) throw new Error(data.data.message);
+      .then((response) => {
+        if (response.data.error) throw new Error(response.data.message);
         toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         window.location.reload(1);
-        setOpenForm(false);
+        setNewUserName("");
+        setStudentName("");
+        setPassword("");
+        setStudentEmail("");
+        // setTriggeredGet(true)
       })
       .catch((e) => {
         setErrorData(e.message);
@@ -88,19 +173,13 @@ function AddStudent({
         setOpenForm(true);
       });
   };
-
   return (
     <>
-      <button
-        onClick={() => {
-          setOpenForm(true);
-        }}
-        className="add_student_btn"
-      >
+      <button onClick={() => setOpenForm(true)} className="add_student_btn">
         Add Student
       </button>
 
-      {openEditForm || openForm ? (
+      {(openEditForm || openForm) && (
         <div className="add_student_form_background">
           <OutsideAlerter
             handleClick={() => {
@@ -120,71 +199,132 @@ function AddStudent({
                   X
                 </span>
                 {openEditForm ? (
-                  <h2>Edit Student Name</h2>
+                  <h2 className="Edit">Edit Student</h2>
                 ) : (
-                  <h2>Add New Student</h2>
+                  <h2 className="left">Add New Student</h2>
                 )}
-                {openEditForm ? (
+                <TextField
+                  className="student_data_field"
+                  placeholder="Name of Student"
+                  type="text"
+                  name="name"
+                  required
+                  aria-required
+                  onChange={(e) => setStudentName(e.target.value)}
+                  value={studentName}
+                  variant="outlined"
+                  fullWidth
+                />
+                <Typography variant="h6" marginTop={5}>
+                  Login Method
+                </Typography>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    aria-label="loginMethod"
+                    name="loginMethod"
+                    value={loginMethod}
+                    onChange={(e) => setLoginMethod(e.target.value)}
+                    row
+                    disabled={openEditForm}
+                  >
+                    <FormControlLabel
+                      value="email"
+                      control={<Radio />}
+                      label="Email"
+                      disabled={openEditForm}
+                    />
+                    <FormControlLabel
+                      value="username"
+                      control={<Radio />}
+                      label="Username and Password"
+                      disabled={openEditForm}
+                    />
+                  </RadioGroup>
+                </FormControl>
+                {loginMethod === "email" ? (
+                  <TextField
+                    className="student_data_field"
+                    placeholder="Email ID of Student"
+                    type="email"
+                    name="email"
+                    required
+                    aria-required
+                    onChange={(e) => setStudentEmail(e.target.value)}
+                    value={studentEmail}
+                    variant="outlined"
+                    fullWidth
+                    disabled={openEditForm}
+                    sx={{ mt: 1 }}
+                  />
+                ) : (
                   <>
-                    <label>Name of Student</label>
-                    <input
+                    <TextField
                       className="student_data_field"
-                      placeholder="Name of Student"
+                      placeholder="Username"
                       type="text"
-                      name="name"
+                      name="user_name"
                       required
                       aria-required
-                      onChange={(e) => {
-                        setStudentName(e.target.value);
-                      }}
-                      value={studentName}
+                      onChange={(e) => setNewUserName(e.target.value)}
+                      value={newUserName}
+                      variant="outlined"
+                      fullWidth
+                      disabled={openEditForm}
+                      sx={{ mt: 1 }}
                     />
-                  </>
-                ) : null}
-
-                {openEditForm ? null : (
-                  <>
-                    <label>Email of Student</label>
-                    <input
+                    <TextField
                       className="student_data_field"
-                      placeholder="Email ID of Student"
-                      type="email"
-                      name="email"
-                      required
-                      aria-required
-                      onChange={(e) => {
-                        setStudentEmail(e.target.value);
+                      placeholder="Password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      aria-required={!openEditForm}
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                      variant="outlined"
+                      fullWidth
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            <IconButton
+                              onClick={handlePasswordVisibility}
+                            ></IconButton>
+                          </InputAdornment>
+                        ),
                       }}
-                      value={studentEmail}
                     />
-                    {error && (
-                      <FormHelperText error={true} id="component-error-text">
-                        {errorData}
-                      </FormHelperText>
-                    )}
                   </>
+                )}
+                {error && (
+                  <FormHelperText error={true} id="component-error-text">
+                    {errorData}
+                  </FormHelperText>
                 )}
                 <button
                   className="add_student_form_btn"
-                  onClick={() => {
-                    submit();
-                  }}
-                  disabled={openEditForm ? !studentName : !studentEmail}
+                  onClick={submit}
+                  disabled={
+                    openEditForm
+                      ? false
+                      : loginMethod === "email"
+                      ? !studentEmail
+                      : !newUserName || !password
+                  }
                 >
-                  {openEditForm ? "Edit" : "Submit"}
+                  {openEditForm ? "Edit" : "Add Student"}
                 </button>
               </div>
             </div>
           </OutsideAlerter>
         </div>
-      ) : (
-        ""
       )}
     </>
   );
 }
 
 export default AddStudent;
+
 function useOutsideAlerter(ref, handleClick = false) {
   useEffect(() => {
     function handleClickOutside(event) {
@@ -192,8 +332,8 @@ function useOutsideAlerter(ref, handleClick = false) {
         handleClick();
       }
     }
-
     document.addEventListener("click", handleClickOutside);
+
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
