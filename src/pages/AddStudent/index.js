@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { FormHelperText } from "@mui/material";
-
 function AddStudent({
   openEditForm,
   setOpenEditForm,
@@ -28,6 +27,7 @@ function AddStudent({
   userEmail,
   setTriggeredGet,
 }) {
+  console.log(userName);
   const [openForm, setOpenForm] = useState(false);
   const [studentEmail, setStudentEmail] = useState(userEmail || "");
   const [studentName, setStudentName] = useState(userName || "");
@@ -41,63 +41,38 @@ function AddStudent({
   const partnerId = window.location.pathname.split("/")[2];
   const [error, setError] = useState(false);
   const [errorData, setErrorData] = useState("");
-  const [isEmpty, setIsEmpty] = useState("");
   const [errors, setErrors] = useState({
-    username: "",
+    studentName: "",
+    studentEmail: "",
+    newUserName: "",
     password: "",
   });
-
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  const validateForm = () => {
-    if (!studentName) return "Student name is required";
-    if (loginMethod === "email" && !studentEmail) return "Email is required";
-    if (
-      loginMethod === "username" &&
-      (!newUserName || (!password && !openEditForm))
-    )
-      return "Username and Password are required";
-    return null;
-  };
-
+  console.log(studentName);
   const submit = () => {
-    setErrors({ username: "", password: "" });
-
+    let validationErrors = {};
     if (!studentName) {
-      setIsEmpty(true);
-      setErrors({ ...errors, username: "Please enter a student name" });
-      return;
+      validationErrors.studentName = "Please enter a student name";
     }
-
     if (loginMethod === "email" && !studentEmail) {
-      setIsEmpty(true);
-      setErrors({ ...errors, username: "Please enter an email" });
-      return;
+      validationErrors.studentEmail = "Please enter an email";
     }
-
     if (
       loginMethod === "username" &&
       (!newUserName || (!password && !openEditForm))
     ) {
-      setIsEmpty(true);
-      setErrors({
-        ...errors,
-        username: "Please enter a username",
-        password: "Please enter a password",
-      });
+      if (!newUserName)
+        validationErrors.newUserName = "Please enter a username";
+      if (!password && !openEditForm)
+        validationErrors.password = "Please enter a password";
+    }
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
-
-    if (loginMethod === "username" && !newUserName) {
-      setIsEmpty(true);
-      setErrors({ ...errors, username: "Please enter a username" });
-      return;
-    }
-
     setError(false);
-
     if (openEditForm) {
       setOpenEditForm(false);
       editStudent();
@@ -107,13 +82,11 @@ function AddStudent({
       addStudent();
     }
   };
-
   const editStudent = () => {
     const data = { name: studentName };
     if (password) {
       data.password = password;
     }
-
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${userId}/user`,
       method: METHODS.PUT,
@@ -138,7 +111,6 @@ function AddStudent({
         );
       });
   };
-
   const addStudent = () => {
     const url = `${process.env.REACT_APP_MERAKI_URL}/partners/addUser?partner_id=${partnerId}`;
     const headers = {
@@ -165,7 +137,6 @@ function AddStudent({
         setStudentName("");
         setPassword("");
         setStudentEmail("");
-        // setTriggeredGet(true)
       })
       .catch((e) => {
         setErrorData(e.message);
@@ -178,7 +149,6 @@ function AddStudent({
       <button onClick={() => setOpenForm(true)} className="add_student_btn">
         Add Student
       </button>
-
       {(openEditForm || openForm) && (
         <div className="add_student_form_background">
           <OutsideAlerter
@@ -210,10 +180,15 @@ function AddStudent({
                   name="name"
                   required
                   aria-required
-                  onChange={(e) => setStudentName(e.target.value)}
+                  onChange={(e) => {
+                    setStudentName(e.target.value);
+                    setErrors({ ...errors, studentName: "" });
+                  }}
                   value={studentName}
                   variant="outlined"
                   fullWidth
+                  error={!!errors.studentName}
+                  helperText={errors.studentName}
                 />
                 <Typography variant="h6" marginTop={5}>
                   Login Method
@@ -242,20 +217,27 @@ function AddStudent({
                   </RadioGroup>
                 </FormControl>
                 {loginMethod === "email" ? (
-                  <TextField
-                    className="student_data_field"
-                    placeholder="Email ID of Student"
-                    type="email"
-                    name="email"
-                    required
-                    aria-required
-                    onChange={(e) => setStudentEmail(e.target.value)}
-                    value={studentEmail}
-                    variant="outlined"
-                    fullWidth
-                    disabled={openEditForm}
-                    sx={{ mt: 1 }}
-                  />
+                  <>
+                    <TextField
+                      className="student_data_field"
+                      placeholder="Email ID of Student"
+                      type="email"
+                      name="email"
+                      required
+                      aria-required
+                      onChange={(e) => {
+                        setStudentEmail(e.target.value);
+                        setErrors({ ...errors, studentEmail: "" });
+                      }}
+                      value={studentEmail}
+                      variant="outlined"
+                      fullWidth
+                      disabled={openEditForm}
+                      sx={{ mt: 1 }}
+                      error={!!errors.studentEmail}
+                      helperText={errors.studentEmail}
+                    />
+                  </>
                 ) : (
                   <>
                     <TextField
@@ -265,12 +247,17 @@ function AddStudent({
                       name="user_name"
                       required
                       aria-required
-                      onChange={(e) => setNewUserName(e.target.value)}
+                      onChange={(e) => {
+                        setNewUserName(e.target.value);
+                        setErrors({ ...errors, newUserName: "" });
+                      }}
                       value={newUserName}
                       variant="outlined"
                       fullWidth
                       disabled={openEditForm}
                       sx={{ mt: 1 }}
+                      error={!!errors.newUserName}
+                      helperText={errors.newUserName}
                     />
                     <TextField
                       className="student_data_field"
@@ -278,7 +265,10 @@ function AddStudent({
                       type={showPassword ? "text" : "password"}
                       name="password"
                       aria-required={!openEditForm}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setErrors({ ...errors, password: "" });
+                      }}
                       value={password}
                       variant="outlined"
                       fullWidth
@@ -286,13 +276,18 @@ function AddStudent({
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                            <IconButton
-                              onClick={handlePasswordVisibility}
-                            ></IconButton>
+                            <IconButton onClick={handlePasswordVisibility}>
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
                           </InputAdornment>
                         ),
                       }}
+                      error={!!errors.password}
+                      helperText={errors.password}
                     />
                   </>
                 )}
@@ -322,9 +317,7 @@ function AddStudent({
     </>
   );
 }
-
 export default AddStudent;
-
 function useOutsideAlerter(ref, handleClick = false) {
   useEffect(() => {
     function handleClickOutside(event) {
@@ -333,17 +326,14 @@ function useOutsideAlerter(ref, handleClick = false) {
       }
     }
     document.addEventListener("click", handleClickOutside);
-
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [ref, handleClick]);
 }
-
 function OutsideAlerter(props) {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, props.handleClick);
-
   return (
     <div ref={wrapperRef} className="d-inline">
       {props.children}
