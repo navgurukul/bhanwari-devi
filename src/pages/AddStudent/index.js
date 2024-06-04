@@ -27,16 +27,13 @@ function AddStudent({
   userEmail,
   setTriggeredGet,
 }) {
-  console.log(userName);
   const [openForm, setOpenForm] = useState(false);
-  const [studentEmail, setStudentEmail] = useState(userEmail || "");
-  const [studentName, setStudentName] = useState(userName || "");
-  const [newUserName, setNewUserName] = useState(userName || "");
+  const [studentEmail, setStudentEmail] = useState("");
+  const [studentName, setStudentName] = useState("");
+  const [newUserName, setNewUserName] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loginMethod, setLoginMethod] = useState(
-    userEmail ? "email" : "username"
-  );
+  const [loginMethod, setLoginMethod] = useState("email");
   const user = useSelector(({ User }) => User);
   const partnerId = window.location.pathname.split("/")[2];
   const [error, setError] = useState(false);
@@ -47,10 +44,24 @@ function AddStudent({
     newUserName: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (openEditForm) {
+      setStudentName(userName);
+      setStudentEmail(userEmail);
+      setLoginMethod(userEmail ? "email" : "username");
+    } else {
+      setStudentName("");
+      setStudentEmail("");
+      setNewUserName("");
+      setPassword("");
+    }
+  }, [openEditForm, userName, userEmail]);
+
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  console.log(studentName);
+
   const submit = () => {
     let validationErrors = {};
     if (!studentName) {
@@ -76,12 +87,12 @@ function AddStudent({
     if (openEditForm) {
       setOpenEditForm(false);
       editStudent();
-      setStudentName("");
     } else {
       setOpenForm(false);
       addStudent();
     }
   };
+
   const editStudent = () => {
     const data = { name: studentName };
     if (password) {
@@ -111,6 +122,7 @@ function AddStudent({
         );
       });
   };
+
   const addStudent = () => {
     const url = `${process.env.REACT_APP_MERAKI_URL}/partners/addUser?partner_id=${partnerId}`;
     const headers = {
@@ -144,9 +156,16 @@ function AddStudent({
         setOpenForm(true);
       });
   };
+
   return (
     <>
-      <button onClick={() => setOpenForm(true)} className="add_student_btn">
+      <button
+        onClick={() => {
+          setOpenForm(true);
+          setOpenEditForm(false);
+        }}
+        className="add_student_btn"
+      >
         Add Student
       </button>
       {(openEditForm || openForm) && (
@@ -317,6 +336,7 @@ function AddStudent({
     </>
   );
 }
+
 export default AddStudent;
 function useOutsideAlerter(ref, handleClick = false) {
   useEffect(() => {
