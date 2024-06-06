@@ -16,6 +16,8 @@ import { Redirect } from "react-router-dom";
 import AddStudent from "../../../pages/AddStudent/index.js";
 import { toast } from "react-toastify";
 import { hasOneFrom } from "../../../common/utils";
+import { Box, Button } from "@mui/material";
+import { Typography } from "@material-ui/core";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -43,7 +45,7 @@ function StudentData() {
   const user = useSelector(({ User }) => User);
   const [openEditForm, setOpenEditForm] = useState(false);
   const [userId, setUserId] = useState();
-  const [partneName, setPartneName] = useState();
+  const [partnerName, setpartnerName] = useState();
   const [userName, setUserName] = useState();
   const [isDisabled, setDisabled] = useState(true);
   const [triggerdGet, setTriggerdGet] = useState(false);
@@ -61,6 +63,7 @@ function StudentData() {
       headers: { accept: "application/json", Authorization: user.data.token },
     })
       .then((res) => {
+        setpartnerName(res.data.partner_name);
         if (
           id == user.data.user.partner_id ||
           hasOneFrom(user.data.user.rolesList, [
@@ -133,7 +136,7 @@ function StudentData() {
               data.slice(pageNumber * limit, (pageNumber + 1) * limit)
             );
             setTotalCount(data.length);
-            setPartneName(res.data.partner_name);
+            setpartnerName(res.data.partner_name);
           }
         }
       })
@@ -154,6 +157,16 @@ function StudentData() {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+
+  //  todays date in the formate like 4 june 2024
+  const today = new Date();
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = today.toLocaleDateString("en-US", options);
 
   const sortStudents = (byMethod) => {
     const student = filteredData ? filter : students;
@@ -320,9 +333,66 @@ function StudentData() {
     ]) ||
     user.data.user.partner_id == id
   ) {
-    return (
+    // writing a function which calls the get api while clicking on the download report button
+
+    const downloadReport = (url) => {
+      axios({
+        method: METHODS.GET,
+        url: url,
+        headers: { accept: "application/json", Authorization: user.data.token },
+        responseType: "blob",
+      })
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "report.csv");
+          document.body.appendChild(link);
+          link.click();
+          // document.body.removeChild(link);
+          // window.URL.revokeObjectURL(url);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    // Usage:
+    // For the first API ,student Progress Report
+    const studentReport1 = () => {
+      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/progress/roport`; // Replace with your actual URL
+      downloadReport(reportUrl);
+    };
+    // For the second API ,,student Progress Report(_last 7 days)
+
+    const studentReport2 = () => {
+      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/last-week/login-report`; // Replace with your actual URL
+      downloadReport(reportUrl);
+    };
+
+    return id == 1359 ? (
       <div className="container-table">
-        <h3 className="partner-name">{partneName}</h3>
+        <Typography variant="h4" sx={{ mb: 4 }}>
+          {partnerName}
+        </Typography>
+        <Box my={4}>
+          <Typography variant="h5">MC Digital Course - 1</Typography>
+          <Typography variant="body1">
+            Student Progress Report (Last Updated on {formattedDate} at 2:30 AM)
+          </Typography>
+        </Box>
+        <Box display="flex" gap={2} my={2}>
+          <Button variant="contained" onClick={studentReport1}>
+            Download Report
+          </Button>
+          <Button variant="outlined" onClick={studentReport2}>
+            Download Report for Last 7 Days{" "}
+          </Button>
+        </Box>
+      </div>
+    ) : (
+      <div className="container-table">
+        <h3 className="partner-name">{partnerName}</h3>
         <div className="container-for-search">
           <div>
             <input
