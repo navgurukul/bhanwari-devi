@@ -9,19 +9,12 @@ import { getQueryVariable } from "../../common/utils";
 import Loader from "../../components/common/Loader";
 import { METHODS } from "../../services/api";
 import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
-import {
-  Typography,
-  Container,
-  Grid,
-  Stack,
-  Box,
-  Button,
-  TextField,
-} from "@mui/material";
+import { Typography, Container, Grid, Stack, Box, Button } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
+import StudentLogin from "./StudentLogin";
 
 function Login(props) {
   const history = useHistory();
@@ -36,11 +29,11 @@ function Login(props) {
   const { loading, data } = useSelector(({ User }) => User);
   const rolesList = data !== null && data?.user?.rolesList;
   const isAuthenticated = data && data?.isAuthenticated;
-  const [isEmpty, setIsEmpty] = useState(false);
 
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    showPassword: false,
   });
 
   const [errors, setErrors] = useState({
@@ -48,8 +41,14 @@ function Login(props) {
     password: "",
   });
 
+  const handlePasswordVisibility = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      showPassword: !prevFormData.showPassword,
+    }));
+  };
+
   const handleChange = (e) => {
-    setIsEmpty(false);
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
@@ -58,22 +57,17 @@ function Login(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({ username: "", password: "" });
-    if (formData.username === "" && formData.password === "") {
-      setIsEmpty(true);
+    if (!formData.username && !formData.password) {
       setErrors({
         ...errors,
         username: "Please enter a username",
         password: "Please enter a password",
       });
       return;
-    }
-    if (formData.username === "") {
-      setIsEmpty(true);
+    } else if (!formData.username) {
       setErrors({ ...errors, username: "Please enter a username" });
       return;
-    }
-    if (formData.password === "") {
-      setIsEmpty(true);
+    } else if (!formData.password) {
       setErrors({ ...errors, password: "Please enter a password" });
       return;
     }
@@ -222,17 +216,15 @@ function Login(props) {
     <>
       <Container
         className={isActive ? classes.resMerakilogin : classes.merakiLogin}
-        sx={{ width: "768px", height: "571px", marginTop: "-60px" }}
+        sx={{
+          width: isActive ? "auto" : "768px",
+          height: isActive ? "auto" : "571px",
+          marginTop: isActive ? "0" : "-60px",
+        }}
         maxWidth="lg"
       >
         <Grid container spacing={2}>
-          <Grid
-            item
-            xs={12}
-            ms={6}
-            md={6}
-            sx={{ gap: "32px", width: "352px", height: "571px" }}
-          >
+          <Grid item xs={12} ms={6} md={6}>
             <Container maxWidth="md">
               <Typography
                 sx={{ pt: { xs: "none", md: 24 } }}
@@ -288,132 +280,14 @@ function Login(props) {
                         : classes.googleLogin
                     }
                   />
-                  <Typography
-                    variant="subtitle1"
-                    fontSize="12px"
-                    textAlign="center"
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: "10px",
-                        padding: "20px 0",
-                      }}
-                    >
-                      <div
-                        style={{
-                          height: "1px",
-                          width: "40%",
-                          backgroundColor: "gray",
-                        }}
-                      ></div>
-                      <Typography
-                        variant="body1"
-                        style={{
-                          fontSize: "12px",
-                          color: "black",
-                          whiteSpace: "nowrap",
-                          backgroundColor: "white",
-                        }}
-                      >
-                        or login with Username and Password
-                      </Typography>
-                      <div
-                        style={{
-                          height: "1px",
-                          width: "40%",
-                          backgroundColor: "gray",
-                        }}
-                      ></div>
-                    </div>
-                  </Typography>
-                  <form onSubmit={handleSubmit}>
-                    <Box
-                      sx={{
-                        marginBottom: errors.username ? "40px" : "25px",
-                        marginBlock: "10px",
-                      }}
-                    >
-                      <TextField
-                        fullWidth
-                        id="username"
-                        name="username"
-                        placeholder="Username"
-                        label={user.error ? "Username" : ""}
-                        value={formData.username}
-                        onChange={handleChange}
-                        error={!!errors.username}
-                        helperText={errors.username}
-                        InputProps={{
-                          sx: {
-                            borderRadius: "8px",
-                            padding: "25px 2px",
-                            height: "56px",
-                            color: isEmpty && "red",
-                          },
-                        }}
-                      />
-                    </Box>
-
-                    <Box
-                      sx={{
-                        marginBottom: errors.password ? "40px" : "25px",
-                        marginBlock: "25px",
-                      }}
-                    >
-                      <TextField
-                        fullWidth
-                        id="password"
-                        name="password"
-                        type={"password"}
-                        placeholder="Password"
-                        label={user.error ? "Password" : ""}
-                        value={formData.password}
-                        onChange={handleChange}
-                        error={!!errors.password}
-                        helperText={errors.password}
-                        InputProps={{
-                          sx: {
-                            borderRadius: "8px",
-                            padding: "25px 2px",
-                            height: "56px",
-                            color: isEmpty && "red",
-                          },
-                        }}
-                      />
-                    </Box>
-
-                    <Grid container justifyContent="center" sx={{ mb: 3 }}>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        disabled={loading}
-                        sx={{
-                          borderRadius: "10px",
-                          padding: "18px",
-                          width: "100%",
-                        }}
-                      >
-                        Login
-                      </Button>
-                    </Grid>
-
-                    <Grid container justifyContent="left" sx={{ mb: 4 }}>
-                      <Typography variant="subtitle1" fontSize="12px">
-                        Forgot password or Don't have login details?
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        fontSize="13px"
-                        textAlign="left"
-                      >
-                        Please connect with your teacher to get the Username and
-                        Password
-                      </Typography>
-                    </Grid>
-                  </form>
+                  <StudentLogin
+                    handleSubmit={handleSubmit}
+                    errors={errors}
+                    formData={formData}
+                    handleChange={handleChange}
+                    handlePasswordVisibility={handlePasswordVisibility}
+                    loading={loading}
+                  />
                 </Stack>
               )}
             </Container>

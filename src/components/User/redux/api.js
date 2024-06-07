@@ -1,6 +1,5 @@
 import axios from "axios";
 import { METHODS, HeaderFactory } from "../../../services/api";
-import { convertLength } from "@mui/material/styles/cssUtils";
 
 /**
  * Sends google id-token to meraki back-end to register the user.
