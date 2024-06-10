@@ -349,8 +349,6 @@ function StudentData() {
           link.setAttribute("download", "report.csv");
           document.body.appendChild(link);
           link.click();
-          // document.body.removeChild(link);
-          // window.URL.revokeObjectURL(url);
         })
         .catch((err) => {
           console.log(err);
@@ -360,13 +358,13 @@ function StudentData() {
     // Usage:
     // For the first API ,student Progress Report
     const studentReport1 = () => {
-      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/progress/roport`; // Replace with your actual URL
+      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/progress/roport`;
       downloadReport(reportUrl);
     };
-    // For the second API ,,student Progress Report(_last 7 days)
+    // For the second API ,student Progress Report(_last 7 days)
 
     const studentReport2 = () => {
-      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/last-week/login-report`; // Replace with your actual URL
+      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/last-week/login-report`;
       downloadReport(reportUrl);
     };
 
@@ -376,7 +374,7 @@ function StudentData() {
           {partnerName}
         </Typography>
         <Box my={4}>
-          <Typography variant="h5">MC Digital Course - 1</Typography>
+          <Typography variant="h5">MCDigital Course-1</Typography>
           <Typography variant="body1">
             Student Progress Report (Last Updated on {formattedDate} at 2:30 AM)
           </Typography>
