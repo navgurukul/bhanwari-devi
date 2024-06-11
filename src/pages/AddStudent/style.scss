@@ -9,8 +9,8 @@
   backdrop-filter: blur(3px);
   overflow-y: auto;
   background-color: rgba(22, 37, 51, 0.75);
-  //   display: none;
 }
+
 .close_add_student_form {
   position: absolute;
   top: 6px;
@@ -18,8 +18,8 @@
   font-size: 25px;
   cursor: pointer;
 }
+
 .add_student_form {
-  width: 600px;
   position: relative;
   z-index: 110;
   background-color: #fff;
@@ -27,7 +27,18 @@
   border-radius: 8px;
   margin: 100px auto;
   margin-bottom: 150px;
+  padding: 30px;
+  box-shadow: 0px 0px 15px -5px rgb(88, 87, 87);
+  max-width: 600px;
 }
+
+@media (max-width: 768px) {
+  .add_student_form {
+    width: 90%;
+    margin: 50px auto;
+  }
+}
+
 .student_form_container {
   display: flex;
   flex-direction: column;
@@ -37,33 +48,28 @@
   font-family: Rubik, sans-serif;
   font-style: normal;
   font-size: 18px;
-  //   width: auto;
-  padding: 30px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0px 0px 15px -5px rgb(88, 87, 87);
 }
+
 .student_form_container h2 {
   font-weight: 500;
   font-size: 30px;
   margin-bottom: 20px;
   align-self: center;
 }
+
 .student_form_container label {
   align-self: flex-start;
-  margin-top: 15px;
-  font-size: 25px;
 }
+
 .student_data_field {
-  // border: none;
   border: 1px solid black;
   padding: 5px;
   padding-left: 10px;
   font-size: 20px;
-  margin: 10px 0;
   border-radius: 10px;
   width: 100%;
 }
+
 .add_student_form_btn {
   background: green;
   border-radius: 20px;
@@ -75,11 +81,11 @@
   padding: 15px 25px;
   font-size: 15px;
   margin: 10px 0;
-  margin-left: 460px;
+  margin-left: auto;
   margin-top: 40px;
-  border-radius: 8px 0px 0px 0px;
   border-radius: 15px;
 }
+
 .add_student_btn {
   background: green;
   border-radius: 25px;
@@ -92,17 +98,39 @@
   font-size: 18px;
   margin-bottom: 20px;
 }
+
 .left {
   font-family: Josefin Sans;
   font-weight: 600;
   line-height: 36px;
   text-align: left;
-  margin-right: 340px;
+  margin-right: auto;
 }
+
 .Edit {
   font-family: Josefin Sans;
   font-weight: 600;
   line-height: 36px;
   text-align: left;
-  margin-right: 320px;
+  margin-right: auto;
+}
+
+.update_student_form_btn,
+.add_student_form_btn {
+  width: 50%;
+  height: 50px;
+  background-color: green;
+  color: white;
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 50px;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-top: 25px;
+  border: none;
+  border-radius: 5px;
+  padding: 0 10px;
+  box-sizing: border-box;
 }

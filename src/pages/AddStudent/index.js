@@ -10,6 +10,7 @@ import {
   InputAdornment,
   IconButton,
   Typography,
+  Grid,
 } from "@mui/material";
 import {
   Radio,
@@ -19,6 +20,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { FormHelperText } from "@mui/material";
+
 function AddStudent({
   openEditForm,
   setOpenEditForm,
@@ -26,6 +28,8 @@ function AddStudent({
   userName,
   userEmail,
   setTriggeredGet,
+  studentid,
+  stupassword,
 }) {
   const [openForm, setOpenForm] = useState(false);
   const [studentEmail, setStudentEmail] = useState("");
@@ -39,57 +43,83 @@ function AddStudent({
   const [error, setError] = useState(false);
   const [errorData, setErrorData] = useState("");
   const [errors, setErrors] = useState({
-    studentName: "",
-    studentEmail: "",
-    newUserName: "",
+    name: "",
+    username: "",
     password: "",
+    email: "",
   });
 
+  const handlePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setErrors({ name: "", username: "", password: "", email: "" });
+    if (name === "studentName") setStudentName(value);
+    if (name === "studentEmail") setStudentEmail(value);
+    if (name === "newUserName") setNewUserName(value);
+    if (name === "password") setPassword(value);
+  };
+
   useEffect(() => {
+    setErrors({ name: "", username: "", password: "", email: "" });
     if (openEditForm) {
       setStudentName(userName);
       setStudentEmail(userEmail);
       setLoginMethod(userEmail ? "email" : "username");
+      setPassword(stupassword);
+      setNewUserName(studentid);
     } else {
       setStudentName("");
       setStudentEmail("");
       setNewUserName("");
       setPassword("");
     }
-  }, [openEditForm, userName, userEmail]);
+  }, [openEditForm, userName, userEmail, studentid, stupassword]);
 
-  const handlePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const validateForm = () => {
+    const newErrors = {
+      name: "",
+      username: "",
+      password: "",
+      email: "",
+    };
+    let isValid = true;
+    if (!studentName) {
+      newErrors.name = "Please enter a student name";
+      isValid = false;
+    }
+    if (loginMethod === "email") {
+      if (!studentEmail) {
+        newErrors.email = "Please enter an email";
+        isValid = false;
+      }
+    } else {
+      if (!newUserName) {
+        newErrors.username = "Please enter a username";
+        isValid = false;
+      }
+      if (!password) {
+        newErrors.password = "Please enter a password";
+        isValid = false;
+      }
+    }
+    setErrors(newErrors);
+    return isValid;
   };
 
   const submit = () => {
-    let validationErrors = {};
-    if (!studentName) {
-      validationErrors.studentName = "Please enter a student name";
-    }
-    if (loginMethod === "email" && !studentEmail) {
-      validationErrors.studentEmail = "Please enter an email";
-    }
-    if (
-      loginMethod === "username" &&
-      (!newUserName || (!password && !openEditForm))
-    ) {
-      if (!newUserName)
-        validationErrors.newUserName = "Please enter a username";
-      if (!password && !openEditForm)
-        validationErrors.password = "Please enter a password";
-    }
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-    setError(false);
-    if (openEditForm) {
-      setOpenEditForm(false);
-      editStudent();
-    } else {
-      setOpenForm(false);
-      addStudent();
+    if (validateForm()) {
+      setError(false);
+      if (openEditForm) {
+        setOpenEditForm(false);
+        editStudent();
+        setStudentName("");
+      } else {
+        setOpenForm(false);
+        addStudent();
+      }
     }
   };
 
@@ -112,14 +142,17 @@ function AddStudent({
         toast.success(`Student ${data.data.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+        setTriggeredGet((prev) => {
+          return !prev;
+        });
+        setNewUserName("");
+        setStudentName("");
+        setPassword("");
+        setStudentEmail("");
       })
       .catch((e) => {
-        toast.error(
-          `Student couldn't be assigned to this partner!: ${e.message}`,
-          {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          }
-        );
+        setErrorData(e.message);
+        setOpenEditForm(true);
       });
   };
 
@@ -144,7 +177,9 @@ function AddStudent({
         toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        window.location.reload(1);
+        setTriggeredGet((prev) => {
+          return !prev;
+        });
         setNewUserName("");
         setStudentName("");
         setPassword("");
@@ -159,13 +194,7 @@ function AddStudent({
 
   return (
     <>
-      <button
-        onClick={() => {
-          setOpenForm(true);
-          setOpenEditForm(false);
-        }}
-        className="add_student_btn"
-      >
+      <button onClick={() => setOpenForm(true)} className="add_student_btn">
         Add Student
       </button>
       {(openEditForm || openForm) && (
@@ -192,142 +221,145 @@ function AddStudent({
                 ) : (
                   <h2 className="left">Add New Student</h2>
                 )}
-                <TextField
-                  className="student_data_field"
-                  placeholder="Name of Student"
-                  type="text"
-                  name="name"
-                  required
-                  aria-required
-                  onChange={(e) => {
-                    setStudentName(e.target.value);
-                    setErrors({ ...errors, studentName: "" });
-                  }}
-                  value={studentName}
-                  variant="outlined"
-                  fullWidth
-                  error={!!errors.studentName}
-                  helperText={errors.studentName}
-                />
-                <Typography variant="h6" marginTop={5}>
-                  Login Method
-                </Typography>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    aria-label="loginMethod"
-                    name="loginMethod"
-                    value={loginMethod}
-                    onChange={(e) => setLoginMethod(e.target.value)}
-                    row
-                    disabled={openEditForm}
-                  >
-                    <FormControlLabel
-                      value="email"
-                      control={<Radio />}
-                      label="Email"
-                      disabled={openEditForm}
-                    />
-                    <FormControlLabel
-                      value="username"
-                      control={<Radio />}
-                      label="Username and Password"
-                      disabled={openEditForm}
-                    />
-                  </RadioGroup>
-                </FormControl>
-                {loginMethod === "email" ? (
-                  <>
+
+                <Grid container spacing={2}>
+                  <Grid item lg={12} md={12} xs={12}>
                     <TextField
                       className="student_data_field"
-                      placeholder="Email ID of Student"
-                      type="email"
-                      name="email"
-                      required
-                      aria-required
-                      onChange={(e) => {
-                        setStudentEmail(e.target.value);
-                        setErrors({ ...errors, studentEmail: "" });
-                      }}
-                      value={studentEmail}
-                      variant="outlined"
-                      fullWidth
-                      disabled={openEditForm}
-                      sx={{ mt: 1 }}
-                      error={!!errors.studentEmail}
-                      helperText={errors.studentEmail}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <TextField
-                      className="student_data_field"
-                      placeholder="Username"
                       type="text"
-                      name="user_name"
-                      required
+                      label={errors.name ? "error" : "Student Name"}
+                      name="studentName"
+                      error={!!errors.name}
+                      helperText={errors.name}
                       aria-required
-                      onChange={(e) => {
-                        setNewUserName(e.target.value);
-                        setErrors({ ...errors, newUserName: "" });
-                      }}
-                      value={newUserName}
+                      onChange={handleInputChange}
+                      value={studentName}
                       variant="outlined"
                       fullWidth
-                      disabled={openEditForm}
-                      sx={{ mt: 1 }}
-                      error={!!errors.newUserName}
-                      helperText={errors.newUserName}
                     />
-                    <TextField
-                      className="student_data_field"
-                      placeholder="Password"
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      aria-required={!openEditForm}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        setErrors({ ...errors, password: "" });
-                      }}
-                      value={password}
-                      variant="outlined"
-                      fullWidth
-                      sx={{ mt: 1 }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton onClick={handlePasswordVisibility}>
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      error={!!errors.password}
-                      helperText={errors.password}
-                    />
-                  </>
-                )}
-                {error && (
-                  <FormHelperText error={true} id="component-error-text">
-                    {errorData}
-                  </FormHelperText>
-                )}
-                <button
-                  className="add_student_form_btn"
-                  onClick={submit}
-                  disabled={
-                    openEditForm
-                      ? false
-                      : loginMethod === "email"
-                      ? !studentEmail
-                      : !newUserName || !password
-                  }
-                >
-                  {openEditForm ? "Edit" : "Add Student"}
-                </button>
+                  </Grid>
+
+                  <Grid item lg={12} md={12} xs={12}>
+                    <Typography variant="h6" marginTop={5}>
+                      Login Method
+                    </Typography>
+                    <FormControl component="fieldset">
+                      <RadioGroup
+                        aria-label="loginMethod"
+                        name="loginMethod"
+                        value={loginMethod}
+                        onChange={(e) => setLoginMethod(e.target.value)}
+                        row
+                        disabled={openEditForm}
+                      >
+                        <FormControlLabel
+                          value="email"
+                          control={<Radio />}
+                          label="Email"
+                          disabled={openEditForm}
+                        />
+                        <FormControlLabel
+                          value="username"
+                          control={<Radio />}
+                          label="Username and Password"
+                          disabled={openEditForm}
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+
+                  {loginMethod === "email" ? (
+                    <Grid item lg={12} md={12} xs={12}>
+                      <TextField
+                        className="student_data_field"
+                        label={errors.email ? " Error" : "Email ID of Student"}
+                        type="email"
+                        name="studentEmail"
+                        error={!!errors.email}
+                        helperText={errors.email}
+                        aria-required
+                        onChange={handleInputChange}
+                        value={studentEmail}
+                        variant="outlined"
+                        fullWidth
+                        disabled={openEditForm}
+                        sx={{ mt: 1 }}
+                      />
+                    </Grid>
+                  ) : (
+                    <>
+                      <Grid item lg={12} md={12} xs={12}>
+                        <TextField
+                          className="student_data_field"
+                          label={errors.username ? "Error" : "Username"}
+                          type="text"
+                          name="newUserName"
+                          error={!!errors.username}
+                          helperText={errors.username}
+                          aria-required
+                          onChange={handleInputChange}
+                          value={newUserName}
+                          variant="outlined"
+                          fullWidth
+                          disabled={openEditForm}
+                          sx={{ mt: 1 }}
+                        />
+                      </Grid>
+
+                      <Grid item lg={12} md={12} xs={12}>
+                        <TextField
+                          className="student_data_field"
+                          label={errors.password ? "Error" : "Password"}
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          error={!!errors.password}
+                          helperText={errors.password}
+                          aria-required={!openEditForm}
+                          onChange={handleInputChange}
+                          value={password}
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mt: 1, cursor: "pointer" }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                                <IconButton
+                                  onClick={handlePasswordVisibility}
+                                ></IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                    </>
+                  )}
+
+                  {error && (
+                    <Grid item lg={12} md={12} xs={12}>
+                      <FormHelperText error={true} id="component-error-text">
+                        {errorData}
+                      </FormHelperText>
+                    </Grid>
+                  )}
+
+                  <Grid item lg={12} md={12} xs={12}>
+                    <button
+                      className={
+                        openEditForm
+                          ? "update_student_form_btn"
+                          : "add_student_form_btn"
+                      }
+                      onClick={submit}
+                    >
+                      {openEditForm ? "Update Student Details" : "Add Student"}
+                    </button>
+                  </Grid>
+                </Grid>
               </div>
             </div>
           </OutsideAlerter>
@@ -338,6 +370,7 @@ function AddStudent({
 }
 
 export default AddStudent;
+
 function useOutsideAlerter(ref, handleClick = false) {
   useEffect(() => {
     function handleClickOutside(event) {
@@ -351,6 +384,7 @@ function useOutsideAlerter(ref, handleClick = false) {
     };
   }, [ref, handleClick]);
 }
+
 function OutsideAlerter(props) {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, props.handleClick);
