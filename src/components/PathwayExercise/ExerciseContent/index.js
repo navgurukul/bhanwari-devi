@@ -92,6 +92,8 @@ const headingVarients = {};
 );
 
 const RenderDoubtClass = ({ data, exercise }) => {
+  const params = useParams();
+  const pathwayId = params.pathwayId;
   const classes = useStyles();
   if (data?.component === "banner") {
     const value = data.value;
@@ -117,10 +119,62 @@ const RenderDoubtClass = ({ data, exercise }) => {
   return null;
 };
 
-const RenderContent = ({ data, exercise }) => {
+const RenderContent = ({ data, exercise, pathwayData }) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const playerRef = useRef(null);
 
+  const videoId = data.value.includes("=")
+    ? data.value.split("=")[1]
+    : data.value;
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [allowedTime, setAllowedTime] = useState(0);
+
+  const onReady = (event) => {
+    playerRef.current = event.target;
+  };
+
+  const onStateChange = (event) => {
+    if (event.data === window.YT.PlayerState.PLAYING) {
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (isPlaying) {
+      intervalId = setInterval(() => {
+        if (playerRef.current) {
+          const currentTime = playerRef.current.getCurrentTime();
+          if (currentTime > allowedTime + 5) {
+            // Allow a 5-second buffer
+            playerRef.current.seekTo(allowedTime);
+          } else {
+            setAllowedTime(currentTime);
+          }
+        }
+      }, 1000);
+    } else if (intervalId) {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isPlaying, allowedTime]);
+
+  const opts = {
+    height: "390",
+    width: "640",
+    playerVars: {
+      controls: 1, // Disable default controls
+      disablekb: 1, // Disable keyboard controls
+    },
+  };
+
+  // console.log(isVideoFinished, "isVideoFinished")
   if (data.component === "header") {
     return (
       <Box className={classes.heading}>
@@ -145,7 +199,16 @@ const RenderContent = ({ data, exercise }) => {
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    return <YouTube className={classes.youtubeVideo} videoId={videoId} />;
+    return pathwayData?.code !== "TCBPI" ? (
+      <YouTube className={classes.youtubeVideo} videoId={videoId} />
+    ) : (
+      <YouTube
+        videoId={videoId}
+        opts={opts}
+        onReady={onReady}
+        onStateChange={onStateChange}
+      />
+    );
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
@@ -313,6 +376,7 @@ function ExerciseContent({
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const [triger, setTriger] = useState(false);
+  const [pathwayName, setPathwayName] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -322,6 +386,25 @@ function ExerciseContent({
   }, [cashedData]);
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
+  });
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    })
+      .then((res) => {
+        setPathwayName(res.data);
+      })
+      .catch((err) => {});
+  }, []);
+
+  const pathwayData = pathwayName.find((item) => {
+    return item.id == pathwayId;
   });
 
   // const userEnrolledClasses = useSelector((state) => {
@@ -500,6 +583,7 @@ function ExerciseContent({
                       data={contentItem}
                       key={index}
                       classes={classes}
+                      pathwayData={pathwayData}
                     />
                   ))}
               </Box>
