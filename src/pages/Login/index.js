@@ -227,7 +227,7 @@ function Login(props) {
           <Grid item xs={12} ms={6} md={6}>
             <Container maxWidth="md">
               <Typography
-                sx={{ pt: { xs: "none", md: 24 } }}
+                sx={{ pt: { xs: 4, md: 24 } }}
                 variant="h6"
                 align={isActive || isActiveIpad ? "center" : "left"}
                 mt={isActive ? 0 : isActiveIpad ? 12 : 0}
