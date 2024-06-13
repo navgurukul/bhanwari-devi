@@ -48,7 +48,8 @@ function AddStudent({
     email: "",
   });
 
-  const handlePasswordVisibility = () => {
+  const handlePasswordVisibility = (e) => {
+    e.stopPropagation();
     setShowPassword(!showPassword);
   };
 
@@ -61,8 +62,22 @@ function AddStudent({
     if (name === "password") setPassword(value);
   };
 
+  const clearFormAndErrors = () => {
+    setStudentName("");
+    setStudentEmail("");
+    setNewUserName("");
+    setPassword("");
+    setErrors({
+      name: "",
+      username: "",
+      password: "",
+      email: "",
+    });
+    setError(false);
+    setErrorData("");
+  };
+
   useEffect(() => {
-    setErrors({ name: "", username: "", password: "", email: "" });
     if (openEditForm) {
       setStudentName(userName);
       setStudentEmail(userEmail);
@@ -70,10 +85,7 @@ function AddStudent({
       setPassword(stupassword);
       setNewUserName(studentid);
     } else {
-      setStudentName("");
-      setStudentEmail("");
-      setNewUserName("");
-      setPassword("");
+      clearFormAndErrors();
     }
   }, [openEditForm, userName, userEmail, studentid, stupassword]);
 
@@ -112,11 +124,8 @@ function AddStudent({
     if (validateForm()) {
       setError(false);
       if (openEditForm) {
-        setOpenEditForm(false);
         editStudent();
-        setStudentName("");
       } else {
-        setOpenForm(false);
         addStudent();
       }
     }
@@ -144,14 +153,21 @@ function AddStudent({
         setTriggerdGet((prev) => {
           return !prev;
         });
-        setNewUserName("");
-        setStudentName("");
-        setPassword("");
-        setStudentEmail("");
+        clearFormAndErrors();
+        setOpenEditForm(false);
       })
       .catch((e) => {
-        setErrorData(e?.response?.data?.message);
-        setOpenEditForm(true);
+        if (e?.message.includes("Name can only contain letters")) {
+          setErrors({ ...errors, name: e?.message });
+          return;
+        } else if (
+          e?.message.includes("Password must be at least 8 characters long")
+        ) {
+          setErrors({ ...errors, password: e?.message });
+          return;
+        }
+        setErrorData(e?.message || e?.response?.data?.message);
+        setError(true);
       });
   };
 
@@ -179,17 +195,32 @@ function AddStudent({
         setTriggerdGet((prev) => {
           return !prev;
         });
-        setNewUserName("");
-        setStudentName("");
-        setPassword("");
-        setStudentEmail("");
+        clearFormAndErrors();
       })
       .catch((e) => {
         if (loginMethod === "email") {
-          setErrorData(e?.response?.data?.message);
+          if (
+            e?.response?.data?.message.includes("provide a valid email address")
+          ) {
+            setErrors({ ...errors, email: e?.response?.data?.message });
+            return;
+          } else if (e?.message.includes("Name can only contain letters")) {
+            setErrors({ ...errors, name: e?.message });
+            return;
+          }
         } else {
           setErrorData(e?.message);
+          if (e?.message.includes("Name can only contain letters")) {
+            setErrors({ ...errors, name: e?.message });
+            return;
+          } else if (
+            e?.message.includes("Password must be at least 8 characters long")
+          ) {
+            setErrors({ ...errors, password: e?.message });
+            return;
+          }
         }
+        setErrorData(e?.response?.data?.message || e?.message);
         setError(true);
         setOpenForm(true);
       });
@@ -206,25 +237,26 @@ function AddStudent({
             handleClick={() => {
               setOpenForm(false);
               setOpenEditForm(false);
+              clearFormAndErrors();
             }}
           >
             <div className="add_student_form">
               <div className="student_form_container">
-                <span
-                  className="close_add_student_form"
-                  onClick={() => {
-                    setOpenForm(false);
-                    setOpenEditForm(false);
-                  }}
-                >
-                  X
-                </span>
-                {openEditForm ? (
-                  <h2 className="Edit">Edit Student</h2>
-                ) : (
-                  <h2 className="left">Add New Student</h2>
-                )}
-
+                <div className="student_form_header">
+                  <h2 className={openEditForm ? "Edit" : "left"}>
+                    {openEditForm ? "Edit Student" : "Add New Student"}
+                  </h2>
+                  <span
+                    className="close_add_student_form"
+                    onClick={() => {
+                      setOpenForm(false);
+                      setOpenEditForm(false);
+                      clearFormAndErrors();
+                    }}
+                  >
+                    X
+                  </span>
+                </div>
                 <Grid container spacing={2}>
                   <Grid item lg={12} md={12} xs={12}>
                     <TextField
@@ -330,14 +362,17 @@ function AddStudent({
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">
-                                {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                                <IconButton
-                                  onClick={handlePasswordVisibility}
-                                ></IconButton>
+                                <div className="icon-button">
+                                  <IconButton
+                                    onClick={(e) => handlePasswordVisibility(e)}
+                                  >
+                                    {showPassword ? (
+                                      <VisibilityOff />
+                                    ) : (
+                                      <Visibility />
+                                    )}
+                                  </IconButton>
+                                </div>
                               </InputAdornment>
                             ),
                           }}
@@ -378,26 +413,26 @@ function AddStudent({
 
 export default AddStudent;
 
-function useOutsideAlerter(ref, handleClick = false) {
+function useOutsideAlerter(ref, handleClick) {
   useEffect(() => {
     function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target) && handleClick) {
-        handleClick();
+      if (ref.current && !ref.current.contains(event.target)) {
+        handleClick(event);
       }
     }
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [ref, handleClick]);
 }
 
-function OutsideAlerter(props) {
+function OutsideAlerter({ children, handleClick }) {
   const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, props.handleClick);
+  useOutsideAlerter(wrapperRef, handleClick);
   return (
     <div ref={wrapperRef} className="d-inline">
-      {props.children}
+      {children}
     </div>
   );
 }

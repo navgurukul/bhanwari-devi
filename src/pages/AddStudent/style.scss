@@ -11,15 +11,6 @@
   background-color: rgba(22, 37, 51, 0.75);
 }
 
-.close_add_student_form {
-  position: absolute;
-  top: 6px;
-  // right: -100px;
-  left: 95%;
-  font-size: 25px;
-  cursor: pointer;
-}
-
 .add_student_form {
   position: relative;
   z-index: 110;
@@ -33,13 +24,6 @@
   max-width: 600px;
 }
 
-@media (max-width: 768px) {
-  .add_student_form {
-    width: 80%;
-    margin: 100px auto;
-  }
-}
-
 .student_form_container {
   display: flex;
   flex-direction: column;
@@ -51,7 +35,7 @@
   font-size: 18px;
 }
 
-.student_form_container h2 {
+.student_form_header h2 {
   font-weight: 500;
   font-size: 30px;
   margin-bottom: 20px;
@@ -100,22 +84,6 @@
   margin-bottom: 20px;
 }
 
-.left {
-  font-family: Josefin Sans;
-  font-weight: 600;
-  line-height: 36px;
-  text-align: left;
-  margin-right: auto;
-}
-
-.Edit {
-  font-family: Josefin Sans;
-  font-weight: 600;
-  line-height: 36px;
-  text-align: left;
-  margin-right: auto;
-}
-
 .update_student_form_btn,
 .add_student_form_btn {
   width: 50%;
@@ -134,4 +102,33 @@
   border-radius: 5px;
   padding: 0 10px;
   box-sizing: border-box;
+}
+
+.student_form_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.close_add_student_form {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .add_student_form {
+    width: 80%;
+    margin: 100px auto;
+  }
+  .add_student_form_btn,
+  .update_student_form_btn {
+    width: 100%;
+    max-width: 100%;
+    font-size: 18px;
+    padding: 0 5px;
+    line-height: normal;
+    height: 50px;
+  }
 }
