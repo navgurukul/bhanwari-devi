@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { usePython } from "./react-py";
+// import { usePython } from "./react-py";
 
 import CodeMirrorEditor from "./CodeMirror";
 
@@ -23,9 +23,11 @@ const PythonEditor = ({
   initialCodeEditorValue,
   disableEditing,
   disableRun,
+  pythonRunner
 }) => {
   const theme = useTheme();
-  const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
+  // const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
+  const { runPython, stdout, stderr, isLoading, isRunning } = pythonRunner;
   const [pythonEditorCode, setPythonEditorCode] = useState(
     initialCodeEditorValue
   );
