@@ -44,6 +44,7 @@ import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
 import PythonEditor from "../../CodeEditor/PythonEditor";
+import { usePython } from "../../CodeEditor/react-py";
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -387,6 +388,8 @@ function ExerciseContent({
   function ExerciseContentMain() {
     const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
+    const pythonRunner = content?.find(contentItem => contentItem.component === "code" && contentItem.type === "python") ?
+      usePython() : null;
 
     return (
       <Container maxWidth="lg">
@@ -467,6 +470,7 @@ function ExerciseContent({
                 {content &&
                   content.map((contentItem, index) => (
                     <RenderContent
+                      pythonRunner={pythonRunner} 
                       data={contentItem}
                       key={index}
                       classes={classes}
