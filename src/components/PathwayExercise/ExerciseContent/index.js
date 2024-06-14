@@ -101,7 +101,7 @@ const RenderDoubtClass = ({ data, exercise }) => {
   return null;
 };
 
-const RenderContent = ({ data, exercise }) => {
+const RenderContent = ({ data, exercise, pythonRunner }) => {
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
@@ -261,6 +261,7 @@ const RenderContent = ({ data, exercise }) => {
         initialCodeEditorValue={pythonCode}
         disableEditing={data[CODE_EDITOR_FIELDS.IS_NOT_EDITABLE]}
         disableRun={data[CODE_EDITOR_FIELDS.IS_NOT_EXECUTABLE]}
+        pythonRunner={pythonRunner}
       />
     );
   }
@@ -388,9 +389,15 @@ function ExerciseContent({
   function ExerciseContentMain() {
     const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
-    const pythonRunner = content?.find(contentItem => contentItem.component === "code" && contentItem.type === "python") ?
-      usePython() : null;
+    const [pythonRunner, setPythonRunner] = useState(null);
 
+    useEffect(() => {
+      if (!pythonRunner && content?.find(contentItem => contentItem.component === "code" && contentItem.type === "python")) {
+        // only load Pyodide when there's a Python code component
+        setPythonRunner(usePython());
+      }
+    }, [content, pythonRunner]);
+    
     return (
       <Container maxWidth="lg">
         {!desktop && <ContentListText setOpenDrawer={setOpenMobile} />}
