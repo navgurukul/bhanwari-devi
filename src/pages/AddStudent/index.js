@@ -146,7 +146,10 @@ function AddStudent({
       data,
     })
       .then((data) => {
-        if (data.data.error) throw new Error(data.data.message);
+        if (data.data.error) {
+          // Throw the full response data object
+          throw data.data;
+        }
         toast.success(`Student ${data.data.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
@@ -157,17 +160,14 @@ function AddStudent({
         setOpenEditForm(false);
       })
       .catch((e) => {
-        if (e?.message.includes("Name can only contain letters")) {
+        if (e.erorrCode === 2001) {
           setErrors({ ...errors, name: e?.message });
-          return;
-        } else if (
-          e?.message.includes("Password must be at least 8 characters long")
-        ) {
+        } else if (e.erorrCode === 2003) {
           setErrors({ ...errors, password: e?.message });
-          return;
+        } else {
+          setErrorData(e?.message);
+          setError(true);
         }
-        setErrorData(e?.message || e?.response?.data?.message);
-        setError(true);
       });
   };
 
@@ -188,7 +188,10 @@ function AddStudent({
       data,
     })
       .then((response) => {
-        if (response.data.error) throw new Error(response.data.message);
+        if (response.data.error) {
+          // Throw the full response data object
+          throw response.data;
+        }
         toast.success("Student Added Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
@@ -198,31 +201,16 @@ function AddStudent({
         clearFormAndErrors();
       })
       .catch((e) => {
-        if (loginMethod === "email") {
-          if (
-            e?.response?.data?.message.includes("provide a valid email address")
-          ) {
-            setErrors({ ...errors, email: e?.response?.data?.message });
-            return;
-          } else if (e?.message.includes("Name can only contain letters")) {
-            setErrors({ ...errors, name: e?.message });
-            return;
-          }
+        if (e.erorrCode === 2005) {
+          setErrors({ ...errors, email: e?.message });
+        } else if (e.erorrCode === 2001) {
+          setErrors({ ...errors, name: e?.message });
+        } else if (e.erorrCode === 2003) {
+          setErrors({ ...errors, password: e?.message });
         } else {
           setErrorData(e?.message);
-          if (e?.message.includes("Name can only contain letters")) {
-            setErrors({ ...errors, name: e?.message });
-            return;
-          } else if (
-            e?.message.includes("Password must be at least 8 characters long")
-          ) {
-            setErrors({ ...errors, password: e?.message });
-            return;
-          }
+          setError(true);
         }
-        setErrorData(e?.response?.data?.message || e?.message);
-        setError(true);
-        setOpenForm(true);
       });
   };
 
