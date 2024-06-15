@@ -389,14 +389,17 @@ function ExerciseContent({
   function ExerciseContentMain() {
     const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
-    const [pythonRunner, setPythonRunner] = useState(null);
+    const pythonRunner = usePython();
+    // const [pythonRunner, setPythonRunner] = useState(null);
 
+    /*
     useEffect(() => {
       if (!pythonRunner && content?.find(contentItem => contentItem.component === "code" && contentItem.type === "python")) {
         // only load Pyodide when there's a Python code component
         setPythonRunner(usePython());
       }
     }, [content, pythonRunner]);
+    */
     
     return (
       <Container maxWidth="lg">
