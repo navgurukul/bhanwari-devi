@@ -93,9 +93,9 @@ function Login(props) {
 
   useEffect(() => {
     if (user.error) {
-      if (user.error.message.includes("Invalid username or password.")) {
-        setErrors({ ...errors, username: "This username does not exist" });
-      } else if (user.error.message.includes("The password does not match")) {
+      if (user.error.errorCode === 2001) {
+        setErrors({ ...errors, username: user.error.message });
+      } else if (user.error.errorCode === 2002) {
         setErrors({ ...errors, password: user.error.message });
       }
     }
@@ -109,7 +109,7 @@ function Login(props) {
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  const isActiveIpad = useMediaQuery("(max-width:768px)");
 
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
@@ -227,7 +227,7 @@ function Login(props) {
           <Grid item xs={12} ms={6} md={6}>
             <Container maxWidth="md">
               <Typography
-                sx={{ pt: { xs: 4, md: 24 } }}
+                sx={{ pt: { xs: isActiveIpad ? 4 : 10, md: 24 } }}
                 variant="h6"
                 align={isActive || isActiveIpad ? "center" : "left"}
                 mt={isActive ? 0 : isActiveIpad ? 12 : 0}
