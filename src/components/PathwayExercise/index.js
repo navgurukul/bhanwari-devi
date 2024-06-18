@@ -30,6 +30,8 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 import { breakpoints } from "../../theme/constant";
+// import { useTheme } from "@mui/material/styles";
+// import { PythonProvider, usePython } from "../CodeEditor/react-py";
 
 const languageMap = {
   "hi-IN": "Hindi",
@@ -427,9 +429,10 @@ function PathwayExercise() {
       </Select>
     );
   }
-
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  // const theme = useTheme();
 
   return (
     <>
@@ -588,10 +591,12 @@ function PathwayExercise() {
         <AppBar
           fullWidth
           // position="stick"
-          sx={{ bgcolor: "info.light" }}
-          className={
-            isActive ? classes.editingHeaderMobile : classes.editingHeader
-          }
+          sx={{
+            bgcolor: "info.light",
+          }}
+          // classes={{
+          //  root: isActive ? classes.editingHeaderMobile : classes.editingHeader
+          // }}
           elevation={2}
         >
           <Box>
@@ -633,22 +638,22 @@ function PathwayExercise() {
       ) : (
         // <Box sx={{ marginTop: "120px" }}>
         <Box sx={{ marginTop: "50px" }}>
+          {/* <PythonProvider> */}
           <ExerciseContent
             contentList={course}
             courseTitle={courseTitle}
             exerciseId={exerciseId}
+            key={exerciseId}
             lang={language}
             setExerciseId={setExerciseId}
             setProgressTrackId={setProgressTrackId}
             progressTrackId={progressTrackId}
           />
+          {/* </PythonProvider> */}
         </Box>
       )}
       <Box>
-        <Toolbar
-          className={classes.bottomRow}
-          sx={{ width: !isActive ? "100%" : "100%" }}
-        >
+        <Toolbar className={classes.bottomRow} sx={{ width: "100%" }}>
           <Button
             variant="text"
             color="dark"
@@ -663,11 +668,22 @@ function PathwayExercise() {
             Back
           </Button>
           <Button
-            style={{
-              opacity: `${exerciseId < courseLength ? 1 : 0}`,
-              position: "relative",
-              // right: "-10px",
-              marginRight: !isActive && !isActiveIpad ? "40px" : "",
+            // sx={(theme) => (console.log("THEME", theme.breakpoints) || { 
+            //   opacity: `${exerciseId < courseLength ? 1 : 0}`,
+            //   position: "relative",
+            //   // right: "-10px",
+            //   //marginRight: { [breakpoints.tb]: "40px", xs: "" },
+            //   // marginRight: { xs: 0, md: "40px" },
+            //   marginRight: theme?.breakpoints?.values?.ipad 
+            //   // marginRight: !isActive && !isActiveIpad ? "40px" : "",
+            // })}
+            sx = {{
+               opacity: `${exerciseId < courseLength ? 1 : 0}`,
+               position: "relative",
+               // iPad was used here before with 1300px instead of 1200px 
+               //   default
+               // marginRight: {xs: 0, ipad: "40px", lg: "40px"}
+               marginRight: {xs: 0, md: "40px"}
             }}
             endIcon={<ArrowForwardIosIcon />}
             disabled={!(exerciseId < courseLength)}
