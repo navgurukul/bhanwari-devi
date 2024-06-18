@@ -38,7 +38,7 @@ function usePrevious(value) {
 function SearchPopup() {
   const { data } = useSelector(({ Course }) => Course);
   const user = useSelector(({ User }) => User);
-  const userId = user.data?.user.id;
+  const userId = user.data?.user?.id;
   const pathway = useSelector((state) => state.Pathways);
   const dispatch = useDispatch();
   // const [recentSearch,setrecentSearch]=useState("")

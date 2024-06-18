@@ -222,7 +222,7 @@ const AssessmentContent = ({
                         ? isValuePresent
                           ? answer?.includes(item.id)
                             ? classes.userSelectedCorrect
-                            : classes.correctAnswer
+                            : "" // classes.correctAnswer   commented out to remove the green color from the correct answer after the 2nd attemt.we will retrive it once android will have the same.
                           : answer?.includes(item.id)
                           ? classes.inCorrectAnswer
                           : ""

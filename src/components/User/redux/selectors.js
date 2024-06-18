@@ -96,4 +96,4 @@ export const selectRolesData = ({ User }) => {
  * Selector to get user id
  * @return {string} user id
  */
-export const selectUserId = ({ User }) => User.data.user.id;
+export const selectUserId = ({ User }) => User?.data?.user?.id;

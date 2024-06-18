@@ -77,6 +77,9 @@ export const HideFooter = [
   PATHS.NEW_USER_DASHBOARD,
   PATHS.VOLUNTEER_FORM,
   PATHS.C4CA_PATHWAY,
+  PATHS.PARTNERS,
+  PATHS.CLASS,
+  PATHS.VOLUNTEER,
 ];
 
 export const LEARN_KEY = "LEARN";
@@ -225,3 +228,10 @@ export const TimeLeft = (date) => {
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
 export const versionCode = 40;
+
+export const INDENT = 4;
+
+export const CODE_EDITOR_FIELDS = {
+  IS_NOT_EDITABLE: "isNotEditable",
+  IS_NOT_EXECUTABLE: "isNotExecutable",
+};

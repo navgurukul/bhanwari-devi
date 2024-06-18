@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 
 // import HiddenContent from "../HiddenContent";
-import { versionCode } from "../../../constant";
+import { INDENT, versionCode, CODE_EDITOR_FIELDS } from "../../../constant";
 
 import useStyles from "../styles";
 import ExerciseBatchClass from "../../BatchClassComponents/ExerciseBatchClass/ExerciseBatchClass";
@@ -43,23 +43,8 @@ import ExerciseContentLoading from "./ExerciseContentLoading";
 import PersistentDrawerLeft from "./Drawers/Drawer";
 import MobileDrawer from "./Drawers/MobileDrawer";
 import ContentListText from "./Drawers/ContentListText";
-
-const createVisulizeURL = (code, lang, mode) => {
-  // only support two languages for now
-  const l = lang == "python" ? "2" : "js";
-  const replacedCode = code && code.replace(/<br>/g, "\n");
-  const visualizerCode = replacedCode.replace(/&emsp;/g, " ");
-  const url = `http://pythontutor.com/visualize.html#code=${encodeURIComponent(
-    visualizerCode
-  )
-    .replace(/%2C|%2F/g, decodeURIComponent)
-    .replace(/\(/g, "%28")
-    .replace(
-      /\)/g,
-      "%29"
-    )}&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=${mode}&origin=opt-frontend.js&py=${l}&rawInputLstJSON=%5B%5D&textReferences=false`;
-  return url;
-};
+import PythonEditor from "../../CodeEditor/PythonEditor";
+import { usePython } from "../../CodeEditor/react-py";
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -92,6 +77,8 @@ const headingVarients = {};
 );
 
 const RenderDoubtClass = ({ data, exercise }) => {
+  const params = useParams();
+  const pathwayId = params.pathwayId;
   const classes = useStyles();
   if (data?.component === "banner") {
     const value = data.value;
@@ -102,7 +89,6 @@ const RenderDoubtClass = ({ data, exercise }) => {
         {start_time && end_time && (
           <>
             <DoubtClassExerciseComponent value={value} actions={actions} />
-
             <div
               style={{
                 borderBottom: "1px solid #BDBDBD",
@@ -117,10 +103,62 @@ const RenderDoubtClass = ({ data, exercise }) => {
   return null;
 };
 
-const RenderContent = ({ data, exercise }) => {
+const RenderContent = ({ data, exercise, pathwayData, pythonRunner }) => {
   const classes = useStyles();
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const playerRef = useRef(null);
 
+  const videoId = data.value.includes("=")
+    ? data.value.split("=")[1]
+    : data.value;
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [allowedTime, setAllowedTime] = useState(0);
+
+  const onReady = (event) => {
+    playerRef.current = event.target;
+  };
+
+  const onStateChange = (event) => {
+    if (event.data === window.YT.PlayerState.PLAYING) {
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (isPlaying) {
+      intervalId = setInterval(() => {
+        if (playerRef.current) {
+          const currentTime = playerRef.current.getCurrentTime();
+          if (currentTime > allowedTime + 5) {
+            // Allow a 5-second buffer
+            playerRef.current.seekTo(allowedTime);
+          } else {
+            setAllowedTime(currentTime);
+          }
+        }
+      }, 1000);
+    } else if (intervalId) {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isPlaying, allowedTime]);
+
+  const opts = {
+    height: "390",
+    width: "640",
+    playerVars: {
+      controls: 1, // Disable default controls
+      disablekb: 1, // Disable keyboard controls
+    },
+  };
+
+  // console.log(isVideoFinished, "isVideoFinished")
   if (data.component === "header") {
     return (
       <Box className={classes.heading}>
@@ -145,7 +183,16 @@ const RenderContent = ({ data, exercise }) => {
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    return <YouTube className={classes.youtubeVideo} videoId={videoId} />;
+    return pathwayData?.code !== "TCBPI" ? (
+      <YouTube className={classes.youtubeVideo} videoId={videoId} />
+    ) : (
+      <YouTube
+        videoId={videoId}
+        opts={opts}
+        onReady={onReady}
+        onStateChange={onStateChange}
+      />
+    );
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
@@ -240,8 +287,9 @@ const RenderContent = ({ data, exercise }) => {
     );
   }
 
-  if (data.component === "code") {
+  if (data.component === "code" && data.type !== "python") {
     const codeContent = DOMPurify.sanitize(get(data, "value"));
+
     return (
       <div>
         <Box className={classes.codeBackground}>
@@ -255,24 +303,29 @@ const RenderContent = ({ data, exercise }) => {
             <Typography variant="subtitle1">Code Example</Typography>
           </Box>
           {/* </Toolbar> */}
+
           <Typography
             className={classes.codeWrap}
             dangerouslySetInnerHTML={{
               __html: codeContent,
             }}
           />
-          <Grid container justifyContent="flex-end" mt={2}>
-            <Button
-              variant="contained"
-              color="dark"
-              target="_blank"
-              href={createVisulizeURL(get(data, "value"), data.type, "display")}
-            >
-              Visualize
-            </Button>
-          </Grid>
         </Box>
       </div>
+    );
+  }
+
+  if (data.component === "code" && data.type === "python") {
+    const pythonCode = data.value
+      .replace(/<br>/g, "\n")
+      .replace(/&emsp;/g, " ".repeat(INDENT));
+    return (
+      <PythonEditor
+        initialCodeEditorValue={pythonCode}
+        disableEditing={data[CODE_EDITOR_FIELDS.IS_NOT_EDITABLE]}
+        disableRun={data[CODE_EDITOR_FIELDS.IS_NOT_EXECUTABLE]}
+        pythonRunner={pythonRunner}
+      />
     );
   }
   // if (data.type === "solution") {
@@ -297,7 +350,7 @@ function ExerciseContent({
   courseTitle,
   progressTrackId,
 }) {
-  const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  // const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const user = useSelector(({ User }) => User);
   const [content, setContent] = useState([]);
   const [course, setCourse] = useState();
@@ -313,6 +366,7 @@ function ExerciseContent({
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
   const [triger, setTriger] = useState(false);
+  const [pathwayName, setPathwayName] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -322,6 +376,25 @@ function ExerciseContent({
   }, [cashedData]);
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
+  });
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    })
+      .then((res) => {
+        setPathwayName(res.data);
+      })
+      .catch((err) => {});
+  }, []);
+
+  const pathwayData = pathwayName.find((item) => {
+    return item.id == pathwayId;
   });
 
   // const userEnrolledClasses = useSelector((state) => {
@@ -416,7 +489,18 @@ function ExerciseContent({
   function ExerciseContentMain() {
     const [selected, setSelected] = useState(params.exerciseId);
     const desktop = useMediaQuery("(min-width: 900px)");
+    const pythonRunner = usePython();
+    // const [pythonRunner, setPythonRunner] = useState(null);
 
+    /*
+    useEffect(() => {
+      if (!pythonRunner && content?.find(contentItem => contentItem.component === "code" && contentItem.type === "python")) {
+        // only load Pyodide when there's a Python code component
+        setPythonRunner(usePython());
+      }
+    }, [content, pythonRunner]);
+    */
+    
     return (
       <Container maxWidth="lg">
         {!desktop && <ContentListText setOpenDrawer={setOpenMobile} />}
@@ -497,9 +581,11 @@ function ExerciseContent({
                 {content &&
                   content.map((contentItem, index) => (
                     <RenderContent
+                      pythonRunner={pythonRunner} 
                       data={contentItem}
                       key={index}
                       classes={classes}
+                      pathwayData={pathwayData}
                     />
                   ))}
               </Box>
