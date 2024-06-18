@@ -3,6 +3,7 @@ import { types, actions } from "./action";
 import { httpStatuses } from "../../../services/auth";
 import {
   getPathways,
+  getPathwaysDropdown,
   getPathwaysCourse,
   getUpcomingBatches,
   getupcomingEnrolledClasses,
@@ -18,6 +19,20 @@ function* handleGetPathways({ data }) {
     yield put(actions.getPathwaysResolved(pathwaysResponse.data));
   } else {
     yield put(actions.getPathwaysRejected(pathwaysResponse));
+  }
+}
+
+function* handleGetPathwaysDropdown({ data }) {
+  const pathwaysDropdownResponse = yield call(getPathwaysDropdown, data);
+  if (
+    pathwaysDropdownResponse &&
+    httpStatuses.SUCCESS.includes(pathwaysDropdownResponse.status)
+  ) {
+    yield put(
+      actions.getPathwaysDropdownResolved(pathwaysDropdownResponse.data)
+    );
+  } else {
+    yield put(actions.getPathwaysDropdownRejected(pathwaysDropdownResponse));
   }
 }
 
@@ -80,8 +95,12 @@ function* handleGetEnrolledBatches({ data }) {
   }
 }
 
-export default function* () {
+export function* Pathways() {
   yield takeLatest(types.GET_PATHWAY_INTENT, handleGetPathways);
+  // yield takeLatest(
+  //   types.GET_PATHWAY_DROPDOWN_INTENT,
+  //   handleGetPathwaysDropdown
+  // );
   yield takeLatest(types.GET_PATHWAY_COURSE_INTENT, handleGetPathwaysCourse);
   yield takeLatest(types.GET_UPCOMING_BATCHES_INTENT, handleGetUpcomingBatches);
   yield takeLatest(
@@ -89,4 +108,11 @@ export default function* () {
     handleGetUpcomingEnrolledClasses
   );
   yield takeLatest(types.GET_ENROLLED_BATCHES_INTENT, handleGetEnrolledBatches);
+}
+
+export function* PathwaysDropdown() {
+  yield takeLatest(
+    types.GET_PATHWAY_DROPDOWN_INTENT,
+    handleGetPathwaysDropdown
+  );
 }

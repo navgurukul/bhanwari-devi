@@ -21,14 +21,7 @@ import { versionCode } from "../../../constant";
 import { Link, useHistory } from "react-router-dom";
 
 import useStyles from "../styles";
-const PathwayCards = (props) => {
-  // const language = {
-  //   hi: "Hindi",
-  //   en: "English",
-  //   mr: "Marathi",
-  // };
-
-  // const language ;
+const PathwayCards = ({ userEnrolledClasses, data }) => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const history = useHistory();
   const language = {
@@ -36,7 +29,8 @@ const PathwayCards = (props) => {
     en: "English",
     mr: "Marathi",
   };
-  const { userEnrolledClasses, data } = props;
+
+  const sliceNumber = data?.code === "ACB" ? 1 : 3;
 
   function UpcomingClassCardComponent({ item }) {
     const classes = useStyles();
@@ -44,19 +38,21 @@ const PathwayCards = (props) => {
       "(max-width:" + breakpoints.values.sm + "px)"
     );
     const user = useSelector(({ User }) => User);
+
     const [classIndex, setClassIndex] = React.useState(0);
     useEffect(() => {
       const courseId = item.course_id;
       getCourseContent({ courseId, versionCode, user }).then((res) => {
-        const index = res.data.course.exercises.findIndex(
+        const index = res.data.course.course_content.findIndex(
           (ex) => ex.id === item.id
         );
 
         setClassIndex(index);
       });
     }, []);
+
     return (
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={item.code === "ACB" ? 12 : 4}>
         <Link
           style={{
             textDecoration: "none",
@@ -79,11 +75,19 @@ const PathwayCards = (props) => {
             //     })
             //   );
             // }}
-            style={{
-              minWidth: isActive ? "95%" : "350",
-              marginRight: isActive ? "500px" : "40px",
-              marginLeft: isActive ? "5px" : "15px",
-            }}
+            style={
+              item.pathway_id === 7
+                ? {
+                    // minWidth: isActive ? "95%" : "350",
+                    marginRight: isActive ? "500px" : "130px",
+                    marginLeft: isActive ? "5px" : "15px",
+                  }
+                : {
+                    minWidth: isActive ? "95%" : "350",
+                    marginRight: isActive ? "500px" : "40px",
+                    marginLeft: isActive ? "5px" : "15px",
+                  }
+            }
           >
             <Box
               sx={{
@@ -192,7 +196,7 @@ const PathwayCards = (props) => {
             paddingBottom: "10px",
           }}
         >
-          {userEnrolledClasses?.slice(0, 3).map((item) => {
+          {userEnrolledClasses?.slice(0, sliceNumber).map((item) => {
             return (
               <>
                 <UpcomingClassCardComponent item={item} />

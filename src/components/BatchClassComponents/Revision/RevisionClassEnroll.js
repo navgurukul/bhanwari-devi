@@ -35,12 +35,14 @@ function RevisionClassEnroll(props) {
         accept: "application/json",
         Authorization: user?.data?.token,
       },
-    }).then((res) => {
-      // setUserEnrolledClasses(res.data);
-      const data = res.data;
-      setRevisionData(data);
-      setDataToEnroll(data[0]);
-    });
+    })
+      .then((res) => {
+        // setUserEnrolledClasses(res.data);
+        const data = res.data;
+        setRevisionData(data);
+        setDataToEnroll(data[0]);
+      })
+      .catch((err) => {});
   }, [dropOutOpen, open]);
   return (
     <Container mt={2} maxWidth="lg">

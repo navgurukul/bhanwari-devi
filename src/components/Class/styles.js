@@ -2,12 +2,11 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    height: "394px",
     display: "flex",
     maxWidth: "352px",
     flexDirection: "column",
     justifyContent: "space-between",
-    margin: "0px 4px 0px 4px",
+    // margin: "0px 4px 0px 4px",
     padding: "16px",
     "&:hover": {
       boxShadow:
@@ -62,6 +61,16 @@ const useStyles = makeStyles((theme) => ({
   successModel: {
     alignItems: "center",
     align: "center",
+  },
+  cardActions: {
+    padding: "0px !important",
+    alignItems: "right",
+    justifyContent: "flex-end",
+  },
+  delete: {
+    width: 113,
+    margin: "0px 8px 0px 8px",
+    color: "#F44336",
   },
 }));
 

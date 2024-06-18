@@ -3,6 +3,10 @@ export const types = {
   GET_PATHWAY_INTENT_RESOLVED: "GET_PATHWAY_INTENT_RESOLVED",
   GET_PATHWAY_INTENT_REJECTED: "GET_PATHWAY_INTENT_REJECTED",
 
+  GET_PATHWAY_DROPDOWN_INTENT: "GET_PATHWAY_DROPDOWN_INTENT",
+  GET_PATHWAY_DROPDOWN_INTENT_RESOLVED: "GET_PATHWAY_DROPDOWN_INTENT_RESOLVED",
+  GET_PATHWAY_DROPDOWN_INTENT_REJECTED: "GET_PATHWAY_DROPDOWN_INTENT_REJECTED",
+
   GET_PATHWAY_COURSE_INTENT: "GET_PATHWAY_COURSE_INTENT",
   GET_PATHWAY_COURSE_INTENT_RESOLVED: "GET_PATHWAY_COURSE_INTENT_RESOLVED",
   GET_PATHWAY_COURSE_INTENT_REJECTED: "GET_PATHWAY_COURSE_INTENT_REJECTED",
@@ -38,6 +42,27 @@ export const actions = {
   getPathwaysRejected(error) {
     return {
       type: types.GET_PATHWAY_INTENT_REJECTED,
+      error,
+    };
+  },
+
+  // getPathwaysDropdown
+
+  getPathwaysDropdown(data) {
+    return {
+      type: types.GET_PATHWAY_DROPDOWN_INTENT,
+      data,
+    };
+  },
+  getPathwaysDropdownResolved(data) {
+    return {
+      type: types.GET_PATHWAY_DROPDOWN_INTENT_RESOLVED,
+      data,
+    };
+  },
+  getPathwaysDropdownRejected(error) {
+    return {
+      type: types.GET_PATHWAY_DROPDOWN_INTENT_REJECTED,
       error,
     };
   },

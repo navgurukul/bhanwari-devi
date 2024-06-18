@@ -140,25 +140,27 @@ function Class({ classToEdit, indicator }) {
         "update-all": indicator,
       },
       data: payload,
-    }).then(
-      () => {
-        toast.success("Updated class details!", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 2500,
-        });
-        setLoading(false);
-        window.location.reload(1);
-      },
-      (error) => {
-        toast.error(
-          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-          {
+    })
+      .then(
+        () => {
+          toast.success("Updated class details!", {
             position: toast.POSITION.BOTTOM_RIGHT,
-          }
-        );
-        setLoading(false);
-      }
-    );
+            autoClose: 2500,
+          });
+          setLoading(false);
+          window.location.reload(1);
+        },
+        (error) => {
+          toast.error(
+            `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+            {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            }
+          );
+          setLoading(false);
+        }
+      )
+      .catch((err) => {});
   };
 
   useEffect(() => {
@@ -170,9 +172,11 @@ function Class({ classToEdit, indicator }) {
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setPathways(res.data.pathways);
-    });
+    })
+      .then((res) => {
+        setPathways(res.data.pathways);
+      })
+      .catch((err) => {});
   }, []);
 
   useEffect(() => {
@@ -184,15 +188,17 @@ function Class({ classToEdit, indicator }) {
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const partners = res.data.partners.map((item, index) => {
-        return {
-          label: item.name,
-          id: item.id,
-        };
-      });
-      setPartnerData(partners);
-    });
+    })
+      .then((res) => {
+        const partners = res.data.partners.map((item, index) => {
+          return {
+            label: item.name,
+            id: item.id,
+          };
+        });
+        setPartnerData(partners);
+      })
+      .catch((err) => {});
   }, []);
 
   const onCourseChange = (courseId) => {
@@ -201,18 +207,20 @@ function Class({ classToEdit, indicator }) {
     }
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises/v2`,
       headers: {
         accept: "application/json",
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setExercisesForSelectedCourse({
-        ...exercisesForSelectedCourse,
-        [courseId]: res.data.course.exercises,
-      });
-    });
+    })
+      .then((res) => {
+        setExercisesForSelectedCourse({
+          ...exercisesForSelectedCourse,
+          [courseId]: res.data.course.exercises,
+        });
+      })
+      .catch((err) => {});
   };
 
   const convertToIST = (d) => {
@@ -318,24 +326,26 @@ function Class({ classToEdit, indicator }) {
       data: {
         ...payload,
       },
-    }).then(
-      () => {
-        toast.success("You successfully created a class.", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-        setLoading(false);
-        window.location.reload(1);
-      },
-      (error) => {
-        toast.error(
-          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-          {
+    })
+      .then(
+        () => {
+          toast.success("You successfully created a class.", {
             position: toast.POSITION.BOTTOM_RIGHT,
-          }
-        );
-        setLoading(false);
-      }
-    );
+          });
+          setLoading(false);
+          window.location.reload(1);
+        },
+        (error) => {
+          toast.error(
+            `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+            {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            }
+          );
+          setLoading(false);
+        }
+      )
+      .catch((err) => {});
   };
 
   const onFormSubmit = (event) => {
@@ -555,6 +565,7 @@ function Class({ classToEdit, indicator }) {
               )}
               {formFieldsState[TYPE] === "doubt_class" &&
                 pathways.map((pathway) => {
+                  // this need to changes
                   if (pathwayId == pathway.id) {
                     return (
                       <React.Fragment key={pathway.id}>

@@ -19,6 +19,7 @@ import useStyles from "../styles";
 
 function ResidentialProgramme() {
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
   const { data } = useSelector((state) => state.Pathways);
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
@@ -26,7 +27,11 @@ function ResidentialProgramme() {
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
   }, [dispatch]);
 
   const resPathway =

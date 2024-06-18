@@ -12,6 +12,7 @@ import useStyles from "../styles";
 
 function MiscellaneousCourses() {
   const dispatch = useDispatch();
+  const user = useSelector(({ User }) => User);
   const { data } = useSelector(({ Course }) => Course);
   const pathway = useSelector((state) => state);
   const classes = useStyles();
@@ -22,8 +23,12 @@ function MiscellaneousCourses() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   const pathwayCourseId =
     (pathway.Pathways.data &&

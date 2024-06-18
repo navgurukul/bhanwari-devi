@@ -50,6 +50,10 @@ th {
   font-family: Rubik;
   font-style: normal;
   font-size: 16px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 tr:hover {
@@ -123,8 +127,13 @@ tr:hover {
 }
 
 @media screen and (max-width: 768px) {
+  .container-table {
+    padding: 0 5%;
+  }
+
   .student-overview-table {
     width: 100%;
+    overflow: hidden;
   }
 
   /* Force table to not be like tables anymore */
@@ -147,7 +156,6 @@ tr:hover {
   .Search-bar {
     width: 270px;
   }
-
   .slider-label {
     margin-bottom: 20px;
   }
@@ -168,6 +176,11 @@ tr:hover {
     border-bottom: 1px solid #eee;
     position: relative;
     padding-left: 50%;
+    text-align: left;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   td:before {
@@ -184,4 +197,10 @@ tr:hover {
     color: #000;
     font-weight: 500;
   }
+}
+
+.partner-name {
+  font-family: Rubik;
+  font-weight: bold;
+  margin-bottom: 20px;
 }

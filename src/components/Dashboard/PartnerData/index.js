@@ -40,18 +40,23 @@ function PartnerDashboard() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      if (res.data.partners.length < 1) {
-        setSlicedPartners([]);
-        setMessage("There are no results to display");
-      } else {
-        setPartners(res.data.partners);
-        setSlicedPartners(
-          res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)
-        );
-        setTotalCount(res.data.partners.length);
-      }
-    });
+    })
+      .then((res) => {
+        if (res.data.partners.length < 1) {
+          setSlicedPartners([]);
+          setMessage("There are no results to display");
+        } else {
+          setPartners(res.data.partners);
+          setSlicedPartners(
+            res.data.partners.slice(
+              pageNumber * limit,
+              (pageNumber + 1) * limit
+            )
+          );
+          setTotalCount(res.data.partners.length);
+        }
+      })
+      .catch((err) => {});
   }, [debouncedText]);
 
   useEffect(() => {
@@ -115,10 +120,12 @@ function PartnerDashboard() {
             accept: "application/json",
             Authorization: user.data.token,
           },
-        }).then((res) => {
-          setPartners(res.data.partners);
-          setTotalCount(res.data.count);
-        });
+        })
+          .then((res) => {
+            setPartners(res.data.partners);
+            setTotalCount(res.data.count);
+          })
+          .catch((err) => {});
       })
       .catch(() => {
         toast.error("Something went wrong", {

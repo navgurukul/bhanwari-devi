@@ -9,14 +9,23 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { format } from "../../../common/date";
 import AlertDialog from "../AlertDialog.js";
+import { METHODS } from "../../../services/api";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const NotEnrolledSvg = require("./notEnrolled.svg");
+
 const CourseEnroll = (props) => {
   const classes = useStyles();
+  const params = useParams();
+  const user = useSelector(({ User }) => User);
   const upcomingBatchesData = useSelector((state) => {
     return state.Pathways?.upcomingBatches?.data;
   });
+
+
   const { reloadContent } = props;
+  const pathwayId = params.pathwayId;
   const data = upcomingBatchesData?.slice(0, 3).map((item) => {
     return {
       id: item.id,
@@ -25,12 +34,15 @@ const CourseEnroll = (props) => {
       endTime: item.end_time,
     };
   });
-  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(data[0]);
+  const [selectedBatchToEnroll, setSelectedBatchToEnroll] = useState(
+    data && data[0]
+  );
   useEffect(() => {}, [selectedBatchToEnroll]);
   const [open, setOpen] = useState(false);
   const close = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Box className={classes.EnrollInCourseBox1}>

@@ -1,11 +1,4 @@
 import React, { useEffect } from "react";
-import python from "./asset/python.svg";
-import scratch from "./asset/scratch.svg";
-import typing from "./asset/typing.svg";
-import web from "./asset/web.svg";
-import language from "./asset/language.svg";
-import residential from "./asset/residential.svg";
-import random from "./asset/random.svg";
 import { Link } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -18,10 +11,7 @@ import DropdownLink from "./DropdownLink";
 import LaunchIcon from "@mui/icons-material/Launch";
 import Message from "../common/Message";
 import { LEARN_KEY, ABOUT_KEY, GET_INVOLVED_KEY, MENU_ITEMS } from "./constant";
-// import { useContext } from "react";
-// import { useLanguageConstants, getTranslationKey } from "../../common/language";
-// import { LanguageProvider } from "../../common/context";
-
+import { PATHWAYS_INFO } from "../../constant";
 import {
   Typography,
   Menu,
@@ -34,60 +24,29 @@ import {
 } from "@mui/material";
 
 const students = {
-  image: [
-    python,
-    // scratch,
-    typing,
-    language,
-    web,
-    residential,
-    random,
-  ],
-  [LEARN_KEY]: [
-    { title: "Python", code: "PRGPYT", type: "internal" },
-    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
-    { title: "Typing", code: "TYPGRU", type: "internal" },
-    { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "JavaScript", code: "JSRPIT", type: "internal" },
-    {
-      title: "Residential Programmes",
-      path: PATHS.RESIDENTIAL_COURSE,
-      type: "internal",
-    },
-    {
-      title: "Miscellaneous Courses",
-      path: PATHS.MISCELLANEOUS_COURSE,
-      type: "internal",
-    },
-  ],
+  [LEARN_KEY]: [],
   [ABOUT_KEY]: [
-    { title: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
-    { title: "Meraki Team", path: PATHS.TEAM, type: "internal" },
+    { name: "Our Story", path: PATHS.OUR_STORY, type: "internal" },
+    { name: "Meraki Team", path: PATHS.TEAM, type: "internal" },
   ],
   [GET_INVOLVED_KEY]: [
-    // {
-    //   title: "Become a Partner",
-    //   path: PATHS.OUR_PARTNER,
-    //   type: "internal",
-    // },
-
     {
-      title: <Message constantKey="VOLUNTEER_WITH_US" />,
+      name: <Message constantKey="VOLUNTEER_WITH_US" />,
       path: PATHS.VOLUNTEER_AUTOMATION,
       type: "internal",
     },
     {
-      title: "Our Partner",
+      name: "Our Partner",
       path: PATHS.OUR_PARTNER,
       type: "internal",
     },
     // {
-    //   title: <Message constantKey="DONATE" />,
+    //   name: <Message constantKey="DONATE" />,
     //   path: "https://www.navgurukul.org/donate",
     //   type: "external",
     // },
     {
-      title: "Careers",
+      name: "Careers",
       path: "https://recruiterflow.com/navgurukul/jobs",
       type: "external",
     },
@@ -96,31 +55,59 @@ const students = {
 
 export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.PathwaysDropdow);
   // const { language, MSG } = useLanguageConstants(); //useContext(LanguageProvider);
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
-  // data?.pathways &&
-  //   (students[LEARN_KEY] = data.pathways.slice(0, students.image.length));
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+    PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
+  );
+  const pathwayData = data?.pathways
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
 
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      students[LEARN_KEY].forEach((item) => {
-        if (pathway.code === item.code) {
-          item["id"] = pathway.id;
-        }
-      });
-    });
+  data?.pathways && (students[LEARN_KEY] = pathwayData);
 
   return (
     <AccordionDropDownMenu textMsgKey={MENU_ITEMS[menuKey]?.msgKey}>
       {students[menuKey].map((menu, index) => {
-        if (menu.type === "internal") {
+        if (menu.type === "external") {
+          return (
+            <ExternalLink
+              href={menu.path}
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
+            >
+              <MenuItem key={index} onClick={handleClose}>
+                {menuKey === LEARN_KEY && (
+                  <img
+                    src={
+                      menu.logo.includes("https")
+                        ? menu.logo
+                        : require("./asset/" + menu.logo + ".svg")
+                    }
+                    alt="course logo"
+                  />
+                )}
+                <CardContent>
+                  <Typography textAlign="center" variant="body1">
+                    {menu.name}
+                  </Typography>
+                </CardContent>
+                <LaunchIcon />
+              </MenuItem>
+            </ExternalLink>
+          );
+        } else {
           return (
             <Link
               to={
@@ -135,35 +122,22 @@ export const MobileDropDown = ({ menuKey, handleClose, toggleDrawer }) => {
             >
               <MenuItem key={index} onClick={handleClose}>
                 {menuKey === LEARN_KEY && (
-                  <img src={students.image[index]} alt="course logo" />
+                  <img
+                    src={
+                      menu.logo.includes("https")
+                        ? menu.logo
+                        : require("./asset/" + menu.logo + ".svg")
+                    }
+                    alt="course logo"
+                  />
                 )}
                 <CardContent>
                   <Typography textAlign="center" variant="body1">
-                    {menu.title}
+                    {menu.name}
                   </Typography>
                 </CardContent>
               </MenuItem>
             </Link>
-          );
-        } else {
-          return (
-            <ExternalLink
-              href={menu.path}
-              className={classes.link}
-              onClick={toggleDrawer && toggleDrawer(false)}
-            >
-              <MenuItem key={index} onClick={handleClose}>
-                {menuKey === LEARN_KEY && (
-                  <img src={students.image[index]} alt="course logo" />
-                )}
-                <CardContent>
-                  <Typography textAlign="center" variant="body1">
-                    {menu.title}
-                  </Typography>
-                  <LaunchIcon />
-                </CardContent>
-              </MenuItem>
-            </ExternalLink>
           );
         }
       })}
@@ -179,30 +153,50 @@ export const DropDown = ({
   //handleMouseLeave,
 }) => {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => state.PathwaysDropdow);
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
-
-  /*
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      students.Learn.forEach((item) => {
-        if (pathway.code === item.code) {
-          item.id = pathway.id;
-        }
-      });
-    });
-*/
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
   return (
     <>
       {dropDown &&
         students[dropDown].map((menu, index) => {
-          if (menu.type === "internal") {
+          if (menu.type === "external") {
+            return (
+              <>
+                <DropdownLink
+                  key={menu}
+                  //onClick={handleClose}
+                  to={menu.path}
+                  linkOnClick={toggleDrawer && toggleDrawer(false)}
+                  padding={
+                    dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
+                  }
+                  margin="6px 16px"
+                  external={true}
+                >
+                  <Typography
+                    textAlign="center"
+                    sx={{ paddingRight: 1 }}
+                    component="span"
+                  >
+                    {menu.name}
+                  </Typography>
+                  <LaunchIcon />
+                </DropdownLink>
+                {dropDown === LEARN_KEY &&
+                  index === students[dropDown].length - 3 && <Divider />}
+              </>
+            );
+          } else {
             return (
               <>
                 <DropdownLink
@@ -222,43 +216,27 @@ export const DropDown = ({
                   margin="6px 16px"
                 >
                   {dropDown === LEARN_KEY && (
-                    <img src={students.image[index]} alt="course logo" />
+                    <img
+                      // src={ menu.logo}
+
+                      src={
+                        menu.logo.includes("https")
+                          ? menu.logo
+                          : require("./asset/" + menu.logo + ".svg")
+                      }
+                      alt="course logo"
+                    />
                   )}
                   <Typography
                     textAlign="center"
                     sx={{ paddingLeft: dropDown === LEARN_KEY && 2 }}
                     // component="span"
                   >
-                    {menu.title}
+                    {menu.name}
                   </Typography>
                 </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
-              </>
-            );
-          } else {
-            return (
-              <>
-                <DropdownLink
-                  key={menu}
-                  //onClick={handleClose}
-                  to={menu.path}
-                  linkOnClick={toggleDrawer && toggleDrawer(false)}
-                  padding={
-                    dropDown === LEARN_KEY ? "30px 6px 30px 6px" : "10px"
-                  }
-                  margin="6px 16px"
-                  external={true}
-                >
-                  <Typography
-                    textAlign="center"
-                    sx={{ paddingRight: 1 }}
-                    component="span"
-                  >
-                    {menu.title}
-                  </Typography>
-                  <LaunchIcon />
-                </DropdownLink>
-                {dropDown === LEARN_KEY && index == 4 && <Divider />}
+                {dropDown === LEARN_KEY &&
+                  index === students[dropDown].length - 3 && <Divider />}
               </>
             );
           }

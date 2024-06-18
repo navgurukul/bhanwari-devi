@@ -21,6 +21,17 @@ export const sendGoogleUserData = (userData, tokens) => {
   });
 };
 
+export const sendUserCredentials = async (userData) => {
+  return axios({
+    url: `${process.env.REACT_APP_MERAKI_URL}/users/auth/merakiStudent`,
+    method: METHODS.POST,
+    data: {
+      user_name: userData.username,
+      password: userData.password,
+    },
+  });
+};
+
 /**
  * Sends id-token to Meraki back-end to get profile data of registered user.
  */

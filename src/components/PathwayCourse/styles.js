@@ -128,6 +128,45 @@ const useStyles = makeStyles((theme) => ({
   pdfWrapper: {
     height: (props) => (props.isActive ? "200px" : "390px"),
   },
+  spanfont: {
+    fontWeight: "bold",
+  },
+  modalBox: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    marginBottom: "1rem",
+  },
+  modalContainer: {
+    border: "0px",
+    borderRadius: "10px",
+  },
+  customModalContainer: {
+    overflow: "scroll",
+    border: "none",
+    borderRadius: "10px",
+  },
+  boxStyle: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: "10px",
+    "@media (max-width: 980px)": {
+      flexDirection: "column",
+      paddingBottom: "14px",
+    },
+  },
+  alertBox: {
+    width: "100% !important" ,
+    backgroundColor: "#48A145 !important",
+  },
+
+   cardComponent:{
+    display: "flex",
+    gap: "15px",
+    flexDirection: "column",
+  }
+
 }));
 
 export default useStyles;

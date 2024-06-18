@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
 import { actions as userActions } from "../../components/User/redux/action";
@@ -14,17 +14,65 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
+import StudentLogin from "./StudentLogin";
 
 function Login(props) {
+  const history = useHistory();
+  const location = useLocation();
   const [queryString, setqueryString] = useState(null);
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
   const pathway = useSelector((state) => state.Pathways);
   const updateQueryString = (value) => {
     setqueryString(value);
   };
   const { loading, data } = useSelector(({ User }) => User);
-  const rolesList = data !== null && data.user.rolesList;
-  const isAuthenticated = data && data.isAuthenticated;
+  const rolesList = data !== null && data?.user?.rolesList;
+  const isAuthenticated = data && data?.isAuthenticated;
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    showPassword: false,
+  });
+
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handlePasswordVisibility = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      showPassword: !prevFormData.showPassword,
+    }));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors({ username: "", password: "" });
+    if (!formData.username && !formData.password) {
+      setErrors({
+        ...errors,
+        username: "Please enter a username",
+        password: "Please enter a password",
+      });
+      return;
+    } else if (!formData.username) {
+      setErrors({ ...errors, username: "Please enter a username" });
+      return;
+    } else if (!formData.password) {
+      setErrors({ ...errors, password: "Please enter a password" });
+      return;
+    }
+    dispatch(userActions.onUserLogin(formData));
+  };
 
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
@@ -44,13 +92,24 @@ function Login(props) {
   }
 
   useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+    if (user.error) {
+      if (user.error.errorCode === 2001) {
+        setErrors({ ...errors, username: user.error.message });
+      } else if (user.error.errorCode === 2002) {
+        setErrors({ ...errors, password: user.error.message });
+      }
+    }
+    dispatch(
+      pathwayActions.getPathways({
+        authToken: user,
+      })
+    );
+  }, [dispatch, user]);
 
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  const isActiveIpad = useMediaQuery("(max-width:768px)");
 
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
@@ -61,6 +120,20 @@ function Login(props) {
     pathway.data &&
     pathway.data.pathways.find((pathway) => pathway.code === "PRGPYT");
   const pythonPathwayId = pythonPathway && pythonPathway.id;
+
+  // PathwayId for Amazon Pathway:-
+  const amazonPathway =
+    pathway.data &&
+    pathway.data.pathways.find((pathway) => pathway.code === "ACB");
+  const [amazonPathwayId, setAmazonPathwayId] = useState(null);
+
+  useEffect(() => {
+    if (amazonPathwayId == null) {
+      setAmazonPathwayId(amazonPathway && amazonPathway.id);
+    }
+  }, [user]);
+
+  // ---------------------------------------------
 
   const rolesLandingPages = {
     volunteer: PATHS.CLASS,
@@ -79,7 +152,20 @@ function Login(props) {
           Authorization: data.token,
         },
         data: { referrer: queryString },
-      }).then((res) => {});
+      })
+        .then((res) => {
+          // For ACB Students joining using referrer link redirection below:-
+          const queryParams = new URLSearchParams(location.search);
+          const referrer = queryParams.get("referrer");
+          if (referrer.includes("amazon")) {
+            history.push(
+              interpolatePath(PATHS.PATHWAY_COURSE, {
+                pathwayId: amazonPathwayId,
+              })
+            );
+          }
+        })
+        .catch((err) => {});
     }
     if (props.location.state == "/volunteer-with-us") {
       if (rolesList.includes("volunteer")) {
@@ -91,6 +177,22 @@ function Login(props) {
     if (props.location.state) {
       return <Redirect to={props.location.state.from.pathname} />;
     }
+
+    // For already registered ACB Students redirection below:-
+    if (
+      data?.user?.partner_id == 932 &&
+      !data?.user?.rolesList.includes("partner") &&
+      !data?.user?.rolesList.includes("admin")
+    ) {
+      return (
+        <Redirect
+          to={interpolatePath(PATHS.PATHWAY_COURSE, {
+            pathwayId: amazonPathwayId,
+          })}
+        />
+      );
+    }
+
     return (
       <>
         {pythonPathwayId && (
@@ -114,14 +216,19 @@ function Login(props) {
     <>
       <Container
         className={isActive ? classes.resMerakilogin : classes.merakiLogin}
+        sx={{
+          width: isActive ? "auto" : "768px",
+          height: isActive ? "auto" : "571px",
+          marginTop: isActive ? "0" : "-60px",
+        }}
         maxWidth="lg"
       >
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
             <Container maxWidth="md">
               <Typography
-                sx={{ pt: { xs: "none", md: 24 } }}
-                variant="h4"
+                sx={{ pt: { xs: isActiveIpad ? 4 : 10, md: 24 } }}
+                variant="h6"
                 align={isActive || isActiveIpad ? "center" : "left"}
                 mt={isActive ? 0 : isActiveIpad ? 12 : 0}
                 color="textPrimary"
@@ -158,6 +265,7 @@ function Login(props) {
                           color: "black",
                           width: isActive ? "100%" : "max-content",
                           margin: "10px 0",
+                          paddingInline: "50px",
                           fontSize: "18px",
                         }}
                       >
@@ -172,6 +280,14 @@ function Login(props) {
                         : classes.googleLogin
                     }
                   />
+                  <StudentLogin
+                    handleSubmit={handleSubmit}
+                    errors={errors}
+                    formData={formData}
+                    handleChange={handleChange}
+                    handlePasswordVisibility={handlePasswordVisibility}
+                    loading={loading}
+                  />
                 </Stack>
               )}
             </Container>
@@ -181,9 +297,15 @@ function Login(props) {
             xs={12}
             ms={6}
             md={6}
-            sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
+            sx={{
+              mb: 5,
+              width: "348px",
+              height: "348px",
+              marginTop: "190px",
+              display: { xs: "none", md: "flex" },
+            }}
           >
-            <img src={require("./assets/login.svg")} alt="img" />
+            <img src={require("./assets/login illustration.png")} alt="img" />
           </Grid>
         </Grid>
       </Container>

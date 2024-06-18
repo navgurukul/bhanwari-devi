@@ -9,53 +9,62 @@ import { actions as pathwayActions } from "../PathwayCourse/redux/action";
 import ExternalLink from "../common/ExternalLink";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { breakpoints } from "../../theme/constant";
+import { PATHWAYS_INFO } from "../../constant";
 
 const menu = {
   About: [
-    { title: "Our Story", type: "internal", link: PATHS.OUR_STORY },
-    { title: "Meraki Team", type: "internal", link: PATHS.TEAM },
+    { name: "Our Story", type: "internal", path: PATHS.OUR_STORY },
+    { name: "Meraki Team", type: "internal", path: PATHS.TEAM },
   ],
-  LearningTracks: [
-    { title: "Python", code: "PRGPYT", type: "internal" },
-    // { title: "Scratch (CEL)", code: "SHCEL", type: "internal" },
-    { title: "Typing ", code: "TYPGRU", type: "internal" },
-    { title: "Spoken English", code: "SPKENG", type: "internal" },
-    { title: "Javascript", code: "JSRPIT", type: "internal" },
-    {
-      title: "Residential Programmes",
-      type: "internal",
-      link: PATHS.RESIDENTIAL_COURSE,
-    },
-    {
-      title: "Miscellaneous Courses",
-      type: "internal",
-      link: PATHS.MISCELLANEOUS_COURSE,
-    },
-  ],
-
+  LearningTracks: [],
   GetInvolved: [
     {
-      title: "Volunteer With Us",
+      name: "Volunteer With Us",
       type: "internal",
-      link: PATHS.VOLUNTEER_AUTOMATION,
+      path: PATHS.VOLUNTEER_AUTOMATION,
     },
     {
-      title: "Our Partners",
+      name: "Our Partners",
       type: "internal",
-      link: PATHS.OUR_PARTNER,
+      path: PATHS.OUR_PARTNER,
     },
     {
-      title: "Careers",
-      type: "exernal",
-      link: "https://recruiterflow.com/navgurukul/jobs",
+      name: "Careers",
+      type: "external",
+      path: "https://recruiterflow.com/navgurukul/jobs",
     },
   ],
 };
 
 const MenuList = (menuItem) => {
   const title = menuItem.split(/(?=[A-Z])/).join(" ");
+  const user = useSelector(({ User }) => User);
   const classes = useStyles();
-  const subMenu = menu[menuItem].filter((x) => x.link || x.id);
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => {
+    return state.PathwaysDropdow;
+  });
+
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
+
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+    PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
+  );
+  const pathwayData = data?.pathways
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
+
+  if (menuItem === "LearningTracks") {
+    menu[menuItem] = pathwayData;
+  }
+
+  const subMenu = menu[menuItem];
 
   return (
     <>
@@ -68,14 +77,30 @@ const MenuList = (menuItem) => {
         {title}
       </Typography>
       <List>
-        {subMenu.map((item) => {
-          if (item.type === "internal") {
+        {subMenu?.map((item) => {
+          if (item.type === "external") {
+            return (
+              <ExternalLink
+                className={classes.link}
+                href={item.path}
+                key={item.path}
+              >
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  mb={1}
+                  className={classes.CareerNDoner}
+                >
+                  {item.name} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
+                </Typography>
+              </ExternalLink>
+            );
+          } else {
             const toLink = item.id
               ? interpolatePath(PATHS.PATHWAY_COURSE, {
                   pathwayId: item.id,
                 })
-              : item.link;
-
+              : item.path;
             return (
               <Link key={toLink} to={toLink} className={classes.link}>
                 <Typography
@@ -84,26 +109,9 @@ const MenuList = (menuItem) => {
                   sx={{ pb: "8px" }}
                   className={classes.hover}
                 >
-                  {item.title}
+                  {item.name}
                 </Typography>
               </Link>
-            );
-          } else {
-            return (
-              <ExternalLink
-                className={classes.link}
-                href={item.link}
-                key={item.link}
-              >
-                <Typography
-                  variant="body2"
-                  color="text.primary"
-                  mb={1}
-                  className={classes.CareerNDoner}
-                >
-                  {item.title} <LaunchOutlinedIcon sx={{ pl: "5px" }} />
-                </Typography>
-              </ExternalLink>
             );
           }
         })}
@@ -136,19 +144,26 @@ function FooterIcon(props) {
 
 function Footer() {
   const classes = useStyles();
+  const user = useSelector(({ User }) => User);
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.Pathways);
+  const { data } = useSelector((state) => {
+    return state.PathwaysDropdow;
+  });
 
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
-  data &&
+  menu.LearningTracks &&
+    data &&
     data.pathways &&
     data.pathways.forEach((pathway) => {
-      // console.log(pathway);
       menu.LearningTracks.forEach((item) => {
         if (pathway.code === item.code) {
           item.id = pathway.id;
@@ -198,7 +213,7 @@ function Footer() {
                 variant="body2"
                 color="text.primary"
                 mb={1}
-                mt={1}
+                mt={-1}
                 className={classes.CareerNDoner}
               >
                 Donate <LaunchOutlinedIcon sx={{ pl: "5px" }} />

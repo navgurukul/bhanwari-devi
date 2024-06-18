@@ -29,5 +29,7 @@ en.LOGOUT = "Logout";
 en.TUTOR = "Tutor";
 en.CERTIFICATE_COMPLETION_WARNING =
   "Please complete all the courses to unlock %1 certificate";
+  en.PEEPUL_CERTIFICATE_COMPLETE_WARNING =
+  "Please complete at least 80% of course to unlock %1 certificate";
 
 export default en;

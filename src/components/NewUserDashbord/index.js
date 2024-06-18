@@ -3,55 +3,12 @@ import useStyles from "./styles";
 import PathwayCard from "../../pages/Home/PathwayCard";
 import { Container, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { actions as pathwayActions } from "../../components/PathwayCourse/redux/action";
 import ReturningUserPage from "../ReturningUser/ReturningUserPage";
 import axios from "axios";
 import { METHODS } from "../../services/api";
 import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
-
-const pathwayData = [
-  {
-    title: "Python",
-    code: "PRGPYT",
-    image: "python",
-    description: "Get familiar with programming with bite sized lessons",
-  },
-  // {
-  //   title: "Scratch (CEL)",
-  //   code: "SHCEL",
-  //   image: "scratch",
-  //   description: "Get familiar with programming with bite sized lessons",
-  // },
-  {
-    title: "Typing",
-    code: "TYPGRU",
-    image: "typing",
-    description: "Learn to type with pinpoint accuracy and speed.",
-  },
-  {
-    title: "Spoken English",
-    code: "SPKENG",
-    image: "language",
-    description: "Master English with easy to understand courses",
-  },
-  {
-    title: "Web Development",
-    code: "JSRPIT",
-    image: "web-development",
-    description: "Learn the basics of tech that powers the web",
-  },
-  {
-    title: "Residential Programmes",
-    image: "residential",
-    description: "Explore Navgurukul’s on campus Software Engineering courses",
-  },
-  {
-    title: "Miscellaneous Courses",
-    image: "misc",
-    description: "Courses on Android, Game dev projects and more",
-  },
-];
+import { PATHWAYS_INFO } from "../../constant";
 
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
@@ -59,12 +16,16 @@ const NewUserDashbord = () => {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [learningTracks, setLearningTracks] = useState(null);
-  const { loading, data } = useSelector((state) => state.Pathways);
+  const [learningTracks, setLearningTracks] = useState([]);
+  const { loading, data } = useSelector((state) => state.PathwaysDropdow);
 
-  useEffect(() => {
-    dispatch(pathwayActions.getPathways());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(
+  //     pathwayActions.getPathwaysDropdown({
+  //       authToken: user,
+  //     })
+  //   );
+  // }, [dispatch, user]);
 
   useEffect(() => {
     axios({
@@ -75,26 +36,24 @@ const NewUserDashbord = () => {
         accept: "application/json",
         Authorization: user?.data?.token || "",
       },
-    }).then((res) => {
-      const data = res.data;
-      if (data.length > 0) {
+    })
+      .then((res) => {
+        const data = res.data;
         setLearningTracks(res.data);
-      }
-    });
+      })
+      .catch((err) => {});
   }, []);
-  data &&
-    data.pathways &&
-    data.pathways.forEach((pathway) => {
-      pathwayData.forEach((item) => {
-        if (pathway.code === item.code) {
-          item.id = pathway.id;
-        }
-      });
-    });
+
+  const miscellaneousPathway = data?.pathways.filter((pathway) =>
+    PATHWAYS_INFO.some((miscPathway) => pathway.name === miscPathway.name)
+  );
+  const pathwayData = data?.pathways
+    .filter((pathway) => !miscellaneousPathway.includes(pathway))
+    .concat(miscellaneousPathway);
 
   return (
     <>
-      {!learningTracks ? (
+      {learningTracks.length <= 0 ? (
         <>
           <Container className={classes.DashboardContainer}>
             <Typography variant="h5" align="center" mt={4} mb={3}>
@@ -106,19 +65,19 @@ const NewUserDashbord = () => {
           </Container>
           <Container maxWidth="lg">
             <Grid container align="center" rowSpacing={6} mb={10}>
-              {pathwayData.map((item) => (
+              {pathwayData?.map((item) => (
                 <Grid
                   item
                   xs={6}
                   ms={6}
                   md={3}
                   className={classes.cardGrid}
-                  maxHeight={isActive && item.title.length < 12 ? 170 : 210}
+                  maxHeight={isActive && item.name.length < 12 ? 170 : 210}
                 >
                   <PathwayCard
                     id={item.id}
-                    title={item.title}
-                    image={item.image}
+                    name={item.name}
+                    logo={item.logo}
                     hover={true}
                   />
                 </Grid>
@@ -127,7 +86,7 @@ const NewUserDashbord = () => {
           </Container>
         </>
       ) : (
-        <ReturningUserPage />
+        <ReturningUserPage learningTracks={learningTracks} />
       )}
     </>
   );

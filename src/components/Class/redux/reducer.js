@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
         allClasses: {
           loading: false,
           error: false,
-          data: state.allClasses.data.filter((item) => {
+          data: state?.allClasses?.data?.filter((item) => {
             return item.id !== action.id;
           }),
         },

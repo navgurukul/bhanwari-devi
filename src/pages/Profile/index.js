@@ -51,10 +51,12 @@ const firebaseConfig = {
 
 function Profile() {
   const params = useParams();
-  const pathwayId = params.pathwayId;
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   const date = user.data.user.last_login_at;
+
+  const [completedPortion, setCompletedPortion] = useState({});
+  const [courseTime, setCourseTime] = useState();
 
   // console.log(timeData,timehourData,min,loginMin,hour,loginHour)
 
@@ -86,9 +88,8 @@ function Profile() {
   const [otp, setOtp] = React.useState("");
   const [snackBarOpen, setSnackBarOpen] = React.useState(false);
 
-  const data = useSelector((state) => {
-    return state;
-  });
+  const { loading, data } = useSelector((state) => state.PathwaysDropdow);
+
   const handleSnackBarClose = () => {
     setSnackBarOpen(false);
     setMessage("");
@@ -174,7 +175,9 @@ function Profile() {
   };
   // OTP AUTH FUNCTION
   useEffect(() => {
-    dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+    if (loading) {
+      dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+    }
   }, []);
 
   useEffect(() => {
@@ -204,6 +207,26 @@ function Profile() {
     }
   }, [editName]);
 
+  const pathwayId = data?.pathways?.find((item) => item.code === "PRGPYT")?.id;
+
+  useEffect(() => {
+    if (user?.data?.token && pathwayId) {
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/totalProgress`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+      })
+        .then((response) => {
+          setCompletedPortion(response.data.total_completed_portion);
+          setCourseTime(response.data.complete_at);
+        })
+        .catch((err) => {});
+    }
+  }, [pathwayId]);
+
   const editProfile = () => {
     let payload = {
       name: editName,
@@ -224,14 +247,14 @@ function Profile() {
         Authorization: user.data.token,
       },
       data: payload,
-    }).then((res) => {
-      dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
-      setMsg(false);
-      setUserData(res.data.user);
-      window.location.reload();
-    });
+    })
+      .then((res) => {
+        dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
+        setMsg(false);
+        setUserData(res.data.user);
+      })
+      .catch((err) => {});
   };
-  // console.log(user)
 
   return (
     <>
@@ -532,17 +555,27 @@ function Profile() {
             <Typography variant="h6" sx={{ marginLeft: "22px" }}>
               My Certificates
             </Typography>
-            {data.Pathways.data &&
-              data.Pathways.data.pathways?.map(
-                (item) =>
-                  item.code === "PRGPYT" && <CertificateCard item={item} />
-              )}
+            {data?.pathways?.map(
+              (item) =>
+                item.code === "PRGPYT" && (
+                  <CertificateCard
+                    item={item}
+                    completedPortion={completedPortion}
+                    courseTime={courseTime}
+                  />
+                )
+            )}
 
-            {data.Pathways.data &&
-              data.Pathways.data.pathways?.map(
-                (item) =>
-                  item.code === "PRGPYT" && <UnlockOpportunities item={item} />
-              )}
+            {data?.pathways?.map(
+              (item) =>
+                item.code === "PRGPYT" && (
+                  <UnlockOpportunities
+                    item={item}
+                    completedPortion={completedPortion}
+                    // courseTime={courseTime}
+                  />
+                )
+            )}
           </Grid>
         </Grid>
       </Container>
