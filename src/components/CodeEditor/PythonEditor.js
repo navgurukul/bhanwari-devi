@@ -31,6 +31,17 @@ const PythonEditor = ({
   const [pythonEditorCode, setPythonEditorCode] = useState(
     initialCodeEditorValue
   );
+  const [output, setOutput] = useState('');
+  const [errorOutput, setErrorOutput] = useState('');
+  const [isMyCodeRunning, setIsMyCodeRunning] = useState(false);
+
+  useEffect(() => {
+    if (isMyCodeRunning) {
+      setOutput(stdout);
+      setErrorOutput(stderr);
+      setIsMyCodeRunning(false);
+    }
+  }, [isMyCodeRunning, isRunning]);
 
   return (
     <Box
@@ -206,6 +217,7 @@ print("Sum of two numbers is:", x + y, "Your word is:", z)
                       "\n" +
                       lines.slice(noInputIndex).join("\n")
                   );
+                  setIsMyCodeRunning(true);
                 }}
               >
                 Run
@@ -240,8 +252,8 @@ print("Sum of two numbers is:", x + y, "Your word is:", z)
             p: 1,
           }}
         >
-          <Typography>{stderr}</Typography>
-          <Typography>{stdout}</Typography>
+          <Typography>{errorOutput}</Typography>
+          <Typography>{output}</Typography>
         </Box>
       </Box>
     </Box>
