@@ -36,7 +36,8 @@ const PythonEditor = ({
   const [isMyCodeRunning, setIsMyCodeRunning] = useState(false);
 
   useEffect(() => {
-    if (isMyCodeRunning) {
+    if (isMyCodeRunning && !isRunning) {
+      // this editor code finished running
       setOutput(stdout);
       setErrorOutput(stderr);
       setIsMyCodeRunning(false);
