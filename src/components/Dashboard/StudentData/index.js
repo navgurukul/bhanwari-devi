@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { BsArrowUpDown } from "react-icons/bs";
 import { PATHS } from "../../../constant.js";
-
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { METHODS } from "../../../services/api";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
@@ -16,8 +16,15 @@ import { Redirect } from "react-router-dom";
 import AddStudent from "../../../pages/AddStudent/index.js";
 import { toast } from "react-toastify";
 import { hasOneFrom } from "../../../common/utils";
-import { Box, Button } from "@mui/material";
-import { Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Grid,
+  Container,
+  Typography,
+  CardContent,
+  Card,
+} from "@mui/material";
 
 // const { createSliderWithTooltip } = Slider;
 // const Range = createSliderWithTooltip(Slider.Range);
@@ -51,9 +58,26 @@ function StudentData() {
   const [studentid, setstudentId] = useState();
   const [stupassword, setStupassword] = useState();
   const [studentEmail, setStudentEmail] = useState();
+  const [csvUpdatedTime, setCSVUpdatedTime] = useState([]);
 
   const [triggerdGet, setTriggerdGet] = useState(false);
   const loginUser = user.data.user.id;
+
+  // Fetching the csv updated time
+
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/read-date-csv`,
+      headers: { accept: "application/json", Authorization: user.data.token },
+    })
+      .then((response) => {
+        setCSVUpdatedTime(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
@@ -394,25 +418,85 @@ function StudentData() {
     };
 
     return id == 1359 ? (
-      <div className="container-table">
-        <Typography variant="h4" sx={{ mb: 4 }}>
-          {partnerName}
-        </Typography>
-        <Box my={4}>
-          <Typography variant="h5">MCDigital Course-1</Typography>
-          <Typography variant="body1">
-            Student Progress Report (Last Updated on {formattedDate} at 2:30 AM)
+      <Container>
+        <Box mb={4}>
+          <Typography variant="h6">{partnerName}</Typography>
+          <Typography variant="subtitle1" style={{ marginTop: "32px" }}>
+            MCDigital Course-1
           </Typography>
         </Box>
-        <Box display="flex" gap={2} my={2}>
-          <Button variant="contained" onClick={studentReport1}>
-            Download Report
-          </Button>
-          <Button variant="outlined" onClick={studentReport2}>
-            Download Report for Last 7 Days{" "}
-          </Button>
-        </Box>
-      </div>
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={6}>
+            <Card elevation={2} sx={{ p: "16px 16px 8px 16px" }}>
+              <CardContent>
+                <Typography variant="subtitle1">
+                  All Time Student Progress Report
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{
+                    margin: "16px 0 16px 0",
+                    display: "flex",
+                    color: "text.secondary",
+                  }}
+                >
+                  <AccessTimeIcon
+                    sx={{ mr: 1, width: "24px", height: "24px" }}
+                  />
+                  Last updated on {csvUpdatedTime.allUsersDetailUpdatedOn} at{" "}
+                  {csvUpdatedTime.at}
+                </Typography>
+                <Typography variant="body1">
+                  The report contains student progress since the start of the
+                  programme until the present day
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={studentReport1}
+                  style={{ margin: "32px 0 8px 0" }}
+                >
+                  Download Report
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Card elevation={2} sx={{ p: "16px 16px 8px 16px" }}>
+              <CardContent>
+                <Typography variant="subtitle1">
+                  Seven Days Student Progress Report
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{
+                    margin: "16px 0 16px 0",
+                    display: "flex",
+                    color: "text.secondary",
+                  }}
+                >
+                  <AccessTimeIcon
+                    sx={{ mr: 1, width: "24px", height: "24px" }}
+                  />
+                  Last updated on{" "}
+                  {csvUpdatedTime.lastWeekUsersLoginDetailsUpdatedOn} at{" "}
+                  {csvUpdatedTime.at}
+                </Typography>
+                <Typography variant="body1">
+                  The report contains student progress from the last 7 days
+                  until the present day
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={studentReport2}
+                  style={{ margin: "32px 0 8px 0" }}
+                >
+                  Download Report
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
     ) : (
       <div className="container-table">
         <h3 className="partner-name">{partnerName}</h3>
