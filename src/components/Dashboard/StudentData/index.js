@@ -25,6 +25,7 @@ import {
   CardContent,
   Card,
 } from "@mui/material";
+import { Stack, Dialog, DialogTitle, DialogActions } from "@mui/material";
 
 // const { createSliderWithTooltip } = Slider;
 // const Range = createSliderWithTooltip(Slider.Range);
@@ -59,6 +60,8 @@ function StudentData() {
   const [stupassword, setStupassword] = useState();
   const [studentEmail, setStudentEmail] = useState();
   const [csvUpdatedTime, setCSVUpdatedTime] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
 
   const [triggerdGet, setTriggerdGet] = useState(false);
   const loginUser = user.data.user.id;
@@ -313,7 +316,18 @@ function StudentData() {
   //   setDisabled(false);
   // };
 
+  const handleClickOpen = (id) => {
+    setSelectedStudentId(id);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedStudentId(null);
+  };
+
   const removeStudent = (id) => {
+    setShowModal(!showModal);
     return axios({
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/user`,
       method: METHODS.DELETE,
@@ -834,11 +848,56 @@ function StudentData() {
                         }}
                       />
                       {loginUser == item.id ? null : (
-                        <i
-                          style={{ marginLeft: "20px" }}
-                          className="class-card-action-icon fa fa-trash"
-                          onClick={() => removeStudent(item.id)}
-                        />
+                        <>
+                          <i
+                            style={{ marginLeft: "20px" }}
+                            className="class-card-action-icon fa fa-trash"
+                            onClick={() => handleClickOpen(item.id)}
+                          />
+                          {/* dialog box for delete button */}
+
+                          <Dialog
+                            open={showModal}
+                            BackdropProps={{
+                              style: {
+                                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                              }, // Adjust the opacity here
+                            }}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle>
+                              <Typography variant="h6" align="center">
+                                Are you sure you want to delete this student?
+                              </Typography>
+                            </DialogTitle>
+                            <Stack alignItems="center">
+                              <DialogActions>
+                                <Box sx={{ display: "flex", mb: 2 }}>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      return removeStudent(selectedStudentId); // Ensure this function gets the correct student ID
+                                    }}
+                                    color="error"
+                                    variant="contained"
+                                    sx={{ mr: "15px", width: "100px" }}
+                                  >
+                                    Yes
+                                  </Button>
+                                  <Button
+                                    onClick={handleClose}
+                                    color="grey"
+                                    variant="contained"
+                                    sx={{ width: "100px" }}
+                                  >
+                                    No
+                                  </Button>
+                                </Box>
+                              </DialogActions>
+                            </Stack>
+                          </Dialog>
+                        </>
                       )}
                     </td>
                   )}
