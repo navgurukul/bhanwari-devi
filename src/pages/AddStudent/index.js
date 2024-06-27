@@ -199,6 +199,7 @@ function AddStudent({
           return !prev;
         });
         clearFormAndErrors();
+        setOpenForm(false);
       })
       .catch((e) => {
         if (e.erorrCode === 2005) {
