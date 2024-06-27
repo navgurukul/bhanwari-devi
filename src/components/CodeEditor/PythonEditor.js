@@ -126,6 +126,7 @@ const PythonEditor = ({
 
                   if (noInputIndex === 0) {
                     runPython(pythonEditorCode);
+                    setIsMyCodeRunning(true);
                     return;
                   }
 
