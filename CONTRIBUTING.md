@@ -8,7 +8,7 @@ Contributions to this project by people like you will allow us to scale quickly 
 
 Production (Deployed from the [`main`](https://github.com/navgurukul/bhanwari-devi) branch): [https://merakilearn.org](https://merakilearn.org)
 
-Development (Deployed from the [`dev`](https://github.com/navgurukul/bhanwari-devi/tree/dev) branch): [https://bhanwari-devi.vercel.app](https://bhanwari-devi.vercel.app)
+Development (Deployed from the [`dev`](https://github.com/navgurukul/bhanwari-devi/tree/dev) branch): [https://www.merd-bhanwaridevi.merakilearn.org/](https://www.merd-bhanwaridevi.merakilearn.org/)
 
 ## Tech Stack
 
@@ -90,7 +90,7 @@ git checkout <branch-you-want-to-start-from>
 - Please describe the issue in detail and also mention the steps necessary to reproduce the issue.
 - Attach screenshots if relevant and possible.
 - Include stack traces for any errors you encounter. (Check the developer console, expand error messages, and copy paste the lines you see.)
-- Include the link from which you are facing the issue (Production: [https://merakilearn.org](https://merakilearn.org) or Development: [https://bhanwari-devi.vercel.app](https://bhanwari-devi.vercel.app)).
+- Include the link from which you are facing the issue (Production: [https://merakilearn.org](https://merakilearn.org) or Development: [https://www.merd-bhanwaridevi.merakilearn.org/](https://www.merd-bhanwaridevi.merakilearn.org/).
 - Select the appropriate issue template (error, feature request, or documentation), and the relevant labels will automatically be added to the issue.
 
 ## Creating a new Pull Request

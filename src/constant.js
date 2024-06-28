@@ -228,3 +228,10 @@ export const TimeLeft = (date) => {
 export const interpolatePath = (path, paramValues) =>
   path.replace(/:(\w*)/g, (_, param) => paramValues[param]);
 export const versionCode = 40;
+
+export const INDENT = 4;
+
+export const CODE_EDITOR_FIELDS = {
+  IS_NOT_EDITABLE: "isNotEditable",
+  IS_NOT_EXECUTABLE: "isNotExecutable",
+};
