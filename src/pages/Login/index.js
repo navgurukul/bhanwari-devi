@@ -104,7 +104,7 @@ function Login(props) {
         authToken: user,
       })
     );
-  }, [dispatch, user]);
+  }, [dispatch, user.error]);
 
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
