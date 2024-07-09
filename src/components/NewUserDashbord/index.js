@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import PathwayCard from "../../pages/Home/PathwayCard";
-import { Container, Grid, Typography, useMediaQuery } from "@mui/material";
+import { Container, Grid, Typography, useMediaQuery, Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import ReturningUserPage from "../ReturningUser/ReturningUserPage";
 import axios from "axios";
@@ -9,6 +9,7 @@ import { METHODS } from "../../services/api";
 import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
 import { PATHWAYS_INFO } from "../../constant";
+import Loader from "../../components/common/Loader";
 
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
@@ -53,7 +54,11 @@ const NewUserDashbord = () => {
 
   return (
     <>
-      {learningTracks.length <= 0 ? (
+      {loading ? (
+        <Box>
+          <Loader />
+        </Box>
+      ) : learningTracks.length <= 0 ? (
         <>
           <Container className={classes.DashboardContainer}>
             <Typography variant="h5" align="center" mt={4} mb={3}>
