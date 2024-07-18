@@ -106,7 +106,8 @@ const useStyles = makeStyles((theme) => ({
   },
   certButtons: {
     display: "flex",
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
+    justifyContent: "flex-end",
     marginTop: "32px",
   },
   greenButton: {
@@ -114,20 +115,26 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "8px !important",
     backgroundColor: "#48A145 !important",
     color: "#FFFFFF !important",
-    width: "295px !important",
+    // width: "180px !important",
+  },
+  disableButton: {
+    padding: "8px 16px !important",
+    borderRadius: "8px !important",
+    backgroundColor: "#E0E0E0 !important",
+    color: "gray !important",
   },
 
-  pdfFrame: {
-    height: "100%",
-    width: "100%",
-    border: "none",
-    outline: "none",
-    brackgroundColor: "transparent !important",
-  },
+  // pdfFrame: {
+  //   height: "100%",
+  //   width: "100%",
+  //   border: "none",
+  //   outline: "none",
+  //   brackgroundColor: "transparent !important",
+  // },
 
-  pdfWrapper: {
-    height: (props) => (props.isActive ? "200px" : "390px"),
-  },
+  // pdfWrapper: {
+  //   height: (props) => (props.isActive ? "202px" : "372px"),
+  // },
   spanfont: {
     fontWeight: "bold",
   },
@@ -157,16 +164,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   alertBox: {
-    width: "100% !important" ,
+    width: "100% !important",
     backgroundColor: "#48A145 !important",
   },
 
-   cardComponent:{
+  cardComponent: {
     display: "flex",
     gap: "15px",
     flexDirection: "column",
-  }
-
+  },
 }));
 
 export default useStyles;
