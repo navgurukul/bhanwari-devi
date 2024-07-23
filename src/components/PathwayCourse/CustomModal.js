@@ -77,6 +77,7 @@ function CustomModal({
     "Class 4",
     "Class 5",
   ];
+
   const zoneArray = [
     "Central",
     "Civil Lines",
@@ -91,17 +92,13 @@ function CustomModal({
     "Sharda.South",
     "West",
   ];
+
   const employeetype = [
     "teachers",
     "principal",
     "mentor",
     "school inspector",
     "clerical staff",
-  ];
-
-  const fieldArray = [
-    { label: "School Name", key: "school_name" },
-    { label: "School Id", key: "school_id", type: "number" },
   ];
 
   const [teacherClass, setTeacherClass] = useState([]);
@@ -185,7 +182,7 @@ function CustomModal({
     }
     if (
       !teacherDetails.class_of_teacher &&
-      teacherDetails.employee_type !== "clerical staff"
+      teacherDetails.employee_type === "teachers"
     )
       newErrors.class_of_teacher = "Class of Teacher is required.";
     setErrors(newErrors);
@@ -282,102 +279,6 @@ function CustomModal({
             </Select>
           </FormControl>
 
-          <FormControl fullWidth>
-            <InputLabel id="zone-select-label">Select Zone</InputLabel>
-            <Select
-              label="Select Zone"
-              id="zone-select"
-              value={teacherDetails.zone}
-              onChange={(e) => {
-                setTeacherDetails((prev) => ({
-                  ...prev,
-                  zone: e.target.value,
-                }));
-              }}
-            >
-              {zoneArray.map((name) => (
-                <MenuItem key={name} value={name}>
-                  <ListItemText primary={name} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          {renderError("zone")}
-          {fieldArray.map(
-            (field) =>
-              teacherDetails.employee_type !== "clerical staff" &&
-              teacherDetails.employee_type !== "mentor" &&
-              teacherDetails.employee_type !== "school inspector" && (
-                <React.Fragment key={field.key}>
-                  <TextField
-                    id={`${field.key}-input`}
-                    label={field.label}
-                    variant="outlined"
-                    type={field.type}
-                    value={teacherDetails[field.key]}
-                    onChange={(e) => {
-                      e.persist();
-                      setTeacherDetails((prev) => ({
-                        ...prev,
-                        [field.key]:
-                          field.type === "number"
-                            ? parseInt(e.target.value)
-                            : e.target.value,
-                      }));
-                    }}
-                  />
-                  {renderError(field.key)}
-                </React.Fragment>
-              )
-          )}
-          {teacherDetails.employee_type === "teachers" && (
-            <>
-              <TextField
-                id="teacher-name-input"
-                label="Teacher Name"
-                variant="outlined"
-                value={teacherDetails.teacher_name}
-                onChange={(e) => {
-                  e.persist();
-                  setTeacherDetails((prev) => ({
-                    ...prev,
-                    teacher_name: e.target.value,
-                  }));
-                }}
-              />
-              {renderError("teacher_name")}
-              <TextField
-                id="teacher-id-input"
-                label="Teacher ID"
-                variant="outlined"
-                type="number"
-                value={teacherDetails.teacher_id}
-                onChange={(e) => {
-                  e.persist();
-                  setTeacherDetails((prev) => ({
-                    ...prev,
-                    teacher_id: parseInt(e.target.value),
-                  }));
-                }}
-              />
-              {renderError("teacher_id")}
-              <TextField
-                id="contect_number-input"
-                label="Contect Number"
-                variant="outlined"
-                type="number"
-                value={teacherDetails.contect_number}
-                onChange={(e) => {
-                  e.persist();
-                  setTeacherDetails((prev) => ({
-                    ...prev,
-                    contect_number: parseInt(e.target.value),
-                  }));
-                }}
-              />
-              {renderError("contect_number")}
-            </>
-          )}
           {teacherDetails.employee_type === "principal" && (
             <>
               <TextField
@@ -394,6 +295,7 @@ function CustomModal({
                 }}
               />
               {renderError("pricipal_name")}
+
               <TextField
                 id="principal-id-input"
                 label="Principal ID"
@@ -409,6 +311,7 @@ function CustomModal({
                 }}
               />
               {renderError("pricipal_id")}
+
               <TextField
                 id="contect_number-input"
                 label="Contect Number"
@@ -426,6 +329,80 @@ function CustomModal({
               {renderError("contect_number")}
             </>
           )}
+
+          {teacherDetails.employee_type === "teachers" && (
+            <>
+              <TextField
+                id="teacher-name-input"
+                label="Teacher Name"
+                variant="outlined"
+                value={teacherDetails.teacher_name}
+                onChange={(e) => {
+                  e.persist();
+                  setTeacherDetails((prev) => ({
+                    ...prev,
+                    teacher_name: e.target.value,
+                  }));
+                }}
+              />
+              {renderError("teacher_name")}
+
+              <TextField
+                id="teacher-id-input"
+                label="Teacher ID"
+                variant="outlined"
+                type="number"
+                value={teacherDetails.teacher_id}
+                onChange={(e) => {
+                  e.persist();
+                  setTeacherDetails((prev) => ({
+                    ...prev,
+                    teacher_id: parseInt(e.target.value),
+                  }));
+                }}
+              />
+              {renderError("teacher_id")}
+
+              <FormControl fullWidth>
+                <InputLabel id="class-select-label">Select Class</InputLabel>
+                <Select
+                  label="Select Class"
+                  id="class-select"
+                  multiple
+                  value={teacherClass}
+                  onChange={handleChange}
+                  input={<OutlinedInput label="Select Class" />}
+                  renderValue={(selected) => selected.join(", ")}
+                  MenuProps={MenuProps}
+                >
+                  {classesOfTeacher.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={teacherClass.indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {renderError("class_of_teacher")}
+
+              <TextField
+                id="contect_number-input"
+                label="Contect Number"
+                variant="outlined"
+                type="number"
+                value={teacherDetails.contect_number}
+                onChange={(e) => {
+                  e.persist();
+                  setTeacherDetails((prev) => ({
+                    ...prev,
+                    contect_number: parseInt(e.target.value),
+                  }));
+                }}
+              />
+              {renderError("contect_number")}
+            </>
+          )}
+
           {teacherDetails.employee_type === "mentor" && (
             <>
               <TextField
@@ -458,6 +435,7 @@ function CustomModal({
                 }}
               />
               {renderError("mentor_id")}
+
               <TextField
                 id="contect_number-input"
                 label="Contect Number"
@@ -473,38 +451,39 @@ function CustomModal({
                 }}
               />
               {renderError("contect_number")}
+
               <TextField
-                id="parent_school_name"
-                label="Parent school name "
+                id="parent_school_name-input"
+                label="Parent School Name"
                 variant="outlined"
-                type="string"
                 value={teacherDetails.parent_school_name}
                 onChange={(e) => {
                   e.persist();
                   setTeacherDetails((prev) => ({
                     ...prev,
-                    parent_school_name: parseInt(e.target.value),
+                    parent_school_name: e.target.value,
                   }));
                 }}
               />
               {renderError("parent_school_name")}
+
               <TextField
-                id="parent_school_id"
-                label="Parent School ID "
+                id="parent_school_id-input"
+                label="Parent School ID"
                 variant="outlined"
-                type="number"
                 value={teacherDetails.parent_school_id}
                 onChange={(e) => {
                   e.persist();
                   setTeacherDetails((prev) => ({
                     ...prev,
-                    parent_school_id: parseInt(e.target.value),
+                    parent_school_id: e.target.value,
                   }));
                 }}
               />
               {renderError("parent_school_id")}
             </>
           )}
+
           {teacherDetails.employee_type === "school inspector" && (
             <>
               <TextField
@@ -521,6 +500,7 @@ function CustomModal({
                 }}
               />
               {renderError("school_inspector_name")}
+
               <TextField
                 id="school-inspector-id-input"
                 label="School Inspector ID"
@@ -536,36 +516,7 @@ function CustomModal({
                 }}
               />
               {renderError("school_inspector_id")}
-              <TextField
-                id="parent_school_name"
-                label="Parent school name "
-                variant="outlined"
-                type="string"
-                value={teacherDetails.parent_school_name}
-                onChange={(e) => {
-                  e.persist();
-                  setTeacherDetails((prev) => ({
-                    ...prev,
-                    parent_school_name: parseInt(e.target.value),
-                  }));
-                }}
-              />
-              {renderError("parent_school_name")}
-              <TextField
-                id="parent_school_id"
-                label="Parent School ID "
-                variant="outlined"
-                type="number"
-                value={teacherDetails.parent_school_id}
-                onChange={(e) => {
-                  e.persist();
-                  setTeacherDetails((prev) => ({
-                    ...prev,
-                    parent_school_id: parseInt(e.target.value),
-                  }));
-                }}
-              />
-              {renderError("parent_school_id")}
+
               <TextField
                 id="contect_number-input"
                 label="Contect Number"
@@ -581,8 +532,39 @@ function CustomModal({
                 }}
               />
               {renderError("contect_number")}
+
+              <TextField
+                id="parent_school_name-input"
+                label="Parent School Name"
+                variant="outlined"
+                value={teacherDetails.parent_school_name}
+                onChange={(e) => {
+                  e.persist();
+                  setTeacherDetails((prev) => ({
+                    ...prev,
+                    parent_school_name: e.target.value,
+                  }));
+                }}
+              />
+              {renderError("parent_school_name")}
+
+              <TextField
+                id="parent_school_id-input"
+                label="Parent School ID"
+                variant="outlined"
+                value={teacherDetails.parent_school_id}
+                onChange={(e) => {
+                  e.persist();
+                  setTeacherDetails((prev) => ({
+                    ...prev,
+                    parent_school_id: e.target.value,
+                  }));
+                }}
+              />
+              {renderError("parent_school_id")}
             </>
           )}
+
           {teacherDetails.employee_type === "clerical staff" && (
             <>
               <TextField
@@ -601,7 +583,7 @@ function CustomModal({
               {renderError("employee_name")}
 
               <TextField
-                id="employee-id-input"
+                id="employee_id-input"
                 label="Employee ID"
                 variant="outlined"
                 type="number"
@@ -615,6 +597,7 @@ function CustomModal({
                 }}
               />
               {renderError("employee_id")}
+
               <TextField
                 id="contect_number-input"
                 label="Contect Number"
@@ -632,44 +615,73 @@ function CustomModal({
               {renderError("contect_number")}
             </>
           )}
+
+          <FormControl fullWidth>
+            <InputLabel id="zone-select-label">Select Zone</InputLabel>
+            <Select
+              label="Select Zone"
+              id="zone-select"
+              value={teacherDetails.zone}
+              onChange={(e) => {
+                setTeacherDetails((prev) => ({
+                  ...prev,
+                  zone: e.target.value,
+                }));
+              }}
+            >
+              {zoneArray.map((name) => (
+                <MenuItem key={name} value={name}>
+                  <ListItemText primary={name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {renderError("zone")}
+
           {teacherDetails.employee_type !== "clerical staff" &&
-            teacherDetails.employee_type !== "principal" &&
             teacherDetails.employee_type !== "mentor" &&
             teacherDetails.employee_type !== "school inspector" && (
-              <FormControl sx={{ width: "100%" }}>
-                <InputLabel id="class-select-label">Select Class</InputLabel>
-                <Select
-                  labelId="class-select-label"
-                  id="class-select"
-                  multiple
-                  value={teacherClass}
-                  onChange={handleChange}
-                  input={<OutlinedInput label="Select Class" />}
-                  renderValue={(selected) => selected.join(", ")}
-                  MenuProps={MenuProps}
-                >
-                  {classesOfTeacher.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <Checkbox checked={teacherClass.indexOf(name) > -1} />
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <>
+                <TextField
+                  id="school-name-input"
+                  label="School Name"
+                  variant="outlined"
+                  value={teacherDetails.school_name}
+                  onChange={(e) => {
+                    e.persist();
+                    setTeacherDetails((prev) => ({
+                      ...prev,
+                      school_name: e.target.value,
+                    }));
+                  }}
+                />
+                {renderError("school_name")}
+
+                <TextField
+                  id="school-id-input"
+                  label="School ID"
+                  variant="outlined"
+                  value={teacherDetails.school_id}
+                  onChange={(e) => {
+                    e.persist();
+                    setTeacherDetails((prev) => ({
+                      ...prev,
+                      school_id: e.target.value,
+                    }));
+                  }}
+                />
+                {renderError("school_id")}
+              </>
             )}
-          {teacherDetails.employee_type !== "clerical staff" &&
-            teacherDetails.employee_type !== "principal" &&
-            teacherDetails.employee_type !== "mentor" &&
-            teacherDetails.employee_type !== "school inspector" &&
-            renderError("class_of_teacher")}
+
+          <Button
+            variant="contained"
+            sx={{ marginLeft: "60%" }}
+            onClick={handleSubmitteacherDetails}
+          >
+            Share Details
+          </Button>
         </Box>
-        <Button
-          variant="contained"
-          sx={{ marginLeft: "60%" }}
-          onClick={handleSubmitteacherDetails}
-        >
-          Share Details
-        </Button>
       </Box>
     </Modal>
   );
