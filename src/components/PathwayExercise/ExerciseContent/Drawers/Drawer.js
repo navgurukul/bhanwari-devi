@@ -109,6 +109,7 @@ function PersistentDrawerLeft({
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
+
   const ref1 = React.useRef();
   React.useEffect(() => {
     if (ref1.current) {
@@ -117,7 +118,6 @@ function PersistentDrawerLeft({
       });
     }
   }, []);
-
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
@@ -174,5 +174,4 @@ function PersistentDrawerLeft({
     </Box>
   );
 }
-
 export default PersistentDrawerLeft;

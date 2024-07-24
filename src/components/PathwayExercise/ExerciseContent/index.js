@@ -502,8 +502,6 @@ function ExerciseContent({
       </Container>
     );
   }
-
   return <>{!loading ? <ExerciseContentMain /> : <ExerciseContentLoading />}</>;
 }
-
 export default ExerciseContent;

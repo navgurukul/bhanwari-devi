@@ -43,17 +43,17 @@ function CustomModal({
     teacher_name: "",
     teacher_id: "",
     class_of_teacher: "",
-    pricipal_name: "",
-    pricipal_id: "",
-    mentor_name: "",
-    mentor_id: "",
-    school_inspector_name: "",
-    school_inspector_id: "",
-    parent_school_name: "",
-    parent_school_id: "",
-    employee_name: "",
-    employee_id: "",
-    contect_number: "",
+    // pricipal_name: "",
+    // pricipal_id: "",
+    // mentor_name: "",
+    // mentor_id: "",
+    // school_inspector_name: "",
+    // school_inspector_id: "",
+    // parent_school_name: "",
+    // parent_school_id: "",
+    // employee_name: "",
+    // employee_id: "",
+    phone_number: "",
     employee_type: "",
   });
 
@@ -191,43 +191,43 @@ function CustomModal({
 
   const handleSubmitteacherDetails = () => {
     console.log("teacherDetails", teacherDetails);
-
-    // if (validateForm()) {
-    //   axios({
-    //     method: METHODS.POST,
-    //     url: `${process.env.REACT_APP_MERAKI_URL}/teacher/create`,
-    //     headers: {
-    //       accept: "application/json",
-    //       Authorization: user?.data?.token,
-    //     },
-    //     data: teacherDetails,
-    //   })
-    //     .then((res) => {
-    //       handleFormModalClose();
-    //       setisFormFilled(true);
-    //       setTeacherDetails({
-    //         zone: "",
-    //         school_id: "",
-    //         school_name: "",
-    //         teacher_name: "",
-    //         teacher_id: "",
-    //         class_of_teacher: "",
-    //         pricipal_name: "",
-    //         pricipal_id: "",
-    //         mentor_name: "",
-    //         mentor_id: "",
-    //         school_inspector_name: "",
-    //         school_inspector_id: "",
-    //         parent_school_name: "",
-    //         parent_school_id: "",
-    //         contect_number: "",
-    //         employee_name: "",
-    //         employee_id: "",
-    //         employee_type: "",
-    //       });
-    //     })
-    //     .catch((err) => console.log(err));
-    // }
+    if (validateForm()) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/teacher/create`,
+        headers: {
+          accept: "application/json",
+          Authorization: user?.data?.token,
+        },
+        data: teacherDetails,
+      })
+        .then((res) => {
+          handleFormModalClose();
+          setisFormFilled(true);
+          setTeacherDetails({
+            zone: "",
+            school_id: "",
+            school_name: "",
+            teacher_name: "",
+            teacher_id: "",
+            class_of_teacher: "",
+            phone_number: "",
+            // pricipal_name: "",
+            // pricipal_id: "",
+            // mentor_name: "",
+            // mentor_id: "",
+            // school_inspector_name: "",
+            // school_inspector_id: "",
+            // parent_school_name: "",
+            // parent_school_id: "",
+            // contect_number: "",
+            // employee_name: "",
+            // employee_id: "",
+            // employee_type: "",
+          });
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const renderError = (field) =>
@@ -313,20 +313,19 @@ function CustomModal({
               {renderError("pricipal_id")}
 
               <TextField
-                id="contect_number-input"
+                id="phone_number-input"
                 label="Contect Number"
                 variant="outlined"
-                type="number"
-                value={teacherDetails.contect_number}
+                value={teacherDetails.phone_number}
                 onChange={(e) => {
                   e.persist();
                   setTeacherDetails((prev) => ({
                     ...prev,
-                    contect_number: parseInt(e.target.value),
+                    phone_number: parseInt(e.target.value),
                   }));
                 }}
               />
-              {renderError("contect_number")}
+              {renderError("phone_number")}
             </>
           )}
 
@@ -386,20 +385,19 @@ function CustomModal({
               {renderError("class_of_teacher")}
 
               <TextField
-                id="contect_number-input"
+                id="phone_number-input"
                 label="Contect Number"
                 variant="outlined"
-                type="number"
-                value={teacherDetails.contect_number}
+                value={teacherDetails.phone_number}
                 onChange={(e) => {
                   e.persist();
                   setTeacherDetails((prev) => ({
                     ...prev,
-                    contect_number: parseInt(e.target.value),
+                    phone_number: parseInt(e.target.value),
                   }));
                 }}
               />
-              {renderError("contect_number")}
+              {renderError("phone_number")}
             </>
           )}
 
@@ -437,20 +435,19 @@ function CustomModal({
               {renderError("mentor_id")}
 
               <TextField
-                id="contect_number-input"
+                id="phone_number-input"
                 label="Contect Number"
                 variant="outlined"
-                type="number"
-                value={teacherDetails.contect_number}
+                value={teacherDetails.phone_number}
                 onChange={(e) => {
                   e.persist();
                   setTeacherDetails((prev) => ({
                     ...prev,
-                    contect_number: parseInt(e.target.value),
+                    phone_number: parseInt(e.target.value),
                   }));
                 }}
               />
-              {renderError("contect_number")}
+              {renderError("phone_number")}
 
               <TextField
                 id="parent_school_name-input"
@@ -518,20 +515,19 @@ function CustomModal({
               {renderError("school_inspector_id")}
 
               <TextField
-                id="contect_number-input"
+                id="phone_number-input"
                 label="Contect Number"
                 variant="outlined"
-                type="number"
-                value={teacherDetails.contect_number}
+                value={teacherDetails.phone_number}
                 onChange={(e) => {
                   e.persist();
                   setTeacherDetails((prev) => ({
                     ...prev,
-                    contect_number: parseInt(e.target.value),
+                    phone_number: parseInt(e.target.value),
                   }));
                 }}
               />
-              {renderError("contect_number")}
+              {renderError("phone_number")}
 
               <TextField
                 id="parent_school_name-input"
@@ -599,20 +595,19 @@ function CustomModal({
               {renderError("employee_id")}
 
               <TextField
-                id="contect_number-input"
+                id="phone_number-input"
                 label="Contect Number"
                 variant="outlined"
-                type="number"
-                value={teacherDetails.contect_number}
+                value={teacherDetails.phone_number}
                 onChange={(e) => {
                   e.persist();
                   setTeacherDetails((prev) => ({
                     ...prev,
-                    contect_number: parseInt(e.target.value),
+                    phone_number: parseInt(e.target.value),
                   }));
                 }}
               />
-              {renderError("contect_number")}
+              {renderError("phone_number")}
             </>
           )}
 
