@@ -178,7 +178,12 @@ function PathwayExercise() {
   };
 
   const addCompletedExercise = () => {
-    setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
+    setProgressTrackId({
+      ...(progressTrackId || {}),
+      exercises: (progressTrackId?.exercises || []).concat(
+        course[exerciseId].slug_id
+      ),
+    });
   };
 
   useEffect(() => {
@@ -232,7 +237,7 @@ function PathwayExercise() {
   }, [courseId, language]);
 
   useEffect(() => {
-    if(
+    if (
       course[previousExerciseId]?.content_type !== "exercise" &&
       !progressTrackId?.exercises?.includes(course[previousExerciseId]?.slug_id)
     ) {
@@ -255,7 +260,7 @@ function PathwayExercise() {
         .catch((err) => {});
     }
     setPreviousExerciseId(exerciseId);
-  }, [exerciseId])
+  }, [exerciseId]);
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -316,6 +321,7 @@ function PathwayExercise() {
         })
       );
       setExerciseId(exerciseId - 1);
+      // localStorage.setItem(`lastSelectedExercise_${params.courseId}`, exerciseId - 1);
     }
   };
 
@@ -342,9 +348,7 @@ function PathwayExercise() {
           "version-code": versionCode,
           accept: "application/json",
           Authorization:
-            user.data?.token ||
-            localStorage.getItem("studentAuthToken") ||
-            "",
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
         },
         data: {
           pathway_id: params.pathwayId,
@@ -355,7 +359,7 @@ function PathwayExercise() {
         },
       }).then((res) => {
         addCompletedExercise();
-      })
+      });
       addCompletedExercise();
     }
     setExerciseId(exerciseId + 1);
@@ -370,6 +374,7 @@ function PathwayExercise() {
         })
       );
       setExerciseId(exerciseId + 1);
+      // localStorage.setItem(`lastSelectedExercise_${params.courseId}`, exerciseId + 1);
     }
   };
 
@@ -394,8 +399,8 @@ function PathwayExercise() {
       })
         .then((res) => {
           // console.log(res);
-          // add it here in case it gets overwritten as incomplete by a response from `/completedContent` 
-          // that comes in before the request marking it as complete is handled 
+          // add it here in case it gets overwritten as incomplete by a response from `/completedContent`
+          // that comes in before the request marking it as complete is handled
           addCompletedExercise();
         })
         .catch((err) => {
@@ -475,7 +480,7 @@ function PathwayExercise() {
                   <CloseIcon />
                 </Link>
               </Typography>
-              <Toolbar>
+              {/* <Toolbar>
                 <ArrowBackIosIcon
                   opacity={!showArrow.left && 0}
                   sx={{ marginRight: "20px", cursor: "pointer" }}
@@ -514,7 +519,7 @@ function PathwayExercise() {
                     });
                   }}
                 />
-              </Toolbar>
+              </Toolbar> */}
               <LangDropDown />
             </Toolbar>
           </div>
@@ -653,7 +658,7 @@ function PathwayExercise() {
             variant="text"
             color="dark"
             style={{
-              opacity: `${exerciseId !== 0 ? 1 : 0}`,
+              opacity: `${exerciseId !== 0 ? 1 : 1}`,
             }}
             disabled={exerciseId === 0}
             onClick={previousClickHandler}
@@ -664,7 +669,7 @@ function PathwayExercise() {
           </Button>
           <Button
             style={{
-              opacity: `${exerciseId < courseLength ? 1 : 0}`,
+              opacity: `${exerciseId < courseLength ? 1 : 1}`,
               position: "relative",
               // right: "-10px",
               marginRight: !isActive && !isActiveIpad ? "40px" : "",
