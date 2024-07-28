@@ -42,15 +42,15 @@ function Item({
   };
   React.useEffect(() => {
     if (contentType === "assessment") {
-      if (progressTrackId?.assessments.includes(id)) {
+      if (progressTrackId?.assessments?.includes(id)) {
         setCompleted(true);
       }
     } else if (contentType === "class_topic") {
-      if (progressTrackId?.classes.includes(id)) {
+      if (progressTrackId?.classes?.includes(id)) {
         setCompleted(true);
       }
     } else if (contentType === "exercise") {
-      if (progressTrackId?.exercises.includes(id)) {
+      if (progressTrackId?.exercises?.includes(id)) {
         setCompleted(true);
       }
     }
@@ -149,7 +149,7 @@ function MobileDrawer(props) {
             classes={classes}
             params={params}
             contentType={obj.content_type}
-            id={obj.id}
+            id={obj.slug_id}
             title={obj.name || obj.sub_title || obj.content_type || "N/A"}
           />
         ))}

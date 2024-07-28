@@ -32,11 +32,13 @@ import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 import { breakpoints } from "../../theme/constant";
 
 const languageMap = {
-  hi: "Hindi",
+  "hi-IN": "Hindi",
   en: "English",
-  te: "Telugu",
+  "te-IN": "Telugu",
   ta: "Tamil",
   mr: "Marathi",
+  "or-IN": "Oriya",
+  "kn-IN": "Kannada",
 };
 
 const Exercise = ({
@@ -94,7 +96,7 @@ function NavigationComponent({
   return (
     <>
       <ExerciseImage
-        id={exercise.id}
+        id={exercise.slug_id}
         exerciseName={
           exercise.name || exercise.sub_title || exercise.content_type || "N/A"
         }
@@ -112,6 +114,7 @@ function NavigationComponent({
         selected={exerciseId == index}
         contentType={exercise.content_type}
         setExerciseId={setExerciseId}
+        useSelector
         progressTrackId={progressTrackId}
       />
     </>
@@ -121,8 +124,11 @@ function NavigationComponent({
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
+
   const [course, setCourse] = useState([]);
+  const [courseTitle, setCourseTitle] = useState("");
   const [exerciseId, setExerciseId] = useState(0);
+  const [previousExerciseId, setPreviousExerciseId] = useState(-1);
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
@@ -132,9 +138,9 @@ function PathwayExercise() {
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
-  const currentCourse = params.courseId;
   const scrollRef = React.useRef();
-
+  const [language, setLanguage] = useState("en");
+  // const [excersiseSlugId, setExerciseSlugId] = useState();
   // const editor = user.data.user.rolesList.indexOf("admin") > -1;
 
   const onScroll = () => {
@@ -171,41 +177,85 @@ function PathwayExercise() {
     }
   };
 
+  const addCompletedExercise = () => {
+    setProgressTrackId({...(progressTrackId || {}), exercises: (progressTrackId?.exercises || []).concat(course[exerciseId].slug_id)});
+  };
+
+  useEffect(() => {
+    // Disable automatic scroll restoration
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    // Reset scroll position on page load
+    window.onload = () => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+    };
+
+    // Clean up
+    return () => {
+      window.onload = null; // Remove the onload event handler when the component unmounts
+    };
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("studentAuth") || (user && user?.data?.token)) {
+      return;
+    } else {
+      history.push(PATHS.LOGIN);
+    }
+  }, []);
+
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/content/slug?lang=${language}`,
       headers: {
         "version-code": versionCode,
         accept: "application/json",
-        Authorization: user.data?.token || "",
+        Authorization:
+          user.data?.token || localStorage.getItem("studentAuthToken") || "",
       },
     })
       .then((res) => {
-        setCourse(res.data.course.exercises);
-        setAvailableLang(res.data.course.lang_available);
+        setCourse(res?.data?.course?.course_content);
+        setCourseTitle(res?.data?.course?.name);
+        setAvailableLang(res?.data?.course?.lang_available);
+        // setExerciseSlugId(res?.data?.course?.course_content[params.exerciseId]);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse]);
+  }, [courseId, language]);
 
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedCourseContentIds`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization: user.data?.token || "",
-      },
-    }).then((res) => {
-      const data = res.data;
-
-      setProgressTrackId(data);
-    });
-  }, [exerciseId]);
+    if(
+      course[previousExerciseId]?.content_type !== "exercise" &&
+      !progressTrackId?.exercises?.includes(course[previousExerciseId]?.slug_id)
+    ) {
+      // fixes #1105: https://github.com/navgurukul/bhanwari-devi/issues/1105
+      // Manually add completed exercises (not assessments) as completed so don't make API
+      //   request in this case or when the exercise has already been marked as completed
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        },
+      })
+        .then((res) => {
+          setProgressTrackId(res.data);
+        })
+        .catch((err) => {});
+    }
+    setPreviousExerciseId(exerciseId);
+  }, [exerciseId])
 
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
@@ -238,7 +288,7 @@ function PathwayExercise() {
         }}
         variant="standard"
       >
-        {availableLang.map((lang) => {
+        {availableLang?.map((lang) => {
           return (
             <MenuItem
               style={{ borderRadius: "8px" }}
@@ -278,49 +328,37 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization: user.data?.token || "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            exercise_id: course[exerciseId].id,
-          },
-        });
-      }
-      setExerciseId(exerciseId + 1);
     } else {
-      setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/learningTrackStatus`,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization: user.data?.token || "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            exercise_id: course[exerciseId].id,
-          },
-        });
-      }
     }
+    if (
+      course[exerciseId].content_type === "exercise" &&
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
+    ) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token ||
+            localStorage.getItem("studentAuthToken") ||
+            "",
+        },
+        data: {
+          pathway_id: params.pathwayId,
+          course_id: params.courseId,
+          slug_id: course[exerciseId].slug_id,
+          type: "exercise",
+          lang: language,
+        },
+      }).then((res) => {
+        addCompletedExercise();
+      })
+      addCompletedExercise();
+    }
+    setExerciseId(exerciseId + 1);
   };
   const nextArrowClickHandler = () => {
     if (exerciseId < courseLength - 1) {
@@ -334,32 +372,39 @@ function PathwayExercise() {
       setExerciseId(exerciseId + 1);
     }
   };
+
   const onChangeHandlerClick = () => {
     if (
       course[exerciseId].content_type === "exercise" &&
-      !progressTrackId?.exercises?.includes(course[exerciseId].id)
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
     ) {
       axios({
         method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].id}/complete`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/exercises/${course[exerciseId].slug_id}/markcomplete`,
         headers: {
           "version-code": versionCode,
           accept: "application/json",
-          Authorization: user.data?.token || "",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
         },
-        data: {
-          exerciseId: course[exerciseId].id,
+        params: {
+          lang: language,
+          type: course[exerciseId].content_type,
         },
       })
         .then((res) => {
           // console.log(res);
+          // add it here in case it gets overwritten as incomplete by a response from `/completedContent` 
+          // that comes in before the request marking it as complete is handled 
+          addCompletedExercise();
         })
         .catch((err) => {
           console.log(err);
         });
+      // add it here so it gets marked as completed before response comes in
+      addCompletedExercise();
     }
   };
-  const [language, setLanguage] = useState("en");
 
   // to avoid duplication
   function languageSelectMenu() {
@@ -420,6 +465,8 @@ function PathwayExercise() {
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
                       : params.pathwayId == "residential"
                       ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
+                      : params.pathwayId == "c4caPathway"
+                      ? "/c4ca-pathway"
                       : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
                         })
@@ -445,18 +492,6 @@ function PathwayExercise() {
                   ref={scrollRef}
                   className={classes.scrollContainer}
                 >
-                  {exerciseId >
-                  (
-                    <Exercise
-                      course={course}
-                      params={params}
-                      history={history}
-                      exerciseId={exerciseId + 1}
-                      setExerciseId={setExerciseId}
-                      classes={classes}
-                      progressTrackId={progressTrackId}
-                    />
-                  )}
                   <Exercise
                     course={course}
                     params={params}
@@ -493,6 +528,8 @@ function PathwayExercise() {
                       ? interpolatePath(PATHS.MISCELLANEOUS_COURSE)
                       : params.pathwayId == "residential"
                       ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
+                      : params.pathwayId == "c4caPathway"
+                      ? "/c4ca-pathway"
                       : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
                         })
@@ -511,7 +548,7 @@ function PathwayExercise() {
                 }}
               >
                 {course &&
-                  course.map((exercise, index) => {
+                  course?.map((exercise, index) => {
                     return (
                       <>
                         <Link
@@ -525,9 +562,9 @@ function PathwayExercise() {
                           }}
                         >
                           <ExerciseImage
-                            id={exercise.id}
+                            id={exercise.slug_id}
                             selected={exerciseId == index}
-                            contentType={exercise.content_type}
+                            contentType={exercise?.content_type}
                             exerciseName={
                               exercise.name ||
                               exercise.sub_title ||
@@ -598,6 +635,7 @@ function PathwayExercise() {
         <Box sx={{ marginTop: "50px" }}>
           <ExerciseContent
             contentList={course}
+            courseTitle={courseTitle}
             exerciseId={exerciseId}
             lang={language}
             setExerciseId={setExerciseId}

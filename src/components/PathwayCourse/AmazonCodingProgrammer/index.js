@@ -40,6 +40,15 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
     return state.Pathways?.upcomingBatches?.data;
   });
 
+   // Filter batches with less than the dynamic max_enrolment value or no limit if null
+   const filteredUpcomingBatches = upcomingBatchesData
+   ?.filter((batch) => {
+     const maxEnrolment = batch.max_enrolment;
+     return maxEnrolment === null || batch.registrations.length < maxEnrolment;
+   })
+   .slice(0, 1);
+
+
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
       return state?.Pathways?.enrolledBatches?.data;
@@ -126,9 +135,9 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
               })}
             </Grid>
             <Grid item xs={12} md={6} sx={{ pl: 1 }}>
-              {upcomingBatchesData?.length > 0 ? (
+              {filteredUpcomingBatches?.length > 0 ? (
                 <PathwayCourseBatchEnroll1
-                  upcomingBatchesData={upcomingBatchesData}
+                  upcomingBatchesData={filteredUpcomingBatches}
                 />
               ) : (
                 <NoBatchEnroll />

@@ -92,6 +92,8 @@ const headingVarients = {};
 );
 
 const RenderDoubtClass = ({ data, exercise }) => {
+  const params = useParams();
+  const pathwayId = params.pathwayId;
   const classes = useStyles();
   if (data?.component === "banner") {
     const value = data.value;
@@ -117,10 +119,62 @@ const RenderDoubtClass = ({ data, exercise }) => {
   return null;
 };
 
-const RenderContent = ({ data, exercise }) => {
+const RenderContent = ({ data, exercise, pathwayData }) => {
   const classes = useStyles();
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
+  const playerRef = useRef(null);
 
+  const videoId = data.value.includes("=")
+    ? data.value.split("=")[1]
+    : data.value;
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [allowedTime, setAllowedTime] = useState(0);
+
+  const onReady = (event) => {
+    playerRef.current = event.target;
+  };
+
+  const onStateChange = (event) => {
+    if (event.data === window.YT.PlayerState.PLAYING) {
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (isPlaying) {
+      intervalId = setInterval(() => {
+        if (playerRef.current) {
+          const currentTime = playerRef.current.getCurrentTime();
+          if (currentTime > allowedTime + 5) {
+            // Allow a 5-second buffer
+            playerRef.current.seekTo(allowedTime);
+          } else {
+            setAllowedTime(currentTime);
+          }
+        }
+      }, 1000);
+    } else if (intervalId) {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isPlaying, allowedTime]);
+
+  const opts = {
+    height: "390",
+    width: "640",
+    playerVars: {
+      controls: 1, // Disable default controls
+      disablekb: 1, // Disable keyboard controls
+    },
+  };
+
+  // console.log(isVideoFinished, "isVideoFinished")
   if (data.component === "header") {
     return (
       <Box className={classes.heading}>
@@ -145,7 +199,16 @@ const RenderContent = ({ data, exercise }) => {
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    return <YouTube className={classes.youtubeVideo} videoId={videoId} />;
+    return pathwayData?.code !== "TCBPI" ? (
+      <YouTube className={classes.youtubeVideo} videoId={videoId} />
+    ) : (
+      <YouTube
+        videoId={videoId}
+        opts={opts}
+        onReady={onReady}
+        onStateChange={onStateChange}
+      />
+    );
   }
   if (data.component === "text") {
     const text = DOMPurify.sanitize(get(data, "value"));
@@ -294,6 +357,7 @@ function ExerciseContent({
   contentList,
   setExerciseId,
   setProgressTrackId,
+  courseTitle,
   progressTrackId,
 }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
@@ -311,6 +375,8 @@ function ExerciseContent({
   const [loading, setLoading] = useState(true);
   const [openMobile, setOpenMobile] = useState(false);
   const [assessmentResult, setAssessmentResult] = useState(null);
+  const [triger, setTriger] = useState(false);
+  const [pathwayName, setPathwayName] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -322,33 +388,54 @@ function ExerciseContent({
     return state.Pathways?.upcomingBatches?.data;
   });
 
+  useEffect(() => {
+    axios({
+      method: METHODS.GET,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
+      headers: {
+        accept: "application/json",
+        Authorization: user.data.token,
+      },
+    })
+      .then((res) => {
+        setPathwayName(res.data);
+      })
+      .catch((err) => {});
+  }, []);
+
+  const pathwayData = pathwayName.find((item) => {
+    return item.id == pathwayId;
+  });
+
   // const userEnrolledClasses = useSelector((state) => {
   //   return state.Pathways?.upcomingEnrolledClasses?.data;
   // });
 
   const reloadContent = () => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res.data.course?.name);
-      setExercise(res.data.course?.exercises[exerciseId]);
-      setContent(res.data.course?.exercises[exerciseId]?.content);
-      setCourseData(res.data.course?.exercises[exerciseId]);
-      setCashedData(res.data.course?.exercises);
+      setExercise(res.data.course?.course_content[exerciseId]);
+      setContent(res.data.course?.course_content[exerciseId].content);
+      setCourseData(res.data.course?.course_content[exerciseId]);
+      setCashedData(res.data.course?.course_content);
     });
   };
 
   useEffect(() => {
     getCourseContent({ courseId, lang, versionCode, user }).then((res) => {
-      setCourse(res?.data?.name);
-      setExercise(res?.data?.course?.exercises?.[params.exerciseId]);
-      setContent(res?.data?.course?.exercises?.[params.exerciseId]?.content);
-      setCourseData(res?.data?.course?.exercises?.[params.exerciseId]);
-      setCashedData(res?.data?.course?.exercises);
+      setCourse(res?.data?.course.name);
+      setExercise(res?.data?.course?.course_content?.[params.exerciseId]);
+      setContent(
+        res?.data?.course?.course_content?.[params.exerciseId]?.content
+      );
+      setCourseData(res?.data?.course?.course_content?.[params.exerciseId]);
+      setCashedData(res?.data?.course?.course_content);
     });
-  }, [courseId, lang]);
+  }, [courseId, lang, triger, user]);
 
   useEffect(() => {
     setExercise(cashedData?.[params.exerciseId]);
     setContent(cashedData?.[params.exerciseId]?.content);
+
     setCourseData(cashedData?.[params.exerciseId]);
   }, [params.exerciseId]);
 
@@ -356,16 +443,27 @@ function ExerciseContent({
     if (exercise?.content_type === "assessment") {
       axios({
         method: METHODS.GET,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result`,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.slug_id}/complete`,
+        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/${exercise?.id}/student/result/v2`,
         headers: {
           accept: "application/json",
-          Authorization: user.data.token,
+          Authorization:
+            user?.data?.token || localStorage.getItem("studentAuthToken"),
         },
       }).then((res) => {
-        setAssessmentResult(res.data);
+        const keyToModify = "selected_option";
+        const newValue = res?.data?.selected_option;
+        const modifiedObject = {
+          ...res,
+          data: {
+            ...res.data,
+            [keyToModify]: newValue,
+          },
+        };
+        setAssessmentResult(modifiedObject.data); // passing this after parsing the data.
       });
     }
-  }, [exerciseId, exercise?.content_type, exercise]);
+  }, [triger, exerciseId, exercise]);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -380,7 +478,8 @@ function ExerciseContent({
     if (
       user?.data?.token &&
       pathwayId !== "miscellaneous" &&
-      pathwayId !== "residential"
+      pathwayId !== "residential" &&
+      pathwayId !== "c4caPathway"
     ) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({
@@ -447,6 +546,7 @@ function ExerciseContent({
             <PersistentDrawerLeft
               setSelected={setSelected}
               list={contentList}
+              courseTitle={courseTitle}
               setExerciseId={setExerciseId}
               progressTrackId={progressTrackId}
             />
@@ -483,6 +583,7 @@ function ExerciseContent({
                       data={contentItem}
                       key={index}
                       classes={classes}
+                      pathwayData={pathwayData}
                     />
                   ))}
               </Box>
@@ -490,12 +591,16 @@ function ExerciseContent({
           )}
           {exercise && exercise.content_type === "assessment" && (
             <Assessment
+              triger={triger}
+              setTriger={setTriger}
               res={assessmentResult}
               data={content}
-              exerciseId={exercise.id}
+              // exerciseId={exercise.id}
+              exerciseSlugId={exercise.slug_id}
               courseData={courseData}
               setCourseData={setCourseData}
               setProgressTrackId={setProgressTrackId}
+              lang={lang}
             />
           )}
         </Container>

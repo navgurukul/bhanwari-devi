@@ -6,7 +6,8 @@ export const PATHS = {
   HOME_PATH: "/",
   HOME_PAGE: "/home",
   LOGIN: "/login",
-  CLASS: "/class",
+  CLASS: "/batch",
+  BATCH_CLASSES: "/batch/:batchId",
   COURSE: "/course",
   PATHWAY_COURSE_CONTENT: "/course-content/:pathwayId/:courseId/:exerciseId",
   PATHWAY_COURSE_CONTENT_EDIT:
@@ -17,6 +18,7 @@ export const PATHS = {
   RESIDENTIAL_COURSE: "/residential-course",
   MISCELLANEOUS_COURSE: "/open-course",
   MENTOR: "/mentor",
+  VIDEOS: "/classes-video",
 
   SCRATCH:
     process.env.NODE_ENV === "development"
@@ -56,6 +58,8 @@ export const PATHS = {
   TUTOR: "/tutor-dashboard",
   GSOC_IDEA: "/gsoc-ideas-2023",
   ACB_BATCH: "/amazon-batch-class",
+  C4CA_PATHWAY: "/c4ca-pathway",
+  // CREDITS: "/credits",
 };
 
 export const HideHeader = [
@@ -72,6 +76,10 @@ export const HideFooter = [
   // PATHS.PRIVACY_POLICY,
   PATHS.NEW_USER_DASHBOARD,
   PATHS.VOLUNTEER_FORM,
+  PATHS.C4CA_PATHWAY,
+  PATHS.PARTNERS,
+  PATHS.CLASS,
+  PATHS.VOLUNTEER,
 ];
 
 export const LEARN_KEY = "LEARN";

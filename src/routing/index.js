@@ -33,8 +33,12 @@ import SearchCourse from "../components/SearchBar";
 import ReturningUserPage from "../components/ReturningUser/ReturningUserPage";
 import VolunteerAutomation from "../components/VolunteerAutomation";
 import VolunteerForm from "../components/VolunteerAutomation/Stepper";
+import ClassCard from "../components/Class/ClassCard";
+import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/AmazonVideos";
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
+import C4CApathway from "../components/PathwayCourse/C4CApathway";
+// import Credits from "../pages/Credits";
 
 const Routing = () => {
   return (
@@ -54,16 +58,18 @@ const Routing = () => {
         path={PATHS.RESIDENTIAL_COURSE}
         component={ResidentialCourse}
       />
+      <Route path={PATHS.PATHWAY_COURSE_CONTENT} component={PathwayExercise} />
 
       <Route exact path={PATHS.LOGIN} component={Login} />
       <Route exact path={PATHS.PRIVACY_POLICY} component={PrivacyPolicy} />
       <Route exact path={PATHS.AFE} component={AFEpage} />
       <Route exact path={PATHS.OPPORTUNITIES} component={Opportunities} />
       <Route exact path={PATHS.TEAM} component={Team} />
+      {/* <Route exact path={PATHS.CREDITS} component={Credits} /> */}
 
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
-
+      <Route exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
       <Route
         exact
         path={PATHS.RETURNING_USER_PAGE}
@@ -84,18 +90,20 @@ const Routing = () => {
         component={VolunteerAutomation}
       />
       <Route exact path={PATHS.GSOC_IDEA} component={GsocIdea} />
-      
+
       {/* Private routes */}
+
+      <PrivateRoute exact path={PATHS.VIDEOS} component={AmazonVideos} />
 
       <PrivateRoute
         exact
         path={PATHS.VOLUNTEER_FORM}
         component={VolunteerForm}
       />
-      <PrivateRoute
+      {/* <PrivateRoute
         path={PATHS.PATHWAY_COURSE_CONTENT}
         component={PathwayExercise}
-      />
+      /> */}
       <PrivateRoute
         exact
         path={PATHS.NEW_USER_DASHBOARD}
@@ -121,6 +129,7 @@ const Routing = () => {
       />
 
       <PrivateRoute exact path={PATHS.CLASS} component={CreateClass} />
+      <PrivateRoute exact path={PATHS.BATCH_CLASSES} component={ClassCard} />
       <PrivateRoute exact path={PATHS.USER} component={User} />
       <PrivateRoute exact path={PATHS.MENTOR} component={Mentor} />
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />

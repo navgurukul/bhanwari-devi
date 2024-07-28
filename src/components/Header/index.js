@@ -50,6 +50,9 @@ import Message from "../common/Message";
 import TextButtonDropDownMenu from "./TextButtonDropDownMenu";
 import SearchPopup from "../SearchBar/SearchPopup";
 import LaunchOutlinedIcon from "@mui/icons-material/Launch";
+import HeaderNavLink from "./HeaderNavlink";
+
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 // import { PUBLIC_MENU_KEYS, MENU_ITEMS } from "./constant";
 // import { useContext } from "react";
 // import { useLanguageConstants, getTranslationKey } from "../../common/language";
@@ -102,112 +105,141 @@ const PublicMenuOption = ({ leftDrawer, toggleDrawer }) => {
     }
   }, [inDropdown]);
 
+  const [scratchUrl, setScratchUrl] = useState(
+    `https://scratch.merakilearn.org/login`
+  );
+
+  useEffect(() => {
+    if (
+      window.location.origin === "http://localhost:3000" ||
+      window.location.origin ===
+        "https://www.merd-bhanwaridevi.merakilearn.org"
+    ) {
+      setScratchUrl(`https://dev.scratch.merakilearn.org/login`);
+    }
+  }, []);
+
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        {PUBLIC_MENU_KEYS.map((menuKey, index) => (
+        {localStorage.getItem("studentAuth") ? null : (
           <>
-            <TextButtonDropDownMenu
-              btnTextMsgKey={MENU_ITEMS[menuKey]?.msgKey}
-              // attachRight={!leftDrawer}
-              menuContainerProps={{
-                id: "menu-appbar",
-              }}
-              sx={{ color: "black", zIndex: 2000 }}
-              key={index}
+            {PUBLIC_MENU_KEYS.map((menuKey, index) => (
+              <>
+                <TextButtonDropDownMenu
+                  btnTextMsgKey={MENU_ITEMS[menuKey]?.msgKey}
+                  // attachRight={!leftDrawer}
+                  menuContainerProps={{
+                    id: "menu-appbar",
+                  }}
+                  sx={{ color: "black", zIndex: 2000 }}
+                  key={index}
+                >
+                  <DropDown
+                    dropDown={menuKey}
+                    //indicator={indicator}
+                    //handleClose={menuCloseHandler}
+                    toggleDrawer={toggleDrawer}
+                    //setInDropdown={setInDropdown}
+                    //handleMouseLeave={updateInDropdownState}
+                  />
+                </TextButtonDropDownMenu>
+              </>
+            ))}
+
+            <ExternalLink
+              href="https://www.navgurukul.org/donate"
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
             >
-              <DropDown
-                dropDown={menuKey}
-                //indicator={indicator}
-                //handleClose={menuCloseHandler}
-                toggleDrawer={toggleDrawer}
-                //setInDropdown={setInDropdown}
-                //handleMouseLeave={updateInDropdownState}
-              />
-            </TextButtonDropDownMenu>
+              <MenuItem
+                sx={{
+                  padding: 0,
+                  borderRadius: "8px",
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    height: "36px",
+                    padding: "6px 16px",
+                    display: "flex",
+                    alignItems: "center",
+                    "&:hover": {
+                      backgroundColor: "#E9F5E9",
+                      borderRadius: "8px",
+                    },
+                  }}
+                >
+                  Donate
+                  <LaunchOutlinedIcon sx={{ pl: "5px" }} />
+                </Typography>
+              </MenuItem>
+            </ExternalLink>
           </>
-        ))}
-        <ExternalLink
-          href="https://www.navgurukul.org/donate"
-          className={classes.link}
-          onClick={toggleDrawer && toggleDrawer(false)}
-        >
-          <MenuItem
-            sx={{
-              padding: 0,
-              borderRadius: "8px",
-            }}
-          >
-            <Typography
-              variant="subtitle1"
-              sx={{
-                height: "36px",
-                padding: "6px 16px",
-                display: "flex",
-                alignItems: "center",
-                "&:hover": {
-                  backgroundColor: "#E9F5E9",
-                  borderRadius: "8px",
-                },
-              }}
-            >
-              Donate
-              <LaunchOutlinedIcon sx={{ pl: "5px" }} />
-            </Typography>
-          </MenuItem>
-        </ExternalLink>
+        )}
       </Box>
+
       <Box sx={{ flexGrow: 1, display: { xs: leftDrawer ? "block" : "none" } }}>
-        {PUBLIC_MENU_KEYS.map((menuKey) => (
-          <MobileDropDown
-            menuKey={menuKey}
-            handleClose={menuCloseHandler}
-            toggleDrawer={toggleDrawer}
-          />
-        ))}
-        <ExternalLink
-          href="https://www.navgurukul.org/donate"
-          className={classes.link}
-          onClick={toggleDrawer && toggleDrawer(false)}
-        >
-          <MenuItem
-            sx={{
-              padding: 0,
-              borderRadius: "8px",
-            }}
-          >
-            <Typography
-              variant="subtitle1"
-              sx={{
-                height: "36px",
-                padding: "6px 16px",
-                display: "flex",
-                alignItems: "center",
-                "&:hover": {
-                  backgroundColor: "#E9F5E9",
-                  borderRadius: "8px",
-                },
-              }}
+        {localStorage.getItem("studentAuth") ? null : (
+          <>
+            {PUBLIC_MENU_KEYS.map((menuKey) => (
+              <MobileDropDown
+                menuKey={menuKey}
+                handleClose={menuCloseHandler}
+                toggleDrawer={toggleDrawer}
+              />
+            ))}
+            <ExternalLink
+              href="https://www.navgurukul.org/donate"
+              className={classes.link}
+              onClick={toggleDrawer && toggleDrawer(false)}
             >
-              Donate
-              <LaunchOutlinedIcon sx={{ pl: "5px" }} />
-            </Typography>
-          </MenuItem>
-        </ExternalLink>
+              <MenuItem
+                sx={{
+                  padding: 0,
+                  borderRadius: "8px",
+                }}
+              >
+                <Typography variant="subtitle1" className={classes.donate}>
+                  Donate
+                  <LaunchOutlinedIcon sx={{ pl: "5px" }} />
+                </Typography>
+              </MenuItem>
+            </ExternalLink>
+          </>
+        )}
       </Box>
 
-      {!leftDrawer && (
-        <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-          <SearchPopup />
-        </Box>
-      )}
+      {localStorage.getItem("studentAuth") ? (
+        <a
+          href={`${scratchUrl}/?studentAuth=${localStorage.getItem(
+            "studentAuthToken"
+          )}`}
+          target="_blank"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <Typography variant="subtitle1" className={classes.scratchLink}>
+            Scratch
+            <OpenInNewIcon style={{ color: "Black", paddingLeft: "9px" }} />
+          </Typography>
+        </a>
+      ) : (
+        <>
+          {!leftDrawer && (
+            <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+              <SearchPopup />
+            </Box>
+          )}
 
-      {showLoginButton && !leftDrawer && (
-        <Box sx={{ flexGrow: 0 }}>
-          <Link to={PATHS.LOGIN} className={classes.button}>
-            <Button variant="contained">Log in</Button>
-          </Link>
-        </Box>
+          {showLoginButton && !leftDrawer && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Link to={PATHS.LOGIN} className={classes.button}>
+                <Button variant="contained">Log in</Button>
+              </Link>
+            </Box>
+          )}
+        </>
       )}
     </>
   );

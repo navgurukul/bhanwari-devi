@@ -97,11 +97,12 @@ function PersistentDrawerLeft({
   setSelected,
   setExerciseId,
   progressTrackId,
+  courseTitle,
 }) {
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
-  const courseName = list[0]?.course_name.toUpperCase();
+  const courseName = courseTitle.toUpperCase();
   let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
@@ -164,7 +165,7 @@ function PersistentDrawerLeft({
                 classes={classes}
                 params={params}
                 contentType={obj.content_type}
-                id={obj.id}
+                id={obj.slug_id}
                 title={obj.name || obj.sub_title || obj.content_type || "N/A"}
               />
             ))}

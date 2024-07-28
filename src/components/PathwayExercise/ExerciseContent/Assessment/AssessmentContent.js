@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Grid, Typography, Box, Button, Paper, Stack } from "@mui/material";
 import useStyles from "../../styles";
 import get from "lodash/get";
-
+import { Radio, Checkbox, FormControlLabel, RadioGroup } from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import DOMPurify from "dompurify";
+// import { fi } from "date-fns/locale";
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
   const sanitizedHTML = DOMPurify.sanitize(html);
@@ -44,8 +47,12 @@ const AssessmentContent = ({
   setTriedAgain,
   submitDisable,
   submitAssessment,
+  type,
+  setType,
+  Partially_ans,
+  setWrongAnswer,
+  finalDesicion,
 }) => {
-  
   const classes = useStyles();
   if (content.component === "header") {
     if (triedAgain > 1) {
@@ -90,9 +97,21 @@ const AssessmentContent = ({
           </Box>
         );
       } else {
+        const Partially_retry = DOMPurify.sanitize(get(Partially_ans, "value"));
         return (
-          <Grid container spacing={2} mt={3} mb={10}>
-            <Grid item xs={12} sm={6}>
+          <>
+            {submit && finalDesicion && finalDesicion !== "CORRECT" ? (
+              <UnsafeHTML
+                Container={Typography}
+                variant="body1"
+                html={Partially_retry}
+              />
+            ) : (
+              ""
+            )}
+
+            <Grid container spacing={2} mt={1} mb={10}>
+              {/* <Grid item xs={12} sm={6}>
                 <Button
                   variant="outlined"
                   disabled
@@ -106,21 +125,22 @@ const AssessmentContent = ({
                     See Answer & Explanation
                   </Typography>
                 </Button>
+              </Grid> */}
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  onClick={() => {
+                    setAnswer([]);
+                    setSubmit();
+                    setSubmitDisable();
+                  }}
+                >
+                  <Typography variant="subtitle2">Re-try</Typography>
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => {
-                  setAnswer();
-                  setSubmit();
-                  setSubmitDisable();
-                }}
-              >
-                <Typography variant="subtitle2">Re-try</Typography>
-              </Button>
-            </Grid>
-          </Grid>
+          </>
         );
       }
     }
@@ -174,51 +194,173 @@ const AssessmentContent = ({
       />
     );
   }
-
   if (content.component === "options") {
     return (
       <Box sx={{ m: "32px 0px" }}>
-        {Object.values(content.value).map((item, index) => {
-          const text = DOMPurify.sanitize(item.value.slice(2));
-          return (
-            <Paper
-              elevation={3}
-              sx={{
-                height: "auto",
-                mb: "16px",
-                cursor: "pointer",
-                p: "16px",
-              }}
-              className={
-                submit
-                  ? correct
-                    ? answer === item.id && classes.correctAnswer
-                    : triedAgain === 1
-                    ? answer === item.id && classes.inCorrectAnswer
-                    : (answer == item.id && classes.inCorrectAnswer) ||
-                      (solution == item.id && classes.correctAnswer)
-                  : answer == item.id && classes.option
-              }
-              onClick={() => !submitDisable && setAnswer(item.id)}
-            >
-              <Stack direction="row" gap={1}>
-                <Typography variant="body1">
-                  {item.value.slice(0, 2)}
-                </Typography>
-                <UnsafeHTML
-                  Container={Typography}
-                  variant="body1"
-                  html={text}
-                />
-              </Stack>
-            </Paper>
-          );
-        })}
+        <Grid container spacing={2}>
+          {Object.values(content.value).map((item, index) => {
+            const text = DOMPurify.sanitize(item.value);
+            const isChecked = answer?.includes(item.id);
+            const isRadioChecked =
+              answer?.length === 1 && answer?.includes(item.id);
+
+            const isValuePresent = solution?.some(
+              (sitem) => sitem.value === item.id
+            );
+            return (
+              <>
+                <Grid item xs={item.option_type !== "image" ? 12 : 6}>
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      height: "auto",
+                      cursor: submit ? "default" : "pointer",
+                      p: "4px",
+                    }}
+                    className={
+                      submit && triedAgain > 1
+                        ? isValuePresent
+                          ? answer?.includes(item.id)
+                            ? classes.userSelectedCorrect
+                            : "" // classes.correctAnswer   commented out to remove the green color from the correct answer after the 2nd attemt.we will retrive it once android will have the same.
+                          : answer?.includes(item.id)
+                          ? classes.inCorrectAnswer
+                          : ""
+                        : submit &&
+                          answer?.includes(item.id) &&
+                          classes.greishOption
+                    }
+                  >
+                    <Stack direction="row" gap={1}>
+                      <FormControlLabel
+                        sx={{ marginLeft: "8px" }}
+                        className={submit ? classes.cursorA : classes.cursorP}
+                        control={
+                          type === "single" ? (
+                            submit ? (
+                              answer?.includes(item.id) && isValuePresent ? (
+                                <Radio
+                                  checked={isRadioChecked}
+                                  onChange={() => {}}
+                                  checkedIcon={<CheckCircleIcon />}
+                                />
+                              ) : answer?.includes(item.id) &&
+                                triedAgain > 1 ? (
+                                <CancelIcon
+                                  sx={{
+                                    marginBlock: "9px",
+                                    color: "red",
+                                    marginLeft: 1,
+                                    marginRight: 1,
+                                  }}
+                                />
+                              ) : (
+                                <Radio
+                                  checked={isRadioChecked}
+                                  disabled={submit}
+                                  onChange={() => {
+                                    if (!submit) {
+                                      setAnswer([item.id]);
+                                    }
+                                  }}
+                                />
+                              )
+                            ) : (
+                              <Radio
+                                checked={isRadioChecked}
+                                disabled={submit}
+                                onChange={() => {
+                                  if (!submit) {
+                                    setAnswer([item.id]);
+                                  }
+                                }}
+                              />
+                            )
+                          ) : submit ? (
+                            answer?.includes(item.id) &&
+                            isValuePresent &&
+                            triedAgain > 1 ? (
+                              <Checkbox
+                                checked={isChecked}
+                                onChange={() => {}} //this is for not changing the state
+                                checkedIcon={<CheckCircleIcon />}
+                                className={
+                                  submit ? classes.cursorA : classes.cursorP
+                                }
+                              />
+                            ) : answer?.includes(item.id) && triedAgain > 1 ? (
+                              <CancelIcon
+                                sx={{
+                                  marginBlock: "9px",
+                                  color: "red",
+                                  marginLeft: 1,
+                                  marginRight: 1,
+                                }}
+                              />
+                            ) : (
+                              <Checkbox
+                                checked={isChecked}
+                                onChange={() => {
+                                  if (!submit) {
+                                    const updatedAnswer = isChecked
+                                      ? answer.filter((id) => id !== item.id)
+                                      : [...answer, item.id];
+                                    setAnswer(updatedAnswer);
+                                  }
+                                }}
+                                className={
+                                  submit ? classes.cursorA : classes.cursorP
+                                }
+                              />
+                            )
+                          ) : (
+                            <Checkbox
+                              checked={isChecked}
+                              disabled={submit}
+                              onChange={() => {
+                                if (!submit) {
+                                  const updatedAnswer = isChecked
+                                    ? answer.filter((id) => id !== item.id)
+                                    : [...answer, item.id];
+                                  setAnswer(updatedAnswer);
+                                }
+                              }}
+                              className={
+                                submit ? classes.cursorA : classes.cursorP
+                              }
+                            />
+                          )
+                        }
+                        label={
+                          item.option_type !== "image" ? (
+                            <UnsafeHTML
+                              Container={Typography}
+                              variant="body1"
+                              html={text}
+                            />
+                          ) : (
+                            <img
+                              src={text}
+                              className={classes.optionImg}
+                              alt="Your Alt Text"
+                            />
+                          )
+                        }
+                      />
+                    </Stack>
+                  </Paper>
+                </Grid>
+              </>
+            );
+          })}
+        </Grid>
       </Box>
     );
   }
   if (content.component === "solution") {
-    setSolution(content.value);
+    setSolution(content?.correct_options_value);
+    setType(content?.type);
+    setWrongAnswer();
   }
   return "";
 };

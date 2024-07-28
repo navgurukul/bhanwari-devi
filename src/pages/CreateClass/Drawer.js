@@ -20,6 +20,7 @@ function DrawerLeft({
   setPathwayName,
   Newpathways,
   pathwayName,
+  setRefreshKey,
 }) {
   const [mobileOpen, setMobileOpen] = React.useState("");
   const { data } = useSelector((state) => state.PathwaysDropdow);
@@ -27,6 +28,7 @@ function DrawerLeft({
 
   const handleChange = (id) => {
     setPathwayId(id);
+    setRefreshKey(true);
   };
   const user = useSelector(({ User }) => User);
   const [selectedValue, setSelectedValue] = useState("");

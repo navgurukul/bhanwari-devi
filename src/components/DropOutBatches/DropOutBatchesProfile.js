@@ -96,13 +96,15 @@ function DropOutBatchesProfile() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      if (res?.data?.length > 0) {
-        setDropOutBatches(res.data);
-      } else {
-        setDropOutBatches(null);
-      }
-    });
+    })
+      .then((res) => {
+        if (res?.data?.length > 0) {
+          setDropOutBatches(res.data);
+        } else {
+          setDropOutBatches(null);
+        }
+      })
+      .catch((err) => {});
   }, [open]);
 
   // if (dropOutBatches !== null) {

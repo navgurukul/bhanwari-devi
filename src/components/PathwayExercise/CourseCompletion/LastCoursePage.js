@@ -6,10 +6,11 @@ import { interpolatePath, PATHS } from "../../../constant";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-function LastCoursePage() {
+function LastCoursePage({ C4CALastPage }) {
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const history = useHistory();
   const params = useParams();
+  const studentAuthToken = localStorage.getItem("studentAuthToken");
   return (
     <>
       <Container maxWidth="lg" align="center">
@@ -21,9 +22,11 @@ function LastCoursePage() {
           <Button
             onClick={() => {
               history.push(
-                interpolatePath(PATHS.PATHWAY_COURSE, {
-                  pathwayId: params.pathwayId,
-                })
+                studentAuthToken
+                  ? "/c4ca-pathway"
+                  : interpolatePath(PATHS.PATHWAY_COURSE, {
+                      pathwayId: params.pathwayId,
+                    })
               );
             }}
             variant="contained"

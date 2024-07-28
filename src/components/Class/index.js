@@ -140,25 +140,27 @@ function Class({ classToEdit, indicator }) {
         "update-all": indicator,
       },
       data: payload,
-    }).then(
-      () => {
-        toast.success("Updated class details!", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 2500,
-        });
-        setLoading(false);
-        window.location.reload(1);
-      },
-      (error) => {
-        toast.error(
-          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-          {
+    })
+      .then(
+        () => {
+          toast.success("Updated class details!", {
             position: toast.POSITION.BOTTOM_RIGHT,
-          }
-        );
-        setLoading(false);
-      }
-    );
+            autoClose: 2500,
+          });
+          setLoading(false);
+          window.location.reload(1);
+        },
+        (error) => {
+          toast.error(
+            `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+            {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            }
+          );
+          setLoading(false);
+        }
+      )
+      .catch((err) => {});
   };
 
   useEffect(() => {
@@ -170,9 +172,11 @@ function Class({ classToEdit, indicator }) {
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setPathways(res.data.pathways);
-    });
+    })
+      .then((res) => {
+        setPathways(res.data.pathways);
+      })
+      .catch((err) => {});
   }, []);
 
   useEffect(() => {
@@ -184,15 +188,17 @@ function Class({ classToEdit, indicator }) {
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      const partners = res.data.partners.map((item, index) => {
-        return {
-          label: item.name,
-          id: item.id,
-        };
-      });
-      setPartnerData(partners);
-    });
+    })
+      .then((res) => {
+        const partners = res.data.partners.map((item, index) => {
+          return {
+            label: item.name,
+            id: item.id,
+          };
+        });
+        setPartnerData(partners);
+      })
+      .catch((err) => {});
   }, []);
 
   const onCourseChange = (courseId) => {
@@ -201,18 +207,20 @@ function Class({ classToEdit, indicator }) {
     }
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/exercises/v2`,
       headers: {
         accept: "application/json",
         "version-code": versionCode,
         Authorization: user.data.token,
       },
-    }).then((res) => {
-      setExercisesForSelectedCourse({
-        ...exercisesForSelectedCourse,
-        [courseId]: res.data.course.exercises,
-      });
-    });
+    })
+      .then((res) => {
+        setExercisesForSelectedCourse({
+          ...exercisesForSelectedCourse,
+          [courseId]: res.data.course.exercises,
+        });
+      })
+      .catch((err) => {});
   };
 
   const convertToIST = (d) => {
@@ -318,24 +326,26 @@ function Class({ classToEdit, indicator }) {
       data: {
         ...payload,
       },
-    }).then(
-      () => {
-        toast.success("You successfully created a class.", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-        setLoading(false);
-        window.location.reload(1);
-      },
-      (error) => {
-        toast.error(
-          `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
-          {
+    })
+      .then(
+        () => {
+          toast.success("You successfully created a class.", {
             position: toast.POSITION.BOTTOM_RIGHT,
-          }
-        );
-        setLoading(false);
-      }
-    );
+          });
+          setLoading(false);
+          window.location.reload(1);
+        },
+        (error) => {
+          toast.error(
+            `Something went wrong with error status: ${error.response.status} ${error.response.data.message}`,
+            {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            }
+          );
+          setLoading(false);
+        }
+      )
+      .catch((err) => {});
   };
 
   const onFormSubmit = (event) => {
@@ -431,7 +441,8 @@ function Class({ classToEdit, indicator }) {
       <Form
         className="form"
         onSubmit={onFormSubmit}
-        initialFieldsState={initialFormState}>
+        initialFieldsState={initialFormState}
+      >
         {({ formFieldsState, setFormField, setFormFieldsState }) => {
           // const checkEquivalence = _.isEqual(initialFormState, formFieldsState);
           let checkEquivalence = true;
@@ -514,14 +525,16 @@ function Class({ classToEdit, indicator }) {
               <div
                 className={
                   formFieldsState[PATHWAY_ID] && "radio-field-with-validation"
-                }>
+                }
+              >
                 <span>
                   {pathways.map((item, index) => {
                     if (item.code == "PRGPYT" || item.code == "SPKENG") {
                       return (
                         <label
                           htmlFor={`pathway-${index}`}
-                          className="radio-pointer">
+                          className="radio-pointer"
+                        >
                           <input
                             type="radio"
                             className="radio-field"
@@ -569,7 +582,8 @@ function Class({ classToEdit, indicator }) {
                             onCourseChange(e.target.value);
                             setFormField(e.target.value, COURSE_ID);
                           }}
-                          id="course_id">
+                          id="course_id"
+                        >
                           <option value="">Select a course</option>
                           {pathway.courses.map((course) => {
                             return (
@@ -601,7 +615,8 @@ function Class({ classToEdit, indicator }) {
                     onChange={(e) => {
                       setFormField(e.target.value, EXERCISE_ID);
                     }}
-                    id="exercise_id">
+                    id="exercise_id"
+                  >
                     <option value="">Select an exercise</option>
                     {(
                       exercisesForSelectedCourse[formFieldsState[COURSE_ID]] ||
@@ -1222,7 +1237,8 @@ function Class({ classToEdit, indicator }) {
                 <button
                   type="submit"
                   className={checkEquivalence ? "submit disabled" : "submit"}
-                  disabled={checkEquivalence}>
+                  disabled={checkEquivalence}
+                >
                   {isEditMode ? `UPDATE CLASS` : "Create Class"}
                 </button>
               )}

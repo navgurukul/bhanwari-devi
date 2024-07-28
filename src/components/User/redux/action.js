@@ -8,6 +8,7 @@ export const types = {
   ON_USER_REFRESH_DATA_FAILURE: "ON_USER_REFRESH_DATA_FAILURE",
 
   ON_LOGOUT_INTENT: "ON_LOGOUT_INTENT",
+  ON_USER_LOGIN_INTENT: " ON_USER_LOGIN_INTENT",
 };
 
 export const actions = {
@@ -57,6 +58,12 @@ export const actions = {
   logout() {
     return {
       type: types.ON_LOGOUT_INTENT,
+    };
+  },
+  onUserLogin(data) {
+    return {
+      type: types.ON_USER_LOGIN_INTENT,
+      data,
     };
   },
 };

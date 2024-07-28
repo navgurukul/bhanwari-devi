@@ -16,9 +16,11 @@ function NavgurukulIntroduce() {
         accept: "application/json",
         platform: "android",
       },
-    }).then((res) => {
-      setGetMerakiUrl(res.data.meraki_link);
-    });
+    })
+      .then((res) => {
+        setGetMerakiUrl(res.data.meraki_link);
+      })
+      .catch((err) => {});
   };
 
   return (
