@@ -654,7 +654,7 @@ function PathwayExercise() {
           className={classes.bottomRow}
           sx={{ width: !isActive ? "100%" : "100%" }}
         >
-          <Button
+          {/* <Button
             variant="text"
             color="dark"
             style={{
@@ -672,6 +672,36 @@ function PathwayExercise() {
               opacity: `${exerciseId < courseLength ? 1 : 1}`,
               position: "relative",
               // right: "-10px",
+              marginRight: !isActive && !isActiveIpad ? "40px" : "",
+            }}
+            endIcon={<ArrowForwardIosIcon />}
+            disabled={!(exerciseId < courseLength)}
+            variant="text"
+            color="primary"
+            onClick={() => {
+              nextClickHandler();
+              onChangeHandlerClick();
+            }}
+          >
+            Next
+          </Button> */}
+          <Button
+            variant="text"
+            color="dark"
+            style={{
+              opacity: exerciseId !== 0 ? 1 : 0,
+            }}
+            disabled={exerciseId === 0}
+            onClick={previousClickHandler}
+            sx={{ flexGrow: 0 }}
+            startIcon={<ArrowBackIosIcon />}
+          >
+            Back
+          </Button>
+          <Button
+            style={{
+              opacity: exerciseId < courseLength ? 1 : 0,
+              position: "relative",
               marginRight: !isActive && !isActiveIpad ? "40px" : "",
             }}
             endIcon={<ArrowForwardIosIcon />}
