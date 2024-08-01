@@ -483,7 +483,7 @@ function PathwayExercise() {
                   <CloseIcon />
                 </Link>
               </Typography>
-              <Toolbar>
+              {/* <Toolbar>
                 <ArrowBackIosIcon
                   opacity={!showArrow.left && 0}
                   sx={{ marginRight: "20px", cursor: "pointer" }}
@@ -534,7 +534,7 @@ function PathwayExercise() {
                     });
                   }}
                 />
-              </Toolbar>
+              </Toolbar> */}
               <LangDropDown />
             </Toolbar>
           </div>
@@ -560,7 +560,7 @@ function PathwayExercise() {
               </Typography>
               <LangDropDown />
             </div>
-            <Toolbar>
+            {/* <Toolbar>
               <div
                 style={{
                   display: "flex",
@@ -600,7 +600,7 @@ function PathwayExercise() {
                     );
                   })}
               </div>
-            </Toolbar>
+            </Toolbar> */}
           </div>
         </Container>
       </AppBar>
