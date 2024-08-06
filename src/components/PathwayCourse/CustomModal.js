@@ -118,7 +118,6 @@ function CustomModal({
     const containsOnlyNumbers = /^\d+$/;
 
     if (!teacherDetails.zone) newErrors.zone = "Zone is required.";
-
     if (
       !teacherDetails.school_id &&
       teacherDetails.employee_type !== "clerical_staff"
@@ -131,7 +130,8 @@ function CustomModal({
       newErrors.school_id = "School ID should contain only digits.";
     else if (
       teacherDetails.school_id &&
-      teacherDetails.school_id.toString().length !== 7
+      (teacherDetails.school_id.toString().length < 7 ||
+        teacherDetails.school_id.toString().length > 7)
     )
       newErrors.school_id = "School ID must be of 7 digits only";
 
@@ -162,9 +162,10 @@ function CustomModal({
         newErrors.teacher_id = "Teacher ID should contain only digits.";
       else if (
         teacherDetails.teacher_id &&
-        teacherDetails.teacher_id.toString().length !== 7
+        (teacherDetails.teacher_id.toString().length < 8 ||
+          teacherDetails.teacher_id.toString().length > 8)
       )
-        newErrors.teacher_id = "Teacher ID must be of 7 digits only";
+        newErrors.teacher_id = "Teacher ID must be of 8 digits only";
 
       if (!teacherDetails.teacher_name)
         newErrors.teacher_name = "Pricipal Name is required.";
@@ -183,9 +184,10 @@ function CustomModal({
         newErrors.teacher_id = "Pricipal ID should contain only digits.";
       else if (
         teacherDetails.teacher_id &&
-        teacherDetails.teacher_id.toString().length !== 7
+        (teacherDetails.teacher_id.toString().length < 8 ||
+          teacherDetails.teacher_id.toString().length > 8)
       )
-        newErrors.teacher_id = "Pricipal ID must be of 7 digits only";
+        newErrors.teacher_id = "Pricipal ID must be of 8 digits only";
 
       if (!teacherDetails.teacher_name)
         newErrors.teacher_name = "Mentor Teacher Name is required.";
@@ -205,7 +207,8 @@ function CustomModal({
         newErrors.teacher_id = "Mentor Teacher ID should contain only digits.";
       else if (
         teacherDetails.teacher_id &&
-        teacherDetails.teacher_id.toString().length !== 7
+        (teacherDetails.teacher_id.toString().length < 8 ||
+          teacherDetails.teacher_id.toString().length > 8)
       )
         newErrors.teacher_id = "Mentor Teacher ID must be of 7 digits only";
 
@@ -228,9 +231,10 @@ function CustomModal({
           "School Inspector ID should contain only digits.";
       else if (
         teacherDetails.teacher_id &&
-        teacherDetails.teacher_id.toString().length !== 7
+        (teacherDetails.teacher_id.toString().length < 8 ||
+          teacherDetails.teacher_id.toString().length > 8)
       )
-        newErrors.teacher_id = "School Inspector ID must be of 7 digits only";
+        newErrors.teacher_id = "School Inspector ID must be of 8 digits only";
 
       if (!teacherDetails.teacher_name)
         newErrors.teacher_name = "Employee Name is required.";
@@ -249,9 +253,10 @@ function CustomModal({
         newErrors.teacher_id = "Employee ID should contain only digits.";
       else if (
         teacherDetails.teacher_id &&
-        teacherDetails.teacher_id.toString().length !== 7
+        (teacherDetails.teacher_id.toString().length < 8 ||
+          teacherDetails.teacher_id.toString().length > 8)
       )
-        newErrors.teacher_id = "EmployeeID must be of 7 digits only";
+        newErrors.teacher_id = "EmployeeID must be of 8 digits only";
     };
 
     if (teacherDetails.employee_type === "teacher") {
