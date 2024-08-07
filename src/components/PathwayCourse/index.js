@@ -442,15 +442,6 @@ function PathwayCourse() {
                     onClick={handleCloseModal}
                   />
                 </Box>
-                {/* <div className={classes.pdfWrapper}>
-                  <iframe
-                    allowtransparency="true"
-                    border="0"
-                    className={classes.pdfFrame}
-                    src={`${certificate}#toolbar=0`}
-                  ></iframe>
-                  <ReactPDF/>
-                </div> */}
                 <Typography variant="h6" fontSize="18px">
                   Your name on the certificate as per our records
                 </Typography>
@@ -460,13 +451,9 @@ function PathwayCourse() {
                 <Typography variant="body1" mt={2}>
                   Please ensure that your name is correct. In case, there is a
                   mistake, please change your name in the
-                  <span style={{ fontWeight: "bolder" }}>“Profile”</span>
+                  <span style={{ fontWeight: "bolder" }}> “Profile” </span>
                   section
                 </Typography>
-                {/* <Typography
-                  mt={4}
-                >{`Meraki certifies that you have diligently completed the course ${pathwayCourse?.data?.name}.Please ensure that your name is correct. For corrections, you can change your name in the profile section and preview the certificate again`}
-                </Typography> */}
                 <FormControlLabel
                   control={
                     <Checkbox
