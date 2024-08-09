@@ -119,7 +119,6 @@ function PersistentDrawerLeft({
       });
     }
   }, []);
-
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
@@ -176,5 +175,4 @@ function PersistentDrawerLeft({
     </Box>
   );
 }
-
 export default PersistentDrawerLeft;
