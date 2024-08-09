@@ -436,7 +436,7 @@ function StudentData() {
         <Box mb={4}>
           <Typography variant="h6">{partnerName}</Typography>
           <Typography variant="subtitle1" style={{ marginTop: "32px" }}>
-            MCDigital Course-1
+            MCDigitaaaaaaal Course-1
           </Typography>
         </Box>
         <Grid container spacing={4}>

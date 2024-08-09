@@ -47,6 +47,7 @@ function CustomModal({
     class_of_teacher: "",
     phone_number: "",
   });
+  console.log ("teacherDetails", teacherDetails)
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -267,8 +268,9 @@ function CustomModal({
           variant="contained"
           sx={{ marginLeft: "60%" }}
           onClick={handleSubmitteacherDetails}
+          style = {{fontSize : "16px"}}
         >
-          Share Details
+          Submit Details
         </Button>
       </Box>
     </Modal>

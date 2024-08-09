@@ -21,18 +21,22 @@ import { ReactComponent as CertificateIconColored } from "./asset/certificate-co
 import Modal from "@mui/material/Modal";
 import CustomModal from "./CustomModal";
 import CloseIcon from "@mui/icons-material/Close";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import { Card, Typography, CardActions, LinearProgress } from '@mui/material';
+import McDigitalCourse from './McDigitalCourse'
 // import ReactPDF from "./ReactPDF.js";
 import {
   Container,
   Box,
   Grid,
-  Card,
-  Typography,
   CardMedia,
   Button,
-  CardActions,
   Skeleton,
-  LinearProgress,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
@@ -162,7 +166,7 @@ function PathwayCourse() {
           setOpenModal((prev) => !prev);
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const downloadCert = () => {
@@ -217,7 +221,7 @@ function PathwayCourse() {
       .then((response) => {
         setisFormFilled(response.data);
       })
-      .catch((err) => {});
+      .catch((err) => { });
     //  }, [pathwayId, pathwayCourse]);
   }, []);
 
@@ -244,6 +248,8 @@ function PathwayCourse() {
             total: response?.data?.total_completed_portion,
           }));
 
+      
+
           response.data.pathway.map((item) => {
             setCompletedPortion((prevState) => ({
               ...prevState,
@@ -251,7 +257,7 @@ function PathwayCourse() {
             }));
           });
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
   }, [dispatch, pathwayId]);
 
@@ -306,29 +312,47 @@ function PathwayCourse() {
     } else {
       setPathwayCode(false);
     }
+
     if (pathwayCourse?.data) {
       setCertificateCode(pathwayCourse?.data?.code);
       pathwayCourse?.data.code === "PRGPYT" ||
-      pathwayCourse?.data.code === "TCBPI" ||
-      pathwayCourse?.data.code === "SCRTHB"
+        pathwayCourse?.data.code === "TCBPI" ||
+        pathwayCourse?.data.code === "SCRTHB"
         ? setDisplayCert(true)
         : setDisplayCert(false);
     }
   }, [pathwayCourse?.data]);
+  
 
   const onHandleSnackbarOpen = () => {
     setOpen(true);
   };
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
+  const handleOpen = () => {
+    setOpen(true);
   };
 
+ 
+  const handleClose = () => {
+    setOpen(false);
+  };
   const handleFormModal = () => {
     setisFormModalOpen(true);
   };
+
+  // const PopupBox = styled(Dialog)(({ theme }) => ({
+  //   '& .MuiDialogContent-root': {
+  //     padding: theme.spacing(2),
+  //   },
+  //   '& .MuiDialogActions-root': {
+  //     padding: theme.spacing(1),
+  //   },
+  // }));
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+
+
 
   return (
     <>
@@ -466,6 +490,7 @@ function PathwayCourse() {
                         className={classes.titleCard}
                         mb={isActive ? 16 : 30}
                       >
+                      
                         <Typography
                           variant="h4"
                           className={classes.heading}
@@ -474,7 +499,8 @@ function PathwayCourse() {
                           {pathwayCourse?.data.name}
                         </Typography>
                         <Typography variant="body1">
-                          {pathwayCourse?.data.description}
+                          {/* {pathwayCourse?.data.description} */}
+                          Explore and learn the essential material and tools to start <br/>supporting your students learning on Meraki
                         </Typography>
 
                         {pathwayCourse?.data.video_link && (
@@ -638,7 +664,51 @@ function PathwayCourse() {
               )
             )}
             {/* ................Courses........................ */}
+            {pathwayCourse?.data?.code === "TCBPI"? (
+            isFormFilled? 
+            <McDigitalCourse 
+            pathwayCourseData={pathwayCourse.data.courses} 
+            pathwayId={pathwayCourse.data.id} 
+            completedPortion={completedPortion} 
+
+            />:<Box mt={2} p={"16px"} maxWidth={900} align="center" mb={5}>
+            <Card
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingRight: '10px',
+                '@media (max-width: 980px)': {
+                  flexDirection: 'column',
+                  paddingBottom: '14px',
+                },
+              }}
+            >
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  gap: '15px',
+                  flexDirection: 'column',
+                }}
+              >
+                <Typography variant="h6" style={{ fontFamily: 'Noto Sans' }}>
+                  Please take out few minutes and fill your details
+                </Typography>
+                <Typography variant="body2" style={{ fontFamily: 'Noto Sans' }}>
+                  The details will be used for partner report purposes only
+                </Typography>
+              </CardContent>
+              <Button variant="contained" onClick={handleFormModal}>
+                Fill Your Details
+              </Button>
+
+            </Card>
+          </Box>
+          
+          ):
             <Box className={classes.box}>
+
+            
               <Typography
                 className={classes.course}
                 ml={2}
@@ -647,52 +717,85 @@ function PathwayCourse() {
               >
                 Courses
               </Typography>
+
               {!isFormFilled && user.data !== null && pathwayCode == true ? (
                 <Box mt={2} p={"16px"} maxWidth={900} align="center" mb={5}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      paddingRight: "10px",
-                      "@media (max-width: 980px)": {
-                        flexDirection: "column",
-                        paddingBottom: "14px",
-                      },
-                    }}
-                  >
-                    <CardContent
-                      sx={{
-                        display: "flex",
-                        gap: "15px",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Typography variant="h6">
-                        Please take out few minutes and share your teacher
-                        details
-                      </Typography>
-                      <Typography variant="body2">
-                        The details will be used for partner report purposes
-                        only
-                      </Typography>
-                    </CardContent>
-                    <Button variant="contained" onClick={handleFormModal}>
-                      Fill Your Details
-                    </Button>
-                  </Card>
+
                 </Box>
               ) : null}
 
               <Grid container spacing={3} align="center">
                 {!isFormFilled && pathwayCode
                   ? pathwayCourse?.data?.courses?.map((item, index) => (
-                      <Grid
-                        item
-                        key={index}
-                        xs={12}
-                        md={3}
-                        className={classes.courseCard}
+                    
+                    <Grid
+                      item
+                      key={index}
+                      xs={12}
+                      md={3}
+                      className={classes.courseCard}
+                    >
+                      <Card
+                        className={classes.pathwayCard}
+                        elevation={0}
+                        sx={{
+                          ml: 3,
+                          p: "16px",
+                          mb: isActive ? "0px" : "16px",
+                        }}
+                        // onClick={onHandleSnackbarOpen}
+                      >
+                        <img
+                          className={classes.courseImage}
+                          src={item.logo}
+                          alt="course"
+                        />
+                        <CardContent
+                          sx={{
+                            height: isActive ? "60px" : "70px",
+                            p: isActive ? "0px" : "0px 8px 0px 0px",
+
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.6rem",
+                          }}
+                        >
+                          <LockIcon />
+                          <Typography
+                            align={isActive ? "center" : "left"}
+                            variant="body1"
+                          >
+                            {item.name}
+                          </Typography>
+                        </CardContent>
+                        <CardActions
+                          sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                        >
+                          <LinearProgress
+                            className={classes.progressBar}
+                            variant="determinate"
+                            value={parseInt(completedPortion[item.id]) || 0}
+                          />
+                          
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))
+                  : pathwayCourse?.data?.courses?.map((item, index) => (
+                    <Grid
+                      item
+                      key={index}
+                      xs={12}
+                      md={3}
+                      className={classes.courseCard}
+                    >
+                      <Link
+                        className={classes.pathwayLink}
+                        to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+                          courseId: item.id,
+                          exerciseId: 0,
+                          pathwayId: pathwayId,
+                        })}
                       >
                         <Card
                           className={classes.pathwayCard}
@@ -702,7 +805,6 @@ function PathwayCourse() {
                             p: "16px",
                             mb: isActive ? "0px" : "16px",
                           }}
-                          onClick={onHandleSnackbarOpen}
                         >
                           <img
                             className={classes.courseImage}
@@ -713,22 +815,41 @@ function PathwayCourse() {
                             sx={{
                               height: isActive ? "60px" : "70px",
                               p: isActive ? "0px" : "0px 8px 0px 0px",
-
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "0.6rem",
                             }}
                           >
-                            <LockIcon />
-                            <Typography
-                              align={isActive ? "center" : "left"}
-                              variant="body1"
-                            >
-                              {item.name}
-                            </Typography>
+                            <div className={classes.courseTitleNumber}>
+                              {!isFormFilled && pathwayCode ? (
+                                <LockIcon />
+                              ) : (
+                                <Typography
+                                  align={isActive ? "center" : "left"}
+                                  variant="body2"
+                                  className={classes.courseName}
+                                  sx={{
+                                    mr: "10px",
+                                    padding: isActive
+                                      ? "5px"
+                                      : "5px 0 5px 13px",
+                                    verticalAlign: "top",
+                                  }}
+                                >
+                                  {index + 1}
+                                </Typography>
+                              )}
+
+                              <Typography
+                                align={isActive ? "center" : "left"}
+                                variant="body1"
+                              >
+                                {item.name}
+                              </Typography>
+                            </div>
                           </CardContent>
                           <CardActions
-                            sx={{ height: "8px", padding: "8px 8px 8px 0px" }}
+                            sx={{
+                              height: "8px",
+                              padding: "8px 8px 8px 0px",
+                            }}
                           >
                             <LinearProgress
                               className={classes.progressBar}
@@ -737,88 +858,9 @@ function PathwayCourse() {
                             />
                           </CardActions>
                         </Card>
-                      </Grid>
-                    ))
-                  : pathwayCourse?.data?.courses?.map((item, index) => (
-                      <Grid
-                        item
-                        key={index}
-                        xs={12}
-                        md={3}
-                        className={classes.courseCard}
-                      >
-                        <Link
-                          className={classes.pathwayLink}
-                          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-                            courseId: item.id,
-                            exerciseId: 0,
-                            pathwayId: pathwayId,
-                          })}
-                        >
-                          <Card
-                            className={classes.pathwayCard}
-                            elevation={0}
-                            sx={{
-                              ml: 3,
-                              p: "16px",
-                              mb: isActive ? "0px" : "16px",
-                            }}
-                          >
-                            <img
-                              className={classes.courseImage}
-                              src={item.logo}
-                              alt="course"
-                            />
-                            <CardContent
-                              sx={{
-                                height: isActive ? "60px" : "70px",
-                                p: isActive ? "0px" : "0px 8px 0px 0px",
-                              }}
-                            >
-                              <div className={classes.courseTitleNumber}>
-                                {!isFormFilled && pathwayCode ? (
-                                  <LockIcon />
-                                ) : (
-                                  <Typography
-                                    align={isActive ? "center" : "left"}
-                                    variant="body2"
-                                    className={classes.courseName}
-                                    sx={{
-                                      mr: "10px",
-                                      padding: isActive
-                                        ? "5px"
-                                        : "5px 0 5px 13px",
-                                      verticalAlign: "top",
-                                    }}
-                                  >
-                                    {index + 1}
-                                  </Typography>
-                                )}
-
-                                <Typography
-                                  align={isActive ? "center" : "left"}
-                                  variant="body1"
-                                >
-                                  {item.name}
-                                </Typography>
-                              </div>
-                            </CardContent>
-                            <CardActions
-                              sx={{
-                                height: "8px",
-                                padding: "8px 8px 8px 0px",
-                              }}
-                            >
-                              <LinearProgress
-                                className={classes.progressBar}
-                                variant="determinate"
-                                value={parseInt(completedPortion[item.id]) || 0}
-                              />
-                            </CardActions>
-                          </Card>
-                        </Link>
-                      </Grid>
-                    ))}
+                      </Link>
+                    </Grid>
+                  ))}
               </Grid>
 
               {/* ...............certificate three dot button................ */}
@@ -856,6 +898,7 @@ function PathwayCourse() {
                 </Grid>
               ) : null}
             </Box>
+          }
           </Container>
         </>
       )}{" "}

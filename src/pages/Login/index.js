@@ -261,6 +261,7 @@ function Login(props) {
                         startIcon={<GoogleIcon />}
                         onClick={renderProps.onClick}
                         style={{
+                          border: "1px solid rgb(227 221 221)",
                           backgroundColor: "white",
                           color: "black",
                           width: isActive ? "100%" : "max-content",
