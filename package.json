@@ -48,7 +48,6 @@
     "editorjs-text-color-plugin": "^1.13.1",
     "firebase": "^9.13.0",
     "history": "^5.0.0",
-    "husky": "^4.3.6",
     "libphonenumber-js": "^1.10.6",
     "linkifyjs": "^3.0.0-beta.3",
     "lint-staged": "^10.5.3",
@@ -127,6 +126,7 @@
     "@editorjs/code": "2.4.1",
     "@editorjs/image": "^2.6.2",
     "@editorjs/quote": "2.3.0",
+    "husky": "^9.1.5",
     "prettier": "2.7.1",
     "redux-devtools-extension": "^2.13.8"
   }
