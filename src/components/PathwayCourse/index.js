@@ -681,6 +681,8 @@ function PathwayCourse() {
                           display: "flex",
                           gap: "15px",
                           flexDirection: "column",
+                          boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.06), 0px 2px 1px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.08)',
+
                         }}
                       >
                         <Typography
