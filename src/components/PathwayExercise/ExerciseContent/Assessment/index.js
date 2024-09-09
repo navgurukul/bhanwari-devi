@@ -95,21 +95,22 @@ function Assessment({
     }
     axios({
       method: METHODS.POST,
-      // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
       url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
       headers: {
         accept: "application/json",
         Authorization:
           user?.data?.token || localStorage.getItem("studentAuthToken"),
       },
-      data: {
-        // assessment_id: exerciseId,
-        slug_id: exerciseSlugId,
-        selected_option: answer,
-        status: correctStr,
-        course_id: params.courseId,
-        lang: lang,
-      },
+      data: [
+        {
+          // assessment_id: exerciseId,
+          slug_id: exerciseSlugId,
+          selected_option: answer,
+          status: correctStr,
+          course_id: +params.courseId,
+          lang: lang,
+        },
+      ],
     })
       .then((res) => {})
       .catch((err) => {});
@@ -119,6 +120,7 @@ function Assessment({
     setTriger(!triger);
   };
 
+  console.log(data);
   useEffect(() => {
     // adding a nullish coalescing operator (??), so that the null value can not effect on the assessment.
     // if (res?.assessment_id === (courseData ?? {}).id) {

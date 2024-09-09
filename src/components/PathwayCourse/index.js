@@ -137,7 +137,7 @@ function PathwayCourse() {
     bgcolor: "background.paper",
     outline: "none",
     borderRadius: "8px",
-    boxShadow: 24,
+    box: 24,
     p: 4,
   };
 
