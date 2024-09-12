@@ -203,7 +203,7 @@ function PathwayCourse() {
 
   const history = useHistory();
   useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId }));
+    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId, authToken : user?.data?.token}));
   }, [dispatch, pathwayId]);
 
   ///////////////////////complete portion data////////////////////

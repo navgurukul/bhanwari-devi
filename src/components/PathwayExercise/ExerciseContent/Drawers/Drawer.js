@@ -10,7 +10,6 @@ import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-
 function Item({
   progressTrackId,
   setSelected,
@@ -72,6 +71,7 @@ function Item({
       });
     }
   };
+
   return (
     <ListItem key={index} disablePadding ref={index === selected ? ref1 : null}>
       <Link
@@ -109,7 +109,6 @@ function PersistentDrawerLeft({
   setExerciseId,
   progressTrackId,
   courseTitle,
-  
 }) {
   const [visitedExercises, setVisitedExercises] = React.useState(() => {
     const stored = localStorage.getItem("visitedExercises");
@@ -119,14 +118,15 @@ function PersistentDrawerLeft({
   // const [selected, setSelectedState] = React.useState(
   //   parseInt(localStorage.getItem(lastSelectedExercise_${params.courseId})) || parseInt(params.exerciseId)
   // );
+
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
   const courseName = courseTitle.toUpperCase();
-  const drawerWidth = desktop ? 260 : laptop ? 160 : 160;  const selected = parseInt(params.exerciseId);
+  const drawerWidth = desktop ? 260 : laptop ? 160 : 160;
+  const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
 
- 
   const ref1 = React.useRef();
   React.useEffect(() => {
     if (ref1.current) {
@@ -135,6 +135,21 @@ function PersistentDrawerLeft({
       });
     }
   }, [selected]);
+
+  // React.useEffect(() => {
+  //   if (ref1.current) {
+  //     ref1.current.scrollIntoView({
+  //       block: "center",
+  //     });
+  //   }
+  // }, [selected]);
+
+  // const handleExerciseSelect = (index) => {
+  //   setSelectedState(index);
+  //   setExerciseId(index);
+  //   localStorage.setItem(lastSelectedExercise-${params.courseId}, index);
+  // };
+
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer

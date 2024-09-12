@@ -3,27 +3,43 @@ import {
   Dialog, DialogTitle, IconButton, DialogContent,
   Typography, DialogActions, Button, Radio, RadioGroup,
   FormControlLabel, FormControl, FormLabel, Divider, Box,
-  CircularProgress,
+  CircularProgress, Snackbar, Alert
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import PropTypes from 'prop-types';
+import { METHODS } from "../../services/api";
+import { PATHS, interpolatePath } from "../../constant";
 
-const PreQuiz = ({ open, handleClose, courseId, courseName, courseData }) => {
+
+const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayId }) => {
   const user = useSelector(({ User }) => User);
   const [courseContent, setCourseContent] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [slugId, setSlugId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const history = useHistory();
+  useEffect(() => {
+    const formSubmitted = localStorage.getItem(`preQuizSubmitted_${courseId}`);
+    if (formSubmitted) {
+      history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+        courseId,
+        exerciseId: 0,
+        pathwayId,
+      }));
+    }
+  }, [courseId, history, pathwayId]);
+
+
 
   useEffect(() => {
-    if (!courseId) return; // Return early if courseId is not available
-
+    if (!courseId) return;
     axios({
       method: 'GET',
       url: `${process.env.REACT_APP_MERAKI_URL}/courses/${courseId}/prequiz`,
@@ -50,7 +66,7 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData }) => {
         setError('Failed to fetch questions.');
         setLoading(false);
       });
-  }, [courseId]); // Add courseId as a dependency
+  }, [courseId]);
 
   const handleChange = (event, questionText) => {
     const selectedOptionId = parseInt(event.target.value, 10);
@@ -60,46 +76,82 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData }) => {
     }));
   };
 
-  const handleSubmit = () => {
-    const resultsArray = courseContent.map((item) => {
-      if (item.content_type === 'prequiz') {
-        const selectedOptionId = selectedAnswers[item.content[0].value];
-        const correctAnswerIds = item.content[2]?.correct_options_value.map(option => option.value) || [];
-        const isCorrect = correctAnswerIds.includes(selectedOptionId);
+
+
+  const handleSubmit = async () => {
+    const token = user?.data?.token || localStorage.getItem("studentAuthToken");
+
+    const resultsArray = courseContent
+      .filter(item => item && item.content_type === 'prequiz')
+      .map(item => {
+        const selectedOptionId = Array.isArray(selectedAnswers[item.content[0]?.value])
+          ? selectedAnswers[item.content[0]?.value]
+          : [selectedAnswers[item.content[0]?.value]];
+
+        const correctAnswerIds = Array.isArray(item.content[2]?.correct_options_value)
+          ? item.content[2].correct_options_value.map(option => option.value)
+          : [];
+
+        const isCorrect = selectedOptionId[0] === correctAnswerIds[0];
         const status = isCorrect ? 'Pass' : 'Fail';
-        const courseId = item.course_id ? String(item.course_id) : '';
+        const language = item.lang_available ? item.lang_available[0] : 'en';
+        const courseId = item.course_id ? Number(item.course_id) : 0;
+        const slugId = item.slug_id ? Number(item.slug_id) : 0;
 
-        return {
-          slug_id: slugId,
-          selected_option: [selectedOptionId],
-          status: status,
-          course_id: courseId,
-          // lang: language,
-        };
-      }
-      return null;
-    }).filter(Boolean);
+        if (selectedOptionId.length > 0) {
+          return {
+            slug_id: slugId,
+            course_id: courseId,
+            selected_option: selectedOptionId,
+            status: status,
+            lang: language,
+          };
+        }
+        return null;
+      }).filter(Boolean);
 
-    console.log('Results Array:', resultsArray);
+    if (resultsArray.length > 0) {
+      console.log('Payload being sent:', resultsArray);
 
-    axios({
-      method: 'POST',
-      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json',
-        Authorization: user?.data?.token || localStorage.getItem('studentAuthToken'),
-      },
-      data: resultsArray,
-    })
-      .then((response) => {
-        console.log('API Response:', response.data);
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
+        headers: {
+          accept: "application/json",
+          Authorization: token,
+        },
+        data: resultsArray,
       })
-      .catch((error) => {
-        console.error('API call failed:', error);
-      });
-      handleClose();
+        .then((res) => {
+          console.log('API call successful', res);
+          setSnackbarMessage('Form submitted successfully!');
+          setSnackbarSeverity('success');
+          setOpenSnackbar(true);
 
+          localStorage.setItem(`preQuizSubmitted_${courseId}`, true);
+
+          history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId,
+            exerciseId: 0,
+            pathwayId,
+          }));
+        })
+        .catch((err) => {
+          console.error('API call failed', err);
+          setSnackbarMessage("Please select every question's answer");
+          setSnackbarSeverity('error');
+          setOpenSnackbar(true);
+        });
+    } else {
+      setSnackbarMessage('No questions answered.');
+      setSnackbarSeverity('warning');
+      setOpenSnackbar(true);
+    }
+    console.log('Prepared Result:', resultsArray);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   const handleDialogClose = (event, reason) => {
@@ -210,6 +262,11 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData }) => {
           </Box>
         </Box>
       </DialogContent>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Dialog>
   );
 };

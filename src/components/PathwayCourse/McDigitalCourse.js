@@ -27,18 +27,22 @@ const McDigitalCourse = ({
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles({ isActive });
   const handleCourseClick = (course) => {
-    if (course.isMandatory === "true") {
+    if (course.isPreQuizCompleted) { //condition for isPreQuizCompleted==="false"
       setSelectedCourse(course);
-      setCourseName(course.name); 
+      setCourseName(course.name);
       setQuizOpen(true);
     } else {
-      history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-        courseId: course.id,
-        exerciseId: 0,
-        pathwayId: pathwayId,
-      }));
+      history.push(
+        interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          courseId: course.id,
+          exerciseId: 0,
+          pathwayId: pathwayId,
+        })
+      );
     }
   };
+  
+  
   
   const handleClose = () => {
     setQuizOpen(false);
