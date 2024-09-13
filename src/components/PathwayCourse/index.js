@@ -280,7 +280,7 @@ function PathwayCourse() {
     }
   }, [dispatch, pathwayId]);
 
-  //////////////////// upcoming classes data   ///////////////////
+////////////////// upcoming classes data   ////////////////
   useEffect(() => {
     if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
