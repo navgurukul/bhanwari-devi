@@ -208,5 +208,4 @@ function PersistentDrawerLeft({
     </Box>
   );
 }
-
 export default PersistentDrawerLeft;

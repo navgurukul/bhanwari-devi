@@ -37,6 +37,8 @@ import {
   CardMedia,
   Button,
   Skeleton,
+  FormControlLabel,
+  Checkbox
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
@@ -107,6 +109,26 @@ function PathwayCourse() {
   const [pathwayCode, setPathwayCode] = useState(false);
   const [certificateCode, setCertificateCode] = useState("");
 
+  const [isChecked, setIsChecked] = useState(false); // State for checkbox
+
+  const [userName, setUserName] = useState(""); // State for storing user name
+
+  useEffect(() => {
+    const authData = JSON.parse(localStorage.getItem("__AUTH__"));
+    if (
+      authData &&
+      authData.data &&
+      authData.data.user &&
+      authData.data.user.name
+    ) {
+      setUserName(authData.data.user.name); // Set user name from local storage
+    }
+  }, []);
+
+  const handleToggleCheckbox = () => {
+    setIsChecked(!isChecked); // Toggle checkbox state
+  };
+
   const handleCloseModal = () => {
     setOpenModal(false);
   };
@@ -119,7 +141,7 @@ function PathwayCourse() {
     bgcolor: "background.paper",
     outline: "none",
     borderRadius: "8px",
-    boxShadow: 24,
+    box: 24,
     p: 4,
   };
 
@@ -149,7 +171,6 @@ function PathwayCourse() {
 
   const handleModal = () => {
     setLoader(true);
-
     axios({
       method: METHODS.GET,
       url: `${process.env.REACT_APP_MERAKI_URL}/certificate?pathway_code=${certificateCode}`,
@@ -413,34 +434,56 @@ function PathwayCourse() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    marginBottom: 4,
                   }}
                 >
                   <Typography
+                    variant="h6"
                     sx={{
-                      fontSize: "32px",
+                      fontSize: "28px",
                       fontWeight: "600",
                     }}
-                  >{`${pathwayCourse?.data?.name}  Certificate`}</Typography>
+                  >
+                    {" "}
+                    {`${pathwayCourse?.data?.name
+                      ?.split(" ")
+                      .pop()} Certificate`}
+                  </Typography>
                   <CloseIcon
                     sx={{ cursor: "pointer" }}
                     onClick={handleCloseModal}
                   />
                 </Box>
-                <div className={classes.pdfWrapper}>
-                  <iframe
-                    allowtransparency="true"
-                    border="0"
-                    className={classes.pdfFrame}
-                    src={`${certificate}#toolbar=0`}
-                  ></iframe>
-                  {/* <ReactPDF/> */}
-                </div>
-                <Typography>{`Meraki certifies that you have diligently attended all classes and taken the practice questions. You have a good grasp of ${pathwayCourse?.data?.name} fundamentals.`}</Typography>
+                <Typography variant="h6" fontSize="18px">
+                  Your name on the certificate as per our records
+                </Typography>
+                <Typography variant="h5" mt={2}>
+                  {userName}
+                </Typography>
+                <Typography variant="body1" mt={2}>
+                  Please ensure that your name is correct. In case, there is a
+                  mistake, please change your name in the
+                  <span style={{ fontWeight: "bolder" }}> “Profile” </span>
+                  section
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isChecked}
+                      onChange={handleToggleCheckbox}
+                    />
+                  }
+                  label="I confirm that my name displayed above is correct"
+                  sx={{ mt: 4 }}
+                />
                 <Box className={classes.certButtons}>
                   {/* <Button onClick={shareCertificate}>Share to Friends</Button> */}
                   <Button
                     onClick={downloadCert}
-                    className={classes.greenButton}
+                    disabled={!isChecked}
+                    className={
+                      !isChecked ? classes.disableButton : classes.greenButton
+                    }
                   >
                     Get Certificate
                   </Button>
