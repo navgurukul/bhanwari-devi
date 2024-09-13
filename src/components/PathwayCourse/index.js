@@ -38,7 +38,7 @@ import {
   Button,
   Skeleton,
   FormControlLabel,
-  Checkbox
+  Checkbox,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import PathwayCourseBatchEnroll1 from "../BatchClassComponents/PathwayCourseBatchEnroll1";
@@ -224,7 +224,12 @@ function PathwayCourse() {
 
   const history = useHistory();
   useEffect(() => {
-    dispatch(pathwayActions.getPathwaysCourse({ pathwayId: pathwayId, authToken : user?.data?.token}));
+    dispatch(
+      pathwayActions.getPathwaysCourse({
+        pathwayId: pathwayId,
+        authToken: user?.data?.token,
+      })
+    );
   }, [dispatch, pathwayId]);
 
   ///////////////////////complete portion data////////////////////
@@ -280,7 +285,7 @@ function PathwayCourse() {
     }
   }, [dispatch, pathwayId]);
 
-////////////////// upcoming classes data   ////////////////
+  ////////////////// upcoming classes data   ////////////////
   useEffect(() => {
     if (user?.data?.token && enrolledBatches?.length > 0) {
       dispatch(
@@ -724,8 +729,8 @@ function PathwayCourse() {
                           display: "flex",
                           gap: "15px",
                           flexDirection: "column",
-                          boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.06), 0px 2px 1px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.08)',
-
+                          boxShadow:
+                            "0px 1px 2px 0px rgba(0, 0, 0, 0.06), 0px 2px 1px 0px rgba(0, 0, 0, 0.04), 0px 1px 5px 0px rgba(0, 0, 0, 0.08)",
                         }}
                       >
                         <Typography
