@@ -677,8 +677,9 @@ function CustomModal({
           variant="contained"
           sx={{ marginLeft: "60%" }}
           onClick={handleSubmitteacherDetails}
+          style = {{fontSize : "16px"}}
         >
-          Share Details
+          Submit Details
         </Button>
       </Box>
     </Modal>
