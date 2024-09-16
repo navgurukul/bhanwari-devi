@@ -315,7 +315,6 @@ function PathwayCourse() {
         localStorage.removeItem("contentListScroll");
       }
     } catch (error) {
-      //console.error('Error accessing localStorage:', error);
       return {};
     }
     try {
@@ -323,7 +322,7 @@ function PathwayCourse() {
         localStorage.removeItem("contentListScrollMobile");
       }
     } catch (error) {
-      //console.error('Error accessing localStorage:', error);
+      //console.error('Error accessing localStorage:',);
       return {};
     }
   }, []);
