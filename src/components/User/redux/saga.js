@@ -1,7 +1,7 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 
 import { types, actions } from "./action";
-import { sendGoogleUserData, sendToken } from "./api";
+import { sendGoogleUserData, sendToken, sendUserCredentials } from "./api";
 import { PATHS } from "../../../constant";
 
 /**
@@ -22,6 +22,23 @@ function* handleUserData({ data }) {
   }
 }
 
+function* handleUserLoginData({ data }) {
+  try {
+    const res = data
+      ? yield call(sendUserCredentials, data)
+      : yield call(sendToken, data);
+    if (!res.data.error) {
+      res.data.token = res.data.token || data.token;
+      const mappedUserData = { ...res.data, isAuthenticated: true };
+      yield put(actions.onUserSigninResolved(mappedUserData));
+    } else {
+      yield put(actions.onUserSigninRejected(res.data));
+    }
+  } catch (error) {
+    yield put(actions.onUserSigninRejected(error));
+  }
+}
+
 function* refreshUserData({ data }) {
   const res = yield call(sendToken, data);
   if (res.status === 200) {
@@ -38,6 +55,7 @@ function* handleLogout() {
 }
 
 export default function* () {
+  yield takeLatest(types.ON_USER_LOGIN_INTENT, handleUserLoginData);
   yield takeLatest(types.ON_USER_SIGN_INTENT, handleUserData);
   yield takeLatest(types.ON_USER_REFRESH_DATA_INTENT, refreshUserData);
   yield takeLatest(types.ON_LOGOUT_INTENT, handleLogout);
