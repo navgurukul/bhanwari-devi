@@ -17,8 +17,10 @@ import LockIcon from "@mui/icons-material/Lock";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
 import { CardContent } from "@mui/material";
 
-import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
-import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
+// import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
+import certificateGrey from "./asset/certificate-grey.svg";
+// import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
+import certificateColored from "./asset/certificate-color.svg";
 
 
 import Modal from "@mui/material/Modal";
@@ -862,13 +864,25 @@ function PathwayCourse() {
                       loader ? (
                         <CircularProgress color="primary" />
                       ) : (
-                        <CertificateIconColored
+                        // <CertificateIconColored
+                        //   onClick={handleModal}
+                        //   className={classes.certificateIcon}
+                        // />
+                        <img
+                          src={certificateColored}
+                          alt="Certificate Colored Icon"
                           onClick={handleModal}
                           className={classes.certificateIcon}
                         />
                       )
                     ) : (
-                      <CertificateIcon
+                      // <CertificateIcon
+                      //   onClick={handleSnackbar}
+                      //   className={classes.certificateIcon}
+                      // />
+                      <img
+                        src={certificateGrey}
+                        alt="Certificate Icon"
                         onClick={handleSnackbar}
                         className={classes.certificateIcon}
                       />
