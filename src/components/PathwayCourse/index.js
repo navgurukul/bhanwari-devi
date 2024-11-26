@@ -854,6 +854,8 @@ function PathwayCourse() {
 
               {/* ...............certificate three dot button................ */}
 
+              
+
               {displayCert ? (
                 <Grid item sx={{ mb: 15 }} align="center">
                   <Grid item sx={{ mb: 3 }}>
@@ -896,7 +898,7 @@ function PathwayCourse() {
                     pathwayName={pathwayCourse?.data?.name}
                     handleSnackbar={handleSnackbar}
                   />
-                  
+
                 </Grid>
               ) : null}
             </Box>
