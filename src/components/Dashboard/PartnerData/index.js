@@ -30,6 +30,8 @@ function PartnerDashboard() {
   const user = useSelector(({ User }) => User);
   const limit = 15;
 
+  
+
   useEffect(() => {
     axios({
       method: METHODS.GET,
