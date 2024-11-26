@@ -896,6 +896,7 @@ function PathwayCourse() {
                     pathwayName={pathwayCourse?.data?.name}
                     handleSnackbar={handleSnackbar}
                   />
+                  
                 </Grid>
               ) : null}
             </Box>
