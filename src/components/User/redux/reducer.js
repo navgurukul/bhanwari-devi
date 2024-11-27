@@ -53,7 +53,13 @@ export default (state = initialState, action) => {
         error: action.error,
         data: null,
       };
-
+    case types.ON_USER_LOGIN_INTENT:
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        data: null,
+      };
     default:
       return state;
   }

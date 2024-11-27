@@ -10,7 +10,6 @@ import { interpolatePath, PATHS } from "../../../../constant";
 import useStyles from "./styles";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-
 function Item({
   progressTrackId,
   setSelected,
@@ -23,72 +22,84 @@ function Item({
   contentType,
   id,
   title,
+  visitedExercises,
+  setVisitedExercises,
 }) {
   const [completed, setCompleted] = React.useState(false);
 
-  const ItemStyle = {
-    color: selected === index || completed ? "#48A145" : "#6D6D6D",
+  const isVisited = visitedExercises.includes(id);
+  const itemStyle = {
+    color: isVisited
+      ? "#48A145"
+      : selected === index || completed
+      ? "#48A145"
+      : "#6D6D6D",
     fontWeight: selected === index ? "bold" : "",
+    textDecoration: "none",
   };
 
   React.useEffect(() => {
-    if (contentType === "assessment") {
-      if (progressTrackId?.assessments?.includes(id)) {
-        setCompleted(true);
-      }
-    } else if (contentType === "class_topic") {
-      if (progressTrackId?.classes?.includes(id)) {
-        setCompleted(true);
-      }
-    } else if (contentType === "exercise") {
-      if (progressTrackId?.exercises?.includes(id)) {
-        setCompleted(true);
-      }
+    if (
+      contentType === "assessment" &&
+      progressTrackId?.assessments?.includes(id)
+    ) {
+      setCompleted(true);
+    } else if (
+      contentType === "class_topic" &&
+      progressTrackId?.classes?.includes(id)
+    ) {
+      setCompleted(true);
+    } else if (
+      contentType === "exercise" &&
+      progressTrackId?.exercises?.includes(id)
+    ) {
+      setCompleted(true);
     }
-  }, [progressTrackId]);
+  }, [progressTrackId, id, contentType]);
+
+  const handleClick = () => {
+    setSelected(index);
+    setExerciseId(index);
+    if (contentType === "exercise") {
+      setVisitedExercises((prev) => {
+        if (!prev.includes(id)) {
+          const updated = [...prev, id];
+          localStorage.setItem("visitedExercises", JSON.stringify(updated));
+          return updated;
+        }
+        return prev;
+      });
+    }
+  };
 
   return (
-    <>
-      <ListItem
-        key={index}
-        disablePadding
-        ref={index === selected ? ref1 : null}
+    <ListItem key={index} disablePadding ref={index === selected ? ref1 : null}>
+      <Link
+        style={itemStyle}
+        className={classes.ListItemLink}
+        to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          courseId: params.courseId,
+          exerciseId: index,
+          pathwayId: params.pathwayId,
+        })}
       >
-        <Link
-          style={ItemStyle}
-          className={classes.ListItemLink}
-          to={interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-            courseId: params.courseId,
-            exerciseId: index,
-            pathwayId: params.pathwayId,
-          })}
-        >
-          <ListItemButton
-            onClick={() => {
-              setSelected(index);
-              setExerciseId(index);
-            }}
+        <ListItemButton onClick={handleClick}>
+          <Typography
+            className={classes.ListItemsTypography}
+            sx={{ fontWeight: selected === index ? "bold" : "normal" }}
+            variant={selected === index ? "subtitle2" : "body2"}
           >
-            <Typography
-              className={classes.ListItemsTypography}
-              // component={Link}
-              sx={{ fontWeight: "bold" }}
-              variant="caption"
-            >
-              {selected === index ? (
-                <ArrowRightAltIcon
-                  sx={{ marginRight: "8px", verticalAlign: "middle" }}
-                />
-              ) : (
-                ""
-              )}
-              {index + 1 + ". "}
-              {title === "assessment" ? "Practice Question" : title}
-            </Typography>
-          </ListItemButton>
-        </Link>
-      </ListItem>
-    </>
+            {selected === index && (
+              <ArrowRightAltIcon
+                sx={{ marginRight: "8px", verticalAlign: "middle" }}
+              />
+            )}
+            {index + 1 + ". "}
+            {title === "assessment" ? "Practice Question" : title}
+          </Typography>
+        </ListItemButton>
+      </Link>
+    </ListItem>
   );
 }
 
@@ -99,17 +110,22 @@ function PersistentDrawerLeft({
   progressTrackId,
   courseTitle,
 }) {
+  const [visitedExercises, setVisitedExercises] = React.useState(() => {
+    const stored = localStorage.getItem("visitedExercises");
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  // const [selected, setSelectedState] = React.useState(
+  //   parseInt(localStorage.getItem(lastSelectedExercise_${params.courseId})) || parseInt(params.exerciseId)
+  // );
+
   const desktop = useMediaQuery("(min-width: 1050px)");
   const laptop = useMediaQuery("(min-width: 1000px)");
   const params = useParams();
   const courseName = courseTitle.toUpperCase();
-  let drawerWidth = desktop ? 260 : laptop ? 160 : 160;
+  const drawerWidth = desktop ? 260 : laptop ? 160 : 160;
   const selected = parseInt(params.exerciseId);
   const classes = useStyles({ desktop, laptop, drawerWidth });
-
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
 
   const ref1 = React.useRef();
   React.useEffect(() => {
@@ -118,7 +134,21 @@ function PersistentDrawerLeft({
         block: "center",
       });
     }
-  }, []);
+  }, [selected]);
+
+  // React.useEffect(() => {
+  //   if (ref1.current) {
+  //     ref1.current.scrollIntoView({
+  //       block: "center",
+  //     });
+  //   }
+  // }, [selected]);
+
+  // const handleExerciseSelect = (index) => {
+  //   setSelectedState(index);
+  //   setExerciseId(index);
+  //   localStorage.setItem(lastSelectedExercise-${params.courseId}, index);
+  // };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -168,6 +198,8 @@ function PersistentDrawerLeft({
                 contentType={obj.content_type}
                 id={obj.slug_id}
                 title={obj.name || obj.sub_title || obj.content_type || "N/A"}
+                visitedExercises={visitedExercises}
+                setVisitedExercises={setVisitedExercises}
               />
             ))}
           </List>
@@ -176,5 +208,4 @@ function PersistentDrawerLeft({
     </Box>
   );
 }
-
 export default PersistentDrawerLeft;

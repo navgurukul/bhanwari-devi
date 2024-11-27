@@ -42,23 +42,18 @@ function PartnerDashboard() {
         accept: "application/json",
         Authorization: user.data.token,
       },
-    })
-      .then((res) => {
-        if (res.data.partners.length < 1) {
-          setSlicedPartners([]);
-          setMessage("There are no results to display");
-        } else {
-          setPartners(res.data.partners);
-          setSlicedPartners(
-            res.data.partners.slice(
-              pageNumber * limit,
-              (pageNumber + 1) * limit
-            )
-          );
-          setTotalCount(res.data.partners.length);
-        }
-      })
-      .catch((err) => {});
+    }).then((res) => {
+      if (res.data.partners.length < 1) {
+        setSlicedPartners([]);
+        setMessage("There are no results to display");
+      } else {
+        setPartners(res.data.partners);
+        setSlicedPartners(
+          res.data.partners.slice(pageNumber * limit, (pageNumber + 1) * limit)
+        );
+        setTotalCount(res.data.partners.length);
+      }
+    });
   }, [debouncedText]);
 
   useEffect(() => {
@@ -97,6 +92,9 @@ function PartnerDashboard() {
   };
 
   const createMerakiLink = (id, platform) => {
+    // commenting the console.log for now
+    // console.log(id, platform);
+
     axios({
       method: METHODS.PUT,
       url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/merakiLink`,
@@ -107,6 +105,8 @@ function PartnerDashboard() {
       },
     })
       .then((res) => {
+        console.log(res);
+
         toast.success("Link created!", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2500,
@@ -122,12 +122,10 @@ function PartnerDashboard() {
             accept: "application/json",
             Authorization: user.data.token,
           },
-        })
-          .then((res) => {
-            setPartners(res.data.partners);
-            setTotalCount(res.data.count);
-          })
-          .catch((err) => {});
+        }).then((res) => {
+          setPartners(res.data.partners);
+          setTotalCount(res.data.count);
+        });
       })
       .catch(() => {
         toast.error("Something went wrong", {

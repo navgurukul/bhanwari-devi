@@ -70,6 +70,7 @@ function Assessment({
   const { correctSelections, incorrectSelections } = calculateSelections();
 
   const submitAssessment = (isCorrect) => {
+    const correctStr = isCorrect ? "Pass" : "Fail";
     setSubmit(true);
 
     // Commented this API to test if progress tracking is working fine now
@@ -88,59 +89,38 @@ function Assessment({
     //   },
     // });
     if (isCorrect) {
-      setCorrect(true);
-      setStatus("Pass");
       setTriedAgain(triedAgain + 2);
-      setSubmitDisable(true);
-      axios({
-        method: METHODS.POST,
-        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
-        headers: {
-          accept: "application/json",
-          Authorization:
-            user?.data?.token || localStorage.getItem("studentAuthToken"),
-        },
-        data: {
-          // assessment_id: exerciseId,
-          slug_id: exerciseSlugId,
-          selected_option: answer,
-          status: "Pass",
-          course_id: params.courseId,
-          lang: lang,
-        },
-      })
-        .then((res) => {})
-        .catch((err) => {});
     } else {
-      setCorrect(false);
-      setStatus("Fail");
       setTriedAgain(triedAgain + 1);
-      setSubmitDisable(true);
-      axios({
-        method: METHODS.POST,
-        // url: `${process.env.REACT_APP_MERAKI_URL}/assessment/student/result/v2`,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
-        headers: {
-          accept: "application/json",
-          Authorization:
-            user?.data?.token || localStorage.getItem("studentAuthToken"),
-        },
-        data: {
+    }
+    axios({
+      method: METHODS.POST,
+      url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
+      headers: {
+        accept: "application/json",
+        Authorization:
+          user?.data?.token || localStorage.getItem("studentAuthToken"),
+      },
+      data: [
+        {
           // assessment_id: exerciseId,
           slug_id: exerciseSlugId,
           selected_option: answer,
-          status: "Fail",
-          course_id: params.courseId,
+          status: correctStr,
+          course_id: +params.courseId,
           lang: lang,
         },
-      })
-        .then((res) => {})
-        .catch((err) => {});
-    }
+      ],
+    })
+      .then((res) => {})
+      .catch((err) => {});
+    setCorrect(isCorrect);
+    setStatus(correctStr);
+    setSubmitDisable(true);
     setTriger(!triger);
   };
 
+  console.log(data);
   useEffect(() => {
     // adding a nullish coalescing operator (??), so that the null value can not effect on the assessment.
     // if (res?.assessment_id === (courseData ?? {}).id) {

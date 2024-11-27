@@ -14,6 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import GoogleIcon from "./assets/GoogleIcon";
 import useStyles from "./styles";
 import { breakpoints } from "../../theme/constant";
+import StudentLogin from "./StudentLogin";
 
 function Login(props) {
   const history = useHistory();
@@ -26,8 +27,52 @@ function Login(props) {
     setqueryString(value);
   };
   const { loading, data } = useSelector(({ User }) => User);
-  const rolesList = data !== null && data.user.rolesList;
-  const isAuthenticated = data && data.isAuthenticated;
+  const rolesList = data !== null && data?.user?.rolesList;
+  const isAuthenticated = data && data?.isAuthenticated;
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    showPassword: false,
+  });
+
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handlePasswordVisibility = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      showPassword: !prevFormData.showPassword,
+    }));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors({ username: "", password: "" });
+    if (!formData.username && !formData.password) {
+      setErrors({
+        ...errors,
+        username: "Please enter a username",
+        password: "Please enter a password",
+      });
+      return;
+    } else if (!formData.username) {
+      setErrors({ ...errors, username: "Please enter a username" });
+      return;
+    } else if (!formData.password) {
+      setErrors({ ...errors, password: "Please enter a password" });
+      return;
+    }
+    dispatch(userActions.onUserLogin(formData));
+  };
 
   function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
@@ -47,17 +92,24 @@ function Login(props) {
   }
 
   useEffect(() => {
+    if (user.error) {
+      if (user.error.errorCode === 2001) {
+        setErrors({ ...errors, username: user.error.message });
+      } else if (user.error.errorCode === 2002) {
+        setErrors({ ...errors, password: user.error.message });
+      }
+    }
     dispatch(
       pathwayActions.getPathways({
         authToken: user,
       })
     );
-  }, [dispatch, user]);
+  }, [dispatch, user.error]);
 
   const classes = useStyles();
   // const isActive = useMediaQuery("(max-width:600px)");
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
-  const isActiveIpad = useMediaQuery("(max-width:1300px)");
+  const isActiveIpad = useMediaQuery("(max-width:768px)");
 
   const onGoogleLoginFail = (errorResponse) => {
     // eslint-disable-next-line no-console
@@ -76,8 +128,8 @@ function Login(props) {
   const [amazonPathwayId, setAmazonPathwayId] = useState(null);
 
   useEffect(() => {
-    if(amazonPathwayId == null){
-      setAmazonPathwayId(amazonPathway && amazonPathway.id)
+    if (amazonPathwayId == null) {
+      setAmazonPathwayId(amazonPathway && amazonPathway.id);
     }
   }, [user]);
 
@@ -164,14 +216,19 @@ function Login(props) {
     <>
       <Container
         className={isActive ? classes.resMerakilogin : classes.merakiLogin}
+        sx={{
+          width: isActive ? "auto" : "768px",
+          height: isActive ? "auto" : "571px",
+          marginTop: isActive ? "0" : "-60px",
+        }}
         maxWidth="lg"
       >
         <Grid container spacing={2}>
           <Grid item xs={12} ms={6} md={6}>
             <Container maxWidth="md">
               <Typography
-                sx={{ pt: { xs: "none", md: 24 } }}
-                variant="h4"
+                sx={{ pt: { xs: isActiveIpad ? 4 : 10, md: 24 } }}
+                variant="h6"
                 align={isActive || isActiveIpad ? "center" : "left"}
                 mt={isActive ? 0 : isActiveIpad ? 12 : 0}
                 color="textPrimary"
@@ -204,10 +261,12 @@ function Login(props) {
                         startIcon={<GoogleIcon />}
                         onClick={renderProps.onClick}
                         style={{
+                          border: "1px solid rgb(227 221 221)",
                           backgroundColor: "white",
                           color: "black",
                           width: isActive ? "100%" : "max-content",
                           margin: "10px 0",
+                          paddingInline: "50px",
                           fontSize: "18px",
                         }}
                       >
@@ -222,6 +281,14 @@ function Login(props) {
                         : classes.googleLogin
                     }
                   />
+                  <StudentLogin
+                    handleSubmit={handleSubmit}
+                    errors={errors}
+                    formData={formData}
+                    handleChange={handleChange}
+                    handlePasswordVisibility={handlePasswordVisibility}
+                    loading={loading}
+                  />
                 </Stack>
               )}
             </Container>
@@ -231,9 +298,15 @@ function Login(props) {
             xs={12}
             ms={6}
             md={6}
-            sx={{ mb: 5, display: { xs: "none", md: "flex" } }}
+            sx={{
+              mb: 5,
+              width: "348px",
+              height: "348px",
+              marginTop: "190px",
+              display: { xs: "none", md: "flex" },
+            }}
           >
-            <img src={require("./assets/login.svg")} alt="img" />
+            <img src={require("./assets/login illustration.png")} alt="img" />
           </Grid>
         </Grid>
       </Container>

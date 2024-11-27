@@ -116,12 +116,13 @@ export const getPathwaysDropdown = (authToken) => {
 };
 
 export const getPathwaysCourse = (data) => {
-  const { pathwayId } = data;
+  const { pathwayId, authToken } = data;
   return axios({
     url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathwayId}/courses?courseType=json`,
     method: METHODS.GET,
     headers: {
       "version-code": versionCode,
+      Authorization: authToken,
     },
     // headers: HeaderFactory(token),
   });

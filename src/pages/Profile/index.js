@@ -39,6 +39,7 @@ import { useParams, useHistory } from "react-router-dom";
 
 import UnlockOpportunities from "./UnlockOpportunities";
 import LastLoginTime from "./LastLoginTime/LastLoginTime";
+import { toast } from "react-toastify";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -253,6 +254,9 @@ function Profile() {
         dispatch(actions.onUserRefreshDataIntent({ token: user.data.token }));
         setMsg(false);
         setUserData(res.data.user);
+        toast.success(`Profile Updated Successfully`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       })
       .catch((err) => {});
   };

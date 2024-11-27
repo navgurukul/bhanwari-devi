@@ -30,7 +30,6 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import CompletionComponent from "./CourseCompletion/CompletionComponent";
 import ExerciseImage from "./ExerciseImage/ExerciseImage.js";
 import { breakpoints } from "../../theme/constant";
-
 const languageMap = {
   "hi-IN": "Hindi",
   en: "English",
@@ -40,7 +39,6 @@ const languageMap = {
   "or-IN": "Oriya",
   "kn-IN": "Kannada",
 };
-
 const Exercise = ({
   course,
   exerciseId,
@@ -52,7 +50,6 @@ const Exercise = ({
 }) => {
   const courseLength = course;
   const imageRef = React.useRef();
-
   useEffect(() => {
     if (imageRef.current) {
       imageRef.current.scrollIntoView({
@@ -60,7 +57,6 @@ const Exercise = ({
       });
     }
   }, [imageRef.current]);
-
   return (
     <>
       {courseLength?.map((exercise, index) => {
@@ -82,7 +78,6 @@ const Exercise = ({
     </>
   );
 };
-
 function NavigationComponent({
   index,
   exerciseId,
@@ -120,14 +115,13 @@ function NavigationComponent({
     </>
   );
 }
-
 function PathwayExercise() {
   const history = useHistory();
   const user = useSelector(({ User }) => User);
-
   const [course, setCourse] = useState([]);
   const [courseTitle, setCourseTitle] = useState("");
   const [exerciseId, setExerciseId] = useState(0);
+  const [previousExerciseId, setPreviousExerciseId] = useState(-1);
   const classes = useStyles();
   const params = useParams();
   const courseId = params.courseId;
@@ -137,12 +131,10 @@ function PathwayExercise() {
   const [successfulExerciseCompletion, setSuccessfulExerciseCompletion] =
     useState(false);
   const [showArrow, setShowArrow] = useState({ left: false, right: true });
-  const currentCourse = params.courseId;
   const scrollRef = React.useRef();
   const [language, setLanguage] = useState("en");
   // const [excersiseSlugId, setExerciseSlugId] = useState();
   // const editor = user.data.user.rolesList.indexOf("admin") > -1;
-
   const onScroll = () => {
     const scrollY = scrollRef.current.scrollLeft; //Don't get confused by what's scrolling - It's not the window
     const scrollTop = scrollRef.current.scrollTop;
@@ -161,7 +153,6 @@ function PathwayExercise() {
         });
       }
     }
-
     if (showArrow.right) {
       if (Math.ceil(scrollY) >= maxScrollLeft - 2) {
         setShowArrow((prev) => {
@@ -176,26 +167,30 @@ function PathwayExercise() {
       }
     }
   };
-
+  const addCompletedExercise = () => {
+    setProgressTrackId({
+      ...(progressTrackId || {}),
+      exercises: (progressTrackId?.exercises || []).concat(
+        course[exerciseId].slug_id
+      ),
+    });
+  };
   useEffect(() => {
     // Disable automatic scroll restoration
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
-
     // Reset scroll position on page load
     window.onload = () => {
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 0);
     };
-
     // Clean up
     return () => {
       window.onload = null; // Remove the onload event handler when the component unmounts
     };
   }, []);
-
   useEffect(() => {
     if (localStorage.getItem("studentAuth") || (user && user?.data?.token)) {
       return;
@@ -203,7 +198,6 @@ function PathwayExercise() {
       history.push(PATHS.LOGIN);
     }
   }, []);
-
   useEffect(() => {
     setExerciseId(parseInt(params.exerciseId));
     axios({
@@ -225,27 +219,32 @@ function PathwayExercise() {
       .catch((err) => {
         console.log(err);
       });
-  }, [currentCourse, language, courseId]);
-
+  }, [courseId, language]);
   useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
-      headers: {
-        "version-code": versionCode,
-        accept: "application/json",
-        Authorization:
-          user.data?.token || localStorage.getItem("studentAuthToken") || "",
-      },
-    })
-      .then((res) => {
-        const data = res.data;
-
-        setProgressTrackId(data);
+    if (
+      course[previousExerciseId]?.content_type !== "exercise" &&
+      !progressTrackId?.exercises?.includes(course[previousExerciseId]?.slug_id)
+    ) {
+      // fixes #1105: https://github.com/navgurukul/bhanwari-devi/issues/1105
+      // Manually add completed exercises (not assessments) as completed so don't make API
+      //   request in this case or when the exercise has already been marked as completed
+      axios({
+        method: METHODS.GET,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/${courseId}/completedContent`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        },
       })
-      .catch((err) => {});
+        .then((res) => {
+          setProgressTrackId(res.data);
+        })
+        .catch((err) => {});
+    }
+    setPreviousExerciseId(exerciseId);
   }, [exerciseId]);
-
   const LangDropDown = () => {
     return availableLang?.length === 1 ? (
       <MenuItem
@@ -291,9 +290,7 @@ function PathwayExercise() {
       </Select>
     );
   };
-
   const Lang = languageMap;
-
   const previousClickHandler = () => {
     if (exerciseId > 0) {
       setSuccessfulExerciseCompletion(false);
@@ -305,9 +302,9 @@ function PathwayExercise() {
         })
       );
       setExerciseId(exerciseId - 1);
+      // localStorage.setItem(`lastSelectedExercise_${params.courseId}`, exerciseId - 1);
     }
   };
-
   const nextClickHandler = () => {
     if (exerciseId < courseLength - 1) {
       history.push(
@@ -317,61 +314,35 @@ function PathwayExercise() {
           pathwayId: params.pathwayId,
         })
       );
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
-          `,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization:
-              user.data?.token ||
-              localStorage.getItem("studentAuthToken") ||
-              "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            slug_id: course[exerciseId].slug_id,
-            type: "exercise",
-            lang: language,
-          },
-        });
-      }
-      setExerciseId(exerciseId + 1);
     } else {
-      setExerciseId(exerciseId + 1);
       setSuccessfulExerciseCompletion(true);
-      if (
-        course[exerciseId].content_type === "exercise" &&
-        !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
-      ) {
-        axios({
-          method: METHODS.POST,
-          url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus
-          `,
-          headers: {
-            "version-code": versionCode,
-            accept: "application/json",
-            Authorization:
-              user.data?.token ||
-              localStorage.getItem("studentAuthToken") ||
-              "",
-          },
-          data: {
-            pathway_id: params.pathwayId,
-            course_id: params.courseId,
-            slug_id: course[exerciseId].slug_id,
-            type: "exercise",
-            lang: language,
-          },
-        });
-      }
     }
+    if (
+      course[exerciseId].content_type === "exercise" &&
+      !progressTrackId?.exercises?.includes(course[exerciseId].slug_id)
+    ) {
+      axios({
+        method: METHODS.POST,
+        url: `${process.env.REACT_APP_MERAKI_URL}/progressTracking/add/learningTrackStatus`,
+        headers: {
+          "version-code": versionCode,
+          accept: "application/json",
+          Authorization:
+            user.data?.token || localStorage.getItem("studentAuthToken") || "",
+        },
+        data: {
+          pathway_id: params.pathwayId,
+          course_id: params.courseId,
+          slug_id: course[exerciseId].slug_id,
+          type: "exercise",
+          lang: language,
+        },
+      }).then((res) => {
+        addCompletedExercise();
+      });
+      addCompletedExercise();
+    }
+    setExerciseId(exerciseId + 1);
   };
   const nextArrowClickHandler = () => {
     if (exerciseId < courseLength - 1) {
@@ -383,9 +354,9 @@ function PathwayExercise() {
         })
       );
       setExerciseId(exerciseId + 1);
+      // localStorage.setItem(`lastSelectedExercise_${params.courseId}`, exerciseId + 1);
     }
   };
-
   const onChangeHandlerClick = () => {
     if (
       course[exerciseId].content_type === "exercise" &&
@@ -407,13 +378,17 @@ function PathwayExercise() {
       })
         .then((res) => {
           // console.log(res);
+          // add it here in case it gets overwritten as incomplete by a response from `/completedContent`
+          // that comes in before the request marking it as complete is handled
+          addCompletedExercise();
         })
         .catch((err) => {
           console.log(err);
         });
+      // add it here so it gets marked as completed before response comes in
+      addCompletedExercise();
     }
   };
-
   // to avoid duplication
   function languageSelectMenu() {
     const langMenu = availableLang.map((lang) => (
@@ -435,10 +410,8 @@ function PathwayExercise() {
       </Select>
     );
   }
-
   const isActive = useMediaQuery("(max-width:" + breakpoints.values.sm + "px)");
   const isActiveIpad = useMediaQuery("(max-width:1300px)");
-
   return (
     <>
       <AppBar
@@ -500,18 +473,6 @@ function PathwayExercise() {
                   ref={scrollRef}
                   className={classes.scrollContainer}
                 >
-                  {exerciseId >
-                  (
-                    <Exercise
-                      course={course}
-                      params={params}
-                      history={history}
-                      exerciseId={exerciseId + 1}
-                      setExerciseId={setExerciseId}
-                      classes={classes}
-                      progressTrackId={progressTrackId}
-                    />
-                  )}
                   <Exercise
                     course={course}
                     params={params}
@@ -522,7 +483,6 @@ function PathwayExercise() {
                     progressTrackId={progressTrackId}
                   />
                 </div>
-
                 <ArrowForwardIosIcon
                   opacity={!showArrow.right && 0}
                   sx={{ marginLeft: 3, cursor: "pointer" }}
@@ -669,11 +629,11 @@ function PathwayExercise() {
           className={classes.bottomRow}
           sx={{ width: !isActive ? "100%" : "100%" }}
         >
-          <Button
+          {/* <Button
             variant="text"
             color="dark"
             style={{
-              opacity: `${exerciseId !== 0 ? 1 : 0}`,
+              opacity: `${exerciseId !== 0 ? 1 : 1}`,
             }}
             disabled={exerciseId === 0}
             onClick={previousClickHandler}
@@ -684,9 +644,39 @@ function PathwayExercise() {
           </Button>
           <Button
             style={{
-              opacity: `${exerciseId < courseLength ? 1 : 0}`,
+              opacity: `${exerciseId < courseLength ? 1 : 1}`,
               position: "relative",
               // right: "-10px",
+              marginRight: !isActive && !isActiveIpad ? "40px" : "",
+            }}
+            endIcon={<ArrowForwardIosIcon />}
+            disabled={!(exerciseId < courseLength)}
+            variant="text"
+            color="primary"
+            onClick={() => {
+              nextClickHandler();
+              onChangeHandlerClick();
+            }}
+          >
+            Next
+          </Button> */}
+          <Button
+            variant="text"
+            color="dark"
+            style={{
+              opacity: exerciseId !== 0 ? 1 : 0,
+            }}
+            disabled={exerciseId === 0}
+            onClick={previousClickHandler}
+            sx={{ flexGrow: 0 }}
+            startIcon={<ArrowBackIosIcon />}
+          >
+            Back
+          </Button>
+          <Button
+            style={{
+              opacity: exerciseId < courseLength ? 1 : 0,
+              position: "relative",
               marginRight: !isActive && !isActiveIpad ? "40px" : "",
             }}
             endIcon={<ArrowForwardIosIcon />}
@@ -705,5 +695,4 @@ function PathwayExercise() {
     </>
   );
 }
-
 export default PathwayExercise;
