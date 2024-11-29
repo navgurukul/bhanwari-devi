@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { BsArrowUpDown } from "react-icons/bs";
+// import { BsArrowUpDown } from "react-icons/bs";
+import { BsArrowDownUp } from 'react-icons/bs';
 import { PATHS } from "../../../constant.js";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { METHODS } from "../../../services/api";
@@ -588,7 +589,7 @@ function StudentData() {
                   className={sort_class}
                   onClick={() => sortStudents("name")}
                 >
-                  <BsArrowUpDown />
+                  <BsArrowDownUp />
                 </button>
               </th>
               {/* <th>
@@ -616,7 +617,7 @@ function StudentData() {
                   className={sort_class}
                   onClick={() => sortStudents("gmail_studentId")}
                 >
-                  <BsArrowUpDown />
+                  <BsArrowDownUp />
                 </button>
               </th>
               <th>
@@ -625,7 +626,7 @@ function StudentData() {
                   className={sort_class}
                   onClick={() => sortStudents("last_class_title")}
                 >
-                  <BsArrowUpDown />
+                  <BsArrowDownUp />
                 </button>
               </th>
               {/* <th>
