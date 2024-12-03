@@ -8,7 +8,8 @@ import moment from "moment";
 import "./styles.scss";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
-import { BsArrowUpDown } from "react-icons/bs";
+// import { BsArrowUpDown } from "react-icons/bs";
+import { BsArrowDownUp } from 'react-icons/bs';
 
 function VolunteerDashboard() {
   const limit = 10;
@@ -435,7 +436,7 @@ function VolunteerDashboard() {
                   className="sort-volunteer"
                   onClick={() => sortVolunteers("enroll_date")}
                 >
-                  <BsArrowUpDown />
+                  <BsArrowDownUp />
                 </button>
               </th>
               <th>Last Class Title</th>

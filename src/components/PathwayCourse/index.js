@@ -21,15 +21,10 @@ import { CardContent } from "@mui/material";
 import certificateGrey from "./asset/certificate-grey.svg";
 // import { ReactComponent as CertificateIconColored } from "./asset/certificate-color.svg";
 import certificateColored from "./asset/certificate-color.svg";
-
-
 import Modal from "@mui/material/Modal";
 import CustomModal from "./CustomModal";
 import CloseIcon from "@mui/icons-material/Close";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
+
 
 import { Card, Typography, CardActions, LinearProgress } from "@mui/material";
 import McDigitalCourse from "./McDigitalCourse";
@@ -854,6 +849,8 @@ function PathwayCourse() {
 
               {/* ...............certificate three dot button................ */}
 
+              
+
               {displayCert ? (
                 <Grid item sx={{ mb: 15 }} align="center">
                   <Grid item sx={{ mb: 3 }}>
@@ -896,6 +893,7 @@ function PathwayCourse() {
                     pathwayName={pathwayCourse?.data?.name}
                     handleSnackbar={handleSnackbar}
                   />
+
                 </Grid>
               ) : null}
             </Box>

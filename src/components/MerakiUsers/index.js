@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { BsArrowUpDown } from "react-icons/bs";
+// import { BsArrowUpDown } from "react-icons/bs";
+import { BsArrowDownUp } from 'react-icons/bs';
 import { METHODS } from "../../services/api";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
@@ -329,7 +330,7 @@ function MerakiUsers() {
                 className={sort_class}
                 onClick={() => sortStudents("name")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th className="student-name">
@@ -348,7 +349,7 @@ function MerakiUsers() {
                 className={sort_class}
                 onClick={() => sortStudents("enroll_date")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>
@@ -357,7 +358,7 @@ function MerakiUsers() {
                 className={sort_class}
                 onClick={() => sortStudents("total_classes")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>
@@ -366,7 +367,7 @@ function MerakiUsers() {
                 className={sort_class}
                 onClick={() => sortStudents("last_class_title")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>
@@ -375,7 +376,7 @@ function MerakiUsers() {
                 className={sort_class}
                 onClick={() => sortStudents("last_class_date")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>Last Class Time</th>
@@ -385,7 +386,7 @@ function MerakiUsers() {
                 className={sort_class}
                 onClick={() => sortStudents("rating")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
           </tr>

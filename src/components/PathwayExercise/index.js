@@ -520,7 +520,7 @@ function PathwayExercise() {
               </Typography>
               <LangDropDown />
             </div>
-            <Toolbar>
+            {/* <Toolbar>
               <div
                 style={{
                   display: "flex",
@@ -560,7 +560,7 @@ function PathwayExercise() {
                     );
                   })}
               </div>
-            </Toolbar>
+            </Toolbar> */}
           </div>
         </Container>
       </AppBar>

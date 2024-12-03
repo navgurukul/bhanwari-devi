@@ -394,10 +394,11 @@ function ExerciseContent({
       url: `${process.env.REACT_APP_MERAKI_URL}/pathways/names`,
       headers: {
         accept: "application/json",
-        Authorization: user.data.token,
+        Authorization: localStorage.getItem("studentAuthToken") || user?.data?.token,
       },
     })
       .then((res) => {
+        console.log(res.data, "pathwayName");
         setPathwayName(res.data);
       })
       .catch((err) => {});
