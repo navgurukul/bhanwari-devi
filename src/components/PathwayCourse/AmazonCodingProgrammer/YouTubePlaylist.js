@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { versionCode } from "../../../constant";
 import axios from "axios";
 import { METHODS } from "../../../services/api";
+import { useParams } from "react-router-dom";
 
 import { Typography, Paper, Button, Grid } from "@mui/material";
 import useStyles from "./style";
@@ -17,13 +18,16 @@ const YouTubePlaylist = ({
   const classes = useStyles();
   const user = useSelector(({ User }) => User);
   let recurring_id = null;
+  const params = useParams();
+
+  const pathID = params.pathwayId;
 
   // Getting the recurring_id and then calling youtubeBroadcast api to get the videos array to display videos.
   useEffect(() => {
     let isMounted = true;
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/7/ACBEnrolledBatches`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/pathways/${pathID}/ACBEnrolledBatches`,
       headers: {
         accept: "application/json",
         "version-code": versionCode,
