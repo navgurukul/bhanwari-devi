@@ -3,6 +3,7 @@ import Message from "../Message";
 import format from "date-fns/format";
 import { getMemberName, getAreDatesOnDifferentDays } from "../utils";
 import "./styles.scss";
+import { Container } from "@material-ui/core";
 
 export default ({
   messages,
@@ -19,20 +20,22 @@ export default ({
   useEffect(() => {
     if (prevScrollPosition) {
       messagesRef.current.scrollTop = prevScrollPosition;
+    } else {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
     }
   }, [messages && messages.length]);
 
   return (
-    <div className="messages" onScroll={onScroll} ref={messagesRef}>
-      <div className="messages-content">
-        {messages &&
-          messages
-            .filter((message) => message.type === "m.room.message")
+    <>
+      <Container ref={messagesRef} className="messages">
+        <div className="messages-content" onScroll={onScroll}>
+          {messages
+            ?.filter((message) => message.type === "m.room.message")
             .map((message, index) => {
               let shouldDisplayDayMarker = false;
               if (messages[index - 1]) {
                 shouldDisplayDayMarker = getAreDatesOnDifferentDays(
-                  messages[index - 1].origin_server_ts,
+                  messages[index - 1]?.origin_server_ts,
                   message.origin_server_ts
                 );
               } else {
@@ -61,7 +64,8 @@ export default ({
                 </React.Fragment>
               );
             })}
-      </div>
-    </div>
+        </div>
+      </Container>
+    </>
   );
 };

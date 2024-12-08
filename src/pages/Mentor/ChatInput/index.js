@@ -1,7 +1,14 @@
+import { Box, InputAdornment, TextField } from "@material-ui/core";
 import React, { useState, useEffect, useRef } from "react";
 import Avatar from "../../../components/common/Avatar";
+import ReplyIcon from "@mui/icons-material/Reply";
+import CloseIcon from "@mui/icons-material/Close";
 import { getMemberName } from "../utils";
 import "./styles.scss";
+import useStyles from "./styles";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import EmojiPicker from "emoji-picker-react";
 
 export default ({
   onNewMessage,
@@ -10,8 +17,38 @@ export default ({
   members,
   activateReplyToMessageState,
 }) => {
-  const [value, onChange] = useState("");
+  const [value, setValue] = useState("");
+  const [openEmoji, setOpenEmoji] = useState(false);
   const inputRef = useRef(null);
+  const classes = useStyles();
+
+  const onFileChange = (e) => {
+    // console.log(e.target.files[0]);
+  };
+
+  const InputAdorns = {
+    startAdornment: [
+      <InputAdornment key="1" position="start">
+        <input
+          style={{ display: "none" }}
+          type="file"
+          id="file"
+          onChange={onFileChange}
+        />
+        <label htmlFor="file">
+          {<AttachFileIcon style={{ color: "#6D6D6D", cursor: "pointer" }} />}
+        </label>
+      </InputAdornment>,
+      <InputAdornment key="2" position="start">
+        {
+          <SentimentSatisfiedAltIcon
+            onClick={() => setOpenEmoji((prev) => !prev)}
+            style={{ color: "#6D6D6D", cursor: "pointer" }}
+          />
+        }
+      </InputAdornment>,
+    ],
+  };
 
   useEffect(() => {
     if (replyMessage) {
@@ -21,9 +58,17 @@ export default ({
 
   const sendMessage = () => {
     if (value) {
-      onChange("");
+      if(openEmoji){
+        setOpenEmoji(false);
+      }
+      setValue("");
       onNewMessage(value, roomId);
     }
+  };
+
+  const emojiClickHandler = (event) => {
+    setValue((prev) => prev + event.emoji);
+    inputRef.current.focus();
   };
 
   const onKeyDown = (e) => {
@@ -44,21 +89,21 @@ export default ({
   return (
     <>
       {replyMessage && (
-        <div className="reply-message">
-          <i
-            className="fa fa-times close-reply-message"
+        <div className={classes.replyMessage}>
+          <CloseIcon
             onClick={() => {
               activateReplyToMessageState(null);
             }}
+            className={classes.closeReplyMessage}
           />
-          <div className="reply-to">
+          <div className={classes.replyTo}>
             <span>Reply to</span>
-            <i className="fa fa-reply reply-to-icon" />
+            <ReplyIcon className={classes.replyToIcon} />
           </div>
-          <div className="reply-message-content">
+          <div className={classes.replyMessageContent}>
             <Avatar name={replyMessageSenderName} style={{ marginRight: 12 }} />
             <div>
-              <div className="reply-message-sender-name">
+              <div className={classes.replyMessageSenderName}>
                 {replyMessageSenderName}
               </div>
               <div>{replyMessage.content.body}</div>
@@ -66,23 +111,36 @@ export default ({
           </div>
         </div>
       )}
-      <div className="chat-input-container">
-        <input
+
+      {openEmoji && (
+        <div className={classes.emojiContainer}>
+          <CloseIcon
+            className={classes.closeEmoji}
+            onClick={() => setOpenEmoji(false)}
+          />
+          <EmojiPicker onEmojiClick={emojiClickHandler} />{" "}
+        </div>
+      )}
+
+      <Box className={classes.inputContainer}>
+        <TextField
           type="text"
+          className={classes.textField}
+          variant="outlined"
           ref={inputRef}
-          className="chat-input"
-          placeholder="Enter a message..."
           value={value}
           onKeyDown={onKeyDown}
           onChange={(e) => {
-            onChange(e.target.value);
+            setValue(e.target.value);
           }}
+          InputProps={InputAdorns}
         />
-        <i
-          className="fa fa-arrow-circle-left chat-input-icon"
+        <img
+          src={require("../assets/message-arrow.svg")}
+          className={classes.arrowIcon}
           onClick={sendMessage}
         />
-      </div>
+      </Box>
     </>
   );
 };
