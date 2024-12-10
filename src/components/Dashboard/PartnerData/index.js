@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { BsArrowUpDown } from "react-icons/bs";
+// import { BsArrowUpDown } from "react-icons/bs";
+import { BsArrowDownUp } from 'react-icons/bs';
 
 import "./styles.scss";
 import { METHODS } from "../../../services/api";
@@ -29,6 +30,8 @@ function PartnerDashboard() {
 
   const user = useSelector(({ User }) => User);
   const limit = 15;
+
+  
 
   useEffect(() => {
     axios({
@@ -174,7 +177,7 @@ function PartnerDashboard() {
                     className={sort_class}
                     onClick={() => sortPartners("name")}
                   >
-                    <BsArrowUpDown />
+                    <BsArrowDownUp />
                   </button>
                 </th>
                 <th>
@@ -183,7 +186,7 @@ function PartnerDashboard() {
                     className={sort_class}
                     onClick={() => sortPartners("students")}
                   >
-                    <BsArrowUpDown />
+                    <BsArrowDownUp />
                   </button>
                 </th>
                 <th>Meraki - Android Link</th>

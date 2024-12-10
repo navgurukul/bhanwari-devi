@@ -7,7 +7,9 @@ import { PATHS } from "../../../constant";
 import moment from "moment";
 import ReactPaginate from "react-paginate";
 import { useDebounce } from "use-debounce";
-import { BsArrowUpDown } from "react-icons/bs";
+// import { BsArrowUpDown } from "react-icons/bs";
+// import { BsArrowDownUp } from "react-icons/bs";
+import { BsArrowDownUp } from 'react-icons/bs';
 
 import "./styles.scss";
 
@@ -126,7 +128,7 @@ function VolunteerOverview(props) {
                   className="sort-class"
                   onClick={() => sortClasses("class_date")}
                 >
-                  <BsArrowUpDown />
+                  <BsArrowDownUp />
                 </button>
               </th>
               <th>Class Time</th>

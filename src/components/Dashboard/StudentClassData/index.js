@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
-import { BsArrowUpDown } from "react-icons/bs";
+// import { BsArrowUpDown } from "react-icons/bs";
+import { BsArrowDownUp } from 'react-icons/bs';
 
 
 
@@ -143,13 +144,13 @@ function StudentClassData(props) {
                 className={sort_class}
                 onClick={() => sortClasses("title")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>
               Class Id
               <button className={sort_class} onClick={() => sortClasses("id")}>
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>
@@ -158,7 +159,7 @@ function StudentClassData(props) {
                 className={sort_class}
                 onClick={() => sortClasses("facilitator")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>Language</th>
@@ -168,7 +169,7 @@ function StudentClassData(props) {
                 className={sort_class}
                 onClick={() => sortClasses("date")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
             <th>
@@ -177,7 +178,7 @@ function StudentClassData(props) {
                 className={sort_class}
                 onClick={() => sortClasses("rating")}
               >
-                <BsArrowUpDown />
+                <BsArrowDownUp />
               </button>
             </th>
           </tr>
