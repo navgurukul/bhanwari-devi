@@ -38,6 +38,7 @@ import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/Ama
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
 import C4CApathway from "../components/PathwayCourse/C4CApathway";
+import Aidcxpathway from "../components/PathwayCourse/Aidcxpathway";
 // import Credits from "../pages/Credits";
 
 const Routing = () => {
@@ -70,6 +71,7 @@ const Routing = () => {
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
       <Route exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
+      <Route exact path={PATHS.AIDCX_PATHWAY} component={Aidcxpathway} />
       <Route
         exact
         path={PATHS.RETURNING_USER_PAGE}

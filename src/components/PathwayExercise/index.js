@@ -448,6 +448,8 @@ function PathwayExercise() {
                       ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
                       : params.pathwayId == "c4caPathway"
                       ? "/c4ca-pathway"
+                      : params.pathwayId == "aidcxPathway"
+                      ? "/aidcx-pathway"
                       : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
                         })
@@ -510,6 +512,8 @@ function PathwayExercise() {
                       ? interpolatePath(PATHS.RESIDENTIAL_COURSE)
                       : params.pathwayId == "c4caPathway"
                       ? "/c4ca-pathway"
+                      : params.pathwayId == "c4caPathway"
+                      ? "/aidcx-pathway"
                       : interpolatePath(PATHS.PATHWAY_COURSE, {
                           pathwayId: params.pathwayId,
                         })
