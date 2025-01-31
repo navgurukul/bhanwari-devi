@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 // import { BsArrowUpDown } from "react-icons/bs";
 import { BsArrowDownUp } from 'react-icons/bs';
 import { PATHS } from "../../../constant.js";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { METHODS } from "../../../services/api";
+// import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { METHODS } from "../../../services/api.js";
 import { useDebounce } from "use-debounce";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
@@ -27,6 +27,8 @@ import {
   Card,
 } from "@mui/material";
 import { Stack, Dialog, DialogTitle, DialogActions } from "@mui/material";
+import { useHistory } from 'react-router-dom';
+
 
 // const { createSliderWithTooltip } = Slider;
 // const Range = createSliderWithTooltip(Slider.Range);
@@ -60,28 +62,32 @@ function StudentData() {
   const [studentid, setstudentId] = useState();
   const [stupassword, setStupassword] = useState();
   const [studentEmail, setStudentEmail] = useState();
-  const [csvUpdatedTime, setCSVUpdatedTime] = useState([]);
+  // const [csvUpdatedTime, setCSVUpdatedTime] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const history = useHistory();
 
+  const handleNavigation = () => {
+    history.push('/report'); // Replace with your desired path
+  };
   const [triggerdGet, setTriggerdGet] = useState(false);
   const loginUser = user.data.user.id;
 
   // Fetching the csv updated time
 
-  useEffect(() => {
-    axios({
-      method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/read-date-csv`,
-      headers: { accept: "application/json", Authorization: user.data.token },
-    })
-      .then((response) => {
-        setCSVUpdatedTime(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios({
+  //     method: METHODS.GET,
+  //     url: `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/read-date-csv`,
+  //     headers: { accept: "application/json", Authorization: user.data.token },
+  //   })
+  //     .then((response) => {
+  //       setCSVUpdatedTime(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   const limit = 10;
   let id = getPartnerIdFromUrl();
@@ -89,15 +95,14 @@ function StudentData() {
   const fetchAPI = () =>
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users${
-        searchTerm.length > 0 ? `?name=${searchTerm}` : ""
-      }`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/partners/${id}/users${searchTerm.length > 0 ? `?name=${searchTerm}` : ""
+        }`,
       headers: { accept: "application/json", Authorization: user.data.token },
     })
       .then((res) => {
         setpartnerName(res.data.partner_name);
         if (
-          id == user.data.user.partner_id ||
+          id === user.data.user.partner_id ||
           hasOneFrom(user.data.user.rolesList, [
             "admin",
             "partner_view",
@@ -172,7 +177,7 @@ function StudentData() {
           }
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
 
   useEffect(() => {
     fetchAPI();
@@ -245,15 +250,15 @@ function StudentData() {
         .sort((a, b) => {
           return sortMethod === "asc"
             ? a.classes_registered[
-                a.classes_registered.length - 1
-              ].title.localeCompare(
-                b.classes_registered[b.classes_registered.length - 1].title
-              )
+              a.classes_registered.length - 1
+            ].title.localeCompare(
+              b.classes_registered[b.classes_registered.length - 1].title
+            )
             : b.classes_registered[
-                b.classes_registered.length - 1
-              ].title.localeCompare(
-                a.classes_registered[a.classes_registered.length - 1].title
-              );
+              b.classes_registered.length - 1
+            ].title.localeCompare(
+              a.classes_registered[a.classes_registered.length - 1].title
+            );
         });
       sortedStudents = [...sortedStudents, ...zeroClass];
     }
@@ -421,97 +426,359 @@ function StudentData() {
 
     // Usage:
     // For the first API ,student Progress Report
-    const studentReport1 = () => {
-      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/progress/roport`;
-      downloadReport(reportUrl);
-    };
+    // const studentReport1 = () => {
+    //   const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/progress/roport`;
+    //   downloadReport(reportUrl);
+    // };
     // For the second API ,student Progress Report(_last 7 days)
 
-    const studentReport2 = () => {
-      const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/last-week/login-report`;
-      downloadReport(reportUrl);
-    };
+    // const studentReport2 = () => {
+    //   const reportUrl = `${process.env.REACT_APP_MERAKI_URL}/tcb/csv/last-week/login-report`;
+    //   downloadReport(reportUrl);
+    // };
+
+
 
     return id == 1359 ? (
-      <Container>
-        <Box mb={4}>
+      <>
+        {/* <Box mb={4}>
+          <Typography variant="h6">{partnerName}</Typography>
+          
+        </Box> */}
+        <div className="container-table">
           <Typography variant="h6">{partnerName}</Typography>
           <Typography variant="subtitle1" style={{ marginTop: "32px" }}>
             MCDigital Course-1
           </Typography>
-        </Box>
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6}>
-            <Card elevation={2} sx={{ p: "16px 16px 8px 16px" }}>
-              <CardContent>
-                <Typography variant="subtitle1">
-                  All Time Student Progress Report
-                </Typography>
-                <Typography
-                  variant="body2"
-                  style={{
-                    margin: "16px 0 16px 0",
-                    display: "flex",
-                    color: "text.secondary",
-                  }}
-                >
-                  <AccessTimeIcon
-                    sx={{ mr: 1, width: "24px", height: "24px" }}
-                  />
-                  Last updated on {csvUpdatedTime.allUsersDetailUpdatedOn} at{" "}
-                  {csvUpdatedTime.at}
-                </Typography>
-                <Typography variant="body1">
-                  The report contains student progress since the start of the
-                  programme until the present day
-                </Typography>
-                <Button
-                  variant="contained"
-                  onClick={studentReport1}
-                  style={{ margin: "32px 0 8px 0" }}
-                >
-                  Download Report
-                </Button>
-              </CardContent>
-            </Card>
+          <div className="container-for-search">
+            <div>
+              <input
+                className="Search-bar"
+                type="text"
+                placeholder="Search by student Name class"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setMessage("");
+                }}
+              />
+            </div>
+            <div className="last-item">
+              <ReactPaginate
+                previousLabel={<i className="fa fa-angle-left"></i>}
+                nextLabel={<i className="fa fa-angle-right"></i>}
+                initialPage={0}
+                marginPagesDisplayed={0}
+                onPageChange={changePage}
+                pageCount={pageCount}
+                containerClassName="paginationBttns"
+                previousLinkClassName="previousBttn"
+                nextLinkClassName="nextBttn"
+                disabledClassName="paginationDisabled"
+                activeClassName="paginationActive"
+              />
+            </div>
+          </div>
+          <table className="student-overview-table">
+            <thead>
+              <tr>
+                <th className="student-name">
+                  Students Name
+                  <button
+                    className={sort_class}
+                    onClick={() => sortStudents("name")}
+                  >
+                    <BsArrowDownUp />
+                  </button>
+                </th>
+                <th className="gmail-studentId">
+                  Gmail or Meraki Student ID
+                  <button
+                    className={sort_class}
+                    onClick={() => sortStudents("gmail_studentId")}
+                  >
+                    <BsArrowDownUp />
+                  </button>
+                </th>
+                <th>
+                  Latest Attended Class
+                  <button
+                    className={sort_class}
+                    onClick={() => sortStudents("last_class_title")}
+                  >
+                    <BsArrowDownUp />
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {slicedStudents.map((item) => {
+                let getStars = 0;
+                {
+                  /* let totalStarts = item.classes_registered.length * 5; */
+                }
+                item.classes_registered.map((stars) => {
+                  getStars = getStars + Number(stars.feedback.feedback);
+                });
+                return (
+                  <tr key={item.id}>
+                    <td data-column="Name">
+                      <Link
+                        className="t-data"
+                        to={{
+                          pathname: `/student/${item.id}`,
+                          state: {
+                            pass: item.classes_registered,
+                            passName: item.name,
+                            passEmail: item.email,
+                          },
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    </td>
+                    <td data-column="Gmail StudentId">
+                      <Link
+                        className="t-data"
+                        to={{
+                          pathname: `/student/${item.id}`,
+                          state: {
+                            pass: item.classes_registered,
+                            passName: item.name,
+                            passEmail: item.email,
+                          },
+                        }}
+                      >
+                        {item.email ? item.email : item.user_name}
+                      </Link>
+                    </td>
+                    {/* <td data-column="Enrolled On">
+                        {item.formatted_created_at}
+                      </td> */}
+
+                    {/* <td data-column="Total classes ">
+                    {" "}
+                    {item.classes_registered.length}
+                  </td> */}
+
+                    <td data-column="Last class title">
+                      {item.classes_registered &&
+                        item.classes_registered.length > 0 &&
+                        item.classes_registered[item.classes_registered.length - 1][
+                        "title"
+                        ] != ""
+                        ? item.classes_registered[
+                        item.classes_registered.length - 1
+                        ]["title"]
+                        : "NA"}
+                    </td>
+
+                    {/* <td data-column="Last class date">
+                    {item.classes_registered &&
+                    item.classes_registered.length > 0 &&
+                    item.classes_registered[item.classes_registered.length - 1][
+                      "formatted_start_time"
+                    ]
+                      ? item.classes_registered[
+                          item.classes_registered.length - 1
+                        ]["formatted_start_time"]
+                      : "NA"}
+                  </td>
+                  <td data-column="Last class time">
+                    {item.classes_registered &&
+                    item.classes_registered.length > 0 &&
+                    item.classes_registered[item.classes_registered.length - 1][
+                      "formatted_end_time"
+                    ]
+                      ? item.classes_registered[
+                          item.classes_registered.length - 1
+                        ]["formatted_end_time"]
+                      : "NA"}
+                  </td>
+                  <td data-column="Avg rating ">
+                    {[1, 2, 3, 4, 5].map((star) => {
+                      return Math.ceil(item.averageRating) > 0 &&
+                        star <= Math.ceil(item.averageRating) ? (
+                        <span
+                          className="fa fa-star"
+                          style={{ color: "#D55F31" }}
+                        ></span>
+                      ) : (
+                        <span
+                          className="fa fa-star"
+                          style={{ color: "gray" }}
+                        ></span>
+                      );
+                    })}
+                  </td> */}
+                    {((hasOneFrom(user.data.user.rolesList, [
+                      "partner_edit",
+                      "partner",
+                    ]) &&
+                      user.data.user.partner_id == id) ||
+                      hasOneFrom(user.data.user.rolesList, ["admin"])) && (
+                        <td data-column="Delete">
+                          <i
+                            className="class-card-action-icon class-card-edit fa fa-edit"
+                            onClick={() => {
+                              setOpenEditForm(true);
+                              setUserId(item.id);
+                              setUserName(item.name);
+                              setStudentEmail(item.email);
+                              setStupassword(item.password);
+                              setstudentId(item.user_name);
+                            }}
+                          />
+                          {loginUser == item.id ? null : (
+                            <>
+                              <i
+                                style={{ marginLeft: "20px" }}
+                                className="class-card-action-icon fa fa-trash"
+                                onClick={() => handleClickOpen(item.id)}
+                              />
+                              {/* dialog box for delete button */}
+
+                              <Dialog
+                                open={showModal}
+                                BackdropProps={{
+                                  style: {
+                                    backgroundColor: "rgba(0, 0, 0, 0.2)",
+                                  }, // Adjust the opacity here
+                                }}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                              >
+                                <DialogTitle>
+                                  <Typography variant="h6" align="center">
+                                    Are you sure you want to delete this student?
+                                  </Typography>
+                                </DialogTitle>
+                                <Stack alignItems="center">
+                                  <DialogActions>
+                                    <Box sx={{ display: "flex", mb: 2 }}>
+                                      <Button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          return removeStudent(selectedStudentId); // Ensure this function gets the correct student ID
+                                        }}
+                                        color="error"
+                                        variant="contained"
+                                        sx={{ mr: "15px", width: "100px" }}
+                                      >
+                                        Yes
+                                      </Button>
+                                      <Button
+                                        onClick={handleClose}
+                                        color="grey"
+                                        variant="contained"
+                                        sx={{ width: "100px" }}
+                                      >
+                                        No
+                                      </Button>
+                                    </Box>
+                                  </DialogActions>
+                                </Stack>
+                              </Dialog>
+                            </>
+                          )}
+                        </td>
+                      )}
+                  </tr>
+                );
+              })}
+              {message ? <h1 className="Message">{message}</h1> : null}
+            </tbody>
+          </table>
+          <AddStudent
+            openEditForm={openEditForm}
+            setOpenEditForm={setOpenEditForm}
+            userId={userId}
+            userName={userName}
+            setTriggerdGet={setTriggerdGet}
+            studentid={studentid}
+            stupassword={stupassword}
+            userEmail={studentEmail}
+          />
+          <button style={{marginLeft:"40px"}} className="add_student_btn" onClick={handleNavigation}>
+            Generate Report
+          </button>
+        </div>
+        {/* {showReportOptions && (
+          <div className="container-table">
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <Card elevation={2} sx={{ p: "16px 16px 8px 16px" }}>
+                <CardContent>
+                  <Typography variant="subtitle1">
+                    All Time Student Progress Report
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    style={{
+                      margin: "16px 0 16px 0",
+                      display: "flex",
+                      color: "text.secondary",
+                    }}
+                  >
+                    <AccessTimeIcon
+                      sx={{ mr: 1, width: "24px", height: "24px" }}
+                    />
+                    Last updated on {csvUpdatedTime.allUsersDetailUpdatedOn} at{" "}
+                    {csvUpdatedTime.at}
+                  </Typography>
+                  <Typography variant="body1">
+                    The report contains student progress since the start of the
+                    programme until the present day
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={studentReport1}
+                    style={{ margin: "32px 0 8px 0" }}
+                  >
+                    Download Report
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Card elevation={2} sx={{ p: "16px 16px 8px 16px" }}>
+                <CardContent>
+                  <Typography variant="subtitle1">
+                    Seven Days Student Progress Report
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    style={{
+                      margin: "16px 0 16px 0",
+                      display: "flex",
+                      color: "text.secondary",
+                    }}
+                  >
+                    <AccessTimeIcon
+                      sx={{ mr: 1, width: "24px", height: "24px" }}
+                    />
+                    Last updated on{" "}
+                    {csvUpdatedTime.lastWeekUsersLoginDetailsUpdatedOn} at{" "}
+                    {csvUpdatedTime.at}
+                  </Typography>
+                  <Typography variant="body1">
+                    The report contains student progress from the last 7 days
+                    until the present day
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={studentReport2}
+                    style={{ margin: "32px 0 8px 0" }}
+                  >
+                    Download Report
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card elevation={2} sx={{ p: "16px 16px 8px 16px" }}>
-              <CardContent>
-                <Typography variant="subtitle1">
-                  Seven Days Student Progress Report
-                </Typography>
-                <Typography
-                  variant="body2"
-                  style={{
-                    margin: "16px 0 16px 0",
-                    display: "flex",
-                    color: "text.secondary",
-                  }}
-                >
-                  <AccessTimeIcon
-                    sx={{ mr: 1, width: "24px", height: "24px" }}
-                  />
-                  Last updated on{" "}
-                  {csvUpdatedTime.lastWeekUsersLoginDetailsUpdatedOn} at{" "}
-                  {csvUpdatedTime.at}
-                </Typography>
-                <Typography variant="body1">
-                  The report contains student progress from the last 7 days
-                  until the present day
-                </Typography>
-                <Button
-                  variant="contained"
-                  onClick={studentReport2}
-                  style={{ margin: "32px 0 8px 0" }}
-                >
-                  Download Report
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
+        </div>
+        )} */}
+      </>
     ) : (
       <div className="container-table">
         <h3 className="partner-name">{partnerName}</h3>
@@ -782,13 +1049,13 @@ function StudentData() {
 
                   <td data-column="Last class title">
                     {item.classes_registered &&
-                    item.classes_registered.length > 0 &&
-                    item.classes_registered[item.classes_registered.length - 1][
+                      item.classes_registered.length > 0 &&
+                      item.classes_registered[item.classes_registered.length - 1][
                       "title"
-                    ] != ""
+                      ] != ""
                       ? item.classes_registered[
-                          item.classes_registered.length - 1
-                        ]["title"]
+                      item.classes_registered.length - 1
+                      ]["title"]
                       : "NA"}
                   </td>
 
@@ -836,72 +1103,72 @@ function StudentData() {
                   ]) &&
                     user.data.user.partner_id == id) ||
                     hasOneFrom(user.data.user.rolesList, ["admin"])) && (
-                    <td data-column="Delete">
-                      <i
-                        className="class-card-action-icon class-card-edit fa fa-edit"
-                        onClick={() => {
-                          setOpenEditForm(true);
-                          setUserId(item.id);
-                          setUserName(item.name);
-                          setStudentEmail(item.email);
-                          setStupassword(item.password);
-                          setstudentId(item.user_name);
-                        }}
-                      />
-                      {loginUser == item.id ? null : (
-                        <>
-                          <i
-                            style={{ marginLeft: "20px" }}
-                            className="class-card-action-icon fa fa-trash"
-                            onClick={() => handleClickOpen(item.id)}
-                          />
-                          {/* dialog box for delete button */}
+                      <td data-column="Delete">
+                        <i
+                          className="class-card-action-icon class-card-edit fa fa-edit"
+                          onClick={() => {
+                            setOpenEditForm(true);
+                            setUserId(item.id);
+                            setUserName(item.name);
+                            setStudentEmail(item.email);
+                            setStupassword(item.password);
+                            setstudentId(item.user_name);
+                          }}
+                        />
+                        {loginUser == item.id ? null : (
+                          <>
+                            <i
+                              style={{ marginLeft: "20px" }}
+                              className="class-card-action-icon fa fa-trash"
+                              onClick={() => handleClickOpen(item.id)}
+                            />
+                            {/* dialog box for delete button */}
 
-                          <Dialog
-                            open={showModal}
-                            BackdropProps={{
-                              style: {
-                                backgroundColor: "rgba(0, 0, 0, 0.2)",
-                              }, // Adjust the opacity here
-                            }}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                          >
-                            <DialogTitle>
-                              <Typography variant="h6" align="center">
-                                Are you sure you want to delete this student?
-                              </Typography>
-                            </DialogTitle>
-                            <Stack alignItems="center">
-                              <DialogActions>
-                                <Box sx={{ display: "flex", mb: 2 }}>
-                                  <Button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      return removeStudent(selectedStudentId); // Ensure this function gets the correct student ID
-                                    }}
-                                    color="error"
-                                    variant="contained"
-                                    sx={{ mr: "15px", width: "100px" }}
-                                  >
-                                    Yes
-                                  </Button>
-                                  <Button
-                                    onClick={handleClose}
-                                    color="grey"
-                                    variant="contained"
-                                    sx={{ width: "100px" }}
-                                  >
-                                    No
-                                  </Button>
-                                </Box>
-                              </DialogActions>
-                            </Stack>
-                          </Dialog>
-                        </>
-                      )}
-                    </td>
-                  )}
+                            <Dialog
+                              open={showModal}
+                              BackdropProps={{
+                                style: {
+                                  backgroundColor: "rgba(0, 0, 0, 0.2)",
+                                }, // Adjust the opacity here
+                              }}
+                              aria-labelledby="alert-dialog-title"
+                              aria-describedby="alert-dialog-description"
+                            >
+                              <DialogTitle>
+                                <Typography variant="h6" align="center">
+                                  Are you sure you want to delete this student?
+                                </Typography>
+                              </DialogTitle>
+                              <Stack alignItems="center">
+                                <DialogActions>
+                                  <Box sx={{ display: "flex", mb: 2 }}>
+                                    <Button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        return removeStudent(selectedStudentId); // Ensure this function gets the correct student ID
+                                      }}
+                                      color="error"
+                                      variant="contained"
+                                      sx={{ mr: "15px", width: "100px" }}
+                                    >
+                                      Yes
+                                    </Button>
+                                    <Button
+                                      onClick={handleClose}
+                                      color="grey"
+                                      variant="contained"
+                                      sx={{ width: "100px" }}
+                                    >
+                                      No
+                                    </Button>
+                                  </Box>
+                                </DialogActions>
+                              </Stack>
+                            </Dialog>
+                          </>
+                        )}
+                      </td>
+                    )}
                 </tr>
               );
             })}

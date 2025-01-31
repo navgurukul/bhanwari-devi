@@ -36,6 +36,7 @@ export const PATHS = {
   AFE: "/amazon-future-engineer",
   PARTNERS: "/partner",
   PARTNER_DATA: "/partner/:partnerId",
+  REPORT: "/report",
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   NAVGURUKUL_INTRODUCE: "/navgurukul/:partnerId",
