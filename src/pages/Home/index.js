@@ -41,31 +41,68 @@ function Home() {
   const history = useHistory();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const studentAuthParam = urlParams.get("studentAuth");
-    if (studentAuthParam)
-      localStorage.setItem("studentAuthToken", studentAuthParam);
-    if (
-      studentAuthParam ||
-      (localStorage.getItem("studentAuthToken") !== "null" &&
-        localStorage.getItem("studentAuthToken"))
-    ) {
+    // Get the full query string
+    const queryString = window.location.search.substring(1); // Remove the "?" at the beginning
+    console.log("Full Query String:", queryString);
+
+    // Split the query string into individual parameters
+    const queryParams = queryString.split("&");
+
+    // Initialize variables
+    let platformFlag = null;
+    let studentAuth = null;
+
+    // Loop through parameters to find the required ones
+    queryParams.forEach((param) => {
+      const [key, value] = param.split("="); // Split key-value pair
+      if (key === "platformFlag") {
+        platformFlag = decodeURIComponent(value).split("/")[0];
+        localStorage.setItem("platformFlag", platformFlag);
+      }
+      if (key === "studentAuth") {
+        studentAuth = decodeURIComponent(value);
+      }
+    }); 
+    console.log("Extracted platformFlag:", platformFlag);
+    console.log("Extracted studentAuth:", studentAuth);
+
+    // Store the studentAuth token if available
+    if (studentAuth) {
+      localStorage.setItem("studentAuthToken", studentAuth);
+    }
+
+    // Get stored token from localStorage
+    const storedAuthToken = localStorage.getItem("studentAuthToken");
+
+    console.log("Stored studentAuthToken:", storedAuthToken);
+
+    // Proceed with API call if token is valid
+    if (studentAuth || (storedAuthToken !== "null" && storedAuthToken)) {
+      const apiEndpoint =
+        platformFlag === "aidcx" ? "/career/team" : "/c4ca/teams";
+
+      console.log("API Endpoint:", apiEndpoint);
+
       axios
-        .get(`${process.env.REACT_APP_MERAKI_URL}/c4ca/team`, {
+        .get(`${process.env.REACT_APP_MERAKI_URL}${apiEndpoint}`, {
           headers: {
-            Authorization:
-              studentAuthParam ??
-              localStorage.getItem("studentAuthToken") ??
-              null,
+            Authorization: studentAuth ?? storedAuthToken ?? null,
           },
         })
         .then((res) => {
+          console.log("API Response:", res.data);
+
           localStorage.setItem("studentAuth", JSON.stringify(res.data));
-          history.push("/c4ca-pathway");
+
+          history.push(
+            platformFlag === "aidcx" ? "/aidcx-pathway" : "/c4ca-pathway"
+          );
         })
         .catch((err) => {
-          console.error(err);
+          console.error("API Error:", err);
         });
+    } else {
+      console.log("No valid studentAuthToken found.");
     }
   }, []);
 

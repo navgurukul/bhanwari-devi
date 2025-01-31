@@ -11,6 +11,7 @@ function LastCoursePage({ C4CALastPage }) {
   const history = useHistory();
   const params = useParams();
   const studentAuthToken = localStorage.getItem("studentAuthToken");
+  const platformFlag = localStorage.getItem("platformFlag");
   return (
     <>
       <Container maxWidth="lg" align="center">
@@ -19,20 +20,37 @@ function LastCoursePage({ C4CALastPage }) {
           <Typography variant="h6" mt={3} mb={4}>
             Congratulations! You completed the track
           </Typography>
-          <Button
-            onClick={() => {
-              history.push(
-                studentAuthToken
-                  ? "/c4ca-pathway"
-                  : interpolatePath(PATHS.PATHWAY_COURSE, {
-                      pathwayId: params.pathwayId,
-                    })
-              );
-            }}
-            variant="contained"
-          >
-            Return to Dashboard
-          </Button>
+          {(platformFlag && platformFlag) ? (
+            <Button
+              onClick={() => {
+                history.push(
+                  studentAuthToken
+                    ? "/aidcx-pathway"
+                    : interpolatePath(PATHS.PATHWAY_COURSE, {
+                        pathwayId: params.pathwayId,
+                      })
+                );
+              }}
+              variant="contained"
+            >
+              Return to Dashboard
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                history.push(
+                  studentAuthToken
+                    ? "/c4ca-pathway"
+                    : interpolatePath(PATHS.PATHWAY_COURSE, {
+                        pathwayId: params.pathwayId,
+                      })
+                );
+              }}
+              variant="contained"
+            >
+              Return to Dashboard
+            </Button>
+          )}
         </Box>
       </Container>
     </>
