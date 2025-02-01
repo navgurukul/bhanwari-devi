@@ -174,7 +174,6 @@ const RenderContent = ({ data, exercise, pathwayData }) => {
     },
   };
 
-  // console.log(isVideoFinished, "isVideoFinished")
   if (data.component === "header") {
     return (
       <Box className={classes.heading}>
