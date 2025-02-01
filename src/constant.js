@@ -36,6 +36,7 @@ export const PATHS = {
   AFE: "/amazon-future-engineer",
   PARTNERS: "/partner",
   PARTNER_DATA: "/partner/:partnerId",
+  REPORT: "/report",
   STUDENT: "/student/:studentId",
   OPPORTUNITIES: "/opportunities",
   NAVGURUKUL_INTRODUCE: "/navgurukul/:partnerId",
@@ -59,6 +60,7 @@ export const PATHS = {
   GSOC_IDEA: "/gsoc-ideas-2023",
   ACB_BATCH: "/amazon-batch-class",
   C4CA_PATHWAY: "/c4ca-pathway",
+  AIDCX_PATHWAY: "/aidcx-pathway",
   // CREDITS: "/credits",
 };
 
@@ -77,6 +79,7 @@ export const HideFooter = [
   PATHS.NEW_USER_DASHBOARD,
   PATHS.VOLUNTEER_FORM,
   PATHS.C4CA_PATHWAY,
+  PATHS.AIDCX_PATHWAY,
   PATHS.PARTNERS,
   PATHS.CLASS,
   PATHS.VOLUNTEER,

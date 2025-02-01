@@ -174,7 +174,6 @@ const RenderContent = ({ data, exercise, pathwayData }) => {
     },
   };
 
-  // console.log(isVideoFinished, "isVideoFinished")
   if (data.component === "header") {
     return (
       <Box className={classes.heading}>
@@ -480,7 +479,8 @@ function ExerciseContent({
       user?.data?.token &&
       pathwayId !== "miscellaneous" &&
       pathwayId !== "residential" &&
-      pathwayId !== "c4caPathway"
+      pathwayId !== "c4caPathway" &&
+      pathwayId !== "aidcxPathway"
     ) {
       dispatch(
         enrolledBatchesActions.getEnrolledBatches({

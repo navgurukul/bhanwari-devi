@@ -38,11 +38,14 @@ import AmazonVideos from "../components/PathwayCourse/AmazonCodingProgrammer/Ama
 // import ClassFormModel from "../components/BatchClassComponents/ClassFormModel";
 import GsocIdea from "../pages/GsocIdea/GsocIdea";
 import C4CApathway from "../components/PathwayCourse/C4CApathway";
+import ReportGenerate from "../pages/ReportGenerate/ReportGenerate";
+import Aidcxpathway from "../components/PathwayCourse/Aidcxpathway";
 // import Credits from "../pages/Credits";
 
 const Routing = () => {
   return (
     <>
+
       {/* Public routes */}
       {/* Route home page to login in  */}
       <Route exact path={PATHS.HOME_PATH} component={Home} />
@@ -70,6 +73,7 @@ const Routing = () => {
       <Route exact path={PATHS.OUR_PARTNER} component={Partner} />
       <Route exact path={PATHS.OUR_STORY} component={OurStory} />
       <Route exact path={PATHS.C4CA_PATHWAY} component={C4CApathway} />
+      <Route exact path={PATHS.AIDCX_PATHWAY} component={Aidcxpathway} />
       <Route
         exact
         path={PATHS.RETURNING_USER_PAGE}
@@ -135,6 +139,10 @@ const Routing = () => {
       <PrivateRoute exact path={PATHS.PARTNERS} component={PartnerData} />
       <PrivateRoute exact path={PATHS.PARTNER_DATA} component={StudentData} />
       <PrivateRoute exact path={PATHS.STUDENT} component={StudentClassData} />
+      <PrivateRoute exact path={PATHS.REPORT} component={ReportGenerate} />
+
+      {/* <Route path="/report" element={<ReportGenerate />} /> */}
+
     </>
   );
 };
