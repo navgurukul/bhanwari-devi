@@ -15,6 +15,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { METHODS } from "../../services/api";
 import TextField from "@mui/material/TextField";
 import useStyles from "./styles";
+import { exec } from "child_process";
 
 const style = {
   position: "absolute",
@@ -327,6 +328,7 @@ function CustomModal({
             phone_number: "",
             employee_type: "",
           });
+          window.location.reload();
         })
         .catch((err) => console.log(err));
     }
