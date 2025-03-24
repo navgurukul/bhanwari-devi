@@ -125,12 +125,23 @@ const useStyles = makeStyles((theme) => ({
     position: "sticky",
     marginTop: 104,
   },
-  optionImg: {
-    objectFit: "cover",
-    width: "100%",
+
+  optionImgCont: {
     height: "140px",
-    borderRadius: "8px",
+    width: "100%",  
+    overflow: "hidden", 
+    display: "flex", 
+    justifyContent: "center", 
+    alignItems: "center"
   },
+  optionImg: {
+    objectFit: "contain",  
+    width: "100%",         
+    height: "100%",        
+    borderRadius: "8px",   
+  },
+  
+  
   cursorA: {
     cursor: "default !important",
   },
