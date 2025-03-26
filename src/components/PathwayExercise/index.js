@@ -331,7 +331,7 @@ function PathwayExercise() {
             user.data?.token || localStorage.getItem("studentAuthToken") || "",
         },
         data: {
-          pathway_id: params.pathwayId,
+          pathway_id:  params.pathwayId === "c4caPathway" ? 12 : params.pathwayId ,
           course_id: params.courseId,
           slug_id: course[exerciseId].slug_id,
           type: "exercise",
@@ -377,7 +377,6 @@ function PathwayExercise() {
         },
       })
         .then((res) => {
-          // console.log(res);
           // add it here in case it gets overwritten as incomplete by a response from `/completedContent`
           // that comes in before the request marking it as complete is handled
           addCompletedExercise();
