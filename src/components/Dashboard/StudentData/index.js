@@ -448,7 +448,7 @@ function StudentData() {
         <div className="container-table">
           <Typography variant="h6">{partnerName}</Typography>
           <Typography variant="subtitle1" style={{ marginTop: "32px" }}>
-            MCDigital Course-1
+            MCDigital Course-2.0
           </Typography>
           <div className="container-for-search">
             <div>
