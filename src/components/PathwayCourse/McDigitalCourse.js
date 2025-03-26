@@ -47,7 +47,6 @@ const McDigitalCourse = ({
   const handleClose = () => {
     setQuizOpen(false);
   };
- 
 
   return (
     <Box className={classes.box}>
@@ -59,7 +58,6 @@ const McDigitalCourse = ({
       >
         Mandatory Courses
       </Typography>
-
       <Grid container spacing={3} align="center">
         {pathwayCourseData.length > 0 ? (
           pathwayCourseData.map((item, index) =>

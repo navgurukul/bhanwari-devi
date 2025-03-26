@@ -72,7 +72,7 @@ const ReportGenerate = () => {
     <div className="container-table">
       <Typography variant="h6">peepul india</Typography>
       <Typography variant="subtitle1" style={{ marginTop: "32px" }}>
-        MCDigital Course-1
+        MCDigital Course-2.0
       </Typography>
       <Grid container spacing={4} style={{ marginTop: "16px" }}>
         <Grid item xs={12} sm={6}>
