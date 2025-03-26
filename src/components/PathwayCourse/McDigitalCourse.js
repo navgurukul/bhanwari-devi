@@ -47,7 +47,6 @@ const McDigitalCourse = ({
   const handleClose = () => {
     setQuizOpen(false);
   };
- console.log(pathwayCourseData,"pathwayCourseData")
 
   return (
     <Box className={classes.box}>
