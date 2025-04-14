@@ -43,7 +43,7 @@ export default function ExerciseImage({
   };
 
   return (
-    <Tooltip title={exerciseName}>
+    <Tooltip title={exerciseName == "assessment" ? "practice" : exerciseName}>
       <img
         onClick={() => {
           history.push(
