@@ -186,7 +186,7 @@ function PathwayCourse() {
           setOpenModal((prev) => !prev);
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const downloadCert = () => {
@@ -246,7 +246,7 @@ function PathwayCourse() {
       .then((response) => {
         setisFormFilled(response.data);
       })
-      .catch((err) => {});
+      .catch((err) => { });
     //  }, [pathwayId, pathwayCourse]);
   }, []);
 
@@ -280,7 +280,7 @@ function PathwayCourse() {
             }));
           });
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
   }, [dispatch, pathwayId]);
 
@@ -332,8 +332,8 @@ function PathwayCourse() {
     if (pathwayCourse?.data) {
       setCertificateCode(pathwayCourse?.data?.code);
       pathwayCourse?.data.code === "PRGPYT" ||
-      pathwayCourse?.data.code === "TCBPI" ||
-      pathwayCourse?.data.code === "SCRTHB"
+        pathwayCourse?.data.code === "TCBPI" ||
+        pathwayCourse?.data.code === "SCRTHB"
         ? setDisplayCert(true)
         : setDisplayCert(false);
     }
@@ -533,11 +533,44 @@ function PathwayCourse() {
                         </Typography>
                         <Typography variant="body1">
                           {/* {pathwayCourse?.data.description} */}
-                          Explore and learn the essential material and tools to
-                          start <br />
-                          supporting your students learning on Meraki
+                          Welcome to MCDigital 2.0! This is your one stop solution to
+                          gain working knowledge of the most widely used applications.
+                          From drafting reports in Word and Excel to creating interactive
+                          projects on Scratch Jr, this course has been designed to manage
+                          your work easily. With the arrival of AI when we fear that machines
+                          will overpower us, it is our responsibility to learn tools to make
+                          the best use of technology. Gear up for a quick and fun learning
+                          experience to reimagine classrooms and simplify your work!
+                        </Typography><br />
+                        <Typography variant="h6" >
+                          General instructions:
                         </Typography>
-
+                        <Typography variant="body2" >
+                          <ul>
+                            <li>
+                              <Typography >This course has 4 modules.</Typography>
+                            </li>
+                            <li>
+                              <Typography >Each module begins with an entry test.</Typography>
+                            </li>
+                            <li>
+                              <Typography >Every learning objective ends with a quiz.</Typography>
+                            </li>
+                            <li>
+                              <Typography >Fill in the feedback form after completing all modules to <br />gain your digital certificate!</Typography>
+                            </li>
+                          </ul>
+                        </Typography>
+                        <Typography variant="h6" >
+                          Modules in this course:
+                        </Typography>
+                        <Typography variant="body2" >                           
+                              <Typography >1. Scratch Jr./Scratch* </Typography>
+                              <Typography >2. MS Word</Typography>
+                              <Typography >3. MS Excel</Typography>
+                              <Typography >4. Basics of AI *</Typography>
+                              <Typography >*Marked modules are optional for some professionals</Typography>
+                        </Typography>
                         {pathwayCourse?.data.video_link && (
                           <ExternalLink
                             style={{
@@ -849,7 +882,7 @@ function PathwayCourse() {
 
               {/* ...............certificate three dot button................ */}
 
-              
+
 
               {displayCert ? (
                 <Grid item sx={{ mb: 15 }} align="center">
