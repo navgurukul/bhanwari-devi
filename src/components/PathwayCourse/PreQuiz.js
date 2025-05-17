@@ -24,6 +24,8 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const history = useHistory();
   useEffect(() => {
     const formSubmitted = localStorage.getItem(`preQuizSubmitted_${courseId}`);
@@ -80,6 +82,7 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
 
   const handleSubmit = async () => {
     const token = user?.data?.token || localStorage.getItem("studentAuthToken");
+    setIsSubmitting(true);
 
     const resultsArray = courseContent
       .filter(item => item && item.content_type === 'prequiz')
@@ -111,43 +114,42 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
       }).filter(Boolean);
 
     if (resultsArray.length > 0) {
-      console.log('Payload being sent:', resultsArray);
-
-      axios({
-        method: METHODS.POST,
-        url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
-        headers: {
-          accept: "application/json",
-          Authorization: token,
-        },
-        data: resultsArray,
-      })
-        .then((res) => {
-          console.log('API call successful', res);
-          setSnackbarMessage('Form submitted successfully!');
-          setSnackbarSeverity('success');
-          setOpenSnackbar(true);
-
-          localStorage.setItem(`preQuizSubmitted_${courseId}`, true);
-
-          history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-            courseId,
-            exerciseId: 0,
-            pathwayId,
-          }));
-        })
-        .catch((err) => {
-          console.error('API call failed', err);
-          setSnackbarMessage("Please select every question's answer");
-          setSnackbarSeverity('error');
-          setOpenSnackbar(true);
+      try {
+        console.log('Payload being sent:', resultsArray);
+        const res = await axios({
+          method: METHODS.POST,
+          url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
+          headers: {
+            accept: "application/json",
+            Authorization: token,
+          },
+          data: resultsArray,
         });
+
+        console.log('API call successful', res);
+        setSnackbarMessage('Form submitted successfully!');
+        setSnackbarSeverity('success');
+        setOpenSnackbar(true);
+        localStorage.setItem(`preQuizSubmitted_${courseId}`, true);
+
+        history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+          courseId,
+          exerciseId: 0,
+          pathwayId,
+        }));
+      } catch (err) {
+        console.error('API call failed', err);
+        setSnackbarMessage("Please select every question's answer");
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+      }
     } else {
       setSnackbarMessage('No questions answered.');
       setSnackbarSeverity('warning');
       setOpenSnackbar(true);
     }
-    console.log('Prepared Result:', resultsArray);
+
+    setIsSubmitting(false);
   };
 
   const handleCloseSnackbar = () => {
@@ -255,9 +257,15 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
           )}
           <Box sx={{ mt: 'auto', mb: 2, textAlign: 'center' }}>
             <DialogActions>
-              <Button onClick={handleSubmit} variant="contained" disabled={loading || !!error}>
-                Submit Answer
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                disabled={loading || !!error || isSubmitting}
+                startIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit Answer'}
               </Button>
+
             </DialogActions>
           </Box>
         </Box>
