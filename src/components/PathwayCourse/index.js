@@ -324,9 +324,9 @@ function PathwayCourse() {
     }
   }, []);
 
-  const pathwayCourseData = data.Pathways.data?.pathways.find((item) => {
-    return item.id == pathwayId;
-  });
+  const pathwayCourseData = React.useMemo(() => {
+    return data.Pathways.data?.pathways.find((item) => item.id == pathwayId);
+  }, [data.Pathways.data, pathwayId]);
 
   useEffect(() => {
     if (pathwayCourse?.data) {
@@ -842,6 +842,7 @@ function PathwayCourse() {
                               className={classes.courseImage}
                               src={item.logo}
                               alt="course"
+                              loading="lazy"
                             />
                             <CardContent
                               sx={{

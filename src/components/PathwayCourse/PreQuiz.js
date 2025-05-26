@@ -30,15 +30,12 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
   useEffect(() => {
     const formSubmitted = localStorage.getItem(`preQuizSubmitted_${courseId}`);
     if (formSubmitted) {
-      history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-        courseId,
-        exerciseId: 0,
-        pathwayId,
-      }));
+      history.push(`/pathway-course/${courseName}/${courseId}/${pathwayId}`);
     }
+
   }, [courseId, history, pathwayId]);
 
-
+  
 
   useEffect(() => {
     if (!courseId) return;
@@ -51,9 +48,11 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
       },
     })
       .then((response) => {
-        console.log('Fetched Data:', response.data);
+        // console.log('Fetched Data:', response.data);
 
         if (response.data.course.course_content) {
+          console.log('courseId:', courseId);
+          console.log('course_content:', response.data.course.course_content);
           setCourseContent(response.data.course.course_content);
           setSlugId(response.data.course.course_content[0]?.slug_id);
         } else {
