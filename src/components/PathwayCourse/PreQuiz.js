@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { METHODS } from "../../services/api";
 import { PATHS, interpolatePath } from "../../constant";
 
-
 const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayId }) => {
   const user = useSelector(({ User }) => User);
   const [courseContent, setCourseContent] = useState([]);
@@ -27,6 +26,7 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const history = useHistory();
+  
   useEffect(() => {
     const formSubmitted = localStorage.getItem(`preQuizSubmitted_${courseId}`);
     if (formSubmitted) {
@@ -37,8 +37,6 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
       }));
     }
   }, [courseId, history, pathwayId]);
-
-
 
   useEffect(() => {
     if (!courseId) return;
@@ -78,7 +76,29 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
     }));
   };
 
+  // Helper function to get question text from content array
+  const getQuestionText = (content) => {
+    const questionComponent = content.find(item => item.component === 'questionExpression');
+    return questionComponent?.value || '';
+  };
 
+  // Helper function to get options from content array
+  const getOptions = (content) => {
+    const optionsComponent = content.find(item => item.component === 'options');
+    return optionsComponent?.value || [];
+  };
+
+  // Helper function to get image from content array
+  const getImage = (content) => {
+    const imageComponent = content.find(item => item.component === 'image');
+    return imageComponent?.value || null;
+  };
+
+  // Helper function to get correct answer from content array
+  const getCorrectAnswer = (content) => {
+    const solutionComponent = content.find(item => item.component === 'solution');
+    return solutionComponent?.correct_options_value || [];
+  };
 
   const handleSubmit = async () => {
     const token = user?.data?.token || localStorage.getItem("studentAuthToken");
@@ -87,31 +107,41 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
     const resultsArray = courseContent
       .filter(item => item && item.content_type === 'prequiz')
       .map(item => {
-        const selectedOptionId = Array.isArray(selectedAnswers[item.content[0]?.value])
-          ? selectedAnswers[item.content[0]?.value]
-          : [selectedAnswers[item.content[0]?.value]];
+        const questionText = getQuestionText(item.content);
+        const selectedOptionId = selectedAnswers[questionText];
+        
+        if (!selectedOptionId) {
+          return null; // Skip unanswered questions
+        }
 
-        const correctAnswerIds = Array.isArray(item.content[2]?.correct_options_value)
-          ? item.content[2].correct_options_value.map(option => option.value)
-          : [];
-
-        const isCorrect = selectedOptionId[0] === correctAnswerIds[0];
+        const correctAnswerIds = getCorrectAnswer(item.content).map(option => option.value);
+        const isCorrect = correctAnswerIds.includes(selectedOptionId);
         const status = isCorrect ? 'Pass' : 'Fail';
+        
+        // Get language from course data or default to 'en'
         const language = item.lang_available ? item.lang_available[0] : 'en';
         const courseId = item.course_id ? Number(item.course_id) : 0;
         const slugId = item.slug_id ? Number(item.slug_id) : 0;
 
-        if (selectedOptionId.length > 0) {
-          return {
-            slug_id: slugId,
-            course_id: courseId,
-            selected_option: selectedOptionId,
-            status: status,
-            lang: language,
-          };
-        }
-        return null;
-      }).filter(Boolean);
+        return {
+          slug_id: slugId,
+          course_id: courseId,
+          selected_option: [selectedOptionId], // API expects array
+          status: status,
+          lang: language,
+        };
+      })
+      .filter(Boolean); // Remove null values
+
+    // Check if all questions are answered
+    const totalQuestions = courseContent.filter(item => item.content_type === 'prequiz').length;
+    if (resultsArray.length < totalQuestions) {
+      setSnackbarMessage("Please answer all questions before submitting.");
+      setSnackbarSeverity('warning');
+      setOpenSnackbar(true);
+      setIsSubmitting(false);
+      return;
+    }
 
     if (resultsArray.length > 0) {
       try {
@@ -132,14 +162,17 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
         setOpenSnackbar(true);
         localStorage.setItem(`preQuizSubmitted_${courseId}`, true);
 
-        history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
-          courseId,
-          exerciseId: 0,
-          pathwayId,
-        }));
+        // Delay navigation to show success message
+        setTimeout(() => {
+          history.push(interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
+            courseId,
+            exerciseId: 0,
+            pathwayId,
+          }));
+        }, 1500);
       } catch (err) {
         console.error('API call failed', err);
-        setSnackbarMessage("Please select every question's answer");
+        setSnackbarMessage(err.response?.data?.message || "Failed to submit quiz. Please try again.");
         setSnackbarSeverity('error');
         setOpenSnackbar(true);
       }
@@ -217,42 +250,63 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
             <Typography color="error">{error}</Typography>
           ) : (
             <FormControl component="fieldset" fullWidth>
-              {courseContent.map((item, index) => (
-                <div key={index}>
-                  {item.content_type === 'prequiz' && (
-                    <>
-                      <FormLabel
-                        component="legend"
-                        style={{
-                          marginTop: index > 0 ? "48px" : "0px",
-                          fontFamily: "Noto Sans",
-                          lineHeight: "170%",
-                          fontSize: "18px",
-                          color: "Black"
-                        }}
-                      >
-                        <b>{index + 1}. {item.content[0].value}</b>
-                      </FormLabel>
-                      <RadioGroup
-                        style={{ marginTop: "8px", marginLeft: '20px' }}
-                        aria-label={`question-${item.content[0].value}`}
-                        name={`question-${item.content[0].value}`}
-                        value={selectedAnswers[item.content[0].value] || ''}
-                        onChange={(event) => handleChange(event, item.content[0].value)}
-                      >
-                        {item.content[1].value.map((option, idx) => (
-                          <FormControlLabel
-                            key={option.id}
-                            value={option.id}
-                            control={<Radio />}
-                            label={option.value}
-                          />
-                        ))}
-                      </RadioGroup>
-                    </>
-                  )}
-                </div>
-              ))}
+              {courseContent.map((item, index) => {
+                if (item.content_type !== 'prequiz') return null;
+                
+                const questionText = getQuestionText(item.content);
+                const options = getOptions(item.content);
+                const imageUrl = getImage(item.content);
+
+                return (
+                  <div key={index} style={{ marginBottom: '32px' }}>
+                    <FormLabel
+                      component="legend"
+                      style={{
+                        marginTop: index > 0 ? "48px" : "0px",
+                        fontFamily: "Noto Sans",
+                        lineHeight: "170%",
+                        fontSize: "18px",
+                        color: "Black"
+                      }}
+                    >
+                      <b>{index + 1}. {questionText}</b>
+                    </FormLabel>
+                    
+                    {/* Display image if available */}
+                    {imageUrl && (
+                      <Box sx={{ my: 2, textAlign: 'center' }}>
+                        <img 
+                          src={imageUrl} 
+                          alt="Question illustration" 
+                          style={{ 
+                            maxWidth: '100%', 
+                            maxHeight: '300px',
+                            objectFit: 'contain'
+                          }} 
+                        />
+                      </Box>
+                    )}
+                    
+                    <RadioGroup
+                      style={{ marginTop: "8px", marginLeft: '20px' }}
+                      aria-label={`question-${questionText}`}
+                      name={`question-${questionText}`}
+                      value={selectedAnswers[questionText] || ''}
+                      onChange={(event) => handleChange(event, questionText)}
+                    >
+                      {options.map((option) => (
+                        <FormControlLabel
+                          key={option.id}
+                          value={option.id}
+                          control={<Radio />}
+                          label={option.value}
+                          style={{ marginBottom: '8px' }}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </div>
+                );
+              })}
             </FormControl>
           )}
           <Box sx={{ mt: 'auto', mb: 2, textAlign: 'center' }}>
@@ -262,10 +316,10 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
                 variant="contained"
                 disabled={loading || !!error || isSubmitting}
                 startIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
+                size="large"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Answer'}
               </Button>
-
             </DialogActions>
           </Box>
         </Box>
@@ -278,5 +332,6 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
     </Dialog>
   );
 };
+
 
 export default PreQuiz;
