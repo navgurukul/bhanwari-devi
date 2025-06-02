@@ -29,7 +29,7 @@ const McDigitalCourse = ({
   
   const handleCourseClick = (course) => {
     
-    if (course.isPreQuizCompleted == "false") {
+    if (course.isPreQuizCompleted === "false") {
       setSelectedCourse(course);
       setCourseName(course.name);
       setQuizOpen(true);
@@ -46,7 +46,7 @@ const McDigitalCourse = ({
       );
     }
   };
-  
+
   const handleClose = () => {
     setQuizOpen(false);
   };
