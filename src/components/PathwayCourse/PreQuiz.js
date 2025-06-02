@@ -49,7 +49,6 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
       },
     })
       .then((response) => {
-        console.log('Fetched Data:', response.data);
 
         if (response.data.course.course_content) {
           setCourseContent(response.data.course.course_content);
@@ -145,7 +144,7 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
 
     if (resultsArray.length > 0) {
       try {
-        console.log('Payload being sent:', resultsArray);
+        
         const res = await axios({
           method: METHODS.POST,
           url: `${process.env.REACT_APP_MERAKI_URL}/assessment/slug/complete`,
@@ -156,7 +155,6 @@ const PreQuiz = ({ open, handleClose, courseId, courseName, courseData, pathwayI
           data: resultsArray,
         });
 
-        console.log('API call successful', res);
         setSnackbarMessage('Form submitted successfully!');
         setSnackbarSeverity('success');
         setOpenSnackbar(true);

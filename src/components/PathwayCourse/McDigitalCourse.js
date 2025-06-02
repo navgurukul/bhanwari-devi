@@ -33,7 +33,7 @@ const McDigitalCourse = ({
       setSelectedCourse(course);
       setCourseName(course.name);
       setQuizOpen(true);
-      console.log(selectedCourse,courseName)
+
       // Clear localStorage item when opening quiz
       localStorage.removeItem(`preQuizSubmitted_${course.id}`);
     } else {
@@ -46,7 +46,7 @@ const McDigitalCourse = ({
       );
     }
   };
-  console.log(selectedCourse,courseName)
+  
   const handleClose = () => {
     setQuizOpen(false);
   };

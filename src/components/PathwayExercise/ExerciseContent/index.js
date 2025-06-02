@@ -402,7 +402,7 @@ function ExerciseContent({
       },
     })
       .then((res) => {
-        console.log(res.data, "pathwayName");
+        // console.log(res.data, "pathwayName");
         setPathwayName(res.data);
       })
       .catch((err) => {});
