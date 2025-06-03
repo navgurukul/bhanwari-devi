@@ -662,7 +662,7 @@ function CustomModal({
           )}
           <TextField
             id="phone_number"
-            label="Contect Number"
+            label="Contact Number"
             variant="outlined"
             value={teacherDetails.phone_number}
             onChange={(e) => {
