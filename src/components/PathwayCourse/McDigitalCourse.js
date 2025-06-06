@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom";
 import { PATHS, interpolatePath } from "../../constant";
 import useStyles from "./styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import PreQuiz from "./PreQuiz"; 
+import PreQuiz from "./PreQuiz";
 
 const McDigitalCourse = ({
   pathwayCourseData,
@@ -21,16 +21,21 @@ const McDigitalCourse = ({
   courseData
 }) => {
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [courseName, setCourseName] = useState(''); 
+  const [courseName, setCourseName] = useState('');
   const [quizOpen, setQuizOpen] = useState(false);
   const history = useHistory();
   const isActive = useMediaQuery("(max-width:600px)");
   const classes = useStyles({ isActive });
+  
   const handleCourseClick = (course) => {
-    if (course.isPreQuizCompleted) { //condition for isPreQuizCompleted==="false"
+    
+    if (course.isPreQuizCompleted === "false") {
       setSelectedCourse(course);
       setCourseName(course.name);
       setQuizOpen(true);
+
+      // Clear localStorage item when opening quiz
+      localStorage.removeItem(`preQuizSubmitted_${course.id}`);
     } else {
       history.push(
         interpolatePath(PATHS.PATHWAY_COURSE_CONTENT, {
@@ -41,30 +46,26 @@ const McDigitalCourse = ({
       );
     }
   };
-  
-  
-  
+
   const handleClose = () => {
     setQuizOpen(false);
   };
 
   return (
     <Box className={classes.box}>
-      <Typography
-        className={classes.course}
-        ml={2}
-        variant="h6"
-        sx={{ textAlign: isActive && "center" }}
-      >
+      <Typography className={classes.course} ml={2} variant="h6" sx={{ textAlign: isActive && "center" }}>
         Mandatory Courses
       </Typography>
-      <Grid container spacing={3} align="center">
-        {pathwayCourseData.length > 0 ? (
+      <Grid
+        container
+        spacing={3}
+        align="center"
+      >
+        {pathwayCourseData.filter(item => item.isMandatory === "true").length > 0 ? (
           pathwayCourseData.map((item, index) =>
             item.isMandatory === "true" ? (
               <Grid
-                item
-                key={index}
+                item key={index}
                 xs={12}
                 md={3}
                 className={classes.courseCard}
@@ -129,26 +130,23 @@ const McDigitalCourse = ({
             ) : null
           )
         ) : (
-          <Typography>No mandatory courses available.</Typography>
-        )}
+          <Grid item xs={12}>
+            <Typography>No mandatory courses available.</Typography>
+          </Grid>)}
       </Grid>
 
-      <Typography
-        className={classes.course}
-        ml={2}
-        variant="h6"
-        sx={{ textAlign: isActive && "center" }}
-      >
+      <Typography className={classes.course} ml={2} variant="h6" sx={{ textAlign: isActive && "center" }}>
         Optional Courses
       </Typography>
-
-      <Grid container spacing={3}>
-        {pathwayCourseData.length > 0 ? (
+      <Grid
+        container
+        spacing={3}
+      >
+        {pathwayCourseData.filter(item => item.isMandatory === "false").length > 0 ? (
           pathwayCourseData.map((item, index) =>
             item.isMandatory === "false" ? (
               <Grid
-                item
-                key={index}
+                item key={index}
                 xs={12}
                 md={3}
                 className={classes.courseCard}
@@ -213,18 +211,18 @@ const McDigitalCourse = ({
             ) : null
           )
         ) : (
-          <Typography>No optional courses available.</Typography>
-        )}
+          <Grid item xs={12}>
+            <Typography>No optional courses available.</Typography>
+          </Grid>)}
       </Grid>
 
-     
       <PreQuiz
         open={quizOpen}
         handleClose={handleClose}
         courseId={selectedCourse?.id}
         pathwayId={pathwayId}
-        courseName={courseName} 
-        courseData={courseData} 
+        courseName={courseName}
+        courseData={courseData}
       />
     </Box>
   );

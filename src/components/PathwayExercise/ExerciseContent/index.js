@@ -169,8 +169,12 @@ const RenderContent = ({ data, exercise, pathwayData }) => {
     height: "390",
     width: "640",
     playerVars: {
-      controls: 1, // Disable default controls
-      disablekb: 1, // Disable keyboard controls
+      controls: 1,
+      disablekb: 1,
+      autoplay: 1, // Enable autoplay
+      loop: 1, // Enable loop
+      playlist: videoId, // Required for looping - provide the same video ID
+      rel: 0, // Disable related videos
     },
   };
 
@@ -198,7 +202,7 @@ const RenderContent = ({ data, exercise, pathwayData }) => {
     const videoId = data.value.includes("=")
       ? data.value.split("=")[1]
       : data.value;
-    return pathwayData?.code !== "TCBPI" ? (
+    return pathwayData?.code !== "TCBPI2" ? (
       <YouTube className={classes.youtubeVideo} videoId={videoId} />
     ) : (
       <YouTube
@@ -397,7 +401,7 @@ function ExerciseContent({
       },
     })
       .then((res) => {
-        console.log(res.data, "pathwayName");
+        // console.log(res.data, "pathwayName");
         setPathwayName(res.data);
       })
       .catch((err) => {});
