@@ -709,41 +709,43 @@ function PathwayCourse() {
 
                   {/* ...............Learning outcomes..................... */}
                   {pathwayCourse?.data?.outcomes.length > 0 && (
-                    <Box className={classes.Box1}>
-                      <Typography
-                        variant="h6"
-                        sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
-                      >
-                        Learning Outcomes
-                      </Typography>
-                      <Grid container spacing={0} align="center">
-                        {pathwayCourse?.data.outcomes.map((content, index) => {
-                          if (content.component === "text") {
-                            return (
-                              <Grid item key={index} xs={12} md={4}>
-                                <Card
-                                  sx={{ margin: "10px" }}
-                                  align="left"
-                                  elevation={0}
-                                >
-                                  <Box className={classes.flex}>
-                                    <CheckIcon color="primary" />
-                                    <UnsafeHTML
-                                      Container={Typography}
-                                      variant="body1"
-                                      html={DOMPurify.sanitize(
-                                        get(content, "value")
-                                      )}
-                                      sx={{ ml: 1 }}
-                                    />
-                                  </Box>
-                                </Card>
-                              </Grid>
-                            );
-                          }
-                        })}
-                      </Grid>
-                    </Box>
+                    pathwayCourse?.data.code !== "TCBPI2" && (
+                      <Box className={classes.Box1}>
+                        <Typography
+                          variant="h6"
+                          sx={{ mt: 8, ml: 2, textAlign: isActive && "center" }}
+                        >
+                          Learning Outcomes
+                        </Typography>
+                        <Grid container spacing={0} align="center">
+                          {pathwayCourse?.data.outcomes.map((content, index) => {
+                            if (content.component === "text") {
+                              return (
+                                <Grid item key={index} xs={12} md={4}>
+                                  <Card
+                                    sx={{ margin: "10px" }}
+                                    align="left"
+                                    elevation={0}
+                                  >
+                                    <Box className={classes.flex}>
+                                      <CheckIcon color="primary" />
+                                      <UnsafeHTML
+                                        Container={Typography}
+                                        variant="body1"
+                                        html={DOMPurify.sanitize(
+                                          get(content, "value")
+                                        )}
+                                        sx={{ ml: 1 }}
+                                      />
+                                    </Box>
+                                  </Card>
+                                </Grid>
+                              );
+                            }
+                          })}
+                        </Grid>
+                      </Box>
+                    )
                   )}
                 </>
               )
