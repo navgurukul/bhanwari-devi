@@ -10,6 +10,7 @@ import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
 import { PATHWAYS_INFO } from "../../constant";
 import Loader from "../../components/common/Loader";
+import FeedbackForm from "../../feeback-form/feedbackForm";
 
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
@@ -19,6 +20,15 @@ const NewUserDashbord = () => {
   const dispatch = useDispatch();
   const [learningTracks, setLearningTracks] = useState([]);
   const { loading, data } = useSelector((state) => state.PathwaysDropdow);
+  const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
+  const [selectedPathway, setSelectedPathway] = useState(null);
+
+  // Prepare user data to pass to FeedbackModal
+  const userData = {
+    id: user.data.user.id,
+    name: user.data.user.name,
+    email: user.data.user.email
+  };
 
   // useEffect(() => {
   //   dispatch(
@@ -42,7 +52,7 @@ const NewUserDashbord = () => {
         const data = res.data;
         setLearningTracks(res.data);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }, []);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
@@ -78,17 +88,32 @@ const NewUserDashbord = () => {
                   md={3}
                   className={classes.cardGrid}
                   maxHeight={isActive && item.name.length < 12 ? 170 : 210}
+                  key={item.id}
                 >
                   <PathwayCard
                     id={item.id}
                     name={item.name}
                     logo={item.logo}
                     hover={true}
+                    onClick={() => {
+                      setSelectedPathway(item);
+                      setOpenFeedbackModal(true);
+                    }}
                   />
                 </Grid>
               ))}
             </Grid>
           </Container>
+          {selectedPathway && (
+              <FeedbackForm
+                open={openFeedbackModal}
+                handleClose={() => setOpenFeedbackModal(false)}
+                user={userData}
+                selectedPathway={selectedPathway}
+              />
+            
+          )}
+
         </>
       ) : (
         <ReturningUserPage learningTracks={learningTracks} />

@@ -52,6 +52,7 @@ import { max } from "date-fns";
 import AmazonCodingProgrammer from "./AmazonCodingProgrammer";
 import DOMPurify from "dompurify";
 import get from "lodash/get";
+import FeedbackForm from "../../feeback-form/feedbackForm.js";
 
 function UnsafeHTML(props) {
   const { html, Container, ...otherProps } = props;
@@ -111,6 +112,10 @@ function PathwayCourse() {
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
 
   const [userName, setUserName] = useState(""); // State for storing user name
+  // this is for feedbackform testing
+  const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
+const [openCertModal, setOpenCertModal] = useState(false);
+
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem("__AUTH__"));
@@ -131,6 +136,18 @@ function PathwayCourse() {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
+  const handleCertificateClick = () => {
+  const feedbackGiven = localStorage.getItem(`feedbackGiven_${user?.data?.user?.id}`);
+  if(feedbackGiven === 'true'){
+      handleModal()
+  }else{
+  setOpenFeedbackForm(true);
+  }
+  //  setOpenFeedbackForm(true)
+
+};
+
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -431,7 +448,7 @@ function PathwayCourse() {
               open={openModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
-              onClose={handleCloseModal}
+              onClose={() => setOpenCertModal(false)}
             >
               <Box sx={modalStyle}>
                 <Box
@@ -441,6 +458,7 @@ function PathwayCourse() {
                     alignItems: "center",
                     marginBottom: 4,
                   }}
+
                 >
                   <Typography
                     variant="h6"
@@ -902,7 +920,7 @@ function PathwayCourse() {
 
 
               {displayCert ? (
-                <Grid item sx={{ mb: 15 }} align="center">
+                <>                <Grid item sx={{ mb: 15 }} align="center">
                   <Grid item sx={{ mb: 3 }}>
                     <img src={require("./asset/separator.svg")} alt="icon" />
                   </Grid>
@@ -918,7 +936,7 @@ function PathwayCourse() {
                         <img
                           src={certificateColored}
                           alt="Certificate Colored Icon"
-                          onClick={handleModal}
+                          onClick={handleCertificateClick}
                           className={classes.certificateIcon}
                         />
                       )
@@ -945,12 +963,28 @@ function PathwayCourse() {
                   />
 
                 </Grid>
+                
+                </>   
+
               ) : null}
             </Box>
           </Container>
         </>
       )}{" "}
       ;
+
+      <FeedbackForm
+  open={openFeedbackForm}
+  onClose={() => setOpenFeedbackForm(false)}
+  user={user?.data?.user}
+  onSuccess={() =>{ 
+  localStorage.setItem(`feedbackGiven_${user?.data?.user?.id}`, "true");
+  
+  setOpenFeedbackForm(false);
+  handleModal();
+  }}
+/>
+
     </>
   );
 }
