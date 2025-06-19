@@ -10,6 +10,7 @@ import { versionCode } from "../../constant";
 import { breakpoints } from "../../theme/constant";
 import { PATHWAYS_INFO } from "../../constant";
 import Loader from "../../components/common/Loader";
+import FeedbackModal from "../../components/PathwayCourse/FeedBackForm";
 
 const NewUserDashbord = () => {
   const user = useSelector(({ User }) => User);
@@ -19,6 +20,15 @@ const NewUserDashbord = () => {
   const dispatch = useDispatch();
   const [learningTracks, setLearningTracks] = useState([]);
   const { loading, data } = useSelector((state) => state.PathwaysDropdow);
+  const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
+  const [selectedPathway, setSelectedPathway] = useState(null);
+
+  // Prepare user data to pass to FeedbackModal
+  const userData = {
+    id: user?.data?.user?.id || "",
+    name: user?.data?.user?.name || "",
+    email: user?.data?.user?.email || ""
+  };
 
   // useEffect(() => {
   //   dispatch(
@@ -42,7 +52,7 @@ const NewUserDashbord = () => {
         const data = res.data;
         setLearningTracks(res.data);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }, []);
 
   const miscellaneousPathway = data?.pathways.filter((pathway) =>
@@ -51,6 +61,17 @@ const NewUserDashbord = () => {
   const pathwayData = data?.pathways
     .filter((pathway) => !miscellaneousPathway.includes(pathway))
     .concat(miscellaneousPathway);
+
+  const handlePathwayClick = (item) => {
+    const hasSubmitted = localStorage.getItem(`feedbackSubmitted_${user.data.user.id}`) === 'true';
+    if (!hasSubmitted) {
+      setSelectedPathway(item);
+      setOpenFeedbackModal(true);
+    } else {
+      // Optionally show a message that feedback was already submitted
+      alert("You've already submitted feedback for this pathway!");
+    }
+  };
 
   return (
     <>
@@ -78,12 +99,14 @@ const NewUserDashbord = () => {
                   md={3}
                   className={classes.cardGrid}
                   maxHeight={isActive && item.name.length < 12 ? 170 : 210}
+                  key={item.id}
                 >
                   <PathwayCard
                     id={item.id}
                     name={item.name}
                     logo={item.logo}
                     hover={true}
+                    onClick={() => handlePathwayClick(item)}
                   />
                 </Grid>
               ))}
@@ -93,7 +116,16 @@ const NewUserDashbord = () => {
       ) : (
         <ReturningUserPage learningTracks={learningTracks} />
       )}
+
+      {/* FeedbackModal placed outside conditional rendering */}
+      <FeedbackModal
+        open={openFeedbackModal}
+        onClose={() => setOpenFeedbackModal(false)}
+        user={userData}
+        pathwayName={selectedPathway?.name}
+      />
     </>
   );
 };
+
 export default NewUserDashbord;

@@ -16,6 +16,7 @@ import ExternalLink from "../common/ExternalLink";
 import LockIcon from "@mui/icons-material/Lock";
 import NoBatchEnroll from "../BatchClassComponents/NoBatchEnroll";
 import { CardContent } from "@mui/material";
+import FeedbackModal from "./FeedBackForm.js";
 
 // import { ReactComponent as CertificateIcon } from "./asset/certificate-grey.svg";
 import certificateGrey from "./asset/certificate-grey.svg";
@@ -96,7 +97,7 @@ function PathwayCourse() {
   const [completedPortion, setCompletedPortion] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
+  const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
   const [isFormModalOpen, setisFormModalOpen] = useState(false);
   const [certificate, setCertificate] = useState("");
   let completedAll = completedPortion?.total === 100;
@@ -107,6 +108,9 @@ function PathwayCourse() {
   const [displayCert, setDisplayCert] = useState(false);
   const [pathwayCode, setPathwayCode] = useState(false);
   const [certificateCode, setCertificateCode] = useState("");
+// Or from state:
+const [userId, setUserId] = useState('');
+const [userEmail, setUserEmail] = useState('');
 
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
 
@@ -421,12 +425,23 @@ function PathwayCourse() {
           )}
           {/*............... certificate modal.............. */}
 
+
           <Container
             // className={classes.pathwayContainer}
             mt={isActive ? 0 : 55}
             mb={isActive ? 32 : 48}
             maxWidth="lg"
           >
+            <FeedbackModal
+              open={openFeedbackModal}
+              onClose={() => setOpenFeedbackModal(false)}
+              onSuccess={handleModal}
+              user={{
+                id: userId,
+                name: userName,
+                email: userEmail
+              }}
+            />
             <Modal
               open={openModal}
               aria-labelledby="modal-modal-title"
@@ -918,7 +933,7 @@ function PathwayCourse() {
                         <img
                           src={certificateColored}
                           alt="Certificate Colored Icon"
-                          onClick={handleModal}
+                          onClick={() => setOpenFeedbackModal(true)}
                           className={classes.certificateIcon}
                         />
                       )

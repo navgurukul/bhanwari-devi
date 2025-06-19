@@ -397,6 +397,23 @@ function Tutor(props) {
               <DownloadIcon sx={{ marginLeft: "10px" }} />
             </Button>
           </Grid>
+          <Grid item className={classes.generateReport} xs={isActive && 12}>
+            <Button
+              fullWidth
+              variant="outlined"
+              sx={{
+                fontWeight: "600",
+                fontSize: "14px",
+                marginTop: isActive && 2,
+              }}
+              onClick={() => {
+                setGenerateDialog(true);
+              }}
+            >
+              Feedback Form Report
+              <DownloadIcon sx={{ marginLeft: "10px" }} />
+            </Button>
+          </Grid>
         </Grid>
         {/* END HEADER */}
 

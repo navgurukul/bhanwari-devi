@@ -68,6 +68,8 @@ const ReportGenerate = () => {
     downloadReport(reportUrl);
   };
 
+  
+
   return (
     <div className="container-table">
       <Typography variant="h6">peepul india</Typography>

@@ -699,8 +699,18 @@ function StudentData() {
             stupassword={stupassword}
             userEmail={studentEmail}
           />
-          <button style={{marginLeft:"40px"}} className="add_student_btn" onClick={handleNavigation}>
+          <button style={{ marginLeft: "40px" }} className="add_student_btn" onClick={handleNavigation}>
             Generate Report
+          </button>
+          <button
+            style={{ marginLeft: "40px" }}
+            className="add_student_btn"
+            onClick={() => {
+              const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRIFMQZqo6NiuK_K9go5gWrSVXcqzOL5x5SrCNlJ4c3YKS_YHOOxFiAgoxgToy-fBQtxfcUUU5Kp3wX/pub?output=csv";
+              window.open(sheetUrl, "_blank");
+            }}
+          >
+            Feedback Form Report
           </button>
         </div>
         {/* {showReportOptions && (
