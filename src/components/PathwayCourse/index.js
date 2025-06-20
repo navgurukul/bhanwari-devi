@@ -102,19 +102,31 @@ function PathwayCourse() {
   const [certificate, setCertificate] = useState("");
   let completedAll = completedPortion?.total === 100;
   let [isFormFilled, setisFormFilled] = useState(false);
+  const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
+  const [openCertModal, setOpenCertModal] = useState(false);
 
   const [open, setOpen] = React.useState(false);
   const [loader, setLoader] = useState(false);
   const [displayCert, setDisplayCert] = useState(false);
   const [pathwayCode, setPathwayCode] = useState(false);
   const [certificateCode, setCertificateCode] = useState("");
-// Or from state:
-const [userId, setUserId] = useState('');
-const [userEmail, setUserEmail] = useState('');
+  // Or from state:
+  const [userId, setUserId] = useState('');
+  const [userEmail, setUserEmail] = useState('');
 
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
 
   const [userName, setUserName] = useState(""); // State for storing user name
+  const handleCertificateClick = () => {
+    const feedbackGiven = localStorage.getItem(`feedbackGiven_${user?.data?.user?.id}`);
+    if (feedbackGiven === 'true') {
+      handleModal()
+    } else {
+      setOpenFeedbackForm(true);
+    }
+     setOpenFeedbackForm(true)
+
+  };
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem("__AUTH__"));
@@ -446,7 +458,7 @@ const [userEmail, setUserEmail] = useState('');
               open={openModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
-              onClose={handleCloseModal}
+              onClose={setOpenCertModal}
             >
               <Box sx={modalStyle}>
                 <Box
@@ -933,7 +945,7 @@ const [userEmail, setUserEmail] = useState('');
                         <img
                           src={certificateColored}
                           alt="Certificate Colored Icon"
-                          onClick={() => setOpenFeedbackModal(true)}
+                          onClick={handleCertificateClick}
                           className={classes.certificateIcon}
                         />
                       )
@@ -966,6 +978,17 @@ const [userEmail, setUserEmail] = useState('');
         </>
       )}{" "}
       ;
+      <FeedbackModal
+        open={openFeedbackForm}
+        onClose={() => setOpenFeedbackForm(false)}
+        user={user?.data?.user}
+        onSuccess={() => {
+          localStorage.setItem(`feedbackGiven_${user?.data?.user?.id}`, "true");
+
+          setOpenFeedbackForm(false);
+          handleModal();
+        }}
+      />
     </>
   );
 }

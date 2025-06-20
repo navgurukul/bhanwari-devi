@@ -995,7 +995,8 @@ import CloseIcon from "@mui/icons-material/Close";
 const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [hasSubmitted, setHasSubmitted] = useState(false); // Add this state
+  const [hasSubmitted, setHasSubmitted] = useState(false); 
+  const RequiredAsterisk = () => <span style={{ color: "red" }}>*</span>;
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -1157,18 +1158,19 @@ const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
   const validateForm = () => {
     const newErrors = {};
     
-    // Validate required fields
     questions.forEach(question => {
       if (question.required) {
         if (question.type === 'checkbox') {
           const isChecked = Object.values(formData[question.id]).some(val => val);
-          if (!isChecked) newErrors[question.id] = true;
+          if (!isChecked) {
+            newErrors[question.id] = "Please select at least one option";
+          }
         } else if (!formData[question.id]) {
-          newErrors[question.id] = true;
+          newErrors[question.id] = "This field is required";
         }
       }
     });
-
+  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -1283,10 +1285,21 @@ const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
     }
   };
 
-  const renderQuestionInput = (question) => {
-    switch (question.type) {
-      case "slider":
-        return (
+  const renderQuestionInput = (question, index) => {
+    return (
+      <>
+        <FormLabel component="legend">
+          <Typography variant="h6">
+            {index + 1}. {question.question}
+            {question.required && <RequiredAsterisk />}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {question.hindi}
+            {question.required && <RequiredAsterisk />}
+          </Typography>
+        </FormLabel>
+        
+        {question.type === "slider" && (
           <Box sx={{ width: "100%", px: 2, mt: 2 }}>
             <Slider
               value={Number(formData[question.id]) || 0}
@@ -1297,15 +1310,10 @@ const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
               max={4}
               valueLabelDisplay="auto"
             />
-            {errors[question.id] && (
-              <Typography color="error" variant="caption">
-                This field is required
-              </Typography>
-            )}
           </Box>
-        );
-      case "radio":
-        return (
+        )}
+        
+        {question.type === "radio" && (
           <RadioGroup
             name={question.id}
             value={formData[question.id] || ""}
@@ -1321,9 +1329,9 @@ const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
               />
             ))}
           </RadioGroup>
-        );
-      case "checkbox":
-        return (
+        )}
+        
+        {question.type === "checkbox" && (
           <FormGroup sx={{ mt: 1 }}>
             {question.options.map((option) => (
               <FormControlLabel
@@ -1338,15 +1346,10 @@ const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
                 label={option.label}
               />
             ))}
-            {errors[question.id] && (
-              <Typography color="error" variant="caption">
-                Please select at least one option
-              </Typography>
-            )}
           </FormGroup>
-        );
-      case "text":
-        return (
+        )}
+        
+        {question.type === "text" && (
           <TextField
             fullWidth
             variant="outlined"
@@ -1357,10 +1360,15 @@ const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
             multiline
             rows={3}
           />
-        );
-      default:
-        return null;
-    }
+        )}
+        
+        {errors[question.id] && (
+          <Typography color="error" variant="caption" sx={{ display: 'block', mt: 1 }}>
+            {errors[question.id]}
+          </Typography>
+        )}
+      </>
+    );
   };
 
   return (
@@ -1383,22 +1391,14 @@ const FeedbackModal = ({ open, onClose, user, onSuccess }) => {
         <form onSubmit={handleSubmit}>
           {questions.map((question, index) => (
             <FormControl
-              key={question.id}
-              component="fieldset"
-              sx={{ mb: 4, width: "100%" }}
-              required={question.required}
-              error={errors[question.id]}
-            >
-              <FormLabel component="legend">
-                <Typography variant="h6">
-                  {index + 1}. {question.question}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {question.hindi}
-                </Typography>
-              </FormLabel>
-              {renderQuestionInput(question)}
-            </FormControl>
+            key={question.id}
+            component="fieldset"
+            sx={{ mb: 4, width: "100%" }}
+            required={question.required}
+            error={!!errors[question.id]}
+          >
+            {renderQuestionInput(question, index)}
+          </FormControl>
           ))}
 
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
