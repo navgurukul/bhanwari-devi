@@ -989,3 +989,4 @@ const [openCertModal, setOpenCertModal] = useState(false);
   );
 }
 export default PathwayCourse;
+
