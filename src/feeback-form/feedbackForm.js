@@ -882,9 +882,9 @@ const FeedbackForm = ({ open, onClose, user, onSuccess }) => {
         facedChallenges: "",
         suggestions: "",
       });
-
       onClose();
-      if (onSuccess) onSuccess();
+      if (onSuccess){ onSuccess()
+        };
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {

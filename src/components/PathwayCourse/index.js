@@ -25,7 +25,6 @@ import Modal from "@mui/material/Modal";
 import CustomModal from "./CustomModal";
 import CloseIcon from "@mui/icons-material/Close";
 
-
 import { Card, Typography, CardActions, LinearProgress } from "@mui/material";
 import McDigitalCourse from "./McDigitalCourse";
 // import ReactPDF from "./ReactPDF.js";
@@ -114,8 +113,7 @@ function PathwayCourse() {
   const [userName, setUserName] = useState(""); // State for storing user name
   // this is for feedbackform testing
   const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
-const [openCertModal, setOpenCertModal] = useState(false);
-
+  const [openCertModal, setOpenCertModal] = useState(false);
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem("__AUTH__"));
@@ -138,15 +136,20 @@ const [openCertModal, setOpenCertModal] = useState(false);
   };
 
   const handleCertificateClick = () => {
-  const feedbackGiven = localStorage.getItem(`feedbackGiven_${user?.data?.user?.id}`);
-  if(feedbackGiven === 'true'){
-      handleModal()
-  }else{
-  setOpenFeedbackForm(true);
+  const pathwayCode = pathwayCourse?.data?.code;
+  if (pathwayCode === "TCBPI2") {
+    const feedbackGiven = localStorage.getItem(`feedbackGiven_${user?.data?.user?.id}`);
+    if (feedbackGiven === 'true') {
+      handleModal();
+    } else {
+      setOpenFeedbackForm(true);
+      
+    }
+  } else {
+    handleModal();
   }
-  //  setOpenFeedbackForm(true)
-
 };
+
 
   const modalStyle = {
     position: "absolute",
@@ -159,6 +162,22 @@ const [openCertModal, setOpenCertModal] = useState(false);
     borderRadius: "8px",
     box: 24,
     p: 4,
+  };
+
+  const checkRequiredCoursesCompleted = (pathwayCode,courses, completedPortion ) => {
+    if (pathwayCode === "TCBPI2") {
+      const mandatoryCourses = courses.filter(
+        (course) => course.isMandatory === "true"
+      );
+
+      return mandatoryCourses.every(
+        (course) => parseInt(completedPortion[course.id] || 0) === 100
+      );
+    }
+
+    return courses.every(
+      (course) => parseInt(completedPortion[course.id] || 0) === 100
+    );
   };
 
   const data = useSelector((state) => {
@@ -203,7 +222,7 @@ const [openCertModal, setOpenCertModal] = useState(false);
           setOpenModal((prev) => !prev);
         }
       })
-      .catch((err) => { });
+      .catch((err) => {});
   };
 
   const downloadCert = () => {
@@ -263,7 +282,7 @@ const [openCertModal, setOpenCertModal] = useState(false);
       .then((response) => {
         setisFormFilled(response.data);
       })
-      .catch((err) => { });
+      .catch((err) => {});
     //  }, [pathwayId, pathwayCourse]);
   }, []);
 
@@ -297,7 +316,7 @@ const [openCertModal, setOpenCertModal] = useState(false);
             }));
           });
         })
-        .catch((err) => { });
+        .catch((err) => {});
     }
   }, [dispatch, pathwayId]);
 
@@ -349,8 +368,8 @@ const [openCertModal, setOpenCertModal] = useState(false);
     if (pathwayCourse?.data) {
       setCertificateCode(pathwayCourse?.data?.code);
       pathwayCourse?.data.code === "PRGPYT" ||
-        pathwayCourse?.data.code === "TCBPI2" ||
-        pathwayCourse?.data.code === "SCRTHB"
+      pathwayCourse?.data.code === "TCBPI2" ||
+      pathwayCourse?.data.code === "SCRTHB"
         ? setDisplayCert(true)
         : setDisplayCert(false);
     }
@@ -382,8 +401,6 @@ const [openCertModal, setOpenCertModal] = useState(false);
   // const handleClickOpen = () => {
   //   setOpen(true);
   // };
-
-
 
   return (
     <>
@@ -458,7 +475,6 @@ const [openCertModal, setOpenCertModal] = useState(false);
                     alignItems: "center",
                     marginBottom: 4,
                   }}
-
                 >
                   <Typography
                     variant="h6"
@@ -516,7 +532,6 @@ const [openCertModal, setOpenCertModal] = useState(false);
 
             {/* ................UserEnroll classs................. */}
 
-
             {enrolledBatches ? (
               <>
                 <PathwayCards
@@ -557,54 +572,72 @@ const [openCertModal, setOpenCertModal] = useState(false);
                             <>
                               <Typography variant="body1">
                                 {/* {pathwayCourse?.data.description} */}
-                                Welcome to MCDigital 2.0! This is your one stop solution to
-                                gain working knowledge of the most widely used applications.
-                                From drafting reports in Word and Excel to creating interactive
-                                projects on Scratch Jr, this course has been designed to manage
-                                your work easily. With the arrival of AI when we fear that machines
-                                will overpower us, it is our responsibility to learn tools to make
-                                the best use of technology. Gear up for a quick and fun learning
-                                experience to reimagine classrooms and simplify your work!
-                              </Typography><br />
-                              <Typography variant="h6" >
+                                Welcome to MCDigital 2.0! This is your one stop
+                                solution to gain working knowledge of the most
+                                widely used applications. From drafting reports
+                                in Word and Excel to creating interactive
+                                projects on Scratch Jr, this course has been
+                                designed to manage your work easily. With the
+                                arrival of AI when we fear that machines will
+                                overpower us, it is our responsibility to learn
+                                tools to make the best use of technology. Gear
+                                up for a quick and fun learning experience to
+                                reimagine classrooms and simplify your work!
+                              </Typography>
+                              <br />
+                              <Typography variant="h6">
                                 General instructions:
                               </Typography>
-                              <Typography variant="body2" >
+                              <Typography variant="body2">
                                 <ul>
                                   <li>
-                                    <Typography >This course has 4 modules.</Typography>
+                                    <Typography>
+                                      This course has 4 modules.
+                                    </Typography>
                                   </li>
                                   <li>
-                                    <Typography >Each module begins with an entry test.</Typography>
+                                    <Typography>
+                                      Each module begins with an entry test.
+                                    </Typography>
                                   </li>
                                   <li>
-                                    <Typography >Every learning objective ends with a quiz.</Typography>
+                                    <Typography>
+                                      Every learning objective ends with a quiz.
+                                    </Typography>
                                   </li>
                                   <li>
-                                    <Typography >Fill in the feedback form after completing all modules to <br />gain your digital certificate!</Typography>
+                                    <Typography>
+                                      Fill in the feedback form after completing
+                                      all modules to <br />
+                                      gain your digital certificate!
+                                    </Typography>
                                   </li>
                                 </ul>
                               </Typography>
-                              <Typography variant="h6" >
+                              <Typography variant="h6">
                                 Modules in this course:
                               </Typography>
-                              <Typography variant="body2" >
-                                <Typography >1. Scratch Jr./Scratch* </Typography>
-                                <Typography >2. MS Word</Typography>
-                                <Typography >3. MS Excel</Typography>
-                                <Typography >4. Basics of AI *</Typography>
-                                <Typography >*Marked modules are optional for some professionals</Typography>
+                              <Typography variant="body2">
+                                <Typography>
+                                  1. Scratch Jr./Scratch*{" "}
+                                </Typography>
+                                <Typography>2. MS Word</Typography>
+                                <Typography>3. MS Excel</Typography>
+                                <Typography>4. Basics of AI *</Typography>
+                                <Typography>
+                                  *Marked modules are optional for some
+                                  professionals
+                                </Typography>
                               </Typography>
                             </>
                           ) : (
                             <>
-                              Explore and learn the essential material and tools to
-                              start <br />
+                              Explore and learn the essential material and tools
+                              to start <br />
                               supporting your students learning on Meraki
                             </>
                           )}
                         </Typography>
-
 
                         {pathwayCourse?.data.video_link && (
                           <ExternalLink
@@ -917,22 +950,20 @@ const [openCertModal, setOpenCertModal] = useState(false);
 
               {/* ...............certificate three dot button................ */}
 
-
-
               {displayCert ? (
-                <>                <Grid item sx={{ mb: 15 }} align="center">
+                <Grid item sx={{ mb: 15 }} align="center">
                   <Grid item sx={{ mb: 3 }}>
                     <img src={require("./asset/separator.svg")} alt="icon" />
                   </Grid>
                   <Grid item sx={{ cursor: "pointer" }}>
-                    {completedAll ? (
+                    {checkRequiredCoursesCompleted(
+                      pathwayCourse?.data?.code,
+                      pathwayCourse?.data?.courses,
+                      completedPortion
+                    ) ? (
                       loader ? (
                         <CircularProgress color="primary" />
                       ) : (
-                        // <CertificateIconColored
-                        //   onClick={handleModal}
-                        //   className={classes.certificateIcon}
-                        // />
                         <img
                           src={certificateColored}
                           alt="Certificate Colored Icon"
@@ -941,10 +972,6 @@ const [openCertModal, setOpenCertModal] = useState(false);
                         />
                       )
                     ) : (
-                      // <CertificateIcon
-                      //   onClick={handleSnackbar}
-                      //   className={classes.certificateIcon}
-                      // />
                       <img
                         src={certificateGrey}
                         alt="Certificate Icon"
@@ -961,32 +988,38 @@ const [openCertModal, setOpenCertModal] = useState(false);
                     pathwayName={pathwayCourse?.data?.name}
                     handleSnackbar={handleSnackbar}
                   />
-
                 </Grid>
-                
-                </>   
-
               ) : null}
             </Box>
           </Container>
         </>
       )}{" "}
       ;
-
-      <FeedbackForm
-  open={openFeedbackForm}
-  onClose={() => setOpenFeedbackForm(false)}
-  user={user?.data?.user}
-  onSuccess={() =>{ 
-  localStorage.setItem(`feedbackGiven_${user?.data?.user?.id}`, "true");
-  
-  setOpenFeedbackForm(false);
-  handleModal();
-  }}
-/>
-
+      {pathwayCourse?.data?.code === "TCBPI2" && (
+   <FeedbackForm
+    open={openFeedbackForm}
+    onClose={() => setOpenFeedbackForm(false)}
+    user={user?.data?.user}
+    onSuccess={() => {
+      localStorage.setItem(`feedbackGiven_${user?.data?.user?.id}`, "true");
+      setOpenFeedbackForm(false);
+      handleModal();
+    }}
+  />
+)}
     </>
   );
 }
 export default PathwayCourse;
+
+
+
+
+
+
+
+
+
+
+
 
