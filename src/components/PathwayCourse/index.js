@@ -111,7 +111,7 @@ function PathwayCourse() {
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
 
   const [userName, setUserName] = useState(""); // State for storing user name
-  // this is for feedbackform testing
+  
   const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
   const [openCertModal, setOpenCertModal] = useState(false);
 
@@ -208,7 +208,7 @@ function PathwayCourse() {
     setLoader(true);
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/certificate?pathway_code=${certificateCode}`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/certificate?pathway_code=tcbpi`,
       headers: {
         accept: "application/json",
         Authorization:
@@ -996,7 +996,7 @@ function PathwayCourse() {
       )}{" "}
       ;
       {pathwayCourse?.data?.code === "TCBPI2" && (
-   <FeedbackForm
+    <FeedbackForm
     open={openFeedbackForm}
     onClose={() => setOpenFeedbackForm(false)}
     user={user?.data?.user}
