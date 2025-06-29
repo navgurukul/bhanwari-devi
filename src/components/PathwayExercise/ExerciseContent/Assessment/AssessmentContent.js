@@ -22,14 +22,14 @@ const headingVarients = {};
 
 [Typography, "h2", "h3", "h4", "h5", "h6"].forEach(
   (Name, index) =>
-    (headingVarients[index + 1] = (data) => (
-      <UnsafeHTML
-        Container={Name}
-        className="heading"
-        html={data}
-        {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
-      />
-    ))
+  (headingVarients[index + 1] = (data) => (
+    <UnsafeHTML
+      Container={Name}
+      className="heading"
+      html={data}
+      {...(index === 0 ? { component: "h1", variant: "h6" } : {})}
+    />
+  ))
 );
 
 const AssessmentContent = ({
@@ -224,16 +224,16 @@ const AssessmentContent = ({
                             ? classes.userSelectedCorrect
                             : classes.correctAnswer // classes.correctAnswer   commented out to remove the green color from the correct answer after the 2nd attemt.we will retrive it once android will have the same.
                           : answer?.includes(item.id)
-                          ? classes.inCorrectAnswer
-                          : ""
+                            ? classes.inCorrectAnswer
+                            : ""
                         : submit &&
-                          answer?.includes(item.id) &&
-                          classes.greishOption
+                        answer?.includes(item.id) &&
+                        classes.greishOption
                     }
                   >
                     <Stack direction="row" gap={1}>
                       <FormControlLabel
-                        sx={{ marginLeft: "8px" }}
+                        sx={{ marginLeft: "8px"}}
                         className={submit ? classes.cursorA : classes.cursorP}
                         control={
                           type === "single" ? (
@@ -241,7 +241,7 @@ const AssessmentContent = ({
                               answer?.includes(item.id) && isValuePresent ? (
                                 <Radio
                                   checked={isRadioChecked}
-                                  onChange={() => {}}
+                                  onChange={() => { }}
                                   checkedIcon={<CheckCircleIcon />}
                                 />
                               ) : answer?.includes(item.id) &&
@@ -278,11 +278,11 @@ const AssessmentContent = ({
                             )
                           ) : submit ? (
                             answer?.includes(item.id) &&
-                            isValuePresent &&
-                            triedAgain > 1 ? (
+                              isValuePresent &&
+                              triedAgain > 1 ? (
                               <Checkbox
                                 checked={isChecked}
-                                onChange={() => {}} //this is for not changing the state
+                                onChange={() => { }} //this is for not changing the state
                                 checkedIcon={<CheckCircleIcon />}
                                 className={
                                   submit ? classes.cursorA : classes.cursorP
@@ -339,11 +339,14 @@ const AssessmentContent = ({
                               html={text}
                             />
                           ) : (
-                            <img
-                              src={text}
-                              className={classes.optionImg}
-                              alt="Your Alt Text"
-                            />
+                            <Grid className={classes.optionImgCont}>
+                              <img
+                                src={text}
+                                className={classes.optionImg}
+                                alt="Your Alt Text"
+                              />
+                            </Grid>
+
                           )
                         }
                       />
