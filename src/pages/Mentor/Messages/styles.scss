@@ -1,7 +1,7 @@
 .messages {
   flex: 1;
   background-color: white;
-  border-top: 1px solid #ddd;
+  //border-top: 1px solid #ddd;
   padding: 0 40px;
   display: flex;
   flex-direction: column-reverse;
@@ -14,19 +14,60 @@
     padding: 0 16px;
   }
 }
-
+.messages-container {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
 .messages-content {
   display: flex;
   flex-direction: column;
 }
 
 .messages-day-marker {
-  background-color: rgba(163, 163, 163, 0.1);
-  font-weight: bold;
-  font-size: 13px;
+  font-weight: 400;
+  color: #6d6d6d;
+  font-size: 14px;
   margin: 12px 0;
-  color: #5e95ff;
   align-self: center;
   border-radius: 4px;
   padding: 8px;
+}
+
+.chat-name-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 59px;
+  padding: 16px 32px;
+  box-sizing: border-box;
+  position: sticky;
+
+  .chat-left-wrapper {
+    display: flex;
+    width: 40%;
+    align-items: center;
+  }
+  .chat-name {
+    font-size: 18px;
+  }
+  .dot {
+    color: #6d6d6d;
+    width: 4px;
+    height: 4px;
+    margin: 0 8px;
+  }
+  .info {
+    width: 20px;
+    height: 20px;
+    color: #2196f3;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .exit {
+    color: #f44336;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+  }
 }

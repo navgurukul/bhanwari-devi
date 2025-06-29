@@ -46,6 +46,7 @@
     "debounce": "^1.2.1",
     "dompurify": "^2.3.3",
     "editorjs-text-color-plugin": "^1.13.1",
+    "emoji-picker-react": "^4.4.7",
     "firebase": "^9.13.0",
     "history": "^5.0.0",
     "libphonenumber-js": "^1.10.6",
