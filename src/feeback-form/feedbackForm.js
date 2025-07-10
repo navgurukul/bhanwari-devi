@@ -67,7 +67,7 @@ const FeedbackForm = ({ open, onClose, user, onSuccess }) => {
     bgcolor: "background.paper",
     borderRadius: "8px",
     boxShadow: 24,
-    p: 4,
+    p: 8,
     maxHeight: "calc(100vh - 64px)",
     overflowY: "auto",
     overflowX: "hidden", 

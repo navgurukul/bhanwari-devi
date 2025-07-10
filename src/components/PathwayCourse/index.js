@@ -135,8 +135,10 @@ function PathwayCourse() {
     setOpenModal(false);
   };
 
+
   const handleCertificateClick = () => {
   const pathwayCode = pathwayCourse?.data?.code;
+
   if (pathwayCode === "TCBPI2") {
     const feedbackGiven = localStorage.getItem(`feedbackGiven_${user?.data?.user?.id}`);
     if (feedbackGiven === 'true') {
@@ -208,7 +210,7 @@ function PathwayCourse() {
     setLoader(true);
     axios({
       method: METHODS.GET,
-      url: `${process.env.REACT_APP_MERAKI_URL}/certificate?pathway_code=tcbpi`,
+      url: `${process.env.REACT_APP_MERAKI_URL}/certificate?pathway_code=${certificateCode}`,
       headers: {
         accept: "application/json",
         Authorization:
@@ -363,6 +365,9 @@ function PathwayCourse() {
   const pathwayCourseData = data.Pathways.data?.pathways.find((item) => {
     return item.id == pathwayId;
   });
+
+  // console.log('this is for test pathway',pathwayCourse?.data?.code,'pathdata',pathwayCourse)
+
 
   useEffect(() => {
     if (pathwayCourse?.data) {
