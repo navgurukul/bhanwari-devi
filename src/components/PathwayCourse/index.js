@@ -128,7 +128,7 @@ function PathwayCourse() {
   }, []);
 
   const handleToggleCheckbox = () => {
-    setIsChecked(!isChecked); // Toggle checkbox state
+    setIsChecked(!isChecked); // Toggle
   };
 
   const handleCloseModal = () => {
