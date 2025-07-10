@@ -122,7 +122,9 @@ function C4CApathway() {
           </Typography>
         </Grid>
       </Grid>
-      {pathway?.outcomes?.length > 0 && (
+      { Array.isArray(pathway?.outcomes)&&
+      // pathway?.outcomes?.length > 0 && (
+      pathway.outcomes.some((item)=> item.component === 'text') && (
         <Box className={classes.Box1}>
           <Typography
             variant="h6"
