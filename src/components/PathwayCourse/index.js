@@ -109,11 +109,8 @@ function PathwayCourse() {
   const [certificateCode, setCertificateCode] = useState("");
 
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
-
   const [userName, setUserName] = useState(""); // State for storing user name
-  
   const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
-  const [openCertModal, setOpenCertModal] = useState(false);
 
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem("__AUTH__"));
@@ -470,7 +467,7 @@ function PathwayCourse() {
               open={openModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
-              onClose={() => setOpenCertModal(false)}
+              
             >
               <Box sx={modalStyle}>
                 <Box
