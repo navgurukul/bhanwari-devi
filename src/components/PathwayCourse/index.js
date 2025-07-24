@@ -134,20 +134,21 @@ function PathwayCourse() {
 
 
   const handleCertificateClick = () => {
-  const pathwayCode = pathwayCourse?.data?.code;
+    const pathwayCode = pathwayCourse?.data?.code;
 
-  if (pathwayCode === "TCBPI2") {
-    const feedbackGiven = localStorage.getItem(`feedbackGiven_${user?.data?.user?.id}`);
-    if (feedbackGiven === 'true') {
-      handleModal();
+    if (pathwayCode === "TCBPI2") {
+      const feedbackGiven = localStorage.getItem(`feedbackGiven_${user?.data?.user?.id}`);
+      if (feedbackGiven === 'true') {
+        handleModal();
+      } else {
+        setOpenFeedbackForm(true);
+
+      }
     } else {
-      setOpenFeedbackForm(true);
-      
+      handleModal();
     }
-  } else {
-    handleModal();
-  }
-};
+  };
+
 
 
   const modalStyle = {
@@ -163,7 +164,7 @@ function PathwayCourse() {
     p: 4,
   };
 
-  const checkRequiredCoursesCompleted = (pathwayCode,courses, completedPortion ) => {
+  const checkRequiredCoursesCompleted = (pathwayCode, courses, completedPortion) => {
     if (pathwayCode === "TCBPI2") {
       const mandatoryCourses = courses.filter(
         (course) => course.isMandatory === "true"
@@ -221,7 +222,7 @@ function PathwayCourse() {
           setOpenModal((prev) => !prev);
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const downloadCert = () => {
@@ -281,7 +282,7 @@ function PathwayCourse() {
       .then((response) => {
         setisFormFilled(response.data);
       })
-      .catch((err) => {});
+      .catch((err) => { });
     //  }, [pathwayId, pathwayCourse]);
   }, []);
 
@@ -315,7 +316,7 @@ function PathwayCourse() {
             }));
           });
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
   }, [dispatch, pathwayId]);
 
@@ -370,8 +371,8 @@ function PathwayCourse() {
     if (pathwayCourse?.data) {
       setCertificateCode(pathwayCourse?.data?.code);
       pathwayCourse?.data.code === "PRGPYT" ||
-      pathwayCourse?.data.code === "TCBPI2" ||
-      pathwayCourse?.data.code === "SCRTHB"
+        pathwayCourse?.data.code === "TCBPI2" ||
+        pathwayCourse?.data.code === "SCRTHB"
         ? setDisplayCert(true)
         : setDisplayCert(false);
     }
@@ -467,7 +468,7 @@ function PathwayCourse() {
               open={openModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
-              
+
             >
               <Box sx={modalStyle}>
                 <Box
@@ -998,17 +999,17 @@ function PathwayCourse() {
       )}{" "}
       ;
       {pathwayCourse?.data?.code === "TCBPI2" && (
-    <FeedbackForm
-    open={openFeedbackForm}
-    onClose={() => setOpenFeedbackForm(false)}
-    user={user?.data?.user}
-    onSuccess={() => {
-      localStorage.setItem(`feedbackGiven_${user?.data?.user?.id}`, "true");
-      setOpenFeedbackForm(false);
-      handleModal();
-    }}
-  />
-)}
+        <FeedbackForm
+          open={openFeedbackForm}
+          onClose={() => setOpenFeedbackForm(false)}
+          user={user?.data?.user}
+          onSuccess={() => {
+            localStorage.setItem(`feedbackGiven_${user?.data?.user?.id}`, "true");
+            setOpenFeedbackForm(false);
+            // handleModal();
+          }}
+        />
+      )}
     </>
   );
 }
