@@ -140,8 +140,8 @@ function CustomModal({
       teacherDetails.employee_type !== "clerical_staff"
     )
       newErrors.school_name = "School Name is required.";
-    else if (containsNumbers.test(teacherDetails.school_name))
-      newErrors.school_name = "School Name should not contain numbers.";
+    // else if (containsNumbers.test(teacherDetails.school_name))
+    //   newErrors.school_name = "School Name should not contain numbers.";
 
     // Validate fields based on employee type
     const validateEmployeeDetails = () => {
