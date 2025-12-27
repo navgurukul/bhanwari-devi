@@ -113,10 +113,11 @@ function SearchPopup() {
   }, []);
 
   const pathwayCourseIds =
-    pathway.data?.pathways
+    (pathway.data?.pathways ?? [])
       .map((pathway) => pathway.courses || [])
       .flat()
       .map((course) => course.id) || [];
+
   const otherCourseResults = data?.allCourses.filter((item) => {
     return (
       // item.course_type === "json" &&
