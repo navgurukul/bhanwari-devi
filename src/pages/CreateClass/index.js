@@ -136,7 +136,7 @@ function ToggleClassFormModal() {
       calledOnce.current = true;
     }
     if (calledOnce.current) {
-      return axios({
+      axios({
         method: METHODS.PUT,
         url: `${process.env.REACT_APP_MERAKI_URL}/users/calendar/tokens`,
 
