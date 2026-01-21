@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useLayoutEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import _ from "lodash";
 import { DeviceProvider } from "../../common/context";
@@ -8,9 +8,13 @@ import RoomNav from "./RoomNav";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 import { MATRIX_DOMAIN, fetchMessages, redactEvent, getMembers } from "./utils";
-import FloatingIcon from "../../components/common/FloatingIcon";
 import Loader from "../../components/common/Loader";
 import "./styles.scss";
+import ChatNameBar from "./ChatNameBar";
+import { Box, Typography } from "@material-ui/core";
+import useStyles from "./styles";
+import ChatInfo from "./ChatInfo/ChatInfo";
+import useWindowSize from "../../common/useWindowSize";
 
 let PAGINATION_THRESHOLD = 200;
 
@@ -18,10 +22,14 @@ const Mentor = () => {
   const { data } = useSelector(({ User }) => User);
   const [client, setClient] = useState(null);
   const { isMobile } = useContext(DeviceProvider);
+  // eslint-disable-next-line no-unused-vars
+  const [width, height] = useWindowSize();
+  const [mobile, setMobile] = useState(false);
   const { chat_id, chat_password } = data.user;
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [prevScrollPosition, setPrevScrollPosition] = useState(null);
+  const [chatInfoOpen, setChatInfoOpen] = useState(false);
   const [roomNamesMap, setRoomNamesMap] = useState({});
   const [members, setMembers] = useState({});
   const [accessToken, setAccessToken] = useState("");
@@ -32,6 +40,31 @@ const Mentor = () => {
   });
   const [isInitializingClient, setInitializaingClient] = useState(true);
   const [roomMessages, setRoomMessage] = useState({});
+  const classes = useStyles();
+
+  const firstRender = React.useRef(true);
+
+  useEffect(() => {
+    if (width <= 768) {
+      setMobile(true);
+    } else {
+      if (mobile) {
+        if (!selectedRoomId) {
+          const prevRoomId = sessionStorage.getItem("prevRoomId");
+          setSelectedRoomId(prevRoomId);
+        }
+      }
+      setMobile(false);
+    }
+  }, [width]);
+
+  useEffect(()=>{
+    if(firstRender.current){
+      firstRender.current = false;
+    }else{
+      setChatInfoOpen(false);
+    }
+  }, [selectedRoomId]);
 
   const onSendMessage = (message, roomId) => {
     const messageObj = {
@@ -275,14 +308,27 @@ const Mentor = () => {
 
   const renderRooms = () => {
     return (
-      !(isMobile && selectedRoomId) && (
+      (!mobile || !selectedRoomId) && (
         <nav
           role="navigation"
           style={{
             Height: "100vh",
-            overflowY: "scroll",
+            overflowY: "hidden",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
+          <Box
+            style={{ backgroundColor: "#FFF" }}
+            className={classes.batchGroupsContainer}
+          >
+            <Typography
+              className={classes.batchGroupsName}
+              style={{ fontWeight: 600 }}
+            >
+              Batch Groups
+            </Typography>
+          </Box>
           <ul className="rooms-navs-container">
             {rooms.map((room) => {
               return (
@@ -309,10 +355,25 @@ const Mentor = () => {
     );
   };
 
+  const onBack = () => {
+    sessionStorage.setItem("prevRoomId", selectedRoomId);
+    setSelectedRoomId(null);
+  };
+
   const renderChat = () => {
     return (
       <>
         <div className="room-chat">
+          <ChatNameBar
+            rooms={rooms}
+            numberOfMembers={members[selectedRoomId]?.length || 0}
+            selectedRoomId={selectedRoomId}
+            onBack={onBack}
+            setChatInfoOpen={() => {
+              setChatInfoOpen((prev) => !prev);
+            }}
+            chatInfoOpen={chatInfoOpen}
+          />
           <Messages
             messages={roomMessages[selectedRoomId]}
             selfChatId={chat_id}
@@ -335,7 +396,7 @@ const Mentor = () => {
             members={members[selectedRoomId] || []}
           />
         </div>
-        {isMobile && selectedRoomId && (
+        {/*isMobile && selectedRoomId && (
           <FloatingIcon
             onClick={() => {
               setSelectedRoomId(null);
@@ -346,8 +407,21 @@ const Mentor = () => {
               left: 16,
             }}
           />
-        )}
+        )*/}
       </>
+    );
+  };
+
+  const renderChatInfo = () => {
+    return (
+      <ChatInfo
+        setChatInfoOpen={() => {
+          setChatInfoOpen((prev) => !prev);
+        }}
+        members={members[selectedRoomId] || []}
+        rooms={rooms || []}
+        selectedRoomId={selectedRoomId}
+      />
     );
   };
 
@@ -359,6 +433,7 @@ const Mentor = () => {
         <>
           {renderRooms()}
           {renderChat()}
+          {chatInfoOpen && renderChatInfo()}
         </>
       )}
     </div>

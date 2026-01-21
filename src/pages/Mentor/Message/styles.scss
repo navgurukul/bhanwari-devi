@@ -1,21 +1,21 @@
 .chat-message {
-  padding: 16px;
+  padding: 8px;
   border-radius: 12px;
   line-height: 1.4;
-  border-bottom-left-radius: 0;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  // border-bottom-left-radius: 0;
+  // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   font-weight: 500;
   padding-right: 48px;
   position: relative;
 
   &-other {
     align-self: flex-start;
-    background-color: #f6f8fa;
+    background-color: #fafafa;
   }
 
   &-self {
     align-self: flex-end;
-    background-color: #e8e8e8;
+    background-color: #e9f5e9;
   }
 
   &-action {
@@ -34,8 +34,11 @@
 
   .reply-to-container {
     border-left: 3px solid #b8bcbd;
+    background-color: #f2f5f2;
     padding-left: 10px;
     margin-bottom: 10px;
+    border-radius: 12px;
+    font-weight: 400;
   }
 
   .actions-dropdown-trigger-container {
@@ -91,19 +94,25 @@
 .chat-message-container {
   display: flex;
   margin: 12px 0;
-
+  padding: 8px;
+  @media screen and (min-width: 769px) {
+    width: 50%;
+  }
   &-other {
     align-self: flex-start;
   }
 
   &-self {
+    justify-content: flex-end;
     align-self: flex-end;
   }
 }
 
 .chat-message-sender {
-  font-size: 13px;
-  color: gray;
+  font-size: 14px;
+  color: #48a145;
+  line-height: 21px;
+  margin-bottom: 5px;
 
   &-self {
     text-align: right;
@@ -113,19 +122,20 @@
 .message-header {
   display: flex;
   margin-bottom: 8px;
+  margin-top: 4px;
   justify-content: flex-end;
-
-  &-other {
-    justify-content: flex-start;
-  }
 }
 
 .message-time {
   margin-right: 16px;
-  color: gray;
-  font-size: 13px;
+  color: #6d6d6d;
+  font-size: 12px;
 
   &-other {
     margin-left: 16px;
   }
+}
+
+.DropdownDelete {
+  color: #d63447;
 }
