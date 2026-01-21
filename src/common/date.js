@@ -2,6 +2,7 @@
 import {
   format as dateFnsFormat,
   isBefore as comesBefore,
+  isValid as dateFnsIsValid,
   differenceInMinutes as minutesDifference,
   differenceInMilliseconds as msDifference,
   intervalToDuration,
@@ -238,6 +239,15 @@ export const formatInUtc = (date, formatStr) => {
 };
 
 /**
+ * Returns true exactly when the Date/string represents a valid Date
+ * @param {Date|string} date Date or string to check
+ * @return {boolean} true exactly when the supplied Date is valid
+ */
+export const isValid = (date) => {
+  return dateFnsIsValid(new Date(date));
+};
+
+/**
  * Wrapper for the date-fns format function but allows date strings
  *     (See: https://date-fns.org/v2.16.1/docs/format#arguments)
  * @param {Date|string} date A valid Date string recognized by formatInTimeZone
@@ -246,9 +256,13 @@ export const formatInUtc = (date, formatStr) => {
  * @param {string} formatStr the string of tokens
  * @param {Object|undefined} options an object with options
  * @return {string} the formatted date string in the user's local time zone
+ *     or the empty string if the date is falsy or invalid
  */
 export const format = (date, formatStr, options) => {
-  if (date) {
+  if (date && !isValid(date)) {
+    console.warn("Attempted to format", date, ", which is not a valid date. Formatting as empty string.");
+    return "";
+  } else if (date) {
     const dateToFormat = makeDateFrom(date);
     return dateFnsFormat(dateToFormat, formatStr, options);
   } else {
