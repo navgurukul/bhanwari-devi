@@ -40,14 +40,13 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
     return state.Pathways?.upcomingBatches?.data;
   });
 
-   // Filter batches with less than the dynamic max_enrolment value or no limit if null
-   const filteredUpcomingBatches = upcomingBatchesData
-   ?.filter((batch) => {
-     const maxEnrolment = batch.max_enrolment;
-     return maxEnrolment === null || batch.registrations.length < maxEnrolment;
-   })
-   .slice(0, 1);
-
+  // Filter batches with less than the dynamic max_enrolment value or no limit if null
+  const filteredUpcomingBatches = upcomingBatchesData
+    ?.filter((batch) => {
+      const maxEnrolment = batch.max_enrolment;
+      return maxEnrolment === null || batch.registrations.length < maxEnrolment;
+    })
+    .slice(0, 1);
 
   const enrolledBatches = useSelector((state) => {
     if (state?.Pathways?.enrolledBatches?.data?.length > 0) {
@@ -84,7 +83,10 @@ function AmazonCodingProgrammer({ pathwayId, pathwayCourseData }) {
   return (
     <React.Fragment>
       {enrolledBatches ? (
-        <AmazonBootcampBatch enrolledBatches={enrolledBatches[0]["title"]} />
+        <AmazonBootcampBatch
+          enrolledBatches={enrolledBatches[0]["title"]}
+          pathId={pathwayId}
+        />
       ) : (
         <Container className={classes.pathwayContainer} maxWidth="lg">
           <Grid container>

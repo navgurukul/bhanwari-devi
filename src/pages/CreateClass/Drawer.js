@@ -50,7 +50,8 @@ function DrawerLeft({
           if (
             item.code == "PRGPYT" ||
             item.code == "SPKENG" ||
-            item.code === "ACB"
+            item.code === "ACB" ||
+            item.code === "ZIB"
           ) {
             return (
               <ListItem key={item.id} disablePadding>
